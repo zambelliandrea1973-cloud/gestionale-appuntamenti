@@ -99,101 +99,114 @@ export default function Calendar() {
   return (
     <div className="space-y-6">
       {/* Header with navigation and controls */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-        <div className="flex items-center space-x-2">
-          <h2 className="text-2xl font-medium">
-            {view === "month" 
-              ? formatMonthYear(selectedDate) 
-              : selectedDate.toLocaleDateString('it-IT', { 
-                  month: 'long', 
-                  year: 'numeric' 
-                })
-            }
-          </h2>
-          <div className="flex space-x-1">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={goToPrevious}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={goToNext}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={goToToday}
-          >
-            Oggi
-          </Button>
-        </div>
-        
-        <div className="flex flex-wrap gap-2 w-full md:w-auto">
-          <div className="relative flex-grow md:flex-grow-0">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <Search className="h-4 w-4 text-gray-500" />
+      <div className="bg-white shadow-md rounded-lg p-4 mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+          <div className="flex items-center space-x-2">
+            <h2 className="text-2xl font-bold text-primary">
+              {view === "month" 
+                ? formatMonthYear(selectedDate) 
+                : selectedDate.toLocaleDateString('it-IT', { 
+                    month: 'long', 
+                    year: 'numeric' 
+                  })
+              }
+            </h2>
+            <div className="flex space-x-1 ml-2">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={goToPrevious}
+                className="rounded-full"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={goToNext}
+                className="rounded-full"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
             </div>
-            <Input
-              type="text"
-              placeholder="Cerca appuntamenti..."
-              className="pl-10 w-full md:w-[250px]"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={goToToday}
+              className="ml-2"
+            >
+              Oggi
+            </Button>
           </div>
           
+          <div className="flex flex-wrap gap-2 w-full md:w-auto">
+            <div className="relative flex-grow md:flex-grow-0">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Search className="h-4 w-4 text-gray-500" />
+              </div>
+              <Input
+                type="text"
+                placeholder="Cerca appuntamenti..."
+                className="pl-10 w-full md:w-[250px]"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                  <Plus className="h-4 w-4 mr-1" />
+                  Nuovo Appuntamento
+                </Button>
+              </DialogTrigger>
+              <AppointmentForm 
+                onClose={() => {
+                  setIsAppointmentDialogOpen(false);
+                  handleRefresh();
+                }} 
+                defaultDate={selectedDate}
+              />
+            </Dialog>
+          </div>
+        </div>
+        
+        <div className="mt-4 flex justify-between items-center">
           <div className="flex rounded-md overflow-hidden shadow-sm border">
             <Button
               variant={view === "day" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("day")}
-              className="rounded-none"
+              className={`rounded-none px-4 ${view === "day" ? "bg-primary text-white" : ""}`}
             >
-              <Clock className="h-4 w-4 mr-1" />
+              <Clock className="h-4 w-4 mr-2" />
               Giorno
             </Button>
             <Button
               variant={view === "week" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("week")}
-              className="rounded-none"
+              className={`rounded-none px-4 ${view === "week" ? "bg-primary text-white" : ""}`}
             >
-              <CalendarDays className="h-4 w-4 mr-1" />
+              <CalendarDays className="h-4 w-4 mr-2" />
               Settimana
             </Button>
             <Button
               variant={view === "month" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("month")}
-              className="rounded-none"
+              className={`rounded-none px-4 ${view === "month" ? "bg-primary text-white" : ""}`}
             >
-              <LayoutGrid className="h-4 w-4 mr-1" />
+              <LayoutGrid className="h-4 w-4 mr-2" />
               Mese
             </Button>
           </div>
           
-          <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-            <DialogTrigger asChild>
-              <Button size="sm">
-                <Plus className="h-4 w-4 mr-1" />
-                Nuovo
-              </Button>
-            </DialogTrigger>
-            <AppointmentForm 
-              onClose={() => {
-                setIsAppointmentDialogOpen(false);
-                handleRefresh();
-              }} 
-              defaultDate={selectedDate}
-            />
-          </Dialog>
+          <div className="text-sm text-gray-500">
+            {view === "day" && `${selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' })}`}
+            {view === "week" && "Vista settimanale"}
+            {view === "month" && "Vista mensile"}
+          </div>
         </div>
       </div>
       

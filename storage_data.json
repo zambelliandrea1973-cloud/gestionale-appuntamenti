@@ -10,6 +10,24 @@
         "id": 1,
         "createdAt": "2025-04-02T16:08:04.062Z"
       }
+    ],
+    [
+      2,
+      {
+        "firstName": "Zambelli",
+        "lastName": "Andrea",
+        "phone": "3472550110",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "address": "Via Cavallotti",
+        "birthday": "2025-04-24",
+        "notes": "fruy",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "id": 2,
+        "createdAt": "2025-04-02T16:43:36.683Z"
+      }
     ]
   ],
   "services": [
@@ -83,8 +101,14 @@
     ]
   ],
   "consents": [],
-  "clientIdCounter": 2,
+  "invoices": [],
+  "invoiceItems": [],
+  "payments": [],
+  "clientIdCounter": 3,
   "serviceIdCounter": 5,
   "appointmentIdCounter": 3,
-  "consentIdCounter": 1
+  "consentIdCounter": 1,
+  "invoiceIdCounter": 1,
+  "invoiceItemIdCounter": 1,
+  "paymentIdCounter": 1
 }
