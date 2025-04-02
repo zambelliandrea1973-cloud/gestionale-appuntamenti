@@ -148,7 +148,7 @@ export default function AppointmentForm({
       
       // Invalidate date-specific queries for both current and any edited date
       const dateString = formatDateForApi(form.getValues().date);
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/date', dateString] });
+      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
       
       // Also invalidate range queries for calendar views
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
