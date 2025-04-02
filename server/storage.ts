@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { 
   clients, type Client, type InsertClient,
   services, type Service, type InsertService,
@@ -43,7 +44,7 @@ export interface IStorage {
   searchClients(query: string): Promise<Client[]>;
 }
 
-// In-memory implementation of the storage interface with localStorage persistence
+// In-memory implementation of the storage interface with file persistence
 export class MemStorage implements IStorage {
   private clients: Map<number, Client>;
   private services: Map<number, Service>;
@@ -55,12 +56,18 @@ export class MemStorage implements IStorage {
   private appointmentIdCounter: number;
   private consentIdCounter: number;
   
+  private dataFile: string;
+  
   constructor() {
-    // Attempt to load from localStorage first
+    // Definiamo la posizione in cui salvare i dati
+    this.dataFile = `./storage_data.json`;
+    
     try {
-      const savedData = global.localStorage?.getItem('appData');
-      if (savedData) {
-        const data = JSON.parse(savedData);
+      // Verifica se esiste un file di storage
+      if (fs.existsSync(this.dataFile)) {
+        // Carica i dati dal file
+        const rawData = fs.readFileSync(this.dataFile, 'utf-8');
+        const data = JSON.parse(rawData);
         
         // Restore maps from the saved data
         this.clients = new Map(data.clients);
@@ -73,8 +80,9 @@ export class MemStorage implements IStorage {
         this.appointmentIdCounter = data.appointmentIdCounter;
         this.consentIdCounter = data.consentIdCounter;
         
-        console.log('Data loaded from localStorage');
+        console.log('Dati caricati dal file:', this.dataFile);
       } else {
+        console.log('Nessun file di dati trovato, inizializzazione storage vuoto');
         // Initialize empty maps if no saved data
         this.clients = new Map();
         this.services = new Map();
@@ -90,7 +98,7 @@ export class MemStorage implements IStorage {
         this.initDefaultServices();
       }
     } catch (error) {
-      console.error('Error loading from localStorage, initializing empty storage', error);
+      console.error('Errore durante il caricamento dei dati, inizializzazione storage vuoto', error);
       // Initialize empty maps if loading fails
       this.clients = new Map();
       this.services = new Map();
@@ -107,25 +115,24 @@ export class MemStorage implements IStorage {
     }
   }
   
-  // Save data to localStorage
+  // Save data to file
   private saveToStorage() {
     try {
-      if (typeof global.localStorage !== 'undefined') {
-        const data = {
-          clients: Array.from(this.clients.entries()),
-          services: Array.from(this.services.entries()),
-          appointments: Array.from(this.appointments.entries()),
-          consents: Array.from(this.consents.entries()),
-          clientIdCounter: this.clientIdCounter,
-          serviceIdCounter: this.serviceIdCounter,
-          appointmentIdCounter: this.appointmentIdCounter,
-          consentIdCounter: this.consentIdCounter
-        };
-        
-        global.localStorage.setItem('appData', JSON.stringify(data));
-      }
+      const data = {
+        clients: Array.from(this.clients.entries()),
+        services: Array.from(this.services.entries()),
+        appointments: Array.from(this.appointments.entries()),
+        consents: Array.from(this.consents.entries()),
+        clientIdCounter: this.clientIdCounter,
+        serviceIdCounter: this.serviceIdCounter,
+        appointmentIdCounter: this.appointmentIdCounter,
+        consentIdCounter: this.consentIdCounter
+      };
+      
+      fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
+      console.log('Dati salvati su file:', this.dataFile);
     } catch (error) {
-      console.error('Error saving to localStorage', error);
+      console.error('Errore durante il salvataggio dei dati su file', error);
     }
   }
   
