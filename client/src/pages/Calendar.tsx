@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -93,7 +94,27 @@ export default function Calendar() {
   
   // Handle refresh of data
   const handleRefresh = () => {
+    console.log("Refreshing calendar data...");
+    // Refresh appointments list
     refetchAppointments();
+    
+    // Refresh also date-specific appointments for current view
+    if (view === "day") {
+      // Solo giorno corrente
+      const dateString = formatDateForApi(selectedDate);
+      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+    } else if (view === "week") {
+      // Intera settimana
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(selectedDate);
+        date.setDate(date.getDate() + i);
+        const dateString = formatDateForApi(date);
+        queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+      }
+    }
+    
+    // Refresh also ranges
+    queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
   };
   
   return (

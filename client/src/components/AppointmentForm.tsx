@@ -140,30 +140,44 @@ export default function AppointmentForm({
         return apiRequest("POST", "/api/appointments", apiData);
       }
     },
-    onSuccess: async (data, variables) => {
-      console.log("Appuntamento salvato con successo:", data);
-      
-      toast({
-        title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
-        description: appointmentId 
-          ? "L'appuntamento è stato aggiornato con successo" 
-          : "Nuovo appuntamento creato con successo",
-      });
-      
-      // Invalidate queries to refresh data
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      
-      // Invalidate date-specific queries
-      const dateString = formatDateForApi(variables.date);
-      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-      
-      // Invalidate range queries for calendar views
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-      
-      console.log("Appuntamento salvato con successo, date invalidate");
-      
-      // Chiude il form immediatamente
-      onClose();
+    onSuccess: async (response, variables) => {
+      try {
+        // Parse the response data
+        const data = await response.json();
+        console.log("Appuntamento salvato con successo:", data);
+        
+        toast({
+          title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
+          description: appointmentId 
+            ? "L'appuntamento è stato aggiornato con successo" 
+            : "Nuovo appuntamento creato con successo",
+        });
+        
+        // Invalidate all appointment-related queries to ensure fresh data
+        await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+        
+        // Force invalidation of the specific date query
+        const dateString = formatDateForApi(variables.date);
+        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+        
+        // Invalidate range queries for calendar views
+        await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+        
+        // Logging for confirmation
+        console.log("Appuntamento salvato con successo, date invalidate:", dateString);
+        
+        // Chiude il form dopo un breve ritardo per assicurarsi che i dati siano stati elaborati
+        setTimeout(() => {
+          console.log("Tentativo di chiusura del form");
+          if (typeof onClose === 'function') {
+            onClose();
+          } else {
+            console.error("onClose non è una funzione valida!");
+          }
+        }, 100);
+      } catch (error) {
+        console.error("Errore durante l'elaborazione della risposta:", error);
+      }
     },
     onError: (error) => {
       console.error("Errore durante il salvataggio dell'appuntamento:", error);
