@@ -72,10 +72,10 @@ export class MemStorage implements IStorage {
   
   private initDefaultServices() {
     const defaultServices: InsertService[] = [
-      { name: "Trattamento viso", duration: 60, color: "#3f51b5", price: 5000 },
-      { name: "Manicure", duration: 45, color: "#f44336", price: 3000 },
-      { name: "Pedicure", duration: 60, color: "#ff9800", price: 3500 },
-      { name: "Taglio e piega", duration: 90, color: "#ff4081", price: 4500 }
+      { name: "Test Diacom", duration: 60, color: "#3f51b5", price: 6000 },
+      { name: "Terapia Bicom", duration: 90, color: "#f44336", price: 8000 },
+      { name: "Terapia luce Zapter", duration: 60, color: "#ff9800", price: 7000 },
+      { name: "Detox", duration: 75, color: "#4caf50", price: 5500 }
     ];
     
     defaultServices.forEach(service => {
