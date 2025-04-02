@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -70,6 +70,60 @@ export const insertConsentSchema = createInsertSchema(consents).omit({
   signedAt: true,
 });
 
+// Define types
+export type Client = typeof clients.$inferSelect;
+export type InsertClient = z.infer<typeof insertClientSchema>;
+
+export type Service = typeof services.$inferSelect;
+export type InsertService = z.infer<typeof insertServiceSchema>;
+
+export type Appointment = typeof appointments.$inferSelect;
+export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
+
+export type Consent = typeof consents.$inferSelect;
+export type InsertConsent = z.infer<typeof insertConsentSchema>;
+
+// Definizione delle relazioni
+export const clientsRelations = relations(clients, ({ many }) => ({
+  appointments: many(appointments),
+  consents: many(consents),
+  invoices: many(invoices),
+}));
+
+export const servicesRelations = relations(services, ({ many }) => ({
+  appointments: many(appointments),
+  invoiceItems: many(invoiceItems),
+}));
+
+export const appointmentsRelations = relations(appointments, ({ one, many }) => ({
+  client: one(clients, {
+    fields: [appointments.clientId],
+    references: [clients.id],
+  }),
+  service: one(services, {
+    fields: [appointments.serviceId],
+    references: [services.id],
+  }),
+  invoiceItems: many(invoiceItems),
+}));
+
+export const consentsRelations = relations(consents, ({ one }) => ({
+  client: one(clients, {
+    fields: [consents.clientId],
+    references: [clients.id],
+  }),
+}));
+
+// Extended types for frontend use
+export type AppointmentWithDetails = Appointment & {
+  client: Client;
+  service: Service;
+};
+
+export type ClientWithAppointments = Client & {
+  appointments: AppointmentWithDetails[];
+};
+
 // Invoices table schema
 export const invoices = pgTable("invoices", {
   id: serial("id").primaryKey(),
@@ -121,73 +175,7 @@ export const insertPaymentSchema = createInsertSchema(payments).omit({
   createdAt: true,
 });
 
-// Users table schema (staff/admin users)
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: varchar("username", { length: 100 }).notNull().unique(),
-  password: text("password").notNull(),
-  email: text("email").notNull(),
-  role: text("role").default("staff").notNull(), // admin, staff
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertUserSchema = createInsertSchema(users).omit({
-  id: true,
-  createdAt: true,
-});
-
-// Client accounts table schema (for client portal access)
-export const clientAccounts = pgTable("client_accounts", {
-  id: serial("id").primaryKey(),
-  clientId: integer("client_id").notNull().unique(), // Collegamento one-to-one con il cliente
-  username: varchar("username", { length: 100 }).notNull().unique(),
-  password: text("password").notNull(),
-  isActive: boolean("is_active").default(true),
-  lastLogin: timestamp("last_login"),
-  activationToken: text("activation_token"),
-  activationExpires: timestamp("activation_expires"),
-  resetToken: text("reset_token"),
-  resetExpires: timestamp("reset_expires"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertClientAccountSchema = createInsertSchema(clientAccounts).omit({
-  id: true,
-  createdAt: true,
-  lastLogin: true,
-});
-
-// Notifications table schema
-export const notifications = pgTable("notifications", {
-  id: serial("id").primaryKey(),
-  clientId: integer("client_id").notNull(),
-  appointmentId: integer("appointment_id"),
-  type: text("type").notNull(), // appointment_reminder, consent_needed, etc.
-  message: text("message").notNull(),
-  isRead: boolean("is_read").default(false),
-  sentAt: timestamp("sent_at").defaultNow(),
-  scheduledFor: timestamp("scheduled_for"),
-  channel: text("channel").default("app"), // app, sms, email
-});
-
-export const insertNotificationSchema = createInsertSchema(notifications).omit({
-  id: true,
-  sentAt: true,
-});
-
-// Define types
-export type Client = typeof clients.$inferSelect;
-export type InsertClient = z.infer<typeof insertClientSchema>;
-
-export type Service = typeof services.$inferSelect;
-export type InsertService = z.infer<typeof insertServiceSchema>;
-
-export type Appointment = typeof appointments.$inferSelect;
-export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
-
-export type Consent = typeof consents.$inferSelect;
-export type InsertConsent = z.infer<typeof insertConsentSchema>;
-
+// Export types for invoices and payments
 export type Invoice = typeof invoices.$inferSelect;
 export type InsertInvoice = z.infer<typeof insertInvoiceSchema>;
 
@@ -197,52 +185,7 @@ export type InsertInvoiceItem = z.infer<typeof insertInvoiceItemSchema>;
 export type Payment = typeof payments.$inferSelect;
 export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 
-export type User = typeof users.$inferSelect;
-export type InsertUser = z.infer<typeof insertUserSchema>;
-
-export type ClientAccount = typeof clientAccounts.$inferSelect;
-export type InsertClientAccount = z.infer<typeof insertClientAccountSchema>;
-
-export type Notification = typeof notifications.$inferSelect;
-export type InsertNotification = z.infer<typeof insertNotificationSchema>;
-
-// Define relations
-export const clientsRelations = relations(clients, ({ many, one }) => ({
-  appointments: many(appointments),
-  consents: many(consents),
-  invoices: many(invoices),
-  notifications: many(notifications),
-  clientAccount: one(clientAccounts, {
-    fields: [clients.id],
-    references: [clientAccounts.clientId],
-  }),
-}));
-
-export const servicesRelations = relations(services, ({ many }) => ({
-  appointments: many(appointments),
-  invoiceItems: many(invoiceItems),
-}));
-
-export const appointmentsRelations = relations(appointments, ({ one, many }) => ({
-  client: one(clients, {
-    fields: [appointments.clientId],
-    references: [clients.id],
-  }),
-  service: one(services, {
-    fields: [appointments.serviceId],
-    references: [services.id],
-  }),
-  invoiceItems: many(invoiceItems),
-  notifications: many(notifications),
-}));
-
-export const consentsRelations = relations(consents, ({ one }) => ({
-  client: one(clients, {
-    fields: [consents.clientId],
-    references: [clients.id],
-  }),
-}));
-
+// Definizione delle relazioni per fatture e pagamenti
 export const invoicesRelations = relations(invoices, ({ one, many }) => ({
   client: one(clients, {
     fields: [invoices.clientId],
@@ -274,34 +217,7 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
   }),
 }));
 
-export const clientAccountsRelations = relations(clientAccounts, ({ one }) => ({
-  client: one(clients, {
-    fields: [clientAccounts.clientId],
-    references: [clients.id],
-  }),
-}));
-
-export const notificationsRelations = relations(notifications, ({ one }) => ({
-  client: one(clients, {
-    fields: [notifications.clientId],
-    references: [clients.id],
-  }),
-  appointment: one(appointments, {
-    fields: [notifications.appointmentId],
-    references: [appointments.id],
-  }),
-}));
-
 // Extended types for frontend use
-export type AppointmentWithDetails = Appointment & {
-  client: Client;
-  service: Service;
-};
-
-export type ClientWithAppointments = Client & {
-  appointments: AppointmentWithDetails[];
-};
-
 export type InvoiceWithDetails = Invoice & {
   client: Client;
   items: (InvoiceItem & { service?: Service })[];

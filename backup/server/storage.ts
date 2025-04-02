@@ -7,18 +7,11 @@ import {
   invoices, type Invoice, type InsertInvoice, 
   invoiceItems, type InvoiceItem, type InsertInvoiceItem,
   payments, type Payment, type InsertPayment,
-  users, type User, type InsertUser,
-  clientAccounts, type ClientAccount, type InsertClientAccount,
-  notifications, type Notification, type InsertNotification,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
   type InvoiceItemWithDetails
 } from "@shared/schema";
-import connectPg from "connect-pg-simple";
-import session from "express-session";
-import { db } from "./db";
-import { eq, desc, and, gte, lte, like, or, sql } from 'drizzle-orm';
 
 // Interface defining all storage operations
 export interface IStorage {
@@ -55,32 +48,6 @@ export interface IStorage {
   getInvoice(id: number): Promise<InvoiceWithDetails | undefined>;
   getInvoices(): Promise<InvoiceWithDetails[]>;
   getInvoicesByClient(clientId: number): Promise<InvoiceWithDetails[]>;
-
-  // User operations
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
-  deleteUser(id: number): Promise<boolean>;
-  
-  // Client Account operations
-  getClientAccount(id: number): Promise<ClientAccount | undefined>;
-  getClientAccountByClientId(clientId: number): Promise<ClientAccount | undefined>;
-  getClientAccountByUsername(username: string): Promise<ClientAccount | undefined>;
-  createClientAccount(account: InsertClientAccount): Promise<ClientAccount>;
-  updateClientAccount(id: number, account: Partial<InsertClientAccount>): Promise<ClientAccount | undefined>;
-  deleteClientAccount(id: number): Promise<boolean>;
-  
-  // Notification operations
-  getNotification(id: number): Promise<Notification | undefined>;
-  getNotificationsByClient(clientId: number): Promise<Notification[]>;
-  getUnreadNotificationsByClient(clientId: number): Promise<Notification[]>;
-  createNotification(notification: InsertNotification): Promise<Notification>;
-  markNotificationAsRead(id: number): Promise<boolean>;
-  deleteNotification(id: number): Promise<boolean>;
-  
-  // Session store for authentication
-  sessionStore: session.Store;
   getInvoicesByDateRange(startDate: string, endDate: string): Promise<InvoiceWithDetails[]>;
   getInvoicesByStatus(status: string): Promise<InvoiceWithDetails[]>;
   createInvoice(invoice: InsertInvoice): Promise<Invoice>;
@@ -815,19 +782,6 @@ export class MemStorage implements IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  sessionStore: session.Store;
-
-  constructor() {
-    // Setup PostgreSQL session store
-    const PostgresSessionStore = connectPg(session);
-    this.sessionStore = new PostgresSessionStore({
-      conObject: {
-        connectionString: process.env.DATABASE_URL,
-        ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
-      },
-      createTableIfMissing: true
-    });
-  }
   // CLIENT OPERATIONS
   async getClient(id: number): Promise<Client | undefined> {
     try {
@@ -1570,205 +1524,11 @@ export class DatabaseStorage implements IStorage {
       return `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}-${now.getTime().toString().substring(7)}`;
     }
   }
-
-  // USER OPERATIONS
-  async getUser(id: number): Promise<User | undefined> {
-    try {
-      const [user] = await db.select().from(users).where(eq(users.id, id));
-      return user;
-    } catch (error) {
-      console.error("Error getting user:", error);
-      return undefined;
-    }
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    try {
-      const [user] = await db.select().from(users).where(eq(users.username, username));
-      return user;
-    } catch (error) {
-      console.error("Error getting user by username:", error);
-      return undefined;
-    }
-  }
-
-  async createUser(user: InsertUser): Promise<User> {
-    try {
-      const [newUser] = await db.insert(users).values(user).returning();
-      return newUser;
-    } catch (error) {
-      console.error("Error creating user:", error);
-      throw error;
-    }
-  }
-
-  async updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined> {
-    try {
-      const [updatedUser] = await db
-        .update(users)
-        .set(user)
-        .where(eq(users.id, id))
-        .returning();
-      return updatedUser;
-    } catch (error) {
-      console.error("Error updating user:", error);
-      return undefined;
-    }
-  }
-
-  async deleteUser(id: number): Promise<boolean> {
-    try {
-      await db.delete(users).where(eq(users.id, id));
-      return true;
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      return false;
-    }
-  }
-
-  // CLIENT ACCOUNT OPERATIONS
-  async getClientAccount(id: number): Promise<ClientAccount | undefined> {
-    try {
-      const [account] = await db.select().from(clientAccounts).where(eq(clientAccounts.id, id));
-      return account;
-    } catch (error) {
-      console.error("Error getting client account:", error);
-      return undefined;
-    }
-  }
-
-  async getClientAccountByClientId(clientId: number): Promise<ClientAccount | undefined> {
-    try {
-      const [account] = await db.select().from(clientAccounts).where(eq(clientAccounts.clientId, clientId));
-      return account;
-    } catch (error) {
-      console.error("Error getting client account by client id:", error);
-      return undefined;
-    }
-  }
-
-  async getClientAccountByUsername(username: string): Promise<ClientAccount | undefined> {
-    try {
-      const [account] = await db.select().from(clientAccounts).where(eq(clientAccounts.username, username));
-      return account;
-    } catch (error) {
-      console.error("Error getting client account by username:", error);
-      return undefined;
-    }
-  }
-
-  async createClientAccount(account: InsertClientAccount): Promise<ClientAccount> {
-    try {
-      const [newAccount] = await db.insert(clientAccounts).values(account).returning();
-      return newAccount;
-    } catch (error) {
-      console.error("Error creating client account:", error);
-      throw error;
-    }
-  }
-
-  async updateClientAccount(id: number, account: Partial<InsertClientAccount>): Promise<ClientAccount | undefined> {
-    try {
-      const [updatedAccount] = await db
-        .update(clientAccounts)
-        .set(account)
-        .where(eq(clientAccounts.id, id))
-        .returning();
-      return updatedAccount;
-    } catch (error) {
-      console.error("Error updating client account:", error);
-      return undefined;
-    }
-  }
-
-  async deleteClientAccount(id: number): Promise<boolean> {
-    try {
-      await db.delete(clientAccounts).where(eq(clientAccounts.id, id));
-      return true;
-    } catch (error) {
-      console.error("Error deleting client account:", error);
-      return false;
-    }
-  }
-
-  // NOTIFICATION OPERATIONS
-  async getNotification(id: number): Promise<Notification | undefined> {
-    try {
-      const [notification] = await db.select().from(notifications).where(eq(notifications.id, id));
-      return notification;
-    } catch (error) {
-      console.error("Error getting notification:", error);
-      return undefined;
-    }
-  }
-
-  async getNotificationsByClient(clientId: number): Promise<Notification[]> {
-    try {
-      const notificationsList = await db
-        .select()
-        .from(notifications)
-        .where(eq(notifications.clientId, clientId))
-        .orderBy(desc(notifications.sentAt));
-      return notificationsList;
-    } catch (error) {
-      console.error("Error getting notifications by client:", error);
-      return [];
-    }
-  }
-
-  async getUnreadNotificationsByClient(clientId: number): Promise<Notification[]> {
-    try {
-      const notificationsList = await db
-        .select()
-        .from(notifications)
-        .where(
-          and(
-            eq(notifications.clientId, clientId),
-            eq(notifications.isRead, false)
-          )
-        )
-        .orderBy(desc(notifications.sentAt));
-      return notificationsList;
-    } catch (error) {
-      console.error("Error getting unread notifications by client:", error);
-      return [];
-    }
-  }
-
-  async createNotification(notification: InsertNotification): Promise<Notification> {
-    try {
-      const [newNotification] = await db.insert(notifications).values(notification).returning();
-      return newNotification;
-    } catch (error) {
-      console.error("Error creating notification:", error);
-      throw error;
-    }
-  }
-
-  async markNotificationAsRead(id: number): Promise<boolean> {
-    try {
-      await db
-        .update(notifications)
-        .set({ isRead: true })
-        .where(eq(notifications.id, id));
-      return true;
-    } catch (error) {
-      console.error("Error marking notification as read:", error);
-      return false;
-    }
-  }
-
-  async deleteNotification(id: number): Promise<boolean> {
-    try {
-      await db.delete(notifications).where(eq(notifications.id, id));
-      return true;
-    } catch (error) {
-      console.error("Error deleting notification:", error);
-      return false;
-    }
-  }
 }
 
 // IMPORTANTE: Usa il database PostgreSQL per l'archiviazione persistente
+import { db } from './db';
+import { eq, desc, and, gte, lte, like, or, sql } from 'drizzle-orm';
+
 // Utilizza la classe DatabaseStorage invece di MemStorage
 export const storage = new DatabaseStorage();
