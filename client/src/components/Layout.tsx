@@ -1,0 +1,131 @@
+import { useState, ReactNode } from "react";
+import { Link, useLocation } from "wouter";
+import { 
+  CalendarDays, 
+  Users, 
+  BarChart, 
+  Menu, 
+  X, 
+  Plus 
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import AppointmentForm from "./AppointmentForm";
+
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: LayoutProps) {
+  const [location] = useLocation();
+  const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
+
+  // Check active route
+  const isActive = (path: string) => location === path;
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Header */}
+      <header className="bg-primary text-white shadow-md">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex items-center space-x-2">
+              <CalendarDays className="h-5 w-5" />
+              <h1 className="text-xl font-medium">Gestione Appuntamenti</h1>
+            </div>
+            
+            <div className="hidden md:flex items-center space-x-4">
+              <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Plus className="h-4 w-4" />
+                    <span>Nuovo Appuntamento</span>
+                  </Button>
+                </DialogTrigger>
+                <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
+              </Dialog>
+              
+              <Link href="/clients">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Users className="h-4 w-4" />
+                  <span>Clienti</span>
+                </Button>
+              </Link>
+            </div>
+            
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" className="md:hidden" size="icon">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <div className="flex flex-col gap-4 py-4">
+                  <h2 className="text-lg font-medium">Menu</h2>
+                  <nav className="flex flex-col gap-2">
+                    <Link href="/">
+                      <Button variant={isActive("/") ? "secondary" : "ghost"} className="justify-start w-full">
+                        Home
+                      </Button>
+                    </Link>
+                    <Link href="/calendar">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <CalendarDays className="mr-2 h-4 w-4" />
+                        Calendario
+                      </Button>
+                    </Link>
+                    <Link href="/clients">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Users className="mr-2 h-4 w-4" />
+                        Clienti
+                      </Button>
+                    </Link>
+                    <Link href="/reports">
+                      <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <BarChart className="mr-2 h-4 w-4" />
+                        Report
+                      </Button>
+                    </Link>
+                  </nav>
+                  <div className="mt-4">
+                    <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button className="w-full">
+                          <Plus className="mr-2 h-4 w-4" />
+                          Nuovo Appuntamento
+                        </Button>
+                      </DialogTrigger>
+                      <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
+                    </Dialog>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="flex-grow container mx-auto px-4 py-6">
+        {children}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-100 border-t border-gray-300 py-4">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-sm text-gray-600 mb-2 md:mb-0">
+              &copy; {new Date().getFullYear()} Gestione Appuntamenti - Tutti i diritti riservati
+            </div>
+            <div className="flex space-x-4">
+              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Supporto</Button>
+              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
+              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</Button>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
