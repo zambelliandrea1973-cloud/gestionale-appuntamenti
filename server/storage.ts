@@ -397,12 +397,55 @@ export class MemStorage implements IStorage {
   }
   
   async createAppointment(appointment: InsertAppointment): Promise<Appointment> {
+    console.log("Creazione appuntamento con dati:", JSON.stringify(appointment));
+    
     const id = this.appointmentIdCounter++;
+    
+    // Calcoliamo l'orario di fine in base al servizio selezionato
+    let endTime = appointment.endTime;
+    
+    // Se non è specificato l'endTime, calcoliamolo in base alla durata del servizio
+    if (!endTime) {
+      try {
+        // Otteniamo il servizio per conoscere la durata
+        const service = await this.getService(appointment.serviceId);
+        
+        if (service) {
+          // Calcoliamo l'orario di fine in base alla durata del servizio
+          const [hours, minutes] = appointment.startTime.split(':').map(Number);
+          const startMinutes = hours * 60 + minutes;
+          const endMinutes = startMinutes + service.duration;
+          
+          const endHours = Math.floor(endMinutes / 60);
+          const endMins = endMinutes % 60;
+          
+          endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}:00`;
+          console.log(`Calcolato orario di fine: ${endTime} per servizio con durata ${service.duration} minuti`);
+        }
+      } catch (error) {
+        console.error("Errore durante il calcolo dell'orario di fine:", error);
+        // Se c'è un errore, mettiamo un'ora di default come durata
+        endTime = appointment.startTime;
+      }
+    }
+    
+    // Se non è specificato lo status, impostiamolo a "scheduled"
+    const status = appointment.status || 'scheduled';
+    
+    // Se non sono specificate le note, impostiamole a stringa vuota
+    const notes = appointment.notes || '';
+    
     const newAppointment: Appointment = { 
       ...appointment, 
       id, 
+      endTime: endTime || appointment.startTime, // Fallback in caso di errore
+      status,
+      notes,
       createdAt: new Date()
     };
+    
+    console.log("Nuovo appuntamento creato:", JSON.stringify(newAppointment));
+    
     this.appointments.set(id, newAppointment);
     this.saveToStorage();
     return newAppointment;

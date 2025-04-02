@@ -141,43 +141,31 @@ export default function AppointmentForm({
       }
     },
     onSuccess: async (response, variables) => {
-      try {
-        // Parse the response data
-        const data = await response.json();
-        console.log("Appuntamento salvato con successo:", data);
-        
-        toast({
-          title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
-          description: appointmentId 
-            ? "L'appuntamento è stato aggiornato con successo" 
-            : "Nuovo appuntamento creato con successo",
-        });
-        
-        // Invalidate all appointment-related queries to ensure fresh data
-        await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-        
-        // Force invalidation of the specific date query
-        const dateString = formatDateForApi(variables.date);
-        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-        
-        // Invalidate range queries for calendar views
-        await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-        
-        // Logging for confirmation
-        console.log("Appuntamento salvato con successo, date invalidate:", dateString);
-        
-        // Chiude il form dopo un breve ritardo per assicurarsi che i dati siano stati elaborati
-        setTimeout(() => {
-          console.log("Tentativo di chiusura del form");
-          if (typeof onClose === 'function') {
-            onClose();
-          } else {
-            console.error("onClose non è una funzione valida!");
-          }
-        }, 100);
-      } catch (error) {
-        console.error("Errore durante l'elaborazione della risposta:", error);
-      }
+      console.log("Risposta ricevuta:", response);
+      toast({
+        title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
+        description: appointmentId 
+          ? "L'appuntamento è stato aggiornato con successo" 
+          : "Nuovo appuntamento creato con successo",
+      });
+      
+      // Invalidate all appointment-related queries to ensure fresh data
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      
+      // Force invalidation of the specific date query
+      const dateString = formatDateForApi(variables.date);
+      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+      console.log("Invalidata query per la data:", dateString);
+      
+      // Invalidate range queries for calendar views
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+      
+      // Logging for confirmation
+      console.log("Appuntamento salvato con successo, date invalidate");
+      
+      // Chiude il form immediatamente
+      console.log("Chiusura del form di appuntamento");
+      onClose();
     },
     onError: (error) => {
       console.error("Errore durante il salvataggio dell'appuntamento:", error);
@@ -191,7 +179,51 @@ export default function AppointmentForm({
   
   const onSubmit = (data: FormData) => {
     console.log("Submitting form with data:", data);
-    mutation.mutate(data);
+    
+    // Calcoliamo l'orario di fine in base alla durata del servizio selezionato
+    const service = services.find(s => s.id === data.serviceId);
+    if (service) {
+      // Calcoliamo l'orario di fine in base alla durata del servizio
+      const [hours, minutes] = data.startTime.split(':').map(Number);
+      const startMinutes = hours * 60 + minutes;
+      const endMinutes = startMinutes + service.duration;
+      
+      const endHours = Math.floor(endMinutes / 60);
+      const endMins = endMinutes % 60;
+      
+      const endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
+      console.log(`Calcolato orario di fine: ${endTime} per servizio con durata ${service.duration} minuti`);
+      
+      // Aggiungiamo l'orario di fine ai dati
+      const dataWithEndTime = {
+        ...data,
+        endTime: endTime
+      };
+      
+      console.log("Submitting data with calculated end time:", dataWithEndTime);
+      mutation.mutate(dataWithEndTime);
+    } else {
+      // Se non troviamo il servizio, non possiamo calcolare l'orario di fine
+      console.error("Servizio non trovato, impossibile calcolare l'orario di fine");
+      
+      // Utilizziamo un valore di default (1 ora dopo)
+      const [hours, minutes] = data.startTime.split(':').map(Number);
+      const startMinutes = hours * 60 + minutes;
+      const endMinutes = startMinutes + 60; // Default 1 ora
+      
+      const endHours = Math.floor(endMinutes / 60);
+      const endMins = endMinutes % 60;
+      
+      const endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
+      
+      const dataWithEndTime = {
+        ...data,
+        endTime: endTime
+      };
+      
+      console.log("Submitting data with default end time:", dataWithEndTime);
+      mutation.mutate(dataWithEndTime);
+    }
   };
   
   const handleClientCreated = (newClientId: number) => {
