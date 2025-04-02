@@ -43,7 +43,7 @@ export interface IStorage {
   searchClients(query: string): Promise<Client[]>;
 }
 
-// In-memory implementation of the storage interface
+// In-memory implementation of the storage interface with localStorage persistence
 export class MemStorage implements IStorage {
   private clients: Map<number, Client>;
   private services: Map<number, Service>;
@@ -56,18 +56,77 @@ export class MemStorage implements IStorage {
   private consentIdCounter: number;
   
   constructor() {
-    this.clients = new Map();
-    this.services = new Map();
-    this.appointments = new Map();
-    this.consents = new Map();
-    
-    this.clientIdCounter = 1;
-    this.serviceIdCounter = 1;
-    this.appointmentIdCounter = 1;
-    this.consentIdCounter = 1;
-    
-    // Initialize with default services
-    this.initDefaultServices();
+    // Attempt to load from localStorage first
+    try {
+      const savedData = global.localStorage?.getItem('appData');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        
+        // Restore maps from the saved data
+        this.clients = new Map(data.clients);
+        this.services = new Map(data.services);
+        this.appointments = new Map(data.appointments);
+        this.consents = new Map(data.consents);
+        
+        this.clientIdCounter = data.clientIdCounter;
+        this.serviceIdCounter = data.serviceIdCounter;
+        this.appointmentIdCounter = data.appointmentIdCounter;
+        this.consentIdCounter = data.consentIdCounter;
+        
+        console.log('Data loaded from localStorage');
+      } else {
+        // Initialize empty maps if no saved data
+        this.clients = new Map();
+        this.services = new Map();
+        this.appointments = new Map();
+        this.consents = new Map();
+        
+        this.clientIdCounter = 1;
+        this.serviceIdCounter = 1;
+        this.appointmentIdCounter = 1;
+        this.consentIdCounter = 1;
+        
+        // Initialize with default services
+        this.initDefaultServices();
+      }
+    } catch (error) {
+      console.error('Error loading from localStorage, initializing empty storage', error);
+      // Initialize empty maps if loading fails
+      this.clients = new Map();
+      this.services = new Map();
+      this.appointments = new Map();
+      this.consents = new Map();
+      
+      this.clientIdCounter = 1;
+      this.serviceIdCounter = 1;
+      this.appointmentIdCounter = 1;
+      this.consentIdCounter = 1;
+      
+      // Initialize with default services
+      this.initDefaultServices();
+    }
+  }
+  
+  // Save data to localStorage
+  private saveToStorage() {
+    try {
+      if (typeof global.localStorage !== 'undefined') {
+        const data = {
+          clients: Array.from(this.clients.entries()),
+          services: Array.from(this.services.entries()),
+          appointments: Array.from(this.appointments.entries()),
+          consents: Array.from(this.consents.entries()),
+          clientIdCounter: this.clientIdCounter,
+          serviceIdCounter: this.serviceIdCounter,
+          appointmentIdCounter: this.appointmentIdCounter,
+          consentIdCounter: this.consentIdCounter
+        };
+        
+        global.localStorage.setItem('appData', JSON.stringify(data));
+      }
+    } catch (error) {
+      console.error('Error saving to localStorage', error);
+    }
   }
   
   private initDefaultServices() {
@@ -96,6 +155,7 @@ export class MemStorage implements IStorage {
     const id = this.clientIdCounter++;
     const newClient: Client = { ...client, id, createdAt: new Date() };
     this.clients.set(id, newClient);
+    this.saveToStorage();
     return newClient;
   }
   
@@ -105,11 +165,14 @@ export class MemStorage implements IStorage {
     
     const updatedClient: Client = { ...existingClient, ...client };
     this.clients.set(id, updatedClient);
+    this.saveToStorage();
     return updatedClient;
   }
   
   async deleteClient(id: number): Promise<boolean> {
-    return this.clients.delete(id);
+    const result = this.clients.delete(id);
+    this.saveToStorage();
+    return result;
   }
   
   // Service operations
@@ -125,6 +188,7 @@ export class MemStorage implements IStorage {
     const id = this.serviceIdCounter++;
     const newService: Service = { ...service, id };
     this.services.set(id, newService);
+    this.saveToStorage();
     return newService;
   }
   
@@ -134,11 +198,14 @@ export class MemStorage implements IStorage {
     
     const updatedService: Service = { ...existingService, ...service };
     this.services.set(id, updatedService);
+    this.saveToStorage();
     return updatedService;
   }
   
   async deleteService(id: number): Promise<boolean> {
-    return this.services.delete(id);
+    const result = this.services.delete(id);
+    this.saveToStorage();
+    return result;
   }
   
   // Appointment operations
@@ -234,6 +301,7 @@ export class MemStorage implements IStorage {
       createdAt: new Date()
     };
     this.appointments.set(id, newAppointment);
+    this.saveToStorage();
     return newAppointment;
   }
   
@@ -243,11 +311,14 @@ export class MemStorage implements IStorage {
     
     const updatedAppointment: Appointment = { ...existingAppointment, ...appointment };
     this.appointments.set(id, updatedAppointment);
+    this.saveToStorage();
     return updatedAppointment;
   }
   
   async deleteAppointment(id: number): Promise<boolean> {
-    return this.appointments.delete(id);
+    const result = this.appointments.delete(id);
+    this.saveToStorage();
+    return result;
   }
   
   // Consent operations
@@ -264,6 +335,7 @@ export class MemStorage implements IStorage {
     const id = this.consentIdCounter++;
     const newConsent: Consent = { ...consent, id, signedAt: new Date() };
     this.consents.set(id, newConsent);
+    this.saveToStorage();
     
     // Update client to mark that they have consent
     const client = await this.getClient(consent.clientId);
