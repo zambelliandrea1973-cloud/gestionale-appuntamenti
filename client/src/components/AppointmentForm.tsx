@@ -163,9 +163,15 @@ export default function AppointmentForm({
       // Logging for confirmation
       console.log("Appuntamento salvato con successo, date invalidate");
       
-      // Chiude il form immediatamente
-      console.log("Chiusura del form di appuntamento");
-      onClose();
+      // Chiudiamo il form con un minimo ritardo per evitare race conditions
+      setTimeout(() => {
+        console.log("Chiusura del form di appuntamento con timeout");
+        if (typeof onClose === 'function') {
+          onClose();
+        } else {
+          console.error("onClose non è una funzione valida:", onClose);
+        }
+      }, 300);
     },
     onError: (error) => {
       console.error("Errore durante il salvataggio dell'appuntamento:", error);
