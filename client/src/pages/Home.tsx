@@ -1,0 +1,108 @@
+import { useEffect } from "react";
+import { useLocation } from "wouter";
+import { 
+  CalendarDays, 
+  Users, 
+  BarChart,
+  ArrowRight
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+export default function Home() {
+  const [_, navigate] = useLocation();
+
+  // Redirect to calendar as default page
+  useEffect(() => {
+    navigate("/calendar");
+  }, [navigate]);
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center my-8">
+        <h1 className="text-3xl font-bold mb-2">Benvenuto nella Gestione Appuntamenti</h1>
+        <p className="text-muted-foreground">Gestisci facilmente gli appuntamenti di lavoro</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <CalendarDays className="mr-2 h-5 w-5 text-primary" />
+              Calendario
+            </CardTitle>
+            <CardDescription>
+              Visualizza e gestisci tutti gli appuntamenti
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Visualizza gli appuntamenti in modalità giornaliera, settimanale o mensile, 
+              e crea facilmente nuovi appuntamenti.
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={() => navigate("/calendar")}
+            >
+              Vai al Calendario
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Users className="mr-2 h-5 w-5 text-primary" />
+              Clienti
+            </CardTitle>
+            <CardDescription>
+              Gestisci l'anagrafica dei clienti
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Aggiungi, modifica e visualizza i dati dei clienti, 
+              compresi i dati anagrafici e medici.
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={() => navigate("/clients")}
+            >
+              Gestisci Clienti
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <BarChart className="mr-2 h-5 w-5 text-primary" />
+              Report
+            </CardTitle>
+            <CardDescription>
+              Analizza l'andamento delle attività
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Visualizza report giornalieri, settimanali e mensili 
+              per analizzare l'andamento delle attività.
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={() => navigate("/reports")}
+            >
+              Visualizza Report
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
