@@ -186,15 +186,17 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
               Nuovo appuntamento
             </Button>
           </DialogTrigger>
-          <AppointmentForm 
-            onClose={() => {
-              console.log("Chiusura form appuntamento dalla scheda cliente");
-              setIsAppointmentFormOpen(false);
-            }}
-            defaultDate={new Date()}
-            defaultTime="09:00"
-            clientId={client.id}
-          />
+          {isAppointmentFormOpen && (
+            <AppointmentForm 
+              onClose={() => {
+                console.log("Chiusura form appuntamento dalla scheda cliente");
+                setIsAppointmentFormOpen(false);
+              }}
+              defaultDate={new Date()}
+              defaultTime="09:00"
+              clientId={client.id}
+            />
+          )}
         </Dialog>
       </CardFooter>
     </Card>

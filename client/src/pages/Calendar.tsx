@@ -184,6 +184,7 @@ export default function Calendar() {
               {isAppointmentDialogOpen && (
                 <AppointmentForm 
                   onClose={() => {
+                    console.log("Calendar: chiusura form di appuntamento");
                     setIsAppointmentDialogOpen(false);
                     handleRefresh();
                   }} 
