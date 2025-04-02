@@ -55,7 +55,7 @@ export default function ClientForm({
   
   // Fetch client if editing
   const { data: client, isLoading: isLoadingClient } = useQuery({
-    queryKey: ["/api/clients", clientId],
+    queryKey: [`/api/clients/${clientId}`],
     enabled: !!clientId
   });
   

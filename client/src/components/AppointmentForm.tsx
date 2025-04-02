@@ -84,7 +84,7 @@ export default function AppointmentForm({
   
   // Fetch appointment if editing
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
-    queryKey: ["/api/appointments", appointmentId],
+    queryKey: [`/api/appointments/${appointmentId}`],
     enabled: !!appointmentId
   });
   
