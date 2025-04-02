@@ -231,15 +231,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/appointments/date/:date", async (req: Request, res: Response) => {
     try {
       const { date } = req.params;
+      console.log(`Ricerca appuntamenti per la data: ${date}`);
+      
       // Simple validation for date format (YYYY-MM-DD)
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       if (!dateRegex.test(date)) {
+        console.error(`Formato data invalido: ${date}`);
         return res.status(400).json({ message: "Invalid date format. Use YYYY-MM-DD" });
       }
 
       const appointments = await storage.getAppointmentsByDate(date);
+      console.log(`Trovati ${appointments.length} appuntamenti per la data ${date}:`, appointments);
+      
       res.json(appointments);
     } catch (error) {
+      console.error(`Errore durante la ricerca appuntamenti per la data ${req.params.date}:`, error);
       res.status(500).json({ message: "Error fetching appointments" });
     }
   });
@@ -276,17 +282,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/appointments", async (req: Request, res: Response) => {
     try {
+      console.log("Tentativo di creazione appuntamento con dati:", req.body);
+      
       const validationResult = insertAppointmentSchema.safeParse(req.body);
       if (!validationResult.success) {
+        console.error("Errore validazione:", validationResult.error.errors);
         return res.status(400).json({
           message: "Invalid appointment data",
           errors: validationResult.error.errors
         });
       }
 
+      console.log("Dati validati correttamente, creazione appuntamento...");
       const appointment = await storage.createAppointment(validationResult.data);
+      console.log("Appuntamento creato con successo:", appointment);
+      
       res.status(201).json(appointment);
     } catch (error) {
+      console.error("Errore durante la creazione dell'appuntamento:", error);
       res.status(500).json({ message: "Error creating appointment" });
     }
   });
