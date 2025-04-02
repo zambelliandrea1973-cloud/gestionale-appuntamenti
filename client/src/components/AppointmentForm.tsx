@@ -159,12 +159,12 @@ export default function AppointmentForm({
   const isLoading = isLoadingClients || isLoadingServices || (appointmentId && isLoadingAppointment);
   
   return (
-    <div className="p-5">
-      <div className="mb-4 border-b pb-4">
-        <h2 className="text-lg font-semibold">
+    <DialogContent className="sm:max-w-[600px]">
+      <DialogHeader>
+        <DialogTitle>
           {appointmentId ? "Modifica Appuntamento" : "Nuovo Appuntamento"}
-        </h2>
-      </div>
+        </DialogTitle>
+      </DialogHeader>
       
       {isLoading ? (
         <div className="flex justify-center p-6">
@@ -402,7 +402,7 @@ export default function AppointmentForm({
           </form>
         </Form>
       )}
-    </div>
+    </DialogContent>
   );
 }
 
