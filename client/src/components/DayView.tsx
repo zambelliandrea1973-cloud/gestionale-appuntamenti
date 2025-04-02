@@ -111,19 +111,22 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
       </div>
       
       {/* Form dialog for new appointment */}
-      <Dialog open={isAppointmentFormOpen} onOpenChange={setIsAppointmentFormOpen}>
-        <DialogTrigger className="hidden">
-          <Button>New Appointment</Button>
-        </DialogTrigger>
-        <AppointmentForm 
-          onClose={() => {
+      {isAppointmentFormOpen && (
+        <Dialog open={isAppointmentFormOpen} onOpenChange={(open) => {
+          if (!open) {
             setIsAppointmentFormOpen(false);
-            handleAppointmentUpdated();
-          }}
-          defaultDate={selectedDate}
-          defaultTime={selectedTimeSlot || "09:00"}
-        />
-      </Dialog>
+          }
+        }}>
+          <AppointmentForm 
+            onClose={() => {
+              setIsAppointmentFormOpen(false);
+              handleAppointmentUpdated();
+            }}
+            defaultDate={selectedDate}
+            defaultTime={selectedTimeSlot || "09:00"}
+          />
+        </Dialog>
+      )}
     </div>
   );
 }
