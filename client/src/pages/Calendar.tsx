@@ -160,13 +160,15 @@ export default function Calendar() {
                   Nuovo Appuntamento
                 </Button>
               </DialogTrigger>
-              <AppointmentForm 
-                onClose={() => {
-                  setIsAppointmentDialogOpen(false);
-                  handleRefresh();
-                }} 
-                defaultDate={selectedDate}
-              />
+              {isAppointmentDialogOpen && (
+                <AppointmentForm 
+                  onClose={() => {
+                    setIsAppointmentDialogOpen(false);
+                    handleRefresh();
+                  }} 
+                  defaultDate={selectedDate}
+                />
+              )}
             </Dialog>
           </div>
         </div>
