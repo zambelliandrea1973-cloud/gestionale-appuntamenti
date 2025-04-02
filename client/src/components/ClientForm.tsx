@@ -94,6 +94,15 @@ export default function ClientForm({
       }
     },
     onSuccess: async (response) => {
+      // Parse response JSON - do this first to avoid the body already read error
+      let responseData;
+      try {
+        responseData = await response.clone().json();
+        console.log("Response data:", responseData);
+      } catch (e) {
+        console.error("Error parsing response:", e);
+      }
+      
       toast({
         title: clientId ? "Cliente aggiornato" : "Cliente creato",
         description: clientId 
@@ -106,8 +115,6 @@ export default function ClientForm({
       
       if (!clientId) {
         // If this is a new client, get the client ID from the response and call the callback
-        const responseData = await response.json();
-        
         // Reset form to default values to clear all fields
         form.reset({
           firstName: "",
@@ -123,7 +130,7 @@ export default function ClientForm({
           hasConsent: false
         });
         
-        if (onClientCreated) {
+        if (onClientCreated && responseData) {
           onClientCreated(responseData.id);
         }
       } else {
