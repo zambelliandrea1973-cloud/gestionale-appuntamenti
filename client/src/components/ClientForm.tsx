@@ -107,6 +107,22 @@ export default function ClientForm({
       if (!clientId) {
         // If this is a new client, get the client ID from the response and call the callback
         const responseData = await response.json();
+        
+        // Reset form to default values to clear all fields
+        form.reset({
+          firstName: "",
+          lastName: "",
+          phone: "",
+          email: "",
+          address: "",
+          birthday: "",
+          notes: "",
+          isFrequent: false,
+          medicalNotes: "",
+          allergies: "",
+          hasConsent: false
+        });
+        
         if (onClientCreated) {
           onClientCreated(responseData.id);
         }
