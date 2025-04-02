@@ -117,27 +117,19 @@ export default function AppointmentForm({
   
   // Create or update appointment mutation
   const mutation = useMutation({
-    mutationFn: async (data: FormData) => {
-      // Calculate end time based on service duration
-      const service = services.find(s => s.id === data.serviceId);
-      const endTime = calculateEndTime(data.startTime, service?.duration || 60);
-      
-      const apiData = {
-        clientId: data.clientId,
-        serviceId: data.serviceId,
-        date: formatDateForApi(data.date),
-        startTime: data.startTime,
-        endTime: endTime,
-        notes: data.notes,
-        status: "scheduled"
-      };
+    mutationFn: async (data: any) => {
+      console.log("Tentativo di creazione appuntamento con dati:", data);
 
-      console.log("Tentativo di creazione appuntamento con dati:", apiData);
+      // Verifica che i dati siano completi
+      if (!data.clientId || !data.serviceId || !data.date || !data.startTime || !data.endTime) {
+        console.error("Dati incompleti:", data);
+        throw new Error("Dati appuntamento incompleti");
+      }
 
       if (appointmentId) {
-        return apiRequest("PUT", `/api/appointments/${appointmentId}`, apiData);
+        return apiRequest("PUT", `/api/appointments/${appointmentId}`, data);
       } else {
-        return apiRequest("POST", "/api/appointments", apiData);
+        return apiRequest("POST", "/api/appointments", data);
       }
     },
     onSuccess: async (response, variables) => {
@@ -183,52 +175,99 @@ export default function AppointmentForm({
     }
   });
   
-  const onSubmit = (data: FormData) => {
-    console.log("Submitting form with data:", data);
-    
-    // Calcoliamo l'orario di fine in base alla durata del servizio selezionato
-    const service = services.find(s => s.id === data.serviceId);
-    if (service) {
-      // Calcoliamo l'orario di fine in base alla durata del servizio
-      const [hours, minutes] = data.startTime.split(':').map(Number);
-      const startMinutes = hours * 60 + minutes;
-      const endMinutes = startMinutes + service.duration;
+  const onSubmit = async (data: FormData) => {
+    try {
+      console.log("Submitting form with data:", data);
       
-      const endHours = Math.floor(endMinutes / 60);
-      const endMins = endMinutes % 60;
+      // Validazioni aggiuntive lato client
+      if (!data.clientId) {
+        toast({
+          title: "Errore",
+          description: "Seleziona un cliente",
+          variant: "destructive"
+        });
+        return;
+      }
       
-      const endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
-      console.log(`Calcolato orario di fine: ${endTime} per servizio con durata ${service.duration} minuti`);
+      if (!data.serviceId) {
+        toast({
+          title: "Errore",
+          description: "Seleziona un servizio",
+          variant: "destructive"
+        });
+        return;
+      }
       
-      // Aggiungiamo l'orario di fine ai dati
-      const dataWithEndTime = {
-        ...data,
-        endTime: endTime
+      if (!data.date) {
+        toast({
+          title: "Errore",
+          description: "Seleziona una data",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      if (!data.startTime) {
+        toast({
+          title: "Errore",
+          description: "Seleziona un orario",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Calcoliamo l'orario di fine in base alla durata del servizio selezionato
+      const service = services.find(s => s.id === data.serviceId);
+      
+      let endTime = "";
+      if (service) {
+        // Calcoliamo l'orario di fine in base alla durata del servizio
+        const [hours, minutes] = data.startTime.split(':').map(Number);
+        const startMinutes = hours * 60 + minutes;
+        const endMinutes = startMinutes + service.duration;
+        
+        const endHours = Math.floor(endMinutes / 60);
+        const endMins = endMinutes % 60;
+        
+        endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
+        console.log(`Calcolato orario di fine: ${endTime} per servizio con durata ${service.duration} minuti`);
+      } else {
+        // Se non troviamo il servizio, utilizziamo un valore di default (1 ora dopo)
+        console.warn("Servizio non trovato, utilizzando durata predefinita di 60 minuti");
+        const [hours, minutes] = data.startTime.split(':').map(Number);
+        const startMinutes = hours * 60 + minutes;
+        const endMinutes = startMinutes + 60; // Default 1 ora
+        
+        const endHours = Math.floor(endMinutes / 60);
+        const endMins = endMinutes % 60;
+        
+        endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
+      }
+      
+      // Prepara i dati per l'invio
+      const formattedDate = formatDateForApi(data.date);
+      
+      const appointment = {
+        clientId: data.clientId,
+        serviceId: data.serviceId,
+        date: formattedDate,
+        startTime: data.startTime + ":00", // Aggiungiamo i secondi per uniformità
+        endTime: endTime + ":00", // Aggiungiamo i secondi per uniformità
+        notes: data.notes || "",
+        status: "scheduled"
       };
       
-      console.log("Submitting data with calculated end time:", dataWithEndTime);
-      mutation.mutate(dataWithEndTime);
-    } else {
-      // Se non troviamo il servizio, non possiamo calcolare l'orario di fine
-      console.error("Servizio non trovato, impossibile calcolare l'orario di fine");
+      console.log("Invio appuntamento al server:", appointment);
       
-      // Utilizziamo un valore di default (1 ora dopo)
-      const [hours, minutes] = data.startTime.split(':').map(Number);
-      const startMinutes = hours * 60 + minutes;
-      const endMinutes = startMinutes + 60; // Default 1 ora
-      
-      const endHours = Math.floor(endMinutes / 60);
-      const endMins = endMinutes % 60;
-      
-      const endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
-      
-      const dataWithEndTime = {
-        ...data,
-        endTime: endTime
-      };
-      
-      console.log("Submitting data with default end time:", dataWithEndTime);
-      mutation.mutate(dataWithEndTime);
+      // Inviamo i dati direttamente con la mutation
+      mutation.mutate(appointment);
+    } catch (error) {
+      console.error("Errore durante la preparazione dei dati:", error);
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore durante la preparazione dei dati",
+        variant: "destructive"
+      });
     }
   };
   
