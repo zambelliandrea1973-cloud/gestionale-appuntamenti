@@ -4,7 +4,11 @@ import {
   CalendarDays, 
   Users, 
   BarChart,
-  ArrowRight
+  ArrowRight,
+  FileText,
+  Calendar,
+  Clock,
+  Grid
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,19 +16,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default function Home() {
   const [_, navigate] = useLocation();
 
-  // Redirect to calendar as default page
-  useEffect(() => {
-    navigate("/calendar");
-  }, [navigate]);
-
   return (
     <div className="space-y-6">
       <div className="text-center my-8">
         <h1 className="text-3xl font-bold mb-2">Benvenuto nella Gestione Appuntamenti</h1>
-        <p className="text-muted-foreground">Gestisci facilmente gli appuntamenti di lavoro</p>
+        <p className="text-muted-foreground">Gestisci facilmente gli appuntamenti, i clienti e le fatture</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -72,6 +71,32 @@ export default function Home() {
               onClick={() => navigate("/clients")}
             >
               Gestisci Clienti
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <FileText className="mr-2 h-5 w-5 text-primary" />
+              Fatture
+            </CardTitle>
+            <CardDescription>
+              Gestisci fatture e pagamenti
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Crea e gestisci fatture, registra pagamenti e 
+              monitora lo stato delle fatture in tempo reale.
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={() => navigate("/invoices")}
+            >
+              Gestisci Fatture
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </CardContent>

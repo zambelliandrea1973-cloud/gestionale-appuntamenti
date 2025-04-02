@@ -7,7 +7,10 @@ import {
   Menu, 
   X, 
   Plus,
-  FileText
+  FileText,
+  Calendar,
+  Clock,
+  Grid
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -37,15 +40,12 @@ export default function Layout({ children }: LayoutProps) {
             </div>
             
             <div className="hidden md:flex items-center space-x-4">
-              <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <Plus className="h-4 w-4" />
-                    <span>Nuovo Appuntamento</span>
-                  </Button>
-                </DialogTrigger>
-                <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
-              </Dialog>
+              <Link href="/calendar">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Calendar className="h-4 w-4" />
+                  <span>Calendario</span>
+                </Button>
+              </Link>
               
               <Link href="/clients">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
@@ -60,6 +60,16 @@ export default function Layout({ children }: LayoutProps) {
                   <span>Fatture</span>
                 </Button>
               </Link>
+              
+              <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="default" className="flex items-center space-x-1">
+                    <Plus className="h-4 w-4" />
+                    <span>Nuovo Appuntamento</span>
+                  </Button>
+                </DialogTrigger>
+                <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
+              </Dialog>
             </div>
             
             <Sheet>
