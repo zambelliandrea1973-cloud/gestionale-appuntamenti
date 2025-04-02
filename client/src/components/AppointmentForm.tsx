@@ -44,6 +44,7 @@ interface AppointmentFormProps {
   onClose: () => void;
   defaultDate?: Date;
   defaultTime?: string;
+  clientId?: number;  // Cliente preselezionato, utile quando si apre dalla scheda cliente
 }
 
 // Extended schema with validation
@@ -67,7 +68,8 @@ export default function AppointmentForm({
   appointmentId,
   onClose,
   defaultDate = new Date(),
-  defaultTime = "09:00" 
+  defaultTime = "09:00",
+  clientId: defaultClientId
 }: AppointmentFormProps) {
   const { toast } = useToast();
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
@@ -92,7 +94,7 @@ export default function AppointmentForm({
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      clientId: undefined,
+      clientId: defaultClientId,
       serviceId: undefined,
       date: defaultDate,
       startTime: defaultTime,
@@ -202,45 +204,70 @@ export default function AppointmentForm({
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
-            {/* Client selector with option to create new */}
-            <FormField
-              control={form.control}
-              name="clientId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cliente</FormLabel>
-                  <div className="flex gap-2">
-                    <FormControl>
-                      <Select
-                        value={field.value?.toString()}
-                        onValueChange={(value) => field.onChange(parseInt(value))}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Seleziona cliente" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {clients.map((client) => (
-                            <SelectItem key={client.id} value={client.id.toString()}>
-                              {client.firstName} {client.lastName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    
-                    <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" type="button" size="icon">
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <ClientForm onClientCreated={handleClientCreated} onClose={() => setIsClientDialogOpen(false)} />
-                    </Dialog>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Client selector (visibile solo se non c'è un cliente preselezionato) */}
+            {!defaultClientId ? (
+              <FormField
+                control={form.control}
+                name="clientId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cliente</FormLabel>
+                    <div className="flex gap-2">
+                      <FormControl>
+                        <Select
+                          value={field.value?.toString()}
+                          onValueChange={(value) => field.onChange(parseInt(value))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleziona cliente" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {clients.map((client) => (
+                              <SelectItem key={client.id} value={client.id.toString()}>
+                                {client.firstName} {client.lastName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      
+                      <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" type="button" size="icon">
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <ClientForm onClientCreated={handleClientCreated} onClose={() => setIsClientDialogOpen(false)} />
+                      </Dialog>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              // Se c'è un cliente preselezionato, mostra solo il nome
+              <FormField
+                control={form.control}
+                name="clientId"
+                render={({ field }) => {
+                  // Trova il cliente selezionato
+                  const selectedClient = clients.find(c => c.id === field.value);
+                  return (
+                    <FormItem>
+                      <FormLabel>Cliente</FormLabel>
+                      <div className="p-2 bg-muted rounded-md">
+                        {selectedClient ? (
+                          <div className="font-medium">{selectedClient.firstName} {selectedClient.lastName}</div>
+                        ) : (
+                          <div className="text-muted-foreground">Caricamento dati cliente...</div>
+                        )}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+            )}
             
             {/* Service selector */}
             <FormField
