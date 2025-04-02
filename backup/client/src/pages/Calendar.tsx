@@ -1,0 +1,295 @@
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  CalendarDays, 
+  Search,
+  Clock,
+  Calendar as CalendarIcon,
+  LayoutGrid,
+  Plus
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { 
+  formatMonthYear, 
+  formatDateForApi
+} from "@/lib/utils/date";
+import DayView from "@/components/DayView";
+import WeekView from "@/components/WeekView";
+import MonthView from "@/components/MonthView";
+import AppointmentForm from "@/components/AppointmentForm";
+
+export default function Calendar() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [view, setView] = useState<"day" | "week" | "month">("day");
+  const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  // For search functionality
+  const { data: appointments = [], refetch: refetchAppointments } = useQuery({
+    queryKey: ['/api/appointments'],
+  });
+  
+  const { data: clients = [] } = useQuery({
+    queryKey: ['/api/clients'],
+  });
+  
+  // Filter appointments based on search query
+  const filteredAppointments = searchQuery
+    ? appointments.filter(appointment => {
+        const clientName = `${appointment.client.firstName} ${appointment.client.lastName}`.toLowerCase();
+        const serviceName = appointment.service.name.toLowerCase();
+        const dateStr = appointment.date;
+        const query = searchQuery.toLowerCase();
+        
+        return clientName.includes(query) || 
+               serviceName.includes(query) || 
+               dateStr.includes(query);
+      })
+    : [];
+  
+  // Navigate to today
+  const goToToday = () => {
+    setSelectedDate(new Date());
+  };
+  
+  // Navigate to previous period (day, week, month)
+  const goToPrevious = () => {
+    setSelectedDate(prevDate => {
+      const newDate = new Date(prevDate);
+      
+      if (view === "day") {
+        newDate.setDate(newDate.getDate() - 1);
+      } else if (view === "week") {
+        newDate.setDate(newDate.getDate() - 7);
+      } else {
+        newDate.setMonth(newDate.getMonth() - 1);
+      }
+      
+      return newDate;
+    });
+  };
+  
+  // Navigate to next period (day, week, month)
+  const goToNext = () => {
+    setSelectedDate(prevDate => {
+      const newDate = new Date(prevDate);
+      
+      if (view === "day") {
+        newDate.setDate(newDate.getDate() + 1);
+      } else if (view === "week") {
+        newDate.setDate(newDate.getDate() + 7);
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1);
+      }
+      
+      return newDate;
+    });
+  };
+  
+  // Handle refresh of data
+  const handleRefresh = () => {
+    refetchAppointments();
+  };
+  
+  return (
+    <div className="space-y-6">
+      {/* Header with navigation and controls */}
+      <div className="bg-white shadow-md rounded-lg p-4 mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+          <div className="flex items-center space-x-2">
+            <h2 className="text-2xl font-bold text-primary">
+              {view === "month" 
+                ? formatMonthYear(selectedDate) 
+                : selectedDate.toLocaleDateString('it-IT', { 
+                    month: 'long', 
+                    year: 'numeric' 
+                  })
+              }
+            </h2>
+            <div className="flex space-x-1 ml-2">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={goToPrevious}
+                className="rounded-full"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={goToNext}
+                className="rounded-full"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={goToToday}
+              className="ml-2"
+            >
+              Oggi
+            </Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-2 w-full md:w-auto">
+            <div className="relative flex-grow md:flex-grow-0">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Search className="h-4 w-4 text-gray-500" />
+              </div>
+              <Input
+                type="text"
+                placeholder="Cerca appuntamenti..."
+                className="pl-10 w-full md:w-[250px]"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                  <Plus className="h-4 w-4 mr-1" />
+                  Nuovo Appuntamento
+                </Button>
+              </DialogTrigger>
+              {isAppointmentDialogOpen && (
+                <AppointmentForm 
+                  onClose={() => {
+                    setIsAppointmentDialogOpen(false);
+                    handleRefresh();
+                  }} 
+                  defaultDate={selectedDate}
+                />
+              )}
+            </Dialog>
+          </div>
+        </div>
+        
+        <div className="mt-4 flex justify-between items-center">
+          <div className="flex rounded-md overflow-hidden shadow-sm border">
+            <Button
+              variant={view === "day" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("day")}
+              className={`rounded-none px-4 ${view === "day" ? "bg-primary text-white" : ""}`}
+            >
+              <Clock className="h-4 w-4 mr-2" />
+              Giorno
+            </Button>
+            <Button
+              variant={view === "week" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("week")}
+              className={`rounded-none px-4 ${view === "week" ? "bg-primary text-white" : ""}`}
+            >
+              <CalendarDays className="h-4 w-4 mr-2" />
+              Settimana
+            </Button>
+            <Button
+              variant={view === "month" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("month")}
+              className={`rounded-none px-4 ${view === "month" ? "bg-primary text-white" : ""}`}
+            >
+              <LayoutGrid className="h-4 w-4 mr-2" />
+              Mese
+            </Button>
+          </div>
+          
+          <div className="text-sm text-gray-500">
+            {view === "day" && `${selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' })}`}
+            {view === "week" && "Vista settimanale"}
+            {view === "month" && "Vista mensile"}
+          </div>
+        </div>
+      </div>
+      
+      {/* Search results */}
+      {searchQuery && (
+        <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+          <h3 className="text-lg font-medium mb-4">Risultati della ricerca: {filteredAppointments.length}</h3>
+          
+          {filteredAppointments.length === 0 ? (
+            <p className="text-gray-500">Nessun appuntamento trovato per "{searchQuery}"</p>
+          ) : (
+            <div className="space-y-3 max-h-[300px] overflow-y-auto">
+              {filteredAppointments.map(appointment => (
+                <div 
+                  key={appointment.id} 
+                  className="p-3 border rounded-md flex justify-between hover:bg-gray-50"
+                  onClick={() => {
+                    // Convert to Date object and navigate to that day
+                    const appointmentDate = new Date(appointment.date);
+                    setSelectedDate(appointmentDate);
+                    setView("day");
+                    setSearchQuery("");
+                  }}
+                >
+                  <div>
+                    <div className="font-medium">
+                      {appointment.client.firstName} {appointment.client.lastName}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {appointment.service.name} - {new Date(appointment.date).toLocaleDateString('it-IT')} {appointment.startTime.substring(0, 5)}
+                    </div>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const appointmentDate = new Date(appointment.date);
+                      setSelectedDate(appointmentDate);
+                      setView("day");
+                      setSearchQuery("");
+                    }}
+                  >
+                    Vai al giorno
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Calendar views */}
+      {!searchQuery && (
+        <>
+          {view === "day" && (
+            <DayView 
+              selectedDate={selectedDate}
+              onRefresh={handleRefresh}
+            />
+          )}
+          
+          {view === "week" && (
+            <WeekView
+              selectedDate={selectedDate}
+              onRefresh={handleRefresh}
+            />
+          )}
+          
+          {view === "month" && (
+            <MonthView
+              selectedDate={selectedDate}
+              onRefresh={handleRefresh}
+              onDateSelect={(date) => {
+                setSelectedDate(date);
+                setView("day");
+              }}
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
+}

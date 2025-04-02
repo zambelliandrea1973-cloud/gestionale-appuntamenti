@@ -1,4 +1,4 @@
-import type { Express, Request, Response, NextFunction } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -11,28 +11,8 @@ import {
   insertInvoiceItemSchema,
   insertPaymentSchema
 } from "@shared/schema";
-import { setupAuth } from "./auth";
-
-// Middleware per verificare che l'utente sia un cliente o un membro dello staff
-function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({ message: "Non autenticato" });
-  }
-
-  const userType = (req.user as any).type;
-  const isOwnResource = req.params.clientId && userType === "client" && (req.user as any).clientId === parseInt(req.params.clientId);
-  
-  if (userType === "staff" || isOwnResource) {
-    return next();
-  }
-  
-  res.status(403).json({ message: "Accesso negato" });
-}
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Configura l'autenticazione
-  setupAuth(app);
-  
   const httpServer = createServer(app);
 
   // Client routes
