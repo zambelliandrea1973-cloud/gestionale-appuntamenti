@@ -172,42 +172,34 @@ export default function AppointmentForm({
         </div>
       ) : (
         <Form {...form}>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            // Questo evita il submit normale e gestisce manualmente la logica
-            const data = form.getValues();
-            // Esegue la validazione del form
-            form.trigger().then(isValid => {
-              if (isValid) {
-                // Solo se valido, esegue la mutazione
-                mutation.mutate(data as FormData, {
-                  onSuccess: async () => {
-                    toast({
-                      title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
-                      description: appointmentId 
-                        ? "L'appuntamento è stato aggiornato con successo" 
-                        : "Nuovo appuntamento creato con successo",
-                    });
-                    
-                    // Invalidate queries to refresh data
-                    await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-                    
-                    // Invalidate date-specific queries
-                    const dateString = formatDateForApi(form.getValues().date);
-                    await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-                    
-                    // Invalidate range queries for calendar views
-                    await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-                    
-                    console.log("Appuntamento salvato con successo, date invalidate");
-                    
-                    // Chiude il form immediatamente
-                    onClose();
-                  }
+          <form onSubmit={form.handleSubmit((data) => {
+            // Solo se valido, esegue la mutazione
+            mutation.mutate(data, {
+              onSuccess: async () => {
+                toast({
+                  title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
+                  description: appointmentId 
+                    ? "L'appuntamento è stato aggiornato con successo" 
+                    : "Nuovo appuntamento creato con successo",
                 });
+                
+                // Invalidate queries to refresh data
+                await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+                
+                // Invalidate date-specific queries
+                const dateString = formatDateForApi(data.date);
+                await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+                
+                // Invalidate range queries for calendar views
+                await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+                
+                console.log("Appuntamento salvato con successo, date invalidate");
+                
+                // Chiude il form immediatamente
+                onClose();
               }
             });
-          }} className="space-y-4 py-2">
+          })} className="space-y-4 py-2">
             {/* Client selector with option to create new */}
             <FormField
               control={form.control}
@@ -362,37 +354,7 @@ export default function AppointmentForm({
                 Annulla
               </Button>
               <Button 
-                type="button" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  form.handleSubmit((data) => {
-                    mutation.mutate(data, {
-                      onSuccess: async () => {
-                        toast({
-                          title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
-                          description: appointmentId 
-                            ? "L'appuntamento è stato aggiornato con successo" 
-                            : "Nuovo appuntamento creato con successo",
-                        });
-                        
-                        // Invalidate queries to refresh data
-                        await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-                        
-                        // Invalidate date-specific queries
-                        const dateString = formatDateForApi(form.getValues().date);
-                        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-                        
-                        // Invalidate range queries for calendar views
-                        await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-                        
-                        console.log("Appuntamento salvato con successo, date invalidate");
-                        
-                        // Chiude il form immediatamente
-                        onClose();
-                      }
-                    });
-                  })();
-                }}
+                type="submit"
                 disabled={mutation.isPending}
               >
                 {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
