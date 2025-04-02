@@ -1,6 +1,7 @@
 import { pgTable, text, serial, integer, boolean, timestamp, time, decimal } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { relations } from "drizzle-orm";
 
 // Clients table schema
 export const clients = pgTable("clients", {
@@ -82,6 +83,37 @@ export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 export type Consent = typeof consents.$inferSelect;
 export type InsertConsent = z.infer<typeof insertConsentSchema>;
 
+// Definizione delle relazioni
+export const clientsRelations = relations(clients, ({ many }) => ({
+  appointments: many(appointments),
+  consents: many(consents),
+  invoices: many(invoices),
+}));
+
+export const servicesRelations = relations(services, ({ many }) => ({
+  appointments: many(appointments),
+  invoiceItems: many(invoiceItems),
+}));
+
+export const appointmentsRelations = relations(appointments, ({ one, many }) => ({
+  client: one(clients, {
+    fields: [appointments.clientId],
+    references: [clients.id],
+  }),
+  service: one(services, {
+    fields: [appointments.serviceId],
+    references: [services.id],
+  }),
+  invoiceItems: many(invoiceItems),
+}));
+
+export const consentsRelations = relations(consents, ({ one }) => ({
+  client: one(clients, {
+    fields: [consents.clientId],
+    references: [clients.id],
+  }),
+}));
+
 // Extended types for frontend use
 export type AppointmentWithDetails = Appointment & {
   client: Client;
@@ -152,6 +184,38 @@ export type InsertInvoiceItem = z.infer<typeof insertInvoiceItemSchema>;
 
 export type Payment = typeof payments.$inferSelect;
 export type InsertPayment = z.infer<typeof insertPaymentSchema>;
+
+// Definizione delle relazioni per fatture e pagamenti
+export const invoicesRelations = relations(invoices, ({ one, many }) => ({
+  client: one(clients, {
+    fields: [invoices.clientId],
+    references: [clients.id],
+  }),
+  items: many(invoiceItems),
+  payments: many(payments),
+}));
+
+export const invoiceItemsRelations = relations(invoiceItems, ({ one }) => ({
+  invoice: one(invoices, {
+    fields: [invoiceItems.invoiceId],
+    references: [invoices.id],
+  }),
+  service: one(services, {
+    fields: [invoiceItems.serviceId],
+    references: [services.id],
+  }),
+  appointment: one(appointments, {
+    fields: [invoiceItems.appointmentId],
+    references: [appointments.id],
+  }),
+}));
+
+export const paymentsRelations = relations(payments, ({ one }) => ({
+  invoice: one(invoices, {
+    fields: [payments.invoiceId],
+    references: [invoices.id],
+  }),
+}));
 
 // Extended types for frontend use
 export type InvoiceWithDetails = Invoice & {
