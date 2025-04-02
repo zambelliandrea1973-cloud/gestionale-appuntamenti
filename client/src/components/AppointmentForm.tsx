@@ -155,8 +155,11 @@ export default function AppointmentForm({
       
       console.log("Appuntamento salvato con successo, date invalidate");
       
-      // Close the form
-      onClose();
+      // Chiama setTimeout per garantire che onClose() venga eseguito 
+      // dopo che tutti gli aggiornamenti di stato siano stati applicati
+      setTimeout(() => {
+        onClose();
+      }, 100);
     },
     onError: (error) => {
       toast({
