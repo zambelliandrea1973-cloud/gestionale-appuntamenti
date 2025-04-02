@@ -32,7 +32,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   
   // Fetch appointments for the selected month
   const { data: appointments = [], isLoading, refetch } = useQuery({
-    queryKey: ['/api/appointments/range', startDate, endDate],
+    queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
   
   // Generate calendar grid with month days

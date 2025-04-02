@@ -7,6 +7,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "@shared/schema";
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 import {
   DialogContent,
   DialogHeader,
@@ -77,9 +78,11 @@ export default function ClientForm({
   });
   
   // Update form values when editing existing client
-  if (client && !form.formState.isDirty) {
-    form.reset(client);
-  }
+  useEffect(() => {
+    if (client) {
+      form.reset(client);
+    }
+  }, [client, form]);
   
   // Create or update client mutation
   const mutation = useMutation({
