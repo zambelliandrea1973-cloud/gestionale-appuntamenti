@@ -145,7 +145,15 @@ export default function AppointmentForm({
       
       // Invalidate queries to refresh data
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/date'] });
+      
+      // Invalidate date-specific queries for both current and any edited date
+      const dateString = formatDateForApi(form.getValues().date);
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/date', dateString] });
+      
+      // Also invalidate range queries for calendar views
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+      
+      console.log("Appuntamento salvato con successo, date invalidate");
       
       // Close the form
       onClose();

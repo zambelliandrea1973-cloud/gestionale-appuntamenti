@@ -22,13 +22,19 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
   
   // Fetch appointments for the selected date
   const { data: appointments = [], isLoading, refetch } = useQuery({
-    queryKey: [`/api/appointments/date/${formattedDate}`],
+    queryKey: ['/api/appointments/date', formattedDate],
   });
   
   // Refresh data when date changes
   useEffect(() => {
     refetch();
   }, [selectedDate, refetch]);
+  
+  // Logging per debug
+  useEffect(() => {
+    console.log("DayView rendering with date:", formattedDate);
+    console.log("Appuntamenti trovati:", appointments);
+  }, [formattedDate, appointments]);
   
   // Handle appointment update
   const handleAppointmentUpdated = () => {
