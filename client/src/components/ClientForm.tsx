@@ -222,7 +222,7 @@ export default function ClientForm({
                     <FormItem>
                       <FormLabel>Indirizzo</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Indirizzo" />
+                        <Input {...field} value={field.value || ''} placeholder="Indirizzo" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -237,7 +237,7 @@ export default function ClientForm({
                       <FormItem>
                         <FormLabel>Data di nascita</FormLabel>
                         <FormControl>
-                          <Input {...field} type="date" />
+                          <Input {...field} value={field.value || ''} type="date" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -251,7 +251,7 @@ export default function ClientForm({
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-6">
                         <FormControl>
                           <Checkbox
-                            checked={field.value}
+                            checked={!!field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
@@ -277,6 +277,7 @@ export default function ClientForm({
                           placeholder="Note sul cliente"
                           className="resize-none"
                           {...field}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -298,6 +299,7 @@ export default function ClientForm({
                           placeholder="Inserisci eventuali allergie"
                           className="resize-none"
                           {...field}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -316,6 +318,7 @@ export default function ClientForm({
                           placeholder="Inserisci eventuali note mediche rilevanti"
                           className="resize-none"
                           {...field}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormDescription>

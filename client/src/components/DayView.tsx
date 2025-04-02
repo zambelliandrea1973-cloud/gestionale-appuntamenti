@@ -50,6 +50,13 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
     setIsAppointmentFormOpen(true);
   };
   
+  // Handle form closure
+  const handleFormClosed = () => {
+    console.log("Closing form in DayView");
+    setIsAppointmentFormOpen(false);
+    handleAppointmentUpdated();
+  };
+  
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Day header */}
@@ -110,22 +117,22 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
         )}
       </div>
       
-      {/* Form dialog for new appointment */}
+      {/* Form dialog for new appointment - Custom implementation */}
       {isAppointmentFormOpen && (
-        <Dialog open={isAppointmentFormOpen} onOpenChange={(open) => {
-          if (!open) {
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={(e) => {
+          // Close when clicking outside
+          if (e.target === e.currentTarget) {
             setIsAppointmentFormOpen(false);
           }
         }}>
-          <AppointmentForm 
-            onClose={() => {
-              setIsAppointmentFormOpen(false);
-              handleAppointmentUpdated();
-            }}
-            defaultDate={selectedDate}
-            defaultTime={selectedTimeSlot || "09:00"}
-          />
-        </Dialog>
+          <div className="bg-white rounded-lg shadow-xl max-w-[500px] w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <AppointmentForm 
+              onClose={handleFormClosed}
+              defaultDate={selectedDate}
+              defaultTime={selectedTimeSlot || "09:00"}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

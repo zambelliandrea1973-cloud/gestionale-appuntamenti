@@ -6,7 +6,8 @@ import {
   BarChart, 
   Menu, 
   X, 
-  Plus 
+  Plus,
+  FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -52,6 +53,13 @@ export default function Layout({ children }: LayoutProps) {
                   <span>Clienti</span>
                 </Button>
               </Link>
+              
+              <Link href="/invoices">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <FileText className="h-4 w-4" />
+                  <span>Fatture</span>
+                </Button>
+              </Link>
             </div>
             
             <Sheet>
@@ -79,6 +87,12 @@ export default function Layout({ children }: LayoutProps) {
                       <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
                         <Users className="mr-2 h-4 w-4" />
                         Clienti
+                      </Button>
+                    </Link>
+                    <Link href="/invoices">
+                      <Button variant={isActive("/invoices") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <FileText className="mr-2 h-4 w-4" />
+                        Fatture
                       </Button>
                     </Link>
                     <Link href="/reports">

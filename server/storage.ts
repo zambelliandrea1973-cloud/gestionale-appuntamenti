@@ -4,8 +4,13 @@ import {
   services, type Service, type InsertService,
   appointments, type Appointment, type InsertAppointment,
   consents, type Consent, type InsertConsent,
+  invoices, type Invoice, type InsertInvoice, 
+  invoiceItems, type InvoiceItem, type InsertInvoiceItem,
+  payments, type Payment, type InsertPayment,
   type AppointmentWithDetails,
-  type ClientWithAppointments
+  type ClientWithAppointments,
+  type InvoiceWithDetails,
+  type InvoiceItemWithDetails
 } from "@shared/schema";
 
 // Interface defining all storage operations
@@ -39,9 +44,34 @@ export interface IStorage {
   getConsentByClient(clientId: number): Promise<Consent | undefined>;
   createConsent(consent: InsertConsent): Promise<Consent>;
   
+  // Invoice operations
+  getInvoice(id: number): Promise<InvoiceWithDetails | undefined>;
+  getInvoices(): Promise<InvoiceWithDetails[]>;
+  getInvoicesByClient(clientId: number): Promise<InvoiceWithDetails[]>;
+  getInvoicesByDateRange(startDate: string, endDate: string): Promise<InvoiceWithDetails[]>;
+  getInvoicesByStatus(status: string): Promise<InvoiceWithDetails[]>;
+  createInvoice(invoice: InsertInvoice): Promise<Invoice>;
+  updateInvoice(id: number, invoice: Partial<InsertInvoice>): Promise<Invoice | undefined>;
+  deleteInvoice(id: number): Promise<boolean>;
+  
+  // Invoice Item operations
+  getInvoiceItem(id: number): Promise<InvoiceItemWithDetails | undefined>;
+  getInvoiceItemsByInvoice(invoiceId: number): Promise<InvoiceItemWithDetails[]>;
+  createInvoiceItem(item: InsertInvoiceItem): Promise<InvoiceItem>;
+  updateInvoiceItem(id: number, item: Partial<InsertInvoiceItem>): Promise<InvoiceItem | undefined>;
+  deleteInvoiceItem(id: number): Promise<boolean>;
+  
+  // Payment operations
+  getPayment(id: number): Promise<Payment | undefined>;
+  getPaymentsByInvoice(invoiceId: number): Promise<Payment[]>;
+  createPayment(payment: InsertPayment): Promise<Payment>;
+  updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
+  deletePayment(id: number): Promise<boolean>;
+  
   // Special operations
   getClientWithAppointments(clientId: number): Promise<ClientWithAppointments | undefined>;
   searchClients(query: string): Promise<Client[]>;
+  generateInvoiceNumber(): Promise<string>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -50,11 +80,17 @@ export class MemStorage implements IStorage {
   private services: Map<number, Service>;
   private appointments: Map<number, Appointment>;
   private consents: Map<number, Consent>;
+  private invoices: Map<number, Invoice>;
+  private invoiceItems: Map<number, InvoiceItem>;
+  private payments: Map<number, Payment>;
   
   private clientIdCounter: number;
   private serviceIdCounter: number;
   private appointmentIdCounter: number;
   private consentIdCounter: number;
+  private invoiceIdCounter: number;
+  private invoiceItemIdCounter: number;
+  private paymentIdCounter: number;
   
   private dataFile: string;
   
@@ -75,10 +111,19 @@ export class MemStorage implements IStorage {
         this.appointments = new Map(data.appointments);
         this.consents = new Map(data.consents);
         
+        // Restore invoice related maps if they exist in the saved data
+        this.invoices = data.invoices ? new Map(data.invoices) : new Map();
+        this.invoiceItems = data.invoiceItems ? new Map(data.invoiceItems) : new Map();
+        this.payments = data.payments ? new Map(data.payments) : new Map();
+        
+        // Restore counters
         this.clientIdCounter = data.clientIdCounter;
         this.serviceIdCounter = data.serviceIdCounter;
         this.appointmentIdCounter = data.appointmentIdCounter;
         this.consentIdCounter = data.consentIdCounter;
+        this.invoiceIdCounter = data.invoiceIdCounter || 1;
+        this.invoiceItemIdCounter = data.invoiceItemIdCounter || 1;
+        this.paymentIdCounter = data.paymentIdCounter || 1;
         
         console.log('Dati caricati dal file:', this.dataFile);
       } else {
@@ -88,11 +133,17 @@ export class MemStorage implements IStorage {
         this.services = new Map();
         this.appointments = new Map();
         this.consents = new Map();
+        this.invoices = new Map();
+        this.invoiceItems = new Map();
+        this.payments = new Map();
         
         this.clientIdCounter = 1;
         this.serviceIdCounter = 1;
         this.appointmentIdCounter = 1;
         this.consentIdCounter = 1;
+        this.invoiceIdCounter = 1;
+        this.invoiceItemIdCounter = 1;
+        this.paymentIdCounter = 1;
         
         // Initialize with default services
         this.initDefaultServices();
@@ -104,11 +155,17 @@ export class MemStorage implements IStorage {
       this.services = new Map();
       this.appointments = new Map();
       this.consents = new Map();
+      this.invoices = new Map();
+      this.invoiceItems = new Map();
+      this.payments = new Map();
       
       this.clientIdCounter = 1;
       this.serviceIdCounter = 1;
       this.appointmentIdCounter = 1;
       this.consentIdCounter = 1;
+      this.invoiceIdCounter = 1;
+      this.invoiceItemIdCounter = 1;
+      this.paymentIdCounter = 1;
       
       // Initialize with default services
       this.initDefaultServices();
@@ -123,10 +180,16 @@ export class MemStorage implements IStorage {
         services: Array.from(this.services.entries()),
         appointments: Array.from(this.appointments.entries()),
         consents: Array.from(this.consents.entries()),
+        invoices: Array.from(this.invoices.entries()),
+        invoiceItems: Array.from(this.invoiceItems.entries()),
+        payments: Array.from(this.payments.entries()),
         clientIdCounter: this.clientIdCounter,
         serviceIdCounter: this.serviceIdCounter,
         appointmentIdCounter: this.appointmentIdCounter,
-        consentIdCounter: this.consentIdCounter
+        consentIdCounter: this.consentIdCounter,
+        invoiceIdCounter: this.invoiceIdCounter,
+        invoiceItemIdCounter: this.invoiceItemIdCounter,
+        paymentIdCounter: this.paymentIdCounter
       };
       
       fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
@@ -373,6 +436,348 @@ export class MemStorage implements IStorage {
         (client.email && client.email.toLowerCase().includes(lowerQuery))
       );
     });
+  }
+  
+  // Funzione per generare un nuovo numero di fattura
+  async generateInvoiceNumber(): Promise<string> {
+    const today = new Date();
+    const year = today.getFullYear().toString().padStart(4, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const index = this.invoiceIdCounter.toString().padStart(4, '0');
+    
+    return `INV-${year}${month}-${index}`;
+  }
+  
+  // Invoice operations
+  async getInvoice(id: number): Promise<InvoiceWithDetails | undefined> {
+    const invoice = this.invoices.get(id);
+    if (!invoice) return undefined;
+    
+    const client = await this.getClient(invoice.clientId);
+    if (!client) return undefined;
+    
+    const items = await this.getInvoiceItemsByInvoice(id);
+    const payments = await this.getPaymentsByInvoice(id);
+    
+    return { ...invoice, client, items, payments };
+  }
+  
+  async getInvoices(): Promise<InvoiceWithDetails[]> {
+    const invoices = Array.from(this.invoices.values());
+    const result: InvoiceWithDetails[] = [];
+    
+    for (const invoice of invoices) {
+      const client = await this.getClient(invoice.clientId);
+      if (!client) continue;
+      
+      const items = await this.getInvoiceItemsByInvoice(invoice.id);
+      const payments = await this.getPaymentsByInvoice(invoice.id);
+      
+      result.push({ ...invoice, client, items, payments });
+    }
+    
+    return result;
+  }
+  
+  async getInvoicesByClient(clientId: number): Promise<InvoiceWithDetails[]> {
+    const invoices = Array.from(this.invoices.values())
+      .filter(invoice => invoice.clientId === clientId);
+    
+    const result: InvoiceWithDetails[] = [];
+    
+    for (const invoice of invoices) {
+      const client = await this.getClient(invoice.clientId);
+      if (!client) continue;
+      
+      const items = await this.getInvoiceItemsByInvoice(invoice.id);
+      const payments = await this.getPaymentsByInvoice(invoice.id);
+      
+      result.push({ ...invoice, client, items, payments });
+    }
+    
+    return result;
+  }
+  
+  async getInvoicesByDateRange(startDate: string, endDate: string): Promise<InvoiceWithDetails[]> {
+    const invoices = Array.from(this.invoices.values())
+      .filter(invoice => invoice.date >= startDate && invoice.date <= endDate);
+    
+    const result: InvoiceWithDetails[] = [];
+    
+    for (const invoice of invoices) {
+      const client = await this.getClient(invoice.clientId);
+      if (!client) continue;
+      
+      const items = await this.getInvoiceItemsByInvoice(invoice.id);
+      const payments = await this.getPaymentsByInvoice(invoice.id);
+      
+      result.push({ ...invoice, client, items, payments });
+    }
+    
+    return result;
+  }
+  
+  async getInvoicesByStatus(status: string): Promise<InvoiceWithDetails[]> {
+    const invoices = Array.from(this.invoices.values())
+      .filter(invoice => invoice.status === status);
+    
+    const result: InvoiceWithDetails[] = [];
+    
+    for (const invoice of invoices) {
+      const client = await this.getClient(invoice.clientId);
+      if (!client) continue;
+      
+      const items = await this.getInvoiceItemsByInvoice(invoice.id);
+      const payments = await this.getPaymentsByInvoice(invoice.id);
+      
+      result.push({ ...invoice, client, items, payments });
+    }
+    
+    return result;
+  }
+  
+  async createInvoice(invoice: InsertInvoice): Promise<Invoice> {
+    const id = this.invoiceIdCounter++;
+    // Se non è stato fornito un numero di fattura, ne generiamo uno
+    if (!invoice.invoiceNumber) {
+      invoice.invoiceNumber = await this.generateInvoiceNumber();
+    }
+    
+    const newInvoice: Invoice = { 
+      ...invoice, 
+      id, 
+      createdAt: new Date()
+    };
+    
+    this.invoices.set(id, newInvoice);
+    this.saveToStorage();
+    return newInvoice;
+  }
+  
+  async updateInvoice(id: number, invoice: Partial<InsertInvoice>): Promise<Invoice | undefined> {
+    const existingInvoice = this.invoices.get(id);
+    if (!existingInvoice) return undefined;
+    
+    const updatedInvoice: Invoice = { ...existingInvoice, ...invoice };
+    this.invoices.set(id, updatedInvoice);
+    this.saveToStorage();
+    return updatedInvoice;
+  }
+  
+  async deleteInvoice(id: number): Promise<boolean> {
+    // Eliminiamo anche tutti gli elementi associati alla fattura
+    const invoiceItems = Array.from(this.invoiceItems.values())
+      .filter(item => item.invoiceId === id);
+    
+    for (const item of invoiceItems) {
+      this.invoiceItems.delete(item.id);
+    }
+    
+    // Eliminiamo anche tutti i pagamenti associati alla fattura
+    const payments = Array.from(this.payments.values())
+      .filter(payment => payment.invoiceId === id);
+    
+    for (const payment of payments) {
+      this.payments.delete(payment.id);
+    }
+    
+    const result = this.invoices.delete(id);
+    this.saveToStorage();
+    return result;
+  }
+  
+  // Invoice Item operations
+  async getInvoiceItem(id: number): Promise<InvoiceItemWithDetails | undefined> {
+    const item = this.invoiceItems.get(id);
+    if (!item) return undefined;
+    
+    let service: Service | undefined;
+    let appointment: Appointment | undefined;
+    
+    if (item.serviceId) {
+      service = await this.getService(item.serviceId);
+    }
+    
+    if (item.appointmentId) {
+      appointment = this.appointments.get(item.appointmentId);
+    }
+    
+    return { ...item, service, appointment };
+  }
+  
+  async getInvoiceItemsByInvoice(invoiceId: number): Promise<InvoiceItemWithDetails[]> {
+    const items = Array.from(this.invoiceItems.values())
+      .filter(item => item.invoiceId === invoiceId);
+    
+    const result: InvoiceItemWithDetails[] = [];
+    
+    for (const item of items) {
+      let service: Service | undefined;
+      let appointment: Appointment | undefined;
+      
+      if (item.serviceId) {
+        service = await this.getService(item.serviceId);
+      }
+      
+      if (item.appointmentId) {
+        appointment = this.appointments.get(item.appointmentId);
+      }
+      
+      result.push({ ...item, service, appointment });
+    }
+    
+    return result;
+  }
+  
+  async createInvoiceItem(item: InsertInvoiceItem): Promise<InvoiceItem> {
+    const id = this.invoiceItemIdCounter++;
+    const newItem: InvoiceItem = { ...item, id };
+    
+    this.invoiceItems.set(id, newItem);
+    this.saveToStorage();
+    
+    // Aggiorniamo il totale della fattura
+    const invoice = this.invoices.get(item.invoiceId);
+    if (invoice) {
+      const totalAmount = invoice.totalAmount + (item.unitPrice * item.quantity);
+      this.updateInvoice(invoice.id, { totalAmount });
+    }
+    
+    return newItem;
+  }
+  
+  async updateInvoiceItem(id: number, item: Partial<InsertInvoiceItem>): Promise<InvoiceItem | undefined> {
+    const existingItem = this.invoiceItems.get(id);
+    if (!existingItem) return undefined;
+    
+    // Salviamo il vecchio prezzo unitario e la quantità per ricalcolare il totale della fattura
+    const oldPrice = existingItem.unitPrice;
+    const oldQuantity = existingItem.quantity;
+    
+    const updatedItem: InvoiceItem = { ...existingItem, ...item };
+    this.invoiceItems.set(id, updatedItem);
+    this.saveToStorage();
+    
+    // Aggiorniamo il totale della fattura se il prezzo o la quantità sono stati modificati
+    if (item.unitPrice !== undefined || item.quantity !== undefined) {
+      const invoice = this.invoices.get(existingItem.invoiceId);
+      if (invoice) {
+        const oldTotal = oldPrice * oldQuantity;
+        const newTotal = updatedItem.unitPrice * updatedItem.quantity;
+        const totalAmount = invoice.totalAmount - oldTotal + newTotal;
+        this.updateInvoice(invoice.id, { totalAmount });
+      }
+    }
+    
+    return updatedItem;
+  }
+  
+  async deleteInvoiceItem(id: number): Promise<boolean> {
+    const item = this.invoiceItems.get(id);
+    if (!item) return false;
+    
+    // Aggiorniamo il totale della fattura
+    const invoice = this.invoices.get(item.invoiceId);
+    if (invoice) {
+      const totalAmount = invoice.totalAmount - (item.unitPrice * item.quantity);
+      this.updateInvoice(invoice.id, { totalAmount });
+    }
+    
+    const result = this.invoiceItems.delete(id);
+    this.saveToStorage();
+    return result;
+  }
+  
+  // Payment operations
+  async getPayment(id: number): Promise<Payment | undefined> {
+    return this.payments.get(id);
+  }
+  
+  async getPaymentsByInvoice(invoiceId: number): Promise<Payment[]> {
+    return Array.from(this.payments.values())
+      .filter(payment => payment.invoiceId === invoiceId);
+  }
+  
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const id = this.paymentIdCounter++;
+    const newPayment: Payment = { 
+      ...payment, 
+      id, 
+      createdAt: new Date()
+    };
+    
+    this.payments.set(id, newPayment);
+    
+    // Aggiorniamo lo stato della fattura se il pagamento la copre interamente
+    const invoice = this.invoices.get(payment.invoiceId);
+    if (invoice) {
+      const payments = await this.getPaymentsByInvoice(invoice.id);
+      const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0) + payment.amount;
+      
+      let status = invoice.status;
+      if (totalPaid >= invoice.totalAmount) {
+        status = 'paid';
+      }
+      
+      this.updateInvoice(invoice.id, { status });
+    }
+    
+    this.saveToStorage();
+    return newPayment;
+  }
+  
+  async updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
+    const existingPayment = this.payments.get(id);
+    if (!existingPayment) return undefined;
+    
+    const oldAmount = existingPayment.amount;
+    
+    const updatedPayment: Payment = { ...existingPayment, ...payment };
+    this.payments.set(id, updatedPayment);
+    
+    // Aggiorniamo lo stato della fattura se necessario
+    if (payment.amount !== undefined && payment.amount !== oldAmount) {
+      const invoice = this.invoices.get(existingPayment.invoiceId);
+      if (invoice) {
+        const payments = await this.getPaymentsByInvoice(invoice.id);
+        const totalPaid = payments.reduce((sum, p) => sum + (p.id === id ? payment.amount! : p.amount), 0);
+        
+        let status = invoice.status;
+        if (totalPaid >= invoice.totalAmount) {
+          status = 'paid';
+        } else if (invoice.status === 'paid') {
+          status = 'unpaid';
+        }
+        
+        this.updateInvoice(invoice.id, { status });
+      }
+    }
+    
+    this.saveToStorage();
+    return updatedPayment;
+  }
+  
+  async deletePayment(id: number): Promise<boolean> {
+    const payment = this.payments.get(id);
+    if (!payment) return false;
+    
+    // Aggiorniamo lo stato della fattura
+    const invoice = this.invoices.get(payment.invoiceId);
+    if (invoice) {
+      const payments = await this.getPaymentsByInvoice(invoice.id);
+      const totalPaid = payments.reduce((sum, p) => sum + (p.id === id ? 0 : p.amount), 0);
+      
+      let status = invoice.status;
+      if (totalPaid < invoice.totalAmount && invoice.status === 'paid') {
+        status = 'unpaid';
+      }
+      
+      this.updateInvoice(invoice.id, { status });
+    }
+    
+    const result = this.payments.delete(id);
+    this.saveToStorage();
+    return result;
   }
 }
 

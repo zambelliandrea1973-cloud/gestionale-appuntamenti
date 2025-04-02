@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { type Locale } from "date-fns";
 import {
   Form,
   FormControl,
@@ -158,12 +159,12 @@ export default function AppointmentForm({
   const isLoading = isLoadingClients || isLoadingServices || (appointmentId && isLoadingAppointment);
   
   return (
-    <DialogContent className="sm:max-w-[500px]">
-      <DialogHeader>
-        <DialogTitle>
+    <div className="p-5">
+      <div className="mb-4 border-b pb-4">
+        <h2 className="text-lg font-semibold">
           {appointmentId ? "Modifica Appuntamento" : "Nuovo Appuntamento"}
-        </DialogTitle>
-      </DialogHeader>
+        </h2>
+      </div>
       
       {isLoading ? (
         <div className="flex justify-center p-6">
@@ -343,6 +344,7 @@ export default function AppointmentForm({
                       placeholder="Inserisci eventuali note sull'appuntamento"
                       className="resize-none"
                       {...field}
+                      value={field.value || ''}
                     />
                   </FormControl>
                   <FormMessage />
@@ -400,7 +402,7 @@ export default function AppointmentForm({
           </form>
         </Form>
       )}
-    </DialogContent>
+    </div>
   );
 }
 
@@ -413,10 +415,32 @@ function format(date: Date, format: string, options?: { locale: Locale }): strin
   }).format(date);
 }
 
-// Italian locale
-const it = {
+// Implementazione minima di Locale per evitare errori di tipo
+const it: Locale = {
   code: "it",
   formatLong: {
     date: () => "dd/MM/yyyy",
   },
+  formatDistance: () => "",
+  formatRelative: () => "",
+  localize: {
+    ordinalNumber: () => "",
+    era: () => [""],
+    quarter: () => [""],
+    month: () => [""],
+    day: () => [""],
+    dayPeriod: () => [""]
+  },
+  match: {
+    ordinalNumber: () => ({ match: null, result: 0 }),
+    era: () => ({ match: null, result: 0 }),
+    quarter: () => ({ match: null, result: 0 }),
+    month: () => ({ match: null, result: 0 }),
+    day: () => ({ match: null, result: 0 }),
+    dayPeriod: () => ({ match: null, result: 0 })
+  },
+  options: {
+    weekStartsOn: 1,
+    firstWeekContainsDate: 4
+  }
 };

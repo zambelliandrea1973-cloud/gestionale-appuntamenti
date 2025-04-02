@@ -6,7 +6,10 @@ import {
   insertClientSchema,
   insertServiceSchema,
   insertAppointmentSchema,
-  insertConsentSchema
+  insertConsentSchema,
+  insertInvoiceSchema,
+  insertInvoiceItemSchema,
+  insertPaymentSchema
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -400,6 +403,342 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(clientWithAppointments);
     } catch (error) {
       res.status(500).json({ message: "Error fetching client with appointments" });
+    }
+  });
+
+  // Invoice Routes
+  app.get("/api/invoices", async (_req: Request, res: Response) => {
+    try {
+      const invoices = await storage.getInvoices();
+      res.json(invoices);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoices" });
+    }
+  });
+
+  app.get("/api/invoices/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid invoice ID" });
+      }
+
+      const invoice = await storage.getInvoice(id);
+      if (!invoice) {
+        return res.status(404).json({ message: "Invoice not found" });
+      }
+
+      res.json(invoice);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoice" });
+    }
+  });
+
+  app.get("/api/invoices/client/:clientId", async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "Invalid client ID" });
+      }
+
+      const invoices = await storage.getInvoicesByClient(clientId);
+      res.json(invoices);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoices" });
+    }
+  });
+
+  app.get("/api/invoices/range/:startDate/:endDate", async (req: Request, res: Response) => {
+    try {
+      const { startDate, endDate } = req.params;
+      // Simple validation for date format (YYYY-MM-DD)
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
+        return res.status(400).json({ message: "Invalid date format. Use YYYY-MM-DD" });
+      }
+
+      const invoices = await storage.getInvoicesByDateRange(startDate, endDate);
+      res.json(invoices);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoices" });
+    }
+  });
+
+  app.get("/api/invoices/status/:status", async (req: Request, res: Response) => {
+    try {
+      const status = req.params.status;
+      const validStatuses = ['unpaid', 'paid', 'overdue', 'cancelled'];
+      
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ 
+          message: "Invalid status", 
+          validValues: validStatuses 
+        });
+      }
+
+      const invoices = await storage.getInvoicesByStatus(status);
+      res.json(invoices);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoices" });
+    }
+  });
+
+  app.post("/api/invoices", async (req: Request, res: Response) => {
+    try {
+      const validationResult = insertInvoiceSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid invoice data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const invoice = await storage.createInvoice(validationResult.data);
+      res.status(201).json(invoice);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating invoice" });
+    }
+  });
+
+  app.put("/api/invoices/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid invoice ID" });
+      }
+
+      const validationResult = insertInvoiceSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid invoice data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const updatedInvoice = await storage.updateInvoice(id, validationResult.data);
+      if (!updatedInvoice) {
+        return res.status(404).json({ message: "Invoice not found" });
+      }
+
+      res.json(updatedInvoice);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating invoice" });
+    }
+  });
+
+  app.delete("/api/invoices/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid invoice ID" });
+      }
+
+      const success = await storage.deleteInvoice(id);
+      if (!success) {
+        return res.status(404).json({ message: "Invoice not found" });
+      }
+
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting invoice" });
+    }
+  });
+
+  // Invoice Item Routes
+  app.get("/api/invoice-items/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid invoice item ID" });
+      }
+
+      const item = await storage.getInvoiceItem(id);
+      if (!item) {
+        return res.status(404).json({ message: "Invoice item not found" });
+      }
+
+      res.json(item);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoice item" });
+    }
+  });
+
+  app.get("/api/invoice-items/invoice/:invoiceId", async (req: Request, res: Response) => {
+    try {
+      const invoiceId = parseInt(req.params.invoiceId);
+      if (isNaN(invoiceId)) {
+        return res.status(400).json({ message: "Invalid invoice ID" });
+      }
+
+      const items = await storage.getInvoiceItemsByInvoice(invoiceId);
+      res.json(items);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching invoice items" });
+    }
+  });
+
+  app.post("/api/invoice-items", async (req: Request, res: Response) => {
+    try {
+      const validationResult = insertInvoiceItemSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid invoice item data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const item = await storage.createInvoiceItem(validationResult.data);
+      res.status(201).json(item);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating invoice item" });
+    }
+  });
+
+  app.put("/api/invoice-items/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid invoice item ID" });
+      }
+
+      const validationResult = insertInvoiceItemSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid invoice item data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const updatedItem = await storage.updateInvoiceItem(id, validationResult.data);
+      if (!updatedItem) {
+        return res.status(404).json({ message: "Invoice item not found" });
+      }
+
+      res.json(updatedItem);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating invoice item" });
+    }
+  });
+
+  app.delete("/api/invoice-items/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid invoice item ID" });
+      }
+
+      const success = await storage.deleteInvoiceItem(id);
+      if (!success) {
+        return res.status(404).json({ message: "Invoice item not found" });
+      }
+
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting invoice item" });
+    }
+  });
+
+  // Payment Routes
+  app.get("/api/payments/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid payment ID" });
+      }
+
+      const payment = await storage.getPayment(id);
+      if (!payment) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.json(payment);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching payment" });
+    }
+  });
+
+  app.get("/api/payments/invoice/:invoiceId", async (req: Request, res: Response) => {
+    try {
+      const invoiceId = parseInt(req.params.invoiceId);
+      if (isNaN(invoiceId)) {
+        return res.status(400).json({ message: "Invalid invoice ID" });
+      }
+
+      const payments = await storage.getPaymentsByInvoice(invoiceId);
+      res.json(payments);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching payments" });
+    }
+  });
+
+  app.post("/api/payments", async (req: Request, res: Response) => {
+    try {
+      const validationResult = insertPaymentSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid payment data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const payment = await storage.createPayment(validationResult.data);
+      res.status(201).json(payment);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating payment" });
+    }
+  });
+
+  app.put("/api/payments/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid payment ID" });
+      }
+
+      const validationResult = insertPaymentSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid payment data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const updatedPayment = await storage.updatePayment(id, validationResult.data);
+      if (!updatedPayment) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.json(updatedPayment);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating payment" });
+    }
+  });
+
+  app.delete("/api/payments/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid payment ID" });
+      }
+
+      const success = await storage.deletePayment(id);
+      if (!success) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting payment" });
+    }
+  });
+  
+  // Helper route for generating an invoice number
+  app.get("/api/generate-invoice-number", async (_req: Request, res: Response) => {
+    try {
+      const invoiceNumber = await storage.generateInvoiceNumber();
+      res.json({ invoiceNumber });
+    } catch (error) {
+      res.status(500).json({ message: "Error generating invoice number" });
     }
   });
 
