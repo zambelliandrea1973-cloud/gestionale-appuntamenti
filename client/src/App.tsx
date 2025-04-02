@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
 import Reports from "./pages/Reports";
+import Invoices from "./pages/Invoices";
 import NotFound from "./pages/not-found";
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/calendar" component={Calendar} />
         <Route path="/clients" component={Clients} />
+        <Route path="/invoices" component={Invoices} />
         <Route path="/reports" component={Reports} />
         <Route component={NotFound} />
       </Switch>
