@@ -30,7 +30,7 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
   
   // Fetch appointments for the selected week
   const { data: appointments = [], isLoading, refetch } = useQuery({
-    queryKey: ['/api/appointments/range', startDate, endDate],
+    queryKey: [`/api/appointments/range/${startDate}/${endDate}`],
   });
   
   // Refresh data when date changes

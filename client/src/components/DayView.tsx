@@ -22,7 +22,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
   
   // Fetch appointments for the selected date
   const { data: appointments = [], isLoading, refetch } = useQuery({
-    queryKey: ['/api/appointments/date', formattedDate],
+    queryKey: [`/api/appointments/date/${formattedDate}`],
   });
   
   // Refresh data when date changes
