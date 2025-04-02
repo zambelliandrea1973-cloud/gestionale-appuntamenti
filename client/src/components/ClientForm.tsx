@@ -133,10 +133,10 @@ export default function ClientForm({
         if (onClientCreated && responseData) {
           onClientCreated(responseData.id);
         }
-      } else {
-        // Close the form if editing
-        onClose();
       }
+      
+      // Chiudi sempre il form dopo un salvataggio riuscito
+      onClose();
     },
     onError: (error) => {
       toast({
