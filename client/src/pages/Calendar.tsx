@@ -174,24 +174,7 @@ export default function Calendar() {
               />
             </div>
             
-            <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                  <Plus className="h-4 w-4 mr-1" />
-                  Nuovo Appuntamento
-                </Button>
-              </DialogTrigger>
-              {isAppointmentDialogOpen && (
-                <AppointmentForm 
-                  onClose={() => {
-                    console.log("Calendar: chiusura form di appuntamento");
-                    setIsAppointmentDialogOpen(false);
-                    handleRefresh();
-                  }} 
-                  defaultDate={selectedDate}
-                />
-              )}
-            </Dialog>
+            {/* Rimosso il pulsante "Nuovo Appuntamento" come richiesto */}
           </div>
         </div>
         
