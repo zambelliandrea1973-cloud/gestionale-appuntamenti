@@ -157,17 +157,17 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           
           {(client.medicalNotes || client.allergies) && (
             <div className="mt-3 pt-3 border-t border-gray-200">
-              <h4 className="text-sm font-medium mb-1">Informazioni mediche:</h4>
-              {client.allergies && (
-                <div className="text-sm mt-1">
-                  <span className="font-medium">Allergie:</span> {client.allergies}
-                </div>
-              )}
-              {client.medicalNotes && (
-                <div className="text-sm mt-1">
-                  <span className="font-medium">Note mediche:</span> {client.medicalNotes}
-                </div>
-              )}
+              <div className="flex items-center">
+                <h4 className="text-sm font-medium">Informazioni mediche disponibili</h4>
+                <Badge 
+                  variant="outline" 
+                  className="ml-2 bg-blue-50 text-blue-700 border-blue-200 cursor-pointer hover:bg-blue-100"
+                  onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
+                >
+                  <FileText className="h-3 w-3 mr-1" />
+                  Vedi
+                </Badge>
+              </div>
             </div>
           )}
           
@@ -180,45 +180,43 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
         </div>
       </CardContent>
       
-      <CardFooter className="justify-between pt-2 gap-2 flex-col sm:flex-row">
-        <div className="w-full flex flex-col sm:flex-row gap-2">
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            className="w-full"
-            onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            Visualizza cartella medica
-          </Button>
-            
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full"
-            onClick={() => setIsAppointmentFormOpen(true)}
-          >
-            <Calendar className="h-4 w-4 mr-2" />
-            Nuovo appuntamento
-          </Button>
+      <CardFooter className="px-6 pb-6 pt-4 gap-3 border-t">
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          className="flex-1"
+          onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
+        >
+          <FileText className="h-4 w-4 mr-2" />
+          Cartella medica
+        </Button>
           
-          {isAppointmentFormOpen && (
-            <AppointmentFormModal 
-              clientId={client.id} 
-              onClose={() => {
-                console.log("Chiusura modale appuntamento da ClientCard");
-                setIsAppointmentFormOpen(false);
-                // Forziamo un refresh globale quando si chiude la modale
-                if (onUpdate) {
-                  console.log("Triggering onUpdate da ClientCard");
-                  setTimeout(() => {
-                    onUpdate();
-                  }, 500);
-                }
-              }} 
-            />
-          )}
-        </div>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="flex-1"
+          onClick={() => setIsAppointmentFormOpen(true)}
+        >
+          <Calendar className="h-4 w-4 mr-2" />
+          Nuovo appuntamento
+        </Button>
+        
+        {isAppointmentFormOpen && (
+          <AppointmentFormModal 
+            clientId={client.id} 
+            onClose={() => {
+              console.log("Chiusura modale appuntamento da ClientCard");
+              setIsAppointmentFormOpen(false);
+              // Forziamo un refresh globale quando si chiude la modale
+              if (onUpdate) {
+                console.log("Triggering onUpdate da ClientCard");
+                setTimeout(() => {
+                  onUpdate();
+                }, 500);
+              }
+            }} 
+          />
+        )}
       </CardFooter>
     </Card>
   );
