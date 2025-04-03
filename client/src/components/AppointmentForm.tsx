@@ -39,6 +39,7 @@ import ClientForm from "./ClientForm";
 interface AppointmentFormProps {
   appointmentId?: number;
   onClose: () => void;
+  onAppointmentSaved?: () => void;
   defaultDate?: Date;
   defaultTime?: string;
   clientId?: number;
@@ -65,6 +66,7 @@ function formatDateForApi(date: Date | string): string {
 export default function AppointmentForm({
   appointmentId,
   onClose,
+  onAppointmentSaved,
   defaultDate,
   defaultTime,
   clientId: defaultClientId,
@@ -223,10 +225,16 @@ export default function AppointmentForm({
       
       console.log("Cache invalidata con successo");
       
-      // Close form after a short delay to ensure UI updates
-      setTimeout(() => {
-        onClose();
-      }, 100);
+      // Notifica che l'appuntamento è stato salvato
+      if (onAppointmentSaved) {
+        console.log("Chiamata callback onAppointmentSaved");
+        onAppointmentSaved();
+      } else {
+        // Se non c'è il callback specifico, chiudi la form dopo un breve ritardo
+        setTimeout(() => {
+          onClose();
+        }, 100);
+      }
     },
     
     onError: (error) => {
