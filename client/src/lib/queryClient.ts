@@ -30,7 +30,8 @@ export async function apiRequest(
       throw new Error(`Errore ${res.status}: ${errorText || res.statusText}`);
     }
     
-    return res;
+    // Cloniamo la risposta prima di restituirla per evitare problemi di "already consumed body"
+    return res.clone();
   } catch (error) {
     console.error(`Eccezione durante la richiesta a ${url}:`, error);
     throw error;

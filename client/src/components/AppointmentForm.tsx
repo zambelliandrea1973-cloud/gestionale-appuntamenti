@@ -112,12 +112,25 @@ export default function AppointmentForm({
         throw new Error("Dati appuntamento incompleti");
       }
 
-      // Eseguiamo la chiamata e convertiamo la risposta in JSON
-      let response;
-      if (appointmentId) {
-        response = await apiRequest("PUT", `/api/appointments/${appointmentId}`, data);
-      } else {
-        response = await apiRequest("POST", "/api/appointments", data);
+      // Eseguiamo la chiamata direttamente con fetch per evitare problemi
+      const url = appointmentId ? `/api/appointments/${appointmentId}` : "/api/appointments";
+      const method = appointmentId ? "PUT" : "POST";
+      
+      console.log(`Esecuzione fetch ${method} a ${url} con dati:`, data);
+      
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include"
+      });
+      
+      console.log(`Risposta ricevuta da ${url}:`, response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Errore durante la chiamata API (${response.status}):`, errorText);
+        throw new Error(`Errore ${response.status}: ${errorText || response.statusText}`);
       }
       
       // Convertiamo la risposta in JSON e restituiamo

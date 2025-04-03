@@ -197,12 +197,28 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
                   onClose={() => {
                     console.log("Chiusura form appuntamento dalla scheda cliente");
                     setIsAppointmentFormOpen(false);
-                    // Invalidiamo la cache degli appuntamenti quando viene creato un nuovo appuntamento
+                    
+                    // Forziamo un'invalidazione completa di tutte le query degli appuntamenti
+                    console.log("Invalidazione query appuntamenti in corso...");
+                    
+                    // Invalidiamo la lista generale
                     queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-                    // Invalidiamo anche i query di date specifiche
-                    const today = new Date();
-                    const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
-                    queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formattedDate}`] });
+                    
+                    // Invalidiamo tutte le possibili date per un mese (oggi + 30 giorni)
+                    for (let i = 0; i < 30; i++) {
+                      const date = new Date();
+                      date.setDate(date.getDate() + i);
+                      const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+                      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formattedDate}`] });
+                    }
+                    
+                    // Invalidiamo anche gli appuntamenti del cliente
+                    queryClient.invalidateQueries({ queryKey: [`/api/appointments/client/${client.id}`] });
+                    
+                    // Invalidiamo qualsiasi query di intervallo
+                    queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+                    
+                    console.log("Tutte le query degli appuntamenti invalidate");
                   }}
                   defaultDate={new Date()}
                   defaultTime="09:00"
