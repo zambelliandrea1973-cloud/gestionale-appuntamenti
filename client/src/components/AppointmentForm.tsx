@@ -626,6 +626,20 @@ export default function AppointmentForm({
               <Button 
                 type="submit"
                 disabled={mutation.isPending}
+                onClick={(e) => {
+                  console.log("Pulsante Salva cliccato");
+                  // Se siamo chiamati dalla modale, prova anche il metodo di salvataggio diretto
+                  if (!appointmentId && form.getValues("clientId")) {
+                    console.log("Tentativo di attivare il salvataggio diretto");
+                    const directButton = document.getElementById('saveAppointmentDirectButton');
+                    if (directButton) {
+                      console.log("Attivazione pulsante di salvataggio diretto");
+                      e.preventDefault(); // Preveniamo il comportamento normale
+                      directButton.click(); // Attiviamo il salvataggio diretto
+                      return;
+                    }
+                  }
+                }}
               >
                 {mutation.isPending ? (
                   <>
