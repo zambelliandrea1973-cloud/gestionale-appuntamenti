@@ -15,6 +15,12 @@ export async function apiRequest(
   console.log(`Esecuzione richiesta ${method} a ${url}`, data ? JSON.stringify(data) : "");
   
   try {
+    console.log(`Dettagli richiesta ${method} a ${url}:`, { 
+      method, 
+      headers: data ? { "Content-Type": "application/json" } : {},
+      body: data ? JSON.stringify(data) : undefined
+    });
+    
     const res = await fetch(url, {
       method,
       headers: data ? { "Content-Type": "application/json" } : {},
@@ -22,7 +28,7 @@ export async function apiRequest(
       credentials: "include",
     });
 
-    console.log(`Risposta da ${url}:`, res.status, res.statusText);
+    console.log(`Risposta da ${url}:`, res.status, res.statusText, 'ok:', res.ok);
     
     if (!res.ok) {
       const errorText = await res.text();
