@@ -13,7 +13,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
-import AppointmentFormNew from "./AppointmentFormNew";
+import AppointmentForm from "./AppointmentForm";
 
 interface WeekViewProps {
   selectedDate: Date;
@@ -141,7 +141,7 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
       {isAppointmentFormOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
           <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <AppointmentFormNew 
+            <AppointmentForm 
               onClose={() => {
                 setIsAppointmentFormOpen(false);
                 handleAppointmentUpdated();

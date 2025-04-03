@@ -21,7 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import ClientForm from "./ClientForm";
-import AppointmentFormNew from "./AppointmentFormNew";
+import AppointmentForm from "./AppointmentForm";
 
 interface ClientCardProps {
   client: Client;
@@ -193,7 +193,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           {isAppointmentFormOpen && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
               <div className="relative" onClick={(e) => e.stopPropagation()}>
-                <AppointmentFormNew 
+                <AppointmentForm 
                   onClose={() => {
                     console.log("Chiusura form appuntamento dalla scheda cliente");
                     setIsAppointmentFormOpen(false);

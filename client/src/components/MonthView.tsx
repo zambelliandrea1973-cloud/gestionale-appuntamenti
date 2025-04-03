@@ -7,7 +7,7 @@ import {
   isToday, 
   isCurrentMonth 
 } from "@/lib/utils/date";
-import AppointmentFormNew from "./AppointmentFormNew";
+import AppointmentForm from "./AppointmentForm";
 
 interface MonthViewProps {
   selectedDate: Date;
@@ -191,7 +191,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
         <DialogTrigger className="hidden">
           <Button>New Appointment</Button>
         </DialogTrigger>
-        <AppointmentFormNew 
+        <AppointmentForm 
           onClose={() => {
             setIsAppointmentFormOpen(false);
             handleAppointmentUpdated();

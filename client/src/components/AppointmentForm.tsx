@@ -1,145 +1,190 @@
-import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { calculateEndTime, formatDateForApi } from "@/lib/utils/date";
-import { insertAppointmentSchema, Client, Service } from "@shared/schema";
-import { Plus, Loader2, X } from "lucide-react";
-import type { Locale } from "date-fns";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { insertAppointmentSchema } from "@shared/schema";
+import { Loader2, X, Plus, Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { it } from "date-fns/locale";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import ClientForm from "./ClientForm";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import ClientForm from "./ClientForm";
 
 interface AppointmentFormProps {
   appointmentId?: number;
   onClose: () => void;
   defaultDate?: Date;
   defaultTime?: string;
-  clientId?: number;  // Cliente preselezionato, utile quando si apre dalla scheda cliente
+  clientId?: number;
 }
 
 // Extended schema with validation
 const formSchema = insertAppointmentSchema.extend({
-  date: z.date({ required_error: "La data è obbligatoria" }),
-  startTime: z.string({ required_error: "L'ora di inizio è obbligatoria" })
-    .regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, "Formato ora non valido (HH:MM)"),
-  clientId: z.number({ 
-    required_error: "Seleziona un cliente",
-    invalid_type_error: "Seleziona un cliente valido" 
+  date: z.date({
+    required_error: "Seleziona una data per l'appuntamento",
   }),
-  serviceId: z.number({ 
-    required_error: "Seleziona un servizio",
-    invalid_type_error: "Seleziona un servizio valido" 
+  startTime: z.string({
+    required_error: "Seleziona un orario di inizio",
   }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function AppointmentForm({ 
+// Helper function to format date for API
+function formatDateForApi(date: Date | string): string {
+  if (typeof date === 'string') return date;
+  return format(date, 'yyyy-MM-dd');
+}
+
+export default function AppointmentFormNew({
   appointmentId,
   onClose,
-  defaultDate = new Date(),
-  defaultTime = "09:00",
-  clientId: defaultClientId
+  defaultDate,
+  defaultTime,
+  clientId: defaultClientId,
 }: AppointmentFormProps) {
   const { toast } = useToast();
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
-  
+
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
-    queryKey: ["/api/clients"]
+    queryKey: ['/api/clients']
   });
-  
+
   // Fetch services
   const { data: services = [], isLoading: isLoadingServices } = useQuery({
-    queryKey: ["/api/services"]
+    queryKey: ['/api/services']
   });
-  
+
   // Fetch appointment if editing
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
     queryKey: [`/api/appointments/${appointmentId}`],
-    enabled: !!appointmentId,
+    enabled: !!appointmentId
   });
-  
-  // Setup form with default values
+
+  // Form setup
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      clientId: defaultClientId || undefined,
-      serviceId: undefined,
-      date: defaultDate,
-      startTime: defaultTime,
+      clientId: defaultClientId || 0,
+      serviceId: 0,
+      date: defaultDate || new Date(),
+      startTime: defaultTime || "09:00",
       notes: ""
     }
   });
-  
-  // Update form when editing or when defaultClientId changes
+
+  // Update form values when editing existing appointment
   useEffect(() => {
     if (appointment) {
-      const date = new Date(appointment.date);
-      const startTime = appointment.startTime.slice(0, 5); // Format HH:MM from HH:MM:SS
+      // Parse the date string into a Date object
+      const appointmentDate = new Date(appointment.date);
+      const startTime = appointment.startTime.substring(0, 5); // Extract HH:MM part
       
       form.reset({
-        clientId: appointment.clientId,
-        serviceId: appointment.serviceId,
-        date: date,
-        startTime: startTime,
-        notes: appointment.notes || ""
+        ...appointment,
+        date: appointmentDate,
+        startTime: startTime
       });
-    } else if (defaultClientId) {
+    }
+  }, [appointment, form]);
+
+  // Update clientId when defaultClientId changes
+  useEffect(() => {
+    if (defaultClientId) {
       form.setValue("clientId", defaultClientId);
     }
-  }, [appointment, defaultClientId, form]);
-  
-  // Mutation per salvare l'appuntamento
+  }, [defaultClientId, form]);
+
+  // Create or update appointment mutation
   const mutation = useMutation({
-    mutationFn: async (data: any) => {
-      console.log("Tentativo di creazione appuntamento con dati:", data);
-
-      // Verifica che i dati siano completi
-      if (!data.clientId || !data.serviceId || !data.date || !data.startTime || !data.endTime) {
-        console.error("Dati incompleti:", data);
-        throw new Error("Dati appuntamento incompleti");
-      }
-
-      // Eseguiamo la chiamata direttamente con fetch per evitare problemi
-      const url = appointmentId ? `/api/appointments/${appointmentId}` : "/api/appointments";
-      const method = appointmentId ? "PUT" : "POST";
+    mutationFn: async (data: FormData) => {
+      console.log("Tentativo di salvataggio appuntamento con dati:", data);
       
-      console.log(`Esecuzione fetch ${method} a ${url} con dati:`, data);
+      // Controlli preliminari
+      if (!data.clientId || !data.serviceId || !data.date || !data.startTime) {
+        throw new Error("Dati incompleti per l'appuntamento");
+      }
+      
+      // Calcola l'orario di fine in base alla durata del servizio
+      const service = services.find((s: any) => s.id === data.serviceId);
+      if (!service) {
+        throw new Error("Servizio non trovato");
+      }
+      
+      // Calcola l'orario di fine
+      const [hours, minutes] = data.startTime.split(':').map(Number);
+      const startMinutes = hours * 60 + minutes;
+      const endMinutes = startMinutes + service.duration;
+      
+      const endHours = Math.floor(endMinutes / 60);
+      const endMins = endMinutes % 60;
+      
+      const endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}:00`;
+      
+      // Prepara i dati per l'invio
+      const appointmentData = {
+        clientId: data.clientId,
+        serviceId: data.serviceId,
+        date: formatDateForApi(data.date),
+        startTime: data.startTime + ":00",
+        endTime: endTime,
+        notes: data.notes || "",
+        status: "scheduled"
+      };
+      
+      console.log("Dati formattati per API:", appointmentData);
+      
+      // Esegui la chiamata API
+      const url = appointmentId 
+        ? `/api/appointments/${appointmentId}` 
+        : "/api/appointments";
+      
+      const method = appointmentId ? "PUT" : "POST";
       
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(appointmentData),
         credentials: "include"
       });
       
-      console.log(`Risposta ricevuta da ${url}:`, response.status, response.statusText);
-      
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Errore durante la chiamata API (${response.status}):`, errorText);
         throw new Error(`Errore ${response.status}: ${errorText || response.statusText}`);
       }
       
-      // Convertiamo la risposta in JSON e restituiamo
-      const responseJson = await response.json();
-      console.log("Risposta JSON ricevuta:", responseJson);
-      return responseJson;
+      return response.json();
     },
-    onSuccess: async (data, variables) => {
-      console.log("Mutation completata con successo, dati ricevuti:", data);
+    
+    onSuccess: async (data) => {
+      console.log("Appuntamento salvato con successo:", data);
       
       toast({
         title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
@@ -148,53 +193,43 @@ export default function AppointmentForm({
           : "Nuovo appuntamento creato con successo",
       });
       
-      try {
-        // Invalidiamo tutte le query correlate agli appuntamenti
-        console.log("Inizia invalidazione queries dopo salvataggio");
-        
-        // Invalidiamo lista generale appuntamenti
-        await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-        console.log("Lista generale appuntamenti invalidata");
-        
-        // Invalidiamo query per data specifica
-        if (variables.date) {
-          const dateString = typeof variables.date === 'string' 
-            ? variables.date 
-            : formatDateForApi(variables.date);
-          await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-          console.log("Query per data specifica invalidata:", dateString);
-        }
-        
-        // Invalidiamo query per intervalli di date
+      // Invalidate all related queries
+      console.log("Invalidazione cache appuntamenti...");
+      
+      // Invalidate general appointments list
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      
+      // Invalidate date-specific queries for all dates in the next 30 days
+      const today = new Date();
+      for (let i = 0; i < 30; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + i);
+        const formattedDate = formatDateForApi(date);
         await queryClient.invalidateQueries({ 
-          queryKey: ['/api/appointments/range'] 
+          queryKey: [`/api/appointments/date/${formattedDate}`] 
         });
-        console.log("Query per intervalli di date invalidate");
-        
-        // Invalidiamo query per appuntamenti di clienti specifici
-        if (variables.clientId) {
-          await queryClient.invalidateQueries({ 
-            queryKey: [`/api/appointments/client/${variables.clientId}`] 
-          });
-          console.log("Query per appuntamenti del cliente invalidate:", variables.clientId);
-        }
-        
-        console.log("Tutte le query invalidate con successo");
-        
-        // Piccolo ritardo per assicurarsi che l'UI si aggiorni prima di chiudere
-        setTimeout(() => {
-          // Chiudiamo il form dopo aver invalidato tutte le query
-          if (typeof onClose === 'function') {
-            console.log("Chiusura form di appuntamento");
-            onClose();
-          } else {
-            console.error("onClose non è una funzione valida:", onClose);
-          }
-        }, 100);
-      } catch (error) {
-        console.error("Errore durante l'invalidazione delle query:", error);
       }
+      
+      // Invalidate client-specific queries
+      if (data.clientId) {
+        await queryClient.invalidateQueries({ 
+          queryKey: [`/api/appointments/client/${data.clientId}`] 
+        });
+      }
+      
+      // Invalidate date range queries
+      await queryClient.invalidateQueries({ 
+        queryKey: ['/api/appointments/range'] 
+      });
+      
+      console.log("Cache invalidata con successo");
+      
+      // Close form after a short delay to ensure UI updates
+      setTimeout(() => {
+        onClose();
+      }, 100);
     },
+    
     onError: (error) => {
       console.error("Errore durante il salvataggio dell'appuntamento:", error);
       toast({
@@ -204,52 +239,15 @@ export default function AppointmentForm({
       });
     }
   });
-  
-  const onSubmit = async (data: FormData) => {
+
+  const onSubmit = (data: FormData) => {
     try {
-      console.log("Submitting form with data:", data);
+      console.log("Invio form appuntamento con dati:", data);
       
-      // Validazioni aggiuntive lato client
-      if (!data.clientId) {
-        toast({
-          title: "Errore",
-          description: "Seleziona un cliente",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      if (!data.serviceId) {
-        toast({
-          title: "Errore",
-          description: "Seleziona un servizio",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      if (!data.date) {
-        toast({
-          title: "Errore",
-          description: "Seleziona una data",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      if (!data.startTime) {
-        toast({
-          title: "Errore",
-          description: "Seleziona un orario",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      // Verifica se il cliente ha fornito il consenso
-      const selectedClient = clients.find(c => c.id === data.clientId);
+      // Check if client has provided consent
+      const selectedClient = clients.find((c: any) => c.id === data.clientId);
       if (selectedClient && !selectedClient.hasConsent) {
-        // Mostra un avviso, ma permetti comunque di procedere
+        // Show a warning but allow to proceed
         toast({
           title: "Attenzione",
           description: "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
@@ -258,70 +256,27 @@ export default function AppointmentForm({
         });
       }
       
-      // Calcoliamo l'orario di fine in base alla durata del servizio selezionato
-      const service = services.find(s => s.id === data.serviceId);
-      
-      let endTime = "";
-      if (service) {
-        // Calcoliamo l'orario di fine in base alla durata del servizio
-        const [hours, minutes] = data.startTime.split(':').map(Number);
-        const startMinutes = hours * 60 + minutes;
-        const endMinutes = startMinutes + service.duration;
-        
-        const endHours = Math.floor(endMinutes / 60);
-        const endMins = endMinutes % 60;
-        
-        endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
-        console.log(`Calcolato orario di fine: ${endTime} per servizio con durata ${service.duration} minuti`);
-      } else {
-        // Se non troviamo il servizio, utilizziamo un valore di default (1 ora dopo)
-        console.warn("Servizio non trovato, utilizzando durata predefinita di 60 minuti");
-        const [hours, minutes] = data.startTime.split(':').map(Number);
-        const startMinutes = hours * 60 + minutes;
-        const endMinutes = startMinutes + 60; // Default 1 ora
-        
-        const endHours = Math.floor(endMinutes / 60);
-        const endMins = endMinutes % 60;
-        
-        endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}`;
-      }
-      
-      // Prepara i dati per l'invio
-      const formattedDate = formatDateForApi(data.date);
-      
-      const appointment = {
-        clientId: data.clientId,
-        serviceId: data.serviceId,
-        date: formattedDate,
-        startTime: data.startTime + ":00", // Aggiungiamo i secondi per uniformità
-        endTime: endTime + ":00", // Aggiungiamo i secondi per uniformità
-        notes: data.notes || "",
-        status: "scheduled"
-      };
-      
-      console.log("Invio appuntamento al server:", appointment);
-      
-      // Inviamo i dati direttamente con la mutation
-      mutation.mutate(appointment);
-    } catch (error) {
+      // Submit data
+      mutation.mutate(data);
+    } catch (error: any) {
       console.error("Errore durante la preparazione dei dati:", error);
       toast({
         title: "Errore",
-        description: "Si è verificato un errore durante la preparazione dei dati",
+        description: `Si è verificato un errore: ${error.message}`,
         variant: "destructive"
       });
     }
   };
-  
+
   const handleClientCreated = (newClientId: number) => {
     form.setValue("clientId", newClientId);
     setIsClientDialogOpen(false);
     queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
   };
-  
+
   // Loading state
   const isLoading = isLoadingClients || isLoadingServices || (appointmentId && isLoadingAppointment);
-  
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto max-h-[85vh] sm:max-w-[600px]">
       <div className="flex justify-between items-center mb-4">
@@ -345,7 +300,7 @@ export default function AppointmentForm({
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Client selector (visibile solo se non c'è un cliente preselezionato) */}
+            {/* Client selector (visible only if no default client) */}
             {!defaultClientId ? (
               <FormField
                 control={form.control}
@@ -386,12 +341,11 @@ export default function AppointmentForm({
                 )}
               />
             ) : (
-              // Se c'è un cliente preselezionato, mostra solo il nome
+              // If there's a default client, just show their name
               <FormField
                 control={form.control}
                 name="clientId"
                 render={({ field }) => {
-                  // Trova il cliente selezionato
                   const selectedClient = clients.find((c: any) => c.id === field.value);
                   return (
                     <FormItem>
@@ -459,11 +413,12 @@ export default function AppointmentForm({
                             ) : (
                               <span>Seleziona data</span>
                             )}
+                            <Calendar className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0">
-                        <Calendar
+                        <CalendarComponent
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
@@ -527,8 +482,14 @@ export default function AppointmentForm({
                 type="submit"
                 disabled={mutation.isPending}
               >
-                {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {appointmentId ? "Aggiorna" : "Salva"} Appuntamento
+                {mutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Salvataggio...
+                  </>
+                ) : (
+                  appointmentId ? "Aggiorna" : "Salva"
+                )}
               </Button>
             </div>
           </form>
@@ -537,45 +498,3 @@ export default function AppointmentForm({
     </div>
   );
 }
-
-// Helper function to format date
-// Implementazione semplificata per formattare le date
-function format(date: Date, format: string, options?: { locale: Locale }): string {
-  return new Intl.DateTimeFormat("it-IT", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(date);
-}
-
-// Oggetto Locale semplificato
-const it = {
-  code: "it",
-  formatLong: {
-    date: () => "dd/MM/yyyy",
-    time: () => "HH:mm",
-    dateTime: () => "dd/MM/yyyy HH:mm",
-  },
-  formatDistance: () => "",
-  formatRelative: () => "",
-  localize: {
-    ordinalNumber: () => "",
-    era: () => "",
-    quarter: () => "",
-    month: () => "",
-    day: () => "",
-    dayPeriod: () => ""
-  },
-  match: {
-    ordinalNumber: () => ({ value: 0, rest: "" }),
-    era: () => ({ value: 0, rest: "" }),
-    quarter: () => ({ value: 0, rest: "" }),
-    month: () => ({ value: 0, rest: "" }),
-    day: () => ({ value: 0, rest: "" }),
-    dayPeriod: () => ({ value: 0, rest: "" })
-  },
-  options: {
-    weekStartsOn: 1,
-    firstWeekContainsDate: 4
-  }
-};

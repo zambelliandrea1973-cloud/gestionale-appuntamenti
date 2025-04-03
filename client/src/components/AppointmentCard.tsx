@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import AppointmentFormNew from "./AppointmentFormNew";
+import AppointmentForm from "./AppointmentForm";
 
 interface AppointmentCardProps {
   appointment: AppointmentWithDetails;
@@ -110,7 +110,7 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
                 <Pencil className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <AppointmentFormNew 
+            <AppointmentForm 
               appointmentId={appointment.id} 
               onClose={() => {
                 setIsFormDialogOpen(false);
