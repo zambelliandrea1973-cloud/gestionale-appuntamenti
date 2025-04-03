@@ -3,9 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +30,6 @@ interface ClientCardProps {
 
 export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const { toast } = useToast();
-  const [_, setLocation] = useLocation();
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   
@@ -180,18 +178,8 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
         </div>
       </CardContent>
       
-      <CardFooter className="justify-between pt-2 gap-2 flex-col sm:flex-row">
-        <div className="w-full flex flex-col sm:flex-row gap-2">
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            className="w-full"
-            onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            Visualizza cartella medica
-          </Button>
-            
+      <CardFooter className="justify-end pt-2">
+        <div>
           <Button 
             variant="outline" 
             size="sm" 

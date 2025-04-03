@@ -47,25 +47,22 @@ export default function Clients() {
     refetchClients();
   };
   
-  // Filter clients based on search query and active tab, then sort by lastName
-  const filteredClients = clients
-    .filter(client => {
-      // Apply search filter
-      const matchesSearch = searchQuery.trim().length < 2 || 
-        `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client.phone.includes(searchQuery) || 
-        (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      // Apply tab filter
-      const matchesTab = 
-        activeTab === "all" || 
-        (activeTab === "frequent" && client.isFrequent) ||
-        (activeTab === "no-consent" && !client.hasConsent);
-      
-      return matchesSearch && matchesTab;
-    })
-    // Ordina alfabeticamente per cognome
-    .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
+  // Filter clients based on search query and active tab
+  const filteredClients = clients.filter(client => {
+    // Apply search filter
+    const matchesSearch = searchQuery.trim().length < 2 || 
+      `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      client.phone.includes(searchQuery) || 
+      (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    // Apply tab filter
+    const matchesTab = 
+      activeTab === "all" || 
+      (activeTab === "frequent" && client.isFrequent) ||
+      (activeTab === "no-consent" && !client.hasConsent);
+    
+    return matchesSearch && matchesTab;
+  });
   
   // Otteniamo l'istanza del queryClient
   const queryClient = useQueryClient();
