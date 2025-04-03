@@ -197,6 +197,12 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
                   onClose={() => {
                     console.log("Chiusura form appuntamento dalla scheda cliente");
                     setIsAppointmentFormOpen(false);
+                    // Invalidiamo la cache degli appuntamenti quando viene creato un nuovo appuntamento
+                    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+                    // Invalidiamo anche i query di date specifiche
+                    const today = new Date();
+                    const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
+                    queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formattedDate}`] });
                   }}
                   defaultDate={new Date()}
                   defaultTime="09:00"
