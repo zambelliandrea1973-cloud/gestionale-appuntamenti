@@ -21,7 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import ClientForm from "./ClientForm";
-import AppointmentForm from "./AppointmentForm";
+import AppointmentFormNew from "./AppointmentFormNew";
 
 interface ClientCardProps {
   client: Client;
@@ -193,32 +193,10 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           {isAppointmentFormOpen && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
               <div className="relative" onClick={(e) => e.stopPropagation()}>
-                <AppointmentForm 
+                <AppointmentFormNew 
                   onClose={() => {
                     console.log("Chiusura form appuntamento dalla scheda cliente");
                     setIsAppointmentFormOpen(false);
-                    
-                    // Forziamo un'invalidazione completa di tutte le query degli appuntamenti
-                    console.log("Invalidazione query appuntamenti in corso...");
-                    
-                    // Invalidiamo la lista generale
-                    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-                    
-                    // Invalidiamo tutte le possibili date per un mese (oggi + 30 giorni)
-                    for (let i = 0; i < 30; i++) {
-                      const date = new Date();
-                      date.setDate(date.getDate() + i);
-                      const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
-                      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formattedDate}`] });
-                    }
-                    
-                    // Invalidiamo anche gli appuntamenti del cliente
-                    queryClient.invalidateQueries({ queryKey: [`/api/appointments/client/${client.id}`] });
-                    
-                    // Invalidiamo qualsiasi query di intervallo
-                    queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-                    
-                    console.log("Tutte le query degli appuntamenti invalidate");
                   }}
                   defaultDate={new Date()}
                   defaultTime="09:00"

@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import AppointmentForm from "./AppointmentForm";
+import AppointmentFormNew from "./AppointmentFormNew";
 
 interface LayoutProps {
   children: ReactNode;

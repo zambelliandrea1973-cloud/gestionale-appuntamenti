@@ -6,7 +6,7 @@ import { generateTimeSlots, formatDateFull, formatDateForApi } from "@/lib/utils
 import { Loader2, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
-import AppointmentForm from "./AppointmentForm";
+import AppointmentFormNew from "./AppointmentFormNew";
 
 interface DayViewProps {
   selectedDate: Date;
@@ -121,7 +121,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
       {isAppointmentFormOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={handleFormClosed}>
           <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <AppointmentForm 
+            <AppointmentFormNew 
               onClose={handleFormClosed}
               defaultDate={selectedDate}
               defaultTime={selectedTimeSlot || "09:00"}
