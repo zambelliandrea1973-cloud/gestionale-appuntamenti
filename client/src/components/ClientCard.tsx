@@ -196,7 +196,14 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
                 <AppointmentForm 
                   onClose={() => {
                     console.log("Chiusura form appuntamento dalla scheda cliente");
-                    setIsAppointmentFormOpen(false);
+                    // Assicuriamo che la form si chiuda dopo che il server ha risposto
+                    setTimeout(() => {
+                      setIsAppointmentFormOpen(false);
+                      // Forziamo un aggiornamento delle query
+                      queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+                      queryClient.invalidateQueries({ queryKey: ['/api/appointments/date'] });
+                      queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+                    }, 500);
                   }}
                   defaultDate={new Date()}
                   defaultTime="09:00"

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "@/lib/queryClient";
+import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertAppointmentSchema } from "@shared/schema";
 import { Loader2, X, Plus, Calendar } from "lucide-react";
@@ -62,7 +62,7 @@ function formatDateForApi(date: Date | string): string {
   return format(date, 'yyyy-MM-dd');
 }
 
-export default function AppointmentFormNew({
+export default function AppointmentForm({
   appointmentId,
   onClose,
   defaultDate,
@@ -168,19 +168,18 @@ export default function AppointmentFormNew({
       
       const method = appointmentId ? "PUT" : "POST";
       
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(appointmentData),
-        credentials: "include"
-      });
+      // Utilizziamo apiRequest al posto di fetch diretto
+      console.log(`Invio richiesta ${method} a ${url} con dati:`, appointmentData);
       
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Errore ${response.status}: ${errorText || response.statusText}`);
+      try {
+        const response = await apiRequest(method, url, appointmentData);
+        const responseData = await response.json();
+        console.log("Risposta server ricevuta:", responseData);
+        return responseData;
+      } catch (error) {
+        console.error("Errore durante la richiesta API:", error);
+        throw error;
       }
-      
-      return response.json();
     },
     
     onSuccess: async (data) => {
