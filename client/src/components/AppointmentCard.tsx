@@ -4,7 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatTime } from "@/lib/utils/date";
-import { Pencil, Trash2, Star, Info, Phone } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, ChevronDown, ChevronUp, Plus } from "lucide-react";
 import { AppointmentWithDetails } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -29,6 +29,7 @@ interface AppointmentCardProps {
 export default function AppointmentCard({ appointment, onUpdate }: AppointmentCardProps) {
   const { toast } = useToast();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   
   // Delete mutation
   const deleteMutation = useMutation({
@@ -100,13 +101,39 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
             {appointment.client.firstName} {appointment.client.lastName}
           </div>
           <div className="text-sm text-gray-600">
-            {appointment.service.name} - {appointment.service.duration} min ({formatTime(new Date(`2000-01-01T${appointment.startTime}`))})
+            {appointment.service.name} ({formatTime(new Date(`2000-01-01T${appointment.startTime}`))}) - {appointment.service.duration} min
+          </div>
+          <div className="flex items-center text-sm mt-1">
+            <Phone className="h-3.5 w-3.5 mr-1 text-gray-500" />
+            <span className="text-gray-600">{appointment.client.phone}</span>
           </div>
         </div>
-        <div className="flex space-x-1">
+
+        <div className="flex space-x-1 items-start">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-gray-200"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+          >
+            {isExpanded ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <Plus className="h-4 w-4" />
+            )}
+          </Button>
+          
           <Dialog open={isFormDialogOpen} onOpenChange={setIsFormDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-gray-200">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-gray-200"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <Pencil className="h-4 w-4" />
               </Button>
             </DialogTrigger>
@@ -121,7 +148,12 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
           
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-500 hover:bg-gray-200">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-gray-500 hover:text-red-500 hover:bg-gray-200"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <Trash2 className="h-4 w-4" />
               </Button>
             </AlertDialogTrigger>
@@ -146,32 +178,32 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
         </div>
       </div>
       
-      {/* Client info */}
-      <div className="mt-2 space-y-1">
-        {appointment.client.isFrequent && (
-          <div className="flex items-center text-sm">
-            <Star className="h-3.5 w-3.5 mr-1 text-pink-500" />
-            <span className="text-gray-600">Cliente frequente</span>
+      {/* Informazioni dettagliate (visibili solo quando espanso) */}
+      {isExpanded && (
+        <div className="mt-3 pt-2 border-t border-gray-200 space-y-2">
+          {/* Client info */}
+          <div className="space-y-1">
+            {appointment.client.isFrequent && (
+              <div className="flex items-center text-sm">
+                <Star className="h-3.5 w-3.5 mr-1 text-pink-500" />
+                <span className="text-gray-600">Cliente frequente</span>
+              </div>
+            )}
+            
+            {!appointment.client.hasConsent && (
+              <div className="flex items-center text-sm">
+                <Info className="h-3.5 w-3.5 mr-1 text-amber-500" />
+                <span className="text-gray-600">Consenso non fornito</span>
+              </div>
+            )}
           </div>
-        )}
-        
-        {!appointment.client.hasConsent && (
-          <div className="flex items-center text-sm">
-            <Info className="h-3.5 w-3.5 mr-1 text-amber-500" />
-            <span className="text-gray-600">Consenso non fornito</span>
-          </div>
-        )}
-        
-        <div className="flex items-center text-sm">
-          <Phone className="h-3.5 w-3.5 mr-1 text-gray-500" />
-          <span className="text-gray-600">{appointment.client.phone}</span>
-        </div>
-      </div>
-      
-      {/* Notes */}
-      {appointment.notes && (
-        <div className="mt-2 text-sm text-gray-600 border-t pt-2 border-gray-200">
-          {appointment.notes}
+          
+          {/* Notes */}
+          {appointment.notes && (
+            <div className="text-sm text-gray-600">
+              <span className="font-medium">Note:</span> {appointment.notes}
+            </div>
+          )}
         </div>
       )}
     </div>
