@@ -116,7 +116,13 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
             className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-gray-200"
             onClick={(e) => {
               e.stopPropagation();
-              setIsExpanded(!isExpanded);
+              if (isFormDialogOpen) {
+                setIsFormDialogOpen(false);
+              } else if (isExpanded) {
+                setIsExpanded(false);
+              } else {
+                setIsExpanded(true);
+              }
             }}
           >
             {isExpanded ? (
@@ -126,25 +132,33 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
             )}
           </Button>
           
-          <Dialog open={isFormDialogOpen} onOpenChange={setIsFormDialogOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-gray-200"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Pencil className="h-4 w-4" />
-              </Button>
-            </DialogTrigger>
-            <AppointmentForm 
-              appointmentId={appointment.id} 
-              onClose={() => {
-                setIsFormDialogOpen(false);
-                if (onUpdate) onUpdate();
-              }} 
-            />
-          </Dialog>
+          {isExpanded && (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-gray-200"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFormDialogOpen(true);
+              }}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+          )}
+          
+          {isFormDialogOpen && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="relative" onClick={(e) => e.stopPropagation()}>
+                <AppointmentForm 
+                  appointmentId={appointment.id} 
+                  onClose={() => {
+                    setIsFormDialogOpen(false);
+                    if (onUpdate) onUpdate();
+                  }} 
+                />
+              </div>
+            </div>
+          )}
           
           <AlertDialog>
             <AlertDialogTrigger asChild>
