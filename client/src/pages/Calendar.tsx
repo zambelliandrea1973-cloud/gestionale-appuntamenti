@@ -21,7 +21,7 @@ import {
 import DayView from "@/components/DayView";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
-import AppointmentFormNew from "@/components/AppointmentFormNew";
+import AppointmentForm from "@/components/AppointmentForm";
 
 export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
