@@ -447,23 +447,23 @@ export default function AppointmentForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cliente</FormLabel>
-                    <Select
-                      value={String(field.value || "")}
-                      onValueChange={(value) => field.onChange(parseInt(value))}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
+                    <FormControl>
+                      <Select
+                        value={String(field.value || "")}
+                        onValueChange={(value) => field.onChange(parseInt(value))}
+                      >
+                        <SelectTrigger>
                           <SelectValue placeholder="Seleziona cliente" />
                         </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {clients.map((client: any) => (
-                          <SelectItem key={client.id} value={client.id.toString()}>
-                            {client.firstName} {client.lastName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                        <SelectContent>
+                          {clients.map((client: any) => (
+                            <SelectItem key={client.id} value={client.id.toString()}>
+                              {client.firstName} {client.lastName}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -499,31 +499,31 @@ export default function AppointmentForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Servizio</FormLabel>
-                  <Select
-                    value={String(field.value || "")}
-                    onValueChange={(value) => {
-                      field.onChange(parseInt(value));
-                      
-                      // Calcola automaticamente l'orario di fine in base al servizio
-                      const selectedService = services.find((s: any) => s.id === parseInt(value));
-                      if (selectedService) {
-                        console.log("Servizio selezionato con durata:", selectedService.duration);
-                      }
-                    }}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
+                  <FormControl>
+                    <Select
+                      value={String(field.value || "")}
+                      onValueChange={(value) => {
+                        field.onChange(parseInt(value));
+                        
+                        // Calcola automaticamente l'orario di fine in base al servizio
+                        const selectedService = services.find((s: any) => s.id === parseInt(value));
+                        if (selectedService) {
+                          console.log("Servizio selezionato con durata:", selectedService.duration);
+                        }
+                      }}
+                    >
+                      <SelectTrigger>
                         <SelectValue placeholder="Seleziona servizio" />
                       </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {services.map((service: any) => (
-                        <SelectItem key={service.id} value={service.id.toString()}>
-                          {service.name} - {service.duration} min
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                      <SelectContent>
+                        {services.map((service: any) => (
+                          <SelectItem key={service.id} value={service.id.toString()}>
+                            {service.name} - {service.duration} min
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
