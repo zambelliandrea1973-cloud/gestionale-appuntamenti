@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -68,14 +68,14 @@ export default function AppointmentForm({
   // Fetch appointment if editing
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
     queryKey: [`/api/appointments/${appointmentId}`],
-    enabled: !!appointmentId
+    enabled: !!appointmentId,
   });
   
-  // Form setup
+  // Setup form with default values
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      clientId: defaultClientId,
+      clientId: defaultClientId || undefined,
       serviceId: undefined,
       date: defaultDate,
       startTime: defaultTime,
@@ -83,30 +83,27 @@ export default function AppointmentForm({
     }
   });
   
-  // Update form values when editing existing appointment
+  // Update form when editing or when defaultClientId changes
   useEffect(() => {
     if (appointment) {
+      const date = new Date(appointment.date);
+      const startTime = appointment.startTime.slice(0, 5); // Format HH:MM from HH:MM:SS
+      
       form.reset({
         clientId: appointment.clientId,
         serviceId: appointment.serviceId,
-        date: new Date(appointment.date),
-        startTime: appointment.startTime,
+        date: date,
+        startTime: startTime,
         notes: appointment.notes || ""
       });
+    } else if (defaultClientId) {
+      form.setValue("clientId", defaultClientId);
     }
-  }, [appointment, form]);
+  }, [appointment, defaultClientId, form]);
   
-  // Create or update appointment mutation
+  // Mutation per salvare l'appuntamento
   const mutation = useMutation({
-    mutationFn: async (data: {
-      clientId: number;
-      serviceId: number;
-      date: string;
-      startTime: string;
-      endTime: string;
-      notes?: string;
-      status: string;
-    }) => {
+    mutationFn: async (data: any) => {
       console.log("Tentativo di creazione appuntamento con dati:", data);
 
       // Verifica che i dati siano completi
@@ -115,14 +112,22 @@ export default function AppointmentForm({
         throw new Error("Dati appuntamento incompleti");
       }
 
+      // Eseguiamo la chiamata e convertiamo la risposta in JSON
+      let response;
       if (appointmentId) {
-        return apiRequest("PUT", `/api/appointments/${appointmentId}`, data);
+        response = await apiRequest("PUT", `/api/appointments/${appointmentId}`, data);
       } else {
-        return apiRequest("POST", "/api/appointments", data);
+        response = await apiRequest("POST", "/api/appointments", data);
       }
+      
+      // Convertiamo la risposta in JSON e restituiamo
+      const responseJson = await response.json();
+      console.log("Risposta JSON ricevuta:", responseJson);
+      return responseJson;
     },
-    onSuccess: async (response, variables) => {
-      console.log("Risposta ricevuta:", response);
+    onSuccess: async (data, variables) => {
+      console.log("Mutation completata con successo, dati ricevuti:", data);
+      
       toast({
         title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
         description: appointmentId 
@@ -130,40 +135,51 @@ export default function AppointmentForm({
           : "Nuovo appuntamento creato con successo",
       });
       
-      // Invalidate all appointment-related queries to ensure fresh data
-      console.log("Inizia invalidazione queries dopo salvataggio");
-      
-      // Force invalidation of the specific date query
-      const dateString = formatDateForApi(variables.date);
-      console.log("Invalidazione query per data specifica:", dateString);
-      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-      
-      // Invalidate all appointments
-      console.log("Invalidazione lista generale appuntamenti");
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      
-      // Invalidate range queries for calendar views
-      console.log("Invalidazione query per intervalli di date (range)");
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-      
-      // Invalidate specific client's appointments
-      if (variables.clientId) {
-        console.log("Invalidazione appuntamenti del cliente:", variables.clientId);
-        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/client/${variables.clientId}`] });
-      }
-      
-      // Logging for confirmation
-      console.log("Appuntamento salvato con successo, date invalidate");
-      
-      // Forziamo un refresh dell'UI per mostrare i nuovi dati
-      console.log("Forzatura refresh UI");
-      
-      // Chiudiamo il form
-      console.log("Chiusura del form di appuntamento");
-      if (typeof onClose === 'function') {
-        onClose();
-      } else {
-        console.error("onClose non è una funzione valida:", onClose);
+      try {
+        // Invalidiamo tutte le query correlate agli appuntamenti
+        console.log("Inizia invalidazione queries dopo salvataggio");
+        
+        // Invalidiamo lista generale appuntamenti
+        await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+        console.log("Lista generale appuntamenti invalidata");
+        
+        // Invalidiamo query per data specifica
+        if (variables.date) {
+          const dateString = typeof variables.date === 'string' 
+            ? variables.date 
+            : formatDateForApi(variables.date);
+          await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+          console.log("Query per data specifica invalidata:", dateString);
+        }
+        
+        // Invalidiamo query per intervalli di date
+        await queryClient.invalidateQueries({ 
+          queryKey: ['/api/appointments/range'] 
+        });
+        console.log("Query per intervalli di date invalidate");
+        
+        // Invalidiamo query per appuntamenti di clienti specifici
+        if (variables.clientId) {
+          await queryClient.invalidateQueries({ 
+            queryKey: [`/api/appointments/client/${variables.clientId}`] 
+          });
+          console.log("Query per appuntamenti del cliente invalidate:", variables.clientId);
+        }
+        
+        console.log("Tutte le query invalidate con successo");
+        
+        // Piccolo ritardo per assicurarsi che l'UI si aggiorni prima di chiudere
+        setTimeout(() => {
+          // Chiudiamo il form dopo aver invalidato tutte le query
+          if (typeof onClose === 'function') {
+            console.log("Chiusura form di appuntamento");
+            onClose();
+          } else {
+            console.error("onClose non è una funzione valida:", onClose);
+          }
+        }, 100);
+      } catch (error) {
+        console.error("Errore durante l'invalidazione delle query:", error);
       }
     },
     onError: (error) => {
@@ -334,7 +350,7 @@ export default function AppointmentForm({
                             <SelectValue placeholder="Seleziona cliente" />
                           </SelectTrigger>
                           <SelectContent>
-                            {clients.map((client) => (
+                            {clients.map((client: any) => (
                               <SelectItem key={client.id} value={client.id.toString()}>
                                 {client.firstName} {client.lastName}
                               </SelectItem>
@@ -363,7 +379,7 @@ export default function AppointmentForm({
                 name="clientId"
                 render={({ field }) => {
                   // Trova il cliente selezionato
-                  const selectedClient = clients.find(c => c.id === field.value);
+                  const selectedClient = clients.find((c: any) => c.id === field.value);
                   return (
                     <FormItem>
                       <FormLabel>Cliente</FormLabel>
@@ -397,7 +413,7 @@ export default function AppointmentForm({
                         <SelectValue placeholder="Seleziona servizio" />
                       </SelectTrigger>
                       <SelectContent>
-                        {services.map((service) => (
+                        {services.map((service: any) => (
                           <SelectItem key={service.id} value={service.id.toString()}>
                             {service.name} - {service.duration} min
                           </SelectItem>
