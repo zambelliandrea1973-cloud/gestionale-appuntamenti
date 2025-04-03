@@ -94,8 +94,8 @@ export default function AppointmentForm({
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      clientId: defaultClientId || undefined,
-      serviceId: undefined,
+      clientId: defaultClientId || 0,
+      serviceId: 0,
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
       notes: ""
@@ -262,7 +262,7 @@ export default function AppointmentForm({
       console.log(`Data: ${data.date}, Ora: ${data.startTime}`);
       
       // Controlli di validità
-      if (!data.clientId) {
+      if (!data.clientId || data.clientId === 0) {
         console.error("Cliente non selezionato!");
         toast({
           title: "Errore",
@@ -272,7 +272,7 @@ export default function AppointmentForm({
         return;
       }
       
-      if (!data.serviceId) {
+      if (!data.serviceId || data.serviceId === 0) {
         console.error("Servizio non selezionato!");
         toast({
           title: "Errore",
@@ -456,7 +456,7 @@ export default function AppointmentForm({
                     <div className="flex gap-2">
                       <FormControl>
                         <Select
-                          value={field.value ? field.value.toString() : ""}
+                          value={String(field.value || "")}
                           onValueChange={(value) => field.onChange(parseInt(value))}
                         >
                           <SelectTrigger>
@@ -518,7 +518,7 @@ export default function AppointmentForm({
                   <FormLabel>Servizio</FormLabel>
                   <FormControl>
                     <Select
-                      value={field.value ? field.value.toString() : ""}
+                      value={String(field.value || "")}
                       onValueChange={(value) => field.onChange(parseInt(value))}
                     >
                       <SelectTrigger>
