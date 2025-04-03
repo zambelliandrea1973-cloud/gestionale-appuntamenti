@@ -141,6 +141,14 @@ export default function AppointmentForm({
       // Invalidate range queries for calendar views
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
       
+      // Invalidiamo anche la lista generale degli appuntamenti
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      
+      // Invalidate specific date queries
+      const appointmentDate = new Date(data.date);
+      const formattedDate = appointmentDate.toISOString().split('T')[0]; // YYYY-MM-DD
+      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formattedDate}`] });
+      
       // Logging for confirmation
       console.log("Appuntamento salvato con successo, date invalidate");
       
