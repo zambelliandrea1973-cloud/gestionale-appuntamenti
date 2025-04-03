@@ -6,11 +6,11 @@ import {
   BarChart, 
   Menu, 
   X, 
-  Plus,
   FileText,
   Calendar,
   Clock,
-  Grid
+  Grid,
+  Plus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -61,15 +61,7 @@ export default function Layout({ children }: LayoutProps) {
                 </Button>
               </Link>
               
-              <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="default" className="flex items-center space-x-1">
-                    <Plus className="h-4 w-4" />
-                    <span>Nuovo Appuntamento</span>
-                  </Button>
-                </DialogTrigger>
-                <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
-              </Dialog>
+              {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
             </div>
             
             <Sheet>
@@ -112,17 +104,7 @@ export default function Layout({ children }: LayoutProps) {
                       </Button>
                     </Link>
                   </nav>
-                  <div className="mt-4">
-                    <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button className="w-full">
-                          <Plus className="mr-2 h-4 w-4" />
-                          Nuovo Appuntamento
-                        </Button>
-                      </DialogTrigger>
-                      <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
-                    </Dialog>
-                  </div>
+                  {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
                 </div>
               </SheetContent>
             </Sheet>
