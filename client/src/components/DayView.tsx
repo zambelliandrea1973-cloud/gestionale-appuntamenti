@@ -123,6 +123,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <AppointmentForm 
               onClose={handleFormClosed}
+              onAppointmentSaved={handleAppointmentUpdated}
               defaultDate={selectedDate}
               defaultTime={selectedTimeSlot || "09:00"}
             />
