@@ -205,6 +205,18 @@ export default function AppointmentForm({
         return;
       }
       
+      // Verifica se il cliente ha fornito il consenso
+      const selectedClient = clients.find(c => c.id === data.clientId);
+      if (selectedClient && !selectedClient.hasConsent) {
+        // Mostra un avviso, ma permetti comunque di procedere
+        toast({
+          title: "Attenzione",
+          description: "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
+          variant: "warning",
+          duration: 5000,
+        });
+      }
+      
       // Calcoliamo l'orario di fine in base alla durata del servizio selezionato
       const service = services.find(s => s.id === data.serviceId);
       
