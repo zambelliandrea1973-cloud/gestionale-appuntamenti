@@ -631,6 +631,16 @@ export default function AppointmentForm({
                   // Se siamo chiamati dalla modale, prova anche il metodo di salvataggio diretto
                   if (!appointmentId && form.getValues("clientId")) {
                     console.log("Tentativo di attivare il salvataggio diretto");
+                    
+                    // Estrai i valori esatti dal form tramite form.getValues()
+                    const formValues = form.getValues();
+                    
+                    console.log("VALORI FORM ESTRATTI:", formValues);
+                    
+                    // Salva i valori in una variabile globale o locale storage
+                    // per poterli recuperare dal modal
+                    window.lastFormValues = formValues;
+                    
                     const directButton = document.getElementById('saveAppointmentDirectButton');
                     if (directButton) {
                       console.log("Attivazione pulsante di salvataggio diretto");

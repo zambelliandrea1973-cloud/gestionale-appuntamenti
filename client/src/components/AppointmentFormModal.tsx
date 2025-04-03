@@ -217,10 +217,27 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
               console.log("[MODAL] Pulsante di salvataggio diretto cliccato");
               
               try {
-                // Raccogliamo i dati direttamente da elementi DOM
-                const formData = collectFormData();
-                console.log("[MODAL] Dati raccolti dal DOM:", formData);
-                saveAppointmentDirectly(formData);
+                // Controlliamo se abbiamo valori salvati dall'AppointmentForm
+                if (window.lastFormValues) {
+                  console.log("[MODAL] Valori recuperati da window.lastFormValues:", window.lastFormValues);
+                  
+                  // Estrai i valori dai dati del form
+                  const { date, startTime, serviceId, notes } = window.lastFormValues;
+                  
+                  // Prepara i dati per il salvataggio
+                  saveAppointmentDirectly({
+                    date,
+                    startTime,
+                    serviceId,
+                    notes: notes || ""
+                  });
+                } else {
+                  // Fallback con raccolta dati dal DOM
+                  console.log("[MODAL] Nessun valore salvato, raccolta dal DOM");
+                  const formData = collectFormData();
+                  console.log("[MODAL] Dati raccolti dal DOM:", formData);
+                  saveAppointmentDirectly(formData);
+                }
               } catch (error) {
                 console.error("[MODAL] Errore durante la raccolta dei dati:", error);
                 
