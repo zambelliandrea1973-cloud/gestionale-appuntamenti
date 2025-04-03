@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { generateTimeSlots, formatDateFull, formatDateForApi } from "@/lib/utils/date";
-import { Loader2, Plus, Calendar } from "lucide-react";
+import { Loader2, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
-import AppointmentForm from "./AppointmentForm";
+import AppointmentModal from "./AppointmentModal";
 
 interface DayViewProps {
   selectedDate: Date;
@@ -57,6 +55,12 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
     handleAppointmentUpdated();
   };
   
+  // Debug helper
+  useEffect(() => {
+    console.log("isAppointmentFormOpen:", isAppointmentFormOpen);
+    console.log("selectedTimeSlot:", selectedTimeSlot);
+  }, [isAppointmentFormOpen, selectedTimeSlot]);
+  
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Day header */}
@@ -102,24 +106,20 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
                         onUpdate={handleAppointmentUpdated}
                       />
                     ))
-                  ) : timeSlot === "13:00" ? (
-                    // Lunch break example
-                    <div className="text-sm text-gray-500 italic">Pausa pranzo</div>
                   ) : (
-                    // Empty slot with add button
+                    // Empty slot with add button - simple HTML approach
                     <div className="flex items-center h-12">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="text-blue-600 hover:bg-blue-50 border-dashed border-blue-300"
+                      <a 
+                        href="#" 
+                        className="flex items-center px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 border border-dashed border-blue-300 rounded-md"
                         onClick={(e) => {
-                          e.stopPropagation();
+                          e.preventDefault();
+                          console.log("Pulsante Nuovo Appuntamento ANCHOR cliccato per orario:", timeSlot);
                           handleTimeSlotClick(timeSlot);
                         }}
                       >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Nuovo appuntamento
-                      </Button>
+                        + Nuovo appuntamento
+                      </a>
                     </div>
                   )}
                 </div>
@@ -129,19 +129,14 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
         )}
       </div>
       
-      {/* Form dialog for new appointment - Custom modal implementation */}
-      {isAppointmentFormOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={handleFormClosed}>
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <AppointmentForm 
-              onClose={handleFormClosed}
-              onAppointmentSaved={handleAppointmentUpdated}
-              defaultDate={selectedDate}
-              defaultTime={selectedTimeSlot || "09:00"}
-            />
-          </div>
-        </div>
-      )}
+      {/* Use our new AppointmentModal component */}
+      <AppointmentModal
+        isOpen={isAppointmentFormOpen}
+        onClose={handleFormClosed}
+        onSave={handleAppointmentUpdated}
+        defaultDate={selectedDate}
+        defaultTime={selectedTimeSlot || "09:00"}
+      />
     </div>
   );
 }
