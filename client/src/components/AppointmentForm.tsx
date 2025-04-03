@@ -7,30 +7,11 @@ import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { calculateEndTime, formatDateForApi } from "@/lib/utils/date";
-import { insertAppointmentSchema } from "@shared/schema";
-import { Plus, Loader2 } from "lucide-react";
-import {
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { type Locale } from "date-fns";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { insertAppointmentSchema, Client, Service } from "@shared/schema";
+import { Plus, Loader2, X } from "lucide-react";
+import type { Locale } from "date-fns";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -117,7 +98,15 @@ export default function AppointmentForm({
   
   // Create or update appointment mutation
   const mutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: {
+      clientId: number;
+      serviceId: number;
+      date: string;
+      startTime: string;
+      endTime: string;
+      notes?: string;
+      status: string;
+    }) => {
       console.log("Tentativo di creazione appuntamento con dati:", data);
 
       // Verifica che i dati siano completi
@@ -281,12 +270,20 @@ export default function AppointmentForm({
   const isLoading = isLoadingClients || isLoadingServices || (appointmentId && isLoadingAppointment);
   
   return (
-    <DialogContent className="sm:max-w-[600px]">
-      <DialogHeader>
-        <DialogTitle>
+    <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto max-h-[85vh] sm:max-w-[600px]">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">
           {appointmentId ? "Modifica Appuntamento" : "Nuovo Appuntamento"}
-        </DialogTitle>
-      </DialogHeader>
+        </h2>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={onClose}
+          disabled={mutation.isPending}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
       
       {isLoading ? (
         <div className="flex justify-center p-6">
@@ -294,7 +291,7 @@ export default function AppointmentForm({
         </div>
       ) : (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Client selector (visibile solo se non c'è un cliente preselezionato) */}
             {!defaultClientId ? (
               <FormField
@@ -464,7 +461,7 @@ export default function AppointmentForm({
               )}
             />
             
-            <DialogFooter>
+            <div className="flex justify-end space-x-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
@@ -480,15 +477,16 @@ export default function AppointmentForm({
                 {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {appointmentId ? "Aggiorna" : "Salva"} Appuntamento
               </Button>
-            </DialogFooter>
+            </div>
           </form>
         </Form>
       )}
-    </DialogContent>
+    </div>
   );
 }
 
 // Helper function to format date
+// Implementazione semplificata per formattare le date
 function format(date: Date, format: string, options?: { locale: Locale }): string {
   return new Intl.DateTimeFormat("it-IT", {
     day: "numeric",
@@ -497,29 +495,31 @@ function format(date: Date, format: string, options?: { locale: Locale }): strin
   }).format(date);
 }
 
-// Implementazione minima di Locale per evitare errori di tipo
-const it: Locale = {
+// Oggetto Locale semplificato
+const it = {
   code: "it",
   formatLong: {
     date: () => "dd/MM/yyyy",
+    time: () => "HH:mm",
+    dateTime: () => "dd/MM/yyyy HH:mm",
   },
   formatDistance: () => "",
   formatRelative: () => "",
   localize: {
     ordinalNumber: () => "",
-    era: () => [""],
-    quarter: () => [""],
-    month: () => [""],
-    day: () => [""],
-    dayPeriod: () => [""]
+    era: () => "",
+    quarter: () => "",
+    month: () => "",
+    day: () => "",
+    dayPeriod: () => ""
   },
   match: {
-    ordinalNumber: () => ({ match: null, result: 0 }),
-    era: () => ({ match: null, result: 0 }),
-    quarter: () => ({ match: null, result: 0 }),
-    month: () => ({ match: null, result: 0 }),
-    day: () => ({ match: null, result: 0 }),
-    dayPeriod: () => ({ match: null, result: 0 })
+    ordinalNumber: () => ({ value: 0, rest: "" }),
+    era: () => ({ value: 0, rest: "" }),
+    quarter: () => ({ value: 0, rest: "" }),
+    month: () => ({ value: 0, rest: "" }),
+    day: () => ({ value: 0, rest: "" }),
+    dayPeriod: () => ({ value: 0, rest: "" })
   },
   options: {
     weekStartsOn: 1,

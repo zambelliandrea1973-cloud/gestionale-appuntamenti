@@ -179,25 +179,33 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
       </CardContent>
       
       <CardFooter className="justify-end pt-2">
-        <Dialog open={isAppointmentFormOpen} onOpenChange={setIsAppointmentFormOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="w-full">
-              <Calendar className="h-4 w-4 mr-2" />
-              Nuovo appuntamento
-            </Button>
-          </DialogTrigger>
+        <div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full"
+            onClick={() => setIsAppointmentFormOpen(true)}
+          >
+            <Calendar className="h-4 w-4 mr-2" />
+            Nuovo appuntamento
+          </Button>
+          
           {isAppointmentFormOpen && (
-            <AppointmentForm 
-              onClose={() => {
-                console.log("Chiusura form appuntamento dalla scheda cliente");
-                setIsAppointmentFormOpen(false);
-              }}
-              defaultDate={new Date()}
-              defaultTime="09:00"
-              clientId={client.id}
-            />
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
+              <div className="relative" onClick={(e) => e.stopPropagation()}>
+                <AppointmentForm 
+                  onClose={() => {
+                    console.log("Chiusura form appuntamento dalla scheda cliente");
+                    setIsAppointmentFormOpen(false);
+                  }}
+                  defaultDate={new Date()}
+                  defaultTime="09:00"
+                  clientId={client.id}
+                />
+              </div>
+            </div>
           )}
-        </Dialog>
+        </div>
       </CardFooter>
     </Card>
   );

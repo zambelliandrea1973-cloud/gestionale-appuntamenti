@@ -117,16 +117,18 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
         )}
       </div>
       
-      {/* Form dialog for new appointment - Usando il Dialog di shadcn/ui */}
-      <Dialog open={isAppointmentFormOpen} onOpenChange={setIsAppointmentFormOpen}>
-        {isAppointmentFormOpen && (
-          <AppointmentForm 
-            onClose={handleFormClosed}
-            defaultDate={selectedDate}
-            defaultTime={selectedTimeSlot || "09:00"}
-          />
-        )}
-      </Dialog>
+      {/* Form dialog for new appointment - Custom modal implementation */}
+      {isAppointmentFormOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={handleFormClosed}>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <AppointmentForm 
+              onClose={handleFormClosed}
+              defaultDate={selectedDate}
+              defaultTime={selectedTimeSlot || "09:00"}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
