@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { generateTimeSlots, formatDateFull, formatDateForApi } from "@/lib/utils/date";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, Plus, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentForm from "./AppointmentForm";
@@ -89,8 +89,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
             return (
               <div 
                 key={timeSlot} 
-                className="flex items-start px-4 py-3 hover:bg-gray-50 cursor-pointer"
-                onClick={() => handleTimeSlotClick(timeSlot)}
+                className="flex items-start px-4 py-3 hover:bg-gray-50"
               >
                 <div className="w-16 font-medium text-gray-600">{timeSlot}</div>
                 <div className="flex-grow">
@@ -107,8 +106,18 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
                     // Lunch break example
                     <div className="text-sm text-gray-500 italic">Pausa pranzo</div>
                   ) : (
-                    // Empty slot - clicking anywhere will already trigger the new appointment dialog
-                    <div className="h-3"></div>
+                    // Empty slot with add button
+                    <div className="flex items-center h-12">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-gray-400 hover:text-blue-600"
+                        onClick={() => handleTimeSlotClick(timeSlot)}
+                      >
+                        <Plus className="h-4 w-4 mr-1" />
+                        Nuovo appuntamento
+                      </Button>
+                    </div>
                   )}
                 </div>
               </div>
