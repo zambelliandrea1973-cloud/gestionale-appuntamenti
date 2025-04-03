@@ -109,10 +109,13 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
                     // Empty slot with add button
                     <div className="flex items-center h-12">
                       <Button 
-                        variant="ghost" 
+                        variant="outline" 
                         size="sm" 
-                        className="text-gray-400 hover:text-blue-600"
-                        onClick={() => handleTimeSlotClick(timeSlot)}
+                        className="text-blue-600 hover:bg-blue-50 border-dashed border-blue-300"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTimeSlotClick(timeSlot);
+                        }}
                       >
                         <Plus className="h-4 w-4 mr-1" />
                         Nuovo appuntamento
