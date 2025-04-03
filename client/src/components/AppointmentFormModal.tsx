@@ -10,7 +10,11 @@ interface AppointmentFormModalProps {
 
 // Funzione di utilità per formattare la data per l'API
 function formatDateForApi(date: Date): string {
-  return date.toISOString().split('T')[0];
+  // Aggiungiamo 12 ore alla data per evitare problemi di fuso orario
+  // Questo assicura che quando verrà convertita in UTC non cambi il giorno
+  const adjustedDate = new Date(date);
+  adjustedDate.setHours(12, 0, 0, 0);
+  return adjustedDate.toISOString().split('T')[0];
 }
 
 export default function AppointmentFormModal({ clientId, onClose }: AppointmentFormModalProps) {
