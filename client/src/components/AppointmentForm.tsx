@@ -131,36 +131,40 @@ export default function AppointmentForm({
       });
       
       // Invalidate all appointment-related queries to ensure fresh data
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      console.log("Inizia invalidazione queries dopo salvataggio");
       
       // Force invalidation of the specific date query
       const dateString = formatDateForApi(variables.date);
+      console.log("Invalidazione query per data specifica:", dateString);
       await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-      console.log("Invalidata query per la data:", dateString);
       
-      // Invalidate range queries for calendar views
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
-      
-      // Invalidiamo anche la lista generale degli appuntamenti
+      // Invalidate all appointments
+      console.log("Invalidazione lista generale appuntamenti");
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
       
-      // Invalidate specific date queries
-      const appointmentDate = new Date(data.date);
-      const formattedDate = appointmentDate.toISOString().split('T')[0]; // YYYY-MM-DD
-      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${formattedDate}`] });
+      // Invalidate range queries for calendar views
+      console.log("Invalidazione query per intervalli di date (range)");
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+      
+      // Invalidate specific client's appointments
+      if (variables.clientId) {
+        console.log("Invalidazione appuntamenti del cliente:", variables.clientId);
+        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/client/${variables.clientId}`] });
+      }
       
       // Logging for confirmation
       console.log("Appuntamento salvato con successo, date invalidate");
       
-      // Chiudiamo il form con un minimo ritardo per evitare race conditions
-      setTimeout(() => {
-        console.log("Chiusura del form di appuntamento con timeout");
-        if (typeof onClose === 'function') {
-          onClose();
-        } else {
-          console.error("onClose non è una funzione valida:", onClose);
-        }
-      }, 300);
+      // Forziamo un refresh dell'UI per mostrare i nuovi dati
+      console.log("Forzatura refresh UI");
+      
+      // Chiudiamo il form
+      console.log("Chiusura del form di appuntamento");
+      if (typeof onClose === 'function') {
+        onClose();
+      } else {
+        console.error("onClose non è una funzione valida:", onClose);
+      }
     },
     onError: (error) => {
       console.error("Errore durante il salvataggio dell'appuntamento:", error);
