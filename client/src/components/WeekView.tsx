@@ -137,19 +137,21 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
       </div>
       
       {/* Form dialog for new appointment */}
-      <Dialog open={isAppointmentFormOpen} onOpenChange={setIsAppointmentFormOpen}>
-        <DialogTrigger className="hidden">
-          <Button>New Appointment</Button>
-        </DialogTrigger>
-        <AppointmentForm 
-          onClose={() => {
-            setIsAppointmentFormOpen(false);
-            handleAppointmentUpdated();
-          }}
-          defaultDate={selectedDayForAppointment || selectedDate}
-          defaultTime="09:00"
-        />
-      </Dialog>
+      {/* Form dialog for new appointment - Custom modal implementation */}
+      {isAppointmentFormOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <AppointmentForm 
+              onClose={() => {
+                setIsAppointmentFormOpen(false);
+                handleAppointmentUpdated();
+              }}
+              defaultDate={selectedDayForAppointment || selectedDate}
+              defaultTime="09:00"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
