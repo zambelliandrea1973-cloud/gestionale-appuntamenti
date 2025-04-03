@@ -193,7 +193,17 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           {isAppointmentFormOpen && (
             <AppointmentFormModal 
               clientId={client.id} 
-              onClose={() => setIsAppointmentFormOpen(false)} 
+              onClose={() => {
+                console.log("Chiusura modale appuntamento da ClientCard");
+                setIsAppointmentFormOpen(false);
+                // Forziamo un refresh globale quando si chiude la modale
+                if (onUpdate) {
+                  console.log("Triggering onUpdate da ClientCard");
+                  setTimeout(() => {
+                    onUpdate();
+                  }, 500);
+                }
+              }} 
             />
           )}
         </div>

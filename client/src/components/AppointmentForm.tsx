@@ -127,10 +127,17 @@ export default function AppointmentForm({
   // Create or update appointment mutation
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
+      console.log("=== MUTATION FUNCTION INIZIATA ===");
       console.log("Tentativo di salvataggio appuntamento con dati:", data);
       
       // Controlli preliminari
       if (!data.clientId || !data.serviceId || !data.date || !data.startTime) {
+        console.error("ERRORE: Dati incompleti per l'appuntamento", {
+          clientId: data.clientId,
+          serviceId: data.serviceId,
+          date: data.date,
+          startTime: data.startTime
+        });
         throw new Error("Dati incompleti per l'appuntamento");
       }
       
@@ -249,7 +256,31 @@ export default function AppointmentForm({
 
   const onSubmit = (data: FormData) => {
     try {
-      console.log("Invio form appuntamento con dati:", data);
+      console.log("=== INIZIO PROCESSO SALVATAGGIO APPUNTAMENTO ===");
+      console.log("Dati form:", data);
+      console.log(`Client ID: ${data.clientId}, Service ID: ${data.serviceId}`);
+      console.log(`Data: ${data.date}, Ora: ${data.startTime}`);
+      
+      // Controlli di validità
+      if (!data.clientId || data.clientId === 0) {
+        console.error("Cliente non selezionato!");
+        toast({
+          title: "Errore",
+          description: "Seleziona un cliente per l'appuntamento",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      if (!data.serviceId || data.serviceId === 0) {
+        console.error("Servizio non selezionato!");
+        toast({
+          title: "Errore",
+          description: "Seleziona un servizio per l'appuntamento",
+          variant: "destructive"
+        });
+        return;
+      }
       
       // Check if client has provided consent
       const selectedClient = clients.find((c: any) => c.id === data.clientId);
@@ -263,10 +294,17 @@ export default function AppointmentForm({
         });
       }
       
+      // Log client e service
+      console.log("Cliente selezionato:", selectedClient);
+      const selectedService = services.find((s: any) => s.id === data.serviceId);
+      console.log("Servizio selezionato:", selectedService);
+      
       // Submit data
+      console.log("Invio dati alla mutation...");
       mutation.mutate(data);
+      
     } catch (error: any) {
-      console.error("Errore durante la preparazione dei dati:", error);
+      console.error("ERRORE CRITICO durante la preparazione dei dati:", error);
       toast({
         title: "Errore",
         description: `Si è verificato un errore: ${error.message}`,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { 
   Plus, 
   Search, 
@@ -64,8 +64,20 @@ export default function Clients() {
     return matchesSearch && matchesTab;
   });
   
-  // Handle client form submission
+  // Otteniamo l'istanza del queryClient
+  const queryClient = useQueryClient();
+  
+  // Handle client form submission and refresh data
   const handleClientCreated = () => {
+    console.log("Cliente creato/aggiornato, refreshing data...");
+    
+    // Invalidare tutte le query relative ai clienti
+    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+    
+    // Invalidare anche tutte le query relative agli appuntamenti
+    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+    
+    // Refresh locale
     refetchClients();
     setIsClientDialogOpen(false);
   };
