@@ -122,9 +122,13 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     const dateText = dateElement?.textContent?.trim();
     let date = new Date();
     
+    console.log("[MODAL] Testo data trovato:", dateText);
+    
     if (dateText && dateText !== "Seleziona data") {
       // Tenta di estrarre la data in formato italiano
       const parts = dateText.split(' ');
+      console.log("[MODAL] Parti della data:", parts);
+      
       if (parts.length >= 3) {
         const day = parseInt(parts[0]);
         let month = 0;
@@ -142,9 +146,13 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
           case 'novembre': month = 10; break;
           case 'dicembre': month = 11; break;
         }
+        
         const year = parseInt(parts[2]);
+        console.log("[MODAL] Data estratta:", day, month, year);
+        
         if (!isNaN(day) && !isNaN(year)) {
           date = new Date(year, month, day);
+          console.log("[MODAL] Data convertita:", date);
         }
       }
     }
