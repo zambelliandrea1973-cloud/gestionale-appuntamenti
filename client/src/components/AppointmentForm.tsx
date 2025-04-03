@@ -212,7 +212,7 @@ export default function AppointmentForm({
         toast({
           title: "Attenzione",
           description: "Il cliente non ha fornito il consenso al trattamento dei dati. L'appuntamento verrà comunque creato.",
-          variant: "warning",
+          variant: "destructive",
           duration: 5000,
         });
       }

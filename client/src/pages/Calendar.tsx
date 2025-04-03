@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryClient } from "@/lib/queryClient";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -27,7 +26,6 @@ import AppointmentForm from "@/components/AppointmentForm";
 export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
-  const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   
   // For search functionality
@@ -38,6 +36,9 @@ export default function Calendar() {
   const { data: clients = [] } = useQuery({
     queryKey: ['/api/clients'],
   });
+  
+  // Importiamo il queryClient per le invalidazioni
+  const queryClient = useQueryClient();
   
   // Filter appointments based on search query
   const filteredAppointments = searchQuery
