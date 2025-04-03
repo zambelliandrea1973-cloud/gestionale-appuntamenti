@@ -67,6 +67,10 @@ export default function AppointmentForm({
 }: AppointmentFormProps) {
   const { toast } = useToast();
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
+  const [clientSearchTerm, setClientSearchTerm] = useState("");
+  const [serviceSearchTerm, setServiceSearchTerm] = useState("");
+  const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
+  const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
 
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
@@ -448,21 +452,56 @@ export default function AppointmentForm({
                   <FormItem>
                     <FormLabel>Cliente</FormLabel>
                     <FormControl>
-                      <Select
-                        value={String(field.value || "")}
-                        onValueChange={(value) => field.onChange(parseInt(value))}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Seleziona cliente" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {clients.map((client: any) => (
-                            <SelectItem key={client.id} value={client.id.toString()}>
-                              {client.firstName} {client.lastName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <div className="relative">
+                        <Input 
+                          placeholder="Cerca cliente..." 
+                          value={clientSearchTerm}
+                          onChange={(e) => setClientSearchTerm(e.target.value)}
+                          onFocus={() => setIsClientDropdownOpen(true)}
+                          onBlur={() => {
+                            // Ritardo per permettere il click sulle opzioni
+                            setTimeout(() => setIsClientDropdownOpen(false), 200);
+                          }}
+                          className="w-full"
+                        />
+                        
+                        {/* Mostra il valore selezionato sopra l'input */}
+                        {(() => {
+                          const selectedClient = clients.find((c: any) => c.id === field.value);
+                          return selectedClient ? (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
+                              Selezionato: {selectedClient.firstName} {selectedClient.lastName}
+                            </div>
+                          ) : null;
+                        })()}
+                        
+                        {/* Lista dei risultati filtrati */}
+                        {isClientDropdownOpen && (
+                          <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto z-10 bg-white border rounded-md shadow-lg mt-1">
+                            {clients
+                              .filter((client: any) => 
+                                clientSearchTerm.length === 0 || 
+                                `${client.firstName} ${client.lastName}`
+                                  .toLowerCase()
+                                  .includes(clientSearchTerm.toLowerCase())
+                              )
+                              .map((client: any) => (
+                                <div 
+                                  key={client.id} 
+                                  className="p-2 hover:bg-slate-100 cursor-pointer" 
+                                  onClick={() => {
+                                    field.onChange(client.id);
+                                    setClientSearchTerm(`${client.firstName} ${client.lastName}`);
+                                    setIsClientDropdownOpen(false);
+                                  }}
+                                >
+                                  {client.firstName} {client.lastName}
+                                </div>
+                              ))
+                            }
+                          </div>
+                        )}
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -500,29 +539,55 @@ export default function AppointmentForm({
                 <FormItem>
                   <FormLabel>Servizio</FormLabel>
                   <FormControl>
-                    <Select
-                      value={String(field.value || "")}
-                      onValueChange={(value) => {
-                        field.onChange(parseInt(value));
-                        
-                        // Calcola automaticamente l'orario di fine in base al servizio
-                        const selectedService = services.find((s: any) => s.id === parseInt(value));
-                        if (selectedService) {
-                          console.log("Servizio selezionato con durata:", selectedService.duration);
-                        }
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleziona servizio" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {services.map((service: any) => (
-                          <SelectItem key={service.id} value={service.id.toString()}>
-                            {service.name} - {service.duration} min
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <div className="relative">
+                      <Input 
+                        placeholder="Cerca servizio..." 
+                        value={serviceSearchTerm}
+                        onChange={(e) => setServiceSearchTerm(e.target.value)}
+                        onFocus={() => setIsServiceDropdownOpen(true)}
+                        onBlur={() => {
+                          // Ritardo per permettere il click sulle opzioni
+                          setTimeout(() => setIsServiceDropdownOpen(false), 200);
+                        }}
+                        className="w-full"
+                      />
+                      
+                      {/* Mostra il valore selezionato sopra l'input */}
+                      {(() => {
+                        const selectedService = services.find((s: any) => s.id === field.value);
+                        return selectedService ? (
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
+                            Selezionato: {selectedService.name}
+                          </div>
+                        ) : null;
+                      })()}
+                      
+                      {/* Lista dei risultati filtrati */}
+                      {isServiceDropdownOpen && (
+                        <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto z-10 bg-white border rounded-md shadow-lg mt-1">
+                          {services
+                            .filter((service: any) =>
+                              serviceSearchTerm.length === 0 || 
+                              service.name.toLowerCase().includes(serviceSearchTerm.toLowerCase())
+                            )
+                            .map((service: any) => (
+                              <div 
+                                key={service.id} 
+                                className="p-2 hover:bg-slate-100 cursor-pointer" 
+                                onClick={() => {
+                                  field.onChange(service.id);
+                                  setServiceSearchTerm(service.name);
+                                  setIsServiceDropdownOpen(false);
+                                  console.log("Servizio selezionato con durata:", service.duration);
+                                }}
+                              >
+                                {service.name} - {service.duration} min
+                              </div>
+                            ))
+                          }
+                        </div>
+                      )}
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -583,6 +648,7 @@ export default function AppointmentForm({
                     
                     // Salva i valori in una variabile globale o locale storage
                     // per poterli recuperare dal modal
+                    // @ts-ignore - Aggiungiamo la proprietà a window
                     window.lastFormValues = formValues;
                     
                     const directButton = document.getElementById('saveAppointmentDirectButton');
