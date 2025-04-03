@@ -465,12 +465,13 @@ export default function AppointmentForm({
                           className="w-full"
                         />
                         
-                        {/* Mostra il valore selezionato sopra l'input */}
+                        {/* Mostra il valore selezionato solo se non c'è testo nella ricerca */}
                         {(() => {
+                          if (clientSearchTerm) return null;
                           const selectedClient = clients.find((c: any) => c.id === field.value);
                           return selectedClient ? (
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
-                              Selezionato: {selectedClient.firstName} {selectedClient.lastName}
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground opacity-70">
+                              {selectedClient.firstName} {selectedClient.lastName}
                             </div>
                           ) : null;
                         })()}
@@ -552,12 +553,13 @@ export default function AppointmentForm({
                         className="w-full"
                       />
                       
-                      {/* Mostra il valore selezionato sopra l'input */}
+                      {/* Mostra il valore selezionato solo se non c'è testo nella ricerca */}
                       {(() => {
+                        if (serviceSearchTerm) return null;
                         const selectedService = services.find((s: any) => s.id === field.value);
                         return selectedService ? (
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground">
-                            Selezionato: {selectedService.name}
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-muted-foreground opacity-70">
+                            {selectedService.name}
                           </div>
                         ) : null;
                       })()}
