@@ -48,6 +48,9 @@ export const appointments = pgTable("appointments", {
   endTime: time("end_time").notNull(),
   notes: text("notes"),
   status: text("status").default("scheduled"), // scheduled, completed, cancelled
+  reminderType: text("reminder_type"), // sms, whatsapp, none
+  reminderStatus: text("reminder_status").default("pending"), // pending, sent, failed
+  reminderTime: timestamp("reminder_time"), // When the reminder should be sent
   createdAt: timestamp("created_at").defaultNow(),
 });
 
