@@ -154,47 +154,24 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
               </Badge>
             </div>
           )}
-          
-          {(client.medicalNotes || client.allergies) && (
-            <div className="mt-3 pt-3 border-t border-gray-200">
-              <div className="flex items-center">
-                <h4 className="text-sm font-medium">Informazioni mediche disponibili</h4>
-                <Badge 
-                  variant="outline" 
-                  className="ml-2 bg-blue-50 text-blue-700 border-blue-200 cursor-pointer hover:bg-blue-100"
-                  onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
-                >
-                  <FileText className="h-3 w-3 mr-1" />
-                  Vedi
-                </Badge>
-              </div>
-            </div>
-          )}
-          
-          {client.notes && (
-            <div className="mt-3 pt-3 border-t border-gray-200">
-              <h4 className="text-sm font-medium mb-1">Note:</h4>
-              <p className="text-sm text-gray-600">{client.notes}</p>
-            </div>
-          )}
         </div>
       </CardContent>
       
-      <CardFooter className="px-6 pb-6 pt-4 gap-3 border-t">
+      <CardFooter className="px-6 pb-6 pt-4 border-t flex flex-col gap-3">
         <Button 
           variant="secondary" 
           size="sm" 
-          className="flex-1"
+          className="w-full"
           onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
         >
           <FileText className="h-4 w-4 mr-2" />
-          Cartella medica
+          Cartella cliente
         </Button>
           
         <Button 
           variant="outline" 
           size="sm" 
-          className="flex-1"
+          className="w-full"
           onClick={() => setIsAppointmentFormOpen(true)}
         >
           <Calendar className="h-4 w-4 mr-2" />
