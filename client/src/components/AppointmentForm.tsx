@@ -254,7 +254,7 @@ export default function AppointmentForm({
     }
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     try {
       console.log("=== INIZIO PROCESSO SALVATAGGIO APPUNTAMENTO ===");
       console.log("Dati form:", data);
@@ -299,8 +299,108 @@ export default function AppointmentForm({
       const selectedService = services.find((s: any) => s.id === data.serviceId);
       console.log("Servizio selezionato:", selectedService);
       
-      // Submit data
+      // Submit data with try-catch directly here
       console.log("Invio dati alla mutation...");
+      
+      try {
+        // WORKAROUND: Bypass the mutation and make a direct API call
+        console.log("TENTATIVO DIRETTO: Bypassing the mutation system");
+        
+        // Calcola l'orario di fine 
+        const [hours, minutes] = data.startTime.split(':').map(Number);
+        const startMinutes = hours * 60 + minutes;
+        const endMinutes = startMinutes + (selectedService?.duration || 60);
+        
+        const endHours = Math.floor(endMinutes / 60);
+        const endMins = endMinutes % 60;
+        
+        const endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}:00`;
+        
+        // Prepara i dati per l'invio
+        const appointmentData = {
+          clientId: data.clientId,
+          serviceId: data.serviceId,
+          date: formatDateForApi(data.date),
+          startTime: data.startTime + ":00",
+          endTime: endTime,
+          notes: data.notes || "",
+          status: "scheduled"
+        };
+        
+        console.log("Dati formattati per API DIRETTA:", appointmentData);
+        
+        // Esegui la chiamata diretta
+        const url = appointmentId 
+          ? `/api/appointments/${appointmentId}` 
+          : "/api/appointments";
+        
+        const method = appointmentId ? "PUT" : "POST";
+        
+        console.log(`Invio richiesta DIRETTA ${method} a ${url} con dati:`, appointmentData);
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(appointmentData),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log("RISPOSTA DIRETTA RICEVUTA:", result);
+        
+        // Invalida tutte le query relative agli appuntamenti
+        console.log("Invalidazione diretta delle query");
+        await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+        
+        const today = new Date();
+        for (let i = 0; i < 30; i++) {
+          const date = new Date(today);
+          date.setDate(date.getDate() + i);
+          const formattedDate = formatDateForApi(date);
+          await queryClient.invalidateQueries({ 
+            queryKey: [`/api/appointments/date/${formattedDate}`] 
+          });
+        }
+        
+        // Notifica successo
+        toast({
+          title: appointmentId ? "Appuntamento aggiornato" : "Appuntamento creato",
+          description: appointmentId 
+            ? "L'appuntamento è stato aggiornato con successo" 
+            : "Nuovo appuntamento creato con successo",
+        });
+        
+        // Chiudi la form
+        console.log("Chiusura form dopo successo richiesta diretta");
+        
+        // Notifica che l'appuntamento è stato salvato
+        if (onAppointmentSaved) {
+          console.log("Chiamata callback onAppointmentSaved (dopo richiesta diretta)");
+          onAppointmentSaved();
+        } else {
+          // Se non c'è il callback specifico, chiudi la form
+          console.log("Chiusura form senza callback specifico");
+          onClose();
+        }
+        
+        return;
+      } catch (error: any) {
+        console.error("ERRORE DURANTE RICHIESTA DIRETTA:", error);
+        toast({
+          title: "Errore durante il salvataggio diretto",
+          description: `Si è verificato un errore: ${error.message}`,
+          variant: "destructive"
+        });
+        // Proceed with normal mutation as fallback
+      }
+      
+      // If direct approach failed, try with mutation
+      console.log("Tentativo con mutation standard");
       mutation.mutate(data);
       
     } catch (error: any) {
