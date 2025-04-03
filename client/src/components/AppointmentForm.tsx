@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertAppointmentSchema } from "@shared/schema";
-import { Loader2, X, Plus, Calendar } from "lucide-react";
+import { Loader2, X, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
@@ -33,8 +33,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import ClientForm from "./ClientForm";
+
 
 interface AppointmentFormProps {
   appointmentId?: number;
@@ -453,34 +452,23 @@ export default function AppointmentForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cliente</FormLabel>
-                    <div className="flex gap-2">
-                      <FormControl>
-                        <Select
-                          value={String(field.value || "")}
-                          onValueChange={(value) => field.onChange(parseInt(value))}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Seleziona cliente" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {clients.map((client: any) => (
-                              <SelectItem key={client.id} value={client.id.toString()}>
-                                {client.firstName} {client.lastName}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      
-                      <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
-                        <DialogTrigger asChild>
-                          <Button variant="outline" type="button" size="icon">
-                            <Plus className="h-4 w-4" />
-                          </Button>
-                        </DialogTrigger>
-                        <ClientForm onClientCreated={handleClientCreated} onClose={() => setIsClientDialogOpen(false)} />
-                      </Dialog>
-                    </div>
+                    <FormControl>
+                      <Select
+                        value={String(field.value || "")}
+                        onValueChange={(value) => field.onChange(parseInt(value))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Seleziona cliente" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {clients.map((client: any) => (
+                            <SelectItem key={client.id} value={client.id.toString()}>
+                              {client.firstName} {client.lastName}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
