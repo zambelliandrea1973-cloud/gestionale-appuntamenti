@@ -7,7 +7,6 @@ import {
   isToday, 
   isCurrentMonth 
 } from "@/lib/utils/date";
-import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 
 interface MonthViewProps {
@@ -27,9 +26,9 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   // Last day of the month
   const lastDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
   
-  // Format start and end dates for the API - metodo alternativo per evitare problemi di fuso orario
-  const startDate = `${firstDayOfMonth.getFullYear()}-${String(firstDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(firstDayOfMonth.getDate()).padStart(2, '0')}`;
-  const endDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
+  // Format start and end dates for the API
+  const startDate = formatDateForApi(firstDayOfMonth);
+  const endDate = formatDateForApi(lastDayOfMonth);
   
   // Fetch appointments for the selected month
   const { data: appointments = [], isLoading, refetch } = useQuery({
@@ -93,8 +92,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   
   // Get appointments for a specific day
   const getAppointmentsForDay = (day: Date) => {
-    // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
-    const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+    const dateStr = formatDateForApi(day);
     return appointments.filter(appointment => appointment.date === dateStr);
   };
   
@@ -166,12 +164,18 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
                 {isMonthDay && !isLoading && (
                   <div className="mt-1 space-y-1 overflow-y-auto max-h-[80px]">
                     {dayAppointments.map((appointment) => (
-                      <div key={appointment.id} className="mb-1">
-                        <AppointmentCardSmall 
-                          appointment={appointment}
-                          onUpdate={handleAppointmentUpdated}
-                          view="month"
-                        />
+                      <div
+                        key={appointment.id}
+                        className="text-xs p-1 rounded truncate"
+                        style={{
+                          backgroundColor: `${appointment.service.color}20`,
+                          borderLeft: `2px solid ${appointment.service.color}`
+                        }}
+                        title={`${appointment.client.firstName} ${appointment.client.lastName} - ${appointment.service.name}`}
+                      >
+                        <div className="font-medium truncate">
+                          {appointment.startTime.substring(0, 5)} {appointment.client.firstName}
+                        </div>
                       </div>
                     ))}
                   </div>

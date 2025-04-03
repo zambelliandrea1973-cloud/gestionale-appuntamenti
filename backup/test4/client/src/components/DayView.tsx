@@ -16,11 +16,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   
-  // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
-  const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
-  
-  // Teniamo anche il vecchio formato per riferimento nei log
-  const oldFormattedDate = formatDateForApi(selectedDate);
+  const formattedDate = formatDateForApi(selectedDate);
   
   // Fetch appointments for the selected date
   const { data: appointments = [], isLoading, refetch } = useQuery({
@@ -36,12 +32,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
   useEffect(() => {
     console.log("DayView rendering with date:", formattedDate);
     console.log("Appuntamenti trovati:", appointments);
-    console.log("Data selezionata originale:", selectedDate);
-    
-    // Verifica con formato alternativo
-    const altFormatDate = formatDateForApi(new Date(selectedDate));
-    console.log("Data formattata alternativa:", altFormatDate);
-  }, [formattedDate, appointments, selectedDate]);
+  }, [formattedDate, appointments]);
   
   // Handle appointment update
   const handleAppointmentUpdated = () => {

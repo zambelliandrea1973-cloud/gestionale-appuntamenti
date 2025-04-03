@@ -13,7 +13,6 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
-import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 
 interface WeekViewProps {
@@ -26,12 +25,8 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
   
-  // Utilizziamo un metodo alternativo per formattare le date, per evitare problemi di fuso orario
-  const weekStart = getWeekStart(selectedDate);
-  const weekEnd = getWeekEnd(selectedDate);
-  
-  const startDate = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
-  const endDate = `${weekEnd.getFullYear()}-${String(weekEnd.getMonth() + 1).padStart(2, '0')}-${String(weekEnd.getDate()).padStart(2, '0')}`;
+  const startDate = formatDateForApi(getWeekStart(selectedDate));
+  const endDate = formatDateForApi(getWeekEnd(selectedDate));
   
   // Fetch appointments for the selected week
   const { data: appointments = [], isLoading, refetch } = useQuery({
@@ -59,8 +54,7 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
   
   // Get appointments for a specific day
   const getAppointmentsForDay = (day: Date) => {
-    // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
-    const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+    const dateStr = formatDateForApi(day);
     return appointments.filter(appointment => appointment.date === dateStr);
   };
   
@@ -114,10 +108,9 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
                     <div className="text-gray-500 mb-1">
                       {appointment.startTime.substring(0, 5)}
                     </div>
-                    <AppointmentCardSmall 
+                    <AppointmentCard 
                       appointment={appointment}
                       onUpdate={handleAppointmentUpdated}
-                      view="week"
                     />
                   </div>
                 ))
