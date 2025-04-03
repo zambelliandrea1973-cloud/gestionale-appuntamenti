@@ -12,7 +12,7 @@ interface DayViewProps {
 }
 
 export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
-  const [timeSlots] = useState(() => generateTimeSlots(8, 19));
+  const [timeSlots] = useState(() => generateTimeSlots(8, 22));
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   
