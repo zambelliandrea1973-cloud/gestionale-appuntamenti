@@ -27,11 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
 
@@ -452,23 +447,23 @@ export default function AppointmentForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cliente</FormLabel>
-                    <FormControl>
-                      <Select
-                        value={String(field.value || "")}
-                        onValueChange={(value) => field.onChange(parseInt(value))}
-                      >
-                        <SelectTrigger>
+                    <Select
+                      value={String(field.value || "")}
+                      onValueChange={(value) => field.onChange(parseInt(value))}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Seleziona cliente" />
                         </SelectTrigger>
-                        <SelectContent>
-                          {clients.map((client: any) => (
-                            <SelectItem key={client.id} value={client.id.toString()}>
-                              {client.firstName} {client.lastName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
+                      </FormControl>
+                      <SelectContent>
+                        {clients.map((client: any) => (
+                          <SelectItem key={client.id} value={client.id.toString()}>
+                            {client.firstName} {client.lastName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -504,82 +499,43 @@ export default function AppointmentForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Servizio</FormLabel>
-                  <FormControl>
-                    <Select
-                      value={String(field.value || "")}
-                      onValueChange={(value) => field.onChange(parseInt(value))}
-                    >
-                      <SelectTrigger>
+                  <Select
+                    value={String(field.value || "")}
+                    onValueChange={(value) => {
+                      field.onChange(parseInt(value));
+                      
+                      // Calcola automaticamente l'orario di fine in base al servizio
+                      const selectedService = services.find((s: any) => s.id === parseInt(value));
+                      if (selectedService) {
+                        console.log("Servizio selezionato con durata:", selectedService.duration);
+                      }
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Seleziona servizio" />
                       </SelectTrigger>
-                      <SelectContent>
-                        {services.map((service: any) => (
-                          <SelectItem key={service.id} value={service.id.toString()}>
-                            {service.name} - {service.duration} min
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    </FormControl>
+                    <SelectContent>
+                      {services.map((service: any) => (
+                        <SelectItem key={service.id} value={service.id.toString()}>
+                          {service.name} - {service.duration} min
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
             
-            {/* Date and time pickers */}
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Data</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start text-left font-normal"
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP", { locale: it })
-                            ) : (
-                              <span>Seleziona data</span>
-                            )}
-                            <Calendar className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <CalendarComponent
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="startTime"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ora</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="time"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            {/* Informazioni sullo slot selezionato (informativo) */}
+            <div className="p-3 bg-blue-50 rounded-md">
+              <p className="text-sm text-blue-700 font-medium">Dettagli slot selezionato:</p>
+              <div className="flex justify-between mt-1">
+                <span className="text-sm">Data: {format(form.getValues().date, "PPP", { locale: it })}</span>
+                <span className="text-sm">Ora: {form.getValues().startTime}</span>
+              </div>
             </div>
             
             {/* Notes */}
