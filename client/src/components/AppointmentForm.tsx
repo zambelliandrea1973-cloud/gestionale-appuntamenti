@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertAppointmentSchema } from "@shared/schema";
-import { Loader2, X, Calendar } from "lucide-react";
+import { Loader2, X, Calendar, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
@@ -71,6 +71,8 @@ export default function AppointmentForm({
   const [serviceSearchTerm, setServiceSearchTerm] = useState("");
   const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
+  // Mostra i dettagli solo se stiamo modificando un appuntamento o se vengono forniti valori predefiniti
+  const [showDateTimeDetails, setShowDateTimeDetails] = useState(!!appointmentId || !!defaultDate || !!defaultTime);
 
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
@@ -596,13 +598,62 @@ export default function AppointmentForm({
               )}
             />
             
-            {/* Informazioni sullo slot selezionato (informativo) */}
-            <div className="p-3 bg-blue-50 rounded-md">
-              <p className="text-sm text-blue-700 font-medium">Dettagli slot selezionato:</p>
-              <div className="flex justify-between mt-1">
-                <span className="text-sm">Data: {format(form.getValues().date, "PPP", { locale: it })}</span>
-                <span className="text-sm">Ora: {form.getValues().startTime}</span>
+            {/* Sezione per selezione di data e ora */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={() => {
+                    // Quando l'utente seleziona esplicitamente una data, mostriamo i dettagli
+                    setShowDateTimeDetails(true);
+                    
+                    // Qui puoi implementare l'apertura di un calendario
+                    // Per ora, semplicemente registriamo che l'utente ha interagito
+                    toast({
+                      title: "Seleziona una data",
+                      description: "Usa il calendario per selezionare una data",
+                    });
+                  }}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Seleziona data
+                </Button>
+                
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={() => {
+                    // Quando l'utente seleziona esplicitamente un orario, mostriamo i dettagli
+                    setShowDateTimeDetails(true);
+                    
+                    // Qui puoi implementare l'apertura di un selettore orario
+                    // Per ora, semplicemente registriamo che l'utente ha interagito
+                    toast({
+                      title: "Seleziona un orario",
+                      description: "Seleziona l'orario dell'appuntamento",
+                    });
+                  }}
+                >
+                  <Clock className="mr-2 h-4 w-4" />
+                  Seleziona ora
+                </Button>
               </div>
+              
+              {/* Mostriamo i dettagli solo se l'utente ha interagito con i campi data/ora
+                  o se stiamo modificando un appuntamento esistente, 
+                  o se vengono forniti valori di default */}
+              {(showDateTimeDetails || !!appointmentId || !!defaultDate || !!defaultTime) && (
+                <div className="p-3 bg-blue-50 rounded-md">
+                  <p className="text-sm text-blue-700 font-medium">Dettagli slot selezionato:</p>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-sm">Data: {format(form.getValues().date, "PPP", { locale: it })}</span>
+                    <span className="text-sm">Ora: {form.getValues().startTime}</span>
+                  </div>
+                </div>
+              )}
             </div>
             
             {/* Notes */}
