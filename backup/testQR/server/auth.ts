@@ -1,0 +1,274 @@
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { Express } from "express";
+import session from "express-session";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
+import { storage } from "./storage";
+import { User, ClientAccount, users } from "@shared/schema";
+
+declare global {
+  namespace Express {
+    interface User {
+      id: number;
+      username: string; 
+      type: string;
+      role?: string;
+      clientId?: number;
+      client?: any;
+    }
+  }
+}
+
+const scryptAsync = promisify(scrypt);
+
+async function hashPassword(password: string) {
+  const salt = randomBytes(16).toString("hex");
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString("hex")}.${salt}`;
+}
+
+async function comparePasswords(supplied: string, stored: string) {
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+  return timingSafeEqual(hashedBuf, suppliedBuf);
+}
+
+export function setupAuth(app: Express) {
+  const sessionSettings: session.SessionOptions = {
+    secret: process.env.SESSION_SECRET || "secret-placeholder-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 settimana
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    },
+  };
+
+  app.set("trust proxy", 1);
+  app.use(session(sessionSettings));
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Strategia di autenticazione per utenti professionali (admin/staff)
+  passport.use("local-staff", new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await storage.getUserByUsername(username);
+      if (!user || !(await comparePasswords(password, user.password))) {
+        return done(null, false, { message: "Username o password non validi" });
+      }
+      return done(null, { ...user, type: "staff" });
+    } catch (err) {
+      return done(err);
+    }
+  }));
+
+  // Strategia di autenticazione per clienti
+  passport.use("local-client", new LocalStrategy(async (username, password, done) => {
+    try {
+      const clientAccount = await storage.getClientAccountByUsername(username);
+      if (!clientAccount || !clientAccount.isActive || !(await comparePasswords(password, clientAccount.password))) {
+        return done(null, false, { message: "Username o password non validi o account non attivo" });
+      }
+      
+      const client = await storage.getClient(clientAccount.clientId);
+      if (!client) {
+        return done(null, false, { message: "Account cliente non valido" });
+      }
+      
+      return done(null, { 
+        ...clientAccount, 
+        client, 
+        type: "client" 
+      });
+    } catch (err) {
+      return done(err);
+    }
+  }));
+
+  // Serializziamo l'utente con un formato che ci permette di riconoscere se è staff o cliente
+  passport.serializeUser((user: any, done) => {
+    const userType = user.type;
+    const userId = user.id;
+    
+    done(null, `${userType}:${userId}`);
+  });
+
+  // Deserializziamo l'utente in base al tipo
+  passport.deserializeUser(async (serialized: string, done) => {
+    try {
+      const [type, idStr] = serialized.split(":");
+      const id = parseInt(idStr, 10);
+
+      if (type === "staff") {
+        const user = await storage.getUser(id);
+        if (!user) return done(null, false);
+        return done(null, { ...user, type: "staff" });
+      } else if (type === "client") {
+        const clientAccount = await storage.getClientAccount(id);
+        if (!clientAccount || !clientAccount.isActive) return done(null, false);
+        
+        const client = await storage.getClient(clientAccount.clientId);
+        if (!client) return done(null, false);
+        
+        return done(null, { 
+          ...clientAccount, 
+          client, 
+          type: "client" 
+        });
+      }
+
+      return done(null, false);
+    } catch (err) {
+      return done(err);
+    }
+  });
+
+  // Rotte di autenticazione per utenti professionali
+  app.post("/api/staff/login", passport.authenticate("local-staff"), (req, res) => {
+    res.status(200).json(req.user);
+  });
+
+  // Rotte di autenticazione per clienti
+  app.post("/api/client/login", passport.authenticate("local-client"), (req, res) => {
+    res.status(200).json(req.user);
+  });
+
+  // Registrazione per utenti staff (solo admin può creare altri staff)
+  app.post("/api/staff/register", async (req, res, next) => {
+    try {
+      // Verifica che l'utente che fa la richiesta sia un admin
+      if (!req.isAuthenticated() || (req.user as any).type !== "staff" || (req.user as any).role !== "admin") {
+        return res.status(403).json({ message: "Solo gli amministratori possono registrare nuovi staff" });
+      }
+
+      const existingUser = await storage.getUserByUsername(req.body.username);
+      if (existingUser) {
+        return res.status(400).json({ message: "Username già in uso" });
+      }
+
+      const hashedPassword = await hashPassword(req.body.password);
+      const user = await storage.createUser({
+        ...req.body,
+        password: hashedPassword,
+      });
+
+      res.status(201).json(user);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Registrazione per clienti (può essere fatta da uno staff membro)
+  app.post("/api/client/register", async (req, res, next) => {
+    try {
+      // Verifica che l'utente che fa la richiesta sia staff
+      if (!req.isAuthenticated() || (req.user as any).type !== "staff") {
+        return res.status(403).json({ message: "Solo lo staff può registrare nuovi clienti" });
+      }
+
+      const { clientId, username, password } = req.body;
+
+      // Verifica che il cliente esista
+      const client = await storage.getClient(clientId);
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+
+      // Verifica che il cliente non abbia già un account
+      const existingAccount = await storage.getClientAccountByClientId(clientId);
+      if (existingAccount) {
+        return res.status(400).json({ message: "Il cliente ha già un account" });
+      }
+
+      // Verifica che l'username non sia già usato
+      const existingUsername = await storage.getClientAccountByUsername(username);
+      if (existingUsername) {
+        return res.status(400).json({ message: "Username già in uso" });
+      }
+
+      const hashedPassword = await hashPassword(password);
+      const clientAccount = await storage.createClientAccount({
+        clientId,
+        username,
+        password: hashedPassword,
+        isActive: true,
+      });
+
+      res.status(201).json(clientAccount);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/api/logout", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+      res.sendStatus(200);
+    });
+  });
+
+  app.get("/api/current-user", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Non autenticato" });
+    }
+    res.json(req.user);
+  });
+}
+
+// Middleware per verificare che l'utente sia autenticato
+export function isAuthenticated(req: any, res: any, next: any) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: "Accesso non autorizzato" });
+}
+
+// Middleware per verificare ruolo staff (admin o staff)
+export function isStaff(req: any, res: any, next: any) {
+  if (req.isAuthenticated() && req.user.type === "staff") {
+    return next();
+  }
+  res.status(403).json({ message: "Accesso negato: richiesto ruolo staff" });
+}
+
+// Middleware per verificare ruolo admin
+export function isAdmin(req: any, res: any, next: any) {
+  if (req.isAuthenticated() && req.user.type === "staff" && req.user.role === "admin") {
+    return next();
+  }
+  res.status(403).json({ message: "Accesso negato: richiesto ruolo amministratore" });
+}
+
+// Middleware per verificare se è un cliente
+export function isClient(req: any, res: any, next: any) {
+  if (req.isAuthenticated() && req.user.type === "client") {
+    return next();
+  }
+  res.status(403).json({ message: "Accesso negato: richiesto ruolo cliente" });
+}
+
+// Middleware per verificare se l'utente sta accedendo ai propri dati (per i clienti)
+export function isOwnClientData(clientIdParamName = 'clientId') {
+  return (req: any, res: any, next: any) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Accesso non autorizzato" });
+    }
+    
+    const paramClientId = parseInt(req.params[clientIdParamName]);
+    
+    // Se è un utente staff, ha sempre accesso
+    if (req.user.type === "staff") {
+      return next();
+    }
+    
+    // Se è un cliente, verifica che stia accedendo ai propri dati
+    if (req.user.type === "client" && req.user.clientId === paramClientId) {
+      return next();
+    }
+    
+    res.status(403).json({ message: "Accesso negato: non puoi accedere ai dati di altri clienti" });
+  };
+}
