@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, FileText, User } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -103,6 +103,37 @@ export default function ClientArea() {
       });
     } finally {
       setLoadingAppointments(false);
+    }
+  };
+  
+  // Funzione per confermare la ricezione del promemoria
+  const confirmAppointmentReminder = async (appointmentId: number) => {
+    try {
+      const response = await apiRequest('POST', `/api/appointments/${appointmentId}/confirm-reminder`);
+      
+      if (response.ok) {
+        const result = await response.json();
+        
+        // Aggiorna la lista degli appuntamenti
+        if (user?.client?.id) {
+          fetchClientAppointments(user.client.id);
+        }
+        
+        toast({
+          title: "Promemoria confermato",
+          description: "Grazie per aver confermato il tuo appuntamento.",
+          variant: "default",
+        });
+      } else {
+        throw new Error("Errore nella conferma del promemoria");
+      }
+    } catch (error) {
+      console.error("Errore nella conferma del promemoria:", error);
+      toast({
+        title: "Errore",
+        description: "Impossibile confermare il promemoria",
+        variant: "destructive",
+      });
     }
   };
 
@@ -255,36 +286,76 @@ export default function ClientArea() {
             </div>
           ) : appointments.length > 0 ? (
             <div className="space-y-4">
-              {appointments.slice(0, 5).map((appointment) => (
-                <div 
-                  key={appointment.id} 
-                  className="border rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between"
-                >
-                  <div className="flex-1 mb-3 md:mb-0">
-                    <div className="font-medium">{appointment.serviceName}</div>
-                    <div className="text-sm text-muted-foreground flex items-center mt-1">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {formatDate(appointment.date)}
-                      <Clock className="h-4 w-4 ml-3 mr-1" />
-                      {formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}
-                    </div>
-                  </div>
-                  <div className="flex flex-col md:flex-row gap-2">
-                    {new Date(`${appointment.date}T${appointment.startTime}`) > new Date() && (
-                      <Button variant="outline" size="sm">
-                        Modifica
-                      </Button>
-                    )}
-                    <Button 
-                      variant={appointment.status === "completed" ? "ghost" : "outline"} 
-                      size="sm"
-                      disabled={appointment.status === "completed"}
+              {appointments.slice(0, 5).map((appointment) => {
+                  // Verifica se l'appuntamento è passato
+                  const appointmentDate = new Date(`${appointment.date}T${appointment.startTime}`);
+                  const isExpired = appointmentDate < new Date();
+                  
+                  return (
+                    <div 
+                      key={appointment.id} 
+                      className={`border rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between ${isExpired ? 'bg-muted/30' : ''}`}
                     >
-                      {appointment.status === "completed" ? "Completato" : "Dettagli"}
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                      <div className="flex-1 mb-3 md:mb-0">
+                        <div className="font-medium flex items-center">
+                          {appointment.serviceName}
+                          {isExpired && (
+                            <span className="ml-2 px-2 py-0.5 rounded text-xs bg-muted text-muted-foreground">
+                              Passato
+                            </span>
+                          )}
+                          {appointment.status === "completed" && (
+                            <span className="ml-2 px-2 py-0.5 rounded text-xs bg-green-100 text-green-800">
+                              Completato
+                            </span>
+                          )}
+                          {appointment.reminderSent && !appointment.reminderConfirmed && (
+                            <span className="ml-2 px-2 py-0.5 rounded text-xs bg-blue-100 text-blue-800" title="Promemoria inviato">
+                              Notificato
+                            </span>
+                          )}
+                          {appointment.reminderConfirmed && (
+                            <span className="ml-2 px-2 py-0.5 rounded text-xs bg-green-100 text-green-800" title="Promemoria confermato">
+                              Confermato
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-sm text-muted-foreground flex items-center mt-1">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {formatDate(appointment.date)}
+                          <Clock className="h-4 w-4 ml-3 mr-1" />
+                          {formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}
+                        </div>
+                      </div>
+                      <div className="flex flex-col md:flex-row gap-2">
+                        {!isExpired && appointment.status !== "completed" && (
+                          <Button variant="outline" size="sm">
+                            Modifica
+                          </Button>
+                        )}
+                        
+                        {appointment.reminderSent && !appointment.reminderConfirmed && !isExpired && (
+                          <Button 
+                            variant="default" 
+                            size="sm"
+                            className="bg-green-600 hover:bg-green-700"
+                            onClick={() => confirmAppointmentReminder(appointment.id)}
+                          >
+                            <Check className="h-4 w-4 mr-1" />
+                            Conferma
+                          </Button>
+                        )}
+                        
+                        <Button 
+                          variant={appointment.status === "completed" || isExpired ? "ghost" : "outline"} 
+                          size="sm"
+                        >
+                          {appointment.status === "completed" ? "Completato" : "Dettagli"}
+                        </Button>
+                      </div>
+                    </div>
+                  );
+              })}
             </div>
           ) : (
             <div className="text-center py-8">

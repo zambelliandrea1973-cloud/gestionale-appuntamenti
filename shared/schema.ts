@@ -52,6 +52,8 @@ export const appointments = pgTable("appointments", {
   reminderStatus: text("reminder_status").default("pending"), // pending, sent, failed
   reminderTime: timestamp("reminder_time"), // When the reminder should be sent
   reminderSent: boolean("reminder_sent").default(false), // Flag to track if reminder was sent
+  reminderConfirmed: boolean("reminder_confirmed").default(false), // Flag to track if the client confirmed the reminder
+  reminderConfirmedAt: timestamp("reminder_confirmed_at"), // When the client confirmed the reminder
   createdAt: timestamp("created_at").defaultNow(),
 });
 
