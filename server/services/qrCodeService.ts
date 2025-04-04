@@ -37,8 +37,20 @@ export const qrCodeService = {
    * @returns L'URL completo per l'attivazione
    */
   generateActivationUrl(token: string): string {
+    // Ottieni l'host dell'applicazione dalle variabili di ambiente o utilizza l'URL di Replit
+    const host = process.env.REPLIT_SLUG || process.env.REPL_SLUG;
+    
     // Costruisci l'URL base dell'applicazione
-    const baseUrl = process.env.BASE_URL || `http://localhost:5000`;
+    let baseUrl = process.env.BASE_URL;
+    
+    // Se non è specificato un URL di base, usa l'URL di Replit o localhost come fallback
+    if (!baseUrl) {
+      if (host) {
+        baseUrl = `https://${host}.replit.app`;
+      } else {
+        baseUrl = `http://localhost:5000`;
+      }
+    }
     
     // Costruisci l'URL completo
     return `${baseUrl}/activate?token=${token}`;
