@@ -1,46 +1,46 @@
 import QRCode from 'qrcode';
 
 /**
- * Servizio per la generazione dei codici QR per l'attivazione degli account client
+ * Servizio per la generazione di codici QR
  */
 export const qrCodeService = {
   /**
-   * Genera un codice QR in base all'URL fornito
-   * @param url L'URL da codificare nel QR
-   * @param options Opzioni di formattazione del QR code
-   * @returns Una Promise che restituisce una stringa base64 del QR code
+   * Genera un codice QR a partire da una stringa
+   * @param text Il testo da codificare nel QR code
+   * @returns Una Promise che risolve in una stringa base64 contenente l'immagine del QR code
    */
-  async generateQRCode(url: string, options: QRCode.QRCodeToDataURLOptions = {}): Promise<string> {
+  async generateQRCode(text: string): Promise<string> {
     try {
-      // Opzioni di default per un QR code leggibile e di qualità
-      const defaultOptions: QRCode.QRCodeToDataURLOptions = {
-        errorCorrectionLevel: 'H', // Alta correzione errori per maggiore resilienza
-        margin: 1,                // Margine ridotto per un QR code più compatto
-        width: 300,               // Dimensione adeguata per la visualizzazione su mobile
+      // Definisci le opzioni per il QR code
+      const qrOptions = {
+        errorCorrectionLevel: 'M' as const,
+        type: 'image/png' as const,
+        quality: 0.92,
+        margin: 1,
         color: {
-          dark: '#000000',        // Colore scuro per il QR code
-          light: '#ffffff'        // Sfondo bianco
+          dark: '#000000',
+          light: '#FFFFFF'
         }
       };
       
-      // Unisci le opzioni di default con quelle passate come parametro
-      const mergedOptions = { ...defaultOptions, ...options };
-      
-      // Genera il QR code come URL data
-      return await QRCode.toDataURL(url, mergedOptions);
+      // Genera il QR code come stringa base64
+      return await QRCode.toDataURL(text, qrOptions);
     } catch (error) {
-      console.error("Errore nella generazione del QR code:", error);
-      throw error;
+      console.error('Errore nella generazione del QR code:', error);
+      throw new Error('Impossibile generare il QR code');
     }
   },
-
+  
   /**
-   * Genera un URL assoluto per l'attivazione di un account client
+   * Genera un URL di attivazione a partire da un token
    * @param token Il token di attivazione
-   * @param baseUrl L'URL base dell'applicazione
    * @returns L'URL completo per l'attivazione
    */
-  generateActivationUrl(token: string, baseUrl: string): string {
+  generateActivationUrl(token: string): string {
+    // Costruisci l'URL base dell'applicazione
+    const baseUrl = process.env.BASE_URL || `http://localhost:5000`;
+    
+    // Costruisci l'URL completo
     return `${baseUrl}/activate?token=${token}`;
   }
 };
