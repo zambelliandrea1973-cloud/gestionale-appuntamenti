@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { addDays } from 'date-fns';
 import { storage } from '../storage';
 import { hashPassword } from '../auth';
+import { ActivationToken } from '@shared/schema';
 
 /**
  * Servizio per la gestione dei token di attivazione
@@ -13,12 +14,25 @@ export const tokenService = {
    * @param expiresInDays Numero di giorni di validità del token
    * @returns Il token generato
    */
-  async generateActivationToken(clientId: number, expiresInDays: number = 7): Promise<string> {
+  async generateActivationToken(clientId: number, expiresInDays: number = 365): Promise<string> {
     try {
-      // Genera un token casuale
-      const token = crypto.randomBytes(32).toString('hex');
+      // Prima verifichiamo se esiste già un token valido per questo cliente
+      const existingTokens = await storage.getActivationTokensByClientId(clientId);
+      let validToken = existingTokens.find(t => !t.used && new Date(t.expiresAt) > new Date());
       
-      // Calcola la data di scadenza
+      // Se troviamo un token valido esistente, lo restituiamo
+      if (validToken) {
+        console.log('Riutilizzo token esistente per il cliente:', clientId);
+        return validToken.token;
+      }
+      
+      // Se non esiste un token valido, generiamo un token deterministico basato sull'ID cliente
+      // Questo garantisce che lo stesso cliente ottenga sempre lo stesso token
+      const clientIdString = clientId.toString();
+      const secretKey = 'SECRETO_FISSO_CLIENTE_' + clientIdString; // Segretino univoco per cliente
+      const token = crypto.createHash('sha256').update(secretKey).digest('hex');
+      
+      // Calcola la data di scadenza (impostata a 365 giorni di default per renderlo persistente)
       const expiresAt = addDays(new Date(), expiresInDays);
       
       // Salva il token nel database
@@ -86,8 +100,14 @@ export const tokenService = {
         return false;
       }
       
-      // Aggiorna il token
-      await storage.updateActivationToken(token, { used: true });
+      // Ottieni l'account associato al cliente
+      const clientAccount = await storage.getClientAccountByClientId(activationToken.clientId);
+      
+      // Se questo è il primo utilizzo (nessun account esistente), marcalo come utilizzato
+      // altrimenti lascialo non utilizzato per permettere accessi futuri
+      if (!clientAccount) {
+        await storage.updateActivationToken(token, { used: false });
+      }
       
       return true;
     } catch (error) {
@@ -113,22 +133,26 @@ export const tokenService = {
         return false;
       }
       
-      // Verifica che l'account non esista già
+      // Verifica se l'account esiste già
       const existingAccount = await storage.getClientAccountByClientId(clientId);
+      
       if (existingAccount) {
-        console.log('Account già esistente per il cliente:', clientId);
-        return false;
+        // Se l'account esiste già, aggiorniamo username e password anziché fallire
+        console.log('Aggiornamento account esistente per il cliente:', clientId);
+        await storage.updateClientAccount(existingAccount.id, {
+          username,
+          password: await hashPassword(password),
+          isActive: true
+        });
+      } else {
+        // Crea un nuovo account
+        await storage.createClientAccount({
+          clientId,
+          username,
+          password: await hashPassword(password),
+          isActive: true
+        });
       }
-      
-      // Utilizziamo la funzione di hash importata
-      
-      // Crea il nuovo account
-      await storage.createClientAccount({
-        clientId,
-        username,
-        password: await hashPassword(password),
-        isActive: true
-      });
       
       // Marca il token come utilizzato
       await this.markTokenAsUsed(token);

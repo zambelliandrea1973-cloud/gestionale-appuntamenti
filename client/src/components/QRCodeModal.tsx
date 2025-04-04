@@ -18,9 +18,10 @@ interface QRCodeModalProps {
   clientName: string;
   open: boolean;
   onClose: () => void;
+  onQrCodeGenerated?: (qrCode: string) => void;
 }
 
-export default function QRCodeModal({ clientId, clientName, open, onClose }: QRCodeModalProps) {
+export default function QRCodeModal({ clientId, clientName, open, onClose, onQrCodeGenerated }: QRCodeModalProps) {
   const { toast } = useToast();
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [activationUrl, setActivationUrl] = useState<string | null>(null);
@@ -34,6 +35,12 @@ export default function QRCodeModal({ clientId, clientName, open, onClose }: QRC
     onSuccess: (data) => {
       setQrCode(data.qrCode);
       setActivationUrl(data.activationUrl);
+      
+      // Notifica il genitore che il codice QR è stato generato
+      if (onQrCodeGenerated && data.qrCode) {
+        onQrCodeGenerated(data.qrCode);
+      }
+      
       toast({
         title: "Token generato",
         description: "Token di attivazione generato con successo",

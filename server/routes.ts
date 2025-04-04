@@ -853,6 +853,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Recupera un token di attivazione esistente
+  app.get("/api/clients/:id/activation-token", async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.id);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "ID cliente non valido" });
+      }
+      
+      // Verifica che il cliente esista
+      const client = await storage.getClient(clientId);
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Recupera i token esistenti per questo cliente
+      const tokens = await storage.getActivationTokensByClientId(clientId);
+      
+      // Se non ci sono token, restituisci oggetto vuoto
+      if (!tokens || tokens.length === 0) {
+        return res.json({});
+      }
+      
+      // Prendi il token più recente (dovrebbero essere ordinati per data di creazione decrescente)
+      const latestToken = tokens[0];
+      
+      // Costruisci l'URL di base usando l'host dalla richiesta
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      const host = req.headers['x-forwarded-host'] || req.headers.host;
+      const baseUrl = `${protocol}://${host}`;
+      
+      // Genera l'URL di attivazione
+      const activationUrl = `${baseUrl}/activate?token=${latestToken.token}`;
+      
+      // Rigenera il QR code per il token esistente
+      const qrCode = await qrCodeService.generateQRCode(activationUrl);
+      
+      res.json({
+        token: latestToken.token,
+        activationUrl,
+        qrCode
+      });
+    } catch (error) {
+      console.error("Errore nel recupero del token di attivazione:", error);
+      res.status(500).json({ message: "Errore nel recupero del token di attivazione" });
+    }
+  });
+  
   // Attiva un account cliente tramite token
   app.post("/api/activate-account", async (req: Request, res: Response) => {
     try {

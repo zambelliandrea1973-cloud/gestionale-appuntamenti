@@ -80,6 +80,12 @@ export interface IStorage {
   markNotificationAsRead(id: number): Promise<boolean>;
   deleteNotification(id: number): Promise<boolean>;
   
+  // Activation Token operations
+  getActivationToken(token: string): Promise<ActivationToken | undefined>;
+  getActivationTokensByClientId(clientId: number): Promise<ActivationToken[]>;
+  createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
+  updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
+  
   // Session store for authentication
   sessionStore: session.Store;
   getInvoicesByDateRange(startDate: string, endDate: string): Promise<InvoiceWithDetails[]>;
@@ -1839,6 +1845,20 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error fetching activation token:", error);
       return undefined;
+    }
+  }
+  
+  async getActivationTokensByClientId(clientId: number): Promise<ActivationToken[]> {
+    try {
+      const tokens = await db
+        .select()
+        .from(activationTokens)
+        .where(eq(activationTokens.clientId, clientId));
+      
+      return tokens;
+    } catch (error) {
+      console.error("Error fetching activation tokens by client ID:", error);
+      return [];
     }
   }
   
