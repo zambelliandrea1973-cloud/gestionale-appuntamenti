@@ -73,6 +73,10 @@ export default function AppointmentForm({
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   // Mostra i dettagli solo se stiamo modificando un appuntamento o se vengono forniti valori predefiniti
   const [showDateTimeDetails, setShowDateTimeDetails] = useState(!!appointmentId || !!defaultDate || !!defaultTime);
+  
+  // Stati per controllare l'apertura dei selettori data/ora
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
 
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
@@ -123,6 +127,28 @@ export default function AppointmentForm({
       form.setValue("clientId", defaultClientId);
     }
   }, [defaultClientId, form]);
+  
+  // Gestione del click fuori dai popover per chiuderli
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Chiudi i popover quando si clicca altrove
+      if (isCalendarOpen || isTimePickerOpen) {
+        const target = event.target as HTMLElement;
+        
+        // Se il click non è all'interno di un popover, chiudili
+        if (!target.closest('.popover-content')) {
+          setIsCalendarOpen(false);
+          setIsTimePickerOpen(false);
+        }
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isCalendarOpen, isTimePickerOpen]);
 
   // Create or update appointment mutation
   const mutation = useMutation({
@@ -601,45 +627,90 @@ export default function AppointmentForm({
             {/* Sezione per selezione di data e ora */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full justify-start text-left font-normal"
-                  onClick={() => {
-                    // Quando l'utente seleziona esplicitamente una data, mostriamo i dettagli
-                    setShowDateTimeDetails(true);
-                    
-                    // Qui puoi implementare l'apertura di un calendario
-                    // Per ora, semplicemente registriamo che l'utente ha interagito
-                    toast({
-                      title: "Seleziona una data",
-                      description: "Usa il calendario per selezionare una data",
-                    });
-                  }}
-                >
-                  <Calendar className="mr-2 h-4 w-4" />
-                  Seleziona data
-                </Button>
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-start text-left font-normal"
+                        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {format(field.value, "PPP", { locale: it })}
+                      </Button>
+                      
+                      {isCalendarOpen && (
+                        <div className="p-3 bg-white border rounded-md shadow-md mt-1 absolute z-50 popover-content">
+                          <CalendarComponent
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(date) => {
+                              if (date) {
+                                field.onChange(date);
+                                setShowDateTimeDetails(true);
+                                setIsCalendarOpen(false);
+                              }
+                            }}
+                            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                            initialFocus
+                          />
+                        </div>
+                      )}
+                    </FormItem>
+                  )}
+                />
                 
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full justify-start text-left font-normal"
-                  onClick={() => {
-                    // Quando l'utente seleziona esplicitamente un orario, mostriamo i dettagli
-                    setShowDateTimeDetails(true);
-                    
-                    // Qui puoi implementare l'apertura di un selettore orario
-                    // Per ora, semplicemente registriamo che l'utente ha interagito
-                    toast({
-                      title: "Seleziona un orario",
-                      description: "Seleziona l'orario dell'appuntamento",
-                    });
-                  }}
-                >
-                  <Clock className="mr-2 h-4 w-4" />
-                  Seleziona ora
-                </Button>
+                <FormField
+                  control={form.control}
+                  name="startTime"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-start text-left font-normal"
+                        onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
+                      >
+                        <Clock className="mr-2 h-4 w-4" />
+                        {field.value}
+                      </Button>
+                      
+                      {isTimePickerOpen && (
+                        <div className="p-3 bg-white border rounded-md shadow-md mt-1 absolute z-50 popover-content">
+                          <div className="max-h-[200px] overflow-y-auto popover-content">
+                            {Array.from({ length: 12 }).map((_, i) => {
+                              const hour = i + 9; // Start from 9:00 AM
+                              const timeOptions = ["00", "15", "30", "45"];
+                              
+                              return timeOptions.map((minutes) => {
+                                const timeValue = `${hour.toString().padStart(2, "0")}:${minutes}`;
+                                
+                                return (
+                                  <div
+                                    key={timeValue}
+                                    className={`p-2 cursor-pointer hover:bg-slate-100 ${
+                                      field.value === timeValue ? "bg-primary/10 font-medium" : ""
+                                    }`}
+                                    onClick={() => {
+                                      field.onChange(timeValue);
+                                      setShowDateTimeDetails(true);
+                                      setIsTimePickerOpen(false);
+                                    }}
+                                  >
+                                    {timeValue}
+                                  </div>
+                                );
+                              });
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </FormItem>
+                  )}
+                />
               </div>
               
               {/* Mostriamo i dettagli solo se l'utente ha interagito con i campi data/ora
