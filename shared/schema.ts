@@ -66,7 +66,9 @@ export const insertAppointmentSchema = createInsertSchema(appointments).omit({
 export const consents = pgTable("consents", {
   id: serial("id").primaryKey(),
   clientId: integer("client_id").notNull(),
-  consentText: text("consent_text").notNull(),
+  consentText: text("consent_text"),
+  consentProvided: boolean("consent_provided").default(true),
+  consentDate: timestamp("consent_date").defaultNow(),
   signature: text("signature"),
   signedAt: timestamp("signed_at").defaultNow(),
 });
@@ -74,6 +76,8 @@ export const consents = pgTable("consents", {
 export const insertConsentSchema = createInsertSchema(consents).omit({
   id: true,
   signedAt: true,
+}).extend({
+  consentDate: z.string().optional(),
 });
 
 // Invoices table schema
