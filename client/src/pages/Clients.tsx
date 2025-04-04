@@ -47,8 +47,8 @@ export default function Clients() {
       });
     };
     
-    // Imposta un intervallo per l'aggiornamento (ogni 5 minuti)
-    autoRefreshIntervalRef.current = setInterval(refreshData, 5 * 60 * 1000);
+    // Imposta un intervallo per l'aggiornamento (ogni ora)
+    autoRefreshIntervalRef.current = setInterval(refreshData, 60 * 60 * 1000);
     
     // Imposta un timer per l'aggiornamento di mezzanotte
     const setupMidnightRefresh = () => {
@@ -172,7 +172,7 @@ export default function Clients() {
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Ultimo aggiornamento: {lastRefreshTime.toLocaleString()}</p>
-                  <p className="text-xs mt-1">Aggiornamento automatico ogni 5 minuti e alle 23:59</p>
+                  <p className="text-xs mt-1">Aggiornamento automatico ogni ora e alle 23:59</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
