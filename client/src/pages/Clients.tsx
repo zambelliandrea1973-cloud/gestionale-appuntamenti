@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { 
   Plus, 
@@ -6,7 +6,8 @@ import {
   UserPlus, 
   Star, 
   AlertCircle,
-  Loader2
+  Loader2,
+  Clock
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ClientForm from "@/components/ClientForm";
 import ClientCard from "@/components/ClientCard";
 
@@ -22,6 +24,8 @@ export default function Clients() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date>(new Date());
+  const autoRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   // Fetch all clients
   const {
@@ -31,6 +35,56 @@ export default function Clients() {
   } = useQuery({
     queryKey: ["/api/clients"]
   });
+  
+  // Imposta un intervallo per aggiornare i dati ogni 5 minuti 
+  // e un aggiornamento programmato a mezzanotte
+  useEffect(() => {
+    // Funzione per aggiornare i dati
+    const refreshData = () => {
+      console.log("Esecuzione aggiornamento automatico dati clienti");
+      refetchClients().then(() => {
+        setLastRefreshTime(new Date());
+      });
+    };
+    
+    // Imposta un intervallo per l'aggiornamento (ogni 5 minuti)
+    autoRefreshIntervalRef.current = setInterval(refreshData, 5 * 60 * 1000);
+    
+    // Imposta un timer per l'aggiornamento di mezzanotte
+    const setupMidnightRefresh = () => {
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(23, 59, 0, 0); // Imposta alle 23:59
+      
+      // Calcola i millisecondi fino alla mezzanotte
+      let delay = midnight.getTime() - now.getTime();
+      if (delay < 0) {
+        // Se è già passata la mezzanotte, imposta per la mezzanotte successiva
+        delay += 24 * 60 * 60 * 1000;
+      }
+      
+      // Pianifica l'aggiornamento
+      const midnightTimer = setTimeout(() => {
+        console.log("Esecuzione aggiornamento programmato di mezzanotte");
+        refreshData();
+        // Reimposta il timer per la notte successiva
+        setupMidnightRefresh();
+      }, delay);
+      
+      return midnightTimer;
+    };
+    
+    // Avvia il timer per l'aggiornamento di mezzanotte
+    const midnightTimer = setupMidnightRefresh();
+    
+    // Pulizia degli intervalli quando il componente viene smontato
+    return () => {
+      if (autoRefreshIntervalRef.current) {
+        clearInterval(autoRefreshIntervalRef.current);
+      }
+      clearTimeout(midnightTimer);
+    };
+  }, []);
   
   // Client search
   const handleSearch = async () => {
@@ -88,7 +142,42 @@ export default function Clients() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-        <h2 className="text-2xl font-medium">Gestione Clienti</h2>
+        <div className="flex items-center gap-3">
+          <h2 className="text-2xl font-medium">Gestione Clienti</h2>
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8"
+              onClick={() => {
+                refetchClients();
+                setLastRefreshTime(new Date());
+                toast({
+                  title: "Aggiornamento completato",
+                  description: "I dati dei clienti sono stati aggiornati",
+                });
+              }}
+            >
+              <Loader2 className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+              Aggiorna
+            </Button>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {lastRefreshTime.toLocaleTimeString()}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Ultimo aggiornamento: {lastRefreshTime.toLocaleString()}</p>
+                  <p className="text-xs mt-1">Aggiornamento automatico ogni 5 minuti e alle 23:59</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
         
         <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
           <DialogTrigger asChild>
