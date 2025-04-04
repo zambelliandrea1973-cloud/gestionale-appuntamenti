@@ -12,6 +12,7 @@ import NotFound from "./pages/not-found";
 import ActivateAccount from "./pages/ActivateAccount";
 import ClientLogin from "./pages/ClientLogin";
 import ClientArea from "./pages/ClientArea";
+import ConsentPage from "./pages/ConsentPage";
 
 function Router() {
   // Utilizziamo l'hook useLocation di wouter
@@ -21,7 +22,8 @@ function Router() {
   const isClientPath = 
     location.startsWith('/activate') || 
     location.startsWith('/client-login') || 
-    location.startsWith('/client-area');
+    location.startsWith('/client-area') || 
+    location.startsWith('/consent');
   
   // Se è un percorso client, non utilizziamo il layout principale
   if (isClientPath) {
@@ -30,6 +32,7 @@ function Router() {
         <Route path="/activate" component={ActivateAccount} />
         <Route path="/client-login" component={ClientLogin} />
         <Route path="/client-area" component={ClientArea} />
+        <Route path="/consent" component={ConsentPage} />
         <Route component={NotFound} />
       </Switch>
     );

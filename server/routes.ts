@@ -406,11 +406,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: validationResult.error.errors
         });
       }
-
+      
+      // Salva il consenso
       const consent = await storage.createConsent(validationResult.data);
+      
+      // Se il consenso è stato fornito, aggiorna anche il flag hasConsent nel cliente
+      if (validationResult.data.consentProvided) {
+        const client = await storage.getClient(validationResult.data.clientId);
+        if (client) {
+          await storage.updateClient(validationResult.data.clientId, {
+            ...client,
+            hasConsent: true
+          });
+        }
+      }
+      
       res.status(201).json(consent);
     } catch (error) {
       res.status(500).json({ message: "Error creating consent" });
+    }
+  });
+  
+  // Endpoint per ottenere l'utente corrente con i dettagli del cliente se è di tipo client
+  app.get("/api/current-user", async (req: Request, res: Response) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Non autenticato" });
+    }
+    
+    try {
+      const user = req.user as any;
+      
+      // Se l'utente è un cliente, carica anche i dati del cliente
+      if (user.type === "client" && user.clientId) {
+        const client = await storage.getClient(user.clientId);
+        if (client) {
+          // Aggiungi i dati del cliente all'oggetto utente
+          return res.json({
+            ...user,
+            client
+          });
+        }
+      }
+      
+      // Altrimenti restituisci solo i dati dell'utente
+      res.json(user);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
     }
   });
 

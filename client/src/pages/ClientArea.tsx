@@ -261,6 +261,7 @@ export default function ClientArea() {
               variant={user?.client?.hasConsent ? "outline" : "default"} 
               className="w-full text-sm" 
               size="sm"
+              onClick={() => setLocation("/consent")}
             >
               {user?.client?.hasConsent ? "Visualizza consenso" : "Fornisci consenso"}
             </Button>
