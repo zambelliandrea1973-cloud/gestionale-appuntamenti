@@ -935,10 +935,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const client = await storage.getClient(clientId);
       
+      // Verifica se esiste già un account per questo cliente
+      const existingAccount = await storage.getClientAccountByClientId(clientId);
+      
       res.json({ 
         valid: true, 
         clientId,
-        clientName: client ? `${client.firstName} ${client.lastName}` : 'Cliente sconosciuto'
+        clientName: client ? `${client.firstName} ${client.lastName}` : 'Cliente sconosciuto',
+        accountExists: !!existingAccount
       });
     } catch (error) {
       console.error("Errore nella verifica del token:", error);

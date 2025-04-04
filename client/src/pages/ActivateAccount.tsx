@@ -12,6 +12,7 @@ interface TokenVerificationResult {
   clientId?: number;
   clientName?: string;
   message?: string;
+  accountExists?: boolean;
 }
 
 export default function ActivateAccount() {
@@ -51,6 +52,12 @@ export default function ActivateAccount() {
           title: "Token non valido",
           description: data.message || "Il token di attivazione non è valido o è scaduto",
           variant: "destructive",
+        });
+      } else if (data.accountExists) {
+        // Se l'account esiste già, comunichiamo all'utente che può accedere
+        toast({
+          title: "Account già esistente",
+          description: "Hai già un account attivo. Inserisci solo la tua password per accedere.",
         });
       }
     } catch (error) {
@@ -168,6 +175,57 @@ export default function ActivateAccount() {
     );
   }
 
+  // Se l'account esiste già, mostra il form di accesso
+  if (tokenVerification?.accountExists) {
+    return (
+      <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center text-xl md:text-2xl">Accedi al tuo Account</CardTitle>
+            {tokenVerification?.clientName && (
+              <CardDescription className="text-center">
+                Account di: <strong>{tokenVerification.clientName}</strong>
+              </CardDescription>
+            )}
+          </CardHeader>
+          <form onSubmit={handleSubmit}>
+            <CardContent className="space-y-4">
+              <div className="p-3 bg-blue-50 rounded-md text-blue-700 mb-4">
+                <p className="text-sm">
+                  Hai già un account attivo. Inserisci solo la tua password per accedere.
+                </p>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Inserisci la tua password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full" type="submit" disabled={loading}>
+                {loading ? (
+                  <>
+                    <span className="animate-spin mr-2">⟳</span> Accesso in corso...
+                  </>
+                ) : (
+                  "Accedi"
+                )}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    );
+  }
+
+  // Se l'account non esiste, mostra il form di attivazione
   return (
     <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
       <Card className="w-full max-w-md">
