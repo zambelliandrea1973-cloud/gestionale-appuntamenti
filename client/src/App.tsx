@@ -1,4 +1,4 @@
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
@@ -14,28 +14,40 @@ import ClientLogin from "./pages/ClientLogin";
 import ClientArea from "./pages/ClientArea";
 
 function Router() {
+  // Utilizziamo l'hook useLocation di wouter
+  const [location] = useLocation();
+  
+  // Percorsi che non utilizzano il layout principale
+  const isClientPath = 
+    location.startsWith('/activate') || 
+    location.startsWith('/client-login') || 
+    location.startsWith('/client-area');
+  
+  // Se è un percorso client, non utilizziamo il layout principale
+  if (isClientPath) {
+    return (
+      <Switch>
+        <Route path="/activate" component={ActivateAccount} />
+        <Route path="/client-login" component={ClientLogin} />
+        <Route path="/client-area" component={ClientArea} />
+        <Route component={NotFound} />
+      </Switch>
+    );
+  }
+  
+  // Altrimenti utilizziamo il layout per l'area amministrativa
   return (
-    <Switch>
-      {/* Rotte per l'area cliente (senza Layout principale) */}
-      <Route path="/activate" component={ActivateAccount} />
-      <Route path="/client-login" component={ClientLogin} />
-      <Route path="/client-area" component={ClientArea} />
-      
-      {/* Rotte per l'area admin */}
-      <Route path="/">
-        <Layout>
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/calendar" component={Calendar} />
-            <Route path="/clients" component={Clients} />
-            <Route path="/invoices" component={Invoices} />
-            <Route path="/reports" component={Reports} />
-            <Route path="/client-medical-details" component={ClientMedicalDetails} />
-            <Route component={NotFound} />
-          </Switch>
-        </Layout>
-      </Route>
-    </Switch>
+    <Layout>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/calendar" component={Calendar} />
+        <Route path="/clients" component={Clients} />
+        <Route path="/invoices" component={Invoices} />
+        <Route path="/reports" component={Reports} />
+        <Route path="/client-medical-details" component={ClientMedicalDetails} />
+        <Route component={NotFound} />
+      </Switch>
+    </Layout>
   );
 }
 
