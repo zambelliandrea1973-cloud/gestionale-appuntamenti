@@ -5,7 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import ClientForm from "./ClientForm";
 import AppointmentFormModal from "./AppointmentFormModal";
+import QRCodeModal from "./QRCodeModal";
 
 interface ClientCardProps {
   client: Client;
@@ -34,6 +35,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const [_, setLocation] = useLocation();
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
+  const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   
   // Delete mutation
   const deleteMutation = useMutation({
@@ -178,6 +180,16 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           Nuovo appuntamento
         </Button>
         
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="w-full"
+          onClick={() => setIsQRCodeModalOpen(true)}
+        >
+          <QrCode className="h-4 w-4 mr-2" />
+          Genera codice QR
+        </Button>
+        
         {isAppointmentFormOpen && (
           <AppointmentFormModal 
             clientId={client.id} 
@@ -192,6 +204,15 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
                 }, 500);
               }
             }} 
+          />
+        )}
+        
+        {isQRCodeModalOpen && (
+          <QRCodeModal
+            clientId={client.id}
+            clientName={`${client.firstName} ${client.lastName}`}
+            open={isQRCodeModalOpen}
+            onClose={() => setIsQRCodeModalOpen(false)}
           />
         )}
       </CardFooter>
