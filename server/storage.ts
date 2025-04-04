@@ -10,6 +10,7 @@ import {
   users, type User, type InsertUser,
   clientAccounts, type ClientAccount, type InsertClientAccount,
   notifications, type Notification, type InsertNotification,
+  activationTokens, type ActivationToken, type InsertActivationToken,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -105,6 +106,11 @@ export interface IStorage {
   getClientWithAppointments(clientId: number): Promise<ClientWithAppointments | undefined>;
   searchClients(query: string): Promise<Client[]>;
   generateInvoiceNumber(): Promise<string>;
+  
+  // Activation token operations
+  createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
+  getActivationToken(token: string): Promise<ActivationToken | undefined>;
+  updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -1808,6 +1814,46 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error deleting notification:", error);
       return false;
+    }
+  }
+  
+  // Metodi per la gestione dei token di attivazione
+  async createActivationToken(token: InsertActivationToken): Promise<ActivationToken> {
+    try {
+      const [newToken] = await db.insert(activationTokens).values(token).returning();
+      return newToken;
+    } catch (error) {
+      console.error("Error creating activation token:", error);
+      throw error;
+    }
+  }
+  
+  async getActivationToken(token: string): Promise<ActivationToken | undefined> {
+    try {
+      const [activationToken] = await db
+        .select()
+        .from(activationTokens)
+        .where(eq(activationTokens.token, token));
+      
+      return activationToken;
+    } catch (error) {
+      console.error("Error fetching activation token:", error);
+      return undefined;
+    }
+  }
+  
+  async updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined> {
+    try {
+      const [updatedToken] = await db
+        .update(activationTokens)
+        .set(data)
+        .where(eq(activationTokens.token, token))
+        .returning();
+      
+      return updatedToken;
+    } catch (error) {
+      console.error("Error updating activation token:", error);
+      return undefined;
     }
   }
 }

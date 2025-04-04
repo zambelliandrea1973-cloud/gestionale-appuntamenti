@@ -130,7 +130,9 @@ export const users = pgTable("users", {
   username: varchar("username", { length: 100 }).notNull().unique(),
   password: text("password").notNull(),
   email: text("email").notNull(),
-  role: text("role").default("staff").notNull(), // admin, staff
+  role: text("role").default("staff").notNull(), // admin, staff, client
+  clientId: integer("client_id"), // Solo per utenti di tipo client
+  type: text("type").default("staff").notNull(), // staff, client
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -178,6 +180,21 @@ export const insertNotificationSchema = createInsertSchema(notifications).omit({
   sentAt: true,
 });
 
+// Activation tokens table schema
+export const activationTokens = pgTable("activation_tokens", {
+  id: serial("id").primaryKey(),
+  token: text("token").notNull().unique(),
+  clientId: integer("client_id").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  used: boolean("used").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertActivationTokenSchema = createInsertSchema(activationTokens).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Define types
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = z.infer<typeof insertClientSchema>;
@@ -209,6 +226,9 @@ export type InsertClientAccount = z.infer<typeof insertClientAccountSchema>;
 export type Notification = typeof notifications.$inferSelect;
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 
+export type ActivationToken = typeof activationTokens.$inferSelect;
+export type InsertActivationToken = z.infer<typeof insertActivationTokenSchema>;
+
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
   appointments: many(appointments),
@@ -219,6 +239,8 @@ export const clientsRelations = relations(clients, ({ many, one }) => ({
     fields: [clients.id],
     references: [clientAccounts.clientId],
   }),
+  userAccount: many(users),
+  activationTokens: many(activationTokens),
 }));
 
 export const servicesRelations = relations(services, ({ many }) => ({
@@ -292,6 +314,20 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
   appointment: one(appointments, {
     fields: [notifications.appointmentId],
     references: [appointments.id],
+  }),
+}));
+
+export const activationTokensRelations = relations(activationTokens, ({ one }) => ({
+  client: one(clients, {
+    fields: [activationTokens.clientId],
+    references: [clients.id],
+  }),
+}));
+
+export const usersRelations = relations(users, ({ one }) => ({
+  client: one(clients, {
+    fields: [users.clientId],
+    references: [clients.id],
   }),
 }));
 
