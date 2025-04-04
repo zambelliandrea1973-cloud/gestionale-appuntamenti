@@ -72,11 +72,8 @@ export const tokenService = {
         return null;
       }
       
-      // Verifica se il token è già stato utilizzato
-      if (activationToken.used) {
-        console.log('Token già utilizzato:', token);
-        return null;
-      }
+      // Non controlliamo più se il token è stato utilizzato, in modo che possa essere usato più volte
+      // Se un token esiste ed è valido, restituisce sempre l'ID del cliente
       
       return activationToken.clientId;
     } catch (error) {
@@ -100,14 +97,8 @@ export const tokenService = {
         return false;
       }
       
-      // Ottieni l'account associato al cliente
-      const clientAccount = await storage.getClientAccountByClientId(activationToken.clientId);
-      
-      // Se questo è il primo utilizzo (nessun account esistente), marcalo come utilizzato
-      // altrimenti lascialo non utilizzato per permettere accessi futuri
-      if (!clientAccount) {
-        await storage.updateActivationToken(token, { used: false });
-      }
+      // Non marchiamo mai il token come utilizzato, in modo che possa essere riutilizzato
+      // Non modifichiamo il token nel database in modo che rimanga utilizzabile
       
       return true;
     } catch (error) {
