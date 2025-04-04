@@ -46,7 +46,6 @@ export default function PrivacyConsentForm({ clientId, onConsentProvided, hasCon
       const response = await apiRequest('POST', '/api/consents', {
         clientId,
         consentProvided: true,
-        consentDate: new Date().toISOString(),
         consentText: JSON.stringify({
           language: selectedLanguage,
           version: "1.0"
