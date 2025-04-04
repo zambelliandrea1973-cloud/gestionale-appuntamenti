@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getConsentText, availableLanguages, ConsentText } from "@/lib/privacyConsents";
 
 interface PrivacyConsentFormProps {
   clientId: number;
@@ -16,6 +18,14 @@ export default function PrivacyConsentForm({ clientId, onConsentProvided, hasCon
   const { toast } = useToast();
   const [consent, setConsent] = useState<boolean>(hasConsent);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("it-IT");
+  const [consentText, setConsentText] = useState<ConsentText>(getConsentText(selectedLanguage));
+
+  // Aggiorna il testo del consenso quando cambia la lingua
+  const handleLanguageChange = (value: string) => {
+    setSelectedLanguage(value);
+    setConsentText(getConsentText(value));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +47,10 @@ export default function PrivacyConsentForm({ clientId, onConsentProvided, hasCon
         clientId,
         consentProvided: true,
         consentDate: new Date().toISOString(),
+        consentText: JSON.stringify({
+          language: selectedLanguage,
+          version: "1.0"
+        })
       });
       
       if (response.ok) {
@@ -60,111 +74,120 @@ export default function PrivacyConsentForm({ clientId, onConsentProvided, hasCon
   
   return (
     <Card className="shadow-lg">
-      <CardContent className="pt-6 px-6 pb-6">
+      <CardHeader>
+        <CardTitle className="flex justify-between items-center">
+          <span>{consentText.title}</span>
+          <div className="w-48">
+            <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleziona lingua" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableLanguages.map((lang) => (
+                  <SelectItem key={lang.code} value={lang.code}>
+                    {lang.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0 px-6 pb-6">
         <form onSubmit={handleSubmit}>
           <ScrollArea className="h-[400px] rounded-md border p-4 mb-6">
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Informativa sul trattamento dei dati personali</h2>
               <p className="text-sm text-muted-foreground">
-                Ai sensi dell'art. 13 del Regolamento UE 2016/679 (GDPR)
+                {consentText.introduction}
               </p>
               
-              <h3 className="text-lg font-medium pt-2">Titolare del trattamento</h3>
-              <p>
-                Il titolare del trattamento è [Nome Studio/Professionista], con sede in [Indirizzo], 
-                [Città], [CAP], [Provincia], P.IVA [Numero], contattabile all'indirizzo email [Email] 
-                e al numero di telefono [Telefono].
-              </p>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "数据控制者" : "Titolare del trattamento"}</h3>
+              <p>{consentText.dataController}</p>
               
-              <h3 className="text-lg font-medium pt-2">Finalità del trattamento</h3>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "处理目的" : "Finalità del trattamento"}</h3>
               <p>
-                I dati personali da Lei forniti saranno trattati per le seguenti finalità:
+                {consentText.language === "Italiano" 
+                  ? "I dati personali da Lei forniti saranno trattati per le seguenti finalità:"
+                  : consentText.language === "中文" 
+                    ? "提供个人信息的目的："
+                    : "Purposes of data processing:"}
               </p>
               <ul className="list-disc pl-6 space-y-1">
-                <li>Erogazione dei servizi richiesti e gestione degli appuntamenti</li>
-                <li>Adempimento di obblighi contrattuali e legali</li>
-                <li>Gestione amministrativa e contabile</li>
-                <li>Invio di comunicazioni relative ai servizi sottoscritti</li>
-                <li>Invio di promemoria per gli appuntamenti</li>
+                {consentText.purposes.map((purpose, index) => (
+                  <li key={index}>{purpose}</li>
+                ))}
               </ul>
               
-              <h3 className="text-lg font-medium pt-2">Base giuridica del trattamento</h3>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "法律依据" : "Base giuridica del trattamento"}</h3>
               <p>
-                Il trattamento dei Suoi dati personali si fonda sulle seguenti basi giuridiche:
+                {consentText.language === "Italiano" 
+                  ? "Il trattamento dei Suoi dati personali si fonda sulle seguenti basi giuridiche:"
+                  : consentText.language === "中文" 
+                    ? "处理您个人信息的法律依据："
+                    : "Legal basis for data processing:"}
               </p>
               <ul className="list-disc pl-6 space-y-1">
-                <li>Esecuzione di un contratto di cui Lei è parte</li>
-                <li>Adempimento di obblighi legali cui è soggetto il titolare</li>
-                <li>Consenso da Lei espresso per specifiche finalità</li>
-                <li>Legittimo interesse del titolare</li>
+                {consentText.legalBasis.map((basis, index) => (
+                  <li key={index}>{basis}</li>
+                ))}
               </ul>
               
-              <h3 className="text-lg font-medium pt-2">Categorie di dati trattati</h3>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "数据类别" : "Categorie di dati trattati"}</h3>
               <p>
-                Il trattamento riguarderà le seguenti categorie di dati:
+                {consentText.language === "Italiano" 
+                  ? "Il trattamento riguarderà le seguenti categorie di dati:"
+                  : consentText.language === "中文" 
+                    ? "处理涉及以下类别的数据："
+                    : "The processing will involve the following categories of data:"}
               </p>
               <ul className="list-disc pl-6 space-y-1">
-                <li>Dati anagrafici e di contatto (nome, cognome, indirizzo, email, telefono)</li>
-                <li>Dati relativi alla salute (informazioni mediche pertinenti al trattamento)</li>
-                <li>Dati fiscali (necessari per la fatturazione)</li>
-                <li>Eventuali dati relativi a preferenze di appuntamento</li>
+                {consentText.dataCategories.map((category, index) => (
+                  <li key={index}>{category}</li>
+                ))}
               </ul>
               
-              <h3 className="text-lg font-medium pt-2">Modalità di trattamento</h3>
-              <p>
-                Il trattamento dei dati avverrà mediante strumenti elettronici e cartacei, 
-                con logiche strettamente correlate alle finalità per cui sono raccolti e, 
-                comunque, in modo da garantire la sicurezza e la riservatezza dei dati stessi.
-              </p>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "处理方式" : "Modalità di trattamento"}</h3>
+              <p>{consentText.dataProcessing}</p>
               
-              <h3 className="text-lg font-medium pt-2">Periodo di conservazione</h3>
-              <p>
-                I dati personali saranno conservati per il tempo necessario all'erogazione dei 
-                servizi richiesti e per l'adempimento degli obblighi di legge, e comunque non 
-                oltre i termini previsti dalla normativa vigente.
-              </p>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "保留期限" : "Periodo di conservazione"}</h3>
+              <p>{consentText.retentionPeriod}</p>
               
-              <h3 className="text-lg font-medium pt-2">Destinatari dei dati</h3>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "数据接收者" : "Destinatari dei dati"}</h3>
               <p>
-                I dati potranno essere comunicati a:
+                {consentText.language === "Italiano" 
+                  ? "I dati potranno essere comunicati a:"
+                  : consentText.language === "中文" 
+                    ? "数据可能会传达给："
+                    : "The data may be communicated to:"}
               </p>
               <ul className="list-disc pl-6 space-y-1">
-                <li>Personale autorizzato del Titolare</li>
-                <li>Soggetti esterni nominati Responsabili del trattamento (consulenti, fornitori di servizi tecnici)</li>
-                <li>Enti pubblici e privati quando previsto da norme di legge o di regolamento</li>
+                {consentText.dataRecipients.map((recipient, index) => (
+                  <li key={index}>{recipient}</li>
+                ))}
               </ul>
               
-              <h3 className="text-lg font-medium pt-2">Trasferimento dati extra UE</h3>
-              <p>
-                I dati personali non saranno trasferiti in Paesi terzi extra UE.
-              </p>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "数据传输" : "Trasferimento dati"}</h3>
+              <p>{consentText.dataTransfer}</p>
               
-              <h3 className="text-lg font-medium pt-2">Diritti dell'interessato</h3>
+              <h3 className="text-lg font-medium pt-2">{consentText.rightsTitle}</h3>
               <p>
-                In qualità di interessato, Lei ha il diritto di:
+                {consentText.language === "Italiano" 
+                  ? "In qualità di interessato, Lei ha il diritto di:"
+                  : consentText.language === "中文" 
+                    ? "作为数据主体，您有权："
+                    : "As a data subject, you have the right to:"}
               </p>
               <ul className="list-disc pl-6 space-y-1">
-                <li>Accedere ai Suoi dati personali</li>
-                <li>Chiederne la rettifica o la cancellazione</li>
-                <li>Chiedere la limitazione del trattamento</li>
-                <li>Opporsi al trattamento</li>
-                <li>Richiedere la portabilità dei dati</li>
-                <li>Revocare il consenso in qualsiasi momento, senza pregiudicare la liceità del trattamento basata sul consenso prima della revoca</li>
+                {consentText.rights.map((right, index) => (
+                  <li key={index}>{right}</li>
+                ))}
               </ul>
-              <p className="pt-2">
-                Lei ha inoltre il diritto di proporre reclamo all'Autorità Garante per la protezione dei dati personali.
-              </p>
               
-              <h3 className="text-lg font-medium pt-2">Natura del conferimento dei dati</h3>
-              <p>
-                Il conferimento dei dati personali è necessario per l'erogazione dei servizi richiesti. 
-                Il mancato conferimento di tali dati comporta l'impossibilità di erogare i servizi richiesti.
-              </p>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "提供数据的性质" : "Natura del conferimento dei dati"}</h3>
+              <p>{consentText.consentNature}</p>
               
-              <h3 className="text-lg font-medium pt-2">Processo decisionale automatizzato</h3>
-              <p>
-                Non è presente alcun processo decisionale automatizzato, compresa la profilazione.
-              </p>
+              <h3 className="text-lg font-medium pt-2">{consentText.language === "中文" ? "自动化决策" : "Processo decisionale automatizzato"}</h3>
+              <p>{consentText.automatedDecisionMaking}</p>
             </div>
           </ScrollArea>
           
@@ -181,20 +204,38 @@ export default function PrivacyConsentForm({ clientId, onConsentProvided, hasCon
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 {hasConsent 
-                  ? "Hai già fornito il consenso al trattamento dei dati personali" 
-                  : "Dichiaro di aver letto e compreso l'informativa sulla privacy e acconsento al trattamento dei miei dati personali per le finalità indicate"}
+                  ? consentText.language === "Italiano" 
+                    ? "Hai già fornito il consenso al trattamento dei dati personali"
+                    : consentText.language === "中文" 
+                      ? "您已提供个人信息处理同意"
+                      : "You have already provided consent for personal data processing"
+                  : consentText.consentStatement}
               </label>
             </div>
             
             {!hasConsent && (
               <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Salvataggio in corso..." : "Fornisci consenso"}
+                {isSubmitting 
+                  ? consentText.language === "Italiano" 
+                    ? "Salvataggio in corso..." 
+                    : consentText.language === "中文" 
+                      ? "保存中..." 
+                      : "Saving..."
+                  : consentText.language === "Italiano" 
+                    ? "Fornisci consenso" 
+                    : consentText.language === "中文" 
+                      ? "提供同意" 
+                      : "Provide consent"}
               </Button>
             )}
             
             {hasConsent && (
               <p className="text-sm text-muted-foreground italic text-center">
-                Hai già fornito il consenso al trattamento dei dati personali in data precedente.
+                {consentText.language === "Italiano" 
+                  ? "Hai già fornito il consenso al trattamento dei dati personali in data precedente."
+                  : consentText.language === "中文" 
+                    ? "您已于之前日期提供了个人信息处理同意。"
+                    : "You have already provided consent for personal data processing at a previous date."}
               </p>
             )}
           </div>
