@@ -12,6 +12,8 @@ import {
   insertPaymentSchema
 } from "@shared/schema";
 import { setupAuth } from "./auth";
+import { tokenService } from "./services/tokenService";
+import { qrCodeService } from "./services/qrCodeService";
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -759,6 +761,89 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ invoiceNumber });
     } catch (error) {
       res.status(500).json({ message: "Error generating invoice number" });
+    }
+  });
+
+  // Rotte per il sistema QR code e attivazione account client
+  
+  // Genera un token di attivazione e un QR code per un cliente specifico
+  app.post("/api/clients/:id/generate-activation", async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.id);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "ID cliente non valido" });
+      }
+      
+      // Verifica che il cliente esista
+      const client = await storage.getClient(clientId);
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Genera un token di attivazione
+      const token = await tokenService.createActivationToken(clientId);
+      
+      // Genera l'URL di attivazione (sostituisci con il tuo URL base)
+      const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+      const activationUrl = qrCodeService.generateActivationUrl(token, baseUrl);
+      
+      // Genera il QR code
+      const qrCode = await qrCodeService.generateQRCode(activationUrl);
+      
+      res.json({ 
+        token, 
+        activationUrl,
+        qrCode 
+      });
+    } catch (error) {
+      console.error("Errore nella generazione del QR code:", error);
+      res.status(500).json({ message: "Errore nella generazione del QR code" });
+    }
+  });
+  
+  // Attiva un account cliente tramite token
+  app.post("/api/activate-account", async (req: Request, res: Response) => {
+    try {
+      const { token, username, password } = req.body;
+      
+      if (!token || !username || !password) {
+        return res.status(400).json({ message: "Dati mancanti. Sono richiesti token, username e password." });
+      }
+      
+      const success = await tokenService.activateAccount(token, username, password);
+      
+      if (!success) {
+        return res.status(400).json({ message: "Token non valido o account già attivato" });
+      }
+      
+      res.json({ message: "Account attivato con successo" });
+    } catch (error) {
+      console.error("Errore nell'attivazione dell'account:", error);
+      res.status(500).json({ message: "Errore nell'attivazione dell'account" });
+    }
+  });
+  
+  // Verifica la validità di un token di attivazione
+  app.get("/api/verify-token/:token", async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      
+      const clientId = await tokenService.verifyActivationToken(token);
+      
+      if (clientId === null) {
+        return res.status(400).json({ valid: false, message: "Token non valido o scaduto" });
+      }
+      
+      const client = await storage.getClient(clientId);
+      
+      res.json({ 
+        valid: true, 
+        clientId,
+        clientName: client ? `${client.firstName} ${client.lastName}` : 'Cliente sconosciuto'
+      });
+    } catch (error) {
+      console.error("Errore nella verifica del token:", error);
+      res.status(500).json({ valid: false, message: "Errore durante la verifica del token" });
     }
   });
 
