@@ -76,7 +76,8 @@ export default function ActivateAccount() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (password !== confirmPassword) {
+    // Se l'account non esiste ancora, verifichiamo che le password coincidano
+    if (!tokenVerification?.accountExists && password !== confirmPassword) {
       toast({
         title: "Errore",
         description: "Le password non corrispondono",
@@ -88,29 +89,57 @@ export default function ActivateAccount() {
     setLoading(true);
     
     try {
-      const response = await apiRequest('POST', '/api/activate-account', {
+      // Prepariamo i dati per la richiesta
+      const requestData: Record<string, string> = {
         token,
-        username,
         password,
-      });
+      };
+      
+      // Aggiungiamo lo username solo se non è un account esistente
+      if (!tokenVerification?.accountExists) {
+        requestData.username = username;
+      }
+      
+      console.log("Invio dati di attivazione:", requestData);
+      
+      const response = await apiRequest('POST', '/api/activate-account', requestData);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore durante l'attivazione");
+      }
       
       const data = await response.json();
       
-      toast({
-        title: "Account attivato",
-        description: "Il tuo account è stato attivato con successo. Ora puoi accedere all'area clienti.",
-      });
+      console.log("Risposta attivazione:", data);
       
-      // Redirect all'area clienti o alla login
-      setTimeout(() => {
-        setLocation("/client-login");
-      }, 2000);
+      if (data.accountExists) {
+        toast({
+          title: "Accesso effettuato",
+          description: "Accesso effettuato con successo. Stai per essere reindirizzato all'area clienti.",
+        });
+        
+        // Redirect direttamente all'area clienti
+        setTimeout(() => {
+          setLocation("/client-area");
+        }, 2000);
+      } else {
+        toast({
+          title: "Account attivato",
+          description: "Il tuo account è stato attivato con successo. Ora puoi accedere all'area clienti.",
+        });
+        
+        // Redirect alla pagina di login cliente
+        setTimeout(() => {
+          setLocation("/client-login");
+        }, 2000);
+      }
       
-    } catch (error) {
+    } catch (error: any) {
       console.error("Errore durante l'attivazione dell'account:", error);
       toast({
         title: "Errore",
-        description: "Si è verificato un errore durante l'attivazione dell'account",
+        description: error.message || "Si è verificato un errore durante l'attivazione dell'account",
         variant: "destructive",
       });
     } finally {

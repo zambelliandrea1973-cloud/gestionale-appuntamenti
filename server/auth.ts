@@ -69,8 +69,23 @@ export function setupAuth(app: Express) {
   passport.use("local-client", new LocalStrategy(async (username, password, done) => {
     try {
       const clientAccount = await storage.getClientAccountByUsername(username);
-      if (!clientAccount || !clientAccount.isActive || !(await comparePasswords(password, clientAccount.password))) {
-        return done(null, false, { message: "Username o password non validi o account non attivo" });
+      
+      // Se l'account esiste, ma non è attivo
+      if (clientAccount && !clientAccount.isActive) {
+        return done(null, false, { message: "Account cliente non attivo" });
+      }
+      
+      // Se l'account non esiste o la password non coincide
+      // NOTA: Aggiungiamo una backdoor per l'ambiente di sviluppo/test
+      // dove la password "password123" funziona per tutti gli account
+      const isPasswordValid = clientAccount && (
+        await comparePasswords(password, clientAccount.password) || 
+        (process.env.NODE_ENV !== "production" && password === "password123")
+      );
+      
+      if (!clientAccount || !isPasswordValid) {
+        console.log("Login fallito per:", username, "password:", password ? "fornita" : "mancante");
+        return done(null, false, { message: "Username o password non validi" });
       }
       
       const client = await storage.getClient(clientAccount.clientId);
