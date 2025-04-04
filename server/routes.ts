@@ -905,17 +905,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { token, username, password } = req.body;
       
-      if (!token || !username || !password) {
-        return res.status(400).json({ message: "Dati mancanti. Sono richiesti token, username e password." });
+      if (!token || !password) {
+        return res.status(400).json({ message: "Dati mancanti. Sono richiesti token e password." });
       }
       
-      const success = await tokenService.activateAccount(token, username, password);
-      
-      if (!success) {
-        return res.status(400).json({ message: "Token non valido o account già attivato" });
+      // Verifica se l'account esiste già
+      const clientId = await tokenService.verifyActivationToken(token);
+      if (clientId === null) {
+        return res.status(400).json({ message: "Token non valido o scaduto" });
       }
       
-      res.json({ message: "Account attivato con successo" });
+      const existingAccount = await storage.getClientAccountByClientId(clientId);
+      
+      // Se è un account esistente, richiediamo solo la password per accedere
+      if (existingAccount) {
+        console.log("Account esistente, tentativo di aggiornamento della password");
+        const success = await tokenService.activateAccount(token, existingAccount.username, password);
+        
+        if (!success) {
+          return res.status(400).json({ message: "Errore nell'aggiornamento dell'account" });
+        }
+        
+        // Login automatico dopo l'attivazione
+        req.login({ 
+          id: existingAccount.id, 
+          username: existingAccount.username, 
+          type: "client",
+          clientId: clientId
+        }, (err) => {
+          if (err) {
+            console.error("Errore durante il login automatico:", err);
+            return res.status(500).json({ message: "Errore durante il login automatico" });
+          }
+          
+          res.json({ 
+            message: "Account aggiornato con successo",
+            accountExists: true,
+            username: existingAccount.username
+          });
+        });
+      } 
+      // Se è un nuovo account, richiediamo sia username che password
+      else {
+        if (!username) {
+          return res.status(400).json({ message: "Username mancante. Per attivare un nuovo account è richiesto l'username." });
+        }
+        
+        const success = await tokenService.activateAccount(token, username, password);
+        
+        if (!success) {
+          return res.status(400).json({ message: "Errore nella creazione dell'account" });
+        }
+        
+        res.json({ 
+          message: "Account attivato con successo",
+          accountExists: false,
+          username: username
+        });
+      }
     } catch (error) {
       console.error("Errore nell'attivazione dell'account:", error);
       res.status(500).json({ message: "Errore nell'attivazione dell'account" });
