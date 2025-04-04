@@ -167,14 +167,19 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
             </div>
           )}
           
-          {!client.hasConsent && (
-            <div className="flex items-center mt-2">
+          <div className="flex items-center mt-2">
+            {client.hasConsent ? (
+              <Badge variant="outline" className="flex items-center text-green-600 border-green-200 bg-green-50">
+                <Info className="h-3 w-3 mr-1" />
+                Consenso fornito
+              </Badge>
+            ) : (
               <Badge variant="outline" className="flex items-center text-amber-600 border-amber-200 bg-amber-50">
                 <Info className="h-3 w-3 mr-1" />
                 Consenso non fornito
               </Badge>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </CardContent>
       
