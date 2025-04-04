@@ -3,6 +3,18 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import AppointmentForm from "./AppointmentForm";
 
+// Estensione dell'interfaccia Window per supportare lastFormValues
+declare global {
+  interface Window {
+    lastFormValues?: {
+      date: Date;
+      startTime: string;
+      serviceId: number;
+      notes?: string;
+    };
+  }
+}
+
 interface AppointmentFormModalProps {
   clientId: number;
   onClose: () => void;
@@ -65,13 +77,17 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
     console.log("[MODAL] Dati del form:", formData);
     
     try {
-      const today = new Date();
-      const date = formData.date || today;
+      // Verifica che ci sia una data, altrimenti lascia che sia il form a gestire l'errore
+      if (!formData.date) {
+        throw new Error("Seleziona una data per l'appuntamento");
+      }
+      
+      const date = formData.date;
       const startTime = formData.startTime || "09:00";
       const serviceId = formData.serviceId || 1; // Default al primo servizio se non specificato
       const notes = formData.notes || "";
       
-      // Composizione dell'orario di fine calcolato sulla durata del servizio (ipotizziamo 60 min)
+      // Composizione dell'orario di fine calcolato sulla durata del servizio
       const [hours, minutes] = startTime.split(':').map(Number);
       const startMinutes = hours * 60 + minutes;
       const endMinutes = startMinutes + 60; // Default a 60 minuti
@@ -200,8 +216,6 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
       <div className="relative" onClick={(e) => e.stopPropagation()}>
         <AppointmentForm 
           clientId={clientId}
-          defaultDate={new Date()}
-          defaultTime="09:00"
           onClose={() => {
             console.log("Richiesta chiusura AppointmentForm (callback onClose)");
             setAppointmentSaved(true);
@@ -222,10 +236,13 @@ export default function AppointmentFormModal({ clientId, onClose }: AppointmentF
               
               try {
                 // Controlliamo se abbiamo valori salvati dall'AppointmentForm
+                // @ts-ignore - window.lastFormValues è definito a runtime ma TypeScript non lo riconosce
                 if (window.lastFormValues) {
+                  // @ts-ignore
                   console.log("[MODAL] Valori recuperati da window.lastFormValues:", window.lastFormValues);
                   
                   // Estrai i valori dai dati del form
+                  // @ts-ignore
                   const { date, startTime, serviceId, notes } = window.lastFormValues;
                   
                   // Prepara i dati per il salvataggio
