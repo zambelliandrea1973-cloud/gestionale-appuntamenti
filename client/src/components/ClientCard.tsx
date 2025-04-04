@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
@@ -36,6 +36,25 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
+  const [clientQrCode, setClientQrCode] = useState<string | null>(null);
+  
+  // Verifica se esiste già un token per questo cliente
+  useEffect(() => {
+    const checkExistingQrCode = async () => {
+      try {
+        const response = await apiRequest("GET", `/api/clients/${client.id}/activation-token`);
+        const data = await response.json();
+        
+        if (data && data.qrCode) {
+          setClientQrCode(data.qrCode);
+        }
+      } catch (error) {
+        console.error("Errore nel recupero del QR code esistente:", error);
+      }
+    };
+    
+    checkExistingQrCode();
+  }, [client.id]);
   
   // Delete mutation
   const deleteMutation = useMutation({
@@ -180,15 +199,30 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           Nuovo appuntamento
         </Button>
         
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="w-full"
-          onClick={() => setIsQRCodeModalOpen(true)}
-        >
-          <QrCode className="h-4 w-4 mr-2" />
-          Genera codice QR
-        </Button>
+        {clientQrCode ? (
+          <div className="w-full border border-border rounded-md p-2 bg-background flex flex-col items-center">
+            <img src={clientQrCode} alt="QR code di attivazione" className="w-32 h-32" />
+            <p className="text-xs text-muted-foreground mt-1">QR Code di accesso cliente</p>
+            <Button 
+              variant="link" 
+              size="sm" 
+              className="px-0 h-6 text-xs"
+              onClick={() => setIsQRCodeModalOpen(true)}
+            >
+              Dettagli
+            </Button>
+          </div>
+        ) : (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full"
+            onClick={() => setIsQRCodeModalOpen(true)}
+          >
+            <QrCode className="h-4 w-4 mr-2" />
+            Genera codice QR
+          </Button>
+        )}
         
         {isAppointmentFormOpen && (
           <AppointmentFormModal 
@@ -213,6 +247,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
             clientName={`${client.firstName} ${client.lastName}`}
             open={isQRCodeModalOpen}
             onClose={() => setIsQRCodeModalOpen(false)}
+            onQrCodeGenerated={(qrCode) => setClientQrCode(qrCode)}
           />
         )}
       </CardFooter>
