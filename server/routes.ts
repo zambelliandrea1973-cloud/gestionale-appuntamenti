@@ -14,6 +14,8 @@ import {
 import { setupAuth } from "./auth";
 import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";
+import { notificationService } from "./services/notificationService";
+import { initializeSchedulers } from "./services/schedulerService";
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -34,6 +36,9 @@ function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Configura l'autenticazione
   setupAuth(app);
+  
+  // Inizializza gli scheduler per i promemoria automatici
+  initializeSchedulers();
   
   const httpServer = createServer(app);
 
@@ -844,6 +849,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Errore nella verifica del token:", error);
       res.status(500).json({ valid: false, message: "Errore durante la verifica del token" });
+    }
+  });
+
+  // API per i promemoria e le notifiche
+  
+  // Invia manualmente un promemoria per un appuntamento specifico
+  app.post("/api/appointments/:id/send-reminder", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID appuntamento non valido" });
+      }
+      
+      const appointment = await storage.getAppointment(id);
+      if (!appointment) {
+        return res.status(404).json({ message: "Appuntamento non trovato" });
+      }
+      
+      // Verifica che l'appuntamento abbia impostato un tipo di promemoria
+      if (!appointment.reminderType) {
+        return res.status(400).json({ 
+          message: "Impossibile inviare promemoria: tipo di promemoria non specificato",
+          appointment
+        });
+      }
+      
+      // Invia il promemoria
+      const success = await notificationService.sendAppointmentReminder(appointment);
+      
+      if (success) {
+        res.json({ message: "Promemoria inviato con successo" });
+      } else {
+        res.status(500).json({ message: "Errore nell'invio del promemoria" });
+      }
+    } catch (error) {
+      console.error("Errore nell'invio del promemoria:", error);
+      res.status(500).json({ message: "Errore nell'invio del promemoria" });
+    }
+  });
+  
+  // Elabora manualmente tutti i promemoria per gli appuntamenti di domani
+  app.post("/api/process-reminders", async (_req: Request, res: Response) => {
+    try {
+      const count = await notificationService.processReminders();
+      res.json({ 
+        message: `Elaborazione promemoria completata`, 
+        remindersSent: count 
+      });
+    } catch (error) {
+      console.error("Errore nell'elaborazione dei promemoria:", error);
+      res.status(500).json({ message: "Errore nell'elaborazione dei promemoria" });
+    }
+  });
+  
+  // Invia un SMS di test per verificare la configurazione Twilio
+  app.post("/api/test-sms", async (req: Request, res: Response) => {
+    try {
+      const { to, message } = req.body;
+      
+      if (!to || !message) {
+        return res.status(400).json({ 
+          message: "Parametri mancanti", 
+          required: ["to", "message"],
+          example: { to: "+391234567890", message: "Messaggio di test" }
+        });
+      }
+      
+      const result = await notificationService.sendSMS(to, message);
+      res.json({ 
+        message: "SMS inviato con successo", 
+        details: {
+          sid: result.sid,
+          status: result.status,
+          dateCreated: result.dateCreated
+        }
+      });
+    } catch (error: any) {
+      console.error("Errore nell'invio del SMS di test:", error);
+      res.status(500).json({ 
+        message: "Errore nell'invio del SMS", 
+        error: error.message 
+      });
+    }
+  });
+  
+  // Invia un messaggio WhatsApp di test per verificare la configurazione Twilio
+  app.post("/api/test-whatsapp", async (req: Request, res: Response) => {
+    try {
+      const { to, message } = req.body;
+      
+      if (!to || !message) {
+        return res.status(400).json({ 
+          message: "Parametri mancanti", 
+          required: ["to", "message"],
+          example: { to: "+391234567890", message: "Messaggio di test" }
+        });
+      }
+      
+      const result = await notificationService.sendWhatsApp(to, message);
+      res.json({ 
+        message: "Messaggio WhatsApp inviato con successo", 
+        details: {
+          sid: result.sid,
+          status: result.status,
+          dateCreated: result.dateCreated
+        }
+      });
+    } catch (error: any) {
+      console.error("Errore nell'invio del messaggio WhatsApp di test:", error);
+      res.status(500).json({ 
+        message: "Errore nell'invio del messaggio WhatsApp", 
+        error: error.message 
+      });
     }
   });
 
