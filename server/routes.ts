@@ -970,6 +970,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+  // Endpoint per confermare la ricezione del promemoria
+  app.post("/api/appointments/:id/confirm-reminder", async (req: Request, res: Response) => {
+    try {
+      const appointmentId = parseInt(req.params.id);
+      if (isNaN(appointmentId)) {
+        return res.status(400).json({ 
+          message: "ID appuntamento non valido" 
+        });
+      }
+      
+      // Recupera l'appuntamento
+      const appointment = await storage.getAppointment(appointmentId);
+      if (!appointment) {
+        return res.status(404).json({ 
+          message: "Appuntamento non trovato" 
+        });
+      }
+      
+      // Controlla che l'utente loggato sia il cliente dell'appuntamento
+      // o un membro dello staff
+      if (req.isAuthenticated()) {
+        const user = req.user as any;
+        
+        if (user.type === "client" && user.clientId !== appointment.clientId) {
+          return res.status(403).json({ 
+            message: "Non hai i permessi per confermare questo promemoria" 
+          });
+        }
+      } else {
+        return res.status(401).json({ 
+          message: "Non autenticato" 
+        });
+      }
+      
+      // Aggiorna lo stato del promemoria
+      const updatedAppointment = await storage.updateAppointment(appointmentId, {
+        ...appointment,
+        reminderConfirmed: true,
+        reminderConfirmedAt: new Date(),
+      });
+      
+      res.json({ 
+        message: "Promemoria confermato con successo", 
+        appointment: updatedAppointment 
+      });
+    } catch (error: any) {
+      console.error("Errore nella conferma del promemoria:", error);
+      res.status(500).json({ 
+        message: "Errore nella conferma del promemoria", 
+        error: error.message 
+      });
+    }
+  });
 
   return httpServer;
 }
