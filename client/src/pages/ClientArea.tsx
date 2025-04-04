@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Check, Clock, FileText, User } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import InstallAppPrompt from "@/components/InstallAppPrompt";
 
 interface UserData {
   id: number;
@@ -179,6 +180,7 @@ export default function ClientArea() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
+      <InstallAppPrompt />
       <header className="mb-6 flex flex-col md:flex-row justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>
