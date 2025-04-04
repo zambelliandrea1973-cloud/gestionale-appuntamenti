@@ -788,8 +788,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Genera un token di attivazione
       const token = await tokenService.generateActivationToken(clientId);
       
-      // Genera l'URL di attivazione
-      const activationUrl = qrCodeService.generateActivationUrl(token);
+      // Costruisci l'URL di base usando l'host dalla richiesta
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      const host = req.headers['x-forwarded-host'] || req.headers.host;
+      const baseUrl = `${protocol}://${host}`;
+      
+      console.log('URL base per attivazione:', baseUrl);
+      
+      // Genera l'URL di attivazione con l'URL di base corretto
+      const activationUrl = `${baseUrl}/activate?token=${token}`;
       
       // Genera il QR code
       const qrCode = await qrCodeService.generateQRCode(activationUrl);
