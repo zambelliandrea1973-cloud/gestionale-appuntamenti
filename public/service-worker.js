@@ -1,46 +1,39 @@
 // Nome della cache
-const CACHE_NAME = 'gestione-appuntamenti-v1';
+const CACHE_NAME = 'studio-app-v2';
 
-// File da mettere in cache (pagine, CSS, JavaScript, immagini, ecc.)
+// File da memorizzare nella cache per il funzionamento offline
 const urlsToCache = [
   '/',
   '/index.html',
-  '/client-login',
-  '/client-area',
-  '/consent',
-  '/activate-account',
   '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/assets/index.css', // Principale file CSS generato da Vite
-  '/assets/index.js',  // Principale file JS generato da Vite
+  '/assets/index.css',
+  '/assets/index.js',
+  '/icons/app-icon.svg'
 ];
 
-// Installa il Service Worker
-self.addEventListener('install', event => {
-  // Esegue il processo di installazione
+// Installazione del Service Worker
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
+      .then((cache) => {
         console.log('Cache aperta');
         return cache.addAll(urlsToCache);
       })
-      .catch(error => {
-        console.error('Errore durante la cache dei file:', error);
+      .catch((error) => {
+        console.error('Errore durante la cache:', error);
       })
   );
 });
 
-// Attiva il Service Worker
-self.addEventListener('activate', event => {
+// Attivazione del Service Worker
+self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];
-  
-  // Rimuove le cache vecchie
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map(cacheName => {
+        cacheNames.map((cacheName) => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            // Elimina le cache vecchie che non sono più necessarie
             return caches.delete(cacheName);
           }
         })
@@ -49,50 +42,53 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Intercetta le richieste e serve dalla cache se possibile, altrimenti dalla rete
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - restituisce la risposta dalla cache
-        if (response) {
-          return response;
-        }
-        
-        // Altrimenti fa una copia della richiesta
-        const fetchRequest = event.request.clone();
-        
-        // Cerca la risorsa nella rete
-        return fetch(fetchRequest)
-          .then(response => {
-            // Controlla se abbiamo ricevuto una risposta valida
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            
-            // Fa una copia della risposta
-            const responseToCache = response.clone();
-            
-            // Apre la cache e memorizza la risposta
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                // Escludiamo le richieste POST e API dalla cache
-                if (event.request.method === 'GET' && !event.request.url.includes('/api/')) {
-                  cache.put(event.request, responseToCache);
-                }
-              });
-            
+// Gestione delle richieste di rete
+self.addEventListener('fetch', (event) => {
+  // Per le richieste API, prova prima la rete e poi fallback sulla cache
+  if (event.request.url.includes('/api/')) {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+  } else {
+    // Per risorse statiche, controlla prima la cache e poi la rete
+    event.respondWith(
+      caches.match(event.request)
+        .then((response) => {
+          // La risorsa è stata trovata nella cache
+          if (response) {
             return response;
-          })
-          .catch(error => {
-            // Se la rete fallisce e la richiesta è per una pagina, serviamo la pagina offline
-            if (event.request.mode === 'navigate') {
-              return caches.match('/');
-            }
-            
-            // Per altri tipi di risorse, non facciamo nulla di speciale
-            console.error('Errore durante il fetch:', error);
-          });
-      })
-  );
+          }
+          
+          // Se la risorsa non è nella cache, scaricala dalla rete
+          return fetch(event.request)
+            .then((response) => {
+              // Verifica se abbiamo ricevuto una risposta valida
+              if (!response || response.status !== 200 || response.type !== 'basic') {
+                return response;
+              }
+
+              // Clona la risposta perché il body può essere usato solo una volta
+              const responseToCache = response.clone();
+
+              caches.open(CACHE_NAME)
+                .then((cache) => {
+                  // Aggiungi la risorsa alla cache
+                  cache.put(event.request, responseToCache);
+                });
+
+              return response;
+            });
+        })
+    );
+  }
+});
+
+// Gestione degli aggiornamenti in background
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });

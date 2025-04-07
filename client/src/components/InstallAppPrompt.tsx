@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, X } from 'lucide-react';
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
-
-declare global {
-  interface WindowEventMap {
-    'beforeinstallprompt': BeforeInstallPromptEvent;
-  }
-}
+import { Download, X, Check } from 'lucide-react';
+import { BeforeInstallPromptEvent } from '@/types/pwa';
 
 export default function InstallAppPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
+    // Registra il service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registrato con successo:', registration);
+          })
+          .catch(error => {
+            console.error('Errore durante la registrazione del Service Worker:', error);
+          });
+      });
+    }
+
     // Check if it's iOS
     const ua = window.navigator.userAgent;
     const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
@@ -43,11 +47,20 @@ export default function InstallAppPrompt() {
                            (window.navigator as any).standalone === true;
     
     if (isAppInstalled) {
+      setIsInstalled(true);
       setShowPrompt(false);
     }
 
+    // Rileva l'installazione dell'app durante la sessione corrente
+    window.addEventListener('appinstalled', () => {
+      console.log('App installata con successo!');
+      setIsInstalled(true);
+      setShowPrompt(false);
+    });
+
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', () => {});
     };
   }, []);
 
@@ -64,6 +77,7 @@ export default function InstallAppPrompt() {
     setDeferredPrompt(null);
     
     if (outcome === 'accepted') {
+      setIsInstalled(true);
       setShowPrompt(false);
     }
   };
@@ -71,6 +85,21 @@ export default function InstallAppPrompt() {
   const dismissPrompt = () => {
     setShowPrompt(false);
   };
+
+  // Se l'app è già installata, mostra un messaggio di conferma
+  if (isInstalled) {
+    return (
+      <div className="w-full max-w-md mx-auto mt-4 mb-6 rounded-lg bg-green-50 border border-green-200 p-4">
+        <div className="flex items-center">
+          <Check className="h-5 w-5 text-green-600 mr-2" />
+          <span className="text-green-800 font-medium">App installata correttamente</span>
+        </div>
+        <p className="text-green-700 text-sm mt-1">
+          Puoi accedere rapidamente alla tua area personale dalla home screen del tuo dispositivo.
+        </p>
+      </div>
+    );
+  }
 
   if (!showPrompt) return null;
 
