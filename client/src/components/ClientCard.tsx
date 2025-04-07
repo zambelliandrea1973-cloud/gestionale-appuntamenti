@@ -5,7 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +36,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
+  const [qrCodeModalTab, setQrCodeModalTab] = useState<"qrcode" | "link">("qrcode");
   const [clientQrCode, setClientQrCode] = useState<string | null>(null);
   
   // Verifica se esiste già un token per questo cliente
@@ -208,25 +209,55 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           <div className="w-full border border-border rounded-md p-2 bg-background flex flex-col items-center">
             <img src={clientQrCode} alt="QR code di attivazione" className="w-32 h-32" />
             <p className="text-xs text-muted-foreground mt-1">QR Code di accesso cliente</p>
-            <Button 
-              variant="link" 
-              size="sm" 
-              className="px-0 h-6 text-xs"
-              onClick={() => setIsQRCodeModalOpen(true)}
-            >
-              Dettagli
-            </Button>
+            <div className="flex gap-2 mt-1 w-full">
+              <Button 
+                variant="link" 
+                size="sm" 
+                className="px-0 h-6 text-xs"
+                onClick={() => setIsQRCodeModalOpen(true)}
+              >
+                Dettagli
+              </Button>
+              
+              <Button 
+                variant="link" 
+                size="sm" 
+                className="px-0 h-6 text-xs flex items-center text-blue-600 ml-auto"
+                onClick={() => {
+                  setQrCodeModalTab("link");
+                  setIsQRCodeModalOpen(true);
+                }}
+              >
+                <ExternalLink className="h-3 w-3 mr-1" />
+                Link Diretto
+              </Button>
+            </div>
           </div>
         ) : (
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full"
-            onClick={() => setIsQRCodeModalOpen(true)}
-          >
-            <QrCode className="h-4 w-4 mr-2" />
-            Genera codice QR
-          </Button>
+          <div className="flex gap-2 w-full">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-1"
+              onClick={() => setIsQRCodeModalOpen(true)}
+            >
+              <QrCode className="h-4 w-4 mr-2" />
+              Genera QR
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-1"
+              onClick={() => {
+                setQrCodeModalTab("link");
+                setIsQRCodeModalOpen(true);
+              }}
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Link Diretto
+            </Button>
+          </div>
         )}
         
         {isAppointmentFormOpen && (
@@ -253,6 +284,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
             open={isQRCodeModalOpen}
             onClose={() => setIsQRCodeModalOpen(false)}
             onQrCodeGenerated={(qrCode) => setClientQrCode(qrCode)}
+            initialTab={qrCodeModalTab}
           />
         )}
       </CardFooter>
