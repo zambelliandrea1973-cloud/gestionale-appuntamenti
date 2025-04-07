@@ -53,9 +53,10 @@ export const tokenService = {
   /**
    * Verifica la validità di un token di attivazione
    * @param token Il token da verificare
+   * @param invalidate Se true, invalida il token dopo la verifica (predefinito: false)
    * @returns ID del cliente associato al token se valido, null altrimenti
    */
-  async verifyActivationToken(token: string): Promise<number | null> {
+  async verifyActivationToken(token: string, invalidate: boolean = false): Promise<number | null> {
     try {
       // Trova il token nel database
       const activationToken = await storage.getActivationToken(token);
@@ -74,6 +75,11 @@ export const tokenService = {
       
       // Non controlliamo più se il token è stato utilizzato, in modo che possa essere usato più volte
       // Se un token esiste ed è valido, restituisce sempre l'ID del cliente
+      
+      // Se richiesto, invalida il token dopo l'uso
+      if (invalidate) {
+        await this.markTokenAsUsed(token);
+      }
       
       return activationToken.clientId;
     } catch (error) {

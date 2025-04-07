@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Download, Smartphone, Share, MoreVertical, SaveIcon, Home } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Download, Smartphone, Share, MoreVertical, SaveIcon, Home, Link, ExternalLink, Copy } from "lucide-react";
+import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { BeforeInstallPromptEvent } from '@/types/pwa';
@@ -642,6 +643,99 @@ export default function ClientArea() {
           </CardFooter>
         </Card>
       )}
+      
+      {/* Link diretto universale */}
+      <Card className="mb-8 border-2 border-blue-200 bg-blue-50/50">
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Link className="mr-2 h-5 w-5 text-blue-600" /> 
+            Link Diretto all'Area Cliente
+          </CardTitle>
+          <CardDescription>
+            Salva questo link per accedere direttamente alla tua area cliente in futuro
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {user?.client?.id && (
+            <div className="space-y-4">
+              <p className="text-sm">
+                Invece di scansionare il QR code ogni volta, puoi salvare questo link nei preferiti del browser o sulla schermata home del tuo dispositivo per un accesso rapido:
+              </p>
+              
+              <div className="flex items-center space-x-2">
+                <div className="border rounded-md p-2 flex-1 bg-white overflow-hidden">
+                  <p className="text-sm text-muted-foreground truncate">
+                    {user?.client && `${window.location.origin}/client-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
+                  </p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    if (user?.client) {
+                      const directLink = `${window.location.origin}/client-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                      navigator.clipboard.writeText(directLink)
+                        .then(() => {
+                          toast({
+                            title: "Link copiato",
+                            description: "Il link è stato copiato negli appunti",
+                          });
+                        })
+                        .catch(err => {
+                          toast({
+                            title: "Errore",
+                            description: "Impossibile copiare il link",
+                            variant: "destructive",
+                          });
+                        });
+                    }
+                  }}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              <div className="rounded-lg border-2 border-blue-100 p-4 bg-white">
+                <h4 className="font-medium mb-2 text-sm flex items-center">
+                  <Home className="mr-2 h-4 w-4 text-blue-600" />
+                  Come aggiungere alla schermata home
+                </h4>
+                <div className="space-y-2 text-xs text-muted-foreground">
+                  <p><strong>Su iPhone/iPad:</strong> Usa Safari, tocca Condividi, poi "Aggiungi alla schermata Home"</p>
+                  <p><strong>Su Android:</strong> Su Chrome, tocca i tre puntini, poi "Aggiungi alla schermata Home"</p>
+                  <p><strong>Su qualsiasi browser:</strong> Salva nei preferiti o come collegamento</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+        <CardFooter>
+          <Button 
+            onClick={() => {
+              const directLink = `${window.location.origin}/client-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user?.client?.id || ''}`;
+              navigator.clipboard.writeText(directLink)
+                .then(() => {
+                  toast({
+                    title: "Link copiato",
+                    description: "Il link è stato copiato negli appunti, salvalo nei preferiti!",
+                  });
+                })
+                .catch(err => {
+                  toast({
+                    title: "Errore",
+                    description: "Impossibile copiare il link",
+                    variant: "destructive",
+                  });
+                });
+            }} 
+            className="w-full gap-2"
+            variant="default"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Copia il link diretto
+          </Button>
+        </CardFooter>
+      </Card>
       
       {/* Guida dettagliata all'installazione - mostra solo se l'app non è installata */}
       {!isInstalled && <InstallationGuide />}

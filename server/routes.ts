@@ -1089,6 +1089,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ valid: false, message: "Errore durante la verifica del token" });
     }
   });
+  
+  // Endpoint per verificare e autenticare direttamente con un token (per i link diretti)
+  app.post("/api/verify-token", async (req: Request, res: Response) => {
+    try {
+      const { token, clientId } = req.body;
+      
+      if (!token || !clientId) {
+        return res.status(400).json({ message: "Token o ID cliente mancante" });
+      }
+      
+      // Verifica il token (non lo invalidiamo per consentire accessi multipli)
+      const validClientId = await tokenService.verifyActivationToken(token);
+      
+      if (validClientId === null || validClientId !== Number(clientId)) {
+        return res.status(400).json({ message: "Token non valido o non corrisponde al cliente" });
+      }
+      
+      // Recupera dati cliente
+      const client = await storage.getClient(validClientId);
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Recupera l'utente associato al cliente
+      const clientAccount = await storage.getClientAccountByClientId(validClientId);
+      if (!clientAccount) {
+        return res.status(404).json({ 
+          message: "Utente non trovato. Devi prima attivare il tuo account tramite la scansione del QR code." 
+        });
+      }
+      
+      // Crea un oggetto user conforme all'interfaccia User di Express
+      const user = {
+        id: clientAccount.id,
+        username: clientAccount.username,
+        type: "client", // Assegna esplicitamente il tipo
+        clientId: validClientId,
+        client: client
+      };
+      
+      // Esegui il login dell'utente
+      req.login(user, (err) => {
+        if (err) {
+          return res.status(500).json({ message: "Errore durante il login automatico" });
+        }
+        
+        return res.status(200).json({ 
+          message: "Accesso diretto effettuato con successo",
+          user: user,
+          client: client
+        });
+      });
+      
+    } catch (error: any) {
+      console.error("Errore verifica token:", error);
+      res.status(500).json({ 
+        message: "Errore durante la verifica del token",
+        error: error.message
+      });
+    }
+  });
 
   // API per i promemoria e le notifiche
   
