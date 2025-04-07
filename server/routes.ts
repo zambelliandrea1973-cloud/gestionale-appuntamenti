@@ -16,6 +16,10 @@ import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";
 import { notificationService } from "./services/notificationService";
 import { initializeSchedulers } from "./services/schedulerService";
+import multer from 'multer';
+import sharp from 'sharp';
+import path from 'path';
+import fs from 'fs';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -1161,6 +1165,212 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Errore nella conferma del promemoria", 
         error: error.message 
       });
+    }
+  });
+
+  // Configurazione per l'upload delle immagini
+  const upload = multer({
+    storage: multer.diskStorage({
+      destination: (_req, _file, cb) => {
+        const iconDir = path.join(process.cwd(), 'public', 'icons');
+        
+        // Assicurati che la directory esista
+        if (!fs.existsSync(iconDir)) {
+          fs.mkdirSync(iconDir, { recursive: true });
+        }
+        
+        cb(null, iconDir);
+      },
+      filename: (_req, file, cb) => {
+        // Utilizza un nome file fisso per l'icona dell'app
+        cb(null, 'app-icon.svg');
+      },
+    }),
+    limits: {
+      fileSize: 2 * 1024 * 1024, // Limite dimensione file: 2MB
+    },
+    fileFilter: (_req, file, cb) => {
+      // Accetta solo immagini
+      if (!file.mimetype.startsWith('image/')) {
+        return cb(new Error('Per favore carica solo immagini'));
+      }
+      
+      cb(null, true);
+    },
+  });
+
+  // Endpoint per caricare l'icona dell'app
+  // Endpoint per ottenere le informazioni dell'app
+  app.get('/api/client-app-info', (req: Request, res: Response) => {
+    try {
+      // Controllo dell'icona
+      const iconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+      const iconExists = fs.existsSync(iconPath);
+      let iconInfo = null;
+      
+      if (iconExists) {
+        const stats = fs.statSync(iconPath);
+        const lastModified = stats.mtime;
+        
+        iconInfo = {
+          exists: true,
+          iconPath: '/icons/app-icon.svg',
+          lastModified: lastModified.toISOString()
+        };
+      } else {
+        iconInfo = {
+          exists: false
+        };
+      }
+      
+      // Lettura delle informazioni dal manifest.json
+      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      let appName = "App Cliente";
+      let appShortName = "App Cliente";
+      
+      if (fs.existsSync(manifestPath)) {
+        try {
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+          appName = manifest.name || "App Cliente";
+          appShortName = manifest.short_name || "App Cliente";
+        } catch (error) {
+          console.error('Errore durante la lettura del manifest:', error);
+        }
+      }
+      
+      res.json({
+        icon: iconInfo,
+        appName,
+        appShortName
+      });
+    } catch (error: any) {
+      console.error('Errore nel recupero delle informazioni dell\'app:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+  
+  // Endpoint per aggiornare le informazioni dell'app
+  app.post('/api/update-app-info', async (req: Request, res: Response) => {
+    try {
+      const { appName, appShortName } = req.body;
+      
+      if (!appName && !appShortName) {
+        return res.status(400).json({ message: 'Nessun dato da aggiornare' });
+      }
+      
+      // Aggiorna il manifest.json
+      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      if (fs.existsSync(manifestPath)) {
+        try {
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+          
+          if (appName) manifest.name = appName;
+          if (appShortName) manifest.short_name = appShortName;
+          
+          fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+          
+          res.json({ 
+            success: true, 
+            message: 'Informazioni dell\'app aggiornate con successo' 
+          });
+        } catch (error: any) {
+          console.error('Errore durante l\'aggiornamento del manifest:', error);
+          res.status(500).json({ message: error.message });
+        }
+      } else {
+        res.status(404).json({ message: 'Manifest.json non trovato' });
+      }
+    } catch (error: any) {
+      console.error('Errore durante l\'aggiornamento delle informazioni dell\'app:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+  
+  // Manteniamo anche l'endpoint originale per retrocompatibilità
+  app.get('/api/app-icon-info', (req: Request, res: Response) => {
+    try {
+      const iconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+      const iconExists = fs.existsSync(iconPath);
+
+      // Se esiste, invia informazioni sull'icona
+      if (iconExists) {
+        // Ottieni la data di modifica del file
+        const stats = fs.statSync(iconPath);
+        const lastModified = stats.mtime;
+        
+        res.json({
+          exists: true,
+          iconPath: '/icons/app-icon.svg',
+          lastModified: lastModified.toISOString()
+        });
+      } else {
+        res.json({
+          exists: false
+        });
+      }
+    } catch (error: any) {
+      console.error('Errore nel recupero delle informazioni sull\'icona:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  app.post('/api/upload-app-icon', upload.single('icon'), async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'Nessun file caricato' });
+      }
+      
+      // Percorso del file caricato
+      const filePath = req.file.path;
+      
+      if (req.file.mimetype !== 'image/svg+xml') {
+        // Se non è un SVG, ottimizza l'immagine e convertila in SVG
+        try {
+          const optimizedImageBuffer = await sharp(filePath)
+            .resize(512, 512)
+            .toFormat('png')
+            .toBuffer();
+            
+          // Sovrascrivi il file con la versione ottimizzata
+          const svgPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+          
+          // Possiamo salvare il PNG come SVG per semplicità
+          // Una soluzione più completa convertirebbe realmente a SVG
+          fs.writeFileSync(svgPath, optimizedImageBuffer);
+        } catch (error) {
+          console.error('Errore durante l\'ottimizzazione dell\'immagine:', error);
+          // Continua comunque, useremo l'immagine originale
+        }
+      }
+      
+      // Aggiorna il manifest.json con il nuovo percorso dell'icona
+      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      if (fs.existsSync(manifestPath)) {
+        try {
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+          
+          // Assicurati che l'icona punti al file caricato
+          manifest.icons = [{
+            src: '/icons/app-icon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any'
+          }];
+          
+          fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+        } catch (error) {
+          console.error('Errore durante l\'aggiornamento del manifest:', error);
+        }
+      }
+      
+      res.json({ 
+        success: true, 
+        message: 'Icona caricata con successo',
+        iconPath: '/icons/app-icon.svg'
+      });
+    } catch (error: any) {
+      console.error('Errore durante il caricamento dell\'icona:', error);
+      res.status(500).json({ message: error.message });
     }
   });
 

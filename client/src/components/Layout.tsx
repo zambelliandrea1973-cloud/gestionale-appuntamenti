@@ -10,7 +10,8 @@ import {
   Calendar,
   Clock,
   Grid,
-  Plus
+  Plus,
+  Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -61,6 +62,13 @@ export default function Layout({ children }: LayoutProps) {
                 </Button>
               </Link>
               
+              <Link href="/settings">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Settings className="h-4 w-4" />
+                  <span>Impostazioni</span>
+                </Button>
+              </Link>
+              
               {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
             </div>
             
@@ -101,6 +109,12 @@ export default function Layout({ children }: LayoutProps) {
                       <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
                         <BarChart className="mr-2 h-4 w-4" />
                         Report
+                      </Button>
+                    </Link>
+                    <Link href="/settings">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Impostazioni
                       </Button>
                     </Link>
                   </nav>

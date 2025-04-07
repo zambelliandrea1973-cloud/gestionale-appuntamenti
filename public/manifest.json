@@ -1,15 +1,14 @@
 {
-  "name": "Studio Gestione Clienti",
-  "short_name": "Studio App",
-  "description": "Gestione appuntamenti e dati cliente",
-  "start_url": "/",
-  "scope": "/",
+  "name": "App Cliente",
+  "short_name": "App Cliente",
+  "description": "App per gestire i tuoi appuntamenti e consensi",
+  "start_url": "/client-area",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
   "icons": [
     {
-      "src": "icons/app-icon.svg",
+      "src": "/icons/app-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
