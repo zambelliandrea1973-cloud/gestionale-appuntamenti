@@ -1203,21 +1203,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Endpoint per ottenere le informazioni dell'app
   app.get('/api/client-app-info', (req: Request, res: Response) => {
     try {
-      // Controllo dell'icona
-      const iconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
-      const iconExists = fs.existsSync(iconPath);
+      // Controllo dell'icona personalizzata
+      const customIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+      const customIconExists = fs.existsSync(customIconPath);
+      const defaultIconExists = fs.existsSync(defaultIconPath);
       let iconInfo = null;
       
-      if (iconExists) {
-        const stats = fs.statSync(iconPath);
+      // Se esiste un'icona personalizzata
+      if (customIconExists) {
+        const stats = fs.statSync(customIconPath);
         const lastModified = stats.mtime;
         
         iconInfo = {
           exists: true,
+          isCustom: true,
           iconPath: '/icons/app-icon.svg',
           lastModified: lastModified.toISOString()
         };
-      } else {
+      } 
+      // Altrimenti, se esiste l'icona predefinita
+      else if (defaultIconExists) {
+        const stats = fs.statSync(defaultIconPath);
+        const lastModified = stats.mtime;
+        
+        iconInfo = {
+          exists: true,
+          isCustom: false,
+          iconPath: '/icons/default-app-icon.jpg',
+          lastModified: lastModified.toISOString()
+        };
+      } 
+      // Nessuna icona disponibile
+      else {
         iconInfo = {
           exists: false
         };
@@ -1249,6 +1267,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Endpoint per usare l'icona predefinita
+  app.post('/api/use-default-icon', async (req: Request, res: Response) => {
+    try {
+      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+      
+      if (!fs.existsSync(defaultIconPath)) {
+        return res.status(404).json({ message: 'Icona predefinita non trovata' });
+      }
+      
+      // Aggiorna il manifest.json con l'icona predefinita
+      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      if (fs.existsSync(manifestPath)) {
+        try {
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+          
+          // Imposta l'icona predefinita
+          manifest.icons = [{
+            src: '/icons/default-app-icon.jpg',
+            sizes: 'any',
+            type: 'image/jpeg',
+            purpose: 'any'
+          }];
+          
+          fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+          
+          res.json({ 
+            success: true, 
+            message: 'Icona predefinita impostata con successo',
+            iconPath: '/icons/default-app-icon.jpg'
+          });
+        } catch (error: any) {
+          console.error('Errore durante l\'aggiornamento del manifest:', error);
+          res.status(500).json({ message: error.message });
+        }
+      } else {
+        res.status(404).json({ message: 'Manifest.json non trovato' });
+      }
+    } catch (error: any) {
+      console.error('Errore durante l\'impostazione dell\'icona predefinita:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Endpoint per aggiornare le informazioni dell'app
   app.post('/api/update-app-info', async (req: Request, res: Response) => {
     try {
