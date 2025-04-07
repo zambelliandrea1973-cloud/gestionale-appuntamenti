@@ -1586,5 +1586,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API per le note dei clienti
+  app.get('/api/client-notes/:clientId', async (req: Request, res: Response) => {
+    try {
+      const { clientId } = req.params;
+      const notes = await storage.getClientNotes(parseInt(clientId));
+      res.json(notes);
+    } catch (error) {
+      console.error('Errore durante il recupero delle note del cliente:', error);
+      res.status(500).json({ error: 'Errore durante il recupero delle note del cliente' });
+    }
+  });
+  
+  app.post('/api/client-notes', async (req: Request, res: Response) => {
+    try {
+      const { clientId, title, content, category } = req.body;
+      
+      const note = await storage.createClientNote({
+        clientId: parseInt(clientId),
+        title,
+        content,
+        category
+      });
+      
+      res.status(201).json(note);
+    } catch (error) {
+      console.error('Errore durante la creazione della nota del cliente:', error);
+      res.status(500).json({ error: 'Errore durante la creazione della nota del cliente' });
+    }
+  });
+  
+  app.put('/api/client-notes/:id', async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { title, content, category } = req.body;
+      
+      const note = await storage.updateClientNote(parseInt(id), { 
+        title, 
+        content, 
+        category
+      });
+      
+      if (!note) {
+        return res.status(404).json({ error: 'Nota non trovata' });
+      }
+      
+      res.json(note);
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento della nota del cliente:', error);
+      res.status(500).json({ error: 'Errore durante l\'aggiornamento della nota del cliente' });
+    }
+  });
+  
+  app.delete('/api/client-notes/:id', async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      
+      const success = await storage.deleteClientNote(parseInt(id));
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Nota non trovata' });
+      }
+      
+      res.status(200).json({ message: 'Nota eliminata con successo' });
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione della nota del cliente:', error);
+      res.status(500).json({ error: 'Errore durante l\'eliminazione della nota del cliente' });
+    }
+  });
+
   return httpServer;
 }
