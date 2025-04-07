@@ -10,73 +10,155 @@
     <!-- Metadati PWA migliorati -->
     <meta name="description" content="Gestisci i tuoi appuntamenti e consensi" />
     <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="App Cliente">
     
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
+    <!-- Web App Manifest - supporto per entrambi i formati -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.webmanifest">
     
-    <!-- iOS support migliorato -->
+    <!-- FAVICON per browser che non supportano PWA -->
+    <link rel="icon" type="image/svg+xml" href="/icons/app-icon.svg">
+    <link rel="shortcut icon" href="/icons/app-icon.svg">
+    
+    <!-- iOS support esteso -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Area Cliente">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="App Cliente">
     <link rel="apple-touch-icon" href="/icons/app-icon.svg">
     <link rel="apple-touch-startup-image" href="/icons/app-icon.svg">
+    <link rel="apple-touch-icon-precomposed" href="/icons/app-icon.svg">
+    
+    <!-- MS Tiles per dispositivi Windows -->
+    <meta name="msapplication-TileImage" content="/icons/app-icon.svg">
+    <meta name="msapplication-TileColor" content="#4f46e5">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Check se l'utente ha disabilitato gli script
-      if (typeof window.__pwaInstallEventAttached === 'undefined') {
-        window.__pwaInstallEventAttached = false;
+      // Per debugging
+      window.isPWADebug = true;
+      
+      // Funzione per verificare se l'app è installata
+      function checkIfInstalled() {
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isFullScreen = window.navigator.standalone;
+        
+        console.log('PWA check - standalone mode:', isStandalone);
+        console.log('PWA check - iOS fullscreen:', isFullScreen);
+        
+        return isStandalone || isFullScreen;
       }
       
-      // Registra il Service Worker in modo più robusto
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', async () => {
-          try {
-            // Ritardo intenzionale per assicurarsi che la pagina sia completamente caricata
-            setTimeout(async () => {
-              try {
-                const registration = await navigator.serviceWorker.register('/service-worker.js', {
-                  scope: '/',
-                  updateViaCache: 'none'
-                });
-                
-                // Log info per debug
-                console.log('Service Worker registrato con successo:', registration.scope);
-                
-                // Imposta un listener globale per beforeinstallprompt
-                window.addEventListener('beforeinstallprompt', (e) => {
-                  console.log('Evento beforeinstallprompt catturato a livello document', e);
-                  
-                  // Previeni il comportamento predefinito per preservare il prompt
-                  e.preventDefault();
-                  
-                  // Salva l'evento per renderlo disponibile globalmente
-                  window.__installPromptEvent = e;
-                  
-                  // Forza un refresh se necessario
-                  const event = new Event('pwaInstallReady');
-                  window.dispatchEvent(event);
-                });
-                
-                // Registra quando l'app è installata
-                window.addEventListener('appinstalled', (event) => {
-                  console.log('App installata con successo!', event);
-                  window.__installPromptEvent = null;
-                });
-                
-              } catch (error) {
-                console.error('Errore durante la registrazione del Service Worker:', error);
-              }
-            }, 1000);
-          } catch (error) {
-            console.error('Errore durante la registrazione del Service Worker:', error);
-          }
-        });
-      } else {
-        console.warn('Service Worker non supportato dal browser');
+      // Variabili globali per PWA
+      window.__pwaInstallEventAttached = false;
+      window.__pwaIsInstalled = checkIfInstalled();
+      
+      // Gestione dell'evento di installazione
+      function handleBeforeInstallPrompt(e) {
+        console.log('Evento beforeinstallprompt catturato', e);
+        
+        // Fondamentale: prevenire il comportamento di default
+        e.preventDefault();
+        
+        // Salvataggio dell'evento per uso futuro
+        window.__installPromptEvent = e;
+        window.__pwaInstallEventAttached = true;
+        
+        // Notificare i componenti React
+        const readyEvent = new Event('pwaInstallReady');
+        window.dispatchEvent(readyEvent);
+        
+        // Debug
+        if (window.isPWADebug) {
+          console.log('Deferring PWA install prompt');
+          // Mostra un avviso a video
+          setTimeout(() => {
+            const debugDiv = document.createElement('div');
+            debugDiv.style.position = 'fixed';
+            debugDiv.style.bottom = '10px';
+            debugDiv.style.right = '10px';
+            debugDiv.style.padding = '10px';
+            debugDiv.style.background = 'green';
+            debugDiv.style.color = 'white';
+            debugDiv.style.zIndex = '9999';
+            debugDiv.style.borderRadius = '5px';
+            debugDiv.innerHTML = 'PWA installabile 👍';
+            document.body.appendChild(debugDiv);
+            
+            setTimeout(() => {
+              debugDiv.remove();
+            }, 5000);
+          }, 2000);
+        }
       }
+      
+      // Registrazione del Service Worker
+      function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+              .then(reg => {
+                console.log('Service Worker registrato con successo:', reg.scope);
+                
+                // Verifica se c'è un update disponibile
+                reg.onupdatefound = () => {
+                  const installingWorker = reg.installing;
+                  installingWorker.onstatechange = () => {
+                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      console.log('Nuovo contenuto disponibile; aggiorna la pagina');
+                    }
+                  };
+                };
+              })
+              .catch(err => {
+                console.error('Errore durante la registrazione del Service Worker:', err);
+              });
+          });
+        } else {
+          console.warn('Service Worker non supportato dal browser');
+        }
+      }
+      
+      // Avvio immediato della registrazione del Service Worker
+      registerServiceWorker();
+      
+      // Gestione dell'evento beforeinstallprompt
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      
+      // Gestione dell'installazione completata
+      window.addEventListener('appinstalled', (event) => {
+        console.log('App installata con successo!', event);
+        window.__pwaIsInstalled = true;
+        window.__installPromptEvent = null;
+        
+        // Notificare i componenti React
+        const installedEvent = new Event('pwaInstalled');
+        window.dispatchEvent(installedEvent);
+        
+        // Debug
+        if (window.isPWADebug) {
+          // Mostra un avviso a video
+          const debugDiv = document.createElement('div');
+          debugDiv.style.position = 'fixed';
+          debugDiv.style.top = '50%';
+          debugDiv.style.left = '50%';
+          debugDiv.style.transform = 'translate(-50%, -50%)';
+          debugDiv.style.padding = '20px';
+          debugDiv.style.background = 'green';
+          debugDiv.style.color = 'white';
+          debugDiv.style.zIndex = '9999';
+          debugDiv.style.borderRadius = '5px';
+          debugDiv.style.textAlign = 'center';
+          debugDiv.innerHTML = '<strong>App installata con successo!</strong><br>Riavvio in corso...';
+          document.body.appendChild(debugDiv);
+          
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        }
+      });
     </script>
   </body>
 </html>
