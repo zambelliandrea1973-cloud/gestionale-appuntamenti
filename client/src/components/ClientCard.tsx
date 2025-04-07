@@ -218,46 +218,18 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
               >
                 Dettagli
               </Button>
-              
-              <Button 
-                variant="link" 
-                size="sm" 
-                className="px-0 h-6 text-xs flex items-center text-blue-600 ml-auto"
-                onClick={() => {
-                  setQrCodeModalTab("link");
-                  setIsQRCodeModalOpen(true);
-                }}
-              >
-                <ExternalLink className="h-3 w-3 mr-1" />
-                Link Diretto
-              </Button>
             </div>
           </div>
         ) : (
-          <div className="flex gap-2 w-full">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex-1"
-              onClick={() => setIsQRCodeModalOpen(true)}
-            >
-              <QrCode className="h-4 w-4 mr-2" />
-              Genera QR
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex-1"
-              onClick={() => {
-                setQrCodeModalTab("link");
-                setIsQRCodeModalOpen(true);
-              }}
-            >
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Link Diretto
-            </Button>
-          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full"
+            onClick={() => setIsQRCodeModalOpen(true)}
+          >
+            <QrCode className="h-4 w-4 mr-2" />
+            Genera QR Code
+          </Button>
         )}
         
         {isAppointmentFormOpen && (
