@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DirectLinkGenerator } from "./DirectLinkGenerator";
 
 interface QRCodeModalProps {
   clientId: number;
@@ -141,20 +142,34 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
               </TabsContent>
               
               <TabsContent value="link" className="flex flex-col">
-                <div className="flex items-center space-x-2">
-                  <div className="border rounded-md p-2 flex-1 bg-muted overflow-hidden">
-                    <p className="text-sm text-muted-foreground truncate">
-                      {activationUrl || "URL non disponibile"}
-                    </p>
+                {activationUrl && (
+                  <div>
+                    <div className="mb-4">
+                      <div className="font-medium mb-2">Link di attivazione (per primo accesso)</div>
+                      <div className="flex items-center space-x-2">
+                        <div className="border rounded-md p-2 flex-1 bg-muted overflow-hidden">
+                          <p className="text-sm text-muted-foreground truncate">
+                            {activationUrl || "URL non disponibile"}
+                          </p>
+                        </div>
+                        <Button variant="outline" size="sm" onClick={copyActivationUrl}>
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="border-t pt-4 mt-4">
+                      {/* Usa il componente DirectLinkGenerator per il link di accesso diretto */}
+                      {activationUrl.split('token=')[1] && (
+                        <DirectLinkGenerator 
+                          token={activationUrl.split('token=')[1].split('&')[0]} 
+                          clientId={clientId} 
+                          clientName={clientName}
+                        />
+                      )}
+                    </div>
                   </div>
-                  <Button variant="outline" size="sm" onClick={copyActivationUrl}>
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                </div>
-                
-                <p className="mt-4 text-sm text-gray-500">
-                  In alternativa, puoi inviare questo link al cliente tramite email o messaggi.
-                </p>
+                )}
               </TabsContent>
             </Tabs>
           ) : (
