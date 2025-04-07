@@ -1,11 +1,12 @@
 // Nome della cache
-const CACHE_NAME = 'studio-app-v5';
+const CACHE_NAME = 'studio-app-v6';
 
 // File da memorizzare nella cache per il funzionamento offline
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/manifest.webmanifest',
   '/client-area',
   '/client-login',
   '/consent',
@@ -25,14 +26,25 @@ self.addEventListener('install', (event) => {
   // Forza l'attivazione immediata senza aspettare il refresh della pagina
   self.skipWaiting();
   
+  // Strategia di cache affidabile: aggiungiamo i file uno per uno
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Cache aperta');
-        return cache.addAll(urlsToCache);
+        
+        // Promise.all per gestire errori individuali senza interrompere tutto il processo
+        return Promise.all(
+          urlsToCache.map(url => {
+            return cache.add(url).catch(error => {
+              console.error(`Errore durante il caching di ${url}:`, error);
+              // Continuiamo con gli altri file anche se uno fallisce
+              return Promise.resolve();
+            });
+          })
+        );
       })
       .catch((error) => {
-        console.error('Errore durante la cache:', error);
+        console.error('Errore critico durante la cache:', error);
       })
   );
 });
