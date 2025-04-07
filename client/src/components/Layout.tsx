@@ -27,7 +27,10 @@ export default function Layout({ children }: LayoutProps) {
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
 
   // Check active route
-  const isActive = (path: string) => location === path;
+  const isActive = (path: string) => {
+    // Protezione contro undefined
+    return location ? location === path : false;
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
