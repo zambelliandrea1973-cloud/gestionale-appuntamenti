@@ -405,7 +405,7 @@ export default function ClientArea() {
               <div className="flex items-center space-x-2 mb-4">
                 <div className="border rounded-md p-2 flex-1 bg-white overflow-hidden">
                   <p className="text-sm text-muted-foreground truncate">
-                    {user?.client && `${window.location.origin}/direct-access?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
+                    {user?.client && `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
                   </p>
                 </div>
                 <Button 
@@ -413,7 +413,7 @@ export default function ClientArea() {
                   size="sm" 
                   onClick={() => {
                     if (user?.client) {
-                      const directLink = `${window.location.origin}/direct-access?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                      const directLink = `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
                       navigator.clipboard.writeText(directLink)
                         .then(() => {
                           toast({
@@ -436,7 +436,7 @@ export default function ClientArea() {
               </div>
               
               <p className="text-sm text-muted-foreground mb-2">
-                Questo link ti porterà direttamente all'area cliente senza bisogno di inserire username e password.
+                Questo link ti porterà all'area cliente con il tuo nome utente già inserito. Dovrai inserire solo la password.
               </p>
             </div>
           )}
@@ -445,7 +445,7 @@ export default function ClientArea() {
           <Button 
             onClick={() => {
               if (user?.client) {
-                const directLink = `${window.location.origin}/direct-access?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                const directLink = `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
                 navigator.clipboard.writeText(directLink)
                   .then(() => {
                     toast({

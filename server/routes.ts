@@ -1082,6 +1082,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         valid: true, 
         clientId,
         clientName: client ? `${client.firstName} ${client.lastName}` : 'Cliente sconosciuto',
+        username: existingAccount ? existingAccount.username : null,
         accountExists: !!existingAccount
       });
     } catch (error) {
