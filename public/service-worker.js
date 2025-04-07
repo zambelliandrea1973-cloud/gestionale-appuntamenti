@@ -1,19 +1,23 @@
 // Nome della cache
-const CACHE_NAME = 'studio-app-v4';
+const CACHE_NAME = 'studio-app-v5';
 
 // File da memorizzare nella cache per il funzionamento offline
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/assets/index.css',
-  '/assets/index.js',
   '/client-area',
   '/client-login',
   '/consent',
   '/icons/app-icon.svg',
   '/icons/default-app-icon.jpg'
 ];
+
+// Impedisci errori di cache per i file generati dinamicamente da Vite
+self.addEventListener('push', () => {
+  // Gestione base per evitare errori di mancanza di gestione
+  console.log('Evento push ricevuto');
+});
 
 // Installazione del Service Worker
 self.addEventListener('install', (event) => {
@@ -58,45 +62,96 @@ self.addEventListener('activate', (event) => {
 
 // Gestione delle richieste di rete
 self.addEventListener('fetch', (event) => {
-  // Per le richieste API, prova prima la rete e poi fallback sulla cache
-  if (event.request.url.includes('/api/')) {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          return caches.match(event.request);
-        })
-    );
-  } else {
-    // Per risorse statiche, controlla prima la cache e poi la rete
-    event.respondWith(
-      caches.match(event.request)
-        .then((response) => {
-          // La risorsa è stata trovata nella cache
-          if (response) {
-            return response;
-          }
-          
-          // Se la risorsa non è nella cache, scaricala dalla rete
-          return fetch(event.request)
-            .then((response) => {
-              // Verifica se abbiamo ricevuto una risposta valida
-              if (!response || response.status !== 200 || response.type !== 'basic') {
-                return response;
-              }
-
-              // Clona la risposta perché il body può essere usato solo una volta
-              const responseToCache = response.clone();
-
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  // Aggiungi la risorsa alla cache
-                  cache.put(event.request, responseToCache);
-                });
-
+  // Proteggi da errori non gestiti che potrebbero causare crash del service worker
+  try {
+    // Ignora le richieste di favicon o di file di sviluppo Vite che potrebbero causare problemi
+    if (
+      event.request.url.includes('favicon.ico') || 
+      event.request.url.includes('__vite') ||
+      event.request.url.match(/\.(hot-update|map)$/)
+    ) {
+      return;
+    }
+    
+    // Gestione delle richieste in base al metodo
+    if (event.request.method !== 'GET') {
+      return;
+    }
+    
+    // Per le richieste API, prova prima la rete e poi fallback sulla cache
+    if (event.request.url.includes('/api/')) {
+      event.respondWith(
+        fetch(event.request)
+          .catch(() => {
+            console.log('Fallback alla cache per richiesta API:', event.request.url);
+            return caches.match(event.request);
+          })
+      );
+    } else {
+      // Per risorse statiche o navigazione, usa la strategia cache-first
+      event.respondWith(
+        caches.match(event.request)
+          .then((response) => {
+            // La risorsa è stata trovata nella cache
+            if (response) {
               return response;
-            });
-        })
-    );
+            }
+            
+            // Se la risorsa non è nella cache, scaricala dalla rete
+            return fetch(event.request)
+              .then((networkResponse) => {
+                // Se la richiesta fallisce, ritorna un errore gestito
+                if (!networkResponse || networkResponse.status !== 200) {
+                  // Per le pagine dell'app, ritorna la pagina principale
+                  if (event.request.url.includes('/client-') || 
+                      event.request.url.includes('/consent')) {
+                    console.log('Reindirizzamento a index.html per:', event.request.url);
+                    return caches.match('/index.html');
+                  }
+                  return networkResponse;
+                }
+
+                // Clona la risposta perché il body può essere usato solo una volta
+                const responseToCache = networkResponse.clone();
+
+                // Memorizza nella cache solo le risorse che ne valergono la pena
+                const saveToCache = (
+                  event.request.url.includes('/icons/') || 
+                  event.request.url.endsWith('.html') ||
+                  event.request.url.endsWith('.js') ||
+                  event.request.url.endsWith('.css') ||
+                  event.request.url.endsWith('.json') ||
+                  event.request.url.endsWith('/')
+                );
+                
+                if (saveToCache) {
+                  caches.open(CACHE_NAME)
+                    .then((cache) => {
+                      console.log('Aggiunta alla cache:', event.request.url);
+                      cache.put(event.request, responseToCache);
+                    })
+                    .catch(err => {
+                      console.error('Errore durante il caching:', err);
+                    });
+                }
+
+                return networkResponse;
+              })
+              .catch(error => {
+                console.error('Errore di fetch:', error);
+                // Per le pagine dell'app, ritorna la pagina principale in caso di errore
+                if (event.request.url.includes('/client-') || 
+                    event.request.url.includes('/consent')) {
+                  return caches.match('/index.html');
+                }
+                // Altrimenti, propaga l'errore
+                throw error;
+              });
+          })
+      );
+    }
+  } catch (error) {
+    console.error('Errore critico nel service worker durante il fetch:', error);
   }
 });
 

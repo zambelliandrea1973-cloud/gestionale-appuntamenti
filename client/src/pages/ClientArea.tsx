@@ -49,29 +49,65 @@ export default function ClientArea() {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     setIsIOS(isIOSDevice);
     
+    // Imposta un flag globale per tracciare se l'evento è già stato collegato
+    if (!(window as any).__pwaInstallEventAttached) {
+      (window as any).__pwaInstallEventAttached = true;
+      
+      console.log("Configurazione dell'evento beforeinstallprompt...");
+      
+      // Evento per catturare il prompt di installazione - questa è la parte critica!
+      window.addEventListener('beforeinstallprompt', (e: Event) => {
+        console.log('**** DEBUG Eventi: beforeinstallprompt catturato ****', e);
+        
+        // È fondamentale prevenire il comportamento predefinito
+        e.preventDefault();
+        
+        // Salviamo l'evento per poterlo usare più tardi
+        const promptEvent = e as BeforeInstallPromptEvent;
+        (window as any).__installPromptEvent = promptEvent;
+        setDeferredPrompt(promptEvent);
+        
+        // Debug info nella console
+        console.table({
+          "Evento catturato": true,
+          "Timestamp": new Date().toISOString(),
+          "User Agent": navigator.userAgent,
+          "Platforms": promptEvent.platforms
+        });
+        
+        toast({
+          title: "App disponibile per l'installazione",
+          description: "Puoi installare l'app sul tuo dispositivo per un accesso più rapido",
+          duration: 5000,
+        });
+      });
+    }
+    
+    // Controlla se abbiamo già un evento salvato a livello di window
+    if ((window as any).__installPromptEvent) {
+      console.log('Evento di installazione già disponibile, caricato dal window');
+      setDeferredPrompt((window as any).__installPromptEvent);
+    }
+    
     // Verifica se l'app è già installata all'avvio
     const checkIfInstalled = () => {
       const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
                              (window.navigator as any).standalone === true;
       if (isAppInstalled) {
-        console.log('App già installata, modalità standalone rilevata in ClientArea');
+        console.log('App già installata, modalità standalone rilevata');
         setIsInstalled(true);
       }
     };
     
     checkIfInstalled();
     
-    // Evento per catturare il prompt di installazione
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
-      console.log('Event beforeinstallprompt catturato in ClientArea', e);
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-    };
-    
     // Evento per rilevare quando l'app è stata installata
     const handleAppInstalled = () => {
+      console.log('App installata con successo!');
       setIsInstalled(true);
       setDeferredPrompt(null);
+      (window as any).__installPromptEvent = null;
+      
       toast({
         title: "App installata",
         description: "L'applicazione è stata installata con successo sul tuo dispositivo",
@@ -82,12 +118,11 @@ export default function ClientArea() {
     const mediaQueryList = window.matchMedia('(display-mode: standalone)');
     const handleDisplayModeChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        console.log('App ora in modalità standalone in ClientArea');
+        console.log('App ora in modalità standalone');
         setIsInstalled(true);
       }
     };
     
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
     
     if (mediaQueryList.addEventListener) {
@@ -95,11 +130,11 @@ export default function ClientArea() {
     }
     
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
       if (mediaQueryList.removeEventListener) {
         mediaQueryList.removeEventListener('change', handleDisplayModeChange);
       }
+      // Non rimuoviamo l'evento beforeinstallprompt perché lo condividiamo tra i componenti
     };
   }, []);
 
@@ -235,60 +270,110 @@ export default function ClientArea() {
   
   // Funzione per installare l'app sul dispositivo
   const handleInstallApp = async () => {
-    console.log("Tentativo di installazione dell'app, deferredPrompt:", deferredPrompt);
+    console.log("Tentativo di installazione dell'app");
     
-    if (!deferredPrompt) {
-      if (isIOS) {
-        toast({
-          title: "Installazione su iOS",
-          description: "Per installare, tocca l'icona di condivisione in Safari e seleziona 'Aggiungi a Home'",
-        });
-        return;
-      }
-      
+    // Per iOS, mostra le istruzioni
+    if (isIOS) {
       toast({
-        title: "Installazione non disponibile",
-        description: "L'app non può essere installata in questo momento. Ricarica la pagina e riprova.",
-        variant: "destructive",
+        title: "Installazione su iOS",
+        description: "Per installare, tocca l'icona di condivisione in Safari e seleziona 'Aggiungi a Home'",
+        duration: 5000,
       });
-      console.log("Nessun deferredPrompt disponibile per l'installazione");
       return;
     }
     
-    try {
-      console.log("Tentativo di mostrare il prompt di installazione");
-      // Mostra il prompt di installazione
-      await deferredPrompt.prompt();
-      console.log("Prompt di installazione mostrato all'utente");
-      
-      // Aspetta che l'utente risponda al prompt
-      const choiceResult = await deferredPrompt.userChoice;
-      console.log("Scelta dell'utente:", choiceResult.outcome);
-      
-      if (choiceResult.outcome === 'accepted') {
-        toast({
-          title: "Installazione in corso",
-          description: "L'app sta per essere installata sul tuo dispositivo",
-          variant: "default",
-        });
-        console.log("Installazione accettata dall'utente");
-      } else {
-        toast({
-          title: "Installazione annullata",
-          description: "Puoi installare l'app in qualsiasi momento dal pulsante dedicato",
-          variant: "default",
-        });
-        console.log("Installazione rifiutata dall'utente");
+    // Prova a usare il prompt se disponibile
+    if (deferredPrompt) {
+      try {
+        console.log("Prompt di installazione disponibile, tentativo di mostrarlo");
+        // Mostra il prompt di installazione
+        await deferredPrompt.prompt();
+        console.log("Prompt di installazione mostrato all'utente");
+        
+        // Aspetta che l'utente risponda al prompt
+        const choiceResult = await deferredPrompt.userChoice;
+        console.log("Scelta dell'utente:", choiceResult.outcome);
+        
+        if (choiceResult.outcome === 'accepted') {
+          toast({
+            title: "Installazione in corso",
+            description: "L'app sta per essere installata sul tuo dispositivo",
+            variant: "default",
+          });
+          console.log("Installazione accettata dall'utente");
+        } else {
+          toast({
+            title: "Installazione annullata",
+            description: "Puoi installare l'app in qualsiasi momento dal pulsante dedicato",
+            variant: "default",
+          });
+          console.log("Installazione rifiutata dall'utente");
+        }
+        
+        // Resetta il deferredPrompt - può essere usato solo una volta
+        setDeferredPrompt(null);
+        (window as any).__installPromptEvent = null;
+        return;
+      } catch (error) {
+        console.error("Errore durante l'installazione dell'app:", error);
       }
-      
-      // Resetta il deferredPrompt - può essere usato solo una volta
-      setDeferredPrompt(null);
-    } catch (error) {
-      console.error("Errore durante l'installazione dell'app:", error);
+    }
+    
+    // Piano B: se non c'è un prompt disponibile o si è verificato un errore
+    // Prova a recuperare un prompt globale
+    if ((window as any).__installPromptEvent) {
+      console.log("Utilizzo del prompt globale come fallback");
+      try {
+        const globalPrompt = (window as any).__installPromptEvent;
+        await globalPrompt.prompt();
+        const choiceResult = await globalPrompt.userChoice;
+        
+        if (choiceResult.outcome === 'accepted') {
+          toast({
+            title: "Installazione in corso",
+            description: "L'app sta per essere installata sul tuo dispositivo",
+            variant: "default",
+          });
+        }
+        
+        // Pulisci il prompt globale
+        (window as any).__installPromptEvent = null;
+        return;
+      } catch (error) {
+        console.error("Errore con il prompt globale:", error);
+      }
+    }
+    
+    // Piano C: Registra manualmente il service worker come ultimo tentativo
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register('/service-worker.js', {
+          scope: '/'
+        });
+        console.log('Service worker registrato manualmente come fallback:', registration);
+        
+        toast({
+          title: "Preparazione per l'installazione",
+          description: "L'app è pronta per l'installazione. Ricarica la pagina e riprova tra qualche secondo.",
+          duration: 5000,
+        });
+      } catch (swError) {
+        console.error("Errore durante la registrazione del service worker:", swError);
+        
+        // Piano D: Mostra un messaggio di errore con istruzioni
+        toast({
+          title: "Installazione non disponibile",
+          description: "Per installare l'app, prova a ricaricare la pagina e riprovare o usa il menu del browser selezionando 'Installa app'.",
+          variant: "destructive",
+          duration: 7000,
+        });
+      }
+    } else {
       toast({
-        title: "Errore di installazione",
-        description: "Si è verificato un errore durante l'installazione dell'app. Dettaglio: " + (error instanceof Error ? error.message : "errore sconosciuto"),
+        title: "Installazione non supportata",
+        description: "Il tuo browser non supporta l'installazione di app. Prova con Chrome o Edge su Android, o Safari su iOS.",
         variant: "destructive",
+        duration: 7000,
       });
     }
   };
@@ -303,6 +388,63 @@ export default function ClientArea() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
+      {/* Debug Info - Solo per lo sviluppo */}
+      <div className="mb-3 p-3 bg-yellow-50 border border-yellow-200 rounded-md text-xs text-yellow-800">
+        <p><strong>Debug PWA:</strong> {deferredPrompt ? "Prompt PWA disponibile ✅" : "Prompt PWA non disponibile ❌"}</p>
+        <p><strong>Dispositivo iOS:</strong> {isIOS ? "Sì ✅" : "No ❌"} | <strong>App installata:</strong> {isInstalled ? "Sì ✅" : "No ❌"}</p>
+        <p><strong>Funzionalità PWA:</strong> {'serviceWorker' in navigator ? "Service Worker supportato ✅" : "Service Worker non supportato ❌"}</p>
+        <div className="mt-2 flex gap-2">
+          <button 
+            className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs"
+            onClick={() => {
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+                  .then(reg => {
+                    console.log('Service Worker registrato manualmente:', reg);
+                    toast({
+                      title: "Service Worker Registrato",
+                      description: "Registrazione manuale completata",
+                    });
+                  })
+                  .catch(err => {
+                    console.error('Errore registrazione:', err);
+                    toast({
+                      title: "Errore Registrazione SW",
+                      description: err.message,
+                      variant: "destructive"
+                    });
+                  });
+              }
+            }}
+          >
+            Registra SW
+          </button>
+          <button 
+            className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs"
+            onClick={() => {
+              // Forza il prompt se possibile
+              if ((window as any).__installPromptEvent) {
+                setDeferredPrompt((window as any).__installPromptEvent);
+                console.log("Prompt PWA ripristinato manualmente");
+                toast({
+                  title: "PWA Ready",
+                  description: "Il prompt di installazione è stato ripristinato"
+                });
+              } else {
+                console.log("Nessun prompt PWA disponibile in window");
+                toast({
+                  title: "Nessun prompt disponibile",
+                  description: "Ricarica la pagina e riprova",
+                  variant: "destructive"
+                });
+              }
+            }}
+          >
+            Ripristina Prompt
+          </button>
+        </div>
+      </div>
+      
       <header className="mb-6 flex flex-col md:flex-row justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>

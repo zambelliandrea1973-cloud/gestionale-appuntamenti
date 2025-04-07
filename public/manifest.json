@@ -3,9 +3,12 @@
   "short_name": "App Cliente",
   "description": "App per gestire i tuoi appuntamenti e consensi",
   "start_url": "/client-area",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icons/app-icon.svg",
