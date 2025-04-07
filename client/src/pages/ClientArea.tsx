@@ -7,6 +7,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { BeforeInstallPromptEvent } from '@/types/pwa';
 import { InstallationGuide } from "@/components/InstallationGuide";
+import { AddToHomeScreen } from "@/components/AddToHomeScreen";
 
 interface UserData {
   id: number;
@@ -462,6 +463,16 @@ export default function ClientArea() {
             </div>
           ) : appointments.length > 0 ? (
             <div className="space-y-4">
+              {/* Componente AddToHomeScreen in versione minimal inserito qui in modo strategico */}
+              {!isInstalled && (
+                <div className="mb-4 p-4 rounded-lg border-2 border-blue-200 bg-blue-50/50 flex justify-between items-center">
+                  <p className="text-sm font-medium text-blue-700">
+                    Vuoi accedere più velocemente ai tuoi appuntamenti?
+                  </p>
+                  <AddToHomeScreen minimal={true} />
+                </div>
+              )}
+              
               {appointments.slice(0, 5).map((appointment) => {
                   // Verifica se l'appuntamento è passato
                   const appointmentDate = new Date(`${appointment.date}T${appointment.startTime}`);
@@ -549,92 +560,8 @@ export default function ClientArea() {
         )}
       </Card>
       
-      {/* Card per l'installazione dell'app mobile - visibile solo se l'app non è già installata, molto più semplice ora */}
-      {!isInstalled && (
-        <Card className="mb-8 border-2 border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800/50">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Smartphone className="mr-2 h-5 w-5" /> 
-              Installa l'app sul tuo dispositivo
-            </CardTitle>
-            <CardDescription>
-              Accedi facilmente alla tua area cliente installando l'app direttamente sul tuo dispositivo
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4 text-center">
-              <div className="bg-white dark:bg-gray-800 mx-auto p-4 rounded-full shadow-sm inline-block">
-                <Download className="h-12 w-12 text-blue-500" />
-              </div>
-              
-              <div className="max-w-lg mx-auto">
-                <h3 className="font-medium text-lg mb-2">Come installare l'app:</h3>
-                {isIOS ? (
-                  <ol className="text-left text-sm space-y-2 mb-4 mx-auto max-w-sm">
-                    <li className="flex items-center p-2 bg-white rounded-md border border-gray-100">
-                      <span className="mr-2 flex-shrink-0 bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">1</span>
-                      Tocca l'icona di condivisione in Safari
-                    </li>
-                    <li className="flex items-center p-2 bg-white rounded-md border border-gray-100">
-                      <span className="mr-2 flex-shrink-0 bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">2</span>
-                      Seleziona "Aggiungi a Home"
-                    </li>
-                  </ol>
-                ) : (
-                  <ol className="text-left text-sm space-y-2 mb-4 mx-auto max-w-sm">
-                    <li className="flex items-center p-2 bg-white rounded-md border border-gray-100">
-                      <span className="mr-2 flex-shrink-0 bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">1</span>
-                      Tocca "Installa App" qui sotto
-                    </li>
-                    <li className="flex items-center p-2 bg-white rounded-md border border-gray-100">
-                      <span className="mr-2 flex-shrink-0 bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold">2</span>
-                      Conferma nella finestra che appare
-                    </li>
-                  </ol>
-                )}
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-4">
-            <div className="text-center mb-2 text-xs text-muted-foreground">
-              Seleziona il tuo dispositivo:
-            </div>
-            <div className="grid grid-cols-2 gap-4 w-full">
-              <Button 
-                className="bg-green-600 hover:bg-green-700"
-                size="lg"
-                onClick={handleInstallApp}
-                variant="default"
-              >
-                <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.523 15.34c-.5.51-1.002.82-1.503 1.13l.964 1.66c.073.14.018.31-.123.39-.14.08-.31.03-.383-.09l-.97-1.68c-.5.19-1.043.32-1.64.32s-1.14-.13-1.64-.32l-.97 1.68c-.073.12-.243.17-.383.09-.14-.08-.196-.25-.123-.39l.964-1.66c-.5-.31-1.002-.62-1.503-1.13l-1.523 2.65c-.394.68.218 1.52.974 1.52h7.437c.756 0 1.368-.84.974-1.52l-1.523-2.65zm-2.956-10.2h-5.136v.96h5.137v-.96zm1.024 2.1c-.25 0-.46.21-.46.46 0 .26.2.47.46.47s.46-.21.46-.46c0-.26-.21-.47-.46-.47zm-7.365-2.1c-.55 0-1.02.47-1.02 1.02v1.3l-3.026 4.35c-.845 1.34.147 3.1 1.688 3.1l.92-.18c-.057-.34-.087-.69-.087-1.04 0-1.85.87-3.51 2.227-4.58l.052-.08v-3.87h-.754zm5.183 5.53c-2.964 0-5.37 2.41-5.37 5.37s2.406 5.37 5.37 5.37 5.37-2.41 5.37-5.37-2.406-5.37-5.37-5.37zm-.96-7.53h-5.136v.96h5.137v-.96zm6.177 4.52l-3.026-4.35v-1.3c0-.55-.47-1.02-1.018-1.02h-.754v3.87l.052.08c1.357 1.07 2.227 2.73 2.227 4.58 0 .35-.03.7-.086 1.04l.92.18c1.54 0 2.532-1.76 1.686-3.1z" />
-                </svg>
-                Android
-              </Button>
-              <Button
-                className="bg-blue-600 hover:bg-blue-700" 
-                size="lg"
-                onClick={() => {
-                  toast({
-                    title: "Installazione su iOS",
-                    description: "Per installare, tocca l'icona di condivisione in Safari e seleziona 'Aggiungi a Home'",
-                    duration: 5000,
-                  });
-                }}
-                variant="default"
-              >
-                <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16.462 16.927s-1.083 1.481-2.543 1.481c-1.35 0-1.813-.968-3.49-.968-1.595 0-2.124.935-3.43.935-1.35 0-2.377-1.342-3.49-2.672-1.907-2.274-2.09-6.27-.913-8.063 1.125-1.714 2.833-1.714 3.8-1.714.968 0 1.796.622 2.764.622 1.083 0 1.706-.622 2.93-.622 1.05 0 2.46.39 3.317 1.652-2.9 1.683-2.434 6.044.055 9.35zm-5.258-14.911c-.881 1.09-2.182 1.909-3.49 1.792-.156-1.42.51-2.869 1.35-3.798.881-.968 2.4-1.714 3.63-1.792.132 1.518-.49 2.903-1.49 3.798z"/>
-                </svg>
-                iOS
-              </Button>
-            </div>
-            <div className="mt-4 text-xs text-red-500 text-center">
-              Se i pulsanti non funzionano, prova ad accedere con Safari per iOS o Chrome per Android
-            </div>
-          </CardFooter>
-        </Card>
-      )}
+      {/* Nuovo componente AddToHomeScreen che sostituisce la card precedente */}
+      {!isInstalled && <AddToHomeScreen />}
       
       {/* Guida dettagliata all'installazione - mostra solo se l'app non è installata */}
       {!isInstalled && <InstallationGuide />}
