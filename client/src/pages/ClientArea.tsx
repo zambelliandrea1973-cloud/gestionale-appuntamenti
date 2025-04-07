@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Download, Smartphone } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import InstallAppPrompt from "@/components/InstallAppPrompt";
+import { BeforeInstallPromptEvent } from '@/types/pwa';
 
 interface UserData {
   id: number;
@@ -28,6 +28,9 @@ export default function ClientArea() {
   const [loading, setLoading] = useState<boolean>(true);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
     // Verifica autenticazione
@@ -39,6 +42,42 @@ export default function ClientArea() {
       fetchClientAppointments(user.client.id);
     }
   }, [user]);
+  
+  // Gestione dell'installazione dell'app PWA
+  useEffect(() => {
+    // Rileva se il dispositivo è iOS
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    setIsIOS(isIOSDevice);
+    
+    // Controlla se l'app è già installata
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+    }
+    
+    // Evento per catturare il prompt di installazione
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+    
+    // Evento per rilevare quando l'app è stata installata
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setDeferredPrompt(null);
+      toast({
+        title: "App installata",
+        description: "L'applicazione è stata installata con successo sul tuo dispositivo",
+      });
+    };
+    
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+    
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
 
   const fetchCurrentUser = async () => {
     try {
@@ -169,6 +208,48 @@ export default function ClientArea() {
     // Formato: 12:30:00 -> 12:30
     return timeString.substring(0, 5);
   };
+  
+  // Funzione per installare l'app sul dispositivo
+  const handleInstallApp = async () => {
+    if (!deferredPrompt) {
+      toast({
+        title: "Installazione non disponibile",
+        description: "L'app non può essere installata in questo momento",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      // Mostra il prompt di installazione
+      await deferredPrompt.prompt();
+      
+      // Aspetta che l'utente risponda al prompt
+      const choiceResult = await deferredPrompt.userChoice;
+      
+      if (choiceResult.outcome === 'accepted') {
+        toast({
+          title: "Installazione in corso",
+          description: "L'app sta per essere installata sul tuo dispositivo",
+        });
+      } else {
+        toast({
+          title: "Installazione annullata",
+          description: "Puoi installare l'app in qualsiasi momento dal pulsante dedicato",
+        });
+      }
+      
+      // Resetta il deferredPrompt - può essere usato solo una volta
+      setDeferredPrompt(null);
+    } catch (error) {
+      console.error("Errore durante l'installazione dell'app:", error);
+      toast({
+        title: "Errore di installazione",
+        description: "Si è verificato un errore durante l'installazione dell'app",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (loading) {
     return (
@@ -180,7 +261,6 @@ export default function ClientArea() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
-      <InstallAppPrompt />
       <header className="mb-6 flex flex-col md:flex-row justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>
@@ -190,9 +270,22 @@ export default function ClientArea() {
             </p>
           )}
         </div>
-        <Button variant="outline" className="mt-4 md:mt-0" onClick={handleLogout}>
-          Esci
-        </Button>
+        <div className="flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+          {!isInstalled && (
+            <Button 
+              variant="default" 
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+              onClick={handleInstallApp}
+              disabled={!deferredPrompt && !isIOS}
+            >
+              <Smartphone className="mr-2 h-5 w-5" />
+              {isIOS ? "Installa da Safari" : "Installa App"}
+            </Button>
+          )}
+          <Button variant="outline" onClick={handleLogout}>
+            Esci
+          </Button>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -375,6 +468,64 @@ export default function ClientArea() {
           </CardFooter>
         )}
       </Card>
+      
+      {/* Card per l'installazione dell'app mobile - visibile solo se l'app non è già installata */}
+      {!isInstalled && (
+        <Card className="mb-8 border-dashed border-2 border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800/50">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Smartphone className="mr-2 h-5 w-5" /> 
+              Installa l'app sul tuo dispositivo
+            </CardTitle>
+            <CardDescription>
+              Accedi facilmente alla tua area cliente installando l'app direttamente sul tuo dispositivo
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex flex-col items-center text-center md:flex-row md:text-left md:items-start gap-4">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-full shadow-sm">
+                  <Download className="h-10 w-10 text-blue-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-lg">Vantaggi dell'installazione</h3>
+                  <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-start">
+                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                      <span>Accesso rapido e diretto all'area cliente</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                      <span>Nessun bisogno di scansionare il QR code ogni volta</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                      <span>Funziona anche offline per visualizzare i tuoi dati</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                      <span>Ricevi notifiche per i tuoi appuntamenti</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button 
+              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+              size="lg"
+              onClick={handleInstallApp}
+              disabled={!deferredPrompt && !isIOS}
+            >
+              <Smartphone className="mr-2 h-5 w-5" />
+              {isIOS 
+                ? "Installa: tocca l'icona di condivisione e poi Aggiungi alla Home" 
+                : "Installa app sul dispositivo"}
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
     </div>
   );
 }
