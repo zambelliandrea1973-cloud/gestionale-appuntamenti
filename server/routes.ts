@@ -2,6 +2,8 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import fs from "fs";
+import path from "path";
 import {
   insertClientSchema,
   insertServiceSchema,
@@ -18,8 +20,6 @@ import { notificationService } from "./services/notificationService";
 import { initializeSchedulers } from "./services/schedulerService";
 import multer from 'multer';
 import sharp from 'sharp';
-import path from 'path';
-import fs from 'fs';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -43,6 +43,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
+  
+  // Middleware specifico per il service worker - assicura che sia servito con il MIME type corretto
+  app.get("/service-worker.js", (req, res) => {
+    try {
+      const filePath = path.join(__dirname, "../public/service-worker.js");
+      
+      // Verifica che il file esista
+      if (fs.existsSync(filePath)) {
+        res.setHeader("Content-Type", "application/javascript");
+        res.sendFile(filePath);
+      } else {
+        console.error(`File service-worker.js non trovato in: ${filePath}`);
+        res.status(404).send("Service worker not found");
+      }
+    } catch (error) {
+      console.error("Errore durante l'invio del service worker:", error);
+      res.status(500).send("Error serving service worker");
+    }
+  });
+  
+  // Middleware per servire correttamente i file manifest
+  app.get("/manifest.json", (req, res) => {
+    try {
+      const filePath = path.join(__dirname, "../public/manifest.json");
+      
+      if (fs.existsSync(filePath)) {
+        res.setHeader("Content-Type", "application/manifest+json");
+        res.sendFile(filePath);
+      } else {
+        console.error(`File manifest.json non trovato in: ${filePath}`);
+        res.status(404).send("Manifest not found");
+      }
+    } catch (error) {
+      console.error("Errore durante l'invio del manifest:", error);
+      res.status(500).send("Error serving manifest");
+    }
+  });
+  
+  app.get("/manifest.webmanifest", (req, res) => {
+    try {
+      const filePath = path.join(__dirname, "../public/manifest.webmanifest");
+      
+      if (fs.existsSync(filePath)) {
+        res.setHeader("Content-Type", "application/manifest+json");
+        res.sendFile(filePath);
+      } else {
+        console.error(`File manifest.webmanifest non trovato in: ${filePath}`);
+        res.status(404).send("Manifest not found");
+      }
+    } catch (error) {
+      console.error("Errore durante l'invio del manifest:", error);
+      res.status(500).send("Error serving manifest");
+    }
+  });
+  
+  // Middleware per servire correttamente le icone dell'app
+  app.get("/icons/:fileName", (req, res) => {
+    try {
+      const fileName = req.params.fileName;
+      const filePath = path.join(__dirname, "../public/icons", fileName);
+      
+      if (fs.existsSync(filePath)) {
+        if (fileName.endsWith('.svg')) {
+          res.setHeader("Content-Type", "image/svg+xml");
+        } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+          res.setHeader("Content-Type", "image/jpeg");
+        } else if (fileName.endsWith('.png')) {
+          res.setHeader("Content-Type", "image/png");
+        }
+        
+        res.sendFile(filePath);
+      } else {
+        console.error(`Icona non trovata: ${filePath}`);
+        res.status(404).send("Icon not found");
+      }
+    } catch (error) {
+      console.error("Errore durante l'invio dell'icona:", error);
+      res.status(500).send("Error serving icon");
+    }
+  });
   
   const httpServer = createServer(app);
 
