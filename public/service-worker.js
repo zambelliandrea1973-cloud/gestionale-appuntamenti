@@ -1,5 +1,5 @@
 // Nome della cache
-const CACHE_NAME = 'studio-app-v2';
+const CACHE_NAME = 'studio-app-v3';
 
 // File da memorizzare nella cache per il funzionamento offline
 const urlsToCache = [
@@ -8,7 +8,8 @@ const urlsToCache = [
   '/manifest.json',
   '/assets/index.css',
   '/assets/index.js',
-  '/icons/app-icon.svg'
+  '/icons/app-icon.svg',
+  '/icons/default-app-icon.jpg'
 ];
 
 // Installazione del Service Worker
@@ -90,5 +91,29 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+  
+  // Aggiornamento icona
+  if (event.data && event.data.type === 'UPDATE_ICON') {
+    const iconUrl = event.data.iconUrl;
+    if (iconUrl) {
+      // Aggiorna la cache con la nuova icona
+      caches.open(CACHE_NAME)
+        .then(cache => {
+          // Prima rimuoviamo eventuali vecchie versioni dell'icona
+          cache.delete('/icons/app-icon.svg')
+            .then(() => cache.delete('/icons/default-app-icon.jpg'))
+            .then(() => {
+              // Poi aggiungiamo la nuova icona alla cache
+              return cache.add(iconUrl);
+            })
+            .then(() => {
+              console.log('Icona aggiornata nella cache');
+            })
+            .catch(error => {
+              console.error('Errore durante l\'aggiornamento dell\'icona nella cache:', error);
+            });
+        });
+    }
   }
 });

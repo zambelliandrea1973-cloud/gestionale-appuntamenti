@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Upload, Check, AlertCircle, Image as ImageIcon, RefreshCw } from 'lucide-react';
+import { Upload, Check, AlertCircle, Image as ImageIcon, RefreshCw, Undo2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -12,12 +12,14 @@ interface AppIconUploaderProps {
 
 interface IconInfo {
   exists: boolean;
+  isCustom?: boolean;
   iconPath?: string;
   lastModified?: string;
 }
 
 export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [isUsingDefault, setIsUsingDefault] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -54,6 +56,63 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       console.error('Errore nel recupero delle informazioni sull\'icona:', error);
     } finally {
       setIsLoadingInfo(false);
+    }
+  };
+
+  // Funzione per notificare il Service Worker dell'aggiornamento dell'icona
+  const notifyServiceWorkerIconUpdate = (iconUrl: string) => {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'UPDATE_ICON',
+        iconUrl: iconUrl
+      });
+    }
+  };
+
+  const useDefaultIcon = async () => {
+    setIsUsingDefault(true);
+    setUploadError(null);
+    setUploadSuccess(false);
+
+    try {
+      const response = await fetch('/api/use-default-icon', {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Errore durante l\'impostazione dell\'icona predefinita');
+      }
+
+      setUploadSuccess(true);
+      
+      // Ricarica le informazioni sull'icona per aggiornare la data di modifica
+      await fetchIconInfo();
+      
+      // Notifica il Service Worker dell'aggiornamento dell'icona
+      notifyServiceWorkerIconUpdate('/icons/default-app-icon.jpg');
+      
+      toast({
+        title: "Icona predefinita impostata",
+        description: "L'icona predefinita è stata impostata con successo.",
+        variant: "default",
+      });
+
+      if (onSuccess) {
+        onSuccess();
+      }
+
+    } catch (error: any) {
+      console.error('Errore durante l\'impostazione dell\'icona predefinita:', error);
+      setUploadError(error.message || 'Si è verificato un errore durante l\'impostazione dell\'icona predefinita.');
+      toast({
+        title: "Errore",
+        description: error.message || 'Si è verificato un errore durante l\'impostazione dell\'icona predefinita.',
+        variant: "destructive",
+      });
+    } finally {
+      setIsUsingDefault(false);
     }
   };
 
@@ -112,6 +171,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       
       // Ricarica le informazioni sull'icona per aggiornare la data di modifica
       await fetchIconInfo();
+      
+      // Notifica il Service Worker dell'aggiornamento dell'icona
+      notifyServiceWorkerIconUpdate('/icons/app-icon.svg');
       
       toast({
         title: "Icona caricata con successo",
@@ -309,6 +371,41 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
               </div>
             </CardContent>
           </Card>
+          
+          {/* Pulsante per usare l'icona predefinita */}
+          {!isLoadingInfo && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-4 w-full flex items-center justify-center gap-2"
+              onClick={useDefaultIcon}
+              disabled={isUsingDefault || (iconInfo?.exists && !iconInfo?.isCustom)}
+            >
+              <Undo2 className="h-4 w-4" />
+              {isUsingDefault ? 'Impostazione...' : (
+                iconInfo?.exists && !iconInfo?.isCustom 
+                  ? 'Icona predefinita già in uso'
+                  : 'Usa icona predefinita'
+              )}
+            </Button>
+          )}
+        </div>
+      </div>
+      
+      {/* Informazioni sull'icona predefinita */}
+      <div className="mt-6 p-4 bg-muted/20 rounded-lg">
+        <div className="flex items-center gap-3">
+          <img 
+            src="/icons/default-app-icon.jpg" 
+            alt="Icona predefinita" 
+            className="w-12 h-12 rounded-md object-cover border"
+          />
+          <div>
+            <h4 className="text-sm font-medium">Icona predefinita: Fleur de Vie multicolore</h4>
+            <p className="text-xs text-muted-foreground">
+              Puoi ripristinare questa icona predefinita in qualsiasi momento.
+            </p>
+          </div>
         </div>
       </div>
     </div>
