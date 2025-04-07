@@ -14,7 +14,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ClientNotes from "@/components/ClientNotes";
+import ClientLegacyNotes from "@/components/ClientLegacyNotes";
 
 export default function ClientMedicalDetails() {
   const [_, setLocation] = useLocation();
@@ -135,8 +135,10 @@ export default function ClientMedicalDetails() {
               
               <TabsContent value="notes" className="mt-4">
                 <Card>
-                  <CardContent className="pt-6">
-                    <ClientNotes clientId={client.id} />
+                  <CardContent className="pt-6 space-y-6">
+                    <ClientLegacyNotes clientId={client.id} category="general" label="Note generali" />
+                    <ClientLegacyNotes clientId={client.id} category="medical" label="Note mediche" />
+                    <ClientLegacyNotes clientId={client.id} category="allergies" label="Allergie e informazioni sanitarie" />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -145,14 +147,14 @@ export default function ClientMedicalDetails() {
                 <Card>
                   <CardContent className="pt-6 space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Note mediche</h3>
+                      <h3 className="text-lg font-semibold mb-2">Note mediche (legacy)</h3>
                       <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
                         {client.medicalNotes || "Nessuna nota medica registrata"}
                       </div>
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Allergie e informazioni sanitarie</h3>
+                      <h3 className="text-lg font-semibold mb-2">Allergie e informazioni sanitarie (legacy)</h3>
                       <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
                         {client.allergies || "Nessuna allergia o informazione sanitaria registrata"}
                       </div>
@@ -165,7 +167,7 @@ export default function ClientMedicalDetails() {
                 <Card>
                   <CardContent className="pt-6">
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Note generali</h3>
+                      <h3 className="text-lg font-semibold mb-2">Note generali (legacy)</h3>
                       <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
                         {client.notes || "Nessuna nota generale registrata"}
                       </div>
@@ -182,7 +184,7 @@ export default function ClientMedicalDetails() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Torna all'elenco clienti
           </Button>
-          <Button onClick={() => setLocation(`/clients/${client.id}/edit`)}>
+          <Button onClick={() => setLocation(`/clients`)}>
             Modifica cliente
           </Button>
         </CardFooter>
