@@ -49,14 +49,22 @@ export default function ClientArea() {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     setIsIOS(isIOSDevice);
     
-    // Controlla se l'app è già installata
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true);
-    }
+    // Verifica se l'app è già installata all'avvio
+    const checkIfInstalled = () => {
+      const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                             (window.navigator as any).standalone === true;
+      if (isAppInstalled) {
+        console.log('App già installata, modalità standalone rilevata in ClientArea');
+        setIsInstalled(true);
+      }
+    };
+    
+    checkIfInstalled();
     
     // Evento per catturare il prompt di installazione
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
+      console.log('Event beforeinstallprompt catturato in ClientArea', e);
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
     
@@ -70,12 +78,28 @@ export default function ClientArea() {
       });
     };
     
+    // Monitora anche i cambiamenti della modalità display
+    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
+    const handleDisplayModeChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        console.log('App ora in modalità standalone in ClientArea');
+        setIsInstalled(true);
+      }
+    };
+    
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
+    
+    if (mediaQueryList.addEventListener) {
+      mediaQueryList.addEventListener('change', handleDisplayModeChange);
+    }
     
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      if (mediaQueryList.removeEventListener) {
+        mediaQueryList.removeEventListener('change', handleDisplayModeChange);
+      }
     };
   }, []);
 
@@ -211,32 +235,50 @@ export default function ClientArea() {
   
   // Funzione per installare l'app sul dispositivo
   const handleInstallApp = async () => {
+    console.log("Tentativo di installazione dell'app, deferredPrompt:", deferredPrompt);
+    
     if (!deferredPrompt) {
+      if (isIOS) {
+        toast({
+          title: "Installazione su iOS",
+          description: "Per installare, tocca l'icona di condivisione in Safari e seleziona 'Aggiungi a Home'",
+        });
+        return;
+      }
+      
       toast({
         title: "Installazione non disponibile",
-        description: "L'app non può essere installata in questo momento",
+        description: "L'app non può essere installata in questo momento. Ricarica la pagina e riprova.",
         variant: "destructive",
       });
+      console.log("Nessun deferredPrompt disponibile per l'installazione");
       return;
     }
     
     try {
+      console.log("Tentativo di mostrare il prompt di installazione");
       // Mostra il prompt di installazione
       await deferredPrompt.prompt();
+      console.log("Prompt di installazione mostrato all'utente");
       
       // Aspetta che l'utente risponda al prompt
       const choiceResult = await deferredPrompt.userChoice;
+      console.log("Scelta dell'utente:", choiceResult.outcome);
       
       if (choiceResult.outcome === 'accepted') {
         toast({
           title: "Installazione in corso",
           description: "L'app sta per essere installata sul tuo dispositivo",
+          variant: "default",
         });
+        console.log("Installazione accettata dall'utente");
       } else {
         toast({
           title: "Installazione annullata",
           description: "Puoi installare l'app in qualsiasi momento dal pulsante dedicato",
+          variant: "default",
         });
+        console.log("Installazione rifiutata dall'utente");
       }
       
       // Resetta il deferredPrompt - può essere usato solo una volta
@@ -245,7 +287,7 @@ export default function ClientArea() {
       console.error("Errore durante l'installazione dell'app:", error);
       toast({
         title: "Errore di installazione",
-        description: "Si è verificato un errore durante l'installazione dell'app",
+        description: "Si è verificato un errore durante l'installazione dell'app. Dettaglio: " + (error instanceof Error ? error.message : "errore sconosciuto"),
         variant: "destructive",
       });
     }

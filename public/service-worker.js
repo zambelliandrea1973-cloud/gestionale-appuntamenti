@@ -1,5 +1,5 @@
 // Nome della cache
-const CACHE_NAME = 'studio-app-v3';
+const CACHE_NAME = 'studio-app-v4';
 
 // File da memorizzare nella cache per il funzionamento offline
 const urlsToCache = [
@@ -8,12 +8,19 @@ const urlsToCache = [
   '/manifest.json',
   '/assets/index.css',
   '/assets/index.js',
+  '/client-area',
+  '/client-login',
+  '/consent',
   '/icons/app-icon.svg',
   '/icons/default-app-icon.jpg'
 ];
 
 // Installazione del Service Worker
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installato');
+  // Forza l'attivazione immediata senza aspettare il refresh della pagina
+  self.skipWaiting();
+  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
@@ -28,13 +35,19 @@ self.addEventListener('install', (event) => {
 
 // Attivazione del Service Worker
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker attivato');
+  // Forza il controllo immediato di tutte le pagine
+  event.waitUntil(clients.claim());
+  
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
+      console.log('Cache esistenti:', cacheNames);
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
             // Elimina le cache vecchie che non sono più necessarie
+            console.log('Eliminazione cache vecchia:', cacheName);
             return caches.delete(cacheName);
           }
         })

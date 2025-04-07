@@ -11,56 +11,77 @@ export default function InstallAppPrompt() {
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
-    // Registra il service worker
+    // Registra il service worker immediatamente, non aspettare l'evento load
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => {
-            console.log('Service Worker registrato con successo:', registration);
-          })
-          .catch(error => {
-            console.error('Errore durante la registrazione del Service Worker:', error);
-          });
-      });
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => {
+          console.log('Service Worker registrato con successo:', registration);
+        })
+        .catch(error => {
+          console.error('Errore durante la registrazione del Service Worker:', error);
+        });
     }
 
     // Check if it's iOS
     const ua = window.navigator.userAgent;
-    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i) || !!ua.match(/iPod/i);
     setIsIOS(iOS);
 
+    // Verifica se l'app è già installata all'avvio
+    const checkIfInstalled = () => {
+      const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                            (window.navigator as any).standalone === true;
+      if (isAppInstalled) {
+        console.log('App già installata, modalità standalone rilevata');
+        setIsInstalled(true);
+        setShowPrompt(false);
+      }
+    };
+    
+    checkIfInstalled();
+
     // Listen for beforeinstallprompt event (Android/Chrome)
-    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+    const handleBeforeInstallPrompt = (e: Event) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later
-      setDeferredPrompt(e);
+      console.log('Event beforeinstallprompt catturato', e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       // Show the prompt to the user
       setShowPrompt(true);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    // Check if the app is already installed
-    // The 'display-mode' media query helps identify if the app is running in standalone mode
-    const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
-                           (window.navigator as any).standalone === true;
-    
-    if (isAppInstalled) {
-      setIsInstalled(true);
-      setShowPrompt(false);
-    }
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt as EventListener);
 
     // Rileva l'installazione dell'app durante la sessione corrente
-    window.addEventListener('appinstalled', () => {
+    const handleAppInstalled = () => {
       console.log('App installata con successo!');
       setIsInstalled(true);
       setShowPrompt(false);
-    });
+      setDeferredPrompt(null);
+    };
+    
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    // Monitora anche i cambiamenti della modalità display
+    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
+    const handleDisplayModeChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        console.log('App ora in modalità standalone');
+        setIsInstalled(true);
+      }
+    };
+    
+    if (mediaQueryList.addEventListener) {
+      mediaQueryList.addEventListener('change', handleDisplayModeChange);
+    }
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      window.removeEventListener('appinstalled', () => {});
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt as EventListener);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+      if (mediaQueryList.removeEventListener) {
+        mediaQueryList.removeEventListener('change', handleDisplayModeChange);
+      }
     };
   }, []);
 
