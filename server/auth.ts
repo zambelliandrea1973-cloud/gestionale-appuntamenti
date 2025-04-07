@@ -147,8 +147,61 @@ export function setupAuth(app: Express) {
   });
 
   // Rotte di autenticazione per clienti
-  app.post("/api/client/login", passport.authenticate("local-client"), (req, res) => {
-    res.status(200).json(req.user);
+  app.post("/api/client/login", async (req, res, next) => {
+    // Verifica se è presente un token nella richiesta (per auto-login)
+    const { token, clientId, username, password } = req.body;
+    
+    // Se abbiamo un token, verifichiamo che sia valido prima di tentare un login standard
+    if (token && clientId && username && password) {
+      try {
+        // Importa il servizio token
+        const tokenService = require('./services/tokenService').default;
+        
+        // Verifica il token
+        const validClientId = await tokenService.verifyActivationToken(token);
+        
+        // Se il token è valido e corrisponde al cliente, continua con il login standard
+        if (validClientId === Number(clientId)) {
+          // Continua con l'autenticazione standard
+          passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
+            if (err) {
+              return next(err);
+            }
+            if (!user) {
+              return res.status(401).json(info);
+            }
+            req.login(user, (err: any) => {
+              if (err) {
+                return next(err);
+              }
+              return res.status(200).json(user);
+            });
+          })(req, res, next);
+        } else {
+          // Token non valido o non corrisponde al cliente
+          return res.status(401).json({ message: "Token non valido o non corrisponde al cliente" });
+        }
+      } catch (error) {
+        console.error("Errore durante la verifica del token:", error);
+        return res.status(500).json({ message: "Errore durante la verifica del token" });
+      }
+    } else {
+      // Login standard senza token
+      passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.status(401).json(info);
+        }
+        req.login(user, (err: any) => {
+          if (err) {
+            return next(err);
+          }
+          return res.status(200).json(user);
+        });
+      })(req, res, next);
+    }
   });
 
   // Registrazione per utenti staff (solo admin può creare altri staff)

@@ -15,6 +15,7 @@ import ClientLogin from "./pages/ClientLogin";
 import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
 import DirectAccess from "./pages/DirectAccess";
+import AutoLogin from "./pages/AutoLogin";
 
 function Router() {
   // Utilizziamo l'hook useLocation di wouter
@@ -26,7 +27,8 @@ function Router() {
     location.startsWith('/client-login') || 
     location.startsWith('/client-area') || 
     location.startsWith('/consent') ||
-    location.startsWith('/direct-access'); // Aggiungiamo il nuovo percorso
+    location.startsWith('/direct-access') ||
+    location.startsWith('/auto-login'); // Aggiungiamo il percorso di AutoLogin
   
   // Se è un percorso client, non utilizziamo il layout principale
   if (isClientPath) {
@@ -37,6 +39,7 @@ function Router() {
         <Route path="/client-area" component={ClientArea} />
         <Route path="/consent" component={ConsentPage} />
         <Route path="/direct-access" component={DirectAccess} />
+        <Route path="/auto-login" component={AutoLogin} />
         <Route component={NotFound} />
       </Switch>
     );

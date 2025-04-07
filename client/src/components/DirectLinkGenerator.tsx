@@ -19,7 +19,7 @@ export function DirectLinkGenerator({ token, clientId, clientName }: DirectLinkG
   // Genera l'URL completo per l'accesso diretto
   const generateDirectLink = () => {
     const baseUrl = window.location.origin;
-    return `${baseUrl}/direct-access?token=${token}&clientId=${clientId}`;
+    return `${baseUrl}/auto-login?token=${token}&clientId=${clientId}`;
   };
   
   const directLink = generateDirectLink();
@@ -94,8 +94,8 @@ export function DirectLinkGenerator({ token, clientId, clientName }: DirectLinkG
           </div>
           
           <div className="text-sm text-muted-foreground">
-            <p>Questo link permette l'accesso diretto all'area cliente senza bisogno di inserire username e password.</p>
-            <p className="mt-1">Può essere salvato nei preferiti del browser o sulla schermata home del dispositivo mobile.</p>
+            <p>Questo link permette un accesso più facile all'area cliente con nome utente precompilato.</p>
+            <p className="mt-1">Sarà necessario inserire solo la password, rendendo l'accesso rapido e semplice.</p>
           </div>
         </div>
       </CardContent>
