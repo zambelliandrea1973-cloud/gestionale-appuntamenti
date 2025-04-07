@@ -21,20 +21,22 @@ import AutoLogin from "./pages/AutoLogin";
 function Router() {
   // Utilizziamo l'hook useLocation di wouter
   const [location] = useLocation();
+  // Assicuriamoci che location non sia undefined
+  const currentLocation = location || "/";
   
   // Percorsi che non utilizzano il layout principale
   const isClientPath = 
-    location.startsWith('/activate') || 
-    location.startsWith('/client-login') || 
-    location.startsWith('/client-area') || 
-    location.startsWith('/consent') ||
-    location.startsWith('/direct-access') ||
-    location.startsWith('/auto-login'); // Aggiungiamo il percorso di AutoLogin
+    currentLocation.startsWith('/activate') || 
+    currentLocation.startsWith('/client-login') || 
+    currentLocation.startsWith('/client-area') || 
+    currentLocation.startsWith('/consent') ||
+    currentLocation.startsWith('/direct-access') ||
+    currentLocation.startsWith('/auto-login'); // Aggiungiamo il percorso di AutoLogin
   
   // Se è un percorso client, non utilizziamo il layout principale
   if (isClientPath) {
     return (
-      <PageTransition location={location}>
+      <PageTransition location={currentLocation}>
         <Switch>
           <Route path="/activate" component={ActivateAccount} />
           <Route path="/client-login" component={ClientLogin} />
@@ -51,7 +53,7 @@ function Router() {
   // Altrimenti utilizziamo il layout per l'area amministrativa
   return (
     <Layout>
-      <PageTransition location={location}>
+      <PageTransition location={currentLocation}>
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/calendar" component={Calendar} />
