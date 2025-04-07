@@ -8,6 +8,7 @@ import Clients from "./pages/Clients";
 import Reports from "./pages/Reports";
 import Invoices from "./pages/Invoices";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/not-found";
 import ActivateAccount from "./pages/ActivateAccount";
 import ClientLogin from "./pages/ClientLogin";
@@ -48,6 +49,7 @@ function Router() {
         <Route path="/invoices" component={Invoices} />
         <Route path="/reports" component={Reports} />
         <Route path="/client-medical-details" component={ClientMedicalDetails} />
+        <Route path="/settings" component={Settings} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
