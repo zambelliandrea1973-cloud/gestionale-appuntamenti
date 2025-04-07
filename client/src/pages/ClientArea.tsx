@@ -1,14 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Download, Smartphone, Share, MoreVertical, SaveIcon, Home, Link, ExternalLink, Copy } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy } from "lucide-react";
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { BeforeInstallPromptEvent } from '@/types/pwa';
-import { InstallationGuide } from "@/components/InstallationGuide";
-import { AddToHomeScreen } from "@/components/AddToHomeScreen";
 
 interface UserData {
   id: number;
@@ -31,9 +28,6 @@ export default function ClientArea() {
   const [loading, setLoading] = useState<boolean>(true);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
     // Verifica autenticazione
@@ -45,106 +39,6 @@ export default function ClientArea() {
       fetchClientAppointments(user.client.id);
     }
   }, [user]);
-  
-  // Gestione dell'installazione dell'app PWA - Completamente riscritta per maggiore semplicità
-  useEffect(() => {
-    // Rileva se il dispositivo è iOS
-    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    setIsIOS(isIOSDevice);
-    
-    // Verifica se l'app è già installata
-    const isAppInstalled = (window as any).__pwaIsInstalled || 
-                           window.matchMedia('(display-mode: standalone)').matches || 
-                           (window.navigator as any).standalone === true;
-    
-    if (isAppInstalled) {
-      console.log('App già installata in modalità standalone');
-      setIsInstalled(true);
-    }
-    
-    // Controllo immediato se esiste già un evento di installazione salvato
-    if ((window as any).__installPromptEvent) {
-      console.log('Evento di installazione trovato nella window!');
-      setDeferredPrompt((window as any).__installPromptEvent);
-    }
-    
-    // Ascolta gli eventi PWA
-    const handlePwaInstallReady = () => {
-      console.log('Evento pwaInstallReady ricevuto');
-      if ((window as any).__installPromptEvent) {
-        setDeferredPrompt((window as any).__installPromptEvent);
-        toast({
-          title: "App pronta per l'installazione",
-          description: "Puoi installare l'app sul tuo dispositivo per un accesso più rapido!",
-          duration: 5000,
-        });
-      }
-    };
-    
-    const handlePwaInstalled = () => {
-      console.log('Evento pwaInstalled ricevuto');
-      setIsInstalled(true);
-      setDeferredPrompt(null);
-    };
-    
-    // Ascolta eventi personalizzati che vengono attivati dal codice in index.html
-    window.addEventListener('pwaInstallReady', handlePwaInstallReady);
-    window.addEventListener('pwaInstalled', handlePwaInstalled);
-    
-    // Cattura direttamente l'evento beforeinstallprompt solo se non è già stato catturato
-    const handleBeforeInstallPrompt = (e: Event) => {
-      console.log('beforeinstallprompt catturato in ClientArea', e);
-      e.preventDefault();
-      const promptEvent = e as BeforeInstallPromptEvent;
-      setDeferredPrompt(promptEvent);
-      // Salva anche nella window
-      (window as any).__installPromptEvent = promptEvent;
-    };
-    
-    // Se la window non ha ancora catturato l'evento, aggiungi un listener anche qui
-    if (!(window as any).__pwaInstallEventAttached) {
-      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    }
-    
-    // Monitora cambiamenti di displayMode
-    const mediaQueryList = window.matchMedia('(display-mode: standalone)');
-    const handleDisplayModeChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        console.log('Display mode changed to standalone');
-        setIsInstalled(true);
-      }
-    };
-    
-    // Aggiungi il listener per il display mode
-    if (mediaQueryList.addEventListener) {
-      mediaQueryList.addEventListener('change', handleDisplayModeChange);
-    }
-    
-    // Aggiungi un listener per l'evento appinstalled
-    const handleAppInstalled = () => {
-      console.log('App installata con successo (evento appinstalled)');
-      setIsInstalled(true);
-      setDeferredPrompt(null);
-    };
-    
-    window.addEventListener('appinstalled', handleAppInstalled);
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('pwaInstallReady', handlePwaInstallReady);
-      window.removeEventListener('pwaInstalled', handlePwaInstalled);
-      window.removeEventListener('appinstalled', handleAppInstalled);
-      
-      // Rimuovi il listener solo se l'abbiamo aggiunto noi
-      if (!(window as any).__pwaInstallEventAttached) {
-        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      }
-      
-      if (mediaQueryList.removeEventListener) {
-        mediaQueryList.removeEventListener('change', handleDisplayModeChange);
-      }
-    };
-  }, []);
 
   const fetchCurrentUser = async () => {
     try {
@@ -276,71 +170,7 @@ export default function ClientArea() {
     return timeString.substring(0, 5);
   };
   
-  // Funzione per installare l'app sul dispositivo - semplificata per non creare confusione
-  const handleInstallApp = async () => {
-    console.log("Tentativo di installazione dell'app");
-    
-    // Per iOS, mostra le istruzioni semplici
-    if (isIOS) {
-      toast({
-        title: "Installazione su iOS",
-        description: "Per installare, tocca l'icona di condivisione in Safari e seleziona 'Aggiungi a Home'",
-        duration: 5000,
-      });
-      return;
-    }
-    
-    // Per browser supportati con prompt disponibile
-    if (deferredPrompt) {
-      try {
-        await deferredPrompt.prompt();
-        const choiceResult = await deferredPrompt.userChoice;
-        
-        if (choiceResult.outcome === 'accepted') {
-          toast({
-            title: "Installazione in corso",
-            description: "L'app sta per essere installata sul tuo dispositivo",
-          });
-        } else {
-          toast({
-            title: "Installazione annullata",
-            description: "Puoi installare l'app in qualsiasi momento dalla card dedicata",
-          });
-        }
-        
-        setDeferredPrompt(null);
-        return;
-      } catch (error) {
-        console.error("Errore durante l'installazione dell'app:", error);
-      }
-    }
-    
-    // Se non c'è un prompt disponibile, mostra istruzioni diverse in base al browser
-    // Rileva il browser
-    const isChrome = navigator.userAgent.indexOf("Chrome") > -1;
-    const isFirefox = navigator.userAgent.indexOf("Firefox") > -1;
-    const isEdge = navigator.userAgent.indexOf("Edg") > -1;
-    
-    if (isChrome || isEdge) {
-      toast({
-        title: "Installazione manuale",
-        description: "Clicca sui tre puntini in alto a destra del browser ⋮ poi seleziona 'Installa app' o 'Installa Studio App'",
-        duration: 10000
-      });
-    } else if (isFirefox) {
-      toast({
-        title: "Installazione manuale",
-        description: "Clicca sui tre puntini o sull'icona del menu in alto a destra, poi seleziona 'Installa sito come applicazione'",
-        duration: 10000
-      });
-    } else {
-      toast({
-        title: "Browser non supportato",
-        description: "Prova a usare Chrome, Edge o Safari per installare l'app",
-        duration: 8000
-      });
-    }
-  };
+
 
   if (loading) {
     return (
@@ -464,16 +294,7 @@ export default function ClientArea() {
             </div>
           ) : appointments.length > 0 ? (
             <div className="space-y-4">
-              {/* Componente AddToHomeScreen in versione minimal inserito qui in modo strategico */}
-              {!isInstalled && (
-                <div className="mb-4 p-4 rounded-lg border-2 border-blue-200 bg-blue-50/50 flex justify-between items-center">
-                  <p className="text-sm font-medium text-blue-700">
-                    Vuoi accedere più velocemente ai tuoi appuntamenti?
-                  </p>
-                  <AddToHomeScreen minimal={true} />
-                </div>
-              )}
-              
+
               {appointments.slice(0, 5).map((appointment) => {
                   // Verifica se l'appuntamento è passato
                   const appointmentDate = new Date(`${appointment.date}T${appointment.startTime}`);
@@ -561,88 +382,7 @@ export default function ClientArea() {
         )}
       </Card>
       
-      {/* Istruzioni semplificate per l'installazione dell'app sul dispositivo */}
-      {!isInstalled && (
-        <Card className="mb-6 border-2 border-blue-200 bg-blue-50/50">
-          <CardHeader>
-            <CardTitle className="text-center">
-              Aggiungi l'app alla schermata Home
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-center mb-2">
-              <Smartphone className="h-12 w-12 mx-auto text-blue-600 mb-2" />
-              <p className="text-sm text-muted-foreground">
-                Segui queste semplici istruzioni per salvare l'app sul tuo dispositivo
-              </p>
-            </div>
-            
-            <div className="space-y-3">
-              {/* Istruzioni per iOS */}
-              <div className="rounded-lg border p-3">
-                <h3 className="font-medium flex items-center mb-2">
-                  <Smartphone className="mr-2 h-5 w-5 text-blue-600" />
-                  iPhone/iPad
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-start gap-2">
-                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">1</span>
-                    </div>
-                    <p>Tocca l'icona <Share className="h-4 w-4 inline-block mx-1" /> in basso (Safari)</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">2</span>
-                    </div>
-                    <p>Scorri e tocca "Aggiungi a Home"</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">3</span>
-                    </div>
-                    <p>Conferma toccando "Aggiungi"</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Istruzioni per Android */}
-              <div className="rounded-lg border p-3">
-                <h3 className="font-medium flex items-center mb-2">
-                  <Smartphone className="mr-2 h-5 w-5" />
-                  Android
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-start gap-2">
-                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">1</span>
-                    </div>
-                    <p>Tocca l'icona <MoreVertical className="h-4 w-4 inline-block mx-1" /> (Chrome)</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">2</span>
-                    </div>
-                    <p>Seleziona "Installa app" o "Aggiungi a schermata Home"</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">3</span>
-                    </div>
-                    <p>Conferma toccando "Installa"</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button onClick={() => {}} className="w-full gap-2 bg-blue-600 hover:bg-blue-700">
-              <SaveIcon className="h-5 w-5" />
-              Segui le istruzioni sopra per salvare l'app
-            </Button>
-          </CardFooter>
-        </Card>
-      )}
+
       
       {/* Link diretto universale */}
       <Card className="mb-8 border-2 border-blue-200 bg-blue-50/50">
@@ -662,10 +402,10 @@ export default function ClientArea() {
                 Invece di scansionare il QR code ogni volta, puoi salvare questo link nei preferiti del browser o sulla schermata home del tuo dispositivo per un accesso rapido:
               </p>
               
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 mb-4">
                 <div className="border rounded-md p-2 flex-1 bg-white overflow-hidden">
                   <p className="text-sm text-muted-foreground truncate">
-                    {user?.client && `${window.location.origin}/client-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
+                    {user?.client && `${window.location.origin}/direct-access?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
                   </p>
                 </div>
                 <Button 
@@ -673,7 +413,7 @@ export default function ClientArea() {
                   size="sm" 
                   onClick={() => {
                     if (user?.client) {
-                      const directLink = `${window.location.origin}/client-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                      const directLink = `${window.location.origin}/direct-access?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
                       navigator.clipboard.writeText(directLink)
                         .then(() => {
                           toast({
@@ -695,50 +435,41 @@ export default function ClientArea() {
                 </Button>
               </div>
               
-              <div className="rounded-lg border-2 border-blue-100 p-4 bg-white">
-                <h4 className="font-medium mb-2 text-sm flex items-center">
-                  <Home className="mr-2 h-4 w-4 text-blue-600" />
-                  Come aggiungere alla schermata home
-                </h4>
-                <div className="space-y-2 text-xs text-muted-foreground">
-                  <p><strong>Su iPhone/iPad:</strong> Usa Safari, tocca Condividi, poi "Aggiungi alla schermata Home"</p>
-                  <p><strong>Su Android:</strong> Su Chrome, tocca i tre puntini, poi "Aggiungi alla schermata Home"</p>
-                  <p><strong>Su qualsiasi browser:</strong> Salva nei preferiti o come collegamento</p>
-                </div>
-              </div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Questo link ti porterà direttamente all'area cliente senza bisogno di inserire username e password.
+              </p>
             </div>
           )}
         </CardContent>
         <CardFooter>
           <Button 
             onClick={() => {
-              const directLink = `${window.location.origin}/client-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user?.client?.id || ''}`;
-              navigator.clipboard.writeText(directLink)
-                .then(() => {
-                  toast({
-                    title: "Link copiato",
-                    description: "Il link è stato copiato negli appunti, salvalo nei preferiti!",
+              if (user?.client) {
+                const directLink = `${window.location.origin}/direct-access?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                navigator.clipboard.writeText(directLink)
+                  .then(() => {
+                    toast({
+                      title: "Link copiato",
+                      description: "Salvalo nei preferiti o sulla schermata home del tuo dispositivo!",
+                    });
+                  })
+                  .catch(err => {
+                    toast({
+                      title: "Errore",
+                      description: "Impossibile copiare il link",
+                      variant: "destructive",
+                    });
                   });
-                })
-                .catch(err => {
-                  toast({
-                    title: "Errore",
-                    description: "Impossibile copiare il link",
-                    variant: "destructive",
-                  });
-                });
+              }
             }} 
             className="w-full gap-2"
             variant="default"
           >
             <ExternalLink className="h-4 w-4" />
-            Copia il link diretto
+            Copia il link per accesso diretto
           </Button>
         </CardFooter>
       </Card>
-      
-      {/* Guida dettagliata all'installazione - mostra solo se l'app non è installata */}
-      {!isInstalled && <InstallationGuide />}
     </div>
   );
 }
