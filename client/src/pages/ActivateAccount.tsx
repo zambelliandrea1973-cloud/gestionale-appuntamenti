@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
+import InstallAppPrompt from "@/components/InstallAppPrompt";
 
 interface TokenVerificationResult {
   valid: boolean;
@@ -149,7 +150,8 @@ export default function ActivateAccount() {
 
   if (verifying) {
     return (
-      <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <InstallAppPrompt />
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center text-2xl">Attivazione Account</CardTitle>
@@ -165,7 +167,8 @@ export default function ActivateAccount() {
 
   if (!token) {
     return (
-      <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <InstallAppPrompt />
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center text-2xl">Token Mancante</CardTitle>
@@ -189,7 +192,8 @@ export default function ActivateAccount() {
 
   if (tokenVerification && !tokenVerification.valid) {
     return (
-      <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <InstallAppPrompt />
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center text-2xl">Token Non Valido</CardTitle>
@@ -207,7 +211,8 @@ export default function ActivateAccount() {
   // Se l'account esiste già, mostra il form di accesso
   if (tokenVerification?.accountExists) {
     return (
-      <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <InstallAppPrompt />
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center text-xl md:text-2xl">Accedi al tuo Account</CardTitle>
@@ -256,7 +261,8 @@ export default function ActivateAccount() {
 
   // Se l'account non esiste, mostra il form di attivazione
   return (
-    <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+    <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+      <InstallAppPrompt />
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-xl md:text-2xl">Attiva il tuo Account</CardTitle>

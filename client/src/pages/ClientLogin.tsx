@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
+import InstallAppPrompt from "@/components/InstallAppPrompt";
 
 export default function ClientLogin() {
   const [, setLocation] = useLocation();
@@ -59,7 +60,8 @@ export default function ClientLogin() {
   };
 
   return (
-    <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+    <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+      <InstallAppPrompt />
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Accesso Area Clienti</CardTitle>
