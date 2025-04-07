@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ClientNotes from "@/components/ClientNotes";
 
 export default function ClientMedicalDetails() {
   const [_, setLocation] = useLocation();
@@ -28,7 +30,7 @@ export default function ClientMedicalDetails() {
   }, []);
 
   // Carica i dati del cliente
-  const { data: client, isLoading } = useQuery({
+  const { data: client, isLoading } = useQuery<any>({
     queryKey: clientId ? [`/api/clients/${clientId}`] : [],
     enabled: !!clientId
   });
@@ -122,26 +124,56 @@ export default function ClientMedicalDetails() {
               </Link>
             </div>
           </div>
-
+          
           <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-2">Note mediche</h3>
-            <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
-              {client.medicalNotes || "Nessuna nota medica registrata"}
-            </div>
-          </div>
+            <Tabs defaultValue="notes" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="notes">Note strutturate</TabsTrigger>
+                <TabsTrigger value="medical">Dati medici legacy</TabsTrigger>
+                <TabsTrigger value="other">Altre informazioni</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="notes" className="mt-4">
+                <Card>
+                  <CardContent className="pt-6">
+                    <ClientNotes clientId={client.id} />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="medical" className="mt-4">
+                <Card>
+                  <CardContent className="pt-6 space-y-6">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Note mediche</h3>
+                      <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
+                        {client.medicalNotes || "Nessuna nota medica registrata"}
+                      </div>
+                    </div>
 
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-2">Allergie e informazioni sanitarie</h3>
-            <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
-              {client.allergies || "Nessuna allergia o informazione sanitaria registrata"}
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-2">Note generali</h3>
-            <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
-              {client.notes || "Nessuna nota generale registrata"}
-            </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Allergie e informazioni sanitarie</h3>
+                      <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
+                        {client.allergies || "Nessuna allergia o informazione sanitaria registrata"}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="other" className="mt-4">
+                <Card>
+                  <CardContent className="pt-6">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Note generali</h3>
+                      <div className="border p-4 rounded-md bg-background min-h-24 whitespace-pre-wrap">
+                        {client.notes || "Nessuna nota generale registrata"}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
         </CardContent>
         

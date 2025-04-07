@@ -11,6 +11,7 @@ import {
   clientAccounts, type ClientAccount, type InsertClientAccount,
   notifications, type Notification, type InsertNotification,
   activationTokens, type ActivationToken, type InsertActivationToken,
+  clientNotes, type ClientNote, type InsertClientNote,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -117,6 +118,12 @@ export interface IStorage {
   createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
   getActivationToken(token: string): Promise<ActivationToken | undefined>;
   updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
+  
+  // Client Notes operations
+  getClientNotes(clientId: number): Promise<ClientNote[]>;
+  createClientNote(note: InsertClientNote): Promise<ClientNote>;
+  updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined>;
+  deleteClientNote(id: number): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -1874,6 +1881,70 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error updating activation token:", error);
       return undefined;
+    }
+  }
+  
+  // Client Notes operations
+  async getClientNotes(clientId: number): Promise<ClientNote[]> {
+    try {
+      const notes = await db
+        .select()
+        .from(clientNotes)
+        .where(eq(clientNotes.clientId, clientId))
+        .orderBy(desc(clientNotes.createdAt));
+      
+      return notes;
+    } catch (error) {
+      console.error("Errore durante il recupero delle note del cliente:", error);
+      return [];
+    }
+  }
+  
+  async createClientNote(note: InsertClientNote): Promise<ClientNote> {
+    try {
+      const [createdNote] = await db
+        .insert(clientNotes)
+        .values({
+          ...note,
+          createdAt: new Date()
+        })
+        .returning();
+      
+      return createdNote;
+    } catch (error) {
+      console.error("Errore durante la creazione della nota del cliente:", error);
+      throw error;
+    }
+  }
+  
+  async updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined> {
+    try {
+      const [updatedNote] = await db
+        .update(clientNotes)
+        .set({
+          ...note,
+          updatedAt: new Date()
+        })
+        .where(eq(clientNotes.id, id))
+        .returning();
+      
+      return updatedNote;
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento della nota del cliente:", error);
+      return undefined;
+    }
+  }
+  
+  async deleteClientNote(id: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(clientNotes)
+        .where(eq(clientNotes.id, id));
+      
+      return result.count > 0;
+    } catch (error) {
+      console.error("Errore durante l'eliminazione della nota del cliente:", error);
+      return false;
     }
   }
 }

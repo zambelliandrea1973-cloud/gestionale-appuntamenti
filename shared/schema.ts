@@ -169,6 +169,23 @@ export const insertClientAccountSchema = createInsertSchema(clientAccounts).omit
   lastLogin: true,
 });
 
+// Client Notes table schema
+export const clientNotes = pgTable("client_notes", {
+  id: serial("id").primaryKey(),
+  clientId: integer("client_id").notNull(),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  category: text("category").default("general"), // general, medical, allergies
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertClientNoteSchema = createInsertSchema(clientNotes).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Notifications table schema
 export const notifications = pgTable("notifications", {
   id: serial("id").primaryKey(),
@@ -236,12 +253,16 @@ export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type ActivationToken = typeof activationTokens.$inferSelect;
 export type InsertActivationToken = z.infer<typeof insertActivationTokenSchema>;
 
+export type ClientNote = typeof clientNotes.$inferSelect;
+export type InsertClientNote = z.infer<typeof insertClientNoteSchema>;
+
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
   appointments: many(appointments),
   consents: many(consents),
   invoices: many(invoices),
   notifications: many(notifications),
+  notes: many(clientNotes),
   clientAccount: one(clientAccounts, {
     fields: [clients.id],
     references: [clientAccounts.clientId],
@@ -327,6 +348,13 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
 export const activationTokensRelations = relations(activationTokens, ({ one }) => ({
   client: one(clients, {
     fields: [activationTokens.clientId],
+    references: [clients.id],
+  }),
+}));
+
+export const clientNotesRelations = relations(clientNotes, ({ one }) => ({
+  client: one(clients, {
+    fields: [clientNotes.clientId],
     references: [clients.id],
   }),
 }));
