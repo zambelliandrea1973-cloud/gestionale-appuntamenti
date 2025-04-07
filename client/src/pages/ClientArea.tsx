@@ -43,98 +43,103 @@ export default function ClientArea() {
     }
   }, [user]);
   
-  // Gestione dell'installazione dell'app PWA
+  // Gestione dell'installazione dell'app PWA - Completamente riscritta per maggiore semplicità
   useEffect(() => {
     // Rileva se il dispositivo è iOS
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     setIsIOS(isIOSDevice);
     
-    // Imposta un flag globale per tracciare se l'evento è già stato collegato
-    if (!(window as any).__pwaInstallEventAttached) {
-      (window as any).__pwaInstallEventAttached = true;
-      
-      console.log("Configurazione dell'evento beforeinstallprompt...");
-      
-      // Evento per catturare il prompt di installazione - questa è la parte critica!
-      window.addEventListener('beforeinstallprompt', (e: Event) => {
-        console.log('**** DEBUG Eventi: beforeinstallprompt catturato ****', e);
-        
-        // È fondamentale prevenire il comportamento predefinito
-        e.preventDefault();
-        
-        // Salviamo l'evento per poterlo usare più tardi
-        const promptEvent = e as BeforeInstallPromptEvent;
-        (window as any).__installPromptEvent = promptEvent;
-        setDeferredPrompt(promptEvent);
-        
-        // Debug info nella console
-        console.table({
-          "Evento catturato": true,
-          "Timestamp": new Date().toISOString(),
-          "User Agent": navigator.userAgent,
-          "Platforms": promptEvent.platforms
-        });
-        
-        toast({
-          title: "App disponibile per l'installazione",
-          description: "Puoi installare l'app sul tuo dispositivo per un accesso più rapido",
-          duration: 5000,
-        });
-      });
+    // Verifica se l'app è già installata
+    const isAppInstalled = (window as any).__pwaIsInstalled || 
+                           window.matchMedia('(display-mode: standalone)').matches || 
+                           (window.navigator as any).standalone === true;
+    
+    if (isAppInstalled) {
+      console.log('App già installata in modalità standalone');
+      setIsInstalled(true);
     }
     
-    // Controlla se abbiamo già un evento salvato a livello di window
+    // Controllo immediato se esiste già un evento di installazione salvato
     if ((window as any).__installPromptEvent) {
-      console.log('Evento di installazione già disponibile, caricato dal window');
+      console.log('Evento di installazione trovato nella window!');
       setDeferredPrompt((window as any).__installPromptEvent);
     }
     
-    // Verifica se l'app è già installata all'avvio
-    const checkIfInstalled = () => {
-      const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || 
-                             (window.navigator as any).standalone === true;
-      if (isAppInstalled) {
-        console.log('App già installata, modalità standalone rilevata');
-        setIsInstalled(true);
+    // Ascolta gli eventi PWA
+    const handlePwaInstallReady = () => {
+      console.log('Evento pwaInstallReady ricevuto');
+      if ((window as any).__installPromptEvent) {
+        setDeferredPrompt((window as any).__installPromptEvent);
+        toast({
+          title: "App pronta per l'installazione",
+          description: "Puoi installare l'app sul tuo dispositivo per un accesso più rapido!",
+          duration: 5000,
+        });
       }
     };
     
-    checkIfInstalled();
-    
-    // Evento per rilevare quando l'app è stata installata
-    const handleAppInstalled = () => {
-      console.log('App installata con successo!');
+    const handlePwaInstalled = () => {
+      console.log('Evento pwaInstalled ricevuto');
       setIsInstalled(true);
       setDeferredPrompt(null);
-      (window as any).__installPromptEvent = null;
-      
-      toast({
-        title: "App installata",
-        description: "L'applicazione è stata installata con successo sul tuo dispositivo",
-      });
     };
     
-    // Monitora anche i cambiamenti della modalità display
+    // Ascolta eventi personalizzati che vengono attivati dal codice in index.html
+    window.addEventListener('pwaInstallReady', handlePwaInstallReady);
+    window.addEventListener('pwaInstalled', handlePwaInstalled);
+    
+    // Cattura direttamente l'evento beforeinstallprompt solo se non è già stato catturato
+    const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('beforeinstallprompt catturato in ClientArea', e);
+      e.preventDefault();
+      const promptEvent = e as BeforeInstallPromptEvent;
+      setDeferredPrompt(promptEvent);
+      // Salva anche nella window
+      (window as any).__installPromptEvent = promptEvent;
+    };
+    
+    // Se la window non ha ancora catturato l'evento, aggiungi un listener anche qui
+    if (!(window as any).__pwaInstallEventAttached) {
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    }
+    
+    // Monitora cambiamenti di displayMode
     const mediaQueryList = window.matchMedia('(display-mode: standalone)');
     const handleDisplayModeChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        console.log('App ora in modalità standalone');
+        console.log('Display mode changed to standalone');
         setIsInstalled(true);
       }
     };
     
-    window.addEventListener('appinstalled', handleAppInstalled);
-    
+    // Aggiungi il listener per il display mode
     if (mediaQueryList.addEventListener) {
       mediaQueryList.addEventListener('change', handleDisplayModeChange);
     }
     
+    // Aggiungi un listener per l'evento appinstalled
+    const handleAppInstalled = () => {
+      console.log('App installata con successo (evento appinstalled)');
+      setIsInstalled(true);
+      setDeferredPrompt(null);
+    };
+    
+    window.addEventListener('appinstalled', handleAppInstalled);
+    
+    // Cleanup
     return () => {
+      window.removeEventListener('pwaInstallReady', handlePwaInstallReady);
+      window.removeEventListener('pwaInstalled', handlePwaInstalled);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      
+      // Rimuovi il listener solo se l'abbiamo aggiunto noi
+      if (!(window as any).__pwaInstallEventAttached) {
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      }
+      
       if (mediaQueryList.removeEventListener) {
         mediaQueryList.removeEventListener('change', handleDisplayModeChange);
       }
-      // Non rimuoviamo l'evento beforeinstallprompt perché lo condividiamo tra i componenti
     };
   }, []);
 
@@ -282,100 +287,171 @@ export default function ClientArea() {
       return;
     }
     
-    // Prova a usare il prompt se disponibile
-    if (deferredPrompt) {
-      try {
-        console.log("Prompt di installazione disponibile, tentativo di mostrarlo");
-        // Mostra il prompt di installazione
-        await deferredPrompt.prompt();
-        console.log("Prompt di installazione mostrato all'utente");
+    // NUOVO: Hack - proviamo a forzare un evento beforeinstallprompt simulando un click su un link
+    // Questo trick a volte attiva il browser a mostrare il prompt di installazione su Chrome/Edge
+    const createFakeInstallPrompt = () => {
+      // Crea un elemento a che simula un'interazione
+      const fakeLink = document.createElement('a');
+      fakeLink.href = window.location.href;
+      fakeLink.rel = 'manifest';
+      fakeLink.style.display = 'none';
+      document.body.appendChild(fakeLink);
+      fakeLink.click();
+      
+      // Crea un secondo elemento per forzare un'azione più profonda
+      const fakeDiv = document.createElement('div');
+      fakeDiv.style.position = 'fixed';
+      fakeDiv.style.top = '0';
+      fakeDiv.style.left = '0';
+      fakeDiv.style.right = '0';
+      fakeDiv.style.bottom = '0';
+      fakeDiv.style.zIndex = '999999';
+      fakeDiv.style.backgroundColor = 'rgba(0,0,0,0.01)';
+      fakeDiv.style.display = 'none';
+      document.body.appendChild(fakeDiv);
+      
+      // Aggiungi un listener temporaneo per catturare potenziali eventi
+      const tempListener = (e: any) => {
+        console.log('Hack generato evento:', e);
+        e.preventDefault();
+        setDeferredPrompt(e);
+        window.__installPromptEvent = e;
+        document.body.removeEventListener('beforeinstallprompt', tempListener);
+      };
+      
+      document.body.addEventListener('beforeinstallprompt', tempListener);
+      
+      // Simula un'interazione utente
+      setTimeout(() => {
+        fakeDiv.style.display = 'block';
+        fakeDiv.click();
         
-        // Aspetta che l'utente risponda al prompt
-        const choiceResult = await deferredPrompt.userChoice;
-        console.log("Scelta dell'utente:", choiceResult.outcome);
-        
-        if (choiceResult.outcome === 'accepted') {
-          toast({
-            title: "Installazione in corso",
-            description: "L'app sta per essere installata sul tuo dispositivo",
-            variant: "default",
-          });
-          console.log("Installazione accettata dall'utente");
-        } else {
-          toast({
-            title: "Installazione annullata",
-            description: "Puoi installare l'app in qualsiasi momento dal pulsante dedicato",
-            variant: "default",
-          });
-          console.log("Installazione rifiutata dall'utente");
-        }
-        
-        // Resetta il deferredPrompt - può essere usato solo una volta
-        setDeferredPrompt(null);
-        (window as any).__installPromptEvent = null;
-        return;
-      } catch (error) {
-        console.error("Errore durante l'installazione dell'app:", error);
-      }
-    }
+        // Rimuovi gli elementi dopo l'uso
+        setTimeout(() => {
+          document.body.removeChild(fakeLink);
+          document.body.removeChild(fakeDiv);
+          
+          // Se ancora non abbiamo un prompt, proviamo altre tecniche
+          if (!deferredPrompt && !(window as any).__installPromptEvent) {
+            continueInstallProcess();
+          }
+        }, 500);
+      }, 100);
+    };
     
-    // Piano B: se non c'è un prompt disponibile o si è verificato un errore
-    // Prova a recuperare un prompt globale
-    if ((window as any).__installPromptEvent) {
-      console.log("Utilizzo del prompt globale come fallback");
-      try {
-        const globalPrompt = (window as any).__installPromptEvent;
-        await globalPrompt.prompt();
-        const choiceResult = await globalPrompt.userChoice;
-        
-        if (choiceResult.outcome === 'accepted') {
-          toast({
-            title: "Installazione in corso",
-            description: "L'app sta per essere installata sul tuo dispositivo",
-            variant: "default",
-          });
+    // Funzione che prosegue il processo di installazione standard
+    const continueInstallProcess = async () => {
+      // Prova a usare il prompt se disponibile
+      if (deferredPrompt) {
+        try {
+          console.log("Prompt di installazione disponibile, tentativo di mostrarlo");
+          await deferredPrompt.prompt();
+          console.log("Prompt di installazione mostrato all'utente");
+          
+          const choiceResult = await deferredPrompt.userChoice;
+          console.log("Scelta dell'utente:", choiceResult.outcome);
+          
+          if (choiceResult.outcome === 'accepted') {
+            toast({
+              title: "Installazione in corso",
+              description: "L'app sta per essere installata sul tuo dispositivo",
+              variant: "default",
+            });
+          } else {
+            toast({
+              title: "Installazione annullata",
+              description: "Puoi installare l'app in qualsiasi momento dal pulsante dedicato",
+              variant: "default",
+            });
+          }
+          
+          setDeferredPrompt(null);
+          (window as any).__installPromptEvent = null;
+          return;
+        } catch (error) {
+          console.error("Errore durante l'installazione dell'app:", error);
         }
-        
-        // Pulisci il prompt globale
-        (window as any).__installPromptEvent = null;
-        return;
-      } catch (error) {
-        console.error("Errore con il prompt globale:", error);
       }
-    }
-    
-    // Piano C: Registra manualmente il service worker come ultimo tentativo
-    if ('serviceWorker' in navigator) {
-      try {
-        const registration = await navigator.serviceWorker.register('/service-worker.js', {
-          scope: '/'
-        });
-        console.log('Service worker registrato manualmente come fallback:', registration);
-        
-        toast({
-          title: "Preparazione per l'installazione",
-          description: "L'app è pronta per l'installazione. Ricarica la pagina e riprova tra qualche secondo.",
-          duration: 5000,
-        });
-      } catch (swError) {
-        console.error("Errore durante la registrazione del service worker:", swError);
-        
-        // Piano D: Mostra un messaggio di errore con istruzioni
-        toast({
-          title: "Installazione non disponibile",
-          description: "Per installare l'app, prova a ricaricare la pagina e riprovare o usa il menu del browser selezionando 'Installa app'.",
-          variant: "destructive",
-          duration: 7000,
-        });
+      
+      // Piano B: usare il prompt globale
+      if ((window as any).__installPromptEvent) {
+        console.log("Utilizzo del prompt globale come fallback");
+        try {
+          const globalPrompt = (window as any).__installPromptEvent;
+          await globalPrompt.prompt();
+          const choiceResult = await globalPrompt.userChoice;
+          
+          if (choiceResult.outcome === 'accepted') {
+            toast({
+              title: "Installazione in corso",
+              description: "L'app sta per essere installata sul tuo dispositivo",
+              variant: "default",
+            });
+          }
+          
+          (window as any).__installPromptEvent = null;
+          return;
+        } catch (error) {
+          console.error("Errore con il prompt globale:", error);
+        }
       }
-    } else {
+      
+      // Piano C: Cambiare tattica completamente - offrire all'utente istruzioni manuali
+      // Invece di tentare di registrare manualmente il service worker
+      const appUrl = window.location.href;
       toast({
-        title: "Installazione non supportata",
-        description: "Il tuo browser non supporta l'installazione di app. Prova con Chrome o Edge su Android, o Safari su iOS.",
-        variant: "destructive",
-        duration: 7000,
+        title: "Installazione manuale",
+        description: "Per installare questa app, usa il menu del browser (⋮) e seleziona 'Installa app' o 'Aggiungi a schermata Home'.",
+        duration: 10000
       });
-    }
+      
+      // Mostra opzioni di backup con istruzioni più visibili
+      const instructionsDiv = document.createElement('div');
+      instructionsDiv.style.position = 'fixed';
+      instructionsDiv.style.top = '50%';
+      instructionsDiv.style.left = '50%';
+      instructionsDiv.style.transform = 'translate(-50%, -50%)';
+      instructionsDiv.style.backgroundColor = 'white';
+      instructionsDiv.style.padding = '20px';
+      instructionsDiv.style.borderRadius = '10px';
+      instructionsDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+      instructionsDiv.style.zIndex = '99999';
+      instructionsDiv.style.maxWidth = '350px';
+      
+      instructionsDiv.innerHTML = `
+        <div style="text-align:center; margin-bottom:15px;">
+          <h3 style="font-weight:bold; margin-bottom:8px;">Installazione manuale</h3>
+          <p style="margin-bottom:10px;">Il tuo browser supporta le PWA, ma non è stato possibile attivare il prompt automatico.</p>
+        </div>
+        <div style="margin-bottom:15px;">
+          <p style="font-weight:bold; margin-bottom:8px;">Per installare manualmente:</p>
+          <ol style="margin-left:20px; list-style-type:decimal;">
+            <li style="margin-bottom:5px;">Tocca il menu del browser (⋮)</li>
+            <li style="margin-bottom:5px;">Seleziona "Installa app" o "Aggiungi a schermata Home"</li>
+            <li style="margin-bottom:5px;">Conferma l'installazione</li>
+          </ol>
+        </div>
+        <div style="text-align:center;">
+          <button id="close-instructions" style="padding:8px 16px; background:#4f46e5; color:white; border:none; border-radius:5px; cursor:pointer;">Ho capito</button>
+        </div>
+      `;
+      
+      document.body.appendChild(instructionsDiv);
+      
+      document.getElementById('close-instructions')?.addEventListener('click', () => {
+        document.body.removeChild(instructionsDiv);
+      });
+    };
+    
+    // Avvia il processo provando prima con un hack e poi continuando normalmente
+    createFakeInstallPrompt();
+    
+    // Se dopo 500ms non abbiamo ancora ottenuto un prompt, continua con il processo standard
+    setTimeout(() => {
+      if (!deferredPrompt && !(window as any).__installPromptEvent) {
+        continueInstallProcess();
+      }
+    }, 500);
   };
 
   if (loading) {
@@ -393,7 +469,7 @@ export default function ClientArea() {
         <p><strong>Debug PWA:</strong> {deferredPrompt ? "Prompt PWA disponibile ✅" : "Prompt PWA non disponibile ❌"}</p>
         <p><strong>Dispositivo iOS:</strong> {isIOS ? "Sì ✅" : "No ❌"} | <strong>App installata:</strong> {isInstalled ? "Sì ✅" : "No ❌"}</p>
         <p><strong>Funzionalità PWA:</strong> {'serviceWorker' in navigator ? "Service Worker supportato ✅" : "Service Worker non supportato ❌"}</p>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-2 flex gap-2 flex-wrap">
           <button 
             className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs"
             onClick={() => {
@@ -441,6 +517,55 @@ export default function ClientArea() {
             }}
           >
             Ripristina Prompt
+          </button>
+          <button 
+            className="px-2 py-1 bg-indigo-100 text-indigo-800 rounded text-xs"
+            onClick={handleInstallApp}
+          >
+            Forza installazione (con hack)
+          </button>
+          <button 
+            className="px-2 py-1 bg-red-100 text-red-800 rounded text-xs"
+            onClick={() => {
+              // Mostra le istruzioni manuali direttamente
+              const instructionsDiv = document.createElement('div');
+              instructionsDiv.style.position = 'fixed';
+              instructionsDiv.style.top = '50%';
+              instructionsDiv.style.left = '50%';
+              instructionsDiv.style.transform = 'translate(-50%, -50%)';
+              instructionsDiv.style.backgroundColor = 'white';
+              instructionsDiv.style.padding = '20px';
+              instructionsDiv.style.borderRadius = '10px';
+              instructionsDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+              instructionsDiv.style.zIndex = '99999';
+              instructionsDiv.style.maxWidth = '350px';
+              
+              instructionsDiv.innerHTML = `
+                <div style="text-align:center; margin-bottom:15px;">
+                  <h3 style="font-weight:bold; margin-bottom:8px;">Installazione manuale</h3>
+                  <p style="margin-bottom:10px;">Il tuo browser supporta le PWA, ma non è stato possibile attivare il prompt automatico.</p>
+                </div>
+                <div style="margin-bottom:15px;">
+                  <p style="font-weight:bold; margin-bottom:8px;">Per installare manualmente:</p>
+                  <ol style="margin-left:20px; list-style-type:decimal;">
+                    <li style="margin-bottom:5px;">Tocca il menu del browser (⋮)</li>
+                    <li style="margin-bottom:5px;">Seleziona "Installa app" o "Aggiungi a schermata Home"</li>
+                    <li style="margin-bottom:5px;">Conferma l'installazione</li>
+                  </ol>
+                </div>
+                <div style="text-align:center;">
+                  <button id="close-instructions" style="padding:8px 16px; background:#4f46e5; color:white; border:none; border-radius:5px; cursor:pointer;">Ho capito</button>
+                </div>
+              `;
+              
+              document.body.appendChild(instructionsDiv);
+              
+              document.getElementById('close-instructions')?.addEventListener('click', () => {
+                document.body.removeChild(instructionsDiv);
+              });
+            }}
+          >
+            Istruzioni manuali
           </button>
         </div>
       </div>
@@ -655,60 +780,113 @@ export default function ClientArea() {
       
       {/* Card per l'installazione dell'app mobile - visibile solo se l'app non è già installata */}
       {!isInstalled && (
-        <Card className="mb-8 border-dashed border-2 border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800/50">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Smartphone className="mr-2 h-5 w-5" /> 
-              Installa l'app sul tuo dispositivo
-            </CardTitle>
-            <CardDescription>
-              Accedi facilmente alla tua area cliente installando l'app direttamente sul tuo dispositivo
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex flex-col items-center text-center md:flex-row md:text-left md:items-start gap-4">
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-full shadow-sm">
-                  <Download className="h-10 w-10 text-blue-500" />
+        <div>
+          {/* NUOVO: Alert fluttuante che cattura l'attenzione */}
+          <div className="fixed bottom-5 right-5 z-50 p-4 bg-blue-600 text-white rounded-lg shadow-lg flex items-center gap-3 animate-pulse max-w-xs">
+            <Smartphone className="h-8 w-8" />
+            <div>
+              <div className="font-bold">Installa l'app!</div>
+              <div className="text-sm">Accedi più velocemente</div>
+            </div>
+            <button 
+              className="bg-white text-blue-600 px-3 py-1 rounded-md text-sm font-medium"
+              onClick={handleInstallApp}
+            >
+              Installa
+            </button>
+          </div>
+          
+          {/* Card informativa completa */}
+          <Card className="mb-8 border-dashed border-2 border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800/50">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Smartphone className="mr-2 h-5 w-5" /> 
+                Installa l'app sul tuo dispositivo
+              </CardTitle>
+              <CardDescription>
+                Accedi facilmente alla tua area cliente installando l'app direttamente sul tuo dispositivo
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex flex-col items-center text-center md:flex-row md:text-left md:items-start gap-4">
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-full shadow-sm">
+                    <Download className="h-10 w-10 text-blue-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-lg">Vantaggi dell'installazione</h3>
+                    <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                        <span>Accesso rapido e diretto all'area cliente</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                        <span>Nessun bisogno di scansionare il QR code ogni volta</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                        <span>Funziona anche offline per visualizzare i tuoi dati</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                        <span>Ricevi notifiche per i tuoi appuntamenti</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-lg">Vantaggi dell'installazione</h3>
-                  <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
-                      <span>Accesso rapido e diretto all'area cliente</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
-                      <span>Nessun bisogno di scansionare il QR code ogni volta</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
-                      <span>Funziona anche offline per visualizzare i tuoi dati</span>
-                    </li>
-                    <li className="flex items-start">
-                      <Check className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
-                      <span>Ricevi notifiche per i tuoi appuntamenti</span>
-                    </li>
-                  </ul>
+                
+                {/* NUOVO: Istruzioni specifiche per installazione */}
+                <div className="mt-6 bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h4 className="font-medium mb-2">Come installare l'app:</h4>
+                  {isIOS ? (
+                    <div className="text-sm space-y-2">
+                      <p className="flex items-center">
+                        <span className="inline-block w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mr-2 flex items-center justify-center">1</span>
+                        Tocca l'icona <span className="mx-1 px-2 py-1 bg-gray-100 rounded">Condividi</span> nella barra degli strumenti del browser
+                      </p>
+                      <p className="flex items-center">
+                        <span className="inline-block w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mr-2 flex items-center justify-center">2</span>
+                        Scorri verso il basso e seleziona <span className="mx-1 px-2 py-1 bg-gray-100 rounded">Aggiungi a Home</span>
+                      </p>
+                      <p className="flex items-center">
+                        <span className="inline-block w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mr-2 flex items-center justify-center">3</span>
+                        Conferma toccando <span className="mx-1 px-2 py-1 bg-gray-100 rounded">Aggiungi</span>
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-sm space-y-2">
+                      <p className="flex items-center">
+                        <span className="inline-block w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mr-2 flex items-center justify-center">1</span>
+                        Tocca il pulsante <span className="mx-1 px-2 py-1 bg-blue-600 text-white rounded">Installa app</span> qui sotto
+                      </p>
+                      <p className="flex items-center">
+                        <span className="inline-block w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mr-2 flex items-center justify-center">2</span>
+                        Nella finestra di dialogo che appare, seleziona <span className="mx-1 px-2 py-1 bg-gray-100 rounded">Installa</span>
+                      </p>
+                      <p className="flex items-center">
+                        <span className="inline-block w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mr-2 flex items-center justify-center">3</span>
+                        L'app verrà installata e apparirà sulla schermata Home
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button 
-              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-              size="lg"
-              onClick={handleInstallApp}
-              disabled={!deferredPrompt && !isIOS}
-            >
-              <Smartphone className="mr-2 h-5 w-5" />
-              {isIOS 
-                ? "Installa: tocca l'icona di condivisione e poi Aggiungi alla Home" 
-                : "Installa app sul dispositivo"}
-            </Button>
-          </CardFooter>
-        </Card>
+            </CardContent>
+            <CardFooter>
+              <Button 
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                size="lg"
+                onClick={handleInstallApp}
+              >
+                <Smartphone className="mr-2 h-5 w-5" />
+                {isIOS 
+                  ? "Installa: tocca l'icona di condivisione e poi Aggiungi alla Home" 
+                  : "Installa app sul dispositivo"}
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
       )}
     </div>
   );
