@@ -47,7 +47,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware specifico per il service worker - assicura che sia servito con il MIME type corretto
   app.get("/service-worker.js", (req, res) => {
     try {
-      const filePath = path.join(__dirname, "../public/service-worker.js");
+      // Utilizza il percorso assoluto basato sulla directory corrente
+      const rootDir = process.cwd();
+      const filePath = path.join(rootDir, "public/service-worker.js");
       
       // Verifica che il file esista
       if (fs.existsSync(filePath)) {
@@ -66,7 +68,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware per servire correttamente i file manifest
   app.get("/manifest.json", (req, res) => {
     try {
-      const filePath = path.join(__dirname, "../public/manifest.json");
+      // Utilizza il percorso assoluto basato sulla directory corrente
+      const rootDir = process.cwd();
+      const filePath = path.join(rootDir, "public/manifest.json");
       
       if (fs.existsSync(filePath)) {
         res.setHeader("Content-Type", "application/manifest+json");
@@ -83,7 +87,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/manifest.webmanifest", (req, res) => {
     try {
-      const filePath = path.join(__dirname, "../public/manifest.webmanifest");
+      // Utilizza il percorso assoluto basato sulla directory corrente
+      const rootDir = process.cwd();
+      const filePath = path.join(rootDir, "public/manifest.webmanifest");
       
       if (fs.existsSync(filePath)) {
         res.setHeader("Content-Type", "application/manifest+json");
@@ -102,7 +108,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/icons/:fileName", (req, res) => {
     try {
       const fileName = req.params.fileName;
-      const filePath = path.join(__dirname, "../public/icons", fileName);
+      
+      // Utilizza il percorso assoluto basato sulla directory corrente
+      const rootDir = process.cwd();
+      const filePath = path.join(rootDir, "public/icons", fileName);
       
       if (fs.existsSync(filePath)) {
         if (fileName.endsWith('.svg')) {
