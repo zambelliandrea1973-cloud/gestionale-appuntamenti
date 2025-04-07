@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Download, Smartphone } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Download, Smartphone, Share, MoreVertical, SaveIcon, Home } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { BeforeInstallPromptEvent } from '@/types/pwa';
@@ -560,8 +560,88 @@ export default function ClientArea() {
         )}
       </Card>
       
-      {/* Nuovo componente AddToHomeScreen che sostituisce la card precedente */}
-      {!isInstalled && <AddToHomeScreen />}
+      {/* Istruzioni semplificate per l'installazione dell'app sul dispositivo */}
+      {!isInstalled && (
+        <Card className="mb-6 border-2 border-blue-200 bg-blue-50/50">
+          <CardHeader>
+            <CardTitle className="text-center">
+              Aggiungi l'app alla schermata Home
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-center mb-2">
+              <Smartphone className="h-12 w-12 mx-auto text-blue-600 mb-2" />
+              <p className="text-sm text-muted-foreground">
+                Segui queste semplici istruzioni per salvare l'app sul tuo dispositivo
+              </p>
+            </div>
+            
+            <div className="space-y-3">
+              {/* Istruzioni per iOS */}
+              <div className="rounded-lg border p-3">
+                <h3 className="font-medium flex items-center mb-2">
+                  <Smartphone className="mr-2 h-5 w-5 text-blue-600" />
+                  iPhone/iPad
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start gap-2">
+                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
+                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">1</span>
+                    </div>
+                    <p>Tocca l'icona <Share className="h-4 w-4 inline-block mx-1" /> in basso (Safari)</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
+                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">2</span>
+                    </div>
+                    <p>Scorri e tocca "Aggiungi a Home"</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
+                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">3</span>
+                    </div>
+                    <p>Conferma toccando "Aggiungi"</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Istruzioni per Android */}
+              <div className="rounded-lg border p-3">
+                <h3 className="font-medium flex items-center mb-2">
+                  <Smartphone className="mr-2 h-5 w-5" />
+                  Android
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start gap-2">
+                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
+                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">1</span>
+                    </div>
+                    <p>Tocca l'icona <MoreVertical className="h-4 w-4 inline-block mx-1" /> (Chrome)</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
+                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">2</span>
+                    </div>
+                    <p>Seleziona "Installa app" o "Aggiungi a schermata Home"</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="bg-blue-100 p-1 rounded-full mt-0.5">
+                      <span className="block w-4 h-4 text-xs font-bold text-blue-700 text-center">3</span>
+                    </div>
+                    <p>Conferma toccando "Installa"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button onClick={() => {}} className="w-full gap-2 bg-blue-600 hover:bg-blue-700">
+              <SaveIcon className="h-5 w-5" />
+              Segui le istruzioni sopra per salvare l'app
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
       
       {/* Guida dettagliata all'installazione - mostra solo se l'app non è installata */}
       {!isInstalled && <InstallationGuide />}
