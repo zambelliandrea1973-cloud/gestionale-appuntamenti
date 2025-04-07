@@ -6,6 +6,7 @@ import { Calendar, Check, Clock, FileText, User, Download, Smartphone } from "lu
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { BeforeInstallPromptEvent } from '@/types/pwa';
+import { InstallationGuide } from "@/components/InstallationGuide";
 
 interface UserData {
   id: number;
@@ -312,12 +313,31 @@ export default function ClientArea() {
       }
     }
     
-    // Se non c'è un prompt disponibile, mostra istruzioni per l'installazione manuale
-    toast({
-      title: "Installazione manuale",
-      description: "Per installare questa app, usa il menu del browser (⋮) e seleziona 'Installa app'",
-      duration: 8000
-    });
+    // Se non c'è un prompt disponibile, mostra istruzioni diverse in base al browser
+    // Rileva il browser
+    const isChrome = navigator.userAgent.indexOf("Chrome") > -1;
+    const isFirefox = navigator.userAgent.indexOf("Firefox") > -1;
+    const isEdge = navigator.userAgent.indexOf("Edg") > -1;
+    
+    if (isChrome || isEdge) {
+      toast({
+        title: "Installazione manuale",
+        description: "Clicca sui tre puntini in alto a destra del browser ⋮ poi seleziona 'Installa app' o 'Installa Studio App'",
+        duration: 10000
+      });
+    } else if (isFirefox) {
+      toast({
+        title: "Installazione manuale",
+        description: "Clicca sui tre puntini o sull'icona del menu in alto a destra, poi seleziona 'Installa sito come applicazione'",
+        duration: 10000
+      });
+    } else {
+      toast({
+        title: "Browser non supportato",
+        description: "Prova a usare Chrome, Edge o Safari per installare l'app",
+        duration: 8000
+      });
+    }
   };
 
   if (loading) {
@@ -615,6 +635,9 @@ export default function ClientArea() {
           </CardFooter>
         </Card>
       )}
+      
+      {/* Guida dettagliata all'installazione - mostra solo se l'app non è installata */}
+      {!isInstalled && <InstallationGuide />}
     </div>
   );
 }
