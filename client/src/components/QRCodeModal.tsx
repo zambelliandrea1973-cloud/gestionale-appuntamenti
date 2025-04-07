@@ -19,9 +19,10 @@ interface QRCodeModalProps {
   open: boolean;
   onClose: () => void;
   onQrCodeGenerated?: (qrCode: string) => void;
+  initialTab?: "qrcode" | "link";
 }
 
-export default function QRCodeModal({ clientId, clientName, open, onClose, onQrCodeGenerated }: QRCodeModalProps) {
+export default function QRCodeModal({ clientId, clientName, open, onClose, onQrCodeGenerated, initialTab = "qrcode" }: QRCodeModalProps) {
   const { toast } = useToast();
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [activationUrl, setActivationUrl] = useState<string | null>(null);
@@ -116,7 +117,7 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
               <p className="mt-4 text-sm text-gray-500">Generazione QR code in corso...</p>
             </div>
           ) : qrCode ? (
-            <Tabs defaultValue="qrcode" className="w-full">
+            <Tabs defaultValue={initialTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="qrcode">QR Code</TabsTrigger>
                 <TabsTrigger value="link">Link diretto</TabsTrigger>
