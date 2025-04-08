@@ -5,6 +5,7 @@ import { Loader2, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentModal from "./AppointmentModal";
+import { useTranslation } from "react-i18next";
 
 interface DayViewProps {
   selectedDate: Date;
@@ -12,6 +13,7 @@ interface DayViewProps {
 }
 
 export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
+  const { t, i18n } = useTranslation();
   const [timeSlots] = useState(() => generateTimeSlots(8, 22));
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
@@ -74,7 +76,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Day header */}
       <div className="bg-gray-100 px-4 py-3 border-b">
-        <h3 className="text-lg font-medium">{formatDateFull(selectedDate)}</h3>
+        <h3 className="text-lg font-medium">{selectedDate.toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
       </div>
       
       {/* Time slots */}
@@ -127,7 +129,7 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
                           handleTimeSlotClick(timeSlot);
                         }}
                       >
-                        + Nuovo appuntamento
+                        + {t('calendar.addAppointment')}
                       </a>
                     </div>
                   )}
