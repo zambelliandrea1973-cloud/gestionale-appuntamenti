@@ -43,14 +43,16 @@ function SimpleApp(): React.ReactElement {
         }}>
           {/* Immagine con effetto rotazione (usando classe CSS) */}
           <img 
-            src="/attached_assets/Fleur de Vie multicolore.jpg" 
+            src="/attached_assets/Fleur%20de%20Vie%20multicolore.jpg" 
             alt="Fleur de Vie"
             className="hover:rotate-30"
             style={{ 
-              width: '150px', 
-              height: '150px',
+              width: '250px', 
+              height: '250px',
               borderRadius: '9999px',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              border: '4px solid #556b2f',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
             }}
           />
           
