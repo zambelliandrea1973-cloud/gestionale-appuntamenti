@@ -43,75 +43,6 @@
         margin-bottom: 2rem;
       }
       
-      /* Navbar */
-      .navbar {
-        background-color: white;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        padding: 0.75rem 1.5rem;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-      
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-      
-      .logo {
-        display: flex;
-        align-items: center;
-        font-weight: 700;
-        font-size: 1.25rem;
-        color: #4f46e5;
-        text-decoration: none;
-      }
-      
-      .logo img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 0.75rem;
-        transition: transform 0.5s ease;
-      }
-      
-      .logo:hover img {
-        transform: rotate(30deg);
-      }
-      
-      .nav-links {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      
-      .nav-links li {
-        margin-left: 1.5rem;
-      }
-      
-      .nav-links a {
-        color: #4b5563;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-      }
-      
-      .nav-links a:hover {
-        color: #4f46e5;
-      }
-      
-      .hamburger {
-        display: none;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5rem;
-      }
-      
       /* Layout dashboard */
       .dashboard {
         display: grid;
@@ -178,15 +109,6 @@
         background-color: #e0e7ff;
       }
       
-      .btn-primary {
-        background-color: #4f46e5;
-        color: white;
-      }
-      
-      .btn-primary:hover {
-        background-color: #4338ca;
-      }
-      
       /* Fleur de Vie styles */
       .fleur-container {
         display: flex;
@@ -209,200 +131,6 @@
         transform: rotate(30deg);
       }
       
-      /* Appointment modal */
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        overflow: auto;
-      }
-      
-      .modal-content {
-        background-color: white;
-        margin: 5% auto;
-        padding: 2rem;
-        border-radius: 8px;
-        max-width: 600px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        position: relative;
-      }
-      
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-      }
-      
-      .modal-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #111827;
-      }
-      
-      .close-modal {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #6b7280;
-      }
-      
-      .form-group {
-        margin-bottom: 1.25rem;
-      }
-      
-      .form-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: #374151;
-      }
-      
-      .form-input {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 1rem;
-        font-family: inherit;
-      }
-      
-      .form-input:focus {
-        outline: none;
-        border-color: #4f46e5;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-      }
-      
-      .form-select {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 1rem;
-        font-family: inherit;
-        background-color: white;
-      }
-      
-      .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-      
-      .btn-modal {
-        padding: 0.75rem 1.5rem;
-        border-radius: 6px;
-        font-weight: 500;
-        cursor: pointer;
-        border: none;
-      }
-      
-      .btn-cancel {
-        background-color: #f3f4f6;
-        color: #4b5563;
-      }
-      
-      .btn-save {
-        background-color: #4f46e5;
-        color: white;
-      }
-      
-      /* Calendar */
-      .calendar-container {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        padding: 1.5rem;
-        margin-top: 2rem;
-      }
-      
-      .calendar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-      }
-      
-      .calendar-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #111827;
-      }
-      
-      .calendar-actions {
-        display: flex;
-        gap: 0.5rem;
-      }
-      
-      .calendar-btn {
-        padding: 0.5rem;
-        border-radius: 6px;
-        background-color: #f3f4f6;
-        border: none;
-        cursor: pointer;
-        color: #4b5563;
-      }
-      
-      .calendar-btn:hover {
-        background-color: #e5e7eb;
-      }
-      
-      .calendar-btn.active {
-        background-color: #4f46e5;
-        color: white;
-      }
-      
-      .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 0.5rem;
-      }
-      
-      .calendar-day {
-        text-align: center;
-        padding: 0.5rem;
-        font-weight: 500;
-        color: #6b7280;
-      }
-      
-      .calendar-date {
-        height: 120px;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        padding: 0.5rem;
-        overflow: hidden;
-      }
-      
-      .calendar-date.today {
-        background-color: #eef2ff;
-        border-color: #4f46e5;
-      }
-      
-      .date-number {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-      }
-      
-      .appointment {
-        font-size: 0.85rem;
-        padding: 0.25rem 0.5rem;
-        background-color: #e0e7ff;
-        color: #4338ca;
-        border-radius: 4px;
-        margin-bottom: 0.25rem;
-        cursor: pointer;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      
       /* Footer */
       footer {
         margin-top: 4rem;
@@ -422,36 +150,6 @@
         text-decoration: underline;
       }
       
-      /* Notification container */
-      .notification {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 1rem;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        border-left: 4px solid #4f46e5;
-        max-width: 350px;
-        transform: translateX(400px);
-        transition: transform 0.3s ease;
-        z-index: 1000;
-      }
-      
-      .notification.show {
-        transform: translateX(0);
-      }
-      
-      .notification-title {
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-      
-      .notification-message {
-        color: #6b7280;
-        font-size: 0.9rem;
-      }
-      
       /* Responsive */
       @media (max-width: 768px) {
         .dashboard {
@@ -464,49 +162,6 @@
         
         h1 {
           font-size: 2rem;
-        }
-        
-        .nav-links {
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 0;
-          width: 100%;
-          background-color: white;
-          flex-direction: column;
-          padding: 1rem;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-links.active {
-          display: flex;
-        }
-        
-        .nav-links li {
-          margin: 0.5rem 0;
-        }
-        
-        .hamburger {
-          display: block;
-        }
-        
-        .calendar-grid {
-          grid-template-columns: repeat(1, 1fr);
-        }
-        
-        .calendar-day {
-          display: none;
-        }
-        
-        .calendar-date {
-          height: auto;
-          display: flex;
-          align-items: center;
-        }
-        
-        .date-number {
-          margin-right: 0.5rem;
-          margin-bottom: 0;
         }
       }
       
@@ -539,32 +194,6 @@
     </style>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="/" class="logo">
-          <img src="/attached_assets/Fleur de Vie multicolore.jpg" alt="Fleur de Vie">
-          <span>Gestione Appuntamenti</span>
-        </a>
-        
-        <button class="hamburger" id="toggleMenu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-        
-        <ul class="nav-links" id="navLinks">
-          <li><a href="/">Home</a></li>
-          <li><a href="/calendar.html">Calendario</a></li>
-          <li><a href="/clients.html">Clienti</a></li>
-          <li><a href="/invoices.html">Fatture</a></li>
-          <li><a href="/reports.html">Report</a></li>
-        </ul>
-      </div>
-    </nav>
-    
     <!-- Pagina statica invece di React -->
     <div class="container">
       <header>
@@ -596,7 +225,7 @@
             Visualizza e gestisci gli appuntamenti in modalità giornaliera, settimanale o mensile.
             Organizza la tua agenda in modo efficiente.
           </p>
-          <a href="/calendar.html" class="btn" id="btnCalendar">Vai al Calendario</a>
+          <a href="/calendar" class="btn">Vai al Calendario</a>
         </div>
         
         <div class="card animate-fade-in" style="animation-delay: 0.2s;">
@@ -613,7 +242,7 @@
             Gestisci l'anagrafica clienti, visualizza e modifica i dati personali e medici.
             Tieni traccia di tutti i dettagli importanti.
           </p>
-          <a href="/clients.html" class="btn" id="btnClients">Gestisci Clienti</a>
+          <a href="/clients" class="btn">Gestisci Clienti</a>
         </div>
         
         <div class="card animate-fade-in" style="animation-delay: 0.3s;">
@@ -629,7 +258,7 @@
             Crea e gestisci fatture, registra pagamenti e monitora lo stato delle fatture.
             Tieni sotto controllo l'aspetto economico del tuo lavoro.
           </p>
-          <a href="/invoices.html" class="btn" id="btnInvoices">Gestisci Fatture</a>
+          <a href="/invoices" class="btn">Gestisci Fatture</a>
         </div>
         
         <div class="card animate-fade-in" style="animation-delay: 0.4s;">
@@ -645,238 +274,35 @@
             Visualizza report giornalieri, settimanali e mensili per analizzare l'andamento delle attività
             e prendere decisioni basate sui dati.
           </p>
-          <a href="/reports.html" class="btn" id="btnReports">Visualizza Report</a>
+          <a href="/reports" class="btn">Visualizza Report</a>
         </div>
-      </div>
-      
-      <!-- Contenitore del calendario mini -->
-      <div class="calendar-container animate-fade-in" style="animation-delay: 0.5s;">
-        <div class="calendar-header">
-          <h2 class="calendar-title">Prossimi Appuntamenti</h2>
-          <div>
-            <button class="btn btn-primary" id="newAppointmentBtn">Nuovo Appuntamento</button>
-          </div>
-        </div>
-        
-        <div id="upcomingAppointments">
-          <p class="text-center text-gray-500">Caricamento appuntamenti...</p>
-        </div>
-      </div>
-      
-      <!-- Modal per creare appuntamento -->
-      <div class="modal" id="appointmentModal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title">Nuovo Appuntamento</h2>
-            <button class="close-modal" id="closeModal">&times;</button>
-          </div>
-          
-          <form id="appointmentForm">
-            <div class="form-group">
-              <label for="clientName" class="form-label">Cliente</label>
-              <input type="text" id="clientName" class="form-input" placeholder="Nome del cliente" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="appointmentDate" class="form-label">Data</label>
-              <input type="date" id="appointmentDate" class="form-input" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="appointmentTime" class="form-label">Ora</label>
-              <input type="time" id="appointmentTime" class="form-input" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="serviceType" class="form-label">Servizio</label>
-              <select id="serviceType" class="form-select" required>
-                <option value="">Seleziona un servizio</option>
-                <option value="test_diacom">Test Diacom</option>
-                <option value="terapia_bicom">Terapia Bicom</option>
-                <option value="terapia_zapter">Terapia luce Zapter</option>
-                <option value="detox">Detox</option>
-                <option value="altro">Altro</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="notes" class="form-label">Note</label>
-              <textarea id="notes" class="form-input" rows="3" placeholder="Note aggiuntive"></textarea>
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" class="btn-modal btn-cancel" id="cancelModal">Annulla</button>
-              <button type="submit" class="btn-modal btn-save">Salva</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      
-      <!-- Notification container -->
-      <div class="notification" id="notification">
-        <div class="notification-title">Notifica</div>
-        <div class="notification-message" id="notificationMessage"></div>
       </div>
       
       <footer>
         <p>
           <a href="/debug.html">Pagina di Debug</a> | 
-          <a href="#" id="toggleDarkMode">Cambia Tema</a>
+          <a href="#" onclick="window.location.href='/src/main.tsx'">Versione React</a>
         </p>
       </footer>
     </div>
-    
+
     <!-- JavaScript -->
     <script>
-      // Seleziona elementi DOM
-      const toggleMenu = document.getElementById('toggleMenu');
-      const navLinks = document.getElementById('navLinks');
-      const newAppointmentBtn = document.getElementById('newAppointmentBtn');
-      const appointmentModal = document.getElementById('appointmentModal');
-      const closeModal = document.getElementById('closeModal');
-      const cancelModal = document.getElementById('cancelModal');
-      const appointmentForm = document.getElementById('appointmentForm');
-      const notification = document.getElementById('notification');
-      const notificationMessage = document.getElementById('notificationMessage');
-      const upcomingAppointments = document.getElementById('upcomingAppointments');
-      
-      // Toggle menu mobile
-      toggleMenu.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-      
-      // Apri modal appuntamento
-      newAppointmentBtn.addEventListener('click', () => {
-        appointmentModal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Disabilita scroll
-      });
-      
-      // Chiudi modal
-      function closeAppointmentModal() {
-        appointmentModal.style.display = 'none';
-        document.body.style.overflow = ''; // Riabilita scroll
+      // Verifica che l'immagine esista
+      function checkImage(url) {
+        const img = new Image();
+        img.src = url;
+        img.onerror = function() {
+          console.error('Errore caricamento immagine:', url);
+          // Sostituisci con un'immagine di fallback o mostra un messaggio
+          document.querySelectorAll('img[src="' + url + '"]').forEach(img => {
+            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+          });
+        };
       }
       
-      closeModal.addEventListener('click', closeAppointmentModal);
-      cancelModal.addEventListener('click', closeAppointmentModal);
-      
-      // Chiudi modal se clicchi fuori dal contenuto
-      window.addEventListener('click', (event) => {
-        if (event.target === appointmentModal) {
-          closeAppointmentModal();
-        }
-      });
-      
-      // Gestione form appuntamento
-      appointmentForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        
-        // Raccogli dati form
-        const clientName = document.getElementById('clientName').value;
-        const appointmentDate = document.getElementById('appointmentDate').value;
-        const appointmentTime = document.getElementById('appointmentTime').value;
-        const serviceType = document.getElementById('serviceType').value;
-        const notes = document.getElementById('notes').value;
-        
-        // Qui invieresti i dati al server tramite API
-        console.log('Appuntamento:', {
-          clientName,
-          appointmentDate,
-          appointmentTime,
-          serviceType,
-          notes
-        });
-        
-        // Demo: simula salvataggio
-        closeAppointmentModal();
-        showNotification('Appuntamento salvato con successo!');
-        
-        // Aggiorna lista appuntamenti
-        loadUpcomingAppointments();
-        
-        // Reset form
-        appointmentForm.reset();
-      });
-      
-      // Mostra notifica
-      function showNotification(message) {
-        notificationMessage.textContent = message;
-        notification.classList.add('show');
-        
-        // Nascondi dopo 3 secondi
-        setTimeout(() => {
-          notification.classList.remove('show');
-        }, 3000);
-      }
-      
-      // Carica appuntamenti demo
-      function loadUpcomingAppointments() {
-        // In una vera app, questi dati verrebbero dal server
-        const appointments = [
-          { id: 1, client: 'Mario Rossi', date: '2025-04-08', time: '10:00', service: 'Test Diacom' },
-          { id: 2, client: 'Laura Bianchi', date: '2025-04-08', time: '14:30', service: 'Terapia Bicom' },
-          { id: 3, client: 'Giuseppe Verdi', date: '2025-04-09', time: '09:15', service: 'Detox' },
-          { id: 4, client: 'Sofia Neri', date: '2025-04-10', time: '16:00', service: 'Terapia luce Zapter' }
-        ];
-        
-        // Formatta data
-        function formatDate(dateStr) {
-          const date = new Date(dateStr);
-          return date.toLocaleDateString('it-IT', { 
-            weekday: 'long', 
-            day: 'numeric', 
-            month: 'long' 
-          });
-        }
-        
-        // Genera HTML
-        let html = '';
-        
-        if (appointments.length === 0) {
-          html = '<p class="text-center">Nessun appuntamento in programma.</p>';
-        } else {
-          html = '<div style="display: grid; gap: 0.75rem;">';
-          
-          appointments.forEach(appointment => {
-            html += `
-              <div class="appointment-item" style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                  <div style="font-weight: 600;">${appointment.client}</div>
-                  <div style="color: #6b7280; font-size: 0.9rem;">${formatDate(appointment.date)} - ${appointment.time}</div>
-                  <div style="color: #4f46e5; font-size: 0.85rem;">${appointment.service}</div>
-                </div>
-                <button class="view-appointment" data-id="${appointment.id}" style="background: none; border: none; color: #4f46e5; cursor: pointer;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 18l6-6-6-6"></path>
-                  </svg>
-                </button>
-              </div>
-            `;
-          });
-          
-          html += '</div>';
-        }
-        
-        upcomingAppointments.innerHTML = html;
-        
-        // Aggiungi event listener ai pulsanti di visualizzazione
-        document.querySelectorAll('.view-appointment').forEach(button => {
-          button.addEventListener('click', () => {
-            const appointmentId = button.getAttribute('data-id');
-            // Qui navigheresti alla pagina di dettaglio dell'appuntamento
-            showNotification(`Visualizzazione appuntamento ${appointmentId}`);
-          });
-        });
-      }
-      
-      // Inizializza appuntamenti all'avvio
-      document.addEventListener('DOMContentLoaded', () => {
-        loadUpcomingAppointments();
-        
-        // Set data di oggi come default per il nuovo appuntamento
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('appointmentDate').value = today;
-      });
+      // Controlla l'immagine all'avvio
+      checkImage('/attached_assets/Fleur de Vie multicolore.jpg');
     </script>
   </body>
 </html>
