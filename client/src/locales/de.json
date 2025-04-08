@@ -4,6 +4,16 @@
     "welcome": "Willkommen bei der Terminverwaltung",
     "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
   },
+  "navigation": {
+    "home": "Startseite"
+  },
+  "sidebar": {
+    "clients": "Kunden",
+    "calendar": "Kalender",
+    "invoices": "Rechnungen",
+    "reports": "Berichte",
+    "settings": "Einstellungen"
+  },
   "language": {
     "it": "Italienisch",
     "en": "Englisch",
@@ -44,11 +54,19 @@
   },
   "calendar": {
     "title": "Kalender",
+    "description": "Termine anzeigen und verwalten",
+    "subDescription": "Termine im Tages-, Wochen- oder Monatsformat anzeigen und einfach neue Termine erstellen",
+    "goTo": "Zum Kalender",
     "daily": "Täglich",
     "weekly": "Wöchentlich",
     "monthly": "Monatlich",
+    "weekView": "Wochenansicht",
+    "monthView": "Monatsansicht",
     "addAppointment": "Neuer Termin",
     "today": "Heute",
+    "searchResults": "Suchergebnisse",
+    "noAppointmentsFound": "Keine Termine gefunden für",
+    "goToDay": "Zum Tag gehen",
     "days": {
       "monday": "Montag",
       "tuesday": "Dienstag",
@@ -75,7 +93,32 @@
   },
   "clients": {
     "title": "Kunden",
+    "description": "Kundeninformationen verwalten",
+    "subDescription": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen",
+    "goTo": "Kunden verwalten",
     "addClient": "Neuer Kunde",
+    "newClient": "Neuer Kunde",
+    "addFirstClient": "Ersten Kunden hinzufügen",
+    "search": {
+      "placeholder": "Kunden nach Namen, Telefon oder E-Mail durchsuchen...",
+      "minLength": "Geben Sie mindestens 2 Zeichen für die Suche ein"
+    },
+    "filter": {
+      "all": "Alle",
+      "frequent": "Häufig",
+      "noConsent": "Ohne Einwilligung"
+    },
+    "noClientsFound": "Keine Kunden gefunden",
+    "noClientsInSystem": "Es sind keine Kunden im System registriert",
+    "noResultsMatch": "Keine Kunden entsprechen den Suchkriterien \"{{query}}\"",
+    "refreshSuccess": "Die Kundendaten wurden aktualisiert",
+    "lastUpdate": "Letzte Aktualisierung",
+    "autoUpdate": "Automatische Aktualisierung jede Stunde und um 23:59 Uhr",
+    "stats": {
+      "total": "Kunden gesamt",
+      "frequent": "Häufige Kunden",
+      "noConsent": "Ohne Einwilligung"
+    },
     "search": "Kunde suchen",
     "table": {
       "name": "Vorname",
@@ -108,6 +151,9 @@
   },
   "invoices": {
     "title": "Rechnungen",
+    "description": "Rechnungen und Zahlungen verwalten",
+    "subDescription": "Erstellen und verwalten Sie Rechnungen, erfassen Sie Zahlungen und überwachen Sie den Rechnungsstatus in Echtzeit",
+    "goTo": "Rechnungen verwalten",
     "addInvoice": "Neue Rechnung",
     "table": {
       "number": "Nummer",
@@ -125,6 +171,9 @@
   },
   "reports": {
     "title": "Berichte",
+    "description": "Geschäftsentwicklung analysieren",
+    "subDescription": "Tägliche, wöchentliche und monatliche Berichte anzeigen, um die Geschäftsentwicklung zu analysieren",
+    "goTo": "Berichte anzeigen",
     "daily": "Tagesbericht",
     "weekly": "Wochenbericht",
     "monthly": "Monatsbericht",
@@ -159,7 +208,10 @@
     "address": "Adresse",
     "date": "Datum",
     "time": "Zeit",
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "support": "Unterstützung",
+    "terms": "Nutzungsbedingungen",
+    "refresh": "Aktualisieren"
   },
   "notifications": {
     "success": "Vorgang erfolgreich abgeschlossen",

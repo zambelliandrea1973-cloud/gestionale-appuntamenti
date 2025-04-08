@@ -4,6 +4,16 @@
     "welcome": "Bienvenue dans la Gestion des Rendez-vous",
     "description": "Gérez facilement les rendez-vous, les clients et les factures"
   },
+  "navigation": {
+    "home": "Accueil"
+  },
+  "sidebar": {
+    "clients": "Clients",
+    "calendar": "Calendrier",
+    "invoices": "Factures",
+    "reports": "Rapports",
+    "settings": "Paramètres"
+  },
   "language": {
     "it": "Italien",
     "en": "Anglais",
@@ -44,11 +54,19 @@
   },
   "calendar": {
     "title": "Calendrier",
+    "description": "Visualisez et gérez tous les rendez-vous",
+    "subDescription": "Affichez les rendez-vous en mode quotidien, hebdomadaire ou mensuel, et créez facilement de nouveaux rendez-vous",
+    "goTo": "Accéder au Calendrier",
     "daily": "Quotidien",
     "weekly": "Hebdomadaire",
     "monthly": "Mensuel",
+    "weekView": "Vue hebdomadaire",
+    "monthView": "Vue mensuelle",
     "addAppointment": "Nouveau Rendez-vous",
     "today": "Aujourd'hui",
+    "searchResults": "Résultats de recherche",
+    "noAppointmentsFound": "Aucun rendez-vous trouvé pour",
+    "goToDay": "Aller au jour",
     "days": {
       "monday": "Lundi",
       "tuesday": "Mardi",
@@ -75,7 +93,32 @@
   },
   "clients": {
     "title": "Clients",
+    "description": "Gérez les informations des clients",
+    "subDescription": "Ajoutez, modifiez et visualisez les données des clients, y compris les informations personnelles et médicales",
+    "goTo": "Gérer les Clients",
     "addClient": "Nouveau Client",
+    "newClient": "Nouveau Client",
+    "addFirstClient": "Ajouter le premier client",
+    "search": {
+      "placeholder": "Rechercher des clients par nom, téléphone ou email...",
+      "minLength": "Entrez au moins 2 caractères pour rechercher"
+    },
+    "filter": {
+      "all": "Tous",
+      "frequent": "Fréquents",
+      "noConsent": "Sans Consentement"
+    },
+    "noClientsFound": "Aucun client trouvé",
+    "noClientsInSystem": "Aucun client n'est enregistré dans le système",
+    "noResultsMatch": "Aucun client ne correspond aux critères de recherche \"{{query}}\"",
+    "refreshSuccess": "Les données des clients ont été mises à jour",
+    "lastUpdate": "Dernière mise à jour",
+    "autoUpdate": "Mise à jour automatique toutes les heures et à 23h59",
+    "stats": {
+      "total": "Total des clients",
+      "frequent": "Clients fréquents",
+      "noConsent": "Sans consentement"
+    },
     "search": "Rechercher un client",
     "table": {
       "name": "Prénom",
@@ -108,6 +151,9 @@
   },
   "invoices": {
     "title": "Factures",
+    "description": "Gérez les factures et les paiements",
+    "subDescription": "Créez et gérez des factures, enregistrez les paiements et suivez l'état des factures en temps réel",
+    "goTo": "Gérer les Factures",
     "addInvoice": "Nouvelle Facture",
     "table": {
       "number": "Numéro",
@@ -125,6 +171,9 @@
   },
   "reports": {
     "title": "Rapports",
+    "description": "Analysez la performance de l'entreprise",
+    "subDescription": "Consultez des rapports quotidiens, hebdomadaires et mensuels pour analyser la performance de l'entreprise",
+    "goTo": "Voir les Rapports",
     "daily": "Rapport Quotidien",
     "weekly": "Rapport Hebdomadaire",
     "monthly": "Rapport Mensuel",
@@ -159,7 +208,10 @@
     "address": "Adresse",
     "date": "Date",
     "time": "Heure",
-    "description": "Description"
+    "description": "Description",
+    "support": "Support",
+    "terms": "Conditions d'utilisation",
+    "refresh": "Actualiser"
   },
   "notifications": {
     "success": "Opération réussie",
