@@ -2,13 +2,208 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Gestione Appuntamenti</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Metadati PWA migliorati -->
+    <meta name="description" content="Gestisci i tuoi appuntamenti e consensi" />
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="App Cliente">
+    
+    <!-- Web App Manifest - supporto per entrambi i formati -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.webmanifest">
+    
+    <!-- FAVICON per browser che non supportano PWA -->
+    <link rel="icon" type="image/svg+xml" href="/icons/app-icon.svg">
+    <link rel="shortcut icon" href="/icons/app-icon.svg">
+    
+    <!-- iOS support esteso -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="App Cliente">
+    
+    <!-- Icone per iOS - multiple dimensioni per maggiore compatibilità -->
+    <link rel="apple-touch-icon" href="/icons/default-app-icon.jpg">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/default-app-icon.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/default-app-icon.jpg">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icons/default-app-icon.jpg">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/icons/default-app-icon.jpg">
+    
+    <!-- Splash screen per iOS (iPhone X/XS/11 Pro) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/icons/default-app-icon.jpg">
+    <!-- iPhone 8, 7, 6s, 6 -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/icons/default-app-icon.jpg">
+    <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/icons/default-app-icon.jpg">
+    <!-- iPhone 5, 5c, 5s, SE -->
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="/icons/default-app-icon.jpg">
+    <!-- iPad Pro 12.9" -->
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/icons/default-app-icon.jpg">
+    <!-- iPad Pro 11" -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="/icons/default-app-icon.jpg">
+    <!-- iPad Pro 10.5", iPad Air -->
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="/icons/default-app-icon.jpg">
+    <!-- iPad Mini, iPad -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="/icons/default-app-icon.jpg">
+    
+    <!-- MS Tiles per dispositivi Windows -->
+    <meta name="msapplication-TileImage" content="/icons/app-icon.svg">
+    <meta name="msapplication-TileColor" content="#4f46e5">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Per debugging
+      window.isPWADebug = true;
+      
+      // Funzione per verificare se l'app è installata
+      function checkIfInstalled() {
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isFullScreen = window.navigator.standalone;
+        
+        console.log('PWA check - standalone mode:', isStandalone);
+        console.log('PWA check - iOS fullscreen:', isFullScreen);
+        
+        return isStandalone || isFullScreen;
+      }
+      
+      // Variabili globali per PWA
+      window.__pwaInstallEventAttached = false;
+      window.__pwaIsInstalled = checkIfInstalled();
+      
+      // Gestione dell'evento di installazione
+      function handleBeforeInstallPrompt(e) {
+        console.log('Evento beforeinstallprompt catturato', e);
+        
+        // Fondamentale: prevenire il comportamento di default
+        e.preventDefault();
+        
+        // Salvataggio dell'evento per uso futuro
+        window.__installPromptEvent = e;
+        window.__pwaInstallEventAttached = true;
+        
+        // Notificare i componenti React
+        const readyEvent = new Event('pwaInstallReady');
+        window.dispatchEvent(readyEvent);
+        
+        // Debug
+        if (window.isPWADebug) {
+          console.log('Deferring PWA install prompt');
+          // Mostra un avviso a video
+          setTimeout(() => {
+            const debugDiv = document.createElement('div');
+            debugDiv.style.position = 'fixed';
+            debugDiv.style.bottom = '10px';
+            debugDiv.style.right = '10px';
+            debugDiv.style.padding = '10px';
+            debugDiv.style.background = 'green';
+            debugDiv.style.color = 'white';
+            debugDiv.style.zIndex = '9999';
+            debugDiv.style.borderRadius = '5px';
+            debugDiv.innerHTML = 'PWA installabile 👍';
+            document.body.appendChild(debugDiv);
+            
+            setTimeout(() => {
+              debugDiv.remove();
+            }, 5000);
+          }, 2000);
+        }
+      }
+      
+      // Registrazione del Service Worker migliorata con migliore gestione errori
+      function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+              .then(reg => {
+                console.log('Service Worker registrato con successo:', reg.scope);
+                
+                // Verifica se c'è un update disponibile
+                reg.onupdatefound = () => {
+                  const installingWorker = reg.installing;
+                  installingWorker.onstatechange = () => {
+                    if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      console.log('Nuovo contenuto disponibile; aggiorna la pagina');
+                    }
+                  };
+                };
+                
+                // Controllo degli errori durante l'attivazione
+                if (reg.installing) {
+                  reg.installing.onstatechange = function() {
+                    if (this.state === 'redundant') {
+                      console.error('Service Worker diventato ridondante durante l\'installazione');
+                      // Riprova l'installazione dopo un ritardo
+                      setTimeout(registerServiceWorker, 2000);
+                    }
+                  };
+                }
+                
+                return reg;
+              })
+              .catch(err => {
+                console.error('Errore durante la registrazione del Service Worker:', err);
+                
+                // Un errore comune è causato da HTTPS misto o dalla cache del browser
+                const errorMessage = err.message || 'Errore sconosciuto';
+                console.error('Dettagli errore Service Worker:', errorMessage);
+                
+                // Mettiamo a disposizione altre informazioni per il debugging
+                if (window.isPWADebug) {
+                  console.log('Navigator serviceWorker:', navigator.serviceWorker);
+                  console.log('Location protocol:', window.location.protocol);
+                  console.log('User agent:', navigator.userAgent);
+                }
+              });
+          });
+        } else {
+          console.warn('Service Worker non supportato dal browser');
+        }
+      }
+      
+      // Avvio immediato della registrazione del Service Worker
+      registerServiceWorker();
+      
+      // Gestione dell'evento beforeinstallprompt
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      
+      // Gestione dell'installazione completata
+      window.addEventListener('appinstalled', (event) => {
+        console.log('App installata con successo!', event);
+        window.__pwaIsInstalled = true;
+        window.__installPromptEvent = null;
+        
+        // Notificare i componenti React
+        const installedEvent = new Event('pwaInstalled');
+        window.dispatchEvent(installedEvent);
+        
+        // Debug
+        if (window.isPWADebug) {
+          // Mostra un avviso a video
+          const debugDiv = document.createElement('div');
+          debugDiv.style.position = 'fixed';
+          debugDiv.style.top = '50%';
+          debugDiv.style.left = '50%';
+          debugDiv.style.transform = 'translate(-50%, -50%)';
+          debugDiv.style.padding = '20px';
+          debugDiv.style.background = 'green';
+          debugDiv.style.color = 'white';
+          debugDiv.style.zIndex = '9999';
+          debugDiv.style.borderRadius = '5px';
+          debugDiv.style.textAlign = 'center';
+          debugDiv.innerHTML = '<strong>App installata con successo!</strong><br>Riavvio in corso...';
+          document.body.appendChild(debugDiv);
+          
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        }
+      });
+    </script>
   </body>
 </html>
