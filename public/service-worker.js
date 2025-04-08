@@ -1,199 +1,129 @@
-// Nome della cache
-const CACHE_NAME = 'studio-app-v6';
+// Nome e versione della cache
+const CACHE_NAME = 'gestionale-appuntamenti-v1.0.1';
 
-// File da memorizzare nella cache per il funzionamento offline
+// Asset da cachare inizialmente (files, immagini, fonts, ecc.)
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/manifest.webmanifest',
-  '/client-area',
-  '/client-login',
-  '/consent',
-  '/icons/app-icon.svg',
-  '/icons/default-app-icon.jpg'
+  '/icons/default-app-icon.jpg',
+  '/icons/app-icon.svg'
 ];
-
-// Impedisci errori di cache per i file generati dinamicamente da Vite
-self.addEventListener('push', () => {
-  // Gestione base per evitare errori di mancanza di gestione
-  console.log('Evento push ricevuto');
-});
 
 // Installazione del Service Worker
 self.addEventListener('install', (event) => {
-  console.log('Service Worker installato');
-  // Forza l'attivazione immediata senza aspettare il refresh della pagina
-  self.skipWaiting();
+  console.log('[Service Worker] Installazione');
   
-  // Strategia di cache affidabile: aggiungiamo i file uno per uno
+  // Esecuzione fino al completamento dell'installazione
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Cache aperta');
-        
-        // Promise.all per gestire errori individuali senza interrompere tutto il processo
-        return Promise.all(
-          urlsToCache.map(url => {
-            return cache.add(url).catch(error => {
-              console.error(`Errore durante il caching di ${url}:`, error);
-              // Continuiamo con gli altri file anche se uno fallisce
-              return Promise.resolve();
-            });
-          })
-        );
+        console.log('[Service Worker] Creazione cache');
+        return cache.addAll(urlsToCache);
       })
-      .catch((error) => {
-        console.error('Errore critico durante la cache:', error);
+      .then(() => {
+        console.log('[Service Worker] Tutti i file sono stati cachati');
+        return self.skipWaiting();
       })
   );
 });
 
 // Attivazione del Service Worker
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker attivato');
-  // Forza il controllo immediato di tutte le pagine
-  event.waitUntil(clients.claim());
+  console.log('[Service Worker] Attivazione');
   
-  const cacheWhitelist = [CACHE_NAME];
+  // Rimuovere le vecchie versioni della cache
   event.waitUntil(
     caches.keys().then((cacheNames) => {
-      console.log('Cache esistenti:', cacheNames);
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            // Elimina le cache vecchie che non sono più necessarie
-            console.log('Eliminazione cache vecchia:', cacheName);
+          if (cacheName !== CACHE_NAME) {
+            console.log('[Service Worker] Rimozione della vecchia cache', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
+    }).then(() => {
+      console.log('[Service Worker] Rivendicazione dei clients');
+      return self.clients.claim();
     })
   );
 });
 
-// Gestione delle richieste di rete
+// Strategia di caching: Cache First, poi Network
 self.addEventListener('fetch', (event) => {
-  // Proteggi da errori non gestiti che potrebbero causare crash del service worker
-  try {
-    // Ignora le richieste di favicon o di file di sviluppo Vite che potrebbero causare problemi
-    if (
-      event.request.url.includes('favicon.ico') || 
-      event.request.url.includes('__vite') ||
-      event.request.url.match(/\.(hot-update|map)$/)
-    ) {
-      return;
-    }
-    
-    // Gestione delle richieste in base al metodo
-    if (event.request.method !== 'GET') {
-      return;
-    }
-    
-    // Per le richieste API, prova prima la rete e poi fallback sulla cache
-    if (event.request.url.includes('/api/')) {
-      event.respondWith(
-        fetch(event.request)
-          .catch(() => {
-            console.log('Fallback alla cache per richiesta API:', event.request.url);
-            return caches.match(event.request);
-          })
-      );
-    } else {
-      // Per risorse statiche o navigazione, usa la strategia cache-first
-      event.respondWith(
-        caches.match(event.request)
+  // Ignoriamo le richieste di analytics o di terze parti
+  if (event.request.url.includes('/api/')) {
+    return;
+  }
+  
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Cache hit - restituiamo la risposta dalla cache
+        if (response) {
+          return response;
+        }
+        
+        // Cloniamo la richiesta perché può essere usata una volta sola
+        const fetchRequest = event.request.clone();
+        
+        return fetch(fetchRequest)
           .then((response) => {
-            // La risorsa è stata trovata nella cache
-            if (response) {
+            // Controlliamo se abbiamo ricevuto una risposta valida
+            if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
             
-            // Se la risorsa non è nella cache, scaricala dalla rete
-            return fetch(event.request)
-              .then((networkResponse) => {
-                // Se la richiesta fallisce, ritorna un errore gestito
-                if (!networkResponse || networkResponse.status !== 200) {
-                  // Per le pagine dell'app, ritorna la pagina principale
-                  if (event.request.url.includes('/client-') || 
-                      event.request.url.includes('/consent')) {
-                    console.log('Reindirizzamento a index.html per:', event.request.url);
-                    return caches.match('/index.html');
-                  }
-                  return networkResponse;
-                }
-
-                // Clona la risposta perché il body può essere usato solo una volta
-                const responseToCache = networkResponse.clone();
-
-                // Memorizza nella cache solo le risorse che ne valergono la pena
-                const saveToCache = (
-                  event.request.url.includes('/icons/') || 
-                  event.request.url.endsWith('.html') ||
-                  event.request.url.endsWith('.js') ||
-                  event.request.url.endsWith('.css') ||
-                  event.request.url.endsWith('.json') ||
-                  event.request.url.endsWith('/')
-                );
-                
-                if (saveToCache) {
-                  caches.open(CACHE_NAME)
-                    .then((cache) => {
-                      console.log('Aggiunta alla cache:', event.request.url);
-                      cache.put(event.request, responseToCache);
-                    })
-                    .catch(err => {
-                      console.error('Errore durante il caching:', err);
-                    });
-                }
-
-                return networkResponse;
-              })
-              .catch(error => {
-                console.error('Errore di fetch:', error);
-                // Per le pagine dell'app, ritorna la pagina principale in caso di errore
-                if (event.request.url.includes('/client-') || 
-                    event.request.url.includes('/consent')) {
-                  return caches.match('/index.html');
-                }
-                // Altrimenti, propaga l'errore
-                throw error;
+            // Cloniamo la risposta perché il body può essere letto una sola volta
+            const responseToCache = response.clone();
+            
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
               });
+            
+            return response;
           })
-      );
-    }
-  } catch (error) {
-    console.error('Errore critico nel service worker durante il fetch:', error);
-  }
+          .catch((error) => {
+            console.log('[Service Worker] Errore di fetch:', error);
+            // Possiamo fornire una fallback per connessioni offline qui
+          });
+      })
+  );
 });
 
-// Gestione degli aggiornamenti in background
+// Gestione delle notifiche push
+self.addEventListener('push', (event) => {
+  console.log('[Service Worker] Notifica push ricevuta');
+  
+  const title = 'Promemoria Appuntamento';
+  const options = {
+    body: event.data.text(),
+    icon: '/icons/default-app-icon.jpg',
+    badge: '/icons/app-icon.svg'
+  };
+  
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
+});
+
+// Click su notifica
+self.addEventListener('notificationclick', (event) => {
+  console.log('[Service Worker] Click su notifica', event);
+  
+  event.notification.close();
+  
+  event.waitUntil(
+    clients.openWindow('/')
+  );
+});
+
+// Gestione aggiornamenti
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
-  }
-  
-  // Aggiornamento icona
-  if (event.data && event.data.type === 'UPDATE_ICON') {
-    const iconUrl = event.data.iconUrl;
-    if (iconUrl) {
-      // Aggiorna la cache con la nuova icona
-      caches.open(CACHE_NAME)
-        .then(cache => {
-          // Prima rimuoviamo eventuali vecchie versioni dell'icona
-          cache.delete('/icons/app-icon.svg')
-            .then(() => cache.delete('/icons/default-app-icon.jpg'))
-            .then(() => {
-              // Poi aggiungiamo la nuova icona alla cache
-              return cache.add(iconUrl);
-            })
-            .then(() => {
-              console.log('Icona aggiornata nella cache');
-            })
-            .catch(error => {
-              console.error('Errore durante l\'aggiornamento dell\'icona nella cache:', error);
-            });
-        });
-    }
   }
 });
