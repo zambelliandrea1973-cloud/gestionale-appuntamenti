@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import SimpleApp from "./SimpleApp"; // Usiamo la versione semplificata dell'app
+import App from "./App"; // Usiamo la versione normale dell'app
 import "./index.css";
 
 // Logging per debugging
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Rendering React di base
       const reactRoot = ReactDOM.createRoot(root);
-      reactRoot.render(<SimpleApp />);
+      reactRoot.render(<App />);
       console.log('Rendering completato con successo');
     } else {
       console.error('Root element not found');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Creato nuovo elemento root');
       
       const reactRoot = ReactDOM.createRoot(newRoot);
-      reactRoot.render(<SimpleApp />);
+      reactRoot.render(<App />);
     }
   } catch (error: unknown) {
     console.error('Error rendering app:', error instanceof Error ? error.message : 'Unknown error');

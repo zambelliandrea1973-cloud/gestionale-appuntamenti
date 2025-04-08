@@ -3,13 +3,260 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestione Appuntamenti</title>
+    <title>Sistema di Gestione Appuntamenti</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <meta name="description" content="Gestisci i tuoi appuntamenti e consensi" />
     <meta name="theme-color" content="#4f46e5">
+    <!-- Stili CSS -->
+    <style>
+      /* Stili di base */
+      body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f9fafb;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      
+      h1 {
+        color: #4f46e5;
+        margin-bottom: 0.6rem;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+      
+      .app-description {
+        color: #6b7280;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+      
+      /* Layout dashboard */
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      
+      /* Card styles */
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        border: 1px solid #e5e7eb;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .card-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: #111827;
+      }
+      
+      .card-title svg {
+        margin-right: 0.75rem;
+        color: #4f46e5;
+        width: 24px;
+        height: 24px;
+        stroke: #4f46e5;
+        stroke-width: 2;
+        fill: none;
+      }
+      
+      .card-content {
+        color: #6b7280;
+        margin-bottom: 1.25rem;
+        font-size: 0.95rem;
+      }
+      
+      .btn {
+        display: inline-block;
+        background-color: #eef2ff;
+        color: #4f46e5;
+        padding: 0.75rem 1.25rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        width: 100%;
+        text-align: center;
+        transition: background-color 0.2s ease;
+        box-sizing: border-box;
+      }
+      
+      .btn:hover {
+        background-color: #e0e7ff;
+      }
+      
+      /* Fleur de Vie styles */
+      .fleur-container {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        width: 180px;
+        height: 180px;
+      }
+      
+      .fleur-image {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        border: 4px solid rgba(79, 70, 229, 0.2);
+      }
+      
+      .fleur-image:hover {
+        transform: rotate(30deg);
+      }
+      
+      /* Footer */
+      footer {
+        margin-top: 4rem;
+        text-align: center;
+        color: #6b7280;
+        font-size: 0.9rem;
+        padding: 1rem;
+        border-top: 1px solid #e5e7eb;
+      }
+      
+      footer a {
+        color: #4f46e5;
+        text-decoration: none;
+      }
+      
+      footer a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .dashboard {
+          grid-template-columns: 1fr;
+        }
+        
+        .container {
+          padding: 1rem;
+        }
+        
+        h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Pagina statica invece di React -->
+    <div class="container">
+      <header>
+        <div class="fleur-container">
+          <img 
+            src="/attached_assets/Fleur de Vie multicolore.jpg" 
+            alt="Fleur de Vie" 
+            class="fleur-image"
+          >
+        </div>
+        <h1>Sistema di Gestione Appuntamenti</h1>
+        <p class="app-description">
+          Gestisci facilmente gli appuntamenti, i clienti e le fatture
+        </p>
+      </header>
+      
+      <div class="dashboard">
+        <div class="card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            Calendario
+          </h2>
+          <p class="card-content">
+            Visualizza e gestisci gli appuntamenti in modalità giornaliera, settimanale o mensile.
+            Organizza la tua agenda in modo efficiente.
+          </p>
+          <a href="/calendar" class="btn">Vai al Calendario</a>
+        </div>
+        
+        <div class="card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Clienti
+          </h2>
+          <p class="card-content">
+            Gestisci l'anagrafica clienti, visualizza e modifica i dati personali e medici.
+            Tieni traccia di tutti i dettagli importanti.
+          </p>
+          <a href="/clients" class="btn">Gestisci Clienti</a>
+        </div>
+        
+        <div class="card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            Fatture
+          </h2>
+          <p class="card-content">
+            Crea e gestisci fatture, registra pagamenti e monitora lo stato delle fatture.
+            Tieni sotto controllo l'aspetto economico del tuo lavoro.
+          </p>
+          <a href="/invoices" class="btn">Gestisci Fatture</a>
+        </div>
+        
+        <div class="card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            Report
+          </h2>
+          <p class="card-content">
+            Visualizza report giornalieri, settimanali e mensili per analizzare l'andamento delle attività
+            e prendere decisioni basate sui dati.
+          </p>
+          <a href="/reports" class="btn">Visualizza Report</a>
+        </div>
+      </div>
+      
+      <footer>
+        <p>
+          <a href="/debug.html">Pagina di Debug</a> | 
+          <a href="#" onclick="window.location.href='/src/main.tsx'">Versione React</a>
+        </p>
+      </footer>
+    </div>
   </body>
 </html>
