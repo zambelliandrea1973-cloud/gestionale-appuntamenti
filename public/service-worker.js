@@ -1,129 +1,100 @@
-// Nome e versione della cache
-const CACHE_NAME = 'gestionale-appuntamenti-v1.0.1';
+// Service Worker per l'app Gestione Appuntamenti
+const CACHE_NAME = 'gestioneapp-v1';
 
-// Asset da cachare inizialmente (files, immagini, fonts, ecc.)
+// Risorse da caricare nella cache
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/manifest.webmanifest',
-  '/icons/default-app-icon.jpg',
-  '/icons/app-icon.svg'
+  '/icons/app-icon.svg',
+  '/icons/default-app-icon.jpg'
 ];
 
-// Installazione del Service Worker
+// Installazione del service worker
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installazione');
-  
-  // Esecuzione fino al completamento dell'installazione
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[Service Worker] Creazione cache');
+        console.log('Cache aperta con successo');
         return cache.addAll(urlsToCache);
       })
-      .then(() => {
-        console.log('[Service Worker] Tutti i file sono stati cachati');
-        return self.skipWaiting();
+      .catch(err => {
+        console.error('Errore durante il caching delle risorse:', err);
       })
   );
 });
 
-// Attivazione del Service Worker
+// Attivazione: pulizia delle vecchie cache
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Attivazione');
-  
-  // Rimuovere le vecchie versioni della cache
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
-            console.log('[Service Worker] Rimozione della vecchia cache', cacheName);
+            console.log('Eliminazione cache vecchia:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
-    }).then(() => {
-      console.log('[Service Worker] Rivendicazione dei clients');
-      return self.clients.claim();
     })
   );
+  
+  // Assicurarsi che il service worker prenda immediatamente il controllo
+  return self.clients.claim();
 });
 
-// Strategia di caching: Cache First, poi Network
+// Strategia di cache: network first, fallback to cache
 self.addEventListener('fetch', (event) => {
-  // Ignoriamo le richieste di analytics o di terze parti
-  if (event.request.url.includes('/api/')) {
-    return;
-  }
-  
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - restituiamo la risposta dalla cache
-        if (response) {
-          return response;
+    fetch(event.request)
+      .then(response => {
+        // Cloniamo la risposta per poterla usare sia per la cache che per il return
+        const responseClone = response.clone();
+        
+        // Apriamo la cache e ci mettiamo la risposta, ma solo se la risposta è valida
+        if (response.status === 200) {
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, responseClone);
+            });
         }
         
-        // Cloniamo la richiesta perché può essere usata una volta sola
-        const fetchRequest = event.request.clone();
-        
-        return fetch(fetchRequest)
-          .then((response) => {
-            // Controlliamo se abbiamo ricevuto una risposta valida
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
+        return response;
+      })
+      .catch(() => {
+        // Se la rete fallisce, proviamo a servire dalla cache
+        return caches.match(event.request)
+          .then(cachedResponse => {
+            if (cachedResponse) {
+              return cachedResponse;
             }
             
-            // Cloniamo la risposta perché il body può essere letto una sola volta
-            const responseToCache = response.clone();
+            // Se non è nella cache, mostriamo una pagina di fallback per le richieste di navigazione
+            if (event.request.mode === 'navigate') {
+              return caches.match('/index.html');
+            }
             
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-            
-            return response;
-          })
-          .catch((error) => {
-            console.log('[Service Worker] Errore di fetch:', error);
-            // Possiamo fornire una fallback per connessioni offline qui
+            // Per altre risorse, ritorniamo una risposta vuota
+            return new Response('Risorsa non disponibile offline', {
+              status: 503,
+              statusText: 'Service Unavailable',
+              headers: new Headers({
+                'Content-Type': 'text/plain'
+              })
+            });
           });
       })
   );
 });
 
-// Gestione delle notifiche push
-self.addEventListener('push', (event) => {
-  console.log('[Service Worker] Notifica push ricevuta');
-  
-  const title = 'Promemoria Appuntamento';
-  const options = {
-    body: event.data.text(),
-    icon: '/icons/default-app-icon.jpg',
-    badge: '/icons/app-icon.svg'
-  };
-  
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
-});
-
-// Click su notifica
-self.addEventListener('notificationclick', (event) => {
-  console.log('[Service Worker] Click su notifica', event);
-  
-  event.notification.close();
-  
-  event.waitUntil(
-    clients.openWindow('/')
-  );
-});
-
-// Gestione aggiornamenti
+// Gestione dei messaggi
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
+
+// Log per debug
+console.log('Service Worker registrato e funzionante');
