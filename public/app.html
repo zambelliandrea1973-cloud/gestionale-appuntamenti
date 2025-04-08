@@ -556,7 +556,7 @@
         </button>
         
         <ul class="nav-links" id="navLinks">
-          <li><a href="/">Home</a></li>
+          <li><a href="/app.html">Home</a></li>
           <li><a href="/calendar.html">Calendario</a></li>
           <li><a href="/clients.html">Clienti</a></li>
           <li><a href="/invoices.html">Fatture</a></li>
@@ -659,7 +659,7 @@
         </div>
         
         <div id="upcomingAppointments">
-          <p class="text-center text-gray-500">Caricamento appuntamenti...</p>
+          <p style="text-align: center; color: #6b7280;">Caricamento appuntamenti...</p>
         </div>
       </div>
       
@@ -833,7 +833,7 @@
         let html = '';
         
         if (appointments.length === 0) {
-          html = '<p class="text-center">Nessun appuntamento in programma.</p>';
+          html = '<p style="text-align: center;">Nessun appuntamento in programma.</p>';
         } else {
           html = '<div style="display: grid; gap: 0.75rem;">';
           
