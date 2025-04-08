@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -24,6 +25,7 @@ import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
 
 export default function Calendar() {
+  const { t, i18n } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [searchQuery, setSearchQuery] = useState("");
@@ -157,7 +159,7 @@ export default function Calendar() {
               onClick={goToToday}
               className="ml-2"
             >
-              Oggi
+              {t('calendar.today')}
             </Button>
           </div>
           
@@ -168,7 +170,7 @@ export default function Calendar() {
               </div>
               <Input
                 type="text"
-                placeholder="Cerca appuntamenti..."
+                placeholder={t('common.search') + " " + t('calendar.title').toLowerCase() + "..."}
                 className="pl-10 w-full md:w-[250px]"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -188,7 +190,7 @@ export default function Calendar() {
               className={`rounded-none px-4 ${view === "day" ? "bg-primary text-white" : ""}`}
             >
               <Clock className="h-4 w-4 mr-2" />
-              Giorno
+              {t('calendar.daily')}
             </Button>
             <Button
               variant={view === "week" ? "default" : "ghost"}
@@ -197,7 +199,7 @@ export default function Calendar() {
               className={`rounded-none px-4 ${view === "week" ? "bg-primary text-white" : ""}`}
             >
               <CalendarDays className="h-4 w-4 mr-2" />
-              Settimana
+              {t('calendar.weekly')}
             </Button>
             <Button
               variant={view === "month" ? "default" : "ghost"}
@@ -206,14 +208,14 @@ export default function Calendar() {
               className={`rounded-none px-4 ${view === "month" ? "bg-primary text-white" : ""}`}
             >
               <LayoutGrid className="h-4 w-4 mr-2" />
-              Mese
+              {t('calendar.monthly')}
             </Button>
           </div>
           
           <div className="text-sm text-gray-500">
-            {view === "day" && `${selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' })}`}
-            {view === "week" && "Vista settimanale"}
-            {view === "month" && "Vista mensile"}
+            {view === "day" && `${selectedDate.toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })}`}
+            {view === "week" && t('calendar.weekView')}
+            {view === "month" && t('calendar.monthView')}
           </div>
         </div>
       </div>
@@ -221,10 +223,10 @@ export default function Calendar() {
       {/* Search results */}
       {searchQuery && (
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <h3 className="text-lg font-medium mb-4">Risultati della ricerca: {filteredAppointments.length}</h3>
+          <h3 className="text-lg font-medium mb-4">{t('calendar.searchResults')}: {filteredAppointments.length}</h3>
           
           {filteredAppointments.length === 0 ? (
-            <p className="text-gray-500">Nessun appuntamento trovato per "{searchQuery}"</p>
+            <p className="text-gray-500">{t('calendar.noAppointmentsFound')} "{searchQuery}"</p>
           ) : (
             <div className="space-y-3 max-h-[300px] overflow-y-auto">
               {filteredAppointments.map(appointment => (
@@ -244,7 +246,7 @@ export default function Calendar() {
                       {appointment.client.firstName} {appointment.client.lastName}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {appointment.service.name} - {new Date(appointment.date).toLocaleDateString('it-IT')} {appointment.startTime.substring(0, 5)}
+                      {appointment.service.name} - {new Date(appointment.date).toLocaleDateString(i18n.language)} {appointment.startTime.substring(0, 5)}
                     </div>
                   </div>
                   <Button 
@@ -258,7 +260,7 @@ export default function Calendar() {
                       setSearchQuery("");
                     }}
                   >
-                    Vai al giorno
+                    {t('calendar.goToDay')}
                   </Button>
                 </div>
               ))}

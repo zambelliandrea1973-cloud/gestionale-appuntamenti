@@ -53,8 +53,13 @@
     "daily": "Giornaliero",
     "weekly": "Settimanale",
     "monthly": "Mensile",
+    "weekView": "Vista settimanale",
+    "monthView": "Vista mensile",
     "addAppointment": "Nuovo Appuntamento",
     "today": "Oggi",
+    "searchResults": "Risultati della ricerca",
+    "noAppointmentsFound": "Nessun appuntamento trovato per",
+    "goToDay": "Vai al giorno",
     "days": {
       "monday": "Lunedì",
       "tuesday": "Martedì",
