@@ -1,0 +1,187 @@
+{
+  "app": {
+    "title": "Gestionare Programări",
+    "welcome": "Bine ați venit la Gestionarea Programărilor",
+    "description": "Gestionați cu ușurință programări, clienți și facturi"
+  },
+  "language": {
+    "it": "Italiană",
+    "en": "Engleză",
+    "de": "Germană",
+    "fr": "Franceză",
+    "es": "Spaniolă",
+    "ru": "Rusă",
+    "nl": "Olandeză",
+    "no": "Norvegiană",
+    "ro": "Română",
+    "select": "Selectați limba"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendar",
+      "description": "Vizualizați și gestionați toate programările",
+      "content": "Vizualizați programările în modul zilnic, săptămânal sau lunar și creați cu ușurință programări noi.",
+      "button": "Accesați Calendarul"
+    },
+    "clients": {
+      "title": "Clienți",
+      "description": "Gestionați informațiile clienților",
+      "content": "Adăugați, editați și vizualizați datele clienților, inclusiv informații personale și medicale.",
+      "button": "Gestionați Clienții"
+    },
+    "invoices": {
+      "title": "Facturi",
+      "description": "Gestionați facturi și plăți",
+      "content": "Creați și gestionați facturi, înregistrați plăți și monitorizați starea facturilor în timp real.",
+      "button": "Gestionați Facturile"
+    },
+    "reports": {
+      "title": "Rapoarte",
+      "description": "Analizați performanța afacerii",
+      "content": "Vizualizați rapoarte zilnice, săptămânale și lunare pentru a analiza performanța afacerii.",
+      "button": "Vizualizați Rapoartele"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "daily": "Zilnic",
+    "weekly": "Săptămânal",
+    "monthly": "Lunar",
+    "addAppointment": "Programare Nouă",
+    "today": "Astăzi",
+    "days": {
+      "monday": "Luni",
+      "tuesday": "Marți",
+      "wednesday": "Miercuri",
+      "thursday": "Joi",
+      "friday": "Vineri",
+      "saturday": "Sâmbătă",
+      "sunday": "Duminică"
+    },
+    "months": {
+      "january": "Ianuarie",
+      "february": "Februarie",
+      "march": "Martie",
+      "april": "Aprilie",
+      "may": "Mai",
+      "june": "Iunie",
+      "july": "Iulie",
+      "august": "August",
+      "september": "Septembrie",
+      "october": "Octombrie",
+      "november": "Noiembrie",
+      "december": "Decembrie"
+    }
+  },
+  "clients": {
+    "title": "Clienți",
+    "addClient": "Client Nou",
+    "search": "Căutare client",
+    "table": {
+      "name": "Prenume",
+      "surname": "Nume",
+      "email": "Email",
+      "phone": "Telefon",
+      "actions": "Acțiuni"
+    },
+    "details": {
+      "title": "Detalii Client",
+      "personalInfo": "Informații Personale",
+      "medicalInfo": "Informații Medicale",
+      "appointments": "Programări",
+      "notes": "Note",
+      "consents": "Consimțăminte"
+    },
+    "form": {
+      "firstName": "Prenume",
+      "lastName": "Nume",
+      "email": "Email",
+      "phone": "Telefon",
+      "birthDate": "Data Nașterii",
+      "address": "Adresă",
+      "city": "Oraș",
+      "zipCode": "Cod Poștal",
+      "notes": "Note",
+      "save": "Salvare",
+      "cancel": "Anulare"
+    }
+  },
+  "invoices": {
+    "title": "Facturi",
+    "addInvoice": "Factură Nouă",
+    "table": {
+      "number": "Număr",
+      "date": "Data",
+      "client": "Client",
+      "amount": "Sumă",
+      "status": "Stare",
+      "actions": "Acțiuni"
+    },
+    "status": {
+      "paid": "Plătită",
+      "unpaid": "Neplătită",
+      "partial": "Plată Parțială"
+    }
+  },
+  "reports": {
+    "title": "Rapoarte",
+    "daily": "Raport Zilnic",
+    "weekly": "Raport Săptămânal",
+    "monthly": "Raport Lunar",
+    "appointments": "Programări",
+    "clients": "Clienți",
+    "revenue": "Venituri"
+  },
+  "settings": {
+    "title": "Setări",
+    "general": "Generale",
+    "profile": "Profil",
+    "appearance": "Aspect",
+    "notifications": "Notificări",
+    "language": "Limbă",
+    "theme": "Temă",
+    "save": "Salvare Setări"
+  },
+  "common": {
+    "save": "Salvare",
+    "cancel": "Anulare",
+    "edit": "Editare",
+    "delete": "Ștergere",
+    "view": "Vizualizare",
+    "search": "Căutare",
+    "back": "Înapoi",
+    "next": "Înainte",
+    "previous": "Anterior",
+    "actions": "Acțiuni",
+    "name": "Nume",
+    "email": "Email",
+    "phone": "Telefon",
+    "address": "Adresă",
+    "date": "Data",
+    "time": "Ora",
+    "description": "Descriere"
+  },
+  "notifications": {
+    "success": "Operațiune finalizată cu succes",
+    "error": "A apărut o eroare",
+    "warning": "Avertisment",
+    "info": "Informație"
+  },
+  "auth": {
+    "login": "Autentificare",
+    "logout": "Deconectare",
+    "username": "Nume utilizator",
+    "password": "Parola",
+    "rememberMe": "Ține-mă minte",
+    "forgotPassword": "Ați uitat parola?",
+    "loginButton": "Autentificare"
+  },
+  "clientArea": {
+    "title": "Zona Clientului",
+    "welcome": "Bine ați venit în Zona Personală",
+    "appointments": "Programările Dumneavoastră",
+    "personalInfo": "Informații Personale",
+    "consents": "Gestionare Consimțăminte",
+    "messages": "Mesaje"
+  }
+}

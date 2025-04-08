@@ -1,5 +1,6 @@
 import { useState, ReactNode } from "react";
 import { Link, useLocation } from "wouter";
+import { useTranslation } from 'react-i18next';
 import { 
   CalendarDays, 
   Users, 
@@ -15,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import AppointmentForm from "./AppointmentForm";
 
 interface LayoutProps {
@@ -24,6 +26,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
+  const { t } = useTranslation();
 
   // Check active route
   const isActive = (path: string) => location === path;
@@ -36,30 +39,32 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
               <CalendarDays className="h-5 w-5" />
-              <h1 className="text-xl font-medium">Gestione Appuntamenti</h1>
+              <h1 className="text-xl font-medium">{t('app.title')}</h1>
             </div>
             
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-6">
               <Link href="/calendar">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <Calendar className="h-4 w-4" />
-                  <span>Calendario</span>
+                  <span>{t('calendar.title')}</span>
                 </Button>
               </Link>
               
               <Link href="/clients">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <Users className="h-4 w-4" />
-                  <span>Clienti</span>
+                  <span>{t('clients.title')}</span>
                 </Button>
               </Link>
               
               <Link href="/invoices">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <FileText className="h-4 w-4" />
-                  <span>Fatture</span>
+                  <span>{t('invoices.title')}</span>
                 </Button>
               </Link>
+              
+              <LanguageSelector />
               
               {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
             </div>
@@ -82,29 +87,31 @@ export default function Layout({ children }: LayoutProps) {
                     <Link href="/calendar">
                       <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
                         <CalendarDays className="mr-2 h-4 w-4" />
-                        Calendario
+                        {t('calendar.title')}
                       </Button>
                     </Link>
                     <Link href="/clients">
                       <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
                         <Users className="mr-2 h-4 w-4" />
-                        Clienti
+                        {t('clients.title')}
                       </Button>
                     </Link>
                     <Link href="/invoices">
                       <Button variant={isActive("/invoices") ? "secondary" : "ghost"} className="justify-start w-full">
                         <FileText className="mr-2 h-4 w-4" />
-                        Fatture
+                        {t('invoices.title')}
                       </Button>
                     </Link>
                     <Link href="/reports">
                       <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
                         <BarChart className="mr-2 h-4 w-4" />
-                        Report
+                        {t('reports.title')}
                       </Button>
                     </Link>
                   </nav>
-                  {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
+                  <div className="mt-4">
+                    <LanguageSelector />
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -122,12 +129,12 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-gray-600 mb-2 md:mb-0">
-              &copy; {new Date().getFullYear()} Gestione Appuntamenti - Tutti i diritti riservati
+              &copy; {new Date().getFullYear()} {t('app.title')}
             </div>
             <div className="flex space-x-4">
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Supporto</Button>
+              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.support', 'Supporto')}</Button>
               <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</Button>
+              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
             </div>
           </div>
         </div>

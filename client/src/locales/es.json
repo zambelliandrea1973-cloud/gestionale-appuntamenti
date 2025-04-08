@@ -1,0 +1,187 @@
+{
+  "app": {
+    "title": "Gestión de Citas",
+    "welcome": "Bienvenido a la Gestión de Citas",
+    "description": "Gestione fácilmente citas, clientes y facturas"
+  },
+  "language": {
+    "it": "Italiano",
+    "en": "Inglés",
+    "de": "Alemán",
+    "fr": "Francés",
+    "es": "Español",
+    "ru": "Ruso",
+    "nl": "Holandés",
+    "no": "Noruego",
+    "ro": "Rumano",
+    "select": "Seleccionar idioma"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendario",
+      "description": "Ver y gestionar todas las citas",
+      "content": "Vea las citas en modo diario, semanal o mensual, y cree fácilmente nuevas citas.",
+      "button": "Ir al Calendario"
+    },
+    "clients": {
+      "title": "Clientes",
+      "description": "Gestionar información de clientes",
+      "content": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica.",
+      "button": "Gestionar Clientes"
+    },
+    "invoices": {
+      "title": "Facturas",
+      "description": "Gestionar facturas y pagos",
+      "content": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real.",
+      "button": "Gestionar Facturas"
+    },
+    "reports": {
+      "title": "Informes",
+      "description": "Analizar el rendimiento del negocio",
+      "content": "Visualice informes diarios, semanales y mensuales para analizar el rendimiento del negocio.",
+      "button": "Ver Informes"
+    }
+  },
+  "calendar": {
+    "title": "Calendario",
+    "daily": "Diario",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "addAppointment": "Nueva Cita",
+    "today": "Hoy",
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    }
+  },
+  "clients": {
+    "title": "Clientes",
+    "addClient": "Nuevo Cliente",
+    "search": "Buscar cliente",
+    "table": {
+      "name": "Nombre",
+      "surname": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "actions": "Acciones"
+    },
+    "details": {
+      "title": "Detalles del Cliente",
+      "personalInfo": "Información Personal",
+      "medicalInfo": "Información Médica",
+      "appointments": "Citas",
+      "notes": "Notas",
+      "consents": "Consentimientos"
+    },
+    "form": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "birthDate": "Fecha de Nacimiento",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "zipCode": "Código Postal",
+      "notes": "Notas",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    }
+  },
+  "invoices": {
+    "title": "Facturas",
+    "addInvoice": "Nueva Factura",
+    "table": {
+      "number": "Número",
+      "date": "Fecha",
+      "client": "Cliente",
+      "amount": "Importe",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "paid": "Pagada",
+      "unpaid": "No Pagada",
+      "partial": "Pago Parcial"
+    }
+  },
+  "reports": {
+    "title": "Informes",
+    "daily": "Informe Diario",
+    "weekly": "Informe Semanal",
+    "monthly": "Informe Mensual",
+    "appointments": "Citas",
+    "clients": "Clientes",
+    "revenue": "Ingresos"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "general": "General",
+    "profile": "Perfil",
+    "appearance": "Apariencia",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "theme": "Tema",
+    "save": "Guardar Ajustes"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "search": "Buscar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "actions": "Acciones",
+    "name": "Nombre",
+    "email": "Email",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "date": "Fecha",
+    "time": "Hora",
+    "description": "Descripción"
+  },
+  "notifications": {
+    "success": "Operación completada con éxito",
+    "error": "Se ha producido un error",
+    "warning": "Advertencia",
+    "info": "Información"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidó la contraseña?",
+    "loginButton": "Iniciar sesión"
+  },
+  "clientArea": {
+    "title": "Área de Cliente",
+    "welcome": "Bienvenido a su Área Personal",
+    "appointments": "Sus Citas",
+    "personalInfo": "Información Personal",
+    "consents": "Gestión de Consentimientos",
+    "messages": "Mensajes"
+  }
+}

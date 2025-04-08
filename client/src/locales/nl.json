@@ -1,0 +1,187 @@
+{
+  "app": {
+    "title": "Afsprakenbeheer",
+    "welcome": "Welkom bij Afsprakenbeheer",
+    "description": "Beheer eenvoudig afspraken, klanten en facturen"
+  },
+  "language": {
+    "it": "Italiaans",
+    "en": "Engels",
+    "de": "Duits",
+    "fr": "Frans",
+    "es": "Spaans",
+    "ru": "Russisch",
+    "nl": "Nederlands",
+    "no": "Noors",
+    "ro": "Roemeens",
+    "select": "Selecteer taal"
+  },
+  "home": {
+    "calendar": {
+      "title": "Agenda",
+      "description": "Bekijk en beheer alle afspraken",
+      "content": "Bekijk afspraken in dagelijkse, wekelijkse of maandelijkse weergave, en maak eenvoudig nieuwe afspraken.",
+      "button": "Naar Agenda"
+    },
+    "clients": {
+      "title": "Klanten",
+      "description": "Beheer klantinformatie",
+      "content": "Voeg toe, bewerk en bekijk klantgegevens, inclusief persoonlijke en medische informatie.",
+      "button": "Beheer Klanten"
+    },
+    "invoices": {
+      "title": "Facturen",
+      "description": "Beheer facturen en betalingen",
+      "content": "Maak en beheer facturen, registreer betalingen en volg de status van facturen in realtime.",
+      "button": "Beheer Facturen"
+    },
+    "reports": {
+      "title": "Rapporten",
+      "description": "Analyseer bedrijfsprestaties",
+      "content": "Bekijk dagelijkse, wekelijkse en maandelijkse rapporten om bedrijfsprestaties te analyseren.",
+      "button": "Bekijk Rapporten"
+    }
+  },
+  "calendar": {
+    "title": "Agenda",
+    "daily": "Dagelijks",
+    "weekly": "Wekelijks",
+    "monthly": "Maandelijks",
+    "addAppointment": "Nieuwe Afspraak",
+    "today": "Vandaag",
+    "days": {
+      "monday": "Maandag",
+      "tuesday": "Dinsdag",
+      "wednesday": "Woensdag",
+      "thursday": "Donderdag",
+      "friday": "Vrijdag",
+      "saturday": "Zaterdag",
+      "sunday": "Zondag"
+    },
+    "months": {
+      "january": "Januari",
+      "february": "Februari",
+      "march": "Maart",
+      "april": "April",
+      "may": "Mei",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "Augustus",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "December"
+    }
+  },
+  "clients": {
+    "title": "Klanten",
+    "addClient": "Nieuwe Klant",
+    "search": "Zoek klant",
+    "table": {
+      "name": "Voornaam",
+      "surname": "Achternaam",
+      "email": "Email",
+      "phone": "Telefoon",
+      "actions": "Acties"
+    },
+    "details": {
+      "title": "Klantgegevens",
+      "personalInfo": "Persoonlijke Informatie",
+      "medicalInfo": "Medische Informatie",
+      "appointments": "Afspraken",
+      "notes": "Notities",
+      "consents": "Toestemmingen"
+    },
+    "form": {
+      "firstName": "Voornaam",
+      "lastName": "Achternaam",
+      "email": "Email",
+      "phone": "Telefoon",
+      "birthDate": "Geboortedatum",
+      "address": "Adres",
+      "city": "Plaats",
+      "zipCode": "Postcode",
+      "notes": "Notities",
+      "save": "Opslaan",
+      "cancel": "Annuleren"
+    }
+  },
+  "invoices": {
+    "title": "Facturen",
+    "addInvoice": "Nieuwe Factuur",
+    "table": {
+      "number": "Nummer",
+      "date": "Datum",
+      "client": "Klant",
+      "amount": "Bedrag",
+      "status": "Status",
+      "actions": "Acties"
+    },
+    "status": {
+      "paid": "Betaald",
+      "unpaid": "Onbetaald",
+      "partial": "Gedeeltelijk Betaald"
+    }
+  },
+  "reports": {
+    "title": "Rapporten",
+    "daily": "Dagelijks Rapport",
+    "weekly": "Wekelijks Rapport",
+    "monthly": "Maandelijks Rapport",
+    "appointments": "Afspraken",
+    "clients": "Klanten",
+    "revenue": "Omzet"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "general": "Algemeen",
+    "profile": "Profiel",
+    "appearance": "Weergave",
+    "notifications": "Meldingen",
+    "language": "Taal",
+    "theme": "Thema",
+    "save": "Instellingen Opslaan"
+  },
+  "common": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "view": "Bekijken",
+    "search": "Zoeken",
+    "back": "Terug",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "actions": "Acties",
+    "name": "Naam",
+    "email": "Email",
+    "phone": "Telefoon",
+    "address": "Adres",
+    "date": "Datum",
+    "time": "Tijd",
+    "description": "Beschrijving"
+  },
+  "notifications": {
+    "success": "Bewerking succesvol voltooid",
+    "error": "Er is een fout opgetreden",
+    "warning": "Waarschuwing",
+    "info": "Informatie"
+  },
+  "auth": {
+    "login": "Inloggen",
+    "logout": "Uitloggen",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord",
+    "rememberMe": "Onthoud mij",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "loginButton": "Inloggen"
+  },
+  "clientArea": {
+    "title": "Klantomgeving",
+    "welcome": "Welkom in uw Persoonlijke Omgeving",
+    "appointments": "Uw Afspraken",
+    "personalInfo": "Persoonlijke Informatie",
+    "consents": "Toestemmingsbeheer",
+    "messages": "Berichten"
+  }
+}
