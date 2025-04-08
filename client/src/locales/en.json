@@ -53,8 +53,13 @@
     "daily": "Daily",
     "weekly": "Weekly",
     "monthly": "Monthly",
+    "weekView": "Weekly view",
+    "monthView": "Monthly view",
     "addAppointment": "New Appointment",
     "today": "Today",
+    "searchResults": "Search results",
+    "noAppointmentsFound": "No appointments found for",
+    "goToDay": "Go to day",
     "days": {
       "monday": "Monday",
       "tuesday": "Tuesday",
