@@ -23,7 +23,7 @@ export default function Home() {
         <div className="flex justify-center mb-6">
           <div className="w-32 h-32 rounded-full shadow-lg bg-white border-4 border-primary/20 flex items-center justify-center overflow-hidden icon-rotate">
             <img 
-              src="/icons/default-app-icon.jpg" 
+              src="/attached_assets/Fleur de Vie multicolore.jpg" 
               alt="Fleur de Vie multicolore" 
               className="w-full h-full object-cover"
             />
