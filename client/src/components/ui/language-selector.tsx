@@ -32,7 +32,6 @@ export function LanguageSelector() {
           <div className="flex items-center gap-1">
             <Globe className="h-4 w-4" />
             <span className="text-sm font-medium">{getCurrentLanguageName()}</span>
-            <ChevronDown className="h-3 w-3 opacity-50" />
           </div>
         </SelectTrigger>
         <SelectContent>

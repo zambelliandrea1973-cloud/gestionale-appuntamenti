@@ -47,12 +47,15 @@ export default function Layout({ children }: LayoutProps) {
             </div>
             
             <div className="hidden md:flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Grid className="h-4 w-4" />
-                  <span>{t('navigation.home')}</span>
-                </Button>
-              </Link>
+              {/* Mostra il pulsante Home solo se non siamo già nella home page */}
+              {location !== "/" && (
+                <Link href="/">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Grid className="h-4 w-4" />
+                    <span>{t('navigation.home')}</span>
+                  </Button>
+                </Link>
+              )}
             
               <Link href="/calendar">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">

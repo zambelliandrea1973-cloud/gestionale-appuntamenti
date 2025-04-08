@@ -38,9 +38,6 @@ export default function Home() {
         <p className="text-muted-foreground">
           {t('app.description')}
         </p>
-        <div className="mt-6 flex justify-center">
-          <LanguageSelector />
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
