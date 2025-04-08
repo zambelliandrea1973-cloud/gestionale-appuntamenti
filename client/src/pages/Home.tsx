@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from 'react-i18next';
 import { 
   CalendarDays, 
   Users, 
@@ -13,9 +14,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LanguageSelector } from "@/components/ui/language-selector";
 
 export default function Home() {
   const [_, navigate] = useLocation();
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
@@ -30,11 +33,14 @@ export default function Home() {
           </div>
         </div>
         <h1 className="text-3xl font-bold mb-2">
-          Benvenuto nella Gestione Appuntamenti
+          {t('app.welcome')}
         </h1>
         <p className="text-muted-foreground">
-          Gestisci facilmente gli appuntamenti, i clienti e le fatture
+          {t('app.description')}
         </p>
+        <div className="mt-6 flex justify-center">
+          <LanguageSelector />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -43,23 +49,22 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <CalendarDays className="mr-2 h-5 w-5 text-primary" />
-                Calendario
+                {t('calendar.title')}
               </CardTitle>
               <CardDescription>
-                Visualizza e gestisci tutti gli appuntamenti
+                {t('calendar.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Visualizza gli appuntamenti in modalità giornaliera, settimanale o mensile, 
-                e crea facilmente nuovi appuntamenti.
+                {t('calendar.subDescription')}
               </p>
               <Button 
                 variant="outline" 
                 className="w-full btn-with-icon" 
                 onClick={() => navigate("/calendar")}
               >
-                Vai al Calendario
+                {t('calendar.goTo')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -71,23 +76,22 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Users className="mr-2 h-5 w-5 text-primary" />
-                Clienti
+                {t('clients.title')}
               </CardTitle>
               <CardDescription>
-                Gestisci l'anagrafica dei clienti
+                {t('clients.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Aggiungi, modifica e visualizza i dati dei clienti, 
-                compresi i dati anagrafici e medici.
+                {t('clients.subDescription')}
               </p>
               <Button 
                 variant="outline" 
                 className="w-full btn-with-icon" 
                 onClick={() => navigate("/clients")}
               >
-                Gestisci Clienti
+                {t('clients.goTo')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -99,23 +103,22 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <FileText className="mr-2 h-5 w-5 text-primary" />
-                Fatture
+                {t('invoices.title')}
               </CardTitle>
               <CardDescription>
-                Gestisci fatture e pagamenti
+                {t('invoices.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Crea e gestisci fatture, registra pagamenti e 
-                monitora lo stato delle fatture in tempo reale.
+                {t('invoices.subDescription')}
               </p>
               <Button 
                 variant="outline" 
                 className="w-full btn-with-icon" 
                 onClick={() => navigate("/invoices")}
               >
-                Gestisci Fatture
+                {t('invoices.goTo')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>
@@ -127,23 +130,22 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <BarChart className="mr-2 h-5 w-5 text-primary" />
-                Report
+                {t('reports.title')}
               </CardTitle>
               <CardDescription>
-                Analizza l'andamento delle attività
+                {t('reports.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                Visualizza report giornalieri, settimanali e mensili 
-                per analizzare l'andamento delle attività.
+                {t('reports.subDescription')}
               </p>
               <Button 
                 variant="outline" 
                 className="w-full btn-with-icon" 
                 onClick={() => navigate("/reports")}
               >
-                Visualizza Report
+                {t('reports.goTo')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardContent>

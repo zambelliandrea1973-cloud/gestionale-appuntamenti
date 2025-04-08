@@ -1,0 +1,187 @@
+{
+  "app": {
+    "title": "Terminverwaltung",
+    "welcome": "Willkommen bei der Terminverwaltung",
+    "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
+  },
+  "language": {
+    "it": "Italienisch",
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "ru": "Russisch",
+    "nl": "Niederländisch",
+    "no": "Norwegisch",
+    "ro": "Rumänisch",
+    "select": "Sprache auswählen"
+  },
+  "home": {
+    "calendar": {
+      "title": "Kalender",
+      "description": "Termine anzeigen und verwalten",
+      "content": "Termine im Tages-, Wochen- oder Monatsformat anzeigen und einfach neue Termine erstellen.",
+      "button": "Zum Kalender"
+    },
+    "clients": {
+      "title": "Kunden",
+      "description": "Kundeninformationen verwalten",
+      "content": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen.",
+      "button": "Kunden verwalten"
+    },
+    "invoices": {
+      "title": "Rechnungen",
+      "description": "Rechnungen und Zahlungen verwalten",
+      "content": "Erstellen und verwalten Sie Rechnungen, erfassen Sie Zahlungen und überwachen Sie den Rechnungsstatus in Echtzeit.",
+      "button": "Rechnungen verwalten"
+    },
+    "reports": {
+      "title": "Berichte",
+      "description": "Geschäftsentwicklung analysieren",
+      "content": "Tägliche, wöchentliche und monatliche Berichte anzeigen, um die Geschäftsentwicklung zu analysieren.",
+      "button": "Berichte anzeigen"
+    }
+  },
+  "calendar": {
+    "title": "Kalender",
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich",
+    "addAppointment": "Neuer Termin",
+    "today": "Heute",
+    "days": {
+      "monday": "Montag",
+      "tuesday": "Dienstag",
+      "wednesday": "Mittwoch",
+      "thursday": "Donnerstag",
+      "friday": "Freitag",
+      "saturday": "Samstag",
+      "sunday": "Sonntag"
+    },
+    "months": {
+      "january": "Januar",
+      "february": "Februar",
+      "march": "März",
+      "april": "April",
+      "may": "Mai",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "August",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "Dezember"
+    }
+  },
+  "clients": {
+    "title": "Kunden",
+    "addClient": "Neuer Kunde",
+    "search": "Kunde suchen",
+    "table": {
+      "name": "Vorname",
+      "surname": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "actions": "Aktionen"
+    },
+    "details": {
+      "title": "Kundendetails",
+      "personalInfo": "Persönliche Informationen",
+      "medicalInfo": "Medizinische Informationen",
+      "appointments": "Termine",
+      "notes": "Notizen",
+      "consents": "Einwilligungen"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "birthDate": "Geburtsdatum",
+      "address": "Adresse",
+      "city": "Stadt",
+      "zipCode": "PLZ",
+      "notes": "Notizen",
+      "save": "Speichern",
+      "cancel": "Abbrechen"
+    }
+  },
+  "invoices": {
+    "title": "Rechnungen",
+    "addInvoice": "Neue Rechnung",
+    "table": {
+      "number": "Nummer",
+      "date": "Datum",
+      "client": "Kunde",
+      "amount": "Betrag",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "paid": "Bezahlt",
+      "unpaid": "Unbezahlt",
+      "partial": "Teilweise bezahlt"
+    }
+  },
+  "reports": {
+    "title": "Berichte",
+    "daily": "Tagesbericht",
+    "weekly": "Wochenbericht",
+    "monthly": "Monatsbericht",
+    "appointments": "Termine",
+    "clients": "Kunden",
+    "revenue": "Einnahmen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "general": "Allgemein",
+    "profile": "Profil",
+    "appearance": "Erscheinungsbild",
+    "notifications": "Benachrichtigungen",
+    "language": "Sprache",
+    "theme": "Thema",
+    "save": "Einstellungen speichern"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "view": "Anzeigen",
+    "search": "Suchen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "actions": "Aktionen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "date": "Datum",
+    "time": "Zeit",
+    "description": "Beschreibung"
+  },
+  "notifications": {
+    "success": "Vorgang erfolgreich abgeschlossen",
+    "error": "Es ist ein Fehler aufgetreten",
+    "warning": "Warnung",
+    "info": "Information"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "rememberMe": "Angemeldet bleiben",
+    "forgotPassword": "Passwort vergessen?",
+    "loginButton": "Anmelden"
+  },
+  "clientArea": {
+    "title": "Kundenbereich",
+    "welcome": "Willkommen in Ihrem persönlichen Bereich",
+    "appointments": "Ihre Termine",
+    "personalInfo": "Persönliche Informationen",
+    "consents": "Einwilligungsverwaltung",
+    "messages": "Nachrichten"
+  }
+}

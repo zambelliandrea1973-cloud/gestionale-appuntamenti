@@ -1,0 +1,201 @@
+{
+  "app": {
+    "title": "Appointment Management",
+    "welcome": "Welcome to Appointment Management",
+    "description": "Easily manage appointments, clients and invoices"
+  },
+  "language": {
+    "it": "Italian",
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish",
+    "ru": "Russian",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "ro": "Romanian",
+    "select": "Select language"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendar",
+      "description": "View and manage all appointments",
+      "content": "View appointments in daily, weekly or monthly mode, and easily create new appointments.",
+      "button": "Go to Calendar"
+    },
+    "clients": {
+      "title": "Clients",
+      "description": "Manage client information",
+      "content": "Add, edit and view client data, including personal and medical information.",
+      "button": "Manage Clients"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "description": "Manage invoices and payments",
+      "content": "Create and manage invoices, record payments and monitor invoice status in real time.",
+      "button": "Manage Invoices"
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Analyze business performance",
+      "content": "View daily, weekly and monthly reports to analyze business performance.",
+      "button": "View Reports"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "description": "View and manage all appointments",
+    "subDescription": "View appointments in daily, weekly or monthly mode, and easily create new appointments",
+    "goTo": "Go to Calendar",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "addAppointment": "New Appointment",
+    "today": "Today",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
+  },
+  "clients": {
+    "title": "Clients",
+    "description": "Manage client information",
+    "subDescription": "Add, edit and view client data, including personal and medical information",
+    "goTo": "Manage Clients",
+    "addClient": "New Client",
+    "search": "Search client",
+    "table": {
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "phone": "Phone",
+      "actions": "Actions"
+    },
+    "details": {
+      "title": "Client Details",
+      "personalInfo": "Personal Information",
+      "medicalInfo": "Medical Information",
+      "appointments": "Appointments",
+      "notes": "Notes",
+      "consents": "Consents"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "birthDate": "Birth Date",
+      "address": "Address",
+      "city": "City",
+      "zipCode": "ZIP Code",
+      "notes": "Notes",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "description": "Manage invoices and payments",
+    "subDescription": "Create and manage invoices, record payments and monitor invoice status in real time",
+    "goTo": "Manage Invoices",
+    "addInvoice": "New Invoice",
+    "table": {
+      "number": "Number",
+      "date": "Date",
+      "client": "Client",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "partial": "Partial Payment"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "description": "Analyze business performance",
+    "subDescription": "View daily, weekly and monthly reports to analyze business performance",
+    "goTo": "View Reports",
+    "daily": "Daily Report",
+    "weekly": "Weekly Report",
+    "monthly": "Monthly Report",
+    "appointments": "Appointments",
+    "clients": "Clients",
+    "revenue": "Revenue"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "profile": "Profile",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "save": "Save Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "actions": "Actions",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "date": "Date",
+    "time": "Time",
+    "description": "Description",
+    "support": "Support",
+    "terms": "Terms of Service"
+  },
+  "notifications": {
+    "success": "Operation completed successfully",
+    "error": "An error has occurred",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login"
+  },
+  "clientArea": {
+    "title": "Client Area",
+    "welcome": "Welcome to your Personal Area",
+    "appointments": "Your Appointments",
+    "personalInfo": "Personal Information",
+    "consents": "Consent Management",
+    "messages": "Messages"
+  }
+}
