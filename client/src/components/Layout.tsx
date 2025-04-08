@@ -1,5 +1,5 @@
-import React, { useState, ReactNode, useEffect } from "react";
-import { Link } from "wouter";
+import { useState, ReactNode } from "react";
+import { Link, useLocation } from "wouter";
 import { 
   CalendarDays, 
   Users, 
@@ -22,38 +22,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  // Implementazione alternativa a useLocation()
-  const [location, setLocation] = useState(window.location.pathname);
-  
-  useEffect(() => {
-    const handleLocationChange = () => {
-      setLocation(window.location.pathname);
-    };
-    
-    // Ascoltiamo i cambiamenti di location manualmente
-    window.addEventListener('popstate', handleLocationChange);
-    
-    // Patch per history API
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-    
-    history.pushState = function(data: any, unused: string, url?: string | URL | null) {
-      originalPushState.call(this, data, unused, url);
-      handleLocationChange();
-    };
-    
-    history.replaceState = function(data: any, unused: string, url?: string | URL | null) {
-      originalReplaceState.call(this, data, unused, url);
-      handleLocationChange();
-    };
-    
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-      history.pushState = originalPushState;
-      history.replaceState = originalReplaceState;
-    };
-  }, []);
-  
+  const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
 
   // Check active route
