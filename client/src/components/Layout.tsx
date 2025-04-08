@@ -23,13 +23,14 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [location] = useLocation();
+  const [location = ""] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
 
   // Check active route
   const isActive = (path: string) => {
-    // Protezione contro undefined
-    return location ? location === path : false;
+    // Protezione contro undefined o null
+    if (!location) return path === "/";
+    return location === path;
   };
 
   return (
