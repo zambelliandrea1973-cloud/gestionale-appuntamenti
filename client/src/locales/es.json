@@ -4,6 +4,16 @@
     "welcome": "Bienvenido a la Gestión de Citas",
     "description": "Gestione fácilmente citas, clientes y facturas"
   },
+  "navigation": {
+    "home": "Inicio"
+  },
+  "sidebar": {
+    "clients": "Clientes",
+    "calendar": "Calendario",
+    "invoices": "Facturas",
+    "reports": "Informes",
+    "settings": "Ajustes"
+  },
   "language": {
     "it": "Italiano",
     "en": "Inglés",
@@ -44,11 +54,19 @@
   },
   "calendar": {
     "title": "Calendario",
+    "description": "Ver y gestionar todas las citas",
+    "subDescription": "Vea las citas en modo diario, semanal o mensual, y cree fácilmente nuevas citas",
+    "goTo": "Ir al Calendario",
     "daily": "Diario",
     "weekly": "Semanal",
     "monthly": "Mensual",
+    "weekView": "Vista semanal",
+    "monthView": "Vista mensual",
     "addAppointment": "Nueva Cita",
     "today": "Hoy",
+    "searchResults": "Resultados de búsqueda",
+    "noAppointmentsFound": "No se encontraron citas para",
+    "goToDay": "Ir al día",
     "days": {
       "monday": "Lunes",
       "tuesday": "Martes",
@@ -75,8 +93,32 @@
   },
   "clients": {
     "title": "Clientes",
+    "description": "Gestionar información de clientes",
+    "subDescription": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica",
+    "goTo": "Gestionar Clientes",
     "addClient": "Nuevo Cliente",
-    "search": "Buscar cliente",
+    "newClient": "Nuevo Cliente",
+    "addFirstClient": "Añadir primer cliente",
+    "search": {
+      "placeholder": "Buscar clientes por nombre, teléfono o email...",
+      "minLength": "Introduzca al menos 2 caracteres para buscar"
+    },
+    "filter": {
+      "all": "Todos",
+      "frequent": "Frecuentes",
+      "noConsent": "Sin Consentimiento"
+    },
+    "noClientsFound": "No se encontraron clientes",
+    "noClientsInSystem": "No hay clientes registrados en el sistema",
+    "noResultsMatch": "Ningún cliente coincide con los criterios de búsqueda \"{{query}}\"",
+    "refreshSuccess": "Los datos de clientes se han actualizado",
+    "lastUpdate": "Última actualización",
+    "autoUpdate": "Actualización automática cada hora y a las 23:59",
+    "stats": {
+      "total": "Total de clientes",
+      "frequent": "Clientes frecuentes",
+      "noConsent": "Sin consentimiento"
+    },
     "table": {
       "name": "Nombre",
       "surname": "Apellido",
@@ -90,7 +132,24 @@
       "medicalInfo": "Información Médica",
       "appointments": "Citas",
       "notes": "Notas",
-      "consents": "Consentimientos"
+      "consents": "Consentimientos",
+      "clientFile": "Carpeta del Cliente",
+      "medicalFile": "Carpeta Médica",
+      "showDetails": "Mostrar detalles",
+      "activateAccess": "Activar acceso cliente",
+      "accessActivated": "Acceso activado",
+      "generateLink": "Generar enlace para el acceso",
+      "generateQRCode": "Generar código QR",
+      "viewMedicalFile": "Ver carpeta médica",
+      "viewClientFile": "Ver carpeta del cliente",
+      "appointmentHistory": "Historial de citas",
+      "invoiceHistory": "Historial de facturas",
+      "addAppointment": "Añadir cita",
+      "viewConsents": "Ver consentimientos",
+      "manageConsents": "Gestionar consentimientos",
+      "clientNotes": "Notas del cliente",
+      "medicalNotes": "Notas médicas",
+      "clientSince": "Cliente desde"
     },
     "form": {
       "firstName": "Nombre",
@@ -108,7 +167,11 @@
   },
   "invoices": {
     "title": "Facturas",
+    "description": "Gestionar facturas y pagos",
+    "subDescription": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real",
+    "goTo": "Gestionar Facturas",
     "addInvoice": "Nueva Factura",
+    "newInvoice": "Nueva Factura",
     "table": {
       "number": "Número",
       "date": "Fecha",
@@ -125,12 +188,19 @@
   },
   "reports": {
     "title": "Informes",
+    "description": "Analizar el rendimiento del negocio",
+    "subDescription": "Visualice informes diarios, semanales y mensuales para analizar el rendimiento del negocio",
+    "goTo": "Ver Informes",
     "daily": "Informe Diario",
     "weekly": "Informe Semanal",
     "monthly": "Informe Mensual",
     "appointments": "Citas",
     "clients": "Clientes",
-    "revenue": "Ingresos"
+    "revenue": "Ingresos",
+    "period": "Período",
+    "summary": "Resumen",
+    "details": "Detalles",
+    "generateReport": "Generar Informe"
   },
   "settings": {
     "title": "Ajustes",
@@ -159,7 +229,10 @@
     "address": "Dirección",
     "date": "Fecha",
     "time": "Hora",
-    "description": "Descripción"
+    "description": "Descripción",
+    "support": "Soporte",
+    "terms": "Términos de Servicio",
+    "refresh": "Actualizar"
   },
   "notifications": {
     "success": "Operación completada con éxito",
@@ -182,6 +255,18 @@
     "appointments": "Sus Citas",
     "personalInfo": "Información Personal",
     "consents": "Gestión de Consentimientos",
-    "messages": "Mensajes"
+    "messages": "Mensajes",
+    "upcomingAppointments": "Próximas citas",
+    "noUpcomingAppointments": "No tiene citas programadas",
+    "viewAppointments": "Ver todas las citas",
+    "consentStatus": "Estado de los consentimientos",
+    "consentMissing": "Consentimiento requerido",
+    "viewConsents": "Ver consentimientos",
+    "manageConsents": "Gestionar consentimientos",
+    "personalData": "Datos personales",
+    "medicalData": "Datos médicos",
+    "saveChanges": "Guardar cambios",
+    "dataUpdated": "Sus datos han sido actualizados",
+    "goBack": "Volver al dashboard"
   }
 }
