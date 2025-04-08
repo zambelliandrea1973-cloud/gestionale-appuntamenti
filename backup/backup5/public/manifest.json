@@ -1,0 +1,66 @@
+{
+  "name": "Gestione Appuntamenti",
+  "short_name": "App Cliente",
+  "description": "Gestione appuntamenti e consensi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "orientation": "any",
+  "categories": ["healthcare", "business", "appointments"],
+  "lang": "it-IT",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "scope": "/",
+  "id": "/",
+  "icons": [
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "platform": "wide",
+      "label": "Home page dell'applicazione"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Calendario",
+      "url": "/calendar",
+      "description": "Visualizza il tuo calendario",
+      "icons": [
+        {
+          "src": "/icons/app-icon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Clienti",
+      "url": "/clients",
+      "description": "Gestisci i tuoi clienti",
+      "icons": [
+        {
+          "src": "/icons/app-icon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "related_applications": []
+}
