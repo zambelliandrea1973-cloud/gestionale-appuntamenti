@@ -1,4 +1,4 @@
-import { Route, Switch, useLocation } from "wouter";
+import { Route, Switch } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
@@ -18,19 +18,17 @@ import DirectAccess from "./pages/DirectAccess";
 import AutoLogin from "./pages/AutoLogin";
 
 function Router() {
-  // Utilizziamo l'hook useLocation di wouter
-  const [location] = useLocation();
-  // Assicuriamoci che location non sia undefined
-  const currentLocation = location || "/";
+  // Usiamo window.location.pathname direttamente invece di useLocation
+  const pathname = window.location.pathname;
   
   // Percorsi che non utilizzano il layout principale
   const isClientPath = 
-    currentLocation.startsWith('/activate') || 
-    currentLocation.startsWith('/client-login') || 
-    currentLocation.startsWith('/client-area') || 
-    currentLocation.startsWith('/consent') ||
-    currentLocation.startsWith('/direct-access') ||
-    currentLocation.startsWith('/auto-login'); // Aggiungiamo il percorso di AutoLogin
+    pathname.startsWith('/activate') || 
+    pathname.startsWith('/client-login') || 
+    pathname.startsWith('/client-area') || 
+    pathname.startsWith('/consent') ||
+    pathname.startsWith('/direct-access') ||
+    pathname.startsWith('/auto-login'); // Aggiungiamo il percorso di AutoLogin
   
   // Se è un percorso client, non utilizziamo il layout principale
   if (isClientPath) {
