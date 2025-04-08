@@ -42,7 +42,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div>
-          <Card className="h-full card-hover">
+          <Card className="h-full card-hover flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <CalendarDays className="mr-2 h-5 w-5 text-primary" />
@@ -52,24 +52,26 @@ export default function Home() {
                 {t('calendar.description')}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="mb-4">
+            <CardContent className="flex-1 flex flex-col">
+              <p className="flex-1">
                 {t('calendar.subDescription')}
               </p>
-              <Button 
-                variant="outline" 
-                className="w-full btn-with-icon" 
-                onClick={() => navigate("/calendar")}
-              >
-                {t('calendar.goTo')}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full btn-with-icon" 
+                  onClick={() => navigate("/calendar")}
+                >
+                  {t('calendar.goTo')}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
 
         <div>
-          <Card className="h-full card-hover">
+          <Card className="h-full card-hover flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Users className="mr-2 h-5 w-5 text-primary" />
@@ -79,24 +81,26 @@ export default function Home() {
                 {t('clients.description')}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="mb-4">
+            <CardContent className="flex-1 flex flex-col">
+              <p className="flex-1">
                 {t('clients.subDescription')}
               </p>
-              <Button 
-                variant="outline" 
-                className="w-full btn-with-icon" 
-                onClick={() => navigate("/clients")}
-              >
-                {t('clients.goTo')}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full btn-with-icon" 
+                  onClick={() => navigate("/clients")}
+                >
+                  {t('clients.goTo')}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
 
         <div>
-          <Card className="h-full card-hover">
+          <Card className="h-full card-hover flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <FileText className="mr-2 h-5 w-5 text-primary" />
@@ -106,24 +110,26 @@ export default function Home() {
                 {t('invoices.description')}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="mb-4">
+            <CardContent className="flex-1 flex flex-col">
+              <p className="flex-1">
                 {t('invoices.subDescription')}
               </p>
-              <Button 
-                variant="outline" 
-                className="w-full btn-with-icon" 
-                onClick={() => navigate("/invoices")}
-              >
-                {t('invoices.goTo')}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full btn-with-icon" 
+                  onClick={() => navigate("/invoices")}
+                >
+                  {t('invoices.goTo')}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
 
         <div>
-          <Card className="h-full card-hover">
+          <Card className="h-full card-hover flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <BarChart className="mr-2 h-5 w-5 text-primary" />
@@ -133,18 +139,20 @@ export default function Home() {
                 {t('reports.description')}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="mb-4">
+            <CardContent className="flex-1 flex flex-col">
+              <p className="flex-1">
                 {t('reports.subDescription')}
               </p>
-              <Button 
-                variant="outline" 
-                className="w-full btn-with-icon" 
-                onClick={() => navigate("/reports")}
-              >
-                {t('reports.goTo')}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full btn-with-icon" 
+                  onClick={() => navigate("/reports")}
+                >
+                  {t('reports.goTo')}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
