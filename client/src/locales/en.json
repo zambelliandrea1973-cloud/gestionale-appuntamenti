@@ -90,7 +90,28 @@
     "subDescription": "Add, edit and view client data, including personal and medical information",
     "goTo": "Manage Clients",
     "addClient": "New Client",
-    "search": "Search client",
+    "newClient": "New Client",
+    "addFirstClient": "Add first client",
+    "search": {
+      "placeholder": "Search clients by name, phone or email...",
+      "minLength": "Enter at least 2 characters to search"
+    },
+    "filter": {
+      "all": "All",
+      "frequent": "Frequent",
+      "noConsent": "No Consent"
+    },
+    "noClientsFound": "No clients found",
+    "noClientsInSystem": "There are no clients registered in the system",
+    "noResultsMatch": "No clients match the search criteria \"{{query}}\"",
+    "refreshSuccess": "Client data has been updated",
+    "lastUpdate": "Last update",
+    "autoUpdate": "Automatic update every hour and at 11:59 PM",
+    "stats": {
+      "total": "Total clients",
+      "frequent": "Frequent clients",
+      "noConsent": "Without consent"
+    },
     "table": {
       "name": "Name",
       "surname": "Surname",
@@ -181,7 +202,8 @@
     "time": "Time",
     "description": "Description",
     "support": "Support",
-    "terms": "Terms of Service"
+    "terms": "Terms of Service",
+    "refresh": "Refresh"
   },
   "notifications": {
     "success": "Operation completed successfully",
