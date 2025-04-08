@@ -206,7 +206,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     if (confirm('Sei sicuro di voler eliminare questa nota?')) {
       deleteNoteMutation.mutate(id);
       // Se stiamo eliminando la nota attiva, torniamo alla nota precedente
-      if (sortedNotes && sortedNotes.length > 1 && sortedNotes[activeNoteIndex].id === id) {
+      if (sortedNotes && sortedNotes.length > 1 && activeNoteIndex < sortedNotes.length && sortedNotes[activeNoteIndex]?.id === id) {
         if (activeNoteIndex > 0) {
           setActiveNoteIndex(activeNoteIndex - 1);
         } else {
@@ -222,21 +222,27 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   
   // Funzioni di navigazione
   const goToNextNote = () => {
-    if (!sortedNotes || activeNoteIndex >= sortedNotes.length - 1) return;
+    if (!sortedNotes || !hasNotes || activeNoteIndex >= sortedNotes.length - 1) return;
     
     setAnimatingToNext(true);
     setTimeout(() => {
-      setActiveNoteIndex(activeNoteIndex + 1);
+      // Verifico che l'indice sia ancora valido
+      if (activeNoteIndex < sortedNotes.length - 1) {
+        setActiveNoteIndex(activeNoteIndex + 1);
+      }
       setAnimatingToNext(false);
     }, 300);
   };
   
   const goToPrevNote = () => {
-    if (!sortedNotes || activeNoteIndex <= 0) return;
+    if (!sortedNotes || !hasNotes || activeNoteIndex <= 0) return;
     
     setAnimatingToPrev(true);
     setTimeout(() => {
-      setActiveNoteIndex(activeNoteIndex - 1);
+      // Verifico che l'indice sia ancora valido
+      if (activeNoteIndex > 0) {
+        setActiveNoteIndex(activeNoteIndex - 1);
+      }
       setAnimatingToPrev(false);
     }, 300);
   };
@@ -263,8 +269,15 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   // Verifica se ci sono note
   const hasNotes = sortedNotes && sortedNotes.length > 0;
   
+  // Resetta l'indice attivo se è fuori dai limiti
+  useEffect(() => {
+    if (hasNotes && activeNoteIndex >= sortedNotes.length) {
+      setActiveNoteIndex(0);
+    }
+  }, [hasNotes, sortedNotes, activeNoteIndex]);
+  
   // Ottieni la nota attiva
-  const activeNote = hasNotes ? sortedNotes[activeNoteIndex] : null;
+  const activeNote = hasNotes && activeNoteIndex < sortedNotes.length ? sortedNotes[activeNoteIndex] : null;
 
   return (
     <div>
@@ -386,7 +399,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
           </div>
         ) : (
           /* Note impilate */
-          sortedNotes.map((note, index) => {
+          sortedNotes && sortedNotes.map((note, index) => {
             // Calcola la posizione di ogni nota
             const isActive = index === activeNoteIndex;
             const isPrevious = index < activeNoteIndex;
