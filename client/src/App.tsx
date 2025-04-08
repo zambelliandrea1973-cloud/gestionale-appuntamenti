@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Switch } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
@@ -17,37 +18,25 @@ import ConsentPage from "./pages/ConsentPage";
 import DirectAccess from "./pages/DirectAccess";
 import AutoLogin from "./pages/AutoLogin";
 
-function Router() {
-  // Usiamo window.location.pathname direttamente invece di useLocation
-  const pathname = window.location.pathname;
-  
-  // Percorsi che non utilizzano il layout principale
-  const isClientPath = 
-    pathname.startsWith('/activate') || 
-    pathname.startsWith('/client-login') || 
-    pathname.startsWith('/client-area') || 
-    pathname.startsWith('/consent') ||
-    pathname.startsWith('/direct-access') ||
-    pathname.startsWith('/auto-login'); // Aggiungiamo il percorso di AutoLogin
-  
-  // Se è un percorso client, non utilizziamo il layout principale
-  if (isClientPath) {
-    return (
-      <div>
-        <Switch>
-          <Route path="/activate" component={ActivateAccount} />
-          <Route path="/client-login" component={ClientLogin} />
-          <Route path="/client-area" component={ClientArea} />
-          <Route path="/consent" component={ConsentPage} />
-          <Route path="/direct-access" component={DirectAccess} />
-          <Route path="/auto-login" component={AutoLogin} />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    );
-  }
-  
-  // Altrimenti utilizziamo il layout per l'area amministrativa
+// Componente separato per i percorsi client
+function ClientRoutes() {
+  return (
+    <div className="client-routes">
+      <Switch>
+        <Route path="/activate" component={ActivateAccount} />
+        <Route path="/client-login" component={ClientLogin} />
+        <Route path="/client-area" component={ClientArea} />
+        <Route path="/consent" component={ConsentPage} />
+        <Route path="/direct-access" component={DirectAccess} />
+        <Route path="/auto-login" component={AutoLogin} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
+  );
+}
+
+// Componente separato per i percorsi admin
+function AdminRoutes() {
   return (
     <Layout>
       <Switch>
@@ -62,6 +51,23 @@ function Router() {
       </Switch>
     </Layout>
   );
+}
+
+function Router() {
+  // Usiamo window.location.pathname direttamente invece di useLocation
+  const pathname = window.location.pathname;
+  
+  // Percorsi che non utilizzano il layout principale
+  const isClientPath = 
+    pathname.startsWith('/activate') || 
+    pathname.startsWith('/client-login') || 
+    pathname.startsWith('/client-area') || 
+    pathname.startsWith('/consent') ||
+    pathname.startsWith('/direct-access') ||
+    pathname.startsWith('/auto-login');
+  
+  // Renderizziamo i percorsi appropriati in base al path
+  return isClientPath ? <ClientRoutes /> : <AdminRoutes />;
 }
 
 function App() {

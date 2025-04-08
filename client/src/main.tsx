@@ -1,3 +1,4 @@
+import React from 'react';
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
@@ -16,9 +17,16 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-createRoot(document.getElementById("root")!).render(
-  <>
-    <App />
-    <Toaster />
-  </>
-);
+// Assicuriamoci che il componente root esista
+const rootElement = document.getElementById("root");
+if (!rootElement) {
+  console.error("Elemento root non trovato!");
+} else {
+  const root = createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <App />
+      <Toaster />
+    </React.StrictMode>
+  );
+}
