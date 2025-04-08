@@ -44,12 +44,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
   
-  // Middleware specifico per il service worker - assicura che sia servito con il MIME type corretto
-  app.get("/service-worker.js", (req, res) => {
+  // Middleware per servire i file statici dalla cartella public
+  // Nota: Non utilizziamo app.use(express.static()) qui perché è già gestito da server/vite.ts
+  const rootDir = process.cwd();
+  const publicDir = path.join(rootDir, "public");
+  
+  // Regola specifica per servire i file HTML statici
+  app.get("/:fileName.html", (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Utilizza il percorso assoluto basato sulla directory corrente
-      const rootDir = process.cwd();
-      const filePath = path.join(rootDir, "public/service-worker.js");
+      const fileName = req.params.fileName;
+      const filePath = path.join(publicDir, `${fileName}.html`);
+      
+      if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+      }
+      
+      // Se il file non esiste, passa al successivo middleware
+      next();
+    } catch (error) {
+      console.error(`Errore nel servire ${req.path}:`, error);
+      next(error);
+    }
+  });
+  
+  // Middleware specifico per il service worker - assicura che sia servito con il MIME type corretto
+  app.get("/service-worker.js", (req: Request, res: Response) => {
+    try {
+      const filePath = path.join(publicDir, "service-worker.js");
       
       // Verifica che il file esista
       if (fs.existsSync(filePath)) {
@@ -66,11 +87,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Middleware per servire correttamente i file manifest
-  app.get("/manifest.json", (req, res) => {
+  app.get("/manifest.json", (req: Request, res: Response) => {
     try {
-      // Utilizza il percorso assoluto basato sulla directory corrente
-      const rootDir = process.cwd();
-      const filePath = path.join(rootDir, "public/manifest.json");
+      const filePath = path.join(publicDir, "manifest.json");
       
       if (fs.existsSync(filePath)) {
         res.setHeader("Content-Type", "application/manifest+json");
@@ -85,11 +104,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  app.get("/manifest.webmanifest", (req, res) => {
+  app.get("/manifest.webmanifest", (req: Request, res: Response) => {
     try {
-      // Utilizza il percorso assoluto basato sulla directory corrente
-      const rootDir = process.cwd();
-      const filePath = path.join(rootDir, "public/manifest.webmanifest");
+      const filePath = path.join(publicDir, "manifest.webmanifest");
       
       if (fs.existsSync(filePath)) {
         res.setHeader("Content-Type", "application/manifest+json");
@@ -105,13 +122,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Middleware per servire correttamente le icone dell'app
-  app.get("/icons/:fileName", (req, res) => {
+  app.get("/icons/:fileName", (req: Request, res: Response) => {
     try {
       const fileName = req.params.fileName;
-      
-      // Utilizza il percorso assoluto basato sulla directory corrente
-      const rootDir = process.cwd();
-      const filePath = path.join(rootDir, "public/icons", fileName);
+      const filePath = path.join(publicDir, "icons", fileName);
       
       if (fs.existsSync(filePath)) {
         if (fileName.endsWith('.svg')) {
