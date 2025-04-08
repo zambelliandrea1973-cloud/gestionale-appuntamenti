@@ -10,15 +10,32 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, Calendar, LayoutGrid, Layers } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ClientLegacyNotes from "@/components/ClientLegacyNotes";
+import ClientStackedNotes from "@/components/ClientStackedNotes";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export default function ClientMedicalDetails() {
   const [_, setLocation] = useLocation();
   const [clientId, setClientId] = useState<number | null>(null);
+  // Inizializza lo stato con il valore salvato in localStorage o false come default
+  const [useStackedView, setUseStackedView] = useState<boolean>(() => {
+    try {
+      const savedPreference = localStorage.getItem('useStackedView');
+      return savedPreference ? JSON.parse(savedPreference) : false;
+    } catch (e) {
+      return false;
+    }
+  });
+  
+  // Salva la preferenza dell'utente in localStorage quando cambia
+  useEffect(() => {
+    localStorage.setItem('useStackedView', JSON.stringify(useStackedView));
+  }, [useStackedView]);
   
   // Estrai l'ID del cliente dall'URL
   useEffect(() => {
@@ -136,9 +153,52 @@ export default function ClientMedicalDetails() {
               <TabsContent value="notes" className="mt-4">
                 <Card>
                   <CardContent className="pt-6 space-y-6">
-                    <ClientLegacyNotes clientId={client.id} category="general" label="Note generali" />
-                    <ClientLegacyNotes clientId={client.id} category="medical" label="Note mediche" />
-                    <ClientLegacyNotes clientId={client.id} category="allergies" label="Allergie e informazioni sanitarie" />
+                    {/* Controllo per alternare tra vista classica e vista a schede impilate */}
+                    <div className="flex flex-col space-y-2 border-b pb-4 mb-4">
+                      <h4 className="text-sm font-medium">Modalità di visualizzazione note</h4>
+                      <div className="flex flex-wrap items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <LayoutGrid className={`h-5 w-5 ${!useStackedView ? 'text-primary' : 'text-muted-foreground'}`} />
+                          <Switch
+                            checked={useStackedView}
+                            onCheckedChange={setUseStackedView}
+                            id="view-mode"
+                          />
+                          <Layers className={`h-5 w-5 ${useStackedView ? 'text-primary' : 'text-muted-foreground'}`} />
+                        </div>
+                        <div className="flex items-center">
+                          <Label htmlFor="view-mode" className="text-sm font-medium">
+                            {useStackedView ? 'Visualizzazione a schede sovrapposte' : 'Visualizzazione classica'}
+                          </Label>
+                          <div className="ml-2 text-xs text-muted-foreground max-w-[280px]">
+                            {useStackedView 
+                              ? 'Le note sono visualizzate come schede sovrapposte. Clicca sulle schede o usa i pulsanti di navigazione per sfogliarle.' 
+                              : 'Le note sono visualizzate in sequenza verticale.'}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Note generali */}
+                    {useStackedView ? (
+                      <ClientStackedNotes clientId={client.id} category="general" label="Note generali" />
+                    ) : (
+                      <ClientLegacyNotes clientId={client.id} category="general" label="Note generali" />
+                    )}
+                    
+                    {/* Note mediche */}
+                    {useStackedView ? (
+                      <ClientStackedNotes clientId={client.id} category="medical" label="Note mediche" />
+                    ) : (
+                      <ClientLegacyNotes clientId={client.id} category="medical" label="Note mediche" />
+                    )}
+                    
+                    {/* Allergie e informazioni sanitarie */}
+                    {useStackedView ? (
+                      <ClientStackedNotes clientId={client.id} category="allergies" label="Allergie e informazioni sanitarie" />
+                    ) : (
+                      <ClientLegacyNotes clientId={client.id} category="allergies" label="Allergie e informazioni sanitarie" />
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
