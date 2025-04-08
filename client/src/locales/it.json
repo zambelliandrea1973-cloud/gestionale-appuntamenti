@@ -7,6 +7,13 @@
   "navigation": {
     "home": "Home"
   },
+  "sidebar": {
+    "clients": "Clienti",
+    "calendar": "Calendario",
+    "invoices": "Fatture",
+    "reports": "Report",
+    "settings": "Impostazioni"
+  },
   "language": {
     "it": "Italiano",
     "en": "Inglese",
