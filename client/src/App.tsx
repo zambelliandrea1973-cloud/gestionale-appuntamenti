@@ -1,4 +1,4 @@
-import { Route, Switch, Router as WouterRouter } from "wouter";
+import { Route, Switch } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
@@ -10,7 +10,7 @@ import Invoices from "./pages/Invoices";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import NotFound from "./pages/not-found";
 
-function AppRouter() {
+function Router() {
   return (
     <Layout>
       <Switch>
@@ -29,9 +29,7 @@ function AppRouter() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <WouterRouter>
-        <AppRouter />
-      </WouterRouter>
+      <Router />
     </QueryClientProvider>
   );
 }
