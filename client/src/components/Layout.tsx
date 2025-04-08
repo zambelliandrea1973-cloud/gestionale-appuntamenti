@@ -1,5 +1,5 @@
 import { useState, ReactNode } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { 
   CalendarDays, 
   Users, 
@@ -23,14 +23,14 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [location = ""] = useLocation();
+  // Modifica: usiamo window.location.pathname per determinare il percorso attuale
+  // in modo da non dipendere dal context di useLocation che potrebbe mancare
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
 
   // Check active route
   const isActive = (path: string) => {
-    // Protezione contro undefined o null
-    if (!location) return path === "/";
-    return location === path;
+    const currentPath = window.location.pathname || "/";
+    return currentPath === path;
   };
 
   return (
