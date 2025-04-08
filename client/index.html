@@ -3,120 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestione Appuntamenti - Debug</title>
+    <title>Gestione Appuntamenti</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Solo essenziale per testing -->
     <meta name="description" content="Gestisci i tuoi appuntamenti e consensi" />
     <meta name="theme-color" content="#4f46e5">
-    
-    <style>
-      body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #f9fafb;
-        margin: 0;
-        padding: 20px;
-      }
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        padding: 20px;
-      }
-      h1 {
-        color: #4f46e5;
-        margin-top: 0;
-      }
-      .card {
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        padding: 16px;
-        margin-bottom: 16px;
-      }
-      .success {
-        color: #10b981;
-        font-weight: 500;
-      }
-      .error {
-        color: #ef4444;
-        font-weight: 500;
-      }
-      code {
-        background-color: #f3f4f6;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-family: monospace;
-      }
-      .icon-container {
-        margin: 20px 0;
-        display: flex;
-        justify-content: center;
-      }
-      .fleur-de-vie {
-        width: 150px;
-        height: 150px;
-        transition: transform 0.5s ease;
-      }
-      .fleur-de-vie:hover {
-        transform: rotate(30deg);
-      }
-      ol {
-        padding-left: 20px;
-      }
-      li {
-        margin-bottom: 8px;
-      }
-    </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Sistema di Gestione Appuntamenti</h1>
-      
-      <div class="card">
-        <h2>Diagnostica Base</h2>
-        <p class="success">✓ HTML, CSS e JavaScript di base funzionanti</p>
-        <p>Pagina di diagnostica per risolvere problemi con React e altre librerie.</p>
-      </div>
-      
-      <div class="icon-container">
-        <img src="/attached_assets/Fleur de Vie multicolore.jpg" alt="Fleur de Vie" class="fleur-de-vie" id="fleur-icon" />
-      </div>
-      
-      <div class="card">
-        <h2>Test Icona</h2>
-        <p>Passando il mouse sull'icona "Fleur de Vie", si dovrebbe vedere una rotazione di 30 gradi.</p>
-      </div>
-      
-      <div class="card">
-        <h2>Prossimi Passi</h2>
-        <ol>
-          <li>Verificare se l'icona ruota al passaggio del mouse</li>
-          <li>Confermare il funzionamento di questa pagina HTML statica</li>
-          <li>Procedere con il ripristino graduale dell'applicazione React</li>
-        </ol>
-      </div>
-      
-      <div id="root"></div>
-    </div>
-    
-    <script>
-      // Script minimo per test
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('Pagina di diagnostica caricata con successo');
-        
-        // Test di base per verificare che JavaScript funzioni
-        const testEl = document.createElement('div');
-        testEl.className = 'card';
-        testEl.innerHTML = `
-          <h2>Test JavaScript</h2>
-          <p class="success">✓ JavaScript funzionante</p>
-          <p>Timestamp: ${new Date().toLocaleTimeString()}</p>
-        `;
-        
-        document.querySelector('.container').appendChild(testEl);
-      });
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

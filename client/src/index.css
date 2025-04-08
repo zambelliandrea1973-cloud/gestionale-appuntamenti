@@ -18,6 +18,12 @@
   transition: transform 0.8s ease-in-out;
 }
 
+/* Effetto specifico per l'icona Fleur de Vie */
+.hover\:rotate-30:hover {
+  transform: rotate(30deg);
+  transition: transform 0.5s ease;
+}
+
 /* Effetto hover per le card */
 .card-hover:hover {
   transform: translateY(-4px);
@@ -29,4 +35,18 @@
 .btn-with-icon:hover svg {
   transform: translateX(3px);
   transition: transform 0.2s ease;
+}
+
+/* Animazioni personalizzate */
+@keyframes rotateIn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotate-in {
+  animation: rotateIn 1.5s ease-out;
 }
