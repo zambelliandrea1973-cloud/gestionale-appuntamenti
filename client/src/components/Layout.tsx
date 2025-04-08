@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Link } from "wouter";
 import { 
   CalendarDays, 
@@ -25,7 +25,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   // Modifica: usiamo window.location.pathname per determinare il percorso attuale
   // in modo da non dipendere dal context di useLocation che potrebbe mancare
-  const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
+  const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = React.useState(false);
 
   // Check active route
   const isActive = (path: string) => {
