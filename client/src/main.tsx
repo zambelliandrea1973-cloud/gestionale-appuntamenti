@@ -1,40 +1,35 @@
-import React from 'react';
-import { createRoot } from "react-dom/client";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import App from "./App";
 import "./index.css";
-import TestApp from './TestApp';
+import { Toaster } from "@/components/ui/toaster";
 
-// Per debug
-console.log("React version:", React.version);
-console.log("createRoot:", createRoot);
-console.log("Root element:", document.getElementById("root"));
+// Versione di React
+console.log('React version:', React.version);
 
-// Gestione semplice degli errori
+// Rimozione del service worker per sicurezza
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (const registration of registrations) {
+      registration.unregister();
+      console.log('Service worker unregistered');
+    }
+  });
+}
+
+// Render semplice, senza StrictMode per evitare doppi rendering
 try {
-  const rootElement = document.getElementById("root");
-  
-  if (!rootElement) {
-    console.error("Elemento root non trovato!");
-    // Crea un elemento root se non esiste
-    const newRoot = document.createElement("div");
-    newRoot.id = "root";
-    document.body.appendChild(newRoot);
-    console.log("Creato nuovo elemento root");
-    
-    const root = createRoot(newRoot);
-    root.render(<TestApp />);
+  const root = document.getElementById('root');
+  if (root) {
+    ReactDOM.createRoot(root).render(
+      <>
+        <App />
+        <Toaster />
+      </>
+    );
   } else {
-    console.log("Root element trovato, procedendo al render");
-    const root = createRoot(rootElement);
-    root.render(<TestApp />);
+    console.error('Root element not found');
   }
-} catch (error) {
-  console.error("Errore durante il rendering:", error);
-  // Mostra errore a video per debugging
-  const errorDiv = document.createElement("div");
-  errorDiv.style.color = "red";
-  errorDiv.style.padding = "20px";
-  errorDiv.style.margin = "20px";
-  errorDiv.style.border = "1px solid red";
-  errorDiv.textContent = `Errore critico: ${error.message}`;
-  document.body.appendChild(errorDiv);
+} catch (error: unknown) {
+  console.error('Error rendering app:', error instanceof Error ? error.message : 'Unknown error');
 }
