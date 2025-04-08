@@ -90,7 +90,28 @@
     "subDescription": "Aggiungi, modifica e visualizza i dati dei clienti, compresi i dati anagrafici e medici",
     "goTo": "Gestisci Clienti",
     "addClient": "Nuovo Cliente",
-    "search": "Cerca cliente",
+    "newClient": "Nuovo Cliente",
+    "addFirstClient": "Aggiungi il primo cliente",
+    "search": {
+      "placeholder": "Cerca clienti per nome, telefono o email...",
+      "minLength": "Inserisci almeno 2 caratteri per la ricerca"
+    },
+    "filter": {
+      "all": "Tutti",
+      "frequent": "Frequenti",
+      "noConsent": "Senza Consenso"
+    },
+    "noClientsFound": "Nessun cliente trovato",
+    "noClientsInSystem": "Non ci sono clienti registrati nel sistema",
+    "noResultsMatch": "Nessun cliente corrisponde ai criteri di ricerca \"{{query}}\"",
+    "refreshSuccess": "I dati dei clienti sono stati aggiornati",
+    "lastUpdate": "Ultimo aggiornamento",
+    "autoUpdate": "Aggiornamento automatico ogni ora e alle 23:59",
+    "stats": {
+      "total": "Totale clienti",
+      "frequent": "Clienti frequenti",
+      "noConsent": "Senza consenso"
+    },
     "table": {
       "name": "Nome",
       "surname": "Cognome",
@@ -181,7 +202,8 @@
     "time": "Ora",
     "description": "Descrizione",
     "support": "Supporto",
-    "terms": "Termini di Servizio"
+    "terms": "Termini di Servizio",
+    "refresh": "Aggiorna"
   },
   "notifications": {
     "success": "Operazione completata con successo",

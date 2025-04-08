@@ -18,8 +18,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ClientForm from "@/components/ClientForm";
 import ClientCard from "@/components/ClientCard";
+import { useTranslation } from "react-i18next";
 
 export default function Clients() {
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
@@ -90,8 +92,8 @@ export default function Clients() {
   const handleSearch = async () => {
     if (searchQuery.trim().length < 2) {
       toast({
-        title: "Ricerca troppo breve",
-        description: "Inserisci almeno 2 caratteri per la ricerca",
+        title: t('notifications.warning'),
+        description: t('clients.search.minLength'),
         variant: "destructive"
       });
       return;
@@ -143,7 +145,7 @@ export default function Clients() {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
         <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-medium">Gestione Clienti</h2>
+          <h2 className="text-2xl font-medium">{t('sidebar.clients')}</h2>
           <div className="flex items-center gap-2">
             <Button 
               variant="outline" 
@@ -153,13 +155,13 @@ export default function Clients() {
                 refetchClients();
                 setLastRefreshTime(new Date());
                 toast({
-                  title: "Aggiornamento completato",
-                  description: "I dati dei clienti sono stati aggiornati",
+                  title: t('notifications.success'),
+                  description: t('clients.refreshSuccess'),
                 });
               }}
             >
               <Loader2 className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-              Aggiorna
+              {t('common.refresh')}
             </Button>
             
             <TooltipProvider>
@@ -167,12 +169,12 @@ export default function Clients() {
                 <TooltipTrigger asChild>
                   <div className="flex items-center text-xs text-muted-foreground">
                     <Clock className="h-3 w-3 mr-1" />
-                    {lastRefreshTime.toLocaleTimeString()}
+                    {lastRefreshTime.toLocaleTimeString(i18n.language)}
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Ultimo aggiornamento: {lastRefreshTime.toLocaleString()}</p>
-                  <p className="text-xs mt-1">Aggiornamento automatico ogni ora e alle 23:59</p>
+                  <p>{t('clients.lastUpdate')}: {lastRefreshTime.toLocaleString(i18n.language)}</p>
+                  <p className="text-xs mt-1">{t('clients.autoUpdate')}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -183,7 +185,7 @@ export default function Clients() {
           <DialogTrigger asChild>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
-              Nuovo Cliente
+              {t('clients.newClient')}
             </Button>
           </DialogTrigger>
           <ClientForm onClose={() => setIsClientDialogOpen(false)} onClientCreated={handleClientCreated} />
@@ -198,7 +200,7 @@ export default function Clients() {
           </div>
           <Input
             type="text"
-            placeholder="Cerca clienti per nome, telefono o email..."
+            placeholder={t('clients.search.placeholder')}
             className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -212,14 +214,14 @@ export default function Clients() {
         
         <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
           <TabsList className="grid grid-cols-3 w-full md:w-[400px]">
-            <TabsTrigger value="all">Tutti</TabsTrigger>
+            <TabsTrigger value="all">{t('clients.filter.all')}</TabsTrigger>
             <TabsTrigger value="frequent" className="flex items-center">
               <Star className="mr-1 h-3.5 w-3.5 text-pink-500" />
-              Frequenti
+              {t('clients.filter.frequent')}
             </TabsTrigger>
             <TabsTrigger value="no-consent" className="flex items-center">
               <AlertCircle className="mr-1 h-3.5 w-3.5 text-amber-500" />
-              Senza Consenso
+              {t('clients.filter.noConsent')}
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -233,18 +235,18 @@ export default function Clients() {
       ) : filteredClients.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
           <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-          <h3 className="text-lg font-medium text-gray-900 mb-1">Nessun cliente trovato</h3>
+          <h3 className="text-lg font-medium text-gray-900 mb-1">{t('clients.noClientsFound')}</h3>
           <p className="text-gray-500 mb-4">
             {searchQuery 
-              ? `Nessun cliente corrisponde ai criteri di ricerca "${searchQuery}"`
-              : "Non ci sono clienti registrati nel sistema"
+              ? t('clients.noResultsMatch', { query: searchQuery })
+              : t('clients.noClientsInSystem')
             }
           </p>
           <Button 
             onClick={() => setIsClientDialogOpen(true)}
           >
             <Plus className="mr-2 h-4 w-4" />
-            Aggiungi il primo cliente
+            {t('clients.addFirstClient')}
           </Button>
         </div>
       ) : (
@@ -263,14 +265,14 @@ export default function Clients() {
       {clients.length > 0 && (
         <div className="flex flex-wrap gap-4 mt-8">
           <div className="bg-white rounded-lg shadow-sm p-4 flex-grow">
-            <div className="text-lg font-medium">Totale clienti</div>
+            <div className="text-lg font-medium">{t('clients.stats.total')}</div>
             <div className="text-3xl font-bold mt-2">{clients.length}</div>
           </div>
           
           <div className="bg-white rounded-lg shadow-sm p-4 flex-grow">
             <div className="text-lg font-medium flex items-center">
               <Star className="mr-2 h-4 w-4 text-pink-500" />
-              Clienti frequenti
+              {t('clients.stats.frequent')}
             </div>
             <div className="text-3xl font-bold mt-2">
               {clients.filter(c => c.isFrequent).length}
@@ -280,7 +282,7 @@ export default function Clients() {
           <div className="bg-white rounded-lg shadow-sm p-4 flex-grow">
             <div className="text-lg font-medium flex items-center">
               <AlertCircle className="mr-2 h-4 w-4 text-amber-500" />
-              Senza consenso
+              {t('clients.stats.noConsent')}
             </div>
             <div className="text-3xl font-bold mt-2">
               {clients.filter(c => !c.hasConsent).length}
