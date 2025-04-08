@@ -21,8 +21,12 @@ export default function Home() {
     <div className="space-y-6">
       <div className="text-center my-8">
         <div className="flex justify-center mb-6">
-          <div className="w-32 h-32 rounded-full shadow-lg bg-primary/10 border-4 border-primary/20 flex items-center justify-center icon-rotate">
-            <Flower className="h-20 w-20 text-primary" />
+          <div className="w-32 h-32 rounded-full shadow-lg bg-white border-4 border-primary/20 flex items-center justify-center overflow-hidden icon-rotate">
+            <img 
+              src="/attached_assets/Fleur de Vie multicolore.jpg" 
+              alt="Fleur de Vie multicolore" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
         <h1 className="text-3xl font-bold mb-2">
