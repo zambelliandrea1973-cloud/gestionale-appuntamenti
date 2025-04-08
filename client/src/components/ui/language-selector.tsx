@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Globe } from 'lucide-react';
+import { Globe, ChevronDown } from 'lucide-react';
 
 export function LanguageSelector() {
   const { t, i18n } = useTranslation();
@@ -17,15 +17,23 @@ export function LanguageSelector() {
     localStorage.setItem('i18nextLng', value);
   };
 
+  // Funzione per ottenere il nome della lingua corrente
+  const getCurrentLanguageName = () => {
+    return t(`language.${i18n.language}`);
+  };
+
   return (
-    <div className="flex items-center gap-2">
-      <Globe className="h-4 w-4 text-muted-foreground" />
+    <div className="flex items-center">
       <Select
         value={i18n.language}
         onValueChange={handleLanguageChange}
       >
-        <SelectTrigger className="w-[160px]">
-          <SelectValue placeholder={t('language.select')} />
+        <SelectTrigger className="border-none bg-transparent hover:bg-primary-foreground/10 focus:ring-0 focus:ring-offset-0 pl-0 pr-1">
+          <div className="flex items-center gap-1">
+            <Globe className="h-4 w-4" />
+            <span className="text-sm font-medium">{getCurrentLanguageName()}</span>
+            <ChevronDown className="h-3 w-3 opacity-50" />
+          </div>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="it">{t('language.it')}</SelectItem>

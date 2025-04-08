@@ -4,6 +4,9 @@
     "welcome": "Benvenuto nella Gestione Appuntamenti",
     "description": "Gestisci facilmente gli appuntamenti, i clienti e le fatture"
   },
+  "navigation": {
+    "home": "Home"
+  },
   "language": {
     "it": "Italiano",
     "en": "Inglese",

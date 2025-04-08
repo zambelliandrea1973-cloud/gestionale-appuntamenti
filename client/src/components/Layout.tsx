@@ -38,11 +38,22 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
-              <CalendarDays className="h-5 w-5" />
-              <h1 className="text-xl font-medium">{t('app.title')}</h1>
+              <Link href="/">
+                <div className="flex items-center space-x-2 cursor-pointer">
+                  <CalendarDays className="h-5 w-5" />
+                  <h1 className="text-xl font-medium">{t('app.title')}</h1>
+                </div>
+              </Link>
             </div>
             
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-4">
+              <Link href="/">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Grid className="h-4 w-4" />
+                  <span>{t('navigation.home')}</span>
+                </Button>
+              </Link>
+            
               <Link href="/calendar">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <Calendar className="h-4 w-4" />
