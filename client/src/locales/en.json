@@ -4,6 +4,9 @@
     "welcome": "Welcome to Appointment Management",
     "description": "Easily manage appointments, clients and invoices"
   },
+  "navigation": {
+    "home": "Home"
+  },
   "language": {
     "it": "Italian",
     "en": "English",
