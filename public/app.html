@@ -43,75 +43,6 @@
         margin-bottom: 2rem;
       }
       
-      /* Navbar */
-      .navbar {
-        background-color: white;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        padding: 0.75rem 1.5rem;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-      
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-      
-      .logo {
-        display: flex;
-        align-items: center;
-        font-weight: 700;
-        font-size: 1.25rem;
-        color: #4f46e5;
-        text-decoration: none;
-      }
-      
-      .logo img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 0.75rem;
-        transition: transform 0.5s ease;
-      }
-      
-      .logo:hover img {
-        transform: rotate(30deg);
-      }
-      
-      .nav-links {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      
-      .nav-links li {
-        margin-left: 1.5rem;
-      }
-      
-      .nav-links a {
-        color: #4b5563;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-      }
-      
-      .nav-links a:hover {
-        color: #4f46e5;
-      }
-      
-      .hamburger {
-        display: none;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5rem;
-      }
-      
       /* Layout dashboard */
       .dashboard {
         display: grid;
@@ -359,50 +290,6 @@
         color: white;
       }
       
-      .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 0.5rem;
-      }
-      
-      .calendar-day {
-        text-align: center;
-        padding: 0.5rem;
-        font-weight: 500;
-        color: #6b7280;
-      }
-      
-      .calendar-date {
-        height: 120px;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        padding: 0.5rem;
-        overflow: hidden;
-      }
-      
-      .calendar-date.today {
-        background-color: #eef2ff;
-        border-color: #4f46e5;
-      }
-      
-      .date-number {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-      }
-      
-      .appointment {
-        font-size: 0.85rem;
-        padding: 0.25rem 0.5rem;
-        background-color: #e0e7ff;
-        color: #4338ca;
-        border-radius: 4px;
-        margin-bottom: 0.25rem;
-        cursor: pointer;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      
       /* Footer */
       footer {
         margin-top: 4rem;
@@ -465,49 +352,6 @@
         h1 {
           font-size: 2rem;
         }
-        
-        .nav-links {
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 0;
-          width: 100%;
-          background-color: white;
-          flex-direction: column;
-          padding: 1rem;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-links.active {
-          display: flex;
-        }
-        
-        .nav-links li {
-          margin: 0.5rem 0;
-        }
-        
-        .hamburger {
-          display: block;
-        }
-        
-        .calendar-grid {
-          grid-template-columns: repeat(1, 1fr);
-        }
-        
-        .calendar-day {
-          display: none;
-        }
-        
-        .calendar-date {
-          height: auto;
-          display: flex;
-          align-items: center;
-        }
-        
-        .date-number {
-          margin-right: 0.5rem;
-          margin-bottom: 0;
-        }
       }
       
       /* Animazioni */
@@ -539,32 +383,6 @@
     </style>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="/" class="logo">
-          <img src="/attached_assets/Fleur de Vie multicolore.jpg" alt="Fleur de Vie">
-          <span>Gestione Appuntamenti</span>
-        </a>
-        
-        <button class="hamburger" id="toggleMenu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-        
-        <ul class="nav-links" id="navLinks">
-          <li><a href="/app.html">Home</a></li>
-          <li><a href="/calendar.html">Calendario</a></li>
-          <li><a href="/clients.html">Clienti</a></li>
-          <li><a href="/invoices.html">Fatture</a></li>
-          <li><a href="/reports.html">Report</a></li>
-        </ul>
-      </div>
-    </nav>
-    
     <!-- Pagina statica invece di React -->
     <div class="container">
       <header>
@@ -613,7 +431,7 @@
             Gestisci l'anagrafica clienti, visualizza e modifica i dati personali e medici.
             Tieni traccia di tutti i dettagli importanti.
           </p>
-          <a href="/clients.html" class="btn" id="btnClients">Gestisci Clienti</a>
+          <a href="#" class="btn" id="btnClients" onclick="showClientsPage()">Gestisci Clienti</a>
         </div>
         
         <div class="card animate-fade-in" style="animation-delay: 0.3s;">
@@ -629,7 +447,7 @@
             Crea e gestisci fatture, registra pagamenti e monitora lo stato delle fatture.
             Tieni sotto controllo l'aspetto economico del tuo lavoro.
           </p>
-          <a href="/invoices.html" class="btn" id="btnInvoices">Gestisci Fatture</a>
+          <a href="#" class="btn" id="btnInvoices" onclick="showInvoicesPage()">Gestisci Fatture</a>
         </div>
         
         <div class="card animate-fade-in" style="animation-delay: 0.4s;">
@@ -645,7 +463,7 @@
             Visualizza report giornalieri, settimanali e mensili per analizzare l'andamento delle attività
             e prendere decisioni basate sui dati.
           </p>
-          <a href="/reports.html" class="btn" id="btnReports">Visualizza Report</a>
+          <a href="#" class="btn" id="btnReports" onclick="showReportsPage()">Visualizza Report</a>
         </div>
       </div>
       
@@ -728,9 +546,23 @@
     
     <!-- JavaScript -->
     <script>
+      // Verifica che l'immagine esista
+      function checkImage(url) {
+        const img = new Image();
+        img.src = url;
+        img.onerror = function() {
+          console.error('Errore caricamento immagine:', url);
+          // Sostituisci con un'immagine di fallback o mostra un messaggio
+          document.querySelectorAll('img[src="' + url + '"]').forEach(img => {
+            img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+          });
+        };
+      }
+      
+      // Controlla l'immagine all'avvio
+      checkImage('/attached_assets/Fleur de Vie multicolore.jpg');
+      
       // Seleziona elementi DOM
-      const toggleMenu = document.getElementById('toggleMenu');
-      const navLinks = document.getElementById('navLinks');
       const newAppointmentBtn = document.getElementById('newAppointmentBtn');
       const appointmentModal = document.getElementById('appointmentModal');
       const closeModal = document.getElementById('closeModal');
@@ -740,10 +572,22 @@
       const notificationMessage = document.getElementById('notificationMessage');
       const upcomingAppointments = document.getElementById('upcomingAppointments');
       
-      // Toggle menu mobile
-      toggleMenu.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
+      // Funzioni di navigazione temporanee
+      function showCalendarPage() {
+        showNotification('Apro pagina Calendario (demo)');
+      }
+      
+      function showClientsPage() {
+        showNotification('Apro pagina Clienti (demo)');
+      }
+      
+      function showInvoicesPage() {
+        showNotification('Apro pagina Fatture (demo)');
+      }
+      
+      function showReportsPage() {
+        showNotification('Apro pagina Report (demo)');
+      }
       
       // Apri modal appuntamento
       newAppointmentBtn.addEventListener('click', () => {
