@@ -1,32 +1,40 @@
 import React from 'react';
 import { createRoot } from "react-dom/client";
-import App from "./App";
 import "./index.css";
-import { Toaster } from "@/components/ui/toaster";
+import TestApp from './TestApp';
 
-// Registrazione del Service Worker per il supporto offline e l'installazione dell'app
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(registration => {
-        console.log('Service Worker registrato con successo:', registration.scope);
-      })
-      .catch(error => {
-        console.error('Errore durante la registrazione del Service Worker:', error);
-      });
-  });
-}
+// Per debug
+console.log("React version:", React.version);
+console.log("createRoot:", createRoot);
+console.log("Root element:", document.getElementById("root"));
 
-// Assicuriamoci che il componente root esista
-const rootElement = document.getElementById("root");
-if (!rootElement) {
-  console.error("Elemento root non trovato!");
-} else {
-  const root = createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <App />
-      <Toaster />
-    </React.StrictMode>
-  );
+// Gestione semplice degli errori
+try {
+  const rootElement = document.getElementById("root");
+  
+  if (!rootElement) {
+    console.error("Elemento root non trovato!");
+    // Crea un elemento root se non esiste
+    const newRoot = document.createElement("div");
+    newRoot.id = "root";
+    document.body.appendChild(newRoot);
+    console.log("Creato nuovo elemento root");
+    
+    const root = createRoot(newRoot);
+    root.render(<TestApp />);
+  } else {
+    console.log("Root element trovato, procedendo al render");
+    const root = createRoot(rootElement);
+    root.render(<TestApp />);
+  }
+} catch (error) {
+  console.error("Errore durante il rendering:", error);
+  // Mostra errore a video per debugging
+  const errorDiv = document.createElement("div");
+  errorDiv.style.color = "red";
+  errorDiv.style.padding = "20px";
+  errorDiv.style.margin = "20px";
+  errorDiv.style.border = "1px solid red";
+  errorDiv.textContent = `Errore critico: ${error.message}`;
+  document.body.appendChild(errorDiv);
 }
