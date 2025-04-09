@@ -11,7 +11,8 @@ import {
   Calendar,
   Clock,
   Grid,
-  Plus
+  Plus,
+  Settings as SettingsIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -80,7 +81,7 @@ export default function Layout({ children }: LayoutProps) {
 
               <Link href="/settings">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Clock className="h-4 w-4" />
+                  <SettingsIcon className="h-4 w-4" />
                   <span>{t('settings.title')}</span>
                 </Button>
               </Link>
@@ -131,7 +132,7 @@ export default function Layout({ children }: LayoutProps) {
                     </Link>
                     <Link href="/settings">
                       <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <Clock className="mr-2 h-4 w-4" />
+                        <SettingsIcon className="mr-2 h-4 w-4" />
                         {t('settings.title')}
                       </Button>
                     </Link>
