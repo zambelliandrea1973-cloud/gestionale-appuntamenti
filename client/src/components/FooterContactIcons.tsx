@@ -73,16 +73,6 @@ export default function FooterContactIcons() {
     return null; // Non mostrare nulla se non ci sono informazioni di contatto
   }
 
-  // Calcola il numero di contatti disponibili per adattare la dimensione del contenitore
-  const contactCount = [
-    contactInfo.email,
-    contactInfo.phone1,
-    contactInfo.phone2,
-    contactInfo.website,
-    contactInfo.facebook,
-    contactInfo.instagram
-  ].filter(Boolean).length;
-
   return (
     <Card className="border border-primary/20 shadow-sm bg-white/90 backdrop-blur-sm">
       <CardHeader className="py-2 px-4 bg-primary/10 border-b border-primary/20">
@@ -91,7 +81,7 @@ export default function FooterContactIcons() {
         </h3>
       </CardHeader>
       <CardContent className="p-3">
-        <div className={`grid grid-flow-col gap-3 ${contactCount > 3 ? 'grid-rows-2' : ''}`}>
+        <div className="flex flex-row flex-wrap gap-3 justify-center">
           <TooltipProvider>
             {contactInfo.email && (
               <Tooltip>
@@ -99,10 +89,10 @@ export default function FooterContactIcons() {
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
                     onClick={() => window.open(`mailto:${contactInfo.email}`, '_blank')}
                   >
-                    <Mail className="h-5 w-5 text-primary" />
+                    <Mail className="h-5 w-5 text-blue-600" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -117,10 +107,10 @@ export default function FooterContactIcons() {
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
                     onClick={() => window.open(`tel:${contactInfo.phone1}`, '_blank')}
                   >
-                    <Phone className="h-5 w-5 text-primary" />
+                    <Phone className="h-5 w-5 text-blue-600" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -135,10 +125,10 @@ export default function FooterContactIcons() {
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
                     onClick={() => window.open(`tel:${contactInfo.phone2}`, '_blank')}
                   >
-                    <Phone className="h-5 w-5 text-primary" />
+                    <Phone className="h-5 w-5 text-blue-600" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -153,10 +143,10 @@ export default function FooterContactIcons() {
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
                     onClick={() => window.open(formatContactInfo('website', contactInfo.website), '_blank')}
                   >
-                    <Globe className="h-5 w-5 text-primary" />
+                    <Globe className="h-5 w-5 text-blue-600" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -171,10 +161,10 @@ export default function FooterContactIcons() {
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
                     onClick={() => window.open(formatContactInfo('facebook', contactInfo.facebook), '_blank')}
                   >
-                    <Facebook className="h-5 w-5 text-primary" />
+                    <Facebook className="h-5 w-5 text-blue-600" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -189,10 +179,10 @@ export default function FooterContactIcons() {
                   <Button 
                     variant="outline" 
                     size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    className="h-10 w-10 rounded-full bg-white hover:bg-primary/10 border-primary/30 transition-colors"
                     onClick={() => window.open(formatContactInfo('instagram', contactInfo.instagram), '_blank')}
                   >
-                    <Instagram className="h-5 w-5 text-primary" />
+                    <Instagram className="h-5 w-5 text-blue-600" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
