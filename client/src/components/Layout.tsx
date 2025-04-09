@@ -19,6 +19,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import AppointmentForm from "./AppointmentForm";
+import FooterContactIcons from "./FooterContactIcons";
 
 interface LayoutProps {
   children: ReactNode;
@@ -170,10 +171,19 @@ export default function Layout({ children }: LayoutProps) {
             <div className="text-sm text-gray-600 mb-2 md:mb-0">
               &copy; {new Date().getFullYear()} {t('app.title')}
             </div>
-            <div className="flex space-x-4">
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.support', 'Supporto')}</Button>
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
+            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0">
+              {/* Icone dei contatti */}
+              <FooterContactIcons />
+              
+              {/* Separatore */}
+              <div className="hidden md:block h-6 w-px bg-gray-300 mx-2"></div>
+
+              {/* Links */}
+              <div className="flex space-x-4">
+                <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.support', 'Supporto')}</Button>
+                <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
+                <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
+              </div>
             </div>
           </div>
         </div>
