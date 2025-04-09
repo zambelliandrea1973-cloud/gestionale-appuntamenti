@@ -1599,6 +1599,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Errore durante l'eliminazione dell'evento" });
     }
   });
+  
+  // Endpoint per recuperare tutti gli eventi sincronizzati
+  app.get('/api/google-calendar/events', async (req: Request, res: Response) => {
+    try {
+      const events = await storage.getGoogleCalendarEvents();
+      res.json(events);
+    } catch (error) {
+      console.error("Errore durante il recupero degli eventi Google Calendar:", error);
+      res.status(500).json({ message: "Errore durante il recupero degli eventi" });
+    }
+  });
+  
+  // Endpoint per recuperare la lista dei calendari disponibili
+  app.get('/api/google-calendar/calendars', async (req: Request, res: Response) => {
+    try {
+      const calendars = await googleCalendarService.getAvailableCalendars();
+      
+      // Formatta i dati per il client
+      const formattedCalendars = calendars.map(calendar => ({
+        id: calendar.id,
+        summary: calendar.summary,
+        description: calendar.description,
+        primary: calendar.primary,
+        // Aggiungi altri campi utili se necessario
+      }));
+      
+      res.json(formattedCalendars);
+    } catch (error) {
+      console.error("Errore durante il recupero dei calendari disponibili:", error);
+      res.status(500).json({ message: "Errore durante il recupero dei calendari disponibili" });
+    }
+  });
 
   app.get('/api/client-app-info', (req: Request, res: Response) => {
     try {
