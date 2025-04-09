@@ -220,7 +220,18 @@
     "notifications": "Notifications",
     "language": "Language",
     "theme": "Theme",
-    "save": "Save Settings"
+    "save": "Save Settings",
+    "saving": "Saving...",
+    "contacts": "Contacts",
+    "contactsTitle": "Contact Information",
+    "contactsDesc": "Manage your contact information that will be shown in the footer of the client app",
+    "clientApp": "Client App",
+    "clientAppTitle": "Client App Customization",
+    "clientAppDesc": "Customize the appearance of the app that clients will install on their devices",
+    "appName": "App Name",
+    "appIcon": "App Icon",
+    "googleCalendar": "Google Calendar Sync",
+    "integrations": "Integrations"
   },
   "common": {
     "save": "Save",
