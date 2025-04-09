@@ -133,7 +133,39 @@
       "medicalInfo": "Informations Médicales",
       "appointments": "Rendez-vous",
       "notes": "Notes",
-      "consents": "Consentements"
+      "consents": "Consentements",
+      "clientFile": "Dossier Client",
+      "addAppointment": "Nouveau Rendez-vous",
+      "generateQRCode": "Générer QR Code",
+      "accessActivated": "QR Code d'accès client",
+      "showDetails": "Détails",
+      "deleteClient": "Supprimer client",
+      "deleteClientConfirmation": "Êtes-vous sûr de vouloir supprimer ce client? Tous ses rendez-vous seront également supprimés. Cette action ne peut pas être annulée.",
+      "notFound": "Client non trouvé",
+      "notSpecified": "Non spécifié",
+      "frequentClient": "Client fréquent",
+      "dataConsent": "Consentement au traitement des données",
+      "obtained": "Obtenu",
+      "notObtained": "Non obtenu",
+      "viewAllAppointments": "Voir tous les rendez-vous",
+      "backToClients": "Retour à la liste des clients",
+      "structuredNotes": "Notes structurées",
+      "legacyMedicalData": "Données médicales anciennes",
+      "otherInfo": "Autres informations",
+      "viewMode": "Mode d'affichage des notes",
+      "stackedView": "Vue en cartes empilées",
+      "classicView": "Vue classique",
+      "stackedViewDescription": "Les notes sont affichées sous forme de cartes empilées. Cliquez sur les cartes ou utilisez les boutons de navigation pour les parcourir.",
+      "classicViewDescription": "Les notes sont affichées en séquence verticale.",
+      "generalNotes": "Notes générales",
+      "medicalNotes": "Notes médicales",
+      "allergiesInfo": "Allergies et informations sanitaires",
+      "medicalNotesLegacy": "Notes médicales (anciennes)",
+      "allergiesInfoLegacy": "Allergies et informations sanitaires (anciennes)",
+      "generalNotesLegacy": "Notes générales (anciennes)",
+      "noMedicalNotes": "Aucune note médicale enregistrée",
+      "noAllergiesInfo": "Aucune allergie ou information sanitaire enregistrée",
+      "noGeneralNotes": "Aucune note générale enregistrée"
     },
     "form": {
       "firstName": "Prénom",
@@ -211,13 +243,23 @@
     "description": "Description",
     "support": "Support",
     "terms": "Conditions d'utilisation",
-    "refresh": "Actualiser"
+    "refresh": "Actualiser",
+    "error": "Erreur",
+    "birthday": "Date de naissance",
+    "yes": "Oui",
+    "no": "Non"
   },
   "notifications": {
     "success": "Opération réussie",
     "error": "Une erreur s'est produite",
     "warning": "Avertissement",
-    "info": "Information"
+    "info": "Information",
+    "clientDeleted": "Client supprimé",
+    "clientDeletedSuccess": "Le client a été supprimé avec succès"
+  },
+  "errors": {
+    "genericError": "Une erreur s'est produite: {{error}}",
+    "qrCodeFetchError": "Erreur lors de la récupération du QR code existant:"
   },
   "auth": {
     "login": "Connexion",
