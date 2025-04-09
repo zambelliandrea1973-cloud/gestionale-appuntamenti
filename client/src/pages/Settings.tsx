@@ -8,10 +8,11 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Settings as SettingsIcon, Smartphone, Image, Brush, Type, Calendar, Link2, Check } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Smartphone, Image, Brush, Type, Calendar, Link2, Check, Contact } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AppIconUploader from '@/components/AppIconUploader';
 import AppNameEditor from '@/components/AppNameEditor';
+import ContactInfoEditor from '@/components/ContactInfoEditor';
 import { loadGoogleCalendarConfig, saveGoogleCalendarConfig, GoogleCalendarConfig } from '@/lib/googleCalendar';
 
 export default function Settings() {
@@ -74,10 +75,14 @@ export default function Settings() {
       </header>
 
       <Tabs defaultValue="app" className="w-full">
-        <TabsList className="grid grid-cols-4 mb-6">
+        <TabsList className="grid grid-cols-5 mb-6">
           <TabsTrigger value="app" className="flex items-center">
             <SettingsIcon className="mr-2 h-4 w-4" />
             {t('settings.general', 'Generali')}
+          </TabsTrigger>
+          <TabsTrigger value="contacts" className="flex items-center">
+            <Contact className="mr-2 h-4 w-4" />
+            {t('settings.contacts', 'Contatti')}
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center">
             <Link2 className="mr-2 h-4 w-4" />
@@ -105,6 +110,23 @@ export default function Settings() {
               <p className="text-sm text-muted-foreground">
                 {t('settings.generalInDev', 'Questa sezione è in fase di sviluppo. Presto saranno disponibili opzioni per personalizzare l\'applicazione.')}
               </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="contacts">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Contact className="mr-2 h-5 w-5" />
+                {t('settings.contactsTitle', 'Informazioni di Contatto')}
+              </CardTitle>
+              <CardDescription>
+                {t('settings.contactsDesc', 'Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell\'app cliente')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ContactInfoEditor />
             </CardContent>
           </Card>
         </TabsContent>
