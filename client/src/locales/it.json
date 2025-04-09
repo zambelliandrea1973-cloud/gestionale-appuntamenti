@@ -225,13 +225,12 @@
     "contacts": "Contatti",
     "contactsTitle": "Informazioni di Contatto",
     "contactsDesc": "Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
-    "clientApp": "App Cliente",
-    "clientAppTitle": "Personalizzazione App Cliente",
-    "clientAppDesc": "Personalizza l'aspetto dell'app che i clienti installeranno sui loro dispositivi",
     "appName": "Nome App",
     "appIcon": "Icona App",
     "googleCalendar": "Google calendario",
-    "integrations": "Integrazioni"
+    "integrations": "Integrazioni",
+    "appearanceTitle": "Identità Aziendale",
+    "appearanceDesc": "Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
   },
   "common": {
     "save": "Salva",

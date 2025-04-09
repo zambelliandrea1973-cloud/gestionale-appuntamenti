@@ -35,7 +35,7 @@ export default function Settings() {
       </header>
 
       <Tabs defaultValue="app" className="w-full">
-        <TabsList className="grid grid-cols-5 mb-6">
+        <TabsList className="grid grid-cols-4 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -51,10 +51,6 @@ export default function Settings() {
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
             <span>{t('settings.appearance', 'Aspetto')}</span>
-          </TabsTrigger>
-          <TabsTrigger value="client-app" className="flex items-center whitespace-nowrap">
-            <Smartphone className="mr-2 h-4 w-4" />
-            <span>{t('settings.clientApp', 'App Cliente')}</span>
           </TabsTrigger>
         </TabsList>
 
@@ -98,28 +94,12 @@ export default function Settings() {
         <TabsContent value="appearance">
           <Card>
             <CardHeader>
-              <CardTitle>{t('settings.appearanceTitle', 'Personalizzazione Aspetto')}</CardTitle>
-              <CardDescription>
-                {t('settings.appearanceDesc', 'Personalizza l\'aspetto dell\'applicazione')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                {t('settings.appearanceInDev', 'Questa sezione è in fase di sviluppo. Presto saranno disponibili opzioni per personalizzare i colori e l\'aspetto dell\'applicazione.')}
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="client-app">
-          <Card>
-            <CardHeader>
               <CardTitle className="flex items-center">
-                <Smartphone className="mr-2 h-5 w-5" />
-                {t('settings.clientAppTitle', 'Personalizzazione App Cliente')}
+                <Brush className="mr-2 h-5 w-5" />
+                {t('settings.appearanceTitle', 'Identità Aziendale')}
               </CardTitle>
               <CardDescription>
-                {t('settings.clientAppDesc', 'Personalizza l\'aspetto dell\'app che i clienti installeranno sui loro dispositivi')}
+                {t('settings.appearanceDesc', 'Personalizza il nome e l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Queste impostazioni si applicheranno sia all\'app principale che all\'app cliente.')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
