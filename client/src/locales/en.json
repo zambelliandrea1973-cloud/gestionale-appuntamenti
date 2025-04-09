@@ -132,7 +132,14 @@
       "medicalInfo": "Medical Information",
       "appointments": "Appointments",
       "notes": "Notes",
-      "consents": "Consents"
+      "consents": "Consents",
+      "clientFile": "Client File",
+      "addAppointment": "New Appointment",
+      "generateQRCode": "Generate QR Code",
+      "accessActivated": "Client access QR Code",
+      "showDetails": "Details",
+      "deleteClient": "Delete client",
+      "deleteClientConfirmation": "Are you sure you want to delete this client? All their appointments will also be deleted. This action cannot be undone."
     },
     "form": {
       "firstName": "First Name",
@@ -210,13 +217,21 @@
     "description": "Description",
     "support": "Support",
     "terms": "Terms of Service",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "error": "Error",
+    "birthday": "Birth date"
   },
   "notifications": {
     "success": "Operation completed successfully",
     "error": "An error has occurred",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "clientDeleted": "Client deleted",
+    "clientDeletedSuccess": "The client has been successfully deleted"
+  },
+  "errors": {
+    "genericError": "An error occurred: {{error}}",
+    "qrCodeFetchError": "Error retrieving existing QR code:"
   },
   "auth": {
     "login": "Login",
