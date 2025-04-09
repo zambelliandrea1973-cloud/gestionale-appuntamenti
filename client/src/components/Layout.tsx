@@ -79,12 +79,15 @@ export default function Layout({ children }: LayoutProps) {
                 </Button>
               </Link>
 
-              <Link href="/settings">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <SettingsIcon className="h-4 w-4" />
-                  <span>{t('settings.title')}</span>
-                </Button>
-              </Link>
+              {/* Mostra il pulsante Impostazioni solo nella home page */}
+              {location === "/" && (
+                <Link href="/settings">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <SettingsIcon className="h-4 w-4" />
+                    <span>{t('settings.title')}</span>
+                  </Button>
+                </Link>
+              )}
               
               <LanguageSelector />
               
@@ -130,12 +133,15 @@ export default function Layout({ children }: LayoutProps) {
                         {t('reports.title')}
                       </Button>
                     </Link>
-                    <Link href="/settings">
-                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <SettingsIcon className="mr-2 h-4 w-4" />
-                        {t('settings.title')}
-                      </Button>
-                    </Link>
+                    {/* Mostra il pulsante Impostazioni solo nella home page */}
+                    {location === "/" && (
+                      <Link href="/settings">
+                        <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <SettingsIcon className="mr-2 h-4 w-4" />
+                          {t('settings.title')}
+                        </Button>
+                      </Link>
+                    )}
                   </nav>
                   <div className="mt-4">
                     <LanguageSelector />
