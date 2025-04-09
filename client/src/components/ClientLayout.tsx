@@ -52,9 +52,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
                   }
                 }
                 
-                // Controlla all'avvio e ogni 2 secondi
+                // Controlla all'avvio e ogni 5 secondi
                 updateSeparator();
-                setInterval(updateSeparator, 2000);
+                setInterval(updateSeparator, 5000);
 
                 // Ascolta l'evento personalizzato
                 window.addEventListener('contactInfoUpdated', updateSeparator);

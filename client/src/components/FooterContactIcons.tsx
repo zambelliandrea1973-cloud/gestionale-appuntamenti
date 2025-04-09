@@ -56,11 +56,12 @@ export default function FooterContactIcons() {
     }
   };
 
-  // Verifica ogni 2 secondi se ci sono nuovi dati (fallback)
+  // Verifica ogni 5 secondi se ci sono nuovi dati (fallback)
   useEffect(() => {
     const interval = setInterval(() => {
+      console.log("Verifica periodica delle informazioni di contatto...");
       loadContactData();
-    }, 2000);
+    }, 5000);
     
     return () => clearInterval(interval);
   }, []);

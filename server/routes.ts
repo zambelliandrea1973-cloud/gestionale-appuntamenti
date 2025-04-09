@@ -17,6 +17,7 @@ import { setupAuth } from "./auth";
 import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";
 import { notificationService } from "./services/notificationService";
+import { contactService } from "./services/contactService";
 import { initializeSchedulers } from "./services/schedulerService";
 import multer from 'multer';
 import sharp from 'sharp';
@@ -1366,24 +1367,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Endpoint per caricare l'icona dell'app
   // Endpoint per ottenere le informazioni dell'app
+  
   // Endpoint per ottenere le informazioni di contatto
   app.get('/api/contact-info', (_req: Request, res: Response) => {
     try {
-      // Leggi dal file contacts.json che contiene le info di contatto
-      const contactsPath = path.join(process.cwd(), 'public', 'data', 'contacts.json');
-      
-      if (fs.existsSync(contactsPath)) {
-        const contactsData = fs.readFileSync(contactsPath, 'utf8');
-        res.json(JSON.parse(contactsData));
-      } else {
-        // Se il file non esiste, crea una directory e un file vuoto
-        const dirPath = path.join(process.cwd(), 'public', 'data');
-        if (!fs.existsSync(dirPath)) {
-          fs.mkdirSync(dirPath, { recursive: true });
-        }
-        fs.writeFileSync(contactsPath, JSON.stringify({}));
-        res.json({});
-      }
+      // Ottiene i dati dal servizio dedicato
+      const contactInfo = contactService.getContactInfo();
+      console.log('Informazioni di contatto recuperate:', contactInfo);
+      res.json(contactInfo);
     } catch (error) {
       console.error('Errore nel recupero delle informazioni di contatto:', error);
       res.status(500).json({ error: 'Errore nel recupero delle informazioni di contatto' });
@@ -1400,17 +1391,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Dati di contatto non validi' });
       }
       
-      // Crea directory se non esiste
-      const dirPath = path.join(process.cwd(), 'public', 'data');
-      if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true });
+      // Salva i dati usando il servizio
+      const success = contactService.saveContactInfo(contactInfo);
+      
+      if (success) {
+        console.log('Informazioni di contatto salvate con successo:', contactInfo);
+        res.json({ success: true, message: 'Informazioni di contatto salvate con successo' });
+      } else {
+        res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });
       }
-      
-      // Salva i dati in JSON
-      const contactsPath = path.join(process.cwd(), 'public', 'data', 'contacts.json');
-      fs.writeFileSync(contactsPath, JSON.stringify(contactInfo));
-      
-      res.json({ success: true, message: 'Informazioni di contatto salvate con successo' });
     } catch (error) {
       console.error('Errore nel salvataggio delle informazioni di contatto:', error);
       res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });
