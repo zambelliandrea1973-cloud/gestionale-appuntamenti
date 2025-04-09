@@ -137,7 +137,7 @@
       "medicalFile": "Carpeta Médica",
       "showDetails": "Mostrar detalles",
       "activateAccess": "Activar acceso cliente",
-      "accessActivated": "Acceso activado",
+      "accessActivated": "QR Code de acceso cliente",
       "generateLink": "Generar enlace para el acceso",
       "generateQRCode": "Generar código QR",
       "viewMedicalFile": "Ver carpeta médica",
@@ -149,7 +149,33 @@
       "manageConsents": "Gestionar consentimientos",
       "clientNotes": "Notas del cliente",
       "medicalNotes": "Notas médicas",
-      "clientSince": "Cliente desde"
+      "clientSince": "Cliente desde",
+      "deleteClient": "Eliminar cliente",
+      "deleteClientConfirmation": "¿Está seguro de que desea eliminar este cliente? Todas sus citas también serán eliminadas. Esta acción no se puede deshacer.",
+      "notFound": "Cliente no encontrado",
+      "notSpecified": "No especificado",
+      "frequentClient": "Cliente frecuente",
+      "dataConsent": "Consentimiento de tratamiento de datos",
+      "obtained": "Obtenido",
+      "notObtained": "No obtenido",
+      "viewAllAppointments": "Ver todas las citas",
+      "backToClients": "Volver a la lista de clientes",
+      "structuredNotes": "Notas estructuradas",
+      "legacyMedicalData": "Datos médicos antiguos",
+      "otherInfo": "Otra información",
+      "viewMode": "Modo de visualización de notas",
+      "stackedView": "Vista de tarjetas apiladas",
+      "classicView": "Vista clásica",
+      "stackedViewDescription": "Las notas se muestran como tarjetas apiladas. Haga clic en las tarjetas o use los botones de navegación para explorarlas.",
+      "classicViewDescription": "Las notas se muestran en secuencia vertical.",
+      "generalNotes": "Notas generales",
+      "allergiesInfo": "Alergias e información de salud",
+      "medicalNotesLegacy": "Notas médicas (antiguas)",
+      "allergiesInfoLegacy": "Alergias e información de salud (antiguas)",
+      "generalNotesLegacy": "Notas generales (antiguas)",
+      "noMedicalNotes": "No hay notas médicas registradas",
+      "noAllergiesInfo": "No hay alergias o información de salud registrada",
+      "noGeneralNotes": "No hay notas generales registradas"
     },
     "form": {
       "firstName": "Nombre",
@@ -232,13 +258,23 @@
     "description": "Descripción",
     "support": "Soporte",
     "terms": "Términos de Servicio",
-    "refresh": "Actualizar"
+    "refresh": "Actualizar",
+    "error": "Error",
+    "birthday": "Fecha de nacimiento",
+    "yes": "Sí",
+    "no": "No"
   },
   "notifications": {
     "success": "Operación completada con éxito",
     "error": "Se ha producido un error",
     "warning": "Advertencia",
-    "info": "Información"
+    "info": "Información",
+    "clientDeleted": "Cliente eliminado",
+    "clientDeletedSuccess": "El cliente ha sido eliminado correctamente"
+  },
+  "errors": {
+    "genericError": "Se ha producido un error: {{error}}",
+    "qrCodeFetchError": "Error al recuperar el código QR existente:"
   },
   "auth": {
     "login": "Iniciar sesión",

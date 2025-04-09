@@ -133,7 +133,39 @@
       "medicalInfo": "Medizinische Informationen",
       "appointments": "Termine",
       "notes": "Notizen",
-      "consents": "Einwilligungen"
+      "consents": "Einwilligungen",
+      "clientFile": "Kundenakte",
+      "addAppointment": "Neuer Termin",
+      "generateQRCode": "QR-Code generieren",
+      "accessActivated": "Kunden-Zugangs-QR-Code",
+      "showDetails": "Details",
+      "deleteClient": "Kunde löschen",
+      "deleteClientConfirmation": "Sind Sie sicher, dass Sie diesen Kunden löschen möchten? Alle zugehörigen Termine werden ebenfalls gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "notFound": "Kunde nicht gefunden",
+      "notSpecified": "Nicht angegeben",
+      "frequentClient": "Stammkunde",
+      "dataConsent": "Datenschutzeinwilligung",
+      "obtained": "Erhalten",
+      "notObtained": "Nicht erhalten",
+      "viewAllAppointments": "Alle Termine anzeigen",
+      "backToClients": "Zurück zur Kundenliste",
+      "structuredNotes": "Strukturierte Notizen",
+      "legacyMedicalData": "Alte medizinische Daten",
+      "otherInfo": "Weitere Informationen",
+      "viewMode": "Ansichtsmodus für Notizen",
+      "stackedView": "Gestapelte Karten-Ansicht",
+      "classicView": "Klassische Ansicht",
+      "stackedViewDescription": "Notizen werden als gestapelte Karten angezeigt. Klicken Sie auf die Karten oder verwenden Sie die Navigationsschaltflächen zum Durchblättern.",
+      "classicViewDescription": "Notizen werden in vertikaler Folge angezeigt.",
+      "generalNotes": "Allgemeine Notizen",
+      "medicalNotes": "Medizinische Notizen",
+      "allergiesInfo": "Allergien und Gesundheitsinformationen",
+      "medicalNotesLegacy": "Medizinische Notizen (alt)",
+      "allergiesInfoLegacy": "Allergien und Gesundheitsinformationen (alt)",
+      "generalNotesLegacy": "Allgemeine Notizen (alt)",
+      "noMedicalNotes": "Keine medizinischen Notizen registriert",
+      "noAllergiesInfo": "Keine Allergien oder Gesundheitsinformationen registriert",
+      "noGeneralNotes": "Keine allgemeinen Notizen registriert"
     },
     "form": {
       "firstName": "Vorname",
@@ -211,13 +243,23 @@
     "description": "Beschreibung",
     "support": "Unterstützung",
     "terms": "Nutzungsbedingungen",
-    "refresh": "Aktualisieren"
+    "refresh": "Aktualisieren",
+    "error": "Fehler",
+    "birthday": "Geburtsdatum",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "notifications": {
     "success": "Vorgang erfolgreich abgeschlossen",
     "error": "Es ist ein Fehler aufgetreten",
     "warning": "Warnung",
-    "info": "Information"
+    "info": "Information",
+    "clientDeleted": "Kunde gelöscht",
+    "clientDeletedSuccess": "Der Kunde wurde erfolgreich gelöscht"
+  },
+  "errors": {
+    "genericError": "Ein Fehler ist aufgetreten: {{error}}",
+    "qrCodeFetchError": "Fehler beim Abrufen des vorhandenen QR-Codes:"
   },
   "auth": {
     "login": "Anmelden",
