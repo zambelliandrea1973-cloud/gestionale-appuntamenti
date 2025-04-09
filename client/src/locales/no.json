@@ -203,7 +203,10 @@
     "notifications": "Varsler",
     "language": "Språk",
     "theme": "Tema",
-    "save": "Lagre Innstillinger"
+    "save": "Lagre Innstillinger",
+    "googleCalendar": "Google kalender",
+    "contacts": "Kontakter",
+    "clientApp": "Kunde App"
   },
   "common": {
     "save": "Lagre",

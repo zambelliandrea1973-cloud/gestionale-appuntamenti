@@ -221,7 +221,10 @@
     "notifications": "Notifications",
     "language": "Langue",
     "theme": "Thème",
-    "save": "Enregistrer les Paramètres"
+    "save": "Enregistrer les Paramètres",
+    "googleCalendar": "Google agenda",
+    "contacts": "Contacts",
+    "clientApp": "Application Client"
   },
   "common": {
     "save": "Enregistrer",

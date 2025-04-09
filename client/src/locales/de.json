@@ -221,7 +221,10 @@
     "notifications": "Benachrichtigungen",
     "language": "Sprache",
     "theme": "Thema",
-    "save": "Einstellungen speichern"
+    "save": "Einstellungen speichern",
+    "googleCalendar": "Google Kalender",
+    "contacts": "Kontakte",
+    "clientApp": "Kunden-App"
   },
   "common": {
     "save": "Speichern",

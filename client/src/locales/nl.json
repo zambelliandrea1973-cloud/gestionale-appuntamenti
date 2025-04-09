@@ -203,7 +203,10 @@
     "notifications": "Meldingen",
     "language": "Taal",
     "theme": "Thema",
-    "save": "Instellingen Opslaan"
+    "save": "Instellingen Opslaan",
+    "googleCalendar": "Google agenda",
+    "contacts": "Contacten",
+    "clientApp": "Klant App"
   },
   "common": {
     "save": "Opslaan",
