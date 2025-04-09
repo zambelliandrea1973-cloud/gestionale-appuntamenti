@@ -79,17 +79,19 @@ export default function Layout({ children }: LayoutProps) {
                 </Button>
               </Link>
 
-              {/* Mostra il pulsante Impostazioni solo nella home page */}
+              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
               {location === "/" && (
-                <Link href="/settings">
-                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <SettingsIcon className="h-4 w-4" />
-                    <span>{t('settings.title')}</span>
-                  </Button>
-                </Link>
+                <>
+                  <Link href="/settings">
+                    <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                      <SettingsIcon className="h-4 w-4" />
+                      <span>{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                  
+                  <LanguageSelector />
+                </>
               )}
-              
-              <LanguageSelector />
               
               {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
             </div>
@@ -143,9 +145,12 @@ export default function Layout({ children }: LayoutProps) {
                       </Link>
                     )}
                   </nav>
-                  <div className="mt-4">
-                    <LanguageSelector />
-                  </div>
+                  {/* Mostra il selettore lingua solo nella home page */}
+                  {location === "/" && (
+                    <div className="mt-4">
+                      <LanguageSelector />
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
