@@ -230,7 +230,7 @@
     "clientAppDesc": "Customize the appearance of the app that clients will install on their devices",
     "appName": "App Name",
     "appIcon": "App Icon",
-    "googleCalendar": "Google Cal.",
+    "googleCalendar": "Google calendar",
     "integrations": "Integrations"
   },
   "common": {
