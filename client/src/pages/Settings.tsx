@@ -45,8 +45,8 @@ export default function Settings() {
             {t('settings.contacts', 'Contatti')}
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center">
-            <Link2 className="mr-2 h-4 w-4" />
-            {t('settings.integrations', 'Integrazioni')}
+            <Calendar className="mr-2 h-4 w-4" />
+            {t('settings.googleCalendar', 'Sincronizzazione Google Calendar')}
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center">
             <Brush className="mr-2 h-4 w-4" />

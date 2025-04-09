@@ -1,78 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Calendar, Check, ExternalLink, Loader2, X, Mail } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, ExternalLink, Check, X, Calendar } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { 
   loadGoogleCalendarSettings, 
   saveGoogleCalendarSettings, 
   getGoogleAuthUrl, 
-  exchangeCodeForToken, 
+  exchangeCodeForToken,
   getAvailableCalendars,
-  GoogleCalendarSettings,
-  GoogleCalendarInfo
-} from "@/lib/googleCalendar";
-import { GoogleCalendarEvent } from "@shared/schema";
-import { useTranslation } from 'react-i18next';
+  GoogleCalendarSettings as GoogleCalendarSettingsType,
+} from '@/lib/googleCalendar';
 
 export default function GoogleCalendarSettingsComponent() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
-  // Stati per OAuth
-  const [authUrl, setAuthUrl] = useState<string | null>(null);
-  const [showAuthDialog, setShowAuthDialog] = useState(false);
-  const [authCode, setAuthCode] = useState("");
-  const [isExchangingCode, setIsExchangingCode] = useState(false);
-  
   // Stati per le impostazioni
-  const [clientId, setClientId] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
-  const [redirectUri, setRedirectUri] = useState(window.location.origin + "/settings");
-  const [calendarId, setCalendarId] = useState("primary");
+  const [calendarEmail, setCalendarEmail] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
+  
+  // Stati nascosti (mantenuti per compatibilità)
+  const [clientId, setClientId] = useState('');
+  const [clientSecret, setClientSecret] = useState('');
+  const [redirectUri, setRedirectUri] = useState('');
+  const [authUrl, setAuthUrl] = useState<string | null>(null);
+  const [authCode, setAuthCode] = useState('');
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [isExchangingCode, setIsExchangingCode] = useState(false);
   const [showCalendarSelector, setShowCalendarSelector] = useState(false);
   
-  // Carica le impostazioni esistenti
+  // Query per ottenere le impostazioni attuali
   const { 
-    data: settings, 
+    data: settings,
     isLoading: isLoadingSettings,
-    error: settingsError 
+    error: settingsError,
   } = useQuery({
-    queryKey: ["/api/google-calendar/settings"],
-    queryFn: async () => {
-      const settings = await loadGoogleCalendarSettings();
-      return settings;
-    }
+    queryKey: ['/api/google-calendar/settings'],
+    queryFn: loadGoogleCalendarSettings,
   });
   
   // Carica i calendari disponibili
@@ -81,50 +53,39 @@ export default function GoogleCalendarSettingsComponent() {
     isLoading: isLoadingCalendars,
     refetch: refetchCalendars
   } = useQuery({
-    queryKey: ["/api/google-calendar/calendars"],
-    queryFn: async () => {
-      return await getAvailableCalendars();
-    },
+    queryKey: ['/api/google-calendar/calendars'],
+    queryFn: getAvailableCalendars,
     enabled: !!settings?.refreshToken, // Abilita la query solo se l'utente è autenticato
   });
   
   // Imposta i valori del form quando le impostazioni vengono caricate
   useEffect(() => {
     if (settings) {
-      setClientId(settings.clientId || "");
-      // Non impostare clientSecret per sicurezza
-      setRedirectUri(settings.redirectUri || window.location.origin + "/settings");
-      setCalendarId(settings.calendarId || "primary");
+      setCalendarEmail(settings.calendarId || "");
       setIsEnabled(settings.enabled);
       
-      // Aggiorna la visibilità del selettore di calendario in base all'autenticazione
-      setShowCalendarSelector(!!settings.refreshToken);
+      // Imposta anche i valori nascosti per compatibilità
+      setClientId(settings.clientId || "");
+      setRedirectUri(settings.redirectUri || window.location.origin + "/settings");
     }
   }, [settings]);
   
-  // Aggiorna i calendari disponibili quando l'utente si autentica
-  useEffect(() => {
-    if (settings?.refreshToken && !availableCalendars) {
-      refetchCalendars();
-    }
-  }, [settings?.refreshToken, availableCalendars, refetchCalendars]);
-  
   // Mutation per salvare le impostazioni
   const saveSettingsMutation = useMutation({
-    mutationFn: async (settings: GoogleCalendarSettings) => {
+    mutationFn: async (settings: GoogleCalendarSettingsType) => {
       return await saveGoogleCalendarSettings(settings);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/google-calendar/settings"] });
+      queryClient.invalidateQueries({ queryKey: ['/api/google-calendar/settings'] });
       toast({
-        title: t("settings.googleCalendar.saveSuccess"),
-        description: t("settings.googleCalendar.saveSuccessMsg"),
+        title: "Impostazioni salvate",
+        description: "Le impostazioni di sincronizzazione sono state salvate con successo",
       });
     },
     onError: () => {
       toast({
-        title: t("settings.googleCalendar.saveError"),
-        description: t("settings.googleCalendar.saveErrorMsg"),
+        title: "Errore",
+        description: "Impossibile salvare le impostazioni. Riprova più tardi.",
         variant: "destructive",
       });
     }
@@ -142,80 +103,56 @@ export default function GoogleCalendarSettingsComponent() {
     },
     onSuccess: (success) => {
       if (success) {
-        queryClient.invalidateQueries({ queryKey: ["/api/google-calendar/settings"] });
+        queryClient.invalidateQueries({ queryKey: ['/api/google-calendar/settings'] });
         toast({
-          title: t("settings.googleCalendar.authSuccess"),
-          description: t("settings.googleCalendar.authSuccessMsg"),
+          title: "Autorizzazione completata",
+          description: "Il tuo account Google è stato collegato con successo",
         });
         setShowAuthDialog(false);
       } else {
         toast({
-          title: t("settings.googleCalendar.authError"),
-          description: t("settings.googleCalendar.authErrorMsg"),
+          title: "Errore di autorizzazione",
+          description: "Non è stato possibile autorizzare il tuo account Google. Verifica il codice inserito.",
           variant: "destructive",
         });
       }
     },
     onError: () => {
       toast({
-        title: t("settings.googleCalendar.authError"),
-        description: t("settings.googleCalendar.authErrorMsg"),
+        title: "Errore",
+        description: "Si è verificato un errore durante l'autorizzazione con Google",
         variant: "destructive",
       });
     }
   });
   
-  // Funzione per aprire il selettore di calendario
-  const handleOpenCalendarSelector = async () => {
-    if (!settings?.refreshToken) {
-      toast({
-        title: t("settings.googleCalendar.notAuthorized"),
-        description: t("settings.googleCalendar.authorizeFirst"),
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    await refetchCalendars();
-    setShowCalendarSelector(true);
-  };
-  
   // Funzione per selezionare un calendario
   const handleSelectCalendar = (calendarId: string) => {
-    setCalendarId(calendarId);
+    setCalendarEmail(calendarId);
     setShowCalendarSelector(false);
   };
     
-  // Genera l'URL di autorizzazione
-  const handleGenerateAuthUrl = async () => {
-    if (!clientId || !redirectUri) {
-      toast({
-        title: t("settings.googleCalendar.missingFields"),
-        description: t("settings.googleCalendar.missingFieldsMsg"),
-        variant: "destructive",
-      });
-      return;
-    }
+  // Salva le impostazioni
+  const handleSaveSettings = () => {
+    const updatedSettings: GoogleCalendarSettingsType = {
+      enabled: isEnabled,
+      calendarId: calendarEmail,
+      
+      // Mantieni i valori esistenti per retrocompatibilità
+      clientId: settings?.clientId || clientId,
+      clientSecret: settings?.clientSecret || clientSecret,
+      redirectUri: settings?.redirectUri || redirectUri,
+    };
     
-    const url = await getGoogleAuthUrl(clientId, redirectUri);
-    if (url) {
-      setAuthUrl(url);
-      setShowAuthDialog(true);
-    } else {
-      toast({
-        title: t("settings.googleCalendar.authUrlError"),
-        description: t("settings.googleCalendar.authUrlErrorMsg"),
-        variant: "destructive",
-      });
-    }
+    saveSettingsMutation.mutate(updatedSettings);
   };
   
-  // Scambia il codice di autorizzazione con il token
+  // Gestisci lo scambio di codice (per compatibilità)
   const handleExchangeCode = () => {
     if (!authCode) {
       toast({
-        title: t("settings.googleCalendar.missingCode"),
-        description: t("settings.googleCalendar.missingCodeMsg"),
+        title: "Codice mancante",
+        description: "Inserire il codice di autorizzazione fornito da Google",
         variant: "destructive",
       });
       return;
@@ -225,28 +162,6 @@ export default function GoogleCalendarSettingsComponent() {
     exchangeCodeMutation.mutate(authCode);
   };
   
-  // Salva le impostazioni
-  const handleSaveSettings = () => {
-    if (!clientId) {
-      toast({
-        title: t("settings.googleCalendar.missingClientId"),
-        description: t("settings.googleCalendar.missingClientIdMsg"),
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    const updatedSettings: GoogleCalendarSettings = {
-      enabled: isEnabled,
-      clientId,
-      clientSecret: clientSecret || undefined,
-      redirectUri,
-      calendarId
-    };
-    
-    saveSettingsMutation.mutate(updatedSettings);
-  };
-  
   // Se le impostazioni stanno ancora caricando
   if (isLoadingSettings) {
     return (
@@ -254,10 +169,10 @@ export default function GoogleCalendarSettingsComponent() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            {t("settings.googleCalendar.title")}
+            Sincronizzazione Google Calendar
           </CardTitle>
           <CardDescription>
-            {t("settings.googleCalendar.description")}
+            Sincronizza gli appuntamenti con il tuo calendario Google
           </CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center items-center p-8">
@@ -274,15 +189,15 @@ export default function GoogleCalendarSettingsComponent() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            {t("settings.googleCalendar.title")}
+            Sincronizzazione Google Calendar
           </CardTitle>
           <CardDescription>
-            {t("settings.googleCalendar.description")}
+            Sincronizza gli appuntamenti con il tuo calendario Google
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-red-500">
-            {t("settings.googleCalendar.loadError")}
+            Errore durante il caricamento delle impostazioni di sincronizzazione
           </div>
         </CardContent>
       </Card>
@@ -295,175 +210,85 @@ export default function GoogleCalendarSettingsComponent() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            {t("settings.googleCalendar.title")}
+            Sincronizzazione Google Calendar
           </CardTitle>
           <CardDescription>
-            {t("settings.googleCalendar.description")}
+            Sincronizza gli appuntamenti con il tuo calendario Google
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="settings">
-            <TabsList className="mb-4">
-              <TabsTrigger value="settings">
-                {t("settings.googleCalendar.tabSettings")}
-              </TabsTrigger>
-              <TabsTrigger value="help">
-                {t("settings.googleCalendar.tabHelp")}
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="settings">
-              <div className="flex items-center justify-between mb-6">
-                <div className="space-y-0.5">
-                  <h3 className="font-medium text-base">
-                    {t("settings.googleCalendar.enableIntegration")}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {t("settings.googleCalendar.enableIntegrationDescription")}
-                  </p>
-                </div>
-                <Switch
-                  checked={isEnabled}
-                  onCheckedChange={setIsEnabled}
-                />
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <h3 className="font-medium text-base">
+                  Attiva sincronizzazione con Google Calendar
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Quando è attiva, gli appuntamenti verranno sincronizzati automaticamente con il calendario Google specificato
+                </p>
               </div>
+              <Switch
+                checked={isEnabled}
+                onCheckedChange={setIsEnabled}
+              />
+            </div>
+            
+            <div className="p-4 border rounded-md bg-blue-50 dark:bg-blue-950">
+              <h3 className="font-medium mb-2 flex items-center gap-2">
+                <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                Indirizzo Gmail
+              </h3>
+              <p className="text-sm mb-4">
+                Inserisci l'indirizzo Gmail del calendario con cui desideri sincronizzare gli appuntamenti:
+              </p>
               
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="client-id">
-                      {t("settings.googleCalendar.clientId")}
-                    </Label>
-                    <Input
-                      id="client-id"
-                      value={clientId}
-                      onChange={(e) => setClientId(e.target.value)}
-                      placeholder="xxx.apps.googleusercontent.com"
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="client-secret">
-                      {t("settings.googleCalendar.clientSecret")}
-                    </Label>
-                    <Input
-                      id="client-secret"
-                      type="password"
-                      value={clientSecret}
-                      onChange={(e) => setClientSecret(e.target.value)}
-                      placeholder="GOCSPX-..."
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="redirect-uri">
-                      {t("settings.googleCalendar.redirectUri")}
-                    </Label>
-                    <Input
-                      id="redirect-uri"
-                      value={redirectUri}
-                      onChange={(e) => setRedirectUri(e.target.value)}
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="calendar-id">
-                      {t("settings.googleCalendar.calendarId")}
-                    </Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="calendar-id"
-                        value={calendarId}
-                        onChange={(e) => setCalendarId(e.target.value)}
-                        placeholder="primary"
-                        className="flex-1"
-                      />
-                      <Button 
-                        variant="outline" 
-                        onClick={handleOpenCalendarSelector}
-                        disabled={!settings?.refreshToken}
-                        className="whitespace-nowrap"
-                      >
-                        {t("settings.googleCalendar.selectCalendar")}
-                      </Button>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {t("settings.googleCalendar.calendarIdDescription", "Specifica l'ID del calendario Google a cui sincronizzare gli appuntamenti. 'primary' indica il calendario principale dell'account (es. zambelli.andrea.1973@gmail.com), oppure puoi usare l'indirizzo email di un calendario specifico.")}
-                    </p>
-                  </div>
-                </div>
-                
-                {settings?.refreshToken && (
-                  <div className="p-4 border rounded-md bg-green-50 dark:bg-green-950 mt-4 flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-600 dark:text-green-400" />
-                    <span>{t("settings.googleCalendar.alreadyAuthorized")}</span>
-                  </div>
-                )}
-                
-                {!settings?.refreshToken && (
-                  <div className="p-4 border rounded-md bg-amber-50 dark:bg-amber-950 mt-4 flex items-start gap-2">
-                    <X className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">{t("settings.googleCalendar.notAuthorized")}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {t("settings.googleCalendar.needAuthorization")}
-                      </p>
-                    </div>
-                  </div>
-                )}
+              <div className="space-y-2">
+                <Input
+                  value={calendarEmail}
+                  onChange={(e) => setCalendarEmail(e.target.value)}
+                  placeholder="tuo.indirizzo@gmail.com"
+                  className="mb-1"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Puoi inserire sia "primary" per il tuo calendario principale, sia un indirizzo Gmail specifico
+                </p>
               </div>
-            </TabsContent>
+            </div>
             
-            <TabsContent value="help">
-              <div className="prose dark:prose-invert max-w-none">
-                <h3>{t("settings.googleCalendar.helpTitle")}</h3>
-                <ol>
-                  <li>
-                    <p>
-                      {t("settings.googleCalendar.helpStep1")} 
-                      <a href="https://console.cloud.google.com/apis/dashboard" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center gap-1 inline-flex">
-                        Google Cloud Console 
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </p>
-                  </li>
-                  <li>
-                    <p>{t("settings.googleCalendar.helpStep2")}</p>
-                  </li>
-                  <li>
-                    <p>{t("settings.googleCalendar.helpStep3")}</p>
-                  </li>
-                  <li>
-                    <p>{t("settings.googleCalendar.helpStep4")}</p>
-                  </li>
-                  <li>
-                    <p>{t("settings.googleCalendar.helpStep5")}</p>
-                  </li>
-                  <li>
-                    <p>{t("settings.googleCalendar.helpStep6")}</p>
-                  </li>
-                  <li>
-                    <p>{t("settings.googleCalendar.helpStep7")}</p>
-                  </li>
-                </ol>
-                <div className="bg-primary/10 p-4 rounded-md">
-                  <p className="text-sm">
-                    <strong>{t("settings.googleCalendar.note")}:</strong>{" "}
-                    {t("settings.googleCalendar.helpNote")}
+            {settings?.refreshToken ? (
+              <div className="p-4 border rounded-md bg-green-50 dark:bg-green-950 flex items-center gap-2">
+                <Check className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <span>Il tuo account Google è già stato autorizzato</span>
+              </div>
+            ) : (
+              <div className="p-4 border rounded-md bg-amber-50 dark:bg-amber-950 flex items-start gap-2">
+                <X className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium">Account Google non autorizzato</p>
+                  <p className="text-sm text-muted-foreground">
+                    Per completare la configurazione, devi autorizzare l'accesso al tuo account Google. 
+                    Contatta l'assistenza per configurare l'autorizzazione con Google.
                   </p>
                 </div>
               </div>
-            </TabsContent>
-          </Tabs>
+            )}
+            
+            <div className="prose dark:prose-invert max-w-none">
+              <h3>Istruzioni:</h3>
+              <ol>
+                <li>Inserisci l'indirizzo Gmail del calendario che desideri utilizzare</li>
+                <li>Attiva l'interruttore "Attiva sincronizzazione" per iniziare a sincronizzare gli appuntamenti</li>
+                <li>Clicca su "Salva impostazioni" per confermare le tue scelte</li>
+              </ol>
+              <div className="bg-primary/10 p-4 rounded-md">
+                <p className="text-sm">
+                  <strong>Nota:</strong> Gli appuntamenti verranno sincronizzati solo se l'opzione è attivata e l'indirizzo Gmail è corretto.
+                </p>
+              </div>
+            </div>
+          </div>
         </CardContent>
-        <CardFooter className="flex flex-col sm:flex-row gap-3 justify-between">
-          <Button
-            variant="outline"
-            onClick={handleGenerateAuthUrl}
-            disabled={saveSettingsMutation.isPending || !clientId || !redirectUri}
-          >
-            {t("settings.googleCalendar.authorizeBtn")}
-          </Button>
+        <CardFooter className="flex justify-end">
           <Button 
             onClick={handleSaveSettings}
             disabled={saveSettingsMutation.isPending}
@@ -471,28 +296,29 @@ export default function GoogleCalendarSettingsComponent() {
             {saveSettingsMutation.isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {t("settings.saving")}
+                Salvataggio in corso...
               </>
             ) : (
-              t("settings.save")
+              "Salva impostazioni"
             )}
           </Button>
         </CardFooter>
       </Card>
       
+      {/* Manteniamo il Dialog per compatibilità, ma l'utente standard non dovrebbe vederlo */}
       <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("settings.googleCalendar.authDialogTitle")}</DialogTitle>
+            <DialogTitle>Autorizza Google Calendar</DialogTitle>
             <DialogDescription>
-              {t("settings.googleCalendar.authDialogDescription")}
+              Per sincronizzare gli appuntamenti, devi autorizzare l'accesso al tuo account Google Calendar
             </DialogDescription>
           </DialogHeader>
           {authUrl && (
             <div className="flex flex-col space-y-4">
               <div className="p-4 border rounded-md bg-secondary/50">
                 <p className="text-sm text-muted-foreground mb-2">
-                  {t("settings.googleCalendar.authInstructions")}
+                  Apri il seguente link e segui le istruzioni per autorizzare l'accesso a Google Calendar:
                 </p>
                 <a
                   href={authUrl}
@@ -500,20 +326,20 @@ export default function GoogleCalendarSettingsComponent() {
                   rel="noopener noreferrer"
                   className="text-primary hover:underline flex items-center gap-1"
                 >
-                  {t("settings.googleCalendar.openAuthPage")}
+                  Apri pagina di autorizzazione Google
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="auth-code">
-                  {t("settings.googleCalendar.authCodeLabel")}
+                  Codice di autorizzazione
                 </Label>
                 <Input
                   id="auth-code"
                   value={authCode}
                   onChange={(e) => setAuthCode(e.target.value)}
-                  placeholder={t("settings.googleCalendar.authCodePlaceholder")}
+                  placeholder="Incolla qui il codice fornito da Google"
                 />
               </div>
             </div>
@@ -523,7 +349,7 @@ export default function GoogleCalendarSettingsComponent() {
               variant="outline"
               onClick={() => setShowAuthDialog(false)}
             >
-              {t("settings.cancel")}
+              Annulla
             </Button>
             <Button
               onClick={handleExchangeCode}
@@ -532,10 +358,10 @@ export default function GoogleCalendarSettingsComponent() {
               {(isExchangingCode || exchangeCodeMutation.isPending) ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t("settings.googleCalendar.verifying")}
+                  Verifica in corso...
                 </>
               ) : (
-                t("settings.googleCalendar.verifyCode")
+                "Verifica codice"
               )}
             </Button>
           </DialogFooter>
@@ -545,9 +371,9 @@ export default function GoogleCalendarSettingsComponent() {
       <Dialog open={showCalendarSelector} onOpenChange={setShowCalendarSelector}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("settings.googleCalendar.selectCalendarTitle")}</DialogTitle>
+            <DialogTitle>Seleziona un calendario</DialogTitle>
             <DialogDescription>
-              {t("settings.googleCalendar.selectCalendarDescription")}
+              Scegli il calendario Google da utilizzare per la sincronizzazione
             </DialogDescription>
           </DialogHeader>
           
@@ -563,7 +389,7 @@ export default function GoogleCalendarSettingsComponent() {
               >
                 <Calendar className="h-5 w-5 text-primary" />
                 <div>
-                  <p className="font-medium">{t("settings.googleCalendar.primaryCalendar")}</p>
+                  <p className="font-medium">Calendario principale</p>
                   <p className="text-sm text-muted-foreground">primary</p>
                 </div>
               </div>
@@ -587,13 +413,13 @@ export default function GoogleCalendarSettingsComponent() {
             </div>
           ) : (
             <div className="p-4 border rounded-md bg-amber-50 dark:bg-amber-950">
-              <p>{t("settings.googleCalendar.noCalendarsFound")}</p>
+              <p>Nessun calendario trovato nel tuo account Google</p>
             </div>
           )}
           
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowCalendarSelector(false)}>
-              {t("settings.cancel")}
+              Annulla
             </Button>
           </DialogFooter>
         </DialogContent>
