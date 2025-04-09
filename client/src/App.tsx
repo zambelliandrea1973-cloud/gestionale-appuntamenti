@@ -14,38 +14,82 @@ import ClientLogin from "./pages/ClientLogin";
 import ClientArea from "./pages/ClientArea";
 import NotFound from "./pages/not-found";
 
-// Componenti che devono essere mostrati senza il layout dello staff
-const noStaffLayoutRoutes = ['/activate', '/client-login', '/client-area'];
+/**
+ * Wrapper per le pagine client (senza il layout standard)
+ */
+function ClientPageWrapper({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}
+
+/**
+ * Wrapper per le pagine staff (con il layout standard)
+ */
+function StaffPageWrapper({ children }: { children: React.ReactNode }) {
+  return <Layout>{children}</Layout>;
+}
 
 function AppRoutes() {
   return (
     <Switch>
-      {/* Rotte con il layout dello staff */}
-      <Route path="/">
-        <Layout>
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/calendar" component={Calendar} />
-            <Route path="/clients" component={Clients} />
-            <Route path="/invoices" component={Invoices} />
-            <Route path="/reports" component={Reports} />
-            <Route path="/settings" component={Settings} />
-            <Route path="/client-medical-details" component={ClientMedicalDetails} />
-            {/* Aggiungi qui altre rotte che usano il layout dello staff */}
-          </Switch>
-        </Layout>
+      {/* Pagine client senza layout standard */}
+      <Route path="/activate">
+        <ClientPageWrapper>
+          <ActivateAccount />
+        </ClientPageWrapper>
+      </Route>
+      <Route path="/client-login">
+        <ClientPageWrapper>
+          <ClientLogin />
+        </ClientPageWrapper>
+      </Route>
+      <Route path="/client-area">
+        <ClientPageWrapper>
+          <ClientArea />
+        </ClientPageWrapper>
       </Route>
       
-      {/* Rotte senza layout dello staff */}
-      <Route path="/activate" component={ActivateAccount} />
-      <Route path="/client-login" component={ClientLogin} />
-      <Route path="/client-area" component={ClientArea} />
+      {/* Pagine staff con layout standard */}
+      <Route path="/">
+        <StaffPageWrapper>
+          <Home />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/calendar">
+        <StaffPageWrapper>
+          <Calendar />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/clients">
+        <StaffPageWrapper>
+          <Clients />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/invoices">
+        <StaffPageWrapper>
+          <Invoices />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/reports">
+        <StaffPageWrapper>
+          <Reports />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/settings">
+        <StaffPageWrapper>
+          <Settings />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/client-medical-details">
+        <StaffPageWrapper>
+          <ClientMedicalDetails />
+        </StaffPageWrapper>
+      </Route>
       
-      {/* Route fallback */}
-      <Route path="/:rest*">
-        <Layout>
+      {/* Fallback route */}
+      <Route>
+        <StaffPageWrapper>
           <NotFound />
-        </Layout>
+        </StaffPageWrapper>
       </Route>
     </Switch>
   );
