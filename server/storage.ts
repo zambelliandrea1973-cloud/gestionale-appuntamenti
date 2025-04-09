@@ -12,6 +12,8 @@ import {
   notifications, type Notification, type InsertNotification,
   activationTokens, type ActivationToken, type InsertActivationToken,
   clientNotes, type ClientNote, type InsertClientNote,
+  googleCalendarEvents, type GoogleCalendarEvent, type InsertGoogleCalendarEvent,
+  googleCalendarSettings, type GoogleCalendarSettings, type InsertGoogleCalendarSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -124,6 +126,16 @@ export interface IStorage {
   createClientNote(note: InsertClientNote): Promise<ClientNote>;
   updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined>;
   deleteClientNote(id: number): Promise<boolean>;
+  
+  // Google Calendar operations
+  getGoogleCalendarSettings(): Promise<GoogleCalendarSettings | undefined>;
+  saveGoogleCalendarSettings(settings: InsertGoogleCalendarSettings): Promise<GoogleCalendarSettings>;
+  updateGoogleCalendarSettings(id: number, settings: Partial<InsertGoogleCalendarSettings>): Promise<GoogleCalendarSettings | undefined>;
+  
+  getGoogleCalendarEvent(appointmentId: number): Promise<GoogleCalendarEvent | undefined>;
+  createGoogleCalendarEvent(event: InsertGoogleCalendarEvent): Promise<GoogleCalendarEvent>;
+  updateGoogleCalendarEvent(appointmentId: number, event: Partial<InsertGoogleCalendarEvent>): Promise<GoogleCalendarEvent | undefined>;
+  deleteGoogleCalendarEvent(appointmentId: number): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -1944,6 +1956,129 @@ export class DatabaseStorage implements IStorage {
       return result.count > 0;
     } catch (error) {
       console.error("Errore durante l'eliminazione della nota del cliente:", error);
+      return false;
+    }
+  }
+
+  // Google Calendar operations
+  async getGoogleCalendarSettings(): Promise<GoogleCalendarSettings | undefined> {
+    try {
+      const [settings] = await db.select().from(googleCalendarSettings);
+      return settings;
+    } catch (error) {
+      console.error('Errore durante il recupero delle impostazioni Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  async saveGoogleCalendarSettings(settings: InsertGoogleCalendarSettings): Promise<GoogleCalendarSettings> {
+    try {
+      // Prima controlla se esistono già delle impostazioni
+      const existing = await this.getGoogleCalendarSettings();
+      
+      if (existing) {
+        // Aggiorna le impostazioni esistenti
+        const [updated] = await db
+          .update(googleCalendarSettings)
+          .set({
+            ...settings,
+            updatedAt: new Date()
+          })
+          .where(eq(googleCalendarSettings.id, existing.id))
+          .returning();
+        return updated;
+      } else {
+        // Crea nuove impostazioni
+        const [created] = await db
+          .insert(googleCalendarSettings)
+          .values({
+            ...settings,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          })
+          .returning();
+        return created;
+      }
+    } catch (error) {
+      console.error('Errore durante il salvataggio delle impostazioni Google Calendar:', error);
+      throw error;
+    }
+  }
+  
+  async updateGoogleCalendarSettings(id: number, settings: Partial<InsertGoogleCalendarSettings>): Promise<GoogleCalendarSettings | undefined> {
+    try {
+      const [updated] = await db
+        .update(googleCalendarSettings)
+        .set({
+          ...settings,
+          updatedAt: new Date()
+        })
+        .where(eq(googleCalendarSettings.id, id))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento delle impostazioni Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  // Implementazione Google Calendar Events
+  async getGoogleCalendarEvent(appointmentId: number): Promise<GoogleCalendarEvent | undefined> {
+    try {
+      const [event] = await db
+        .select()
+        .from(googleCalendarEvents)
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId));
+      return event;
+    } catch (error) {
+      console.error('Errore durante il recupero dell\'evento Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  async createGoogleCalendarEvent(event: InsertGoogleCalendarEvent): Promise<GoogleCalendarEvent> {
+    try {
+      const [created] = await db
+        .insert(googleCalendarEvents)
+        .values({
+          ...event,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+      return created;
+    } catch (error) {
+      console.error('Errore durante la creazione dell\'evento Google Calendar:', error);
+      throw error;
+    }
+  }
+  
+  async updateGoogleCalendarEvent(appointmentId: number, event: Partial<InsertGoogleCalendarEvent>): Promise<GoogleCalendarEvent | undefined> {
+    try {
+      const [updated] = await db
+        .update(googleCalendarEvents)
+        .set({
+          ...event,
+          updatedAt: new Date()
+        })
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento dell\'evento Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  async deleteGoogleCalendarEvent(appointmentId: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(googleCalendarEvents)
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId));
+      
+      return result.count > 0;
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione dell\'evento Google Calendar:', error);
       return false;
     }
   }
