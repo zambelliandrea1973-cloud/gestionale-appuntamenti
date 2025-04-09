@@ -9,14 +9,56 @@ export default function FooterContactIcons() {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
   const { t } = useTranslation();
 
-  useEffect(() => {
-    // Carica le informazioni di contatto dal localStorage
+  // Funzione per caricare le informazioni di contatto
+  const loadContactData = () => {
     const savedInfo = loadContactInfo();
+    console.log("Informazioni di contatto caricate:", savedInfo);
     setContactInfo(savedInfo);
+  };
+
+  // Carica le informazioni all'avvio
+  useEffect(() => {
+    loadContactData();
+    
+    // Aggiungi un event listener per aggiornare i contatti quando vengono salvati
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Ascolta l'evento personalizzato dall'editor di contatti
+    window.addEventListener('contactInfoUpdated', (e: any) => {
+      console.log("Evento contactInfoUpdated ricevuto:", e.detail);
+      if (e.detail && e.detail.contactInfo) {
+        setContactInfo(e.detail.contactInfo);
+      } else {
+        loadContactData();
+      }
+    });
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('contactInfoUpdated', (e: any) => {});
+    };
+  }, []);
+  
+  // Gestisce i cambiamenti nel localStorage
+  const handleStorageChange = (event: StorageEvent) => {
+    if (event.key === 'healthcare_app_contact_info') {
+      loadContactData();
+    }
+  };
+
+  // Verifica ogni 2 secondi se ci sono nuovi dati (fallback)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadContactData();
+    }, 2000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   if (!contactInfo.email && !contactInfo.phone1 && !contactInfo.phone2 && 
       !contactInfo.website && !contactInfo.facebook && !contactInfo.instagram) {
+    console.log("Nessuna informazione di contatto disponibile");
     return null; // Non mostrare nulla se non ci sono informazioni di contatto
   }
 
@@ -29,7 +71,7 @@ export default function FooterContactIcons() {
               <Button 
                 variant="link" 
                 size="icon"
-                className="text-primary hover:text-primary-dark"
+                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 onClick={() => window.open(`mailto:${contactInfo.email}`, '_blank')}
               >
                 <Mail className="h-5 w-5" />
@@ -47,7 +89,7 @@ export default function FooterContactIcons() {
               <Button 
                 variant="link" 
                 size="icon"
-                className="text-primary hover:text-primary-dark"
+                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 onClick={() => window.open(`tel:${contactInfo.phone1}`, '_blank')}
               >
                 <Phone className="h-5 w-5" />
@@ -65,7 +107,7 @@ export default function FooterContactIcons() {
               <Button 
                 variant="link" 
                 size="icon"
-                className="text-primary hover:text-primary-dark"
+                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 onClick={() => window.open(`tel:${contactInfo.phone2}`, '_blank')}
               >
                 <Phone className="h-5 w-5" />
@@ -83,7 +125,7 @@ export default function FooterContactIcons() {
               <Button 
                 variant="link" 
                 size="icon"
-                className="text-primary hover:text-primary-dark"
+                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 onClick={() => window.open(formatContactInfo('website', contactInfo.website), '_blank')}
               >
                 <Globe className="h-5 w-5" />
@@ -101,7 +143,7 @@ export default function FooterContactIcons() {
               <Button 
                 variant="link" 
                 size="icon"
-                className="text-primary hover:text-primary-dark"
+                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 onClick={() => window.open(formatContactInfo('facebook', contactInfo.facebook), '_blank')}
               >
                 <Facebook className="h-5 w-5" />
@@ -119,7 +161,7 @@ export default function FooterContactIcons() {
               <Button 
                 variant="link" 
                 size="icon"
-                className="text-primary hover:text-primary-dark"
+                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 onClick={() => window.open(formatContactInfo('instagram', contactInfo.instagram), '_blank')}
               >
                 <Instagram className="h-5 w-5" />
