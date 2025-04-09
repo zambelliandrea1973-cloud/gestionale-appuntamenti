@@ -36,25 +36,25 @@ export default function Settings() {
 
       <Tabs defaultValue="app" className="w-full">
         <TabsList className="grid grid-cols-5 mb-6">
-          <TabsTrigger value="app" className="flex items-center">
+          <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
-            {t('settings.general', 'Generali')}
+            <span>{t('settings.general', 'Generali')}</span>
           </TabsTrigger>
-          <TabsTrigger value="contacts" className="flex items-center">
+          <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
-            {t('settings.contacts', 'Contatti')}
+            <span>{t('settings.contacts', 'Contatti')}</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center">
+          <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Calendar className="mr-2 h-4 w-4" />
-            {t('settings.googleCalendar', 'Sincronizzazione Google Calendar')}
+            <span className="truncate">{t('settings.googleCalendar', 'Sincronizzazione Google Calendar')}</span>
           </TabsTrigger>
-          <TabsTrigger value="appearance" className="flex items-center">
+          <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
-            {t('settings.appearance', 'Aspetto')}
+            <span>{t('settings.appearance', 'Aspetto')}</span>
           </TabsTrigger>
-          <TabsTrigger value="client-app" className="flex items-center">
+          <TabsTrigger value="client-app" className="flex items-center whitespace-nowrap">
             <Smartphone className="mr-2 h-4 w-4" />
-            {t('settings.clientApp', 'App Cliente')}
+            <span>{t('settings.clientApp', 'App Cliente')}</span>
           </TabsTrigger>
         </TabsList>
 

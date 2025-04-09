@@ -220,7 +220,18 @@
     "notifications": "Notifiche",
     "language": "Lingua",
     "theme": "Tema",
-    "save": "Salva Impostazioni"
+    "save": "Salva Impostazioni",
+    "saving": "Salvataggio in corso...",
+    "contacts": "Contatti",
+    "contactsTitle": "Informazioni di Contatto",
+    "contactsDesc": "Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
+    "clientApp": "App Cliente",
+    "clientAppTitle": "Personalizzazione App Cliente",
+    "clientAppDesc": "Personalizza l'aspetto dell'app che i clienti installeranno sui loro dispositivi",
+    "appName": "Nome App",
+    "appIcon": "Icona App",
+    "googleCalendar": "Sincronizzazione Google Calendar",
+    "integrations": "Integrazioni"
   },
   "common": {
     "save": "Salva",
