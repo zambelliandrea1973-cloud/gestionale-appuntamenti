@@ -19,6 +19,7 @@ interface GoogleCalendarConfig {
   clientSecret?: string;
   redirectUri?: string;
   token?: OAuth2Token;
+  calendarId?: string; // ID del calendario specifico da utilizzare
 }
 
 // Cache della configurazione
@@ -118,9 +119,13 @@ export async function addAppointmentToGoogleCalendar(appointmentId: number): Pro
     // Crea evento Google Calendar
     const event = createGoogleCalendarEvent(appointment, client, service || null);
     
+    // Carica la configurazione per ottenere l'ID del calendario scelto
+    const config = await loadConfig();
+    const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
+    
     // Inserisci evento nel calendario
     const response = await calendar.events.insert({
-      calendarId: 'primary', // Calendario principale dell'utente
+      calendarId: calendarId,
       requestBody: event
     });
     
@@ -213,9 +218,13 @@ export async function updateAppointmentInGoogleCalendar(
     // Crea evento Google Calendar aggiornato
     const event = createGoogleCalendarEvent(appointment, client, service || null);
     
+    // Carica la configurazione per ottenere l'ID del calendario scelto
+    const config = await loadConfig();
+    const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
+    
     // Aggiorna evento nel calendario
     await calendar.events.update({
-      calendarId: 'primary',
+      calendarId: calendarId,
       eventId: googleEventId,
       requestBody: event
     });
@@ -239,9 +248,13 @@ export async function deleteAppointmentFromGoogleCalendar(googleEventId: string)
       return false;
     }
     
+    // Carica la configurazione per ottenere l'ID del calendario scelto
+    const config = await loadConfig();
+    const calendarId = config?.calendarId || 'primary'; // Usa l'ID specificato o 'primary' come fallback
+    
     // Elimina evento dal calendario
     await calendar.events.delete({
-      calendarId: 'primary',
+      calendarId: calendarId,
       eventId: googleEventId
     });
     
@@ -312,6 +325,25 @@ export async function exchangeCodeForToken(
   }
 }
 
+/**
+ * Recupera la lista dei calendari disponibili per l'account autenticato
+ */
+export async function getAvailableCalendars(): Promise<calendar_v3.Schema$CalendarListEntry[]> {
+  try {
+    const calendar = await getCalendarClient();
+    if (!calendar) {
+      return [];
+    }
+    
+    // Ottieni la lista dei calendari
+    const response = await calendar.calendarList.list();
+    return response.data.items || [];
+  } catch (error) {
+    console.error('Errore nel recupero dei calendari disponibili:', error);
+    return [];
+  }
+}
+
 // Esporta il servizio
 export const googleCalendarService = {
   saveConfig,
@@ -320,5 +352,6 @@ export const googleCalendarService = {
   deleteAppointmentFromGoogleCalendar,
   isGoogleCalendarEnabled,
   getAuthUrl,
-  exchangeCodeForToken
+  exchangeCodeForToken,
+  getAvailableCalendars
 };

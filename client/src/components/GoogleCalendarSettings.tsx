@@ -14,6 +14,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -29,7 +36,9 @@ import {
   saveGoogleCalendarSettings, 
   getGoogleAuthUrl, 
   exchangeCodeForToken, 
-  GoogleCalendarSettings 
+  getAvailableCalendars,
+  GoogleCalendarSettings,
+  GoogleCalendarInfo
 } from "@/lib/googleCalendar";
 import { GoogleCalendarEvent } from "@shared/schema";
 import { useTranslation } from 'react-i18next';
@@ -51,6 +60,7 @@ export default function GoogleCalendarSettingsComponent() {
   const [redirectUri, setRedirectUri] = useState(window.location.origin + "/settings");
   const [calendarId, setCalendarId] = useState("primary");
   const [isEnabled, setIsEnabled] = useState(false);
+  const [showCalendarSelector, setShowCalendarSelector] = useState(false);
   
   // Carica le impostazioni esistenti
   const { 
@@ -65,6 +75,19 @@ export default function GoogleCalendarSettingsComponent() {
     }
   });
   
+  // Carica i calendari disponibili
+  const {
+    data: availableCalendars,
+    isLoading: isLoadingCalendars,
+    refetch: refetchCalendars
+  } = useQuery({
+    queryKey: ["/api/google-calendar/calendars"],
+    queryFn: async () => {
+      return await getAvailableCalendars();
+    },
+    enabled: !!settings?.refreshToken, // Abilita la query solo se l'utente è autenticato
+  });
+  
   // Imposta i valori del form quando le impostazioni vengono caricate
   useEffect(() => {
     if (settings) {
@@ -73,8 +96,18 @@ export default function GoogleCalendarSettingsComponent() {
       setRedirectUri(settings.redirectUri || window.location.origin + "/settings");
       setCalendarId(settings.calendarId || "primary");
       setIsEnabled(settings.enabled);
+      
+      // Aggiorna la visibilità del selettore di calendario in base all'autenticazione
+      setShowCalendarSelector(!!settings.refreshToken);
     }
   }, [settings]);
+  
+  // Aggiorna i calendari disponibili quando l'utente si autentica
+  useEffect(() => {
+    if (settings?.refreshToken && !availableCalendars) {
+      refetchCalendars();
+    }
+  }, [settings?.refreshToken, availableCalendars, refetchCalendars]);
   
   // Mutation per salvare le impostazioni
   const saveSettingsMutation = useMutation({
@@ -132,6 +165,27 @@ export default function GoogleCalendarSettingsComponent() {
     }
   });
   
+  // Funzione per aprire il selettore di calendario
+  const handleOpenCalendarSelector = async () => {
+    if (!settings?.refreshToken) {
+      toast({
+        title: t("settings.googleCalendar.notAuthorized"),
+        description: t("settings.googleCalendar.authorizeFirst"),
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    await refetchCalendars();
+    setShowCalendarSelector(true);
+  };
+  
+  // Funzione per selezionare un calendario
+  const handleSelectCalendar = (calendarId: string) => {
+    setCalendarId(calendarId);
+    setShowCalendarSelector(false);
+  };
+    
   // Genera l'URL di autorizzazione
   const handleGenerateAuthUrl = async () => {
     if (!clientId || !redirectUri) {
@@ -316,12 +370,26 @@ export default function GoogleCalendarSettingsComponent() {
                     <Label htmlFor="calendar-id">
                       {t("settings.googleCalendar.calendarId")}
                     </Label>
-                    <Input
-                      id="calendar-id"
-                      value={calendarId}
-                      onChange={(e) => setCalendarId(e.target.value)}
-                      placeholder="primary"
-                    />
+                    <div className="flex gap-2">
+                      <Input
+                        id="calendar-id"
+                        value={calendarId}
+                        onChange={(e) => setCalendarId(e.target.value)}
+                        placeholder="primary"
+                        className="flex-1"
+                      />
+                      <Button 
+                        variant="outline" 
+                        onClick={handleOpenCalendarSelector}
+                        disabled={!settings?.refreshToken}
+                        className="whitespace-nowrap"
+                      >
+                        {t("settings.googleCalendar.selectCalendar")}
+                      </Button>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {t("settings.googleCalendar.calendarIdDescription", "Specifica l'ID del calendario Google a cui sincronizzare gli appuntamenti. 'primary' indica il calendario principale dell'account (es. zambelli.andrea.1973@gmail.com), oppure puoi usare l'indirizzo email di un calendario specifico.")}
+                    </p>
                   </div>
                 </div>
                 
@@ -469,6 +537,63 @@ export default function GoogleCalendarSettingsComponent() {
               ) : (
                 t("settings.googleCalendar.verifyCode")
               )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      <Dialog open={showCalendarSelector} onOpenChange={setShowCalendarSelector}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("settings.googleCalendar.selectCalendarTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("settings.googleCalendar.selectCalendarDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {isLoadingCalendars ? (
+            <div className="flex justify-center items-center p-8">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : availableCalendars && availableCalendars.length > 0 ? (
+            <div className="space-y-4 max-h-[400px] overflow-y-auto">
+              <div 
+                className="p-3 border rounded-md cursor-pointer hover:bg-secondary/50 flex items-center gap-2"
+                onClick={() => handleSelectCalendar("primary")}
+              >
+                <Calendar className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">{t("settings.googleCalendar.primaryCalendar")}</p>
+                  <p className="text-sm text-muted-foreground">primary</p>
+                </div>
+              </div>
+              
+              {availableCalendars.map((calendar) => (
+                <div 
+                  key={calendar.id}
+                  className="p-3 border rounded-md cursor-pointer hover:bg-secondary/50 flex items-center gap-2"
+                  onClick={() => handleSelectCalendar(calendar.id)}
+                >
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="font-medium">{calendar.summary}</p>
+                    <p className="text-sm text-muted-foreground">{calendar.id}</p>
+                    {calendar.description && (
+                      <p className="text-xs text-muted-foreground">{calendar.description}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-4 border rounded-md bg-amber-50 dark:bg-amber-950">
+              <p>{t("settings.googleCalendar.noCalendarsFound")}</p>
+            </div>
+          )}
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCalendarSelector(false)}>
+              {t("settings.cancel")}
             </Button>
           </DialogFooter>
         </DialogContent>

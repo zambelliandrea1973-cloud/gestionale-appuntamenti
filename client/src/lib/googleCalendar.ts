@@ -122,6 +122,25 @@ export async function getGoogleCalendarEvents(): Promise<{appointmentId: number,
   }
 }
 
+// Interfaccia per i calendari disponibili
+export interface GoogleCalendarInfo {
+  id: string;
+  summary: string;
+  description?: string; 
+  primary?: boolean;
+}
+
+// Recupera la lista di tutti i calendari disponibili per l'account autenticato
+export async function getAvailableCalendars(): Promise<GoogleCalendarInfo[]> {
+  try {
+    const response = await apiRequest("GET", "/api/google-calendar/calendars");
+    return await response.json();
+  } catch (error) {
+    console.error("Errore durante il recupero della lista dei calendari:", error);
+    return [];
+  }
+}
+
 // Estrae il codice di autorizzazione dalla URL dopo il reindirizzamento da Google
 export function extractAuthCode(url: string): string | null {
   const urlObj = new URL(url);
