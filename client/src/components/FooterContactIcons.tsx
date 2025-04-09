@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
 import { ContactInfo, loadContactInfo, loadContactInfoFromAPI, formatContactInfo } from '@/lib/contactInfo';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 export default function FooterContactIcons() {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
@@ -72,117 +73,136 @@ export default function FooterContactIcons() {
     return null; // Non mostrare nulla se non ci sono informazioni di contatto
   }
 
+  // Calcola il numero di contatti disponibili per adattare la dimensione del contenitore
+  const contactCount = [
+    contactInfo.email,
+    contactInfo.phone1,
+    contactInfo.phone2,
+    contactInfo.website,
+    contactInfo.facebook,
+    contactInfo.instagram
+  ].filter(Boolean).length;
+
   return (
-    <div className="flex space-x-4">
-      <TooltipProvider>
-        {contactInfo.email && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="link" 
-                size="icon"
-                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                onClick={() => window.open(`mailto:${contactInfo.email}`, '_blank')}
-              >
-                <Mail className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{contactInfo.email}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
+    <Card className="border border-primary/20 shadow-sm bg-white/90 backdrop-blur-sm">
+      <CardHeader className="py-2 px-4 bg-primary/10 border-b border-primary/20">
+        <h3 className="text-sm font-medium text-primary text-center">
+          {t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
+        </h3>
+      </CardHeader>
+      <CardContent className="p-3">
+        <div className={`grid grid-flow-col gap-3 ${contactCount > 3 ? 'grid-rows-2' : ''}`}>
+          <TooltipProvider>
+            {contactInfo.email && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    onClick={() => window.open(`mailto:${contactInfo.email}`, '_blank')}
+                  >
+                    <Mail className="h-5 w-5 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{contactInfo.email}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
 
-        {contactInfo.phone1 && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="link" 
-                size="icon"
-                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                onClick={() => window.open(`tel:${contactInfo.phone1}`, '_blank')}
-              >
-                <Phone className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{contactInfo.phone1}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
+            {contactInfo.phone1 && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    onClick={() => window.open(`tel:${contactInfo.phone1}`, '_blank')}
+                  >
+                    <Phone className="h-5 w-5 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{contactInfo.phone1}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
 
-        {contactInfo.phone2 && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="link" 
-                size="icon"
-                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                onClick={() => window.open(`tel:${contactInfo.phone2}`, '_blank')}
-              >
-                <Phone className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{contactInfo.phone2}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
+            {contactInfo.phone2 && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    onClick={() => window.open(`tel:${contactInfo.phone2}`, '_blank')}
+                  >
+                    <Phone className="h-5 w-5 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{contactInfo.phone2}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
 
-        {contactInfo.website && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="link" 
-                size="icon"
-                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                onClick={() => window.open(formatContactInfo('website', contactInfo.website), '_blank')}
-              >
-                <Globe className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{contactInfo.website}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
+            {contactInfo.website && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    onClick={() => window.open(formatContactInfo('website', contactInfo.website), '_blank')}
+                  >
+                    <Globe className="h-5 w-5 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{contactInfo.website}</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
 
-        {contactInfo.facebook && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="link" 
-                size="icon"
-                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                onClick={() => window.open(formatContactInfo('facebook', contactInfo.facebook), '_blank')}
-              >
-                <Facebook className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Facebook</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
+            {contactInfo.facebook && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    onClick={() => window.open(formatContactInfo('facebook', contactInfo.facebook), '_blank')}
+                  >
+                    <Facebook className="h-5 w-5 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Facebook</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
 
-        {contactInfo.instagram && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="link" 
-                size="icon"
-                className="text-primary hover:text-primary-dark p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                onClick={() => window.open(formatContactInfo('instagram', contactInfo.instagram), '_blank')}
-              >
-                <Instagram className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Instagram</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
-      </TooltipProvider>
-    </div>
+            {contactInfo.instagram && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    className="h-10 w-10 rounded-full bg-primary/10 hover:bg-primary/20 border-primary/30 transition-colors"
+                    onClick={() => window.open(formatContactInfo('instagram', contactInfo.instagram), '_blank')}
+                  >
+                    <Instagram className="h-5 w-5 text-primary" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Instagram</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </TooltipProvider>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

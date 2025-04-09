@@ -259,5 +259,8 @@
     "personalInfo": "Persoonlijke Informatie",
     "consents": "Toestemmingsbeheer",
     "messages": "Berichten"
+  },
+  "contacts": {
+    "accessOurContacts": "Toegang tot onze contacten"
   }
 }

@@ -297,7 +297,10 @@
     "viewAppointments": "Ver todas las citas",
     "consentStatus": "Estado de los consentimientos",
     "consentMissing": "Consentimiento requerido",
-    "viewConsents": "Ver consentimientos",
+    "viewConsents": "Ver consentimientos"
+  },
+  "contacts": {
+    "accessOurContacts": "Accede a nuestros contactos",
     "manageConsents": "Gestionar consentimientos",
     "personalData": "Datos personales",
     "medicalData": "Datos médicos",

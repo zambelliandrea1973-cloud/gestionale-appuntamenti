@@ -276,5 +276,8 @@
     "personalInfo": "Informazioni Personali",
     "consents": "Gestione Consensi",
     "messages": "Messaggi"
+  },
+  "contacts": {
+    "accessOurContacts": "Accedi ai nostri contatti"
   }
 }
