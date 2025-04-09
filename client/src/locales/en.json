@@ -276,5 +276,8 @@
     "personalInfo": "Personal Information",
     "consents": "Consent Management",
     "messages": "Messages"
+  },
+  "contacts": {
+    "accessOurContacts": "Access our contacts"
   }
 }

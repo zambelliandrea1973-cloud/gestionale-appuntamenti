@@ -277,5 +277,8 @@
     "personalInfo": "Личная Информация",
     "consents": "Управление Согласиями",
     "messages": "Сообщения"
+  },
+  "contacts": {
+    "accessOurContacts": "Доступ к нашим контактам"
   }
 }

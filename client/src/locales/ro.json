@@ -259,5 +259,8 @@
     "personalInfo": "Informații Personale",
     "consents": "Gestionare Consimțăminte",
     "messages": "Mesaje"
+  },
+  "contacts": {
+    "accessOurContacts": "Accesați contactele noastre"
   }
 }
