@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -219,6 +219,48 @@ export const insertActivationTokenSchema = createInsertSchema(activationTokens).
   createdAt: true,
 });
 
+// Google Calendar Events table schema
+export const googleCalendarEvents = pgTable("google_calendar_events", {
+  id: serial("id").primaryKey(),
+  appointmentId: integer("appointment_id").notNull().unique(),
+  googleEventId: text("google_event_id").notNull(),
+  syncStatus: text("sync_status").default("synced"), // synced, pending, error
+  lastSyncAt: timestamp("last_sync_at").defaultNow(),
+  syncError: text("sync_error"),
+  calendarId: text("calendar_id").default("primary"),
+  metadata: json("metadata"), // Additional data about the event
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertGoogleCalendarEventSchema = createInsertSchema(googleCalendarEvents).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Google Calendar settings table schema
+export const googleCalendarSettings = pgTable("google_calendar_settings", {
+  id: serial("id").primaryKey(),
+  enabled: boolean("enabled").default(false),
+  apiKey: text("api_key"),
+  clientId: text("client_id"),
+  clientSecret: text("client_secret"),
+  redirectUri: text("redirect_uri"),
+  refreshToken: text("refresh_token"),
+  accessToken: text("access_token"),
+  tokenExpiry: timestamp("token_expiry"),
+  calendarId: text("calendar_id").default("primary"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertGoogleCalendarSettingsSchema = createInsertSchema(googleCalendarSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Define types
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = z.infer<typeof insertClientSchema>;
@@ -228,6 +270,12 @@ export type InsertService = z.infer<typeof insertServiceSchema>;
 
 export type Appointment = typeof appointments.$inferSelect;
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
+
+export type GoogleCalendarEvent = typeof googleCalendarEvents.$inferSelect;
+export type InsertGoogleCalendarEvent = z.infer<typeof insertGoogleCalendarEventSchema>;
+
+export type GoogleCalendarSettings = typeof googleCalendarSettings.$inferSelect;
+export type InsertGoogleCalendarSettings = z.infer<typeof insertGoogleCalendarSettingsSchema>;
 
 export type Consent = typeof consents.$inferSelect;
 export type InsertConsent = z.infer<typeof insertConsentSchema>;
@@ -287,6 +335,17 @@ export const appointmentsRelations = relations(appointments, ({ one, many }) => 
   }),
   invoiceItems: many(invoiceItems),
   notifications: many(notifications),
+  googleCalendarEvent: one(googleCalendarEvents, {
+    fields: [appointments.id],
+    references: [googleCalendarEvents.appointmentId],
+  }),
+}));
+
+export const googleCalendarEventsRelations = relations(googleCalendarEvents, ({ one }) => ({
+  appointment: one(appointments, {
+    fields: [googleCalendarEvents.appointmentId],
+    references: [appointments.id],
+  }),
 }));
 
 export const consentsRelations = relations(consents, ({ one }) => ({

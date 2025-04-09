@@ -19,6 +19,7 @@ import { qrCodeService } from "./services/qrCodeService";
 import { notificationService } from "./services/notificationService";
 import { contactService } from "./services/contactService";
 import { initializeSchedulers } from "./services/schedulerService";
+import { googleCalendarService } from "./services/googleCalendarService";
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -1403,6 +1404,199 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Errore nel salvataggio delle informazioni di contatto:', error);
       res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });
+    }
+  });
+  
+  // Google Calendar routes
+  app.get('/api/google-calendar/settings', async (_req: Request, res: Response) => {
+    try {
+      const settings = await storage.getGoogleCalendarSettings();
+      // Rimuovere dati sensibili prima di inviare al frontend
+      if (settings) {
+        const safeSettings = {
+          ...settings,
+          clientSecret: settings.clientSecret ? '********' : null,
+          refreshToken: settings.refreshToken ? '********' : null,
+          accessToken: settings.accessToken ? '********' : null
+        };
+        res.json(safeSettings);
+      } else {
+        res.json({ enabled: false });
+      }
+    } catch (error) {
+      console.error("Errore durante il recupero delle impostazioni Google Calendar:", error);
+      res.status(500).json({ message: "Errore durante il recupero delle impostazioni Google Calendar" });
+    }
+  });
+  
+  app.post('/api/google-calendar/settings', async (req: Request, res: Response) => {
+    try {
+      const settings = req.body;
+      const result = await storage.saveGoogleCalendarSettings(settings);
+      res.status(200).json(result);
+    } catch (error) {
+      console.error("Errore durante il salvataggio delle impostazioni Google Calendar:", error);
+      res.status(500).json({ message: "Errore durante il salvataggio delle impostazioni Google Calendar" });
+    }
+  });
+  
+  app.get('/api/google-calendar/auth-url', async (req: Request, res: Response) => {
+    try {
+      const { clientId, redirectUri } = req.query;
+      
+      if (!clientId || !redirectUri) {
+        return res.status(400).json({ message: "clientId e redirectUri sono parametri obbligatori" });
+      }
+      
+      const authUrl = googleCalendarService.getAuthUrl(clientId as string, redirectUri as string);
+      res.json({ authUrl });
+    } catch (error) {
+      console.error("Errore durante la generazione dell'URL di autenticazione:", error);
+      res.status(500).json({ message: "Errore durante la generazione dell'URL di autenticazione" });
+    }
+  });
+  
+  app.post('/api/google-calendar/exchange-code', async (req: Request, res: Response) => {
+    try {
+      const { code, clientId, clientSecret, redirectUri } = req.body;
+      
+      if (!code || !clientId || !clientSecret || !redirectUri) {
+        return res.status(400).json({ message: "Parametri mancanti" });
+      }
+      
+      const token = await googleCalendarService.exchangeCodeForToken(
+        code,
+        clientId,
+        clientSecret,
+        redirectUri
+      );
+      
+      if (!token) {
+        return res.status(400).json({ message: "Impossibile ottenere il token" });
+      }
+      
+      // Aggiorna le impostazioni con il token
+      const settings = await storage.getGoogleCalendarSettings();
+      if (settings) {
+        await storage.updateGoogleCalendarSettings(settings.id, {
+          refreshToken: token.refresh_token,
+          accessToken: token.access_token,
+          tokenExpiry: new Date(token.expiry_date)
+        });
+      } else {
+        await storage.saveGoogleCalendarSettings({
+          enabled: true,
+          clientId,
+          clientSecret,
+          redirectUri,
+          refreshToken: token.refresh_token,
+          accessToken: token.access_token,
+          tokenExpiry: new Date(token.expiry_date),
+          calendarId: 'primary'
+        });
+      }
+      
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Errore durante lo scambio del codice:", error);
+      res.status(500).json({ message: "Errore durante lo scambio del codice" });
+    }
+  });
+  
+  app.post('/api/google-calendar/sync-appointment/:appointmentId', async (req: Request, res: Response) => {
+    try {
+      const appointmentId = parseInt(req.params.appointmentId);
+      if (isNaN(appointmentId)) {
+        return res.status(400).json({ message: "ID appuntamento non valido" });
+      }
+      
+      // Verifica se è già sincronizzato
+      const existingEvent = await storage.getGoogleCalendarEvent(appointmentId);
+      if (existingEvent) {
+        return res.status(400).json({ message: "Appuntamento già sincronizzato" });
+      }
+      
+      // Sincronizza con Google Calendar
+      const googleEventId = await googleCalendarService.addAppointmentToGoogleCalendar(appointmentId);
+      
+      if (!googleEventId) {
+        return res.status(500).json({ message: "Impossibile sincronizzare l'appuntamento" });
+      }
+      
+      // Salva il riferimento all'evento
+      const event = await storage.createGoogleCalendarEvent({
+        appointmentId,
+        googleEventId,
+        syncStatus: 'synced',
+        lastSyncAt: new Date()
+      });
+      
+      res.status(200).json(event);
+    } catch (error) {
+      console.error("Errore durante la sincronizzazione dell'appuntamento:", error);
+      res.status(500).json({ message: "Errore durante la sincronizzazione dell'appuntamento" });
+    }
+  });
+  
+  app.put('/api/google-calendar/sync-appointment/:appointmentId', async (req: Request, res: Response) => {
+    try {
+      const appointmentId = parseInt(req.params.appointmentId);
+      if (isNaN(appointmentId)) {
+        return res.status(400).json({ message: "ID appuntamento non valido" });
+      }
+      
+      // Verifica se esiste l'evento
+      const existingEvent = await storage.getGoogleCalendarEvent(appointmentId);
+      if (!existingEvent) {
+        return res.status(404).json({ message: "Evento non trovato" });
+      }
+      
+      // Aggiorna l'evento su Google Calendar
+      const success = await googleCalendarService.updateAppointmentInGoogleCalendar(
+        appointmentId,
+        existingEvent.googleEventId
+      );
+      
+      if (!success) {
+        return res.status(500).json({ message: "Impossibile aggiornare l'evento" });
+      }
+      
+      // Aggiorna lo stato della sincronizzazione
+      const event = await storage.updateGoogleCalendarEvent(appointmentId, {
+        syncStatus: 'synced',
+        lastSyncAt: new Date()
+      });
+      
+      res.status(200).json(event);
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento dell'evento:", error);
+      res.status(500).json({ message: "Errore durante l'aggiornamento dell'evento" });
+    }
+  });
+  
+  app.delete('/api/google-calendar/sync-appointment/:appointmentId', async (req: Request, res: Response) => {
+    try {
+      const appointmentId = parseInt(req.params.appointmentId);
+      if (isNaN(appointmentId)) {
+        return res.status(400).json({ message: "ID appuntamento non valido" });
+      }
+      
+      // Verifica se esiste l'evento
+      const existingEvent = await storage.getGoogleCalendarEvent(appointmentId);
+      if (!existingEvent) {
+        return res.status(404).json({ message: "Evento non trovato" });
+      }
+      
+      // Elimina l'evento da Google Calendar
+      const success = await googleCalendarService.deleteAppointmentFromGoogleCalendar(existingEvent.googleEventId);
+      
+      // Elimina il riferimento all'evento nel database
+      await storage.deleteGoogleCalendarEvent(appointmentId);
+      
+      res.status(200).json({ success });
+    } catch (error) {
+      console.error("Errore durante l'eliminazione dell'evento:", error);
+      res.status(500).json({ message: "Errore durante l'eliminazione dell'evento" });
     }
   });
 
