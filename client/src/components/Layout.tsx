@@ -77,6 +77,13 @@ export default function Layout({ children }: LayoutProps) {
                   <span>{t('invoices.title')}</span>
                 </Button>
               </Link>
+
+              <Link href="/settings">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Clock className="h-4 w-4" />
+                  <span>{t('settings.title')}</span>
+                </Button>
+              </Link>
               
               <LanguageSelector />
               
@@ -120,6 +127,12 @@ export default function Layout({ children }: LayoutProps) {
                       <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
                         <BarChart className="mr-2 h-4 w-4" />
                         {t('reports.title')}
+                      </Button>
+                    </Link>
+                    <Link href="/settings">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Clock className="mr-2 h-4 w-4" />
+                        {t('settings.title')}
                       </Button>
                     </Link>
                   </nav>
