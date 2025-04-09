@@ -75,7 +75,32 @@
   },
   "clients": {
     "title": "Kunder",
+    "description": "Administrer kundeinformasjon",
+    "subDescription": "Legg til, rediger og vis kundedata, inkludert personlig og medisinsk informasjon",
+    "goTo": "Administrer Kunder",
     "addClient": "Ny Kunde",
+    "newClient": "Ny Kunde",
+    "addFirstClient": "Legg til første kunde",
+    "search": {
+      "placeholder": "Søk kunder etter navn, telefon eller e-post...",
+      "minLength": "Skriv inn minst 2 tegn for å søke"
+    },
+    "filter": {
+      "all": "Alle",
+      "frequent": "Faste",
+      "noConsent": "Uten Samtykke"
+    },
+    "noClientsFound": "Ingen kunder funnet",
+    "noClientsInSystem": "Det er ingen kunder registrert i systemet",
+    "noResultsMatch": "Ingen kunder samsvarer med søkekriteriene \"{{query}}\"",
+    "refreshSuccess": "Kundedata er oppdatert",
+    "lastUpdate": "Siste oppdatering",
+    "autoUpdate": "Automatisk oppdatering hver time og kl. 23:59",
+    "stats": {
+      "total": "Totalt antall kunder",
+      "frequent": "Faste kunder",
+      "noConsent": "Uten samtykke"
+    },
     "search": "Søk kunde",
     "table": {
       "name": "Fornavn",
@@ -90,7 +115,39 @@
       "medicalInfo": "Medisinsk Informasjon",
       "appointments": "Timeavtaler",
       "notes": "Notater",
-      "consents": "Samtykker"
+      "consents": "Samtykker",
+      "clientFile": "Kundemappen",
+      "addAppointment": "Ny Timeavtale",
+      "generateQRCode": "Generer QR-kode",
+      "accessActivated": "Kundetilgang QR-kode",
+      "showDetails": "Detaljer",
+      "deleteClient": "Slett kunde",
+      "deleteClientConfirmation": "Er du sikker på at du vil slette denne kunden? Alle timeavtalene deres vil også bli slettet. Denne handlingen kan ikke angres.",
+      "notFound": "Kunde ikke funnet",
+      "notSpecified": "Ikke spesifisert",
+      "frequentClient": "Fast kunde",
+      "dataConsent": "Samtykke til databehandling",
+      "obtained": "Innhentet",
+      "notObtained": "Ikke innhentet",
+      "viewAllAppointments": "Se alle timeavtaler",
+      "backToClients": "Tilbake til kundelisten",
+      "structuredNotes": "Strukturerte notater",
+      "legacyMedicalData": "Eldre medisinske data",
+      "otherInfo": "Annen informasjon",
+      "viewMode": "Visningsmode for notater",
+      "stackedView": "Stablede kort",
+      "classicView": "Klassisk visning",
+      "stackedViewDescription": "Notater vises som stablede kort. Klikk på kortene eller bruk navigasjonsknappene for å bla gjennom dem.",
+      "classicViewDescription": "Notater vises i vertikal rekkefølge.",
+      "generalNotes": "Generelle notater",
+      "medicalNotes": "Medisinske notater",
+      "allergiesInfo": "Allergier og helseinformasjon",
+      "medicalNotesLegacy": "Medisinske notater (eldre)",
+      "allergiesInfoLegacy": "Allergier og helseinformasjon (eldre)",
+      "generalNotesLegacy": "Generelle notater (eldre)",
+      "noMedicalNotes": "Ingen medisinske notater registrert",
+      "noAllergiesInfo": "Ingen allergier eller helseinformasjon registrert",
+      "noGeneralNotes": "Ingen generelle notater registrert"
     },
     "form": {
       "firstName": "Fornavn",
@@ -108,6 +165,9 @@
   },
   "invoices": {
     "title": "Fakturaer",
+    "description": "Administrer fakturaer og betalinger",
+    "subDescription": "Opprett og administrer fakturaer, registrer betalinger og overvåk fakturastatus i sanntid",
+    "goTo": "Administrer Fakturaer",
     "addInvoice": "Ny Faktura",
     "table": {
       "number": "Nummer",
@@ -125,6 +185,9 @@
   },
   "reports": {
     "title": "Rapporter",
+    "description": "Analyser virksomhetens ytelse",
+    "subDescription": "Se daglige, ukentlige og månedlige rapporter for å analysere virksomhetens ytelse",
+    "goTo": "Se Rapporter",
     "daily": "Daglig Rapport",
     "weekly": "Ukentlig Rapport",
     "monthly": "Månedlig Rapport",
@@ -159,13 +222,26 @@
     "address": "Adresse",
     "date": "Dato",
     "time": "Tid",
-    "description": "Beskrivelse"
+    "description": "Beskrivelse",
+    "support": "Støtte",
+    "terms": "Vilkår for bruk",
+    "refresh": "Oppdater",
+    "error": "Feil",
+    "birthday": "Fødselsdato",
+    "yes": "Ja",
+    "no": "Nei"
   },
   "notifications": {
     "success": "Operasjonen ble fullført",
     "error": "Det oppstod en feil",
     "warning": "Advarsel",
-    "info": "Informasjon"
+    "info": "Informasjon",
+    "clientDeleted": "Kunde slettet",
+    "clientDeletedSuccess": "Kunden ble slettet"
+  },
+  "errors": {
+    "genericError": "Det oppstod en feil: {{error}}",
+    "qrCodeFetchError": "Feil ved henting av eksisterende QR-kode:"
   },
   "auth": {
     "login": "Logg inn",
