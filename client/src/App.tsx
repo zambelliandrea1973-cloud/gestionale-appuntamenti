@@ -2,6 +2,7 @@ import { Route, Router as WouterRouter, Switch } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
+import ClientLayout from "./components/ClientLayout";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
@@ -15,9 +16,17 @@ import ClientArea from "./pages/ClientArea";
 import NotFound from "./pages/not-found";
 
 /**
- * Wrapper per le pagine client (senza il layout standard)
+ * Wrapper per le pagine client (con layout cliente)
  */
 function ClientPageWrapper({ children }: { children: React.ReactNode }) {
+  // Utilizziamo il layout cliente per le pagine dell'area client
+  return <ClientLayout>{children}</ClientLayout>;
+}
+
+/**
+ * Wrapper per le pagine di attivazione (senza layout)
+ */
+function ActivationPageWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
@@ -31,17 +40,19 @@ function StaffPageWrapper({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Switch>
-      {/* Pagine client senza layout standard */}
+      {/* Pagina di attivazione senza layout */}
       <Route path="/activate">
-        <ClientPageWrapper>
+        <ActivationPageWrapper>
           <ActivateAccount />
-        </ClientPageWrapper>
+        </ActivationPageWrapper>
       </Route>
+      {/* Pagina di login client con layout cliente */}
       <Route path="/client-login">
         <ClientPageWrapper>
           <ClientLogin />
         </ClientPageWrapper>
       </Route>
+      {/* Pagina area client con layout cliente */}
       <Route path="/client-area">
         <ClientPageWrapper>
           <ClientArea />
