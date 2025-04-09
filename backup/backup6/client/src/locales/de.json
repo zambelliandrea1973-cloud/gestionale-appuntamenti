@@ -1,0 +1,281 @@
+{
+  "app": {
+    "title": "Terminverwaltung",
+    "welcome": "Willkommen bei der Terminverwaltung",
+    "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
+  },
+  "navigation": {
+    "home": "Startseite"
+  },
+  "sidebar": {
+    "clients": "Kunden",
+    "calendar": "Kalender",
+    "invoices": "Rechnungen",
+    "reports": "Berichte",
+    "settings": "Einstellungen"
+  },
+  "language": {
+    "it": "Italienisch",
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "ru": "Russisch",
+    "nl": "Niederländisch",
+    "no": "Norwegisch",
+    "ro": "Rumänisch",
+    "select": "Sprache auswählen"
+  },
+  "home": {
+    "calendar": {
+      "title": "Kalender",
+      "description": "Termine anzeigen und verwalten",
+      "content": "Termine im Tages-, Wochen- oder Monatsformat anzeigen und einfach neue Termine erstellen.",
+      "button": "Zum Kalender"
+    },
+    "clients": {
+      "title": "Kunden",
+      "description": "Kundeninformationen verwalten",
+      "content": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen.",
+      "button": "Kunden verwalten"
+    },
+    "invoices": {
+      "title": "Rechnungen",
+      "description": "Rechnungen und Zahlungen verwalten",
+      "content": "Erstellen und verwalten Sie Rechnungen, erfassen Sie Zahlungen und überwachen Sie den Rechnungsstatus in Echtzeit.",
+      "button": "Rechnungen verwalten"
+    },
+    "reports": {
+      "title": "Berichte",
+      "description": "Geschäftsentwicklung analysieren",
+      "content": "Tägliche, wöchentliche und monatliche Berichte anzeigen, um die Geschäftsentwicklung zu analysieren.",
+      "button": "Berichte anzeigen"
+    }
+  },
+  "calendar": {
+    "title": "Kalender",
+    "description": "Termine anzeigen und verwalten",
+    "subDescription": "Termine im Tages-, Wochen- oder Monatsformat anzeigen und einfach neue Termine erstellen",
+    "goTo": "Zum Kalender",
+    "daily": "Täglich",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich",
+    "weekView": "Wochenansicht",
+    "monthView": "Monatsansicht",
+    "addAppointment": "Neuer Termin",
+    "today": "Heute",
+    "searchResults": "Suchergebnisse",
+    "noAppointmentsFound": "Keine Termine gefunden für",
+    "goToDay": "Zum Tag gehen",
+    "days": {
+      "monday": "Montag",
+      "tuesday": "Dienstag",
+      "wednesday": "Mittwoch",
+      "thursday": "Donnerstag",
+      "friday": "Freitag",
+      "saturday": "Samstag",
+      "sunday": "Sonntag"
+    },
+    "months": {
+      "january": "Januar",
+      "february": "Februar",
+      "march": "März",
+      "april": "April",
+      "may": "Mai",
+      "june": "Juni",
+      "july": "Juli",
+      "august": "August",
+      "september": "September",
+      "october": "Oktober",
+      "november": "November",
+      "december": "Dezember"
+    }
+  },
+  "clients": {
+    "title": "Kunden",
+    "description": "Kundeninformationen verwalten",
+    "subDescription": "Kundendaten hinzufügen, bearbeiten und anzeigen, einschließlich persönlicher und medizinischer Informationen",
+    "goTo": "Kunden verwalten",
+    "addClient": "Neuer Kunde",
+    "newClient": "Neuer Kunde",
+    "addFirstClient": "Ersten Kunden hinzufügen",
+    "search": {
+      "placeholder": "Kunden nach Namen, Telefon oder E-Mail durchsuchen...",
+      "minLength": "Geben Sie mindestens 2 Zeichen für die Suche ein"
+    },
+    "filter": {
+      "all": "Alle",
+      "frequent": "Häufig",
+      "noConsent": "Ohne Einwilligung"
+    },
+    "noClientsFound": "Keine Kunden gefunden",
+    "noClientsInSystem": "Es sind keine Kunden im System registriert",
+    "noResultsMatch": "Keine Kunden entsprechen den Suchkriterien \"{{query}}\"",
+    "refreshSuccess": "Die Kundendaten wurden aktualisiert",
+    "lastUpdate": "Letzte Aktualisierung",
+    "autoUpdate": "Automatische Aktualisierung jede Stunde und um 23:59 Uhr",
+    "stats": {
+      "total": "Kunden gesamt",
+      "frequent": "Häufige Kunden",
+      "noConsent": "Ohne Einwilligung"
+    },
+    "search": "Kunde suchen",
+    "table": {
+      "name": "Vorname",
+      "surname": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "actions": "Aktionen"
+    },
+    "details": {
+      "title": "Kundendetails",
+      "personalInfo": "Persönliche Informationen",
+      "medicalInfo": "Medizinische Informationen",
+      "appointments": "Termine",
+      "notes": "Notizen",
+      "consents": "Einwilligungen",
+      "clientFile": "Kundenakte",
+      "addAppointment": "Neuer Termin",
+      "generateQRCode": "QR-Code generieren",
+      "accessActivated": "Kunden-Zugangs-QR-Code",
+      "showDetails": "Details",
+      "deleteClient": "Kunde löschen",
+      "deleteClientConfirmation": "Sind Sie sicher, dass Sie diesen Kunden löschen möchten? Alle zugehörigen Termine werden ebenfalls gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "notFound": "Kunde nicht gefunden",
+      "notSpecified": "Nicht angegeben",
+      "frequentClient": "Stammkunde",
+      "dataConsent": "Datenschutzeinwilligung",
+      "obtained": "Erhalten",
+      "notObtained": "Nicht erhalten",
+      "viewAllAppointments": "Alle Termine anzeigen",
+      "backToClients": "Zurück zur Kundenliste",
+      "structuredNotes": "Strukturierte Notizen",
+      "legacyMedicalData": "Alte medizinische Daten",
+      "otherInfo": "Weitere Informationen",
+      "viewMode": "Ansichtsmodus für Notizen",
+      "stackedView": "Gestapelte Karten-Ansicht",
+      "classicView": "Klassische Ansicht",
+      "stackedViewDescription": "Notizen werden als gestapelte Karten angezeigt. Klicken Sie auf die Karten oder verwenden Sie die Navigationsschaltflächen zum Durchblättern.",
+      "classicViewDescription": "Notizen werden in vertikaler Folge angezeigt.",
+      "generalNotes": "Allgemeine Notizen",
+      "medicalNotes": "Medizinische Notizen",
+      "allergiesInfo": "Allergien und Gesundheitsinformationen",
+      "medicalNotesLegacy": "Medizinische Notizen (alt)",
+      "allergiesInfoLegacy": "Allergien und Gesundheitsinformationen (alt)",
+      "generalNotesLegacy": "Allgemeine Notizen (alt)",
+      "noMedicalNotes": "Keine medizinischen Notizen registriert",
+      "noAllergiesInfo": "Keine Allergien oder Gesundheitsinformationen registriert",
+      "noGeneralNotes": "Keine allgemeinen Notizen registriert"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "birthDate": "Geburtsdatum",
+      "address": "Adresse",
+      "city": "Stadt",
+      "zipCode": "PLZ",
+      "notes": "Notizen",
+      "save": "Speichern",
+      "cancel": "Abbrechen"
+    }
+  },
+  "invoices": {
+    "title": "Rechnungen",
+    "description": "Rechnungen und Zahlungen verwalten",
+    "subDescription": "Erstellen und verwalten Sie Rechnungen, erfassen Sie Zahlungen und überwachen Sie den Rechnungsstatus in Echtzeit",
+    "goTo": "Rechnungen verwalten",
+    "addInvoice": "Neue Rechnung",
+    "table": {
+      "number": "Nummer",
+      "date": "Datum",
+      "client": "Kunde",
+      "amount": "Betrag",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "paid": "Bezahlt",
+      "unpaid": "Unbezahlt",
+      "partial": "Teilweise bezahlt"
+    }
+  },
+  "reports": {
+    "title": "Berichte",
+    "description": "Geschäftsentwicklung analysieren",
+    "subDescription": "Tägliche, wöchentliche und monatliche Berichte anzeigen, um die Geschäftsentwicklung zu analysieren",
+    "goTo": "Berichte anzeigen",
+    "daily": "Tagesbericht",
+    "weekly": "Wochenbericht",
+    "monthly": "Monatsbericht",
+    "appointments": "Termine",
+    "clients": "Kunden",
+    "revenue": "Einnahmen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "general": "Allgemein",
+    "profile": "Profil",
+    "appearance": "Erscheinungsbild",
+    "notifications": "Benachrichtigungen",
+    "language": "Sprache",
+    "theme": "Thema",
+    "save": "Einstellungen speichern"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "view": "Anzeigen",
+    "search": "Suchen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "actions": "Aktionen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "date": "Datum",
+    "time": "Zeit",
+    "description": "Beschreibung",
+    "support": "Unterstützung",
+    "terms": "Nutzungsbedingungen",
+    "refresh": "Aktualisieren",
+    "error": "Fehler",
+    "birthday": "Geburtsdatum",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "notifications": {
+    "success": "Vorgang erfolgreich abgeschlossen",
+    "error": "Es ist ein Fehler aufgetreten",
+    "warning": "Warnung",
+    "info": "Information",
+    "clientDeleted": "Kunde gelöscht",
+    "clientDeletedSuccess": "Der Kunde wurde erfolgreich gelöscht"
+  },
+  "errors": {
+    "genericError": "Ein Fehler ist aufgetreten: {{error}}",
+    "qrCodeFetchError": "Fehler beim Abrufen des vorhandenen QR-Codes:"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "rememberMe": "Angemeldet bleiben",
+    "forgotPassword": "Passwort vergessen?",
+    "loginButton": "Anmelden"
+  },
+  "clientArea": {
+    "title": "Kundenbereich",
+    "welcome": "Willkommen in Ihrem persönlichen Bereich",
+    "appointments": "Ihre Termine",
+    "personalInfo": "Persönliche Informationen",
+    "consents": "Einwilligungsverwaltung",
+    "messages": "Nachrichten"
+  }
+}
