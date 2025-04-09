@@ -46,7 +46,7 @@ export default function Settings() {
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Calendar className="mr-2 h-4 w-4" />
-            <span className="truncate">{t('settings.googleCalendar', 'Sincronizzazione Google Calendar')}</span>
+            <span className="truncate">{t('settings.googleCalendar', 'Google calendario')}</span>
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />

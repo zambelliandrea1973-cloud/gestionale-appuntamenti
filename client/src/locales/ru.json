@@ -221,7 +221,10 @@
     "notifications": "Уведомления",
     "language": "Язык",
     "theme": "Тема",
-    "save": "Сохранить Настройки"
+    "save": "Сохранить Настройки",
+    "googleCalendar": "Google календарь",
+    "contacts": "Контакты",
+    "clientApp": "Приложение клиента"
   },
   "common": {
     "save": "Сохранить",

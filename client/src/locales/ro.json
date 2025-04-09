@@ -203,7 +203,10 @@
     "notifications": "Notificări",
     "language": "Limbă",
     "theme": "Temă",
-    "save": "Salvare Setări"
+    "save": "Salvare Setări",
+    "googleCalendar": "Google calendar",
+    "contacts": "Contacte",
+    "clientApp": "Aplicație Client"
   },
   "common": {
     "save": "Salvare",
