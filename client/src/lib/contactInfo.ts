@@ -1,3 +1,5 @@
+import { apiRequest } from "./queryClient";
+
 // Definizione dell'interfaccia per i dati di contatto
 export interface ContactInfo {
   email?: string;
@@ -12,7 +14,30 @@ export interface ContactInfo {
 const CONTACT_INFO_KEY = 'healthcare_app_contact_info';
 
 /**
- * Carica le informazioni di contatto salvate
+ * Carica le informazioni di contatto dall'API
+ */
+export async function loadContactInfoFromAPI(): Promise<ContactInfo> {
+  try {
+    const response = await apiRequest('GET', '/api/contact-info');
+    const data = await response.json();
+    
+    // Se abbiamo ricevuto dati validi, li salviamo anche in localStorage
+    if (data && typeof data === 'object') {
+      localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(data));
+      return data;
+    }
+    
+    // Se non abbiamo ricevuto dati validi, usiamo quelli in localStorage
+    return loadContactInfo();
+  } catch (error) {
+    console.error('Errore durante il recupero delle informazioni di contatto dall\'API:', error);
+    // Fallback al localStorage in caso di errore
+    return loadContactInfo();
+  }
+}
+
+/**
+ * Carica le informazioni di contatto salvate da localStorage
  */
 export function loadContactInfo(): ContactInfo {
   const savedInfo = localStorage.getItem(CONTACT_INFO_KEY);
@@ -29,11 +54,42 @@ export function loadContactInfo(): ContactInfo {
 }
 
 /**
- * Salva le informazioni di contatto
+ * Salva le informazioni di contatto in localStorage e sull'API
+ */
+export async function saveContactInfoToAPI(contactInfo: ContactInfo): Promise<boolean> {
+  try {
+    // Salva nel localStorage
+    localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(contactInfo));
+    
+    // Salva tramite API
+    const response = await apiRequest('POST', '/api/contact-info', contactInfo);
+    const result = await response.json();
+    
+    // Invia un evento personalizzato per notificare che i dati sono cambiati
+    window.dispatchEvent(new CustomEvent('contactInfoUpdated'));
+    
+    return result.success;
+  } catch (error) {
+    console.error('Errore durante il salvataggio delle informazioni di contatto tramite API:', error);
+    return false;
+  }
+}
+
+/**
+ * Salva le informazioni di contatto in localStorage e tenta di salvarle sull'API
  */
 export function saveContactInfo(contactInfo: ContactInfo): void {
   try {
+    // Salva nel localStorage
     localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(contactInfo));
+    
+    // Tenta anche di salvare tramite API in background
+    saveContactInfoToAPI(contactInfo).catch(error => {
+      console.error('Errore durante il salvataggio delle informazioni di contatto in background:', error);
+    });
+    
+    // Invia un evento personalizzato per notificare che i dati sono cambiati
+    window.dispatchEvent(new CustomEvent('contactInfoUpdated'));
   } catch (error) {
     console.error('Errore durante il salvataggio delle informazioni di contatto:', error);
   }

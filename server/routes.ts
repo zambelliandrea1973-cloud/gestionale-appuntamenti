@@ -1366,6 +1366,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Endpoint per caricare l'icona dell'app
   // Endpoint per ottenere le informazioni dell'app
+  // Endpoint per ottenere le informazioni di contatto
+  app.get('/api/contact-info', (_req: Request, res: Response) => {
+    try {
+      // Leggi dal file contacts.json che contiene le info di contatto
+      const contactsPath = path.join(process.cwd(), 'public', 'data', 'contacts.json');
+      
+      if (fs.existsSync(contactsPath)) {
+        const contactsData = fs.readFileSync(contactsPath, 'utf8');
+        res.json(JSON.parse(contactsData));
+      } else {
+        // Se il file non esiste, crea una directory e un file vuoto
+        const dirPath = path.join(process.cwd(), 'public', 'data');
+        if (!fs.existsSync(dirPath)) {
+          fs.mkdirSync(dirPath, { recursive: true });
+        }
+        fs.writeFileSync(contactsPath, JSON.stringify({}));
+        res.json({});
+      }
+    } catch (error) {
+      console.error('Errore nel recupero delle informazioni di contatto:', error);
+      res.status(500).json({ error: 'Errore nel recupero delle informazioni di contatto' });
+    }
+  });
+  
+  // API per salvare le informazioni di contatto
+  app.post('/api/contact-info', (req: Request, res: Response) => {
+    try {
+      const contactInfo = req.body;
+      
+      // Verifica che sia un oggetto valido
+      if (!contactInfo || typeof contactInfo !== 'object') {
+        return res.status(400).json({ error: 'Dati di contatto non validi' });
+      }
+      
+      // Crea directory se non esiste
+      const dirPath = path.join(process.cwd(), 'public', 'data');
+      if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+      }
+      
+      // Salva i dati in JSON
+      const contactsPath = path.join(process.cwd(), 'public', 'data', 'contacts.json');
+      fs.writeFileSync(contactsPath, JSON.stringify(contactInfo));
+      
+      res.json({ success: true, message: 'Informazioni di contatto salvate con successo' });
+    } catch (error) {
+      console.error('Errore nel salvataggio delle informazioni di contatto:', error);
+      res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });
+    }
+  });
+
   app.get('/api/client-app-info', (req: Request, res: Response) => {
     try {
       // Controllo dell'icona personalizzata

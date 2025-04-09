@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, Globe, Facebook, Instagram, Check, AlertCircle, Save } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ContactInfo, loadContactInfo, saveContactInfo, isValidContactInfo } from '@/lib/contactInfo';
+import { ContactInfo, loadContactInfo, saveContactInfo, saveContactInfoToAPI, isValidContactInfo } from '@/lib/contactInfo';
 
 interface ContactInfoEditorProps {
   onSuccess?: () => void;
@@ -61,7 +61,7 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateFields()) {
@@ -78,8 +78,15 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     setSaveError(null);
     
     try {
-      // Salva le informazioni di contatto
+      // Salva le informazioni di contatto in localStorage per un aggiornamento immediato dell'UI
       saveContactInfo(contactInfo);
+      
+      // Salva le informazioni anche tramite API per persistenza tra sessioni e dispositivi
+      const apiResult = await saveContactInfoToAPI(contactInfo);
+      
+      if (!apiResult) {
+        console.warn("Salvataggio API fallito, ma i dati sono stati salvati localmente");
+      }
       
       // Emetti un evento personalizzato per notificare che i contatti sono stati aggiornati
       const event = new CustomEvent('contactInfoUpdated', { 
