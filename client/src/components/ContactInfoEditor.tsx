@@ -199,17 +199,16 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
                 </Label>
                 <Input
                   id="website"
-                  type="url"
                   value={contactInfo.website || ''}
                   onChange={handleInputChange('website')}
-                  placeholder="www.esempio.com"
+                  placeholder="esempio.it o www.esempio.com"
                   className={validationErrors.website ? 'border-red-500' : ''}
                 />
                 {validationErrors.website && (
                   <p className="text-xs text-red-500">{validationErrors.website}</p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  {t('settings.contactInfo.websiteDesc', 'Indirizzo del sito web')}
+                  {t('settings.contactInfo.websiteDesc', 'Inserisci solo il dominio (esempio.it) o l\'URL completo (https://esempio.it)')}
                 </p>
               </div>
 

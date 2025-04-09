@@ -50,7 +50,8 @@ export function isValidContactInfo(key: keyof ContactInfo, value?: string): bool
       // Semplice validazione email
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     case 'website':
-      // Semplice validazione URL
+      // Validazione più permissiva per URL
+      // Accetta sia domain.com che www.domain.com che http://domain.com
       return /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/.test(value);
     case 'facebook':
       // Semplice validazione URL Facebook o username
