@@ -81,6 +81,20 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
       // Salva le informazioni di contatto
       saveContactInfo(contactInfo);
       
+      // Emetti un evento personalizzato per notificare che i contatti sono stati aggiornati
+      const event = new CustomEvent('contactInfoUpdated', { 
+        detail: { contactInfo } 
+      });
+      window.dispatchEvent(event);
+      
+      // Forza un aggiornamento del localStorage per attivare l'evento 'storage'
+      const storageKey = 'healthcare_app_contact_info';
+      const tempValue = JSON.stringify(contactInfo) + '_temp';
+      localStorage.setItem(storageKey + '_temp', tempValue);
+      localStorage.removeItem(storageKey + '_temp');
+      
+      console.log("Informazioni di contatto salvate:", contactInfo);
+      
       setSaveSuccess(true);
       toast({
         title: t('settings.contactInfo.saveSuccess', 'Salvataggio completato'),

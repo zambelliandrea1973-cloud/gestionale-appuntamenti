@@ -173,10 +173,30 @@ export default function Layout({ children }: LayoutProps) {
             </div>
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0">
               {/* Icone dei contatti */}
-              <FooterContactIcons />
+              <div className="flex items-center">
+                <FooterContactIcons />
+              </div>
               
-              {/* Separatore */}
-              <div className="hidden md:block h-6 w-px bg-gray-300 mx-2"></div>
+              {/* Separatore - visibile solo se ci sono icone */}
+              <div id="footer-separator" className="hidden md:block h-6 w-px bg-gray-300 mx-2"></div>
+
+              <script dangerouslySetInnerHTML={{ __html: `
+                // Nascondi il separatore se non ci sono icone di contatto
+                function updateSeparator() {
+                  const icons = document.querySelector('.flex.space-x-4');
+                  const separator = document.getElementById('footer-separator');
+                  if (separator) {
+                    separator.style.display = icons ? 'block' : 'none';
+                  }
+                }
+                
+                // Controlla all'avvio e ogni 2 secondi
+                updateSeparator();
+                setInterval(updateSeparator, 2000);
+
+                // Ascolta l'evento personalizzato
+                window.addEventListener('contactInfoUpdated', updateSeparator);
+              `}} />
 
               {/* Links */}
               <div className="flex space-x-4">
