@@ -1,1 +1,5 @@
-{}
+{
+  "email": "test@email.com",
+  "phone1": "+390123456789",
+  "website": "example.com"
+}
