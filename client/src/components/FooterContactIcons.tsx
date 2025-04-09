@@ -3,17 +3,26 @@ import { Mail, Phone, Globe, Facebook, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
-import { ContactInfo, loadContactInfo, formatContactInfo } from '@/lib/contactInfo';
+import { ContactInfo, loadContactInfo, loadContactInfoFromAPI, formatContactInfo } from '@/lib/contactInfo';
 
 export default function FooterContactIcons() {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
   const { t } = useTranslation();
 
   // Funzione per caricare le informazioni di contatto
-  const loadContactData = () => {
+  const loadContactData = async () => {
+    // Prima carica dal localStorage (per un caricamento veloce)
     const savedInfo = loadContactInfo();
-    console.log("Informazioni di contatto caricate:", savedInfo);
     setContactInfo(savedInfo);
+    
+    // Poi tenta di caricare dall'API (per aggiornamenti)
+    try {
+      const apiInfo = await loadContactInfoFromAPI();
+      console.log("Informazioni di contatto caricate da API:", apiInfo);
+      setContactInfo(apiInfo);
+    } catch (error) {
+      console.error("Errore durante il caricamento delle informazioni di contatto dall'API:", error);
+    }
   };
 
   // Carica le informazioni all'avvio
