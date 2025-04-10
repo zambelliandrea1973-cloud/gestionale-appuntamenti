@@ -232,6 +232,17 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     );
   };
   
+  // Funzione per calcolare l'orario di fine dato un orario di inizio e una durata in minuti
+  const calculateEndTime = (timeSlot: string, durationMinutes: number) => {
+    const time = new Date(`2000-01-01T${timeSlot}`);
+    // Aggiungi la durata
+    time.setMinutes(time.getMinutes() + durationMinutes);
+    // Formatta come HH:MM
+    const hours = time.getHours().toString().padStart(2, '0');
+    const minutes = time.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+  
   // Funzione per ottenere tutti gli slot selezionati consecutivi
   const getConsecutiveSelectedSlots = () => {
     const selectedBatches: { 
@@ -339,17 +350,6 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     
     // Due slot sono consecutivi se la differenza è di 15 minuti
     return diffMinutes === 15;
-  };
-  
-  // Funzione per calcolare l'orario di fine dato un orario di inizio e una durata in minuti
-  const calculateEndTime = (timeSlot: string, durationMinutes: number) => {
-    const time = new Date(`2000-01-01T${timeSlot}`);
-    // Aggiungi la durata
-    time.setMinutes(time.getMinutes() + durationMinutes);
-    // Formatta come HH:MM
-    const hours = time.getHours().toString().padStart(2, '0');
-    const minutes = time.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
   };
   
   // Nuovo metodo per attivare la modalità selezione
