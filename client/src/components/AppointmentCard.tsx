@@ -24,9 +24,10 @@ import AppointmentForm from "./AppointmentForm";
 interface AppointmentCardProps {
   appointment: AppointmentWithDetails;
   onUpdate?: () => void;
+  compact?: boolean; // Aggiunto per supportare la visualizzazione compatta nei mini-slot
 }
 
-export default function AppointmentCard({ appointment, onUpdate }: AppointmentCardProps) {
+export default function AppointmentCard({ appointment, onUpdate, compact = false }: AppointmentCardProps) {
   const { toast } = useToast();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -87,6 +88,57 @@ export default function AppointmentCard({ appointment, onUpdate }: AppointmentCa
     return appointment.client.isFrequent ? "rgba(236, 72, 153, 0.12)" : "rgba(59, 130, 246, 0.12)";
   };
   
+  // Versione compatta per i mini-slot da 15 minuti
+  if (compact) {
+    return (
+      <div 
+        className="py-1 px-1.5 rounded-sm shadow-sm mb-1"
+        style={{ 
+          borderLeft: `3px solid ${getBorderColor()}`,
+          backgroundColor: getBackgroundColor()
+        }}
+      >
+        <div className="flex justify-between items-center">
+          <div className="truncate mr-1">
+            <div className="font-medium text-xs truncate">
+              {appointment.client.firstName} {appointment.client.lastName}
+            </div>
+            <div className="text-xs text-gray-600 truncate">
+              {appointment.service.name}
+            </div>
+          </div>
+          
+          <div className="flex">
+            <button 
+              className="h-5 w-5 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100 flex items-center justify-center"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFormDialogOpen(true);
+              }}
+            >
+              <Pencil className="h-3 w-3" />
+            </button>
+            
+            {isFormDialogOpen && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="relative" onClick={(e) => e.stopPropagation()}>
+                  <AppointmentForm 
+                    appointmentId={appointment.id} 
+                    onClose={() => {
+                      setIsFormDialogOpen(false);
+                      if (onUpdate) onUpdate();
+                    }} 
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Versione standard per la visualizzazione normale
   return (
     <div 
       className="p-3 rounded-md shadow-sm mb-2"
