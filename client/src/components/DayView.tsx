@@ -172,70 +172,82 @@ export default function DayView({ selectedDate, onRefresh }: DayViewProps) {
                 </CollapsibleTrigger>
                 
                 <CollapsibleContent>
-                  <div className="space-y-2 px-4 py-2">
-                    {hourGroup.slots.map((timeSlot) => {
-                      // Find appointments for this time slot
-                      const slotsAppointments = appointments.filter(
-                        (appointment) => appointment.startTime.startsWith(timeSlot)
-                      );
+                  <div className="px-4 py-2">
+                    {/* Contenitore dell'ora con i 4 mini-slot strutturati come una griglia */}
+                    <div className="border rounded-md mb-2 overflow-hidden bg-white">
+                      {/* Intestazione dell'ora */}
+                      <div className="text-sm font-medium text-gray-700 bg-gray-50 px-2 py-1 border-b">
+                        {hourGroup.hour}:00 - {parseInt(hourGroup.hour) + 1}:00
+                      </div>
                       
-                      // Also find appointments that span this slot
-                      const spanningAppointments = appointments.filter(appointment => {
-                        const slotStart = `${timeSlot}:00`;
-                        // Verify if this appointment spans the current slot
-                        return appointment.startTime < slotStart && 
-                               appointment.endTime > slotStart && 
-                               !appointment.startTime.startsWith(timeSlot);
-                      });
-                      
-                      const showAddButton = slotsAppointments.length === 0 && spanningAppointments.length === 0;
-                      
-                      return (
-                        <div 
-                          key={timeSlot} 
-                          className={`flex items-start py-1 ${timeSlot.endsWith('00') ? 'border-t' : ''}`}
-                        >
-                          <div className="w-16 font-medium text-gray-600 text-sm">
-                            {timeSlot}
-                          </div>
-                          <div className="flex-grow">
-                            {slotsAppointments.length > 0 ? (
-                              // Show appointments in this slot
-                              <div className="space-y-2">
-                                {slotsAppointments.map((appointment) => (
-                                  <AppointmentCard 
-                                    key={appointment.id}
-                                    appointment={appointment}
-                                    onUpdate={handleAppointmentUpdated}
-                                  />
-                                ))}
+                      {/* Mini-slots visualizzati come griglia con 3 separatori */}
+                      <div className="divide-y divide-gray-100">
+                        {hourGroup.slots.map((timeSlot, index) => {
+                          // Find appointments for this time slot
+                          const slotsAppointments = appointments.filter(
+                            (appointment) => appointment.startTime.startsWith(timeSlot)
+                          );
+                          
+                          // Also find appointments that span this slot
+                          const spanningAppointments = appointments.filter(appointment => {
+                            const slotStart = `${timeSlot}:00`;
+                            // Verify if this appointment spans the current slot
+                            return appointment.startTime < slotStart && 
+                                  appointment.endTime > slotStart && 
+                                  !appointment.startTime.startsWith(timeSlot);
+                          });
+                          
+                          const showAddButton = slotsAppointments.length === 0 && spanningAppointments.length === 0;
+                          
+                          return (
+                            <div 
+                              key={timeSlot} 
+                              className={`flex items-start py-1.5 px-2 ${index % 2 === 0 ? 'bg-gray-50/30' : ''}`}
+                            >
+                              <div className="w-14 font-medium text-gray-600 text-xs self-center">
+                                {timeSlot.substr(3) === '00' ? '' : timeSlot}
                               </div>
-                            ) : spanningAppointments.length > 0 ? (
-                              // This slot is occupied by an appointment that started earlier
-                              <div className="h-6 flex items-center">
-                                <div className="text-xs text-gray-500 italic">
-                                  {t('calendar.slotOccupied')}
-                                </div>
+                              <div className="flex-grow">
+                                {slotsAppointments.length > 0 ? (
+                                  // Show appointments in this slot
+                                  <div className="space-y-1">
+                                    {slotsAppointments.map((appointment) => (
+                                      <AppointmentCard 
+                                        key={appointment.id}
+                                        appointment={appointment}
+                                        onUpdate={handleAppointmentUpdated}
+                                        compact={true} // Versione compatta per i mini-slot
+                                      />
+                                    ))}
+                                  </div>
+                                ) : spanningAppointments.length > 0 ? (
+                                  // This slot is occupied by an appointment that started earlier
+                                  <div className="h-6 flex items-center">
+                                    <div className="text-xs text-gray-500 italic">
+                                      {t('calendar.slotOccupied')}
+                                    </div>
+                                  </div>
+                                ) : (
+                                  // Empty slot with add button
+                                  <div className="flex items-center h-7">
+                                    <a 
+                                      href="#" 
+                                      className="flex items-center px-1.5 py-0.5 text-xs text-blue-600 hover:bg-blue-50 border border-dashed border-blue-300 rounded-md"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        handleTimeSlotClick(timeSlot);
+                                      }}
+                                    >
+                                      + {t('calendar.addAppointment')}
+                                    </a>
+                                  </div>
+                                )}
                               </div>
-                            ) : (
-                              // Empty slot with add button
-                              <div className="flex items-center h-8">
-                                <a 
-                                  href="#" 
-                                  className="flex items-center px-2 py-1 text-xs text-blue-600 hover:bg-blue-50 border border-dashed border-blue-300 rounded-md"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    handleTimeSlotClick(timeSlot);
-                                  }}
-                                >
-                                  + {t('calendar.addAppointment')}
-                                </a>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                 </CollapsibleContent>
               </Collapsible>
