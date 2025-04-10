@@ -1642,39 +1642,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/client-app-info', (req: Request, res: Response) => {
     try {
-      // Controllo dell'icona personalizzata
-      const customIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
-      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
-      const customIconExists = fs.existsSync(customIconPath);
-      const defaultIconExists = fs.existsSync(defaultIconPath);
-      let iconInfo = null;
+      // Controlla diversi formati di icona personalizzata
+      const iconFormats = [
+        { path: 'app-icon.svg', mime: 'image/svg+xml' },
+        { path: 'app-icon.jpg', mime: 'image/jpeg' },
+        { path: 'app-icon.png', mime: 'image/png' }
+      ];
       
-      // Se esiste un'icona personalizzata
-      if (customIconExists) {
-        const stats = fs.statSync(customIconPath);
-        const lastModified = stats.mtime;
-        
-        iconInfo = {
-          exists: true,
-          isCustom: true,
-          iconPath: '/icons/app-icon.svg',
-          lastModified: lastModified.toISOString()
-        };
-      } 
-      // Altrimenti, se esiste l'icona predefinita
-      else if (defaultIconExists) {
+      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+      const defaultIconExists = fs.existsSync(defaultIconPath);
+      
+      let iconInfo = null;
+      let customIconFound = false;
+      
+      // Cerca tra i formati supportati
+      for (const format of iconFormats) {
+        const iconPath = path.join(process.cwd(), 'public', 'icons', format.path);
+        if (fs.existsSync(iconPath)) {
+          const stats = fs.statSync(iconPath);
+          
+          iconInfo = {
+            exists: true,
+            isCustom: true,
+            iconPath: `/icons/${format.path}`,
+            mimeType: format.mime,
+            lastModified: stats.mtime.toISOString()
+          };
+          
+          customIconFound = true;
+          break;
+        }
+      }
+      
+      // Se non è stata trovata un'icona personalizzata, usa quella predefinita
+      if (!customIconFound && defaultIconExists) {
         const stats = fs.statSync(defaultIconPath);
-        const lastModified = stats.mtime;
         
         iconInfo = {
           exists: true,
           isCustom: false,
           iconPath: '/icons/default-app-icon.jpg',
-          lastModified: lastModified.toISOString()
+          mimeType: 'image/jpeg',
+          lastModified: stats.mtime.toISOString()
         };
       } 
       // Nessuna icona disponibile
-      else {
+      else if (!customIconFound) {
         iconInfo = {
           exists: false
         };
