@@ -67,11 +67,6 @@
     "searchResults": "Risultati della ricerca",
     "noAppointmentsFound": "Nessun appuntamento trovato per",
     "goToDay": "Vai al giorno",
-    "hasAppointments": "Ha appuntamenti",
-    "slotOccupied": "Slot occupato da appuntamento precedente",
-    "customDuration": "Durata personalizzata",
-    "incrementBy15Min": "Incrementa di 15 min",
-    "decrementBy15Min": "Decrementa di 15 min",
     "days": {
       "monday": "Lunedì",
       "tuesday": "Martedì",
