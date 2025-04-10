@@ -9,6 +9,7 @@ import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
+import ServiceManager from '@/components/ServiceManager';
 
 export default function Settings() {
   const [, setLocation] = useLocation();
@@ -62,9 +63,7 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                {t('settings.generalInDev', 'Questa sezione è in fase di sviluppo. Presto saranno disponibili opzioni per personalizzare l\'applicazione.')}
-              </p>
+              <ServiceManager />
             </CardContent>
           </Card>
         </TabsContent>
