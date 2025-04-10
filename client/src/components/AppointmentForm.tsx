@@ -80,6 +80,9 @@ export default function AppointmentForm({
   
   // Stato per la durata personalizzata dell'appuntamento (in minuti)
   const [customDuration, setCustomDuration] = useState<number | null>(null);
+  
+  // i18n
+  const { t } = useTranslation();
 
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
@@ -170,16 +173,16 @@ export default function AppointmentForm({
         throw new Error("Dati incompleti per l'appuntamento");
       }
       
-      // Calcola l'orario di fine in base alla durata del servizio
+      // Calcola l'orario di fine in base alla durata del servizio o alla durata personalizzata
       const service = services.find((s: any) => s.id === data.serviceId);
       if (!service) {
         throw new Error("Servizio non trovato");
       }
       
-      // Calcola l'orario di fine
+      // Calcola l'orario di fine utilizzando la durata personalizzata se disponibile
       const [hours, minutes] = data.startTime.split(':').map(Number);
       const startMinutes = hours * 60 + minutes;
-      const endMinutes = startMinutes + service.duration;
+      const endMinutes = startMinutes + (customDuration !== null ? customDuration : service.duration);
       
       const endHours = Math.floor(endMinutes / 60);
       const endMins = endMinutes % 60;
@@ -335,10 +338,10 @@ export default function AppointmentForm({
         // WORKAROUND: Bypass the mutation and make a direct API call
         console.log("TENTATIVO DIRETTO: Bypassing the mutation system");
         
-        // Calcola l'orario di fine 
+        // Calcola l'orario di fine utilizzando la durata personalizzata se disponibile
         const [hours, minutes] = data.startTime.split(':').map(Number);
         const startMinutes = hours * 60 + minutes;
-        const endMinutes = startMinutes + (selectedService?.duration || 60);
+        const endMinutes = startMinutes + (customDuration !== null ? customDuration : (selectedService?.duration || 60));
         
         const endHours = Math.floor(endMinutes / 60);
         const endMins = endMinutes % 60;
@@ -611,6 +614,8 @@ export default function AppointmentForm({
                                   field.onChange(service.id);
                                   setServiceSearchTerm(service.name);
                                   setIsServiceDropdownOpen(false);
+                                  // Inizializza la durata personalizzata con quella predefinita del servizio
+                                  setCustomDuration(service.duration);
                                   console.log("Servizio selezionato con durata:", service.duration);
                                 }}
                               >
@@ -626,6 +631,53 @@ export default function AppointmentForm({
                 </FormItem>
               )}
             />
+            
+            {/* Sezione per durata personalizzata - mostrata solo se un servizio è selezionato */}
+            {form.watch("serviceId") > 0 && customDuration !== null && (
+              <div className="mt-4 p-3 border border-blue-200 rounded-md bg-blue-50">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-sm font-medium text-blue-800">{t('calendar.customDuration')}</h4>
+                    <p className="text-xs text-blue-600 mt-1">
+                      {(() => {
+                        const selectedService = services.find((s: any) => s.id === form.getValues().serviceId);
+                        return selectedService ? 
+                          `${selectedService.name}: ${customDuration} min` : 
+                          `Durata: ${customDuration} min`;
+                      })()}
+                    </p>
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 px-2 text-xs"
+                      onClick={() => {
+                        if (customDuration > 15) {
+                          setCustomDuration(customDuration - 15);
+                        }
+                      }}
+                      title={t('calendar.decrementBy15Min')}
+                    >
+                      -15
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 px-2 text-xs"
+                      onClick={() => {
+                        setCustomDuration(customDuration + 15);
+                      }}
+                      title={t('calendar.incrementBy15Min')}
+                    >
+                      +15
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
             
             {/* Sezione per selezione di data e ora */}
             <div className="space-y-4">
