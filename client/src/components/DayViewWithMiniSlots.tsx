@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { generateHourlyGroupedTimeSlots, formatDateFull, formatDateForApi } from "@/lib/utils/date";
-import { Loader2, ChevronDown, ChevronRight, Plus } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, Plus, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import AppointmentCard from "./AppointmentCard";
@@ -105,8 +105,14 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     }
   };
   
+  // Stato per tenere traccia se è in modalità selezione
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+
   // Gestisce la selezione dell'ora intera
   const handleHourSelection = (hour: string) => {
+    // Se non è in modalità selezione, non fare nulla
+    if (!isSelectionMode) return;
+    
     const hourState = selectedSlots[hour];
     const newHourSelected = !hourState.hourSelected;
     
@@ -133,6 +139,9 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
   
   // Gestisce la selezione di un mini-slot
   const handleMiniSlotSelection = (hour: string, slot: string) => {
+    // Se non è in modalità selezione, non fare nulla
+    if (!isSelectionMode) return;
+    
     const hourState = selectedSlots[hour];
     const updatedMiniSlots = { ...hourState.miniSlots };
     updatedMiniSlots[slot] = !updatedMiniSlots[slot];
@@ -223,6 +232,26 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     );
   };
   
+  // Nuovo metodo per attivare la modalità selezione
+  const toggleSelectionMode = () => {
+    setIsSelectionMode(!isSelectionMode);
+    if (isSelectionMode) {
+      // Reset degli slot selezionati quando si esce dalla modalità selezione
+      const resetSlots: SelectedSlots = {};
+      for (const hour in selectedSlots) {
+        resetSlots[hour] = {
+          hourSelected: false,
+          miniSlots: {}
+        };
+        
+        for (const slot in selectedSlots[hour].miniSlots) {
+          resetSlots[hour].miniSlots[slot] = false;
+        }
+      }
+      setSelectedSlots(resetSlots);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Day header */}
@@ -242,128 +271,135 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
           </Button>
         )}
       </div>
+
+      {/* Pulsante "Seleziona nuovo appuntamento" */}
+      <div className="p-4 flex justify-center">
+        <Button
+          onClick={toggleSelectionMode}
+          className={cn(
+            "border-2 font-bold text-lg",
+            isSelectionMode 
+              ? "bg-blue-100 border-blue-500 text-blue-800" 
+              : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
+          )}
+        >
+          <Calendar className="h-5 w-5 mr-2" />
+          {t('calendar.selectNewAppointment')}
+        </Button>
+      </div>
       
-      {/* Time slots */}
-      <div className="divide-y">
+      {/* Time slots visualizzati come in tabella */}
+      <div className="p-4">
         {isLoading ? (
           // Loading skeleton
           Array.from({ length: 12 }).map((_, index) => (
-            <div key={index} className="flex items-start px-4 py-3">
-              <div className="w-16">
-                <Skeleton className="h-6 w-12" />
-              </div>
-              <div className="flex-grow">
-                <Skeleton className="h-20 w-full" />
-              </div>
+            <div key={index} className="mb-4">
+              <Skeleton className="h-20 w-full" />
             </div>
           ))
         ) : (
-          // Render time slots grouped by hour
-          groupedTimeSlots.map((hourGroup) => {
-            const hasAppointmentsInHour = hourHasAppointments(hourGroup.hour);
-            const isHourSelected = selectedSlots[hourGroup.hour]?.hourSelected || false;
-            
-            return (
-              <div 
-                key={hourGroup.hour} 
-                className={cn(
-                  "border-b",
-                  hasAppointmentsInHour ? "bg-blue-50" : "",
-                  isHourSelected ? "bg-green-50" : ""
-                )}
-              >
-                {/* Intestazione dell'ora con pulsante per selezionare l'ora intera */}
-                <div className="flex items-center px-4 py-2">
-                  {/* Pulsante per espandere/collassare */}
-                  <button
-                    onClick={() => toggleHourExpansion(hourGroup.hour)}
-                    className="h-8 w-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
-                  >
-                    {expandedHours[hourGroup.hour] ? 
-                      <ChevronDown className="h-5 w-5" /> : 
-                      <ChevronRight className="h-5 w-5" />
-                    }
-                  </button>
-                  
-                  {/* Pulsante per selezionare l'ora intera */}
-                  <button 
+          // Tabella degli slot orari
+          <div className="border border-gray-300 rounded overflow-hidden">
+            {/* Render dei time slot raggruppati per ora */}
+            {groupedTimeSlots.map((hourGroup) => {
+              const hasAppointmentsInHour = hourHasAppointments(hourGroup.hour);
+              const isHourSelected = selectedSlots[hourGroup.hour]?.hourSelected || false;
+              
+              // Trova gli appuntamenti in questa ora
+              const hourAppointments = appointments.filter(a => 
+                a.startTime.startsWith(`${hourGroup.hour}:`) || 
+                (a.startTime < `${hourGroup.hour}:00:00` && a.endTime > `${hourGroup.hour}:00:00`)
+              );
+              
+              // Ottieni il colore del servizio per questa ora
+              let serviceColor = '';
+              if (isHourSelected && hourAppointments.length > 0 && hourAppointments[0].service && hourAppointments[0].service.color) {
+                serviceColor = hourAppointments[0].service.color;
+              }
+              
+              return (
+                <div 
+                  key={hourGroup.hour} 
+                  className="flex border-b border-gray-300 last:border-b-0"
+                >
+                  {/* Colonna dell'ora */}
+                  <div 
                     className={cn(
-                      "flex-grow py-2 px-4 font-bold text-gray-700 text-lg rounded-l transition-colors",
-                      isHourSelected ? "bg-green-200" : "hover:bg-gray-100"
+                      "w-24 p-4 font-bold text-gray-700 text-lg border-r border-gray-300 flex items-center justify-center",
+                      isHourSelected && serviceColor ? `bg-opacity-25 bg-${serviceColor.replace('#', '')}` : ""
                     )}
                     onClick={() => handleHourSelection(hourGroup.hour)}
+                    style={isHourSelected && serviceColor ? { backgroundColor: serviceColor ? `${serviceColor}25` : '' } : {}}
                   >
                     {hourGroup.hour}:00
-                  </button>
-                </div>
-                
-                {/* Mini-slots da 15 minuti */}
-                {expandedHours[hourGroup.hour] && (
-                  <div className="px-4 py-2">
-                    <div className="border rounded overflow-hidden">
-                      {/* 4 Mini-slot separati da 3 linee orizzontali */}
-                      <div className="divide-y">
-                        {hourGroup.slots.map((timeSlot) => {
-                          const isSlotSelected = selectedSlots[hourGroup.hour]?.miniSlots[timeSlot] || false;
-                          const slotOccupied = isSlotOccupied(timeSlot);
-                          const appointmentsInSlot = appointments.filter(a => a.startTime.startsWith(timeSlot));
-                          
-                          return (
-                            <div key={timeSlot} className="px-2">
-                              {slotOccupied ? (
-                                // Se lo slot è occupato, mostra gli appuntamenti
-                                <div className="py-1">
-                                  <div className="flex items-center">
-                                    <div className="w-16 text-xs font-medium text-gray-600">{timeSlot}</div>
-                                    <div className="flex-grow">
-                                      {appointmentsInSlot.map(appointment => (
-                                        <AppointmentCard
-                                          key={appointment.id}
-                                          appointment={appointment}
-                                          onUpdate={handleAppointmentUpdated}
-                                          compact={true}
-                                        />
-                                      ))}
-                                      {appointmentsInSlot.length === 0 && (
-                                        <div className="text-xs text-gray-500 italic py-1">
-                                          {t('calendar.slotOccupied')}
-                                        </div>
-                                      )}
-                                    </div>
+                  </div>
+                  
+                  {/* Colonna con i mini-slot */}
+                  <div className="flex-grow">
+                    {/* 4 Mini-slot con linee orizzontali */}
+                    <div className="divide-y divide-gray-300">
+                      {hourGroup.slots.map((timeSlot) => {
+                        const isSlotSelected = selectedSlots[hourGroup.hour]?.miniSlots[timeSlot] || false;
+                        const slotOccupied = isSlotOccupied(timeSlot);
+                        const appointmentsInSlot = appointments.filter(a => a.startTime.startsWith(timeSlot));
+                        
+                        // Ottieni il colore del servizio per lo slot
+                        let slotServiceColor = '';
+                        if (isSlotSelected && appointmentsInSlot.length > 0 && appointmentsInSlot[0].service && appointmentsInSlot[0].service.color) {
+                          slotServiceColor = appointmentsInSlot[0].service.color;
+                        }
+                        
+                        return (
+                          <div 
+                            key={timeSlot} 
+                            className={cn(
+                              "h-12 px-3 py-2 flex items-center",
+                              isSlotSelected && slotServiceColor ? `bg-opacity-15` : "",
+                              slotOccupied ? "bg-gray-100" : "hover:bg-gray-50"
+                            )}
+                            onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
+                            style={isSlotSelected && slotServiceColor ? { backgroundColor: slotServiceColor ? `${slotServiceColor}25` : '' } : {}}
+                          >
+                            {slotOccupied ? (
+                              // Se lo slot è occupato, mostra gli appuntamenti
+                              <div className="w-full">
+                                {appointmentsInSlot.map(appointment => (
+                                  <AppointmentCard
+                                    key={appointment.id}
+                                    appointment={appointment}
+                                    onUpdate={handleAppointmentUpdated}
+                                    compact={true}
+                                  />
+                                ))}
+                                {appointmentsInSlot.length === 0 && (
+                                  <div className="text-xs text-gray-500 italic">
+                                    {t('calendar.slotOccupied')}
                                   </div>
-                                </div>
-                              ) : (
-                                // Se lo slot è libero, mostra il pulsante per selezionarlo
-                                <button
-                                  className={cn(
-                                    "w-full py-2 flex items-center text-left transition-colors",
-                                    isSlotSelected ? "bg-green-100" : "hover:bg-gray-50"
+                                )}
+                              </div>
+                            ) : (
+                              // Se lo slot è libero ed è in modalità selezione
+                              isSelectionMode && (
+                                <div className="w-full flex justify-between items-center">
+                                  {/* Visualizza solo l'ora senza altri elementi (come nell'immagine) */}
+                                  <span className="text-sm text-gray-600">{timeSlot}</span>
+                                  {isSlotSelected && (
+                                    <span className="text-xs text-green-700 font-medium">
+                                      {t('calendar.selected')}
+                                    </span>
                                   )}
-                                  onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
-                                >
-                                  <div className="w-16 text-xs font-medium text-gray-600">{timeSlot}</div>
-                                  <div className="flex-grow">
-                                    {isSlotSelected ? (
-                                      <div className="text-xs text-green-700 font-medium">{t('calendar.selected')}</div>
-                                    ) : (
-                                      <div className="text-xs text-blue-600">
-                                        <Plus className="h-3 w-3 inline mr-1" />
-                                        {t('calendar.select')}
-                                      </div>
-                                    )}
-                                  </div>
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-                )}
-              </div>
-            );
-          })
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
       
