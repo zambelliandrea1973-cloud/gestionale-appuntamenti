@@ -348,10 +348,21 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     const totalMinutes = durationHours * 60 + durationMinutes;
     const height = totalMinutes / 15 * 12; // Convert to slots and then to pixels
     
-    // Calculate top position
-    const hourIndex = groupedTimeSlots.findIndex(g => g.hour === startHour.toString().padStart(2, '0'));
-    const topOffset = (startMinute / 60) * 48; // Position within the hour
-    const top = hourIndex * 48 + topOffset;
+    // Find the starting hour position
+    // We need to find the actual index within the displayed timeSlots
+    let hourPosition = 0;
+    for (let i = 0; i < groupedTimeSlots.length; i++) {
+      if (parseInt(groupedTimeSlots[i].hour) === startHour) {
+        hourPosition = i * 48; // Each hour block is 48px
+        break;
+      }
+    }
+    
+    // Calculate the offset within the hour block
+    const minuteOffset = (startMinute / 60) * 48; // Convert minutes to a fraction of the hour height
+    
+    // Total position from the top
+    const top = hourPosition + minuteOffset;
     
     return { height, top };
   };
@@ -402,45 +413,22 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
           ))
         ) : (
           <div className="border border-gray-300 rounded overflow-hidden">
-            {/* Show selected slot groups */}
-            {isSelectionMode && (
-              <div className="relative">
-                {getGroupedSelectedSlots().map((group, idx) => {
-                  // Find position details for this group
-                  const startHour = group.startSlot.split(':')[0];
-                  const startHourIndex = groupedTimeSlots.findIndex(g => g.hour === startHour);
-                  
-                  const startMinutes = parseInt(group.startSlot.split(':')[1]);
-                  const minuteFraction = startMinutes / 60;
-                  
-                  // Calculate position (each hour = 48px height)
-                  const top = (startHourIndex + minuteFraction) * 48;
-                  // Calculate height (each slot = 12px)
-                  const height = group.slots.length * 12;
-                  
-                  // Calculate end time
-                  const endTime = calculateEndTime(group.endSlot, 15);
-                  
-                  return (
-                    <div 
-                      key={`selected-group-${idx}`}
-                      className="absolute left-24 right-0 z-10 bg-gray-200 rounded-sm shadow-sm border-l-4 border-gray-500 px-3"
-                      style={{
-                        top: `${top}px`,
-                        height: `${height}px`
-                      }}
-                    >
-                      <div className="h-full flex flex-col justify-center">
-                        <div className="text-sm font-medium">
+            {/* Info blocco selezionato */}
+            {isSelectionMode && hasSelectedSlots() && (
+              <div className="p-3 bg-gray-100 border-b border-gray-300">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-medium text-gray-700">{t('calendar.selectedSlots')}:</span>
+                    {getGroupedSelectedSlots().map((group, idx) => {
+                      const endTime = calculateEndTime(group.endSlot, 15);
+                      return (
+                        <span key={idx} className="ml-2 text-sm bg-gray-200 px-2 py-1 rounded">
                           {group.startSlot} - {endTime}
-                        </div>
-                        <div className="text-xs text-gray-600">
-                          {t('calendar.selected')}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             )}
             
@@ -534,13 +522,24 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                       const isSlotSelected = selectedSlots[hourGroup.hour]?.miniSlots[timeSlot] || false;
                       const isOccupied = isSlotOccupied(timeSlot);
                       
+                      // Verifica se questo slot fa parte di un gruppo selezionato
+                      const isPartOfSelectedGroup = getGroupedSelectedSlots().some(group => {
+                        // Verifica se questo slot è all'interno del range di un gruppo
+                        const slotTime = new Date(`2000-01-01T${timeSlot}`);
+                        const startTime = new Date(`2000-01-01T${group.startSlot}`);
+                        const endTime = new Date(`2000-01-01T${group.endSlot}`);
+                        endTime.setMinutes(endTime.getMinutes() + 15); // Include l'ultimo slot
+                        
+                        return slotTime >= startTime && slotTime < endTime;
+                      });
+                      
                       return (
                         <div 
                           key={timeSlot}
                           className={cn(
                             "min-h-12 px-3 py-2 flex items-center",
                             isSelectionMode && !isOccupied && "cursor-pointer hover:bg-gray-50",
-                            isSelectionMode && isSlotSelected && "bg-gray-200"
+                            (isSelectionMode && isSlotSelected) || isPartOfSelectedGroup ? "bg-gray-200" : ""
                           )}
                           onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
                         >
