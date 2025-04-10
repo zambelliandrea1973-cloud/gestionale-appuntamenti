@@ -349,6 +349,26 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                           slotServiceColor = appointmentsInSlot[0].service.color;
                         }
                         
+                        // Controlla se lo slot corrente è il primo slot di un appuntamento multi-slot
+                        const isFirstSlotOfAppointment = appointmentsInSlot.length > 0;
+                        
+                        // Controlla se l'appuntamento in questo slot si estende su più slot
+                        // Per farlo verifichiamo se ci sono appuntamenti che iniziano prima ma terminano dopo questo slot
+                        const multiSlotAppointments = appointments.filter(a => 
+                          a.startTime < timeSlot && 
+                          a.endTime > timeSlot
+                        );
+                        
+                        // Determina se questo slot deve mostrare un appuntamento o essere parte di uno già iniziato
+                        const hasAppointmentToShow = isFirstSlotOfAppointment || multiSlotAppointments.length > 0;
+                        
+                        // Determina quale appuntamento mostrare (priorità a quelli che iniziano in questo slot)
+                        const appointmentToShow = isFirstSlotOfAppointment 
+                          ? appointmentsInSlot[0] 
+                          : multiSlotAppointments.length > 0 
+                            ? multiSlotAppointments[0] 
+                            : null;
+                        
                         return (
                           <div 
                             key={timeSlot} 
@@ -363,15 +383,22 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                             {slotOccupied ? (
                               // Se lo slot è occupato, mostra gli appuntamenti
                               <div className="w-full">
-                                {appointmentsInSlot.map(appointment => (
+                                {/* Mostra l'appuntamento solo nel primo slot in cui inizia */}
+                                {isFirstSlotOfAppointment ? (
                                   <AppointmentCard
-                                    key={appointment.id}
-                                    appointment={appointment}
+                                    key={appointmentToShow?.id}
+                                    appointment={appointmentToShow!}
                                     onUpdate={handleAppointmentUpdated}
                                     compact={true}
                                   />
-                                ))}
-                                {appointmentsInSlot.length === 0 && (
+                                ) : multiSlotAppointments.length > 0 ? (
+                                  // Se ci sono appuntamenti multi-slot che attraversano questo slot,
+                                  // mostriamo un segnalino discreto o nulla per evitare ripetizioni
+                                  <div className="w-full h-full flex items-center justify-center">
+                                    <div className="w-full border-t border-dashed" 
+                                         style={{ borderColor: multiSlotAppointments[0].service.color || '#9ca3af' }}></div>
+                                  </div>
+                                ) : (
                                   <div className="text-xs text-gray-500 italic">
                                     {t('calendar.slotOccupied')}
                                   </div>
