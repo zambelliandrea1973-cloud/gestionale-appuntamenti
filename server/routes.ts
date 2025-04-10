@@ -1643,10 +1643,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/client-app-info', (req: Request, res: Response) => {
     try {
       // Controlla diversi formati di icona personalizzata
+      // Priorità: JPG, PNG, SVG per mostrare immagini caricate di recente
       const iconFormats = [
-        { path: 'app-icon.svg', mime: 'image/svg+xml' },
         { path: 'app-icon.jpg', mime: 'image/jpeg' },
-        { path: 'app-icon.png', mime: 'image/png' }
+        { path: 'app-icon.png', mime: 'image/png' },
+        { path: 'app-icon.svg', mime: 'image/svg+xml' }
       ];
       
       const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
@@ -1727,6 +1728,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!fs.existsSync(defaultIconPath)) {
         return res.status(404).json({ message: 'Icona predefinita non trovata' });
       }
+      
+      // Elimina eventuali icone personalizzate
+      const iconFormats = ['app-icon.jpg', 'app-icon.png', 'app-icon.svg'];
+      iconFormats.forEach(format => {
+        const iconPath = path.join(process.cwd(), 'public', 'icons', format);
+        if (fs.existsSync(iconPath)) {
+          try {
+            fs.unlinkSync(iconPath);
+            console.log(`Rimossa icona personalizzata: ${iconPath}`);
+          } catch (err) {
+            console.error(`Errore durante la rimozione di ${iconPath}:`, err);
+          }
+        }
+      });
       
       // Aggiorna il manifest.json con l'icona predefinita
       const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
@@ -1853,8 +1868,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Per SVG facciamo solo copia del file
           fs.copyFileSync(filePath, newIconPath);
           console.log(`SVG copiato in: ${newIconPath}`);
-          // Per SVG non serve ottimizzazione, usiamo direttamente il file
-          return;
+          
+          // Aggiorna il manifest.json se esiste
+          const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+          if (fs.existsSync(manifestPath)) {
+            try {
+              const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+              
+              // Imposta l'icona SVG
+              const iconSrc = '/icons/app-icon.svg';
+              manifest.icons = [{
+                src: iconSrc,
+                sizes: 'any',
+                type: 'image/svg+xml',
+                purpose: 'any'
+              }];
+              
+              fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+              
+              // Restituisci il percorso dell'icona usato
+              res.json({ 
+                success: true, 
+                message: 'Icona SVG caricata con successo',
+                iconPath: iconSrc
+              });
+            } catch (error) {
+              console.error('Errore durante l\'aggiornamento del manifest:', error);
+              res.status(500).json({ message: 'Errore durante l\'aggiornamento del manifest' });
+            }
+          } else {
+            res.json({ 
+              success: true, 
+              message: 'Icona SVG caricata con successo, ma manifest.json non trovato',
+              iconPath: '/icons/app-icon.svg'
+            });
+          }
+          
+          return; // Esci dalla funzione
         } else {
           // Formato non supportato, usa JPG come default
           newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
