@@ -107,7 +107,41 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
   
   // Stato per tenere traccia se è in modalità selezione
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  
+  // Stato per tenere traccia del servizio selezionato
+  const [selectedService, setSelectedService] = useState<any>(null);
+  
+  // Funzione per selezionare un servizio di default (prima versione semplificata)
+  const getDefaultService = () => {
+    // Prendi il primo servizio disponibile dalla lista degli appuntamenti
+    if (appointments.length > 0 && appointments[0].service) {
+      return appointments[0].service;
+    }
+    // Altrimenti restituisci un servizio predefinito
+    return {
+      name: 'Servizio Default',
+      color: '#3f51b5'
+    };
+  };
 
+  // Simuliamo la selezione del servizio dopo un po' di selezioni
+  useEffect(() => {
+    // Verifichiamo se ci sono slot selezionati
+    const hasSelectedSlots = Object.values(selectedSlots).some(hourSlots => 
+      hourSlots.hourSelected || Object.values(hourSlots.miniSlots).some(isSelected => isSelected)
+    );
+    
+    // Se ci sono slot selezionati ma non ancora un servizio selezionato, impostiamo un timer
+    // per simulare il cambiamento del colore dopo un po'
+    if (hasSelectedSlots && !selectedService) {
+      const timer = setTimeout(() => {
+        setSelectedService(getDefaultService());
+      }, 2000); // Dopo 2 secondi
+      
+      return () => clearTimeout(timer);
+    }
+  }, [selectedSlots, selectedService]);
+  
   // Gestisce la selezione dell'ora intera
   const handleHourSelection = (hour: string) => {
     // Se non è in modalità selezione, non fare nulla
@@ -137,6 +171,13 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     }
   };
   
+  // Aggiorna il servizio selezionato quando necessario
+  useEffect(() => {
+    if (!selectedService && appointments.length > 0) {
+      setSelectedService(getDefaultService());
+    }
+  }, [appointments, selectedService]);
+  
   // Gestisce la selezione di un mini-slot
   const handleMiniSlotSelection = (hour: string, slot: string) => {
     // Se non è in modalità selezione, non fare nulla
@@ -160,6 +201,11 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     // Se questo è il primo slot selezionato, impostalo come orario di inizio
     if (updatedMiniSlots[slot] && !Object.values(updatedMiniSlots).some(s => s && s !== updatedMiniSlots[slot])) {
       setSelectedTimeSlot(slot);
+    }
+    
+    // Se non abbiamo ancora un servizio selezionato, impostiamone uno predefinito
+    if (!selectedService) {
+      setSelectedService(getDefaultService());
     }
   };
   
@@ -392,8 +438,8 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
         )}
       </div>
 
-      {/* Pulsante "Seleziona nuovo appuntamento" */}
-      <div className="p-4 flex justify-center">
+      {/* Pulsanti per la selezione e conferma */}
+      <div className="p-4 flex flex-col gap-3 items-center">
         <Button
           onClick={toggleSelectionMode}
           className={cn(
@@ -404,8 +450,18 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
           )}
         >
           <Calendar className="h-5 w-5 mr-2" />
-          {t('calendar.selectNewAppointment')}
+          {t('calendar.selectTimeNewAppointment')}
         </Button>
+        
+        {/* Pulsante "Conferma e associa cliente" - visibile solo in modalità selezione e quando ci sono slot selezionati */}
+        {isSelectionMode && hasSelectedSlots() && (
+          <Button 
+            onClick={handleCreateAppointment}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold text-lg"
+          >
+            {t('calendar.confirmAndAssociateClient')}
+          </Button>
+        )}
       </div>
       
       {/* Time slots visualizzati come in tabella */}
@@ -470,18 +526,23 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                           const startSlotIndex = groupedTimeSlots[startIndex].slots.findIndex(s => s === batch.startSlot);
                           const topPosition = startSlotIndex * 48; // Posizione dall'alto rispetto all'inizio dell'ora
                           
-                          // Colore di sfondo basato sul servizio selezionato (per ora utilizziamo un colore predefinito)
-                          const serviceColor = '#3f51b5'; // Colore di default, idealmente questo verrebbe dal servizio selezionato
+                          // Colore di sfondo basato sul servizio selezionato o grigio se stiamo selezionando
+                          const serviceColor = selectedService ? selectedService.color : '#777777';
+                          
+                          // Calcoliamo l'opacità dello sfondo in base al fatto che abbiamo un servizio selezionato o meno
+                          const backgroundColor = selectedService 
+                                ? `${serviceColor}25` // Colore del servizio con opacità 25%
+                                : '#f3f3f3'; // Grigio chiaro per la modalità selezione iniziale
                           
                           return (
                             <div 
                               key={`batch-${batchIndex}`}
-                              className="absolute left-0 right-0 z-10 rounded-md shadow-md border-l-4 px-3 py-2"
+                              className="absolute left-0 right-0 z-10 rounded-md shadow-md border-l-4 px-3 py-2 transition-all duration-300"
                               style={{ 
                                 top: `${topPosition}px`, 
                                 height: `${batchHeight}px`,
                                 borderLeftColor: serviceColor,
-                                backgroundColor: `${serviceColor}15`,
+                                backgroundColor: backgroundColor,
                               }}
                             >
                               <div className="h-full flex flex-col justify-center">
@@ -529,8 +590,12 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                           <div 
                             key={timeSlot} 
                             className={cn(
-                              "h-12 px-3 py-2 flex items-center",
-                              isSlotSelected ? "bg-transparent" : "",
+                              "h-12 px-3 py-2 flex items-center transition-all duration-300",
+                              isSlotSelected 
+                                ? selectedService 
+                                  ? "bg-transparent" // Sarà gestito dal batch per gli slot consecutivi
+                                  : "bg-gray-200" // Grigio per slot selezionati quando non c'è ancora un servizio
+                                : "",
                               slotOccupied ? "bg-gray-100" : "hover:bg-gray-50"
                             )}
                             onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
