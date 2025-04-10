@@ -19,8 +19,7 @@ import {
   formatMonthYear, 
   formatDateForApi
 } from "@/lib/utils/date";
-import DayView from "@/components/DayView";
-import DayViewWithMiniSlots from "@/components/DayViewWithMiniSlots";
+import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
@@ -31,9 +30,20 @@ export default function Calendar() {
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [searchQuery, setSearchQuery] = useState("");
   
-  // For search functionality
-  const { data: appointments = [], refetch: refetchAppointments } = useQuery({
+  // Per la ricerca di tutti gli appuntamenti
+  const { data: allAppointments = [], refetch: refetchAppointments } = useQuery({
     queryKey: ['/api/appointments'],
+  });
+  
+  // Per la vista giornaliera - appuntamenti di un giorno specifico
+  const { data: dayAppointments = [], isLoading: isLoadingAppointments } = useQuery({
+    queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`],
+    enabled: view === "day",
+  });
+  
+  // Servizi per colorare gli appuntamenti
+  const { data: services = [], isLoading: isLoadingServices } = useQuery({
+    queryKey: ['/api/services'],
   });
   
   const { data: clients = [] } = useQuery({
@@ -45,10 +55,10 @@ export default function Calendar() {
   
   // Filter appointments based on search query
   const filteredAppointments = searchQuery
-    ? appointments.filter(appointment => {
-        const clientName = `${appointment.client.firstName} ${appointment.client.lastName}`.toLowerCase();
-        const serviceName = appointment.service.name.toLowerCase();
-        const dateStr = appointment.date;
+    ? allAppointments.filter((appointment: any) => {
+        const clientName = `${appointment.client?.firstName || ''} ${appointment.client?.lastName || ''}`.toLowerCase();
+        const serviceName = appointment.service?.name?.toLowerCase() || '';
+        const dateStr = appointment.date || '';
         const query = searchQuery.toLowerCase();
         
         return clientName.includes(query) || 
@@ -231,7 +241,7 @@ export default function Calendar() {
             <p className="text-gray-500">{t('calendar.noAppointmentsFound')} "{searchQuery}"</p>
           ) : (
             <div className="space-y-3 max-h-[300px] overflow-y-auto">
-              {filteredAppointments.map(appointment => (
+              {filteredAppointments.map((appointment: any) => (
                 <div 
                   key={appointment.id} 
                   className="p-3 border rounded-md flex justify-between hover:bg-gray-50"
@@ -245,10 +255,10 @@ export default function Calendar() {
                 >
                   <div>
                     <div className="font-medium">
-                      {appointment.client.firstName} {appointment.client.lastName}
+                      {appointment.client?.firstName || ''} {appointment.client?.lastName || ''}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {appointment.service.name} - {new Date(appointment.date).toLocaleDateString(i18n.language)} {appointment.startTime.substring(0, 5)}
+                      {appointment.service?.name || ''} - {new Date(appointment.date).toLocaleDateString(i18n.language)} {appointment.startTime?.substring(0, 5) || ''}
                     </div>
                   </div>
                   <Button 
@@ -275,9 +285,20 @@ export default function Calendar() {
       {!searchQuery && (
         <>
           {view === "day" && (
-            <DayViewWithMiniSlots 
+            <DayViewWithTimeSlots 
               selectedDate={selectedDate}
-              onRefresh={handleRefresh}
+              isLoading={isLoadingAppointments || isLoadingServices}
+              appointments={dayAppointments as any[]}
+              services={services as any[]}
+              onAppointmentUpdated={handleRefresh}
+              onAppointmentDeleted={(id) => {
+                // Invalidate queries after deletion
+                queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+                queryClient.invalidateQueries({ 
+                  queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`] 
+                });
+                handleRefresh();
+              }}
             />
           )}
           
