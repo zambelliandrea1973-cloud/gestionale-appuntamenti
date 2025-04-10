@@ -3,6 +3,7 @@ import AppointmentForm from "./AppointmentForm";
 import SaveDirectButton from "./SaveDirectButton";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { AppointmentWithDetails } from "@shared/schema";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface AppointmentModalProps {
   onSave?: () => void;
   defaultDate: Date;
   defaultTime: string;
+  appointment?: AppointmentWithDetails | null;
 }
 
 // Funzione di utilità per formattare la data per l'API
@@ -25,7 +27,8 @@ export default function AppointmentModal({
   onClose,
   onSave,
   defaultDate,
-  defaultTime
+  defaultTime,
+  appointment
 }: AppointmentModalProps) {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
@@ -88,6 +91,8 @@ export default function AppointmentModal({
           }}
           defaultDate={defaultDate}
           defaultTime={defaultTime}
+          appointmentId={appointment?.id}
+          clientId={appointment?.clientId}
         />
         
         {/* Aggiungiamo il pulsante di salvataggio diretto */}
