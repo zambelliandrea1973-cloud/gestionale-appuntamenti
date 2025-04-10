@@ -228,8 +228,128 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
   const isSlotOccupied = (slot: string): boolean => {
     return appointments.some(appointment => 
       appointment.startTime.startsWith(slot) ||
-      (appointment.startTime < `${slot}:00` && appointment.endTime > `${slot}:00`)
+      (appointment.startTime < slot && appointment.endTime > slot)
     );
+  };
+  
+  // Funzione per ottenere tutti gli slot selezionati consecutivi
+  const getConsecutiveSelectedSlots = () => {
+    const selectedBatches: { 
+      startSlot: string; 
+      endSlot: string; 
+      slots: string[]; 
+      hours: { [hour: string]: string[] }
+    }[] = [];
+    
+    let currentBatch: string[] = [];
+    let lastSlot: string | null = null;
+    
+    // Attraversa tutte le ore e slot in ordine cronologico
+    for (const hourGroup of groupedTimeSlots) {
+      const hour = hourGroup.hour;
+      
+      // Se l'ora è completamente selezionata, aggiungi tutti i suoi slot
+      if (selectedSlots[hour]?.hourSelected) {
+        currentBatch.push(...hourGroup.slots);
+        lastSlot = hourGroup.slots[hourGroup.slots.length - 1];
+        continue;
+      }
+      
+      // Altrimenti verifica i singoli slot
+      for (const slot of hourGroup.slots) {
+        if (selectedSlots[hour]?.miniSlots[slot]) {
+          // Se questo slot è consecutivo al precedente, aggiungilo al batch corrente
+          if (lastSlot && isConsecutive(lastSlot, slot)) {
+            currentBatch.push(slot);
+          } else {
+            // Altrimenti, se c'era già un batch in corso, concludilo
+            if (currentBatch.length > 0) {
+              // Organizza gli slot per ora
+              const hours: { [hour: string]: string[] } = {};
+              for (const s of currentBatch) {
+                const h = s.split(':')[0];
+                if (!hours[h]) hours[h] = [];
+                hours[h].push(s);
+              }
+              
+              selectedBatches.push({ 
+                startSlot: currentBatch[0], 
+                endSlot: currentBatch[currentBatch.length - 1],
+                slots: [...currentBatch],
+                hours
+              });
+            }
+            // Inizia un nuovo batch
+            currentBatch = [slot];
+          }
+          lastSlot = slot;
+        } else {
+          // Se lo slot non è selezionato e c'era un batch in corso, concludilo
+          if (currentBatch.length > 0) {
+            // Organizza gli slot per ora
+            const hours: { [hour: string]: string[] } = {};
+            for (const s of currentBatch) {
+              const h = s.split(':')[0];
+              if (!hours[h]) hours[h] = [];
+              hours[h].push(s);
+            }
+            
+            selectedBatches.push({ 
+              startSlot: currentBatch[0], 
+              endSlot: currentBatch[currentBatch.length - 1],
+              slots: [...currentBatch],
+              hours
+            });
+            currentBatch = [];
+          }
+          lastSlot = null;
+        }
+      }
+    }
+    
+    // Se c'è ancora un batch in corso, concludilo
+    if (currentBatch.length > 0) {
+      // Organizza gli slot per ora
+      const hours: { [hour: string]: string[] } = {};
+      for (const s of currentBatch) {
+        const h = s.split(':')[0];
+        if (!hours[h]) hours[h] = [];
+        hours[h].push(s);
+      }
+      
+      selectedBatches.push({ 
+        startSlot: currentBatch[0], 
+        endSlot: currentBatch[currentBatch.length - 1],
+        slots: [...currentBatch],
+        hours
+      });
+    }
+    
+    return selectedBatches;
+  };
+  
+  // Funzione ausiliaria per determinare se due slot sono consecutivi
+  const isConsecutive = (slot1: string, slot2: string) => {
+    const time1 = new Date(`2000-01-01T${slot1}`);
+    const time2 = new Date(`2000-01-01T${slot2}`);
+    
+    // Calcola la differenza in minuti
+    const diffMs = time2.getTime() - time1.getTime();
+    const diffMinutes = diffMs / (1000 * 60);
+    
+    // Due slot sono consecutivi se la differenza è di 15 minuti
+    return diffMinutes === 15;
+  };
+  
+  // Funzione per calcolare l'orario di fine dato un orario di inizio e una durata in minuti
+  const calculateEndTime = (timeSlot: string, durationMinutes: number) => {
+    const time = new Date(`2000-01-01T${timeSlot}`);
+    // Aggiungi la durata
+    time.setMinutes(time.getMinutes() + durationMinutes);
+    // Formatta come HH:MM
+    const hours = time.getHours().toString().padStart(2, '0');
+    const minutes = time.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
   };
   
   // Nuovo metodo per attivare la modalità selezione
@@ -336,18 +456,54 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                   
                   {/* Colonna con i mini-slot */}
                   <div className="flex-grow">
-                    {/* 4 Mini-slot con linee orizzontali */}
-                    <div className="divide-y divide-gray-300">
+                    {/* Ottieni tutte le serie di slot consecutivi selezionati */}
+                    {isSelectionMode && (
+                      <div className="relative">
+                        {/* Primo livello: mostra tutti gli slot selezionati uniti visivamente */}
+                        {getConsecutiveSelectedSlots().map((batch, batchIndex) => {
+                          // Calcola l'altezza in base al numero di slot nel batch
+                          const batchHeight = batch.slots.length * 48; // 48px è l'altezza di ogni slot (h-12)
+                          
+                          // Trova l'indice dello slot iniziale per posizionare il batch correttamente
+                          const startHour = batch.startSlot.split(':')[0];
+                          const startIndex = groupedTimeSlots.findIndex(g => g.hour === startHour);
+                          const startSlotIndex = groupedTimeSlots[startIndex].slots.findIndex(s => s === batch.startSlot);
+                          const topPosition = startSlotIndex * 48; // Posizione dall'alto rispetto all'inizio dell'ora
+                          
+                          // Colore di sfondo basato sul servizio selezionato (per ora utilizziamo un colore predefinito)
+                          const serviceColor = '#3f51b5'; // Colore di default, idealmente questo verrebbe dal servizio selezionato
+                          
+                          return (
+                            <div 
+                              key={`batch-${batchIndex}`}
+                              className="absolute left-0 right-0 z-10 rounded-md shadow-md border-l-4 px-3 py-2"
+                              style={{ 
+                                top: `${topPosition}px`, 
+                                height: `${batchHeight}px`,
+                                borderLeftColor: serviceColor,
+                                backgroundColor: `${serviceColor}15`,
+                              }}
+                            >
+                              <div className="h-full flex flex-col justify-center">
+                                <div className="font-medium text-sm">
+                                  {batch.startSlot} - {calculateEndTime(batch.endSlot, 15)}
+                                </div>
+                                <div className="text-xs text-gray-600">
+                                  {t('calendar.selected')}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                    
+                    {/* Mini-slot con linee orizzontali */}
+                    <div className="divide-y divide-gray-300 relative">
                       {hourGroup.slots.map((timeSlot) => {
                         const isSlotSelected = selectedSlots[hourGroup.hour]?.miniSlots[timeSlot] || false;
                         const slotOccupied = isSlotOccupied(timeSlot);
                         const appointmentsInSlot = appointments.filter(a => a.startTime.startsWith(timeSlot));
-                        
-                        // Ottieni il colore del servizio per lo slot
-                        let slotServiceColor = '';
-                        if (isSlotSelected && appointmentsInSlot.length > 0 && appointmentsInSlot[0].service && appointmentsInSlot[0].service.color) {
-                          slotServiceColor = appointmentsInSlot[0].service.color;
-                        }
                         
                         // Controlla se lo slot corrente è il primo slot di un appuntamento multi-slot
                         const isFirstSlotOfAppointment = appointmentsInSlot.length > 0;
@@ -374,11 +530,10 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                             key={timeSlot} 
                             className={cn(
                               "h-12 px-3 py-2 flex items-center",
-                              isSlotSelected && slotServiceColor ? `bg-opacity-15` : "",
+                              isSlotSelected ? "bg-transparent" : "",
                               slotOccupied ? "bg-gray-100" : "hover:bg-gray-50"
                             )}
                             onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
-                            style={isSlotSelected && slotServiceColor ? { backgroundColor: slotServiceColor ? `${slotServiceColor}25` : '' } : {}}
                           >
                             {slotOccupied ? (
                               // Se lo slot è occupato, mostra gli appuntamenti
@@ -406,15 +561,10 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                               </div>
                             ) : (
                               // Se lo slot è libero ed è in modalità selezione
-                              isSelectionMode && (
+                              isSelectionMode && !isSlotSelected && (
                                 <div className="w-full flex justify-between items-center">
                                   {/* Visualizza solo l'ora senza altri elementi (come nell'immagine) */}
                                   <span className="text-sm text-gray-600">{timeSlot}</span>
-                                  {isSlotSelected && (
-                                    <span className="text-xs text-green-700 font-medium">
-                                      {t('calendar.selected')}
-                                    </span>
-                                  )}
                                 </div>
                               )
                             )}
