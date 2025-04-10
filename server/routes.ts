@@ -1838,15 +1838,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Ottimizza l'immagine ma mantieni il formato originale
       try {
-        // Determina il percorso dell'icona in base al tipo di file
-        let iconPath = filePath;
+        // Determina il nuovo percorso dell'icona in base al tipo di file
+        let newIconPath = '';
+        let format = '';
         
-        // Ottimizza l'immagine mantenendo il formato originale
+        if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/jpg') {
+          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
+          format = 'jpeg';
+        } else if (req.file.mimetype === 'image/png') {
+          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.png');
+          format = 'png';
+        } else if (req.file.mimetype === 'image/svg+xml') {
+          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+          // Per SVG facciamo solo copia del file
+          fs.copyFileSync(filePath, newIconPath);
+          console.log(`SVG copiato in: ${newIconPath}`);
+          // Per SVG non serve ottimizzazione, usiamo direttamente il file
+          return;
+        } else {
+          // Formato non supportato, usa JPG come default
+          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
+          format = 'jpeg';
+        }
+        
+        // Ottimizza l'immagine e salvala nel percorso corretto
         await sharp(filePath)
           .resize(512, 512)
-          .toFile(iconPath);
+          .toFormat(format as keyof sharp.FormatEnum)
+          .toFile(newIconPath);
           
-        console.log(`Immagine ottimizzata salvata: ${iconPath}, tipo: ${req.file.mimetype}`);
+        console.log(`Immagine ottimizzata salvata: ${newIconPath}, tipo: ${req.file.mimetype}`);
       } catch (error) {
         console.error('Errore durante l\'ottimizzazione dell\'immagine:', error);
         // Continua comunque, useremo l'immagine originale
@@ -1862,16 +1883,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
           let iconSrc = '';
           let mimeType = '';
           
-          // Usa il nome del file dal percorso del file caricato
-          const ext = path.extname(filePath).toLowerCase();
-          if (ext === '.svg') {
+          // Usa il tipo MIME del file caricato per determinare l'estensione
+          if (req.file.mimetype === 'image/svg+xml') {
             iconSrc = '/icons/app-icon.svg';
             mimeType = 'image/svg+xml';
-          } else if (ext === '.png') {
+          } else if (req.file.mimetype === 'image/png') {
             iconSrc = '/icons/app-icon.png';
             mimeType = 'image/png';
           } else {
-            // Assume JPG per default
+            // Assume JPG per default o per immagini JPEG
             iconSrc = '/icons/app-icon.jpg';
             mimeType = 'image/jpeg';
           }
