@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useTranslation } from 'react-i18next';
 import { 
@@ -16,6 +16,44 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LanguageSelector } from "@/components/ui/language-selector";
 
+// Componente per il nome aziendale
+function CompanyName() {
+  const [settings, setSettings] = useState<{
+    name: string;
+    fontSize: number;
+    fontFamily: string;
+    fontStyle: string;
+    color: string;
+    enabled: boolean;
+  } | null>(null);
+  
+  useEffect(() => {
+    // Carica le impostazioni dal localStorage
+    const storedSettings = localStorage.getItem('companyNameSettings');
+    if (storedSettings) {
+      const data = JSON.parse(storedSettings);
+      setSettings(data);
+    }
+  }, []);
+  
+  if (!settings || !settings.enabled || !settings.name) {
+    return null; // Non mostrare nulla se non c'è un nome aziendale o se è disabilitato
+  }
+  
+  // Stile dinamico per il nome aziendale
+  const nameStyle = {
+    fontSize: `${settings.fontSize}px`,
+    fontFamily: settings.fontFamily,
+    fontStyle: settings.fontStyle,
+    color: settings.color,
+    marginTop: '12px',
+    textAlign: 'center' as const,
+    maxWidth: '300px'
+  };
+  
+  return <div style={nameStyle}>{settings.name}</div>;
+}
+
 export default function Home() {
   const [_, navigate] = useLocation();
   const { t } = useTranslation();
@@ -23,14 +61,15 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <div className="text-center my-8">
-        <div className="flex justify-center mb-6">
+        <div className="flex flex-col items-center mb-6">
           <div className="w-32 h-32 rounded-full shadow-lg bg-white border-4 border-primary/20 flex items-center justify-center overflow-hidden icon-rotate">
             <img 
-              src="/icons/default-app-icon.jpg" 
+              src={`/icons/default-app-icon.jpg?t=${new Date().getTime()}`}
               alt="Fleur de Vie multicolore" 
               className="w-full h-full object-cover"
             />
           </div>
+          <CompanyName />
         </div>
         <h1 className="text-3xl font-bold mb-2">
           {t('app.welcome')}
