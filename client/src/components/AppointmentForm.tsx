@@ -38,6 +38,7 @@ interface AppointmentFormProps {
   defaultDate?: Date;
   defaultTime?: string;
   clientId?: number;
+  selectedSlots?: string[];
 }
 
 // Extended schema with validation
@@ -65,6 +66,7 @@ export default function AppointmentForm({
   defaultDate,
   defaultTime,
   clientId: defaultClientId,
+  selectedSlots = [],
 }: AppointmentFormProps) {
   const { toast } = useToast();
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
