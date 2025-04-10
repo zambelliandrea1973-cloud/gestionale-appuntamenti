@@ -103,7 +103,7 @@ export default function Invoices() {
     data: invoices = [],
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<Invoice[]>({
     queryKey: ["/api/invoices"],
     select: (data) => {
       // Ordina le fatture per data (più recenti prima)
@@ -117,11 +117,11 @@ export default function Invoices() {
     let matchesStatus = true;
     let matchesDate = true;
 
-    if (statusFilter) {
+    if (statusFilter && statusFilter !== "all") {
       matchesStatus = invoice.status === statusFilter;
     }
 
-    if (dateFilter) {
+    if (dateFilter && dateFilter !== "all") {
       const currentDate = new Date();
       
       if (dateFilter === "thisMonth") {
@@ -251,7 +251,7 @@ export default function Invoices() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Fatture</h1>
         <div className="flex gap-2">
-          <Select value={dateFilter || ""} onValueChange={value => setDateFilter(value || null)}>
+          <Select value={dateFilter || "all"} onValueChange={value => setDateFilter(value === "all" ? null : value)}>
             <SelectTrigger className="w-[180px]">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
@@ -264,14 +264,14 @@ export default function Invoices() {
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tutte le date</SelectItem>
+              <SelectItem value="all">Tutte le date</SelectItem>
               <SelectItem value="thisMonth">Mese corrente</SelectItem>
               <SelectItem value="lastMonth">Mese scorso</SelectItem>
               <SelectItem value="thisYear">Anno corrente</SelectItem>
             </SelectContent>
           </Select>
           
-          <Select value={statusFilter || ""} onValueChange={value => setStatusFilter(value || null)}>
+          <Select value={statusFilter || "all"} onValueChange={value => setStatusFilter(value === "all" ? null : value)}>
             <SelectTrigger className="w-[180px]">
               <div className="flex items-center gap-2">
                 <Tag className="h-4 w-4" />
@@ -279,7 +279,7 @@ export default function Invoices() {
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Tutti gli stati</SelectItem>
+              <SelectItem value="all">Tutti gli stati</SelectItem>
               <SelectItem value="unpaid">Non pagata</SelectItem>
               <SelectItem value="paid">Pagata</SelectItem>
               <SelectItem value="overdue">Scaduta</SelectItem>
