@@ -89,7 +89,7 @@ export default function Reports() {
         return sum + serviceData.price;
       }
       return sum;
-    }, 0) / 100;
+    }, 0);
   };
 
   // Aggregate data for reports when appointments or report type changes
@@ -161,7 +161,7 @@ export default function Reports() {
       return {
         name: service.name,
         count: serviceAppointments.length,
-        revenue: serviceAppointments.length * (service.price || 0) / 100,
+        revenue: serviceAppointments.length * (service.price || 0),
         color: service.color || "#3f51b5"
       };
     }).filter(s => s.count > 0);
