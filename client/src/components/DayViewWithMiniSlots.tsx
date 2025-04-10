@@ -324,10 +324,10 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     return appointments.filter(a => a.startTime === formattedSlot);
   };
   
-  // Find appointment that spans across a time slot (but doesn't start there)
+  // Find appointment that spans across a time slot (including start slot)
   const findAppointmentSpanningSlot = (slot: string) => {
     const formattedSlot = `${slot.split(':')[0].padStart(2, '0')}:${slot.split(':')[1].padStart(2, '0')}:00`;
-    return appointments.find(a => a.startTime < formattedSlot && a.endTime > formattedSlot);
+    return appointments.find(a => a.startTime <= formattedSlot && a.endTime > formattedSlot);
   };
   
   // Calculate the total height needed for an appointment based on its duration
@@ -442,6 +442,9 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                       height: `${height}px`,
                       backgroundColor: appointment.service?.color ? `${appointment.service.color}25` : '#f3f3f3',
                       borderLeft: `4px solid ${appointment.service?.color || '#9ca3af'}`,
+                      borderBottom: `1px solid ${appointment.service?.color || '#9ca3af'}`,
+                      borderRight: `1px solid ${appointment.service?.color || '#9ca3af'}`,
+                      borderTop: `1px solid ${appointment.service?.color || '#9ca3af'}`,
                     }}
                     onClick={() => {
                       // Apri il form di modifica per questo appuntamento
@@ -529,15 +532,36 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                         return slotTime >= startTime && slotTime < endTime;
                       });
                       
+                      // Trova l'appuntamento che occupa questo slot (se esiste)
+                      const slotFormattedTime = `${timeSlot.substring(0, 2)}:${timeSlot.substring(3, 5)}:00`;
+                      const occupyingAppointment = findAppointmentSpanningSlot(timeSlot);
+                      
+                      // Determina se questo è il primo slot di un appuntamento
+                      const isFirstSlotOfAppointment = occupyingAppointment && 
+                        occupyingAppointment.startTime.startsWith(timeSlot.substring(0, 5));
+                      
+                      // Style condizionale per gli slot occupati
+                      let slotStyle = {};
+                      let slotClassName = "";
+                      
+                      if (occupyingAppointment) {
+                        // Per gli slot occupati da appuntamenti, nascondiamo completamente tutti gli slot
+                        // per non mostrare nulla sotto gli appuntamenti
+                        slotStyle = { display: 'none' }; // Nasconde completamente tutti gli slot occupati
+                      }
+                      
                       return (
                         <div 
                           key={timeSlot}
                           className={cn(
-                            "min-h-12 px-3 py-2 flex items-center",
+                            "min-h-12 px-3 py-2 flex items-center relative",
                             isSelectionMode && !isOccupied && "cursor-pointer hover:bg-gray-50",
-                            (isSelectionMode && isSlotSelected) || isPartOfSelectedGroup ? "bg-gray-200" : ""
+                            (isSelectionMode && isSlotSelected) || isPartOfSelectedGroup ? "bg-gray-200" : "",
+                            occupyingAppointment ? "bg-gray-50" : "", // Sfondo più chiaro per slot occupati
+                            slotClassName
                           )}
                           onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
+                          style={slotStyle}
                         >
                           {/* Mostra sempre l'ora ma con stile diverso in base allo stato */}
                           <span 
@@ -545,7 +569,8 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                               "text-sm",
                               isSelectionMode && !isOccupied && "text-gray-600", 
                               isSelectionMode && isOccupied && "text-gray-400 line-through",
-                              !isSelectionMode && "text-gray-500"
+                              !isSelectionMode && "text-gray-500",
+                              occupyingAppointment ? "line-through text-gray-400" : ""
                             )}
                           >
                             {timeSlot}
