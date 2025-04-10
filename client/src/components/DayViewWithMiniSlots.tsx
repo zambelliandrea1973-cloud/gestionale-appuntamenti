@@ -35,6 +35,12 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
   // Stato per tenere traccia degli slot selezionati
   const [selectedSlots, setSelectedSlots] = useState<SelectedSlots>({});
   
+  // Stato per tenere traccia se è in modalità selezione
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  
+  // Stato per tenere traccia del servizio selezionato
+  const [selectedService, setSelectedService] = useState<any>(null);
+  
   // Utilizziamo un metodo alternativo per formattare la data
   const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   
@@ -105,13 +111,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     }
   };
   
-  // Stato per tenere traccia se è in modalità selezione
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
-  
-  // Stato per tenere traccia del servizio selezionato
-  const [selectedService, setSelectedService] = useState<any>(null);
-  
-  // Funzione per selezionare un servizio di default (prima versione semplificata)
+  // Funzione per selezionare un servizio di default
   const getDefaultService = () => {
     // Prendi il primo servizio disponibile dalla lista degli appuntamenti
     if (appointments.length > 0 && appointments[0].service) {
@@ -123,24 +123,12 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
       color: '#3f51b5'
     };
   };
-
-  // Simuliamo la selezione del servizio dopo un po' di selezioni
-  useEffect(() => {
-    // Verifichiamo se ci sono slot selezionati
-    const hasSelectedSlots = Object.values(selectedSlots).some(hourSlots => 
-      hourSlots.hourSelected || Object.values(hourSlots.miniSlots).some(isSelected => isSelected)
-    );
-    
-    // Se ci sono slot selezionati ma non ancora un servizio selezionato, impostiamo un timer
-    // per simulare il cambiamento del colore dopo un po'
-    if (hasSelectedSlots && !selectedService) {
-      const timer = setTimeout(() => {
-        setSelectedService(getDefaultService());
-      }, 2000); // Dopo 2 secondi
-      
-      return () => clearTimeout(timer);
-    }
-  }, [selectedSlots, selectedService]);
+  
+  // Non usiamo più il cambio automatico di colore dopo un timer
+  // Il servizio verrà selezionato solo dopo la conferma dell'appuntamento
+  
+  // Rimuoviamo anche l'aggiornamento automatico del servizio
+  // Il servizio verrà selezionato solo quando è creato un appuntamento
   
   // Gestisce la selezione dell'ora intera
   const handleHourSelection = (hour: string) => {
@@ -171,13 +159,6 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     }
   };
   
-  // Aggiorna il servizio selezionato quando necessario
-  useEffect(() => {
-    if (!selectedService && appointments.length > 0) {
-      setSelectedService(getDefaultService());
-    }
-  }, [appointments, selectedService]);
-  
   // Gestisce la selezione di un mini-slot
   const handleMiniSlotSelection = (hour: string, slot: string) => {
     // Se non è in modalità selezione, non fare nulla
@@ -201,11 +182,6 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     // Se questo è il primo slot selezionato, impostalo come orario di inizio
     if (updatedMiniSlots[slot] && !Object.values(updatedMiniSlots).some(s => s && s !== updatedMiniSlots[slot])) {
       setSelectedTimeSlot(slot);
-    }
-    
-    // Se non abbiamo ancora un servizio selezionato, impostiamone uno predefinito
-    if (!selectedService) {
-      setSelectedService(getDefaultService());
     }
   };
   
@@ -415,6 +391,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
         }
       }
       setSelectedSlots(resetSlots);
+      setSelectedService(null);
     }
   };
 
@@ -616,7 +593,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                                   // mostriamo un segnalino discreto o nulla per evitare ripetizioni
                                   <div className="w-full h-full flex items-center justify-center">
                                     <div className="w-full border-t border-dashed" 
-                                         style={{ borderColor: multiSlotAppointments[0].service.color || '#9ca3af' }}></div>
+                                         style={{ borderColor: multiSlotAppointments[0].service?.color || '#9ca3af' }}></div>
                                   </div>
                                 ) : (
                                   <div className="text-xs text-gray-500 italic">
