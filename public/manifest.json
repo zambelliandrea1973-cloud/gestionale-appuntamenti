@@ -19,9 +19,9 @@
   "id": "/",
   "icons": [
     {
-      "src": "/icons/default-app-icon.jpg",
+      "src": "/icons/app-icon.svg",
       "sizes": "any",
-      "type": "image/jpeg",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ],

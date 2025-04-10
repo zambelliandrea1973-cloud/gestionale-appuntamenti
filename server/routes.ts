@@ -1350,8 +1350,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         cb(null, iconDir);
       },
       filename: (_req, file, cb) => {
-        // Utilizza un nome file fisso per l'icona dell'app
-        cb(null, 'app-icon.svg');
+        // Utilizza un nome file basato sul tipo di immagine
+        let ext = '.jpg';
+        if (file.mimetype === 'image/png') {
+          ext = '.png';
+        } else if (file.mimetype === 'image/svg+xml') {
+          ext = '.svg';
+        }
+        
+        cb(null, 'app-icon' + ext);
       },
     }),
     limits: {
@@ -1816,24 +1823,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Percorso del file caricato
       const filePath = req.file.path;
       
-      if (req.file.mimetype !== 'image/svg+xml') {
-        // Se non è un SVG, ottimizza l'immagine e convertila in SVG
-        try {
-          const optimizedImageBuffer = await sharp(filePath)
-            .resize(512, 512)
-            .toFormat('png')
-            .toBuffer();
-            
-          // Sovrascrivi il file con la versione ottimizzata
-          const svgPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+      // Ottimizza l'immagine ma mantieni il formato originale
+      try {
+        // Determina il percorso dell'icona in base al tipo di file
+        let iconPath = filePath;
+        
+        // Ottimizza l'immagine mantenendo il formato originale
+        await sharp(filePath)
+          .resize(512, 512)
+          .toFile(iconPath);
           
-          // Possiamo salvare il PNG come SVG per semplicità
-          // Una soluzione più completa convertirebbe realmente a SVG
-          fs.writeFileSync(svgPath, optimizedImageBuffer);
-        } catch (error) {
-          console.error('Errore durante l\'ottimizzazione dell\'immagine:', error);
-          // Continua comunque, useremo l'immagine originale
-        }
+        console.log(`Immagine ottimizzata salvata: ${iconPath}, tipo: ${req.file.mimetype}`);
+      } catch (error) {
+        console.error('Errore durante l\'ottimizzazione dell\'immagine:', error);
+        // Continua comunque, useremo l'immagine originale
       }
       
       // Aggiorna il manifest.json con il nuovo percorso dell'icona
@@ -1842,25 +1845,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
         try {
           const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
           
-          // Assicurati che l'icona punti al file caricato
+          // Determina l'estensione e il tipo MIME
+          let iconSrc = '';
+          let mimeType = '';
+          
+          // Usa il nome del file dal percorso del file caricato
+          const ext = path.extname(filePath).toLowerCase();
+          if (ext === '.svg') {
+            iconSrc = '/icons/app-icon.svg';
+            mimeType = 'image/svg+xml';
+          } else if (ext === '.png') {
+            iconSrc = '/icons/app-icon.png';
+            mimeType = 'image/png';
+          } else {
+            // Assume JPG per default
+            iconSrc = '/icons/app-icon.jpg';
+            mimeType = 'image/jpeg';
+          }
+          
+          // Aggiorna il manifest
           manifest.icons = [{
-            src: '/icons/app-icon.svg',
+            src: iconSrc,
             sizes: 'any',
-            type: 'image/svg+xml',
+            type: mimeType,
             purpose: 'any'
           }];
           
           fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+          
+          // Restituisci il percorso dell'icona usato
+          res.json({ 
+            success: true, 
+            message: 'Icona caricata con successo',
+            iconPath: iconSrc
+          });
         } catch (error) {
           console.error('Errore durante l\'aggiornamento del manifest:', error);
+          res.status(500).json({ message: 'Errore durante l\'aggiornamento del manifest' });
         }
+      } else {
+        res.json({ 
+          success: true, 
+          message: 'Icona caricata con successo, ma manifest.json non trovato',
+          iconPath: filePath.replace(process.cwd() + '/public', '')
+        });
       }
-      
-      res.json({ 
-        success: true, 
-        message: 'Icona caricata con successo',
-        iconPath: '/icons/app-icon.svg'
-      });
     } catch (error: any) {
       console.error('Errore durante il caricamento dell\'icona:', error);
       res.status(500).json({ message: error.message });
