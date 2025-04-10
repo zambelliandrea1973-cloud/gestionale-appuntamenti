@@ -19,9 +19,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 interface CompanyNameSettings {
   name: string;
   fontSize: number;
-  fontWeight: string;
+  fontFamily: string;
   fontStyle: string;
-  textDecoration: string;
   color: string;
   enabled: boolean;
 }
@@ -30,9 +29,8 @@ export default function CompanyNameEditor() {
   const [settings, setSettings] = useState<CompanyNameSettings>({
     name: '',
     fontSize: 24,
-    fontWeight: 'normal',
+    fontFamily: 'Arial',
     fontStyle: 'normal',
-    textDecoration: 'none',
     color: '#000000',
     enabled: true
   });
@@ -112,9 +110,8 @@ export default function CompanyNameEditor() {
   // Stile dinamico per l'anteprima basato sulle impostazioni correnti
   const previewStyle = {
     fontSize: `${settings.fontSize}px`,
-    fontWeight: settings.fontWeight,
+    fontFamily: settings.fontFamily,
     fontStyle: settings.fontStyle,
-    textDecoration: settings.textDecoration,
     color: settings.color,
     padding: '16px',
     display: 'flex',
@@ -216,110 +213,101 @@ export default function CompanyNameEditor() {
               />
             </div>
 
-            {/* Stile font */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Peso testo</Label>
-                <Select 
-                  value={settings.fontWeight} 
-                  onValueChange={(value) => handleSelectChange('fontWeight', value)}
-                  disabled={!settings.enabled}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleziona peso" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="normal">Normale</SelectItem>
-                    <SelectItem value="bold">Grassetto</SelectItem>
-                    <SelectItem value="light">Leggero</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Stile testo</Label>
-                <Select 
-                  value={settings.fontStyle} 
-                  onValueChange={(value) => handleSelectChange('fontStyle', value)}
-                  disabled={!settings.enabled}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleziona stile" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="normal">Normale</SelectItem>
-                    <SelectItem value="italic">Corsivo</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            {/* Tipo di font */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Tipo di carattere</Label>
+              <Select 
+                value={settings.fontFamily} 
+                onValueChange={(value) => handleSelectChange('fontFamily', value)}
+                disabled={!settings.enabled}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona carattere" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Arial">Arial</SelectItem>
+                  <SelectItem value="Times New Roman">Times New Roman</SelectItem>
+                  <SelectItem value="Courier New">Courier New</SelectItem>
+                  <SelectItem value="Georgia">Georgia</SelectItem>
+                  <SelectItem value="Verdana">Verdana</SelectItem>
+                  <SelectItem value="Trebuchet MS">Trebuchet MS</SelectItem>
+                  <SelectItem value="Impact">Impact</SelectItem>
+                  <SelectItem value="Comic Sans MS">Comic Sans MS</SelectItem>
+                  <SelectItem value="Tahoma">Tahoma</SelectItem>
+                  <SelectItem value="Palatino Linotype">Palatino Linotype</SelectItem>
+                  <SelectItem value="Lucida Sans Unicode">Lucida Sans Unicode</SelectItem>
+                  <SelectItem value="Garamond">Garamond</SelectItem>
+                  <SelectItem value="Bookman Old Style">Bookman Old Style</SelectItem>
+                  <SelectItem value="Century Gothic">Century Gothic</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Decorazione e colore */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Decorazione</Label>
-                <Select 
-                  value={settings.textDecoration} 
-                  onValueChange={(value) => handleSelectChange('textDecoration', value)}
-                  disabled={!settings.enabled}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleziona decorazione" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">Nessuna</SelectItem>
-                    <SelectItem value="underline">Sottolineato</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            {/* Stile font */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Stile testo</Label>
+              <Select 
+                value={settings.fontStyle} 
+                onValueChange={(value) => handleSelectChange('fontStyle', value)}
+                disabled={!settings.enabled}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona stile" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="normal">Normale</SelectItem>
+                  <SelectItem value="italic">Corsivo</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
               
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Colore</Label>
-                <div className="flex gap-2">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button 
-                        variant="outline" 
-                        className="w-full justify-start"
-                        disabled={!settings.enabled}
-                      >
-                        <div 
-                          className="w-4 h-4 rounded-full mr-2" 
-                          style={{ backgroundColor: settings.color }}
+            {/* Colore */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Colore</Label>
+              <div className="flex gap-2">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      className="w-full justify-start"
+                      disabled={!settings.enabled}
+                    >
+                      <div 
+                        className="w-4 h-4 rounded-full mr-2" 
+                        style={{ backgroundColor: settings.color }}
+                      />
+                      <span>{settings.color}</span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-64">
+                    <div className="grid grid-cols-5 gap-2">
+                      {[
+                        '#000000', '#0000FF', '#FF0000', '#008000', '#800080',
+                        '#FFA500', '#A52A2A', '#808080', '#4682B4', '#006400',
+                        '#8B0000', '#483D8B', '#2F4F4F', '#9932CC', '#FF1493'
+                      ].map(color => (
+                        <Button
+                          key={color}
+                          variant="outline"
+                          className="w-8 h-8 p-0"
+                          style={{ backgroundColor: color }}
+                          onClick={() => handleSelectChange('color', color)}
                         />
-                        <span>{settings.color}</span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-64">
-                      <div className="grid grid-cols-5 gap-2">
-                        {[
-                          '#000000', '#0000FF', '#FF0000', '#008000', '#800080',
-                          '#FFA500', '#A52A2A', '#808080', '#4682B4', '#006400',
-                          '#8B0000', '#483D8B', '#2F4F4F', '#9932CC', '#FF1493'
-                        ].map(color => (
-                          <Button
-                            key={color}
-                            variant="outline"
-                            className="w-8 h-8 p-0"
-                            style={{ backgroundColor: color }}
-                            onClick={() => handleSelectChange('color', color)}
-                          />
-                        ))}
-                      </div>
-                      <div className="mt-4">
-                        <Label htmlFor="custom-color">Colore personalizzato</Label>
-                        <Input
-                          id="custom-color"
-                          name="color"
-                          type="color"
-                          value={settings.color}
-                          onChange={handleInputChange}
-                          className="h-10 mt-1"
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                      ))}
+                    </div>
+                    <div className="mt-4">
+                      <Label htmlFor="custom-color">Colore personalizzato</Label>
+                      <Input
+                        id="custom-color"
+                        name="color"
+                        type="color"
+                        value={settings.color}
+                        onChange={handleInputChange}
+                        className="h-10 mt-1"
+                      />
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
 
