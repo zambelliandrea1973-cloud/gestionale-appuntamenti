@@ -296,6 +296,32 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     const formattedSlot = `${slot.split(':')[0].padStart(2, '0')}:${slot.split(':')[1].padStart(2, '0')}:00`;
     return appointments.find(a => a.startTime < formattedSlot && a.endTime > formattedSlot);
   };
+  
+  // Calculate the total height needed for an appointment based on its duration
+  const calculateAppointmentHeightAndPosition = (appointment: AppointmentWithDetails) => {
+    // Extract start hour and minute
+    const startParts = appointment.startTime.split(':');
+    const startHour = parseInt(startParts[0]);
+    const startMinute = parseInt(startParts[1]);
+    
+    // Extract end hour and minute
+    const endParts = appointment.endTime.split(':');
+    const endHour = parseInt(endParts[0]);
+    const endMinute = parseInt(endParts[1]);
+    
+    // Calculate height in pixels (1 hour = 48px, 15 min = 12px)
+    const durationHours = endHour - startHour;
+    const durationMinutes = endMinute - startMinute;
+    const totalMinutes = durationHours * 60 + durationMinutes;
+    const height = totalMinutes / 15 * 12; // Convert to slots and then to pixels
+    
+    // Calculate top position
+    const hourIndex = groupedTimeSlots.findIndex(g => g.hour === startHour.toString().padStart(2, '0'));
+    const topOffset = (startMinute / 60) * 48; // Position within the hour
+    const top = hourIndex * 48 + topOffset;
+    
+    return { height, top };
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
@@ -385,6 +411,35 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
               </div>
             )}
             
+            {/* Visualizza gli appuntamenti esistenti */}
+            <div className="relative">
+              {appointments.map((appointment, index) => {
+                const { height, top } = calculateAppointmentHeightAndPosition(appointment);
+                
+                return (
+                  <div 
+                    key={`appointment-${appointment.id}`}
+                    className="absolute left-24 right-0 z-20 rounded-sm shadow-md px-3 py-1"
+                    style={{
+                      top: `${top}px`,
+                      height: `${height}px`,
+                      backgroundColor: appointment.service?.color ? `${appointment.service.color}25` : '#f3f3f3',
+                      borderLeft: `4px solid ${appointment.service?.color || '#9ca3af'}`,
+                    }}
+                  >
+                    <div className="h-full flex flex-col justify-center">
+                      <div className="font-medium text-sm">
+                        {appointment.client?.firstName} {appointment.client?.lastName}
+                      </div>
+                      <div className="text-xs">
+                        {appointment.service?.name || ''} - {appointment.startTime.substr(0, 5)} - {appointment.endTime.substr(0, 5)}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
             {/* Hours and mini-slots */}
             {groupedTimeSlots.map((hourGroup) => (
               <div 
@@ -406,13 +461,6 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                       const isSlotSelected = selectedSlots[hourGroup.hour]?.miniSlots[timeSlot] || false;
                       const isOccupied = isSlotOccupied(timeSlot);
                       
-                      // Find appointment at this slot if any
-                      const appsAtSlot = findAppointmentsAtSlot(timeSlot);
-                      const isFirstSlot = appsAtSlot.length > 0;
-                      
-                      // Find appointment spanning this slot if any
-                      const spanningApp = !isFirstSlot ? findAppointmentSpanningSlot(timeSlot) : null;
-                      
                       return (
                         <div 
                           key={timeSlot}
@@ -423,27 +471,9 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                           )}
                           onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
                         >
-                          {isOccupied ? (
-                            // Show appointment if this is the first slot of the appointment
-                            isFirstSlot ? (
-                              <AppointmentCard
-                                appointment={appsAtSlot[0]}
-                                onUpdate={handleAppointmentUpdated}
-                                compact={true}
-                              />
-                            ) : (
-                              // Show minimal indicator for slots in the middle of an appointment
-                              spanningApp && (
-                                <div className="w-full h-full flex items-center">
-                                  {/* No content, or minimal indicator if needed */}
-                                </div>
-                              )
-                            )
-                          ) : (
-                            // Show slot time if empty and in selection mode
-                            isSelectionMode && (
-                              <span className="text-sm text-gray-600">{timeSlot}</span>
-                            )
+                          {/* In modalità selezione, mostra l'ora solo se lo slot non è occupato */}
+                          {isSelectionMode && !isOccupied && (
+                            <span className="text-sm text-gray-600">{timeSlot}</span>
                           )}
                         </div>
                       );
