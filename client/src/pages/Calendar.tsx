@@ -181,38 +181,39 @@ export default function Calendar() {
           </div>
         </div>
         
-        <div className="mt-4 flex justify-between items-center">
-          <div className="flex rounded-md overflow-hidden shadow-sm border">
+        <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* Bottoni di visualizzazione - modificati per essere responsivi su dispositivi mobili */}
+          <div className="flex flex-wrap rounded-md overflow-hidden shadow-sm border w-full sm:w-auto">
             <Button
               variant={view === "day" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("day")}
-              className={`rounded-none px-4 ${view === "day" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "day" ? "bg-primary text-white" : ""}`}
             >
-              <Clock className="h-4 w-4 mr-2" />
+              <Clock className="h-4 w-4 mr-1 sm:mr-2" />
               {t('calendar.daily')}
             </Button>
             <Button
               variant={view === "week" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("week")}
-              className={`rounded-none px-4 ${view === "week" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "week" ? "bg-primary text-white" : ""}`}
             >
-              <CalendarDays className="h-4 w-4 mr-2" />
+              <CalendarDays className="h-4 w-4 mr-1 sm:mr-2" />
               {t('calendar.weekly')}
             </Button>
             <Button
               variant={view === "month" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("month")}
-              className={`rounded-none px-4 ${view === "month" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "month" ? "bg-primary text-white" : ""}`}
             >
-              <LayoutGrid className="h-4 w-4 mr-2" />
+              <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />
               {t('calendar.monthly')}
             </Button>
           </div>
           
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 w-full sm:w-auto text-center sm:text-right">
             {view === "day" && `${selectedDate.toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })}`}
             {view === "week" && t('calendar.weekView')}
             {view === "month" && t('calendar.monthView')}
