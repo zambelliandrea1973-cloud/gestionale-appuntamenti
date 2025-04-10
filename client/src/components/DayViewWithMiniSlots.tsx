@@ -348,21 +348,17 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
     const totalMinutes = durationHours * 60 + durationMinutes;
     const height = totalMinutes / 15 * 12; // Convert to slots and then to pixels
     
-    // Find the starting hour position
-    // We need to find the actual index within the displayed timeSlots
-    let hourPosition = 0;
-    for (let i = 0; i < groupedTimeSlots.length; i++) {
-      if (parseInt(groupedTimeSlots[i].hour) === startHour) {
-        hourPosition = i * 48; // Each hour block is 48px
-        break;
-      }
-    }
+    // Ottiene il numero di ore tra l'inizio del calendario e l'orario dell'appuntamento
+    // Il calendario inizia alle 8:00, quindi se un appuntamento è alle 13:15,
+    // deve essere posizionato 5 ore e 15 minuti dopo l'inizio
+    const calendarStartHour = parseInt(groupedTimeSlots[0].hour);
+    const hourOffset = startHour - calendarStartHour;
     
-    // Calculate the offset within the hour block
-    const minuteOffset = (startMinute / 60) * 48; // Convert minutes to a fraction of the hour height
+    // Calcola la posizione in pixel considerando sia le ore che i minuti
+    const totalOffsetMinutes = (hourOffset * 60) + startMinute;
+    const top = (totalOffsetMinutes / 15) * 12; // Ogni 15 minuti sono 12px
     
-    // Total position from the top
-    const top = hourPosition + minuteOffset;
+    console.log(`Appuntamento: ${appointment.client?.lastName}, Orario: ${startHour}:${startMinute}, Top: ${top}px`);
     
     return { height, top };
   };
