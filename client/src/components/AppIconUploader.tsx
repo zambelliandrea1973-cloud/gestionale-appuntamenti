@@ -92,6 +92,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
       setUploadSuccess(true);
       
+      // Imposta l'URL dell'anteprima direttamente sull'icona predefinita
+      setPreviewUrl(`/icons/default-app-icon.jpg?t=${new Date().getTime()}`);
+      
       // Ricarica le informazioni sull'icona per aggiornare la data di modifica
       await fetchIconInfo();
       
@@ -100,7 +103,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       
       toast({
         title: "Icona predefinita impostata",
-        description: "L'icona predefinita è stata impostata con successo.",
+        description: "L'icona predefinita è stata impostata con successo e sarà utilizzata per entrambe le app.",
         variant: "default",
       });
 

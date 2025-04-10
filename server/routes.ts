@@ -20,6 +20,7 @@ import { notificationService } from "./services/notificationService";
 import { contactService } from "./services/contactService";
 import { initializeSchedulers } from "./services/schedulerService";
 import { googleCalendarService } from "./services/googleCalendarService";
+import { companyNameService } from "./services/companyNameService";
 import multer from 'multer';
 import sharp from 'sharp';
 
