@@ -4,10 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Settings as SettingsIcon, Smartphone, Image, Brush, Type, Link2, Contact, Calendar } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
-import AppNameEditor from '@/components/AppNameEditor';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 
@@ -99,20 +97,10 @@ export default function Settings() {
                 {t('settings.appearanceTitle', 'Identità Aziendale')}
               </CardTitle>
               <CardDescription>
-                {t('settings.appearanceDesc', 'Personalizza il nome e l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Queste impostazioni si applicheranno sia all\'app principale che all\'app cliente.')}
+                {t('settings.appearanceDesc', 'Personalizza l\'icona dell\'applicazione per riflettere l\'identità della tua azienda. Questa impostazione si applicherà sia all\'app principale che all\'app cliente.')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div>
-                <div className="flex items-center mb-4">
-                  <Type className="h-5 w-5 mr-2 text-muted-foreground" />
-                  <h3 className="text-lg font-medium">{t('settings.appName', 'Nome App')}</h3>
-                </div>
-                <AppNameEditor />
-              </div>
-              
-              <Separator className="my-8" />
-              
               <div>
                 <div className="flex items-center mb-4">
                   <Image className="h-5 w-5 mr-2 text-muted-foreground" />
