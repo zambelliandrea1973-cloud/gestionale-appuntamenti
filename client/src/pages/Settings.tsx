@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
+import CompanyNameEditor from '@/components/CompanyNameEditor';
 
 export default function Settings() {
   const [, setLocation] = useLocation();
@@ -107,6 +108,14 @@ export default function Settings() {
                   <h3 className="text-lg font-medium">{t('settings.appIcon', 'Icona App')}</h3>
                 </div>
                 <AppIconUploader />
+              </div>
+              
+              <div className="pt-4 border-t">
+                <div className="flex items-center mb-4">
+                  <Type className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <h3 className="text-lg font-medium">{t('settings.companyName', 'Nome Aziendale')}</h3>
+                </div>
+                <CompanyNameEditor />
               </div>
             </CardContent>
           </Card>
