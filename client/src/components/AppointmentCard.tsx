@@ -90,33 +90,40 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
   
   // Versione compatta per i mini-slot da 15 minuti
   if (compact) {
+    // Formatta gli orari di inizio e fine
+    const startTime = formatTime(new Date(`2000-01-01T${appointment.startTime}`));
+    const endTime = formatTime(new Date(`2000-01-01T${appointment.endTime}`));
+    
     return (
       <div 
-        className="py-1 px-1.5 rounded-sm shadow-sm mb-1"
+        className="py-1.5 px-2 rounded shadow mb-1 w-full flex flex-col"
         style={{ 
-          borderLeft: `3px solid ${getBorderColor()}`,
+          borderLeft: `4px solid ${getBorderColor()}`,
           backgroundColor: getBackgroundColor()
         }}
       >
         <div className="flex justify-between items-center">
-          <div className="truncate mr-1">
-            <div className="font-medium text-xs truncate">
-              {appointment.client.firstName} {appointment.client.lastName}
+          <div className="truncate mr-1 flex-grow">
+            <div className="font-medium text-xs truncate flex items-center">
+              <span className="font-bold">{appointment.client.firstName} {appointment.client.lastName}</span>
             </div>
-            <div className="text-xs text-gray-600 truncate">
-              {appointment.service.name}
+            <div className="text-xs text-gray-700 truncate mt-0.5">
+              <span className="font-medium">{appointment.service.name}</span>
+            </div>
+            <div className="text-xs text-gray-600 truncate mt-0.5">
+              {startTime} - {endTime}
             </div>
           </div>
           
           <div className="flex">
             <button 
-              className="h-5 w-5 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100 flex items-center justify-center"
+              className="h-6 w-6 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100 flex items-center justify-center"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsFormDialogOpen(true);
               }}
             >
-              <Pencil className="h-3 w-3" />
+              <Pencil className="h-3.5 w-3.5" />
             </button>
             
             {isFormDialogOpen && (
