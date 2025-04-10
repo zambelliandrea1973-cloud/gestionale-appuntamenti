@@ -54,7 +54,7 @@ export default function Calendar() {
   const queryClient = useQueryClient();
   
   // Filter appointments based on search query
-  const filteredAppointments = searchQuery
+  const filteredAppointments = searchQuery && Array.isArray(allAppointments)
     ? allAppointments.filter((appointment: any) => {
         const clientName = `${appointment.client?.firstName || ''} ${appointment.client?.lastName || ''}`.toLowerCase();
         const serviceName = appointment.service?.name?.toLowerCase() || '';

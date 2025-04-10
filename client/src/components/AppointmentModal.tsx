@@ -113,6 +113,7 @@ export default function AppointmentModal({
           defaultTime={defaultTime}
           appointmentId={appointment?.id}
           clientId={appointment?.clientId}
+          selectedSlots={selectedSlots}
         />
         
         {/* Aggiungiamo il pulsante di salvataggio diretto */}

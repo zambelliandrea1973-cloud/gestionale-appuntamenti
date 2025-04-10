@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import AppointmentModal from "./AppointmentModal";
-import { AppointmentWithDetails, Service } from "@/types/api";
+import { AppointmentWithDetails, Service } from "../types/api";
 import { formatDateForApi, formatTime, calculateEndTime, addMinutes } from "@/lib/utils/date";
 
 interface DayViewWithTimeSlotsProps {
@@ -185,7 +185,11 @@ export default function DayViewWithTimeSlots({
       endTime: endTime + ":00",
       notes: "",
       status: "scheduled",
-    });
+      reminderType: null,
+      reminderStatus: "pending",
+      reminderSent: false,
+      reminderConfirmed: false,
+    } as AppointmentWithDetails);
   };
 
   // Cancella la selezione
