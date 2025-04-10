@@ -67,7 +67,7 @@ function AppIcon() {
   return (
     <img 
       src={iconSrc}
-      alt="Icona dell'app" 
+      alt="Logo" 
       className="w-full h-full object-cover"
     />
   );
