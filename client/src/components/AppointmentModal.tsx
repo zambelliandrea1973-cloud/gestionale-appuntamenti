@@ -4,6 +4,7 @@ import SaveDirectButton from "./SaveDirectButton";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AppointmentWithDetails } from "@shared/schema";
+import { parseTime, addMinutes, formatTime } from "@/lib/utils/date";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface AppointmentModalProps {
   defaultDate: Date;
   defaultTime: string;
   appointment?: AppointmentWithDetails | null;
+  selectedSlots?: string[];
 }
 
 // Funzione di utilità per formattare la data per l'API
@@ -28,16 +30,40 @@ export default function AppointmentModal({
   onSave,
   defaultDate,
   defaultTime,
-  appointment
+  appointment,
+  selectedSlots = []
 }: AppointmentModalProps) {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
+  const [calculatedEndTime, setCalculatedEndTime] = useState<string | null>(null);
+  
+  // Calcola l'ora di fine in base agli slot selezionati
+  useEffect(() => {
+    if (selectedSlots && selectedSlots.length > 1) {
+      // Ordina gli slot selezionati
+      const sortedSlots = [...selectedSlots].sort((a, b) => {
+        return parseTime(a).getTime() - parseTime(b).getTime();
+      });
+      
+      // Prendi l'ultimo slot e calcola l'orario di fine (15 minuti dopo)
+      const lastSlot = sortedSlots[sortedSlots.length - 1];
+      const lastTime = parseTime(lastSlot);
+      const endTime = formatTime(addMinutes(lastTime, 15));
+      setCalculatedEndTime(endTime);
+      
+      console.log("Slots selezionati:", sortedSlots);
+      console.log("Ora di fine calcolata:", endTime);
+    } else {
+      setCalculatedEndTime(null);
+    }
+  }, [selectedSlots]);
   
   useEffect(() => {
     // For debugging
     console.log("AppointmentModal - isOpen:", isOpen);
     console.log("AppointmentModal - defaultTime:", defaultTime);
-  }, [isOpen, defaultTime]);
+    console.log("AppointmentModal - selectedSlots:", selectedSlots);
+  }, [isOpen, defaultTime, selectedSlots]);
 
   // Quando il componente viene montato, facciamo una richiesta per ottenere tutti i servizi
   // questo ci serve per calcolare correttamente l'endTime in base alla durata del servizio

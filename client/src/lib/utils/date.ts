@@ -1,4 +1,4 @@
-import { format, startOfWeek, endOfWeek, addDays, isSameDay, isSameMonth, parse, getHours, getMinutes, setHours, setMinutes } from "date-fns";
+import { format, startOfWeek, endOfWeek, addDays, addMinutes as dateAddMinutes, isSameDay, isSameMonth, parse, getHours, getMinutes, setHours, setMinutes } from "date-fns";
 import { it } from "date-fns/locale";
 
 // Format a date as "dd/MM/yyyy"
@@ -132,9 +132,14 @@ export const generateHourlyGroupedTimeSlots = (
   return groupedSlots;
 };
 
+// Add minutes to a date
+export const addMinutes = (date: Date, minutes: number): Date => {
+  return dateAddMinutes(date, minutes);
+};
+
 // Calculate end time based on start time and duration
 export const calculateEndTime = (startTime: string, durationMinutes: number): string => {
   const startDate = parseTime(startTime);
-  const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+  const endDate = addMinutes(startDate, durationMinutes);
   return formatTime(endDate);
 };
