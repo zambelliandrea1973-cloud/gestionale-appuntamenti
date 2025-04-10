@@ -72,6 +72,8 @@
     "customDuration": "Durata personalizzata",
     "incrementBy15Min": "Incrementa di 15 min",
     "decrementBy15Min": "Decrementa di 15 min",
+    "selected": "Selezionato",
+    "select": "Seleziona",
     "days": {
       "monday": "Lunedì",
       "tuesday": "Martedì",
