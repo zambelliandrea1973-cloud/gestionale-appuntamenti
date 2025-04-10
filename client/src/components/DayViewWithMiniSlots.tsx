@@ -64,7 +64,6 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
       toast({
         title: t('calendar.appointmentDeleted'),
         description: t('calendar.appointmentDeletedSuccess'),
-        variant: 'success',
       });
       refetch();
       if (onRefresh) onRefresh();
