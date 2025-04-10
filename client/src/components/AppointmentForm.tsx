@@ -77,6 +77,9 @@ export default function AppointmentForm({
   // Stati per controllare l'apertura dei selettori data/ora
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+  
+  // Stato per la durata personalizzata dell'appuntamento (in minuti)
+  const [customDuration, setCustomDuration] = useState<number | null>(null);
 
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
