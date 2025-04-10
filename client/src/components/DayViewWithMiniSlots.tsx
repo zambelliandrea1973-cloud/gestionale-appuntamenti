@@ -543,10 +543,17 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                           )}
                           onClick={() => handleMiniSlotSelection(hourGroup.hour, timeSlot)}
                         >
-                          {/* In modalità selezione, mostra l'ora solo se lo slot non è occupato */}
-                          {isSelectionMode && !isOccupied && (
-                            <span className="text-sm text-gray-600">{timeSlot}</span>
-                          )}
+                          {/* Mostra sempre l'ora ma con stile diverso in base allo stato */}
+                          <span 
+                            className={cn(
+                              "text-sm",
+                              isSelectionMode && !isOccupied && "text-gray-600", 
+                              isSelectionMode && isOccupied && "text-gray-400 line-through",
+                              !isSelectionMode && "text-gray-500"
+                            )}
+                          >
+                            {timeSlot}
+                          </span>
                         </div>
                       );
                     })}
