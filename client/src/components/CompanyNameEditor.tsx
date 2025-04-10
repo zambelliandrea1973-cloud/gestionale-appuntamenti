@@ -50,11 +50,15 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/company-name-settings');
+      // Temporaneamente, utilizziamo localStorage per simulare l'API
+      const storedSettings = localStorage.getItem('companyNameSettings');
       
-      if (response.ok) {
-        const data = await response.json();
+      if (storedSettings) {
+        const data = JSON.parse(storedSettings);
         setSettings(data);
+      } else {
+        // Salva le impostazioni predefinite se non ce ne sono di salvate
+        localStorage.setItem('companyNameSettings', JSON.stringify(settings));
       }
     } catch (error) {
       console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
@@ -69,19 +73,9 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      const response = await fetch('/api/company-name-settings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(settings),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Errore durante il salvataggio delle impostazioni');
-      }
-
+      // Temporaneamente, utilizziamo localStorage per simulare l'API
+      localStorage.setItem('companyNameSettings', JSON.stringify(settings));
+      
       setSaveSuccess(true);
       toast({
         title: "Impostazioni salvate",
