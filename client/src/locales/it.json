@@ -64,6 +64,8 @@
     "monthView": "Vista mensile",
     "addAppointment": "Nuovo Appuntamento",
     "selectNewAppointment": "Seleziona nuovo appuntamento",
+    "selectTimeNewAppointment": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
     "today": "Oggi",
     "searchResults": "Risultati della ricerca",
     "noAppointmentsFound": "Nessun appuntamento trovato per",
