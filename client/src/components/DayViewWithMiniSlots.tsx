@@ -344,11 +344,11 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
                                   <div className="w-16 text-xs font-medium text-gray-600">{timeSlot}</div>
                                   <div className="flex-grow">
                                     {isSlotSelected ? (
-                                      <div className="text-xs text-green-700 font-medium">Selezionato</div>
+                                      <div className="text-xs text-green-700 font-medium">{t('calendar.selected')}</div>
                                     ) : (
                                       <div className="text-xs text-blue-600">
                                         <Plus className="h-3 w-3 inline mr-1" />
-                                        Seleziona
+                                        {t('calendar.select')}
                                       </div>
                                     )}
                                   </div>
