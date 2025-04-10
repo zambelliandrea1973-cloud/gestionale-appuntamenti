@@ -7,7 +7,11 @@
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
   "orientation": "any",
-  "categories": ["healthcare", "business", "appointments"],
+  "categories": [
+    "healthcare",
+    "business",
+    "appointments"
+  ],
   "lang": "it-IT",
   "dir": "ltr",
   "prefer_related_applications": false,
@@ -16,14 +20,8 @@
   "icons": [
     {
       "src": "/icons/default-app-icon.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/app-icon.svg",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any"
     }
   ],
