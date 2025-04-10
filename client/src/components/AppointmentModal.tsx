@@ -3,8 +3,8 @@ import AppointmentForm from "./AppointmentForm";
 import SaveDirectButton from "./SaveDirectButton";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { AppointmentWithDetails } from "@shared/schema";
-import { parseTime, addMinutes, formatTime } from "@/lib/utils/date";
+import { AppointmentWithDetails } from "@/types/api";
+import { parseTime, addMinutes, formatTime, formatDateForApi } from "@/lib/utils/date";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -16,13 +16,7 @@ interface AppointmentModalProps {
   selectedSlots?: string[];
 }
 
-// Funzione di utilità per formattare la data per l'API
-function formatDateForApi(date: Date): string {
-  // Aggiungiamo 12 ore alla data per evitare problemi di fuso orario
-  const adjustedDate = new Date(date);
-  adjustedDate.setHours(12, 0, 0, 0);
-  return adjustedDate.toISOString().split('T')[0];
-}
+// Usiamo la funzione formatDateForApi importata da utils/date.ts
 
 export default function AppointmentModal({
   isOpen,
