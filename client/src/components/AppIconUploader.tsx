@@ -51,9 +51,14 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       if (iconData.exists && iconData.iconPath) {
         // Aggiungi timestamp per evitare la cache del browser
         setPreviewUrl(`${iconData.iconPath}?t=${new Date().getTime()}`);
+      } else {
+        // Imposta l'icona predefinita se non c'è nessuna icona
+        setPreviewUrl('/icons/default-app-icon.jpg');
       }
     } catch (error) {
       console.error('Errore nel recupero delle informazioni sull\'icona:', error);
+      // In caso di errore, mostra comunque l'icona predefinita
+      setPreviewUrl('/icons/default-app-icon.jpg');
     } finally {
       setIsLoadingInfo(false);
     }
@@ -250,7 +255,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         )}
       </div>
       <p className="text-sm text-muted-foreground mb-4">
-        Carica un'icona personalizzata per l'app cliente. Questa sarà l'icona che verrà visualizzata sugli schermi dei dispositivi dei clienti quando installeranno l'app.
+        Carica un'icona personalizzata che verrà usata sia per l'app principale che per l'app cliente. Questa icona sarà visualizzata sulla schermata home di tutti i dispositivi (sia i tuoi che quelli dei clienti).
       </p>
 
       {!isLoadingInfo && iconInfo?.exists && iconInfo.lastModified && (
@@ -266,7 +271,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
           <Check className="h-4 w-4" />
           <AlertTitle>Caricamento completato</AlertTitle>
           <AlertDescription>
-            L'icona dell'app è stata aggiornata con successo. I clienti vedranno la nuova icona quando installeranno l'app.
+            L'icona dell'app è stata aggiornata con successo. Questa icona sarà utilizzata sia per l'app principale che per l'app cliente.
           </AlertDescription>
         </Alert>
       )}
