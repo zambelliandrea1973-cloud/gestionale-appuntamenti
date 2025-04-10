@@ -10,11 +10,68 @@ import {
   Calendar,
   Clock,
   Grid,
-  Flower
+  Flower,
+  ImageIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LanguageSelector } from "@/components/ui/language-selector";
+import { apiRequest } from "@/lib/queryClient";
+
+// Componente per l'icona dell'app
+function AppIcon() {
+  const [iconInfo, setIconInfo] = useState<{
+    exists: boolean;
+    isCustom?: boolean;
+    iconPath?: string;
+    mimeType?: string;
+    lastModified?: string;
+  }>({ exists: false });
+  
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchIconInfo = async () => {
+      try {
+        setLoading(true);
+        const response = await apiRequest("GET", "/api/client-app-info");
+        const data = await response.json();
+        if (data.icon) {
+          setIconInfo(data.icon);
+        }
+      } catch (error) {
+        console.error("Errore nel recuperare le informazioni dell'icona:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchIconInfo();
+  }, []);
+  
+  if (loading) {
+    return <div className="w-full h-full flex items-center justify-center"><Clock className="w-8 h-8 animate-spin text-primary/50" /></div>;
+  }
+  
+  if (!iconInfo.exists) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-muted">
+        <ImageIcon className="w-12 h-12 text-muted-foreground" />
+      </div>
+    );
+  }
+  
+  // Aggiungi un timestamp per evitare la cache del browser
+  const iconSrc = `${iconInfo.iconPath}?t=${new Date().getTime()}`;
+  
+  return (
+    <img 
+      src={iconSrc}
+      alt="Icona dell'app" 
+      className="w-full h-full object-cover"
+    />
+  );
+}
 
 // Componente per il nome aziendale
 function CompanyName() {
@@ -63,11 +120,7 @@ export default function Home() {
       <div className="text-center my-8">
         <div className="flex flex-col items-center mb-6">
           <div className="w-32 h-32 rounded-full shadow-lg bg-white border-4 border-primary/20 flex items-center justify-center overflow-hidden icon-rotate">
-            <img 
-              src={`/icons/default-app-icon.jpg?t=${new Date().getTime()}`}
-              alt="Fleur de Vie multicolore" 
-              className="w-full h-full object-cover"
-            />
+            <AppIcon />
           </div>
           <CompanyName />
         </div>
