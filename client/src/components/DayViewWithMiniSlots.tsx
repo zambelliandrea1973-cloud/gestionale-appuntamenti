@@ -8,21 +8,7 @@ import AppointmentCard from "./AppointmentCard";
 import AppointmentModal from "./AppointmentModal";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-
-interface Appointment {
-  id: number;
-  startTime: string;
-  endTime: string;
-  client: {
-    firstName: string;
-    lastName: string;
-  };
-  service: {
-    name: string;
-    color: string;
-  };
-  [key: string]: any;
-}
+import { AppointmentWithDetails } from "@shared/schema";
 
 interface DayViewProps {
   selectedDate: Date;
@@ -53,7 +39,7 @@ export default function DayViewWithMiniSlots({ selectedDate, onRefresh }: DayVie
   const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected date
-  const { data: appointments = [], isLoading, refetch } = useQuery<Appointment[]>({
+  const { data: appointments = [], isLoading, refetch } = useQuery<AppointmentWithDetails[]>({
     queryKey: [`/api/appointments/date/${formattedDate}`],
   });
   
