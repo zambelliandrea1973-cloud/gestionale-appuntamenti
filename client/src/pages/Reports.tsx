@@ -68,7 +68,7 @@ export default function Reports() {
   
   // Fetch appointments for the selected date range
   const { data: appointments = [], isLoading: isLoadingAppointments } = useQuery({
-    queryKey: ['/api/appointments/range', start, end],
+    queryKey: [`/api/appointments/range/${start}/${end}`],
   });
   
   // Fetch all services
