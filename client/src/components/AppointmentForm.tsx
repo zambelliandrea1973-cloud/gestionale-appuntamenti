@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { insertAppointmentSchema } from "@shared/schema";
 import { Loader2, X, Calendar, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import {
