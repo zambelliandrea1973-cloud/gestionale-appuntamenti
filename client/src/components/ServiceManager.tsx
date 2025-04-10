@@ -38,8 +38,8 @@ interface Service {
 interface ServiceFormData {
   id?: number;
   name: string;
-  duration: number;
-  price: number;
+  duration: number | string;
+  price: number | string;
   color?: string;
   description?: string;
 }
@@ -156,10 +156,21 @@ export default function ServiceManager() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "number" ? parseFloat(value) || 0 : value,
-    }));
+    
+    if (type === "number") {
+      // Per i campi numerici, se il valore è vuoto, manteniamo una stringa vuota
+      // invece di convertire immediatamente a 0, permettendo all'utente di digitare
+      const newValue = value === "" ? "" : parseFloat(value);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -172,11 +183,18 @@ export default function ServiceManager() {
       });
       return;
     }
+    
+    // Prepara i dati per l'invio, convertendo stringhe vuote o valori non validi in 0
+    const dataToSubmit = {
+      ...formData,
+      duration: typeof formData.duration === 'string' ? parseInt(formData.duration) || 0 : formData.duration,
+      price: typeof formData.price === 'string' ? parseFloat(formData.price) || 0 : formData.price
+    };
 
     if (isEditing && formData.id) {
-      updateServiceMutation.mutate(formData);
+      updateServiceMutation.mutate(dataToSubmit);
     } else {
-      createServiceMutation.mutate(formData);
+      createServiceMutation.mutate(dataToSubmit);
     }
   };
 
