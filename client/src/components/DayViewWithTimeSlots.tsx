@@ -306,19 +306,25 @@ export default function DayViewWithTimeSlots({
           return (
             <div 
               key={appointment.id}
-              className="absolute left-20 right-4 rounded shadow-sm overflow-hidden border-l-4 z-10"
+              className="absolute left-20 right-4 rounded shadow-md overflow-hidden z-10"
               style={{
                 ...styles,
-                borderLeftColor: appointment.service?.color || '#4299e1',
+                borderLeft: `8px solid ${appointment.service?.color || '#4299e1'}`,
+                boxShadow: `0 2px 10px rgba(0,0,0,0.1), 0 0 0 1px ${appointment.service?.color || '#4299e1'}30`
               }}
             >
-              <div className="p-2 bg-white h-full flex flex-col justify-between">
-                <div className="font-medium text-sm truncate">
+              <div 
+                className="p-2 h-full flex flex-col justify-between"
+                style={{
+                  backgroundColor: `${appointment.service?.color || '#4299e1'}20`,
+                }}
+              >
+                <div className="font-semibold text-sm truncate text-gray-800">
                   {appointment.client?.firstName} {appointment.client?.lastName}
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs font-medium" style={{ color: appointment.service?.color || '#4299e1' }}>
                     {appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}
                     <span className="ml-2">{appointment.service?.name}</span>
                   </div>
