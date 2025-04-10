@@ -76,7 +76,7 @@ export const getTimeComponents = (date: Date): { hours: number; minutes: number 
 export const generateTimeSlots = (
   startHour: number = 8,
   endHour: number = 19,
-  intervalMinutes: number = 15 // Cambiato a 15 minuti come default
+  intervalMinutes: number = 60
 ): string[] => {
   const slots: string[] = [];
   const totalMinutesInDay = (endHour - startHour) * 60;
@@ -90,46 +90,6 @@ export const generateTimeSlots = (
   }
 
   return slots;
-};
-
-// Genera slot orari raggruppati per ora, utile per la visualizzazione UI
-export const generateHourlyGroupedTimeSlots = (
-  startHour: number = 8,
-  endHour: number = 19,
-  intervalMinutes: number = 15
-): { hour: string, slots: string[] }[] => {
-  const groupedSlots: { hour: string, slots: string[] }[] = [];
-  const slots = generateTimeSlots(startHour, endHour, intervalMinutes);
-  
-  let currentHour = "";
-  let currentHourSlots: string[] = [];
-  
-  slots.forEach(slot => {
-    const hour = slot.substring(0, 2);
-    
-    if (hour !== currentHour) {
-      if (currentHourSlots.length > 0) {
-        groupedSlots.push({
-          hour: currentHour,
-          slots: currentHourSlots
-        });
-      }
-      currentHour = hour;
-      currentHourSlots = [slot];
-    } else {
-      currentHourSlots.push(slot);
-    }
-  });
-  
-  // Aggiungi l'ultimo gruppo
-  if (currentHourSlots.length > 0) {
-    groupedSlots.push({
-      hour: currentHour,
-      slots: currentHourSlots
-    });
-  }
-  
-  return groupedSlots;
 };
 
 // Calculate end time based on start time and duration
