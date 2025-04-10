@@ -149,10 +149,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
     // Carica il file
     uploadFile(file);
-
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
+    
+    // Non revochiamo l'URL dell'oggetto per mantenere l'anteprima visibile
   };
 
   const uploadFile = async (file: File) => {
@@ -181,7 +179,13 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       await fetchIconInfo();
       
       // Notifica il Service Worker dell'aggiornamento dell'icona
-      notifyServiceWorkerIconUpdate('/icons/app-icon.svg');
+      // Utilizziamo l'iconPath restituito dal server che contiene l'estensione corretta
+      if (data.iconPath) {
+        notifyServiceWorkerIconUpdate(data.iconPath);
+      } else {
+        // Fallback nel caso in cui il server non restituisca il percorso
+        notifyServiceWorkerIconUpdate('/icons/app-icon.jpg');
+      }
       
       toast({
         title: "Icona caricata con successo",
