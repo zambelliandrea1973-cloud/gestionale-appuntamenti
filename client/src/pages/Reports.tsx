@@ -76,6 +76,22 @@ export default function Reports() {
     queryKey: ['/api/services'],
   });
   
+  // Helper function to safely calculate revenue
+  const calculateRevenue = (appointments) => {
+    return appointments.reduce((sum, a) => {
+      // Try to get price from service object first
+      if (a.service && typeof a.service.price === 'number') {
+        return sum + a.service.price;
+      }
+      // If service price is not available, use the service directly from services array
+      const serviceData = services.find(s => s.id === a.serviceId);
+      if (serviceData && typeof serviceData.price === 'number') {
+        return sum + serviceData.price;
+      }
+      return sum;
+    }, 0) / 100;
+  };
+
   // Aggregate data for reports when appointments or report type changes
   useEffect(() => {
     if (appointments.length === 0 || isLoadingAppointments || isLoadingServices) return;
@@ -95,7 +111,7 @@ export default function Reports() {
         return {
           name: format(day, 'EEEE', { locale: it }),
           count: dayAppointments.length,
-          revenue: dayAppointments.reduce((sum, a) => sum + (a.service.price || 0), 0) / 100,
+          revenue: calculateRevenue(dayAppointments),
           date: day
         };
       });
@@ -114,7 +130,7 @@ export default function Reports() {
         return {
           name: format(day, 'd', { locale: it }),
           count: dayAppointments.length,
-          revenue: dayAppointments.reduce((sum, a) => sum + (a.service.price || 0), 0) / 100,
+          revenue: calculateRevenue(dayAppointments),
           date: day
         };
       });
@@ -130,7 +146,7 @@ export default function Reports() {
         return {
           name: format(monthDate, 'MMM', { locale: it }),
           count: monthAppointments.length,
-          revenue: monthAppointments.reduce((sum, a) => sum + (a.service.price || 0), 0) / 100,
+          revenue: calculateRevenue(monthAppointments),
           date: monthDate
         };
       });
@@ -145,7 +161,7 @@ export default function Reports() {
       return {
         name: service.name,
         count: serviceAppointments.length,
-        revenue: serviceAppointments.reduce((sum, a) => sum + (service.price || 0), 0) / 100,
+        revenue: serviceAppointments.length * (service.price || 0) / 100,
         color: service.color || "#3f51b5"
       };
     }).filter(s => s.count > 0);
