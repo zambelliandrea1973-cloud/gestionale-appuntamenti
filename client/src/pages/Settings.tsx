@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
+import ReminderTemplateManager from '@/components/ReminderTemplateManager';
 
 export default function Settings() {
   const [, setLocation] = useLocation();
@@ -35,7 +36,7 @@ export default function Settings() {
       </header>
 
       <Tabs defaultValue="app" className="w-full">
-        <TabsList className="grid grid-cols-4 mb-6">
+        <TabsList className="grid grid-cols-5 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -43,6 +44,10 @@ export default function Settings() {
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
             <span>{t('settings.contacts', 'Contatti')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="notifications" className="flex items-center whitespace-nowrap">
+            <Bell className="mr-2 h-4 w-4" />
+            <span>{t('settings.notifications', 'Promemoria')}</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Calendar className="mr-2 h-4 w-4" />
@@ -85,6 +90,23 @@ export default function Settings() {
           </Card>
         </TabsContent>
 
+        <TabsContent value="notifications">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Bell className="mr-2 h-5 w-5" />
+                {t('settings.notificationsTitle', 'Impostazioni Promemoria')}
+              </CardTitle>
+              <CardDescription>
+                {t('settings.notificationsDesc', 'Gestisci i modelli di promemoria per gli appuntamenti')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ReminderTemplateManager />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
         <TabsContent value="integrations">
           <GoogleCalendarSettings />
         </TabsContent>

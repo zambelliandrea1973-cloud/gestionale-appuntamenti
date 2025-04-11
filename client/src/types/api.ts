@@ -31,3 +31,14 @@ export interface Service {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface ReminderTemplate {
+  id: number;
+  name: string;
+  template: string;
+  serviceId?: number | null;
+  type?: string;
+  isDefault?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

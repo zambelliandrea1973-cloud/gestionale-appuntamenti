@@ -11,7 +11,8 @@ import {
   insertConsentSchema,
   insertInvoiceSchema,
   insertInvoiceItemSchema,
-  insertPaymentSchema
+  insertPaymentSchema,
+  insertReminderTemplateSchema
 } from "@shared/schema";
 import { setupAuth } from "./auth";
 import { tokenService } from "./services/tokenService";
