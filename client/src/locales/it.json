@@ -4,6 +4,12 @@
     "welcome": "Benvenuto nella Gestione Appuntamenti",
     "description": "Gestisci facilmente gli appuntamenti, i clienti e le fatture"
   },
+  "appointment": {
+    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
+    "selected": "Selezionato",
+    "selectSlots": "Seleziona gli slot temporali"
+  },
   "navigation": {
     "home": "Home"
   },
