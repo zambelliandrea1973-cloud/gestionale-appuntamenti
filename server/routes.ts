@@ -2049,5 +2049,166 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Endpoint per i modelli di promemoria
+  app.get('/api/reminder-templates', async (_req: Request, res: Response) => {
+    try {
+      const templates = await storage.getReminderTemplates();
+      res.json(templates);
+    } catch (error) {
+      console.error("Errore durante il recupero dei modelli di promemoria:", error);
+      res.status(500).json({ message: "Error fetching reminder templates" });
+    }
+  });
+
+  app.get('/api/reminder-templates/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid template ID" });
+      }
+
+      const template = await storage.getReminderTemplate(id);
+      if (!template) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+
+      res.json(template);
+    } catch (error) {
+      console.error("Errore durante il recupero del modello di promemoria:", error);
+      res.status(500).json({ message: "Error fetching reminder template" });
+    }
+  });
+
+  app.get('/api/reminder-templates/service/:serviceId', async (req: Request, res: Response) => {
+    try {
+      const serviceId = parseInt(req.params.serviceId);
+      if (isNaN(serviceId)) {
+        return res.status(400).json({ message: "Invalid service ID" });
+      }
+
+      const template = await storage.getReminderTemplateByServiceId(serviceId);
+      if (!template) {
+        // Se non c'è un modello specifico per il servizio, restituisci il modello predefinito
+        const defaultTemplate = await storage.getDefaultReminderTemplate();
+        if (!defaultTemplate) {
+          return res.status(404).json({ message: "No template found for service and no default template" });
+        }
+        return res.json(defaultTemplate);
+      }
+
+      res.json(template);
+    } catch (error) {
+      console.error("Errore durante il recupero del modello di promemoria per servizio:", error);
+      res.status(500).json({ message: "Error fetching reminder template for service" });
+    }
+  });
+
+  app.get('/api/reminder-templates/default', async (_req: Request, res: Response) => {
+    try {
+      const template = await storage.getDefaultReminderTemplate();
+      if (!template) {
+        return res.status(404).json({ message: "No default template found" });
+      }
+
+      res.json(template);
+    } catch (error) {
+      console.error("Errore durante il recupero del modello di promemoria predefinito:", error);
+      res.status(500).json({ message: "Error fetching default reminder template" });
+    }
+  });
+
+  app.post('/api/reminder-templates', async (req: Request, res: Response) => {
+    try {
+      const validationResult = insertReminderTemplateSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid template data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli
+      // dello stesso tipo
+      if (validationResult.data.isDefault) {
+        const existingTemplates = await storage.getReminderTemplates();
+        const defaultTemplatesOfSameType = existingTemplates.filter(
+          t => t.isDefault && t.type === validationResult.data.type
+        );
+        
+        for (const template of defaultTemplatesOfSameType) {
+          await storage.updateReminderTemplate(template.id, { isDefault: false });
+        }
+      }
+
+      const template = await storage.createReminderTemplate(validationResult.data);
+      res.status(201).json(template);
+    } catch (error) {
+      console.error("Errore durante la creazione del modello di promemoria:", error);
+      res.status(500).json({ message: "Error creating reminder template" });
+    }
+  });
+
+  app.put('/api/reminder-templates/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid template ID" });
+      }
+
+      const validationResult = insertReminderTemplateSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid template data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli
+      // dello stesso tipo
+      if (validationResult.data.isDefault) {
+        const template = await storage.getReminderTemplate(id);
+        if (template) {
+          const existingTemplates = await storage.getReminderTemplates();
+          const defaultTemplatesOfSameType = existingTemplates.filter(
+            t => t.id !== id && t.isDefault && t.type === (validationResult.data.type || template.type)
+          );
+          
+          for (const template of defaultTemplatesOfSameType) {
+            await storage.updateReminderTemplate(template.id, { isDefault: false });
+          }
+        }
+      }
+
+      const updatedTemplate = await storage.updateReminderTemplate(id, validationResult.data);
+      if (!updatedTemplate) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+
+      res.json(updatedTemplate);
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento del modello di promemoria:", error);
+      res.status(500).json({ message: "Error updating reminder template" });
+    }
+  });
+
+  app.delete('/api/reminder-templates/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid template ID" });
+      }
+
+      const success = await storage.deleteReminderTemplate(id);
+      if (!success) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+
+      res.status(204).end();
+    } catch (error) {
+      console.error("Errore durante l'eliminazione del modello di promemoria:", error);
+      res.status(500).json({ message: "Error deleting reminder template" });
+    }
+  });
+
   return httpServer;
 }
