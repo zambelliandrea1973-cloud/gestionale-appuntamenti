@@ -309,14 +309,15 @@ export default function DayViewWithTimeSlots({
               className="absolute left-20 right-4 rounded shadow-md overflow-hidden z-10"
               style={{
                 ...styles,
-                borderLeft: `8px solid ${appointment.service?.color || '#4299e1'}`,
-                boxShadow: `0 2px 10px rgba(0,0,0,0.1), 0 0 0 1px ${appointment.service?.color || '#4299e1'}30`
+                border: `1px solid ${appointment.service?.color || '#4299e1'}40`,
+                borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
+                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`
               }}
             >
               <div 
                 className="p-2 h-full flex flex-col justify-between"
                 style={{
-                  backgroundColor: `${appointment.service?.color || '#4299e1'}20`,
+                  backgroundColor: `${appointment.service?.color || '#4299e1'}10`,
                 }}
               >
                 <div className="font-semibold text-sm truncate text-gray-800">
@@ -324,9 +325,9 @@ export default function DayViewWithTimeSlots({
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <div className="text-xs font-medium" style={{ color: appointment.service?.color || '#4299e1' }}>
-                    {appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}
-                    <span className="ml-2">{appointment.service?.name}</span>
+                  <div className="text-xs font-medium flex flex-col" style={{ color: appointment.service?.color || '#4299e1' }}>
+                    <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
+                    <span className="text-gray-600">{appointment.service?.name}</span>
                   </div>
                   
                   <div className="flex gap-1">
