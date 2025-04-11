@@ -225,9 +225,13 @@ export default function Calendar() {
           </div>
           
           <div className="text-sm text-gray-500 w-full sm:w-auto text-center sm:text-right">
-            {view === "day" && `${selectedDate.toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })}`}
-            {view === "week" && t('calendar.weekView')}
-            {view === "month" && t('calendar.monthView')}
+            {/* Mostriamo la data attuale solo in vista mensile e settimanale */}
+            {view !== "day" && (
+              <>
+                {view === "week" && t('calendar.weekView')}
+                {view === "month" && t('calendar.monthView')}
+              </>
+            )}
           </div>
         </div>
       </div>

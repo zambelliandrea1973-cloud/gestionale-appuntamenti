@@ -21,7 +21,7 @@ export function FloatingActionButton({ onClick, text }: FloatingActionButtonProp
   
   return (
     <div 
-      className="fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out shadow-lg"
+      className="fixed top-[6.5rem] right-6 z-50 transition-all duration-300 ease-in-out shadow-lg"
       style={{ 
         transform: 'scale(1.05)',
         animation: 'pulse 2s infinite'
