@@ -451,6 +451,8 @@ export const reminderTemplates = pgTable("reminder_templates", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   template: text("template").notNull(),
+  serviceId: integer("service_id"),
+  type: text("type").default("sms"), // sms, whatsapp, email
   isDefault: boolean("is_default").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -464,3 +466,11 @@ export const insertReminderTemplateSchema = createInsertSchema(reminderTemplates
 
 export type ReminderTemplate = typeof reminderTemplates.$inferSelect;
 export type InsertReminderTemplate = z.infer<typeof insertReminderTemplateSchema>;
+
+export const reminderTemplatesRelations = relations(reminderTemplates, ({ one }) => ({
+  service: one(services, {
+    fields: [reminderTemplates.serviceId],
+    references: [services.id],
+    relationName: "service_reminder_templates",
+  }),
+}));
