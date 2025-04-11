@@ -361,6 +361,7 @@ export default function AppointmentForm({
           startTime: data.startTime + ":00",
           endTime: endTime,
           notes: data.notes || "",
+          reminderType: data.reminderType || "",
           status: "scheduled"
         };
         
