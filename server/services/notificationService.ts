@@ -108,10 +108,34 @@ export const notificationService = {
       
       // Formatta la data e l'ora dell'appuntamento
       const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
-      const startTime = appointment.startTime;
+      const startTime = appointment.startTime.substring(0, 5); // Estrae solo HH:MM
       
-      // Prepara il messaggio
-      const message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento ${service ? `di ${service.name}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
+      // Prova a recuperare un template personalizzato
+      let reminderTemplate = null;
+      if (appointment.serviceId) {
+        // Prima cerca un template specifico per questo servizio
+        reminderTemplate = await storage.getReminderTemplateByService(appointment.serviceId);
+      }
+      
+      // Se non trova un template specifico, usa quello predefinito
+      if (!reminderTemplate) {
+        reminderTemplate = await storage.getDefaultReminderTemplate();
+      }
+      
+      // Prepara il messaggio - se esiste un template lo usa, altrimenti usa un messaggio predefinito
+      let message = '';
+      if (reminderTemplate) {
+        // Sostituisci i placeholder nel template con i dati reali
+        message = reminderTemplate.template
+          .replace('{{nome}}', client.firstName)
+          .replace('{{cognome}}', client.lastName)
+          .replace('{{servizio}}', service ? service.name : 'appuntamento')
+          .replace('{{data}}', appointmentDate)
+          .replace('{{ora}}', startTime);
+      } else {
+        // Messaggio predefinito con data e ora incluse
+        message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento ${service ? `di ${service.name}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
+      }
       
       // Genera un ID univoco per questo messaggio
       const messageId = `${appointment.id}-${appointment.date}-${appointment.startTime}`;
@@ -126,26 +150,51 @@ export const notificationService = {
       messagesPendingDelivery.set(messageId, true);
       
       // Invia il messaggio in base al tipo di promemoria
-      let result;
+      // Ora supporta più canali separati da virgola (es. "sms,whatsapp,email")
+      const reminderTypes = appointment.reminderType.split(',');
+      let successCount = 0;
+      let errorCount = 0;
+      
       try {
-        if (appointment.reminderType === 'sms') {
-          result = await this.sendSMS(client.phone, message);
-        } else if (appointment.reminderType === 'whatsapp') {
-          result = await this.sendWhatsApp(client.phone, message);
-        } else {
-          throw new Error(`Tipo di promemoria non supportato: ${appointment.reminderType}`);
+        for (const type of reminderTypes) {
+          const trimmedType = type.trim();
+          try {
+            if (trimmedType === 'sms') {
+              const result = await this.sendSMS(client.phone, message);
+              console.log(`SMS inviato con successo per l'appuntamento ${appointment.id}`, result.sid);
+              successCount++;
+            } else if (trimmedType === 'whatsapp') {
+              const result = await this.sendWhatsApp(client.phone, message);
+              console.log(`WhatsApp inviato con successo per l'appuntamento ${appointment.id}`, result.sid);
+              successCount++;
+            } else if (trimmedType === 'email' && client.email) {
+              // Per ora registriamo solo l'intenzione di inviare email, da implementare
+              console.log(`Email non implementata per il cliente ${client.id} all'indirizzo ${client.email}`);
+              // In futuro, implementare l'invio effettivo di email
+            } else if (trimmedType !== 'email') {
+              console.warn(`Tipo di promemoria non supportato: ${trimmedType}`);
+              errorCount++;
+            }
+          } catch (err) {
+            console.error(`Errore nell'invio del promemoria di tipo ${trimmedType}:`, err);
+            errorCount++;
+          }
         }
         
-        console.log(`Promemoria inviato con successo per l'appuntamento ${appointment.id}`, result.sid);
-        
-        // Aggiorna il flag dell'appuntamento per indicare che il promemoria è stato inviato
-        await storage.updateAppointment(appointment.id, { reminderStatus: 'sent' });
+        // Aggiorna lo stato del promemoria
+        if (successCount > 0) {
+          await storage.updateAppointment(appointment.id, { reminderStatus: 'sent' });
+          console.log(`Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
+        } else {
+          await storage.updateAppointment(appointment.id, { reminderStatus: 'failed' });
+          console.error(`Tutti i tentativi di invio promemoria per l'appuntamento ${appointment.id} sono falliti`);
+        }
       } finally {
         // Rimuovi il flag anche in caso di errore
         messagesPendingDelivery.delete(messageId);
       }
       
-      return true;
+      return successCount > 0;
     } catch (error) {
       console.error(`Errore nell'invio del promemoria per l'appuntamento ${appointment.id}:`, error);
       return false;

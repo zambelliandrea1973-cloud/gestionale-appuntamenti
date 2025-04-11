@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertAppointmentSchema } from "@shared/schema";
-import { Loader2, X, Calendar, Clock } from "lucide-react";
+import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
 
@@ -200,6 +201,7 @@ export default function AppointmentForm({
         startTime: data.startTime + ":00",
         endTime: endTime,
         notes: data.notes || "",
+        reminderType: data.reminderType || "",
         status: "scheduled"
       };
       
@@ -783,6 +785,90 @@ export default function AppointmentForm({
                   </div>
                 </div>
               )}
+            </div>
+            
+            {/* Reminder Type - Canali promemoria */}
+            <div className="mt-4">
+              <h3 className="font-medium text-sm mb-2 flex items-center">
+                <Bell className="h-4 w-4 mr-2" />
+                Canali di notifica promemoria
+              </h3>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="reminderSMS" 
+                    className="data-[state=checked]:bg-green-600"
+                    checked={appointment?.reminderType?.includes('sms')}
+                    onCheckedChange={(checked) => {
+                      const currentReminders = form.getValues().reminderType || '';
+                      const types = currentReminders ? currentReminders.split(',') : [];
+                      if (checked) {
+                        if (!types.includes('sms')) types.push('sms');
+                      } else {
+                        const index = types.indexOf('sms');
+                        if (index !== -1) types.splice(index, 1);
+                      }
+                      form.setValue('reminderType', types.join(','));
+                    }}
+                  />
+                  <label
+                    htmlFor="reminderSMS"
+                    className="text-sm font-medium flex items-center leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    <Smartphone className="h-4 w-4 mr-1" /> SMS
+                  </label>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="reminderWhatsApp" 
+                    className="data-[state=checked]:bg-green-600"
+                    checked={appointment?.reminderType?.includes('whatsapp')}
+                    onCheckedChange={(checked) => {
+                      const currentReminders = form.getValues().reminderType || '';
+                      const types = currentReminders ? currentReminders.split(',') : [];
+                      if (checked) {
+                        if (!types.includes('whatsapp')) types.push('whatsapp');
+                      } else {
+                        const index = types.indexOf('whatsapp');
+                        if (index !== -1) types.splice(index, 1);
+                      }
+                      form.setValue('reminderType', types.join(','));
+                    }}
+                  />
+                  <label
+                    htmlFor="reminderWhatsApp"
+                    className="text-sm font-medium flex items-center leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    <MessageSquare className="h-4 w-4 mr-1" /> WhatsApp
+                  </label>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="reminderEmail" 
+                    className="data-[state=checked]:bg-green-600"
+                    checked={appointment?.reminderType?.includes('email')}
+                    onCheckedChange={(checked) => {
+                      const currentReminders = form.getValues().reminderType || '';
+                      const types = currentReminders ? currentReminders.split(',') : [];
+                      if (checked) {
+                        if (!types.includes('email')) types.push('email');
+                      } else {
+                        const index = types.indexOf('email');
+                        if (index !== -1) types.splice(index, 1);
+                      }
+                      form.setValue('reminderType', types.join(','));
+                    }}
+                  />
+                  <label
+                    htmlFor="reminderEmail"
+                    className="text-sm font-medium flex items-center leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    <MailIcon className="h-4 w-4 mr-1" /> Email
+                  </label>
+                </div>
+              </div>
             </div>
             
             {/* Notes */}
