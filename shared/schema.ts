@@ -445,3 +445,22 @@ export type InvoiceItemWithDetails = InvoiceItem & {
   service?: Service;
   appointment?: Appointment;
 };
+
+// Template per i promemoria degli appuntamenti
+export const reminderTemplates = pgTable("reminder_templates", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  template: text("template").notNull(),
+  isDefault: boolean("is_default").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReminderTemplateSchema = createInsertSchema(reminderTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ReminderTemplate = typeof reminderTemplates.$inferSelect;
+export type InsertReminderTemplate = z.infer<typeof insertReminderTemplateSchema>;
