@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, Trash2, Edit, Plus } from "lucide-react";
@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import AppointmentModal from "./AppointmentModal";
+import { FloatingActionButton } from "./FloatingActionButton";
 import { AppointmentWithDetails, Service } from "../types/api";
 import { formatDateForApi, formatTime, calculateEndTime, addMinutes } from "@/lib/utils/date";
 
@@ -240,9 +241,7 @@ export default function DayViewWithTimeSlots({
     <Card className="p-4">
       {/* Controlli per la selezione degli slot */}
       <div className="mb-4 flex flex-wrap gap-2">
-        {!isSelectionMode ? (
-          <Button onClick={startSelectionMode}>{t("calendar.selectTimeNewAppointment")}</Button>
-        ) : (
+        {isSelectionMode && (
           <>
             <Button onClick={completeSelection}>{t("calendar.confirmAndAssociateClient")}</Button>
             <Button variant="outline" onClick={cancelSelection}>{t("common.cancel")}</Button>
@@ -259,6 +258,14 @@ export default function DayViewWithTimeSlots({
           </>
         )}
       </div>
+      
+      {/* Pulsante flottante per nuovo appuntamento */}
+      {!isSelectionMode && (
+        <FloatingActionButton 
+          onClick={startSelectionMode} 
+          text={t("calendar.selectTimeNewAppointment")} 
+        />
+      )}
 
       {/* Griglia degli slot orari */}
       <div className="relative grid grid-cols-1 gap-0 mt-4">
