@@ -14,6 +14,7 @@ import {
   clientNotes, type ClientNote, type InsertClientNote,
   googleCalendarEvents, type GoogleCalendarEvent, type InsertGoogleCalendarEvent,
   googleCalendarSettings, type GoogleCalendarSettings, type InsertGoogleCalendarSettings,
+  reminderTemplates, type ReminderTemplate, type InsertReminderTemplate,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -32,6 +33,14 @@ export interface IStorage {
   createClient(client: InsertClient): Promise<Client>;
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
+  
+  // Reminder Template operations
+  getReminderTemplate(id: number): Promise<ReminderTemplate | undefined>;
+  getReminderTemplates(): Promise<ReminderTemplate[]>;
+  getDefaultReminderTemplate(): Promise<ReminderTemplate | undefined>;
+  createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate>;
+  updateReminderTemplate(id: number, template: Partial<InsertReminderTemplate>): Promise<ReminderTemplate | undefined>;
+  deleteReminderTemplate(id: number): Promise<boolean>;
   
   // Service operations
   getService(id: number): Promise<Service | undefined>;
