@@ -314,7 +314,7 @@ export default function ReminderTemplateManager() {
                   <SelectValue placeholder={t('settings.reminderTemplates.selectService', 'Tutti i servizi')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{t('settings.reminderTemplates.allServices', 'Tutti i servizi')}</SelectItem>
+                  <SelectItem value="0">{t('settings.reminderTemplates.allServices', 'Tutti i servizi')}</SelectItem>
                   {services?.map(service => (
                     <SelectItem key={service.id} value={service.id.toString()}>
                       {service.name}
