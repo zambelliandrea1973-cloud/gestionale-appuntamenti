@@ -112,7 +112,8 @@ export default function AppointmentForm({
       serviceId: 0,
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
-      notes: ""
+      notes: "",
+      reminderType: "sms" // Imposta SMS come valore predefinito
     }
   });
 
