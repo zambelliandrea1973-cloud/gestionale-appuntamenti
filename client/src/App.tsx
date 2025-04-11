@@ -13,6 +13,7 @@ import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";
 import ClientLogin from "./pages/ClientLogin";
 import ClientArea from "./pages/ClientArea";
+import ConsentPage from "./pages/ConsentPage";
 import NotFound from "./pages/not-found";
 
 /**
@@ -56,6 +57,13 @@ function AppRoutes() {
       <Route path="/client-area">
         <ClientPageWrapper>
           <ClientArea />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina consenso privacy con layout cliente */}
+      <Route path="/consent">
+        <ClientPageWrapper>
+          <ConsentPage />
         </ClientPageWrapper>
       </Route>
       
