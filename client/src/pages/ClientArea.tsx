@@ -337,11 +337,7 @@ export default function ClientArea() {
                         </div>
                       </div>
                       <div className="flex flex-col md:flex-row gap-2">
-                        {!isExpired && appointment.status !== "completed" && (
-                          <Button variant="outline" size="sm">
-                            Modifica
-                          </Button>
-                        )}
+                        {/* Rimosso il pulsante di modifica degli appuntamenti per i clienti */}
                         
                         {appointment.reminderSent && !appointment.reminderConfirmed && !isExpired && (
                           <Button 
