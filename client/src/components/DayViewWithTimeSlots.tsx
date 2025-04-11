@@ -95,13 +95,13 @@ export default function DayViewWithTimeSlots({
     const durationMinutes = totalEndMinutes - totalStartMinutes;
     
     // Converti in unità relative alla griglia
-    const top = totalStartMinutes / 15 * 40; // 40px per ogni slot da 15 minuti
-    const height = durationMinutes / 15 * 40;
+    // 40px per ogni slot da 15 minuti, -2px per migliorare la centratura
+    const top = (totalStartMinutes / 15 * 40) - 1; 
+    const height = (durationMinutes / 15 * 40) + 2; // +2px per evitare spazi vuoti
     
     return {
       top: `${top}px`,
       height: `${height}px`,
-      backgroundColor: appointment.service?.color || '#4299e1',
     };
   };
 
@@ -241,19 +241,19 @@ export default function DayViewWithTimeSlots({
       {/* Controlli per la selezione degli slot */}
       <div className="mb-4 flex flex-wrap gap-2">
         {!isSelectionMode ? (
-          <Button onClick={startSelectionMode}>{t("appointment.selectTimeSlots")}</Button>
+          <Button onClick={startSelectionMode}>{t("calendar.selectTimeNewAppointment")}</Button>
         ) : (
           <>
-            <Button onClick={completeSelection}>{t("appointment.confirmAndAssociateClient")}</Button>
+            <Button onClick={completeSelection}>{t("calendar.confirmAndAssociateClient")}</Button>
             <Button variant="outline" onClick={cancelSelection}>{t("common.cancel")}</Button>
             <div className="ml-auto text-sm text-gray-500">
               {selectedSlots.length > 0 ? (
                 <span>
-                  {t("appointment.selected")}: {selectedSlots[0]} - 
+                  {t("calendar.selected")}: {selectedSlots[0]} - 
                   {calculateEndTime(selectedSlots[selectedSlots.length - 1], 15)}
                 </span>
               ) : (
-                <span>{t("appointment.selectSlots")}</span>
+                <span>{t("calendar.select")}</span>
               )}
             </div>
           </>
