@@ -23,13 +23,11 @@ export default function ReminderTemplateManager() {
     name: string;
     template: string;
     type: string;
-    serviceId: number | null;
     isDefault: boolean;
   }>({
     name: '',
     template: '',
     type: 'sms',
-    serviceId: null,
     isDefault: false,
   });
 
@@ -120,7 +118,6 @@ export default function ReminderTemplateManager() {
       name: '',
       template: '',
       type: 'sms',
-      serviceId: null,
       isDefault: false,
     });
     setEditingTemplate(null);
@@ -137,7 +134,6 @@ export default function ReminderTemplateManager() {
       name: template.name,
       template: template.template,
       type: template.type || 'sms',
-      serviceId: template.serviceId || null,
       isDefault: template.isDefault || false,
     });
     setIsFormOpen(true);
@@ -184,7 +180,7 @@ export default function ReminderTemplateManager() {
       </div>
 
       <p className="text-sm text-muted-foreground mb-4">
-        {t('settings.reminderTemplates.description', 'Personalizza i messaggi di promemoria inviati ai clienti per gli appuntamenti. Puoi creare modelli generici o specifici per ciascun servizio.')}
+        {t('settings.reminderTemplates.description', 'Personalizza i messaggi di promemoria inviati ai clienti per gli appuntamenti.')}
       </p>
 
       <div className="space-y-4">
@@ -211,11 +207,7 @@ export default function ReminderTemplateManager() {
                         </span>
                       )}
                     </div>
-                    {template.serviceId && services?.find(s => s.id === template.serviceId) && (
-                      <div className="text-sm text-muted-foreground mb-2">
-                        {t('settings.reminderTemplates.forService', 'Per il servizio')}: {services.find(s => s.id === template.serviceId)?.name}
-                      </div>
-                    )}
+
                     <p className="text-sm whitespace-pre-line border-l-2 border-gray-200 pl-3 py-1 mt-2">
                       {template.template}
                     </p>
@@ -301,31 +293,7 @@ export default function ReminderTemplateManager() {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="service">{t('settings.reminderTemplates.service', 'Servizio (opzionale)')}</Label>
-              <Select 
-                value={formData.serviceId?.toString() || ""}
-                onValueChange={(value) => setFormData(prev => ({ 
-                  ...prev, 
-                  serviceId: value ? parseInt(value) : null 
-                }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t('settings.reminderTemplates.selectService', 'Tutti i servizi')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0">{t('settings.reminderTemplates.allServices', 'Tutti i servizi')}</SelectItem>
-                  {services?.map(service => (
-                    <SelectItem key={service.id} value={service.id.toString()}>
-                      {service.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground">
-                {t('settings.reminderTemplates.serviceHelp', 'Se selezionato, questo modello verrà usato solo per gli appuntamenti con questo servizio.')}
-              </p>
-            </div>
+
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
