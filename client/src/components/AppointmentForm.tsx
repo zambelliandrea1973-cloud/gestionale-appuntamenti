@@ -790,17 +790,17 @@ export default function AppointmentForm({
             </div>
             
             {/* Reminder Type - Canali promemoria */}
-            <div className="mt-4">
-              <h3 className="font-medium text-sm mb-2 flex items-center">
-                <Bell className="h-4 w-4 mr-2" />
-                Canali di notifica promemoria
+            <div className="mt-4 p-3 border-2 border-dashed border-green-200 rounded-md bg-green-50">
+              <h3 className="font-medium text-base mb-3 flex items-center text-green-700">
+                <Bell className="h-5 w-5 mr-2" />
+                Seleziona Canali di Notifica
               </h3>
               <div className="grid grid-cols-3 gap-4">
                 <div className="flex items-center space-x-2">
                   <Checkbox 
                     id="reminderSMS" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={appointment?.reminderType?.includes('sms')}
+                    checked={form.getValues().reminderType?.includes('sms') || true}
                     onCheckedChange={(checked) => {
                       const currentReminders = form.getValues().reminderType || '';
                       const types = currentReminders ? currentReminders.split(',') : [];
@@ -825,7 +825,7 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderWhatsApp" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={appointment?.reminderType?.includes('whatsapp')}
+                    checked={form.getValues().reminderType?.includes('whatsapp')}
                     onCheckedChange={(checked) => {
                       const currentReminders = form.getValues().reminderType || '';
                       const types = currentReminders ? currentReminders.split(',') : [];
@@ -850,7 +850,7 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderEmail" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={appointment?.reminderType?.includes('email')}
+                    checked={form.getValues().reminderType?.includes('email')}
                     onCheckedChange={(checked) => {
                       const currentReminders = form.getValues().reminderType || '';
                       const types = currentReminders ? currentReminders.split(',') : [];
