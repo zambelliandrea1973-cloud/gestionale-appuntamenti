@@ -800,16 +800,20 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderSMS" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={form.getValues().reminderType?.includes('sms') || true}
+                    checked={true} 
+                    defaultChecked={true}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || '';
-                      const types = currentReminders ? currentReminders.split(',') : [];
+                      const currentReminders = form.getValues().reminderType || 'sms';
+                      let types = currentReminders ? currentReminders.split(',') : ['sms'];
+                      
                       if (checked) {
                         if (!types.includes('sms')) types.push('sms');
                       } else {
                         const index = types.indexOf('sms');
                         if (index !== -1) types.splice(index, 1);
                       }
+                      
+                      console.log("SMS checkbox: setting value to", types.join(','));
                       form.setValue('reminderType', types.join(','));
                     }}
                   />
@@ -825,16 +829,18 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderWhatsApp" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={form.getValues().reminderType?.includes('whatsapp')}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || '';
-                      const types = currentReminders ? currentReminders.split(',') : [];
+                      const currentReminders = form.getValues().reminderType || 'sms';
+                      let types = currentReminders ? currentReminders.split(',') : ['sms'];
+                      
                       if (checked) {
                         if (!types.includes('whatsapp')) types.push('whatsapp');
                       } else {
                         const index = types.indexOf('whatsapp');
                         if (index !== -1) types.splice(index, 1);
                       }
+                      
+                      console.log("WhatsApp checkbox: setting value to", types.join(','));
                       form.setValue('reminderType', types.join(','));
                     }}
                   />
@@ -850,16 +856,18 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderEmail" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={form.getValues().reminderType?.includes('email')}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || '';
-                      const types = currentReminders ? currentReminders.split(',') : [];
+                      const currentReminders = form.getValues().reminderType || 'sms';
+                      let types = currentReminders ? currentReminders.split(',') : ['sms'];
+                      
                       if (checked) {
                         if (!types.includes('email')) types.push('email');
                       } else {
                         const index = types.indexOf('email');
                         if (index !== -1) types.splice(index, 1);
                       }
+                      
+                      console.log("Email checkbox: setting value to", types.join(','));
                       form.setValue('reminderType', types.join(','));
                     }}
                   />
