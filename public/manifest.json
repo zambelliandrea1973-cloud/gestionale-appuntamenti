@@ -19,7 +19,7 @@
   "id": "/",
   "icons": [
     {
-      "src": "/icons/app-icon.jpg",
+      "src": "/icons/default-app-icon.jpg",
       "sizes": "any",
       "type": "image/jpeg",
       "purpose": "any"
