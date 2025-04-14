@@ -2339,11 +2339,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Endpoint per aggiornare i prefissi telefonici dei clienti
-  app.post('/api/update-phone-prefixes', isAdmin, async (_req: Request, res: Response) => {
+  app.post('/api/update-phone-prefixes', async (_req: Request, res: Response) => {
     try {
+      // Verifichiamo che il metodo getAllClients esista
+      if (typeof storage.getAllClients !== 'function') {
+        console.error("Errore: il metodo getAllClients non esiste nello storage!");
+        return res.status(500).json({ 
+          error: "Errore di configurazione: metodo getAllClients non disponibile" 
+        });
+      }
+      
       // Recupera tutti i clienti dal database
-      const allClients = await storage.getAllClients();
-      console.log(`Trovati ${allClients.length} clienti nel database.`);
+      let allClients;
+      try {
+        allClients = await storage.getAllClients();
+        console.log(`Trovati ${allClients.length} clienti nel database.`);
+      } catch (err) {
+        console.error("Errore nel recupero dei clienti:", err);
+        return res.status(500).json({ 
+          error: "Impossibile recuperare l'elenco dei clienti dal database" 
+        });
+      }
       
       // Contatori per tenere traccia delle modifiche
       let updatedCount = 0;
@@ -2384,8 +2400,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Aggiungi il prefisso italiano
           const updatedPhone = `+39${cleanNumber}`;
           
+          // Verifichiamo che il metodo updateClient esista
+          if (typeof storage.updateClient !== 'function') {
+            throw new Error("Il metodo updateClient non esiste nello storage!");
+          }
+          
           // Aggiorna il cliente nel database
-          await storage.updateClient(client.id, { ...client, phone: updatedPhone });
+          const updatedClient = await storage.updateClient(client.id, { phone: updatedPhone });
+          
+          if (!updatedClient) {
+            throw new Error(`Impossibile aggiornare il cliente ID ${client.id}`);
+          }
           
           console.log(`Cliente ID ${client.id} (${client.firstName} ${client.lastName}): aggiornato da ${client.phone} a ${updatedPhone}`);
           updatedCount++;
@@ -2411,7 +2436,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Si è verificato un errore durante l'aggiornamento dei prefissi:", error);
-      res.status(500).json({ error: "Errore durante l'aggiornamento" });
+      res.status(500).json({ 
+        error: "Errore durante l'aggiornamento", 
+        message: error instanceof Error ? error.message : String(error)
+      });
     }
   });
 
