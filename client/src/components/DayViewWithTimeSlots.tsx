@@ -121,41 +121,39 @@ export default function DayViewWithTimeSlots({
       app.startTime.substring(0, 5) === startTime
     );
     
-    // Trova la posizione di questo appuntamento nel gruppo di appuntamenti con lo stesso orario di inizio
-    const sameTimeIndex = sameTimeAppointments.findIndex(app => 
-      app.id < appointment.id  // Ordina per ID per mantenere coerenza
-    ) + 1; // +1 perché il primo appuntamento è all'indice 0
+    // Calcola l'indice di questo appuntamento
+    const appointmentIndex = sameTimeAppointments.length > 0 
+      ? [...sameTimeAppointments, appointment]
+        .sort((a, b) => a.id - b.id)
+        .findIndex(app => app.id === appointment.id)
+      : 0;
     
     // Calcola il numero totale di appuntamenti allo stesso orario
     const totalSameTime = sameTimeAppointments.length + 1;
     
     // Imposta l'offset e la larghezza in base alla presenza di sovrapposizioni
     let leftPosition = 70; // Inizia dopo i numeri degli orari (~ 70px)
-    let widthValue = 'calc(100% - 74px)'; // Larghezza predefinita
+    let widthValue = 'calc(100% - 76px)'; // Larghezza predefinita
     
+    // Versione semplificata: usiamo un offset più drastico per non sovrapporre mai
     if (totalSameTime > 1) {
-      // Calcola la larghezza per ogni appuntamento sovrapposto
-      const baseWidth = Math.floor((100 - 15) / totalSameTime); // 15% di spazio riservato
+      // Dividiamo la larghezza disponibile (escludendo 70px per gli orari) in modo equo
+      const containerWidth = 100 - 25; // Riserviamo il 25% dello spazio per margini
+      const singleWidth = Math.floor(containerWidth / totalSameTime);
       
-      // Determina la posizione per questo appuntamento in particolare
-      if (sameTimeIndex === 0) {
-        // Il primo appuntamento parte dal bordo sinistro
-        leftPosition = 70;
-        widthValue = `${baseWidth}%`;
-      } else {
-        // Gli altri appuntamenti sono distribuiti a destra
-        const adjustedWidth = Math.max(baseWidth - 2, 20); // Garantisci almeno 20% di larghezza
-        leftPosition = 70 + (sameTimeIndex * adjustedWidth);
-        widthValue = `${adjustedWidth}%`;
-      }
+      // Calcola offset in modo che gli appuntamenti siano distribuiti orizzontalmente
+      leftPosition = 25 + (appointmentIndex * singleWidth);
+      
+      // Larghezza = percentuale della larghezza totale divisa per numero di appuntamenti
+      widthValue = `${singleWidth}%`;
     }
     
     return {
       top: `${top}px`,
       height: `${height}px`,
       width: widthValue,
-      left: `${leftPosition}px`,
-      zIndex: 10 + sameTimeIndex, // Assicura che gli appuntamenti sovrapposti abbiano z-index diversi
+      left: `${leftPosition}%`, // Nota l'uso di % invece di px
+      zIndex: 10 + appointmentIndex,
     };
   };
 
@@ -357,7 +355,6 @@ export default function DayViewWithTimeSlots({
               className="absolute rounded shadow-md overflow-hidden z-10"
               style={{
                 ...styles,
-                right: '4px',
                 border: `1px solid ${appointment.service?.color || '#4299e1'}40`,
                 borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
                 boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`
@@ -421,9 +418,10 @@ export default function DayViewWithTimeSlots({
           <Button onClick={cancelSelection} variant="outline" className="shadow-md">
             {t('common.cancel')}
           </Button>
-          <Button onClick={completeSelection} className="shadow-md">
-            {t('calendar.confirmAndAssociateClient')}
-          </Button>
+          <FloatingActionButton 
+            onClick={completeSelection} 
+            text={t('calendar.confirmAndAssociateClient')}
+          />
         </div>
       ) : (
         <FloatingActionButton 
