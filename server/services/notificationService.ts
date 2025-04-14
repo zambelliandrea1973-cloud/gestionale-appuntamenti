@@ -207,27 +207,57 @@ export const notificationService = {
    */
   async processReminders(): Promise<number> {
     try {
-      // Ottieni la data di domani
-      const tomorrow = addDays(new Date(), 1);
-      const tomorrowStr = format(tomorrow, 'yyyy-MM-dd');
+      const now = new Date();
+      const nowPlus24Hours = addDays(now, 1);
+      const nowPlus25Hours = new Date(nowPlus24Hours.getTime() + 60 * 60 * 1000); // +1 ora
       
-      console.log(`Elaborazione promemoria per gli appuntamenti del ${tomorrowStr}`);
+      // Ottieni le date nel formato yyyy-MM-dd per oggi e domani
+      const todayStr = format(now, 'yyyy-MM-dd');
+      const tomorrowStr = format(nowPlus24Hours, 'yyyy-MM-dd');
       
-      // Recupera tutti gli appuntamenti di domani
-      const appointments = await storage.getAppointmentsByDate(tomorrowStr);
+      console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
       
-      console.log(`Trovati ${appointments.length} appuntamenti per domani`);
+      // Recupera tutti gli appuntamenti di oggi e domani
+      let appointments = [];
+      
+      // Recupera appuntamenti di oggi
+      const todayAppointments = await storage.getAppointmentsByDate(todayStr);
+      // Recupera appuntamenti di domani
+      const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrowStr);
+      
+      // Combina gli appuntamenti
+      appointments = [...todayAppointments, ...tomorrowAppointments];
+      
+      console.log(`Trovati ${appointments.length} appuntamenti potenziali (${todayAppointments.length} oggi, ${tomorrowAppointments.length} domani)`);
       
       let remindersSent = 0;
+      const apptsToRemind = [];
       
-      // Per ogni appuntamento, invia un promemoria se necessario
+      // Filtra gli appuntamenti per trovare quelli nelle prossime 24-25 ore
       for (const appointment of appointments) {
         // Salta gli appuntamenti senza tipo di promemoria o con promemoria già inviato
         if (!appointment.reminderType || appointment.reminderStatus === 'sent') {
           continue;
         }
         
-        // Invia il promemoria
+        // Crea un oggetto Date per l'appuntamento
+        const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
+        
+        // Calcola la differenza in ore tra l'appuntamento e ora
+        const hoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+        
+        // Verifica se l'appuntamento è tra 23 e 25 ore nel futuro
+        // Usiamo 23 invece di 24 per dare un po' di margine e non perderci promemoria
+        if (hoursDiff >= 23 && hoursDiff <= 25) {
+          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
+          apptsToRemind.push(appointment);
+        }
+      }
+      
+      console.log(`Trovati ${apptsToRemind.length} appuntamenti che necessitano di promemoria nelle prossime 24-25 ore`);
+      
+      // Invia i promemoria
+      for (const appointment of apptsToRemind) {
         const success = await this.sendAppointmentReminder(appointment);
         
         if (success) {
@@ -235,7 +265,7 @@ export const notificationService = {
         }
       }
       
-      console.log(`Inviati ${remindersSent}/${appointments.length} promemoria`);
+      console.log(`Inviati ${remindersSent}/${apptsToRemind.length} promemoria`);
       
       return remindersSent;
     } catch (error) {

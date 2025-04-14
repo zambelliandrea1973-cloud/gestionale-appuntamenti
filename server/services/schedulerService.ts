@@ -7,22 +7,34 @@ import { notificationService } from './notificationService';
 export const schedulerService = {
   /**
    * Avvia il servizio di pianificazione dei promemoria degli appuntamenti
-   * Verifica ogni giorno alle 10:00 gli appuntamenti di domani e invia i promemoria
+   * Verifica ogni ora gli appuntamenti delle prossime 24-25 ore e invia i promemoria 
    */
   startReminderScheduler(): void {
-    // Cron job che viene eseguito ogni giorno alle 10:00
+    // Cron job che viene eseguito ogni ora (al minuto 0)
     // Formato cron: second(0-59) minute(0-59) hour(0-23) day-of-month(1-31) month(1-12) day-of-week(0-6, 0=Sunday)
-    cron.schedule('0 0 10 * * *', async () => {
-      console.log('Esecuzione del job di promemoria appuntamenti:', new Date().toISOString());
+    cron.schedule('0 0 * * * *', async () => {
+      const now = new Date();
+      console.log('Esecuzione del job di promemoria appuntamenti:', now.toISOString());
       
       try {
-        // Elabora i promemoria per gli appuntamenti di domani
+        // Elabora i promemoria per gli appuntamenti delle prossime 24-25 ore
         const sentCount = await notificationService.processReminders();
         console.log(`Job completato: inviati ${sentCount} promemoria`);
       } catch (error) {
         console.error('Errore nell\'esecuzione del job di promemoria:', error);
       }
     });
+    
+    // Eseguiamo il job immediatamente all'avvio per verificare eventuali promemoria pendenti
+    setTimeout(async () => {
+      try {
+        console.log('Esecuzione immediata del job di promemoria all\'avvio del server');
+        const sentCount = await notificationService.processReminders();
+        console.log(`Job iniziale completato: inviati ${sentCount} promemoria`);
+      } catch (error) {
+        console.error('Errore nell\'esecuzione iniziale del job di promemoria:', error);
+      }
+    }, 5000); // Esegui dopo 5 secondi dall'avvio per permettere alle connessioni di stabilizzarsi
     
     console.log('Scheduler dei promemoria avviato con successo');
   },
