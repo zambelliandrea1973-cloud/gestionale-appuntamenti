@@ -156,6 +156,9 @@ export default function DayViewWithTimeSlots({
 
   // Calcola la posizione e l'offset dell'appuntamento per evitare sovrapposizioni
   const calculateAppointmentPosition = (appointment: AppointmentWithDetails) => {
+    // Debug per capire l'appuntamento in corso
+    console.log(`Calcolo posizione per appuntamento: ${appointment.startTime} - ${appointment.endTime}`);
+    
     const startTime = appointment.startTime.substring(0, 5);
     const endTime = appointment.endTime.substring(0, 5);
     
@@ -172,8 +175,12 @@ export default function DayViewWithTimeSlots({
     
     // Converti in unità relative alla griglia
     // 40px per ogni slot da 15 minuti (altezza degli slot)
-    const top = (totalStartMinutes / 15 * 40); // Rimuoviamo l'offset di -1px per allineare correttamente 
-    const height = (durationMinutes / 15 * 40); // Rimuoviamo l'aggiunta di 2px per uniformare la dimensione
+    // Aggiungiamo +1px per allineare esattamente alle linee del calendario
+    const top = Math.round(totalStartMinutes / 15 * 40); 
+    const height = Math.round(durationMinutes / 15 * 40); // Arrotondiamo per evitare problemi di dimensione frazionaria
+    
+    // Debug per verificare i valori calcolati
+    console.log(`  | Orario: ${startTime}-${endTime}, Posizione top: ${top}px, Altezza: ${height}px`);
     
     // Verifica se ci sono altri appuntamenti che si sovrappongono
     const overlappingAppointments = appointments.filter(app => {
@@ -445,12 +452,10 @@ export default function DayViewWithTimeSlots({
               left: '70px', // Fissato all'inizio della griglia (dopo la colonna orari)
               transition: 'all 0.25s ease-in-out',
               boxShadow: `0 6px 24px rgba(0,0,0,0.25), 0 0 0 2px ${appointment.service?.color || '#4299e1'}70`,
-              borderWidth: '1px',
-              borderLeftWidth: '12px', // Mantiene il bordo sinistro colorato con lo stesso colore
-              borderLeftColor: `${appointment.service?.color || '#4299e1'}`,
               backgroundColor: '#ffffff', // Sfondo completamente opaco (bianco)
               maxHeight: 'none', // Permettiamo l'espansione in altezza se necessario
               padding: '2px' // Piccolo padding aggiuntivo
+              // Rimuoviamo borderWidth e borderLeftWidth da qui per evitare sovrapposizioni
             };
           }
           
