@@ -16,6 +16,7 @@ import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
 import TestSmsPage from "./pages/TestSmsPage";
 import NotFound from "./pages/not-found";
+import TimezoneDetector from "./components/TimezoneDetector";
 
 /**
  * Wrapper per le pagine client (con layout cliente)
@@ -123,6 +124,8 @@ function AppRoutes() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
+      <TimezoneDetector />
       <WouterRouter>
         <AppRoutes />
       </WouterRouter>

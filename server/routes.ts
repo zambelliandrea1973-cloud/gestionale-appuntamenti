@@ -2453,5 +2453,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Endpoint specifico per la gestione del fuso orario
+  app.get('/api/timezone-settings', async (_req: Request, res: Response) => {
+    try {
+      // Ottieni le impostazioni del fuso orario
+      const timezoneSetting = await storage.getSetting('timezone');
+      
+      // Se non esiste, restituisci il fuso orario di default (Europa/Roma)
+      if (!timezoneSetting) {
+        return res.json({ 
+          timezone: 'Europe/Rome', 
+          offset: 2, 
+          name: 'Central European Summer Time (CEST)',
+          info: 'Questo è il fuso orario predefinito (Italia)'
+        });
+      }
+      
+      res.json(JSON.parse(timezoneSetting.value));
+    } catch (error) {
+      console.error("Errore nel recupero delle impostazioni del fuso orario:", error);
+      res.status(500).json({ success: false, message: 'Errore nel recupero delle impostazioni del fuso orario' });
+    }
+  });
+  
+  app.post('/api/timezone-settings', async (req: Request, res: Response) => {
+    try {
+      const { timezone, offset, name } = req.body;
+      
+      if (!timezone || offset === undefined || !name) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'I parametri timezone, offset e name sono obbligatori' 
+        });
+      }
+      
+      const timezoneData = {
+        timezone,
+        offset,
+        name,
+        updatedAt: new Date().toISOString()
+      };
+      
+      // Salva le impostazioni del fuso orario
+      const setting = await storage.saveSetting(
+        'timezone', 
+        JSON.stringify(timezoneData),
+        'Impostazioni del fuso orario per l\'applicazione',
+        'system'
+      );
+      
+      res.json({ 
+        success: true, 
+        message: 'Impostazioni del fuso orario salvate con successo',
+        data: JSON.parse(setting.value)
+      });
+    } catch (error) {
+      console.error("Errore nel salvataggio delle impostazioni del fuso orario:", error);
+      res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni del fuso orario' });
+    }
+  });
+
   return httpServer;
 }
