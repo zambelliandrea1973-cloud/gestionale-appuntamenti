@@ -74,9 +74,9 @@ export default function FooterContactIcons() {
   }
 
   return (
-    <Card className="border border-primary/20 shadow-sm bg-white/90 backdrop-blur-sm">
-      <CardHeader className="py-2 px-4 bg-primary/10 border-b border-primary/20">
-        <h3 className="text-sm font-medium text-primary text-center">
+    <Card className="border-2 border-primary/40 shadow-md bg-white/95 backdrop-blur-sm hover:shadow-lg transition-all">
+      <CardHeader className="py-2 px-4 bg-primary/15 border-b border-primary/30">
+        <h3 className="text-sm font-semibold text-primary text-center animate-pulse-slow">
           {t('contacts.accessOurContacts', 'Accedi ai nostri contatti')}
         </h3>
       </CardHeader>
