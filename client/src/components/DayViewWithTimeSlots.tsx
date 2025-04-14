@@ -79,7 +79,7 @@ export default function DayViewWithTimeSlots({
     return selectedSlots.includes(slotTime);
   };
 
-  // Calcola l'appuntamento che include questo slot
+  // Calcola la posizione e l'offset dell'appuntamento per evitare sovrapposizioni
   const calculateAppointmentPosition = (appointment: AppointmentWithDetails) => {
     const startTime = appointment.startTime.substring(0, 5);
     const endTime = appointment.endTime.substring(0, 5);
@@ -96,13 +96,46 @@ export default function DayViewWithTimeSlots({
     const durationMinutes = totalEndMinutes - totalStartMinutes;
     
     // Converti in unità relative alla griglia
-    // 40px per ogni slot da 15 minuti, -2px per migliorare la centratura
+    // 40px per ogni slot da 15 minuti, -1px per migliorare la centratura
     const top = (totalStartMinutes / 15 * 40) - 1; 
     const height = (durationMinutes / 15 * 40) + 2; // +2px per evitare spazi vuoti
+    
+    // Verifica se ci sono altri appuntamenti che si sovrappongono
+    const overlappingAppointments = appointments.filter(app => {
+      if (app.id === appointment.id) return false;
+      
+      const appStart = app.startTime.substring(0, 5);
+      const appEnd = app.endTime.substring(0, 5);
+      
+      // Controlla sovrapposizione
+      return (
+        (startTime >= appStart && startTime < appEnd) || // L'inizio dell'appuntamento è all'interno di un altro
+        (endTime > appStart && endTime <= appEnd) || // La fine dell'appuntamento è all'interno di un altro
+        (startTime <= appStart && endTime >= appEnd) // L'appuntamento copre completamente un altro
+      );
+    });
+    
+    // Calcola un offset per evitare sovrapposizioni complete
+    let offset = 0;
+    // Assegna un offset in base alla posizione nell'array degli appuntamenti sovrapposti
+    const appIndex = overlappingAppointments.findIndex(app => 
+      app.startTime.substring(0, 5) === startTime
+    );
+    
+    // Se ci sono appuntamenti sovrapposti, assegna un offset orizzontale
+    if (overlappingAppointments.length > 0) {
+      // Larghezza disponibile divisa per il numero di appuntamenti sovrapposti + 1
+      const maxOverlap = overlappingAppointments.length + 1;
+      const overlapIndex = appIndex === -1 ? 0 : appIndex;
+      offset = overlapIndex * (100 / maxOverlap);
+    }
     
     return {
       top: `${top}px`,
       height: `${height}px`,
+      width: overlappingAppointments.length > 0 ? `calc(100% - ${offset}%)` : '100%',
+      left: overlappingAppointments.length > 0 ? `${offset}%` : '0',
+      zIndex: 10 + (appIndex === -1 ? 0 : appIndex), // Assicura che gli appuntamenti sovrapposti abbiano z-index diversi
     };
   };
 
@@ -372,6 +405,23 @@ export default function DayViewWithTimeSlots({
         appointment={selectedAppointment}
         selectedSlots={selectedSlots}
       />
+
+      {/* Pulsanti flottanti per la gestione della selezione */}
+      {isSelectionMode ? (
+        <div className="fixed bottom-6 right-6 flex gap-2 z-50">
+          <Button onClick={cancelSelection} variant="outline" className="shadow-md">
+            {t('appointment.cancel')}
+          </Button>
+          <Button onClick={completeSelection} className="shadow-md">
+            {t('appointment.confirm')}
+          </Button>
+        </div>
+      ) : (
+        <FloatingActionButton 
+          onClick={startSelectionMode} 
+          text={t('appointment.newAppointment')}
+        />
+      )}
     </Card>
   );
 }
