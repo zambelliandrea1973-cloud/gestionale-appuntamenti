@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy } from "lucide-react";
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
+import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
