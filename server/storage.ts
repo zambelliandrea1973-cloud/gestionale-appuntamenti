@@ -2270,6 +2270,122 @@ export class DatabaseStorage implements IStorage {
       return false;
     }
   }
+  
+  // Implementazione dei metodi per gestire le impostazioni dell'applicazione
+  async getSetting(key: string): Promise<AppSettings | undefined> {
+    try {
+      const [setting] = await db
+        .select()
+        .from(appSettings)
+        .where(eq(appSettings.key, key));
+      return setting;
+    } catch (error) {
+      console.error(`Errore nel recupero dell'impostazione '${key}':`, error);
+      return undefined;
+    }
+  }
+
+  async getAllSettings(): Promise<AppSettings[]> {
+    try {
+      const settings = await db
+        .select()
+        .from(appSettings)
+        .orderBy(asc(appSettings.key));
+      return settings;
+    } catch (error) {
+      console.error("Errore nel recupero di tutte le impostazioni:", error);
+      return [];
+    }
+  }
+
+  async getSettingsByCategory(category: string): Promise<AppSettings[]> {
+    try {
+      const settings = await db
+        .select()
+        .from(appSettings)
+        .where(eq(appSettings.category, category))
+        .orderBy(asc(appSettings.key));
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero delle impostazioni per la categoria '${category}':`, error);
+      return [];
+    }
+  }
+
+  async saveSetting(
+    key: string, 
+    value: string, 
+    description?: string, 
+    category: string = 'general'
+  ): Promise<AppSettings> {
+    try {
+      // Verifica se l'impostazione esiste già
+      const existingSetting = await this.getSetting(key);
+      
+      if (existingSetting) {
+        // Aggiorna l'impostazione esistente
+        const [updatedSetting] = await db
+          .update(appSettings)
+          .set({ 
+            value, 
+            updatedAt: new Date(),
+            ...(description && { description }),
+            ...(category && { category })
+          })
+          .where(eq(appSettings.id, existingSetting.id))
+          .returning();
+        
+        return updatedSetting;
+      } else {
+        // Crea una nuova impostazione
+        const [newSetting] = await db
+          .insert(appSettings)
+          .values({
+            key,
+            value,
+            description: description || `Impostazione per ${key}`,
+            category
+          })
+          .returning();
+        
+        return newSetting;
+      }
+    } catch (error) {
+      console.error(`Errore nel salvataggio dell'impostazione '${key}':`, error);
+      throw error;
+    }
+  }
+
+  async updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined> {
+    try {
+      const [updatedSetting] = await db
+        .update(appSettings)
+        .set({ 
+          ...setting,
+          updatedAt: new Date()
+        })
+        .where(eq(appSettings.id, id))
+        .returning();
+      
+      return updatedSetting;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento dell'impostazione con ID ${id}:`, error);
+      return undefined;
+    }
+  }
+
+  async deleteSetting(id: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(appSettings)
+        .where(eq(appSettings.id, id));
+      
+      return result.count > 0;
+    } catch (error) {
+      console.error(`Errore nell'eliminazione dell'impostazione con ID ${id}:`, error);
+      return false;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
