@@ -28,7 +28,10 @@ export default function ClientArea() {
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [appointments, setAppointments] = useState<any[]>([]);
+  const [futureAppointments, setFutureAppointments] = useState<any[]>([]);
   const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
+  const [showAllAppointments, setShowAllAppointments] = useState<boolean>(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
 
   useEffect(() => {
@@ -102,6 +105,15 @@ export default function ClientArea() {
         });
         
         setAppointments(sortedAppointments);
+        
+        // Filtra solo gli appuntamenti futuri
+        const now = new Date();
+        const onlyFutureAppointments = sortedAppointments.filter((app: any) => {
+          const appointmentDate = new Date(`${app.date}T${app.startTime}`);
+          return appointmentDate >= now;
+        });
+        
+        setFutureAppointments(onlyFutureAppointments);
       }
     } catch (error) {
       console.error("Errore nel caricamento degli appuntamenti:", error);
@@ -248,13 +260,18 @@ export default function ClientArea() {
             <p className="text-sm">
               {loadingAppointments 
                 ? "Caricamento appuntamenti..." 
-                : appointments.length > 0 
-                  ? `Hai ${appointments.length} appuntamenti` 
-                  : "Nessun appuntamento programmato"}
+                : futureAppointments.length > 0 
+                  ? `Hai ${futureAppointments.length} appuntament${futureAppointments.length === 1 ? 'o' : 'i'} futur${futureAppointments.length === 1 ? 'o' : 'i'}` 
+                  : "Nessun appuntamento futuro programmato"}
             </p>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full text-sm" size="sm">
+            <Button 
+              variant="outline" 
+              className="w-full text-sm" 
+              size="sm"
+              onClick={() => setShowAllAppointments(true)}
+            >
               Visualizza tutti
             </Button>
           </CardFooter>
