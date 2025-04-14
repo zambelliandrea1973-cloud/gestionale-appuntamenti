@@ -34,6 +34,7 @@ export default function DayViewWithTimeSlots({
   const [selectedAppointment, setSelectedAppointment] = useState<AppointmentWithDetails | null>(null);
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
 
   // Generazione degli orari dal 08:00 alle 22:45 con incrementi di 15 minuti
   const timeSlots: string[] = [];
@@ -137,15 +138,24 @@ export default function DayViewWithTimeSlots({
     
     // Versione migliorata: usiamo offset e larghezza fissa in pixel
     if (totalSameTime > 1) {
-      // Calcola la larghezza totale disponibile (circa 300px è la larghezza tipica su mobile)
-      const totalWidth = 310; // Larghezza totale stimata del contenitore escludendo gli orari
-      const slotWidth = Math.floor((totalWidth - 20) / totalSameTime); // 20px di margine totale
+      // Calcola la larghezza totale disponibile
+      const totalWidth = 350; // Larghezza totale stimata del contenitore escludendo gli orari
+      
+      // Aumentiamo la larghezza minima degli appuntamenti per garantire leggibilità
+      const minSlotWidth = 115; // Larghezza minima per slot
+      const maxSlots = Math.floor((totalWidth - 20) / minSlotWidth); // Massimo numero di slot visibili contemporaneamente
+      
+      // Se ci sono più appuntamenti del massimo, mostriamo solo quelli che ci stanno
+      const visibleSlots = Math.min(totalSameTime, maxSlots);
+      
+      // Calcoliamo la larghezza effettiva per ogni appuntamento
+      const slotWidth = Math.floor((totalWidth - 20) / visibleSlots); // 20px di margine totale
       
       // Imposta l'offset per ogni appuntamento
       const baseOffset = 70; // Larghezza della colonna degli orari
       leftPosition = baseOffset + (appointmentIndex * slotWidth);
       
-      // Imposta una larghezza fissa in pixel anziché percentuale
+      // Imposta una larghezza fissa in pixel
       widthValue = `${slotWidth}px`;
     }
     
@@ -349,17 +359,37 @@ export default function DayViewWithTimeSlots({
         {/* Appuntamenti visualizzati sovrapposti agli slot */}
         {appointments.map(appointment => {
           const styles = calculateAppointmentPosition(appointment);
+          const isExpanded = expandedAppointment === appointment.id;
+          
+          // Calcolo stili di espansione
+          let expandedStyles = {};
+          if (isExpanded) {
+            // Quando è espanso, aumenta la larghezza e l'indice z per sovrapporsi agli altri appuntamenti
+            expandedStyles = {
+              width: 'calc(100% - 76px)', // Larghezza massima (escludendo la colonna orari)
+              zIndex: 100, // Valore elevato per sovrapporsi a tutti gli altri elementi
+              left: '70px', // Fissato all'inizio della griglia (dopo la colonna orari)
+              transition: 'all 0.2s ease-in-out',
+              boxShadow: `0 4px 16px rgba(0,0,0,0.2), 0 0 0 2px ${appointment.service?.color || '#4299e1'}60 !important`, // Ombra più marcata per evidenziare l'elemento espanso
+              borderWidth: '1px',
+              borderLeftWidth: '12px' // Mantiene il bordo sinistro colorato
+            };
+          }
           
           return (
             <div 
               key={appointment.id}
-              className="absolute rounded shadow-md overflow-hidden z-10"
+              className={`absolute rounded shadow-md overflow-hidden ${isExpanded ? 'z-50' : 'z-10'}`}
               style={{
                 ...styles,
+                ...expandedStyles,
                 border: `1px solid ${appointment.service?.color || '#4299e1'}40`,
                 borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
-                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`
+                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`,
+                transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out'
               }}
+              onMouseEnter={() => setExpandedAppointment(appointment.id)}
+              onMouseLeave={() => setExpandedAppointment(null)}
             >
               <div 
                 className="p-1 sm:p-2 h-full flex flex-col justify-between"
@@ -371,10 +401,17 @@ export default function DayViewWithTimeSlots({
                   {appointment.client?.firstName} {appointment.client?.lastName}
                 </div>
                 
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                <div className={`flex ${isExpanded ? 'flex-row' : 'flex-col sm:flex-row'} justify-between items-start ${isExpanded ? 'items-center' : 'sm:items-center'}`}>
                   <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: appointment.service?.color || '#4299e1' }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
-                    <span className="text-gray-600 truncate">{appointment.service?.name}</span>
+                    <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service?.name}</span>
+                    
+                    {/* Mostra le note solo quando l'appuntamento è espanso */}
+                    {isExpanded && appointment.notes && (
+                      <span className="text-gray-500 text-[9px] sm:text-xs mt-1 block max-w-xs">
+                        {appointment.notes}
+                      </span>
+                    )}
                   </div>
                   
                   <div className="flex gap-1 mt-1 sm:mt-0">
