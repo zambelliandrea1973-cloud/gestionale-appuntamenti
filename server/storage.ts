@@ -2177,10 +2177,10 @@ export class DatabaseStorage implements IStorage {
       return undefined;
     }
   }
-  
+
   // Implementazione del metodo richiesto dall'interfaccia
   async getReminderTemplateByService(serviceId: number, type: string = 'sms'): Promise<ReminderTemplate | undefined> {
-    // Utilizziamo il metodo esistente con il nome diverso
+    // Utilizziamo il metodo esistente
     return this.getReminderTemplateByServiceId(serviceId, type);
   }
 
