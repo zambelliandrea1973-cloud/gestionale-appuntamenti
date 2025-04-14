@@ -70,7 +70,13 @@ export const tokenService = {
       // Verifica se il token è scaduto
       if (new Date() > new Date(activationToken.expiresAt)) {
         console.log('Token scaduto:', token);
-        return null;
+        
+        // MODIFICA: Rinnoviamo automaticamente il token scaduto per 365 giorni
+        const newExpiresAt = addDays(new Date(), 365);
+        await storage.updateActivationTokenExpiry(activationToken.id, newExpiresAt);
+        console.log('Token rinnovato automaticamente fino a:', newExpiresAt);
+        
+        // Continuiamo con la verifica considerando il token valido
       }
       
       // Non controlliamo più se il token è stato utilizzato, in modo che possa essere usato più volte

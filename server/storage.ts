@@ -97,6 +97,7 @@ export interface IStorage {
   getActivationTokensByClientId(clientId: number): Promise<ActivationToken[]>;
   createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
   updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
+  updateActivationTokenExpiry(id: number, newExpiresAt: Date): Promise<ActivationToken | undefined>;
   
   // Session store for authentication
   sessionStore: session.Store;
