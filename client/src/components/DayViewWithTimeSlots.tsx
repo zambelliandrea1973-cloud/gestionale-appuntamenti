@@ -465,7 +465,21 @@ export default function DayViewWithTimeSlots({
                   // Previeni altri eventi (come click)
                   e.preventDefault();
                   e.stopPropagation();
-                  setExpandedAppointment(appointment.id);
+                  
+                  // Cancella un eventuale timer esistente
+                  if (autoCloseTimerRef.current) {
+                    clearTimeout(autoCloseTimerRef.current);
+                    autoCloseTimerRef.current = null;
+                  }
+                  
+                  // Se stiamo cliccando lo stesso appuntamento già espanso, lo chiudiamo
+                  if (expandedAppointment === appointment.id) {
+                    setExpandedAppointment(null);
+                  } else {
+                    // Altrimenti espandiamo questo appuntamento
+                    setExpandedAppointment(appointment.id);
+                    console.log("Mobile: Appuntamento espanso al tocco, ID:", appointment.id);
+                  }
                 }
               }}
             >
