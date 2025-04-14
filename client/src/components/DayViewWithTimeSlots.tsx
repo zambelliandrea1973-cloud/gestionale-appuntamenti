@@ -36,6 +36,19 @@ export default function DayViewWithTimeSlots({
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
   const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null); // Aggiungiamo un ref per il timer
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Rileva se siamo su mobile
+  
+  // Gestione del cambio di dimensione della finestra
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   // Gestione dell'appuntamento espanso e timer di chiusura automatica
   useEffect(() => {
@@ -55,21 +68,28 @@ export default function DayViewWithTimeSlots({
       autoCloseTimerRef.current = null;
     }
     
-    // Timer per chiudere automaticamente l'appuntamento espanso dopo 2 secondi (solo mobile)
-    if (window.innerWidth < 768) {
-      console.log("Mobile: impostato timer di 2 secondi per chiusura automatica appuntamento"); // Debug
+    // Timer per chiudere automaticamente l'appuntamento espanso dopo 5 secondi (solo mobile)
+    // Lo manteniamo come backup, ma la chiusura principale avverrà tramite un secondo tocco
+    if (isMobile) {
+      console.log("Mobile: impostato timer di 5 secondi per chiusura automatica appuntamento"); // Debug
       autoCloseTimerRef.current = setTimeout(() => {
-        console.log("Mobile: chiusura automatica appuntamento dopo 2 secondi"); // Debug
+        console.log("Mobile: chiusura automatica appuntamento dopo 5 secondi"); // Debug
         setExpandedAppointment(null);
-      }, 2000); // 2 secondi
+      }, 5000); // 5 secondi invece di 2 per dare più tempo all'utente
     }
     
     // Funzione per gestire il click fuori dall'appuntamento espanso (solo mobile)
     const handleClickOutside = (event: MouseEvent) => {
       // Ignora se non siamo su mobile
-      if (window.innerWidth >= 768) return;
+      if (!isMobile) return;
       
       const target = event.target as HTMLElement;
+      
+      // Se è un clic sui pulsanti dentro l'appuntamento, non chiudiamo
+      if (target.closest('button')) {
+        return;
+      }
+      
       // Controlla se il click è stato fatto al di fuori di un elemento con classe .absolute
       if (!target.closest('.absolute')) {
         setExpandedAppointment(null);
@@ -448,20 +468,20 @@ export default function DayViewWithTimeSlots({
               // Su desktop usiamo hover (mouse enter/leave)
               onMouseEnter={() => {
                 // Solo su desktop (non mobile)
-                if (window.innerWidth >= 768) {
+                if (!isMobile) {
                   setExpandedAppointment(appointment.id);
                 }
               }}
               onMouseLeave={() => {
                 // Solo su desktop (non mobile)
-                if (window.innerWidth >= 768) {
+                if (!isMobile) {
                   setExpandedAppointment(null);
                 }
               }}
               // Su mobile usiamo il tocco (touch)
               onTouchStart={(e) => {
                 // Su mobile, al tocco espandiamo l'appuntamento
-                if (window.innerWidth < 768) {
+                if (isMobile) {
                   // Previeni altri eventi (come click)
                   e.preventDefault();
                   e.stopPropagation();
@@ -474,11 +494,15 @@ export default function DayViewWithTimeSlots({
                   
                   // Se stiamo cliccando lo stesso appuntamento già espanso, lo chiudiamo
                   if (expandedAppointment === appointment.id) {
+                    console.log("Mobile: Chiusura appuntamento al secondo tocco, ID:", appointment.id);
                     setExpandedAppointment(null);
                   } else {
                     // Altrimenti espandiamo questo appuntamento
+                    console.log("Mobile: Appuntamento espanso al primo tocco, ID:", appointment.id);
+                    
+                    // Aggiunge un indicatore visivo all'appuntamento espanso
+                    // per suggerire all'utente di toccare nuovamente per chiudere
                     setExpandedAppointment(appointment.id);
-                    console.log("Mobile: Appuntamento espanso al tocco, ID:", appointment.id);
                   }
                 }
               }}
@@ -491,8 +515,14 @@ export default function DayViewWithTimeSlots({
                     : `${appointment.service?.color || '#4299e1'}10`, // Sfondo trasparente quando normale
                 }}
               >
-                <div className="font-semibold text-xs sm:text-sm truncate text-gray-800">
+                <div className="font-semibold text-xs sm:text-sm truncate text-gray-800 flex items-center">
                   {appointment.client?.firstName} {appointment.client?.lastName}
+                  {/* Aggiunge un indicatore di tocco quando l'appuntamento è espanso su mobile */}
+                  {isExpanded && isMobile && (
+                    <span className="ml-1 text-[9px] text-gray-500 bg-gray-100 px-1 rounded-full">
+                      Tocca per chiudere
+                    </span>
+                  )}
                 </div>
                 
                 <div className={`flex ${isExpanded ? 'flex-row' : 'flex-col sm:flex-row'} justify-between items-start ${isExpanded ? 'items-center' : 'sm:items-center'}`}>
