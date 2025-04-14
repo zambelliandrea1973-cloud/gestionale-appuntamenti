@@ -226,13 +226,19 @@ export default function Calendar() {
         </div>
         
         {/* Indicatore del fuso orario */}
-        <div className="mt-2 flex items-center justify-center px-2 py-1 bg-gray-100 rounded-md">
+        <div className="mt-2 flex items-center justify-center px-3 py-1.5 bg-green-50 border border-green-200 rounded-md shadow-sm">
           <Globe className="h-4 w-4 text-primary mr-2" />
-          <span className="text-sm font-medium">
-            {new Date().toLocaleTimeString()} - {timezoneInfo?.name || 'UTC'} 
-            {timezoneInfo?.offset !== undefined && 
-              `(UTC${timezoneInfo.offset > 0 ? '+' : ''}${timezoneInfo.offset})`
-            }
+          <span className="text-sm font-medium flex items-center">
+            <span className="text-green-700 font-mono">{currentTime.toLocaleTimeString()}</span>
+            <span className="mx-1 text-gray-400">|</span>
+            <span className="text-gray-700">
+              {timezoneInfo?.name || 'UTC'} 
+              {timezoneInfo?.offset !== undefined && (
+                <span className="text-gray-500 ml-1">
+                  (UTC{timezoneInfo.offset > 0 ? '+' : ''}{timezoneInfo.offset})
+                </span>
+              )}
+            </span>
           </span>
         </div>
 
