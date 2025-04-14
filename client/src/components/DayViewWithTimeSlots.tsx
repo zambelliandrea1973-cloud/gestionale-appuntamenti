@@ -460,10 +460,11 @@ export default function DayViewWithTimeSlots({
               style={{
                 ...styles,
                 ...expandedStyles,
-                border: `1px solid ${appointment.service?.color || '#4299e1'}40`,
+                border: `1px solid ${appointment.service?.color || '#4299e1'}`,
                 borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
-                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`,
-                transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out'
+                boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}60`,
+                transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out',
+                backgroundColor: isExpanded ? '#ffffff' : '#ffffff'
               }}
               // Su desktop usiamo hover (mouse enter/leave)
               onMouseEnter={() => {
