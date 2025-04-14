@@ -1308,30 +1308,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Invia un SMS di test per verificare la configurazione Twilio
   app.post("/api/test-sms", async (req: Request, res: Response) => {
     try {
-      const { to, message } = req.body;
+      // Supporta i parametri sia come to/message che come phoneNumber/message per compatibilità
+      const to = req.body.to || req.body.phoneNumber;
+      const { message } = req.body;
       
-      if (!to || !message) {
+      // Pulisce il numero di telefono da eventuali spazi
+      const cleanPhoneNumber = to ? to.replace(/\s+/g, '') : null;
+      
+      if (!cleanPhoneNumber || !message) {
         return res.status(400).json({ 
           message: "Parametri mancanti", 
-          required: ["to", "message"],
+          required: ["to/phoneNumber", "message"],
           example: { to: "+391234567890", message: "Messaggio di test" }
         });
       }
       
-      const result = await notificationService.sendSMS(to, message);
+      // Verifica prima se le credenziali Twilio sono impostate
+      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+        return res.status(500).json({
+          message: "Credenziali Twilio mancanti",
+          details: {
+            TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
+            TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
+            TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER ? "configurato" : "mancante"
+          }
+        });
+      }
+      
+      console.log(`Tentativo di invio SMS a ${cleanPhoneNumber}: "${message}"`);
+      const result = await notificationService.sendSMS(cleanPhoneNumber, message);
+      
+      console.log("Risposta Twilio:", result);
       res.json({ 
         message: "SMS inviato con successo", 
         details: {
           sid: result.sid,
           status: result.status,
-          dateCreated: result.dateCreated
+          dateCreated: result.dateCreated,
+          to: result.to
         }
       });
     } catch (error: any) {
       console.error("Errore nell'invio del SMS di test:", error);
       res.status(500).json({ 
         message: "Errore nell'invio del SMS", 
-        error: error.message 
+        error: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       });
     }
   });
@@ -1339,30 +1361,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Invia un messaggio WhatsApp di test per verificare la configurazione Twilio
   app.post("/api/test-whatsapp", async (req: Request, res: Response) => {
     try {
-      const { to, message } = req.body;
+      // Supporta i parametri sia come to/message che come phoneNumber/message per compatibilità
+      const to = req.body.to || req.body.phoneNumber;
+      const { message } = req.body;
       
-      if (!to || !message) {
+      // Pulisce il numero di telefono da eventuali spazi
+      const cleanPhoneNumber = to ? to.replace(/\s+/g, '') : null;
+      
+      if (!cleanPhoneNumber || !message) {
         return res.status(400).json({ 
           message: "Parametri mancanti", 
-          required: ["to", "message"],
+          required: ["to/phoneNumber", "message"],
           example: { to: "+391234567890", message: "Messaggio di test" }
         });
       }
       
-      const result = await notificationService.sendWhatsApp(to, message);
+      // Verifica prima se le credenziali Twilio sono impostate
+      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+        return res.status(500).json({
+          message: "Credenziali Twilio mancanti",
+          details: {
+            TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
+            TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
+            TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER ? "configurato" : "mancante"
+          }
+        });
+      }
+      
+      console.log(`Tentativo di invio WhatsApp a ${cleanPhoneNumber}: "${message}"`);
+      const result = await notificationService.sendWhatsApp(cleanPhoneNumber, message);
+      
+      console.log("Risposta Twilio:", result);
       res.json({ 
         message: "Messaggio WhatsApp inviato con successo", 
         details: {
           sid: result.sid,
           status: result.status,
-          dateCreated: result.dateCreated
+          dateCreated: result.dateCreated,
+          to: result.to
         }
       });
     } catch (error: any) {
       console.error("Errore nell'invio del messaggio WhatsApp di test:", error);
       res.status(500).json({ 
         message: "Errore nell'invio del messaggio WhatsApp", 
-        error: error.message 
+        error: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       });
     }
   });
