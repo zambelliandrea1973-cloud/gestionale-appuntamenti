@@ -244,15 +244,98 @@ export default function ClientForm({
                   <FormField
                     control={form.control}
                     name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Telefono *</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="Numero di telefono" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      // Estrai il prefisso dal numero di telefono esistente
+                      useEffect(() => {
+                        if (field.value) {
+                          // Cerca un prefisso internazionale nel formato +XX o +XXX
+                          const prefixMatch = field.value.match(/^\+(\d{1,3})/);
+                          if (prefixMatch) {
+                            // Trova il prefisso dall'elenco
+                            const matchedPrefix = countryPrefixes.find(p => field.value.startsWith(p.value));
+                            if (matchedPrefix) {
+                              setPrefix(matchedPrefix.value);
+                            }
+                          }
+                        }
+                      }, [field.value]);
+                      
+                      // Gestisci il cambio di numero rimuovendo il prefisso esistente e aggiungendo quello nuovo
+                      const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                        let phoneValue = e.target.value;
+                        
+                        // Rimuovi qualsiasi prefisso internazionale esistente
+                        if (phoneValue.startsWith('+')) {
+                          for (const cp of countryPrefixes) {
+                            if (phoneValue.startsWith(cp.value)) {
+                              phoneValue = phoneValue.substring(cp.value.length);
+                              break;
+                            }
+                          }
+                        }
+                        
+                        // Aggiorna il campo con il nuovo prefisso e il numero
+                        field.onChange(prefix + phoneValue);
+                      };
+                      
+                      // Quando cambia il prefisso, aggiorna il numero completo
+                      const handlePrefixChange = (newPrefix: string) => {
+                        setPrefix(newPrefix);
+                        
+                        // Rimuovi il vecchio prefisso dal numero corrente
+                        let phoneNumber = field.value;
+                        if (phoneNumber.startsWith('+')) {
+                          for (const cp of countryPrefixes) {
+                            if (phoneNumber.startsWith(cp.value)) {
+                              phoneNumber = phoneNumber.substring(cp.value.length);
+                              break;
+                            }
+                          }
+                        }
+                        
+                        // Aggiorna il campo con il nuovo prefisso
+                        field.onChange(newPrefix + phoneNumber);
+                      };
+                      
+                      // Rimuovi il prefisso per la visualizzazione nell'input
+                      let displayValue = field.value;
+                      if (displayValue.startsWith(prefix)) {
+                        displayValue = displayValue.substring(prefix.length);
+                      }
+                      
+                      return (
+                        <FormItem>
+                          <FormLabel>Telefono *</FormLabel>
+                          <div className="flex space-x-2">
+                            <Select value={prefix} onValueChange={handlePrefixChange}>
+                              <FormControl>
+                                <SelectTrigger className="w-[140px]">
+                                  <SelectValue placeholder="Prefisso" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {countryPrefixes.map((prefix) => (
+                                  <SelectItem key={prefix.value} value={prefix.value}>
+                                    {prefix.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormControl>
+                              <Input 
+                                value={displayValue} 
+                                onChange={handlePhoneChange} 
+                                placeholder="Numero di telefono" 
+                              />
+                            </FormControl>
+                          </div>
+                          <FormDescription>
+                            Il numero di telefono deve includere il prefisso internazionale
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                   
                   <FormField
