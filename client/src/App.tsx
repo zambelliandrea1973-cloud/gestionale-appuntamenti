@@ -14,6 +14,7 @@ import ActivateAccount from "./pages/ActivateAccount";
 import ClientLogin from "./pages/ClientLogin";
 import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
+import TestSmsPage from "./pages/TestSmsPage";
 import NotFound from "./pages/not-found";
 
 /**
