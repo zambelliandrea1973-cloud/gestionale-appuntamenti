@@ -1906,6 +1906,24 @@ export class DatabaseStorage implements IStorage {
     }
   }
   
+  async updateActivationTokenExpiry(id: number, newExpiresAt: Date): Promise<ActivationToken | undefined> {
+    try {
+      console.log(`Aggiornamento scadenza token con ID ${id} a ${newExpiresAt}`);
+      
+      const [updatedToken] = await db
+        .update(activationTokens)
+        .set({ expiresAt: newExpiresAt })
+        .where(eq(activationTokens.id, id))
+        .returning();
+      
+      console.log(`Token aggiornato con successo, nuova scadenza: ${updatedToken.expiresAt}`);
+      return updatedToken;
+    } catch (error) {
+      console.error("Errore nell'aggiornamento della scadenza del token:", error);
+      return undefined;
+    }
+  }
+  
   // Client Notes operations
   async getClientNotes(clientId: number): Promise<ClientNote[]> {
     try {
