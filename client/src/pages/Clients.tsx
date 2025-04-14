@@ -240,31 +240,9 @@ export default function Clients() {
         </div>
         
         <div className="flex space-x-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline"
-                  size="sm"
-                  onClick={handleUpdatePhonePrefixes}
-                  disabled={isUpdatingPrefixes}
-                >
-                  {isUpdatingPrefixes ? (
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  ) : (
-                    <Phone className="h-4 w-4 mr-2" />
-                  )}
-                  {t('clients.updatePrefixes', 'Aggiorna prefissi')}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <div className="max-w-xs">
-                  <p className="font-semibold">{t('clients.updatePrefixesHint.title', 'Aggiorna prefissi telefonici')}</p>
-                  <p className="text-xs mt-1">{t('clients.updatePrefixesHint.description', 'Aggiunge il prefisso internazionale +39 a tutti i numeri di telefono italiani che non ce l\'hanno già.')}</p>
-                </div>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {/* Il pulsante "Aggiorna prefissi" è stato rimosso dall'interfaccia utente
+              ma l'API /api/update-phone-prefixes rimane disponibile per usi avanzati
+              o per essere richiamata tramite script interni */}
           
           <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
             <DialogTrigger asChild>
