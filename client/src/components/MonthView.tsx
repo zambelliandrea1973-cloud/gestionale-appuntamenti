@@ -105,8 +105,11 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Month header */}
       <div className="bg-gray-100 px-4 py-3 border-b">
-        <h3 className="text-lg font-medium">
-          {selectedDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
+        <h3 className="text-lg font-medium flex items-center">
+          <span className="inline-flex items-center justify-center bg-primary/10 text-primary font-semibold rounded-full h-7 w-7 mr-2">
+            {selectedDate.getMonth() + 1}
+          </span>
+          <span>{selectedDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}</span>
         </h3>
       </div>
       
