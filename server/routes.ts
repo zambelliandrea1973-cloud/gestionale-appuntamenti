@@ -1139,6 +1139,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      // Verifica se il token sta per scadere (24 ore)
+      const isExpiringSoon = await tokenService.isTokenExpiringSoon(token, 1);
+      
       // Crea un oggetto user conforme all'interfaccia User di Express
       const user = {
         id: clientAccount.id,
@@ -1157,7 +1160,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(200).json({ 
           message: "Accesso diretto effettuato con successo",
           user: user,
-          client: client
+          client: client,
+          tokenInfo: {
+            isExpiringSoon,
+            token // Includiamo il token per poter mostrare avvisi sulla scadenza
+          }
         });
       });
       
