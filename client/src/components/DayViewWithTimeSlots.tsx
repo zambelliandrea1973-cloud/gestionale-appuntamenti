@@ -171,9 +171,9 @@ export default function DayViewWithTimeSlots({
     const durationMinutes = totalEndMinutes - totalStartMinutes;
     
     // Converti in unità relative alla griglia
-    // 40px per ogni slot da 15 minuti, -1px per migliorare la centratura
-    const top = (totalStartMinutes / 15 * 40) - 1; 
-    const height = (durationMinutes / 15 * 40) + 2; // +2px per evitare spazi vuoti
+    // 40px per ogni slot da 15 minuti (altezza degli slot)
+    const top = (totalStartMinutes / 15 * 40); // Rimuoviamo l'offset di -1px per allineare correttamente 
+    const height = (durationMinutes / 15 * 40); // Rimuoviamo l'aggiunta di 2px per uniformare la dimensione
     
     // Verifica se ci sono altri appuntamenti che si sovrappongono
     const overlappingAppointments = appointments.filter(app => {
@@ -444,9 +444,10 @@ export default function DayViewWithTimeSlots({
               zIndex: 1000, // Valore molto elevato per sovrapporsi a TUTTI gli altri elementi
               left: '70px', // Fissato all'inizio della griglia (dopo la colonna orari)
               transition: 'all 0.25s ease-in-out',
-              boxShadow: `0 6px 24px rgba(0,0,0,0.25), 0 0 0 2px ${appointment.service?.color || '#4299e1'}70 !important`, // Ombra più marcata per evidenziare l'elemento espanso
+              boxShadow: `0 6px 24px rgba(0,0,0,0.25), 0 0 0 2px ${appointment.service?.color || '#4299e1'}70`,
               borderWidth: '1px',
-              borderLeftWidth: '12px', // Mantiene il bordo sinistro colorato
+              borderLeftWidth: '12px', // Mantiene il bordo sinistro colorato con lo stesso colore
+              borderLeftColor: `${appointment.service?.color || '#4299e1'}`,
               backgroundColor: '#ffffff', // Sfondo completamente opaco (bianco)
               maxHeight: 'none', // Permettiamo l'espansione in altezza se necessario
               padding: '2px' // Piccolo padding aggiuntivo
@@ -464,7 +465,7 @@ export default function DayViewWithTimeSlots({
                 borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
                 boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}60`,
                 transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out',
-                backgroundColor: isExpanded ? '#ffffff' : '#ffffff'
+                backgroundColor: '#ffffff'
               }}
               // Su desktop usiamo hover (mouse enter/leave)
               onMouseEnter={() => {
