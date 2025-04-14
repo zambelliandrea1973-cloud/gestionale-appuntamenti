@@ -272,34 +272,22 @@ export default function DayViewWithTimeSlots({
 
   return (
     <Card className="p-4">
-      {/* Controlli per la selezione degli slot */}
+      {/* Informazioni sulla selezione degli slot */}
       <div className="mb-4 flex flex-wrap gap-2">
         {isSelectionMode && (
-          <>
-            <Button onClick={completeSelection}>{t("calendar.confirmAndAssociateClient")}</Button>
-            <Button variant="outline" onClick={cancelSelection}>{t("common.cancel")}</Button>
-            <div className="ml-auto text-sm text-gray-500">
-              {selectedSlots.length > 0 ? (
-                <span>
-                  {t("calendar.selected")}: {selectedSlots[0]} - 
-                  {calculateEndTime(selectedSlots[selectedSlots.length - 1], 15)}
-                </span>
-              ) : (
-                <span>{t("calendar.select")}</span>
-              )}
-            </div>
-          </>
+          <div className="w-full text-sm text-green-600 font-semibold text-center">
+            {selectedSlots.length > 0 ? (
+              <span>
+                {t("calendar.selected")}: {selectedSlots[0]} - 
+                {calculateEndTime(selectedSlots[selectedSlots.length - 1], 15)}
+              </span>
+            ) : (
+              <span>{t("calendar.select")}</span>
+            )}
+          </div>
         )}
       </div>
       
-      {/* Pulsante flottante per nuovo appuntamento */}
-      {!isSelectionMode && (
-        <FloatingActionButton 
-          onClick={startSelectionMode} 
-          text={t("calendar.selectTimeNewAppointment")} 
-        />
-      )}
-
       {/* Griglia degli slot orari */}
       <div className="relative grid grid-cols-1 gap-0 mt-4">
         {timeSlots.map((slotTime, index) => {
@@ -410,16 +398,16 @@ export default function DayViewWithTimeSlots({
       {isSelectionMode ? (
         <div className="fixed bottom-6 right-6 flex gap-2 z-50">
           <Button onClick={cancelSelection} variant="outline" className="shadow-md">
-            {t('appointment.cancel')}
+            {t('common.cancel')}
           </Button>
           <Button onClick={completeSelection} className="shadow-md">
-            {t('appointment.confirm')}
+            {t('calendar.confirmAndAssociateClient')}
           </Button>
         </div>
       ) : (
         <FloatingActionButton 
           onClick={startSelectionMode} 
-          text={t('appointment.newAppointment')}
+          text={t('calendar.selectTimeNewAppointment')}
         />
       )}
     </Card>
