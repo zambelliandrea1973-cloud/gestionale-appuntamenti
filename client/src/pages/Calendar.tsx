@@ -139,11 +139,11 @@ export default function Calendar() {
           <div className="flex items-center space-x-2">
             <h2 className="text-2xl font-bold text-primary">
               {view === "month" 
-                ? formatMonthYear(selectedDate) 
-                : selectedDate.toLocaleDateString('it-IT', { 
+                ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate)}`
+                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString('it-IT', { 
                     month: 'long', 
                     year: 'numeric' 
-                  })
+                  })}`
               }
             </h2>
             <div className="flex space-x-1 ml-2">
