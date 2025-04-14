@@ -15,6 +15,7 @@ import {
   googleCalendarEvents, type GoogleCalendarEvent, type InsertGoogleCalendarEvent,
   googleCalendarSettings, type GoogleCalendarSettings, type InsertGoogleCalendarSettings,
   reminderTemplates, type ReminderTemplate, type InsertReminderTemplate,
+  appSettings, type AppSettings, type InsertAppSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,

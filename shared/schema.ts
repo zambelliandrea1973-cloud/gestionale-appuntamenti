@@ -467,6 +467,26 @@ export const insertReminderTemplateSchema = createInsertSchema(reminderTemplates
 export type ReminderTemplate = typeof reminderTemplates.$inferSelect;
 export type InsertReminderTemplate = z.infer<typeof insertReminderTemplateSchema>;
 
+// Impostazioni generali dell'applicazione
+export const appSettings = pgTable("app_settings", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(),
+  value: text("value").notNull(),
+  description: text("description"),
+  category: text("category").default("general"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertAppSettingsSchema = createInsertSchema(appSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type AppSettings = typeof appSettings.$inferSelect;
+export type InsertAppSettings = z.infer<typeof insertAppSettingsSchema>;
+
 export const reminderTemplatesRelations = relations(reminderTemplates, ({ one }) => ({
   service: one(services, {
     fields: [reminderTemplates.serviceId],
