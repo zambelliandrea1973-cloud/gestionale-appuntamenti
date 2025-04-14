@@ -1177,6 +1177,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Verifica se un token sta per scadere
+  app.get("/api/token/:token/expiry-status", async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+      
+      if (!token) {
+        return res.status(400).json({ message: "Token mancante" });
+      }
+      
+      // Trova il token nel database
+      const activationToken = await storage.getActivationToken(token);
+      
+      if (!activationToken) {
+        return res.status(404).json({ message: "Token non trovato" });
+      }
+      
+      // Verifica se il token sta per scadere entro 24 ore
+      const isExpiringSoon = await tokenService.isTokenExpiringSoon(token, 1);
+      
+      // Calcola quanti giorni mancano alla scadenza
+      const tokenExpiryDate = new Date(activationToken.expiresAt);
+      const today = new Date();
+      const daysToExpiry = Math.floor((tokenExpiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      
+      res.json({
+        token,
+        clientId: activationToken.clientId,
+        expiresAt: activationToken.expiresAt,
+        isExpiringSoon,
+        daysToExpiry
+      });
+    } catch (error) {
+      console.error("Errore nella verifica dello stato di scadenza del token:", error);
+      res.status(500).json({ message: "Errore durante la verifica dello stato di scadenza del token" });
+    }
+  });
+  
+  // Rigenera un token per un cliente
+  app.post("/api/clients/:id/regenerate-token", async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.id);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "ID cliente non valido" });
+      }
+      
+      // Verifica che il cliente esista
+      const client = await storage.getClient(clientId);
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Genera un nuovo token
+      const newToken = await tokenService.regenerateToken(clientId);
+      
+      // Costruisci l'URL di base usando l'host dalla richiesta
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      const host = req.headers['x-forwarded-host'] || req.headers.host;
+      const baseUrl = `${protocol}://${host}`;
+      
+      // Genera l'URL di attivazione con l'URL di base corretto
+      const activationUrl = `${baseUrl}/activate?token=${newToken}`;
+      
+      // Genera il QR code
+      const qrCode = await qrCodeService.generateQRCode(activationUrl);
+      
+      res.json({ 
+        token: newToken, 
+        activationUrl,
+        qrCode,
+        message: "Nuovo token generato con successo"
+      });
+    } catch (error) {
+      console.error("Errore nella rigenerazione del token:", error);
+      res.status(500).json({ message: "Errore durante la rigenerazione del token" });
+    }
+  });
+
   // API per i promemoria e le notifiche
   
   // Invia manualmente un promemoria per un appuntamento specifico
