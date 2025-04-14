@@ -154,53 +154,64 @@ export default function DayViewWithTimeSlots({
     return selectedSlots.includes(slotTime);
   };
 
-  // Calcola la posizione e l'offset dell'appuntamento per evitare sovrapposizioni
+  // Ottieni l'elemento DOM di uno slot orario in base all'orario
+  const getSlotElement = (slotTime: string): HTMLElement | null => {
+    // Trova l'elemento DOM che corrisponde allo slot orario specificato
+    return document.querySelector(`[data-slot-time="${slotTime}"]`);
+  };
+  
+  // Calcola la posizione e l'offset dell'appuntamento utilizzando la posizione esatta degli slot orari
   const calculateAppointmentPosition = (appointment: AppointmentWithDetails) => {
-    // Debug per capire l'appuntamento in corso
-    console.log(`Calcolo posizione per appuntamento: ${appointment.startTime} - ${appointment.endTime}`);
-    
     const startTime = appointment.startTime.substring(0, 5);
     const endTime = appointment.endTime.substring(0, 5);
     
-    // Calcola i minuti dall'inizio del giorno (8:00)
+    console.log(`Calcolo posizione per appuntamento: ${startTime} - ${endTime}`);
+    
+    // Calcola i minuti totali tra inizio e fine
     const startHours = parseInt(startTime.split(':')[0]);
     const startMinutes = parseInt(startTime.split(':')[1]);
-    const totalStartMinutes = (startHours - 8) * 60 + startMinutes;
-    
-    // Calcola i minuti totali della durata
     const endHours = parseInt(endTime.split(':')[0]);
     const endMinutes = parseInt(endTime.split(':')[1]);
-    const totalEndMinutes = (endHours - 8) * 60 + endMinutes;
+    
+    const totalStartMinutes = (startHours * 60) + startMinutes;
+    const totalEndMinutes = (endHours * 60) + endMinutes;
     const durationMinutes = totalEndMinutes - totalStartMinutes;
     
-    // Converti in unità relative alla griglia
-    // 40px per ogni slot da 15 minuti (altezza degli slot)
-    const slotHeight = 40;
+    // Numero di slot da 15 minuti
+    const numSlots = Math.ceil(durationMinutes / 15);
     
-    // Aggiungiamo uno slot in più (40px) per spostare tutti gli appuntamenti verso il basso di una riga
-    const offsetY = slotHeight; // 40px = altezza di uno slot
+    // Altezza standard di uno slot (utilizzata sia per calcoli che come fallback)
+    const slotHeight = 40; 
     
-    // Calcola posizione e dimensioni
-    const top = Math.round(totalStartMinutes / 15 * slotHeight) + offsetY;
-    const height = Math.round(durationMinutes / 15 * slotHeight);
+    // Calcola la posizione utilizzando la posizione esatta dello slot di inizio (quando disponibile)
+    // oppure usando il calcolo matematico come fallback
     
-    // Debug per verificare i valori calcolati
-    console.log(`  | Orario: ${startTime}-${endTime}, Top: ${top}px, Altezza: ${height}px, Offset: ${offsetY}px`);
+    // Implementazione PRECISA: 
+    // Ottieni la posizione misurata dall'inizio del calendario
+    let top = 0;
+    let height = numSlots * slotHeight;
     
-    // Verifica se ci sono altri appuntamenti che si sovrappongono
-    const overlappingAppointments = appointments.filter(app => {
-      if (app.id === appointment.id) return false;
+    // Ottieni l'elemento DOM corrispondente allo slot orario di inizio
+    const slotElement = document.querySelector(`[data-slot-time="${startTime}"]`);
+    
+    if (slotElement) {
+      // Se abbiamo trovato l'elemento dello slot, usiamo la sua posizione effettiva
+      const slotRect = slotElement.getBoundingClientRect();
+      const calendarContainer = document.querySelector('.relative.grid.grid-cols-1');
       
-      const appStart = app.startTime.substring(0, 5);
-      const appEnd = app.endTime.substring(0, 5);
-      
-      // Controlla sovrapposizione
-      return (
-        (startTime >= appStart && startTime < appEnd) || // L'inizio dell'appuntamento è all'interno di un altro
-        (endTime > appStart && endTime <= appEnd) || // La fine dell'appuntamento è all'interno di un altro
-        (startTime <= appStart && endTime >= appEnd) // L'appuntamento copre completamente un altro
-      );
-    });
+      if (calendarContainer) {
+        const containerRect = calendarContainer.getBoundingClientRect();
+        // Calcola la posizione relativa al container del calendario
+        top = slotRect.top - containerRect.top;
+        console.log(`  | Slot trovato: Posizione esatta top: ${top}px`);
+      }
+    } else {
+      // Se l'elemento non è stato trovato, usa il calcolo matematico come fallback
+      const firstSlotHour = 8; // Il primo slot è alle 8:00
+      const totalStartMinutesFromFirstSlot = (startHours - firstSlotHour) * 60 + startMinutes;
+      top = Math.round(totalStartMinutesFromFirstSlot / 15 * slotHeight);
+      console.log(`  | Slot non trovato nel DOM, usando calcolo matematico fallback: ${top}px`);
+    }
     
     // Raggruppa appuntamenti che si sovrappongono nello stesso orario
     const sameTimeAppointments = appointments.filter(app => 
@@ -245,11 +256,14 @@ export default function DayViewWithTimeSlots({
       widthValue = `${slotWidth}px`;
     }
     
+    // Debug
+    console.log(`  | Orario: ${startTime}-${endTime}, Top calcolato: ${top}px, Altezza: ${height}px`);
+
     return {
       top: `${top}px`,
       height: `${height}px`,
       width: widthValue,
-      left: `${leftPosition}px`, // Torniamo a usare px per maggiore precisione
+      left: `${leftPosition}px`,
       zIndex: 10 + appointmentIndex,
     };
   };
@@ -426,6 +440,7 @@ export default function DayViewWithTimeSlots({
                   ${occupied ? 'opacity-30' : 'cursor-pointer hover:bg-gray-50'} 
                   ${selected ? 'bg-gray-300' : ''}
                 `}
+                data-slot-time={slotTime}
                 onClick={() => handleSlotClick(slotTime)}
               >
                 <div className="w-16 text-sm font-medium">
