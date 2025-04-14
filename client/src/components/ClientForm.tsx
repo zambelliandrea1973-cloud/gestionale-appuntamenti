@@ -7,7 +7,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "@shared/schema";
 import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   DialogContent,
   DialogHeader,
@@ -28,6 +28,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import ConsentForm from "./ConsentForm";
 
 interface ClientFormProps {
@@ -46,12 +53,37 @@ const formSchema = insertClientSchema.extend({
 
 type FormData = z.infer<typeof formSchema>;
 
+// Lista dei prefissi internazionali più comuni
+const countryPrefixes = [
+  { value: "+39", label: "Italia (+39)" },
+  { value: "+1", label: "USA/Canada (+1)" },
+  { value: "+44", label: "Regno Unito (+44)" },
+  { value: "+33", label: "Francia (+33)" },
+  { value: "+49", label: "Germania (+49)" },
+  { value: "+34", label: "Spagna (+34)" },
+  { value: "+41", label: "Svizzera (+41)" },
+  { value: "+43", label: "Austria (+43)" },
+  { value: "+32", label: "Belgio (+32)" },
+  { value: "+31", label: "Paesi Bassi (+31)" },
+  { value: "+351", label: "Portogallo (+351)" },
+  { value: "+30", label: "Grecia (+30)" },
+  { value: "+46", label: "Svezia (+46)" },
+  { value: "+47", label: "Norvegia (+47)" },
+  { value: "+45", label: "Danimarca (+45)" },
+  { value: "+358", label: "Finlandia (+358)" },
+  { value: "+48", label: "Polonia (+48)" },
+  { value: "+420", label: "Repubblica Ceca (+420)" },
+  { value: "+36", label: "Ungheria (+36)" },
+  { value: "+40", label: "Romania (+40)" },
+];
+
 export default function ClientForm({ 
   clientId,
   onClose,
   onClientCreated
 }: ClientFormProps) {
   const { toast } = useToast();
+  const [prefix, setPrefix] = useState("+39"); // Default a prefisso italiano
   
   // Fetch client if editing
   const { data: client, isLoading: isLoadingClient } = useQuery({
