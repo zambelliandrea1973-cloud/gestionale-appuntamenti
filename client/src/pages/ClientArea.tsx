@@ -29,10 +29,17 @@ export default function ClientArea() {
   const [loading, setLoading] = useState<boolean>(true);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loadingAppointments, setLoadingAppointments] = useState<boolean>(true);
+  const [token, setToken] = useState<string>("");
 
   useEffect(() => {
     // Verifica autenticazione
     fetchCurrentUser();
+    
+    // Recupera il token dalla query string
+    const tokenFromQuery = new URLSearchParams(window.location.search).get('token');
+    if (tokenFromQuery) {
+      setToken(tokenFromQuery);
+    }
   }, []);
 
   useEffect(() => {
@@ -183,6 +190,9 @@ export default function ClientArea() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
+      {/* Componente per avviso token in scadenza */}
+      {token && user?.client?.id && <TokenExpiryAlert token={token} clientId={user.client.id} />}
+      
       {/* Nessun debug panel visibile */}
       
       <header className="mb-6 flex flex-col md:flex-row justify-between items-center">
