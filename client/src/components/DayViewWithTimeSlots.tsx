@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, Trash2, Edit, Plus } from "lucide-react";
@@ -35,17 +35,31 @@ export default function DayViewWithTimeSlots({
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
+  const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null); // Aggiungiamo un ref per il timer
   
   // Gestione dell'appuntamento espanso e timer di chiusura automatica
   useEffect(() => {
     // Se non c'è un appuntamento espanso, non facciamo nulla
-    if (expandedAppointment === null) return;
+    if (expandedAppointment === null) {
+      // Se non c'è un appuntamento espanso ma esiste un timer, cancelliamolo
+      if (autoCloseTimerRef.current) {
+        clearTimeout(autoCloseTimerRef.current);
+        autoCloseTimerRef.current = null;
+      }
+      return;
+    }
+    
+    // Cancella il timer precedente se esistente
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
     
     // Timer per chiudere automaticamente l'appuntamento espanso dopo 2 secondi (solo mobile)
-    let autoCloseTimer: NodeJS.Timeout | null = null;
-    
     if (window.innerWidth < 768) {
-      autoCloseTimer = setTimeout(() => {
+      console.log("Mobile: impostato timer di 2 secondi per chiusura automatica appuntamento"); // Debug
+      autoCloseTimerRef.current = setTimeout(() => {
+        console.log("Mobile: chiusura automatica appuntamento dopo 2 secondi"); // Debug
         setExpandedAppointment(null);
       }, 2000); // 2 secondi
     }
@@ -69,7 +83,10 @@ export default function DayViewWithTimeSlots({
     return () => {
       document.removeEventListener('click', handleClickOutside);
       // Cancella il timer se esiste
-      if (autoCloseTimer) clearTimeout(autoCloseTimer);
+      if (autoCloseTimerRef.current) {
+        clearTimeout(autoCloseTimerRef.current);
+        autoCloseTimerRef.current = null;
+      }
     };
   }, [expandedAppointment]);
 
