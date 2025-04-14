@@ -14,7 +14,7 @@ import {
   insertPaymentSchema,
   insertReminderTemplateSchema
 } from "@shared/schema";
-import { setupAuth } from "./auth";
+import { setupAuth, isAdmin, isAuthenticated, isStaff, isClient } from "./auth";
 import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";
 import { notificationService } from "./services/notificationService";
@@ -2335,6 +2335,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Errore durante l'eliminazione del modello di promemoria:", error);
       res.status(500).json({ message: "Error deleting reminder template" });
+    }
+  });
+
+  // Endpoint per aggiornare i prefissi telefonici dei clienti
+  app.post('/api/update-phone-prefixes', isAdmin, async (_req: Request, res: Response) => {
+    try {
+      // Recupera tutti i clienti dal database
+      const allClients = await storage.getAllClients();
+      console.log(`Trovati ${allClients.length} clienti nel database.`);
+      
+      // Contatori per tenere traccia delle modifiche
+      let updatedCount = 0;
+      let skippedCount = 0;
+      let emptyCount = 0;
+      let errors = 0;
+      
+      // Itera tutti i clienti
+      for (const client of allClients) {
+        try {
+          // Salta i clienti senza numero di telefono
+          if (!client.phone || client.phone.trim() === '') {
+            console.log(`Cliente ID ${client.id} (${client.firstName} ${client.lastName}): nessun numero di telefono presente.`);
+            emptyCount++;
+            continue;
+          }
+          
+          // Verifica se il numero inizia già con un prefisso internazionale (+)
+          if (client.phone.startsWith('+')) {
+            console.log(`Cliente ID ${client.id} (${client.firstName} ${client.lastName}): il numero ${client.phone} ha già un prefisso internazionale.`);
+            skippedCount++;
+            continue;
+          }
+          
+          // Pulisci il numero rimuovendo eventuali spazi o caratteri non numerici all'inizio
+          let cleanNumber = client.phone.trim().replace(/^[\s\-\(\)]+/, '');
+          
+          // Rimuovi eventuali zeri iniziali (in Italia il prefisso locale)
+          while (cleanNumber.startsWith('0')) {
+            cleanNumber = cleanNumber.substring(1);
+          }
+          
+          // Se il numero inizia con "39", potrebbe essere già un prefisso senza il +
+          if (cleanNumber.startsWith('39')) {
+            cleanNumber = cleanNumber.substring(2);
+          }
+          
+          // Aggiungi il prefisso italiano
+          const updatedPhone = `+39${cleanNumber}`;
+          
+          // Aggiorna il cliente nel database
+          await storage.updateClient(client.id, { ...client, phone: updatedPhone });
+          
+          console.log(`Cliente ID ${client.id} (${client.firstName} ${client.lastName}): aggiornato da ${client.phone} a ${updatedPhone}`);
+          updatedCount++;
+        } catch (err) {
+          console.error(`Errore nell'aggiornamento del cliente ID ${client.id}:`, err);
+          errors++;
+        }
+      }
+      
+      const summary = {
+        total: allClients.length,
+        updated: updatedCount,
+        skipped: skippedCount,
+        empty: emptyCount,
+        errors
+      };
+      
+      console.log("Riepilogo aggiornamento prefissi:", summary);
+      
+      res.status(200).json({
+        message: "Aggiornamento prefissi telefonici completato",
+        summary
+      });
+    } catch (error) {
+      console.error("Si è verificato un errore durante l'aggiornamento dei prefissi:", error);
+      res.status(500).json({ error: "Errore durante l'aggiornamento" });
     }
   });
 
