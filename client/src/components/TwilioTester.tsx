@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Input, Label, Textarea, Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { AlertCircle, CheckCircle2, SendHorizontal, MessageSquare } from 'lucide-react';
 
@@ -115,7 +119,7 @@ const TwilioTester: React.FC = () => {
             <Input
               id="phoneNumber"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
               placeholder="+391234567890"
               className="w-full"
             />
@@ -130,7 +134,7 @@ const TwilioTester: React.FC = () => {
             <Textarea
               id="message"
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
               placeholder="Scrivi il messaggio di test..."
               className="w-full"
             />

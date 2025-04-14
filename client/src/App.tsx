@@ -104,6 +104,11 @@ function AppRoutes() {
           <ClientMedicalDetails />
         </StaffPageWrapper>
       </Route>
+      <Route path="/test-sms">
+        <StaffPageWrapper>
+          <TestSmsPage />
+        </StaffPageWrapper>
+      </Route>
       
       {/* Fallback route */}
       <Route>
