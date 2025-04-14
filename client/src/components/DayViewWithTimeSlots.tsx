@@ -35,6 +35,32 @@ export default function DayViewWithTimeSlots({
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
+  
+  // Riferimento per rilevare click all'esterno dell'appuntamento espanso
+  useEffect(() => {
+    // Se non c'è un appuntamento espanso, non facciamo nulla
+    if (expandedAppointment === null) return;
+    
+    // Funzione per gestire il click fuori dall'appuntamento espanso (solo mobile)
+    const handleClickOutside = (event: MouseEvent) => {
+      // Ignora se non siamo su mobile
+      if (window.innerWidth >= 768) return;
+      
+      const target = event.target as HTMLElement;
+      // Controlla se il click è stato fatto al di fuori di un elemento con classe absoluteattribute appointment
+      if (!target.closest('.absolute')) {
+        setExpandedAppointment(null);
+      }
+    };
+    
+    // Aggiungiamo l'event listener
+    document.addEventListener('click', handleClickOutside);
+    
+    // Pulizia
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [expandedAppointment]);
 
   // Generazione degli orari dal 08:00 alle 22:45 con incrementi di 15 minuti
   const timeSlots: string[] = [];
@@ -367,12 +393,15 @@ export default function DayViewWithTimeSlots({
             // Quando è espanso, aumenta la larghezza e l'indice z per sovrapporsi agli altri appuntamenti
             expandedStyles = {
               width: 'calc(100% - 76px)', // Larghezza massima (escludendo la colonna orari)
-              zIndex: 100, // Valore elevato per sovrapporsi a tutti gli altri elementi
+              zIndex: 1000, // Valore molto elevato per sovrapporsi a TUTTI gli altri elementi
               left: '70px', // Fissato all'inizio della griglia (dopo la colonna orari)
-              transition: 'all 0.2s ease-in-out',
-              boxShadow: `0 4px 16px rgba(0,0,0,0.2), 0 0 0 2px ${appointment.service?.color || '#4299e1'}60 !important`, // Ombra più marcata per evidenziare l'elemento espanso
+              transition: 'all 0.25s ease-in-out',
+              boxShadow: `0 6px 24px rgba(0,0,0,0.25), 0 0 0 2px ${appointment.service?.color || '#4299e1'}70 !important`, // Ombra più marcata per evidenziare l'elemento espanso
               borderWidth: '1px',
-              borderLeftWidth: '12px' // Mantiene il bordo sinistro colorato
+              borderLeftWidth: '12px', // Mantiene il bordo sinistro colorato
+              backgroundColor: '#ffffff', // Sfondo completamente opaco (bianco)
+              maxHeight: 'none', // Permettiamo l'espansione in altezza se necessario
+              padding: '2px' // Piccolo padding aggiuntivo
             };
           }
           
@@ -390,11 +419,26 @@ export default function DayViewWithTimeSlots({
               }}
               onMouseEnter={() => setExpandedAppointment(appointment.id)}
               onMouseLeave={() => setExpandedAppointment(null)}
+              onTouchStart={(e) => {
+                // Previeni altri eventi (come il click) se stiamo solo espandendo
+                if (expandedAppointment !== appointment.id) {
+                  e.preventDefault();
+                  setExpandedAppointment(appointment.id);
+                }
+              }}
+              onClick={() => {
+                // Se l'appuntamento è già espanso e siamo su mobile, chiudilo
+                if (expandedAppointment === appointment.id && window.innerWidth < 768) {
+                  setExpandedAppointment(null);
+                }
+              }}
             >
               <div 
                 className="p-1 sm:p-2 h-full flex flex-col justify-between"
                 style={{
-                  backgroundColor: `${appointment.service?.color || '#4299e1'}10`,
+                  backgroundColor: isExpanded 
+                    ? '#ffffff' // Sfondo completamente bianco quando espanso
+                    : `${appointment.service?.color || '#4299e1'}10`, // Sfondo trasparente quando normale
                 }}
               >
                 <div className="font-semibold text-xs sm:text-sm truncate text-gray-800">
