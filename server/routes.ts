@@ -2339,20 +2339,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Endpoint per aggiornare i prefissi telefonici dei clienti
-  app.post('/api/update-phone-prefixes', async (_req: Request, res: Response) => {
+  app.post('/api/update-phone-prefixes', isStaff, async (_req: Request, res: Response) => {
     try {
-      // Verifichiamo che il metodo getAllClients esista
-      if (typeof storage.getAllClients !== 'function') {
-        console.error("Errore: il metodo getAllClients non esiste nello storage!");
+      // Verifichiamo che il metodo getClients esista
+      if (typeof storage.getClients !== 'function') {
+        console.error("Errore: il metodo getClients non esiste nello storage!");
         return res.status(500).json({ 
-          error: "Errore di configurazione: metodo getAllClients non disponibile" 
+          error: "Errore di configurazione: metodo getClients non disponibile" 
         });
       }
       
       // Recupera tutti i clienti dal database
       let allClients;
       try {
-        allClients = await storage.getAllClients();
+        allClients = await storage.getClients();
         console.log(`Trovati ${allClients.length} clienti nel database.`);
       } catch (err) {
         console.error("Errore nel recupero dei clienti:", err);
@@ -2379,6 +2379,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           // Verifica se il numero inizia già con un prefisso internazionale (+)
           if (client.phone.startsWith('+')) {
+            // Correggi il caso specifico di Matteo Somaschini con numero +3920820219
+            if (client.id === 8 && client.phone === '+3920820219') {
+              const correctedPhone = '+393920820219';
+              const updatedClient = await storage.updateClient(client.id, { phone: correctedPhone });
+              console.log(`Cliente ID ${client.id} (${client.firstName} ${client.lastName}): corretto da ${client.phone} a ${correctedPhone}`);
+              updatedCount++;
+              continue;
+            }
+            
             console.log(`Cliente ID ${client.id} (${client.firstName} ${client.lastName}): il numero ${client.phone} ha già un prefisso internazionale.`);
             skippedCount++;
             continue;
@@ -2393,7 +2402,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
           
           // Se il numero inizia con "39", potrebbe essere già un prefisso senza il +
-          if (cleanNumber.startsWith('39')) {
+          // ma solo se il resto del numero ha una lunghezza compatibile con un numero italiano (8-10 cifre)
+          if (cleanNumber.startsWith('39') && cleanNumber.substring(2).length >= 8 && cleanNumber.substring(2).length <= 10) {
             cleanNumber = cleanNumber.substring(2);
           }
           
