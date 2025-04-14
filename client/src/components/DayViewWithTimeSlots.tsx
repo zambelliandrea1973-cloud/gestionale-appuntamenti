@@ -135,24 +135,25 @@ export default function DayViewWithTimeSlots({
     let leftPosition = 70; // Inizia dopo i numeri degli orari (~ 70px)
     let widthValue = 'calc(100% - 76px)'; // Larghezza predefinita
     
-    // Versione semplificata: usiamo un offset più drastico per non sovrapporre mai
+    // Versione migliorata: usiamo offset e larghezza fissa in pixel
     if (totalSameTime > 1) {
-      // Dividiamo la larghezza disponibile (escludendo 70px per gli orari) in modo equo
-      const containerWidth = 100 - 25; // Riserviamo il 25% dello spazio per margini
-      const singleWidth = Math.floor(containerWidth / totalSameTime);
+      // Calcola la larghezza totale disponibile (circa 300px è la larghezza tipica su mobile)
+      const totalWidth = 310; // Larghezza totale stimata del contenitore escludendo gli orari
+      const slotWidth = Math.floor((totalWidth - 20) / totalSameTime); // 20px di margine totale
       
-      // Calcola offset in modo che gli appuntamenti siano distribuiti orizzontalmente
-      leftPosition = 25 + (appointmentIndex * singleWidth);
+      // Imposta l'offset per ogni appuntamento
+      const baseOffset = 70; // Larghezza della colonna degli orari
+      leftPosition = baseOffset + (appointmentIndex * slotWidth);
       
-      // Larghezza = percentuale della larghezza totale divisa per numero di appuntamenti
-      widthValue = `${singleWidth}%`;
+      // Imposta una larghezza fissa in pixel anziché percentuale
+      widthValue = `${slotWidth}px`;
     }
     
     return {
       top: `${top}px`,
       height: `${height}px`,
       width: widthValue,
-      left: `${leftPosition}%`, // Nota l'uso di % invece di px
+      left: `${leftPosition}px`, // Torniamo a usare px per maggiore precisione
       zIndex: 10 + appointmentIndex,
     };
   };
@@ -414,21 +415,27 @@ export default function DayViewWithTimeSlots({
 
       {/* Pulsanti flottanti per la gestione della selezione */}
       {isSelectionMode ? (
-        <div className="fixed bottom-6 right-6 flex gap-2 z-50">
+        <>
+          {/* Pulsante Conferma (in basso a destra) */}
+          <FloatingActionButton 
+            onClick={completeSelection} 
+            text={t('calendar.confirmAndAssociateClient')}
+            position="bottom-right"
+          />
+          
+          {/* Pulsante Annulla (in basso a sinistra) */}
           <FloatingActionButton
             onClick={cancelSelection}
             text={t('common.cancel')}
             variant="secondary"
+            position="bottom-left"
           />
-          <FloatingActionButton 
-            onClick={completeSelection} 
-            text={t('calendar.confirmAndAssociateClient')}
-          />
-        </div>
+        </>
       ) : (
         <FloatingActionButton 
           onClick={startSelectionMode} 
           text={t('calendar.selectTimeNewAppointment')}
+          position="bottom-right"
         />
       )}
     </Card>

@@ -6,9 +6,15 @@ interface FloatingActionButtonProps {
   onClick: () => void;
   text: string;
   variant?: 'primary' | 'secondary';
+  position?: 'top-right' | 'bottom-right' | 'bottom-left' | 'top-left' | 'none';
 }
 
-export function FloatingActionButton({ onClick, text, variant = 'primary' }: FloatingActionButtonProps) {
+export function FloatingActionButton({ 
+  onClick, 
+  text, 
+  variant = 'primary',
+  position = 'bottom-right'
+}: FloatingActionButtonProps) {
   const [isBlinking, setIsBlinking] = useState(false);
   
   // Effetto di lampeggiamento
@@ -38,9 +44,20 @@ export function FloatingActionButton({ onClick, text, variant = 'primary' }: Flo
   
   const selectedColors = colorClasses[variant];
   
+  // Definisci le classi per le diverse posizioni
+  const positionClasses = {
+    'top-right': 'top-[13rem] right-6',
+    'bottom-right': 'bottom-6 right-6',
+    'bottom-left': 'bottom-6 left-6',
+    'top-left': 'top-[13rem] left-6',
+    'none': ''
+  };
+  
+  const positionClass = positionClasses[position];
+  
   return (
     <div 
-      className="fixed top-[13rem] right-6 z-50 transition-all duration-300 ease-in-out shadow-lg"
+      className={`fixed ${positionClass} z-50 transition-all duration-300 ease-in-out shadow-lg`}
       style={{ 
         transform: 'scale(1.05)',
         animation: variant === 'primary' ? 'pulse 2s infinite' : undefined
