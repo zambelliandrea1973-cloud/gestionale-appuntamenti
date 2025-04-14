@@ -207,13 +207,30 @@ export const notificationService = {
    */
   async processReminders(): Promise<number> {
     try {
-      // Impostazione del fuso orario italiano (UTC+2)
-      const TIMEZONE_OFFSET_HOURS = 2;
+      // Tenta di ottenere il fuso orario dalle impostazioni dell'app
+      let TIMEZONE_OFFSET_HOURS = 2; // Valore predefinito per l'Italia (CEST, UTC+2)
+      let timezoneName = "Europe/Rome";
       
-      // Otteniamo la data attuale considerando il fuso orario italiano
+      try {
+        // Ottieni le impostazioni del fuso orario dalla configurazione dell'app
+        const timezoneSetting = await storage.getSetting('timezone');
+        if (timezoneSetting) {
+          const timezoneData = JSON.parse(timezoneSetting.value);
+          TIMEZONE_OFFSET_HOURS = timezoneData.offset || 2;
+          timezoneName = timezoneData.timezone || "Europe/Rome";
+          console.log(`Utilizzando fuso orario da configurazione: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
+        } else {
+          console.log(`Nessuna configurazione di fuso orario trovata, utilizzo predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
+        }
+      } catch (error) {
+        console.error('Errore nel recupero delle impostazioni del fuso orario:', error);
+        console.log(`Utilizzo fuso orario predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
+      }
+      
+      // Otteniamo la data attuale
       const now = new Date();
       
-      // Creazione delle date per il controllo dei promemoria con il fuso orario corretto
+      // Creazione delle date per il controllo dei promemoria
       const nowPlus24Hours = addDays(now, 1);
       const nowPlus25Hours = new Date(nowPlus24Hours.getTime() + 60 * 60 * 1000); // +1 ora
       
@@ -222,7 +239,7 @@ export const notificationService = {
       const tomorrowStr = format(nowPlus24Hours, 'yyyy-MM-dd');
       
       console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
-      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, Fuso orario server: UTC, Offset utilizzato: UTC+${TIMEZONE_OFFSET_HOURS}`);
+      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, Fuso orario server: UTC, Fuso orario utilizzato: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
       
       // Recupera tutti gli appuntamenti di oggi e domani
       let appointments = [];
@@ -247,23 +264,23 @@ export const notificationService = {
           continue;
         }
         
-        // Crea un oggetto Date per l'appuntamento e applica l'offset del fuso orario
+        // Crea un oggetto Date per l'appuntamento
         const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
         
         // Calcoliamo la differenza oraria considerando il fuso orario
-        // Il server è in UTC, l'Italia è in UTC+2, quindi dobbiamo sottrarre 2 ore dalla differenza
+        // Il server è in UTC, dobbiamo applicare l'offset per il fuso orario locale
         const rawHoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
         const hoursDiff = rawHoursDiff - TIMEZONE_OFFSET_HOURS;
         
         // Logghiamo informazioni utili per il debug
         console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
                     `Ore di differenza (raw): ${rawHoursDiff.toFixed(1)}, ` +
-                    `Con offset fuso orario: ${hoursDiff.toFixed(1)}`);
+                    `Con offset fuso orario ${timezoneName}: ${hoursDiff.toFixed(1)}`);
         
         // Verifica se l'appuntamento è tra 23 e 25 ore nel futuro
         // Usiamo 23 invece di 24 per dare un po' di margine e non perderci promemoria
         if (hoursDiff >= 23 && hoursDiff <= 25) {
-          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore (considerando fuso orario italiano), invio promemoria...`);
+          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore (considerando fuso orario ${timezoneName}), invio promemoria...`);
           apptsToRemind.push(appointment);
         }
       }
