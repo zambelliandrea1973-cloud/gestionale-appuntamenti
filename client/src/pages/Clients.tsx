@@ -7,7 +7,9 @@ import {
   Star, 
   AlertCircle,
   Loader2,
-  Clock
+  Clock,
+  Phone,
+  AlertTriangle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -28,6 +30,7 @@ export default function Clients() {
   const [activeTab, setActiveTab] = useState("all");
   const [lastRefreshTime, setLastRefreshTime] = useState<Date>(new Date());
   const autoRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
   
   // Fetch all clients
   const {
@@ -141,6 +144,61 @@ export default function Clients() {
     setIsClientDialogOpen(false);
   };
   
+  // Funzione per aggiornare i prefissi telefonici di tutti i clienti
+  const handleUpdatePhonePrefixes = async () => {
+    if (isUpdatingPrefixes) return;
+    
+    try {
+      setIsUpdatingPrefixes(true);
+      
+      // Chiedi conferma all'utente prima di procedere
+      if (!window.confirm(t('clients.confirmUpdatePrefixes', 'Sei sicuro di voler aggiornare i prefissi di tutti i numeri di telefono? Questa operazione aggiungerà il prefisso +39 a tutti i numeri italiani che non hanno già un prefisso internazionale.'))) {
+        setIsUpdatingPrefixes(false);
+        return;
+      }
+      
+      const response = await fetch('/api/update-phone-prefixes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Errore durante l'aggiornamento dei prefissi: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      console.log('Risultato aggiornamento prefissi:', result);
+      
+      // Mostra un toast con un riepilogo dell'operazione
+      toast({
+        title: t('notifications.success'),
+        description: t('clients.prefixesUpdated', {
+          total: result.summary.total,
+          updated: result.summary.updated,
+          skipped: result.summary.skipped,
+          empty: result.summary.empty
+        }, 'Aggiornamento completato: {{updated}} numeri aggiornati, {{skipped}} già con prefisso, {{empty}} senza numero'),
+      });
+      
+      // Aggiorna la lista dei clienti
+      refetchClients();
+      
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento dei prefissi:', error);
+      
+      toast({
+        title: t('notifications.error'),
+        description: error instanceof Error ? error.message : "Errore durante l'aggiornamento dei prefissi",
+        variant: "destructive"
+      });
+    } finally {
+      setIsUpdatingPrefixes(false);
+    }
+  };
+  
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
@@ -181,15 +239,43 @@ export default function Clients() {
           </div>
         </div>
         
-        <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <UserPlus className="mr-2 h-4 w-4" />
-              {t('clients.newClient')}
-            </Button>
-          </DialogTrigger>
-          <ClientForm onClose={() => setIsClientDialogOpen(false)} onClientCreated={handleClientCreated} />
-        </Dialog>
+        <div className="flex space-x-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={handleUpdatePhonePrefixes}
+                  disabled={isUpdatingPrefixes}
+                >
+                  {isUpdatingPrefixes ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <Phone className="h-4 w-4 mr-2" />
+                  )}
+                  {t('clients.updatePrefixes', 'Aggiorna prefissi')}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <div className="max-w-xs">
+                  <p className="font-semibold">{t('clients.updatePrefixesHint.title', 'Aggiorna prefissi telefonici')}</p>
+                  <p className="text-xs mt-1">{t('clients.updatePrefixesHint.description', 'Aggiunge il prefisso internazionale +39 a tutti i numeri di telefono italiani che non ce l\'hanno già.')}</p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <UserPlus className="mr-2 h-4 w-4" />
+                {t('clients.newClient')}
+              </Button>
+            </DialogTrigger>
+            <ClientForm onClose={() => setIsClientDialogOpen(false)} onClientCreated={handleClientCreated} />
+          </Dialog>
+        </div>
       </div>
       
       {/* Search and filters */}
