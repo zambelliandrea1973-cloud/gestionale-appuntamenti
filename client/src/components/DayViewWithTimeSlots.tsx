@@ -115,27 +115,47 @@ export default function DayViewWithTimeSlots({
       );
     });
     
-    // Calcola un offset per evitare sovrapposizioni complete
-    let offset = 0;
-    // Assegna un offset in base alla posizione nell'array degli appuntamenti sovrapposti
-    const appIndex = overlappingAppointments.findIndex(app => 
+    // Raggruppa appuntamenti che si sovrappongono nello stesso orario
+    const sameTimeAppointments = appointments.filter(app => 
+      app.id !== appointment.id && 
       app.startTime.substring(0, 5) === startTime
     );
     
-    // Se ci sono appuntamenti sovrapposti, assegna un offset orizzontale
-    if (overlappingAppointments.length > 0) {
-      // Larghezza disponibile divisa per il numero di appuntamenti sovrapposti + 1
-      const maxOverlap = overlappingAppointments.length + 1;
-      const overlapIndex = appIndex === -1 ? 0 : appIndex;
-      offset = overlapIndex * (100 / maxOverlap);
+    // Trova la posizione di questo appuntamento nel gruppo di appuntamenti con lo stesso orario di inizio
+    const sameTimeIndex = sameTimeAppointments.findIndex(app => 
+      app.id < appointment.id  // Ordina per ID per mantenere coerenza
+    ) + 1; // +1 perché il primo appuntamento è all'indice 0
+    
+    // Calcola il numero totale di appuntamenti allo stesso orario
+    const totalSameTime = sameTimeAppointments.length + 1;
+    
+    // Imposta l'offset e la larghezza in base alla presenza di sovrapposizioni
+    let leftPosition = 70; // Inizia dopo i numeri degli orari (~ 70px)
+    let widthValue = 'calc(100% - 74px)'; // Larghezza predefinita
+    
+    if (totalSameTime > 1) {
+      // Calcola la larghezza per ogni appuntamento sovrapposto
+      const baseWidth = Math.floor((100 - 15) / totalSameTime); // 15% di spazio riservato
+      
+      // Determina la posizione per questo appuntamento in particolare
+      if (sameTimeIndex === 0) {
+        // Il primo appuntamento parte dal bordo sinistro
+        leftPosition = 70;
+        widthValue = `${baseWidth}%`;
+      } else {
+        // Gli altri appuntamenti sono distribuiti a destra
+        const adjustedWidth = Math.max(baseWidth - 2, 20); // Garantisci almeno 20% di larghezza
+        leftPosition = 70 + (sameTimeIndex * adjustedWidth);
+        widthValue = `${adjustedWidth}%`;
+      }
     }
     
     return {
       top: `${top}px`,
       height: `${height}px`,
-      width: overlappingAppointments.length > 0 ? `calc(100% - ${offset}%)` : '100%',
-      left: overlappingAppointments.length > 0 ? `${offset}%` : '0',
-      zIndex: 10 + (appIndex === -1 ? 0 : appIndex), // Assicura che gli appuntamenti sovrapposti abbiano z-index diversi
+      width: widthValue,
+      left: `${leftPosition}px`,
+      zIndex: 10 + sameTimeIndex, // Assicura che gli appuntamenti sovrapposti abbiano z-index diversi
     };
   };
 
@@ -334,35 +354,36 @@ export default function DayViewWithTimeSlots({
           return (
             <div 
               key={appointment.id}
-              className="absolute left-20 right-4 rounded shadow-md overflow-hidden z-10"
+              className="absolute rounded shadow-md overflow-hidden z-10"
               style={{
                 ...styles,
+                right: '4px',
                 border: `1px solid ${appointment.service?.color || '#4299e1'}40`,
                 borderLeft: `12px solid ${appointment.service?.color || '#4299e1'}`,
                 boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`
               }}
             >
               <div 
-                className="p-2 h-full flex flex-col justify-between"
+                className="p-1 sm:p-2 h-full flex flex-col justify-between"
                 style={{
                   backgroundColor: `${appointment.service?.color || '#4299e1'}10`,
                 }}
               >
-                <div className="font-semibold text-sm truncate text-gray-800">
+                <div className="font-semibold text-xs sm:text-sm truncate text-gray-800">
                   {appointment.client?.firstName} {appointment.client?.lastName}
                 </div>
                 
-                <div className="flex justify-between items-center">
-                  <div className="text-xs font-medium flex flex-col" style={{ color: appointment.service?.color || '#4299e1' }}>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                  <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: appointment.service?.color || '#4299e1' }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
-                    <span className="text-gray-600">{appointment.service?.name}</span>
+                    <span className="text-gray-600 truncate">{appointment.service?.name}</span>
                   </div>
                   
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 mt-1 sm:mt-0">
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-6 w-6"
+                      className="h-5 w-5 sm:h-6 sm:w-6 p-0"
                       onClick={() => editAppointment(appointment)}
                     >
                       <Edit className="h-3 w-3" />
@@ -370,7 +391,7 @@ export default function DayViewWithTimeSlots({
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-6 w-6 text-red-500"
+                      className="h-5 w-5 sm:h-6 sm:w-6 p-0 text-red-500"
                       onClick={() => deleteAppointment(appointment.id)}
                     >
                       <Trash2 className="h-3 w-3" />
