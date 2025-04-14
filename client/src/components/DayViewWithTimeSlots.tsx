@@ -162,25 +162,56 @@ export default function DayViewWithTimeSlots({
     const startTime = appointment.startTime.substring(0, 5);
     const endTime = appointment.endTime.substring(0, 5);
     
-    // Calcola i minuti dall'inizio del giorno (8:00)
-    const startHours = parseInt(startTime.split(':')[0]);
-    const startMinutes = parseInt(startTime.split(':')[1]);
-    const totalStartMinutes = (startHours - 8) * 60 + startMinutes;
+    // Trova gli indici degli slot corrispondenti all'orario di inizio e fine
+    // Questo metodo è più preciso perché usa direttamente gli slot definiti
+    const startSlotIndex = timeSlots.findIndex(slot => slot === startTime);
+    let endSlotIndex = timeSlots.findIndex(slot => slot === endTime);
     
-    // Calcola i minuti totali della durata
-    const endHours = parseInt(endTime.split(':')[0]);
-    const endMinutes = parseInt(endTime.split(':')[1]);
-    const totalEndMinutes = (endHours - 8) * 60 + endMinutes;
-    const durationMinutes = totalEndMinutes - totalStartMinutes;
+    // Se non troviamo l'orario di fine esatto, prendiamo lo slot precedente
+    if (endSlotIndex === -1) {
+      // Trova l'ultimo slot prima dell'orario di fine
+      endSlotIndex = timeSlots.findIndex(slot => {
+        const [slotHours, slotMinutes] = slot.split(':').map(Number);
+        const [endHours, endMinutes] = endTime.split(':').map(Number);
+        
+        // Converti entrambi in minuti per confronto
+        const slotTotalMinutes = slotHours * 60 + slotMinutes;
+        const endTotalMinutes = endHours * 60 + endMinutes;
+        
+        return slotTotalMinutes >= endTotalMinutes;
+      });
+      
+      // Se ancora non troviamo, usiamo l'ultimo slot disponibile
+      if (endSlotIndex === -1) {
+        endSlotIndex = timeSlots.length - 1;
+      }
+    }
     
-    // Converti in unità relative alla griglia
-    // 40px per ogni slot da 15 minuti (altezza degli slot)
-    // Aggiungiamo +1px per allineare esattamente alle linee del calendario
-    const top = Math.round(totalStartMinutes / 15 * 40); 
-    const height = Math.round(durationMinutes / 15 * 40); // Arrotondiamo per evitare problemi di dimensione frazionaria
+    // Calcola dimensioni in pixel basate sugli indici degli slot
+    // Ogni slot è alto 40px
+    const slotHeight = 40;
+    const top = startSlotIndex * slotHeight;
+    
+    // Per l'altezza, dobbiamo considerare la differenza tra endTime e startTime in slot
+    // Per un appuntamento 18:00-19:00, dobbiamo arrivare fino al primo slot dopo le 19:00
+    const [endHours, endMinutes] = endTime.split(':').map(Number);
+    const endTotalMinutes = endHours * 60 + endMinutes;
+    
+    // Se l'orario di fine non coincide esattamente con un'ora slot, dobbiamo includere lo slot successivo
+    const nextSlotIndex = timeSlots.findIndex(slot => {
+      const [slotHours, slotMinutes] = slot.split(':').map(Number);
+      const slotTotalMinutes = slotHours * 60 + slotMinutes;
+      return slotTotalMinutes > endTotalMinutes;
+    });
+    
+    // Se nextSlotIndex è -1, significa che la fine è oltre l'ultimo slot
+    // In questo caso, usiamo l'altezza calcolata in precedenza
+    const height = nextSlotIndex !== -1 
+      ? (nextSlotIndex - startSlotIndex) * slotHeight
+      : 4 * slotHeight; // Approssimativamente 1 ora
     
     // Debug per verificare i valori calcolati
-    console.log(`  | Orario: ${startTime}-${endTime}, Posizione top: ${top}px, Altezza: ${height}px`);
+    console.log(`  | Orario: ${startTime}-${endTime}, Slot: ${startSlotIndex}-${endSlotIndex}, Top: ${top}px, Altezza: ${height}px`);
     
     // Verifica se ci sono altri appuntamenti che si sovrappongono
     const overlappingAppointments = appointments.filter(app => {
