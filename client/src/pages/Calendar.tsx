@@ -9,7 +9,8 @@ import {
   Clock,
   Calendar as CalendarIcon,
   LayoutGrid,
-  Plus
+  Plus,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +30,38 @@ export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
   const [searchQuery, setSearchQuery] = useState("");
+  const [timezoneInfo, setTimezoneInfo] = useState<{
+    timezone: string;
+    offset: number;
+    name: string;
+  } | null>(null);
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  
+  // Recupera le informazioni sul fuso orario
+  useEffect(() => {
+    const fetchTimezoneInfo = async () => {
+      try {
+        const response = await fetch('/api/timezone-settings');
+        if (response.ok) {
+          const data = await response.json();
+          setTimezoneInfo(data);
+        }
+      } catch (error) {
+        console.error('Errore nel recupero delle informazioni sul fuso orario:', error);
+      }
+    };
+    
+    fetchTimezoneInfo();
+  }, []);
+  
+  // Aggiorna l'orario corrente ogni secondo
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
   
   // Per la ricerca di tutti gli appuntamenti
   const { data: allAppointments = [], refetch: refetchAppointments } = useQuery({
@@ -192,6 +225,17 @@ export default function Calendar() {
           </div>
         </div>
         
+        {/* Indicatore del fuso orario */}
+        <div className="mt-2 flex items-center justify-center px-2 py-1 bg-gray-100 rounded-md">
+          <Globe className="h-4 w-4 text-primary mr-2" />
+          <span className="text-sm font-medium">
+            {new Date().toLocaleTimeString()} - {timezoneInfo?.name || 'UTC'} 
+            {timezoneInfo?.offset !== undefined && 
+              `(UTC${timezoneInfo.offset > 0 ? '+' : ''}${timezoneInfo.offset})`
+            }
+          </span>
+        </div>
+
         <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           {/* Bottoni di visualizzazione - modificati per essere responsivi su dispositivi mobili */}
           <div className="flex flex-wrap rounded-md overflow-hidden shadow-sm border w-full sm:w-auto">
