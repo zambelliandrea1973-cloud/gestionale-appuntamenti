@@ -24,11 +24,21 @@ export default function ReminderTemplateManager() {
     name: string;
     template: string;
     type: string;
+    reminderTypes: {
+      sms: boolean;
+      whatsapp: boolean;
+      email: boolean;
+    };
     isDefault: boolean;
   }>({
     name: '',
     template: '',
-    type: 'sms',
+    type: 'sms', // Mantenuto per retrocompatibilità
+    reminderTypes: {
+      sms: false,
+      whatsapp: false,
+      email: false
+    },
     isDefault: false,
   });
 
@@ -119,6 +129,11 @@ export default function ReminderTemplateManager() {
       name: '',
       template: '',
       type: 'sms',
+      reminderTypes: {
+        sms: false,
+        whatsapp: false,
+        email: false
+      },
       isDefault: false,
     });
     setEditingTemplate(null);
@@ -131,25 +146,62 @@ export default function ReminderTemplateManager() {
 
   const openEditForm = (template: ReminderTemplate) => {
     setEditingTemplate(template);
+    
+    // Parse existing type string into individual flags
+    const types = template.type ? template.type.split(',') : [];
+    
     setFormData({
       name: template.name,
       template: template.template,
       type: template.type || 'sms',
+      reminderTypes: {
+        sms: types.includes('sms'),
+        whatsapp: types.includes('whatsapp'),
+        email: types.includes('email')
+      },
       isDefault: template.isDefault || false,
     });
     setIsFormOpen(true);
   };
 
+  // Funzione per compilare il tipo di promemoria in base ai checkbox selezionati
+  const compileReminderTypes = () => {
+    const { reminderTypes } = formData;
+    const selectedTypes = [];
+    
+    if (reminderTypes.sms) selectedTypes.push('sms');
+    if (reminderTypes.whatsapp) selectedTypes.push('whatsapp');
+    if (reminderTypes.email) selectedTypes.push('email');
+    
+    return selectedTypes.join(',');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Compila il tipo di promemoria dai checkbox
+    const type = compileReminderTypes();
+    
+    if (type.length === 0) {
+      toast({
+        title: t('settings.reminderTemplates.noTypeSelected', 'Attenzione'),
+        description: t('settings.reminderTemplates.pleaseSelectType', 'Seleziona almeno un tipo di promemoria'),
+        variant: 'destructive',
+      });
+      return;
+    }
     
     if (editingTemplate) {
       updateTemplateMutation.mutate({
         ...editingTemplate,
         ...formData,
+        type
       } as ReminderTemplate);
     } else {
-      createTemplateMutation.mutate(formData);
+      createTemplateMutation.mutate({
+        ...formData,
+        type
+      });
     }
   };
 
@@ -202,11 +254,11 @@ export default function ReminderTemplateManager() {
                           {t('settings.reminderTemplates.default', 'Predefinito')}
                         </span>
                       )}
-                      {template.type && (
-                        <span className="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded-full">
-                          {template.type.toUpperCase()}
+                      {template.type && template.type.split(',').map((typePart, index) => (
+                        <span key={index} className="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded-full ml-1">
+                          {typePart.trim().toUpperCase()}
                         </span>
-                      )}
+                      ))}
                     </div>
 
                     <p className="text-sm whitespace-pre-line border-l-2 border-gray-200 pl-3 py-1 mt-2">
@@ -277,21 +329,73 @@ export default function ReminderTemplateManager() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="type">{t('settings.reminderTemplates.type', 'Tipo di Promemoria')}</Label>
-              <Select 
-                value={formData.type}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={t('settings.reminderTemplates.selectType', 'Seleziona tipo')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="sms">SMS</SelectItem>
-                  <SelectItem value="whatsapp">WhatsApp</SelectItem>
-                  <SelectItem value="email">Email</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="space-y-3">
+              <Label>{t('settings.reminderTemplates.type', 'Tipo di Promemoria')}</Label>
+              <p className="text-xs text-muted-foreground mt-1">
+                {t('settings.reminderTemplates.selectMultiple', 'Seleziona uno o più canali di notifica per questo modello di promemoria')}
+              </p>
+              
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="sms-checkbox" 
+                    checked={formData.reminderTypes.sms}
+                    onCheckedChange={(checked) => 
+                      setFormData(prev => ({
+                        ...prev,
+                        reminderTypes: {
+                          ...prev.reminderTypes,
+                          sms: checked as boolean
+                        }
+                      }))
+                    }
+                  />
+                  <div className="flex items-center gap-1.5">
+                    <Smartphone className="h-4 w-4 text-muted-foreground" />
+                    <Label htmlFor="sms-checkbox" className="cursor-pointer">SMS</Label>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="whatsapp-checkbox" 
+                    checked={formData.reminderTypes.whatsapp}
+                    onCheckedChange={(checked) => 
+                      setFormData(prev => ({
+                        ...prev,
+                        reminderTypes: {
+                          ...prev.reminderTypes,
+                          whatsapp: checked as boolean
+                        }
+                      }))
+                    }
+                  />
+                  <div className="flex items-center gap-1.5">
+                    <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                    <Label htmlFor="whatsapp-checkbox" className="cursor-pointer">WhatsApp</Label>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="email-checkbox" 
+                    checked={formData.reminderTypes.email}
+                    onCheckedChange={(checked) => 
+                      setFormData(prev => ({
+                        ...prev,
+                        reminderTypes: {
+                          ...prev.reminderTypes,
+                          email: checked as boolean
+                        }
+                      }))
+                    }
+                  />
+                  <div className="flex items-center gap-1.5">
+                    <MailIcon className="h-4 w-4 text-muted-foreground" />
+                    <Label htmlFor="email-checkbox" className="cursor-pointer">Email</Label>
+                  </div>
+                </div>
+              </div>
             </div>
 
 
