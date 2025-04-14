@@ -37,7 +37,8 @@ export interface IStorage {
   // Reminder Template operations
   getReminderTemplate(id: number): Promise<ReminderTemplate | undefined>;
   getReminderTemplates(): Promise<ReminderTemplate[]>;
-  getDefaultReminderTemplate(): Promise<ReminderTemplate | undefined>;
+  getDefaultReminderTemplate(type?: string): Promise<ReminderTemplate | undefined>;
+  getReminderTemplateByService(serviceId: number, type?: string): Promise<ReminderTemplate | undefined>;
   createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate>;
   updateReminderTemplate(id: number, template: Partial<InsertReminderTemplate>): Promise<ReminderTemplate | undefined>;
   deleteReminderTemplate(id: number): Promise<boolean>;
@@ -2175,6 +2176,12 @@ export class DatabaseStorage implements IStorage {
       console.error('Errore durante il recupero del modello di promemoria per servizio:', error);
       return undefined;
     }
+  }
+  
+  // Implementazione del metodo richiesto dall'interfaccia
+  async getReminderTemplateByService(serviceId: number, type: string = 'sms'): Promise<ReminderTemplate | undefined> {
+    // Utilizziamo il metodo esistente con il nome diverso
+    return this.getReminderTemplateByServiceId(serviceId, type);
   }
 
   async createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate> {
