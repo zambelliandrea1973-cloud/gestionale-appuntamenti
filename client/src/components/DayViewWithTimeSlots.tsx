@@ -508,13 +508,30 @@ export default function DayViewWithTimeSlots({
               }}
             >
               <div 
-                className="p-1 sm:p-2 h-full flex flex-col justify-between"
+                className="p-1 sm:p-2 h-full flex flex-col justify-between relative"
                 style={{
                   backgroundColor: isExpanded 
                     ? '#ffffff' // Sfondo completamente bianco quando espanso
                     : `${appointment.service?.color || '#4299e1'}10`, // Sfondo trasparente quando normale
                 }}
               >
+                {/* Pulsante di chiusura X visibile solo quando l'appuntamento è espanso */}
+                {isExpanded && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Previene la propagazione dell'evento
+                      setExpandedAppointment(null);
+                    }}
+                    className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full"
+                    title="Chiudi"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                )}
+                
                 <div className="font-semibold text-xs sm:text-sm truncate text-gray-800 flex items-center">
                   {appointment.client?.firstName} {appointment.client?.lastName}
                   {/* Aggiunge un indicatore di tocco quando l'appuntamento è espanso su mobile */}
