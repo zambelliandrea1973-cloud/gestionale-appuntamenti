@@ -109,7 +109,9 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
           <span className="inline-flex items-center justify-center bg-primary/10 text-primary font-semibold rounded-full h-7 w-7 mr-2">
             {selectedDate.getMonth() + 1}
           </span>
-          <span>{selectedDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}</span>
+          <span>
+            {selectedDate.getDate()} {selectedDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
+          </span>
         </h3>
       </div>
       
