@@ -36,10 +36,19 @@ export default function DayViewWithTimeSlots({
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
   
-  // Riferimento per rilevare click all'esterno dell'appuntamento espanso
+  // Gestione dell'appuntamento espanso e timer di chiusura automatica
   useEffect(() => {
     // Se non c'è un appuntamento espanso, non facciamo nulla
     if (expandedAppointment === null) return;
+    
+    // Timer per chiudere automaticamente l'appuntamento espanso dopo 2 secondi (solo mobile)
+    let autoCloseTimer: NodeJS.Timeout | null = null;
+    
+    if (window.innerWidth < 768) {
+      autoCloseTimer = setTimeout(() => {
+        setExpandedAppointment(null);
+      }, 2000); // 2 secondi
+    }
     
     // Funzione per gestire il click fuori dall'appuntamento espanso (solo mobile)
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,7 +56,7 @@ export default function DayViewWithTimeSlots({
       if (window.innerWidth >= 768) return;
       
       const target = event.target as HTMLElement;
-      // Controlla se il click è stato fatto al di fuori di un elemento con classe absoluteattribute appointment
+      // Controlla se il click è stato fatto al di fuori di un elemento con classe .absolute
       if (!target.closest('.absolute')) {
         setExpandedAppointment(null);
       }
@@ -59,6 +68,8 @@ export default function DayViewWithTimeSlots({
     // Pulizia
     return () => {
       document.removeEventListener('click', handleClickOutside);
+      // Cancella il timer se esiste
+      if (autoCloseTimer) clearTimeout(autoCloseTimer);
     };
   }, [expandedAppointment]);
 
@@ -417,19 +428,27 @@ export default function DayViewWithTimeSlots({
                 boxShadow: `0 2px 10px rgba(0,0,0,0.08), 0 0 0 1px ${appointment.service?.color || '#4299e1'}20`,
                 transition: 'width 0.2s ease-in-out, left 0.2s ease-in-out'
               }}
-              onMouseEnter={() => setExpandedAppointment(appointment.id)}
-              onMouseLeave={() => setExpandedAppointment(null)}
-              onTouchStart={(e) => {
-                // Previeni altri eventi (come il click) se stiamo solo espandendo
-                if (expandedAppointment !== appointment.id) {
-                  e.preventDefault();
+              // Su desktop usiamo hover (mouse enter/leave)
+              onMouseEnter={() => {
+                // Solo su desktop (non mobile)
+                if (window.innerWidth >= 768) {
                   setExpandedAppointment(appointment.id);
                 }
               }}
-              onClick={() => {
-                // Se l'appuntamento è già espanso e siamo su mobile, chiudilo
-                if (expandedAppointment === appointment.id && window.innerWidth < 768) {
+              onMouseLeave={() => {
+                // Solo su desktop (non mobile)
+                if (window.innerWidth >= 768) {
                   setExpandedAppointment(null);
+                }
+              }}
+              // Su mobile usiamo il tocco (touch)
+              onTouchStart={(e) => {
+                // Su mobile, al tocco espandiamo l'appuntamento
+                if (window.innerWidth < 768) {
+                  // Previeni altri eventi (come click)
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setExpandedAppointment(appointment.id);
                 }
               }}
             >
