@@ -148,6 +148,14 @@ export interface IStorage {
   createGoogleCalendarEvent(event: InsertGoogleCalendarEvent): Promise<GoogleCalendarEvent>;
   updateGoogleCalendarEvent(appointmentId: number, event: Partial<InsertGoogleCalendarEvent>): Promise<GoogleCalendarEvent | undefined>;
   deleteGoogleCalendarEvent(appointmentId: number): Promise<boolean>;
+  
+  // App Settings operations
+  getSetting(key: string): Promise<AppSettings | undefined>;
+  getAllSettings(): Promise<AppSettings[]>;
+  getSettingsByCategory(category: string): Promise<AppSettings[]>;
+  saveSetting(key: string, value: string, description?: string, category?: string): Promise<AppSettings>;
+  updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined>;
+  deleteSetting(id: number): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
