@@ -5,8 +5,8 @@
  * node scripts/test-twilio.js
  */
 
-// Importa la libreria Twilio
-const twilio = require('twilio');
+// Importa la libreria Twilio (sintassi ES modules)
+import twilio from 'twilio';
 
 // Configura il client Twilio utilizzando le variabili d'ambiente
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
