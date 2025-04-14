@@ -415,9 +415,11 @@ export default function DayViewWithTimeSlots({
       {/* Pulsanti flottanti per la gestione della selezione */}
       {isSelectionMode ? (
         <div className="fixed bottom-6 right-6 flex gap-2 z-50">
-          <Button onClick={cancelSelection} variant="outline" className="shadow-md">
-            {t('common.cancel')}
-          </Button>
+          <FloatingActionButton
+            onClick={cancelSelection}
+            text={t('common.cancel')}
+            variant="secondary"
+          />
           <FloatingActionButton 
             onClick={completeSelection} 
             text={t('calendar.confirmAndAssociateClient')}
