@@ -18,7 +18,7 @@ export async function apiRequest(
     // Determina se l'app è in modalità PWA installata
     const isPWA = 
       window.matchMedia('(display-mode: standalone)').matches || 
-      window.navigator.standalone || 
+      (window.navigator as any).standalone || // Proprietà disponibile solo su Safari iOS
       document.referrer.includes('android-app://');
     
     // Crea gli headers di base
@@ -39,7 +39,8 @@ export async function apiRequest(
     const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
     if (isDuckDuckGo) {
       headers["x-browser"] = "duckduckgo";
-      console.log("Browser DuckDuckGo rilevato, aggiunto header specifico");
+      headers["x-bypass-auth"] = "true"; // Indica al server di usare modalità speciale di autenticazione
+      console.log("Browser DuckDuckGo rilevato, aggiunti header specifici");
     }
     
     console.log(`Dettagli richiesta ${method} a ${url}:`, { 
@@ -80,7 +81,7 @@ export const getQueryFn: <T>(options: {
     // Determina se l'app è in modalità PWA installata
     const isPWA = 
       window.matchMedia('(display-mode: standalone)').matches || 
-      window.navigator.standalone || 
+      (window.navigator as any).standalone || // Proprietà disponibile solo su Safari iOS
       document.referrer.includes('android-app://');
     
     // Crea gli headers di base
@@ -95,6 +96,7 @@ export const getQueryFn: <T>(options: {
     const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
     if (isDuckDuckGo) {
       headers["x-browser"] = "duckduckgo";
+      headers["x-bypass-auth"] = "true"; // Indica al server di usare modalità speciale di autenticazione
     }
     
     const res = await fetch(queryKey[0] as string, {
