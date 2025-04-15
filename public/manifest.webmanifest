@@ -2,7 +2,7 @@
   "name": "Gestione Appuntamenti",
   "short_name": "App Cliente",
   "description": "Gestisci i tuoi appuntamenti e consensi",
-  "start_url": "/",
+  "start_url": "/client.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
@@ -10,23 +10,28 @@
     {
       "src": "/icons/default-app-icon.jpg",
       "sizes": "192x192",
-      "type": "image/jpg",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
       "src": "/icons/default-app-icon.jpg",
       "sizes": "512x512",
-      "type": "image/jpg",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ],
   "prefer_related_applications": false,
-  "categories": ["productivity", "health"],
-  "orientation": "portrait",
+  "categories": ["productivity", "health", "healthcare"],
+  "orientation": "any",
+  "id": "gestione-appuntamenti-client",
+  "scope": "/",
+  "lang": "it-IT",
+  "dir": "ltr",
   "shortcuts": [
     {
-      "name": "Home",
-      "url": "/",
+      "name": "Area Cliente",
+      "url": "/client-area",
+      "description": "Accedi alla tua area personale",
       "icons": [{ "src": "/icons/default-app-icon.jpg", "sizes": "96x96" }]
     }
   ]

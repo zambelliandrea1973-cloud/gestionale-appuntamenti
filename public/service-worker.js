@@ -1,13 +1,16 @@
 // Service Worker per l'app Gestione Appuntamenti
-const CACHE_NAME = 'gestioneapp-v1';
+const CACHE_NAME = 'gestioneapp-v2';
 
 // Risorse da caricare nella cache
 const urlsToCache = [
   '/',
   '/index.html',
+  '/client.html',
+  '/client-area.html',
+  '/client-area',
+  '/client-login',
   '/manifest.json',
   '/manifest.webmanifest',
-  '/icons/app-icon.svg',
   '/icons/default-app-icon.jpg'
 ];
 
