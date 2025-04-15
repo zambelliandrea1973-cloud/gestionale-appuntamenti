@@ -36,10 +36,15 @@ export default function ClientLogin() {
       // Rimuovi il parametro dall'URL per evitare che rimanga nella cronologia
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
+      
+      // Solo se è scaduta la sessione, pulisci il token
+      console.log("Sessione scaduta, pulizia solo del token");
+      localStorage.removeItem('clientAccessToken');
     }
     
-    // Pulisci il local storage per prevenire problemi con sessioni precedenti
-    localStorage.removeItem('clientAccessToken');
+    // Non rimuoviamo più il clientAccessToken qui in modo generale
+    // perché questo causava la perdita del token anche durante i normali
+    // accessi all'app, portando al problema del "Token Mancante" al terzo tentativo
   }, []);
   
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
@@ -61,6 +66,30 @@ export default function ClientLogin() {
       navigator.serviceWorker.controller.postMessage({
         type: 'SAVE_ORIGINAL_URL',
         url: currentUrl
+      });
+    }
+    
+    // Diagnostica avanzata: log completo del localStorage
+    const allStorageKeys = ['originalUrl', 'qrLink', 'qrData', 'clientUsername', 'clientId', 'clientAccessToken', 'clientPassword'];
+    const localStorageData = allStorageKeys.reduce((result, key) => {
+      result[key] = localStorage.getItem(key) ? 
+        (key === 'clientPassword' ? '(password presente)' : localStorage.getItem(key)) : 
+        null;
+      return result;
+    }, {} as Record<string, string | null>);
+    
+    console.log("Diagnostica completa localStorage:", localStorageData);
+    
+    // Riparazione localStorage - se token è assente ma qrData è presente e abbiamo un clientId
+    if (!localStorage.getItem('clientAccessToken') && localStorage.getItem('qrData') && localStorage.getItem('clientId')) {
+      console.log("RIPARAZIONE: Token mancante, ricostruito da qrData");
+      localStorage.setItem('clientAccessToken', localStorage.getItem('qrData') || '');
+      
+      // Informiamo l'utente della riparazione
+      toast({
+        title: "Riparazione dati",
+        description: "Le informazioni di accesso sono state ricostruite",
+        duration: 3000,
       });
     }
     
