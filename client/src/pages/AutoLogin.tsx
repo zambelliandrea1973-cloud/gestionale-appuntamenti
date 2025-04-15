@@ -1,157 +1,227 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Check, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { apiRequest } from "@/lib/queryClient";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2, CheckCircle, XCircle } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
+import { Button } from "@/components/ui/button";
 
+/**
+ * Pagina di AutoLogin per PWA
+ * 
+ * Questa pagina tenta di autenticare automaticamente un utente
+ * quando avvia l'app in modalità PWA, utilizzando le credenziali memorizzate
+ */
 export default function AutoLogin() {
-  const [, setLocation] = useLocation();
+  const [_, setLocation] = useLocation();
   const { toast } = useToast();
-  const [status, setStatus] = useState<'checking' | 'success' | 'error'>('checking');
-  const [message, setMessage] = useState('Verifica delle credenziali in corso...');
-  
+  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [message, setMessage] = useState<string>("Tentativo di accesso automatico...");
+  const [clientName, setClientName] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
   useEffect(() => {
-    attemptAutoLogin();
-  }, []);
-  
-  const attemptAutoLogin = async () => {
-    try {
-      // Assicuriamoci di ottenere i parametri sia dall'URL che dal localStorage
-      const urlParams = new URLSearchParams(window.location.search);
-      let token = urlParams.get('token');
-      let clientId = urlParams.get('clientId');
-      
-      // Se i parametri esistono nell'URL, salviamoli nel localStorage per usi futuri
-      if (token && clientId) {
-        localStorage.setItem('clientAccessToken', token);
-        localStorage.setItem('clientId', clientId);
-      } 
-      // Se non sono presenti nell'URL, prova a recuperarli dal localStorage
-      else {
-        const storedToken = localStorage.getItem('clientAccessToken');
-        const storedClientId = localStorage.getItem('clientId');
+    const attemptAutoLogin = async () => {
+      try {
+        console.log("Tentativo di auto-login dalla pagina AutoLogin");
         
-        if (storedToken && storedClientId) {
-          token = storedToken;
-          clientId = storedClientId;
-          console.log("Parametri recuperati da localStorage per tentativo di auto-login");
-        } else {
-          // Se non abbiamo né token né clientId, non possiamo procedere
-          setStatus('error');
-          setMessage('Nessuna credenziale trovata per l\'accesso automatico');
-          return;
-        }
-      }
-      
-      // Ottieni anche username e password se disponibili
-      const storedUsername = localStorage.getItem('clientUsername');
-      const storedPassword = localStorage.getItem('clientPassword');
-      
-      // Prima prova autenticazione con token
-      const tokenResponse = await apiRequest('POST', '/api/verify-token', { 
-        token, 
-        clientId: parseInt(clientId, 10) 
-      });
-      
-      // Se l'autenticazione con token ha successo
-      if (tokenResponse.ok) {
-        setStatus('success');
-        setMessage('Autenticazione riuscita! Reindirizzamento in corso...');
-        
-        setTimeout(() => {
-          setLocation(`/client-area?token=${token}`);
-        }, 1500);
-        return;
-      }
-      
-      // Se abbiamo username e password, prova con il login normale
-      if (storedUsername && storedPassword) {
-        const requestData: any = {
-          username: storedUsername,
-          password: storedPassword,
-          token,
-          clientId: parseInt(clientId, 10),
-        };
-        
-        // Se siamo in DuckDuckGo, attiva modalità bypass
-        if (navigator.userAgent.includes("DuckDuckGo")) {
-          requestData.bypassAuth = true;
-          requestData.duckduckgo = true;
-        }
-        
-        const loginResponse = await apiRequest('POST', '/api/client/login', requestData);
-        
-        if (loginResponse.ok) {
-          setStatus('success');
-          setMessage('Accesso effettuato con successo! Reindirizzamento in corso...');
+        // Rileva se siamo in una PWA installata
+        const isPWA = 
+          window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator as any).standalone || 
+          document.referrer.includes('android-app://');
+
+        const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
           
-          setTimeout(() => {
-            setLocation(`/client-area?token=${token}`);
-          }, 1500);
+        // Recupera le credenziali salvate
+        const username = localStorage.getItem('clientUsername');
+        const password = localStorage.getItem('clientPassword');
+        const token = localStorage.getItem('clientAccessToken');
+        const clientId = localStorage.getItem('clientId');
+        
+        // Log dei dati che abbiamo (senza mostrare la password)
+        console.log(`Auto-login - Dati disponibili: 
+          isPWA: ${isPWA}, 
+          isDuckDuckGo: ${isDuckDuckGo}, 
+          username: ${username ? 'sì' : 'no'}, 
+          password: ${password ? 'sì' : 'no'}, 
+          token: ${token ? 'sì' : 'no'}, 
+          clientId: ${clientId ? 'sì' : 'no'}`);
+        
+        // Se non abbiamo dati sufficienti per tentare il login, interrompi
+        if (!username) {
+          setStatus("error");
+          setMessage("Accesso automatico fallito");
+          setError("Nessun nome utente salvato. Effettua il login manualmente.");
           return;
         }
+        
+        // Se abbiamo un token e un cliente ID, prima tenta la verifica del token
+        if (token && clientId) {
+          try {
+            console.log("Tentativo di verifica token");
+            const tokenResponse = await apiRequest('POST', '/api/verify-token', { 
+              token, 
+              clientId: parseInt(clientId, 10) 
+            });
+            
+            if (tokenResponse.ok) {
+              const result = await tokenResponse.json();
+              setStatus("success");
+              setMessage("Accesso effettuato");
+              setClientName(result.client?.firstName || 'Utente');
+              
+              toast({
+                title: "Accesso automatico effettuato",
+                description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
+              });
+              
+              // Redirezione alla client area
+              setTimeout(() => {
+                setLocation(`/client-area?token=${token}`);
+              }, 1500);
+              
+              return;
+            } else {
+              console.log("Verifica token fallita, tentativo con credenziali");
+            }
+          } catch (error) {
+            console.error("Errore durante verifica token:", error);
+          }
+        }
+        
+        // Se la verifica del token fallisce o non abbiamo token, tenta con le credenziali
+        if (username && password) {
+          try {
+            console.log("Tentativo di login con credenziali");
+            
+            const requestData: any = {
+              username,
+              password,
+            };
+            
+            // Aggiungi token e clientId se disponibili
+            if (token && clientId) {
+              requestData.token = token;
+              requestData.clientId = parseInt(clientId, 10);
+              
+              // Aggiungi flag di bypass per DuckDuckGo
+              if (isDuckDuckGo && isPWA) {
+                requestData.bypassAuth = true;
+                requestData.duckduckgo = true;
+                console.log("Modalità bypass per DuckDuckGo PWA attivata");
+              }
+            }
+            
+            const response = await apiRequest('POST', '/api/client/login', requestData);
+            
+            if (response.ok) {
+              const result = await response.json();
+              
+              // Aggiorna credenziali salvate
+              if (result.client?.id) {
+                localStorage.setItem('clientId', result.client.id.toString());
+              }
+              
+              if (result.token) {
+                localStorage.setItem('clientAccessToken', result.token);
+              }
+              
+              // Aggiorna stato
+              setStatus("success");
+              setMessage("Accesso effettuato");
+              setClientName(result.client?.firstName || 'Utente');
+              
+              toast({
+                title: "Accesso automatico effettuato",
+                description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
+              });
+              
+              // Redirezione alla client area
+              setTimeout(() => {
+                if (result.token) {
+                  setLocation(`/client-area?token=${result.token}`);
+                } else if (token) {
+                  setLocation(`/client-area?token=${token}`);
+                } else {
+                  setLocation("/client-area");
+                }
+              }, 1500);
+              
+            } else {
+              const errorData = await response.json().catch(() => ({}));
+              setStatus("error");
+              setMessage("Accesso automatico fallito");
+              setError(errorData.message || "Credenziali non valide o scadute");
+              
+              console.error("Auto-login fallito:", errorData);
+            }
+          } catch (error) {
+            console.error("Errore durante auto-login con credenziali:", error);
+            setStatus("error");
+            setMessage("Errore durante l'accesso automatico");
+            setError("Si è verificato un errore durante il tentativo di accesso automatico.");
+          }
+        } else {
+          setStatus("error");
+          setMessage("Accesso automatico fallito");
+          setError("Credenziali incomplete. Effettua il login manualmente.");
+        }
+      } catch (error) {
+        console.error("Errore durante auto-login:", error);
+        setStatus("error");
+        setMessage("Errore imprevisto");
+        setError("Si è verificato un errore imprevisto durante il tentativo di accesso automatico.");
       }
-      
-      // Se tutti i tentativi falliscono
-      setStatus('error');
-      setMessage('Impossibile effettuare l\'accesso automatico. È necessario fare login manualmente.');
-      
-    } catch (error) {
-      console.error("Errore durante il tentativo di auto-login:", error);
-      setStatus('error');
-      setMessage('Si è verificato un errore durante l\'accesso automatico');
-    }
-  };
-  
-  const goToLogin = () => {
-    setLocation('/login');
-  };
-  
-  const goToClientArea = () => {
-    setLocation('/client-area');
-  };
-  
+    };
+    
+    attemptAutoLogin();
+  }, [setLocation, toast]);
+
   return (
-    <div className="container flex items-center justify-center min-h-screen p-4">
-      <Card className="w-full max-w-md border shadow-md">
-        <CardContent className="pt-6 pb-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            {status === 'checking' && (
-              <>
-                <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                <h1 className="text-xl font-semibold">Accesso automatico</h1>
-                <p className="text-muted-foreground">{message}</p>
-              </>
-            )}
-            
-            {status === 'success' && (
-              <>
-                <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <Check className="h-8 w-8 text-green-600" />
-                </div>
-                <h1 className="text-xl font-semibold">Accesso riuscito</h1>
-                <p className="text-muted-foreground">{message}</p>
-                <Button className="mt-4" onClick={goToClientArea}>
-                  Vai all'area cliente
-                </Button>
-              </>
-            )}
-            
-            {status === 'error' && (
-              <>
-                <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
-                  <AlertCircle className="h-8 w-8 text-red-600" />
-                </div>
-                <h1 className="text-xl font-semibold">Impossibile accedere</h1>
-                <p className="text-muted-foreground">{message}</p>
-                <Button className="mt-4" onClick={goToLogin}>
-                  Vai alla pagina di login
-                </Button>
-              </>
-            )}
-          </div>
+    <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">
+            {status === "loading" ? "Accesso automatico in corso..." : message}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col items-center justify-center gap-4 py-6">
+          {status === "loading" && (
+            <>
+              <Loader2 className="h-16 w-16 animate-spin text-primary" />
+              <p className="text-center text-muted-foreground">
+                Stiamo verificando le tue credenziali, attendere prego.
+              </p>
+            </>
+          )}
+          
+          {status === "success" && (
+            <>
+              <CheckCircle className="h-16 w-16 text-green-500" />
+              <p className="text-center text-xl font-medium">
+                Benvenuto, {clientName}!
+              </p>
+              <p className="text-center text-muted-foreground">
+                Sarai reindirizzato all'area clienti in un istante...
+              </p>
+            </>
+          )}
+          
+          {status === "error" && (
+            <>
+              <XCircle className="h-16 w-16 text-red-500" />
+              <p className="text-center text-muted-foreground">
+                {error}
+              </p>
+              <Button 
+                className="mt-4 w-full" 
+                onClick={() => setLocation("/client-login")}
+              >
+                Vai al login manuale
+              </Button>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

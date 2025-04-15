@@ -20,18 +20,37 @@ const urlsToCache = [
 
 // Configurazioni speciali per PWA
 const PWA_CONFIG = {
-  autoLoginEnabled: true,  // Abilita il tentativo di auto-login quando la PWA viene avviata
-  preserveAuth: true,      // Preserva i dati di autenticazione tra le sessioni
-  loginPath: '/auto-login' // Path a cui reindirizzare per l'auto-login
+  autoLoginEnabled: true,    // Abilita il tentativo di auto-login quando la PWA viene avviata
+  preserveAuth: true,        // Preserva i dati di autenticazione tra le sessioni
+  loginPath: '/auto-login',  // Path a cui reindirizzare per l'auto-login
+  fallbackPath: '/login',    // Path di fallback se l'auto-login fallisce
+  alwaysCacheLoginPaths: true // Assicura che le pagine di login siano sempre accessibili anche offline
 };
 
 // Installazione del service worker
 self.addEventListener('install', (event) => {
   self.skipWaiting();
+  
+  // Aggiungiamo percorsi extra per la cache in caso di necessità futura
+  const loginPages = [
+    '/login',
+    '/client-login',
+    '/auto-login'
+  ];
+  
+  // Se è abilitata l'opzione di cachare sempre le pagine di login
+  if (PWA_CONFIG.alwaysCacheLoginPaths) {
+    loginPages.forEach(path => {
+      if (!urlsToCache.includes(path)) {
+        urlsToCache.push(path);
+      }
+    });
+  }
+  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Cache aperta con successo');
+        console.log('Cache aperta con successo, salvataggio di ' + urlsToCache.length + ' risorse');
         return cache.addAll(urlsToCache);
       })
       .catch(err => {
@@ -68,6 +87,12 @@ self.addEventListener('fetch', (event) => {
   
   // Handler speciale per le richieste di navigazione
   if (event.request.mode === 'navigate') {
+    // Verifica se la richiesta è per una pagina di login o auto-login
+    const url = new URL(event.request.url);
+    const isLoginPage = url.pathname === '/login' || 
+                        url.pathname === '/client-login' || 
+                        url.pathname === '/auto-login';
+    
     event.respondWith(
       // Per le richieste di navigazione, controlliamo se l'utente sta tentando
       // di andare su una pagina dell'app che potrebbe avere parametri
@@ -94,8 +119,16 @@ self.addEventListener('fetch', (event) => {
             return cachedResponse;
           }
           
-          // Per pagine PWA non trovate nella cache, reindirizza alla home page
-          // Questo è importante per l'app quando viene lanciata come PWA
+          // Se è una pagina di login e non è nella cache, serviamo la pagina di login standard
+          if (isLoginPage) {
+            console.log('Login page not in cache, serving default login page');
+            const loginResponse = await caches.match('/login') || 
+                                 await caches.match('/client-login') || 
+                                 await caches.match('/index.html');
+            if (loginResponse) return loginResponse;
+          }
+          
+          // Per altre pagine PWA non trovate nella cache, reindirizza alla home page
           console.log('No cached response for navigation, returning index.html');
           return caches.match('/index.html');
         }

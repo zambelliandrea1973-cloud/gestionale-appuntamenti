@@ -20,9 +20,24 @@ export default function ClientLogin() {
 
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
   useEffect(() => {
+    // Rileva se siamo in una PWA installata
+    const isPWA = 
+      window.matchMedia('(display-mode: standalone)').matches || 
+      (window.navigator as any).standalone || 
+      document.referrer.includes('android-app://');
+      
     // Pre-popola nome utente dal localStorage se disponibile
     const storedUsername = localStorage.getItem('clientUsername');
     const storedPassword = localStorage.getItem('clientPassword'); // Se memorizzata
+    
+    // Aggiungi un log più completo per debug
+    console.log("Controllo credenziali salvate:", { 
+      isPWA, 
+      hasStoredUsername: !!storedUsername, 
+      hasStoredPassword: !!storedPassword,
+      pathName: window.location.pathname,
+      browser: navigator.userAgent
+    });
     
     if (storedUsername) {
       console.log("Usando nome utente memorizzato:", storedUsername);
@@ -30,7 +45,15 @@ export default function ClientLogin() {
       
       // Se c'è anche la password memorizzata (opzionale), imposta anche quella
       if (storedPassword) {
+        console.log("Usando password memorizzata (PWA)");
         setPassword(storedPassword);
+        
+        // Se siamo in una PWA, tentiamo un login automatico immediato con credenziali salvate
+        if (isPWA) {
+          console.log("Rilevata PWA installata, tentativo di login automatico");
+          // Non facciamo il login immediato qui ma impostiamo le credenziali
+          // per l'utente che può fare il login manualmente con un semplice clic
+        }
       }
     }
     
