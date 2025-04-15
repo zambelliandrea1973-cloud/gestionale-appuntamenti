@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone } from "lucide-react";
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
+import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -313,6 +314,12 @@ export default function ClientArea() {
         </Card>
       </div>
 
+      {/* Componente per l'installazione dell'app PWA */}
+      <PwaInstallButton />
+      
+      {/* Componente per l'accesso diretto all'area cliente */}
+      {token && <DirectLinkAccess token={token} clientId={user?.client?.id} />}
+
       {/* La sezione "I tuoi prossimi appuntamenti" è stata nascosta e sostituita dal dialog */}
       
       {/* Dialog per visualizzare tutti gli appuntamenti */}
@@ -498,92 +505,7 @@ export default function ClientArea() {
         </DialogContent>
       </Dialog>
       
-      {/* Link diretto universale */}
-      <Card className="mb-8 border-2 border-blue-200 bg-blue-50/50">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Link className="mr-2 h-5 w-5 text-blue-600" /> 
-            Link Diretto all'Area Cliente
-          </CardTitle>
-          <CardDescription>
-            Salva questo link per accedere direttamente alla tua area cliente in futuro
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {user?.client?.id && (
-            <div className="space-y-4">
-              <p className="text-sm">
-                Invece di scansionare il QR code ogni volta, puoi salvare questo link nei preferiti del browser o sulla schermata home del tuo dispositivo per un accesso rapido:
-              </p>
-              
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="border rounded-md p-2 flex-1 bg-white overflow-hidden">
-                  <p className="text-sm text-muted-foreground truncate">
-                    {user?.client && `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
-                  </p>
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => {
-                    if (user?.client) {
-                      const directLink = `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
-                      navigator.clipboard.writeText(directLink)
-                        .then(() => {
-                          toast({
-                            title: "Link copiato",
-                            description: "Il link è stato copiato negli appunti",
-                          });
-                        })
-                        .catch(err => {
-                          toast({
-                            title: "Errore",
-                            description: "Impossibile copiare il link",
-                            variant: "destructive",
-                          });
-                        });
-                    }
-                  }}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              <p className="text-sm text-muted-foreground mb-2">
-                Questo link ti porterà all'area cliente con il tuo nome utente già inserito. Dovrai inserire solo la password.
-              </p>
-            </div>
-          )}
-        </CardContent>
-        <CardFooter>
-          <Button 
-            onClick={() => {
-              if (user?.client) {
-                const directLink = `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
-                navigator.clipboard.writeText(directLink)
-                  .then(() => {
-                    toast({
-                      title: "Link copiato",
-                      description: "Salvalo nei preferiti o sulla schermata home del tuo dispositivo!",
-                    });
-                  })
-                  .catch(err => {
-                    toast({
-                      title: "Errore",
-                      description: "Impossibile copiare il link",
-                      variant: "destructive",
-                    });
-                  });
-              }
-            }} 
-            className="w-full gap-2"
-            variant="default"
-          >
-            <ExternalLink className="h-4 w-4" />
-            Copia il link per accesso diretto
-          </Button>
-        </CardFooter>
-      </Card>
+
     </div>
   );
 }
