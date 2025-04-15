@@ -41,6 +41,8 @@ interface UserData {
     lastName: string;
     phone: string;
     email?: string;
+    address?: string;
+    birthday?: string;
     hasConsent: boolean;
   };
 }
@@ -321,6 +323,8 @@ export default function ClientArea() {
                   <p><strong>Nome:</strong> {user.client.firstName} {user.client.lastName}</p>
                   <p><strong>Telefono:</strong> {user.client.phone}</p>
                   {user.client.email && <p><strong>Email:</strong> {user.client.email}</p>}
+                  {user.client.address && <p><strong>Indirizzo:</strong> {user.client.address}</p>}
+                  {user.client.birthday && <p><strong>Data di nascita:</strong> {formatDate(user.client.birthday)}</p>}
                 </>
               )}
             </div>
@@ -588,7 +592,7 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex items-center">
                 <User className="mr-2 h-5 w-5" />

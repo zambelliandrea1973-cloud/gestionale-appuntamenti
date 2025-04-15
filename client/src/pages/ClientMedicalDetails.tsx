@@ -48,10 +48,12 @@ export default function ClientMedicalDetails() {
     }
   }, []);
 
-  // Carica i dati del cliente
+  // Carica i dati del cliente con refetch automatico
   const { data: client, isLoading } = useQuery<any>({
     queryKey: clientId ? [`/api/clients/${clientId}`] : [],
-    enabled: !!clientId
+    enabled: !!clientId,
+    refetchInterval: 15000, // Ricarica i dati ogni 15 secondi
+    staleTime: 10000       // Considera i dati obsoleti dopo 10 secondi
   });
 
   if (isLoading) {
