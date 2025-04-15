@@ -14,6 +14,7 @@ import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";
 import ClientLogin from "./pages/ClientLogin";
 import AutoLogin from "./pages/AutoLogin";
+import PwaLauncher from "./pages/PwaLauncher";
 import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
 import TestSmsPage from "./pages/TestSmsPage";
@@ -53,7 +54,14 @@ function AppRoutes() {
         </ActivationPageWrapper>
       </Route>
       
-      {/* Pagina di auto-login per PWA */}
+      {/* Pagina di avvio PWA semplificata */}
+      <Route path="/pwa">
+        <ClientPageWrapper>
+          <PwaLauncher />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina di auto-login per PWA (metodo precedente, mantenuto per retrocompatibilità) */}
       <Route path="/auto-login">
         <ClientPageWrapper>
           <AutoLogin />
@@ -143,45 +151,73 @@ function AppRoutes() {
 }
 
 function App() {
-  // Gestione dei messaggi dal service worker per PWA
+  // Gestione dei messaggi dal service worker per PWA - Versione semplificata per QR code
   useEffect(() => {
     // Ascolta messaggi dal service worker
     const handleServiceWorkerMessage = (event: MessageEvent) => {
       console.log('Messaggio ricevuto dal Service Worker:', event.data);
       
-      // Se il service worker è stato attivato e c'è bisogno di auto-login
-      if (event.data && event.data.type === 'SW_ACTIVATED' && event.data.autoLoginEnabled) {
+      // Se il service worker viene attivato e dobbiamo reindirizzare
+      if (event.data && event.data.type === 'SW_ACTIVATED' && event.data.redirectOnLaunch) {
         // Controlliamo se siamo in una PWA installata
         const isPWA = 
           window.matchMedia('(display-mode: standalone)').matches || 
           (window.navigator as any).standalone || 
           document.referrer.includes('android-app://');
         
-        if (isPWA && !window.location.pathname.includes('/auto-login')) {
-          // Verifichiamo se abbiamo credenziali salvate
-          const hasToken = localStorage.getItem('clientAccessToken');
-          const hasClientId = localStorage.getItem('clientId');
+        if (isPWA) {
+          // Verifichiamo se abbiamo dati QR salvati
+          const qrData = localStorage.getItem('qrData');
+          const qrLink = localStorage.getItem('qrLink');
           
-          // Se abbiamo credenziali salvate e non siamo già nella pagina di login o auto-login
-          if (hasToken && hasClientId && 
-              !window.location.pathname.includes('/login') && 
-              !window.location.pathname.includes('/client-login')) {
-            console.log('Reindirizzamento a /auto-login per tentare autenticazione automatica');
-            window.location.href = '/auto-login';
+          if (qrLink) {
+            // Se abbiamo un link QR, reindirizza direttamente lì
+            console.log('Reindirizzamento al link QR salvato:', qrLink);
+            window.location.href = qrLink;
+          } else if (qrData) {
+            // Se abbiamo dati QR, reindirizza alla pagina di attivazione con i dati
+            console.log('Reindirizzamento alla pagina di attivazione con dati QR');
+            window.location.href = `/activate?data=${encodeURIComponent(qrData)}`;
+          } else {
+            // Altrimenti, reindirizza alla pagina di login predefinita
+            const currentPath = window.location.pathname;
+            if (currentPath === '/' || currentPath === '') {
+              console.log('Reindirizzamento alla pagina di login predefinita');
+              window.location.href = event.data.defaultPath || '/client-login';
+            }
           }
         }
+      }
+      
+      // Salva i dati QR nel localStorage
+      if (event.data && event.data.type === 'STORE_QR_DATA_LOCALLY' && event.data.qrData) {
+        console.log('Salvataggio dati QR nel localStorage');
+        localStorage.setItem('qrData', event.data.qrData);
+        
+        // Opzionalmente, se il qrData contiene un link diretto, lo salviamo separatamente
+        try {
+          const data = JSON.parse(event.data.qrData);
+          if (data.link) {
+            localStorage.setItem('qrLink', data.link);
+            
+            // Salviamo anche come URL originale per compatibilità
+            localStorage.setItem('originalUrl', data.link);
+            console.log('URL originale salvato:', data.link);
+          }
+        } catch (e) {
+          // Se non è JSON o non ha un campo link, ignoriamo
+        }
+      }
+      
+      // Salva l'URL originale nel localStorage
+      if (event.data && event.data.type === 'STORE_ORIGINAL_URL' && event.data.url) {
+        console.log('Salvataggio URL originale nel localStorage:', event.data.url);
+        localStorage.setItem('originalUrl', event.data.url);
       }
     };
     
     // Registra il listener
     navigator.serviceWorker?.addEventListener('message', handleServiceWorkerMessage);
-    
-    // Manda un messaggio al service worker per controllare lo stato dell'autenticazione
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'CHECK_AUTH'
-      });
-    }
     
     return () => {
       // Rimuovi il listener quando il componente viene smontato

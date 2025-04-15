@@ -28,14 +28,72 @@ export default function ActivateAccount() {
   const [verifying, setVerifying] = useState<boolean>(true);
 
   useEffect(() => {
-    // Estrai il token dalla query string
+    // Estrai il token o i dati dalla query string
     const params = new URLSearchParams(window.location.search);
     const tokenFromUrl = params.get("token");
+    const dataFromUrl = params.get("data");
+    
+    // Salva i dati QR per la PWA
+    const saveDataForPwa = (data: string) => {
+      // Salva i dati nel localStorage
+      localStorage.setItem('qrData', data);
+      
+      // Se siamo in un contesto di service worker, invia i dati anche al service worker
+      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        console.log("Invio dati QR al service worker");
+        navigator.serviceWorker.controller.postMessage({
+          type: 'SAVE_QR_DATA',
+          qrData: data
+        });
+      }
+    };
     
     if (tokenFromUrl) {
+      // Salva per PWA
+      saveDataForPwa(tokenFromUrl);
+      
+      // Procedi con la verifica
       setToken(tokenFromUrl);
       verifyToken(tokenFromUrl);
-    } else {
+    } 
+    else if (dataFromUrl) {
+      // Se abbiamo dati codificati, decodificali e cerca un token
+      try {
+        const decodedData = decodeURIComponent(dataFromUrl);
+        
+        // Salva per PWA
+        saveDataForPwa(decodedData);
+        
+        // Cerca di estrarre un token o un oggetto JSON
+        try {
+          // Prova a interpretare come JSON
+          const jsonData = JSON.parse(decodedData);
+          if (jsonData.token) {
+            setToken(jsonData.token);
+            verifyToken(jsonData.token);
+            
+            // Se c'è un link diretto, salvalo per la PWA
+            if (jsonData.link) {
+              localStorage.setItem('qrLink', jsonData.link);
+            }
+            
+            return;
+          }
+        } catch (e) {
+          // Non è un JSON, prova ad usarlo direttamente come token
+          console.log("Dati QR non in formato JSON, prova ad usarli come token");
+        }
+        
+        // Se arriviamo qui, usa i dati direttamente come token
+        setToken(decodedData);
+        verifyToken(decodedData);
+      } catch (e) {
+        console.error("Errore nella decodifica dei dati QR:", e);
+        setVerifying(false);
+      }
+    } 
+    else {
+      // Nessun token o dato trovato
       setVerifying(false);
     }
   }, []);

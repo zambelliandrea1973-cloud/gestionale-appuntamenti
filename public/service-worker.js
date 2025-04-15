@@ -18,34 +18,29 @@ const urlsToCache = [
   '/icons/default-app-icon.jpg'
 ];
 
-// Configurazioni speciali per PWA
+// Configurazioni speciali per PWA - Versione semplificata
 const PWA_CONFIG = {
-  autoLoginEnabled: true,    // Abilita il tentativo di auto-login quando la PWA viene avviata
-  preserveAuth: true,        // Preserva i dati di autenticazione tra le sessioni
-  loginPath: '/auto-login',  // Path a cui reindirizzare per l'auto-login
-  fallbackPath: '/login',    // Path di fallback se l'auto-login fallisce
-  alwaysCacheLoginPaths: true // Assicura che le pagine di login siano sempre accessibili anche offline
+  redirectOnLaunch: true,     // Abilita il reindirizzamento del QR code quando la PWA viene avviata
+  preserveQrData: true,       // Preserva i dati del QR code tra le sessioni
+  defaultPath: '/client-login' // Path di default a cui reindirizzare se non ci sono dati QR
 };
 
-// Installazione del service worker
+// Installazione del service worker - versione semplificata
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   
-  // Aggiungiamo percorsi extra per la cache in caso di necessità futura
+  // Aggiungiamo percorsi essenziali per la cache
   const loginPages = [
     '/login',
-    '/client-login',
-    '/auto-login'
+    '/client-login'
   ];
   
-  // Se è abilitata l'opzione di cachare sempre le pagine di login
-  if (PWA_CONFIG.alwaysCacheLoginPaths) {
-    loginPages.forEach(path => {
-      if (!urlsToCache.includes(path)) {
-        urlsToCache.push(path);
-      }
-    });
-  }
+  // Aggiungi le pagine di login alla cache
+  loginPages.forEach(path => {
+    if (!urlsToCache.includes(path)) {
+      urlsToCache.push(path);
+    }
+  });
   
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -175,37 +170,51 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Gestione dei messaggi
+// Gestione dei messaggi - versione semplificata
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
   
-  // Gestione dei messaggi per l'autenticazione
-  if (event.data && event.data.type === 'CHECK_AUTH') {
-    // Invia un messaggio a tutti i client controllati dal service worker
-    self.clients.matchAll().then(clients => {
-      clients.forEach(client => {
-        client.postMessage({
-          type: 'AUTH_STATUS',
-          needsLogin: PWA_CONFIG.autoLoginEnabled,
-          loginPath: PWA_CONFIG.loginPath
+  // Gestione dei messaggi per i dati QR Code
+  if (event.data && event.data.type === 'SAVE_QR_DATA') {
+    console.log('Salvataggio dati QR Code nel Service Worker');
+    // Salva i dati del QR code per poterli usare al prossimo avvio
+    if (event.data.qrData) {
+      // Salviamo i dati QR nel localStorage così che siano accessibili al prossimo avvio
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'STORE_QR_DATA_LOCALLY',
+            qrData: event.data.qrData
+          });
         });
       });
-    });
+    }
+  }
+  
+  // Salva l'URL originale
+  if (event.data && event.data.type === 'SAVE_ORIGINAL_URL') {
+    console.log('Salvataggio URL originale nel Service Worker');
+    if (event.data.url) {
+      // Salviamo l'URL originale così da poterlo ripristinare quando l'app viene avviata
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'STORE_ORIGINAL_URL',
+            url: event.data.url
+          });
+        });
+      });
+    }
   }
 });
 
 // L'evento fetch può essere usato per intercettare richieste specifiche
 // e personalizzare il comportamento basato sul tipo di richiesta
 self.addEventListener('fetch', event => {
-  // Intercetta richieste API di autenticazione
-  if (event.request.url.includes('/api/client/login') || 
-      event.request.url.includes('/api/verify-token')) {
-    // Non facciamo nulla di speciale qui, ma potremmo implementare logica custom
-    // per gestire il caching o modificare le richieste se necessario
-    console.log('Richiesta di autenticazione intercettata dal Service Worker');
-  }
+  // Non facciamo nulla di specifico in questa versione semplificata
+  // Questa è solo una struttura di base per eventuali implementazioni future
 });
 
 // Quando il service worker diventa attivo (dopo l'installazione)
@@ -221,8 +230,8 @@ self.addEventListener('activate', event => {
             // Invia un messaggio a ciascun client
             return client.postMessage({
               type: 'SW_ACTIVATED',
-              autoLoginEnabled: PWA_CONFIG.autoLoginEnabled,
-              loginPath: PWA_CONFIG.loginPath
+              redirectOnLaunch: PWA_CONFIG.redirectOnLaunch,
+              defaultPath: PWA_CONFIG.defaultPath
             });
           })
         );
