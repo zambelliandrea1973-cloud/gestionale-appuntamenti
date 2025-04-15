@@ -1,5 +1,5 @@
 // Service Worker per l'app Gestione Appuntamenti
-const CACHE_NAME = 'gestioneapp-v3';
+const CACHE_NAME = 'gestioneapp-v4';
 
 // Risorse da caricare nella cache
 const urlsToCache = [
@@ -9,6 +9,7 @@ const urlsToCache = [
   '/client-area.html',
   '/client-area',
   '/client-login',
+  '/login',
   '/auto-login',
   '/activate',
   '/consent',
@@ -16,6 +17,13 @@ const urlsToCache = [
   '/manifest.webmanifest',
   '/icons/default-app-icon.jpg'
 ];
+
+// Configurazioni speciali per PWA
+const PWA_CONFIG = {
+  autoLoginEnabled: true,  // Abilita il tentativo di auto-login quando la PWA viene avviata
+  preserveAuth: true,      // Preserva i dati di autenticazione tra le sessioni
+  loginPath: '/auto-login' // Path a cui reindirizzare per l'auto-login
+};
 
 // Installazione del service worker
 self.addEventListener('install', (event) => {
@@ -139,7 +147,56 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  
+  // Gestione dei messaggi per l'autenticazione
+  if (event.data && event.data.type === 'CHECK_AUTH') {
+    // Invia un messaggio a tutti i client controllati dal service worker
+    self.clients.matchAll().then(clients => {
+      clients.forEach(client => {
+        client.postMessage({
+          type: 'AUTH_STATUS',
+          needsLogin: PWA_CONFIG.autoLoginEnabled,
+          loginPath: PWA_CONFIG.loginPath
+        });
+      });
+    });
+  }
+});
+
+// L'evento fetch può essere usato per intercettare richieste specifiche
+// e personalizzare il comportamento basato sul tipo di richiesta
+self.addEventListener('fetch', event => {
+  // Intercetta richieste API di autenticazione
+  if (event.request.url.includes('/api/client/login') || 
+      event.request.url.includes('/api/verify-token')) {
+    // Non facciamo nulla di speciale qui, ma potremmo implementare logica custom
+    // per gestire il caching o modificare le richieste se necessario
+    console.log('Richiesta di autenticazione intercettata dal Service Worker');
+  }
+});
+
+// Quando il service worker diventa attivo (dopo l'installazione)
+self.addEventListener('activate', event => {
+  console.log('Service Worker attivato');
+  
+  // Notifica tutti i client che il service worker è pronto
+  event.waitUntil(
+    self.clients.claim().then(() => {
+      return self.clients.matchAll().then(clients => {
+        return Promise.all(
+          clients.map(client => {
+            // Invia un messaggio a ciascun client
+            return client.postMessage({
+              type: 'SW_ACTIVATED',
+              autoLoginEnabled: PWA_CONFIG.autoLoginEnabled,
+              loginPath: PWA_CONFIG.loginPath
+            });
+          })
+        );
+      });
+    })
+  );
 });
 
 // Log per debug
-console.log('Service Worker registrato e funzionante');
+console.log('Service Worker registrato e funzionante (versione PWA migliorata)');
