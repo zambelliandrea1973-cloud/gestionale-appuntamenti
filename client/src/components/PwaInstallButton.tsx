@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Smartphone, Check, ExternalLink, Chrome, Share } from 'lucide-react';
+import { Download, Smartphone, Check, ExternalLink, Chrome, Share, Globe } from 'lucide-react';
+import { FaFirefox } from 'react-icons/fa';
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -187,6 +188,93 @@ export function PwaInstallButton() {
     setOpenDialog(true);
   };
 
+  // Stato per il popup di selezione del browser
+  const [showBrowserSelector, setShowBrowserSelector] = useState(false);
+  
+  // Funzione per gestire la selezione del browser
+  const handleBrowserSelection = (browserType: string) => {
+    setShowBrowserSelector(false);
+    
+    // In base al browser selezionato, mostriamo le istruzioni appropriate
+    switch(browserType) {
+      case 'chrome':
+        setDialogInstructions({
+          title: "Installazione con Google Chrome",
+          browser: "chrome",
+          steps: [
+            "Premi i tre puntini in alto a destra",
+            "Seleziona 'Aggiungi a schermata Home' o 'Installa app'",
+            "Conferma premendo 'Aggiungi' o 'Installa'"
+          ]
+        });
+        break;
+      case 'safari':
+        setDialogInstructions({
+          title: "Installazione con Safari",
+          browser: "safari",
+          steps: [
+            "Premi l'icona 'Condividi' (il quadrato con la freccia in alto)",
+            "Scorri verso il basso e seleziona 'Aggiungi alla schermata Home'",
+            "Conferma premendo 'Aggiungi' nell'angolo in alto a destra"
+          ]
+        });
+        break;
+      case 'duckduckgo':
+        setDialogInstructions({
+          title: "Installazione con DuckDuckGo",
+          browser: "duckduckgo",
+          steps: [
+            "Premi i tre puntini in alto a destra",
+            "Seleziona 'Condividi'",
+            "Scegli 'Chrome' dall'elenco delle app",
+            "Chrome aprirà il sito e visualizzerà un banner di installazione PWA",
+            "Premi 'Installa' nel banner di Chrome per completare l'installazione"
+          ],
+          alternativeInstructions: [
+            "DuckDuckGo non supporta direttamente l'installazione PWA",
+            "Il metodo più affidabile è condividere il sito con Chrome",
+            "In Chrome l'installazione PWA è supportata nativamente"
+          ]
+        });
+        break;
+      case 'samsung':
+        setDialogInstructions({
+          title: "Installazione con Samsung Internet",
+          browser: "altro",
+          steps: [
+            "Premi i tre puntini in basso a destra",
+            "Seleziona 'Aggiungi pagina a' e poi 'Schermata Home'",
+            "Conferma premendo 'Aggiungi'"
+          ]
+        });
+        break;
+      case 'firefox':
+        setDialogInstructions({
+          title: "Installazione con Firefox",
+          browser: "altro",
+          steps: [
+            "Premi i tre puntini in alto a destra",
+            "Seleziona 'Installa' o 'Aggiungi a schermata principale'",
+            "Se questa opzione non è disponibile, visita il sito con Chrome"
+          ]
+        });
+        break;
+      default:
+        setDialogInstructions({
+          title: "Installazione con altro browser",
+          browser: "altro",
+          steps: [
+            "Per la migliore esperienza, visita questa pagina con Google Chrome",
+            "In Chrome, premi sui tre puntini in alto a destra",
+            "Seleziona 'Installa app' o 'Aggiungi a schermata Home'"
+          ]
+        });
+        break;
+    }
+    
+    setOpenDialog(true);
+  };
+
   // Funzione per installare l'app
   const handleInstallClick = async () => {
     // Controlliamo esplicitamente se siamo su DuckDuckGo e forziamo le istruzioni specifiche
@@ -213,8 +301,8 @@ export function PwaInstallButton() {
     }
     
     if (!installPrompt) {
-      // Se non abbiamo un installPrompt, mostriamo le istruzioni dettagliate
-      showInstallInstructions();
+      // Se non è possibile l'installazione automatica, mostriamo il selettore di browser
+      setShowBrowserSelector(true);
       return;
     }
 
@@ -368,6 +456,88 @@ export function PwaInstallButton() {
         </CardFooter>
       </Card>
 
+      {/* Dialog con il selettore del browser */}
+      <Dialog open={showBrowserSelector} onOpenChange={setShowBrowserSelector}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Smartphone className="h-5 w-5 text-primary" />
+              Seleziona il tuo browser
+            </DialogTitle>
+            <DialogDescription>
+              Seleziona il browser che stai utilizzando per ricevere istruzioni personalizzate
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid grid-cols-2 gap-4 py-4">
+            <Button
+              variant="outline"
+              className="flex flex-col items-center justify-center h-24 gap-2"
+              onClick={() => handleBrowserSelection('chrome')}
+            >
+              <Chrome className="h-8 w-8 text-blue-600" />
+              <span>Google Chrome</span>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="flex flex-col items-center justify-center h-24 gap-2"
+              onClick={() => handleBrowserSelection('safari')}
+            >
+              <Share className="h-8 w-8 text-blue-600" />
+              <span>Safari</span>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="flex flex-col items-center justify-center h-24 gap-2"
+              onClick={() => handleBrowserSelection('duckduckgo')}
+            >
+              <ExternalLink className="h-8 w-8 text-orange-600" />
+              <span>DuckDuckGo</span>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="flex flex-col items-center justify-center h-24 gap-2"
+              onClick={() => handleBrowserSelection('samsung')}
+            >
+              <Smartphone className="h-8 w-8 text-primary" />
+              <span>Samsung Internet</span>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="flex flex-col items-center justify-center h-24 gap-2"
+              onClick={() => handleBrowserSelection('firefox')}
+            >
+              <Smartphone className="h-8 w-8 text-orange-500" />
+              <span>Firefox</span>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="flex flex-col items-center justify-center h-24 gap-2"
+              onClick={() => handleBrowserSelection('other')}
+            >
+              <Smartphone className="h-8 w-8 text-gray-500" />
+              <span>Altro</span>
+            </Button>
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              type="button" 
+              variant="secondary" 
+              onClick={() => setShowBrowserSelector(false)}
+              className="w-full sm:w-auto"
+            >
+              Annulla
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
       {/* Dialog con istruzioni dettagliate per l'installazione manuale */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="sm:max-w-md">
