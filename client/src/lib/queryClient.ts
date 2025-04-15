@@ -15,15 +15,42 @@ export async function apiRequest(
   console.log(`Esecuzione richiesta ${method} a ${url}`, data ? JSON.stringify(data) : "");
   
   try {
+    // Determina se l'app è in modalità PWA installata
+    const isPWA = 
+      window.matchMedia('(display-mode: standalone)').matches || 
+      window.navigator.standalone || 
+      document.referrer.includes('android-app://');
+    
+    // Crea gli headers di base
+    const headers: Record<string, string> = {};
+    
+    // Aggiungi Content-Type se abbiamo dati
+    if (data) {
+      headers["Content-Type"] = "application/json";
+    }
+    
+    // Aggiungi l'header x-pwa-app se siamo in una PWA
+    if (isPWA) {
+      headers["x-pwa-app"] = "true";
+      console.log("Modalità PWA rilevata, aggiunto header x-pwa-app");
+    }
+    
+    // Se è DuckDuckGo, aggiunge un flag specifico
+    const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+    if (isDuckDuckGo) {
+      headers["x-browser"] = "duckduckgo";
+      console.log("Browser DuckDuckGo rilevato, aggiunto header specifico");
+    }
+    
     console.log(`Dettagli richiesta ${method} a ${url}:`, { 
       method, 
-      headers: data ? { "Content-Type": "application/json" } : {},
+      headers,
       body: data ? JSON.stringify(data) : undefined
     });
     
     const res = await fetch(url, {
       method,
-      headers: data ? { "Content-Type": "application/json" } : {},
+      headers,
       body: data ? JSON.stringify(data) : undefined,
       credentials: "include",
     });
@@ -50,8 +77,29 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
+    // Determina se l'app è in modalità PWA installata
+    const isPWA = 
+      window.matchMedia('(display-mode: standalone)').matches || 
+      window.navigator.standalone || 
+      document.referrer.includes('android-app://');
+    
+    // Crea gli headers di base
+    const headers: Record<string, string> = {};
+    
+    // Aggiungi l'header x-pwa-app se siamo in una PWA
+    if (isPWA) {
+      headers["x-pwa-app"] = "true";
+    }
+    
+    // Se è DuckDuckGo, aggiunge un flag specifico
+    const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+    if (isDuckDuckGo) {
+      headers["x-browser"] = "duckduckgo";
+    }
+    
     const res = await fetch(queryKey[0] as string, {
       credentials: "include",
+      headers
     });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {
