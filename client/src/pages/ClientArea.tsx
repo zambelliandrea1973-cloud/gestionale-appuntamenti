@@ -6,7 +6,7 @@ import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Do
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import {
   Form,

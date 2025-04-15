@@ -49,11 +49,13 @@ export default function ClientMedicalDetails() {
   }, []);
 
   // Carica i dati del cliente con refetch automatico
-  const { data: client, isLoading } = useQuery<any>({
+  const { data: client, isLoading, refetch: refetchClient } = useQuery<any>({
     queryKey: clientId ? [`/api/clients/${clientId}`] : [],
     enabled: !!clientId,
-    refetchInterval: 15000, // Ricarica i dati ogni 15 secondi
-    staleTime: 10000       // Considera i dati obsoleti dopo 10 secondi
+    refetchInterval: 8000,  // Ricarica i dati ogni 8 secondi
+    staleTime: 5000,        // Considera i dati obsoleti dopo 5 secondi
+    refetchOnMount: true,   // Ricarica i dati quando il componente viene montato
+    refetchOnWindowFocus: true // Ricarica i dati quando la finestra torna in focus
   });
 
   if (isLoading) {
