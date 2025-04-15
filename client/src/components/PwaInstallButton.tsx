@@ -155,9 +155,15 @@ export function PwaInstallButton() {
         browser: "duckduckgo",
         steps: [
           "Premi i tre puntini in alto a destra",
-          "Seleziona 'Aggiungi a Home'",
-          "Premi 'Aggiungi' nella finestra di conferma",
-          "L'app verrà installata direttamente dalla schermata corrente"
+          "Seleziona 'Condividi'",
+          "Scegli 'Chrome' dall'elenco delle app",
+          "Chrome aprirà il sito e visualizzerà un banner di installazione PWA",
+          "Premi 'Installa' nel banner di Chrome per completare l'installazione"
+        ],
+        alternativeInstructions: [
+          "DuckDuckGo non supporta direttamente l'installazione PWA",
+          "Il metodo più affidabile è condividere il sito con Chrome",
+          "In Chrome l'installazione PWA è supportata nativamente"
         ]
       });
     } else {
