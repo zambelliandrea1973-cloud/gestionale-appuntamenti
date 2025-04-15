@@ -26,7 +26,7 @@ export default function PwaLauncher() {
       qrData: localStorage.getItem('qrData'),
       clientUsername: localStorage.getItem('clientUsername'),
       clientId: localStorage.getItem('clientId'),
-      token: localStorage.getItem('clientAccessToken')
+      clientAccessToken: localStorage.getItem('clientAccessToken')
     };
     
     console.log("PwaLauncher - Contenuto localStorage:", storedData);
@@ -35,13 +35,15 @@ export default function PwaLauncher() {
     const redirectUser = () => {
       // Controllo avanzato per determinare la destinazione dell'utente
       const hasCredentials = storedData.clientUsername && storedData.clientId;
-      const hasToken = storedData.token;
+      const hasToken = storedData.clientAccessToken;
       
       // Caso 1: Abbiamo credenziali E token - perfetto per login diretto e automatico
       if (hasCredentials && hasToken) {
         console.log("Credenziali e token disponibili, reindirizzamento all'area client");
         
-        // Possiamo tentare un login diretto con il token (userà auto-login)
+        // Possiamo tentare un login diretto con il token attraverso l'area client
+        // che gestirà il login automatico con i parametri del localStorage
+        console.log("Accesso diretto all'area client - il token nel localStorage verrà usato per autenticare");
         setLocation('/client-area');
       }
       // Caso 2: Abbiamo credenziali ma non token - probabile login standard
