@@ -112,11 +112,17 @@ export function PwaInstallButton() {
 
   // Funzione per mostrare istruzioni dettagliate in un Dialog
   const showInstallInstructions = () => {
+    // Log dello user agent per debug
+    console.log("User Agent:", navigator.userAgent);
+    
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
-    const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
-    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent) && !/DuckDuckGo/.test(navigator.userAgent);
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) && !/DuckDuckGo/.test(navigator.userAgent);
     const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
+    
+    // Log delle variabili di rilevamento del browser per debug
+    console.log("Browser detection:", { isIOS, isAndroid, isChrome, isSafari, isDuckDuckGo });
     
     if (isIOS && isSafari) {
       setDialogInstructions({
@@ -183,6 +189,29 @@ export function PwaInstallButton() {
 
   // Funzione per installare l'app
   const handleInstallClick = async () => {
+    // Controlliamo esplicitamente se siamo su DuckDuckGo e forziamo le istruzioni specifiche
+    if (/DuckDuckGo/.test(navigator.userAgent)) {
+      console.log("DuckDuckGo rilevato, mostrando istruzioni specifiche");
+      setDialogInstructions({
+        title: "Installazione su Android con DuckDuckGo",
+        browser: "duckduckgo",
+        steps: [
+          "Premi i tre puntini in alto a destra",
+          "Seleziona 'Condividi'",
+          "Scegli 'Chrome' dall'elenco delle app",
+          "Chrome aprirà il sito e visualizzerà un banner di installazione PWA",
+          "Premi 'Installa' nel banner di Chrome per completare l'installazione"
+        ],
+        alternativeInstructions: [
+          "DuckDuckGo non supporta direttamente l'installazione PWA",
+          "Il metodo più affidabile è condividere il sito con Chrome",
+          "In Chrome l'installazione PWA è supportata nativamente"
+        ]
+      });
+      setOpenDialog(true);
+      return;
+    }
+    
     if (!installPrompt) {
       // Se non abbiamo un installPrompt, mostriamo le istruzioni dettagliate
       showInstallInstructions();
@@ -239,9 +268,13 @@ export function PwaInstallButton() {
   // Determina il tipo di browser anche per il render principale
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);
-  const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
-  const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+  const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent) && !/DuckDuckGo/.test(navigator.userAgent);
+  const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) && !/DuckDuckGo/.test(navigator.userAgent);
   const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
+  
+  // Log per debug
+  console.log("Main detection - UA:", navigator.userAgent);
+  console.log("Main detection result:", { isIOS, isAndroid, isChrome, isSafari, isDuckDuckGo });
 
   // Testo informativo specifico per browser
   const getBrowserSpecificNote = () => {
@@ -362,6 +395,18 @@ export function PwaInstallButton() {
                   ))}
                 </ol>
               </div>
+              
+              {/* Mostriamo istruzioni alternative per browser speciali come DuckDuckGo */}
+              {dialogInstructions.alternativeInstructions && dialogInstructions.alternativeInstructions.length > 0 && (
+                <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
+                  <p className="font-medium text-amber-800 mb-2">Informazioni aggiuntive:</p>
+                  <ul className="text-sm text-amber-700 space-y-1 list-disc pl-5">
+                    {dialogInstructions.alternativeInstructions.map((info, index) => (
+                      <li key={index}>{info}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
           
