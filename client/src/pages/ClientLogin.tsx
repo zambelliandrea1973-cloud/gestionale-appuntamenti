@@ -9,6 +9,10 @@ import { apiRequest } from "@/lib/queryClient";
 import InstallAppPrompt from "@/components/InstallAppPrompt";
 import { Loader2 } from "lucide-react";
 
+/**
+ * ClientLogin - Component versione semplificata
+ * Questa versione gestisce in modo adeguato anche il messaggio di sessione scaduta
+ */
 export default function ClientLogin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
@@ -18,6 +22,26 @@ export default function ClientLogin() {
   const [autoLoginAttempted, setAutoLoginAttempted] = useState<boolean>(false);
   const [directLinkLoading, setDirectLinkLoading] = useState<boolean>(false);
 
+  // Stato per controllare se mostrare il messaggio di sessione scaduta
+  const [showSessionExpiredMessage, setShowSessionExpiredMessage] = useState<boolean>(false);
+
+  // Verifica se ci sono parametri nell'URL che indicano una sessione scaduta
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Se c'è il parametro 'expired=true', mostra il messaggio di sessione scaduta
+    if (urlParams.get('expired') === 'true') {
+      setShowSessionExpiredMessage(true);
+      
+      // Rimuovi il parametro dall'URL per evitare che rimanga nella cronologia
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+    
+    // Pulisci il local storage per prevenire problemi con sessioni precedenti
+    localStorage.removeItem('clientAccessToken');
+  }, []);
+  
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
   useEffect(() => {
     // Rileva se siamo in una PWA installata
@@ -302,8 +326,16 @@ export default function ClientLogin() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {/* Messaggio di sessione scaduta */}
+            {showSessionExpiredMessage && (
+              <div className="p-4 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm mb-4 flex flex-col items-center gap-1">
+                <h3 className="font-semibold text-red-800">Sessione scaduta</h3>
+                <p>La tua sessione è scaduta, effettua nuovamente l'accesso.</p>
+              </div>
+            )}
+            
             {/* Se abbiamo un token nell'URL ma l'autenticazione è fallita mostra un avviso */}
-            {autoLoginAttempted && new URLSearchParams(window.location.search).get('token') && !directLinkLoading && (
+            {autoLoginAttempted && new URLSearchParams(window.location.search).get('token') && !directLinkLoading && !showSessionExpiredMessage && (
               <div className="p-3 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-sm mb-4">
                 Non è stato possibile accedere con il link diretto. Esegui l'accesso con le tue credenziali.
               </div>
