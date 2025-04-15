@@ -593,7 +593,7 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px] p-0" style={{ maxHeight: '90vh' }}>
+          <DialogContent className="sm:max-w-[425px] max-h-[85vh] p-0 flex flex-col">
             <div className="fixed right-6 top-1/2 transform -translate-y-1/2 flex flex-col gap-2 z-50">
               <Button 
                 size="icon" 
@@ -601,9 +601,9 @@ export default function ClientArea() {
                 className="rounded-full h-12 w-12 bg-primary text-white shadow-lg border-2 border-white"
                 onClick={() => {
                   // Scorri fino a inizio form
-                  const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
-                  if (scrollArea) {
-                    scrollArea.scrollTop = 0;
+                  const scrollableArea = document.getElementById('profile-edit-container');
+                  if (scrollableArea) {
+                    scrollableArea.scrollTop = 0;
                   }
                 }}
               >
@@ -615,9 +615,9 @@ export default function ClientArea() {
                 className="rounded-full h-12 w-12 bg-primary text-white shadow-lg border-2 border-white"
                 onClick={() => {
                   // Scorri alla fine del form fino al pulsante
-                  const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
-                  if (scrollArea) {
-                    scrollArea.scrollTop = 9999; // un valore alto per scorrere fino in fondo
+                  const scrollableArea = document.getElementById('profile-edit-container');
+                  if (scrollableArea) {
+                    scrollableArea.scrollTop = scrollableArea.scrollHeight;
                   }
                 }}
               >
@@ -625,7 +625,7 @@ export default function ClientArea() {
               </Button>
             </div>
             
-            <div className="px-4 pt-4">
+            <div className="p-4 border-b">
               <DialogHeader>
                 <DialogTitle className="flex items-center">
                   <User className="mr-2 h-5 w-5" />
@@ -637,7 +637,15 @@ export default function ClientArea() {
               </DialogHeader>
             </div>
             
-            <ScrollArea className="h-full max-h-[70vh] px-4">
+            <div 
+              id="profile-edit-container"
+              className="flex-1 overflow-y-auto p-4" 
+              style={{ 
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(0, 0, 0, 0.3) transparent',
+                maxHeight: '70vh'
+              }}
+            >
               <ProfileEditForm 
                 client={user.client} 
                 onSave={async (updatedData) => {
@@ -692,7 +700,7 @@ export default function ClientArea() {
                 }}
                 isUpdating={updatingProfile}
               />
-            </ScrollArea>
+            </div>
           </DialogContent>
         </Dialog>
       )}
