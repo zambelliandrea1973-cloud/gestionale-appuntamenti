@@ -1078,7 +1078,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         // Genera anche un nuovo token per l'app PWA
-        const newToken = await tokenService.createActivationToken(clientId);
+        const newToken = await tokenService.generateActivationToken(clientId);
         
         // Ottieni l'account appena creato
         const newAccount = await storage.getClientAccountByClientId(clientId);
