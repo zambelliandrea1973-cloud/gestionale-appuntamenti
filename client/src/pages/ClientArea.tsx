@@ -711,6 +711,9 @@ interface ProfileEditFormProps {
 }
 
 function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
+  const [step, setStep] = useState(1);
+  const totalSteps = 3;
+  
   // Schema di validazione con Zod
   const profileSchema = z.object({
     firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
@@ -738,114 +741,196 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
   function onSubmit(values: z.infer<typeof profileSchema>) {
     onSave(values);
   }
+  
+  // Funzione per gestire i passi
+  const nextStep = () => {
+    if (step < totalSteps) {
+      setStep(step + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+  
+  // Componente per il progresso
+  const Progress = () => (
+    <div className="flex items-center justify-between mb-6 mt-2">
+      {[1, 2, 3].map((s) => (
+        <div
+          key={s}
+          className={`h-3 rounded-full ${
+            s <= step ? "bg-primary" : "bg-muted"
+          } transition-all`}
+          style={{
+            width: `${100 / totalSteps - 4}%`,
+          }}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nome</FormLabel>
-              <FormControl>
-                <Input placeholder="Inserisci il nome" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <Progress />
         
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Cognome</FormLabel>
-              <FormControl>
-                <Input placeholder="Inserisci il cognome" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {step === 1 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-left-3 duration-300">
+            <h3 className="text-lg font-semibold">Dati Personali</h3>
+            
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci il nome" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cognome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci il cognome" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-end pt-4">
+              <Button 
+                type="button" 
+                onClick={nextStep}
+                className="w-full"
+              >
+                Continua
+              </Button>
+            </div>
+          </div>
+        )}
         
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Telefono</FormLabel>
-              <FormControl>
-                <Input placeholder="Inserisci il numero di telefono" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {step === 2 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
+            <h3 className="text-lg font-semibold">Contatti</h3>
+            
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefono</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci il numero di telefono" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email (opzionale)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci l'email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-between pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={prevStep}
+              >
+                Indietro
+              </Button>
+              <Button 
+                type="button" 
+                onClick={nextStep}
+              >
+                Continua
+              </Button>
+            </div>
+          </div>
+        )}
         
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email (opzionale)</FormLabel>
-              <FormControl>
-                <Input placeholder="Inserisci l'email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Indirizzo (opzionale)</FormLabel>
-              <FormControl>
-                <Input placeholder="Inserisci l'indirizzo" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="birthday"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Data di nascita (opzionale)</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <DialogFooter className="sticky bottom-0 pt-4 pb-2 bg-background/95 backdrop-blur-sm border-t mt-6">
-          <Button 
-            type="submit" 
-            className="w-full sm:w-auto text-lg py-6" 
-            size="lg"
-            disabled={isUpdating}
-          >
-            {isUpdating ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Salvataggio...
-              </>
-            ) : (
-              <>
-                <Save className="mr-2 h-5 w-5" />
-                Salva modifiche
-              </>
-            )}
-          </Button>
-        </DialogFooter>
+        {step === 3 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
+            <h3 className="text-lg font-semibold">Informazioni Addizionali</h3>
+            
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Indirizzo (opzionale)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci l'indirizzo" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="birthday"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data di nascita (opzionale)</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-between pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={prevStep}
+              >
+                Indietro
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={isUpdating}
+                className="bg-primary text-white"
+              >
+                {isUpdating ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Salvataggio...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-2 h-5 w-5" />
+                    Salva modifiche
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
       </form>
     </Form>
   );
