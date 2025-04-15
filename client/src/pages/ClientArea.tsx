@@ -372,8 +372,11 @@ export default function ClientArea() {
         </Card>
       </div>
 
-      {/* I componenti PwaInstallButton e DirectLinkAccess sono stati rimossi da qui per evitare duplicazioni */}
-
+      {/* Componente di accesso diretto minimizzabile (tirolo) */}
+      {token && user?.client?.id && (
+        <DirectLinkAccess token={token} clientId={user.client.id} />
+      )}
+      
       {/* La sezione "I tuoi prossimi appuntamenti" è stata nascosta e sostituita dal dialog */}
       
       {/* Dialog per visualizzare tutti gli appuntamenti */}
