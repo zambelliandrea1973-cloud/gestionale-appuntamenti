@@ -7,12 +7,12 @@ import { useLocation } from "wouter";
 /**
  * PwaLauncher - Component ultra-semplificato per avvio PWA
  * 
- * Questa versione è estremamente semplificata e offre solo un pulsante
- * per andare alla pagina di login, senza alcuna logica automatizzata.
+ * Versione semplificata che reindirizza direttamente alla pagina di scansione QR code
+ * poiché il metodo con credenziali non funziona correttamente nell'app PWA.
  */
 export default function PwaLauncher() {
   const [, setLocation] = useLocation();
-  const [showButton, setShowButton] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     // Log di debug per vedere cosa c'è nel localStorage
@@ -25,23 +25,15 @@ export default function PwaLauncher() {
       token: localStorage.getItem('clientAccessToken')
     });
     
-    // Diamo all'utente la possibilità di vedere il pulsante dopo un breve ritardo
+    // Reindirizza automaticamente alla pagina di attivazione QR dopo un breve delay
     const timer = setTimeout(() => {
-      setShowButton(true);
-    }, 1000);
+      // Reindirizza direttamente alla pagina di attivazione QR (modalità semplificata)
+      setLocation('/activate');
+      setLoading(false);
+    }, 1500);
     
     return () => clearTimeout(timer);
-  }, []);
-  
-  // Funzione semplice per andare alla pagina di login
-  const goToLogin = () => {
-    setLocation('/client-login');
-  };
-  
-  // Funzione semplice per andare alla pagina di attivazione
-  const goToActivate = () => {
-    setLocation('/activate');
-  };
+  }, [setLocation]);
   
   return (
     <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
@@ -52,39 +44,28 @@ export default function PwaLauncher() {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center py-6 gap-6">
-          {!showButton ? (
+          {loading ? (
             <>
               <Loader2 className="h-16 w-16 animate-spin text-primary" />
               <p className="text-center text-muted-foreground">
                 Inizializzazione applicazione...
               </p>
+              <p className="text-sm text-center">
+                Verrai reindirizzato alla scansione del QR code...
+              </p>
             </>
           ) : (
-            <>
-              <p className="text-center">
-                Scegli una delle seguenti opzioni:
-              </p>
-              <div className="w-full space-y-4">
-                <Button 
-                  size="lg" 
-                  className="w-full"
-                  onClick={goToLogin}
-                >
-                  Accedi con credenziali
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="w-full"
-                  onClick={goToActivate}
-                >
-                  Usa QR Code
-                </Button>
-              </div>
-              <p className="text-sm text-muted-foreground text-center mt-4">
-                Se hai ricevuto un codice QR, utilizzalo per attivare o accedere al tuo account.
-              </p>
-            </>
+            <p className="text-center">
+              Se non vieni reindirizzato automaticamente, 
+              <Button 
+                variant="link"
+                onClick={() => setLocation('/activate')}
+                className="p-0 h-auto mx-1"
+              >
+                clicca qui
+              </Button> 
+              per procedere alla scansione del QR code.
+            </p>
           )}
         </CardContent>
       </Card>
