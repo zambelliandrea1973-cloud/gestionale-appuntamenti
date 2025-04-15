@@ -259,18 +259,41 @@ export function setupAuth(app: Express) {
     // PERCORSO 2: Autenticazione standard con username e password
     if (username && password) {
       console.log('Autenticazione standard con username/password');
-      passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
+      passport.authenticate('local-client', async (err: any, user: Express.User | false, info: any) => {
         if (err) {
           return next(err);
         }
         if (!user) {
           return res.status(401).json(info || { message: "Credenziali non valide" });
         }
+        
+        // Prima di effettuare il login, generiamo un token per l'app PWA installata
+        let token = null;
+        if (user.clientId) {
+          try {
+            // Importa il servizio token se necessario
+            const tokenService = require('./services/tokenService').default;
+            // Genera un token per questo cliente
+            token = await tokenService.createActivationToken(user.clientId);
+            console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
+          } catch (error) {
+            console.error("Errore nella generazione token:", error);
+            // Non è un errore fatale, continuiamo senza token
+          }
+        }
+        
         req.login(user, (err: any) => {
           if (err) {
             return next(err);
           }
-          return res.status(200).json(user);
+          
+          // Aggiungiamo il token alla risposta se è stato generato
+          const responseUser = { ...user };
+          if (token) {
+            responseUser.token = token;
+          }
+          
+          return res.status(200).json(responseUser);
         });
       })(req, res, next);
       return;
