@@ -154,10 +154,10 @@ export function PwaInstallButton() {
         title: "Installazione su Android con DuckDuckGo",
         browser: "duckduckgo",
         steps: [
-          "Premi il pulsante 'Condividi' (icona di condivisione in alto a destra)",
-          "Seleziona 'Chrome' dalla lista delle app",
-          "Una volta aperto Chrome, premi i tre puntini in alto a destra",
-          "Seleziona 'Aggiungi a schermata Home'"
+          "Premi i tre puntini in alto a destra",
+          "Seleziona 'Aggiungi a Home'",
+          "Premi 'Aggiungi' nella finestra di conferma",
+          "L'app verrà installata direttamente dalla schermata corrente"
         ]
       });
     } else {
