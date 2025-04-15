@@ -627,6 +627,11 @@ export default function ClientArea() {
                       client: updatedClient
                     });
                     
+                    // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
+                    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+                    // Invalidare anche la query specifica per questo cliente
+                    queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
+                    
                     toast({
                       title: "Profilo aggiornato",
                       description: "I tuoi dati sono stati aggiornati con successo",
