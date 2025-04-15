@@ -1,103 +1,91 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 
 /**
- * PwaLauncher - Component semplificato per avvio PWA
+ * PwaLauncher - Component ultra-semplificato per avvio PWA
  * 
- * Questo componente agisce come un semplice reindirizzamento al link originale
- * memorizzato dal QR code, senza tentare di gestire l'autenticazione in modo complesso.
+ * Questa versione è estremamente semplificata e offre solo un pulsante
+ * per andare alla pagina di login, senza alcuna logica automatizzata.
  */
 export default function PwaLauncher() {
-  const [message, setMessage] = useState<string>("Reindirizzamento in corso...");
+  const [, setLocation] = useLocation();
+  const [showButton, setShowButton] = useState(false);
   
   useEffect(() => {
-    // Recupera tutti i possibili dati memorizzati
-    const originalUrl = localStorage.getItem('originalUrl');
-    const qrLink = localStorage.getItem('qrLink');
-    const qrData = localStorage.getItem('qrData');
-    const clientUsername = localStorage.getItem('clientUsername');
-    const clientId = localStorage.getItem('clientId');
-    const token = localStorage.getItem('clientAccessToken');
-    
-    console.log("PwaLauncher - Avvio reindirizzamento", {
-      hasOriginalUrl: !!originalUrl,
-      hasQrLink: !!qrLink,
-      hasQrData: !!qrData,
-      hasUsername: !!clientUsername,
-      hasClientId: !!clientId,
-      hasToken: !!token
+    // Log di debug per vedere cosa c'è nel localStorage
+    console.log("PwaLauncher - Contenuto localStorage:", {
+      originalUrl: localStorage.getItem('originalUrl'),
+      qrLink: localStorage.getItem('qrLink'),
+      qrData: localStorage.getItem('qrData'),
+      clientUsername: localStorage.getItem('clientUsername'),
+      clientId: localStorage.getItem('clientId'),
+      token: localStorage.getItem('clientAccessToken')
     });
     
-    // Priorità 1: Se abbiamo un link QR o URL originale, reindirizza subito
-    if (qrLink) {
-      console.log("PwaLauncher - Reindirizzamento a QR link:", qrLink);
-      
-      // Se è un URL relativo, aggiungi l'origine
-      if (qrLink.startsWith('/')) {
-        window.location.href = window.location.origin + qrLink;
-      } else {
-        window.location.href = qrLink;
-      }
-      return;
-    }
+    // Diamo all'utente la possibilità di vedere il pulsante dopo un breve ritardo
+    const timer = setTimeout(() => {
+      setShowButton(true);
+    }, 1000);
     
-    if (originalUrl) {
-      console.log("PwaLauncher - Reindirizzamento a URL originale:", originalUrl);
-      
-      // Se è un URL relativo, aggiungi l'origine
-      if (originalUrl.startsWith('/')) {
-        window.location.href = window.location.origin + originalUrl;
-      } else {
-        window.location.href = originalUrl;
-      }
-      return;
-    }
-    
-    // Priorità 2: Se abbiamo dati QR, reindirizza alla pagina di attivazione con i dati
-    if (qrData) {
-      console.log("PwaLauncher - Reindirizzamento con dati QR alla pagina di attivazione");
-      window.location.href = `/activate?data=${encodeURIComponent(qrData)}`;
-      return;
-    }
-    
-    // Priorità 3: Se abbiamo un token e un clientId, costruisci un URL di accesso diretto
-    if (token && clientId) {
-      const directUrl = `/client-login?token=${token}&clientId=${clientId}`;
-      console.log("PwaLauncher - Reindirizzamento costruito:", directUrl);
-      window.location.href = directUrl;
-      return;
-    }
-    
-    // Priorità 4: Se abbiamo solo il username, reindirizza al login con username precompilato
-    if (clientUsername) {
-      localStorage.setItem('prefilledUsername', clientUsername);
-      console.log("PwaLauncher - Reindirizzamento a login con username precompilato");
-      window.location.href = '/client-login';
-      return;
-    }
-    
-    // Fallback: vai alla pagina di login principale
-    console.log("PwaLauncher - Nessun dato trovato, reindirizzamento a login base");
-    setMessage("Nessun QR code trovato, reindirizzamento alla pagina di login...");
-    setTimeout(() => {
-      window.location.href = '/client-login';
-    }, 1500);
+    return () => clearTimeout(timer);
   }, []);
+  
+  // Funzione semplice per andare alla pagina di login
+  const goToLogin = () => {
+    setLocation('/client-login');
+  };
+  
+  // Funzione semplice per andare alla pagina di attivazione
+  const goToActivate = () => {
+    setLocation('/activate');
+  };
   
   return (
     <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl">
-            {message}
+            Benvenuto nell'App Cliente
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col items-center justify-center py-6">
-          <Loader2 className="h-16 w-16 animate-spin text-primary" />
-          <p className="text-center text-muted-foreground mt-4">
-            Accesso all'area cliente...
-          </p>
+        <CardContent className="flex flex-col items-center justify-center py-6 gap-6">
+          {!showButton ? (
+            <>
+              <Loader2 className="h-16 w-16 animate-spin text-primary" />
+              <p className="text-center text-muted-foreground">
+                Inizializzazione applicazione...
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-center">
+                Scegli una delle seguenti opzioni:
+              </p>
+              <div className="w-full space-y-4">
+                <Button 
+                  size="lg" 
+                  className="w-full"
+                  onClick={goToLogin}
+                >
+                  Accedi con credenziali
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="w-full"
+                  onClick={goToActivate}
+                >
+                  Usa QR Code
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground text-center mt-4">
+                Se hai ricevuto un codice QR, utilizzalo per attivare o accedere al tuo account.
+              </p>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
