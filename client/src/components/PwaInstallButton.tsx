@@ -346,6 +346,10 @@ export function PwaInstallButton() {
         return <Share className="h-6 w-6 text-blue-600" />;
       case 'duckduckgo':
         return <ExternalLink className="h-6 w-6 text-orange-600" />;
+      case 'firefox':
+        return <FaFirefox className="h-6 w-6 text-orange-500" />;
+      case 'samsung':
+        return <Globe className="h-6 w-6 text-blue-700" />;
       default:
         return <Smartphone className="h-6 w-6 text-gray-600" />;
     }
@@ -502,7 +506,7 @@ export function PwaInstallButton() {
               className="flex flex-col items-center justify-center h-24 gap-2"
               onClick={() => handleBrowserSelection('samsung')}
             >
-              <Smartphone className="h-8 w-8 text-primary" />
+              <Globe className="h-8 w-8 text-blue-700" />
               <span>Samsung Internet</span>
             </Button>
             
@@ -511,7 +515,7 @@ export function PwaInstallButton() {
               className="flex flex-col items-center justify-center h-24 gap-2"
               onClick={() => handleBrowserSelection('firefox')}
             >
-              <Smartphone className="h-8 w-8 text-orange-500" />
+              <FaFirefox className="h-8 w-8 text-orange-500" />
               <span>Firefox</span>
             </Button>
             
