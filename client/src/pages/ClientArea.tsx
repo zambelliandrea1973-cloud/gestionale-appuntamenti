@@ -144,7 +144,7 @@ export default function ClientArea() {
         variant: "destructive",
       });
       
-      setLocation("/client-login");
+      setLocation("/client-login?expired=true");
     } finally {
       setLoading(false);
     }
@@ -232,6 +232,7 @@ export default function ClientArea() {
         title: "Logout effettuato",
         description: "Hai effettuato il logout con successo",
       });
+      // In caso di logout volontario, non mostriamo il messaggio di sessione scaduta
       setLocation("/client-login");
     } catch (error) {
       console.error("Errore durante il logout:", error);
