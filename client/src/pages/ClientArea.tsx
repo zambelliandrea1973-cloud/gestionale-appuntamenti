@@ -2,12 +2,25 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2 } from "lucide-react";
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -43,6 +56,8 @@ export default function ClientArea() {
   const [showAllAppointments, setShowAllAppointments] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
+  const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
+  const [updatingProfile, setUpdatingProfile] = useState<boolean>(false);
 
   useEffect(() => {
     // Verifica autenticazione
@@ -311,7 +326,12 @@ export default function ClientArea() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full text-sm" size="sm">
+            <Button 
+              variant="outline" 
+              className="w-full text-sm" 
+              size="sm"
+              onClick={() => setShowEditProfile(true)}
+            >
               Modifica profilo
             </Button>
           </CardFooter>
@@ -564,6 +584,189 @@ export default function ClientArea() {
       
       {/* Componente per l'installazione dell'app PWA */}
       <PwaInstallButton />
+      
+      {/* Dialog per la modifica del profilo */}
+      {user?.client && (
+        <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center">
+                <User className="mr-2 h-5 w-5" />
+                Modifica Profilo
+              </DialogTitle>
+              <DialogDescription>
+                Aggiorna i tuoi dati personali
+              </DialogDescription>
+            </DialogHeader>
+            <ProfileEditForm 
+              client={user.client} 
+              onSave={async (updatedData) => {
+                setUpdatingProfile(true);
+                try {
+                  // Chiama l'endpoint API per aggiornare il profilo
+                  const response = await apiRequest(
+                    'PUT',
+                    `/api/clients/${user.client.id}`,
+                    updatedData
+                  );
+                  
+                  if (response.ok) {
+                    const updatedClient = await response.json();
+                    
+                    // Aggiorna i dati dell'utente nello stato
+                    setUser({
+                      ...user,
+                      client: updatedClient
+                    });
+                    
+                    toast({
+                      title: "Profilo aggiornato",
+                      description: "I tuoi dati sono stati aggiornati con successo",
+                    });
+                    
+                    // Chiudi il dialog
+                    setShowEditProfile(false);
+                  } else {
+                    const error = await response.json();
+                    throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
+                  }
+                } catch (error) {
+                  console.error("Errore durante l'aggiornamento del profilo:", error);
+                  toast({
+                    title: "Errore",
+                    description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
+                    variant: "destructive",
+                  });
+                } finally {
+                  setUpdatingProfile(false);
+                }
+              }}
+              isUpdating={updatingProfile}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
+  );
+}
+
+// Componente per il form di modifica del profilo
+interface ProfileEditFormProps {
+  client: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email?: string;
+  };
+  onSave: (data: any) => void;
+  isUpdating: boolean;
+}
+
+function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
+  // Schema di validazione con Zod
+  const profileSchema = z.object({
+    firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
+    lastName: z.string().min(2, "Il cognome deve contenere almeno 2 caratteri"),
+    phone: z.string().min(5, "Inserisci un numero di telefono valido"),
+    email: z.string().email("Inserisci un indirizzo email valido").optional().or(z.literal("")),
+  });
+
+  // Configura il form
+  const form = useForm<z.infer<typeof profileSchema>>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      firstName: client.firstName || "",
+      lastName: client.lastName || "",
+      phone: client.phone || "",
+      email: client.email || "",
+    },
+  });
+
+  // Handler per l'invio del form
+  function onSubmit(values: z.infer<typeof profileSchema>) {
+    onSave(values);
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome</FormLabel>
+              <FormControl>
+                <Input placeholder="Inserisci il nome" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cognome</FormLabel>
+              <FormControl>
+                <Input placeholder="Inserisci il cognome" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Telefono</FormLabel>
+              <FormControl>
+                <Input placeholder="Inserisci il numero di telefono" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email (opzionale)</FormLabel>
+              <FormControl>
+                <Input placeholder="Inserisci l'email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <DialogFooter>
+          <Button 
+            type="submit" 
+            className="w-full sm:w-auto" 
+            disabled={isUpdating}
+          >
+            {isUpdating ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Salvataggio...
+              </>
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Salva modifiche
+              </>
+            )}
+          </Button>
+        </DialogFooter>
+      </form>
+    </Form>
   );
 }
