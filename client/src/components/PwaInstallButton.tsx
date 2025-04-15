@@ -108,7 +108,7 @@ export function PwaInstallButton() {
       } else if (isAndroid && isChrome) {
         instructions = "Premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
       } else if (isAndroid && isDuckDuckGo) {
-        instructions = "Apri questa pagina in Chrome, quindi premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
+        instructions = "1. Copia l'URL di questa pagina\n2. Apri Google Chrome\n3. Incolla l'URL e visita questa pagina in Chrome\n4. In Chrome, premi i tre puntini in alto a destra\n5. Seleziona 'Aggiungi a schermata Home'";
       } else {
         instructions = "Visita questa pagina utilizzando Chrome o Safari e premi 'Installa app sul dispositivo'";
       }
@@ -175,6 +175,16 @@ export function PwaInstallButton() {
             L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, 
             permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.
           </p>
+          
+          <div className="p-2 my-2 bg-blue-50 border border-blue-200 rounded-md">
+            <p className="text-sm font-medium text-blue-700 mb-1">
+              Nota importante:
+            </p>
+            <p className="text-sm text-blue-700">
+              L'installazione funziona automaticamente solo con Google Chrome. Se stai utilizzando altri browser (DuckDuckGo, Firefox, ecc.), segui le istruzioni manuali che ti verranno mostrate dopo aver cliccato su "Installa App".
+            </p>
+          </div>
+          
           <ul className="text-sm list-disc pl-5 space-y-1">
             <li>Accesso con un solo tocco</li>
             <li>Funziona anche offline</li>
