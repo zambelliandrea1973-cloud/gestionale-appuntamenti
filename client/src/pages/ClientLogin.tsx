@@ -263,11 +263,18 @@ export default function ClientLogin() {
       if (response.ok) {
         const user = await response.json();
         
-        // Salva solo le informazioni essenziali nel localStorage
+        // Salva tutte le informazioni essenziali nel localStorage per garantire 
+        // il corretto funzionamento dell'app PWA installata nelle sessioni successive
         if (user.client?.id) {
           localStorage.setItem('clientId', user.client.id.toString());
         }
         localStorage.setItem('clientUsername', username);
+        
+        // Salviamo anche il token se presente nella risposta
+        if (user.token) {
+          localStorage.setItem('clientAccessToken', user.token);
+          console.log("Token salvato nel localStorage per utilizzi futuri");
+        }
         
         toast({
           title: "Accesso effettuato",
