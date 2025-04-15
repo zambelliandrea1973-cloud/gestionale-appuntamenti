@@ -22,9 +22,16 @@ export default function ClientLogin() {
   useEffect(() => {
     // Pre-popola nome utente dal localStorage se disponibile
     const storedUsername = localStorage.getItem('clientUsername');
+    const storedPassword = localStorage.getItem('clientPassword'); // Se memorizzata
+    
     if (storedUsername) {
       console.log("Usando nome utente memorizzato:", storedUsername);
       setUsername(storedUsername);
+      
+      // Se c'è anche la password memorizzata (opzionale), imposta anche quella
+      if (storedPassword) {
+        setPassword(storedPassword);
+      }
     }
     
     const attemptDirectLogin = async () => {
@@ -32,6 +39,15 @@ export default function ClientLogin() {
         // Non tentare di nuovo se già tentato
         if (autoLoginAttempted) return;
         setAutoLoginAttempted(true);
+        
+        // Rileva se siamo in DuckDuckGo e in modalità PWA
+        const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+        const isPWA = 
+          window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator as any).standalone || 
+          document.referrer.includes('android-app://');
+        
+        console.log(`App avviata - DuckDuckGo: ${isDuckDuckGo}, PWA: ${isPWA}`);
         
         // Estrai token e clientId dall'URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -55,7 +71,53 @@ export default function ClientLogin() {
           }
         }
         
-        // Se non ci sono entrambi i parametri, non fare nulla
+        // Auto-login per DuckDuckGo in modalità PWA
+        // Se abbiamo nome utente, token e siamo in DuckDuckGo, tentiamo un login automatico
+        if (isDuckDuckGo && isPWA && storedUsername && token && clientId) {
+          console.log("Tentativo di login automatico per DuckDuckGo PWA");
+          
+          try {
+            setDirectLinkLoading(true);
+            
+            // Crea una richiesta speciale per DuckDuckGo
+            const requestData = {
+              username: storedUsername,
+              password: storedPassword || "placeholder-password-for-token-auth",
+              token,
+              clientId: parseInt(clientId, 10),
+              bypassAuth: true,
+              duckduckgo: true
+            };
+            
+            console.log("Tentativo login automatico per DuckDuckGo con token");
+            const response = await apiRequest('POST', '/api/client/login', requestData);
+            
+            if (response.ok) {
+              const result = await response.json();
+              
+              // Auto-redirezione alla client area
+              toast({
+                title: "Accesso automatico effettuato",
+                description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
+              });
+              
+              setTimeout(() => {
+                setLocation(`/client-area?token=${token}`);
+              }, 500);
+              
+              return; // Interrompi il flusso qui
+            } else {
+              // Se fallisce l'auto-login, continua con il processo standard
+              console.log("Auto-login fallito, continua con processo standard");
+              setDirectLinkLoading(false);
+            }
+          } catch (error) {
+            console.error("Errore durante auto-login:", error);
+            setDirectLinkLoading(false);
+          }
+        }
+        
+        // Se non ci sono entrambi i parametri o se il processo auto-login è fallito, non fare nulla
         if (!token || !clientId) return;
         
         // Tentativo di login diretto
@@ -126,6 +188,15 @@ export default function ClientLogin() {
     setLoading(true);
     
     try {
+      // Controllo specifico per DuckDuckGo
+      const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+      const isPWA = 
+        window.matchMedia('(display-mode: standalone)').matches || 
+        (window.navigator as any).standalone || 
+        document.referrer.includes('android-app://');
+      
+      console.log(`Login tentativo - DuckDuckGo: ${isDuckDuckGo}, PWA: ${isPWA}`);
+      
       const requestData: any = {
         username,
         password,
@@ -139,6 +210,12 @@ export default function ClientLogin() {
         requestData.token = storedToken;
         requestData.clientId = parseInt(storedClientId, 10);
         console.log("Includendo token e clientId dalla PWA per autenticazione avanzata");
+        
+        // Bypass auth su DuckDuckGo
+        if (isDuckDuckGo && isPWA) {
+          requestData.bypassAuth = true;
+          console.log("DuckDuckGo PWA rilevato - attivata modalità bypass");
+        }
       }
       
       const response = await apiRequest('POST', '/api/client/login', requestData);
@@ -151,6 +228,18 @@ export default function ClientLogin() {
           localStorage.setItem('clientId', user.client.id.toString());
         }
         localStorage.setItem('clientUsername', username);
+        
+        // Se siamo in DuckDuckGo, memorizza anche la password per facilitare l'auto-login
+        // nelle app PWA installate, dato che DuckDuckGo ha problemi con l'autenticazione
+        const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                     (window.navigator as any).standalone || 
+                     document.referrer.includes('android-app://');
+        
+        if (isDuckDuckGo && isPWA) {
+          localStorage.setItem('clientPassword', password);
+          console.log("Password salvata nel localStorage per facilitare autenticazione su DuckDuckGo");
+        }
         
         toast({
           title: "Accesso effettuato",
