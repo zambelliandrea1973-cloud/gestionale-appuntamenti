@@ -26,6 +26,20 @@ export default function ClientLogin() {
       (window.navigator as any).standalone || 
       document.referrer.includes('android-app://');
       
+    // Salva l'URL corrente come URL originale per supportare l'apertura diretta da PWA
+    const currentUrl = window.location.href;
+    localStorage.setItem('originalUrl', currentUrl);
+    console.log("URL originale salvato:", currentUrl);
+    
+    // Se siamo in un contesto di service worker, invia l'URL originale
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      console.log("Invio URL originale al service worker");
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SAVE_ORIGINAL_URL',
+        url: currentUrl
+      });
+    }
+    
     // Pre-popola nome utente dal localStorage se disponibile
     const storedUsername = localStorage.getItem('clientUsername');
     const storedPassword = localStorage.getItem('clientPassword'); // Se memorizzata
@@ -386,6 +400,14 @@ export default function ClientLogin() {
                 </a>
               </span>
             </div>
+            
+            {/* Aggiungi un extra messaggio per le PWA */}
+            {window.matchMedia('(display-mode: standalone)').matches && (
+              <div className="mt-4 text-center text-xs text-muted-foreground">
+                <p>App installata correttamente.</p>
+                <p>Questa versione si aprirà direttamente con il tuo QR code nelle prossime esecuzioni.</p>
+              </div>
+            )}
           </CardFooter>
         </form>
       </Card>
