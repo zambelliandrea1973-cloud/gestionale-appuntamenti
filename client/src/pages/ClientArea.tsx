@@ -592,7 +592,7 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px] max-h-[85vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[425px] overflow-y-auto p-4" style={{ maxHeight: '90vh' }}>
             <DialogHeader>
               <DialogTitle className="flex items-center">
                 <User className="mr-2 h-5 w-5" />
@@ -794,7 +794,7 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
           )}
         />
         
-        <div className="flex justify-end pt-4 sticky bottom-0 bg-background border-t mt-4">
+        <DialogFooter>
           <Button 
             type="submit" 
             className="w-full sm:w-auto" 
@@ -812,7 +812,7 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
               </>
             )}
           </Button>
-        </div>
+        </DialogFooter>
       </form>
     </Form>
   );
