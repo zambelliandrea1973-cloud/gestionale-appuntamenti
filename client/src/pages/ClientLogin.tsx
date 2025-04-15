@@ -119,13 +119,31 @@ export default function ClientLogin() {
     setLoading(true);
     
     try {
-      const response = await apiRequest('POST', '/api/client/login', {
+      const requestData: any = {
         username,
         password,
-      });
+      };
+      
+      // Se siamo in una PWA installata e abbiamo un token salvato, includiamolo
+      const storedToken = localStorage.getItem('clientAccessToken');
+      const storedClientId = localStorage.getItem('clientId');
+      
+      if (storedToken && storedClientId) {
+        requestData.token = storedToken;
+        requestData.clientId = parseInt(storedClientId, 10);
+        console.log("Includendo token e clientId dalla PWA per autenticazione avanzata");
+      }
+      
+      const response = await apiRequest('POST', '/api/client/login', requestData);
       
       if (response.ok) {
         const user = await response.json();
+        
+        // Salva i dati utente nel localStorage per persistenza PWA
+        if (user.client?.id) {
+          localStorage.setItem('clientId', user.client.id.toString());
+        }
+        localStorage.setItem('clientUsername', username);
         
         toast({
           title: "Accesso effettuato",
@@ -134,7 +152,17 @@ export default function ClientLogin() {
         
         // Redirect alla home page del cliente
         setTimeout(() => {
-          setLocation("/client-area");
+          // Se abbiamo un token nell'URL, passa anche quello
+          const urlParams = new URLSearchParams(window.location.search);
+          const tokenFromUrl = urlParams.get('token');
+          
+          if (tokenFromUrl) {
+            setLocation(`/client-area?token=${tokenFromUrl}`);
+          } else if (storedToken) {
+            setLocation(`/client-area?token=${storedToken}`);
+          } else {
+            setLocation("/client-area");
+          }
         }, 1000);
       } else {
         // Gestisci errori di login
