@@ -33,19 +33,27 @@ export default function PwaLauncher() {
     
     // Funzione per reindirizzare l'utente alla pagina appropriata
     const redirectUser = () => {
-      // Se l'utente ha già un clientId e username configurati
-      if (storedData.clientUsername && storedData.clientId) {
+      // Controllo avanzato per determinare la destinazione dell'utente
+      const hasCredentials = storedData.clientUsername && storedData.clientId;
+      const hasToken = storedData.token;
+      
+      // Caso 1: Abbiamo credenziali E token - perfetto per login diretto e automatico
+      if (hasCredentials && hasToken) {
+        console.log("Credenziali e token disponibili, reindirizzamento all'area client");
+        
+        // Possiamo tentare un login diretto con il token (userà auto-login)
+        setLocation('/client-area');
+      }
+      // Caso 2: Abbiamo credenziali ma non token - probabile login standard
+      else if (hasCredentials) {
         console.log("Utente già configurato, reindirizzamento alla pagina di login");
         
         // Reindirizza alla pagina di login client (nome utente sarà precompilato)
-        // Rimosso il toast per evitare pop-up non necessari
-        
         setLocation('/client-login');
-      } else {
-        // Se l'utente non ha ancora configurato il suo account
+      }
+      // Caso 3: Non abbiamo credenziali - necessaria attivazione 
+      else {
         console.log("Utente non configurato, reindirizzamento alla pagina di attivazione QR");
-        
-        // Rimosso il toast per evitare pop-up non necessari
         
         // Reindirizza alla pagina di attivazione QR
         setLocation('/activate');
