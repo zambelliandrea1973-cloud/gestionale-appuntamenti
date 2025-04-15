@@ -148,11 +148,25 @@ export function setupAuth(app: Express) {
 
   // Rotte di autenticazione per clienti
   app.post("/api/client/login", async (req, res, next) => {
-    // Verifica se è presente un token nella richiesta (per auto-login)
+    // Estrai le informazioni dalla richiesta
     const { token, clientId, username, password } = req.body;
     
-    // Se abbiamo un token, verifichiamo che sia valido prima di tentare un login standard
-    if (token && clientId && username && password) {
+    // Registra informazioni utili per il debug
+    const userAgent = req.headers['user-agent'] || 'Unknown';
+    const isMobileApp = req.headers['x-pwa-app'] === 'true';
+    const isDuckDuckGo = userAgent.includes('DuckDuckGo');
+    
+    console.log(`Login client - UserAgent: ${userAgent}`);
+    console.log(`Login client - PWA: ${isMobileApp}, DuckDuckGo: ${isDuckDuckGo}`);
+    
+    // Gestione per DuckDuckGo
+    if (isDuckDuckGo) {
+      console.log('Client sta utilizzando DuckDuckGo browser, modalità speciale attivata');
+    }
+    
+    // PERCORSO 1: Autenticazione con token
+    // Prima verifichiamo se ci sono token e clientId (priorità alta)
+    if (token && clientId) {
       try {
         // Importa il servizio token
         const tokenService = require('./services/tokenService').default;
@@ -160,39 +174,97 @@ export function setupAuth(app: Express) {
         // Verifica il token
         const validClientId = await tokenService.verifyActivationToken(token);
         
-        // Se il token è valido e corrisponde al cliente, continua con il login standard
+        // Se il token è valido e corrisponde al cliente
         if (validClientId === Number(clientId)) {
-          // Continua con l'autenticazione standard
-          passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
-            if (err) {
-              return next(err);
+          console.log(`Token valido per clientId: ${clientId}`);
+          
+          // Caso speciale: DuckDuckGo o altre PWA problematiche
+          // Se siamo in DuckDuckGo o un'altra PWA che invia il token ma ha problemi con credenziali
+          // oppure se esplicitamente richiesto dalla richiesta con il flag bypassAuth
+          if (isDuckDuckGo || req.body.bypassAuth === true || (isMobileApp && (!username || !password))) {
+            console.log('Autenticazione bypass con solo token attivata');
+            
+            try {
+              // Importa dipendenze necessarie
+              const db = require('./db').db;
+              const { eq } = require('drizzle-orm');
+              const { users, clients } = require('../shared/schema');
+              
+              // Recupera l'utente associato a questo cliente
+              const [user] = await db.select()
+                .from(users)
+                .where(eq(users.clientId, validClientId))
+                .limit(1);
+              
+              // Recupera i dati del cliente
+              const [client] = await db.select()
+                .from(clients)
+                .where(eq(clients.id, validClientId))
+                .limit(1);
+              
+              if (user && client) {
+                // Arricchisci l'oggetto utente con i dati del cliente
+                user.client = client;
+                
+                // Login manuale
+                req.login(user, (err: any) => {
+                  if (err) {
+                    console.error("Errore durante login bypass:", err);
+                    return next(err);
+                  }
+                  
+                  console.log("Login con token bypass completato con successo");
+                  // Aggiunge flag per indicare che l'utente è stato autenticato tramite token
+                  return res.status(200).json({
+                    ...user,
+                    tokenAuthenticated: true
+                  });
+                });
+                return; // Termina qui l'esecuzione
+              } else {
+                console.error("Utente o cliente non trovato per tokenId:", validClientId);
+              }
+            } catch (dbError) {
+              console.error("Errore nel recupero utente dalla DB:", dbError);
             }
-            if (!user) {
-              return res.status(401).json(info);
-            }
-            req.login(user, (err: any) => {
+          }
+          
+          // Se abbiamo anche username e password, continua con l'autenticazione standard
+          if (username && password) {
+            console.log('Autenticazione token+credenziali standard');
+            passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
               if (err) {
                 return next(err);
               }
-              return res.status(200).json(user);
-            });
-          })(req, res, next);
+              if (!user) {
+                return res.status(401).json(info);
+              }
+              req.login(user, (err: any) => {
+                if (err) {
+                  return next(err);
+                }
+                return res.status(200).json(user);
+              });
+            })(req, res, next);
+            return;
+          }
         } else {
-          // Token non valido o non corrisponde al cliente
-          return res.status(401).json({ message: "Token non valido o non corrisponde al cliente" });
+          console.log(`Token non valido o non corrisponde al clientId (${validClientId} ≠ ${clientId})`);
         }
       } catch (error) {
         console.error("Errore durante la verifica del token:", error);
-        return res.status(500).json({ message: "Errore durante la verifica del token" });
       }
-    } else {
-      // Login standard senza token
+    }
+    
+    // PERCORSO 2: Autenticazione standard con username e password
+    if (username && password) {
+      console.log('Autenticazione standard con username/password');
       passport.authenticate('local-client', (err: any, user: Express.User | false, info: any) => {
         if (err) {
           return next(err);
         }
         if (!user) {
-          return res.status(401).json(info);
+          return res.status(401).json(info || { message: "Credenziali non valide" });
         }
         req.login(user, (err: any) => {
           if (err) {
@@ -201,7 +273,11 @@ export function setupAuth(app: Express) {
           return res.status(200).json(user);
         });
       })(req, res, next);
+      return;
     }
+    
+    // PERCORSO 3: Nessuna credenziale valida
+    return res.status(401).json({ message: "Credenziali mancanti o non valide" });
   });
 
   // Registrazione per utenti staff (solo admin può creare altri staff)
