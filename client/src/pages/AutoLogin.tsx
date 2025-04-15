@@ -19,18 +19,44 @@ export default function AutoLogin() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Gestisce l'estrazione dei parametri dall'URL
+  // Gestisce l'estrazione dei parametri dall'URL o localStorage
   useEffect(() => {
+    // Prima controlla i parametri URL
     const urlParams = new URLSearchParams(window.location.search);
-    const tokenParam = urlParams.get('token');
-    const clientIdParam = urlParams.get('clientId');
-    const usernameParam = urlParams.get('username');
+    let tokenParam = urlParams.get('token');
+    let clientIdParam = urlParams.get('clientId');
+    let usernameParam = urlParams.get('username');
+    
+    // Se i parametri esistono nell'URL, salviamoli nel localStorage per usi futuri
+    if (tokenParam && clientIdParam) {
+      localStorage.setItem('clientAccessToken', tokenParam);
+      localStorage.setItem('clientId', clientIdParam);
+      if (usernameParam) {
+        localStorage.setItem('clientUsername', usernameParam);
+      }
+    } 
+    // Se non sono presenti nell'URL, prova a recuperarli dal localStorage (utile per PWA)
+    else {
+      const storedToken = localStorage.getItem('clientAccessToken');
+      const storedClientId = localStorage.getItem('clientId');
+      const storedUsername = localStorage.getItem('clientUsername');
+      
+      if (storedToken && storedClientId) {
+        tokenParam = storedToken;
+        clientIdParam = storedClientId;
+        if (storedUsername) {
+          usernameParam = storedUsername;
+        }
+        console.log("Parametri recuperati da localStorage per supporto PWA");
+      }
+    }
 
+    // Imposta gli stati con i valori recuperati
     if (tokenParam) setToken(tokenParam);
     if (clientIdParam) setClientId(clientIdParam);
     if (usernameParam) setUsername(usernameParam);
 
-    // Se abbiamo token e clientId, verifichiamo subito la validità del token senza autenticare
+    // Se abbiamo token e clientId, verifichiamo subito la validità del token
     if (tokenParam && clientIdParam) {
       verifyTokenWithoutAuth(tokenParam, clientIdParam);
     } else {
