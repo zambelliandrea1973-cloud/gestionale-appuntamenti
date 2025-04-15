@@ -20,6 +20,13 @@ export default function ClientLogin() {
 
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
   useEffect(() => {
+    // Pre-popola nome utente dal localStorage se disponibile
+    const storedUsername = localStorage.getItem('clientUsername');
+    if (storedUsername) {
+      console.log("Usando nome utente memorizzato:", storedUsername);
+      setUsername(storedUsername);
+    }
+    
     const attemptDirectLogin = async () => {
       try {
         // Non tentare di nuovo se già tentato
