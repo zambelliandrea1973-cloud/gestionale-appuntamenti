@@ -79,6 +79,35 @@ export default function ClientArea() {
 
   const fetchCurrentUser = async () => {
     try {
+      // Verifichiamo se abbiamo un token nel localStorage (per supporto PWA)
+      const storedToken = localStorage.getItem('clientAccessToken');
+      const storedClientId = localStorage.getItem('clientId');
+
+      // Se siamo in una PWA installata e abbiamo token/clientId salvati nel localStorage,
+      // usiamoli per tentare l'autenticazione tramite API specifica
+      if (window.matchMedia('(display-mode: standalone)').matches && 
+          storedToken && storedClientId) {
+        console.log("PWA in modalità standalone, tentativo di auto-login con token salvato");
+        try {
+          const tokenResponse = await apiRequest('POST', '/api/verify-token', { 
+            token: storedToken, 
+            clientId: parseInt(storedClientId, 10) 
+          });
+          
+          if (tokenResponse.ok) {
+            const tokenResult = await tokenResponse.json();
+            setUser(tokenResult);
+            setLoading(false);
+            return;
+          }
+          // Se il token non è valido, continua con il metodo normale (sessione)
+          console.log("Auto-login con token fallito, prova con sessione standard");
+        } catch (tokenError) {
+          console.error("Errore durante l'auto-login con token:", tokenError);
+        }
+      }
+
+      // Metodo standard di autenticazione basato su sessione
       const response = await apiRequest('GET', '/api/current-user');
       
       if (response.ok) {
@@ -94,6 +123,11 @@ export default function ClientArea() {
           
           setLocation("/client-login");
           return;
+        }
+        
+        // Se è un cliente valido, salviamo l'ID nel localStorage per supporto PWA
+        if (userData.client?.id) {
+          localStorage.setItem('clientId', userData.client.id.toString());
         }
         
         setUser(userData);
