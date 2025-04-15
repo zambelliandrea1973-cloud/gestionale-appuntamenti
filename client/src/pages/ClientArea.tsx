@@ -187,6 +187,12 @@ export default function ClientArea() {
   const handleLogout = async () => {
     try {
       await apiRequest('POST', '/api/logout');
+      
+      // Rimuovi i dati di autenticazione dal localStorage
+      localStorage.removeItem('clientAccessToken');
+      localStorage.removeItem('clientId');
+      localStorage.removeItem('clientUsername');
+      
       toast({
         title: "Logout effettuato",
         description: "Hai effettuato il logout con successo",
