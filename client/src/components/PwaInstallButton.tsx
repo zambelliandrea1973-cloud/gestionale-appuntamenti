@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Smartphone, Check } from 'lucide-react';
+import { Download, Smartphone, Check, ExternalLink } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -27,6 +27,12 @@ export function PwaInstallButton() {
     // Verifica se PWA è già installata
     if (window.__pwaIsInstalled) {
       setIsInstalled(true);
+    }
+
+    // Verifica se il dispositivo è standalone (già installato come PWA)
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+      window.__pwaIsInstalled = true;
     }
 
     // Verifica se esiste già un evento di installazione
@@ -84,7 +90,37 @@ export function PwaInstallButton() {
 
   // Funzione per installare l'app
   const handleInstallClick = async () => {
-    if (!installPrompt) return;
+    if (!installPrompt) {
+      // Se non abbiamo un installPrompt, dobbiamo fornire istruzioni per l'installazione manuale
+      // basate sul sistema operativo e sul browser
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/.test(navigator.userAgent);
+      const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
+      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+      const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
+      
+      let instructions = "";
+      
+      if (isIOS && isSafari) {
+        instructions = "Premi l'icona 'Condividi' (il quadrato con la freccia in alto) e seleziona 'Aggiungi alla schermata Home'";
+      } else if (isIOS) {
+        instructions = "Apri l'app in Safari, premi l'icona 'Condividi' e seleziona 'Aggiungi alla schermata Home'";
+      } else if (isAndroid && isChrome) {
+        instructions = "Premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
+      } else if (isAndroid && isDuckDuckGo) {
+        instructions = "Apri questa pagina in Chrome, quindi premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
+      } else {
+        instructions = "Visita questa pagina utilizzando Chrome o Safari e premi 'Installa app sul dispositivo'";
+      }
+      
+      toast({
+        title: "Installazione manuale richiesta",
+        description: instructions,
+        duration: 7000,
+      });
+      
+      return;
+    }
 
     try {
       // Mostra il prompt di installazione
@@ -117,11 +153,8 @@ export function PwaInstallButton() {
     }
   };
 
-  // Se il dispositivo non supporta PWA o l'app è già installata
-  if (!isReadyToInstall && !isInstalled) {
-    return null;
-  }
-
+  // Mostro sempre il pulsante, anche se non possiamo rilevare il supporto PWA
+  // Su iOS questo viene rilevato in modo diverso
   return (
     <Card className="mb-6 border-dashed border-primary/50 bg-muted/30">
       <CardHeader className="pb-2">
@@ -146,6 +179,7 @@ export function PwaInstallButton() {
             <li>Accesso con un solo tocco</li>
             <li>Funziona anche offline</li>
             <li>Nessuna app da scaricare dagli store</li>
+            <li>Occupazione minima della memoria</li>
           </ul>
         </CardContent>
       )}
@@ -158,12 +192,12 @@ export function PwaInstallButton() {
           </div>
         ) : (
           <Button 
-            className="w-full" 
+            className="w-full bg-green-600 hover:bg-green-700" 
             onClick={handleInstallClick}
             variant="default"
           >
             <Download className="mr-2 h-4 w-4" />
-            Installa App
+            Installa App sul Dispositivo
           </Button>
         )}
       </CardFooter>
