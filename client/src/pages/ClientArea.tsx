@@ -314,11 +314,7 @@ export default function ClientArea() {
         </Card>
       </div>
 
-      {/* Componente per l'installazione dell'app PWA */}
-      <PwaInstallButton />
-      
-      {/* Componente per l'accesso diretto all'area cliente */}
-      {token && <DirectLinkAccess token={token} clientId={user?.client?.id} />}
+      {/* I componenti PwaInstallButton e DirectLinkAccess sono stati rimossi da qui per evitare duplicazioni */}
 
       {/* La sezione "I tuoi prossimi appuntamenti" è stata nascosta e sostituita dal dialog */}
       
@@ -505,7 +501,143 @@ export default function ClientArea() {
         </DialogContent>
       </Dialog>
       
-
+      {/* Componente per l'installazione dell'app PWA */}
+      <PwaInstallButton />
+          
+      {/* Link diretto universale */}
+      <Card className="mb-8 border-2 border-blue-200 bg-blue-50/50">
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Link className="mr-2 h-5 w-5 text-blue-600" /> 
+            Link Diretto all'Area Cliente
+          </CardTitle>
+          <CardDescription>
+            Salva questo link per accedere direttamente alla tua area cliente in futuro
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {user?.client?.id && (
+            <div className="space-y-4">
+              <p className="text-sm">
+                Invece di scansionare il QR code ogni volta, puoi salvare questo link nei preferiti del browser o sulla schermata home del tuo dispositivo per un accesso rapido:
+              </p>
+              
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="border rounded-md p-2 flex-1 bg-white overflow-hidden">
+                  <p className="text-sm text-muted-foreground truncate">
+                    {user?.client && `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`}
+                  </p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    if (user?.client) {
+                      const directLink = `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                      navigator.clipboard.writeText(directLink)
+                        .then(() => {
+                          toast({
+                            title: "Link copiato",
+                            description: "Il link è stato copiato negli appunti",
+                          });
+                        })
+                        .catch(err => {
+                          toast({
+                            title: "Errore",
+                            description: "Impossibile copiare il link",
+                            variant: "destructive",
+                          });
+                        });
+                    }
+                  }}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              <p className="text-sm text-muted-foreground mb-2">
+                Questo link ti porterà all'area cliente con il tuo nome utente già inserito. Dovrai inserire solo la password.
+              </p>
+            </div>
+          )}
+        </CardContent>
+        <CardFooter className="flex gap-3 flex-col sm:flex-row">
+          <Button 
+            onClick={() => {
+              if (user?.client) {
+                const directLink = `${window.location.origin}/auto-login?token=${new URLSearchParams(window.location.search).get('token')}&clientId=${user.client.id}`;
+                navigator.clipboard.writeText(directLink)
+                  .then(() => {
+                    toast({
+                      title: "Link copiato",
+                      description: "Salvalo nei preferiti o sulla schermata home del tuo dispositivo!",
+                    });
+                  })
+                  .catch(err => {
+                    toast({
+                      title: "Errore",
+                      description: "Impossibile copiare il link",
+                      variant: "destructive",
+                    });
+                  });
+              }
+            }} 
+            className="w-full gap-2"
+            variant="default"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Copia il link per accesso diretto
+          </Button>
+          
+          <Button 
+            onClick={() => {
+              // Dispatch an event that will be caught by the PwaInstallButton component
+              const event = new Event('pwaInstallReady');
+              window.dispatchEvent(event);
+              
+              // Istruzioni basate sul browser e sistema operativo
+              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+              const isAndroid = /Android/.test(navigator.userAgent);
+              const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
+              const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+              const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
+              
+              if (window.__installPromptEvent) {
+                window.__installPromptEvent.prompt();
+                toast({
+                  title: "Installazione app",
+                  description: "Segui le istruzioni per installare l'app sul tuo dispositivo",
+                });
+              } else {
+                let instructions = "";
+                
+                if (isIOS && isSafari) {
+                  instructions = "Premi l'icona 'Condividi' (il quadrato con la freccia in alto) e seleziona 'Aggiungi alla schermata Home'";
+                } else if (isIOS) {
+                  instructions = "Apri questa pagina in Safari, premi l'icona 'Condividi' e seleziona 'Aggiungi alla schermata Home'";
+                } else if (isAndroid && isChrome) {
+                  instructions = "Premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
+                } else if (isAndroid && isDuckDuckGo) {
+                  instructions = "Apri questa pagina in Chrome, quindi premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
+                } else {
+                  instructions = "Visita questa pagina utilizzando Chrome o Safari";
+                }
+                
+                toast({
+                  title: "Installazione manuale",
+                  description: instructions,
+                  duration: 7000,
+                });
+              }
+            }}
+            className="w-full gap-2 bg-green-600 hover:bg-green-700"
+            variant="default"
+          >
+            <Download className="h-4 w-4" />
+            Installa app sul dispositivo
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
