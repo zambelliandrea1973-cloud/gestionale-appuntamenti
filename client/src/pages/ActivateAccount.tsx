@@ -38,12 +38,23 @@ export default function ActivateAccount() {
       // Salva i dati nel localStorage
       localStorage.setItem('qrData', data);
       
+      // Salva anche l'URL corrente come URL originale
+      const currentUrl = window.location.href;
+      localStorage.setItem('originalUrl', currentUrl);
+      console.log("URL originale salvato:", currentUrl);
+      
       // Se siamo in un contesto di service worker, invia i dati anche al service worker
       if (navigator.serviceWorker && navigator.serviceWorker.controller) {
         console.log("Invio dati QR al service worker");
         navigator.serviceWorker.controller.postMessage({
           type: 'SAVE_QR_DATA',
           qrData: data
+        });
+        
+        // Invia anche l'URL originale
+        navigator.serviceWorker.controller.postMessage({
+          type: 'SAVE_ORIGINAL_URL',
+          url: currentUrl
         });
       }
     };

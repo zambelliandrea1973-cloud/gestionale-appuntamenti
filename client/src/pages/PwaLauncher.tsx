@@ -12,27 +12,56 @@ export default function PwaLauncher() {
   const [message, setMessage] = useState<string>("Reindirizzamento in corso...");
   
   useEffect(() => {
-    // Recupera l'URL originale memorizzato
+    // Recupera tutti i possibili dati memorizzati
     const originalUrl = localStorage.getItem('originalUrl');
+    const qrLink = localStorage.getItem('qrLink');
+    const qrData = localStorage.getItem('qrData');
     const clientUsername = localStorage.getItem('clientUsername');
     const clientId = localStorage.getItem('clientId');
     const token = localStorage.getItem('clientAccessToken');
     
     console.log("PwaLauncher - Avvio reindirizzamento", {
       hasOriginalUrl: !!originalUrl,
+      hasQrLink: !!qrLink,
+      hasQrData: !!qrData,
       hasUsername: !!clientUsername,
       hasClientId: !!clientId,
       hasToken: !!token
     });
     
-    // Se abbiamo l'URL originale, reindirizza subito
-    if (originalUrl) {
-      console.log("PwaLauncher - Reindirizzamento a:", originalUrl);
-      window.location.href = originalUrl;
+    // Priorità 1: Se abbiamo un link QR o URL originale, reindirizza subito
+    if (qrLink) {
+      console.log("PwaLauncher - Reindirizzamento a QR link:", qrLink);
+      
+      // Se è un URL relativo, aggiungi l'origine
+      if (qrLink.startsWith('/')) {
+        window.location.href = window.location.origin + qrLink;
+      } else {
+        window.location.href = qrLink;
+      }
       return;
     }
     
-    // Se abbiamo un token e un clientId, costruisci un URL di accesso diretto
+    if (originalUrl) {
+      console.log("PwaLauncher - Reindirizzamento a URL originale:", originalUrl);
+      
+      // Se è un URL relativo, aggiungi l'origine
+      if (originalUrl.startsWith('/')) {
+        window.location.href = window.location.origin + originalUrl;
+      } else {
+        window.location.href = originalUrl;
+      }
+      return;
+    }
+    
+    // Priorità 2: Se abbiamo dati QR, reindirizza alla pagina di attivazione con i dati
+    if (qrData) {
+      console.log("PwaLauncher - Reindirizzamento con dati QR alla pagina di attivazione");
+      window.location.href = `/activate?data=${encodeURIComponent(qrData)}`;
+      return;
+    }
+    
+    // Priorità 3: Se abbiamo un token e un clientId, costruisci un URL di accesso diretto
     if (token && clientId) {
       const directUrl = `/client-login?token=${token}&clientId=${clientId}`;
       console.log("PwaLauncher - Reindirizzamento costruito:", directUrl);
@@ -40,7 +69,7 @@ export default function PwaLauncher() {
       return;
     }
     
-    // Se abbiamo solo il username, reindirizza al login con username precompilato
+    // Priorità 4: Se abbiamo solo il username, reindirizza al login con username precompilato
     if (clientUsername) {
       localStorage.setItem('prefilledUsername', clientUsername);
       console.log("PwaLauncher - Reindirizzamento a login con username precompilato");
@@ -50,7 +79,10 @@ export default function PwaLauncher() {
     
     // Fallback: vai alla pagina di login principale
     console.log("PwaLauncher - Nessun dato trovato, reindirizzamento a login base");
-    window.location.href = '/client-login';
+    setMessage("Nessun QR code trovato, reindirizzamento alla pagina di login...");
+    setTimeout(() => {
+      window.location.href = '/client-login';
+    }, 1500);
   }, []);
   
   return (
