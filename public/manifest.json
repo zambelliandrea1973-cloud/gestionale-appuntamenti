@@ -2,7 +2,7 @@
   "name": "Gestione Appuntamenti",
   "short_name": "App Cliente",
   "description": "Gestione appuntamenti e consensi",
-  "start_url": "/client-login",
+  "start_url": "/pwa",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
