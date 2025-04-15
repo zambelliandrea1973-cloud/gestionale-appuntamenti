@@ -603,10 +603,14 @@ export default function ClientArea() {
               onSave={async (updatedData) => {
                 setUpdatingProfile(true);
                 try {
+                  if (!user?.client?.id) {
+                    throw new Error("ID cliente non disponibile");
+                  }
+                  
                   // Chiama l'endpoint API per aggiornare il profilo
                   const response = await apiRequest(
                     'PUT',
-                    `/api/clients/${user.client.id}`,
+                    `/api/clients/${user.client?.id}`,
                     updatedData
                   );
                   
@@ -630,7 +634,7 @@ export default function ClientArea() {
                     const error = await response.json();
                     throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
                   }
-                } catch (error) {
+                } catch (error: any) {
                   console.error("Errore durante l'aggiornamento del profilo:", error);
                   toast({
                     title: "Errore",
@@ -658,6 +662,8 @@ interface ProfileEditFormProps {
     lastName: string;
     phone: string;
     email?: string;
+    address?: string;
+    birthday?: string;
   };
   onSave: (data: any) => void;
   isUpdating: boolean;
@@ -670,6 +676,8 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
     lastName: z.string().min(2, "Il cognome deve contenere almeno 2 caratteri"),
     phone: z.string().min(5, "Inserisci un numero di telefono valido"),
     email: z.string().email("Inserisci un indirizzo email valido").optional().or(z.literal("")),
+    address: z.string().optional().or(z.literal("")),
+    birthday: z.string().optional().or(z.literal("")),
   });
 
   // Configura il form
@@ -680,6 +688,8 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
       lastName: client.lastName || "",
       phone: client.phone || "",
       email: client.email || "",
+      address: client.address || "",
+      birthday: client.birthday || "",
     },
   });
 
@@ -741,6 +751,34 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
               <FormLabel>Email (opzionale)</FormLabel>
               <FormControl>
                 <Input placeholder="Inserisci l'email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Indirizzo (opzionale)</FormLabel>
+              <FormControl>
+                <Input placeholder="Inserisci l'indirizzo" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="birthday"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Data di nascita (opzionale)</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
