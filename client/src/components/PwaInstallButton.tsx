@@ -89,17 +89,24 @@ export function PwaInstallButton() {
         setIsReadyToInstall(true);
       }
     };
+    
+    // Gestione dell'evento personalizzato per mostrare le istruzioni
+    const handleShowPwaInstructions = (event: Event) => {
+      showInstallInstructions();
+    };
 
     // Registra gli eventi
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
     window.addEventListener('pwaInstallReady', handlePwaInstallReady);
+    window.addEventListener('showPwaInstructions', handleShowPwaInstructions);
 
     // Ripulisci al dismontaggio
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
       window.removeEventListener('pwaInstallReady', handlePwaInstallReady);
+      window.removeEventListener('showPwaInstructions', handleShowPwaInstructions);
     };
   }, [toast]);
 
@@ -150,13 +157,6 @@ export function PwaInstallButton() {
           "Premi il pulsante 'Condividi' (icona di condivisione in alto a destra)",
           "Seleziona 'Chrome' dalla lista delle app",
           "Una volta aperto Chrome, premi i tre puntini in alto a destra",
-          "Seleziona 'Aggiungi a schermata Home'"
-        ],
-        alternativeInstructions: [
-          "Copia l'URL di questa pagina",
-          "Apri Google Chrome manualmente",
-          "Incolla l'URL nella barra degli indirizzi",
-          "In Chrome, premi i tre puntini in alto a destra",
           "Seleziona 'Aggiungi a schermata Home'"
         ]
       });
@@ -230,6 +230,48 @@ export function PwaInstallButton() {
 
   // Mostro sempre il pulsante, anche se non possiamo rilevare il supporto PWA
   // Su iOS questo viene rilevato in modo diverso
+  // Determina il tipo di browser anche per il render principale
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
+  const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+  const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
+
+  // Testo informativo specifico per browser
+  const getBrowserSpecificNote = () => {
+    if (isAndroid && isChrome) {
+      return (
+        <p className="text-sm text-blue-700">
+          Utilizza Chrome per installare l'app facilmente, ti basterà premere "Installa App" e seguire le istruzioni.
+        </p>
+      );
+    } else if (isAndroid && isDuckDuckGo) {
+      return (
+        <p className="text-sm text-blue-700">
+          Stai usando DuckDuckGo. Dopo aver premuto "Installa App", ti guideremo con istruzioni specifiche per il tuo browser.
+        </p>
+      );
+    } else if (isIOS && isSafari) {
+      return (
+        <p className="text-sm text-blue-700">
+          Con Safari su iOS, segui le istruzioni dopo aver premuto "Installa App" per aggiungerla alla schermata Home.
+        </p>
+      );
+    } else if (isIOS) {
+      return (
+        <p className="text-sm text-blue-700">
+          Per installare l'app su iOS, ti consigliamo di utilizzare Safari. Ti forniremo istruzioni dettagliate dopo aver premuto "Installa App".
+        </p>
+      );
+    } else {
+      return (
+        <p className="text-sm text-blue-700">
+          L'installazione funziona meglio con Google Chrome. Segui le istruzioni dettagliate dopo aver premuto "Installa App".
+        </p>
+      );
+    }
+  };
+
   return (
     <>
       <Card className="mb-6 border-dashed border-primary/50 bg-muted/30">
@@ -254,11 +296,9 @@ export function PwaInstallButton() {
             
             <div className="p-2 my-2 bg-blue-50 border border-blue-200 rounded-md">
               <p className="text-sm font-medium text-blue-700 mb-1">
-                Nota importante:
+                Nota specifica per il tuo browser:
               </p>
-              <p className="text-sm text-blue-700">
-                L'installazione funziona automaticamente solo con Google Chrome. Se stai utilizzando altri browser (DuckDuckGo, Firefox, ecc.), segui le istruzioni manuali che ti verranno mostrate dopo aver cliccato su "Installa App".
-              </p>
+              {getBrowserSpecificNote()}
             </div>
             
             <ul className="text-sm list-disc pl-5 space-y-1">
@@ -305,7 +345,6 @@ export function PwaInstallButton() {
           {dialogInstructions && (
             <div className="space-y-4">
               <div className="rounded-md bg-muted p-4">
-                <h4 className="mb-2 text-sm font-medium">Metodo principale:</h4>
                 <ol className="space-y-2 pl-4">
                   {dialogInstructions.steps.map((step, index) => (
                     <li key={index} className="text-sm">
@@ -317,35 +356,6 @@ export function PwaInstallButton() {
                   ))}
                 </ol>
               </div>
-              
-              {dialogInstructions.alternativeInstructions && (
-                <div className="rounded-md bg-blue-50 p-4">
-                  <h4 className="mb-2 text-sm font-medium text-blue-700">Metodo alternativo:</h4>
-                  <ol className="space-y-2 pl-4">
-                    {dialogInstructions.alternativeInstructions.map((step, index) => (
-                      <li key={index} className="text-sm text-blue-700">
-                        <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white text-xs">
-                          {index + 1}
-                        </span>
-                        {step}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
-
-              {dialogInstructions.browser === 'duckduckgo' && (
-                <div className="rounded-md bg-amber-50 p-4 border border-amber-200">
-                  <h4 className="mb-2 text-sm font-medium text-amber-700 flex items-center">
-                    <Chrome className="h-4 w-4 mr-2" /> Consiglio
-                  </h4>
-                  <p className="text-sm text-amber-700">
-                    Per la migliore esperienza, raccomandiamo di utilizzare Google Chrome per accedere
-                    all'area cliente e installare l'app. Con Chrome, l'installazione è automatica e non
-                    richiede passaggi manuali.
-                  </p>
-                </div>
-              )}
             </div>
           )}
           
