@@ -132,25 +132,26 @@ export default function ClientLogin() {
           }
         }
         
-        // Auto-login per DuckDuckGo in modalità PWA
-        // Se abbiamo nome utente, token e siamo in DuckDuckGo, tentiamo un login automatico
-        if (isDuckDuckGo && isPWA && storedUsername && token && clientId) {
-          console.log("Tentativo di login automatico per DuckDuckGo PWA");
+        // Auto-login in modalità PWA
+        // Se abbiamo nome utente, token e siamo in una PWA installata, tentiamo un login automatico
+        // Rimosso il controllo specifico per DuckDuckGo per supportare tutti i browser
+        if (isPWA && storedUsername && token && clientId) {
+          console.log("Tentativo di login automatico per app PWA installata");
           
           try {
             setDirectLinkLoading(true);
             
-            // Crea una richiesta speciale per DuckDuckGo
+            // Crea una richiesta per il login automatico da PWA
             const requestData = {
               username: storedUsername,
               password: storedPassword || "placeholder-password-for-token-auth",
               token,
               clientId: parseInt(clientId, 10),
               bypassAuth: true,
-              duckduckgo: true
+              pwaInstalled: true
             };
             
-            console.log("Tentativo login automatico per DuckDuckGo con token");
+            console.log("Tentativo login automatico per app installata con token");
             const response = await apiRequest('POST', '/api/client/login', requestData);
             
             if (response.ok) {

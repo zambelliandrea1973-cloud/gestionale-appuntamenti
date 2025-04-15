@@ -18,11 +18,11 @@ const urlsToCache = [
   '/icons/default-app-icon.jpg'
 ];
 
-// Configurazioni speciali per PWA - Versione semplificata
+// Configurazioni speciali per PWA - Versione migliorata
 const PWA_CONFIG = {
-  redirectOnLaunch: true,     // Abilita il reindirizzamento del QR code quando la PWA viene avviata
+  redirectOnLaunch: true,     // Abilita il reindirizzamento quando la PWA viene avviata
   preserveQrData: true,       // Preserva i dati del QR code tra le sessioni
-  defaultPath: '/client-login' // Path di default a cui reindirizzare se non ci sono dati QR
+  defaultPath: '/pwa'         // Path di default a cui reindirizzare, ora va alla pagina launcher modificata
 };
 
 // Installazione del service worker - versione semplificata
