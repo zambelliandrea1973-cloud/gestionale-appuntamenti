@@ -1038,6 +1038,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         // Login automatico dopo l'attivazione
+        // Genera prima il token per l'app PWA - FUORI dalla callback per evitare l'errore con await
+        const newToken = await tokenService.generateActivationToken(clientId);
+        
         req.login({ 
           id: existingAccount.id, 
           username: existingAccount.username, 
@@ -1052,7 +1055,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           res.json({ 
             message: "Account aggiornato con successo",
             accountExists: true,
-            username: existingAccount.username
+            token: newToken, // Aggiungiamo il token per l'app PWA installata
+            user: {
+              id: existingAccount.id,
+              username: existingAccount.username,
+              type: "client",
+              clientId: clientId
+            }
           });
         });
       } 
@@ -1068,10 +1077,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(400).json({ message: "Errore nella creazione dell'account" });
         }
         
+        // Genera anche un nuovo token per l'app PWA
+        const newToken = await tokenService.createActivationToken(clientId);
+        
+        // Ottieni l'account appena creato
+        const newAccount = await storage.getClientAccountByClientId(clientId);
+        
+        if (!newAccount) {
+          return res.status(500).json({ message: "Errore nel recupero dell'account appena creato" });
+        }
+        
         res.json({ 
           message: "Account attivato con successo",
           accountExists: false,
-          username: username
+          token: newToken, // Aggiungiamo il token per l'app PWA installata
+          user: {
+            id: newAccount.id,
+            username: username,
+            type: "client",
+            clientId: clientId
+          }
         });
       }
     } catch (error) {
