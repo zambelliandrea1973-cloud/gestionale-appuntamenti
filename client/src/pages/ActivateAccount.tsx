@@ -183,6 +183,28 @@ export default function ActivateAccount() {
       
       console.log("Risposta attivazione:", data);
       
+      // Salva i dati critici nel localStorage per l'app PWA installata
+      if (data.user && data.user.clientId) {
+        localStorage.setItem('clientId', data.user.clientId.toString());
+        console.log("ID cliente salvato nel localStorage:", data.user.clientId);
+      }
+      
+      if (data.user && data.user.username) {
+        localStorage.setItem('clientUsername', data.user.username);
+        console.log("Username salvato nel localStorage:", data.user.username);
+      }
+      
+      // Salva il token se presente
+      if (data.token) {
+        localStorage.setItem('clientAccessToken', data.token);
+        console.log("Token salvato nel localStorage:", data.token);
+      } else if (token) {
+        // Se l'API non restituisce un token, ma abbiamo un token valido usato per l'attivazione
+        // lo salviamo per l'uso futuro nell'app PWA
+        localStorage.setItem('clientAccessToken', token);
+        console.log("Token di attivazione salvato nel localStorage:", token);
+      }
+      
       if (data.accountExists) {
         toast({
           title: "Accesso effettuato",
