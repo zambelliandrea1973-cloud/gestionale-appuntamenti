@@ -609,25 +609,18 @@ export default function ClientArea() {
                   description: "Segui le istruzioni per installare l'app sul tuo dispositivo",
                 });
               } else {
-                let instructions = "";
-                
-                if (isIOS && isSafari) {
-                  instructions = "Premi l'icona 'Condividi' (il quadrato con la freccia in alto) e seleziona 'Aggiungi alla schermata Home'";
-                } else if (isIOS) {
-                  instructions = "Apri questa pagina in Safari, premi l'icona 'Condividi' e seleziona 'Aggiungi alla schermata Home'";
-                } else if (isAndroid && isChrome) {
-                  instructions = "Premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
-                } else if (isAndroid && isDuckDuckGo) {
-                  instructions = "Metodo 1 (consigliato):\n1. Copia l'URL di questa pagina\n2. Apri Google Chrome\n3. Incolla l'URL e visita questa pagina in Chrome\n4. In Chrome, premi i tre puntini in alto a destra\n5. Seleziona 'Aggiungi a schermata Home'\n\nMetodo alternativo con DuckDuckGo:\n1. Premi il pulsante 'Copia il link per accesso diretto' qui sotto\n2. Vai alla schermata home del dispositivo\n3. Tieni premuto su un punto vuoto della schermata\n4. Seleziona 'Aggiungi widget' o 'Collegamenti'\n5. Seleziona 'Collegamento web' o 'Collegamento diretto'\n6. Incolla l'URL e dai un nome all'app";
-                } else {
-                  instructions = "Visita questa pagina utilizzando Google Chrome";
-                }
-                
-                toast({
-                  title: "Installazione manuale",
-                  description: instructions,
-                  duration: 7000,
+                // Dispatch a custom event to trigger the installation instructions dialog 
+                // in the PwaInstallButton component instead of showing a simple toast
+                const event = new CustomEvent('showPwaInstructions', {
+                  detail: { 
+                    isIOS, 
+                    isAndroid, 
+                    isChrome, 
+                    isSafari, 
+                    isDuckDuckGo 
+                  }
                 });
+                window.dispatchEvent(event);
               }
             }}
             className="w-full gap-2 bg-green-600 hover:bg-green-700"

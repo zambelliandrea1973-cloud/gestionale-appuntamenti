@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, Smartphone, Check, ExternalLink } from 'lucide-react';
+import { Download, Smartphone, Check, ExternalLink, Chrome, Share } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -22,6 +30,13 @@ export function PwaInstallButton() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState<boolean>(false);
   const [isReadyToInstall, setIsReadyToInstall] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [dialogInstructions, setDialogInstructions] = useState<{
+    title: string;
+    steps: string[];
+    browser: string;
+    alternativeInstructions?: string[];
+  } | null>(null);
 
   useEffect(() => {
     // Verifica se PWA è già installata
@@ -88,37 +103,83 @@ export function PwaInstallButton() {
     };
   }, [toast]);
 
+  // Funzione per mostrare istruzioni dettagliate in un Dialog
+  const showInstallInstructions = () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
+    
+    if (isIOS && isSafari) {
+      setDialogInstructions({
+        title: "Installazione su iOS con Safari",
+        browser: "safari",
+        steps: [
+          "Premi l'icona 'Condividi' (il quadrato con la freccia in alto)",
+          "Scorri verso il basso e seleziona 'Aggiungi alla schermata Home'",
+          "Conferma premendo 'Aggiungi' nell'angolo in alto a destra"
+        ]
+      });
+    } else if (isIOS) {
+      setDialogInstructions({
+        title: "Installazione su iOS",
+        browser: "non-safari",
+        steps: [
+          "Copia l'URL di questa pagina",
+          "Apri Safari",
+          "Incolla l'URL nella barra degli indirizzi e visita la pagina",
+          "Premi l'icona 'Condividi' e seleziona 'Aggiungi alla schermata Home'"
+        ]
+      });
+    } else if (isAndroid && isChrome) {
+      setDialogInstructions({
+        title: "Installazione su Android con Chrome",
+        browser: "chrome",
+        steps: [
+          "Premi i tre puntini in alto a destra",
+          "Seleziona 'Aggiungi a schermata Home'",
+          "Conferma premendo 'Aggiungi'"
+        ]
+      });
+    } else if (isAndroid && isDuckDuckGo) {
+      setDialogInstructions({
+        title: "Installazione su Android con DuckDuckGo",
+        browser: "duckduckgo",
+        steps: [
+          "Premi il pulsante 'Condividi' (icona di condivisione in alto a destra)",
+          "Seleziona 'Chrome' dalla lista delle app",
+          "Una volta aperto Chrome, premi i tre puntini in alto a destra",
+          "Seleziona 'Aggiungi a schermata Home'"
+        ],
+        alternativeInstructions: [
+          "Copia l'URL di questa pagina",
+          "Apri Google Chrome manualmente",
+          "Incolla l'URL nella barra degli indirizzi",
+          "In Chrome, premi i tre puntini in alto a destra",
+          "Seleziona 'Aggiungi a schermata Home'"
+        ]
+      });
+    } else {
+      setDialogInstructions({
+        title: "Installazione manuale",
+        browser: "altro",
+        steps: [
+          "Visita questa pagina utilizzando Google Chrome",
+          "Premi il pulsante 'Installa app sul dispositivo'",
+          "Segui le istruzioni visualizzate"
+        ]
+      });
+    }
+    
+    setOpenDialog(true);
+  };
+
   // Funzione per installare l'app
   const handleInstallClick = async () => {
     if (!installPrompt) {
-      // Se non abbiamo un installPrompt, dobbiamo fornire istruzioni per l'installazione manuale
-      // basate sul sistema operativo e sul browser
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      const isAndroid = /Android/.test(navigator.userAgent);
-      const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
-      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-      const isDuckDuckGo = /DuckDuckGo/.test(navigator.userAgent);
-      
-      let instructions = "";
-      
-      if (isIOS && isSafari) {
-        instructions = "Premi l'icona 'Condividi' (il quadrato con la freccia in alto) e seleziona 'Aggiungi alla schermata Home'";
-      } else if (isIOS) {
-        instructions = "Apri l'app in Safari, premi l'icona 'Condividi' e seleziona 'Aggiungi alla schermata Home'";
-      } else if (isAndroid && isChrome) {
-        instructions = "Premi i tre puntini in alto a destra e seleziona 'Aggiungi a schermata Home'";
-      } else if (isAndroid && isDuckDuckGo) {
-        instructions = "1. Copia l'URL di questa pagina\n2. Apri Google Chrome\n3. Incolla l'URL e visita questa pagina in Chrome\n4. In Chrome, premi i tre puntini in alto a destra\n5. Seleziona 'Aggiungi a schermata Home'";
-      } else {
-        instructions = "Visita questa pagina utilizzando Chrome o Safari e premi 'Installa app sul dispositivo'";
-      }
-      
-      toast({
-        title: "Installazione manuale richiesta",
-        description: instructions,
-        duration: 7000,
-      });
-      
+      // Se non abbiamo un installPrompt, mostriamo le istruzioni dettagliate
+      showInstallInstructions();
       return;
     }
 
@@ -153,64 +214,153 @@ export function PwaInstallButton() {
     }
   };
 
+  // Renderizza l'icona del browser appropriata
+  const renderBrowserIcon = (browser: string) => {
+    switch (browser) {
+      case 'chrome':
+        return <Chrome className="h-6 w-6 text-blue-600" />;
+      case 'safari':
+        return <Share className="h-6 w-6 text-blue-600" />;
+      case 'duckduckgo':
+        return <ExternalLink className="h-6 w-6 text-orange-600" />;
+      default:
+        return <Smartphone className="h-6 w-6 text-gray-600" />;
+    }
+  };
+
   // Mostro sempre il pulsante, anche se non possiamo rilevare il supporto PWA
   // Su iOS questo viene rilevato in modo diverso
   return (
-    <Card className="mb-6 border-dashed border-primary/50 bg-muted/30">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg flex items-center">
-          <Smartphone className="mr-2 h-5 w-5" />
-          {isInstalled ? "App Installata" : "Installa App sul Dispositivo"}
-        </CardTitle>
-        <CardDescription>
-          {isInstalled 
-            ? "Hai già installato l'app sul tuo dispositivo" 
-            : "Installa l'app per un accesso più rapido e funzionalità offline"}
-        </CardDescription>
-      </CardHeader>
-      
-      {!isInstalled && (
-        <CardContent>
-          <p className="text-sm mb-2">
-            L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, 
-            permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.
-          </p>
-          
-          <div className="p-2 my-2 bg-blue-50 border border-blue-200 rounded-md">
-            <p className="text-sm font-medium text-blue-700 mb-1">
-              Nota importante:
+    <>
+      <Card className="mb-6 border-dashed border-primary/50 bg-muted/30">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-lg flex items-center">
+            <Smartphone className="mr-2 h-5 w-5" />
+            {isInstalled ? "App Installata" : "Installa App sul Dispositivo"}
+          </CardTitle>
+          <CardDescription>
+            {isInstalled 
+              ? "Hai già installato l'app sul tuo dispositivo" 
+              : "Installa l'app per un accesso più rapido e funzionalità offline"}
+          </CardDescription>
+        </CardHeader>
+        
+        {!isInstalled && (
+          <CardContent>
+            <p className="text-sm mb-2">
+              L'icona dell'app verrà aggiunta alla schermata principale del tuo dispositivo, 
+              permettendoti di accedere direttamente all'area cliente senza dover utilizzare il browser.
             </p>
-            <p className="text-sm text-blue-700">
-              L'installazione funziona automaticamente solo con Google Chrome. Se stai utilizzando altri browser (DuckDuckGo, Firefox, ecc.), segui le istruzioni manuali che ti verranno mostrate dopo aver cliccato su "Installa App".
-            </p>
-          </div>
-          
-          <ul className="text-sm list-disc pl-5 space-y-1">
-            <li>Accesso con un solo tocco</li>
-            <li>Funziona anche offline</li>
-            <li>Nessuna app da scaricare dagli store</li>
-            <li>Occupazione minima della memoria</li>
-          </ul>
-        </CardContent>
-      )}
-      
-      <CardFooter>
-        {isInstalled ? (
-          <div className="w-full flex items-center justify-center text-green-600">
-            <Check className="h-5 w-5 mr-2" />
-            <span>App installata sul dispositivo</span>
-          </div>
-        ) : (
-          <Button 
-            className="w-full bg-green-600 hover:bg-green-700" 
-            onClick={handleInstallClick}
-            variant="default"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Installa App sul Dispositivo
-          </Button>
+            
+            <div className="p-2 my-2 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-sm font-medium text-blue-700 mb-1">
+                Nota importante:
+              </p>
+              <p className="text-sm text-blue-700">
+                L'installazione funziona automaticamente solo con Google Chrome. Se stai utilizzando altri browser (DuckDuckGo, Firefox, ecc.), segui le istruzioni manuali che ti verranno mostrate dopo aver cliccato su "Installa App".
+              </p>
+            </div>
+            
+            <ul className="text-sm list-disc pl-5 space-y-1">
+              <li>Accesso con un solo tocco</li>
+              <li>Funziona anche offline</li>
+              <li>Nessuna app da scaricare dagli store</li>
+              <li>Occupazione minima della memoria</li>
+            </ul>
+          </CardContent>
         )}
-      </CardFooter>
-    </Card>
+        
+        <CardFooter>
+          {isInstalled ? (
+            <div className="w-full flex items-center justify-center text-green-600">
+              <Check className="h-5 w-5 mr-2" />
+              <span>App installata sul dispositivo</span>
+            </div>
+          ) : (
+            <Button 
+              className="w-full bg-green-600 hover:bg-green-700" 
+              onClick={handleInstallClick}
+              variant="default"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Installa App sul Dispositivo
+            </Button>
+          )}
+        </CardFooter>
+      </Card>
+
+      {/* Dialog con istruzioni dettagliate per l'installazione manuale */}
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {dialogInstructions && renderBrowserIcon(dialogInstructions.browser)}
+              {dialogInstructions?.title || "Istruzioni di installazione"}
+            </DialogTitle>
+            <DialogDescription>
+              Segui questi passaggi per installare l'app sul tuo dispositivo
+            </DialogDescription>
+          </DialogHeader>
+          
+          {dialogInstructions && (
+            <div className="space-y-4">
+              <div className="rounded-md bg-muted p-4">
+                <h4 className="mb-2 text-sm font-medium">Metodo principale:</h4>
+                <ol className="space-y-2 pl-4">
+                  {dialogInstructions.steps.map((step, index) => (
+                    <li key={index} className="text-sm">
+                      <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-xs">
+                        {index + 1}
+                      </span>
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              
+              {dialogInstructions.alternativeInstructions && (
+                <div className="rounded-md bg-blue-50 p-4">
+                  <h4 className="mb-2 text-sm font-medium text-blue-700">Metodo alternativo:</h4>
+                  <ol className="space-y-2 pl-4">
+                    {dialogInstructions.alternativeInstructions.map((step, index) => (
+                      <li key={index} className="text-sm text-blue-700">
+                        <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white text-xs">
+                          {index + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {dialogInstructions.browser === 'duckduckgo' && (
+                <div className="rounded-md bg-amber-50 p-4 border border-amber-200">
+                  <h4 className="mb-2 text-sm font-medium text-amber-700 flex items-center">
+                    <Chrome className="h-4 w-4 mr-2" /> Consiglio
+                  </h4>
+                  <p className="text-sm text-amber-700">
+                    Per la migliore esperienza, raccomandiamo di utilizzare Google Chrome per accedere
+                    all'area cliente e installare l'app. Con Chrome, l'installazione è automatica e non
+                    richiede passaggi manuali.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+          
+          <DialogFooter>
+            <Button 
+              type="button" 
+              variant="secondary" 
+              onClick={() => setOpenDialog(false)}
+              className="w-full sm:w-auto"
+            >
+              Ho capito
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
