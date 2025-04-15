@@ -121,7 +121,7 @@ export default function ClientArea() {
             variant: "destructive",
           });
           
-          setLocation("/client-login");
+          setLocation("/client-login?expired=true");
           return;
         }
         
@@ -132,8 +132,9 @@ export default function ClientArea() {
         
         setUser(userData);
       } else {
-        // Se non autenticato, reindirizza alla pagina di login
-        setLocation("/client-login");
+        // Se non autenticato, reindirizza alla pagina di login con parametro di sessione scaduta
+        console.log("Sessione non valida o scaduta, redirezione a login con parametro expired=true");
+        setLocation("/client-login?expired=true");
       }
     } catch (error) {
       console.error("Errore nel caricamento dell'utente corrente:", error);
