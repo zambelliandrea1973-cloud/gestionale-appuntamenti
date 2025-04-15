@@ -592,23 +592,35 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px] overflow-y-auto" style={{ maxHeight: '85vh' }}>
-            <div className="fixed right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-2 z-50">
+          <DialogContent className="sm:max-w-[425px] overflow-y-auto" style={{ maxHeight: '85vh', overflowY: 'auto', scrollbarWidth: 'auto', scrollbarColor: 'dark' }}>
+            <div className="fixed right-6 top-1/2 transform -translate-y-1/2 flex flex-col gap-2 z-50">
               <Button 
                 size="icon" 
-                variant="outline" 
-                className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm shadow-lg"
-                onClick={() => window.scrollBy(0, -200)}
+                variant="secondary" 
+                className="rounded-full h-12 w-12 bg-primary text-white shadow-lg border-2 border-white"
+                onClick={() => {
+                  // Scorri fino a inizio form
+                  const dialog = document.querySelector('[role="dialog"]');
+                  if (dialog) {
+                    dialog.scrollTop = 0;
+                  }
+                }}
               >
-                <ChevronUp className="h-5 w-5" />
+                <ChevronUp className="h-6 w-6" />
               </Button>
               <Button 
                 size="icon" 
-                variant="outline" 
-                className="rounded-full h-10 w-10 bg-background/80 backdrop-blur-sm shadow-lg"
-                onClick={() => window.scrollBy(0, 200)}
+                variant="secondary" 
+                className="rounded-full h-12 w-12 bg-primary text-white shadow-lg border-2 border-white"
+                onClick={() => {
+                  // Scorri alla fine del form fino al pulsante
+                  const dialog = document.querySelector('[role="dialog"]');
+                  if (dialog) {
+                    dialog.scrollTop = 9999; // un valore alto per scorrere fino in fondo
+                  }
+                }}
               >
-                <ChevronDown className="h-5 w-5" />
+                <ChevronDown className="h-6 w-6" />
               </Button>
             </div>
             
@@ -814,20 +826,21 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
           )}
         />
         
-        <DialogFooter>
+        <DialogFooter className="sticky bottom-0 pt-4 pb-2 bg-background/95 backdrop-blur-sm border-t mt-6">
           <Button 
             type="submit" 
-            className="w-full sm:w-auto" 
+            className="w-full sm:w-auto text-lg py-6" 
+            size="lg"
             disabled={isUpdating}
           >
             {isUpdating ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                 Salvataggio...
               </>
             ) : (
               <>
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 h-5 w-5" />
                 Salva modifiche
               </>
             )}
