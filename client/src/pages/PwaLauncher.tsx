@@ -38,20 +38,14 @@ export default function PwaLauncher() {
         console.log("Utente già configurato, reindirizzamento alla pagina di login");
         
         // Reindirizza alla pagina di login client (nome utente sarà precompilato)
-        toast({
-          title: "Accesso rilevato",
-          description: "Stai per essere reindirizzato alla pagina di login con i tuoi dati",
-        });
+        // Rimosso il toast per evitare pop-up non necessari
         
         setLocation('/client-login');
       } else {
         // Se l'utente non ha ancora configurato il suo account
         console.log("Utente non configurato, reindirizzamento alla pagina di attivazione QR");
         
-        toast({
-          title: "Configurazione necessaria",
-          description: "È necessario attivare l'account con il codice QR fornito dal professionista",
-        });
+        // Rimosso il toast per evitare pop-up non necessari
         
         // Reindirizza alla pagina di attivazione QR
         setLocation('/activate');
