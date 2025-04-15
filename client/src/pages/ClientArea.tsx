@@ -48,10 +48,26 @@ export default function ClientArea() {
     // Verifica autenticazione
     fetchCurrentUser();
     
-    // Recupera il token dalla query string
+    // Recupera il token dalla query string o da localStorage per supporto PWA
     const tokenFromQuery = new URLSearchParams(window.location.search).get('token');
+    let tokenToUse = tokenFromQuery;
+    
+    // Se c'è un token nell'URL, salvalo nel localStorage per il supporto PWA
     if (tokenFromQuery) {
-      setToken(tokenFromQuery);
+      localStorage.setItem('clientAccessToken', tokenFromQuery);
+    } 
+    // Se non c'è un token nell'URL ma c'è nel localStorage, usalo
+    else if (!tokenFromQuery) {
+      const storedToken = localStorage.getItem('clientAccessToken');
+      if (storedToken) {
+        tokenToUse = storedToken;
+        console.log("Token recuperato da localStorage per supporto PWA");
+      }
+    }
+    
+    // Imposta il token
+    if (tokenToUse) {
+      setToken(tokenToUse);
     }
   }, []);
 

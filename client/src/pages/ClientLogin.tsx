@@ -18,7 +18,7 @@ export default function ClientLogin() {
   const [autoLoginAttempted, setAutoLoginAttempted] = useState<boolean>(false);
   const [directLinkLoading, setDirectLinkLoading] = useState<boolean>(false);
 
-  // Verifica se ci sono parametri di token e clientId nell'URL per accesso diretto
+  // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
   useEffect(() => {
     const attemptDirectLogin = async () => {
       try {
@@ -28,14 +28,31 @@ export default function ClientLogin() {
         
         // Estrai token e clientId dall'URL
         const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const clientId = urlParams.get('clientId');
+        let token = urlParams.get('token');
+        let clientId = urlParams.get('clientId');
+        
+        // Se i parametri esistono nell'URL, salviamoli nel localStorage per usi futuri
+        if (token && clientId) {
+          localStorage.setItem('clientAccessToken', token);
+          localStorage.setItem('clientId', clientId);
+        } 
+        // Se non sono presenti nell'URL, prova a recuperarli dal localStorage (utile per PWA)
+        else {
+          const storedToken = localStorage.getItem('clientAccessToken');
+          const storedClientId = localStorage.getItem('clientId');
+          
+          if (storedToken && storedClientId) {
+            token = storedToken;
+            clientId = storedClientId;
+            console.log("Parametri recuperati da localStorage per supporto PWA in ClientLogin");
+          }
+        }
         
         // Se non ci sono entrambi i parametri, non fare nulla
         if (!token || !clientId) return;
         
         // Tentativo di login diretto
-        console.log("Tentativo di login diretto con token dalla URL");
+        console.log("Tentativo di login diretto con token");
         setDirectLinkLoading(true);
         
         // Richiedi al backend di autenticare con token
@@ -46,6 +63,11 @@ export default function ClientLogin() {
         
         if (response.ok) {
           const result = await response.json();
+          
+          // Salva anche il nome utente se disponibile
+          if (result.username) {
+            localStorage.setItem('clientUsername', result.username);
+          }
           
           // Redirezione alla pagina client area
           toast({
@@ -70,6 +92,11 @@ export default function ClientLogin() {
           // Rimuovi i parametri dall'URL senza ricaricare la pagina
           const newUrl = `${window.location.pathname}`;
           window.history.replaceState({}, document.title, newUrl);
+          
+          // Rimuovi anche le informazioni del localStorage che potrebbero essere scadute
+          localStorage.removeItem('clientAccessToken');
+          localStorage.removeItem('clientId');
+          localStorage.removeItem('clientUsername');
         }
       } catch (error) {
         console.error("Errore durante l'accesso diretto:", error);
