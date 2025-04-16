@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
@@ -11,6 +12,7 @@ import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
 import ReminderTemplateManager from '@/components/ReminderTemplateManager';
+import WhatsAppConfigHelper from '@/components/WhatsAppConfigHelper';
 
 export default function Settings() {
   const [, setLocation] = useLocation();
@@ -101,8 +103,18 @@ export default function Settings() {
                 {t('settings.notificationsDesc', 'Gestisci i modelli di promemoria per gli appuntamenti')}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <ReminderTemplateManager />
+            <CardContent className="space-y-8">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Configurazione WhatsApp/SMS</h3>
+                <WhatsAppConfigHelper />
+              </div>
+              
+              <Separator className="my-6" />
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Modelli di Promemoria</h3>
+                <ReminderTemplateManager />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
