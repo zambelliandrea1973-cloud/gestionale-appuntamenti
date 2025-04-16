@@ -67,10 +67,16 @@ export const notificationSettingsService = {
       smtpUsername: '',
       smtpPassword: '',
       senderEmail: '',
+      emailSignature: 'Con i migliori saluti,',
       notificationCenterEnabled: true,
       defaultReminderTime: 24, // 24 ore prima dell'appuntamento
       smsEnabled: false,
-      whatsappEnabled: false
+      smsGatewayMethod: 'direct',
+      whatsappEnabled: false,
+      whatsappMethod: 'direct',
+      useContactPhoneForNotifications: true,
+      notificationPhone: '',
+      twilioEnabled: false
       // createdAt e updatedAt sono gestiti automaticamente
     };
     

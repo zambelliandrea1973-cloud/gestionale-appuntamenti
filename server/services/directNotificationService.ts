@@ -272,18 +272,26 @@ export const directNotificationService = {
         // Per SMS e WhatsApp, poiché stiamo passando a metodi diretti,
         // generiamo i link e li includiamo nel centro notifiche per il professionista
         
-        // Genera link WhatsApp se il cliente ha un numero di telefono
-        if (client.phone) {
-          const whatsappLink = this.generateWhatsAppLink(client.phone, message);
+        // Genera link WhatsApp se il cliente ha un numero di telefono e WhatsApp è abilitato
+        if (client.phone && settings?.whatsappEnabled) {
+          // Ottieni il numero di telefono del mittente (del professionista) dalle impostazioni
+          const senderPhone = await this.getNotificationPhone();
           
-          await this.addToNotificationCenter(
-            0, // ID speciale per il professionista 
-            `📱 Invia promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}. [Apri WhatsApp](${whatsappLink})`,
-            'staff_reminder',
-            appointment.id
-          );
-          
-          console.log(`Generato link WhatsApp per l'appuntamento ${appointment.id}: ${whatsappLink}`);
+          if (senderPhone) {
+            const whatsappLink = this.generateWhatsAppLink(client.phone, message);
+            
+            await this.addToNotificationCenter(
+              0, // ID speciale per il professionista 
+              `📱 Invia promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}. [Apri WhatsApp](${whatsappLink})`,
+              'staff_reminder',
+              appointment.id
+            );
+            
+            console.log(`Generato link WhatsApp per l'appuntamento ${appointment.id}: ${whatsappLink}`);
+            successCount++; // Considera anche questo come un successo
+          } else {
+            console.error(`Impossibile generare link WhatsApp: numero di telefono per notifiche non configurato`);
+          }
         }
         
         // Aggiorna lo stato del promemoria
