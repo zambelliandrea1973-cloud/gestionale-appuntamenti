@@ -6,7 +6,7 @@ import { Badge } from './ui/badge';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { InfoIcon, SendIcon, CheckCircle, XCircle } from 'lucide-react';
+import { InfoIcon, SendIcon, CheckCircle, XCircle, ExternalLink } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 
 const WhatsAppConfigHelper: React.FC = () => {
@@ -27,7 +27,7 @@ const WhatsAppConfigHelper: React.FC = () => {
   const fetchConfigStatus = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/twilio-config-status');
+      const response = await fetch('/api/messaging-config-status');
       const data = await response.json();
       setConfigStatus(data);
     } catch (error) {
@@ -35,7 +35,7 @@ const WhatsAppConfigHelper: React.FC = () => {
       toast({
         variant: "destructive",
         title: "Errore",
-        description: "Impossibile recuperare lo stato della configurazione WhatsApp"
+        description: "Impossibile recuperare lo stato della configurazione messaggistica"
       });
     } finally {
       setIsLoading(false);
@@ -66,14 +66,14 @@ const WhatsAppConfigHelper: React.FC = () => {
       
       if (response.ok) {
         toast({
-          title: "Test completato",
-          description: "Messaggio WhatsApp inviato con successo",
+          title: "Link WhatsApp generato",
+          description: "Clicca sul link per inviare il messaggio",
           variant: "default"
         });
       } else {
         toast({
-          title: "Errore nell'invio",
-          description: result.message || "Si è verificato un errore durante l'invio del messaggio",
+          title: "Errore nella generazione",
+          description: result.message || "Si è verificato un errore durante la generazione del link WhatsApp",
           variant: "destructive"
         });
       }
@@ -107,13 +107,13 @@ const WhatsAppConfigHelper: React.FC = () => {
     );
   }
 
-  const isConfigured = configStatus?.config?.status === 'completa';
+  const isConfigured = configStatus?.config?.status === 'configurata';
 
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Configurazione WhatsApp
+          Messaggistica WhatsApp
           {isConfigured ? (
             <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
               Configurato
@@ -125,7 +125,7 @@ const WhatsAppConfigHelper: React.FC = () => {
           )}
         </CardTitle>
         <CardDescription>
-          Verifica e configura il servizio WhatsApp tramite Twilio
+          Invia messaggi WhatsApp direttamente dal tuo numero
         </CardDescription>
       </CardHeader>
       
@@ -134,8 +134,8 @@ const WhatsAppConfigHelper: React.FC = () => {
           <div className="font-medium">Stato configurazione:</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div className="flex items-center gap-2">
-              <span>Account Twilio:</span>
-              {configStatus?.config?.accountConfigured ? (
+              <span>Email configurata:</span>
+              {configStatus?.config?.emailConfigured ? (
                 <CheckCircle className="h-5 w-5 text-green-500" />
               ) : (
                 <XCircle className="h-5 w-5 text-red-500" />
@@ -143,10 +143,10 @@ const WhatsAppConfigHelper: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <span>Numero di telefono:</span>
-              {configStatus?.config?.phoneNumberConfigured ? (
+              {configStatus?.config?.whatsappConfigured ? (
                 <div className="flex gap-1 items-center">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-sm text-muted-foreground">{configStatus?.config?.phoneNumberMasked}</span>
+                  <span className="text-sm text-muted-foreground">{configStatus?.config?.professionalPhone}</span>
                 </div>
               ) : (
                 <XCircle className="h-5 w-5 text-red-500" />
@@ -157,28 +157,42 @@ const WhatsAppConfigHelper: React.FC = () => {
         
         <Separator />
         
-        {!isConfigured && (
+        {!configStatus?.config?.whatsappConfigured && (
           <div className="bg-amber-50 p-4 rounded-md border border-amber-200">
             <div className="flex gap-2 items-start">
               <InfoIcon className="h-5 w-5 text-amber-600 mt-0.5" />
               <div>
                 <h4 className="font-medium text-amber-800">Configurazione necessaria</h4>
-                <p className="text-sm text-amber-700 mt-1">Per utilizzare WhatsApp, devi configurare le variabili d'ambiente di Twilio.</p>
+                <p className="text-sm text-amber-700 mt-1">Per utilizzare WhatsApp, devi inserire il tuo numero di telefono nelle informazioni di contatto.</p>
               </div>
             </div>
             
             <div className="mt-3 text-sm text-amber-700 space-y-2">
               <p className="font-medium">Passaggi per la configurazione:</p>
               <ol className="list-decimal pl-5 space-y-1">
-                <li>Accedi alla dashboard Twilio: <a href="https://www.twilio.com/console" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.twilio.com/console</a></li>
-                <li>Vai su "Messaging" &gt; "Settings" &gt; "WhatsApp Sandbox"</li>
-                <li>Segui le istruzioni per configurare il tuo account WhatsApp</li>
-                <li>Invia un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono</li>
-                <li>Configura le variabili d'ambiente TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN e TWILIO_PHONE_NUMBER</li>
+                <li>Vai alla pagina "Informazioni di contatto" dal menu</li>
+                <li>Inserisci il tuo numero di telefono nel formato internazionale (es. +39...)</li>
+                <li>Salva le modifiche</li>
+                <li>Torna a questa pagina e aggiorna lo stato</li>
               </ol>
             </div>
           </div>
         )}
+        
+        <div className="bg-green-50 p-4 rounded-md border border-green-200">
+          <div className="flex gap-2 items-start">
+            <InfoIcon className="h-5 w-5 text-green-600 mt-0.5" />
+            <div>
+              <h4 className="font-medium text-green-800">Metodo diretto WhatsApp</h4>
+              <p className="text-sm text-green-700 mt-1">
+                Questa funzionalità utilizza il tuo numero WhatsApp personale per inviare messaggi direttamente senza costi aggiuntivi.
+              </p>
+              <p className="text-sm text-green-700 mt-2">
+                I messaggi vengono inviati tramite link diretti WhatsApp che aprono automaticamente l'app con il messaggio precompilato.
+              </p>
+            </div>
+          </div>
+        </div>
         
         <div>
           <h3 className="font-medium mb-2">Testa l'invio di messaggi WhatsApp</h3>
@@ -211,40 +225,35 @@ const WhatsAppConfigHelper: React.FC = () => {
         {testResult && (
           <div className={`p-4 rounded-md border ${testResult.success ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
             <h4 className={`font-medium ${testResult.success ? 'text-green-800' : 'text-red-800'}`}>
-              {testResult.success ? "Test completato con successo" : "Errore durante il test"}
+              {testResult.success ? "Link WhatsApp generato con successo" : "Errore durante la generazione"}
             </h4>
             <p className={`text-sm mt-1 ${testResult.success ? 'text-green-700' : 'text-red-700'}`}>
               {testResult.message}
             </p>
             
-            {testResult.whatsappSetupInfo && (
-              <div className="mt-3 text-sm text-red-700">
-                <p className="font-medium">Istruzioni per la configurazione WhatsApp:</p>
-                <pre className="mt-1 whitespace-pre-wrap text-xs bg-white/50 p-2 rounded">
-                  {testResult.whatsappSetupInfo}
-                </pre>
+            {testResult.whatsappLink && (
+              <div className="mt-3">
+                <a 
+                  href={testResult.whatsappLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Apri WhatsApp e invia il messaggio
+                </a>
+                <p className="text-xs text-green-600 mt-2">
+                  Il link aprirà WhatsApp con il messaggio precompilato. Basta premere invio per inviarlo.
+                </p>
               </div>
             )}
             
-            {testResult.twilioDetails && (
-              <div className="mt-2 text-sm">
-                <p className="font-medium text-red-700">Dettagli errore Twilio:</p>
-                <div className="mt-1 bg-white/50 p-2 rounded text-xs">
-                  <div><strong>Codice:</strong> {testResult.twilioDetails.code}</div>
-                  {testResult.twilioDetails.moreInfo && (
-                    <div className="mt-1">
-                      <strong>Info:</strong> 
-                      <a 
-                        href={testResult.twilioDetails.moreInfo} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline ml-1"
-                      >
-                        {testResult.twilioDetails.moreInfo}
-                      </a>
-                    </div>
-                  )}
-                </div>
+            {testResult.instructions && (
+              <div className="mt-2 text-sm text-green-700">
+                <p className="font-medium">Istruzioni:</p>
+                <p className="mt-1">
+                  {testResult.instructions}
+                </p>
               </div>
             )}
           </div>
@@ -266,12 +275,12 @@ const WhatsAppConfigHelper: React.FC = () => {
           {isTesting ? (
             <>
               <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-2"></div>
-              Invio in corso...
+              Generazione in corso...
             </>
           ) : (
             <>
               <SendIcon className="h-4 w-4 mr-2" />
-              Invia test WhatsApp
+              Genera link WhatsApp
             </>
           )}
         </Button>
