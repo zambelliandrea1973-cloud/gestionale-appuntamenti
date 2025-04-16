@@ -593,7 +593,7 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[500px]" style={{ maxHeight: "90vh", overflowY: "auto" }}>
+          <DialogContent className="sm:max-w-[425px]">
             <DialogHeader className="border-b pb-4 mb-4">
               <DialogTitle className="flex items-center">
                 <User className="mr-2 h-5 w-5" />
@@ -681,9 +681,6 @@ interface ProfileEditFormProps {
 }
 
 function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
-  const [step, setStep] = useState(1);
-  const totalSteps = 3;
-  
   // Schema di validazione con Zod
   const profileSchema = z.object({
     firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
@@ -711,196 +708,125 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
   function onSubmit(values: z.infer<typeof profileSchema>) {
     onSave(values);
   }
-  
-  // Funzione per gestire i passi
-  const nextStep = () => {
-    if (step < totalSteps) {
-      setStep(step + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-  
-  // Componente per il progresso
-  const Progress = () => (
-    <div className="flex items-center justify-between mb-6 mt-2">
-      {[1, 2, 3].map((s) => (
-        <div
-          key={s}
-          className={`h-3 rounded-full ${
-            s <= step ? "bg-primary" : "bg-muted"
-          } transition-all`}
-          style={{
-            width: `${100 / totalSteps - 4}%`,
-          }}
-        />
-      ))}
-    </div>
-  );
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Progress />
+        <div className="space-y-5">
+          <h3 className="text-lg font-semibold mb-2">Dati Personali</h3>
+          
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome</FormLabel>
+                <FormControl>
+                  <Input placeholder="Inserisci il nome" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cognome</FormLabel>
+                <FormControl>
+                  <Input placeholder="Inserisci il cognome" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+          
+        <div className="space-y-5 mt-6">
+          <h3 className="text-lg font-semibold mb-2">Contatti</h3>
+          
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Telefono</FormLabel>
+                <FormControl>
+                  <Input placeholder="Inserisci il numero di telefono" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email (opzionale)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Inserisci l'email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+          
+        <div className="space-y-5 mt-6">
+          <h3 className="text-lg font-semibold mb-2">Informazioni Addizionali</h3>
+          
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Indirizzo (opzionale)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Inserisci l'indirizzo" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="birthday"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Data di nascita (opzionale)</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         
-        {step === 1 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-left-3 duration-300">
-            <h3 className="text-lg font-semibold">Dati Personali</h3>
-            
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci il nome" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cognome</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci il cognome" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="flex justify-end pt-4">
-              <Button 
-                type="button" 
-                onClick={nextStep}
-                className="w-full"
-              >
-                Continua
-              </Button>
-            </div>
-          </div>
-        )}
-        
-        {step === 2 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
-            <h3 className="text-lg font-semibold">Contatti</h3>
-            
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Telefono</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci il numero di telefono" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email (opzionale)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci l'email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="flex justify-between pt-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={prevStep}
-              >
-                Indietro
-              </Button>
-              <Button 
-                type="button" 
-                onClick={nextStep}
-              >
-                Continua
-              </Button>
-            </div>
-          </div>
-        )}
-        
-        {step === 3 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
-            <h3 className="text-lg font-semibold">Informazioni Addizionali</h3>
-            
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Indirizzo (opzionale)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci l'indirizzo" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="birthday"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data di nascita (opzionale)</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="flex justify-between pt-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={prevStep}
-              >
-                Indietro
-              </Button>
-              <Button 
-                type="submit" 
-                disabled={isUpdating}
-                className="bg-primary text-white"
-              >
-                {isUpdating ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Salvataggio...
-                  </>
-                ) : (
-                  <>
-                    <Save className="mr-2 h-5 w-5" />
-                    Salva modifiche
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
+        <div className="flex justify-end pt-6">
+          <Button 
+            type="submit" 
+            disabled={isUpdating}
+            className="bg-primary text-white"
+          >
+            {isUpdating ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Salvataggio...
+              </>
+            ) : (
+              <>
+                <Save className="mr-2 h-5 w-5" />
+                Salva modifiche
+              </>
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );
