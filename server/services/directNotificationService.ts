@@ -45,16 +45,32 @@ export const directNotificationService = {
    * @param subject Oggetto dell'email
    * @param message Testo dell'email
    * @returns Promise che risolve a true se l'invio è riuscito
+   * @throws Error se si verifica un problema durante l'invio
    */
   async sendEmail(to: string, subject: string, message: string): Promise<boolean> {
     try {
       const settings = await this.getNotificationSettings();
       
-      if (!settings || !settings.emailEnabled || !settings.smtpServer || !settings.smtpUsername || !settings.smtpPassword) {
-        console.error('Configurazione email non valida o incompleta');
-        return false;
+      if (!settings) {
+        console.error('Configurazione email non trovata');
+        throw new Error('Configurazione email non trovata. Salva prima le impostazioni.');
       }
       
+      if (!settings.emailEnabled) {
+        console.error('Notifiche email non abilitate');
+        throw new Error('Le notifiche email non sono abilitate.');
+      }
+      
+      if (!settings.smtpServer || !settings.smtpUsername || !settings.smtpPassword) {
+        console.error('Configurazione SMTP incompleta', {
+          server: !!settings.smtpServer, 
+          username: !!settings.smtpUsername, 
+          password: !!settings.smtpPassword
+        });
+        throw new Error('Configurazione SMTP incompleta. Verifica tutti i campi obbligatori.');
+      }
+      
+      // Crea trasportatore SMTP con gestione debug
       const transporter = nodemailer.createTransport({
         host: settings.smtpServer,
         port: settings.smtpPort || 587,
@@ -63,22 +79,38 @@ export const directNotificationService = {
           user: settings.smtpUsername,
           pass: settings.smtpPassword,
         },
+        // Attiva debug per dettagli di connessione
+        debug: true,
+        logger: true
       });
+      
+      // Verifica la connessione prima di inviare
+      try {
+        await transporter.verify();
+        console.log('Connessione SMTP verificata con successo');
+      } catch (verifyError) {
+        console.error('Errore nella verifica della connessione SMTP:', verifyError);
+        throw verifyError; // Propagare l'errore per gestirlo nell'handler principale
+      }
       
       const mailOptions = {
         from: settings.senderEmail || settings.smtpUsername,
         to,
         subject,
         text: message,
-        html: message.replace(/\\n/g, '<br>'),
+        html: message.replace(/\n/g, '<br>'),
       };
+      
+      console.log(`Tentativo di invio email a ${to} usando ${settings.smtpServer}:${settings.smtpPort}`);
       
       const info = await transporter.sendMail(mailOptions);
       console.log(`Email inviata con successo: ${info.messageId}`);
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Errore nell\'invio dell\'email:', error);
-      return false;
+      
+      // Propaga l'errore completo per permettere all'endpoint di gestirlo in modo specifico
+      throw error;
     }
   },
 
