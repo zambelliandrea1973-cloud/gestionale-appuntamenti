@@ -22,6 +22,8 @@ import { contactService } from "./services/contactService";
 import { initializeSchedulers } from "./services/schedulerService";
 import { googleCalendarService } from "./services/googleCalendarService";
 import { companyNameService } from "./services/companyNameService";
+import { directNotificationService } from "./services/directNotificationService";
+import { notificationSettingsService } from "./services/notificationSettingsService";
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -2589,6 +2591,119 @@ Per utilizzare WhatsApp con Twilio, devi:
     } catch (error) {
       console.error("Errore nel salvataggio delle impostazioni del fuso orario:", error);
       res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni del fuso orario' });
+    }
+  });
+
+  // Gestione impostazioni notifiche
+  app.get('/api/notification-settings', async (_req: Request, res: Response) => {
+    try {
+      // Ottieni o crea impostazioni predefinite se non esistono
+      const settings = await notificationSettingsService.ensureDefaultSettings();
+      res.json({ success: true, data: settings });
+    } catch (error) {
+      console.error("Errore nel recupero delle impostazioni di notifica:", error);
+      res.status(500).json({ success: false, message: 'Errore nel recupero delle impostazioni di notifica' });
+    }
+  });
+
+  app.post('/api/notification-settings', async (req: Request, res: Response) => {
+    try {
+      const settingsData = req.body;
+      
+      // Verificare che ci sia un ID nel body per l'aggiornamento
+      if (settingsData.id) {
+        const updatedSettings = await notificationSettingsService.updateSettings(
+          settingsData.id,
+          settingsData
+        );
+        
+        if (!updatedSettings) {
+          return res.status(404).json({ 
+            success: false,
+            message: "Impossibile trovare le impostazioni di notifica da aggiornare"
+          });
+        }
+        
+        return res.json({ 
+          success: true, 
+          message: 'Impostazioni di notifica aggiornate con successo',
+          data: updatedSettings
+        });
+      } 
+      
+      // Altrimenti creiamo nuove impostazioni
+      const newSettings = await notificationSettingsService.saveSettings(settingsData);
+      res.status(201).json({ 
+        success: true, 
+        message: 'Impostazioni di notifica create con successo',
+        data: newSettings
+      });
+    } catch (error) {
+      console.error("Errore nel salvataggio delle impostazioni di notifica:", error);
+      res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni di notifica' });
+    }
+  });
+
+  // Test delle impostazioni di notifica
+  app.post('/api/notification-settings/test-email', async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Indirizzo email obbligatorio per il test' 
+        });
+      }
+      
+      // Recupera le impostazioni di notifica
+      const settings = await notificationSettingsService.getSettings();
+      
+      if (!settings || !settings.emailEnabled || !settings.smtpServer || !settings.smtpUsername || !settings.smtpPassword) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Configurazione email incompleta. Verifica le impostazioni SMTP.' 
+        });
+      }
+      
+      // Invia email di test
+      const success = await directNotificationService.sendEmail(
+        email,
+        'Email di test da Health Pro',
+        'Questo è un messaggio di test dal sistema di notifiche. Se lo ricevi, la configurazione email è funzionante.'
+      );
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: 'Email di test inviata con successo'
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: 'Impossibile inviare l\'email di test. Verifica le impostazioni SMTP.' 
+        });
+      }
+    } catch (error) {
+      console.error("Errore nel test email:", error);
+      res.status(500).json({ success: false, message: 'Errore durante il test email' });
+    }
+  });
+
+  // Endpoint per inviare/processare i promemoria manualmente
+  app.post('/api/process-reminders', async (req: Request, res: Response) => {
+    try {
+      const remindersSent = await directNotificationService.processReminders();
+      res.json({ 
+        success: true, 
+        message: `${remindersSent} promemoria inviati con successo`
+      });
+    } catch (error) {
+      console.error("Errore nell'elaborazione dei promemoria:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Errore durante l\'elaborazione dei promemoria' 
+      });
     }
   });
 
