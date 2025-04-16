@@ -309,6 +309,107 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                 {form.watch("emailEnabled") && (
                   <>
                     <div className="grid gap-4 py-4">
+                      <div className="mb-4 p-4 bg-muted rounded-lg">
+                        <h4 className="text-base font-medium mb-2">Rileva impostazioni SMTP</h4>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="col-span-2">
+                            <Input 
+                              placeholder="Inserisci il tuo indirizzo email" 
+                              value={form.watch("senderEmail") || ""}
+                              onChange={(e) => {
+                                // Aggiorna il campo senderEmail
+                                form.setValue("senderEmail", e.target.value);
+                                // Aggiorna anche smtpUsername solo se vuoto o uguale a senderEmail precedente
+                                if (!form.watch("smtpUsername") || form.watch("smtpUsername") === form.watch("senderEmail")) {
+                                  form.setValue("smtpUsername", e.target.value);
+                                }
+                              }}
+                            />
+                          </div>
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            className="h-10"
+                            onClick={async () => {
+                              const email = form.watch("senderEmail");
+                              if (!email) {
+                                toast({
+                                  title: "Email richiesta",
+                                  description: "Inserisci il tuo indirizzo email per rilevare le impostazioni SMTP",
+                                  variant: "destructive"
+                                });
+                                return;
+                              }
+                              
+                              try {
+                                setIsLoading(true);
+                                const response = await apiRequest("POST", "/api/notification-settings/detect-smtp", {
+                                  email
+                                });
+                                
+                                if (response.ok) {
+                                  const result = await response.json();
+                                  
+                                  if (result.success && result.data) {
+                                    const config = result.data;
+                                    
+                                    // Aggiorna i campi del form con i dati rilevati
+                                    form.setValue("smtpServer", config.smtpServer);
+                                    form.setValue("smtpPort", config.smtpPort);
+                                    form.setValue("smtpUsername", config.smtpUsername);
+                                    // Lascia l'utente inserire la password
+                                    
+                                    toast({
+                                      title: "Impostazioni rilevate",
+                                      description: config.instructions || "Inserisci la tua password per completare la configurazione"
+                                    });
+                                  }
+                                } else {
+                                  const error = await response.json();
+                                  toast({
+                                    title: "Errore",
+                                    description: error.message || "Impossibile rilevare le impostazioni SMTP",
+                                    variant: "destructive"
+                                  });
+                                }
+                              } catch (error) {
+                                console.error("Errore durante il rilevamento SMTP:", error);
+                                toast({
+                                  title: "Errore",
+                                  description: "Si è verificato un problema durante il rilevamento delle impostazioni",
+                                  variant: "destructive"
+                                });
+                              } finally {
+                                setIsLoading(false);
+                              }
+                            }}
+                            disabled={isLoading || !form.watch("senderEmail")}
+                          >
+                            {isLoading ? "Rilevamento..." : "Rileva impostazioni"}
+                          </Button>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Inserisci il tuo indirizzo email e fai clic su "Rileva impostazioni" per configurare automaticamente i parametri SMTP.
+                        </p>
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="senderEmail"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email mittente</FormLabel>
+                            <FormControl>
+                              <Input placeholder="nome@tuodominio.it" {...field} />
+                            </FormControl>
+                            <FormDescription>
+                              L'indirizzo email che apparirà come mittente delle comunicazioni
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <FormField
                         control={form.control}
                         name="smtpServer"
@@ -376,23 +477,6 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                             </FormControl>
                             <FormDescription>
                               La password per l'autenticazione SMTP. Per Gmail potrebbe essere necessaria una password per app.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="senderEmail"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email mittente</FormLabel>
-                            <FormControl>
-                              <Input placeholder="nome@tuodominio.it" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              L'indirizzo email che apparirà come mittente
                             </FormDescription>
                             <FormMessage />
                           </FormItem>

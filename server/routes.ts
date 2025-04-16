@@ -24,6 +24,7 @@ import { googleCalendarService } from "./services/googleCalendarService";
 import { companyNameService } from "./services/companyNameService";
 import { directNotificationService } from "./services/directNotificationService";
 import { notificationSettingsService } from "./services/notificationSettingsService";
+import { smtpDetectionService } from "./services/smtpDetectionService";
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -2641,6 +2642,38 @@ Per utilizzare WhatsApp con Twilio, devi:
     } catch (error) {
       console.error("Errore nel salvataggio delle impostazioni di notifica:", error);
       res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni di notifica' });
+    }
+  });
+
+  // Rileva configurazioni SMTP in base all'email
+  app.post('/api/notification-settings/detect-smtp', async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Indirizzo email obbligatorio per il rilevamento SMTP' 
+        });
+      }
+      
+      const smtpConfig = smtpDetectionService.detectSmtpConfig(email);
+      
+      if (smtpConfig) {
+        res.json({ 
+          success: true, 
+          message: 'Configurazione SMTP rilevata con successo',
+          data: smtpConfig
+        });
+      } else {
+        res.status(404).json({ 
+          success: false, 
+          message: 'Impossibile rilevare le configurazioni SMTP per questa email'
+        });
+      }
+    } catch (error) {
+      console.error("Errore nel rilevamento SMTP:", error);
+      res.status(500).json({ success: false, message: 'Errore durante il rilevamento SMTP' });
     }
   });
 
