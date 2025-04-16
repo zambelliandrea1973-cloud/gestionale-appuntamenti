@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -99,6 +99,21 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
         });
       });
   };
+  
+  // Modifica apportata per risolvere il problema di chiusura automatica del dialog
+  // Ora definiamo una funzione che chiude il dialog quando il QR code è stato generato con successo
+  useEffect(() => {
+    // Se abbiamo sia il QR code che l'URL di attivazione, significa che la generazione è completata con successo
+    if (qrCode && activationUrl && !generateTokenMutation.isPending) {
+      // Mostriamo un po' di ritardo prima di chiudere automaticamente il dialog
+      const timer = setTimeout(() => {
+        onClose();
+      }, 1500); // 1.5 secondi di ritardo per permettere all'utente di vedere il messaggio di successo
+      
+      // Puliamo il timer se il componente viene smontato
+      return () => clearTimeout(timer);
+    }
+  }, [qrCode, activationUrl, generateTokenMutation.isPending, onClose]);
   
   return (
     <Dialog open={open} onOpenChange={onClose}>
