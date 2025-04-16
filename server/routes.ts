@@ -2760,11 +2760,20 @@ Per utilizzare WhatsApp con Twilio, devi:
         
         // Messaggi specifici per errori comuni
         if (emailError.code === 'EAUTH') {
-          errorMessage = 'Errore di autenticazione SMTP. Verifica username e password. Per Gmail, potrebbe essere necessaria una "password per app".';
+          const isGmail = settings.smtpServer?.includes('gmail');
+          
+          if (isGmail) {
+            errorMessage = 'Errore di autenticazione Gmail. È necessario usare una "password per app" specifica. Vai su https://myaccount.google.com/apppasswords per crearla.';
+          } else {
+            errorMessage = 'Errore di autenticazione SMTP. Verifica username e password.';
+          }
         } else if (emailError.code === 'ESOCKET') {
           errorMessage = 'Errore di connessione al server SMTP. Verifica il server e la porta.';
         } else if (emailError.code === 'ECONNECTION') {
           errorMessage = 'Impossibile connettersi al server SMTP. Verifica l\'indirizzo del server.';
+        } else if (emailError.message && emailError.message.includes('Application-specific password required')) {
+          // Messaggio specifico per errore password app Gmail
+          errorMessage = 'Per Gmail è necessario creare una "password per app" specifica. Vai su https://myaccount.google.com/apppasswords per crearla.';
         } else if (emailError.message) {
           // Includi il messaggio di errore originale se disponibile
           errorMessage = `Errore: ${emailError.message}`;

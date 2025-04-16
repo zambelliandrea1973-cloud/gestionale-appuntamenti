@@ -14,7 +14,7 @@ const smtpConfigurations: Record<string, {
     smtpServer: 'smtp.gmail.com',
     smtpPort: 587,
     secureConnection: false,
-    instructions: 'Per Gmail potrebbe essere necessario creare una "password per le app" nelle impostazioni di sicurezza Google.'
+    instructions: 'Per Gmail è necessario creare una "password per app" nelle impostazioni di sicurezza Google. Vai su https://myaccount.google.com/apppasswords per crearla.'
   },
   'outlook.com': {
     smtpServer: 'smtp-mail.outlook.com',

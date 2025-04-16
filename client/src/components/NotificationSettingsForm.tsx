@@ -344,7 +344,21 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                               onChange={(e) => form.setValue("smtpPassword", e.target.value)}
                             />
                             <FormDescription className="text-xs mt-1">
-                              Per Gmail potrebbe essere necessaria una "password per app" generata nelle impostazioni di sicurezza Google.
+                              {form.watch("senderEmail")?.toLowerCase().includes("@gmail.com") ? (
+                                <>
+                                  Per Gmail è necessaria una "password per app". 
+                                  <a 
+                                    href="https://myaccount.google.com/apppasswords" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:underline font-medium ml-1"
+                                  >
+                                    Clicca qui per crearla
+                                  </a>
+                                </>
+                              ) : (
+                                "Per Gmail potrebbe essere necessaria una \"password per app\" generata nelle impostazioni di sicurezza Google."
+                              )}
                             </FormDescription>
                           </div>
                           
