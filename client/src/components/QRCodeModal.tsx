@@ -27,16 +27,22 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
   const { toast } = useToast();
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [activationUrl, setActivationUrl] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [autoCloseTimer, setAutoCloseTimer] = useState<any>(null);
   
   // Mutation per generare il token di attivazione e il QR code
   const generateTokenMutation = useMutation({
     mutationFn: async () => {
+      setIsGenerating(true);
+      console.log("Iniziando generazione QR code...");
       const response = await apiRequest("POST", `/api/clients/${clientId}/generate-activation`, {});
       return response.json();
     },
     onSuccess: (data) => {
+      console.log("QR code generato con successo:", data);
       setQrCode(data.qrCode);
       setActivationUrl(data.activationUrl);
+      setIsGenerating(false);
       
       // Notifica il genitore che il codice QR è stato generato
       if (onQrCodeGenerated && data.qrCode) {
@@ -47,8 +53,18 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
         title: "Token generato",
         description: "Token di attivazione generato con successo",
       });
+      
+      // Imposta un timer per chiudere automaticamente la finestra
+      const timer = setTimeout(() => {
+        console.log("Chiusura automatica del dialog dopo generazione QR");
+        onClose();
+      }, 1500);
+      
+      setAutoCloseTimer(timer);
     },
     onError: (error: any) => {
+      console.error("Errore nella generazione del QR code:", error);
+      setIsGenerating(false);
       toast({
         title: "Errore",
         description: `Si è verificato un errore: ${error.message}`,
@@ -57,10 +73,22 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
     }
   });
   
-  // Genera il token quando il componente viene montato
-  if (open && !qrCode && !generateTokenMutation.isPending) {
-    generateTokenMutation.mutate();
-  }
+  // Pulizia del timer quando il componente viene smontato o il dialog viene chiuso
+  useEffect(() => {
+    // Genera il token quando il componente viene montato
+    if (open && !qrCode && !isGenerating && !generateTokenMutation.isPending) {
+      console.log("Avvio generazione QR code...");
+      generateTokenMutation.mutate();
+    }
+    
+    // Pulizia
+    return () => {
+      if (autoCloseTimer) {
+        console.log("Pulizia timer di chiusura automatica");
+        clearTimeout(autoCloseTimer);
+      }
+    };
+  }, [open, qrCode, isGenerating, generateTokenMutation.isPending]);
   
   // Funzione per scaricare il QR code come immagine
   const downloadQrCode = () => {
@@ -100,20 +128,7 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
       });
   };
   
-  // Modifica apportata per risolvere il problema di chiusura automatica del dialog
-  // Ora definiamo una funzione che chiude il dialog quando il QR code è stato generato con successo
-  useEffect(() => {
-    // Se abbiamo sia il QR code che l'URL di attivazione, significa che la generazione è completata con successo
-    if (qrCode && activationUrl && !generateTokenMutation.isPending) {
-      // Mostriamo un po' di ritardo prima di chiudere automaticamente il dialog
-      const timer = setTimeout(() => {
-        onClose();
-      }, 1500); // 1.5 secondi di ritardo per permettere all'utente di vedere il messaggio di successo
-      
-      // Puliamo il timer se il componente viene smontato
-      return () => clearTimeout(timer);
-    }
-  }, [qrCode, activationUrl, generateTokenMutation.isPending, onClose]);
+  // Questo useEffect è stato spostato direttamente nella funzione onSuccess della mutation
   
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -127,7 +142,7 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
         </DialogHeader>
         
         <div className="flex flex-col items-center justify-center py-4">
-          {generateTokenMutation.isPending ? (
+          {isGenerating || generateTokenMutation.isPending ? (
             <div className="flex flex-col items-center justify-center py-8">
               <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
               <p className="mt-4 text-sm text-gray-500">Generazione QR code in corso...</p>
