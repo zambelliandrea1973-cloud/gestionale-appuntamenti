@@ -17,7 +17,7 @@ import AutoLogin from "./pages/AutoLogin";
 import PwaLauncher from "./pages/PwaLauncher";
 import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
-import TestSmsPage from "./pages/TestSmsPage";
+import TestNotificationsPage from "./pages/TestNotificationsPage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -134,9 +134,15 @@ function AppRoutes() {
           <ClientMedicalDetails />
         </StaffPageWrapper>
       </Route>
+      <Route path="/test-notifications">
+        <StaffPageWrapper>
+          <TestNotificationsPage />
+        </StaffPageWrapper>
+      </Route>
+      {/* Manteniamo temporaneamente la rotta vecchia per retrocompatibilità */}
       <Route path="/test-sms">
         <StaffPageWrapper>
-          <TestSmsPage />
+          <TestNotificationsPage />
         </StaffPageWrapper>
       </Route>
       
