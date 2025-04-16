@@ -261,6 +261,42 @@ export const insertGoogleCalendarSettingsSchema = createInsertSchema(googleCalen
   updatedAt: true,
 });
 
+// Notification Settings table schema
+export const notificationSettings = pgTable("notification_settings", {
+  id: serial("id").primaryKey(),
+  // Email settings
+  emailEnabled: boolean("email_enabled").default(false),
+  smtpServer: text("smtp_server"),
+  smtpPort: integer("smtp_port").default(587),
+  smtpUsername: text("smtp_username"),
+  smtpPassword: text("smtp_password"),
+  senderEmail: text("sender_email"),
+  emailSignature: text("email_signature"),
+  // SMS settings
+  smsEnabled: boolean("sms_enabled").default(false),
+  smsGatewayMethod: text("sms_gateway_method").default("direct"), // direct, twilio
+  // WhatsApp settings
+  whatsappEnabled: boolean("whatsapp_enabled").default(false),
+  whatsappMethod: text("whatsapp_method").default("direct"), // direct, twilio
+  // Twilio settings (legacy)
+  twilioEnabled: boolean("twilio_enabled").default(false),
+  twilioAccountSid: text("twilio_account_sid"),
+  twilioAuthToken: text("twilio_auth_token"),
+  twilioPhoneNumber: text("twilio_phone_number"),
+  // Settings for direct methods
+  notificationCenterEnabled: boolean("notification_center_enabled").default(true),
+  // General settings
+  defaultReminderTime: integer("default_reminder_time").default(24), // in hours
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertNotificationSettingsSchema = createInsertSchema(notificationSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Define types
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = z.infer<typeof insertClientSchema>;
@@ -276,6 +312,9 @@ export type InsertGoogleCalendarEvent = z.infer<typeof insertGoogleCalendarEvent
 
 export type GoogleCalendarSettings = typeof googleCalendarSettings.$inferSelect;
 export type InsertGoogleCalendarSettings = z.infer<typeof insertGoogleCalendarSettingsSchema>;
+
+export type NotificationSettings = typeof notificationSettings.$inferSelect;
+export type InsertNotificationSettings = z.infer<typeof insertNotificationSettingsSchema>;
 
 export type Consent = typeof consents.$inferSelect;
 export type InsertConsent = z.infer<typeof insertConsentSchema>;

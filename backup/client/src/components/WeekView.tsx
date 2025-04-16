@@ -13,6 +13,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
+import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 
 interface WeekViewProps {
@@ -25,8 +26,12 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
   
-  const startDate = formatDateForApi(getWeekStart(selectedDate));
-  const endDate = formatDateForApi(getWeekEnd(selectedDate));
+  // Utilizziamo un metodo alternativo per formattare le date, per evitare problemi di fuso orario
+  const weekStart = getWeekStart(selectedDate);
+  const weekEnd = getWeekEnd(selectedDate);
+  
+  const startDate = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
+  const endDate = `${weekEnd.getFullYear()}-${String(weekEnd.getMonth() + 1).padStart(2, '0')}-${String(weekEnd.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected week
   const { data: appointments = [], isLoading, refetch } = useQuery({
@@ -54,7 +59,8 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
   
   // Get appointments for a specific day
   const getAppointmentsForDay = (day: Date) => {
-    const dateStr = formatDateForApi(day);
+    // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
+    const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
     return appointments.filter(appointment => appointment.date === dateStr);
   };
   
@@ -108,9 +114,10 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
                     <div className="text-gray-500 mb-1">
                       {appointment.startTime.substring(0, 5)}
                     </div>
-                    <AppointmentCard 
+                    <AppointmentCardSmall 
                       appointment={appointment}
                       onUpdate={handleAppointmentUpdated}
+                      view="week"
                     />
                   </div>
                 ))
@@ -137,19 +144,21 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
       </div>
       
       {/* Form dialog for new appointment */}
-      <Dialog open={isAppointmentFormOpen} onOpenChange={setIsAppointmentFormOpen}>
-        <DialogTrigger className="hidden">
-          <Button>New Appointment</Button>
-        </DialogTrigger>
-        <AppointmentForm 
-          onClose={() => {
-            setIsAppointmentFormOpen(false);
-            handleAppointmentUpdated();
-          }}
-          defaultDate={selectedDayForAppointment || selectedDate}
-          defaultTime="09:00"
-        />
-      </Dialog>
+      {/* Form dialog for new appointment - Custom modal implementation */}
+      {isAppointmentFormOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <AppointmentForm 
+              onClose={() => {
+                setIsAppointmentFormOpen(false);
+                handleAppointmentUpdated();
+              }}
+              defaultDate={selectedDayForAppointment || selectedDate}
+              defaultTime="09:00"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

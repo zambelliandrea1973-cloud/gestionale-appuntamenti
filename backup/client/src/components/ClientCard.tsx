@@ -1,10 +1,12 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +23,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import ClientForm from "./ClientForm";
-import AppointmentForm from "./AppointmentForm";
+import AppointmentFormModal from "./AppointmentFormModal";
+import QRCodeModal from "./QRCodeModal";
 
 interface ClientCardProps {
   client: Client;
@@ -30,8 +33,31 @@ interface ClientCardProps {
 
 export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
+  const [_, setLocation] = useLocation();
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
+  const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
+  const [qrCodeModalTab, setQrCodeModalTab] = useState<"qrcode" | "link">("qrcode");
+  const [clientQrCode, setClientQrCode] = useState<string | null>(null);
+  
+  // Verifica se esiste già un token per questo cliente
+  useEffect(() => {
+    const checkExistingQrCode = async () => {
+      try {
+        const response = await apiRequest("GET", `/api/clients/${client.id}/activation-token`);
+        const data = await response.json();
+        
+        if (data && data.qrCode) {
+          setClientQrCode(data.qrCode);
+        }
+      } catch (error) {
+        console.error(t('errors.qrCodeFetchError'), error);
+      }
+    };
+    
+    checkExistingQrCode();
+  }, [client.id]);
   
   // Delete mutation
   const deleteMutation = useMutation({
@@ -40,8 +66,8 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
     },
     onSuccess: async () => {
       toast({
-        title: "Cliente eliminato",
-        description: "Il cliente è stato eliminato con successo",
+        title: t('notifications.clientDeleted'),
+        description: t('notifications.clientDeletedSuccess'),
       });
       
       // Invalidate queries to refresh data
@@ -53,8 +79,8 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
     },
     onError: (error) => {
       toast({
-        title: "Errore",
-        description: `Si è verificato un errore: ${error.message}`,
+        title: t('common.error'),
+        description: t('errors.genericError', { error: error.message }),
         variant: "destructive",
       });
     }
@@ -112,18 +138,18 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Elimina cliente</AlertDialogTitle>
+                  <AlertDialogTitle>{t('clients.details.deleteClient')}</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Sei sicuro di voler eliminare questo cliente? Verranno eliminati anche tutti i suoi appuntamenti. Questa azione non può essere annullata.
+                    {t('clients.details.deleteClientConfirmation')}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Annulla</AlertDialogCancel>
+                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                   <AlertDialogAction 
                     onClick={handleDelete}
                     className="bg-red-600 hover:bg-red-700"
                   >
-                    Elimina
+                    {t('common.delete')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -134,64 +160,105 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
         <div className="mt-4 space-y-2">
           {client.address && (
             <div className="text-sm">
-              <span className="font-medium">Indirizzo:</span> {client.address}
+              <span className="font-medium">{t('common.address')}:</span> {client.address}
             </div>
           )}
           
           {client.birthday && (
             <div className="text-sm">
-              <span className="font-medium">Data di nascita:</span> {new Date(client.birthday).toLocaleDateString('it-IT')}
+              <span className="font-medium">{t('common.birthday')}:</span> {new Date(client.birthday).toLocaleDateString()}
             </div>
           )}
           
-          {!client.hasConsent && (
-            <div className="flex items-center mt-2">
+          <div className="flex items-center mt-2">
+            {client.hasConsent ? (
+              <Badge variant="outline" className="flex items-center text-green-600 border-green-200 bg-green-50">
+                <Info className="h-3 w-3 mr-1" />
+                {t('clients.details.consents')} ✓
+              </Badge>
+            ) : (
               <Badge variant="outline" className="flex items-center text-amber-600 border-amber-200 bg-amber-50">
                 <Info className="h-3 w-3 mr-1" />
-                Consenso non fornito
+                {t('clients.filter.noConsent')}
               </Badge>
-            </div>
-          )}
-          
-          {(client.medicalNotes || client.allergies) && (
-            <div className="mt-3 pt-3 border-t border-gray-200">
-              <h4 className="text-sm font-medium mb-1">Informazioni mediche:</h4>
-              {client.allergies && (
-                <div className="text-sm mt-1">
-                  <span className="font-medium">Allergie:</span> {client.allergies}
-                </div>
-              )}
-              {client.medicalNotes && (
-                <div className="text-sm mt-1">
-                  <span className="font-medium">Note mediche:</span> {client.medicalNotes}
-                </div>
-              )}
-            </div>
-          )}
-          
-          {client.notes && (
-            <div className="mt-3 pt-3 border-t border-gray-200">
-              <h4 className="text-sm font-medium mb-1">Note:</h4>
-              <p className="text-sm text-gray-600">{client.notes}</p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </CardContent>
       
-      <CardFooter className="justify-end pt-2">
-        <Dialog open={isAppointmentFormOpen} onOpenChange={setIsAppointmentFormOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="w-full">
-              <Calendar className="h-4 w-4 mr-2" />
-              Nuovo appuntamento
-            </Button>
-          </DialogTrigger>
-          <AppointmentForm 
-            onClose={() => setIsAppointmentFormOpen(false)}
-            defaultDate={new Date()}
-            defaultTime="09:00"
+      <CardFooter className="px-6 pb-6 pt-4 border-t flex flex-col gap-3">
+        <Button 
+          variant="secondary" 
+          size="sm" 
+          className="w-full"
+          onClick={() => setLocation(`/client-medical-details?id=${client.id}`)}
+        >
+          <FileText className="h-4 w-4 mr-2" />
+          {t('clients.details.clientFile')}
+        </Button>
+          
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="w-full"
+          onClick={() => setIsAppointmentFormOpen(true)}
+        >
+          <Calendar className="h-4 w-4 mr-2" />
+          {t('clients.details.addAppointment')}
+        </Button>
+        
+        {clientQrCode ? (
+          <div className="w-full border border-border rounded-md p-2 bg-background flex flex-col items-center">
+            <img src={clientQrCode} alt={t('clients.details.generateQRCode')} className="w-32 h-32" />
+            <p className="text-xs text-muted-foreground mt-1">{t('clients.details.accessActivated')}</p>
+            <div className="flex gap-2 mt-1 w-full">
+              <Button 
+                variant="link" 
+                size="sm" 
+                className="px-0 h-6 text-xs"
+                onClick={() => setIsQRCodeModalOpen(true)}
+              >
+                {t('clients.details.showDetails')}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full"
+            onClick={() => setIsQRCodeModalOpen(true)}
+          >
+            <QrCode className="h-4 w-4 mr-2" />
+            {t('clients.details.generateQRCode')}
+          </Button>
+        )}
+        
+        {isAppointmentFormOpen && (
+          <AppointmentFormModal 
+            clientId={client.id} 
+            onClose={() => {
+              setIsAppointmentFormOpen(false);
+              // Forziamo un refresh globale quando si chiude la modale
+              if (onUpdate) {
+                setTimeout(() => {
+                  onUpdate();
+                }, 500);
+              }
+            }} 
           />
-        </Dialog>
+        )}
+        
+        {isQRCodeModalOpen && (
+          <QRCodeModal
+            clientId={client.id}
+            clientName={`${client.firstName} ${client.lastName}`}
+            open={isQRCodeModalOpen}
+            onClose={() => setIsQRCodeModalOpen(false)}
+            onQrCodeGenerated={(qrCode) => setClientQrCode(qrCode)}
+            initialTab={qrCodeModalTab}
+          />
+        )}
       </CardFooter>
     </Card>
   );

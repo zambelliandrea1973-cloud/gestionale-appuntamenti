@@ -7,7 +7,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "@shared/schema";
 import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   DialogContent,
   DialogHeader,
@@ -28,6 +28,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import ConsentForm from "./ConsentForm";
 
 interface ClientFormProps {
@@ -46,16 +53,41 @@ const formSchema = insertClientSchema.extend({
 
 type FormData = z.infer<typeof formSchema>;
 
+// Lista dei prefissi internazionali più comuni
+const countryPrefixes = [
+  { value: "+39", label: "Italia (+39)" },
+  { value: "+1", label: "USA/Canada (+1)" },
+  { value: "+44", label: "Regno Unito (+44)" },
+  { value: "+33", label: "Francia (+33)" },
+  { value: "+49", label: "Germania (+49)" },
+  { value: "+34", label: "Spagna (+34)" },
+  { value: "+41", label: "Svizzera (+41)" },
+  { value: "+43", label: "Austria (+43)" },
+  { value: "+32", label: "Belgio (+32)" },
+  { value: "+31", label: "Paesi Bassi (+31)" },
+  { value: "+351", label: "Portogallo (+351)" },
+  { value: "+30", label: "Grecia (+30)" },
+  { value: "+46", label: "Svezia (+46)" },
+  { value: "+47", label: "Norvegia (+47)" },
+  { value: "+45", label: "Danimarca (+45)" },
+  { value: "+358", label: "Finlandia (+358)" },
+  { value: "+48", label: "Polonia (+48)" },
+  { value: "+420", label: "Repubblica Ceca (+420)" },
+  { value: "+36", label: "Ungheria (+36)" },
+  { value: "+40", label: "Romania (+40)" },
+];
+
 export default function ClientForm({ 
   clientId,
   onClose,
   onClientCreated
 }: ClientFormProps) {
   const { toast } = useToast();
+  const [prefix, setPrefix] = useState("+39"); // Default a prefisso italiano
   
   // Fetch client if editing
   const { data: client, isLoading: isLoadingClient } = useQuery({
-    queryKey: ["/api/clients", clientId],
+    queryKey: [`/api/clients/${clientId}`],
     enabled: !!clientId
   });
   
@@ -133,10 +165,10 @@ export default function ClientForm({
         if (onClientCreated && responseData) {
           onClientCreated(responseData.id);
         }
-      } else {
-        // Close the form if editing
-        onClose();
       }
+      
+      // Chiudi sempre il form dopo un salvataggio riuscito
+      onClose();
     },
     onError: (error) => {
       toast({
@@ -155,7 +187,7 @@ export default function ClientForm({
   const isLoading = clientId && isLoadingClient;
   
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle>
           {clientId ? "Modifica Cliente" : "Nuovo Cliente"}
@@ -168,7 +200,7 @@ export default function ClientForm({
         </div>
       ) : (
         <Tabs defaultValue="personal">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-3 sticky top-0 bg-background z-10">
             <TabsTrigger value="personal">Dati Personali</TabsTrigger>
             <TabsTrigger value="medical">Dati Medici</TabsTrigger>
             <TabsTrigger value="consent">Consenso Dati</TabsTrigger>
@@ -212,15 +244,98 @@ export default function ClientForm({
                   <FormField
                     control={form.control}
                     name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Telefono *</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="Numero di telefono" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      // Estrai il prefisso dal numero di telefono esistente
+                      useEffect(() => {
+                        if (field.value) {
+                          // Cerca un prefisso internazionale nel formato +XX o +XXX
+                          const prefixMatch = field.value.match(/^\+(\d{1,3})/);
+                          if (prefixMatch) {
+                            // Trova il prefisso dall'elenco
+                            const matchedPrefix = countryPrefixes.find(p => field.value.startsWith(p.value));
+                            if (matchedPrefix) {
+                              setPrefix(matchedPrefix.value);
+                            }
+                          }
+                        }
+                      }, [field.value]);
+                      
+                      // Gestisci il cambio di numero rimuovendo il prefisso esistente e aggiungendo quello nuovo
+                      const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                        let phoneValue = e.target.value;
+                        
+                        // Rimuovi qualsiasi prefisso internazionale esistente
+                        if (phoneValue.startsWith('+')) {
+                          for (const cp of countryPrefixes) {
+                            if (phoneValue.startsWith(cp.value)) {
+                              phoneValue = phoneValue.substring(cp.value.length);
+                              break;
+                            }
+                          }
+                        }
+                        
+                        // Aggiorna il campo con il nuovo prefisso e il numero
+                        field.onChange(prefix + phoneValue);
+                      };
+                      
+                      // Quando cambia il prefisso, aggiorna il numero completo
+                      const handlePrefixChange = (newPrefix: string) => {
+                        setPrefix(newPrefix);
+                        
+                        // Rimuovi il vecchio prefisso dal numero corrente
+                        let phoneNumber = field.value;
+                        if (phoneNumber.startsWith('+')) {
+                          for (const cp of countryPrefixes) {
+                            if (phoneNumber.startsWith(cp.value)) {
+                              phoneNumber = phoneNumber.substring(cp.value.length);
+                              break;
+                            }
+                          }
+                        }
+                        
+                        // Aggiorna il campo con il nuovo prefisso
+                        field.onChange(newPrefix + phoneNumber);
+                      };
+                      
+                      // Rimuovi il prefisso per la visualizzazione nell'input
+                      let displayValue = field.value;
+                      if (displayValue.startsWith(prefix)) {
+                        displayValue = displayValue.substring(prefix.length);
+                      }
+                      
+                      return (
+                        <FormItem>
+                          <FormLabel>Telefono *</FormLabel>
+                          <div className="flex space-x-2">
+                            <Select value={prefix} onValueChange={handlePrefixChange}>
+                              <FormControl>
+                                <SelectTrigger className="w-[140px]">
+                                  <SelectValue placeholder="Prefisso" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {countryPrefixes.map((prefix) => (
+                                  <SelectItem key={prefix.value} value={prefix.value}>
+                                    {prefix.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormControl>
+                              <Input 
+                                value={displayValue} 
+                                onChange={handlePhoneChange} 
+                                placeholder="Numero di telefono" 
+                              />
+                            </FormControl>
+                          </div>
+                          <FormDescription>
+                            Il numero di telefono deve includere il prefisso internazionale
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                   
                   <FormField
@@ -364,7 +479,7 @@ export default function ClientForm({
                 )}
               </TabsContent>
               
-              <DialogFooter className="mt-4">
+              <DialogFooter className="mt-4 sticky bottom-0 bg-background py-2 z-10">
                 <Button
                   type="button"
                   variant="outline"

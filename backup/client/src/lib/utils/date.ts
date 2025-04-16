@@ -1,4 +1,4 @@
-import { format, startOfWeek, endOfWeek, addDays, isSameDay, isSameMonth, parse, getHours, getMinutes, setHours, setMinutes } from "date-fns";
+import { format, startOfWeek, endOfWeek, addDays, addMinutes as dateAddMinutes, isSameDay, isSameMonth, parse, getHours, getMinutes, setHours, setMinutes } from "date-fns";
 import { it } from "date-fns/locale";
 
 // Format a date as "dd/MM/yyyy"
@@ -76,7 +76,7 @@ export const getTimeComponents = (date: Date): { hours: number; minutes: number 
 export const generateTimeSlots = (
   startHour: number = 8,
   endHour: number = 19,
-  intervalMinutes: number = 60
+  intervalMinutes: number = 15 // Cambiato a 15 minuti come default
 ): string[] => {
   const slots: string[] = [];
   const totalMinutesInDay = (endHour - startHour) * 60;
@@ -92,9 +92,54 @@ export const generateTimeSlots = (
   return slots;
 };
 
+// Genera slot orari raggruppati per ora, utile per la visualizzazione UI
+export const generateHourlyGroupedTimeSlots = (
+  startHour: number = 8,
+  endHour: number = 19,
+  intervalMinutes: number = 15
+): { hour: string, slots: string[] }[] => {
+  const groupedSlots: { hour: string, slots: string[] }[] = [];
+  const slots = generateTimeSlots(startHour, endHour, intervalMinutes);
+  
+  let currentHour = "";
+  let currentHourSlots: string[] = [];
+  
+  slots.forEach(slot => {
+    const hour = slot.substring(0, 2);
+    
+    if (hour !== currentHour) {
+      if (currentHourSlots.length > 0) {
+        groupedSlots.push({
+          hour: currentHour,
+          slots: currentHourSlots
+        });
+      }
+      currentHour = hour;
+      currentHourSlots = [slot];
+    } else {
+      currentHourSlots.push(slot);
+    }
+  });
+  
+  // Aggiungi l'ultimo gruppo
+  if (currentHourSlots.length > 0) {
+    groupedSlots.push({
+      hour: currentHour,
+      slots: currentHourSlots
+    });
+  }
+  
+  return groupedSlots;
+};
+
+// Add minutes to a date
+export const addMinutes = (date: Date, minutes: number): Date => {
+  return dateAddMinutes(date, minutes);
+};
+
 // Calculate end time based on start time and duration
 export const calculateEndTime = (startTime: string, durationMinutes: number): string => {
   const startDate = parseTime(startTime);
-  const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+  const endDate = addMinutes(startDate, durationMinutes);
   return formatTime(endDate);
 };

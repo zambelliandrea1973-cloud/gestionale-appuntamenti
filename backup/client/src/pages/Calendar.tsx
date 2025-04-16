@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -8,7 +9,8 @@ import {
   Clock,
   Calendar as CalendarIcon,
   LayoutGrid,
-  Plus
+  Plus,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,32 +20,78 @@ import {
   formatMonthYear, 
   formatDateForApi
 } from "@/lib/utils/date";
-import DayView from "@/components/DayView";
+import DayViewWithTimeSlots from "@/components/DayViewWithTimeSlots";
 import WeekView from "@/components/WeekView";
 import MonthView from "@/components/MonthView";
 import AppointmentForm from "@/components/AppointmentForm";
 
 export default function Calendar() {
+  const { t, i18n } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<"day" | "week" | "month">("day");
-  const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [timezoneInfo, setTimezoneInfo] = useState<{
+    timezone: string;
+    offset: number;
+    name: string;
+  } | null>(null);
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
   
-  // For search functionality
-  const { data: appointments = [], refetch: refetchAppointments } = useQuery({
+  // Recupera le informazioni sul fuso orario
+  useEffect(() => {
+    const fetchTimezoneInfo = async () => {
+      try {
+        const response = await fetch('/api/timezone-settings');
+        if (response.ok) {
+          const data = await response.json();
+          setTimezoneInfo(data);
+        }
+      } catch (error) {
+        console.error('Errore nel recupero delle informazioni sul fuso orario:', error);
+      }
+    };
+    
+    fetchTimezoneInfo();
+  }, []);
+  
+  // Aggiorna l'orario corrente ogni secondo
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+  
+  // Per la ricerca di tutti gli appuntamenti
+  const { data: allAppointments = [], refetch: refetchAppointments } = useQuery({
     queryKey: ['/api/appointments'],
+  });
+  
+  // Per la vista giornaliera - appuntamenti di un giorno specifico
+  const { data: dayAppointments = [], isLoading: isLoadingAppointments } = useQuery({
+    queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`],
+    enabled: view === "day",
+  });
+  
+  // Servizi per colorare gli appuntamenti
+  const { data: services = [], isLoading: isLoadingServices } = useQuery({
+    queryKey: ['/api/services'],
   });
   
   const { data: clients = [] } = useQuery({
     queryKey: ['/api/clients'],
   });
   
+  // Importiamo il queryClient per le invalidazioni
+  const queryClient = useQueryClient();
+  
   // Filter appointments based on search query
-  const filteredAppointments = searchQuery
-    ? appointments.filter(appointment => {
-        const clientName = `${appointment.client.firstName} ${appointment.client.lastName}`.toLowerCase();
-        const serviceName = appointment.service.name.toLowerCase();
-        const dateStr = appointment.date;
+  const filteredAppointments = searchQuery && Array.isArray(allAppointments)
+    ? allAppointments.filter((appointment: any) => {
+        const clientName = `${appointment.client?.firstName || ''} ${appointment.client?.lastName || ''}`.toLowerCase();
+        const serviceName = appointment.service?.name?.toLowerCase() || '';
+        const dateStr = appointment.date || '';
         const query = searchQuery.toLowerCase();
         
         return clientName.includes(query) || 
@@ -93,7 +141,27 @@ export default function Calendar() {
   
   // Handle refresh of data
   const handleRefresh = () => {
+    console.log("Refreshing calendar data...");
+    // Refresh appointments list
     refetchAppointments();
+    
+    // Refresh also date-specific appointments for current view
+    if (view === "day") {
+      // Solo giorno corrente
+      const dateString = formatDateForApi(selectedDate);
+      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+    } else if (view === "week") {
+      // Intera settimana
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(selectedDate);
+        date.setDate(date.getDate() + i);
+        const dateString = formatDateForApi(date);
+        queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+      }
+    }
+    
+    // Refresh also ranges
+    queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
   };
   
   return (
@@ -104,11 +172,11 @@ export default function Calendar() {
           <div className="flex items-center space-x-2">
             <h2 className="text-2xl font-bold text-primary">
               {view === "month" 
-                ? formatMonthYear(selectedDate) 
-                : selectedDate.toLocaleDateString('it-IT', { 
+                ? `${selectedDate.getDate()} ${formatMonthYear(selectedDate)}`
+                : `${selectedDate.getDate()} ${selectedDate.toLocaleDateString('it-IT', { 
                     month: 'long', 
                     year: 'numeric' 
-                  })
+                  })}`
               }
             </h2>
             <div className="flex space-x-1 ml-2">
@@ -135,7 +203,7 @@ export default function Calendar() {
               onClick={goToToday}
               className="ml-2"
             >
-              Oggi
+              {t('calendar.today')}
             </Button>
           </div>
           
@@ -146,68 +214,83 @@ export default function Calendar() {
               </div>
               <Input
                 type="text"
-                placeholder="Cerca appuntamenti..."
+                placeholder={t('common.search') + " " + t('calendar.title').toLowerCase() + "..."}
                 className="pl-10 w-full md:w-[250px]"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             
-            <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                  <Plus className="h-4 w-4 mr-1" />
-                  Nuovo Appuntamento
-                </Button>
-              </DialogTrigger>
-              {isAppointmentDialogOpen && (
-                <AppointmentForm 
-                  onClose={() => {
-                    setIsAppointmentDialogOpen(false);
-                    handleRefresh();
-                  }} 
-                  defaultDate={selectedDate}
-                />
-              )}
-            </Dialog>
+            {/* Rimosso il pulsante "Nuovo Appuntamento" come richiesto */}
           </div>
         </div>
         
-        <div className="mt-4 flex justify-between items-center">
-          <div className="flex rounded-md overflow-hidden shadow-sm border">
+        {/* Indicatore del fuso orario */}
+        <div className="mt-2 flex items-center justify-center px-3 py-1.5 bg-green-50 border border-green-200 rounded-md shadow-sm">
+          <Globe className="h-4 w-4 text-primary mr-2" />
+          <span className="text-sm font-medium flex items-center">
+            <span className="text-green-700 font-mono">{currentTime.toLocaleTimeString()}</span>
+            <span className="mx-1 text-gray-400">|</span>
+            <span className="text-gray-700">
+              {timezoneInfo?.name || 'UTC'} 
+              {timezoneInfo?.offset !== undefined && (
+                <span className="text-gray-500 ml-1">
+                  (UTC{timezoneInfo.offset > 0 ? '+' : ''}{timezoneInfo.offset})
+                </span>
+              )}
+            </span>
+          </span>
+        </div>
+
+        <div className="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* Bottoni di visualizzazione - modificati per essere responsivi su dispositivi mobili */}
+          <div className="flex flex-wrap rounded-md overflow-hidden shadow-sm border w-full sm:w-auto">
             <Button
               variant={view === "day" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("day")}
-              className={`rounded-none px-4 ${view === "day" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "day" ? "bg-primary text-white" : ""}`}
             >
-              <Clock className="h-4 w-4 mr-2" />
-              Giorno
+              <Clock className="h-4 w-4 mr-1 sm:mr-2" />
+              {t('calendar.daily')}
             </Button>
             <Button
               variant={view === "week" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("week")}
-              className={`rounded-none px-4 ${view === "week" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "week" ? "bg-primary text-white" : ""}`}
             >
-              <CalendarDays className="h-4 w-4 mr-2" />
-              Settimana
+              <CalendarDays className="h-4 w-4 mr-1 sm:mr-2" />
+              {t('calendar.weekly')}
             </Button>
             <Button
               variant={view === "month" ? "default" : "ghost"}
               size="sm"
               onClick={() => setView("month")}
-              className={`rounded-none px-4 ${view === "month" ? "bg-primary text-white" : ""}`}
+              className={`rounded-none px-3 sm:px-4 flex-1 sm:flex-initial ${view === "month" ? "bg-primary text-white" : ""}`}
             >
-              <LayoutGrid className="h-4 w-4 mr-2" />
-              Mese
+              <LayoutGrid className="h-4 w-4 mr-1 sm:mr-2" />
+              {t('calendar.monthly')}
             </Button>
           </div>
           
-          <div className="text-sm text-gray-500">
-            {view === "day" && `${selectedDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' })}`}
-            {view === "week" && "Vista settimanale"}
-            {view === "month" && "Vista mensile"}
+          <div className="text-sm text-gray-500 w-full sm:w-auto text-center sm:text-right">
+            {/* Mostriamo la data attuale con numero e giorno in tutte le viste */}
+            {view === "day" ? (
+              <div className="text-green-600 font-semibold">
+                {selectedDate.toLocaleDateString('it-IT', { 
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric' 
+                })}
+              </div>
+            ) : (
+              <>
+                {view === "week" && t('calendar.weekView')}
+                {view === "month" && t('calendar.monthView')}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -215,13 +298,13 @@ export default function Calendar() {
       {/* Search results */}
       {searchQuery && (
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <h3 className="text-lg font-medium mb-4">Risultati della ricerca: {filteredAppointments.length}</h3>
+          <h3 className="text-lg font-medium mb-4">{t('calendar.searchResults')}: {filteredAppointments.length}</h3>
           
           {filteredAppointments.length === 0 ? (
-            <p className="text-gray-500">Nessun appuntamento trovato per "{searchQuery}"</p>
+            <p className="text-gray-500">{t('calendar.noAppointmentsFound')} "{searchQuery}"</p>
           ) : (
             <div className="space-y-3 max-h-[300px] overflow-y-auto">
-              {filteredAppointments.map(appointment => (
+              {filteredAppointments.map((appointment: any) => (
                 <div 
                   key={appointment.id} 
                   className="p-3 border rounded-md flex justify-between hover:bg-gray-50"
@@ -235,10 +318,10 @@ export default function Calendar() {
                 >
                   <div>
                     <div className="font-medium">
-                      {appointment.client.firstName} {appointment.client.lastName}
+                      {appointment.client?.firstName || ''} {appointment.client?.lastName || ''}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {appointment.service.name} - {new Date(appointment.date).toLocaleDateString('it-IT')} {appointment.startTime.substring(0, 5)}
+                      {appointment.service?.name || ''} - {new Date(appointment.date).toLocaleDateString(i18n.language)} {appointment.startTime?.substring(0, 5) || ''}
                     </div>
                   </div>
                   <Button 
@@ -252,7 +335,7 @@ export default function Calendar() {
                       setSearchQuery("");
                     }}
                   >
-                    Vai al giorno
+                    {t('calendar.goToDay')}
                   </Button>
                 </div>
               ))}
@@ -265,9 +348,20 @@ export default function Calendar() {
       {!searchQuery && (
         <>
           {view === "day" && (
-            <DayView 
+            <DayViewWithTimeSlots 
               selectedDate={selectedDate}
-              onRefresh={handleRefresh}
+              isLoading={isLoadingAppointments || isLoadingServices}
+              appointments={dayAppointments as any[]}
+              services={services as any[]}
+              onAppointmentUpdated={handleRefresh}
+              onAppointmentDeleted={(id) => {
+                // Invalidate queries after deletion
+                queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+                queryClient.invalidateQueries({ 
+                  queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`] 
+                });
+                handleRefresh();
+              }}
             />
           )}
           
