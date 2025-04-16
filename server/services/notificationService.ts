@@ -1,92 +1,91 @@
-import twilio from 'twilio';
 import { format, addDays, isBefore } from 'date-fns';
 import { Appointment } from '@shared/schema';
 import { storage } from '../storage';
-
-// Configura il client Twilio utilizzando le variabili d'ambiente
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+import { directNotificationService } from './directNotificationService';
 
 const messagesPendingDelivery = new Map<string, boolean>();
 
 /**
  * Servizio per l'invio di notifiche e promemoria
+ * Ora usa directNotificationService per le operazioni concrete
  */
 export const notificationService = {
   /**
-   * Invia un messaggio SMS utilizzando Twilio
+   * Genera un link diretto a WhatsApp
    * @param to Numero di telefono del destinatario in formato internazionale (es. +39123456789)
    * @param message Testo del messaggio da inviare
-   * @returns Una Promise che risolve nei dettagli del messaggio inviato
+   * @returns URL per aprire WhatsApp con il messaggio precompilato
    */
-  async sendSMS(to: string, message: string): Promise<any> {
-    if (!accountSid || !authToken || !twilioPhoneNumber) {
-      throw new Error('Mancano le credenziali Twilio nelle variabili d\'ambiente');
-    }
-    
-    // Inizializza il client Twilio
-    const client = twilio(accountSid, authToken);
-    
-    // Formatta il numero se non inizia con "+"
-    const formattedTo = to.startsWith('+') ? to : `+${to}`;
-    
-    console.log(`Invio SMS a ${formattedTo}: ${message}`);
-    
-    // Invia il messaggio
-    const sentMessage = await client.messages.create({
-      body: message,
-      from: twilioPhoneNumber,
-      to: formattedTo
-    });
-    
-    console.log(`SMS inviato con successo, SID: ${sentMessage.sid}`);
-    
-    return sentMessage;
+  generateWhatsAppLink(to: string, message: string): string {
+    return directNotificationService.generateWhatsAppLink(to, message);
   },
   
   /**
-   * Invia un messaggio WhatsApp utilizzando Twilio
-   * @param to Numero di telefono del destinatario in formato internazionale (es. +39123456789)
-   * @param message Testo del messaggio da inviare
-   * @returns Una Promise che risolve nei dettagli del messaggio inviato
+   * Invia un'email
+   * @param to Indirizzo email del destinatario
+   * @param subject Oggetto dell'email
+   * @param message Testo dell'email
+   * @returns Una Promise che risolve a true se l'invio è riuscito
+   */
+  async sendEmail(to: string, subject: string, message: string): Promise<boolean> {
+    return directNotificationService.sendEmail(to, subject, message);
+  },
+  
+  /**
+   * Invia un messaggio SMS (non implementato - usa link diretti invece)
+   * Questa funzione esiste per mantenere la compatibilità con il codice esistente
+   * @param to Numero di telefono del destinatario
+   * @param message Testo del messaggio
+   * @returns Un oggetto di risposta simulato per compatibilità
+   */
+  async sendSMS(to: string, message: string): Promise<any> {
+    console.log(`Generazione link SMS per ${to} (SMS diretto non implementato)`);
+    
+    // Genera un link SMS (funzionalità limitata, ma funziona su molti dispositivi)
+    const smsLink = `sms:${to}?body=${encodeURIComponent(message)}`;
+    
+    // Aggiunge una notifica al centro notifiche per il professionista
+    await directNotificationService.addToNotificationCenter(
+      0, // ID speciale per il professionista
+      `📱 Invia SMS al cliente con numero ${to}. [Apri app SMS](${smsLink})`,
+      'staff_reminder'
+    );
+    
+    // Ritorna un oggetto che simula la risposta di Twilio per compatibilità
+    return {
+      sid: `direct-sms-${Date.now()}`,
+      status: 'queued',
+      to,
+      body: message
+    };
+  },
+  
+  /**
+   * Invia un messaggio WhatsApp utilizzando un link diretto
+   * @param to Numero di telefono del destinatario
+   * @param message Testo del messaggio
+   * @returns Un oggetto di risposta simulato per compatibilità
    */
   async sendWhatsApp(to: string, message: string): Promise<any> {
-    if (!accountSid || !authToken || !twilioPhoneNumber) {
-      throw new Error('Mancano le credenziali Twilio nelle variabili d\'ambiente');
-    }
+    console.log(`Generazione link WhatsApp per ${to}`);
     
-    // Inizializza il client Twilio
-    const client = twilio(accountSid, authToken);
+    // Genera un link WhatsApp
+    const whatsappLink = this.generateWhatsAppLink(to, message);
     
-    // Formatta il numero se non inizia con "+"
-    const formattedTo = to.startsWith('+') ? to : `+${to}`;
+    // Aggiunge una notifica al centro notifiche per il professionista
+    await directNotificationService.addToNotificationCenter(
+      0, // ID speciale per il professionista
+      `📱 Invia WhatsApp al cliente con numero ${to}. [Apri WhatsApp](${whatsappLink})`,
+      'staff_reminder'
+    );
     
-    console.log(`Invio WhatsApp a ${formattedTo}: ${message}`);
-    
-    try {
-      // Invia il messaggio WhatsApp
-      // Nota: per WhatsApp, il "from" deve essere nel formato "whatsapp:+1234567890"
-      const sentMessage = await client.messages.create({
-        body: message,
-        from: `whatsapp:${twilioPhoneNumber}`,
-        to: `whatsapp:${formattedTo}`
-      });
-      
-      console.log(`WhatsApp inviato con successo, SID: ${sentMessage.sid}`);
-      return sentMessage;
-    } catch (error: any) {
-      // Gestione dettagliata dell'errore
-      console.error(`Errore nell'invio WhatsApp a ${formattedTo}:`, error);
-      
-      if (error.code === 63007) {
-        console.error(`ERRORE SANDBOX WHATSAPP: Il numero ${twilioPhoneNumber} non è configurato o attivato per WhatsApp.`);
-        console.error(`Per risolvere, accedi a Twilio, vai su "Messaging" > "Settings" > "WhatsApp Sandbox" e completa la configurazione.`);
-        console.error(`Il destinatario deve inviare un messaggio al numero WhatsApp Sandbox con la parola chiave mostrata nella dashboard.`);
-      }
-      
-      throw error;
-    }
+    // Ritorna un oggetto che simula la risposta di Twilio per compatibilità
+    return {
+      sid: `direct-whatsapp-${Date.now()}`,
+      status: 'queued',
+      to,
+      body: message
+    };
   },
   
   /**
