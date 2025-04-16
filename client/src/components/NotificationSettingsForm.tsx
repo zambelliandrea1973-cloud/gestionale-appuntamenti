@@ -58,6 +58,8 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
       smsGatewayMethod: "direct",
       whatsappEnabled: false,
       whatsappMethod: "direct",
+      useContactPhoneForNotifications: true,
+      notificationPhone: "",
       twilioEnabled: false,
       twilioAccountSid: "",
       twilioAuthToken: "",
@@ -92,6 +94,8 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
               smsGatewayMethod: result.data.smsGatewayMethod ?? "direct",
               whatsappEnabled: result.data.whatsappEnabled ?? false,
               whatsappMethod: result.data.whatsappMethod ?? "direct",
+              useContactPhoneForNotifications: result.data.useContactPhoneForNotifications ?? true,
+              notificationPhone: result.data.notificationPhone ?? "",
               twilioEnabled: result.data.twilioEnabled ?? false,
               twilioAccountSid: result.data.twilioAccountSid ?? "",
               twilioAuthToken: result.data.twilioAuthToken ?? "",
@@ -280,7 +284,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="email">Email</TabsTrigger>
-                <TabsTrigger value="direct">Notifiche dirette</TabsTrigger>
+                <TabsTrigger value="direct">Notifiche telefoniche</TabsTrigger>
                 <TabsTrigger value="general">Impostazioni generali</TabsTrigger>
               </TabsList>
 
@@ -545,9 +549,9 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
 
               <TabsContent value="direct" className="space-y-4">
                 <div className="bg-muted p-4 rounded-lg mb-4">
-                  <h3 className="text-base font-medium mb-2">Notifiche dirette</h3>
+                  <h3 className="text-base font-medium mb-2">Notifiche telefoniche</h3>
                   <p className="text-sm text-muted-foreground">
-                    Le notifiche dirette generano link che puoi utilizzare per inviare 
+                    Le notifiche telefoniche generano link che puoi utilizzare per inviare 
                     messaggi manualmente attraverso WhatsApp o altri servizi, senza 
                     costi aggiuntivi.
                   </p>
@@ -615,6 +619,55 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     </FormItem>
                   )}
                 />
+
+                {(form.watch("whatsappEnabled") || form.watch("smsEnabled")) && (
+                  <div className="space-y-4 bg-accent/20 p-4 rounded-lg border border-primary/20">
+                    <h4 className="text-base font-medium">Numero di telefono per notifiche</h4>
+                    
+                    <FormField
+                      control={form.control}
+                      name="useContactPhoneForNotifications"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">Usa numero di contatto</FormLabel>
+                            <FormDescription>
+                              Utilizza il numero di telefono nelle informazioni di contatto per le notifiche telefoniche.
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch 
+                              checked={field.value} 
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    {!form.watch("useContactPhoneForNotifications") && (
+                      <FormField
+                        control={form.control}
+                        name="notificationPhone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Numero dedicato per notifiche</FormLabel>
+                            <FormDescription>
+                              Inserisci un numero di telefono diverso da utilizzare per l'invio di notifiche telefoniche.
+                            </FormDescription>
+                            <FormControl>
+                              <Input 
+                                placeholder="+39 123 456 7890" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+                  </div>
+                )}
               </TabsContent>
 
               <TabsContent value="general" className="space-y-4">
