@@ -13,6 +13,7 @@ import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
 import ReminderTemplateManager from '@/components/ReminderTemplateManager';
 import WhatsAppConfigHelper from '@/components/WhatsAppConfigHelper';
+import { NotificationSettingsForm } from '@/components/NotificationSettingsForm';
 
 export default function Settings() {
   const [, setLocation] = useLocation();
@@ -105,8 +106,8 @@ export default function Settings() {
             </CardHeader>
             <CardContent className="space-y-8">
               <div>
-                <h3 className="text-lg font-semibold mb-4">Configurazione WhatsApp/SMS</h3>
-                <WhatsAppConfigHelper />
+                <h3 className="text-lg font-semibold mb-4">Gestione Notifiche e Promemoria</h3>
+                <NotificationSettingsForm />
               </div>
               
               <Separator className="my-6" />
