@@ -14,6 +14,7 @@ import {
   clientNotes, type ClientNote, type InsertClientNote,
   googleCalendarEvents, type GoogleCalendarEvent, type InsertGoogleCalendarEvent,
   googleCalendarSettings, type GoogleCalendarSettings, type InsertGoogleCalendarSettings,
+  notificationSettings, type NotificationSettings, type InsertNotificationSettings,
   reminderTemplates, type ReminderTemplate, type InsertReminderTemplate,
   appSettings, type AppSettings, type InsertAppSettings,
   type AppointmentWithDetails,
@@ -156,6 +157,11 @@ export interface IStorage {
   saveSetting(key: string, value: string, description?: string, category?: string): Promise<AppSettings>;
   updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined>;
   deleteSetting(id: number): Promise<boolean>;
+  
+  // Notification Settings operations
+  getNotificationSettings(): Promise<NotificationSettings | undefined>;
+  saveNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
+  updateNotificationSettings(id: number, settings: Partial<InsertNotificationSettings>): Promise<NotificationSettings | undefined>;
 }
 
 // In-memory implementation of the storage interface with file persistence
