@@ -1,6 +1,7 @@
 import { format, addDays } from 'date-fns';
 import { Appointment, NotificationSettings } from '@shared/schema';
 import { storage } from '../storage';
+import { notificationSettingsService } from './notificationSettingsService';
 import nodemailer from 'nodemailer';
 
 const messagesPendingDelivery = new Map<string, boolean>();
@@ -14,10 +15,9 @@ export const directNotificationService = {
    * Verifica le impostazioni di notifica
    * @returns Le impostazioni di notifica, o null se non sono state configurate
    */
-  async getNotificationSettings(): Promise<NotificationSettings | null> {
+  async getNotificationSettings() {
     try {
-      const settings = await storage.getNotificationSettings();
-      return settings || null;
+      return await notificationSettingsService.getSettings();
     } catch (error) {
       console.error('Errore nel recupero delle impostazioni di notifica:', error);
       return null;
