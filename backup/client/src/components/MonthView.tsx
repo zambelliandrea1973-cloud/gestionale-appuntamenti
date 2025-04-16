@@ -7,6 +7,7 @@ import {
   isToday, 
   isCurrentMonth 
 } from "@/lib/utils/date";
+import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 
 interface MonthViewProps {
@@ -26,9 +27,9 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   // Last day of the month
   const lastDayOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
   
-  // Format start and end dates for the API
-  const startDate = formatDateForApi(firstDayOfMonth);
-  const endDate = formatDateForApi(lastDayOfMonth);
+  // Format start and end dates for the API - metodo alternativo per evitare problemi di fuso orario
+  const startDate = `${firstDayOfMonth.getFullYear()}-${String(firstDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(firstDayOfMonth.getDate()).padStart(2, '0')}`;
+  const endDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
   
   // Fetch appointments for the selected month
   const { data: appointments = [], isLoading, refetch } = useQuery({
@@ -92,7 +93,8 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
   
   // Get appointments for a specific day
   const getAppointmentsForDay = (day: Date) => {
-    const dateStr = formatDateForApi(day);
+    // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
+    const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
     return appointments.filter(appointment => appointment.date === dateStr);
   };
   
@@ -103,8 +105,13 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Month header */}
       <div className="bg-gray-100 px-4 py-3 border-b">
-        <h3 className="text-lg font-medium">
-          {selectedDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
+        <h3 className="text-lg font-medium flex items-center">
+          <span className="inline-flex items-center justify-center bg-primary/10 text-primary font-semibold rounded-full h-7 w-7 mr-2">
+            {selectedDate.getMonth() + 1}
+          </span>
+          <span>
+            {selectedDate.getDate()} {selectedDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })}
+          </span>
         </h3>
       </div>
       
@@ -164,18 +171,12 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
                 {isMonthDay && !isLoading && (
                   <div className="mt-1 space-y-1 overflow-y-auto max-h-[80px]">
                     {dayAppointments.map((appointment) => (
-                      <div
-                        key={appointment.id}
-                        className="text-xs p-1 rounded truncate"
-                        style={{
-                          backgroundColor: `${appointment.service.color}20`,
-                          borderLeft: `2px solid ${appointment.service.color}`
-                        }}
-                        title={`${appointment.client.firstName} ${appointment.client.lastName} - ${appointment.service.name}`}
-                      >
-                        <div className="font-medium truncate">
-                          {appointment.startTime.substring(0, 5)} {appointment.client.firstName}
-                        </div>
+                      <div key={appointment.id} className="mb-1">
+                        <AppointmentCardSmall 
+                          appointment={appointment}
+                          onUpdate={handleAppointmentUpdated}
+                          view="month"
+                        />
                       </div>
                     ))}
                   </div>

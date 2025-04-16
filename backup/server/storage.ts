@@ -7,11 +7,24 @@ import {
   invoices, type Invoice, type InsertInvoice, 
   invoiceItems, type InvoiceItem, type InsertInvoiceItem,
   payments, type Payment, type InsertPayment,
+  users, type User, type InsertUser,
+  clientAccounts, type ClientAccount, type InsertClientAccount,
+  notifications, type Notification, type InsertNotification,
+  activationTokens, type ActivationToken, type InsertActivationToken,
+  clientNotes, type ClientNote, type InsertClientNote,
+  googleCalendarEvents, type GoogleCalendarEvent, type InsertGoogleCalendarEvent,
+  googleCalendarSettings, type GoogleCalendarSettings, type InsertGoogleCalendarSettings,
+  reminderTemplates, type ReminderTemplate, type InsertReminderTemplate,
+  appSettings, type AppSettings, type InsertAppSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
   type InvoiceItemWithDetails
 } from "@shared/schema";
+import connectPg from "connect-pg-simple";
+import session from "express-session";
+import { db } from "./db";
+import { eq, desc, and, gte, lte, like, or, sql, ne, asc } from 'drizzle-orm';
 
 // Interface defining all storage operations
 export interface IStorage {
@@ -21,6 +34,15 @@ export interface IStorage {
   createClient(client: InsertClient): Promise<Client>;
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
+  
+  // Reminder Template operations
+  getReminderTemplate(id: number): Promise<ReminderTemplate | undefined>;
+  getReminderTemplates(): Promise<ReminderTemplate[]>;
+  getDefaultReminderTemplate(type?: string): Promise<ReminderTemplate | undefined>;
+  getReminderTemplateByService(serviceId: number, type?: string): Promise<ReminderTemplate | undefined>;
+  createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate>;
+  updateReminderTemplate(id: number, template: Partial<InsertReminderTemplate>): Promise<ReminderTemplate | undefined>;
+  deleteReminderTemplate(id: number): Promise<boolean>;
   
   // Service operations
   getService(id: number): Promise<Service | undefined>;
@@ -48,6 +70,39 @@ export interface IStorage {
   getInvoice(id: number): Promise<InvoiceWithDetails | undefined>;
   getInvoices(): Promise<InvoiceWithDetails[]>;
   getInvoicesByClient(clientId: number): Promise<InvoiceWithDetails[]>;
+
+  // User operations
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
+  deleteUser(id: number): Promise<boolean>;
+  
+  // Client Account operations
+  getClientAccount(id: number): Promise<ClientAccount | undefined>;
+  getClientAccountByClientId(clientId: number): Promise<ClientAccount | undefined>;
+  getClientAccountByUsername(username: string): Promise<ClientAccount | undefined>;
+  createClientAccount(account: InsertClientAccount): Promise<ClientAccount>;
+  updateClientAccount(id: number, account: Partial<InsertClientAccount>): Promise<ClientAccount | undefined>;
+  deleteClientAccount(id: number): Promise<boolean>;
+  
+  // Notification operations
+  getNotification(id: number): Promise<Notification | undefined>;
+  getNotificationsByClient(clientId: number): Promise<Notification[]>;
+  getUnreadNotificationsByClient(clientId: number): Promise<Notification[]>;
+  createNotification(notification: InsertNotification): Promise<Notification>;
+  markNotificationAsRead(id: number): Promise<boolean>;
+  deleteNotification(id: number): Promise<boolean>;
+  
+  // Activation Token operations
+  getActivationToken(token: string): Promise<ActivationToken | undefined>;
+  getActivationTokensByClientId(clientId: number): Promise<ActivationToken[]>;
+  createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
+  updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
+  updateActivationTokenExpiry(id: number, newExpiresAt: Date): Promise<ActivationToken | undefined>;
+  
+  // Session store for authentication
+  sessionStore: session.Store;
   getInvoicesByDateRange(startDate: string, endDate: string): Promise<InvoiceWithDetails[]>;
   getInvoicesByStatus(status: string): Promise<InvoiceWithDetails[]>;
   createInvoice(invoice: InsertInvoice): Promise<Invoice>;
@@ -72,6 +127,35 @@ export interface IStorage {
   getClientWithAppointments(clientId: number): Promise<ClientWithAppointments | undefined>;
   searchClients(query: string): Promise<Client[]>;
   generateInvoiceNumber(): Promise<string>;
+  
+  // Activation token operations
+  createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
+  getActivationToken(token: string): Promise<ActivationToken | undefined>;
+  updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
+  
+  // Client Notes operations
+  getClientNotes(clientId: number): Promise<ClientNote[]>;
+  createClientNote(note: InsertClientNote): Promise<ClientNote>;
+  updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined>;
+  deleteClientNote(id: number): Promise<boolean>;
+  
+  // Google Calendar operations
+  getGoogleCalendarSettings(): Promise<GoogleCalendarSettings | undefined>;
+  saveGoogleCalendarSettings(settings: InsertGoogleCalendarSettings): Promise<GoogleCalendarSettings>;
+  updateGoogleCalendarSettings(id: number, settings: Partial<InsertGoogleCalendarSettings>): Promise<GoogleCalendarSettings | undefined>;
+  
+  getGoogleCalendarEvent(appointmentId: number): Promise<GoogleCalendarEvent | undefined>;
+  createGoogleCalendarEvent(event: InsertGoogleCalendarEvent): Promise<GoogleCalendarEvent>;
+  updateGoogleCalendarEvent(appointmentId: number, event: Partial<InsertGoogleCalendarEvent>): Promise<GoogleCalendarEvent | undefined>;
+  deleteGoogleCalendarEvent(appointmentId: number): Promise<boolean>;
+  
+  // App Settings operations
+  getSetting(key: string): Promise<AppSettings | undefined>;
+  getAllSettings(): Promise<AppSettings[]>;
+  getSettingsByCategory(category: string): Promise<AppSettings[]>;
+  saveSetting(key: string, value: string, description?: string, category?: string): Promise<AppSettings>;
+  updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined>;
+  deleteSetting(id: number): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -364,12 +448,55 @@ export class MemStorage implements IStorage {
   }
   
   async createAppointment(appointment: InsertAppointment): Promise<Appointment> {
+    console.log("Creazione appuntamento con dati:", JSON.stringify(appointment));
+    
     const id = this.appointmentIdCounter++;
+    
+    // Calcoliamo l'orario di fine in base al servizio selezionato
+    let endTime = appointment.endTime;
+    
+    // Se non è specificato l'endTime, calcoliamolo in base alla durata del servizio
+    if (!endTime) {
+      try {
+        // Otteniamo il servizio per conoscere la durata
+        const service = await this.getService(appointment.serviceId);
+        
+        if (service) {
+          // Calcoliamo l'orario di fine in base alla durata del servizio
+          const [hours, minutes] = appointment.startTime.split(':').map(Number);
+          const startMinutes = hours * 60 + minutes;
+          const endMinutes = startMinutes + service.duration;
+          
+          const endHours = Math.floor(endMinutes / 60);
+          const endMins = endMinutes % 60;
+          
+          endTime = `${endHours.toString().padStart(2, '0')}:${endMins.toString().padStart(2, '0')}:00`;
+          console.log(`Calcolato orario di fine: ${endTime} per servizio con durata ${service.duration} minuti`);
+        }
+      } catch (error) {
+        console.error("Errore durante il calcolo dell'orario di fine:", error);
+        // Se c'è un errore, mettiamo un'ora di default come durata
+        endTime = appointment.startTime;
+      }
+    }
+    
+    // Se non è specificato lo status, impostiamolo a "scheduled"
+    const status = appointment.status || 'scheduled';
+    
+    // Se non sono specificate le note, impostiamole a stringa vuota
+    const notes = appointment.notes || '';
+    
     const newAppointment: Appointment = { 
       ...appointment, 
       id, 
+      endTime: endTime || appointment.startTime, // Fallback in caso di errore
+      status,
+      notes,
       createdAt: new Date()
     };
+    
+    console.log("Nuovo appuntamento creato:", JSON.stringify(newAppointment));
+    
     this.appointments.set(id, newAppointment);
     this.saveToStorage();
     return newAppointment;
@@ -782,6 +909,19 @@ export class MemStorage implements IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  sessionStore: session.Store;
+
+  constructor() {
+    // Setup PostgreSQL session store
+    const PostgresSessionStore = connectPg(session);
+    this.sessionStore = new PostgresSessionStore({
+      conObject: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+      },
+      createTableIfMissing: true
+    });
+  }
   // CLIENT OPERATIONS
   async getClient(id: number): Promise<Client | undefined> {
     try {
@@ -1524,11 +1664,728 @@ export class DatabaseStorage implements IStorage {
       return `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}-${now.getTime().toString().substring(7)}`;
     }
   }
+
+  // USER OPERATIONS
+  async getUser(id: number): Promise<User | undefined> {
+    try {
+      const [user] = await db.select().from(users).where(eq(users.id, id));
+      return user;
+    } catch (error) {
+      console.error("Error getting user:", error);
+      return undefined;
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    try {
+      const [user] = await db.select().from(users).where(eq(users.username, username));
+      return user;
+    } catch (error) {
+      console.error("Error getting user by username:", error);
+      return undefined;
+    }
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    try {
+      const [newUser] = await db.insert(users).values(user).returning();
+      return newUser;
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
+    }
+  }
+
+  async updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined> {
+    try {
+      const [updatedUser] = await db
+        .update(users)
+        .set(user)
+        .where(eq(users.id, id))
+        .returning();
+      return updatedUser;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      return undefined;
+    }
+  }
+
+  async deleteUser(id: number): Promise<boolean> {
+    try {
+      await db.delete(users).where(eq(users.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      return false;
+    }
+  }
+
+  // CLIENT ACCOUNT OPERATIONS
+  async getClientAccount(id: number): Promise<ClientAccount | undefined> {
+    try {
+      const [account] = await db.select().from(clientAccounts).where(eq(clientAccounts.id, id));
+      return account;
+    } catch (error) {
+      console.error("Error getting client account:", error);
+      return undefined;
+    }
+  }
+
+  async getClientAccountByClientId(clientId: number): Promise<ClientAccount | undefined> {
+    try {
+      const [account] = await db.select().from(clientAccounts).where(eq(clientAccounts.clientId, clientId));
+      return account;
+    } catch (error) {
+      console.error("Error getting client account by client id:", error);
+      return undefined;
+    }
+  }
+
+  async getClientAccountByUsername(username: string): Promise<ClientAccount | undefined> {
+    try {
+      const [account] = await db.select().from(clientAccounts).where(eq(clientAccounts.username, username));
+      return account;
+    } catch (error) {
+      console.error("Error getting client account by username:", error);
+      return undefined;
+    }
+  }
+
+  async createClientAccount(account: InsertClientAccount): Promise<ClientAccount> {
+    try {
+      const [newAccount] = await db.insert(clientAccounts).values(account).returning();
+      return newAccount;
+    } catch (error) {
+      console.error("Error creating client account:", error);
+      throw error;
+    }
+  }
+
+  async updateClientAccount(id: number, account: Partial<InsertClientAccount>): Promise<ClientAccount | undefined> {
+    try {
+      const [updatedAccount] = await db
+        .update(clientAccounts)
+        .set(account)
+        .where(eq(clientAccounts.id, id))
+        .returning();
+      return updatedAccount;
+    } catch (error) {
+      console.error("Error updating client account:", error);
+      return undefined;
+    }
+  }
+
+  async deleteClientAccount(id: number): Promise<boolean> {
+    try {
+      await db.delete(clientAccounts).where(eq(clientAccounts.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting client account:", error);
+      return false;
+    }
+  }
+
+  // NOTIFICATION OPERATIONS
+  async getNotification(id: number): Promise<Notification | undefined> {
+    try {
+      const [notification] = await db.select().from(notifications).where(eq(notifications.id, id));
+      return notification;
+    } catch (error) {
+      console.error("Error getting notification:", error);
+      return undefined;
+    }
+  }
+
+  async getNotificationsByClient(clientId: number): Promise<Notification[]> {
+    try {
+      const notificationsList = await db
+        .select()
+        .from(notifications)
+        .where(eq(notifications.clientId, clientId))
+        .orderBy(desc(notifications.sentAt));
+      return notificationsList;
+    } catch (error) {
+      console.error("Error getting notifications by client:", error);
+      return [];
+    }
+  }
+
+  async getUnreadNotificationsByClient(clientId: number): Promise<Notification[]> {
+    try {
+      const notificationsList = await db
+        .select()
+        .from(notifications)
+        .where(
+          and(
+            eq(notifications.clientId, clientId),
+            eq(notifications.isRead, false)
+          )
+        )
+        .orderBy(desc(notifications.sentAt));
+      return notificationsList;
+    } catch (error) {
+      console.error("Error getting unread notifications by client:", error);
+      return [];
+    }
+  }
+
+  async createNotification(notification: InsertNotification): Promise<Notification> {
+    try {
+      const [newNotification] = await db.insert(notifications).values(notification).returning();
+      return newNotification;
+    } catch (error) {
+      console.error("Error creating notification:", error);
+      throw error;
+    }
+  }
+
+  async markNotificationAsRead(id: number): Promise<boolean> {
+    try {
+      await db
+        .update(notifications)
+        .set({ isRead: true })
+        .where(eq(notifications.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      return false;
+    }
+  }
+
+  async deleteNotification(id: number): Promise<boolean> {
+    try {
+      await db.delete(notifications).where(eq(notifications.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+      return false;
+    }
+  }
+  
+  // Metodi per la gestione dei token di attivazione
+  async createActivationToken(token: InsertActivationToken): Promise<ActivationToken> {
+    try {
+      const [newToken] = await db.insert(activationTokens).values(token).returning();
+      return newToken;
+    } catch (error) {
+      console.error("Error creating activation token:", error);
+      throw error;
+    }
+  }
+  
+  async getActivationToken(token: string): Promise<ActivationToken | undefined> {
+    try {
+      const [activationToken] = await db
+        .select()
+        .from(activationTokens)
+        .where(eq(activationTokens.token, token));
+      
+      return activationToken;
+    } catch (error) {
+      console.error("Error fetching activation token:", error);
+      return undefined;
+    }
+  }
+  
+  async getActivationTokensByClientId(clientId: number): Promise<ActivationToken[]> {
+    try {
+      const tokens = await db
+        .select()
+        .from(activationTokens)
+        .where(eq(activationTokens.clientId, clientId));
+      
+      return tokens;
+    } catch (error) {
+      console.error("Error fetching activation tokens by client ID:", error);
+      return [];
+    }
+  }
+  
+  async updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined> {
+    try {
+      const [updatedToken] = await db
+        .update(activationTokens)
+        .set(data)
+        .where(eq(activationTokens.token, token))
+        .returning();
+      
+      return updatedToken;
+    } catch (error) {
+      console.error("Error updating activation token:", error);
+      return undefined;
+    }
+  }
+  
+  async updateActivationTokenExpiry(id: number, newExpiresAt: Date): Promise<ActivationToken | undefined> {
+    try {
+      console.log(`Aggiornamento scadenza token con ID ${id} a ${newExpiresAt}`);
+      
+      const [updatedToken] = await db
+        .update(activationTokens)
+        .set({ expiresAt: newExpiresAt })
+        .where(eq(activationTokens.id, id))
+        .returning();
+      
+      console.log(`Token aggiornato con successo, nuova scadenza: ${updatedToken.expiresAt}`);
+      return updatedToken;
+    } catch (error) {
+      console.error("Errore nell'aggiornamento della scadenza del token:", error);
+      return undefined;
+    }
+  }
+  
+  // Client Notes operations
+  async getClientNotes(clientId: number): Promise<ClientNote[]> {
+    try {
+      const notes = await db
+        .select()
+        .from(clientNotes)
+        .where(eq(clientNotes.clientId, clientId))
+        .orderBy(desc(clientNotes.createdAt));
+      
+      return notes;
+    } catch (error) {
+      console.error("Errore durante il recupero delle note del cliente:", error);
+      return [];
+    }
+  }
+  
+  async createClientNote(note: InsertClientNote): Promise<ClientNote> {
+    try {
+      const [createdNote] = await db
+        .insert(clientNotes)
+        .values({
+          ...note,
+          createdAt: new Date()
+        })
+        .returning();
+      
+      return createdNote;
+    } catch (error) {
+      console.error("Errore durante la creazione della nota del cliente:", error);
+      throw error;
+    }
+  }
+  
+  async updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined> {
+    try {
+      const [updatedNote] = await db
+        .update(clientNotes)
+        .set({
+          ...note,
+          updatedAt: new Date()
+        })
+        .where(eq(clientNotes.id, id))
+        .returning();
+      
+      return updatedNote;
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento della nota del cliente:", error);
+      return undefined;
+    }
+  }
+  
+  async deleteClientNote(id: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(clientNotes)
+        .where(eq(clientNotes.id, id));
+      
+      return result.count > 0;
+    } catch (error) {
+      console.error("Errore durante l'eliminazione della nota del cliente:", error);
+      return false;
+    }
+  }
+
+  // Google Calendar operations
+  async getGoogleCalendarSettings(): Promise<GoogleCalendarSettings | undefined> {
+    try {
+      const [settings] = await db.select().from(googleCalendarSettings);
+      return settings;
+    } catch (error) {
+      console.error('Errore durante il recupero delle impostazioni Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  async saveGoogleCalendarSettings(settings: InsertGoogleCalendarSettings): Promise<GoogleCalendarSettings> {
+    try {
+      // Prima controlla se esistono già delle impostazioni
+      const existing = await this.getGoogleCalendarSettings();
+      
+      if (existing) {
+        // Aggiorna le impostazioni esistenti
+        const [updated] = await db
+          .update(googleCalendarSettings)
+          .set({
+            ...settings,
+            updatedAt: new Date()
+          })
+          .where(eq(googleCalendarSettings.id, existing.id))
+          .returning();
+        return updated;
+      } else {
+        // Crea nuove impostazioni
+        const [created] = await db
+          .insert(googleCalendarSettings)
+          .values({
+            ...settings,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          })
+          .returning();
+        return created;
+      }
+    } catch (error) {
+      console.error('Errore durante il salvataggio delle impostazioni Google Calendar:', error);
+      throw error;
+    }
+  }
+  
+  async updateGoogleCalendarSettings(id: number, settings: Partial<InsertGoogleCalendarSettings>): Promise<GoogleCalendarSettings | undefined> {
+    try {
+      const [updated] = await db
+        .update(googleCalendarSettings)
+        .set({
+          ...settings,
+          updatedAt: new Date()
+        })
+        .where(eq(googleCalendarSettings.id, id))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento delle impostazioni Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  // Implementazione Google Calendar Events
+  async getGoogleCalendarEvent(appointmentId: number): Promise<GoogleCalendarEvent | undefined> {
+    try {
+      const [event] = await db
+        .select()
+        .from(googleCalendarEvents)
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId));
+      return event;
+    } catch (error) {
+      console.error('Errore durante il recupero dell\'evento Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  async createGoogleCalendarEvent(event: InsertGoogleCalendarEvent): Promise<GoogleCalendarEvent> {
+    try {
+      const [created] = await db
+        .insert(googleCalendarEvents)
+        .values({
+          ...event,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+      return created;
+    } catch (error) {
+      console.error('Errore durante la creazione dell\'evento Google Calendar:', error);
+      throw error;
+    }
+  }
+  
+  async updateGoogleCalendarEvent(appointmentId: number, event: Partial<InsertGoogleCalendarEvent>): Promise<GoogleCalendarEvent | undefined> {
+    try {
+      const [updated] = await db
+        .update(googleCalendarEvents)
+        .set({
+          ...event,
+          updatedAt: new Date()
+        })
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento dell\'evento Google Calendar:', error);
+      return undefined;
+    }
+  }
+  
+  async deleteGoogleCalendarEvent(appointmentId: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(googleCalendarEvents)
+        .where(eq(googleCalendarEvents.appointmentId, appointmentId));
+      
+      return result.count > 0;
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione dell\'evento Google Calendar:', error);
+      return false;
+    }
+  }
+
+  // Reminder Template operations
+  async getReminderTemplate(id: number): Promise<ReminderTemplate | undefined> {
+    try {
+      const [template] = await db
+        .select()
+        .from(reminderTemplates)
+        .where(eq(reminderTemplates.id, id))
+        .limit(1);
+
+      return template;
+    } catch (error) {
+      console.error('Errore durante il recupero del modello di promemoria:', error);
+      return undefined;
+    }
+  }
+
+  async getReminderTemplates(): Promise<ReminderTemplate[]> {
+    try {
+      const templates = await db
+        .select()
+        .from(reminderTemplates)
+        .orderBy(desc(reminderTemplates.isDefault), asc(reminderTemplates.name));
+
+      return templates;
+    } catch (error) {
+      console.error('Errore durante il recupero dei modelli di promemoria:', error);
+      return [];
+    }
+  }
+
+  async getDefaultReminderTemplate(type: string = 'sms'): Promise<ReminderTemplate | undefined> {
+    try {
+      const [template] = await db
+        .select()
+        .from(reminderTemplates)
+        .where(and(
+          eq(reminderTemplates.isDefault, true),
+          eq(reminderTemplates.type, type)
+        ))
+        .limit(1);
+
+      return template;
+    } catch (error) {
+      console.error('Errore durante il recupero del modello di promemoria predefinito:', error);
+      return undefined;
+    }
+  }
+
+  async getReminderTemplateByServiceId(serviceId: number, type: string = 'sms'): Promise<ReminderTemplate | undefined> {
+    try {
+      const [template] = await db
+        .select()
+        .from(reminderTemplates)
+        .where(and(
+          eq(reminderTemplates.serviceId, serviceId),
+          eq(reminderTemplates.type, type)
+        ))
+        .limit(1);
+
+      return template;
+    } catch (error) {
+      console.error('Errore durante il recupero del modello di promemoria per servizio:', error);
+      return undefined;
+    }
+  }
+
+  // Implementazione del metodo richiesto dall'interfaccia
+  async getReminderTemplateByService(serviceId: number, type: string = 'sms'): Promise<ReminderTemplate | undefined> {
+    // Utilizziamo il metodo esistente
+    return this.getReminderTemplateByServiceId(serviceId, type);
+  }
+
+  async createReminderTemplate(template: InsertReminderTemplate): Promise<ReminderTemplate> {
+    try {
+      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli dello stesso tipo
+      if (template.isDefault) {
+        await db
+          .update(reminderTemplates)
+          .set({ isDefault: false })
+          .where(and(
+            eq(reminderTemplates.isDefault, true),
+            eq(reminderTemplates.type, template.type || 'sms')
+          ));
+      }
+
+      const [createdTemplate] = await db
+        .insert(reminderTemplates)
+        .values({
+          ...template,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+
+      return createdTemplate;
+    } catch (error) {
+      console.error('Errore durante la creazione del modello di promemoria:', error);
+      throw error;
+    }
+  }
+
+  async updateReminderTemplate(id: number, template: Partial<InsertReminderTemplate>): Promise<ReminderTemplate | undefined> {
+    try {
+      const existingTemplate = await this.getReminderTemplate(id);
+
+      if (!existingTemplate) {
+        return undefined;
+      }
+
+      // Se questo modello è impostato come predefinito, rimuovi l'impostazione predefinita dagli altri modelli dello stesso tipo
+      if (template.isDefault) {
+        await db
+          .update(reminderTemplates)
+          .set({ isDefault: false })
+          .where(and(
+            ne(reminderTemplates.id, id),
+            eq(reminderTemplates.isDefault, true),
+            eq(reminderTemplates.type, template.type || existingTemplate.type || 'sms')
+          ));
+      }
+
+      const [updatedTemplate] = await db
+        .update(reminderTemplates)
+        .set({
+          ...template,
+          updatedAt: new Date()
+        })
+        .where(eq(reminderTemplates.id, id))
+        .returning();
+
+      return updatedTemplate;
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento del modello di promemoria:', error);
+      return undefined;
+    }
+  }
+
+  async deleteReminderTemplate(id: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(reminderTemplates)
+        .where(eq(reminderTemplates.id, id));
+
+      return result.rowCount > 0;
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione del modello di promemoria:', error);
+      return false;
+    }
+  }
+  
+  // Implementazione dei metodi per gestire le impostazioni dell'applicazione
+  async getSetting(key: string): Promise<AppSettings | undefined> {
+    try {
+      const [setting] = await db
+        .select()
+        .from(appSettings)
+        .where(eq(appSettings.key, key));
+      return setting;
+    } catch (error) {
+      console.error(`Errore nel recupero dell'impostazione '${key}':`, error);
+      return undefined;
+    }
+  }
+
+  async getAllSettings(): Promise<AppSettings[]> {
+    try {
+      const settings = await db
+        .select()
+        .from(appSettings)
+        .orderBy(asc(appSettings.key));
+      return settings;
+    } catch (error) {
+      console.error("Errore nel recupero di tutte le impostazioni:", error);
+      return [];
+    }
+  }
+
+  async getSettingsByCategory(category: string): Promise<AppSettings[]> {
+    try {
+      const settings = await db
+        .select()
+        .from(appSettings)
+        .where(eq(appSettings.category, category))
+        .orderBy(asc(appSettings.key));
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero delle impostazioni per la categoria '${category}':`, error);
+      return [];
+    }
+  }
+
+  async saveSetting(
+    key: string, 
+    value: string, 
+    description?: string, 
+    category: string = 'general'
+  ): Promise<AppSettings> {
+    try {
+      // Verifica se l'impostazione esiste già
+      const existingSetting = await this.getSetting(key);
+      
+      if (existingSetting) {
+        // Aggiorna l'impostazione esistente
+        const [updatedSetting] = await db
+          .update(appSettings)
+          .set({ 
+            value, 
+            updatedAt: new Date(),
+            ...(description && { description }),
+            ...(category && { category })
+          })
+          .where(eq(appSettings.id, existingSetting.id))
+          .returning();
+        
+        return updatedSetting;
+      } else {
+        // Crea una nuova impostazione
+        const [newSetting] = await db
+          .insert(appSettings)
+          .values({
+            key,
+            value,
+            description: description || `Impostazione per ${key}`,
+            category
+          })
+          .returning();
+        
+        return newSetting;
+      }
+    } catch (error) {
+      console.error(`Errore nel salvataggio dell'impostazione '${key}':`, error);
+      throw error;
+    }
+  }
+
+  async updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined> {
+    try {
+      const [updatedSetting] = await db
+        .update(appSettings)
+        .set({ 
+          ...setting,
+          updatedAt: new Date()
+        })
+        .where(eq(appSettings.id, id))
+        .returning();
+      
+      return updatedSetting;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento dell'impostazione con ID ${id}:`, error);
+      return undefined;
+    }
+  }
+
+  async deleteSetting(id: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(appSettings)
+        .where(eq(appSettings.id, id));
+      
+      return result.count > 0;
+    } catch (error) {
+      console.error(`Errore nell'eliminazione dell'impostazione con ID ${id}:`, error);
+      return false;
+    }
+  }
 }
 
-// IMPORTANTE: Usa il database PostgreSQL per l'archiviazione persistente
-import { db } from './db';
-import { eq, desc, and, gte, lte, like, or, sql } from 'drizzle-orm';
-
-// Utilizza la classe DatabaseStorage invece di MemStorage
 export const storage = new DatabaseStorage();

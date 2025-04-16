@@ -91,8 +91,8 @@ export default function InvoiceForm({
           description: "",
           quantity: "1",
           unitPrice: "",
-          serviceId: "",
-          appointmentId: "",
+          serviceId: "null",
+          appointmentId: "null",
         },
       ],
     },
@@ -149,8 +149,8 @@ export default function InvoiceForm({
           description: item.description,
           quantity: item.quantity.toString(),
           unitPrice: (item.unitPrice / 100).toString(),
-          serviceId: item.serviceId ? item.serviceId.toString() : "",
-          appointmentId: item.appointmentId ? item.appointmentId.toString() : "",
+          serviceId: item.serviceId ? item.serviceId.toString() : "null",
+          appointmentId: item.appointmentId ? item.appointmentId.toString() : "null",
         })),
       });
     }
@@ -246,8 +246,8 @@ export default function InvoiceForm({
               description: item.description,
               quantity: parseInt(item.quantity),
               unitPrice: Math.round(parseFloat(item.unitPrice) * 100),
-              serviceId: item.serviceId ? parseInt(item.serviceId) : null,
-              appointmentId: item.appointmentId ? parseInt(item.appointmentId) : null,
+              serviceId: item.serviceId && item.serviceId !== "null" ? parseInt(item.serviceId) : null,
+              appointmentId: item.appointmentId && item.appointmentId !== "null" ? parseInt(item.appointmentId) : null,
             });
           }
         }
@@ -269,8 +269,8 @@ export default function InvoiceForm({
         description: "",
         quantity: "1",
         unitPrice: "",
-        serviceId: "",
-        appointmentId: "",
+        serviceId: "null",
+        appointmentId: "null",
       },
     ]);
   };
@@ -558,7 +558,7 @@ export default function InvoiceForm({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="">Nessun servizio</SelectItem>
+                          <SelectItem value="null">Nessun servizio</SelectItem>
                           {services.map((service: any) => (
                             <SelectItem
                               key={service.id}

@@ -1,21 +1,25 @@
 import { useState, ReactNode } from "react";
 import { Link, useLocation } from "wouter";
+import { useTranslation } from 'react-i18next';
 import { 
   CalendarDays, 
   Users, 
   BarChart, 
   Menu, 
   X, 
-  Plus,
   FileText,
   Calendar,
   Clock,
-  Grid
+  Grid,
+  Plus,
+  Settings as SettingsIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import AppointmentForm from "./AppointmentForm";
+import FooterContactIcons from "./FooterContactIcons";
 
 interface LayoutProps {
   children: ReactNode;
@@ -24,6 +28,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
+  const { t } = useTranslation();
 
   // Check active route
   const isActive = (path: string) => location === path;
@@ -35,41 +40,61 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
-              <CalendarDays className="h-5 w-5" />
-              <h1 className="text-xl font-medium">Gestione Appuntamenti</h1>
+              <Link href="/">
+                <div className="flex items-center space-x-2 cursor-pointer">
+                  <CalendarDays className="h-5 w-5" />
+                  <h1 className="text-xl font-medium">{t('app.title')}</h1>
+                </div>
+              </Link>
             </div>
             
             <div className="hidden md:flex items-center space-x-4">
+              {/* Mostra il pulsante Home solo se non siamo già nella home page */}
+              {location !== "/" && (
+                <Link href="/">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Grid className="h-4 w-4" />
+                    <span>{t('navigation.home')}</span>
+                  </Button>
+                </Link>
+              )}
+            
               <Link href="/calendar">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <Calendar className="h-4 w-4" />
-                  <span>Calendario</span>
+                  <span>{t('calendar.title')}</span>
                 </Button>
               </Link>
               
               <Link href="/clients">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <Users className="h-4 w-4" />
-                  <span>Clienti</span>
+                  <span>{t('clients.title')}</span>
                 </Button>
               </Link>
               
               <Link href="/invoices">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <FileText className="h-4 w-4" />
-                  <span>Fatture</span>
+                  <span>{t('invoices.title')}</span>
                 </Button>
               </Link>
+
+              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
+              {location === "/" && (
+                <>
+                  <Link href="/settings">
+                    <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                      <SettingsIcon className="h-4 w-4" />
+                      <span>{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                  
+                  <LanguageSelector />
+                </>
+              )}
               
-              <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button variant="default" className="flex items-center space-x-1">
-                    <Plus className="h-4 w-4" />
-                    <span>Nuovo Appuntamento</span>
-                  </Button>
-                </DialogTrigger>
-                <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
-              </Dialog>
+              {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
             </div>
             
             <Sheet>
@@ -90,39 +115,43 @@ export default function Layout({ children }: LayoutProps) {
                     <Link href="/calendar">
                       <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
                         <CalendarDays className="mr-2 h-4 w-4" />
-                        Calendario
+                        {t('calendar.title')}
                       </Button>
                     </Link>
                     <Link href="/clients">
                       <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
                         <Users className="mr-2 h-4 w-4" />
-                        Clienti
+                        {t('clients.title')}
                       </Button>
                     </Link>
                     <Link href="/invoices">
                       <Button variant={isActive("/invoices") ? "secondary" : "ghost"} className="justify-start w-full">
                         <FileText className="mr-2 h-4 w-4" />
-                        Fatture
+                        {t('invoices.title')}
                       </Button>
                     </Link>
                     <Link href="/reports">
                       <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
                         <BarChart className="mr-2 h-4 w-4" />
-                        Report
+                        {t('reports.title')}
                       </Button>
                     </Link>
-                  </nav>
-                  <div className="mt-4">
-                    <Dialog open={isAppointmentDialogOpen} onOpenChange={setIsAppointmentDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button className="w-full">
-                          <Plus className="mr-2 h-4 w-4" />
-                          Nuovo Appuntamento
+                    {/* Mostra il pulsante Impostazioni solo nella home page */}
+                    {location === "/" && (
+                      <Link href="/settings">
+                        <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <SettingsIcon className="mr-2 h-4 w-4" />
+                          {t('settings.title')}
                         </Button>
-                      </DialogTrigger>
-                      <AppointmentForm onClose={() => setIsAppointmentDialogOpen(false)} />
-                    </Dialog>
-                  </div>
+                      </Link>
+                    )}
+                  </nav>
+                  {/* Mostra il selettore lingua solo nella home page */}
+                  {location === "/" && (
+                    <div className="mt-4">
+                      <LanguageSelector />
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
@@ -140,12 +169,41 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-gray-600 mb-2 md:mb-0">
-              &copy; {new Date().getFullYear()} Gestione Appuntamenti - Tutti i diritti riservati
+              &copy; {new Date().getFullYear()} Zambelli Andrea - G.A.
             </div>
-            <div className="flex space-x-4">
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Supporto</Button>
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
-              <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</Button>
+            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0">
+              {/* Icone dei contatti */}
+              <div className="flex items-center">
+                <FooterContactIcons />
+              </div>
+              
+              {/* Separatore - visibile solo se ci sono icone */}
+              <div id="footer-separator" className="hidden md:block h-6 w-px bg-gray-300 mx-2"></div>
+
+              <script dangerouslySetInnerHTML={{ __html: `
+                // Nascondi il separatore se non ci sono icone di contatto
+                function updateSeparator() {
+                  const icons = document.querySelector('.flex.space-x-4');
+                  const separator = document.getElementById('footer-separator');
+                  if (separator) {
+                    separator.style.display = icons ? 'block' : 'none';
+                  }
+                }
+                
+                // Controlla all'avvio e ogni 2 secondi
+                updateSeparator();
+                setInterval(updateSeparator, 2000);
+
+                // Ascolta l'evento personalizzato
+                window.addEventListener('contactInfoUpdated', updateSeparator);
+              `}} />
+
+              {/* Links */}
+              <div className="flex space-x-4">
+                <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.support', 'Supporto')}</Button>
+                <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
+                <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
+              </div>
             </div>
           </div>
         </div>
