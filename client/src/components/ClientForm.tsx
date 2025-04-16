@@ -187,7 +187,7 @@ export default function ClientForm({
   const isLoading = clientId && isLoadingClient;
   
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle>
           {clientId ? "Modifica Cliente" : "Nuovo Cliente"}
@@ -200,7 +200,7 @@ export default function ClientForm({
         </div>
       ) : (
         <Tabs defaultValue="personal">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-3 sticky top-0 bg-background z-10">
             <TabsTrigger value="personal">Dati Personali</TabsTrigger>
             <TabsTrigger value="medical">Dati Medici</TabsTrigger>
             <TabsTrigger value="consent">Consenso Dati</TabsTrigger>
@@ -479,7 +479,7 @@ export default function ClientForm({
                 )}
               </TabsContent>
               
-              <DialogFooter className="mt-4">
+              <DialogFooter className="mt-4 sticky bottom-0 bg-background py-2 z-10">
                 <Button
                   type="button"
                   variant="outline"
