@@ -25,6 +25,29 @@ export const directNotificationService = {
   },
 
   /**
+   * Ottiene il numero di telefono da utilizzare per le notifiche
+   * @returns Il numero di telefono da utilizzare per le notifiche, o null se non configurato
+   */
+  async getNotificationPhone(): Promise<string | null> {
+    try {
+      const settings = await this.getNotificationSettings();
+      
+      // Se è configurato per usare un numero di telefono dedicato e questo è impostato
+      if (settings && !settings.useContactPhoneForNotifications && settings.notificationPhone) {
+        return settings.notificationPhone;
+      }
+      
+      // Altrimenti, recupera il numero di telefono dai contatti
+      const contactService = await import('./contactService');
+      const contactInfo = contactService.contactService.getContactInfo();
+      return contactInfo.phone1 || contactInfo.phone2 || null;
+    } catch (error) {
+      console.error('Errore nel recupero del numero di telefono per notifiche:', error);
+      return null;
+    }
+  },
+
+  /**
    * Genera un link diretto a WhatsApp
    * @param to Numero di telefono del destinatario in formato internazionale (es. +39123456789)
    * @param message Testo del messaggio da inviare
