@@ -593,7 +593,7 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[500px]" style={{ maxHeight: "90vh", overflowY: "auto" }}>
             <DialogHeader className="border-b pb-4 mb-4">
               <DialogTitle className="flex items-center">
                 <User className="mr-2 h-5 w-5" />
