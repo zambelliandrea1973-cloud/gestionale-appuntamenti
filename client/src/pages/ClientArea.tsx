@@ -442,30 +442,26 @@ export default function ClientArea() {
                           Futuro
                         </span>
                       )}
-                      {appointment.status === "completed" && (
-                        <span className="ml-2 px-2 py-0.5 rounded text-xs bg-green-100 text-green-800">
-                          Completato
-                        </span>
-                      )}
-                      {appointment.reminderSent && !appointment.reminderConfirmed && (
-                        <span className="ml-2 px-2 py-0.5 rounded text-xs bg-blue-100 text-blue-800" title="Promemoria inviato">
-                          Notificato
-                        </span>
-                      )}
-                      {appointment.reminderConfirmed && (
-                        <span className="ml-2 px-2 py-0.5 rounded text-xs bg-green-100 text-green-800" title="Promemoria confermato">
-                          Confermato
-                        </span>
-                      )}
                     </div>
-                    <div className="text-sm text-muted-foreground flex items-center mt-1">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {formatDate(appointment.date)}
-                      <Clock className="h-4 w-4 ml-3 mr-1" />
-                      {formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}
+                    <div className="text-sm text-muted-foreground mt-1 flex flex-col md:flex-row md:gap-4">
+                      <span className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {formatDate(appointment.date)}
+                      </span>
+                      <span className="flex items-center mt-1 md:mt-0">
+                        <Clock className="mr-2 h-4 w-4" />
+                        {formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row gap-2">
+                  <div className="flex items-center justify-end space-x-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setSelectedAppointment(appointment)}
+                    >
+                      Dettagli
+                    </Button>
                     {appointment.reminderSent && !appointment.reminderConfirmed && !isExpired && (
                       <Button 
                         variant="default" 
@@ -477,21 +473,22 @@ export default function ClientArea() {
                         Conferma
                       </Button>
                     )}
-                    
-                    <Button 
-                      variant={appointment.status === "completed" || isExpired ? "ghost" : "outline"} 
-                      size="sm"
-                      onClick={() => {
-                        setSelectedAppointment(appointment);
-                        setShowAllAppointments(false);
-                      }}
-                    >
-                      {appointment.status === "completed" ? "Completato" : "Dettagli"}
-                    </Button>
                   </div>
                 </div>
               );
             })}
+            
+            {appointments.length === 0 && !loadingAppointments && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Non hai ancora nessun appuntamento</p>
+              </div>
+            )}
+            
+            {loadingAppointments && (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            )}
           </div>
           
           <DialogFooter>
@@ -590,103 +587,76 @@ export default function ClientArea() {
       {/* Componente per l'installazione dell'app PWA */}
       <PwaInstallButton />
       
-      {/* Bottone per aprire il dialog di modifica del profilo */}
+      {/* Dialog per la modifica del profilo */}
       {user?.client && (
-        <>
-          {/* Utilizzo di un bottone modale anziché un Dialog */}
-          {showEditProfile && (
-            <div 
-              className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
-              onClick={(e) => {
-                // Chiudi se si clicca sullo sfondo
-                if (e.target === e.currentTarget) {
-                  setShowEditProfile(false);
+        <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
+          <DialogContent className="sm:max-w-[500px] overflow-y-auto max-h-[90vh]">
+            <DialogHeader className="border-b pb-4 mb-4">
+              <DialogTitle className="flex items-center">
+                <User className="mr-2 h-5 w-5" />
+                Modifica Profilo
+              </DialogTitle>
+              <DialogDescription>
+                Aggiorna i tuoi dati personali
+              </DialogDescription>
+            </DialogHeader>
+            
+            <ProfileEditForm 
+              client={user.client} 
+              onSave={async (updatedData) => {
+                setUpdatingProfile(true);
+                try {
+                  if (!user?.client?.id) {
+                    throw new Error("ID cliente non disponibile");
+                  }
+                  
+                  // Chiama l'endpoint API per aggiornare il profilo
+                  const response = await apiRequest(
+                    'PUT',
+                    `/api/clients/${user.client?.id}`,
+                    updatedData
+                  );
+                  
+                  if (response.ok) {
+                    const updatedClient = await response.json();
+                    
+                    // Aggiorna i dati dell'utente nello stato
+                    setUser({
+                      ...user,
+                      client: updatedClient
+                    });
+                    
+                    // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
+                    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+                    // Invalidare anche la query specifica per questo cliente
+                    queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
+                    
+                    toast({
+                      title: "Profilo aggiornato",
+                      description: "I tuoi dati sono stati aggiornati con successo",
+                    });
+                    
+                    // Chiudi il dialog
+                    setShowEditProfile(false);
+                  } else {
+                    const error = await response.json();
+                    throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
+                  }
+                } catch (error: any) {
+                  console.error("Errore durante l'aggiornamento del profilo:", error);
+                  toast({
+                    title: "Errore",
+                    description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
+                    variant: "destructive",
+                  });
+                } finally {
+                  setUpdatingProfile(false);
                 }
               }}
-            >
-              <div 
-                className="relative bg-background w-[90%] max-w-[425px] rounded-lg border shadow-lg p-6 max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Pulsante di chiusura in alto a destra */}
-                <button
-                  className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 focus:outline-none"
-                  onClick={() => setShowEditProfile(false)}
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
-                </button>
-                
-                {/* Intestazione */}
-                <div className="flex flex-col space-y-1.5 text-center sm:text-left border-b pb-4 mb-4">
-                  <div className="text-lg font-semibold leading-none tracking-tight flex items-center">
-                    <User className="mr-2 h-5 w-5" />
-                    Modifica Profilo
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    Aggiorna i tuoi dati personali
-                  </div>
-                </div>
-                
-                {/* Form per la modifica del profilo */}
-                <ProfileEditForm 
-                  client={user.client} 
-                  onSave={async (updatedData) => {
-                    setUpdatingProfile(true);
-                    try {
-                      if (!user?.client?.id) {
-                        throw new Error("ID cliente non disponibile");
-                      }
-                      
-                      // Chiama l'endpoint API per aggiornare il profilo
-                      const response = await apiRequest(
-                        'PUT',
-                        `/api/clients/${user.client?.id}`,
-                        updatedData
-                      );
-                      
-                      if (response.ok) {
-                        const updatedClient = await response.json();
-                        
-                        // Aggiorna i dati dell'utente nello stato
-                        setUser({
-                          ...user,
-                          client: updatedClient
-                        });
-                        
-                        // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
-                        queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-                        // Invalidare anche la query specifica per questo cliente
-                        queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
-                        
-                        toast({
-                          title: "Profilo aggiornato",
-                          description: "I tuoi dati sono stati aggiornati con successo",
-                        });
-                        
-                        // Chiudi il dialog
-                        setShowEditProfile(false);
-                      } else {
-                        const error = await response.json();
-                        throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
-                      }
-                    } catch (error: any) {
-                      console.error("Errore durante l'aggiornamento del profilo:", error);
-                      toast({
-                        title: "Errore",
-                        description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
-                        variant: "destructive",
-                      });
-                    } finally {
-                      setUpdatingProfile(false);
-                    }
-                  }}
-                  isUpdating={updatingProfile}
-                />
-              </div>
-            </div>
-          )}
-        </>
+              isUpdating={updatingProfile}
+            />
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );
@@ -708,6 +678,9 @@ interface ProfileEditFormProps {
 }
 
 function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
+  const [step, setStep] = useState(1);
+  const totalSteps = 3;
+  
   // Schema di validazione con Zod
   const profileSchema = z.object({
     firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
@@ -735,125 +708,196 @@ function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
   function onSubmit(values: z.infer<typeof profileSchema>) {
     onSave(values);
   }
+  
+  // Funzione per gestire i passi
+  const nextStep = () => {
+    if (step < totalSteps) {
+      setStep(step + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+  
+  // Componente per il progresso
+  const Progress = () => (
+    <div className="flex items-center justify-between mb-6 mt-2">
+      {[1, 2, 3].map((s) => (
+        <div
+          key={s}
+          className={`h-3 rounded-full ${
+            s <= step ? "bg-primary" : "bg-muted"
+          } transition-all`}
+          style={{
+            width: `${100 / totalSteps - 4}%`,
+          }}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="space-y-5">
-          <h3 className="text-lg font-semibold mb-2">Dati Personali</h3>
-          
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input placeholder="Inserisci il nome" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cognome</FormLabel>
-                <FormControl>
-                  <Input placeholder="Inserisci il cognome" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-          
-        <div className="space-y-5 mt-6">
-          <h3 className="text-lg font-semibold mb-2">Contatti</h3>
-          
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefono</FormLabel>
-                <FormControl>
-                  <Input placeholder="Inserisci il numero di telefono" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email (opzionale)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Inserisci l'email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-          
-        <div className="space-y-5 mt-6">
-          <h3 className="text-lg font-semibold mb-2">Informazioni Addizionali</h3>
-          
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Indirizzo (opzionale)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Inserisci l'indirizzo" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="birthday"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Data di nascita (opzionale)</FormLabel>
-                <FormControl>
-                  <Input type="date" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <Progress />
         
-        <div className="flex justify-end pt-6">
-          <Button 
-            type="submit" 
-            disabled={isUpdating}
-            className="bg-primary text-white"
-          >
-            {isUpdating ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Salvataggio...
-              </>
-            ) : (
-              <>
-                <Save className="mr-2 h-5 w-5" />
-                Salva modifiche
-              </>
-            )}
-          </Button>
-        </div>
+        {step === 1 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-left-3 duration-300">
+            <h3 className="text-lg font-semibold">Dati Personali</h3>
+            
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci il nome" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cognome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci il cognome" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-end pt-4">
+              <Button 
+                type="button" 
+                onClick={nextStep}
+                className="w-full"
+              >
+                Continua
+              </Button>
+            </div>
+          </div>
+        )}
+        
+        {step === 2 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
+            <h3 className="text-lg font-semibold">Contatti</h3>
+            
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefono</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci il numero di telefono" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email (opzionale)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci l'email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-between pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={prevStep}
+              >
+                Indietro
+              </Button>
+              <Button 
+                type="button" 
+                onClick={nextStep}
+              >
+                Continua
+              </Button>
+            </div>
+          </div>
+        )}
+        
+        {step === 3 && (
+          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
+            <h3 className="text-lg font-semibold">Informazioni Addizionali</h3>
+            
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Indirizzo (opzionale)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Inserisci l'indirizzo" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="birthday"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data di nascita (opzionale)</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="flex justify-between pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={prevStep}
+              >
+                Indietro
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={isUpdating}
+                className="bg-primary text-white"
+              >
+                {isUpdating ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Salvataggio...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-2 h-5 w-5" />
+                    Salva modifiche
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
       </form>
     </Form>
   );
