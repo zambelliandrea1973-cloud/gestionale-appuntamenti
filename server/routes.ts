@@ -1333,7 +1333,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Invia un SMS di test per verificare la configurazione Twilio
+  // Genera un link SMS diretto (non utilizzando servizi esterni)
   app.post("/api/test-sms", async (req: Request, res: Response) => {
     try {
       // Supporta i parametri sia come to/message che come phoneNumber/message per compatibilità
@@ -1351,35 +1351,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Verifica prima se le credenziali Twilio sono impostate
-      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
-        return res.status(500).json({
-          message: "Credenziali Twilio mancanti",
-          details: {
-            TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
-            TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
-            TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER ? "configurato" : "mancante"
-          }
-        });
+      // Genera un link SMS (funzionalità limitata, ma funziona su molti dispositivi)
+      const smsLink = `sms:${cleanPhoneNumber}?body=${encodeURIComponent(message)}`;
+      
+      console.log(`Generazione link SMS per ${cleanPhoneNumber}: "${message.substring(0, 30)}..."`);
+      
+      // Aggiungiamo al centro notifiche per avere una "cronologia"
+      try {
+        // Aggiungi al centro notifiche (opzionale)
+        await directNotificationService.addToNotificationCenter(
+          0, // ID speciale per il professionista
+          `📱 Test SMS per ${cleanPhoneNumber}: "${message.substring(0, 50)}${message.length > 50 ? '...' : ''}" [Apri SMS](${smsLink})`,
+          'staff_reminder'
+        );
+      } catch (notificationError) {
+        console.error("Errore nell'aggiunta al centro notifiche:", notificationError);
+        // Continuiamo comunque perché l'errore nel centro notifiche non è critico
       }
       
-      console.log(`Tentativo di invio SMS a ${cleanPhoneNumber}: "${message}"`);
+      // Usa il servizio di notifica per mantenere le log consistenti
       const result = await notificationService.sendSMS(cleanPhoneNumber, message);
       
-      console.log("Risposta Twilio:", result);
+      console.log("Risposta generazione SMS:", result);
       res.json({ 
-        message: "SMS inviato con successo", 
+        success: true,
+        message: "Link SMS generato con successo", 
         details: {
           sid: result.sid,
           status: result.status,
-          dateCreated: result.dateCreated,
           to: result.to
-        }
+        },
+        smsLink: smsLink,
+        instructions: "Clicca sul link per aprire l'app SMS e inviare il messaggio"
       });
     } catch (error: any) {
-      console.error("Errore nell'invio del SMS di test:", error);
+      console.error("Errore nella generazione del link SMS:", error);
       res.status(500).json({ 
-        message: "Errore nell'invio del SMS", 
+        success: false,
+        message: "Errore nella generazione del link SMS", 
         error: error.message,
         stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       });
@@ -1595,9 +1604,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             null,
           status: (emailConfigured || professionalPhone) ? 'configurata' : 'incompleta',
           whatsappSetupInstructions: `
-Per inviare messaggi WhatsApp senza Twilio:
+Per inviare messaggi WhatsApp tramite metodo diretto:
 1. Assicurati di aver inserito almeno un numero di telefono nella pagina "Informazioni di contatto"
-2. Quando devi inviare un messaggio, utilizza l'apposita funzione dalla dashboard
+2. Quando devi inviare un messaggio, utilizza l'apposita funzione nella dashboard
 3. Si aprirà direttamente WhatsApp con il messaggio precompilato
 4. I messaggi verranno inviati direttamente dal tuo numero WhatsApp personale
 5. Non è necessario alcun abbonamento o configurazione aggiuntiva
