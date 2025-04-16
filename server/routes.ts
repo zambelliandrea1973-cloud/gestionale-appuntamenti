@@ -1386,7 +1386,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Invia un messaggio WhatsApp di test per verificare la configurazione Twilio
+  // Genera un link diretto a WhatsApp per inviare un messaggio
   app.post("/api/test-whatsapp", async (req: Request, res: Response) => {
     try {
       // Supporta i parametri sia come to/message che come phoneNumber/message per compatibilità
@@ -1398,49 +1398,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (!cleanPhoneNumber || !message) {
         return res.status(400).json({ 
+          success: false,
           message: "Parametri mancanti", 
           required: ["to/phoneNumber", "message"],
           example: { to: "+391234567890", message: "Messaggio di test" }
         });
       }
       
-      // Verifica prima se le credenziali Twilio sono impostate
-      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
-        return res.status(500).json({
-          success: false,
-          message: "Credenziali Twilio mancanti",
-          whatsappSetupInfo: `
-Per utilizzare WhatsApp, devi:
-1. Accedere alla dashboard Twilio: https://www.twilio.com/console 
-2. Navigare su "Messaging" > "Settings" > "WhatsApp Sandbox"
-3. Seguire le istruzioni per configurare il tuo account WhatsApp
-4. Inviare un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono
-5. Assicurarti che il numero TWILIO_PHONE_NUMBER sia impostato correttamente`,
-          details: {
-            TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
-            TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
-            TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER ? "configurato" : "mancante"
-          }
-        });
+      // Genera il link WhatsApp diretto utilizzando il servizio senza dipendenze esterne
+      const whatsappLink = directNotificationService.generateWhatsAppLink(cleanPhoneNumber, message);
+      
+      console.log(`Generato link WhatsApp per ${cleanPhoneNumber}: ${whatsappLink}`);
+      
+      // Aggiungiamo al centro notifiche per avere una "cronologia"
+      try {
+        // Aggiungi al centro notifiche (opzionale)
+        await directNotificationService.addToNotificationCenter(
+          0, // ID speciale per il professionista
+          `📱 Test WhatsApp per ${cleanPhoneNumber}: "${message.substring(0, 50)}${message.length > 50 ? '...' : ''}" [Apri WhatsApp](${whatsappLink})`,
+          'staff_reminder'
+        );
+      } catch (notificationError) {
+        console.error("Errore nell'aggiunta al centro notifiche:", notificationError);
+        // Continuiamo comunque perché l'errore nel centro notifiche non è critico
       }
       
-      console.log(`Tentativo di invio WhatsApp a ${cleanPhoneNumber}: "${message}"`);
-      const result = await notificationService.sendWhatsApp(cleanPhoneNumber, message);
-      
-      console.log("Risposta Twilio:", result);
       res.json({ 
-        message: "Messaggio WhatsApp inviato con successo", 
-        details: {
-          sid: result.sid,
-          status: result.status,
-          dateCreated: result.dateCreated,
-          to: result.to
-        }
+        success: true,
+        message: "Link WhatsApp generato con successo",
+        whatsappLink: whatsappLink,
+        instructions: "Clicca sul link per aprire WhatsApp e inviare il messaggio"
       });
     } catch (error: any) {
-      console.error("Errore nell'invio del messaggio WhatsApp di test:", error);
+      console.error("Errore nella generazione del link WhatsApp:", error);
       res.status(500).json({ 
-        message: "Errore nell'invio del messaggio WhatsApp", 
+        success: false,
+        message: "Errore nella generazione del link WhatsApp", 
         error: error.message,
         stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       });
@@ -1580,45 +1573,39 @@ Per utilizzare WhatsApp, devi:
     }
   });
   
-  // Endpoint per verificare lo stato della configurazione Twilio
-  app.get('/api/twilio-config-status', async (_req: Request, res: Response) => {
+  // Endpoint per verificare lo stato delle notifiche e messaggistica diretta
+  app.get('/api/messaging-config-status', async (_req: Request, res: Response) => {
     try {
-      const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
-      const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
-      const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+      // Recupera il numero di telefono del professionista dalle informazioni di contatto
+      const contactInfo = contactService.getContactInfo();
+      const professionalPhone = contactInfo.phone1 || contactInfo.phone2 || null;
       
-      // Verifica quali componenti di configurazione sono presenti
-      const hasAccountSid = !!twilioAccountSid;
-      const hasAuthToken = !!twilioAuthToken;
-      const hasPhoneNumber = !!twilioPhoneNumber;
-      
-      // Non mostrare i valori completi per motivi di sicurezza
-      const maskedPhoneNumber = twilioPhoneNumber ? 
-        `${twilioPhoneNumber.substring(0, 4)}...${twilioPhoneNumber.substring(twilioPhoneNumber.length - 4)}` : 
-        null;
+      // Recupera le impostazioni di notifica email
+      const notificationSettings = await notificationSettingsService.getSettings();
+      const emailConfigured = notificationSettings?.emailEnabled && notificationSettings?.smtpServer && notificationSettings?.smtpUsername && notificationSettings?.smtpPassword;
       
       // Invia informazioni sulla configurazione
       res.json({
         success: true,
         config: {
-          accountConfigured: hasAccountSid && hasAuthToken,
-          phoneNumberConfigured: hasPhoneNumber,
-          phoneNumberMasked: maskedPhoneNumber,
-          status: hasAccountSid && hasAuthToken && hasPhoneNumber 
-            ? 'completa' 
-            : 'incompleta',
+          emailConfigured: !!emailConfigured,
+          whatsappConfigured: !!professionalPhone,
+          professionalPhone: professionalPhone ? 
+            `${professionalPhone.substring(0, 4)}...${professionalPhone.substring(professionalPhone.length - 4)}` : 
+            null,
+          status: (emailConfigured || professionalPhone) ? 'configurata' : 'incompleta',
           whatsappSetupInstructions: `
-Per utilizzare WhatsApp con Twilio, devi:
-1. Accedere alla dashboard Twilio: https://www.twilio.com/console
-2. Navigare su "Messaging" > "Settings" > "WhatsApp Sandbox"
-3. Seguire le istruzioni per configurare il tuo account WhatsApp
-4. Inviare un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono
-5. Assicurarti che i tuoi clienti facciano lo stesso per poter ricevere messaggi WhatsApp
+Per inviare messaggi WhatsApp senza Twilio:
+1. Assicurati di aver inserito almeno un numero di telefono nella pagina "Informazioni di contatto"
+2. Quando devi inviare un messaggio, utilizza l'apposita funzione dalla dashboard
+3. Si aprirà direttamente WhatsApp con il messaggio precompilato
+4. I messaggi verranno inviati direttamente dal tuo numero WhatsApp personale
+5. Non è necessario alcun abbonamento o configurazione aggiuntiva
 `
         }
       });
     } catch (error: any) {
-      console.error("Errore nel recupero della configurazione Twilio:", error);
+      console.error("Errore nel recupero della configurazione di messaggistica:", error);
       res.status(500).json({
         success: false,
         message: `Errore nel recupero della configurazione: ${error.message || 'Errore sconosciuto'}`
