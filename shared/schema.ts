@@ -272,12 +272,14 @@ export const notificationSettings = pgTable("notification_settings", {
   smtpPassword: text("smtp_password"),
   senderEmail: text("sender_email"),
   emailSignature: text("email_signature"),
-  // SMS settings
+  // Notifiche telefoniche settings
   smsEnabled: boolean("sms_enabled").default(false),
   smsGatewayMethod: text("sms_gateway_method").default("direct"), // direct, twilio
-  // WhatsApp settings
   whatsappEnabled: boolean("whatsapp_enabled").default(false),
   whatsappMethod: text("whatsapp_method").default("direct"), // direct, twilio
+  // Numero di telefono per notifiche
+  useContactPhoneForNotifications: boolean("use_contact_phone_for_notifications").default(true),
+  notificationPhone: text("notification_phone"), // Numero di telefono dedicato per notifiche
   // Twilio settings (legacy)
   twilioEnabled: boolean("twilio_enabled").default(false),
   twilioAccountSid: text("twilio_account_sid"),
