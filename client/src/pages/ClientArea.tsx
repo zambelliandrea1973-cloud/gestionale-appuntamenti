@@ -2,26 +2,13 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2, ChevronUp, ChevronDown } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2 } from "lucide-react";
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -59,9 +46,7 @@ export default function ClientArea() {
   const [showAllAppointments, setShowAllAppointments] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
-  const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
-  const [updatingProfile, setUpdatingProfile] = useState<boolean>(false);
-
+  
   useEffect(() => {
     // Verifica autenticazione
     fetchCurrentUser();
@@ -276,8 +261,6 @@ export default function ClientArea() {
     return timeString.substring(0, 5);
   };
   
-
-
   if (loading) {
     return (
       <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
@@ -331,14 +314,9 @@ export default function ClientArea() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button 
-              variant="outline" 
-              className="w-full text-sm" 
-              size="sm"
-              onClick={() => setShowEditProfile(true)}
-            >
-              Modifica profilo
-            </Button>
+            <p className="text-xs text-muted-foreground text-center w-full">
+              Per aggiornare i dati contatta il tuo professionista
+            </p>
           </CardFooter>
         </Card>
 
@@ -586,319 +564,6 @@ export default function ClientArea() {
       
       {/* Componente per l'installazione dell'app PWA */}
       <PwaInstallButton />
-      
-      {/* Dialog per la modifica del profilo */}
-      {user?.client && (
-        <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[500px] overflow-y-auto max-h-[90vh]">
-            <DialogHeader className="border-b pb-4 mb-4">
-              <DialogTitle className="flex items-center">
-                <User className="mr-2 h-5 w-5" />
-                Modifica Profilo
-              </DialogTitle>
-              <DialogDescription>
-                Aggiorna i tuoi dati personali
-              </DialogDescription>
-            </DialogHeader>
-            
-            <ProfileEditForm 
-              client={user.client} 
-              onSave={async (updatedData) => {
-                setUpdatingProfile(true);
-                try {
-                  if (!user?.client?.id) {
-                    throw new Error("ID cliente non disponibile");
-                  }
-                  
-                  // Chiama l'endpoint API per aggiornare il profilo
-                  const response = await apiRequest(
-                    'PUT',
-                    `/api/clients/${user.client?.id}`,
-                    updatedData
-                  );
-                  
-                  if (response.ok) {
-                    const updatedClient = await response.json();
-                    
-                    // Aggiorna i dati dell'utente nello stato
-                    setUser({
-                      ...user,
-                      client: updatedClient
-                    });
-                    
-                    // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
-                    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-                    // Invalidare anche la query specifica per questo cliente
-                    queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
-                    
-                    toast({
-                      title: "Profilo aggiornato",
-                      description: "I tuoi dati sono stati aggiornati con successo",
-                    });
-                    
-                    // Chiudi il dialog
-                    setShowEditProfile(false);
-                  } else {
-                    const error = await response.json();
-                    throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
-                  }
-                } catch (error: any) {
-                  console.error("Errore durante l'aggiornamento del profilo:", error);
-                  toast({
-                    title: "Errore",
-                    description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
-                    variant: "destructive",
-                  });
-                } finally {
-                  setUpdatingProfile(false);
-                }
-              }}
-              isUpdating={updatingProfile}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
     </div>
-  );
-}
-
-// Componente per il form di modifica del profilo
-interface ProfileEditFormProps {
-  client: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    email?: string;
-    address?: string;
-    birthday?: string;
-  };
-  onSave: (data: any) => void;
-  isUpdating: boolean;
-}
-
-function ProfileEditForm({ client, onSave, isUpdating }: ProfileEditFormProps) {
-  const [step, setStep] = useState(1);
-  const totalSteps = 3;
-  
-  // Schema di validazione con Zod
-  const profileSchema = z.object({
-    firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
-    lastName: z.string().min(2, "Il cognome deve contenere almeno 2 caratteri"),
-    phone: z.string().min(5, "Inserisci un numero di telefono valido"),
-    email: z.string().email("Inserisci un indirizzo email valido").optional().or(z.literal("")),
-    address: z.string().optional().or(z.literal("")),
-    birthday: z.string().optional().or(z.literal("")),
-  });
-
-  // Configura il form
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      firstName: client.firstName || "",
-      lastName: client.lastName || "",
-      phone: client.phone || "",
-      email: client.email || "",
-      address: client.address || "",
-      birthday: client.birthday || "",
-    },
-  });
-
-  // Handler per l'invio del form
-  function onSubmit(values: z.infer<typeof profileSchema>) {
-    onSave(values);
-  }
-  
-  // Funzione per gestire i passi
-  const nextStep = () => {
-    if (step < totalSteps) {
-      setStep(step + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-  
-  // Componente per il progresso
-  const Progress = () => (
-    <div className="flex items-center justify-between mb-6 mt-2">
-      {[1, 2, 3].map((s) => (
-        <div
-          key={s}
-          className={`h-3 rounded-full ${
-            s <= step ? "bg-primary" : "bg-muted"
-          } transition-all`}
-          style={{
-            width: `${100 / totalSteps - 4}%`,
-          }}
-        />
-      ))}
-    </div>
-  );
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Progress />
-        
-        {step === 1 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-left-3 duration-300">
-            <h3 className="text-lg font-semibold">Dati Personali</h3>
-            
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci il nome" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cognome</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci il cognome" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="flex justify-end pt-4">
-              <Button 
-                type="button" 
-                onClick={nextStep}
-                className="w-full"
-              >
-                Continua
-              </Button>
-            </div>
-          </div>
-        )}
-        
-        {step === 2 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
-            <h3 className="text-lg font-semibold">Contatti</h3>
-            
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Telefono</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci il numero di telefono" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email (opzionale)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci l'email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="flex justify-between pt-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={prevStep}
-              >
-                Indietro
-              </Button>
-              <Button 
-                type="button" 
-                onClick={nextStep}
-              >
-                Continua
-              </Button>
-            </div>
-          </div>
-        )}
-        
-        {step === 3 && (
-          <div className="space-y-4 animate-in fade-in slide-in-from-right-3 duration-300">
-            <h3 className="text-lg font-semibold">Informazioni Addizionali</h3>
-            
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Indirizzo (opzionale)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Inserisci l'indirizzo" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="birthday"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data di nascita (opzionale)</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="flex justify-between pt-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={prevStep}
-              >
-                Indietro
-              </Button>
-              <Button 
-                type="submit" 
-                disabled={isUpdating}
-                className="bg-primary text-white"
-              >
-                {isUpdating ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Salvataggio...
-                  </>
-                ) : (
-                  <>
-                    <Save className="mr-2 h-5 w-5" />
-                    Salva modifiche
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
-      </form>
-    </Form>
   );
 }
