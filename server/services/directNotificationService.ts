@@ -37,10 +37,16 @@ export const directNotificationService = {
         return settings.notificationPhone;
       }
       
-      // Altrimenti, recupera il numero di telefono dai contatti
+      // Altrimenti, recupera il numero di telefono dai contatti in base alla preferenza
       const contactService = await import('./contactService');
       const contactInfo = contactService.contactService.getContactInfo();
-      return contactInfo.phone1 || contactInfo.phone2 || null;
+      
+      // Determina quale numero utilizzare in base alla preferenza
+      if (settings?.preferredContactPhone === 'secondary' && contactInfo.phone2) {
+        return contactInfo.phone2;
+      } else {
+        return contactInfo.phone1 || contactInfo.phone2 || null;
+      }
     } catch (error) {
       console.error('Errore nel recupero del numero di telefono per notifiche:', error);
       return null;

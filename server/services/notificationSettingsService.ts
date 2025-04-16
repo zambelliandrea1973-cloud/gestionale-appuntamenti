@@ -75,6 +75,7 @@ export const notificationSettingsService = {
       whatsappEnabled: false,
       whatsappMethod: 'direct',
       useContactPhoneForNotifications: true,
+      preferredContactPhone: 'primary',
       notificationPhone: '',
       twilioEnabled: false
       // createdAt e updatedAt sono gestiti automaticamente

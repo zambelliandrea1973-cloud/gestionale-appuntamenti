@@ -279,6 +279,7 @@ export const notificationSettings = pgTable("notification_settings", {
   whatsappMethod: text("whatsapp_method").default("direct"), // direct, twilio
   // Numero di telefono per notifiche
   useContactPhoneForNotifications: boolean("use_contact_phone_for_notifications").default(true),
+  preferredContactPhone: text("preferred_contact_phone").default("primary"), // primary o secondary
   notificationPhone: text("notification_phone"), // Numero di telefono dedicato per notifiche
   // Twilio settings (legacy)
   twilioEnabled: boolean("twilio_enabled").default(false),
