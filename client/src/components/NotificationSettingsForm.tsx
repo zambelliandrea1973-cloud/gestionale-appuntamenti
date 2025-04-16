@@ -309,196 +309,208 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                 {form.watch("emailEnabled") && (
                   <>
                     <div className="grid gap-4 py-4">
-                      <div className="mb-4 p-4 bg-muted rounded-lg">
-                        <h4 className="text-base font-medium mb-2">Rileva impostazioni SMTP</h4>
-                        <div className="grid grid-cols-3 gap-4">
-                          <div className="col-span-2">
-                            <Input 
-                              placeholder="Inserisci il tuo indirizzo email" 
-                              value={form.watch("senderEmail") || ""}
-                              onChange={(e) => {
-                                // Aggiorna il campo senderEmail
-                                form.setValue("senderEmail", e.target.value);
-                                // Aggiorna anche smtpUsername solo se vuoto o uguale a senderEmail precedente
-                                if (!form.watch("smtpUsername") || form.watch("smtpUsername") === form.watch("senderEmail")) {
-                                  form.setValue("smtpUsername", e.target.value);
-                                }
-                              }}
-                            />
-                          </div>
-                          <Button 
-                            type="button" 
-                            variant="outline" 
-                            className="h-10"
-                            onClick={async () => {
-                              const email = form.watch("senderEmail");
-                              if (!email) {
-                                toast({
-                                  title: "Email richiesta",
-                                  description: "Inserisci il tuo indirizzo email per rilevare le impostazioni SMTP",
-                                  variant: "destructive"
-                                });
-                                return;
-                              }
-                              
-                              try {
-                                setIsLoading(true);
-                                const response = await apiRequest("POST", "/api/notification-settings/detect-smtp", {
-                                  email
-                                });
-                                
-                                if (response.ok) {
-                                  const result = await response.json();
+                      <div className="p-4 bg-accent/20 rounded-lg border-2 border-primary/20 mb-6">
+                        <h4 className="text-base font-medium mb-3">Configurazione Rapida Email</h4>
+                        <div className="grid gap-4">
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="col-span-2">
+                              <Input 
+                                placeholder="Inserisci il tuo indirizzo email" 
+                                value={form.watch("senderEmail") || ""}
+                                onChange={(e) => {
+                                  const email = e.target.value;
+                                  // Aggiorna il campo senderEmail
+                                  form.setValue("senderEmail", email);
+                                  // Aggiorna anche smtpUsername automaticamente
+                                  form.setValue("smtpUsername", email);
                                   
-                                  if (result.success && result.data) {
-                                    const config = result.data;
-                                    
-                                    // Aggiorna i campi del form con i dati rilevati
-                                    form.setValue("smtpServer", config.smtpServer);
-                                    form.setValue("smtpPort", config.smtpPort);
-                                    form.setValue("smtpUsername", config.smtpUsername);
-                                    // Lascia l'utente inserire la password
-                                    
-                                    toast({
-                                      title: "Impostazioni rilevate",
-                                      description: config.instructions || "Inserisci la tua password per completare la configurazione"
-                                    });
+                                  // Se è un nuovo inserimento, genera anche una firma email predefinita
+                                  if (!form.watch("emailSignature") || form.watch("emailSignature") === "Con i migliori saluti," || form.watch("emailSignature") === "") {
+                                    form.setValue("emailSignature", "Con i migliori saluti,");
                                   }
-                                } else {
-                                  const error = await response.json();
+                                }}
+                              />
+                            </div>
+                            <Button 
+                              type="button" 
+                              variant="default" 
+                              className="h-10"
+                              onClick={async () => {
+                                const email = form.watch("senderEmail");
+                                if (!email) {
                                   toast({
-                                    title: "Errore",
-                                    description: error.message || "Impossibile rilevare le impostazioni SMTP",
+                                    title: "Email richiesta",
+                                    description: "Inserisci il tuo indirizzo email per rilevare le impostazioni",
                                     variant: "destructive"
                                   });
+                                  return;
                                 }
-                              } catch (error) {
-                                console.error("Errore durante il rilevamento SMTP:", error);
-                                toast({
-                                  title: "Errore",
-                                  description: "Si è verificato un problema durante il rilevamento delle impostazioni",
-                                  variant: "destructive"
-                                });
-                              } finally {
-                                setIsLoading(false);
-                              }
-                            }}
-                            disabled={isLoading || !form.watch("senderEmail")}
-                          >
-                            {isLoading ? "Rilevamento..." : "Rileva impostazioni"}
-                          </Button>
+                                
+                                try {
+                                  setIsLoading(true);
+                                  const response = await apiRequest("POST", "/api/notification-settings/detect-smtp", {
+                                    email
+                                  });
+                                  
+                                  if (response.ok) {
+                                    const result = await response.json();
+                                    
+                                    if (result.success && result.data) {
+                                      const config = result.data;
+                                      
+                                      // Aggiorna i campi del form con i dati rilevati
+                                      form.setValue("smtpServer", config.smtpServer);
+                                      form.setValue("smtpPort", config.smtpPort);
+                                      form.setValue("smtpUsername", config.smtpUsername);
+                                      form.setValue("senderEmail", config.senderEmail);
+                                      
+                                      // Genera firma se non impostata
+                                      if (!form.watch("emailSignature")) {
+                                        form.setValue("emailSignature", "Con i migliori saluti,");
+                                      }
+                                      
+                                      toast({
+                                        title: "✅ Impostazioni rilevate",
+                                        description: config.instructions || "Inserisci solo la tua password per completare la configurazione"
+                                      });
+                                    }
+                                  } else {
+                                    const error = await response.json();
+                                    toast({
+                                      title: "Errore",
+                                      description: error.message || "Impossibile rilevare le impostazioni SMTP",
+                                      variant: "destructive"
+                                    });
+                                  }
+                                } catch (error) {
+                                  console.error("Errore durante il rilevamento SMTP:", error);
+                                  toast({
+                                    title: "Errore",
+                                    description: "Si è verificato un problema durante il rilevamento delle impostazioni",
+                                    variant: "destructive"
+                                  });
+                                } finally {
+                                  setIsLoading(false);
+                                }
+                              }}
+                              disabled={isLoading || !form.watch("senderEmail")}
+                            >
+                              {isLoading ? "Rilevamento..." : "Rileva impostazioni"}
+                            </Button>
+                          </div>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          Inserisci il tuo indirizzo email e fai clic su "Rileva impostazioni" per configurare automaticamente i parametri SMTP.
+                        <p className="text-sm text-muted-foreground mt-3">
+                          <strong>1.</strong> Inserisci il tuo indirizzo email<br />
+                          <strong>2.</strong> Clicca "Rileva impostazioni" per la configurazione automatica<br />
+                          <strong>3.</strong> Inserisci solo la password (gli altri campi sono già compilati)
                         </p>
                       </div>
 
-                      <FormField
-                        control={form.control}
-                        name="senderEmail"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email mittente</FormLabel>
-                            <FormControl>
-                              <Input placeholder="nome@tuodominio.it" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              L'indirizzo email che apparirà come mittente delle comunicazioni
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <div className="grid grid-cols-2 gap-6">
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="senderEmail"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Email mittente</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="nome@tuodominio.it" {...field} />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="smtpPassword"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>👉 Password SMTP</FormLabel>
+                                <FormControl>
+                                  <Input type="password" placeholder="Inserisci la tua password email" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                  La password per l'autenticazione SMTP. Per Gmail potrebbe essere necessaria una password per app.
+                                </FormDescription>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
 
-                      <FormField
-                        control={form.control}
-                        name="smtpServer"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Server SMTP</FormLabel>
-                            <FormControl>
-                              <Input placeholder="smtp.example.com" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              Il server SMTP per inviare email (es. smtp.gmail.com)
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <div className="grid grid-cols-2 gap-6 mt-4">
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="smtpServer"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Server SMTP</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="smtp.example.com" {...field} />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="smtpPort"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Porta SMTP</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="number" 
+                                    placeholder="587" 
+                                    {...field}
+                                    onChange={(e) => field.onChange(parseInt(e.target.value) || 587)} 
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
 
-                      <FormField
-                        control={form.control}
-                        name="smtpPort"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Porta SMTP</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="number" 
-                                placeholder="587" 
-                                {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 587)} 
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              La porta del server SMTP (in genere 587 o 465 per SSL)
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <div className="grid grid-cols-2 gap-6 mt-4">
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="smtpUsername"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Username SMTP</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="email@example.com" {...field} />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name="emailSignature"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Firma email</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="Con i migliori saluti," {...field} />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
 
-                      <FormField
-                        control={form.control}
-                        name="smtpUsername"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Username SMTP</FormLabel>
-                            <FormControl>
-                              <Input placeholder="email@example.com" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              Il nome utente per l'autenticazione SMTP (solitamente il tuo indirizzo email)
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
 
-                      <FormField
-                        control={form.control}
-                        name="smtpPassword"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Password SMTP</FormLabel>
-                            <FormControl>
-                              <Input type="password" placeholder="Password" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              La password per l'autenticazione SMTP. Per Gmail potrebbe essere necessaria una password per app.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="emailSignature"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Firma email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Con i migliori saluti," {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              Una firma da includere nei messaggi email
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                     </div>
 
                     <div className="bg-muted p-4 rounded-lg">
