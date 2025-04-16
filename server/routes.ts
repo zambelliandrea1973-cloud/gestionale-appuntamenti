@@ -2692,34 +2692,95 @@ Per utilizzare WhatsApp con Twilio, devi:
       // Recupera le impostazioni di notifica
       const settings = await notificationSettingsService.getSettings();
       
-      if (!settings || !settings.emailEnabled || !settings.smtpServer || !settings.smtpUsername || !settings.smtpPassword) {
+      // Verifica che tutte le impostazioni necessarie siano presenti
+      if (!settings) {
         return res.status(400).json({ 
           success: false, 
-          message: 'Configurazione email incompleta. Verifica le impostazioni SMTP.' 
+          message: 'Nessuna configurazione email trovata. Salva prima le impostazioni.' 
         });
       }
       
-      // Invia email di test
-      const success = await directNotificationService.sendEmail(
-        email,
-        'Email di test da Health Pro',
-        'Questo è un messaggio di test dal sistema di notifiche. Se lo ricevi, la configurazione email è funzionante.'
-      );
-      
-      if (success) {
-        res.json({ 
-          success: true, 
-          message: 'Email di test inviata con successo'
+      if (!settings.emailEnabled) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Le notifiche email non sono abilitate. Attiva prima le notifiche email.' 
         });
-      } else {
+      }
+      
+      if (!settings.smtpServer) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Server SMTP non configurato. Usa "Rileva impostazioni" o inseriscilo manualmente.' 
+        });
+      }
+      
+      if (!settings.smtpUsername) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Username SMTP non configurato. Spesso è il tuo indirizzo email completo.' 
+        });
+      }
+      
+      if (!settings.smtpPassword) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Password SMTP non configurata. Per Gmail, usa una password per app creata nelle impostazioni di sicurezza Google.' 
+        });
+      }
+      
+      // Registriamo le informazioni di invio per debug
+      console.log(`Tentativo invio email di test a ${email} usando server ${settings.smtpServer}:${settings.smtpPort}`);
+      
+      try {
+        // Invia email di test
+        const success = await directNotificationService.sendEmail(
+          email,
+          'Email di test da Health Pro',
+          'Questo è un messaggio di test dal sistema di notifiche. Se lo ricevi, la configurazione email è funzionante.'
+        );
+        
+        if (success) {
+          res.json({ 
+            success: true, 
+            message: 'Email di test inviata con successo! Controlla la tua casella di posta.' 
+          });
+        } else {
+          // Errore generico nell'invio
+          console.error("Invio email di test fallito");
+          res.status(500).json({ 
+            success: false, 
+            message: 'Si è verificato un problema durante l\'invio dell\'email. Per Gmail potrebbero essere necessari: 1) Attivare l\'accesso app meno sicure, o 2) Creare una "password per app" nelle impostazioni di sicurezza.' 
+          });
+        }
+      } catch (emailError: any) {
+        // Catturo specificamente l'errore di invio per dare messaggi più informativi
+        console.error("Errore nell'invio dell'email di test:", emailError);
+        
+        let errorMessage = 'Errore durante l\'invio dell\'email di test.';
+        
+        // Messaggi specifici per errori comuni
+        if (emailError.code === 'EAUTH') {
+          errorMessage = 'Errore di autenticazione SMTP. Verifica username e password. Per Gmail, potrebbe essere necessaria una "password per app".';
+        } else if (emailError.code === 'ESOCKET') {
+          errorMessage = 'Errore di connessione al server SMTP. Verifica il server e la porta.';
+        } else if (emailError.code === 'ECONNECTION') {
+          errorMessage = 'Impossibile connettersi al server SMTP. Verifica l\'indirizzo del server.';
+        } else if (emailError.message) {
+          // Includi il messaggio di errore originale se disponibile
+          errorMessage = `Errore: ${emailError.message}`;
+        }
+        
         res.status(500).json({ 
           success: false, 
-          message: 'Impossibile inviare l\'email di test. Verifica le impostazioni SMTP.' 
+          message: errorMessage 
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Errore nel test email:", error);
-      res.status(500).json({ success: false, message: 'Errore durante il test email' });
+      res.status(500).json({ 
+        success: false, 
+        message: `Errore durante l'invio dell'email di test: ${error.message || 'errore sconosciuto'}` 
+      });
     }
   });
 
