@@ -653,11 +653,11 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                           <FormItem>
                             <FormLabel>Numero dedicato per notifiche</FormLabel>
                             <FormDescription>
-                              Inserisci un numero di telefono diverso da utilizzare per l'invio di notifiche telefoniche.
+                              Inserisci un numero di telefono WhatsApp diverso da utilizzare per l'invio di notifiche telefoniche. Inserisci il numero con prefisso internazionale (es. +39).
                             </FormDescription>
                             <FormControl>
                               <Input 
-                                placeholder="+39 123 456 7890" 
+                                placeholder="+39 XXX XXX XXXX" 
                                 {...field} 
                               />
                             </FormControl>
