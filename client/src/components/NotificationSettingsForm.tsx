@@ -645,6 +645,36 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       )}
                     />
 
+                    {form.watch("useContactPhoneForNotifications") && (
+                      <FormField
+                        control={form.control}
+                        name="preferredContactPhone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Numero di contatto da utilizzare</FormLabel>
+                            <FormDescription>
+                              Scegli quale dei tuoi numeri di contatto utilizzare per le notifiche telefoniche.
+                            </FormDescription>
+                            <Select 
+                              value={field.value} 
+                              onValueChange={field.onChange}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Seleziona un'opzione" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="primary">Numero principale</SelectItem>
+                                <SelectItem value="secondary">Numero secondario</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+
                     {!form.watch("useContactPhoneForNotifications") && (
                       <FormField
                         control={form.control}
