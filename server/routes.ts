@@ -23,6 +23,7 @@ import { initializeSchedulers } from "./services/schedulerService";
 import { googleCalendarService } from "./services/googleCalendarService";
 import { companyNameService } from "./services/companyNameService";
 import { directNotificationService } from "./services/directNotificationService";
+import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
 import multer from 'multer';
