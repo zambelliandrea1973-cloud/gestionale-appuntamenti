@@ -590,76 +590,103 @@ export default function ClientArea() {
       {/* Componente per l'installazione dell'app PWA */}
       <PwaInstallButton />
       
-      {/* Dialog per la modifica del profilo */}
+      {/* Bottone per aprire il dialog di modifica del profilo */}
       {user?.client && (
-        <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader className="border-b pb-4 mb-4">
-              <DialogTitle className="flex items-center">
-                <User className="mr-2 h-5 w-5" />
-                Modifica Profilo
-              </DialogTitle>
-              <DialogDescription>
-                Aggiorna i tuoi dati personali
-              </DialogDescription>
-            </DialogHeader>
-            
-            <ProfileEditForm 
-              client={user.client} 
-              onSave={async (updatedData) => {
-                setUpdatingProfile(true);
-                try {
-                  if (!user?.client?.id) {
-                    throw new Error("ID cliente non disponibile");
-                  }
-                  
-                  // Chiama l'endpoint API per aggiornare il profilo
-                  const response = await apiRequest(
-                    'PUT',
-                    `/api/clients/${user.client?.id}`,
-                    updatedData
-                  );
-                  
-                  if (response.ok) {
-                    const updatedClient = await response.json();
-                    
-                    // Aggiorna i dati dell'utente nello stato
-                    setUser({
-                      ...user,
-                      client: updatedClient
-                    });
-                    
-                    // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
-                    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-                    // Invalidare anche la query specifica per questo cliente
-                    queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
-                    
-                    toast({
-                      title: "Profilo aggiornato",
-                      description: "I tuoi dati sono stati aggiornati con successo",
-                    });
-                    
-                    // Chiudi il dialog
-                    setShowEditProfile(false);
-                  } else {
-                    const error = await response.json();
-                    throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
-                  }
-                } catch (error: any) {
-                  console.error("Errore durante l'aggiornamento del profilo:", error);
-                  toast({
-                    title: "Errore",
-                    description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
-                    variant: "destructive",
-                  });
-                } finally {
-                  setUpdatingProfile(false);
+        <>
+          {/* Utilizzo di un bottone modale anziché un Dialog */}
+          {showEditProfile && (
+            <div 
+              className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
+              onClick={(e) => {
+                // Chiudi se si clicca sullo sfondo
+                if (e.target === e.currentTarget) {
+                  setShowEditProfile(false);
                 }
               }}
-              isUpdating={updatingProfile}
-            />
-          </DialogContent>
-        </Dialog>
+            >
+              <div 
+                className="relative bg-background w-[90%] max-w-[425px] rounded-lg border shadow-lg p-6 max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Pulsante di chiusura in alto a destra */}
+                <button
+                  className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 focus:outline-none"
+                  onClick={() => setShowEditProfile(false)}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+                </button>
+                
+                {/* Intestazione */}
+                <div className="flex flex-col space-y-1.5 text-center sm:text-left border-b pb-4 mb-4">
+                  <div className="text-lg font-semibold leading-none tracking-tight flex items-center">
+                    <User className="mr-2 h-5 w-5" />
+                    Modifica Profilo
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Aggiorna i tuoi dati personali
+                  </div>
+                </div>
+                
+                {/* Form per la modifica del profilo */}
+                <ProfileEditForm 
+                  client={user.client} 
+                  onSave={async (updatedData) => {
+                    setUpdatingProfile(true);
+                    try {
+                      if (!user?.client?.id) {
+                        throw new Error("ID cliente non disponibile");
+                      }
+                      
+                      // Chiama l'endpoint API per aggiornare il profilo
+                      const response = await apiRequest(
+                        'PUT',
+                        `/api/clients/${user.client?.id}`,
+                        updatedData
+                      );
+                      
+                      if (response.ok) {
+                        const updatedClient = await response.json();
+                        
+                        // Aggiorna i dati dell'utente nello stato
+                        setUser({
+                          ...user,
+                          client: updatedClient
+                        });
+                        
+                        // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
+                        queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+                        // Invalidare anche la query specifica per questo cliente
+                        queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
+                        
+                        toast({
+                          title: "Profilo aggiornato",
+                          description: "I tuoi dati sono stati aggiornati con successo",
+                        });
+                        
+                        // Chiudi il dialog
+                        setShowEditProfile(false);
+                      } else {
+                        const error = await response.json();
+                        throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
+                      }
+                    } catch (error: any) {
+                      console.error("Errore durante l'aggiornamento del profilo:", error);
+                      toast({
+                        title: "Errore",
+                        description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
+                        variant: "destructive",
+                      });
+                    } finally {
+                      setUpdatingProfile(false);
+                    }
+                  }}
+                  isUpdating={updatingProfile}
+                />
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
