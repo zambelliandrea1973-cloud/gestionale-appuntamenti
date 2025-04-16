@@ -593,7 +593,7 @@ export default function ClientArea() {
       {/* Dialog per la modifica del profilo */}
       {user?.client && (
         <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
             <DialogHeader className="border-b pb-4 mb-4">
               <DialogTitle className="flex items-center">
                 <User className="mr-2 h-5 w-5" />
@@ -604,94 +604,60 @@ export default function ClientArea() {
               </DialogDescription>
             </DialogHeader>
             
-            <div className="overflow-y-auto pr-1" style={{ maxHeight: "60vh" }}>
-              <ProfileEditForm 
-                client={user.client} 
-                onSave={async (updatedData) => {
-                  setUpdatingProfile(true);
-                  try {
-                    if (!user?.client?.id) {
-                      throw new Error("ID cliente non disponibile");
-                    }
+            <ProfileEditForm 
+              client={user.client} 
+              onSave={async (updatedData) => {
+                setUpdatingProfile(true);
+                try {
+                  if (!user?.client?.id) {
+                    throw new Error("ID cliente non disponibile");
+                  }
+                  
+                  // Chiama l'endpoint API per aggiornare il profilo
+                  const response = await apiRequest(
+                    'PUT',
+                    `/api/clients/${user.client?.id}`,
+                    updatedData
+                  );
+                  
+                  if (response.ok) {
+                    const updatedClient = await response.json();
                     
-                    // Chiama l'endpoint API per aggiornare il profilo
-                    const response = await apiRequest(
-                      'PUT',
-                      `/api/clients/${user.client?.id}`,
-                      updatedData
-                    );
-                    
-                    if (response.ok) {
-                      const updatedClient = await response.json();
-                      
-                      // Aggiorna i dati dell'utente nello stato
-                      setUser({
-                        ...user,
-                        client: updatedClient
-                      });
-                      
-                      // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
-                      queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-                      // Invalidare anche la query specifica per questo cliente
-                      queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
-                      
-                      toast({
-                        title: "Profilo aggiornato",
-                        description: "I tuoi dati sono stati aggiornati con successo",
-                      });
-                      
-                      // Chiudi il dialog
-                      setShowEditProfile(false);
-                    } else {
-                      const error = await response.json();
-                      throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
-                    }
-                  } catch (error: any) {
-                    console.error("Errore durante l'aggiornamento del profilo:", error);
-                    toast({
-                      title: "Errore",
-                      description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
-                      variant: "destructive",
+                    // Aggiorna i dati dell'utente nello stato
+                    setUser({
+                      ...user,
+                      client: updatedClient
                     });
-                  } finally {
-                    setUpdatingProfile(false);
+                    
+                    // Invalidare tutte le query relative ai clienti per aggiornare i dati nella dashboard
+                    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+                    // Invalidare anche la query specifica per questo cliente
+                    queryClient.invalidateQueries({ queryKey: [`/api/clients/${user.client?.id}`] });
+                    
+                    toast({
+                      title: "Profilo aggiornato",
+                      description: "I tuoi dati sono stati aggiornati con successo",
+                    });
+                    
+                    // Chiudi il dialog
+                    setShowEditProfile(false);
+                  } else {
+                    const error = await response.json();
+                    throw new Error(error.message || "Errore durante l'aggiornamento del profilo");
                   }
-                }}
-                isUpdating={updatingProfile}
-              />
-            </div>
-            
-            {/* Pulsanti di navigazione - ridisegnati e spostati nella parte inferiore */}
-            <div className="absolute right-6 flex flex-col gap-2 z-10">
-              <Button 
-                size="icon" 
-                variant="secondary" 
-                className="rounded-full h-8 w-8 bg-primary text-white shadow-md"
-                onClick={() => {
-                  // Scorri fino a inizio form
-                  const scrollableDiv = document.querySelector('.overflow-y-auto');
-                  if (scrollableDiv) {
-                    scrollableDiv.scrollTop = 0;
-                  }
-                }}
-              >
-                <ChevronUp className="h-4 w-4" />
-              </Button>
-              <Button 
-                size="icon" 
-                variant="secondary" 
-                className="rounded-full h-8 w-8 bg-primary text-white shadow-md"
-                onClick={() => {
-                  // Scorri alla fine del form fino al pulsante
-                  const scrollableDiv = document.querySelector('.overflow-y-auto');
-                  if (scrollableDiv) {
-                    scrollableDiv.scrollTop = 9999; // un valore alto per scorrere fino in fondo
-                  }
-                }}
-              >
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </div>
+                } catch (error: any) {
+                  console.error("Errore durante l'aggiornamento del profilo:", error);
+                  toast({
+                    title: "Errore",
+                    description: error.message || "Si è verificato un errore durante l'aggiornamento del profilo",
+                    variant: "destructive",
+                  });
+                } finally {
+                  setUpdatingProfile(false);
+                }
+              }}
+              isUpdating={updatingProfile}
+            />
           </DialogContent>
         </Dialog>
       )}
