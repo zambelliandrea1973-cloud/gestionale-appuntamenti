@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/Layout';
-import NotificationTester from '@/components/TwilioTester';
+import NotificationTester from '@/components/NotificationTester';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, MessageSquare, LucideSmartphone } from 'lucide-react';
 
