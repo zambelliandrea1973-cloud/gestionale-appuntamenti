@@ -1404,7 +1404,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Verifica prima se le credenziali Twilio sono impostate
       if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
         return res.status(500).json({
+          success: false,
           message: "Credenziali Twilio mancanti",
+          whatsappSetupInfo: `
+Per utilizzare WhatsApp, devi:
+1. Accedere alla dashboard Twilio: https://www.twilio.com/console 
+2. Navigare su "Messaging" > "Settings" > "WhatsApp Sandbox"
+3. Seguire le istruzioni per configurare il tuo account WhatsApp
+4. Inviare un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono
+5. Assicurarti che il numero TWILIO_PHONE_NUMBER sia impostato correttamente`,
           details: {
             TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
             TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
@@ -1566,6 +1574,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Errore nel salvataggio delle informazioni di contatto:', error);
       res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });
+    }
+  });
+  
+  // Endpoint per verificare lo stato della configurazione Twilio
+  app.get('/api/twilio-config-status', async (_req: Request, res: Response) => {
+    try {
+      const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+      const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+      const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+      
+      // Verifica quali componenti di configurazione sono presenti
+      const hasAccountSid = !!twilioAccountSid;
+      const hasAuthToken = !!twilioAuthToken;
+      const hasPhoneNumber = !!twilioPhoneNumber;
+      
+      // Non mostrare i valori completi per motivi di sicurezza
+      const maskedPhoneNumber = twilioPhoneNumber ? 
+        `${twilioPhoneNumber.substring(0, 4)}...${twilioPhoneNumber.substring(twilioPhoneNumber.length - 4)}` : 
+        null;
+      
+      // Invia informazioni sulla configurazione
+      res.json({
+        success: true,
+        config: {
+          accountConfigured: hasAccountSid && hasAuthToken,
+          phoneNumberConfigured: hasPhoneNumber,
+          phoneNumberMasked: maskedPhoneNumber,
+          status: hasAccountSid && hasAuthToken && hasPhoneNumber 
+            ? 'completa' 
+            : 'incompleta',
+          whatsappSetupInstructions: `
+Per utilizzare WhatsApp con Twilio, devi:
+1. Accedere alla dashboard Twilio: https://www.twilio.com/console
+2. Navigare su "Messaging" > "Settings" > "WhatsApp Sandbox"
+3. Seguire le istruzioni per configurare il tuo account WhatsApp
+4. Inviare un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono
+5. Assicurarti che i tuoi clienti facciano lo stesso per poter ricevere messaggi WhatsApp
+`
+        }
+      });
+    } catch (error: any) {
+      console.error("Errore nel recupero della configurazione Twilio:", error);
+      res.status(500).json({
+        success: false,
+        message: `Errore nel recupero della configurazione: ${error.message || 'Errore sconosciuto'}`
+      });
     }
   });
   

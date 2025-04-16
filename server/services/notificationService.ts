@@ -64,17 +64,29 @@ export const notificationService = {
     
     console.log(`Invio WhatsApp a ${formattedTo}: ${message}`);
     
-    // Invia il messaggio WhatsApp
-    // Nota: per WhatsApp, il "from" deve essere nel formato "whatsapp:+1234567890"
-    const sentMessage = await client.messages.create({
-      body: message,
-      from: `whatsapp:${twilioPhoneNumber}`,
-      to: `whatsapp:${formattedTo}`
-    });
-    
-    console.log(`WhatsApp inviato con successo, SID: ${sentMessage.sid}`);
-    
-    return sentMessage;
+    try {
+      // Invia il messaggio WhatsApp
+      // Nota: per WhatsApp, il "from" deve essere nel formato "whatsapp:+1234567890"
+      const sentMessage = await client.messages.create({
+        body: message,
+        from: `whatsapp:${twilioPhoneNumber}`,
+        to: `whatsapp:${formattedTo}`
+      });
+      
+      console.log(`WhatsApp inviato con successo, SID: ${sentMessage.sid}`);
+      return sentMessage;
+    } catch (error: any) {
+      // Gestione dettagliata dell'errore
+      console.error(`Errore nell'invio WhatsApp a ${formattedTo}:`, error);
+      
+      if (error.code === 63007) {
+        console.error(`ERRORE SANDBOX WHATSAPP: Il numero ${twilioPhoneNumber} non è configurato o attivato per WhatsApp.`);
+        console.error(`Per risolvere, accedi a Twilio, vai su "Messaging" > "Settings" > "WhatsApp Sandbox" e completa la configurazione.`);
+        console.error(`Il destinatario deve inviare un messaggio al numero WhatsApp Sandbox con la parola chiave mostrata nella dashboard.`);
+      }
+      
+      throw error;
+    }
   },
   
   /**
