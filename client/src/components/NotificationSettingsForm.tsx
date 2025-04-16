@@ -450,8 +450,11 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                               <FormItem>
                                 <FormLabel>Server SMTP</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="smtp.example.com" {...field} />
+                                  <Input placeholder="Verrà rilevato automaticamente" {...field} />
                                 </FormControl>
+                                <FormDescription>
+                                  Es: smtp.gmail.com, smtp.outlook.com
+                                </FormDescription>
                               </FormItem>
                             )}
                           />
@@ -467,11 +470,14 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                                 <FormControl>
                                   <Input 
                                     type="number" 
-                                    placeholder="587" 
+                                    placeholder="Verrà rilevata automaticamente" 
                                     {...field}
                                     onChange={(e) => field.onChange(parseInt(e.target.value) || 587)} 
                                   />
                                 </FormControl>
+                                <FormDescription>
+                                  Di solito 587 o 465
+                                </FormDescription>
                               </FormItem>
                             )}
                           />
@@ -487,8 +493,11 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                               <FormItem>
                                 <FormLabel>Username SMTP</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="email@example.com" {...field} />
+                                  <Input placeholder="Verrà compilato automaticamente" {...field} />
                                 </FormControl>
+                                <FormDescription>
+                                  Spesso è il tuo indirizzo email completo
+                                </FormDescription>
                               </FormItem>
                             )}
                           />
