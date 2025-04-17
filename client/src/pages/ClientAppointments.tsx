@@ -73,11 +73,15 @@ export default function ClientAppointments() {
   
   const formatAppointmentDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    return format(date, "EEEE d MMMM yyyy", { locale: it });
+    // Formatta la data in italiano con iniziale maiuscola
+    let formattedDate = format(date, "EEEE d MMMM yyyy", { locale: it });
+    // Rendi la prima lettera maiuscola
+    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   };
   
   const formatAppointmentTime = (dateStr: string) => {
     const date = new Date(dateStr);
+    // Formatta l'ora nel formato 24 ore per evitare confusione
     return format(date, "HH:mm", { locale: it });
   };
   
@@ -88,22 +92,22 @@ export default function ClientAppointments() {
     
     if (appointment.status === "confirmed") {
       return {
-        label: t('appointments.status.confirmed'),
-        variant: "success" as const
+        label: t('appointments.status.confirmed', 'Confermato'),
+        variant: "secondary" as const // cambiato da "success" a "secondary"
       };
     } else if (appointment.status === "cancelled") {
       return {
-        label: t('appointments.status.cancelled'),
+        label: t('appointments.status.cancelled', 'Cancellato'),
         variant: "destructive" as const
       };
     } else if (appointmentDate < now) {
       return {
-        label: t('appointments.status.completed'),
+        label: t('appointments.status.completed', 'Completato'),
         variant: "default" as const
       };
     } else {
       return {
-        label: t('appointments.status.scheduled'),
+        label: t('appointments.status.scheduled', 'Programmato'),
         variant: "outline" as const
       };
     }
@@ -120,7 +124,7 @@ export default function ClientAppointments() {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-2xl">
-                {client.firstName} {client.lastName} - {t('clients.appointments.title')}
+                {client.firstName} {client.lastName} - Appuntamenti
               </CardTitle>
             </div>
             <Button 
@@ -128,7 +132,7 @@ export default function ClientAppointments() {
               onClick={() => setLocation(`/client-medical-details?id=${clientId}`)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              {t('common.back')}
+              Indietro
             </Button>
           </div>
         </CardHeader>
@@ -137,20 +141,20 @@ export default function ClientAppointments() {
           {sortedAppointments.length === 0 ? (
             <div className="text-center p-6">
               <Calendar className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-lg font-medium">{t('clients.appointments.noAppointments')}</p>
+              <p className="text-lg font-medium">Nessun appuntamento</p>
               <p className="text-sm text-muted-foreground mt-2">
-                {t('clients.appointments.noAppointmentsDescription')}
+                Questo cliente non ha appuntamenti registrati
               </p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t('appointments.date')}</TableHead>
-                  <TableHead>{t('appointments.time')}</TableHead>
-                  <TableHead>{t('appointments.service')}</TableHead>
-                  <TableHead>{t('appointments.status')}</TableHead>
-                  <TableHead>{t('appointments.actions')}</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ora</TableHead>
+                  <TableHead>Servizio</TableHead>
+                  <TableHead>Stato</TableHead>
+                  <TableHead>Azioni</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -172,10 +176,12 @@ export default function ClientAppointments() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {appointment.serviceName || t('appointments.noServiceSpecified')}
+                        {appointment.serviceName || 'Nessun servizio specificato'}
                       </TableCell>
                       <TableCell>
-                        <Badge variant={status.variant}>{status.label}</Badge>
+                        <Badge variant={status.variant}>
+                          {status.label}
+                        </Badge>
                       </TableCell>
                       <TableCell>
                         <Button 
@@ -183,7 +189,7 @@ export default function ClientAppointments() {
                           size="sm"
                           onClick={() => setLocation(`/calendar?date=${format(new Date(appointment.date), 'yyyy-MM-dd')}`)}
                         >
-                          {t('common.view')}
+                          Visualizza
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -200,11 +206,11 @@ export default function ClientAppointments() {
             onClick={() => setLocation(`/client-medical-details?id=${clientId}`)}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('common.back')}
+            Indietro
           </Button>
           
           <Button onClick={() => setLocation(`/calendar`)}>
-            {t('clients.appointments.goToCalendar')}
+            Vai al Calendario
           </Button>
         </CardFooter>
       </Card>
