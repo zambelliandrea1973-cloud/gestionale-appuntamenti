@@ -30,7 +30,7 @@ export default function GoogleCalendarSettingsComponent() {
   // Stati nascosti (mantenuti per compatibilità)
   const [clientId, setClientId] = useState('');
   const [clientSecret, setClientSecret] = useState('');
-  const [redirectUri, setRedirectUri] = useState('');
+  const [redirectUri, setRedirectUri] = useState(window.location.origin + "/settings");
   const [authUrl, setAuthUrl] = useState<string | null>(null);
   const [authCode, setAuthCode] = useState('');
   const [showAuthDialog, setShowAuthDialog] = useState(false);
@@ -261,14 +261,81 @@ export default function GoogleCalendarSettingsComponent() {
                 <span>Il tuo account Google è già stato autorizzato</span>
               </div>
             ) : (
-              <div className="p-4 border rounded-md bg-amber-50 dark:bg-amber-950 flex items-start gap-2">
-                <X className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium">Account Google non autorizzato</p>
-                  <p className="text-sm text-muted-foreground">
-                    Per completare la configurazione, devi autorizzare l'accesso al tuo account Google. 
-                    Contatta l'assistenza per configurare l'autorizzazione con Google.
-                  </p>
+              <div className="p-4 border rounded-md bg-amber-50 dark:bg-amber-950 flex flex-col gap-3">
+                <div className="flex items-start gap-2">
+                  <X className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium">Account Google non autorizzato</p>
+                    <p className="text-sm text-muted-foreground">
+                      Per completare la configurazione, devi autorizzare l'accesso al tuo account Google.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  {/* Client ID e Client Secret (hidden in prod) */}
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="client-id">Google Client ID</Label>
+                      <Input
+                        id="client-id"
+                        value={clientId}
+                        onChange={(e) => setClientId(e.target.value)}
+                        placeholder="Il tuo Client ID di Google"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Ottieni questo valore dalla Console Google Cloud
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="client-secret">Google Client Secret</Label>
+                      <Input
+                        id="client-secret"
+                        type="password"
+                        value={clientSecret}
+                        onChange={(e) => setClientSecret(e.target.value)}
+                        placeholder="Il tuo Client Secret di Google"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Ottieni questo valore dalla Console Google Cloud
+                      </p>
+                    </div>
+                  </div>
+                
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    disabled={!clientId || !clientSecret || !redirectUri}
+                    onClick={async () => {
+                      // Salva le credenziali prima di richiedere l'autorizzazione
+                      saveSettingsMutation.mutate({
+                        enabled: true,
+                        clientId,
+                        clientSecret,
+                        redirectUri,
+                        calendarId: 'primary'
+                      });
+                      
+                      try {
+                        // Ottieni l'URL di autorizzazione
+                        const url = await getGoogleAuthUrl(clientId, redirectUri);
+                        if (url) {
+                          setAuthUrl(url);
+                          setShowAuthDialog(true);
+                        }
+                      } catch (error) {
+                        console.error('Errore nel recupero URL auth:', error);
+                        toast({
+                          title: "Errore",
+                          description: "Impossibile generare l'URL di autorizzazione",
+                          variant: "destructive"
+                        });
+                      }
+                    }}
+                  >
+                    Inizia processo di autorizzazione
+                  </Button>
                 </div>
               </div>
             )}
