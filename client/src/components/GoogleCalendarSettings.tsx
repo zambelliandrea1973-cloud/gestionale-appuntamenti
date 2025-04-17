@@ -284,7 +284,15 @@ export default function GoogleCalendarSettingsComponent() {
                         placeholder="Il tuo Client ID di Google"
                       />
                       <p className="text-xs text-muted-foreground">
-                        Ottieni questo valore dalla Console Google Cloud
+                        <a 
+                          href="https://console.cloud.google.com/apis/credentials" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline inline-flex items-center"
+                        >
+                          Ottieni dalla Console Google Cloud
+                          <ExternalLink className="ml-1 h-3 w-3" />
+                        </a>
                       </p>
                     </div>
                     
@@ -298,7 +306,15 @@ export default function GoogleCalendarSettingsComponent() {
                         placeholder="Il tuo Client Secret di Google"
                       />
                       <p className="text-xs text-muted-foreground">
-                        Ottieni questo valore dalla Console Google Cloud
+                        <a 
+                          href="https://console.cloud.google.com/apis/credentials" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline inline-flex items-center"
+                        >
+                          Ottieni dalla Console Google Cloud
+                          <ExternalLink className="ml-1 h-3 w-3" />
+                        </a>
                       </p>
                     </div>
                   </div>
@@ -341,15 +357,43 @@ export default function GoogleCalendarSettingsComponent() {
             )}
             
             <div className="prose dark:prose-invert max-w-none">
-              <h3>Istruzioni:</h3>
+              <h3>Istruzioni per la configurazione:</h3>
               <ol>
-                <li>Inserisci l'indirizzo Gmail del calendario che desideri utilizzare</li>
-                <li>Attiva l'interruttore "Attiva sincronizzazione" per iniziare a sincronizzare gli appuntamenti</li>
-                <li>Clicca su "Salva impostazioni" per confermare le tue scelte</li>
+                <li>
+                  <strong>Crea un progetto su Google Cloud</strong>
+                  <ul>
+                    <li>Vai su <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">Google Cloud Console <ExternalLink className="ml-1 h-3 w-3" /></a></li>
+                    <li>Crea un nuovo progetto o seleziona un progetto esistente</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Abilita le API di Google Calendar</strong>
+                  <ul>
+                    <li>Vai su <a href="https://console.cloud.google.com/apis/library" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">API Library <ExternalLink className="ml-1 h-3 w-3" /></a></li>
+                    <li>Cerca "Google Calendar API" e attivala</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Configura le credenziali OAuth</strong>
+                  <ul>
+                    <li>Vai su <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">Credentials <ExternalLink className="ml-1 h-3 w-3" /></a></li>
+                    <li>Clicca su "Crea credenziali" e seleziona "ID Client OAuth"</li>
+                    <li>Configura la schermata di consenso OAuth (obbligatorio)</li>
+                    <li>Aggiungi l'URL della tua app come "URI di reindirizzamento autorizzato"</li>
+                    <li>Copia il Client ID e Client Secret nell'applicazione</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Completa l'autorizzazione</strong>
+                  <ul>
+                    <li>Clicca su "Inizia processo di autorizzazione"</li>
+                    <li>Segui le istruzioni nella finestra di dialogo</li>
+                  </ul>
+                </li>
               </ol>
-              <div className="bg-primary/10 p-4 rounded-md">
-                <p className="text-sm">
-                  <strong>Nota:</strong> Gli appuntamenti verranno sincronizzati solo se l'opzione è attivata e l'indirizzo Gmail è corretto.
+              <div className="bg-primary/10 p-4 rounded-md mt-4">
+                <p className="text-sm mb-0">
+                  <strong>Nota:</strong> Gli appuntamenti verranno sincronizzati solo se l'opzione è attivata, l'autorizzazione è completata e l'indirizzo Gmail è corretto.
                 </p>
               </div>
             </div>
