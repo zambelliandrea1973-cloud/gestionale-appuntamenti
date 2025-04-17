@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Calendar, Check, ExternalLink, Loader2, X, Mail } from 'lucide-react';
+import { Calendar, Check, ExternalLink, Loader2, X, Mail, HelpCircle, Info } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { 
   loadGoogleCalendarSettings, 
   saveGoogleCalendarSettings, 
@@ -276,7 +277,32 @@ export default function GoogleCalendarSettingsComponent() {
                   {/* Client ID e Client Secret (hidden in prod) */}
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="client-id">Google Client ID</Label>
+                      <div className="flex items-center gap-2">
+                        <Label htmlFor="client-id">Google Client ID</Label>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button variant="ghost" className="p-0 h-auto" type="button">
+                                <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-sm">
+                              <div className="space-y-2 p-2">
+                                <p className="font-medium">Come ottenere il Google Client ID:</p>
+                                <ol className="list-decimal pl-5 text-sm space-y-1">
+                                  <li>Apri la Google Cloud Console</li>
+                                  <li>Seleziona o crea un nuovo progetto</li>
+                                  <li>Vai su "API e servizi" → "Credenziali"</li>
+                                  <li>Clicca su "Crea credenziali" → "ID client OAuth"</li>
+                                  <li>Seleziona "Applicazione Web" come tipo</li>
+                                  <li>Aggiungi l'URL della tua app nel campo "URI di reindirizzamento autorizzati"</li>
+                                  <li>Il Client ID sarà mostrato dopo aver cliccato su "Crea"</li>
+                                </ol>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                       <Input
                         id="client-id"
                         value={clientId}
@@ -297,7 +323,30 @@ export default function GoogleCalendarSettingsComponent() {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="client-secret">Google Client Secret</Label>
+                      <div className="flex items-center gap-2">
+                        <Label htmlFor="client-secret">Google Client Secret</Label>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button variant="ghost" className="p-0 h-auto" type="button">
+                                <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-sm">
+                              <div className="space-y-2 p-2">
+                                <p className="font-medium">Come ottenere il Google Client Secret:</p>
+                                <ol className="list-decimal pl-5 text-sm space-y-1">
+                                  <li>Segui la stessa procedura del Client ID</li>
+                                  <li>Dopo aver creato l'ID client OAuth, nella pagina ti verrà mostrato sia il Client ID che il Client Secret</li>
+                                  <li>Il Client Secret è una stringa che inizia con "GOCSPX-"</li>
+                                  <li>Copialo subito perché non sarà più visibile in seguito</li>
+                                  <li>Se lo perdi, dovrai generare un nuovo Client Secret dalla Console</li>
+                                </ol>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                       <Input
                         id="client-secret"
                         type="password"
@@ -319,39 +368,93 @@ export default function GoogleCalendarSettingsComponent() {
                     </div>
                   </div>
                 
-                  <Button
-                    variant="secondary"
-                    className="w-full"
-                    disabled={!clientId || !clientSecret || !redirectUri}
-                    onClick={async () => {
-                      // Salva le credenziali prima di richiedere l'autorizzazione
-                      saveSettingsMutation.mutate({
-                        enabled: true,
-                        clientId,
-                        clientSecret,
-                        redirectUri,
-                        calendarId: 'primary'
-                      });
-                      
-                      try {
-                        // Ottieni l'URL di autorizzazione
-                        const url = await getGoogleAuthUrl(clientId, redirectUri);
-                        if (url) {
-                          setAuthUrl(url);
-                          setShowAuthDialog(true);
-                        }
-                      } catch (error) {
-                        console.error('Errore nel recupero URL auth:', error);
-                        toast({
-                          title: "Errore",
-                          description: "Impossibile generare l'URL di autorizzazione",
-                          variant: "destructive"
+                  <div className="space-y-3">
+                    <Button
+                      variant="secondary"
+                      className="w-full"
+                      disabled={!clientId || !clientSecret || !redirectUri}
+                      onClick={async () => {
+                        // Salva le credenziali prima di richiedere l'autorizzazione
+                        saveSettingsMutation.mutate({
+                          enabled: true,
+                          clientId,
+                          clientSecret,
+                          redirectUri,
+                          calendarId: 'primary'
                         });
-                      }
-                    }}
-                  >
-                    Inizia processo di autorizzazione
-                  </Button>
+                        
+                        try {
+                          // Ottieni l'URL di autorizzazione
+                          const url = await getGoogleAuthUrl(clientId, redirectUri);
+                          if (url) {
+                            setAuthUrl(url);
+                            setShowAuthDialog(true);
+                          }
+                        } catch (error) {
+                          console.error('Errore nel recupero URL auth:', error);
+                          toast({
+                            title: "Errore",
+                            description: "Impossibile generare l'URL di autorizzazione",
+                            variant: "destructive"
+                          });
+                        }
+                      }}
+                    >
+                      Inizia processo di autorizzazione
+                    </Button>
+                    
+                    <div className="flex items-center justify-center">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="ghost" className="flex items-center gap-1 h-auto py-1" type="button">
+                              <Info className="h-4 w-4 text-primary" />
+                              <span className="text-xs text-primary">Aiuto con la configurazione</span>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-sm">
+                            <div className="space-y-3 p-2">
+                              <h4 className="font-medium border-b pb-1">Guida passo-passo alla configurazione</h4>
+                              <div className="space-y-2 text-sm">
+                                <p className="font-medium">1. Creazione progetto Google Cloud</p>
+                                <ol className="list-decimal pl-5 text-xs space-y-1">
+                                  <li>Vai su Google Cloud Console</li>
+                                  <li>Crea un nuovo progetto (es. "App Appuntamenti")</li>
+                                </ol>
+                                
+                                <p className="font-medium">2. Abilita Google Calendar API</p>
+                                <ol className="list-decimal pl-5 text-xs space-y-1">
+                                  <li>Nel menu laterale, vai su "API e servizi" → "Libreria"</li>
+                                  <li>Cerca "Google Calendar API" e selezionala</li>
+                                  <li>Clicca su "Abilita"</li>
+                                </ol>
+                                
+                                <p className="font-medium">3. Configura il consenso OAuth</p>
+                                <ol className="list-decimal pl-5 text-xs space-y-1">
+                                  <li>Nel menu laterale, vai su "API e servizi" → "Schermata consenso OAuth"</li>
+                                  <li>Seleziona "Esterno" e clicca "Crea"</li>
+                                  <li>Compila i campi obbligatori (nome app, email supporto)</li>
+                                  <li>In "Domini autorizzati" aggiungi il dominio della tua app</li>
+                                  <li>Per gli ambiti, aggiungi "./auth/calendar" e "./auth/calendar.events"</li>
+                                  <li>Aggiungi il tuo indirizzo email come utente di test</li>
+                                </ol>
+                                
+                                <p className="font-medium">4. Crea le credenziali OAuth</p>
+                                <ol className="list-decimal pl-5 text-xs space-y-1">
+                                  <li>Nel menu laterale, vai su "API e servizi" → "Credenziali"</li>
+                                  <li>Clicca su "Crea credenziali" → "ID client OAuth"</li>
+                                  <li>Seleziona "Applicazione Web" come tipo</li>
+                                  <li>Aggiungi un nome (es. "App Appuntamenti Web")</li>
+                                  <li>In "URI di reindirizzamento autorizzati" aggiungi l'URL completo della pagina delle impostazioni (incluso "https://")</li>
+                                  <li>Clicca "Crea" e copia Client ID e Client Secret</li>
+                                </ol>
+                              </div>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
