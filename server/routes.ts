@@ -156,6 +156,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Health check endpoint per mantenere l'applicazione attiva
+  app.get("/api/health", (_req: Request, res: Response) => {
+    const uptime = process.uptime();
+    const memoryUsage = process.memoryUsage();
+    
+    res.json({
+      status: "OK",
+      timestamp: new Date().toISOString(),
+      uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
+      memory: {
+        rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
+        heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
+        heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
+      }
+    });
+  });
+  
   const httpServer = createServer(app);
 
   // Client routes
@@ -2808,5 +2825,8 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
+  // Inizializza il servizio keep-alive per mantenere l'applicazione sempre attiva
+  keepAliveService.initialize(httpServer);
+  
   return httpServer;
 }
