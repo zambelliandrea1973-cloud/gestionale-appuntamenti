@@ -96,26 +96,53 @@ export default function ClientAppointments() {
   // Funzione per determinare lo stato dell'appuntamento
   const getAppointmentStatus = (appointment: any) => {
     const now = new Date();
-    const appointmentDate = new Date(appointment.date);
+    
+    // Creiamo la data e ora complete dell'appuntamento
+    let appointmentDateTime;
+    
+    if (appointment.date && appointment.startTime) {
+      // Combina data e ora di inizio
+      const [year, month, day] = appointment.date.split('-').map(Number);
+      const [hours, minutes] = appointment.startTime.split(':').map(Number);
+      appointmentDateTime = new Date(year, month - 1, day, hours, minutes);
+      
+      // Se c'è anche l'ora di fine, usiamo quella per determinare se l'appuntamento è completato
+      if (appointment.endTime) {
+        const [endHours, endMinutes] = appointment.endTime.split(':').map(Number);
+        const endDateTime = new Date(year, month - 1, day, endHours, endMinutes);
+        
+        // Se l'ora attuale è dopo l'ora di fine, l'appuntamento è completato
+        if (now > endDateTime) {
+          return {
+            label: 'Completato',
+            variant: "default" as const
+          };
+        }
+      }
+    } else {
+      // Fallback al caso in cui abbiamo solo la data
+      appointmentDateTime = new Date(appointment.date);
+    }
     
     if (appointment.status === "confirmed") {
       return {
-        label: t('appointments.status.confirmed', 'Confermato'),
-        variant: "secondary" as const // cambiato da "success" a "secondary"
+        label: 'Confermato',
+        variant: "secondary" as const
       };
     } else if (appointment.status === "cancelled") {
       return {
-        label: t('appointments.status.cancelled', 'Cancellato'),
+        label: 'Cancellato',
         variant: "destructive" as const
       };
-    } else if (appointmentDate < now) {
+    } else if (appointmentDateTime < now && (!appointment.endTime || appointment.date !== new Date().toISOString().split('T')[0])) {
+      // Consideriamo completato se la data è passata o se l'ora è passata
       return {
-        label: t('appointments.status.completed', 'Completato'),
+        label: 'Completato',
         variant: "default" as const
       };
     } else {
       return {
-        label: t('appointments.status.scheduled', 'Programmato'),
+        label: 'Programmato',
         variant: "outline" as const
       };
     }
