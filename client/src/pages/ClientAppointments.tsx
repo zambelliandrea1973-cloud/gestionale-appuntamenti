@@ -79,9 +79,17 @@ export default function ClientAppointments() {
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   };
   
-  const formatAppointmentTime = (dateStr: string) => {
-    const date = new Date(dateStr);
-    // Formatta l'ora nel formato 24 ore per evitare confusione
+  const formatAppointmentTime = (appointment: any) => {
+    // Usa startTime e endTime se disponibili
+    if (appointment.startTime && appointment.endTime) {
+      return `${appointment.startTime.substring(0, 5)} - ${appointment.endTime.substring(0, 5)}`;
+    }
+    
+    // Fallback al vecchio metodo se non ci sono startTime/endTime
+    const date = new Date(appointment.date);
+    if (date.toString() === "Invalid Date") {
+      return "Orario non disponibile";
+    }
     return format(date, "HH:mm", { locale: it });
   };
   
@@ -172,11 +180,11 @@ export default function ClientAppointments() {
                       <TableCell>
                         <div className="flex items-center">
                           <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
-                          {formatAppointmentTime(appointment.date)}
+                          {formatAppointmentTime(appointment)}
                         </div>
                       </TableCell>
                       <TableCell>
-                        {appointment.serviceName || 'Nessun servizio specificato'}
+                        {appointment.service?.name || appointment.serviceName || 'Nessun servizio specificato'}
                       </TableCell>
                       <TableCell>
                         <Badge variant={status.variant}>
