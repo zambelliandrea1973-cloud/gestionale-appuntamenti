@@ -18,6 +18,7 @@ import PwaLauncher from "./pages/PwaLauncher";
 import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
 import TestNotificationsPage from "./pages/TestNotificationsPage";
+import ClientAppointments from "./pages/ClientAppointments";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -143,6 +144,13 @@ function AppRoutes() {
       <Route path="/test-sms">
         <StaffPageWrapper>
           <TestNotificationsPage />
+        </StaffPageWrapper>
+      </Route>
+
+      {/* Route per visualizzare gli appuntamenti di un cliente */}
+      <Route path="/clients/:id/appointments">
+        <StaffPageWrapper>
+          <ClientAppointments />
         </StaffPageWrapper>
       </Route>
       
