@@ -21,17 +21,22 @@ class KeepAliveService {
       return;
     }
 
-    // Determina l'URL dell'applicazione
-    const address = server.address();
-    if (address && typeof address !== 'string') {
-      const port = address.port;
-      this.appUrl = `http://localhost:${port}`;
-      
-      console.log(`Servizio keep-alive inizializzato con URL: ${this.appUrl}`);
-      this.startPinging();
-    } else {
-      console.error('Impossibile determinare l\'indirizzo del server per il servizio keep-alive');
-    }
+    // Ritardiamo l'inizializzazione per assicurarci che il server sia completamente avviato
+    console.log('Pianificazione inizializzazione servizio keep-alive tra 5 secondi...');
+    
+    setTimeout(() => {
+      // Determina l'URL dell'applicazione
+      const address = server.address();
+      if (address && typeof address !== 'string') {
+        const port = address.port;
+        this.appUrl = `http://localhost:${port}`;
+        
+        console.log(`Servizio keep-alive inizializzato con URL: ${this.appUrl}`);
+        this.startPinging();
+      } else {
+        console.error('Impossibile determinare l\'indirizzo del server per il servizio keep-alive dopo il ritardo');
+      }
+    }, 5000); // Ritardo di 5 secondi
   }
 
   /**
