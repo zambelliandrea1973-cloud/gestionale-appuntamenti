@@ -222,21 +222,38 @@ export default function ClientArea() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await apiRequest('POST', '/api/logout');
-      
-      // Rimuovi i dati di autenticazione dal localStorage
-      localStorage.removeItem('clientAccessToken');
-      localStorage.removeItem('clientId');
-      localStorage.removeItem('clientUsername');
-      
+  const handleLogout = () => {
+    // Se siamo in una PWA installata (modalità standalone), chiudiamo semplicemente l'app
+    if (window.matchMedia('(display-mode: standalone)').matches) {
       toast({
-        title: "Logout effettuato",
-        description: "Hai effettuato il logout con successo",
+        title: "Chiusura app",
+        description: "Chiudi l'app per uscire. I tuoi dati rimarranno salvati.",
       });
-      // In caso di logout volontario, non mostriamo il messaggio di sessione scaduta
-      setLocation("/client-login");
+      
+      // Non eseguiamo il logout reale per mantenere i dati di accesso nella PWA
+      return;
+    }
+    
+    // Se siamo in un browser normale, procediamo con il logout standard
+    try {
+      // Conferma prima di fare il logout completo
+      if (confirm("Sei sicuro di voler uscire? I tuoi dati di accesso verranno rimossi e dovrai reinserire il token all'accesso successivo.")) {
+        // Esegui il logout reale solo se l'utente conferma
+        apiRequest('POST', '/api/logout').then(() => {
+          // Rimuovi i dati di autenticazione dal localStorage
+          localStorage.removeItem('clientAccessToken');
+          localStorage.removeItem('clientId');
+          localStorage.removeItem('clientUsername');
+          
+          toast({
+            title: "Logout effettuato",
+            description: "Hai effettuato il logout con successo",
+          });
+          
+          // In caso di logout volontario, non mostriamo il messaggio di sessione scaduta
+          setLocation("/client-login");
+        });
+      }
     } catch (error) {
       console.error("Errore durante il logout:", error);
       toast({

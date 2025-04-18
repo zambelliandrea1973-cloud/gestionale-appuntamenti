@@ -1271,7 +1271,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Registra l'accesso del cliente
         try {
-          await clientAccessService.recordAccess(validClientId);
+          await clientAccessService.logAccess(validClientId);
           console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
         } catch (accessError) {
           console.error(`Errore nella registrazione dell'accesso per il cliente ID ${validClientId}:`, accessError);
