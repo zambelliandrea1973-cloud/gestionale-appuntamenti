@@ -225,9 +225,12 @@ export default function ClientArea() {
   // URL alternativo da usare per la schermata "App Chiusa"
   const CLOSE_PAGE_URL = "/close.html";
 
+  // Stato per gestire il dialogo di chiusura sessione
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  
   const handleLogout = () => {
-    // Reindirizza alla pagina di chiusura con istruzioni
-    window.location.href = "/close.html";
+    // Mostra il dialogo di chiusura invece di reindirizzare
+    setShowLogoutDialog(true);
   };
 
   const formatDate = (dateString: string) => {
@@ -257,7 +260,59 @@ export default function ClientArea() {
       {/* Componente per avviso token in scadenza */}
       {token && user?.client?.id && <TokenExpiryAlert token={token} clientId={user.client.id} />}
       
-      {/* Nessun debug panel visibile */}
+      {/* Dialog di chiusura sessione */}
+      <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <Calendar className="h-8 w-8 text-green-700" />
+            </div>
+            <DialogTitle className="text-xl mb-2">Sessione Chiusa</DialogTitle>
+            <p className="text-muted-foreground mb-6">Hai effettuato il logout con successo.</p>
+            
+            <div className="w-full bg-slate-50 p-4 rounded-lg mb-6">
+              <p className="font-medium text-green-700 mb-2">Per uscire completamente dall'app:</p>
+              <ol className="text-left space-y-4 mb-4">
+                <li className="flex items-start">
+                  <span className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">1</span>
+                  <div>
+                    <p>Premi il tasto <strong>indietro</strong> del tuo telefono</p>
+                    <div className="mt-2 flex justify-start">
+                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center animate-pulse">
+                        <X className="h-5 w-5" />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">2</span>
+                  <div>
+                    <p>Premi <strong>nuovamente</strong> il tasto indietro</p>
+                    <div className="mt-2 flex justify-start">
+                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mr-2">
+                        <X className="h-5 w-5" />
+                      </div>
+                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center">
+                        <X className="h-5 w-5" />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+              <p className="text-sm text-center">Sono necessari <strong>due tocchi</strong> del tasto indietro per uscire completamente.</p>
+            </div>
+            
+            <p className="text-sm text-muted-foreground">Grazie per aver utilizzato l'Area Cliente.</p>
+            
+            <Button 
+              className="mt-6 w-full" 
+              onClick={() => window.history.back()}
+            >
+              Torna indietro
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
       
       <header className="mb-6 flex flex-col md:flex-row justify-between items-center">
         <div>
