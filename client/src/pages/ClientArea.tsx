@@ -223,11 +223,12 @@ export default function ClientArea() {
   };
 
   const handleLogout = () => {
-    // Se siamo in una PWA installata (modalità standalone), chiudiamo semplicemente l'app
+    // Se siamo in una PWA installata (modalità standalone), mostriamo istruzioni per uscire
     if (window.matchMedia('(display-mode: standalone)').matches) {
       toast({
         title: "Chiusura app",
-        description: "Chiudi l'app per uscire. I tuoi dati rimarranno salvati.",
+        description: "Usa il pulsante Home o il task switcher del tuo dispositivo per uscire. I tuoi dati rimarranno salvati.",
+        duration: 5000,
       });
       
       // Non eseguiamo il logout reale per mantenere i dati di accesso nella PWA
