@@ -4,7 +4,6 @@
   "description": "Gestione appuntamenti e consensi",
   "start_url": "/pwa",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
   "orientation": "any",
@@ -21,21 +20,9 @@
   "icons": [
     {
       "src": "/icons/default-app-icon.jpg",
-      "sizes": "192x192",
+      "sizes": "any",
       "type": "image/jpeg",
       "purpose": "any"
-    },
-    {
-      "src": "/icons/default-app-icon.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/icons/default-app-icon.jpg",
-      "sizes": "maskable",
-      "type": "image/jpeg",
-      "purpose": "maskable"
     }
   ],
   "screenshots": [
@@ -45,13 +32,6 @@
       "type": "image/jpeg",
       "platform": "wide",
       "label": "Home page dell'applicazione"
-    },
-    {
-      "src": "/icons/default-app-icon.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "platform": "narrow",
-      "label": "Visualizzazione mobile dell'applicazione"
     }
   ],
   "shortcuts": [
@@ -68,23 +48,5 @@
       ]
     }
   ],
-  "handle_links": "preferred",
-  "launch_handler": {
-    "client_mode": ["navigate-existing", "auto"]
-  },
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "file_handlers": [],
-  "protocol_handlers": [],
-  "share_target": {
-    "action": "/share-target",
-    "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
   "related_applications": []
 }
