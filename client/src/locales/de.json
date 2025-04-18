@@ -89,7 +89,17 @@
       "october": "Oktober",
       "november": "November",
       "december": "Dezember"
-    }
+    },
+    "selectNewAppointment": "[NEEDS TRANSLATION] Seleziona nuovo appuntamento",
+    "selectTimeNewAppointment": "[NEEDS TRANSLATION] Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "[NEEDS TRANSLATION] Conferma e associa cliente",
+    "hasAppointments": "[NEEDS TRANSLATION] Ha appuntamenti",
+    "slotOccupied": "[NEEDS TRANSLATION] Slot occupato da appuntamento precedente",
+    "customDuration": "[NEEDS TRANSLATION] Durata personalizzata",
+    "incrementBy15Min": "[NEEDS TRANSLATION] Incrementa di 15 min",
+    "decrementBy15Min": "[NEEDS TRANSLATION] Decrementa di 15 min",
+    "selected": "[NEEDS TRANSLATION] Selezionato",
+    "select": "[NEEDS TRANSLATION] Seleziona"
   },
   "clients": {
     "title": "Kunden",
@@ -99,10 +109,7 @@
     "addClient": "Neuer Kunde",
     "newClient": "Neuer Kunde",
     "addFirstClient": "Ersten Kunden hinzufügen",
-    "search": {
-      "placeholder": "Kunden nach Namen, Telefon oder E-Mail durchsuchen...",
-      "minLength": "Geben Sie mindestens 2 Zeichen für die Suche ein"
-    },
+    "search": "Kunde suchen",
     "filter": {
       "all": "Alle",
       "frequent": "Häufig",
@@ -119,7 +126,6 @@
       "frequent": "Häufige Kunden",
       "noConsent": "Ohne Einwilligung"
     },
-    "search": "Kunde suchen",
     "table": {
       "name": "Vorname",
       "surname": "Nachname",
@@ -224,7 +230,14 @@
     "save": "Einstellungen speichern",
     "googleCalendar": "Google Kalender",
     "contacts": "Kontakte",
-    "clientApp": "Kunden-App"
+    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
+    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
+    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
+    "appName": "[NEEDS TRANSLATION] Nome App",
+    "appIcon": "[NEEDS TRANSLATION] Icona App",
+    "integrations": "[NEEDS TRANSLATION] Integrazioni",
+    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
+    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
   },
   "common": {
     "save": "Speichern",
@@ -283,5 +296,11 @@
   },
   "contacts": {
     "accessOurContacts": "Zugriff auf unsere Kontakte"
+  },
+  "appointment": {
+    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
+    "selected": "Selezionato",
+    "selectSlots": "Seleziona gli slot temporali"
   }
 }

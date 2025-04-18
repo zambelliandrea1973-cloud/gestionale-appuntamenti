@@ -89,7 +89,17 @@
       "october": "October",
       "november": "November",
       "december": "December"
-    }
+    },
+    "selectNewAppointment": "Select new appointment",
+    "selectTimeNewAppointment": "Select time for new appointment",
+    "confirmAndAssociateClient": "Confirm and associate client",
+    "hasAppointments": "Has appointments",
+    "slotOccupied": "Slot occupied by previous appointment",
+    "customDuration": "Custom duration",
+    "incrementBy15Min": "Increase by 15 min",
+    "decrementBy15Min": "Decrease by 15 min",
+    "selected": "Selected",
+    "select": "Select"
   },
   "clients": {
     "title": "Clients",
@@ -289,5 +299,11 @@
   },
   "contacts": {
     "accessOurContacts": "Access our contacts"
+  },
+  "appointment": {
+    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
+    "selected": "Selezionato",
+    "selectSlots": "Seleziona gli slot temporali"
   }
 }

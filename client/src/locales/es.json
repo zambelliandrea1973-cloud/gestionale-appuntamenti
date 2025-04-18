@@ -89,7 +89,17 @@
       "october": "Octubre",
       "november": "Noviembre",
       "december": "Diciembre"
-    }
+    },
+    "selectNewAppointment": "[NEEDS TRANSLATION] Seleziona nuovo appuntamento",
+    "selectTimeNewAppointment": "[NEEDS TRANSLATION] Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "[NEEDS TRANSLATION] Conferma e associa cliente",
+    "hasAppointments": "[NEEDS TRANSLATION] Ha appuntamenti",
+    "slotOccupied": "[NEEDS TRANSLATION] Slot occupato da appuntamento precedente",
+    "customDuration": "[NEEDS TRANSLATION] Durata personalizzata",
+    "incrementBy15Min": "[NEEDS TRANSLATION] Incrementa di 15 min",
+    "decrementBy15Min": "[NEEDS TRANSLATION] Decrementa di 15 min",
+    "selected": "[NEEDS TRANSLATION] Selezionato",
+    "select": "[NEEDS TRANSLATION] Seleziona"
   },
   "clients": {
     "title": "Clientes",
@@ -134,22 +144,11 @@
       "notes": "Notas",
       "consents": "Consentimientos",
       "clientFile": "Carpeta del Cliente",
-      "medicalFile": "Carpeta Médica",
       "showDetails": "Mostrar detalles",
-      "activateAccess": "Activar acceso cliente",
       "accessActivated": "QR Code de acceso cliente",
-      "generateLink": "Generar enlace para el acceso",
       "generateQRCode": "Generar código QR",
-      "viewMedicalFile": "Ver carpeta médica",
-      "viewClientFile": "Ver carpeta del cliente",
-      "appointmentHistory": "Historial de citas",
-      "invoiceHistory": "Historial de facturas",
       "addAppointment": "Añadir cita",
-      "viewConsents": "Ver consentimientos",
-      "manageConsents": "Gestionar consentimientos",
-      "clientNotes": "Notas del cliente",
       "medicalNotes": "Notas médicas",
-      "clientSince": "Cliente desde",
       "deleteClient": "Eliminar cliente",
       "deleteClientConfirmation": "¿Está seguro de que desea eliminar este cliente? Todas sus citas también serán eliminadas. Esta acción no se puede deshacer.",
       "notFound": "Cliente no encontrado",
@@ -197,7 +196,6 @@
     "subDescription": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real",
     "goTo": "Gestionar Facturas",
     "addInvoice": "Nueva Factura",
-    "newInvoice": "Nueva Factura",
     "table": {
       "number": "Número",
       "date": "Fecha",
@@ -222,11 +220,7 @@
     "monthly": "Informe Mensual",
     "appointments": "Citas",
     "clients": "Clientes",
-    "revenue": "Ingresos",
-    "period": "Período",
-    "summary": "Resumen",
-    "details": "Detalles",
-    "generateReport": "Generar Informe"
+    "revenue": "Ingresos"
   },
   "settings": {
     "title": "Ajustes",
@@ -239,7 +233,14 @@
     "save": "Guardar Ajustes",
     "googleCalendar": "Google calendario",
     "contacts": "Contactos",
-    "clientApp": "App Cliente"
+    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
+    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
+    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
+    "appName": "[NEEDS TRANSLATION] Nome App",
+    "appIcon": "[NEEDS TRANSLATION] Icona App",
+    "integrations": "[NEEDS TRANSLATION] Integrazioni",
+    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
+    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
   },
   "common": {
     "save": "Guardar",
@@ -294,21 +295,15 @@
     "appointments": "Sus Citas",
     "personalInfo": "Información Personal",
     "consents": "Gestión de Consentimientos",
-    "messages": "Mensajes",
-    "upcomingAppointments": "Próximas citas",
-    "noUpcomingAppointments": "No tiene citas programadas",
-    "viewAppointments": "Ver todas las citas",
-    "consentStatus": "Estado de los consentimientos",
-    "consentMissing": "Consentimiento requerido",
-    "viewConsents": "Ver consentimientos"
+    "messages": "Mensajes"
   },
   "contacts": {
-    "accessOurContacts": "Accede a nuestros contactos",
-    "manageConsents": "Gestionar consentimientos",
-    "personalData": "Datos personales",
-    "medicalData": "Datos médicos",
-    "saveChanges": "Guardar cambios",
-    "dataUpdated": "Sus datos han sido actualizados",
-    "goBack": "Volver al dashboard"
+    "accessOurContacts": "Accede a nuestros contactos"
+  },
+  "appointment": {
+    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
+    "selected": "Selezionato",
+    "selectSlots": "Seleziona gli slot temporali"
   }
 }
