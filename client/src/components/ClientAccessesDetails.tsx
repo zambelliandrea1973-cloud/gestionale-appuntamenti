@@ -4,7 +4,20 @@ import { Eye, Loader2, Calendar, Clock, Monitor, ArrowDownWideNarrow } from "luc
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatDate, formatTime } from "@/lib/dateUtils";
+// Implementa funzioni di formato data/ora qui finché il file lib/dateUtils è disponibile
+const formatDate = (dateString: string, locale: string = 'it-IT'): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(locale, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+};
+
+const formatTime = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+};
 
 interface ClientAccess {
   id: number;

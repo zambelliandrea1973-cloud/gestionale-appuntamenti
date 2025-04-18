@@ -185,7 +185,12 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
                 {t('clients.filter.noConsent')}
               </Badge>
             )}
-            <ClientAccessCounter clientId={client.id} />
+            <div 
+              className="cursor-pointer" 
+              onClick={() => setIsAccessesDialogOpen(true)}
+            >
+              <ClientAccessCounter clientId={client.id} />
+            </div>
           </div>
         </div>
       </CardContent>
@@ -261,6 +266,15 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
             onClose={() => setIsQRCodeModalOpen(false)}
             onQrCodeGenerated={(qrCode) => setClientQrCode(qrCode)}
             initialTab={qrCodeModalTab}
+          />
+        )}
+        
+        {isAccessesDialogOpen && (
+          <ClientAccessesDialog
+            clientId={client.id}
+            clientName={`${client.firstName} ${client.lastName}`}
+            open={isAccessesDialogOpen}
+            onClose={() => setIsAccessesDialogOpen(false)}
           />
         )}
       </CardFooter>
