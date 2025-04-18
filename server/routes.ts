@@ -1222,9 +1222,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Endpoint per verificare e autenticare direttamente con un token (per i link diretti)
-  // Cache per evitare registrazioni multiple degli accessi in un breve periodo
-  const accessCache = new Map<string, number>();
-  const ACCESS_CACHE_TTL = 60000; // 60 secondi
+  // Nota: abbiamo implementato una soluzione matematica (divisione per 4)
+  // quindi non abbiamo più bisogno della cache per evitare registrazioni multiple
 
   app.post("/api/verify-token", async (req: Request, res: Response) => {
     try {
@@ -1273,27 +1272,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(500).json({ message: "Errore durante il login automatico" });
         }
         
-        // Registra l'accesso del cliente - ma solo una volta ogni minuto
+        // Registra l'accesso del cliente (ogni accesso viene registrato)
         try {
-          const cacheKey = `client-${validClientId}`;
-          const lastAccess = accessCache.get(cacheKey) || 0;
-          const now = Date.now();
-          
-          // Se l'ultimo accesso è stato registrato da più di 1 minuto, registriamo un nuovo accesso
-          if (now - lastAccess > ACCESS_CACHE_TTL) {
-            await clientAccessService.logAccess(validClientId);
-            console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
-            
-            // Aggiorna la cache con il timestamp attuale
-            accessCache.set(cacheKey, now);
-            
-            // Imposta un timeout per rimuovere l'elemento dalla cache
-            setTimeout(() => {
-              accessCache.delete(cacheKey);
-            }, ACCESS_CACHE_TTL);
-          } else {
-            console.log(`Accesso già registrato recentemente per il cliente ID: ${validClientId}, skip`);
-          }
+          await clientAccessService.logAccess(validClientId);
+          console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
         } catch (accessError) {
           console.error(`Errore nella registrazione dell'accesso per il cliente ID ${validClientId}:`, accessError);
           // Non facciamo fallire l'autenticazione se la registrazione dell'accesso fallisce
