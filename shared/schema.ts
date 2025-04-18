@@ -262,6 +262,19 @@ export const insertGoogleCalendarSettingsSchema = createInsertSchema(googleCalen
 });
 
 // Notification Settings table schema
+// Tabella per tracciare gli accessi dei clienti all'app
+export const clientAccesses = pgTable("client_accesses", {
+  id: serial("id").primaryKey(),
+  clientId: integer("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
+  accessTime: timestamp("access_time").defaultNow().notNull(),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  userAgent: text("user_agent"),
+});
+
+export const insertClientAccessSchema = createInsertSchema(clientAccesses).omit({
+  id: true,
+});
+
 export const notificationSettings = pgTable("notification_settings", {
   id: serial("id").primaryKey(),
   // Email settings
@@ -346,6 +359,9 @@ export type InsertActivationToken = z.infer<typeof insertActivationTokenSchema>;
 export type ClientNote = typeof clientNotes.$inferSelect;
 export type InsertClientNote = z.infer<typeof insertClientNoteSchema>;
 
+export type ClientAccess = typeof clientAccesses.$inferSelect;
+export type InsertClientAccess = z.infer<typeof insertClientAccessSchema>;
+
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
   appointments: many(appointments),
@@ -353,6 +369,7 @@ export const clientsRelations = relations(clients, ({ many, one }) => ({
   invoices: many(invoices),
   notifications: many(notifications),
   notes: many(clientNotes),
+  accesses: many(clientAccesses),
   clientAccount: one(clientAccounts, {
     fields: [clients.id],
     references: [clientAccounts.clientId],
@@ -460,6 +477,13 @@ export const clientNotesRelations = relations(clientNotes, ({ one }) => ({
   }),
 }));
 
+export const clientAccessesRelations = relations(clientAccesses, ({ one }) => ({
+  client: one(clients, {
+    fields: [clientAccesses.clientId],
+    references: [clients.id],
+  }),
+}));
+
 export const usersRelations = relations(users, ({ one }) => ({
   client: one(clients, {
     fields: [users.clientId],
@@ -475,6 +499,10 @@ export type AppointmentWithDetails = Appointment & {
 
 export type ClientWithAppointments = Client & {
   appointments: AppointmentWithDetails[];
+};
+
+export type ClientWithAccessCount = Client & {
+  accessCount: number;
 };
 
 export type InvoiceWithDetails = Invoice & {
