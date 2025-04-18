@@ -1,7 +1,7 @@
 // Service Worker per l'app Gestione Appuntamenti
-const CACHE_NAME = 'gestioneapp-v4';
+const CACHE_NAME = 'gestioneapp-v5';  // Aumentato versione cache
 
-// Risorse da caricare nella cache
+// Risorse da caricare nella cache - esteso per maggiore compatibilità
 const urlsToCache = [
   '/',
   '/index.html',
@@ -15,7 +15,14 @@ const urlsToCache = [
   '/consent',
   '/manifest.json',
   '/manifest.webmanifest',
-  '/icons/default-app-icon.jpg'
+  '/icons/default-app-icon.jpg',
+  '/icons/app-icon.svg',
+  // Stili e script essenziali
+  '/src/main.tsx',
+  '/src/App.tsx',
+  // Meta percorsi per PWA
+  '/pwa',
+  '/share-target'
 ];
 
 // Configurazioni speciali per PWA - Versione migliorata
@@ -240,5 +247,81 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Gestire i tentativi di accesso offline quando l'app è stata installata
+self.addEventListener('fetch', event => {
+  // Solo per richieste API quando siamo offline
+  if (event.request.url.includes('/api/') && !navigator.onLine) {
+    const url = new URL(event.request.url);
+    
+    // Gestione speciale per API di lettura cruciali (GET requests)
+    if (event.request.method === 'GET') {
+      // Tenta di servire dalla cache se possibile
+      event.respondWith(
+        caches.match(event.request).then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          
+          // Se non in cache, rispondi con messaggio offline formattato
+          return new Response(
+            JSON.stringify({
+              error: 'offline',
+              message: 'Sei attualmente offline. I dati potrebbero non essere aggiornati.'
+            }), 
+            {
+              status: 503,
+              headers: { 'Content-Type': 'application/json' }
+            }
+          );
+        })
+      );
+    }
+    
+    // Per richieste di scrittura, mettiamole in una coda per inviarle più tardi
+    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(event.request.method)) {
+      // Notifichiamo l'utente che è offline e l'operazione verrà eseguita più tardi
+      event.respondWith(
+        new Response(
+          JSON.stringify({
+            error: 'offline',
+            message: 'Sei attualmente offline. L\'operazione verrà completata quando torni online.',
+            request: {
+              url: event.request.url,
+              method: event.request.method
+            }
+          }),
+          {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          }
+        )
+      );
+      
+      // In teoria, qui potremmo anche salvare la richiesta in IndexedDB per processarla più tardi
+      // quando torniamo online, ma questo richiederebbe un'implementazione più complessa
+    }
+  }
+});
+
+// Ascolta eventi di connettività 
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'ONLINE_STATUS_CHANGE') {
+    const isOnline = event.data.isOnline;
+    console.log(`Service Worker: connettività cambiata, ora ${isOnline ? 'online' : 'offline'}`);
+
+    // Se torniamo online, potremmo processare la coda di richieste in attesa
+    if (isOnline) {
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            type: 'BACK_ONLINE',
+            message: 'Connessione ripristinata!'
+          });
+        });
+      });
+    }
+  }
+});
+
 // Log per debug
-console.log('Service Worker registrato e funzionante (versione PWA migliorata)');
+console.log('Service Worker registrato e funzionante (versione PWA migliorata con supporto offline)');
