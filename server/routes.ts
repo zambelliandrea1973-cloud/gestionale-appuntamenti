@@ -1264,9 +1264,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       
       // Esegui il login dell'utente
-      req.login(user, (err) => {
+      req.login(user, async (err) => {
         if (err) {
           return res.status(500).json({ message: "Errore durante il login automatico" });
+        }
+        
+        // Registra l'accesso del cliente
+        try {
+          await clientAccessService.recordAccess(validClientId);
+          console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
+        } catch (accessError) {
+          console.error(`Errore nella registrazione dell'accesso per il cliente ID ${validClientId}:`, accessError);
+          // Non facciamo fallire l'autenticazione se la registrazione dell'accesso fallisce
         }
         
         return res.status(200).json({ 
