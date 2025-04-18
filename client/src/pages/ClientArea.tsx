@@ -229,14 +229,71 @@ export default function ClientArea() {
       return;
     }
     
-    // Altrimenti prova a chiudere la finestra del browser mantenendo i token
-    try {
-      // Tenta direttamente di chiudere la finestra senza messaggi
-      window.close();
-    } catch (error) {
-      // Ignora eventuali errori senza mostrare messaggi
-      console.error("Errore nella chiusura della finestra:", error);
-    }
+    // Metodo 1: Prova a chiudere la finestra corrente (funziona solo in alcuni casi)
+    window.close();
+    
+    // Metodo 2: Prova a usare history.back() se era aperta da un'altra pagina
+    setTimeout(() => {
+      try {
+        window.history.back();
+      } catch (e) {
+        // Ignorato
+      }
+    }, 100);
+    
+    // Metodo 3: Reindirizza a una pagina vuota che chiude se stessa (quasi sempre funziona)
+    setTimeout(() => {
+      const closePage = window.open('', '_self');
+      if (closePage) {
+        closePage.document.write(`
+          <html>
+            <head>
+              <title>Chiusura...</title>
+              <style>
+                body { 
+                  font-family: Arial, sans-serif;
+                  background-color: #f5f5f5;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100vh;
+                  margin: 0;
+                }
+                div {
+                  text-align: center;
+                  background-color: white;
+                  padding: 20px;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                }
+                h3 { margin-top: 0; }
+                button {
+                  background-color: #4a88bd;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  padding: 8px 16px;
+                  cursor: pointer;
+                  margin-top: 10px;
+                }
+              </style>
+            </head>
+            <body>
+              <div>
+                <h3>App chiusa</h3>
+                <p>Puoi chiudere questa pagina o riaprire l'app.</p>
+                <button onclick="window.close()">Chiudi</button>
+              </div>
+              <script>
+                // Prova a chiudere automaticamente
+                window.close();
+              </script>
+            </body>
+          </html>
+        `);
+        closePage.document.close();
+      }
+    }, 200);
   };
 
   const formatDate = (dateString: string) => {

@@ -18,11 +18,23 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
   const {
     data: accessData,
     isLoading,
-    isError
+    isError,
+    refetch
   } = useQuery<{clientId: number, count: number}>({
     queryKey: [`/api/client-access/count/${clientId}`],
-    enabled: !!clientId
+    enabled: !!clientId,
+    refetchInterval: 5000, // Aggiorna ogni 5 secondi
+    staleTime: 0, // Considera i dati sempre obsoleti (forza il refresh)
+    refetchOnMount: true, // Aggiorna quando il componente viene montato
+    refetchOnWindowFocus: true // Aggiorna quando la finestra riceve il focus
   });
+  
+  // Forza un aggiornamento al caricamento
+  useEffect(() => {
+    if (clientId) {
+      refetch();
+    }
+  }, [clientId, refetch]);
   
   // Estrai il conteggio dai dati
   const accessCount = accessData?.count || 0;
