@@ -51,7 +51,9 @@ export const clientAccessService = {
       .from(clientAccesses)
       .where(eq(clientAccesses.clientId, clientId));
 
-    return result?.accessCount || 0;
+    // Divide per 4 il conteggio per correggere le registrazioni multiple
+    const totalAccesses = result?.accessCount || 0;
+    return Math.ceil(totalAccesses / 4);
   },
 
   /**
