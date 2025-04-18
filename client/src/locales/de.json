@@ -90,16 +90,16 @@
       "november": "November",
       "december": "Dezember"
     },
-    "selectNewAppointment": "[NEEDS TRANSLATION] Seleziona nuovo appuntamento",
-    "selectTimeNewAppointment": "[NEEDS TRANSLATION] Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "[NEEDS TRANSLATION] Conferma e associa cliente",
-    "hasAppointments": "[NEEDS TRANSLATION] Ha appuntamenti",
-    "slotOccupied": "[NEEDS TRANSLATION] Slot occupato da appuntamento precedente",
-    "customDuration": "[NEEDS TRANSLATION] Durata personalizzata",
-    "incrementBy15Min": "[NEEDS TRANSLATION] Incrementa di 15 min",
-    "decrementBy15Min": "[NEEDS TRANSLATION] Decrementa di 15 min",
-    "selected": "[NEEDS TRANSLATION] Selezionato",
-    "select": "[NEEDS TRANSLATION] Seleziona"
+    "selectNewAppointment": "Neuen Termin auswählen",
+    "selectTimeNewAppointment": "Uhrzeit für neuen Termin auswählen",
+    "confirmAndAssociateClient": "Bestätigen und Kunden zuordnen",
+    "hasAppointments": "Hat Termine",
+    "slotOccupied": "Zeitfenster durch vorherigen Termin belegt",
+    "customDuration": "Benutzerdefinierte Dauer",
+    "incrementBy15Min": "Um 15 Min erhöhen",
+    "decrementBy15Min": "Um 15 Min verringern",
+    "selected": "Ausgewählt",
+    "select": "Auswählen"
   },
   "clients": {
     "title": "Kunden",
@@ -109,7 +109,10 @@
     "addClient": "Neuer Kunde",
     "newClient": "Neuer Kunde",
     "addFirstClient": "Ersten Kunden hinzufügen",
-    "search": "Kunde suchen",
+    "search": {
+      "placeholder": "Kunden nach Name, Telefon oder E-Mail suchen...",
+      "minLength": "Geben Sie mindestens 2 Zeichen ein, um zu suchen"
+    },
     "filter": {
       "all": "Alle",
       "frequent": "Häufig",
@@ -230,14 +233,14 @@
     "save": "Einstellungen speichern",
     "googleCalendar": "Google Kalender",
     "contacts": "Kontakte",
-    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
-    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
-    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
-    "appName": "[NEEDS TRANSLATION] Nome App",
-    "appIcon": "[NEEDS TRANSLATION] Icona App",
-    "integrations": "[NEEDS TRANSLATION] Integrazioni",
-    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
-    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+    "saving": "Wird gespeichert...",
+    "contactsTitle": "Kontaktinformationen",
+    "contactsDesc": "Verwalten Sie Ihre Kontaktinformationen, die in der Fußzeile der Kunden-App angezeigt werden",
+    "appName": "App-Name",
+    "appIcon": "App-Symbol",
+    "integrations": "Integrationen",
+    "appearanceTitle": "Markenidentität",
+    "appearanceDesc": "Passen Sie den Namen und das Symbol der Anwendung an, um die Identität Ihres Unternehmens widerzuspiegeln. Diese Einstellungen gelten sowohl für die Haupt-App als auch für die Kunden-App."
   },
   "common": {
     "save": "Speichern",
@@ -298,9 +301,9 @@
     "accessOurContacts": "Zugriff auf unsere Kontakte"
   },
   "appointment": {
-    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "Conferma e associa cliente",
-    "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectTimeSlots": "Zeitslot für neuen Termin auswählen",
+    "confirmAndAssociateClient": "Bestätigen und Kunden zuordnen",
+    "selected": "Ausgewählt",
+    "selectSlots": "Zeitslots auswählen"
   }
 }
