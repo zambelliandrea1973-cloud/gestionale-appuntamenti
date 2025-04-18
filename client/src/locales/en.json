@@ -266,7 +266,14 @@
     "error": "Error",
     "birthday": "Birth date",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "onlineStatus": "Online",
+    "offlineStatus": "Offline",
+    "connectionRestored": "Internet connection restored",
+    "connectionLost": "Internet connection lost",
+    "offlineModeActive": "Offline mode active",
+    "synchronized": "Data synchronized",
+    "notSynchronized": "Data not synchronized"
   },
   "notifications": {
     "success": "Operation completed successfully",

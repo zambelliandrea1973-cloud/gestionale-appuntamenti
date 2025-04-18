@@ -21,6 +21,7 @@ import TestNotificationsPage from "./pages/TestNotificationsPage";
 import ClientAppointments from "./pages/ClientAppointments";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
+import NetworkStatus from "./components/ui/network-status";
 import { useEffect } from "react";
 
 /**
@@ -243,6 +244,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
       <TimezoneDetector />
+      {/* NetworkStatus mostra indicatore di stato connessione e gestisce eventi online/offline */}
+      <NetworkStatus />
       <WouterRouter>
         <AppRoutes />
       </WouterRouter>
