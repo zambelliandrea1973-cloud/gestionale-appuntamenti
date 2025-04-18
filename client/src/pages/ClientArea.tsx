@@ -226,31 +226,69 @@ export default function ClientArea() {
   const CLOSE_PAGE_URL = "/close.html";
 
   const handleLogout = () => {
-    // Se siamo in una PWA installata (modalità standalone), non facciamo nulla
-    // L'utente userà i controlli di sistema per chiudere l'app
+    // Soluzioni specifiche per dispositivi mobili Android
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Se siamo in una PWA installata (modalità standalone), usa window.close()
+    // come prima opzione poiché funziona meglio in quel contesto
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      return;
+      try {
+        window.close();
+        return;
+      } catch (e) {
+        console.log("Impossibile chiudere la finestra, procedo con altri metodi");
+      }
     }
 
-    // Metodo 1: Per browser mobile, spesso funziona meglio history.go(-2)
-    try {
-      window.history.go(-2); // Torna indietro di due pagine (spesso funziona meglio sui dispositivi mobili)
-    } catch (e) {
-      // Continuiamo con altri metodi
+    // Soluzione più affidabile per Android: creazione e click su un link con attributo specifico
+    if (isMobile) {
+      try {
+        // Crea dinamicamente un link e simula un click
+        const a = document.createElement('a');
+        a.href = "about:blank";
+        a.rel = "noreferrer noopener";
+        a.target = "_self";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        // Aggiunta di un piccolo ritardo e poi prova con history.go(-2)
+        setTimeout(() => {
+          try {
+            window.history.go(-2);
+          } catch (e) {
+            console.log("Fallback con history.go(-2) non riuscito");
+          }
+        }, 100);
+        
+        return;
+      } catch (e) {
+        console.log("Metodo Android fallito:", e);
+      }
     }
     
-    // Metodo 2: Se il primo non funziona, prova window.close()
+    // Provare history.back che è più affidabile di go(-2) in alcuni contesti
     try {
-      window.close();
+      window.history.back();
+      
+      // Ritenta con history.go(-2) dopo un breve ritardo se la pagina è ancora visibile
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.history.go(-2);
+        }
+      }, 200);
     } catch (e) {
-      // Continuiamo con altri metodi
+      console.log("Impossibile tornare indietro:", e);
     }
     
-    // Metodo 3: Se tutto fallisce, reindirizza a una pagina speciale che mostra un messaggio
-    // Questa è l'opzione più affidabile per la maggior parte dei dispositivi
+    // Ultima risorsa: chiudi finestra o reindirizza
     setTimeout(() => {
-      if (!document.hidden) { // Se la pagina è ancora visibile, significa che i metodi precedenti hanno fallito
-        window.location.href = CLOSE_PAGE_URL;
+      if (!document.hidden) {
+        try {
+          window.close();
+        } catch (ex) {
+          window.location.href = CLOSE_PAGE_URL;
+        }
       }
     }, 300);
   };
