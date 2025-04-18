@@ -262,54 +262,45 @@ export default function ClientArea() {
       
       {/* Dialog di chiusura sessione */}
       <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <DialogContent className="sm:max-w-md">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <Calendar className="h-8 w-8 text-green-700" />
+        <DialogContent className="sm:max-w-md p-0 overflow-hidden border-0">
+          <div className="flex flex-col items-center text-center p-6 pt-8 max-w-sm mx-auto">
+            <div className="w-16 h-16 bg-[#4a6c33] rounded-xl flex items-center justify-center mb-6">
+              <Calendar className="h-8 w-8 text-white" />
             </div>
-            <DialogTitle className="text-xl mb-2">Sessione Chiusa</DialogTitle>
-            <p className="text-muted-foreground mb-6">Hai effettuato il logout con successo.</p>
+            <h2 className="text-lg font-medium text-slate-900 mb-2">Sessione Chiusa</h2>
             
-            <div className="w-full bg-slate-50 p-4 rounded-lg mb-6">
-              <p className="font-medium text-green-700 mb-2">Per uscire completamente dall'app:</p>
-              <ol className="text-left space-y-4 mb-4">
-                <li className="flex items-start">
-                  <span className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">1</span>
-                  <div>
-                    <p>Premi il tasto <strong>indietro</strong> del tuo telefono</p>
-                    <div className="mt-2 flex justify-start">
-                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center animate-pulse">
-                        <X className="h-5 w-5" />
-                      </div>
+            <div className="w-full bg-[#f8fafc] p-5 rounded-lg my-6">
+              <p className="font-medium text-[#4a6c33] mb-5 text-left">Per uscire completamente dall'app:</p>
+              <ol className="list-decimal pl-5 space-y-5 mb-5">
+                <li className="text-left">
+                  Premi il tasto <strong>indietro</strong> del tuo telefono
+                  <div className="flex justify-center mt-2">
+                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                      <X className="h-5 w-5 text-gray-500" />
                     </div>
                   </div>
                 </li>
-                <li className="flex items-start">
-                  <span className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">2</span>
-                  <div>
-                    <p>Premi <strong>nuovamente</strong> il tasto indietro</p>
-                    <div className="mt-2 flex justify-start">
-                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mr-2">
-                        <X className="h-5 w-5" />
-                      </div>
-                      <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center">
-                        <X className="h-5 w-5" />
-                      </div>
+                <li className="text-left">
+                  Premi <strong>nuovamente</strong> il tasto indietro
+                  <div className="flex justify-center gap-4 mt-2">
+                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                      <X className="h-5 w-5 text-gray-500" />
+                    </div>
+                    <div className="flex items-center">
+                      <span className="text-gray-400">—</span>
+                    </div>
+                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                      <X className="h-5 w-5 text-gray-500" />
                     </div>
                   </div>
                 </li>
               </ol>
-              <p className="text-sm text-center">Sono necessari <strong>due tocchi</strong> del tasto indietro per uscire completamente.</p>
+              <p className="text-sm text-slate-600 text-center">
+                Sono necessari <strong>due tocchi</strong> del tasto indietro per uscire completamente.
+              </p>
             </div>
             
-            <p className="text-sm text-muted-foreground">Grazie per aver utilizzato l'Area Cliente.</p>
-            
-            <Button 
-              className="mt-6 w-full" 
-              onClick={() => window.history.back()}
-            >
-              Torna indietro
-            </Button>
+            <p className="text-sm text-muted-foreground mb-4">Grazie per aver utilizzato l'Area Cliente.</p>
           </div>
         </DialogContent>
       </Dialog>
