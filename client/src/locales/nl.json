@@ -99,7 +99,10 @@
     "addClient": "Nieuwe Klant",
     "newClient": "Nieuwe Klant",
     "addFirstClient": "Voeg eerste klant toe",
-    "search": "Zoek klant",
+    "search": {
+      "placeholder": "Zoek klanten op naam, telefoon of e-mail...",
+      "minLength": "Voer minimaal 2 tekens in om te zoeken"
+    },
     "filter": {
       "all": "Alle",
       "frequent": "Frequente",
@@ -220,14 +223,14 @@
     "save": "Instellingen Opslaan",
     "googleCalendar": "Google agenda",
     "contacts": "Contacten",
-    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
-    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
-    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
-    "appName": "[NEEDS TRANSLATION] Nome App",
-    "appIcon": "[NEEDS TRANSLATION] Icona App",
-    "integrations": "[NEEDS TRANSLATION] Integrazioni",
-    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
-    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+    "saving": "Bezig met opslaan...",
+    "contactsTitle": "Contactgegevens",
+    "contactsDesc": "Beheer uw contactgegevens die worden weergegeven in de voettekst van de klant-app",
+    "appName": "App Naam",
+    "appIcon": "App Icoon",
+    "integrations": "Integraties",
+    "appearanceTitle": "Merkidentiteit",
+    "appearanceDesc": "Pas de naam en het icoon van de applicatie aan om de identiteit van uw bedrijf weer te geven. Deze instellingen worden toegepast op zowel de hoofdapp als de klantapp."
   },
   "common": {
     "save": "Opslaan",
@@ -288,19 +291,19 @@
     "accessOurContacts": "Toegang tot onze contacten"
   },
   "appointment": {
-    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "Conferma e associa cliente",
-    "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectTimeSlots": "Selecteer tijd voor nieuwe afspraak",
+    "confirmAndAssociateClient": "Bevestig en koppel klant",
+    "selected": "Geselecteerd",
+    "selectSlots": "Selecteer tijdsloten"
   },
   "navigation": {
     "home": "Home"
   },
   "sidebar": {
-    "clients": "Clienti",
-    "calendar": "Calendario",
-    "invoices": "Fatture",
-    "reports": "Report",
-    "settings": "Impostazioni"
+    "clients": "Klanten",
+    "calendar": "Agenda",
+    "invoices": "Facturen",
+    "reports": "Rapporten",
+    "settings": "Instellingen"
   }
 }
