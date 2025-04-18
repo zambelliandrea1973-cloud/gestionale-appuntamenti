@@ -6,6 +6,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatDate, formatTime } from "@/lib/dateUtils";
 
+interface ClientAccess {
+  id: number;
+  clientId: number;
+  accessDate: string;
+  ipAddress?: string;
+  userAgent?: string;
+}
+
 type ClientAccessesDetailsProps = {
   clientId: number;
   showTitle?: boolean;
@@ -21,31 +29,29 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
 
   // Query per recuperare gli accessi dettagliati per un client specifico
   const {
-    data: accessesData,
+    data: accessesData = [],
     isLoading,
     isError
-  } = useQuery({
+  } = useQuery<ClientAccess[]>({
     queryKey: [`/api/client-access/${clientId}`],
     enabled: !!clientId
   });
 
-  const sortedAccesses = accessesData
-    ? [...accessesData].sort((a, b) => {
-        let comparison = 0;
-        
-        if (sortField === "date") {
-          comparison = new Date(a.accessDate).getTime() - new Date(b.accessDate).getTime();
-        } else if (sortField === "time") {
-          const timeA = new Date(a.accessDate).toTimeString();
-          const timeB = new Date(b.accessDate).toTimeString();
-          comparison = timeA.localeCompare(timeB);
-        } else if (sortField === "userAgent") {
-          comparison = (a.userAgent || "").localeCompare(b.userAgent || "");
-        }
-        
-        return sortOrder === "asc" ? comparison : -comparison;
-      })
-    : [];
+  const sortedAccesses = [...accessesData].sort((a, b) => {
+    let comparison = 0;
+    
+    if (sortField === "date") {
+      comparison = new Date(a.accessDate).getTime() - new Date(b.accessDate).getTime();
+    } else if (sortField === "time") {
+      const timeA = new Date(a.accessDate).toTimeString();
+      const timeB = new Date(b.accessDate).toTimeString();
+      comparison = timeA.localeCompare(timeB);
+    } else if (sortField === "userAgent") {
+      comparison = (a.userAgent || "").localeCompare(b.userAgent || "");
+    }
+    
+    return sortOrder === "asc" ? comparison : -comparison;
+  });
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
@@ -65,7 +71,7 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
   };
 
   const formatUserAgent = (userAgent: string) => {
-    if (!userAgent) return t('clients.accesses.unknownDevice');
+    if (!userAgent) return t('clients.accesses.unknownDevice', 'Dispositivo sconosciuto');
     
     // Formatta l'user agent per renderlo più leggibile
     if (userAgent.includes("Mobile")) return "Smartphone";
@@ -74,22 +80,22 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
     if (userAgent.includes("Macintosh")) return "Mac";
     if (userAgent.includes("Linux")) return "PC Linux";
     
-    return t('clients.accesses.browserAccess');
+    return t('clients.accesses.browserAccess', 'Accesso da browser');
   };
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-6">
         <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
-        <span>{t('clients.accesses.loadingDetails')}</span>
+        <span>{t('clients.accesses.loadingDetails', 'Caricamento dettagli accessi...')}</span>
       </div>
     );
   }
 
-  if (isError || !accessesData) {
+  if (isError) {
     return (
       <div className="text-center p-6 text-destructive">
-        {t('clients.accesses.errorLoadingDetails')}
+        {t('clients.accesses.errorLoadingDetails', 'Errore nel caricamento dei dettagli degli accessi')}
       </div>
     );
   }
@@ -100,10 +106,10 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <Eye className="h-5 w-5 mr-2 text-blue-500" />
-            {t('clients.accesses.title')}
+            {t('clients.accesses.title', 'Accessi del cliente')}
           </CardTitle>
           <CardDescription>
-            {t('clients.accesses.description', { count: accessesData.length })}
+            {t('clients.accesses.description', 'Elenco degli ultimi {{count}} accessi effettuati dal cliente', { count: accessesData.length })}
           </CardDescription>
         </CardHeader>
       )}
@@ -111,7 +117,7 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
       <CardContent>
         {accessesData.length === 0 ? (
           <div className="text-center py-4 text-muted-foreground">
-            {t('clients.accesses.noData')}
+            {t('clients.accesses.noData', 'Nessun accesso registrato per questo cliente')}
           </div>
         ) : (
           <Table>
@@ -120,21 +126,21 @@ export default function ClientAccessesDetails({ clientId, showTitle = true }: Cl
                 <TableHead className="cursor-pointer" onClick={() => toggleSort("date")}>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
-                    {t('clients.accesses.date')}
+                    {t('clients.accesses.date', 'Data')}
                     {renderSortIcon("date")}
                   </div>
                 </TableHead>
                 <TableHead className="cursor-pointer" onClick={() => toggleSort("time")}>
                   <div className="flex items-center">
                     <Clock className="h-4 w-4 mr-1" />
-                    {t('clients.accesses.time')}
+                    {t('clients.accesses.time', 'Ora')}
                     {renderSortIcon("time")}
                   </div>
                 </TableHead>
                 <TableHead className="cursor-pointer" onClick={() => toggleSort("userAgent")}>
                   <div className="flex items-center">
                     <Monitor className="h-4 w-4 mr-1" />
-                    {t('clients.accesses.device')}
+                    {t('clients.accesses.device', 'Dispositivo')}
                     {renderSortIcon("userAgent")}
                   </div>
                 </TableHead>
