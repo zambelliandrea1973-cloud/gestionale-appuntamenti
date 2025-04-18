@@ -27,6 +27,7 @@ import { keepAliveService } from './services/keepAliveService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
+import { clientAccessService } from "./services/clientAccessService";
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -171,6 +172,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
         heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
       }
     });
+  });
+  
+  // Client Access API endpoints
+  // Endpoint per registrare un nuovo accesso di un cliente
+  app.post("/api/client-access/:clientId", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "ID cliente non valido" });
+      }
+      
+      // Ottieni informazioni dal client
+      const ipAddress = req.ip || req.socket.remoteAddress || "";
+      const userAgent = req.headers["user-agent"] || "";
+      
+      const access = await clientAccessService.logAccess(clientId, ipAddress, userAgent);
+      res.status(201).json(access);
+    } catch (error: any) {
+      console.error("Errore nella registrazione dell'accesso:", error);
+      res.status(500).json({ message: error.message || "Errore nella registrazione dell'accesso" });
+    }
+  });
+  
+  // Endpoint per ottenere il conteggio degli accessi per un cliente specifico
+  app.get("/api/client-access/count/:clientId", isStaff, async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "ID cliente non valido" });
+      }
+      
+      const count = await clientAccessService.getAccessCountForClient(clientId);
+      res.json({ clientId, count });
+    } catch (error: any) {
+      console.error("Errore nel conteggio degli accessi:", error);
+      res.status(500).json({ message: error.message || "Errore nel conteggio degli accessi" });
+    }
+  });
+  
+  // Endpoint per ottenere il conteggio degli accessi per tutti i clienti
+  app.get("/api/client-access/counts", isStaff, async (_req: Request, res: Response) => {
+    try {
+      const clientsWithCounts = await clientAccessService.getAccessCountsForAllClients();
+      res.json(clientsWithCounts);
+    } catch (error: any) {
+      console.error("Errore nel recupero dei conteggi di accesso:", error);
+      res.status(500).json({ message: error.message || "Errore nel recupero dei conteggi di accesso" });
+    }
+  });
+  
+  // Endpoint per ottenere tutti gli accessi di un cliente specifico
+  app.get("/api/client-access/:clientId", isStaff, async (req: Request, res: Response) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      if (isNaN(clientId)) {
+        return res.status(400).json({ message: "ID cliente non valido" });
+      }
+      
+      const accesses = await clientAccessService.getAccessesForClient(clientId);
+      res.json(accesses);
+    } catch (error: any) {
+      console.error("Errore nel recupero degli accessi:", error);
+      res.status(500).json({ message: error.message || "Errore nel recupero degli accessi" });
+    }
   });
   
   const httpServer = createServer(app);
