@@ -1,0 +1,114 @@
+{
+  "clients": [
+    [
+      1,
+      {
+        "firstName": "Mario",
+        "lastName": "Rossi",
+        "phone": "3201234567",
+        "email": "mario.rossi@esempio.it",
+        "id": 1,
+        "createdAt": "2025-04-02T16:08:04.062Z"
+      }
+    ],
+    [
+      2,
+      {
+        "firstName": "Zambelli",
+        "lastName": "Andrea",
+        "phone": "3472550110",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "address": "Via Cavallotti",
+        "birthday": "2025-04-24",
+        "notes": "fruy",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "id": 2,
+        "createdAt": "2025-04-02T16:43:36.683Z"
+      }
+    ]
+  ],
+  "services": [
+    [
+      1,
+      {
+        "name": "Test Diacom",
+        "duration": 60,
+        "color": "#3f51b5",
+        "price": 6000,
+        "id": 1
+      }
+    ],
+    [
+      2,
+      {
+        "name": "Terapia Bicom",
+        "duration": 90,
+        "color": "#f44336",
+        "price": 8000,
+        "id": 2
+      }
+    ],
+    [
+      3,
+      {
+        "name": "Terapia luce Zapter",
+        "duration": 60,
+        "color": "#ff9800",
+        "price": 7000,
+        "id": 3
+      }
+    ],
+    [
+      4,
+      {
+        "name": "Detox",
+        "duration": 75,
+        "color": "#4caf50",
+        "price": 5500,
+        "id": 4
+      }
+    ]
+  ],
+  "appointments": [
+    [
+      1,
+      {
+        "clientId": 1,
+        "serviceId": 1,
+        "date": "2025-04-10",
+        "startTime": "10:00",
+        "endTime": "11:00",
+        "notes": "Prima visita",
+        "id": 1,
+        "createdAt": "2025-04-02T16:08:13.694Z"
+      }
+    ],
+    [
+      2,
+      {
+        "clientId": 1,
+        "serviceId": 2,
+        "date": "2025-04-15",
+        "startTime": "14:30",
+        "endTime": "16:00",
+        "notes": "Sessione bicom",
+        "id": 2,
+        "createdAt": "2025-04-02T16:08:24.114Z"
+      }
+    ]
+  ],
+  "consents": [],
+  "invoices": [],
+  "invoiceItems": [],
+  "payments": [],
+  "clientIdCounter": 3,
+  "serviceIdCounter": 5,
+  "appointmentIdCounter": 3,
+  "consentIdCounter": 1,
+  "invoiceIdCounter": 1,
+  "invoiceItemIdCounter": 1,
+  "paymentIdCounter": 1
+}
