@@ -301,9 +301,9 @@
     "accessOurContacts": "Access our contacts"
   },
   "appointment": {
-    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "Conferma e associa cliente",
-    "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectTimeSlots": "Select time for new appointment",
+    "confirmAndAssociateClient": "Confirm and associate client",
+    "selected": "Selected",
+    "selectSlots": "Select time slots"
   }
 }
