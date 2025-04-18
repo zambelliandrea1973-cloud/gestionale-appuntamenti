@@ -16,10 +16,10 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
 
   // Query per recuperare il conteggio degli accessi per un client specifico
   const {
-    data: accessCount,
+    data: accessCount = 0,
     isLoading,
     isError
-  } = useQuery({
+  } = useQuery<number>({
     queryKey: [`/api/client-access/count/${clientId}`],
     enabled: !!clientId
   });
@@ -35,15 +35,15 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
     return (
       <div className="flex items-center">
         <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading')}</span>
+        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading', 'Caricamento...')}</span>
       </div>
     );
   }
 
-  if (isError || accessCount === undefined) {
+  if (isError) {
     return (
       <div className="flex items-center">
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.error')}</span>
+        <span className="text-xs text-muted-foreground">{t('clients.accesses.error', 'Errore')}</span>
       </div>
     );
   }
@@ -52,7 +52,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
     return (
       <div className="flex items-center">
         <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading')}</span>
+        <span className="text-xs text-muted-foreground">{t('clients.accesses.loading', 'Caricamento...')}</span>
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
       <div className="flex items-center">
         <Eye className="h-4 w-4 mr-1.5 text-blue-500" />
         <span className="text-sm">
-          {t('clients.accesses.count', { count: accessCount }, 'Accessi all\'app: {{count}}')}
+          {t('clients.accesses.count', 'Accessi all\'app: {{count}}', { count: accessCount })}
         </span>
       </div>
     );
@@ -78,7 +78,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
           </Badge>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t('clients.accesses.tooltip', { count: accessCount }, 'Numero di volte che il cliente ha aperto l\'app: {{count}}')}</p>
+          <p>{t('clients.accesses.tooltip', 'Numero di volte che il cliente ha aperto l\'app: {{count}}', { count: accessCount })}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

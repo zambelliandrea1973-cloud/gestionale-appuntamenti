@@ -26,6 +26,7 @@ import ClientForm from "./ClientForm";
 import AppointmentFormModal from "./AppointmentFormModal";
 import QRCodeModal from "./QRCodeModal";
 import ClientAccessCounter from "./ClientAccessCounter";
+import ClientAccessesDialog from "./ClientAccessesDialog";
 
 interface ClientCardProps {
   client: Client;
@@ -41,6 +42,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const [qrCodeModalTab, setQrCodeModalTab] = useState<"qrcode" | "link">("qrcode");
   const [clientQrCode, setClientQrCode] = useState<string | null>(null);
+  const [isAccessesDialogOpen, setIsAccessesDialogOpen] = useState(false);
   
   // Verifica se esiste già un token per questo cliente
   useEffect(() => {
@@ -171,7 +173,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
             </div>
           )}
           
-          <div className="flex items-center mt-2">
+          <div className="flex items-center mt-2 gap-2">
             {client.hasConsent ? (
               <Badge variant="outline" className="flex items-center text-green-600 border-green-200 bg-green-50">
                 <Info className="h-3 w-3 mr-1" />
@@ -183,6 +185,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
                 {t('clients.filter.noConsent')}
               </Badge>
             )}
+            <ClientAccessCounter clientId={client.id} />
           </div>
         </div>
       </CardContent>
