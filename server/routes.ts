@@ -1902,7 +1902,7 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   // Endpoint per recuperare tutti gli eventi sincronizzati
   app.get('/api/google-calendar/events', async (req: Request, res: Response) => {
     try {
-      const events = await storage.getGoogleCalendarEvents();
+      const events = await googleCalendarService.getAllEvents();
       res.json(events);
     } catch (error) {
       console.error("Errore durante il recupero degli eventi Google Calendar:", error);

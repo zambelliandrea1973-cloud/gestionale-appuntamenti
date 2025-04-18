@@ -1,6 +1,9 @@
 import { calendar_v3, google } from 'googleapis';
 import type { Appointment, Client, Service as ServiceType } from '@shared/schema';
 import { storage } from '../storage';
+import { db } from '../db';
+import { appointments, clients, googleCalendarEvents, services } from '@shared/schema';
+import { eq } from 'drizzle-orm';
 
 // Interfaccia per il token OAuth
 interface OAuth2Token {
@@ -344,6 +347,47 @@ export async function getAvailableCalendars(): Promise<calendar_v3.Schema$Calend
   }
 }
 
+/**
+ * Recupera tutti gli eventi sincronizzati da Google Calendar
+ */
+async function getAllEvents() {
+  try {
+    // Ottieni tutti gli eventi dal database
+    const events = await db
+      .select({
+        event: googleCalendarEvents,
+        appointment: appointments,
+        client: clients,
+        service: services,
+      })
+      .from(googleCalendarEvents)
+      .leftJoin(
+        appointments,
+        eq(googleCalendarEvents.appointmentId, appointments.id)
+      )
+      .leftJoin(
+        clients,
+        eq(appointments.clientId, clients.id)
+      )
+      .leftJoin(
+        services,
+        eq(appointments.serviceId, services.id)
+      );
+      
+    return events.map(item => ({
+      ...item.event,
+      appointment: {
+        ...item.appointment,
+        client: item.client,
+        service: item.service
+      }
+    }));
+  } catch (error) {
+    console.error('Errore nel recupero degli eventi sincronizzati con Google Calendar:', error);
+    return [];
+  }
+}
+
 // Esporta il servizio
 export const googleCalendarService = {
   saveConfig,
@@ -353,5 +397,6 @@ export const googleCalendarService = {
   isGoogleCalendarEnabled,
   getAuthUrl,
   exchangeCodeForToken,
-  getAvailableCalendars
+  getAvailableCalendars,
+  getAllEvents
 };
