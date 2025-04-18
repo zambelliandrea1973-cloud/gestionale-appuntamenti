@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2, ArrowLeft } from "lucide-react";
+import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2, ArrowLeft, ChevronLeft } from "lucide-react";
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
@@ -281,13 +281,17 @@ export default function ClientArea() {
                     <p>Premi <strong>nuovamente</strong> il tasto indietro</p>
                     <div className="flex justify-center gap-4 mt-3">
                       <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <ArrowLeft className="h-5 w-5 text-gray-500" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                          <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
                       </div>
                       <div className="flex items-center">
                         <span className="text-gray-400">—</span>
                       </div>
                       <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <ArrowLeft className="h-5 w-5 text-gray-500" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                          <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
                       </div>
                     </div>
                   </div>
