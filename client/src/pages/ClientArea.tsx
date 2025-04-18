@@ -223,68 +223,19 @@ export default function ClientArea() {
   };
 
   const handleLogout = () => {
-    // Se siamo in una PWA installata (modalità standalone), mostriamo istruzioni per uscire
+    // Se siamo in una PWA installata (modalità standalone), non facciamo nulla
+    // L'utente userà i controlli di sistema per chiudere l'app
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      toast({
-        title: "Chiusura app",
-        description: "Usa il pulsante Home o il task switcher del tuo dispositivo per uscire dall'app. Potrai riaprirla dall'icona in qualsiasi momento senza dover reinserire i dati.",
-        duration: 5000,
-      });
-      
-      // Non eseguiamo il logout reale per mantenere i dati di accesso nella PWA
       return;
     }
     
-    // Se siamo in un browser normale, procediamo con il logout standard
+    // Altrimenti prova a chiudere la finestra del browser mantenendo i token
     try {
-      // Offri una scelta tra chiudere la finestra o fare logout completo
-      const userChoice = window.confirm("Cosa desideri fare?\n\nScegli OK per chiudere l'app mantenendo il tuo accesso (potrai riaprirla senza reinserire i dati).\n\nScegli ANNULLA per effettuare il logout completo (dovrai reinserire i dati all'accesso successivo).");
-      
-      if (userChoice) {
-        // L'utente vuole solo chiudere l'app/finestra
-        toast({
-          title: "Chiusura app",
-          description: "L'app verrà chiusa. Potrai riaprirla mantenendo il tuo accesso.",
-          duration: 3000,
-        });
-        
-        // Prova a chiudere la finestra del browser (funziona solo in alcuni browser)
-        setTimeout(() => {
-          try {
-            window.close();
-          } catch (e) {
-            // Se window.close() non funziona, mostra un messaggio informativo
-            toast({
-              title: "Chiusura manuale",
-              description: "Per motivi di sicurezza, chiudi manualmente questa scheda/finestra. Potrai riaprire l'app in qualsiasi momento senza dover reinserire i dati.",
-              duration: 5000,
-            });
-          }
-        }, 1000);
-      } else {
-        // L'utente vuole fare logout completo (come prima)
-        apiRequest('POST', '/api/logout').then(() => {
-          // Rimuovi i dati di autenticazione dal localStorage
-          localStorage.removeItem('clientAccessToken');
-          localStorage.removeItem('clientId');
-          localStorage.removeItem('clientUsername');
-          
-          toast({
-            title: "Logout effettuato",
-            description: "Hai effettuato il logout con successo. Dovrai reinserire i dati all'accesso successivo.",
-          });
-          
-          // In caso di logout volontario, non mostriamo il messaggio di sessione scaduta
-          setLocation("/client-login");
-        });
-      }
+      // Tenta direttamente di chiudere la finestra senza messaggi
+      window.close();
     } catch (error) {
-      console.error("Errore durante il logout:", error);
-      toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante il logout",
-        variant: "destructive",
-      });
+      // Ignora eventuali errori senza mostrare messaggi
+      console.error("Errore nella chiusura della finestra:", error);
     }
   };
 
