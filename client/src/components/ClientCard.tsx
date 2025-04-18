@@ -25,6 +25,7 @@ import {
 import ClientForm from "./ClientForm";
 import AppointmentFormModal from "./AppointmentFormModal";
 import QRCodeModal from "./QRCodeModal";
+import ClientAccessCounter from "./ClientAccessCounter";
 
 interface ClientCardProps {
   client: Client;

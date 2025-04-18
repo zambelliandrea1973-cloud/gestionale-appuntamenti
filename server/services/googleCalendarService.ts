@@ -352,36 +352,39 @@ export async function getAvailableCalendars(): Promise<calendar_v3.Schema$Calend
  */
 async function getAllEvents() {
   try {
-    // Ottieni tutti gli eventi dal database
-    const events = await db
-      .select({
-        event: googleCalendarEvents,
-        appointment: appointments,
-        client: clients,
-        service: services,
+    // Otteniamo tutti gli eventi sincronizzati tramite query più semplice
+    const calendarEvents = await db.select().from(googleCalendarEvents);
+    
+    // Per ogni evento, recuperiamo i dettagli dell'appuntamento
+    const eventsWithDetails = await Promise.all(
+      calendarEvents.map(async (event) => {
+        const appointment = await storage.getAppointment(event.appointmentId);
+        
+        if (!appointment) {
+          return {
+            ...event,
+            appointment: null
+          };
+        }
+        
+        // Recupera anche informazioni su cliente e servizio
+        const client = await storage.getClient(appointment.clientId);
+        const service = appointment.serviceId 
+          ? await storage.getService(appointment.serviceId) 
+          : null;
+        
+        return {
+          ...event,
+          appointment: {
+            ...appointment,
+            client,
+            service
+          }
+        };
       })
-      .from(googleCalendarEvents)
-      .leftJoin(
-        appointments,
-        eq(googleCalendarEvents.appointmentId, appointments.id)
-      )
-      .leftJoin(
-        clients,
-        eq(appointments.clientId, clients.id)
-      )
-      .leftJoin(
-        services,
-        eq(appointments.serviceId, services.id)
-      );
-      
-    return events.map(item => ({
-      ...item.event,
-      appointment: {
-        ...item.appointment,
-        client: item.client,
-        service: item.service
-      }
-    }));
+    );
+    
+    return eventsWithDetails;
   } catch (error) {
     console.error('Errore nel recupero degli eventi sincronizzati con Google Calendar:', error);
     return [];
