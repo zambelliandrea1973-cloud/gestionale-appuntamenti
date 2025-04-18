@@ -267,36 +267,35 @@ export default function ClientArea() {
             <div className="w-16 h-16 bg-[#4a6c33] rounded-xl flex items-center justify-center mb-6">
               <Calendar className="h-8 w-8 text-white" />
             </div>
-            <h2 className="text-lg font-medium text-slate-900 mb-2">Sessione Chiusa</h2>
+            <h2 className="text-lg font-medium text-slate-900 mb-6">Sessione Chiusa</h2>
             
-            <div className="w-full bg-[#f8fafc] p-5 rounded-lg my-6">
+            <div className="w-full bg-[#f8fafc] p-5 rounded-lg mb-6">
               <p className="font-medium text-[#4a6c33] mb-5 text-left">Per uscire completamente dall'app:</p>
-              <ol className="list-decimal pl-5 space-y-5 mb-5">
-                <li className="text-left">
-                  Premi il tasto <strong>indietro</strong> del tuo telefono
-                  <div className="flex justify-center mt-2">
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
+              
+              <div className="mb-4 pb-4 border-b border-gray-100 opacity-30"></div>
+              
+              <div className="text-left mb-5">
+                <div className="flex items-start">
+                  <span className="text-gray-500 mr-2">2.</span>
+                  <div>
+                    <p>Premi <strong>nuovamente</strong> il tasto indietro</p>
+                    <div className="flex justify-center gap-4 mt-3">
+                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                        <X className="h-5 w-5 text-gray-500" />
+                      </div>
+                      <div className="flex items-center">
+                        <span className="text-gray-400">—</span>
+                      </div>
+                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                        <X className="h-5 w-5 text-gray-500" />
+                      </div>
                     </div>
                   </div>
-                </li>
-                <li className="text-left">
-                  Premi <strong>nuovamente</strong> il tasto indietro
-                  <div className="flex justify-center gap-4 mt-2">
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-gray-400">—</span>
-                    </div>
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
-                    </div>
-                  </div>
-                </li>
-              </ol>
+                </div>
+              </div>
+              
               <p className="text-sm text-slate-600 text-center">
-                Sono necessari <strong>due tocchi</strong> del tasto indietro per uscire completamente.
+                Sono necessari <strong>due tocchi</strong> del tasto<br />indietro per uscire completamente.
               </p>
             </div>
             
