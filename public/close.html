@@ -60,32 +60,103 @@
       padding-left: 24px;
     }
     .steps li {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 5px;
     }
-    .back-button {
-      position: fixed;
-      bottom: 50px;
-      right: 50%;
-      transform: translateX(50%);
-      background-color: rgba(0,0,0,0.1);
-      border: none;
-      width: 60px;
-      height: 60px;
+    .back-image {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    .back-image-container {
+      position: relative;
+      width: 45px;
+      height: 45px;
+      background-color: rgba(0,0,0,0.05);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin: 0 10px;
     }
-    .back-button svg {
-      width: 30px;
-      height: 30px;
+    .back-image-container svg {
+      width: 25px;
+      height: 25px;
       fill: none;
       stroke: #555;
       stroke-width: 2;
     }
+    .back-image-container:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -15px;
+      width: 10px;
+      height: 2px;
+      background: #ccc;
+      transform: translateY(-50%);
+    }
+    .back-image-container:last-child:after {
+      display: none;
+    }
+    .animated-arrow {
+      animation: pulse 2s infinite;
+    }
     .highlight {
       font-weight: 600;
       color: #4a6c33;
+    }
+    .back-button {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(74, 108, 51, 0.9);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+    }
+    .back-button svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      margin-right: 8px;
+    }
+    .back-button--pulse {
+      animation: button-pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-5px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+    @keyframes button-pulse {
+      0% {
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.05);
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
     }
   </style>
 </head>
@@ -105,37 +176,47 @@
     <div class="steps">
       <p><span class="highlight">Per uscire completamente dall'app:</span></p>
       <ol>
-        <li>Premi il tasto <strong>indietro</strong> del tuo telefono</li>
-        <li>Premi <strong>nuovamente</strong> il tasto indietro</li>
+        <li>Premi il tasto <strong>indietro</strong> del tuo telefono 
+          <div class="back-image">
+            <div class="back-image-container animated-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </div>
+          </div>
+        </li>
+        <li>Premi <strong>nuovamente</strong> il tasto indietro
+          <div class="back-image">
+            <div class="back-image-container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </div>
+            <div class="back-image-container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </div>
+          </div>
+        </li>
       </ol>
-      <p>Sono necessari due tocchi del tasto indietro per uscire completamente.</p>
+      <p>Sono necessari <strong>due tocchi</strong> del tasto indietro per uscire completamente.</p>
     </div>
     
     <p>Grazie per aver utilizzato l'Area Cliente.</p>
   </div>
   
-  <div class="back-button">
+  <button class="back-button back-button--pulse" onclick="goBack()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="15 18 9 12 15 6"></polyline>
     </svg>
-  </div>
+    Torna indietro
+  </button>
   
   <script>
-    // Animazione pulsante
-    const backButton = document.querySelector('.back-button');
-    
-    // Piccola animazione per mostrare come tornare indietro
-    setInterval(() => {
-      backButton.style.transform = 'translateX(45%)';
-      setTimeout(() => {
-        backButton.style.transform = 'translateX(50%)';
-      }, 400);
-    }, 2000);
-    
-    // Gestione click sul pulsante
-    backButton.addEventListener('click', () => {
+    function goBack() {
       window.history.back();
-    });
+    }
   </script>
 </body>
 </html>
