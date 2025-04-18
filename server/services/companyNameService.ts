@@ -109,3 +109,11 @@ export const isCustomized = (): boolean => {
 export const resetToDefault = (): boolean => {
   return saveSettings(defaultSettings);
 };
+
+// Esportiamo tutte le funzioni in un oggetto per l'uso con import
+export const companyNameService = {
+  loadSettings,
+  saveSettings,
+  isCustomized,
+  resetToDefault
+};
