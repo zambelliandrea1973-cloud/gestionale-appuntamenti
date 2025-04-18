@@ -99,7 +99,10 @@
     "addClient": "Client Nou",
     "newClient": "Client Nou",
     "addFirstClient": "Adăugați primul client",
-    "search": "Căutare client",
+    "search": {
+      "placeholder": "Căutare clienți după nume, telefon sau email...",
+      "minLength": "Introduceți cel puțin 2 caractere pentru a căuta"
+    },
     "filter": {
       "all": "Toți",
       "frequent": "Frecvenți",
@@ -220,14 +223,14 @@
     "save": "Salvare Setări",
     "googleCalendar": "Google calendar",
     "contacts": "Contacte",
-    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
-    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
-    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
-    "appName": "[NEEDS TRANSLATION] Nome App",
-    "appIcon": "[NEEDS TRANSLATION] Icona App",
-    "integrations": "[NEEDS TRANSLATION] Integrazioni",
-    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
-    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+    "saving": "Se salvează...",
+    "contactsTitle": "Informații de Contact",
+    "contactsDesc": "Gestionați informațiile de contact care vor fi afișate în subsolul aplicației pentru clienți",
+    "appName": "Nume Aplicație",
+    "appIcon": "Pictogramă Aplicație",
+    "integrations": "Integrări",
+    "appearanceTitle": "Identitate Corporativă",
+    "appearanceDesc": "Personalizați numele și pictograma aplicației pentru a reflecta identitatea companiei dumneavoastră. Aceste setări se vor aplica atât aplicației principale, cât și aplicației pentru clienți."
   },
   "common": {
     "save": "Salvare",
@@ -288,19 +291,19 @@
     "accessOurContacts": "Accesați contactele noastre"
   },
   "appointment": {
-    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "Conferma e associa cliente",
-    "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectTimeSlots": "Selectați ora pentru programarea nouă",
+    "confirmAndAssociateClient": "Confirmați și asociați clientul",
+    "selected": "Selectat",
+    "selectSlots": "Selectați intervalele orare"
   },
   "navigation": {
     "home": "Home"
   },
   "sidebar": {
-    "clients": "Clienti",
-    "calendar": "Calendario",
-    "invoices": "Fatture",
-    "reports": "Report",
-    "settings": "Impostazioni"
+    "clients": "Clienți",
+    "calendar": "Calendar",
+    "invoices": "Facturi",
+    "reports": "Rapoarte",
+    "settings": "Setări"
   }
 }

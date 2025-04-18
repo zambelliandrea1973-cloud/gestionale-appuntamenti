@@ -99,7 +99,10 @@
     "addClient": "Ny Kunde",
     "newClient": "Ny Kunde",
     "addFirstClient": "Legg til første kunde",
-    "search": "Søk kunde",
+    "search": {
+      "placeholder": "Søk kunder etter navn, telefon eller e-post...",
+      "minLength": "Skriv inn minst 2 tegn for å søke"
+    },
     "filter": {
       "all": "Alle",
       "frequent": "Faste",
@@ -220,14 +223,14 @@
     "save": "Lagre Innstillinger",
     "googleCalendar": "Google kalender",
     "contacts": "Kontakter",
-    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
-    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
-    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
-    "appName": "[NEEDS TRANSLATION] Nome App",
-    "appIcon": "[NEEDS TRANSLATION] Icona App",
-    "integrations": "[NEEDS TRANSLATION] Integrazioni",
-    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
-    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+    "saving": "Lagrer...",
+    "contactsTitle": "Kontaktinformasjon",
+    "contactsDesc": "Administrer kontaktinformasjonen som vil vises i bunnteksten til kundeappen",
+    "appName": "App Navn",
+    "appIcon": "App Ikon",
+    "integrations": "Integrasjoner",
+    "appearanceTitle": "Bedriftsidentitet",
+    "appearanceDesc": "Tilpass applikasjonens navn og ikon for å gjenspeile bedriftens identitet. Disse innstillingene vil gjelde for både hovedappen og kundeappen."
   },
   "common": {
     "save": "Lagre",
@@ -288,19 +291,19 @@
     "accessOurContacts": "Tilgang til våre kontakter"
   },
   "appointment": {
-    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "Conferma e associa cliente",
-    "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectTimeSlots": "Velg tid for ny timeavtale",
+    "confirmAndAssociateClient": "Bekreft og knytt til kunde",
+    "selected": "Valgt",
+    "selectSlots": "Velg tidsluker"
   },
   "navigation": {
     "home": "Home"
   },
   "sidebar": {
-    "clients": "Clienti",
-    "calendar": "Calendario",
-    "invoices": "Fatture",
-    "reports": "Report",
-    "settings": "Impostazioni"
+    "clients": "Kunder",
+    "calendar": "Kalender",
+    "invoices": "Fakturaer",
+    "reports": "Rapporter",
+    "settings": "Innstillinger"
   }
 }
