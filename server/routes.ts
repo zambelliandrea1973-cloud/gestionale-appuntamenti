@@ -196,7 +196,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Endpoint per ottenere il conteggio degli accessi per un cliente specifico
-  app.get("/api/client-access/count/:clientId", isStaff, async (req: Request, res: Response) => {
+  app.get("/api/client-access/count/:clientId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const clientId = parseInt(req.params.clientId);
       if (isNaN(clientId)) {
@@ -223,7 +223,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Endpoint per ottenere tutti gli accessi di un cliente specifico
-  app.get("/api/client-access/:clientId", isStaff, async (req: Request, res: Response) => {
+  app.get("/api/client-access/:clientId", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const clientId = parseInt(req.params.clientId);
       if (isNaN(clientId)) {

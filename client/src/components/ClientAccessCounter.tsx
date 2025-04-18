@@ -16,13 +16,16 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
 
   // Query per recuperare il conteggio degli accessi per un client specifico
   const {
-    data: accessCount = 0,
+    data: accessData,
     isLoading,
     isError
-  } = useQuery<number>({
+  } = useQuery<{clientId: number, count: number}>({
     queryKey: [`/api/client-access/count/${clientId}`],
     enabled: !!clientId
   });
+  
+  // Estrai il conteggio dai dati
+  const accessCount = accessData?.count || 0;
 
   useEffect(() => {
     if (accessCount !== undefined && !isLoading) {
