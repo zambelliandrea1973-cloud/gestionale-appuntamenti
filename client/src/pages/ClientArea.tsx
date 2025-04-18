@@ -226,37 +226,8 @@ export default function ClientArea() {
   const CLOSE_PAGE_URL = "/close.html";
 
   const handleLogout = () => {
-    // Metodo più semplice e diretto, dedicato specificamente ai browser mobili
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    
-    // Mostra un messaggio che informa l'utente
-    toast({
-      title: "Sessione terminata",
-      description: "Chiudi questa finestra o premi il tasto indietro del telefono per uscire",
-      duration: 3000
-    });
-    
-    if (isStandalone) {
-      // Per PWA installate, il metodo più semplice è informare l'utente
-      // di usare il tasto back del dispositivo o il gesto di navigazione
-      return;
-    }
-    
-    if (isAndroid) {
-      // Su Android, il metodo più efficace è history.go(-1) o history.back()
-      setTimeout(() => {
-        window.history.back();
-      }, 500);
-      return;
-    }
-    
-    // Per altri dispositivi, semplicemente torna indietro
-    try {
-      setTimeout(() => window.history.back(), 500);
-    } catch (e) {
-      console.log("Errore nel tornare indietro:", e);
-    }
+    // Reindirizza alla pagina di chiusura con istruzioni
+    window.location.href = "/close.html";
   };
 
   const formatDate = (dateString: string) => {
