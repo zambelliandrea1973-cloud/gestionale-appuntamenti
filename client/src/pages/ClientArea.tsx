@@ -226,71 +226,9 @@ export default function ClientArea() {
   const CLOSE_PAGE_URL = "/close.html";
 
   const handleLogout = () => {
-    // Soluzioni specifiche per dispositivi mobili Android
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    // Se siamo in una PWA installata (modalità standalone), usa window.close()
-    // come prima opzione poiché funziona meglio in quel contesto
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      try {
-        window.close();
-        return;
-      } catch (e) {
-        console.log("Impossibile chiudere la finestra, procedo con altri metodi");
-      }
-    }
-
-    // Soluzione più affidabile per Android: creazione e click su un link con attributo specifico
-    if (isMobile) {
-      try {
-        // Crea dinamicamente un link e simula un click
-        const a = document.createElement('a');
-        a.href = "about:blank";
-        a.rel = "noreferrer noopener";
-        a.target = "_self";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        
-        // Aggiunta di un piccolo ritardo e poi prova con history.go(-2)
-        setTimeout(() => {
-          try {
-            window.history.go(-2);
-          } catch (e) {
-            console.log("Fallback con history.go(-2) non riuscito");
-          }
-        }, 100);
-        
-        return;
-      } catch (e) {
-        console.log("Metodo Android fallito:", e);
-      }
-    }
-    
-    // Provare history.back che è più affidabile di go(-2) in alcuni contesti
-    try {
-      window.history.back();
-      
-      // Ritenta con history.go(-2) dopo un breve ritardo se la pagina è ancora visibile
-      setTimeout(() => {
-        if (!document.hidden) {
-          window.history.go(-2);
-        }
-      }, 200);
-    } catch (e) {
-      console.log("Impossibile tornare indietro:", e);
-    }
-    
-    // Ultima risorsa: chiudi finestra o reindirizza
-    setTimeout(() => {
-      if (!document.hidden) {
-        try {
-          window.close();
-        } catch (ex) {
-          window.location.href = CLOSE_PAGE_URL;
-        }
-      }
-    }, 300);
+    // Soluzione server-side: richiama l'API di logout specifica e lascia che il server gestisca
+    // la chiusura della sessione e la pulizia del localStorage
+    window.location.href = "/api/client-exit";
   };
 
   const formatDate = (dateString: string) => {
