@@ -222,78 +222,37 @@ export default function ClientArea() {
     }
   };
 
+  // URL alternativo da usare per la schermata "App Chiusa"
+  const CLOSE_PAGE_URL = "/close.html";
+
   const handleLogout = () => {
     // Se siamo in una PWA installata (modalità standalone), non facciamo nulla
     // L'utente userà i controlli di sistema per chiudere l'app
     if (window.matchMedia('(display-mode: standalone)').matches) {
       return;
     }
+
+    // Metodo 1: Per browser mobile, spesso funziona meglio history.go(-2)
+    try {
+      window.history.go(-2); // Torna indietro di due pagine (spesso funziona meglio sui dispositivi mobili)
+    } catch (e) {
+      // Continuiamo con altri metodi
+    }
     
-    // Metodo 1: Prova a chiudere la finestra corrente (funziona solo in alcuni casi)
-    window.close();
+    // Metodo 2: Se il primo non funziona, prova window.close()
+    try {
+      window.close();
+    } catch (e) {
+      // Continuiamo con altri metodi
+    }
     
-    // Metodo 2: Prova a usare history.back() se era aperta da un'altra pagina
+    // Metodo 3: Se tutto fallisce, reindirizza a una pagina speciale che mostra un messaggio
+    // Questa è l'opzione più affidabile per la maggior parte dei dispositivi
     setTimeout(() => {
-      try {
-        window.history.back();
-      } catch (e) {
-        // Ignorato
+      if (!document.hidden) { // Se la pagina è ancora visibile, significa che i metodi precedenti hanno fallito
+        window.location.href = CLOSE_PAGE_URL;
       }
-    }, 100);
-    
-    // Metodo 3: Reindirizza a una pagina vuota che chiude se stessa (quasi sempre funziona)
-    setTimeout(() => {
-      const closePage = window.open('', '_self');
-      if (closePage) {
-        closePage.document.write(`
-          <html>
-            <head>
-              <title>Chiusura...</title>
-              <style>
-                body { 
-                  font-family: Arial, sans-serif;
-                  background-color: #f5f5f5;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  height: 100vh;
-                  margin: 0;
-                }
-                div {
-                  text-align: center;
-                  background-color: white;
-                  padding: 20px;
-                  border-radius: 8px;
-                  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                }
-                h3 { margin-top: 0; }
-                button {
-                  background-color: #4a88bd;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  padding: 8px 16px;
-                  cursor: pointer;
-                  margin-top: 10px;
-                }
-              </style>
-            </head>
-            <body>
-              <div>
-                <h3>App chiusa</h3>
-                <p>Puoi chiudere questa pagina o riaprire l'app.</p>
-                <button onclick="window.close()">Chiudi</button>
-              </div>
-              <script>
-                // Prova a chiudere automaticamente
-                window.close();
-              </script>
-            </body>
-          </html>
-        `);
-        closePage.document.close();
-      }
-    }, 200);
+    }, 300);
   };
 
   const formatDate = (dateString: string) => {
