@@ -226,71 +226,37 @@ export default function ClientArea() {
   const CLOSE_PAGE_URL = "/close.html";
 
   const handleLogout = () => {
-    // Soluzioni specifiche per dispositivi mobili Android
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // Metodo più semplice e diretto, dedicato specificamente ai browser mobili
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     
-    // Se siamo in una PWA installata (modalità standalone), usa window.close()
-    // come prima opzione poiché funziona meglio in quel contesto
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      try {
-        window.close();
-        return;
-      } catch (e) {
-        console.log("Impossibile chiudere la finestra, procedo con altri metodi");
-      }
-    }
-
-    // Soluzione più affidabile per Android: creazione e click su un link con attributo specifico
-    if (isMobile) {
-      try {
-        // Crea dinamicamente un link e simula un click
-        const a = document.createElement('a');
-        a.href = "about:blank";
-        a.rel = "noreferrer noopener";
-        a.target = "_self";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        
-        // Aggiunta di un piccolo ritardo e poi prova con history.go(-2)
-        setTimeout(() => {
-          try {
-            window.history.go(-2);
-          } catch (e) {
-            console.log("Fallback con history.go(-2) non riuscito");
-          }
-        }, 100);
-        
-        return;
-      } catch (e) {
-        console.log("Metodo Android fallito:", e);
-      }
+    // Mostra un messaggio che informa l'utente
+    toast({
+      title: "Sessione terminata",
+      description: "Chiudi questa finestra o premi il tasto indietro del telefono per uscire",
+      duration: 3000
+    });
+    
+    if (isStandalone) {
+      // Per PWA installate, il metodo più semplice è informare l'utente
+      // di usare il tasto back del dispositivo o il gesto di navigazione
+      return;
     }
     
-    // Provare history.back che è più affidabile di go(-2) in alcuni contesti
-    try {
-      window.history.back();
-      
-      // Ritenta con history.go(-2) dopo un breve ritardo se la pagina è ancora visibile
+    if (isAndroid) {
+      // Su Android, il metodo più efficace è history.go(-1) o history.back()
       setTimeout(() => {
-        if (!document.hidden) {
-          window.history.go(-2);
-        }
-      }, 200);
-    } catch (e) {
-      console.log("Impossibile tornare indietro:", e);
+        window.history.back();
+      }, 500);
+      return;
     }
     
-    // Ultima risorsa: chiudi finestra o reindirizza
-    setTimeout(() => {
-      if (!document.hidden) {
-        try {
-          window.close();
-        } catch (ex) {
-          window.location.href = CLOSE_PAGE_URL;
-        }
-      }
-    }, 300);
+    // Per altri dispositivi, semplicemente torna indietro
+    try {
+      setTimeout(() => window.history.back(), 500);
+    } catch (e) {
+      console.log("Errore nel tornare indietro:", e);
+    }
   };
 
   const formatDate = (dateString: string) => {
