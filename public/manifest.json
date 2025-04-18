@@ -25,8 +25,26 @@
   "icons": [
     {
       "src": "/icons/default-app-icon.jpg",
-      "sizes": "any",
+      "sizes": "192x192",
       "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/default-app-icon.jpg",
+      "sizes": "maskable",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/flowers-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ],
