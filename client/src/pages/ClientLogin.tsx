@@ -309,6 +309,10 @@ export default function ClientLogin() {
         requestData.clientId = parseInt(storedClientId, 10);
       }
       
+      // Aggiungi parametri per indicare se è una sessione scaduta o un tentativo di recupero
+      requestData.recovery = true; // Flag per indicare che stiamo facendo un tentativo di recupero
+      requestData.retryCount = 0; // Indica che è il primo tentativo nel flusso principale
+      
       // Rilevazione browser
       const isMobileApp = 
           window.matchMedia('(display-mode: standalone)').matches || 
