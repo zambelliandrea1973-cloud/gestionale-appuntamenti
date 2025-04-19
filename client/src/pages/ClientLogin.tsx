@@ -279,13 +279,40 @@ export default function ClientLogin() {
     setLoading(true);
     
     try {
-      // Versione semplice e diretta: solo username e password
-      const requestData = {
+      // Recupera clientId e token se esistono già nel localStorage
+      const storedClientId = localStorage.getItem('clientId');
+      const storedToken = localStorage.getItem('clientAccessToken');
+      
+      // Versione migliorata: include token e clientId se disponibili
+      const requestData: any = {
         username,
         password,
       };
       
-      console.log("Tentativo di login semplificato con username e password");
+      // Aggiungi token e clientId se disponibili
+      if (storedToken && storedClientId) {
+        console.log("Aggiunti token e clientId dalla cache al tentativo di login");
+        requestData.token = storedToken;
+        requestData.clientId = parseInt(storedClientId, 10);
+      }
+      
+      // Rilevazione browser
+      const isMobileApp = 
+          window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator as any).standalone || 
+          document.referrer.includes('android-app://');
+      const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+      
+      if (isDuckDuckGo || isMobileApp) {
+        requestData.pwaInstalled = true;
+        
+        // Se siamo in PWA o DuckDuckGo e abbiamo un token, permettiamo il login flessibile
+        if (storedToken) {
+          requestData.bypassAuth = true;
+        }
+      }
+      
+      console.log("Tentativo di login avanzato con informazioni aggiuntive");
       
       const response = await apiRequest('POST', '/api/client/login', requestData);
       
@@ -298,11 +325,18 @@ export default function ClientLogin() {
           localStorage.setItem('clientId', user.client.id.toString());
         }
         localStorage.setItem('clientUsername', username);
+        // Opzionalmente salviamo la password per PWA
+        if (isMobileApp) {
+          localStorage.setItem('clientPassword', password);
+        }
         
         // Salviamo anche il token se presente nella risposta
         if (user.token) {
           localStorage.setItem('clientAccessToken', user.token);
           console.log("Token salvato nel localStorage per utilizzi futuri");
+          
+          // Salva anche come qrData per compatibilità con versioni precedenti
+          localStorage.setItem('qrData', user.token);
         }
         
         toast({
@@ -318,6 +352,15 @@ export default function ClientLogin() {
         // Gestisci errori di login
         const errorData = await response.json().catch(() => ({}));
         
+        // Se abbiamo ricevuto un errore ma avevamo token cached,
+        // puliamo il localStorage per evitare problemi futuri
+        if (storedToken || storedClientId) {
+          console.log("Pulizia token e clientId dopo login fallito");
+          localStorage.removeItem('clientAccessToken');
+          localStorage.removeItem('clientId');
+          localStorage.removeItem('qrData');
+        }
+        
         toast({
           title: "Accesso fallito",
           description: errorData.message || "Nome utente o password non validi",
@@ -328,7 +371,7 @@ export default function ClientLogin() {
       console.error("Errore durante il login:", error);
       toast({
         title: "Errore",
-        description: "Si è verificato un errore durante l'accesso",
+        description: "Si è verificato un errore durante l'accesso. Controlla la tua connessione internet e riprova.",
         variant: "destructive",
       });
     } finally {
