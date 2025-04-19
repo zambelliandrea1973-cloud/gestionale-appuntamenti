@@ -25,6 +25,11 @@ export default function ClientLogin() {
 
   // Stato per controllare se mostrare il messaggio di sessione scaduta
   const [showSessionExpiredMessage, setShowSessionExpiredMessage] = useState<boolean>(false);
+  
+  // Stato per tenere traccia delle credenziali salvate
+  const [storedUsername, setStoredUsername] = useState<string | null>(null);
+  const [storedClientId, setStoredClientId] = useState<string | null>(null);
+  const [storedToken, setStoredToken] = useState<string | null>(null);
 
   // Verifica se ci sono parametri nell'URL che indicano una sessione scaduta
   useEffect(() => {
@@ -49,13 +54,13 @@ export default function ClientLogin() {
   }, []);
   
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
+  // Rileva se siamo in una PWA installata
+  const isPWA = 
+    window.matchMedia('(display-mode: standalone)').matches || 
+    (window.navigator as any).standalone || 
+    document.referrer.includes('android-app://');
+    
   useEffect(() => {
-    // Rileva se siamo in una PWA installata
-    const isPWA = 
-      window.matchMedia('(display-mode: standalone)').matches || 
-      (window.navigator as any).standalone || 
-      document.referrer.includes('android-app://');
-      
     // Salva l'URL corrente come URL originale per supportare l'apertura diretta da PWA
     const currentUrl = window.location.href;
     localStorage.setItem('originalUrl', currentUrl);
@@ -95,8 +100,15 @@ export default function ClientLogin() {
     }
     
     // Pre-popola nome utente dal localStorage se disponibile
-    const storedUsername = localStorage.getItem('clientUsername');
-    const storedPassword = localStorage.getItem('clientPassword'); // Se memorizzata
+    const clientUsername = localStorage.getItem('clientUsername');
+    const clientPassword = localStorage.getItem('clientPassword'); // Se memorizzata
+    const clientId = localStorage.getItem('clientId');
+    const clientToken = localStorage.getItem('clientAccessToken');
+    
+    // Aggiorna lo stato per renderlo disponibile nel componente
+    setStoredUsername(clientUsername);
+    setStoredClientId(clientId);
+    setStoredToken(clientToken);
     
     // Aggiungi un log più completo per debug
     console.log("Controllo credenziali salvate:", { 
@@ -588,6 +600,21 @@ export default function ClientLogin() {
                   Attiva il tuo account
                 </a>
               </span>
+            </div>
+            
+            {/* Pulsante per login semplificato (senza POST) */}
+            <div className="mt-2">
+              {storedUsername && storedToken && storedClientId && (
+                <SimpleLoginButton
+                  username={storedUsername}
+                  clientId={parseInt(storedClientId, 10)}
+                  token={storedToken}
+                  text="Login alternativo (Soluzione problemi)"
+                  variant="outline"
+                  size="default"
+                  isPwa={isPWA}
+                />
+              )}
             </div>
             
             {/* Aggiungi un extra messaggio per le PWA */}

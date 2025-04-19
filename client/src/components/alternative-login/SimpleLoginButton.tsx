@@ -1,118 +1,110 @@
-import React from 'react';
-import { useNavigate } from 'wouter';
+import { useState } from 'react';
+import { localStorageClient } from '@/lib/localStorageClient';
+import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import localStorageClient from '@/lib/localStorageClient';
+import { Loader2 } from 'lucide-react';
 
 interface SimpleLoginButtonProps {
-  className?: string;
-  label?: string;
-  onSuccess?: () => void;
-  onError?: (error: any) => void;
+  username: string;
+  clientId: number;
+  token: string;
+  variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link' | 'destructive';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  isPwa?: boolean;
+  text?: string;
 }
 
 /**
- * Pulsante per eseguire login semplificato con GET
- * Utilizza le credenziali in localStorage.
+ * Componente pulsante per login semplificato tramite GET request
+ * Particolarmente utile nei contesti PWA e browser Android/iOS con problemi di CORS o POST
  */
 export default function SimpleLoginButton({
-  className = '',
-  label = 'Accedi in modalità semplificata',
-  onSuccess,
-  onError
+  username,
+  clientId,
+  token,
+  variant = 'default',
+  size = 'default',
+  isPwa = false,
+  text = 'Accesso semplificato'
 }: SimpleLoginButtonProps) {
-  const [loading, setLoading] = React.useState(false);
-  const [, navigate] = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
-  
-  // Verifica se abbiamo le credenziali necessarie
-  const hasCredentials = localStorageClient.hasStoredCredentials();
-  
-  const handleClick = async () => {
-    try {
-      setLoading(true);
-      
-      // Se non abbiamo credenziali, mostra un errore
-      if (!hasCredentials) {
-        toast({
-          title: "Impossibile accedere",
-          description: "Nessuna credenziale salvata. Esegui prima il login normale.",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      // Esegui login con metodo GET semplificato
-      const user = await localStorageClient.loginWithStoredCredentials({
-        useSimpleLogin: true,
-        pwaMode: window.matchMedia('(display-mode: standalone)').matches || 
-                (window.navigator as any).standalone || 
-                document.referrer.includes('android-app://')
-      });
-      
-      if (user) {
-        // Mostra toast di successo
-        toast({
-          title: "Accesso effettuato",
-          description: `Benvenuto, ${user.client?.firstName || 'Utente'}!`
-        });
-        
-        // Callback di successo
-        if (onSuccess) {
-          onSuccess();
-        } else {
-          // Naviga all'area client
-          setTimeout(() => {
-            navigate('/client-area');
-          }, 500);
-        }
-      } else {
-        toast({
-          title: "Accesso fallito",
-          description: "Impossibile accedere con le credenziali salvate",
-          variant: "destructive"
-        });
-        
-        if (onError) {
-          onError(new Error("Login failed"));
-        }
-      }
-    } catch (error) {
-      console.error("Errore durante login semplificato:", error);
-      
+
+  const handleSimpleLogin = async () => {
+    if (!username || !clientId || !token) {
       toast({
         title: "Errore",
-        description: "Si è verificato un errore durante l'accesso",
+        description: "Credenziali incomplete per il login semplificato",
         variant: "destructive"
       });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Costruiamo l'URL con i parametri per il login tramite GET
+      const loginUrl = `/api/client/simple-login?username=${encodeURIComponent(username)}&clientId=${clientId}&token=${encodeURIComponent(token)}`;
       
-      if (onError) {
-        onError(error);
+      // Utilizziamo fetch direttamente per maggiore controllo
+      const response = await fetch(loginUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'X-PWA-Client': isPwa ? 'true' : 'false'
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Salva credenziali nel localStorage per usi futuri
+        localStorageClient.storeCredentials(username, clientId, token);
+        
+        toast({
+          title: "Accesso effettuato",
+          description: "Benvenuto nell'area cliente"
+        });
+        
+        // Reindirizza all'area client
+        setLocation('/client-area');
+      } else {
+        // Gestisce errori (anche quelli 401)
+        console.error('Errore login semplificato:', data);
+        toast({
+          title: "Errore di accesso",
+          description: data.message || 'Impossibile accedere con queste credenziali',
+          variant: "destructive"
+        });
       }
+    } catch (error) {
+      console.error('Errore durante il login semplificato:', error);
+      toast({
+        title: "Errore di connessione",
+        description: "Verificare la connessione Internet e riprovare",
+        variant: "destructive"
+      });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
-  
-  if (!hasCredentials) {
-    return null; // Non mostrare il pulsante se non ci sono credenziali
-  }
-  
+
   return (
-    <Button
-      variant="outline"
-      className={className}
-      onClick={handleClick}
-      disabled={loading}
+    <Button 
+      variant={variant} 
+      size={size}
+      onClick={handleSimpleLogin}
+      disabled={isLoading}
     >
-      {loading ? (
+      {isLoading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           Accesso in corso...
         </>
       ) : (
-        label
+        text
       )}
     </Button>
   );

@@ -29,11 +29,11 @@ import { externalPingService } from './services/externalPingService';
 import { autoRestartService } from './services/autoRestartService';
 import { persistenceService } from './services/persistenceService';
 import { pingStatsService } from './services/pingStatsService';
-import { clientAccessService } from './services/clientAccessService';
-import { clientLoginService } from './services/clientLoginService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
+import { clientAccessService } from "./services/clientAccessService";
+import { clientLoginService } from "./services/clientLoginService";
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -1382,173 +1382,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Attiva un account cliente tramite token
-  // API per autenticazione client tramite credenziali (metodo POST tradizionale)
-  app.post("/api/client/login", async (req: Request, res: Response) => {
-    try {
-      const { username, password, token, clientId, bypassAuth, pwaInstalled, recreateSession } = req.body;
-      
-      // Log completo della richiesta di login per diagnostica
-      console.log("Tentativo login client:", { 
-        username, 
-        hasPassword: !!password, 
-        hasToken: !!token, 
-        clientId: clientId ? Number(clientId) : undefined,
-        bypassAuth: !!bypassAuth,
-        pwaInstalled: !!pwaInstalled,
-        recreateSession: !!recreateSession,
-        headers: {
-          browser: req.headers['user-agent']?.substring(0, 100),
-          pwaClient: req.headers['x-pwa-client'],
-          bypassAuth: req.headers['x-bypass-auth'],
-          retryAttempt: req.headers['x-retry-attempt']
-        }
-      });
-      
-      if (!username) {
-        return res.status(400).json({ message: "Nome utente richiesto" });
-      }
-      
-      // Usa il servizio di login cliente per verificare le credenziali
-      const user = await clientLoginService.verifyCredentials(
-        username,
-        password,
-        token,
-        clientId ? Number(clientId) : undefined,
-        bypassAuth
-      );
-      
-      if (!user) {
-        return res.status(401).json({ message: "Credenziali non valide" });
-      }
-      
-      // Registra l'accesso con informazioni aggiuntive
-      const ipAddress = req.ip || req.socket.remoteAddress || '';
-      const userAgent = req.headers['user-agent'] || '';
-      await clientAccessService.logAccess(user.clientId, ipAddress, userAgent, pwaInstalled ? 'PWA' : 'Standard');
-      
-      // Aggiungi informazioni sul tipo di client
-      if (pwaInstalled) {
-        user.clientType = "pwa-app";
-      } else if (bypassAuth) {
-        user.clientType = "token-auth";
-      } else {
-        user.clientType = "standard";
-      }
-      
-      // Se l'utente ha richiesto di ricreare la sessione
-      if (recreateSession) {
-        console.log("Richiesta di ricreare la sessione per", username);
-        // Distruggi la sessione corrente
-        req.session.destroy((err) => {
-          if (err) {
-            console.error("Errore durante la distruzione della sessione:", err);
-            return res.status(500).json({ message: "Errore durante la rigenerazione della sessione" });
-          }
-          
-          // Crea una nuova sessione
-          // L'autenticazione dovrà essere gestita dal client che dovrà fare una nuova richiesta di login
-          return res.status(200).json({ 
-            message: "Sessione rigenerata, è necessario effettuare nuovamente il login",
-            sessionReset: true
-          });
-        });
-        return;
-      }
-      
-      // Autentica l'utente tramite Passport
-      req.login(user, async (err) => {
-        if (err) {
-          console.error("Errore durante l'autenticazione client:", err);
-          return res.status(500).json({ message: "Errore durante l'autenticazione" });
-        }
-        
-        // Log di successo
-        console.log(`Login client completato con successo: ${username} (ID: ${user.clientId}), PWA: ${pwaInstalled}`);
-        
-        res.json(user);
-      });
-    } catch (error) {
-      console.error("Errore durante il login:", error);
-      res.status(500).json({ message: "Errore durante l'elaborazione della richiesta di login", error: String(error) });
-    }
-  });
-  
-  // Nuovo endpoint: login cliente semplificato tramite GET
-  // Questo endpoint consente di autenticare un cliente usando solo parametri URL
-  // ed evita completamente l'uso di chiamate POST con corpo JSON
-  app.get("/api/client/simple-login", async (req: Request, res: Response) => {
-    try {
-      // Recupera parametri dalla query URL
-      const { username, clientId, token } = req.query;
-      const isPwa = req.headers['x-pwa-client'] === 'true' || 
-                   req.query.pwa === 'true' ||
-                   req.query.isPwa === 'true';
-      
-      console.log("Tentativo login client con metodo GET:", { 
-        username, 
-        clientId, 
-        hasToken: !!token, 
-        isPwa,
-        browser: req.headers['user-agent']?.substring(0, 100)
-      });
-      
-      // Valida i parametri richiesti
-      if (!username || !clientId || !token) {
-        return res.status(400).json({ 
-          success: false,
-          message: "Parametri mancanti. Richiesti: username, clientId e token" 
-        });
-      }
-      
-      // Tenta l'autenticazione tramite il servizio
-      const user = await clientLoginService.authenticateViaGet(
-        username as string,
-        clientId as string,
-        token as string,
-        isPwa
-      );
-      
-      // Se l'autenticazione fallisce
-      if (!user) {
-        return res.status(401).json({ 
-          success: false,
-          message: "Autenticazione fallita. Token non valido o scaduto."
-        });
-      }
-      
-      // Aggiunge informazioni sul tipo di client
-      user.clientType = isPwa ? "pwa-app" : "simple-login";
-      
-      // Autentica tramite Passport
-      req.login(user, async (err) => {
-        if (err) {
-          console.error("Errore durante l'autenticazione client semplificata:", err);
-          return res.status(500).json({ 
-            success: false,
-            message: "Errore durante l'autenticazione" 
-          });
-        }
-        
-        // Log di successo
-        console.log(`Login client semplificato completato: ${username} (ID: ${user.clientId}), PWA: ${isPwa}`);
-        
-        // Restituisci il risultato
-        res.json({
-          success: true,
-          message: "Accesso effettuato con successo",
-          user
-        });
-      });
-    } catch (error) {
-      console.error("Errore durante login semplificato:", error);
-      res.status(500).json({ 
-        success: false,
-        message: "Errore durante l'elaborazione della richiesta", 
-        error: String(error)
-      });
-    }
-  });
-  
   app.post("/api/activate-account", async (req: Request, res: Response) => {
     try {
       const { token, username, password } = req.body;
