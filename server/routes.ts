@@ -28,6 +28,7 @@ import { keepAliveService } from './services/keepAliveService';
 import { externalPingService } from './services/externalPingService';
 import { autoRestartService } from './services/autoRestartService';
 import { persistenceService } from './services/persistenceService';
+import { pingStatsService } from './services/pingStatsService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
@@ -172,11 +173,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const isKeepAliveRequest = req.headers['x-keep-alive'] === 'true';
     const isFromServiceWorker = req.headers['x-sw-health-check'] === 'true';
     const isRecoveryAttempt = req.headers['x-sw-recovery'] === 'true';
+    const isPersistenceService = req.headers['x-persistence-service'] === 'true';
     const attempt = req.headers['x-sw-attempt'];
+    
+    // Determina la fonte del ping e l'user agent
+    let source = 'unknown';
+    if (isKeepAliveRequest) source = 'keepalive';
+    if (isFromServiceWorker) source = 'service-worker';
+    if (isRecoveryAttempt) source = 'recovery';
+    if (isPersistenceService) source = 'persistence-service';
+    
+    // Registra il ping nelle statistiche con la fonte appropriata
+    pingStatsService.recordPing('OK', source, req.headers['user-agent']);
     
     // Log per tentativi di recupero
     if (isRecoveryAttempt) {
       console.log(`Tentativo di recupero dal service worker: ${attempt || 'iniziale'}`);
+    }
+    
+    // Log per health check da servizio di persistenza
+    if (isPersistenceService) {
+      console.log(`[${new Date().toISOString()}] Health check riuscito: l'applicazione è attiva`);
     }
     
     // Risposta base per keepalive semplice
@@ -209,8 +226,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const heapTotal = Math.round(memoryUsage.heapTotal / 1024 / 1024);
         
         // Log per debuggare l'utilizzo delle risorse
-        const memoryLog = `Utilizzo risorse - Mem: ${usedMem}/${totalMem} MB (${memoryPercentage}%), Heap: ${heapUsed}/${heapTotal} MB, CPU Load: ${cpuLoad}`;
-        console.log(memoryLog);
+        if (!isPersistenceService) {
+          const memoryLog = `Utilizzo risorse - Mem: ${usedMem}/${totalMem} MB (${memoryPercentage}%), Heap: ${heapUsed}/${heapTotal} MB, CPU Load: ${cpuLoad}`;
+          console.log(memoryLog);
+        }
         
         // Pulizia memoria se necessario
         if (memoryPercentage > 75 || (heapUsed / heapTotal) > 0.9) {
@@ -265,12 +284,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         };
       };
       
+      // Ottieni le statistiche dei ping
+      const pingStats = pingStatsService.getStats();
+      
       // Prepara dati di base
       const healthData = {
         status: "OK",
         timestamp: new Date().toISOString(),
         startTime: startTime.toISOString(),
         uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
+        uptimeStats: pingStatsService.getUptimeStats(),
         memory: {
           rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
           heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
@@ -290,14 +313,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
             isKeepAlive: isKeepAliveRequest,
             isServiceWorker: isFromServiceWorker,
             isRecovery: isRecoveryAttempt,
+            isPersistenceService,
             recoveryAttempt: attempt
           },
-          system: getSystemInfo()
-        };
+          system: getSystemInfo(),
+          pingStats: {
+            total: pingStats.ping_count,
+            lastPing: pingStats.last_ping,
+            recentPings: pingStatsService.getRecentPings(5)
+          }
+        } as any;
         
         // Se è una richiesta di recupero, conferma esplicitamente che siamo attivi
         if (isRecoveryAttempt) {
-          (extendedData as any).recoveryResponse = {
+          extendedData.recoveryResponse = {
             serverIsUp: true,
             recoverySuccessful: true,
             message: "Server attivo e risponde correttamente"
@@ -321,7 +350,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
           heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
           heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`
-        }
+        },
+        pingStats: pingStatsService.getUptimeStats()
       };
       res.json(baseResponse);
     });
@@ -380,16 +410,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Endpoint per monitorare lo stato del servizio di persistenza
   app.get('/api/persistence/status', isStaff, (req: Request, res: Response) => {
-    const status = persistenceService.getStatus();
+    const persistenceStatus = persistenceService.getStatus();
+    const pingStats = pingStatsService.getStats();
+    const uptimeStats = pingStatsService.getUptimeStats();
+    
     res.json({
-      ...status,
+      persistence: persistenceStatus,
+      ping: {
+        stats: pingStats,
+        uptime: uptimeStats,
+        recentPings: pingStatsService.getRecentPings(10)
+      },
       serverTime: new Date().toISOString()
     });
   });
   
-  // Configurazione di un ping URL per UptimeRobot 
+  // Endpoint per visualizzare statistiche complete di ping senza autenticazione (utile per debug)
+  app.get('/api/ping-stats', (req: Request, res: Response) => {
+    pingStatsService.recordPing('OK', 'ping-stats-request', req.headers['user-agent']);
+    
+    res.json({
+      stats: pingStatsService.getStats(),
+      uptime: pingStatsService.getUptimeStats(),
+      recentPings: pingStatsService.getRecentPings(20),
+      serverTime: new Date().toISOString()
+    });
+  });
+  
+  // Configurazione di un ping URL per UptimeRobot o simili
   app.get('/ping', (req: Request, res: Response) => {
-    // Endpoint pubblico per i servizi di monitoraggio esterni
+    // Registra il ping nelle statistiche come proveniente da servizio di monitoraggio esterno
+    pingStatsService.recordPing('OK', 'external-monitoring', req.headers['user-agent']);
+    
+    // Per richieste JSON
+    if (req.accepts('json')) {
+      return res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: pingStatsService.getFormattedUptime(),
+        message: 'Server is running'
+      });
+    }
+    
+    // Per richieste standard (testo)
     res.status(200).send('PONG');
   });
   
