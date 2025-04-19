@@ -113,20 +113,20 @@ export default function ClientLogin() {
     // Aggiungi un log più completo per debug
     console.log("Controllo credenziali salvate:", { 
       isPWA, 
-      hasStoredUsername: !!storedUsername, 
-      hasStoredPassword: !!storedPassword,
+      hasStoredUsername: !!clientUsername, 
+      hasStoredPassword: !!clientPassword,
       pathName: window.location.pathname,
       browser: navigator.userAgent
     });
     
-    if (storedUsername) {
-      console.log("Usando nome utente memorizzato:", storedUsername);
-      setUsername(storedUsername);
+    if (clientUsername) {
+      console.log("Usando nome utente memorizzato:", clientUsername);
+      setUsername(clientUsername);
       
       // Se c'è anche la password memorizzata (opzionale), imposta anche quella
-      if (storedPassword) {
+      if (clientPassword) {
         console.log("Usando password memorizzata (PWA)");
-        setPassword(storedPassword);
+        setPassword(clientPassword);
         
         // Se siamo in una PWA, tentiamo un login automatico immediato con credenziali salvate
         if (isPWA) {
@@ -177,7 +177,7 @@ export default function ClientLogin() {
         // Auto-login in modalità PWA
         // Se abbiamo nome utente, token e siamo in una PWA installata, tentiamo un login automatico
         // Rimosso il controllo specifico per DuckDuckGo per supportare tutti i browser
-        if (isPWA && storedUsername && token && clientId) {
+        if (isPWA && clientUsername && token && clientId) {
           console.log("Tentativo di login automatico per app PWA installata");
           
           try {
@@ -185,8 +185,8 @@ export default function ClientLogin() {
             
             // Crea una richiesta per il login automatico da PWA
             const requestData = {
-              username: storedUsername,
-              password: storedPassword || "placeholder-password-for-token-auth",
+              username: clientUsername,
+              password: clientPassword || "placeholder-password-for-token-auth",
               token,
               clientId: parseInt(clientId, 10),
               bypassAuth: true,
