@@ -36,6 +36,9 @@ export interface IStorage {
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
   
+  // Metodo aggiuntivo per la ricerca utenti per clientId
+  getUserByClientId(clientId: number): Promise<User | undefined>;
+  
   // Reminder Template operations
   getReminderTemplate(id: number): Promise<ReminderTemplate | undefined>;
   getReminderTemplates(): Promise<ReminderTemplate[]>;
@@ -1681,11 +1684,38 @@ export class DatabaseStorage implements IStorage {
       return undefined;
     }
   }
+  
+  async getUserByClientId(clientId: number): Promise<User | undefined> {
+    try {
+      const [user] = await db.select().from(users).where(
+        and(
+          eq(users.clientId, clientId),
+          eq(users.type, "client")
+        )
+      );
+      
+      return user;
+    } catch (error) {
+      console.error("Error getting user by client ID:", error);
+      return undefined;
+    }
+  }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     try {
+      // Prima cerchiamo con corrispondenza esatta
       const [user] = await db.select().from(users).where(eq(users.username, username));
-      return user;
+      
+      if (user) {
+        return user;
+      }
+      
+      // Se non troviamo l'utente, proviamo con una corrispondenza case-insensitive
+      const [userCaseInsensitive] = await db.select().from(users).where(
+        sql`LOWER(${users.username}) = LOWER(${username})`
+      );
+      
+      return userCaseInsensitive;
     } catch (error) {
       console.error("Error getting user by username:", error);
       return undefined;
