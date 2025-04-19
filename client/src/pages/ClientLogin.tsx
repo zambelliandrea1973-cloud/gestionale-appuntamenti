@@ -351,7 +351,8 @@ export default function ClientLogin() {
             },
             body: JSON.stringify(requestData),
             credentials: 'include',
-            signal: controller.signal
+            signal: controller.signal,
+            duplex: 'half' // Aggiunto per risolvere l'errore duplex con le richieste con corpo
           });
           
           // Pulisci il timeout

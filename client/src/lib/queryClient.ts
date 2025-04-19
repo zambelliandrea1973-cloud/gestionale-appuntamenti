@@ -82,7 +82,8 @@ export async function apiRequest(
         headers,
         body: data ? JSON.stringify(data) : undefined,
         credentials: "include",
-        signal: controller.signal
+        signal: controller.signal,
+        duplex: 'half' // Aggiunto per risolvere l'errore duplex con le richieste con corpo
       });
       
       clearTimeout(timeoutId);
@@ -123,7 +124,8 @@ export async function apiRequest(
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData),
-            credentials: 'include'
+            credentials: 'include',
+            duplex: 'half' // Aggiunto per risolvere l'errore duplex con le richieste con corpo
           });
           
           if (loginRes.ok) {
@@ -283,7 +285,8 @@ export const getQueryFn: <T>(options: {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
-                credentials: 'include'
+                credentials: 'include',
+                duplex: 'half' // Aggiunto per risolvere l'errore duplex con le richieste con corpo
               });
               
               if (loginRes.ok) {
