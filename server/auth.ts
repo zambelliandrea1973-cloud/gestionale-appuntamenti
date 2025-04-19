@@ -182,21 +182,30 @@ export function setupAuth(app: Express) {
 
   // Rotte di autenticazione per clienti
   app.post("/api/client/login", async (req, res, next) => {
-    // Estrai le informazioni dalla richiesta
-    const { token, clientId, username, password } = req.body;
-    
-    // Registra informazioni utili per il debug
-    const userAgent = req.headers['user-agent'] || 'Unknown';
-    const isMobileApp = req.headers['x-pwa-app'] === 'true';
-    const isDuckDuckGo = userAgent.includes('DuckDuckGo');
-    
-    console.log(`Login client - UserAgent: ${userAgent}`);
-    console.log(`Login client - PWA: ${isMobileApp}, DuckDuckGo: ${isDuckDuckGo}`);
-    
-    // Gestione per DuckDuckGo
-    if (isDuckDuckGo) {
-      console.log('Client sta utilizzando DuckDuckGo browser, modalità speciale attivata');
-    }
+    try {
+      // Estrai le informazioni dalla richiesta
+      const { token, clientId, username, password, bypassAuth, pwaInstalled, recreateSession } = req.body;
+      
+      // Log completo della richiesta per debug (rimuovendo la password)
+      const reqForLog = { ...req.body };
+      if (reqForLog.password) reqForLog.password = '[HIDDEN]';
+      console.log('=== CLIENT LOGIN DEBUG ===');
+      console.log('Tentativo di login con:', JSON.stringify(reqForLog));
+      console.log('Headers:', JSON.stringify(req.headers));
+      
+      // Registra informazioni utili per il debug
+      const userAgent = req.headers['user-agent'] || 'Unknown';
+      const isMobileApp = req.headers['x-pwa-app'] === 'true' || pwaInstalled === true;
+      const isDuckDuckGo = userAgent.includes('DuckDuckGo');
+      
+      console.log(`Login client - UserAgent: ${userAgent}`);
+      console.log(`Login client - PWA: ${isMobileApp}, DuckDuckGo: ${isDuckDuckGo}`);
+      console.log(`Login client - Dati extra: bypassAuth=${bypassAuth}, recreateSession=${recreateSession}`);
+      
+      // Gestione per DuckDuckGo
+      if (isDuckDuckGo) {
+        console.log('Client sta utilizzando DuckDuckGo browser, modalità speciale attivata');
+      }
     
     // PERCORSO 1: Autenticazione con token
     // Prima verifichiamo se ci sono token e clientId (priorità alta)
@@ -335,6 +344,13 @@ export function setupAuth(app: Express) {
     
     // PERCORSO 3: Nessuna credenziale valida
     return res.status(401).json({ message: "Credenziali mancanti o non valide" });
+  } catch (error) {
+    console.error("Errore critico durante il login client:", error);
+    return res.status(500).json({ 
+      message: "Errore interno durante il processo di login",
+      debug: process.env.NODE_ENV !== 'production' ? String(error) : undefined
+    });
+  }
   });
 
   // Registrazione per utenti staff (solo admin può creare altri staff)
