@@ -164,49 +164,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const memoryUsage = process.memoryUsage();
     const startTime = new Date(Date.now() - (uptime * 1000));
     
-    // Controlla se è una richiesta di keepalive dal nostro sistema
-    const isKeepAliveRequest = req.headers['x-keep-alive'] === 'true';
-    
-    // Prepara dati di base
-    const healthData = {
-      status: "OK",
-      timestamp: new Date().toISOString(),
-      startTime: startTime.toISOString(),
-      uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
-      memory: {
-        rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
-        heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
-        heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
-        external: `${Math.round(memoryUsage.external / 1024 / 1024)} MB`
-      },
-      version: process.env.npm_package_version || "1.0.0"
-    };
-    
-    // Se è una richiesta di recupero o dal sistema di monitoraggio, aggiungi più informazioni
-    if (isKeepAliveRequest || req.headers['x-recovery-attempt'] === 'true') {
-      // Aggiungi informazioni estese per diagnostica
-      const extendedData = {
-        ...healthData,
-        system: {
-          platform: process.platform,
-          nodeVersion: process.version,
-          arch: process.arch,
-          cpus: require('os').cpus().length,
-          freeMemory: `${Math.round(require('os').freemem() / 1024 / 1024)} MB`,
-          totalMemory: `${Math.round(require('os').totalmem() / 1024 / 1024)} MB`,
-          loadAvg: require('os').loadavg()
+    // Importa os direttamente all'inizio dell'endpoint per evitare errori con require
+    import('os').then(os => {
+      // Controlla se è una richiesta di keepalive dal nostro sistema
+      const isKeepAliveRequest = req.headers['x-keep-alive'] === 'true';
+      
+      // Prepara dati di base
+      const healthData = {
+        status: "OK",
+        timestamp: new Date().toISOString(),
+        startTime: startTime.toISOString(),
+        uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
+        memory: {
+          rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
+          heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
+          heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
+          external: `${Math.round(memoryUsage.external / 1024 / 1024)} MB`
         },
-        environment: {
-          NODE_ENV: process.env.NODE_ENV || 'production',
-          TZ: process.env.TZ || 'UTC'
-        }
+        version: process.env.npm_package_version || "1.0.0"
       };
       
-      res.json(extendedData);
-    } else {
-      // Risposta standard per client normali
-      res.json(healthData);
-    }
+      // Se è una richiesta di recupero o dal sistema di monitoraggio, aggiungi più informazioni
+      if (isKeepAliveRequest || req.headers['x-recovery-attempt'] === 'true') {
+        // Aggiungi informazioni estese per diagnostica
+        const extendedData = {
+          ...healthData,
+          system: {
+            platform: process.platform,
+            nodeVersion: process.version,
+            arch: process.arch,
+            cpus: os.cpus().length,
+            freeMemory: `${Math.round(os.freemem() / 1024 / 1024)} MB`,
+            totalMemory: `${Math.round(os.totalmem() / 1024 / 1024)} MB`,
+            loadAvg: os.loadavg()
+          },
+          environment: {
+            NODE_ENV: process.env.NODE_ENV || 'production',
+            TZ: process.env.TZ || 'UTC'
+          }
+        };
+        
+        res.json(extendedData);
+      } else {
+        // Risposta standard per client normali
+        res.json(healthData);
+      }
+    }).catch(error => {
+      // In caso di errore, invia comunque una risposta base
+      console.error('Errore nel recupero delle informazioni di sistema:', error);
+      const baseResponse = {
+        status: "OK",
+        timestamp: new Date().toISOString(),
+        uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
+        memory: {
+          rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
+          heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
+          heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`
+        }
+      };
+      res.json(baseResponse);
+    });
   });
   
   // Client Access API endpoints
