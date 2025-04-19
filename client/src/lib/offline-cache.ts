@@ -334,6 +334,9 @@ export const offlineCache = new OfflineCache();
  * Hook per utilizzare la cache offline con React Query
  */
 export function useOfflineQueryOptions<T>(key: string, ttl?: number) {
+  // Prefisso per la chiave della cache
+  const cacheKeyPrefix = 'app_cache_';
+  
   return {
     staleTime: ttl || 5 * 60 * 1000, // 5 minuti di default
     cacheTime: ttl || 30 * 60 * 1000, // 30 minuti di default
@@ -347,7 +350,7 @@ export function useOfflineQueryOptions<T>(key: string, ttl?: number) {
     },
     initialData: () => {
       // Cerca dati dalla cache offline come initialData
-      const cachedData = localStorage.getItem(offlineCache.PREFIX + key);
+      const cachedData = localStorage.getItem(cacheKeyPrefix + key);
       if (cachedData) {
         try {
           const parsed = JSON.parse(cachedData);

@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
+import express from "express";
 import {
   insertClientSchema,
   insertServiceSchema,
@@ -24,6 +25,8 @@ import { googleCalendarService } from "./services/googleCalendarService";
 import { companyNameService } from "./services/companyNameService";
 import { directNotificationService } from "./services/directNotificationService";
 import { keepAliveService } from './services/keepAliveService';
+import { externalPingService } from './services/externalPingService';
+import { autoRestartService } from './services/autoRestartService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
@@ -164,10 +167,102 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const memoryUsage = process.memoryUsage();
     const startTime = new Date(Date.now() - (uptime * 1000));
     
+    // Leggi gli header rilevanti per il tipo di richiesta
+    const isKeepAliveRequest = req.headers['x-keep-alive'] === 'true';
+    const isFromServiceWorker = req.headers['x-sw-health-check'] === 'true';
+    const isRecoveryAttempt = req.headers['x-sw-recovery'] === 'true';
+    const attempt = req.headers['x-sw-attempt'];
+    
+    // Log per tentativi di recupero
+    if (isRecoveryAttempt) {
+      console.log(`Tentativo di recupero dal service worker: ${attempt || 'iniziale'}`);
+    }
+    
+    // Risposta base per keepalive semplice
+    if (isKeepAliveRequest && !isFromServiceWorker && !isRecoveryAttempt) {
+      return res.json({
+        status: "OK",
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Per tutte le altre richieste, prepariamo una risposta più dettagliata
     // Importa os direttamente all'inizio dell'endpoint per evitare errori con require
     import('os').then(os => {
-      // Controlla se è una richiesta di keepalive dal nostro sistema
-      const isKeepAliveRequest = req.headers['x-keep-alive'] === 'true';
+      // Funzione per calcolare l'utilizzo delle risorse
+      const getSystemInfo = () => {
+        // Calcola l'utilizzo della CPU
+        const cpus = os.cpus();
+        const cpuCount = cpus.length;
+        const loadAvg = os.loadavg()[0];
+        const cpuLoad = (loadAvg / cpuCount * 100).toFixed(2);
+        
+        // Calcola l'utilizzo della memoria
+        const totalMem = Math.round(os.totalmem() / 1024 / 1024);
+        const freeMem = Math.round(os.freemem() / 1024 / 1024);
+        const usedMem = totalMem - freeMem;
+        const memoryPercentage = Math.round(usedMem / totalMem * 100);
+        
+        // Calcola l'utilizzo dell'heap di Node.js
+        const heapUsed = Math.round(memoryUsage.heapUsed / 1024 / 1024);
+        const heapTotal = Math.round(memoryUsage.heapTotal / 1024 / 1024);
+        
+        // Log per debuggare l'utilizzo delle risorse
+        const memoryLog = `Utilizzo risorse - Mem: ${usedMem}/${totalMem} MB (${memoryPercentage}%), Heap: ${heapUsed}/${heapTotal} MB, CPU Load: ${cpuLoad}`;
+        console.log(memoryLog);
+        
+        // Pulizia memoria se necessario
+        if (memoryPercentage > 75 || (heapUsed / heapTotal) > 0.9) {
+          console.log("Utilizzo memoria elevato o perdita rilevata, avvio procedure di pulizia...");
+          try {
+            if (global.gc) {
+              global.gc();
+              console.log("Garbage collection forzato completato");
+            } else {
+              console.log("GC non disponibile, impossibile forzare pulizia memoria");
+            }
+          } catch (e) {
+            console.log("Errore nella pulizia della memoria:", e);
+          }
+        }
+        
+        return {
+          os: {
+            platform: os.platform(),
+            release: os.release(),
+            uptime: os.uptime(),
+            hostname: os.hostname(),
+            type: os.type()
+          },
+          cpu: {
+            cores: cpuCount,
+            model: cpus[0].model,
+            load: `${cpuLoad}%`,
+            loadAvg
+          },
+          memory: {
+            total: `${totalMem} MB`,
+            free: `${freeMem} MB`,
+            used: `${usedMem} MB`,
+            usagePercentage: `${memoryPercentage}%`
+          },
+          node: {
+            version: process.version,
+            pid: process.pid,
+            memoryUsage: {
+              rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
+              heapTotal: `${heapTotal} MB`,
+              heapUsed: `${heapUsed} MB`,
+              external: `${Math.round(memoryUsage.external / 1024 / 1024)} MB`
+            }
+          },
+          app: {
+            uptime: process.uptime(),
+            environment: process.env.NODE_ENV || 'development',
+            startTime: startTime.toISOString()
+          }
+        };
+      };
       
       // Prepara dati di base
       const healthData = {
@@ -184,25 +279,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         version: process.env.npm_package_version || "1.0.0"
       };
       
-      // Se è una richiesta di recupero o dal sistema di monitoraggio, aggiungi più informazioni
-      if (isKeepAliveRequest || req.headers['x-recovery-attempt'] === 'true') {
+      // Aggiungi informazioni estese per diagnostica se richiesto
+      // o se è una richiesta dal service worker o recupero
+      if (isFromServiceWorker || isRecoveryAttempt || req.query.extended === 'true') {
         // Aggiungi informazioni estese per diagnostica
         const extendedData = {
           ...healthData,
-          system: {
-            platform: process.platform,
-            nodeVersion: process.version,
-            arch: process.arch,
-            cpus: os.cpus().length,
-            freeMemory: `${Math.round(os.freemem() / 1024 / 1024)} MB`,
-            totalMemory: `${Math.round(os.totalmem() / 1024 / 1024)} MB`,
-            loadAvg: os.loadavg()
+          requestType: {
+            isKeepAlive: isKeepAliveRequest,
+            isServiceWorker: isFromServiceWorker,
+            isRecovery: isRecoveryAttempt,
+            recoveryAttempt: attempt
           },
-          environment: {
-            NODE_ENV: process.env.NODE_ENV || 'production',
-            TZ: process.env.TZ || 'UTC'
-          }
+          system: getSystemInfo()
         };
+        
+        // Se è una richiesta di recupero, conferma esplicitamente che siamo attivi
+        if (isRecoveryAttempt) {
+          extendedData.recoveryResponse = {
+            serverIsUp: true,
+            recoverySuccessful: true,
+            message: "Server attivo e risponde correttamente"
+          };
+        }
         
         res.json(extendedData);
       } else {
@@ -216,6 +315,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: "OK",
         timestamp: new Date().toISOString(),
         uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
+        error: "Impossibile recuperare informazioni di sistema dettagliate",
         memory: {
           rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
           heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
@@ -224,6 +324,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       res.json(baseResponse);
     });
+  });
+  
+  // Endpoint per la verifica della connettività (ping esterno)
+  app.use('/api/external', (req: Request, res: Response, next: NextFunction) => {
+    // Registra i ping esterni per l'analisi
+    const userAgent = req.headers['user-agent'] || 'unknown';
+    const ip = req.ip || req.connection.remoteAddress || 'unknown';
+    console.log(`Ping esterno ricevuto da ${ip} (${userAgent})`);
+    next();
+  });
+  
+  // Registra gli endpoint del servizio di ping esterno
+  const externalPingRouter = express.Router();
+  externalPingService.registerRoutes(externalPingRouter);
+  app.use('/api/external', externalPingRouter);
+  
+  // Endpoint per il controllo e la gestione del servizio di riavvio automatico
+  app.get('/api/auto-restart/status', isStaff, (req: Request, res: Response) => {
+    const logs = autoRestartService.getRestartLogs();
+    res.json({
+      enabled: true,
+      logs: logs.slice(-10), // restituisce gli ultimi 10 log
+      totalRestarts: logs.length
+    });
+  });
+  
+  app.post('/api/auto-restart/toggle', isStaff, (req: Request, res: Response) => {
+    const { enabled } = req.body;
+    if (typeof enabled !== 'boolean') {
+      return res.status(400).json({ message: 'Il parametro enabled deve essere un booleano' });
+    }
+    
+    autoRestartService.setEnabled(enabled);
+    res.json({ success: true, enabled });
+  });
+  
+  app.post('/api/auto-restart/force', isStaff, (req: Request, res: Response) => {
+    const { reason } = req.body;
+    const restartReason = reason || 'Riavvio manuale richiesto';
+    
+    // Pianifica il riavvio per dopo la risposta HTTP
+    res.json({ 
+      success: true, 
+      message: 'Riavvio programmato',
+      timestamp: new Date().toISOString()
+    });
+    
+    // Riavvia dopo 2 secondi per dare tempo alla risposta di essere inviata
+    setTimeout(() => {
+      autoRestartService.forceRestart(restartReason);
+    }, 2000);
   });
   
   // Client Access API endpoints

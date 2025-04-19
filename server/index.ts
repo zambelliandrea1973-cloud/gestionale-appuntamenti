@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { autoRestartService } from "./services/autoRestartService";
 
 const app = express();
 app.use(express.json());
@@ -66,5 +67,16 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    
+    // Avvia il servizio di riavvio automatico dopo 30 secondi
+    // per dare tempo all'applicazione di stabilizzarsi
+    setTimeout(() => {
+      try {
+        autoRestartService.start();
+        log('Servizio di riavvio automatico avviato');
+      } catch (error) {
+        console.error('Errore nell\'avvio del servizio di riavvio automatico:', error);
+      }
+    }, 30000);
   });
 })();
