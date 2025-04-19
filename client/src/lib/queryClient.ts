@@ -165,12 +165,12 @@ export async function apiRequest(
       
       // Cloniamo la risposta prima di restituirla per evitare problemi di "already consumed body"
       return res.clone();
-    } catch (error) {
+    } catch (error: any) {
       lastError = error;
       console.error(`Eccezione durante la richiesta a ${url} (tentativo ${retryCount+1}/${MAX_RETRIES+1}):`, error);
       
       // Non ritentare su abort intenzionali
-      if (error.name === 'AbortError' || retryCount >= MAX_RETRIES) {
+      if (error?.name === 'AbortError' || retryCount >= MAX_RETRIES) {
         break;
       }
       
@@ -192,38 +192,158 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    // Determina se l'app è in modalità PWA installata
-    const isPWA = 
-      window.matchMedia('(display-mode: standalone)').matches || 
-      (window.navigator as any).standalone || // Proprietà disponibile solo su Safari iOS
-      document.referrer.includes('android-app://');
+    // Configura il numero massimo di tentativi di richiesta
+    const MAX_RETRIES = 2;
+    let retryCount = 0;
+    let lastError: any = null;
     
-    // Crea gli headers di base
-    const headers: Record<string, string> = {};
-    
-    // Aggiungi l'header x-pwa-app se siamo in una PWA
-    if (isPWA) {
-      headers["x-pwa-app"] = "true";
+    // Implementiamo un meccanismo di retry con backoff esponenziale
+    while (retryCount <= MAX_RETRIES) {
+      try {
+        // Configura un timeout per la richiesta
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondi timeout
+      
+        // Determina se l'app è in modalità PWA installata
+        const isPWA = 
+          window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator as any).standalone || // Proprietà disponibile solo su Safari iOS
+          document.referrer.includes('android-app://');
+        
+        // Crea gli headers di base
+        const headers: Record<string, string> = {};
+        
+        // Aggiungi l'header x-pwa-app se siamo in una PWA
+        if (isPWA) {
+          headers["x-pwa-app"] = "true";
+        }
+        
+        // Se è DuckDuckGo, aggiunge un flag specifico
+        const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+        if (isDuckDuckGo) {
+          headers["x-browser"] = "duckduckgo";
+          headers["x-bypass-auth"] = "true"; // Indica al server di usare modalità speciale di autenticazione
+        }
+        
+        // Aggiungi token client se disponibile per endpoints client-related
+        const storedToken = localStorage.getItem('clientAccessToken');
+        const storedClientId = localStorage.getItem('clientId');
+        const url = queryKey[0] as string;
+        
+        if (storedToken && storedClientId && 
+           (url.includes('/client/') || url.includes('/appointments/client/'))) {
+          headers["x-client-token"] = storedToken;
+          headers["x-client-id"] = storedClientId;
+        }
+        
+        if (retryCount > 0) {
+          headers["x-retry-attempt"] = `${retryCount}`;
+        }
+        
+        const res = await fetch(url, {
+          credentials: "include",
+          headers,
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        // Gestione errori 401
+        if (res.status === 401) {
+          // Se l'opzione è returnNull, restituisci null
+          if (unauthorizedBehavior === "returnNull") {
+            return null;
+          }
+          
+          // Se abbiamo ancora tentativi e siamo in un endpoint client, possiamo ritentare
+          if (retryCount < MAX_RETRIES && 
+              (url.includes('/client/') || url.includes('/appointments/client/')) && 
+              storedToken && 
+              storedClientId && 
+              localStorage.getItem('clientUsername')) {
+            
+            try {
+              console.log("Tentativo di rinnovare sessione...");
+              
+              // Tenta di ricreare la sessione
+              const username = localStorage.getItem('clientUsername');
+              const password = localStorage.getItem('clientPassword') || '';
+              
+              const loginData = {
+                username,
+                password: password || 'token-auth-placeholder',
+                token: storedToken,
+                clientId: Number(storedClientId),
+                bypassAuth: true,
+                pwaInstalled: isPWA,
+                recreateSession: true
+              };
+              
+              const loginRes = await fetch('/api/client/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData),
+                credentials: 'include'
+              });
+              
+              if (loginRes.ok) {
+                const userData = await loginRes.json();
+                
+                // Aggiorniamo il token se c'è uno nuovo
+                if (userData.token) {
+                  localStorage.setItem('clientAccessToken', userData.token);
+                }
+                
+                // Incrementa il contatore dei retry e ricomincia il ciclo
+                retryCount++;
+                continue;
+              }
+            } catch (authError) {
+              console.error("Errore durante il tentativo di ricreare la sessione:", authError);
+            }
+          }
+          
+          // Se arriviamo qui, o non abbiamo potuto ritentare o abbiamo fallito nel farlo
+          if (unauthorizedBehavior === "throw") {
+            const errorText = await res.text();
+            throw new Error(`Errore 401: ${errorText || res.statusText}`);
+          }
+        }
+        
+        // Per altri errori
+        if (!res.ok) {
+          const errorText = await res.text();
+          
+          // Se abbiamo ancora tentativi disponibili, proviamo di nuovo
+          if (retryCount < MAX_RETRIES && res.status >= 500) {
+            retryCount++;
+            const delay = 1000 * Math.pow(2, retryCount - 1); // Backoff esponenziale
+            await new Promise(resolve => setTimeout(resolve, delay));
+            continue;
+          }
+          
+          throw new Error(`${res.status}: ${errorText || res.statusText}`);
+        }
+        
+        // Se siamo arrivati qui, la richiesta è andata a buon fine
+        return await res.json();
+      } catch (error: any) {
+        lastError = error;
+        
+        // Non ritentare su abort intenzionali
+        if (error?.name === 'AbortError' || retryCount >= MAX_RETRIES) {
+          break;
+        }
+        
+        // Attendi un po' prima di riprovare (backoff esponenziale)
+        const delay = 1000 * Math.pow(2, retryCount);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        retryCount++;
+      }
     }
     
-    // Se è DuckDuckGo, aggiunge un flag specifico
-    const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
-    if (isDuckDuckGo) {
-      headers["x-browser"] = "duckduckgo";
-      headers["x-bypass-auth"] = "true"; // Indica al server di usare modalità speciale di autenticazione
-    }
-    
-    const res = await fetch(queryKey[0] as string, {
-      credentials: "include",
-      headers
-    });
-
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
-    }
-
-    await throwIfResNotOk(res);
-    return await res.json();
+    // Se arriviamo qui, tutti i tentativi sono falliti
+    throw lastError || new Error(`Richiesta fallita dopo ${MAX_RETRIES + 1} tentativi`);
   };
 
 export const queryClient = new QueryClient({

@@ -47,11 +47,103 @@ export function setupAuth(app: Express) {
       sameSite: 'lax' // Aggiunto per migliorare la compatibilità cross-origin
     },
   };
+  
+  // Middleware per aggiungere autenticazione fallback basata su token
+  const tokenMiddleware = async (req: any, res: any, next: any) => {
+    try {
+      // Non intercettare richieste di login, logout o altre che non sono API client
+      if (req.path === '/api/client/login' || 
+          req.path === '/api/logout' || 
+          !req.path.startsWith('/api/') ||
+          (!req.path.includes('/client/') && !req.path.includes('/appointments/client/'))) {
+        return next();
+      }
+      
+      // Se l'utente è già autenticato, continua normalmente
+      if (req.isAuthenticated()) {
+        return next();
+      }
+      
+      // Controlla se ci sono header del token client (modalità fallback)
+      const clientToken = req.headers['x-client-token'] as string;
+      const clientId = req.headers['x-client-id'] as string;
+      
+      // Controlla se i parametri sono nella query string
+      const queryCid = req.query.clientId as string;
+      const queryToken = req.query.token as string;
+      
+      // Usa i valori dagli header o dalla query string
+      const token = clientToken || queryToken;
+      const cid = clientId || queryCid;
+      
+      // Se abbiamo sia token che clientId, proviamo il fallback
+      if (token && cid) {
+        try {
+          console.log(`Autenticazione fallback per path ${req.path} con token`);
+          
+          // Verifica il token
+          const tokenService = require('./services/tokenService').default;
+          const validClientId = await tokenService.verifyActivationToken(token);
+          
+          // Se il token è valido e corrisponde al cliente nell'header
+          if (validClientId === Number(cid)) {
+            console.log(`Token header valido per clientId: ${cid}`);
+            
+            // Recupera l'utente associato a questo cliente
+            const db = require('./db').db;
+            const { eq } = require('drizzle-orm');
+            const { users, clients } = require('../shared/schema');
+            
+            // Recupera l'utente associato a questo cliente
+            const [user] = await db.select()
+              .from(users)
+              .where(eq(users.clientId, validClientId))
+              .limit(1);
+            
+            // Recupera i dati del cliente
+            const [client] = await db.select()
+              .from(clients)
+              .where(eq(clients.id, validClientId))
+              .limit(1);
+            
+            if (user && client) {
+              // Arricchisci l'oggetto utente con i dati del cliente
+              user.client = client;
+              
+              // Login manuale
+              req.login(user, (err: any) => {
+                if (err) {
+                  console.error("Errore durante login tramite header:", err);
+                  return next(); // Continua senza autenticazione
+                }
+                
+                console.log("Autenticazione via token riuscita per path:", req.path);
+                return next();
+              });
+              return; // Non eseguire next() qui, aspetta la callback di login
+            }
+          }
+        } catch (error) {
+          console.error("Errore nell'autenticazione via header:", error);
+          // Continua normalmente, non è un errore bloccante
+        }
+      }
+      
+      // Se non è stato possibile autenticare tramite token header, continua normalmente
+      next();
+    } catch (error) {
+      console.error("Errore nel middleware di autenticazione client:", error);
+      next();
+    }
+  };
 
   app.set("trust proxy", 1);
   app.use(session(sessionSettings));
   app.use(passport.initialize());
   app.use(passport.session());
+  
+  // Registra il middleware di autenticazione token
+  app.use(tokenMiddleware);
 
   // Strategia di autenticazione per utenti professionali (admin/staff)
   passport.use("local-staff", new LocalStrategy(async (username, password, done) => {
