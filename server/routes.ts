@@ -27,6 +27,7 @@ import { directNotificationService } from "./services/directNotificationService"
 import { keepAliveService } from './services/keepAliveService';
 import { externalPingService } from './services/externalPingService';
 import { autoRestartService } from './services/autoRestartService';
+import { persistenceService } from './services/persistenceService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
@@ -296,7 +297,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Se è una richiesta di recupero, conferma esplicitamente che siamo attivi
         if (isRecoveryAttempt) {
-          extendedData.recoveryResponse = {
+          (extendedData as any).recoveryResponse = {
             serverIsUp: true,
             recoverySuccessful: true,
             message: "Server attivo e risponde correttamente"
@@ -375,6 +376,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     setTimeout(() => {
       autoRestartService.forceRestart(restartReason);
     }, 2000);
+  });
+  
+  // Endpoint per monitorare lo stato del servizio di persistenza
+  app.get('/api/persistence/status', isStaff, (req: Request, res: Response) => {
+    const status = persistenceService.getStatus();
+    res.json({
+      ...status,
+      serverTime: new Date().toISOString()
+    });
+  });
+  
+  // Configurazione di un ping URL per UptimeRobot 
+  app.get('/ping', (req: Request, res: Response) => {
+    // Endpoint pubblico per i servizi di monitoraggio esterni
+    res.status(200).send('PONG');
   });
   
   // Client Access API endpoints

@@ -1,7 +1,12 @@
 {
-  "lastPingTime": "2025-04-19T19:36:52.486Z",
+  "lastPingTime": "2025-04-19T19:50:36.478Z",
   "pingCount": 0,
-  "uptime": 2.820424429,
-  "startTime": "2025-04-19T19:36:49.665Z",
-  "externalPings": []
+  "uptime": 3.028444903,
+  "startTime": "2025-04-19T19:50:33.450Z",
+  "externalPings": [],
+  "ping_history": [],
+  "last_ping": "",
+  "ping_count": 0,
+  "uptime_minutes": 0,
+  "last_status": "OK"
 }
