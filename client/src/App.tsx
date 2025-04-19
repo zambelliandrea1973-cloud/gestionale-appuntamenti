@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
 import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
+import SessionManager from "./components/SessionManager";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
@@ -246,6 +247,8 @@ function App() {
       <TimezoneDetector />
       {/* NetworkStatus mostra indicatore di stato connessione e gestisce eventi online/offline */}
       <NetworkStatus />
+      {/* SessionManager gestisce login automatico e ripristino sessioni */}
+      <SessionManager />
       <WouterRouter>
         <AppRoutes />
       </WouterRouter>

@@ -1,93 +1,65 @@
-import { db } from "../db";
-import { clientAccesses, clients, type ClientAccess, type InsertClientAccess, type Client, type ClientWithAccessCount } from "@shared/schema";
-import { count, eq } from "drizzle-orm";
-
 /**
- * Servizio per la gestione degli accessi dei clienti
+ * ClientAccessService - Servizio per gestire e registrare gli accessi dei client
+ * Fornisce funzionalità per registrare gli accessi e analizzare i pattern
  */
-export const clientAccessService = {
+
+import { storage } from "../storage";
+
+class ClientAccessService {
   /**
    * Registra un nuovo accesso per un cliente
-   * @param clientId ID del cliente
-   * @param ipAddress Indirizzo IP del cliente (opzionale)
-   * @param userAgent User agent del client (opzionale)
-   * @returns L'accesso creato
    */
-  async logAccess(clientId: number, ipAddress?: string, userAgent?: string): Promise<ClientAccess> {
-    // Verifica che il cliente esista
-    const clientExists = await db
-      .select({ id: clients.id })
-      .from(clients)
-      .where(eq(clients.id, clientId))
-      .limit(1);
-
-    if (!clientExists.length) {
-      throw new Error(`Cliente con ID ${clientId} non trovato`);
+  async logAccess(
+    clientId: number, 
+    ipAddress: string, 
+    userAgent: string, 
+    method: string = 'standard'
+  ): Promise<void> {
+    try {
+      // Rileva se l'accesso proviene da un'app PWA
+      const isPWA = userAgent.includes('standalone') || 
+                   userAgent.includes('fullscreen') || 
+                   userAgent.toLowerCase().includes('android-app') ||
+                   userAgent.toLowerCase().includes('mobile app');
+      
+      // Registra l'accesso nel database
+      await storage.logClientAccess(
+        clientId, 
+        ipAddress, 
+        userAgent.substring(0, 255), // Limita lunghezza
+        isPWA,
+        method
+      );
+      
+      console.log(`Accesso client registrato - ID: ${clientId}, Metodo: ${method}, PWA: ${isPWA}`);
+    } catch (error) {
+      console.error("Errore durante la registrazione dell'accesso:", error);
     }
-
-    const accessData: InsertClientAccess = {
-      clientId,
-      ...(ipAddress ? { ipAddress } : {}),
-      ...(userAgent ? { userAgent } : {})
-    };
-
-    // Inserisci il nuovo accesso
-    const [newAccess] = await db
-      .insert(clientAccesses)
-      .values(accessData)
-      .returning();
-
-    return newAccess;
-  },
-
+  }
+  
   /**
    * Ottiene il conteggio degli accessi per un cliente specifico
-   * @param clientId ID del cliente
-   * @returns Il numero di accessi
    */
-  async getAccessCountForClient(clientId: number): Promise<number> {
-    const [result] = await db
-      .select({ accessCount: count() })
-      .from(clientAccesses)
-      .where(eq(clientAccesses.clientId, clientId));
-
-    // Divide per 4 il conteggio per correggere le registrazioni multiple
-    const totalAccesses = result?.accessCount || 0;
-    return Math.ceil(totalAccesses / 4);
-  },
-
+  async getAccessCount(clientId: number): Promise<number> {
+    try {
+      return await storage.getClientAccessCount(clientId);
+    } catch (error) {
+      console.error("Errore durante il recupero del conteggio accessi:", error);
+      return 0;
+    }
+  }
+  
   /**
    * Ottiene il conteggio degli accessi per tutti i clienti
-   * @returns Un array di clienti con i rispettivi conteggi di accesso
    */
-  async getAccessCountsForAllClients(): Promise<ClientWithAccessCount[]> {
-    // Get all clients
-    const allClients = await db.select().from(clients);
-    
-    // For each client, get their access count
-    const clientsWithCounts = await Promise.all(
-      allClients.map(async (client) => {
-        const accessCount = await this.getAccessCountForClient(client.id);
-        return {
-          ...client,
-          accessCount
-        };
-      })
-    );
-
-    return clientsWithCounts;
-  },
-
-  /**
-   * Ottiene tutti gli accessi per un cliente specifico
-   * @param clientId ID del cliente
-   * @returns Gli accessi del cliente
-   */
-  async getAccessesForClient(clientId: number): Promise<ClientAccess[]> {
-    return db
-      .select()
-      .from(clientAccesses)
-      .where(eq(clientAccesses.clientId, clientId))
-      .orderBy(clientAccesses.accessTime);
+  async getAllClientAccessCounts(): Promise<{clientId: number, count: number}[]> {
+    try {
+      return await storage.getAllClientAccessCounts();
+    } catch (error) {
+      console.error("Errore durante il recupero dei conteggi accessi:", error);
+      return [];
+    }
   }
-};
+}
+
+export const clientAccessService = new ClientAccessService();
