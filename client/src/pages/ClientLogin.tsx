@@ -312,60 +312,138 @@ export default function ClientLogin() {
         }
       }
       
-      console.log("Tentativo di login avanzato con informazioni aggiuntive");
+      // Aggiunge flag di debug
+      requestData.recreateSession = showSessionExpiredMessage;
       
-      const response = await apiRequest('POST', '/api/client/login', requestData);
+      console.log("Tentativo di login avanzato con informazioni aggiuntive:", {
+        ...requestData,
+        password: '[HIDDEN]',
+        hasToken: !!requestData.token,
+        browser: navigator.userAgent.substring(0, 50) + '...',
+        isPWA: isMobileApp,
+        isDuckDuckGo,
+        recreateSession: showSessionExpiredMessage
+      });
       
-      if (response.ok) {
-        const user = await response.json();
-        
-        // Salva tutte le informazioni essenziali nel localStorage per garantire 
-        // il corretto funzionamento dell'app PWA installata nelle sessioni successive
-        if (user.client?.id) {
-          localStorage.setItem('clientId', user.client.id.toString());
-        }
-        localStorage.setItem('clientUsername', username);
-        // Opzionalmente salviamo la password per PWA
-        if (isMobileApp) {
-          localStorage.setItem('clientPassword', password);
-        }
-        
-        // Salviamo anche il token se presente nella risposta
-        if (user.token) {
-          localStorage.setItem('clientAccessToken', user.token);
-          console.log("Token salvato nel localStorage per utilizzi futuri");
+      // Configura retry e timeout
+      const MAX_RETRIES = 2;
+      let retryCount = 0;
+      let loginSuccess = false;
+      
+      while (retryCount <= MAX_RETRIES && !loginSuccess) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
           
-          // Salva anche come qrData per compatibilità con versioni precedenti
-          localStorage.setItem('qrData', user.token);
+          // Aggiungi il contatore di tentativi all'header se stiamo ritentando
+          const headers: Record<string, string> = {};
+          if (retryCount > 0) {
+            console.log(`Tentativo #${retryCount + 1} di login client`);
+            headers["x-retry-attempt"] = `${retryCount}`;
+          }
+          
+          // Esegui la richiesta con timeout
+          const response = await fetch('/api/client/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...headers
+            },
+            body: JSON.stringify(requestData),
+            credentials: 'include',
+            signal: controller.signal
+          });
+          
+          // Pulisci il timeout
+          clearTimeout(timeoutId);
+          
+          if (response.ok) {
+            loginSuccess = true;
+            const user = await response.json();
+            
+            // Salva tutte le informazioni essenziali nel localStorage
+            if (user.client?.id) {
+              localStorage.setItem('clientId', user.client.id.toString());
+            }
+            localStorage.setItem('clientUsername', username);
+            
+            // Salviamo la password solo nelle PWA per supportare accessi futuri
+            if (isMobileApp) {
+              localStorage.setItem('clientPassword', password);
+            }
+            
+            // Salviamo anche il token se presente nella risposta
+            if (user.token) {
+              localStorage.setItem('clientAccessToken', user.token);
+              console.log("Token salvato nel localStorage per utilizzi futuri");
+              
+              // Salva anche come qrData per compatibilità con versioni precedenti
+              localStorage.setItem('qrData', user.token);
+            }
+            
+            // Mostra messaggio di successo
+            toast({
+              title: "Accesso effettuato",
+              description: `Benvenuto, ${user.client?.firstName || username}!`,
+            });
+            
+            // Redirect semplice all'area client
+            setTimeout(() => {
+              setLocation("/client-area");
+            }, 1000);
+            
+            break; // Esci dal loop di retry
+          } else {
+            // Gestisci errori di login
+            const errorData = await response.json().catch(() => ({}));
+            console.error("Errore login:", errorData);
+            
+            // Se abbiamo altri tentativi disponibili, ritenta
+            if (retryCount < MAX_RETRIES && response.status >= 500) {
+              retryCount++;
+              const delay = 1000 * Math.pow(2, retryCount - 1); // Backoff esponenziale
+              console.log(`Riprovo il login tra ${delay}ms...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+              continue;
+            }
+            
+            // Se abbiamo ricevuto un errore ma avevamo token cached,
+            // puliamo il localStorage per evitare problemi futuri solo se è un 401
+            if ((storedToken || storedClientId) && response.status === 401) {
+              console.log("Pulizia token e clientId dopo login fallito");
+              localStorage.removeItem('clientAccessToken');
+              localStorage.removeItem('clientId');
+              localStorage.removeItem('qrData');
+            }
+            
+            toast({
+              title: "Accesso fallito",
+              description: errorData.message || "Nome utente o password non validi",
+              variant: "destructive",
+            });
+            
+            break; // Esci dal loop se non possiamo più ritentare
+          }
+        } catch (error: any) {
+          // Gestione errori di rete
+          console.error(`Errore di rete durante il login (tentativo ${retryCount+1}/${MAX_RETRIES+1}):`, error);
+          
+          // Se è un errore di timeout o abbiamo finito i tentativi, esci
+          if (error?.name === 'AbortError' || retryCount >= MAX_RETRIES) {
+            toast({
+              title: "Errore di connessione",
+              description: "Impossibile contattare il server. Verifica la tua connessione Internet.",
+              variant: "destructive",
+            });
+            break;
+          }
+          
+          // Altrimenti ritenta
+          retryCount++;
+          const delay = 1000 * Math.pow(2, retryCount - 1);
+          console.log(`Riprovo login dopo errore di rete in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
-        
-        toast({
-          title: "Accesso effettuato",
-          description: `Benvenuto, ${user.client?.firstName || username}!`,
-        });
-        
-        // Redirect semplice all'area client
-        setTimeout(() => {
-          setLocation("/client-area");
-        }, 1000);
-      } else {
-        // Gestisci errori di login
-        const errorData = await response.json().catch(() => ({}));
-        
-        // Se abbiamo ricevuto un errore ma avevamo token cached,
-        // puliamo il localStorage per evitare problemi futuri
-        if (storedToken || storedClientId) {
-          console.log("Pulizia token e clientId dopo login fallito");
-          localStorage.removeItem('clientAccessToken');
-          localStorage.removeItem('clientId');
-          localStorage.removeItem('qrData');
-        }
-        
-        toast({
-          title: "Accesso fallito",
-          description: errorData.message || "Nome utente o password non validi",
-          variant: "destructive",
-        });
       }
     } catch (error) {
       console.error("Errore durante il login:", error);
