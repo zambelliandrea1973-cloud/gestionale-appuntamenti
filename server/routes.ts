@@ -1509,7 +1509,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/verify-token", async (req: Request, res: Response) => {
     try {
-      const { token, clientId } = req.body;
+      const { token, clientId, includeData } = req.body;
+      const isPwaClient = req.headers['x-pwa-client'] === 'true';
+      const retryCount = parseInt(req.headers['x-retry-count'] as string || '0');
+      
+      // Log richiesta con info diagnostiche
+      console.log(`Verifica token: clientId=${clientId}, isPWA=${isPwaClient}, retry=${retryCount}, includeData=${includeData}`);
       
       if (!token || !clientId) {
         return res.status(400).json({ message: "Token o ID cliente mancante" });
@@ -1519,7 +1524,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validClientId = await tokenService.verifyActivationToken(token);
       
       if (validClientId === null || validClientId !== Number(clientId)) {
-        return res.status(400).json({ message: "Token non valido o non corrisponde al cliente" });
+        return res.status(401).json({ message: "Token non valido o non corrisponde al cliente" });
       }
       
       // Recupera dati cliente
@@ -1536,6 +1541,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      // Recupera gli appuntamenti futuri del cliente se richiesto
+      let appointments = [];
+      if (includeData) {
+        try {
+          appointments = await storage.getClientAppointments(validClientId);
+          // Filtriamo solo gli appuntamenti futuri o di oggi
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          appointments = appointments.filter(app => {
+            const appDate = new Date(app.date);
+            appDate.setHours(0, 0, 0, 0);
+            return appDate >= today;
+          });
+          console.log(`Recuperati ${appointments.length} appuntamenti futuri per il cliente ID: ${validClientId}`);
+        } catch (error) {
+          console.error(`Errore nel recupero degli appuntamenti per il cliente ID ${validClientId}:`, error);
+          // Non facciamo fallire la verifica se il recupero degli appuntamenti fallisce
+        }
+      }
+      
       // Verifica se il token sta per scadere (24 ore)
       const isExpiringSoon = await tokenService.isTokenExpiringSoon(token, 1);
       
@@ -1548,32 +1573,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
         client: client
       };
       
-      // Esegui il login dell'utente
-      req.login(user, async (err) => {
-        if (err) {
-          return res.status(500).json({ message: "Errore durante il login automatico" });
-        }
-        
-        // Registra l'accesso del cliente (ogni accesso viene registrato)
+      // Se è richiesto solo il controllo del token (per PWA offline-first)
+      if (isPwaClient && includeData) {
+        // Non effettuiamo login ma restituiamo tutti i dati necessari per uso offline
+        // Registra comunque l'accesso
         try {
           await clientAccessService.logAccess(validClientId);
-          console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
         } catch (accessError) {
           console.error(`Errore nella registrazione dell'accesso per il cliente ID ${validClientId}:`, accessError);
-          // Non facciamo fallire l'autenticazione se la registrazione dell'accesso fallisce
+          // Non facciamo fallire la risposta se la registrazione fallisce
         }
         
-        return res.status(200).json({ 
-          message: "Accesso diretto effettuato con successo",
+        // Prepara dati completi per modalità offline
+        return res.status(200).json({
+          valid: true,
           user: user,
           client: client,
+          appointments: appointments,
           tokenInfo: {
             isExpiringSoon,
-            token // Includiamo il token per poter mostrare avvisi sulla scadenza
-          }
+            token,
+            lastVerified: new Date().toISOString()
+          },
+          timestamp: new Date().toISOString()
         });
-      });
-      
+      } else {
+        // Esegui il login dell'utente (metodo tradizionale con sessione)
+        req.login(user, async (err) => {
+          if (err) {
+            return res.status(500).json({ message: "Errore durante il login automatico" });
+          }
+          
+          // Registra l'accesso del cliente
+          try {
+            await clientAccessService.logAccess(validClientId);
+            console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
+          } catch (accessError) {
+            console.error(`Errore nella registrazione dell'accesso per il cliente ID ${validClientId}:`, accessError);
+            // Non facciamo fallire l'autenticazione se la registrazione fallisce
+          }
+          
+          // Restituisci dati in base a quanto richiesto
+          const responseData = {
+            message: "Accesso diretto effettuato con successo",
+            user: user,
+            client: client,
+            tokenInfo: {
+              isExpiringSoon,
+              token,
+              lastVerified: new Date().toISOString()
+            }
+          };
+          
+          // Aggiungi gli appuntamenti se richiesto
+          if (includeData) {
+            responseData['appointments'] = appointments;
+          }
+          
+          return res.status(200).json(responseData);
+        });
+      }
     } catch (error: any) {
       console.error("Errore verifica token:", error);
       res.status(500).json({ 
