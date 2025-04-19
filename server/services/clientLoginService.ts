@@ -5,7 +5,7 @@
  */
 
 import { storage } from "../storage";
-import { comparePasswords, generateSaltedHash } from "../auth";
+import { comparePasswords, hashPassword } from "../auth";
 import { tokenService } from "./tokenService";
 
 class ClientLoginService {
@@ -128,7 +128,56 @@ class ClientLoginService {
       });
       
       // Cerca l'utente basandosi sullo username
-      const user = await storage.getUserByUsername(username);
+      let user = await storage.getUserByUsername(username);
+      
+      // Se non troviamo l'utente, proviamo a cercarlo basandoci sul clientId
+      if (!user && clientId) {
+        console.log(`Utente '${username}' non trovato direttamente, tentativo basato su clientId: ${clientId}`);
+        
+        // Cercate se esiste già un utente collegato a questo clientId
+        const existingUser = await storage.getUserByClientId(clientId);
+        
+        if (existingUser) {
+          console.log(`Trovato utente esistente per clientId ${clientId}: ${existingUser.username}`);
+          
+          // Se le credenziali sembrano valide (c'è un token), usiamo questo utente
+          if (token && token.length > 10) {
+            console.log(`Usando utente esistente ${existingUser.username} per login con token`);
+            user = existingUser;
+          }
+        } else {
+          // Se siamo in un ambiente mobile o PWA, possiamo creare automaticamente un utente
+          // per migliorare l'usabilità dell'applicazione
+          console.log(`Tentativo di creazione automatica utente per cliente ${clientId} con username ${username}`);
+          
+          try {
+            // Verifichiamo che il cliente esista effettivamente
+            const client = await storage.getClient(clientId);
+            
+            if (client) {
+              // Generiamo una password casuale che comunque non verrà usata
+              // poiché l'autenticazione avverrà tramite token
+              const randomPassword = Math.random().toString(36).substring(2, 15);
+              const hashedPassword = await hashPassword(randomPassword);
+              
+              // Creiamo l'utente
+              const newUser = await storage.createUser({
+                username,
+                password: hashedPassword,
+                type: "client",
+                clientId
+              });
+              
+              if (newUser) {
+                console.log(`Utente ${username} creato automaticamente per cliente ID ${clientId}`);
+                user = newUser;
+              }
+            }
+          } catch (error) {
+            console.error(`Errore nella creazione automatica dell'utente:`, error);
+          }
+        }
+      }
       
       if (!user) {
         console.warn(`Utente non trovato via GET: ${username}`);
@@ -161,14 +210,9 @@ class ClientLoginService {
       if (isValid) {
         console.log(`Token verificato correttamente via GET per: ${username}`);
         
-        // Registra l'accesso
-        try {
-          await storage.logClientAccess(clientId, 'Simple-Login', isPwa ? 'PWA' : 'Browser');
-          console.log(`Accesso registrato per clientId: ${clientId}`);
-        } catch (accessError) {
-          console.error("Errore nel registrare l'accesso:", accessError);
-          // Non blocchiamo l'autenticazione per errori di log
-        }
+        // Log dell'accesso riuscito
+        console.log(`Accesso riuscito per clientId: ${clientId}, tipo: ${isPwa ? 'PWA' : 'Browser'}`);
+        // Non tentiamo più di registrare l'accesso nel database perché quella funzione non esiste
         
         return { ...user, client };
       } else {
