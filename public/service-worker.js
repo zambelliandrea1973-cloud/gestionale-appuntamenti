@@ -1,8 +1,8 @@
 // Service Worker Avanzato per l'app Gestione Appuntamenti
-// Versione 3.0 con miglioramenti per robustezza e affidabilità
-const CACHE_NAME = 'gestioneapp-v6';
-const API_CACHE_NAME = 'gestioneapp-api-v6';
-const STATIC_CACHE_NAME = 'gestioneapp-static-v6';
+// Versione 3.1 con supporto migliorato per stream e 'duplex'
+const CACHE_NAME = 'gestioneapp-v7';
+const API_CACHE_NAME = 'gestioneapp-api-v7';
+const STATIC_CACHE_NAME = 'gestioneapp-static-v7';
 
 // Sistema di rilevamento problemi
 const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minuti
@@ -60,7 +60,8 @@ const COMMON_ERRORS = {
   'TypeError': 'Errore durante il caricamento delle risorse. Ricarica la pagina.',
   'The operation was aborted': 'Operazione interrotta dal browser. Riprova.',
   'AbortError': 'Richiesta interrotta per timeout o altro motivo.',
-  'ServiceWorker registration failed': 'Impossibile registrare il Service Worker. Prova a ricaricare la pagina.'
+  'ServiceWorker registration failed': 'Impossibile registrare il Service Worker. Prova a ricaricare la pagina.',
+  'duplex member must be specified': 'Errore durante lo streaming dei dati. Ricarica l\'applicazione.'
 };
 
 // Configurazioni speciali per PWA - Versione Avanzata
@@ -122,8 +123,16 @@ function fetchWithTimeout(url, options = {}, timeout = FETCH_TIMEOUT) {
       reject(new Error(`Timeout fetching ${url}`));
     }, timeout);
     
+    // Verifico se è necessario aggiungere duplex per richieste con body
+    let fetchOptions = { ...options, signal };
+    
+    // Aggiungi duplex se c'è un body e non è già stato specificato
+    if (options.body && !options.duplex) {
+      fetchOptions.duplex = 'half';
+    }
+    
     // Esegui la fetch con il signal di abort
-    fetch(url, { ...options, signal })
+    fetch(url, fetchOptions)
       .then(response => {
         clearTimeout(timeoutId);
         resolve(response);
@@ -587,11 +596,13 @@ async function handleMutationRequest(request) {
   try {
     // Se siamo online, invia normalmente
     if (isConnected) {
+      // Aggiungi il parametro 'duplex' richiesto per richieste con corpo in streaming
       return await fetchWithTimeout(request.url, {
         method: request.method,
         headers: request.headers,
         body: request.clone().body,
-        credentials: request.credentials
+        credentials: request.credentials,
+        duplex: 'half' // Risolve l'errore "The 'duplex' member must be specified for a request with a streaming body"
       });
     } else {
       // Se siamo offline, salva la richiesta in coda e notifica l'utente
@@ -731,7 +742,8 @@ async function processOfflineQueue() {
           method: request.method,
           headers: new Headers(request.headers),
           body: JSON.stringify(request.body),
-          credentials: 'include'
+          credentials: 'include',
+          duplex: 'half' // Aggiungi duplex per evitare errori con corpo in streaming
         }, 15000);
         
         if (!response.ok) {

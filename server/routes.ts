@@ -1542,14 +1542,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Recupera gli appuntamenti futuri del cliente se richiesto
-      let appointments = [];
+      let appointments: any[] = [];
       if (includeData) {
         try {
-          appointments = await storage.getClientAppointments(validClientId);
+          // Usa getAppointmentsByClient invece di getClientAppointments
+          appointments = await storage.getAppointmentsByClient(validClientId);
           // Filtriamo solo gli appuntamenti futuri o di oggi
           const today = new Date();
           today.setHours(0, 0, 0, 0);
-          appointments = appointments.filter(app => {
+          appointments = appointments.filter((app: any) => {
             const appDate = new Date(app.date);
             appDate.setHours(0, 0, 0, 0);
             return appDate >= today;
@@ -1614,7 +1615,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
           
           // Restituisci dati in base a quanto richiesto
-          const responseData = {
+          const responseData: any = {
             message: "Accesso diretto effettuato con successo",
             user: user,
             client: client,
@@ -1627,7 +1628,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           // Aggiungi gli appuntamenti se richiesto
           if (includeData) {
-            responseData['appointments'] = appointments;
+            responseData.appointments = appointments;
           }
           
           return res.status(200).json(responseData);
