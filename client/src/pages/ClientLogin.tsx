@@ -369,11 +369,52 @@ export default function ClientLogin() {
       }
     } catch (error) {
       console.error("Errore durante il login:", error);
-      toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante l'accesso. Controlla la tua connessione internet e riprova.",
-        variant: "destructive",
+      
+      // Log dettagliato per il debug
+      console.error("DETTAGLI ERROR LOGIN:", {
+        error: String(error),
+        stack: (error as any)?.stack,
+        username,
+        hasToken: !!localStorage.getItem('clientAccessToken'),
+        hasClientId: !!localStorage.getItem('clientId'),
+        browser: navigator.userAgent,
+        isPWA: window.matchMedia('(display-mode: standalone)').matches || 
+              (window.navigator as any).standalone || 
+              document.referrer.includes('android-app://'),
+        timestamp: new Date().toISOString()
       });
+      
+      // Tentativo di diagnostica della rete
+      try {
+        // Salva che c'è stato un errore di rete
+        localStorage.setItem('lastLoginNetworkError', JSON.stringify({
+          timestamp: new Date().toISOString(),
+          browser: navigator.userAgent
+        }));
+        
+        // Verifica lo stato di rete del browser
+        const isOnline = navigator.onLine;
+        if (!isOnline) {
+          toast({
+            title: "Errore di connessione",
+            description: "Il tuo dispositivo risulta offline. Verifica la connessione a Internet e riprova.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Errore",
+            description: "Si è verificato un errore durante l'accesso. Controlla la tua connessione internet e riprova.",
+            variant: "destructive",
+          });
+        }
+      } catch (diagnosticError) {
+        console.error("Errore durante la diagnostica:", diagnosticError);
+        toast({
+          title: "Errore",
+          description: "Si è verificato un errore durante l'accesso. Controlla la tua connessione internet e riprova.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
