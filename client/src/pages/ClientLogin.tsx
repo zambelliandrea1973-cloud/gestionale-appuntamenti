@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { apiRequest } from "@/lib/queryClient";
 import InstallAppPrompt from "@/components/InstallAppPrompt";
 import { Loader2 } from "lucide-react";
-import SimpleLoginButton from '@/components/alternative-login/SimpleLoginButton';
 
 /**
  * ClientLogin - Component versione semplificata
@@ -25,11 +24,6 @@ export default function ClientLogin() {
 
   // Stato per controllare se mostrare il messaggio di sessione scaduta
   const [showSessionExpiredMessage, setShowSessionExpiredMessage] = useState<boolean>(false);
-  
-  // Stato per tenere traccia delle credenziali salvate
-  const [storedUsername, setStoredUsername] = useState<string | null>(null);
-  const [storedClientId, setStoredClientId] = useState<string | null>(null);
-  const [storedToken, setStoredToken] = useState<string | null>(null);
 
   // Verifica se ci sono parametri nell'URL che indicano una sessione scaduta
   useEffect(() => {
@@ -54,13 +48,13 @@ export default function ClientLogin() {
   }, []);
   
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
-  // Rileva se siamo in una PWA installata
-  const isPWA = 
-    window.matchMedia('(display-mode: standalone)').matches || 
-    (window.navigator as any).standalone || 
-    document.referrer.includes('android-app://');
-    
   useEffect(() => {
+    // Rileva se siamo in una PWA installata
+    const isPWA = 
+      window.matchMedia('(display-mode: standalone)').matches || 
+      (window.navigator as any).standalone || 
+      document.referrer.includes('android-app://');
+      
     // Salva l'URL corrente come URL originale per supportare l'apertura diretta da PWA
     const currentUrl = window.location.href;
     localStorage.setItem('originalUrl', currentUrl);
@@ -100,33 +94,26 @@ export default function ClientLogin() {
     }
     
     // Pre-popola nome utente dal localStorage se disponibile
-    const clientUsername = localStorage.getItem('clientUsername');
-    const clientPassword = localStorage.getItem('clientPassword'); // Se memorizzata
-    const clientId = localStorage.getItem('clientId');
-    const clientToken = localStorage.getItem('clientAccessToken');
-    
-    // Aggiorna lo stato per renderlo disponibile nel componente
-    setStoredUsername(clientUsername);
-    setStoredClientId(clientId);
-    setStoredToken(clientToken);
+    const storedUsername = localStorage.getItem('clientUsername');
+    const storedPassword = localStorage.getItem('clientPassword'); // Se memorizzata
     
     // Aggiungi un log più completo per debug
     console.log("Controllo credenziali salvate:", { 
       isPWA, 
-      hasStoredUsername: !!clientUsername, 
-      hasStoredPassword: !!clientPassword,
+      hasStoredUsername: !!storedUsername, 
+      hasStoredPassword: !!storedPassword,
       pathName: window.location.pathname,
       browser: navigator.userAgent
     });
     
-    if (clientUsername) {
-      console.log("Usando nome utente memorizzato:", clientUsername);
-      setUsername(clientUsername);
+    if (storedUsername) {
+      console.log("Usando nome utente memorizzato:", storedUsername);
+      setUsername(storedUsername);
       
       // Se c'è anche la password memorizzata (opzionale), imposta anche quella
-      if (clientPassword) {
+      if (storedPassword) {
         console.log("Usando password memorizzata (PWA)");
-        setPassword(clientPassword);
+        setPassword(storedPassword);
         
         // Se siamo in una PWA, tentiamo un login automatico immediato con credenziali salvate
         if (isPWA) {
@@ -177,7 +164,7 @@ export default function ClientLogin() {
         // Auto-login in modalità PWA
         // Se abbiamo nome utente, token e siamo in una PWA installata, tentiamo un login automatico
         // Rimosso il controllo specifico per DuckDuckGo per supportare tutti i browser
-        if (isPWA && clientUsername && token && clientId) {
+        if (isPWA && storedUsername && token && clientId) {
           console.log("Tentativo di login automatico per app PWA installata");
           
           try {
@@ -185,8 +172,8 @@ export default function ClientLogin() {
             
             // Crea una richiesta per il login automatico da PWA
             const requestData = {
-              username: clientUsername,
-              password: clientPassword || "placeholder-password-for-token-auth",
+              username: storedUsername,
+              password: storedPassword || "placeholder-password-for-token-auth",
               token,
               clientId: parseInt(clientId, 10),
               bypassAuth: true,
@@ -292,225 +279,58 @@ export default function ClientLogin() {
     setLoading(true);
     
     try {
-      // Recupera clientId e token se esistono già nel localStorage
-      const storedClientId = localStorage.getItem('clientId');
-      const storedToken = localStorage.getItem('clientAccessToken');
-      
-      // Versione migliorata: include token e clientId se disponibili
-      const requestData: any = {
+      // Versione semplice e diretta: solo username e password
+      const requestData = {
         username,
         password,
       };
       
-      // Aggiungi token e clientId se disponibili
-      if (storedToken && storedClientId) {
-        console.log("Aggiunti token e clientId dalla cache al tentativo di login");
-        requestData.token = storedToken;
-        requestData.clientId = parseInt(storedClientId, 10);
-      }
+      console.log("Tentativo di login semplificato con username e password");
       
-      // Aggiungi parametri per indicare se è una sessione scaduta o un tentativo di recupero
-      requestData.recovery = true; // Flag per indicare che stiamo facendo un tentativo di recupero
-      requestData.retryCount = 0; // Indica che è il primo tentativo nel flusso principale
+      const response = await apiRequest('POST', '/api/client/login', requestData);
       
-      // Rilevazione browser
-      const isMobileApp = 
-          window.matchMedia('(display-mode: standalone)').matches || 
-          (window.navigator as any).standalone || 
-          document.referrer.includes('android-app://');
-      const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
-      
-      if (isDuckDuckGo || isMobileApp) {
-        requestData.pwaInstalled = true;
+      if (response.ok) {
+        const user = await response.json();
         
-        // Se siamo in PWA o DuckDuckGo e abbiamo un token, permettiamo il login flessibile
-        if (storedToken) {
-          requestData.bypassAuth = true;
+        // Salva tutte le informazioni essenziali nel localStorage per garantire 
+        // il corretto funzionamento dell'app PWA installata nelle sessioni successive
+        if (user.client?.id) {
+          localStorage.setItem('clientId', user.client.id.toString());
         }
-      }
-      
-      // Aggiunge flag di debug
-      requestData.recreateSession = showSessionExpiredMessage;
-      
-      console.log("Tentativo di login avanzato con informazioni aggiuntive:", {
-        ...requestData,
-        password: '[HIDDEN]',
-        hasToken: !!requestData.token,
-        browser: navigator.userAgent.substring(0, 50) + '...',
-        isPWA: isMobileApp,
-        isDuckDuckGo,
-        recreateSession: showSessionExpiredMessage
-      });
-      
-      // Configura retry e timeout
-      const MAX_RETRIES = 2;
-      let retryCount = 0;
-      let loginSuccess = false;
-      
-      while (retryCount <= MAX_RETRIES && !loginSuccess) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
-          
-          // Aggiungi il contatore di tentativi all'header se stiamo ritentando
-          const headers: Record<string, string> = {};
-          if (retryCount > 0) {
-            console.log(`Tentativo #${retryCount + 1} di login client`);
-            headers["x-retry-attempt"] = `${retryCount}`;
-          }
-          
-          // Esegui la richiesta con timeout
-          const response = await fetch('/api/client/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              ...headers
-            },
-            body: JSON.stringify(requestData),
-            credentials: 'include',
-            signal: controller.signal,
-            duplex: 'half' // Aggiunto per risolvere l'errore duplex con le richieste con corpo
-          });
-          
-          // Pulisci il timeout
-          clearTimeout(timeoutId);
-          
-          if (response.ok) {
-            loginSuccess = true;
-            const user = await response.json();
-            
-            // Salva tutte le informazioni essenziali nel localStorage
-            if (user.client?.id) {
-              localStorage.setItem('clientId', user.client.id.toString());
-            }
-            localStorage.setItem('clientUsername', username);
-            
-            // Salviamo la password solo nelle PWA per supportare accessi futuri
-            if (isMobileApp) {
-              localStorage.setItem('clientPassword', password);
-            }
-            
-            // Salviamo anche il token se presente nella risposta
-            if (user.token) {
-              localStorage.setItem('clientAccessToken', user.token);
-              console.log("Token salvato nel localStorage per utilizzi futuri");
-              
-              // Salva anche come qrData per compatibilità con versioni precedenti
-              localStorage.setItem('qrData', user.token);
-            }
-            
-            // Mostra messaggio di successo
-            toast({
-              title: "Accesso effettuato",
-              description: `Benvenuto, ${user.client?.firstName || username}!`,
-            });
-            
-            // Redirect semplice all'area client
-            setTimeout(() => {
-              setLocation("/client-area");
-            }, 1000);
-            
-            break; // Esci dal loop di retry
-          } else {
-            // Gestisci errori di login
-            const errorData = await response.json().catch(() => ({}));
-            console.error("Errore login:", errorData);
-            
-            // Se abbiamo altri tentativi disponibili, ritenta
-            if (retryCount < MAX_RETRIES && response.status >= 500) {
-              retryCount++;
-              const delay = 1000 * Math.pow(2, retryCount - 1); // Backoff esponenziale
-              console.log(`Riprovo il login tra ${delay}ms...`);
-              await new Promise(resolve => setTimeout(resolve, delay));
-              continue;
-            }
-            
-            // Se abbiamo ricevuto un errore ma avevamo token cached,
-            // puliamo il localStorage per evitare problemi futuri solo se è un 401
-            if ((storedToken || storedClientId) && response.status === 401) {
-              console.log("Pulizia token e clientId dopo login fallito");
-              localStorage.removeItem('clientAccessToken');
-              localStorage.removeItem('clientId');
-              localStorage.removeItem('qrData');
-            }
-            
-            toast({
-              title: "Accesso fallito",
-              description: errorData.message || "Nome utente o password non validi",
-              variant: "destructive",
-            });
-            
-            break; // Esci dal loop se non possiamo più ritentare
-          }
-        } catch (error: any) {
-          // Gestione errori di rete
-          console.error(`Errore di rete durante il login (tentativo ${retryCount+1}/${MAX_RETRIES+1}):`, error);
-          
-          // Se è un errore di timeout o abbiamo finito i tentativi, esci
-          if (error?.name === 'AbortError' || retryCount >= MAX_RETRIES) {
-            toast({
-              title: "Errore di connessione",
-              description: "Impossibile contattare il server. Verifica la tua connessione Internet.",
-              variant: "destructive",
-            });
-            break;
-          }
-          
-          // Altrimenti ritenta
-          retryCount++;
-          const delay = 1000 * Math.pow(2, retryCount - 1);
-          console.log(`Riprovo login dopo errore di rete in ${delay}ms...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
-      }
-    } catch (error) {
-      console.error("Errore durante il login:", error);
-      
-      // Log dettagliato per il debug
-      console.error("DETTAGLI ERROR LOGIN:", {
-        error: String(error),
-        stack: (error as any)?.stack,
-        username,
-        hasToken: !!localStorage.getItem('clientAccessToken'),
-        hasClientId: !!localStorage.getItem('clientId'),
-        browser: navigator.userAgent,
-        isPWA: window.matchMedia('(display-mode: standalone)').matches || 
-              (window.navigator as any).standalone || 
-              document.referrer.includes('android-app://'),
-        timestamp: new Date().toISOString()
-      });
-      
-      // Tentativo di diagnostica della rete
-      try {
-        // Salva che c'è stato un errore di rete
-        localStorage.setItem('lastLoginNetworkError', JSON.stringify({
-          timestamp: new Date().toISOString(),
-          browser: navigator.userAgent
-        }));
+        localStorage.setItem('clientUsername', username);
         
-        // Verifica lo stato di rete del browser
-        const isOnline = navigator.onLine;
-        if (!isOnline) {
-          toast({
-            title: "Errore di connessione",
-            description: "Il tuo dispositivo risulta offline. Verifica la connessione a Internet e riprova.",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Errore",
-            description: "Si è verificato un errore durante l'accesso. Controlla la tua connessione internet e riprova.",
-            variant: "destructive",
-          });
+        // Salviamo anche il token se presente nella risposta
+        if (user.token) {
+          localStorage.setItem('clientAccessToken', user.token);
+          console.log("Token salvato nel localStorage per utilizzi futuri");
         }
-      } catch (diagnosticError) {
-        console.error("Errore durante la diagnostica:", diagnosticError);
+        
         toast({
-          title: "Errore",
-          description: "Si è verificato un errore durante l'accesso. Controlla la tua connessione internet e riprova.",
+          title: "Accesso effettuato",
+          description: `Benvenuto, ${user.client?.firstName || username}!`,
+        });
+        
+        // Redirect semplice all'area client
+        setTimeout(() => {
+          setLocation("/client-area");
+        }, 1000);
+      } else {
+        // Gestisci errori di login
+        const errorData = await response.json().catch(() => ({}));
+        
+        toast({
+          title: "Accesso fallito",
+          description: errorData.message || "Nome utente o password non validi",
           variant: "destructive",
         });
       }
+    } catch (error) {
+      console.error("Errore durante il login:", error);
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore durante l'accesso",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -604,21 +424,6 @@ export default function ClientLogin() {
                   Attiva il tuo account
                 </a>
               </span>
-            </div>
-            
-            {/* Pulsante per login semplificato (senza POST) */}
-            <div className="mt-2">
-              {storedUsername && storedToken && storedClientId && (
-                <SimpleLoginButton
-                  username={storedUsername}
-                  clientId={parseInt(storedClientId, 10)}
-                  token={storedToken}
-                  text="Login alternativo (Soluzione problemi)"
-                  variant="outline"
-                  size="default"
-                  isPwa={isPWA}
-                />
-              )}
             </div>
             
             {/* Aggiungi un extra messaggio per le PWA */}

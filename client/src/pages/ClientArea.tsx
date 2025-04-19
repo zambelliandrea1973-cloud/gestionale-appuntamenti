@@ -110,114 +110,33 @@ export default function ClientArea() {
         }
       }
 
-      // Metodo standard di autenticazione basato su sessione con retry
-      let retryCount = 0;
-      const maxRetries = 2; // Numero massimo di tentativi
+      // Metodo standard di autenticazione basato su sessione
+      const response = await apiRequest('GET', '/api/current-user');
       
-      // Funzione per tentare l'autenticazione con retry
-      const attemptAuthentication = async () => {
-        try {
-          // Se c'è un token e un clientId nel localStorage, proviamo ad includerli nella richiesta
-          const storedToken = localStorage.getItem('clientAccessToken');
-          const storedClientId = localStorage.getItem('clientId');
-          const storedUsername = localStorage.getItem('clientUsername');
-          
-          let authResponse;
-          
-          // Se abbiamo le credenziali complete in localStorage, proviamo un login diretto
-          if (storedToken && storedClientId && storedUsername) {
-            console.log("Tentativo di ricreazione sessione con token e credenziali salvate");
-            
-            // Crea una richiesta per il login automatico da PWA
-            const requestData: any = {
-              username: storedUsername,
-              // Se c'è una password salvata, usala, altrimenti usa un placeholder
-              password: localStorage.getItem('clientPassword') || "placeholder-password-for-token-auth",
-              token: storedToken,
-              clientId: parseInt(storedClientId, 10),
-              bypassAuth: true,
-              pwaInstalled: true,
-              recreateSession: true // Flag per indicare che stiamo ricreando una sessione
-            };
-            
-            // Tentativo di login diretto
-            authResponse = await apiRequest('POST', '/api/client/login', requestData);
-          } else {
-            // Metodo standard basato su sessione esistente
-            authResponse = await apiRequest('GET', '/api/current-user');
-          }
-          
-          if (authResponse.ok) {
-            const userData = await authResponse.json();
-            
-            // Verifica che l'utente sia un cliente
-            if (userData.type !== "client") {
-              toast({
-                title: "Accesso negato",
-                description: "Questa area è riservata ai clienti",
-                variant: "destructive",
-              });
-              
-              setLocation("/client-login?expired=true");
-              return;
-            }
-            
-            // Se è un cliente valido, salviamo l'ID nel localStorage per supporto PWA
-            if (userData.client?.id) {
-              localStorage.setItem('clientId', userData.client.id.toString());
-            }
-            
-            // Se c'è un token nella risposta, salvalo
-            if (userData.token) {
-              localStorage.setItem('clientAccessToken', userData.token);
-              setToken(userData.token);
-            }
-            
-            // Salva l'username se disponibile
-            if (userData.username) {
-              localStorage.setItem('clientUsername', userData.username);
-            }
-            
-            setUser(userData);
-            return true; // Autenticazione riuscita
-          } else {
-            // Sessione non valida, ma forse possiamo ricrearla
-            return false; // Autenticazione fallita
-          }
-        } catch (error) {
-          console.error(`Tentativo ${retryCount+1}/${maxRetries} fallito:`, error);
-          return false; // Errore durante l'autenticazione
-        }
-      };
-      
-      // Tenta l'autenticazione con retry
-      while (retryCount < maxRetries) {
-        console.log(`Tentativo di autenticazione ${retryCount+1}/${maxRetries}`);
-        const success = await attemptAuthentication();
+      if (response.ok) {
+        const userData = await response.json();
         
-        if (success) {
-          console.log("Autenticazione riuscita!");
-          break; // Esci dal ciclo se l'autenticazione è riuscita
+        // Verifica che l'utente sia un cliente
+        if (userData.type !== "client") {
+          toast({
+            title: "Accesso negato",
+            description: "Questa area è riservata ai clienti",
+            variant: "destructive",
+          });
+          
+          setLocation("/client-login?expired=true");
+          return;
         }
         
-        retryCount++;
-        
-        if (retryCount < maxRetries) {
-          // Attendi un po' prima di riprovare (backoff esponenziale)
-          const delay = 1000 * Math.pow(2, retryCount-1);
-          console.log(`Attesa di ${delay}ms prima del prossimo tentativo...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
+        // Se è un cliente valido, salviamo l'ID nel localStorage per supporto PWA
+        if (userData.client?.id) {
+          localStorage.setItem('clientId', userData.client.id.toString());
         }
-      }
-      
-      // Se tutti i tentativi falliscono, reindirizza alla pagina di login
-      if (retryCount === maxRetries) {
-        console.log("Tutti i tentativi di autenticazione sono falliti, redirezione a login");
-        toast({
-          title: "Sessione scaduta",
-          description: "È necessario effettuare nuovamente l'accesso",
-          variant: "destructive",
-        });
+        
+        setUser(userData);
+      } else {
+        // Se non autenticato, reindirizza alla pagina di login con parametro di sessione scaduta
+        console.log("Sessione non valida o scaduta, redirezione a login con parametro expired=true");
         setLocation("/client-login?expired=true");
       }
     } catch (error) {
