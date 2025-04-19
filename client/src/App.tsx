@@ -4,7 +4,6 @@ import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
 import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
-import SessionManager from "./components/SessionManager";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
@@ -22,7 +21,6 @@ import TestNotificationsPage from "./pages/TestNotificationsPage";
 import ClientAppointments from "./pages/ClientAppointments";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
-import NetworkStatus from "./components/ui/network-status";
 import { useEffect } from "react";
 
 /**
@@ -245,10 +243,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
       <TimezoneDetector />
-      {/* NetworkStatus mostra indicatore di stato connessione e gestisce eventi online/offline */}
-      <NetworkStatus />
-      {/* SessionManager gestisce login automatico e ripristino sessioni */}
-      <SessionManager />
       <WouterRouter>
         <AppRoutes />
       </WouterRouter>
