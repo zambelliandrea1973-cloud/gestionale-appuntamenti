@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { apiRequest } from "@/lib/queryClient";
 import InstallAppPrompt from "@/components/InstallAppPrompt";
 import { Loader2 } from "lucide-react";
+import SimpleLoginButton from '@/components/alternative-login/SimpleLoginButton';
 
 /**
  * ClientLogin - Component versione semplificata

@@ -33,6 +33,7 @@ import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
 import { clientAccessService } from "./services/clientAccessService";
+import { clientLoginService } from "./services/clientLoginService";
 import multer from 'multer';
 import sharp from 'sharp';
 
