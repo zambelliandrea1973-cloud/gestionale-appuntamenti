@@ -188,7 +188,8 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
             setIsLoading(false);
           }
         }
-      } catch (fetchError) {
+      } catch (error) {
+        const fetchError = error as Error;
         console.error("PwaSessionManager - Errore fetch:", fetchError);
         
         // Verifica se è un errore di timeout o rete
