@@ -38,12 +38,13 @@ export async function comparePasswords(supplied: string, stored: string) {
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "secret-placeholder-change-in-production",
-    resave: false,
-    saveUninitialized: false,
+    resave: true, // Modificato a true per garantire la persistenza della sessione
+    saveUninitialized: true, // Modificato a true per evitare problemi di sessione
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 settimana
+      maxAge: 1000 * 60 * 60 * 24 * 30, // Esteso a 30 giorni
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false, // Disabilitato secure per consentire l'uso in tutte le condizioni
+      sameSite: 'lax' // Aggiunto per migliorare la compatibilità cross-origin
     },
   };
 
@@ -114,30 +115,63 @@ export function setupAuth(app: Express) {
   // Deserializziamo l'utente in base al tipo
   passport.deserializeUser(async (serialized: string, done) => {
     try {
+      // Verifica se il serialized ha un formato valido
+      if (!serialized || typeof serialized !== 'string' || !serialized.includes(':')) {
+        console.warn('Formato sessione non valido:', serialized);
+        return done(null, false);
+      }
+      
       const [type, idStr] = serialized.split(":");
       const id = parseInt(idStr, 10);
+      
+      // Verifica se l'ID è valido
+      if (isNaN(id) || id <= 0) {
+        console.warn('ID sessione non valido:', idStr);
+        return done(null, false);
+      }
 
       if (type === "staff") {
         const user = await storage.getUser(id);
-        if (!user) return done(null, false);
+        if (!user) {
+          console.warn('Utente staff non trovato per ID:', id);
+          return done(null, false);
+        }
         return done(null, { ...user, type: "staff" });
       } else if (type === "client") {
-        const clientAccount = await storage.getClientAccount(id);
-        if (!clientAccount || !clientAccount.isActive) return done(null, false);
-        
-        const client = await storage.getClient(clientAccount.clientId);
-        if (!client) return done(null, false);
-        
-        return done(null, { 
-          ...clientAccount, 
-          client, 
-          type: "client" 
-        });
+        try {
+          const clientAccount = await storage.getClientAccount(id);
+          if (!clientAccount) {
+            console.warn('Account cliente non trovato per ID:', id);
+            return done(null, false);
+          }
+          
+          if (!clientAccount.isActive) {
+            console.warn('Account cliente non attivo per ID:', id);
+            return done(null, false);
+          }
+          
+          const client = await storage.getClient(clientAccount.clientId);
+          if (!client) {
+            console.warn('Cliente non trovato per l\'account con ID:', id);
+            return done(null, false);
+          }
+          
+          return done(null, { 
+            ...clientAccount, 
+            client, 
+            type: "client" 
+          });
+        } catch (clientErr) {
+          console.error('Errore durante il recupero dell\'account cliente:', clientErr);
+          return done(null, false);
+        }
+      } else {
+        console.warn('Tipo utente sconosciuto:', type);
+        return done(null, false);
       }
-
-      return done(null, false);
     } catch (err) {
-      return done(err);
+      console.error('Errore durante la deserializzazione dell\'utente:', err);
+      return done(null, false); // Meglio restituire false che un errore
     }
   });
 
@@ -288,7 +322,7 @@ export function setupAuth(app: Express) {
           }
           
           // Aggiungiamo il token alla risposta se è stato generato
-          const responseUser = { ...user };
+          const responseUser: any = { ...user };
           if (token) {
             responseUser.token = token;
           }
