@@ -49,13 +49,31 @@ export default function SimpleLoginButton({
       const loginUrl = `/api/client/simple-login?username=${encodeURIComponent(username)}&clientId=${clientId}&token=${encodeURIComponent(token)}`;
       
       // Utilizziamo fetch direttamente per maggiore controllo
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // aumentiamo il timeout a 15s per reti lente
+      
+      console.log("Tentativo di login semplificato via GET:", {
+        url: loginUrl.replace(token, "TOKEN-HIDDEN"),
+        isPwa,
+        browser: navigator.userAgent.substring(0, 50),
+        timestamp: new Date().toISOString(),
+        online: navigator.onLine
+      });
+      
       const response = await fetch(loginUrl, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'X-PWA-Client': isPwa ? 'true' : 'false'
-        }
+          'X-PWA-Client': isPwa ? 'true' : 'false',
+          'X-Timestamp': new Date().toISOString(),
+          'X-Login-Method': 'alternative',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        signal: controller.signal,
+        credentials: 'include' // Importante per mantenere i cookie di sessione
       });
+      
+      clearTimeout(timeoutId);
       
       const data = await response.json();
       
