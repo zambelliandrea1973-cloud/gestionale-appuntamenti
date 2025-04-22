@@ -17,10 +17,18 @@ import {
   notificationSettings, type NotificationSettings, type InsertNotificationSettings,
   reminderTemplates, type ReminderTemplate, type InsertReminderTemplate,
   appSettings, type AppSettings, type InsertAppSettings,
+  betaInvitations, type BetaInvitation, type InsertBetaInvitation,
+  betaFeedback, type BetaFeedback, type InsertBetaFeedback,
+  subscriptionPlans, type SubscriptionPlan, type InsertSubscriptionPlan,
+  subscriptions, type Subscription, type InsertSubscription,
+  paymentMethods, type PaymentMethod, type InsertPaymentMethod,
+  paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
-  type InvoiceItemWithDetails
+  type InvoiceItemWithDetails,
+  type SubscriptionWithDetails,
+  type BetaFeedbackWithUserDetails
 } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 import session from "express-session";
@@ -162,6 +170,54 @@ export interface IStorage {
   getNotificationSettings(): Promise<NotificationSettings | undefined>;
   saveNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
   updateNotificationSettings(id: number, settings: Partial<InsertNotificationSettings>): Promise<NotificationSettings | undefined>;
+  
+  // Beta Tester operations
+  createBetaInvitation(invitation: InsertBetaInvitation): Promise<BetaInvitation>;
+  getBetaInvitation(code: string): Promise<BetaInvitation | undefined>;
+  getBetaInvitations(): Promise<BetaInvitation[]>;
+  updateBetaInvitation(id: number, invitation: Partial<InsertBetaInvitation>): Promise<BetaInvitation | undefined>;
+  deleteBetaInvitation(id: number): Promise<boolean>;
+  markBetaInvitationAsUsed(code: string, userId: number): Promise<BetaInvitation | undefined>;
+  
+  // Beta Feedback operations
+  createBetaFeedback(feedback: InsertBetaFeedback): Promise<BetaFeedback>;
+  getBetaFeedback(id: number): Promise<BetaFeedbackWithUserDetails | undefined>;
+  getBetaFeedbackByUser(userId: number): Promise<BetaFeedback[]>;
+  getAllBetaFeedback(): Promise<BetaFeedbackWithUserDetails[]>;
+  updateBetaFeedback(id: number, feedback: Partial<InsertBetaFeedback>): Promise<BetaFeedback | undefined>;
+  deleteBetaFeedback(id: number): Promise<boolean>;
+  
+  // Subscription Plan operations
+  createSubscriptionPlan(plan: InsertSubscriptionPlan): Promise<SubscriptionPlan>;
+  getSubscriptionPlan(id: number): Promise<SubscriptionPlan | undefined>;
+  getSubscriptionPlans(): Promise<SubscriptionPlan[]>;
+  getActiveSubscriptionPlans(): Promise<SubscriptionPlan[]>;
+  updateSubscriptionPlan(id: number, plan: Partial<InsertSubscriptionPlan>): Promise<SubscriptionPlan | undefined>;
+  deleteSubscriptionPlan(id: number): Promise<boolean>;
+  
+  // Subscription operations
+  createSubscription(subscription: InsertSubscription): Promise<Subscription>;
+  getSubscription(id: number): Promise<SubscriptionWithDetails | undefined>;
+  getSubscriptionByUserId(userId: number): Promise<SubscriptionWithDetails | undefined>;
+  getActiveSubscriptions(): Promise<SubscriptionWithDetails[]>;
+  updateSubscription(id: number, subscription: Partial<InsertSubscription>): Promise<Subscription | undefined>;
+  cancelSubscription(id: number, cancelAtPeriodEnd: boolean): Promise<Subscription | undefined>;
+  
+  // Payment Method operations
+  createPaymentMethod(method: InsertPaymentMethod): Promise<PaymentMethod>;
+  getPaymentMethod(id: number): Promise<PaymentMethod | undefined>;
+  getPaymentMethodsByUser(userId: number): Promise<PaymentMethod[]>;
+  getDefaultPaymentMethod(userId: number): Promise<PaymentMethod | undefined>;
+  updatePaymentMethod(id: number, method: Partial<InsertPaymentMethod>): Promise<PaymentMethod | undefined>;
+  deletePaymentMethod(id: number): Promise<boolean>;
+  setDefaultPaymentMethod(id: number, userId: number): Promise<boolean>;
+  
+  // Payment Transaction operations
+  createPaymentTransaction(transaction: InsertPaymentTransaction): Promise<PaymentTransaction>;
+  getPaymentTransaction(id: number): Promise<PaymentTransaction | undefined>;
+  getPaymentTransactionsByUser(userId: number): Promise<PaymentTransaction[]>;
+  getPaymentTransactionsBySubscription(subscriptionId: number): Promise<PaymentTransaction[]>;
+  updatePaymentTransaction(id: number, transaction: Partial<InsertPaymentTransaction>): Promise<PaymentTransaction | undefined>;
 }
 
 // In-memory implementation of the storage interface with file persistence
