@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiRequest, queryClient } from '@/lib/queryClient';
+import { apiRequest, queryClient, getQueryFn } from '@/lib/queryClient';
 import { useAuth } from '@/hooks/use-auth';
 import {
   Table,
@@ -68,20 +68,20 @@ export default function BetaAdmin() {
   // Query per ottenere tutti gli inviti beta
   const { data: invitations, isLoading: invitationsLoading, refetch: refetchInvitations } = useQuery({
     queryKey: ['/api/beta/invitations'],
-    queryFn: async () => {
-      const res = await apiRequest('GET', '/api/beta/invitations', undefined, { withBetaAdminToken: true });
-      return await res.json();
-    },
+    queryFn: getQueryFn({ 
+      on401: "throw",
+      withBetaAdminToken: true 
+    }),
     enabled: isAuthenticated, // Esegui solo se autenticato con la password beta admin
   });
 
   // Query per ottenere tutti i feedback
   const { data: feedbacks, isLoading: feedbacksLoading, refetch: refetchFeedbacks } = useQuery({
     queryKey: ['/api/beta/feedback'],
-    queryFn: async () => {
-      const res = await apiRequest('GET', '/api/beta/feedback', undefined, { withBetaAdminToken: true });
-      return await res.json();
-    },
+    queryFn: getQueryFn({ 
+      on401: "throw",
+      withBetaAdminToken: true 
+    }),
     enabled: isAuthenticated, // Esegui solo se autenticato con la password beta admin
   });
 
@@ -118,7 +118,7 @@ export default function BetaAdmin() {
   // Mutation per aggiornare lo stato di un feedback
   const updateFeedbackStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number, status: string }) => {
-      const res = await apiRequest('PUT', `/api/beta/feedback/${id}`, { status });
+      const res = await apiRequest('PUT', `/api/beta/feedback/${id}`, { status }, { withBetaAdminToken: true });
       return await res.json();
     },
     onSuccess: () => {
