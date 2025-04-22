@@ -177,13 +177,22 @@ export default function BetaAdmin() {
 
   const [adminPassword, setAdminPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   
-  // Password amministrativa fissa (in produzione sarebbe meglio usare un meccanismo più sicuro)
-  const ADMIN_PASSWORD = 'EF2025Admin';
+  // Password amministrativa iniziale (verrà caricata dal localStorage se è stata cambiata)
+  const DEFAULT_ADMIN_PASSWORD = 'EF2025Admin';
+  
+  // Carica la password corrente dal localStorage o usa quella predefinita
+  const getCurrentPassword = () => {
+    const savedPassword = localStorage.getItem('betaAdminPassword');
+    return savedPassword || DEFAULT_ADMIN_PASSWORD;
+  };
   
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (adminPassword === ADMIN_PASSWORD) {
+    if (adminPassword === getCurrentPassword()) {
       setIsAuthenticated(true);
       
       // Salva lo stato di autenticazione nella sessione per mantenerlo durante la navigazione
@@ -201,6 +210,42 @@ export default function BetaAdmin() {
         variant: 'destructive',
       });
     }
+  };
+  
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (newPassword.length < 6) {
+      toast({
+        title: 'Password troppo corta',
+        description: 'La nuova password deve contenere almeno 6 caratteri.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: 'Le password non corrispondono',
+        description: 'La conferma della password non corrisponde alla nuova password.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    // Salva la nuova password nel localStorage
+    localStorage.setItem('betaAdminPassword', newPassword);
+    
+    toast({
+      title: 'Password aggiornata',
+      description: 'La password amministrativa è stata modificata con successo.',
+      variant: 'default'
+    });
+    
+    // Reset del form
+    setNewPassword('');
+    setConfirmPassword('');
+    setIsChangingPassword(false);
   };
   
   // Controlla se l'utente è già autenticato all'avvio
@@ -502,6 +547,80 @@ export default function BetaAdmin() {
                 </span>
               </div>
             </div>
+          </CardContent>
+        </Card>
+        
+        {/* Sezione Cambio Password */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Sicurezza</CardTitle>
+              <CardDescription>
+                Modifica la password di accesso all'area amministrativa
+              </CardDescription>
+            </div>
+            {!isChangingPassword && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setIsChangingPassword(true)}
+              >
+                Modifica Password
+              </Button>
+            )}
+          </CardHeader>
+          <CardContent>
+            {isChangingPassword ? (
+              <form onSubmit={handlePasswordChange} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="newPassword">Nuova Password</Label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    placeholder="Inserisci la nuova password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    minLength={6}
+                  />
+                  <p className="text-xs text-gray-500">
+                    La password deve contenere almeno 6 caratteri
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Conferma Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Conferma la nuova password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+                <div className="flex space-x-2">
+                  <Button 
+                    type="submit" 
+                    className="flex-1"
+                  >
+                    Salva Nuova Password
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={() => {
+                      setIsChangingPassword(false);
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    }}
+                  >
+                    Annulla
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-center py-4">
+                <p>La password attuale è sicura. <span className="text-sm text-gray-500">Ultima modifica: {localStorage.getItem('betaAdminPassword') ? 'di recente' : 'mai'}</span></p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
