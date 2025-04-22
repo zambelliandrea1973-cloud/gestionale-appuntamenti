@@ -85,8 +85,9 @@ export async function apiRequest(
 type UnauthorizedBehavior = "returnNull" | "throw";
 export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
+  withBetaAdminToken?: boolean;
 }) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
+  ({ on401: unauthorizedBehavior, withBetaAdminToken = false }) =>
   async ({ queryKey }) => {
     // Determina se l'app è in modalità PWA installata
     const isPWA = 
@@ -100,6 +101,13 @@ export const getQueryFn: <T>(options: {
     // Aggiungi l'header x-pwa-app se siamo in una PWA
     if (isPWA) {
       headers["x-pwa-app"] = "true";
+    }
+    
+    // Se è richiesto il token di autenticazione per l'area beta admin
+    if (withBetaAdminToken) {
+      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
+      headers["X-Beta-Admin-Token"] = savedPassword;
+      console.log("Aggiunto token di autenticazione per l'area beta admin (query)");
     }
     
     // Se è DuckDuckGo, aggiunge un flag specifico
@@ -125,7 +133,10 @@ export const getQueryFn: <T>(options: {
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      queryFn: getQueryFn({ on401: "throw" }),
+      queryFn: getQueryFn({ 
+        on401: "throw",
+        withBetaAdminToken: false
+      }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,

@@ -5,29 +5,25 @@ import { isAdmin, isAuthenticated } from '../auth';
 const router = Router();
 
 // Password amministrativa predefinita per l'accesso all'area beta
-const DEFAULT_BETA_ADMIN_PASSWORD = 'EF2025Admin';
+const DEFAULT_BETA_ADMIN_PASSWORD = 'gironico';
 
 // Middleware per l'autenticazione personalizzata per l'area beta
 const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
   // Controlla l'header X-Beta-Admin-Token
   const adminToken = req.headers['x-beta-admin-token'];
   
-  // Verifica se il token corrisponde alla password
-  if (!adminToken || adminToken !== DEFAULT_BETA_ADMIN_PASSWORD) {
-    // Verifica se è una richiesta con una password personalizzata dal localStorage
-    // presente nell'header X-Custom-Admin-Token
-    const customToken = req.headers['x-custom-admin-token'];
-    
-    if (!customToken) {
-      return res.status(401).json({ message: 'Accesso non autorizzato' });
-    }
-    
-    // Qui, in una situazione reale, verificheremmo il token contro un database
-    // Per semplicità in questa demo, accettiamo qualsiasi token come valido
-    // In produzione, sarebbe necessario implementare una verifica più robusta
+  if (!adminToken) {
+    return res.status(401).json({ message: 'Accesso non autorizzato: token mancante' });
   }
   
-  next();
+  // Verifica se il token corrisponde alla password
+  // Per semplicità accettiamo sia la password predefinita che quella originale precedente
+  if (adminToken === DEFAULT_BETA_ADMIN_PASSWORD || adminToken === 'EF2025Admin') {
+    return next();
+  }
+  
+  // Se arriviamo qui, il token non è valido
+  return res.status(401).json({ message: 'Accesso non autorizzato: token non valido' });
 };
 
 /**
