@@ -2449,6 +2449,20 @@ export class DatabaseStorage implements IStorage {
       return false;
     }
   }
+  
+  // Payment Transaction operations
+  async getPaymentTransactionsByWiseId(transactionId: string): Promise<PaymentTransaction[]> {
+    try {
+      return await db
+        .select()
+        .from(paymentTransactions)
+        .where(eq(paymentTransactions.transactionId, transactionId))
+        .orderBy(desc(paymentTransactions.createdAt));
+    } catch (error) {
+      console.error(`Errore nel recupero delle transazioni di pagamento per il Wise ID ${transactionId}:`, error);
+      return [];
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();

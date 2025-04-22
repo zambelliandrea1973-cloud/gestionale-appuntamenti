@@ -240,6 +240,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Registra le route per il sistema beta e pagamenti
+  app.use('/api/beta', betaRoutes);
+  app.use('/api/payments', paymentRoutes);
+
   const httpServer = createServer(app);
 
   // Client routes
