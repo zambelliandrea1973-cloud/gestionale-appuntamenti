@@ -44,15 +44,30 @@ export async function apiRequest(
       headers["X-Beta-Admin-Token"] = savedPassword;
       // Aggiunge un altro header per dispositivi mobili che potrebbero avere problemi con la gestione delle intestazioni
       headers["Authorization"] = `Bearer ${savedPassword}`;
-      console.log("Aggiunto token di autenticazione per l'area beta admin", { savedPassword });
+      console.log("Aggiunto token di autenticazione per l'area beta admin", { 
+        password: savedPassword ? '***' : undefined,  // Nascosto per motivi di sicurezza
+        headerCount: Object.keys(headers).length,
+        isAuthSet: !!headers["Authorization"]
+      });
     }
     
-    // Se è DuckDuckGo, aggiunge un flag specifico
-    const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+    // Rileva il browser/dispositivo e aggiungi header specifici
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
+    const isDuckDuckGo = userAgent.includes("duckduckgo");
+    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+    
+    // Aggiungi header per diversi tipi di browser/dispositivi
     if (isDuckDuckGo) {
       headers["x-browser"] = "duckduckgo";
       headers["x-bypass-auth"] = "true"; // Indica al server di usare modalità speciale di autenticazione
       console.log("Browser DuckDuckGo rilevato, aggiunti header specifici");
+    } else if (isMobile) {
+      headers["x-device-type"] = "mobile";
+      console.log("Dispositivo mobile rilevato, aggiunti header specifici");
+    } else if (isSafari) {
+      headers["x-browser"] = "safari";
+      console.log("Browser Safari rilevato, aggiunti header specifici");
     }
     
     console.log(`Dettagli richiesta ${method} a ${url}:`, { 
@@ -111,14 +126,27 @@ export const getQueryFn: <T>(options: {
       headers["X-Beta-Admin-Token"] = savedPassword;
       // Aggiunge un altro header per dispositivi mobili che potrebbero avere problemi con la gestione delle intestazioni
       headers["Authorization"] = `Bearer ${savedPassword}`;
-      console.log("Aggiunto token di autenticazione per l'area beta admin (query)", { savedPassword });
+      console.log("Aggiunto token di autenticazione per l'area beta admin (query)", { 
+        password: savedPassword ? '***' : undefined,  // Nascosto per motivi di sicurezza
+        headerCount: Object.keys(headers).length,
+        isAuthSet: !!headers["Authorization"]
+      });
     }
     
-    // Se è DuckDuckGo, aggiunge un flag specifico
-    const isDuckDuckGo = navigator.userAgent.includes("DuckDuckGo");
+    // Rileva il browser/dispositivo e aggiungi header specifici
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
+    const isDuckDuckGo = userAgent.includes("duckduckgo");
+    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+    
+    // Aggiungi header per diversi tipi di browser/dispositivi
     if (isDuckDuckGo) {
       headers["x-browser"] = "duckduckgo";
       headers["x-bypass-auth"] = "true"; // Indica al server di usare modalità speciale di autenticazione
+    } else if (isMobile) {
+      headers["x-device-type"] = "mobile";
+    } else if (isSafari) {
+      headers["x-browser"] = "safari";
     }
     
     const res = await fetch(queryKey[0] as string, {
