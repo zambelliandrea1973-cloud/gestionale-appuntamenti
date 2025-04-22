@@ -40,14 +40,21 @@ export async function apiRequest(
     
     // Se è richiesto il token di autenticazione per l'area beta admin
     if (options?.withBetaAdminToken) {
-      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
+      // Cerca in più posizioni per garantire massima compatibilità
+      const savedPassword = localStorage.getItem('betaAdminPassword') || 
+                           sessionStorage.getItem('betaAdminPassword') || 
+                           'gironico';
+      
+      // Aggiungi il token in diversi header per massima compatibilità
       headers["X-Beta-Admin-Token"] = savedPassword;
-      // Aggiunge un altro header per dispositivi mobili che potrebbero avere problemi con la gestione delle intestazioni
       headers["Authorization"] = `Bearer ${savedPassword}`;
+      headers["X-Auth-Token"] = savedPassword;
+      
+      // Log dettagliato per debug
       console.log("Aggiunto token di autenticazione per l'area beta admin", { 
         password: savedPassword ? '***' : undefined,  // Nascosto per motivi di sicurezza
         headerCount: Object.keys(headers).length,
-        isAuthSet: !!headers["Authorization"]
+        headers: Object.keys(headers).join(',')
       });
     }
     
@@ -122,14 +129,21 @@ export const getQueryFn: <T>(options: {
     
     // Se è richiesto il token di autenticazione per l'area beta admin
     if (withBetaAdminToken) {
-      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
+      // Cerca in più posizioni per garantire massima compatibilità
+      const savedPassword = localStorage.getItem('betaAdminPassword') || 
+                           sessionStorage.getItem('betaAdminPassword') || 
+                           'gironico';
+      
+      // Aggiungi il token in diversi header per massima compatibilità
       headers["X-Beta-Admin-Token"] = savedPassword;
-      // Aggiunge un altro header per dispositivi mobili che potrebbero avere problemi con la gestione delle intestazioni
       headers["Authorization"] = `Bearer ${savedPassword}`;
+      headers["X-Auth-Token"] = savedPassword;
+      
+      // Log dettagliato per debug
       console.log("Aggiunto token di autenticazione per l'area beta admin (query)", { 
         password: savedPassword ? '***' : undefined,  // Nascosto per motivi di sicurezza
         headerCount: Object.keys(headers).length,
-        isAuthSet: !!headers["Authorization"]
+        headers: Object.keys(headers).join(',')
       });
     }
     
