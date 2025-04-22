@@ -217,6 +217,7 @@ export interface IStorage {
   getPaymentTransaction(id: number): Promise<PaymentTransaction | undefined>;
   getPaymentTransactionsByUser(userId: number): Promise<PaymentTransaction[]>;
   getPaymentTransactionsBySubscription(subscriptionId: number): Promise<PaymentTransaction[]>;
+  getPaymentTransactionsByWiseId(transactionId: string): Promise<PaymentTransaction[]>;
   updatePaymentTransaction(id: number, transaction: Partial<InsertPaymentTransaction>): Promise<PaymentTransaction | undefined>;
 }
 
