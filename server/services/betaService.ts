@@ -32,7 +32,9 @@ export class BetaService {
         expiresAt: expirationDate,
         isUsed: false,
         notes,
-        usedById: null
+        usedById: null,
+        usedCount: 0,
+        maxUses: maxUses
       };
       
       const newInvitation = await storage.createBetaInvitation(invitation);
