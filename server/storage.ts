@@ -1000,7 +1000,10 @@ export class MemStorage implements IStorage {
       id,
       createdAt: new Date(),
       usedCount: 0,
-      isUsed: false
+      maxUses: invitation.maxUses || 1,
+      isUsed: false,
+      usedById: null,
+      usedAt: null
     };
     this.betaInvitations.set(id, newInvitation);
     this.saveToStorage();
@@ -1039,9 +1042,9 @@ export class MemStorage implements IStorage {
     const updatedInvitation: BetaInvitation = {
       ...invitation,
       isUsed: true,
-      usedCount: invitation.usedCount + 1,
+      usedCount: (invitation.usedCount || 0) + 1,
       usedAt: new Date(),
-      usedBy: userId
+      usedById: userId
     };
     
     this.betaInvitations.set(invitation.id, updatedInvitation);

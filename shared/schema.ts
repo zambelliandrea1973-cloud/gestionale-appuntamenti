@@ -320,8 +320,11 @@ export const betaInvitations = pgTable("beta_invitations", {
   invitationCode: text("invitation_code").notNull().unique(),
   isUsed: boolean("is_used").default(false),
   usedById: integer("used_by_id"),
+  usedCount: integer("used_count").default(0),
+  maxUses: integer("max_uses").default(1),
   expiresAt: timestamp("expires_at"),
   createdAt: timestamp("created_at").defaultNow(),
+  usedAt: timestamp("used_at"),
   notes: text("notes"),
 });
 
