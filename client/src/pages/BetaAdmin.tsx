@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -175,19 +175,69 @@ export default function BetaAdmin() {
     updateFeedbackStatusMutation.mutate({ id, status });
   };
 
-  // Se l'utente non è admin, mostra un messaggio di accesso negato
-  if (!isAdmin) {
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // Password amministrativa fissa (in produzione sarebbe meglio usare un meccanismo più sicuro)
+  const ADMIN_PASSWORD = 'EF2025Admin';
+  
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminPassword === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      
+      // Salva lo stato di autenticazione nella sessione per mantenerlo durante la navigazione
+      sessionStorage.setItem('betaAdminAuthenticated', 'true');
+      
+      toast({
+        title: 'Accesso effettuato',
+        description: 'Ora hai accesso alle funzionalità amministrative.',
+        variant: 'default',
+      });
+    } else {
+      toast({
+        title: 'Accesso negato',
+        description: 'La password inserita non è corretta.',
+        variant: 'destructive',
+      });
+    }
+  };
+  
+  // Controlla se l'utente è già autenticato all'avvio
+  useEffect(() => {
+    const isAuthenticatedFromSession = sessionStorage.getItem('betaAdminAuthenticated') === 'true';
+    if (isAuthenticatedFromSession) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+  
+  // Se l'utente non è autenticato, mostra il form di login
+  if (!isAuthenticated) {
     return (
       <div className="container py-10 mx-auto">
-        <Card className="max-w-3xl mx-auto">
+        <Card className="max-w-md mx-auto">
           <CardHeader>
-            <CardTitle>Accesso Negato</CardTitle>
+            <CardTitle>Accesso Amministratore</CardTitle>
             <CardDescription>
-              Devi essere un amministratore per accedere a questa pagina.
+              Inserisci la password per accedere all'area amministrativa.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p>Questa pagina è riservata agli amministratori del sistema.</p>
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="adminPassword">Password Amministratore</Label>
+                <Input
+                  id="adminPassword"
+                  type="password"
+                  placeholder="Inserisci la password"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                />
+              </div>
+              <Button type="submit" className="w-full">
+                Accedi
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </div>
@@ -308,7 +358,7 @@ export default function BetaAdmin() {
                         ) : new Date(invite.expiresAt || '') < new Date() ? (
                           <Badge variant="outline">Scaduto</Badge>
                         ) : (
-                          <Badge variant="success">Attivo</Badge>
+                          <Badge variant="default" className="bg-green-500">Attivo</Badge>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
@@ -392,7 +442,7 @@ export default function BetaAdmin() {
                           <Badge variant="secondary">Esaminato</Badge>
                         )}
                         {feedback.status === 'implemented' && (
-                          <Badge variant="success">Implementato</Badge>
+                          <Badge variant="default" className="bg-green-500">Implementato</Badge>
                         )}
                       </TableCell>
                       <TableCell className="text-right space-x-1">
