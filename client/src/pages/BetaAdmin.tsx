@@ -29,13 +29,16 @@ interface InviteFormData {
 // Tipo per l'invito beta
 interface BetaInvitation {
   id: number;
-  code: string;
+  invitationCode: string; // modificato da code a invitationCode per allinearlo col server
   email: string;
   maxUses: number;
   usedCount: number;
   createdAt: string;
   expiresAt: string | null;
   isUsed: boolean;
+  usedById: number | null;
+  usedAt: string | null;
+  notes: string | null;
 }
 
 // Tipo per i dati del feedback
@@ -389,7 +392,7 @@ export default function BetaAdmin() {
                 <TableBody>
                   {invitations.map((invite: BetaInvitation) => (
                     <TableRow key={invite.id}>
-                      <TableCell className="font-mono font-medium">{invite.code}</TableCell>
+                      <TableCell className="font-mono font-medium">{invite.invitationCode}</TableCell>
                       <TableCell>{invite.email}</TableCell>
                       <TableCell>{invite.usedCount} / {invite.maxUses}</TableCell>
                       <TableCell>{new Date(invite.createdAt).toLocaleDateString()}</TableCell>
@@ -409,9 +412,9 @@ export default function BetaAdmin() {
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          onClick={() => copyToClipboard(invite.code)}
+                          onClick={() => copyToClipboard(invite.invitationCode)}
                         >
-                          {copiedCode === invite.code ? (
+                          {copiedCode === invite.invitationCode ? (
                             <Check className="h-4 w-4" />
                           ) : (
                             <Copy className="h-4 w-4" />
