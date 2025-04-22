@@ -1125,6 +1125,216 @@ export class DatabaseStorage implements IStorage {
       createTableIfMissing: true
     });
   }
+  
+  // Beta Invitation operations
+  async createBetaInvitation(invitation: InsertBetaInvitation): Promise<BetaInvitation> {
+    try {
+      console.log("Creating beta invitation:", invitation);
+      const [newInvitation] = await db.insert(betaInvitations).values({
+        email: invitation.email,
+        invitationCode: invitation.invitationCode,
+        isUsed: invitation.isUsed || false,
+        usedById: invitation.usedById || null,
+        usedCount: invitation.usedCount || 0,
+        maxUses: invitation.maxUses || 1,
+        expiresAt: invitation.expiresAt || null,
+        notes: invitation.notes || null,
+        usedAt: invitation.usedAt || null
+      }).returning();
+      
+      console.log("Created beta invitation:", newInvitation);
+      return newInvitation;
+    } catch (error) {
+      console.error("Error creating beta invitation:", error);
+      throw error;
+    }
+  }
+  
+  async getBetaInvitation(code: string): Promise<BetaInvitation | undefined> {
+    try {
+      const [invitation] = await db.select().from(betaInvitations)
+        .where(eq(betaInvitations.invitationCode, code));
+      return invitation;
+    } catch (error) {
+      console.error("Error getting beta invitation:", error);
+      return undefined;
+    }
+  }
+  
+  async getBetaInvitations(): Promise<BetaInvitation[]> {
+    try {
+      return await db.select().from(betaInvitations)
+        .orderBy(desc(betaInvitations.createdAt));
+    } catch (error) {
+      console.error("Error getting beta invitations:", error);
+      return [];
+    }
+  }
+  
+  async updateBetaInvitation(id: number, invitation: Partial<InsertBetaInvitation>): Promise<BetaInvitation | undefined> {
+    try {
+      const [updated] = await db.update(betaInvitations)
+        .set(invitation)
+        .where(eq(betaInvitations.id, id))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error("Error updating beta invitation:", error);
+      return undefined;
+    }
+  }
+  
+  async deleteBetaInvitation(id: number): Promise<boolean> {
+    try {
+      const result = await db.delete(betaInvitations)
+        .where(eq(betaInvitations.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting beta invitation:", error);
+      return false;
+    }
+  }
+  
+  async markBetaInvitationAsUsed(code: string, userId: number): Promise<BetaInvitation | undefined> {
+    try {
+      const invitation = await this.getBetaInvitation(code);
+      if (!invitation) return undefined;
+      
+      // Verifica se l'invito può essere ancora utilizzato
+      if (invitation.usedCount >= invitation.maxUses) {
+        return undefined;
+      }
+      
+      // Aggiorna l'invito
+      const isUsed = invitation.usedCount + 1 >= invitation.maxUses;
+      const [updated] = await db.update(betaInvitations)
+        .set({
+          usedCount: invitation.usedCount + 1,
+          isUsed: isUsed,
+          usedById: userId,
+          usedAt: isUsed ? new Date() : invitation.usedAt
+        })
+        .where(eq(betaInvitations.invitationCode, code))
+        .returning();
+      
+      return updated;
+    } catch (error) {
+      console.error("Error marking beta invitation as used:", error);
+      return undefined;
+    }
+  }
+  
+  // Beta Feedback operations
+  async createBetaFeedback(feedback: InsertBetaFeedback): Promise<BetaFeedback> {
+    try {
+      const [newFeedback] = await db.insert(betaFeedback).values({
+        userId: feedback.userId,
+        feedbackType: feedback.feedbackType || "general",
+        content: feedback.content,
+        rating: feedback.rating || null,
+        status: feedback.status || "pending",
+        reviewedBy: feedback.reviewedBy || null,
+        reviewedAt: feedback.reviewedAt || null,
+        screenshot: feedback.screenshot || null
+      }).returning();
+      
+      return newFeedback;
+    } catch (error) {
+      console.error("Error creating beta feedback:", error);
+      throw error;
+    }
+  }
+  
+  async getBetaFeedback(id: number): Promise<BetaFeedbackWithUserDetails | undefined> {
+    try {
+      const [feedback] = await db.select().from(betaFeedback)
+        .where(eq(betaFeedback.id, id));
+      
+      if (!feedback) return undefined;
+      
+      // Ottieni i dettagli dell'utente
+      const user = await this.getUser(feedback.userId);
+      let reviewedByUser = undefined;
+      
+      if (feedback.reviewedBy) {
+        reviewedByUser = await this.getUser(feedback.reviewedBy);
+      }
+      
+      return {
+        ...feedback,
+        user: user!,
+        reviewedByUser
+      };
+    } catch (error) {
+      console.error("Error getting beta feedback:", error);
+      return undefined;
+    }
+  }
+  
+  async getBetaFeedbackByUser(userId: number): Promise<BetaFeedback[]> {
+    try {
+      return await db.select().from(betaFeedback)
+        .where(eq(betaFeedback.userId, userId))
+        .orderBy(desc(betaFeedback.createdAt));
+    } catch (error) {
+      console.error("Error getting beta feedback by user:", error);
+      return [];
+    }
+  }
+  
+  async getAllBetaFeedback(): Promise<BetaFeedbackWithUserDetails[]> {
+    try {
+      const feedbacks = await db.select().from(betaFeedback)
+        .orderBy(desc(betaFeedback.createdAt));
+      
+      // Aggiungi dettagli utente per ogni feedback
+      const result: BetaFeedbackWithUserDetails[] = [];
+      
+      for (const feedback of feedbacks) {
+        const user = await this.getUser(feedback.userId);
+        let reviewedByUser = undefined;
+        
+        if (feedback.reviewedBy) {
+          reviewedByUser = await this.getUser(feedback.reviewedBy);
+        }
+        
+        result.push({
+          ...feedback,
+          user: user!,
+          reviewedByUser
+        });
+      }
+      
+      return result;
+    } catch (error) {
+      console.error("Error getting all beta feedback:", error);
+      return [];
+    }
+  }
+  
+  async updateBetaFeedback(id: number, feedback: Partial<InsertBetaFeedback>): Promise<BetaFeedback | undefined> {
+    try {
+      const [updated] = await db.update(betaFeedback)
+        .set(feedback)
+        .where(eq(betaFeedback.id, id))
+        .returning();
+      
+      return updated;
+    } catch (error) {
+      console.error("Error updating beta feedback:", error);
+      return undefined;
+    }
+  }
+  
+  async deleteBetaFeedback(id: number): Promise<boolean> {
+    try {
+      await db.delete(betaFeedback).where(eq(betaFeedback.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting beta feedback:", error);
+      return false;
+    }
+  }
   // CLIENT OPERATIONS
   async getClient(id: number): Promise<Client | undefined> {
     try {
