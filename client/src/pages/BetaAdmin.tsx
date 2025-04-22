@@ -155,6 +155,13 @@ export default function BetaAdmin() {
       });
       return;
     }
+    
+    // Mostra un messaggio di operazione in corso
+    toast({
+      title: 'Creazione in corso...',
+      description: 'Sto creando il codice di invito, attendi qualche secondo.',
+    });
+    
     createInviteMutation.mutate(inviteData);
   };
 
