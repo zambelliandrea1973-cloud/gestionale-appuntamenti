@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { BetaService } from '../services/betaService';
 import { isAdmin, isAuthenticated } from '../auth';
+import { storage } from '../storage';
 
 const router = Router();
 
@@ -100,13 +101,15 @@ router.post('/invitations', isBetaAdmin, async (req, res) => {
  */
 router.get('/invitations', isBetaAdmin, async (req, res) => {
   try {
-    const invitations = await req.app.locals.storage.getBetaInvitations();
+    console.log('Recupero inviti beta...');
+    const invitations = await storage.getBetaInvitations();
+    console.log('Inviti beta trovati:', invitations.length);
     return res.json(invitations);
   } catch (error) {
     console.error('Errore durante il recupero degli inviti beta:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
@@ -270,11 +273,14 @@ router.post('/use/:code', isAuthenticated, async (req, res) => {
 router.get('/dashboard', isBetaAdmin, async (req, res) => {
   try {
     // Recupera statistiche per la dashboard
-    const invitations = await req.app.locals.storage.getBetaInvitations();
+    console.log('Recupero dashboard beta...');
+    const invitations = await storage.getBetaInvitations();
     const feedback = await BetaService.getAllFeedbacks();
     
+    console.log(`Trovati ${invitations.length} inviti e ${feedback.length} feedback`);
+    
     // Calcola alcune statistiche
-    const usedInvitations = invitations.filter(i => i.isUsed).length;
+    const usedInvitations = invitations.filter(invite => invite.isUsed).length;
     const unusedInvitations = invitations.length - usedInvitations;
     
     const feedbackByStatus = {
@@ -308,7 +314,7 @@ router.get('/dashboard', isBetaAdmin, async (req, res) => {
     console.error('Errore durante il recupero della dashboard beta:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
