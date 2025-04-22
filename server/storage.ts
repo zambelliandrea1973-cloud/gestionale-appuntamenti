@@ -218,6 +218,8 @@ export interface IStorage {
   getPaymentTransactionsByUser(userId: number): Promise<PaymentTransaction[]>;
   getPaymentTransactionsBySubscription(subscriptionId: number): Promise<PaymentTransaction[]>;
   getPaymentTransactionsByWiseId(transactionId: string): Promise<PaymentTransaction[]>;
+  getPaymentTransactionsByMethod(method: string): Promise<PaymentTransaction[]>;
+  getAllPaymentTransactions(): Promise<PaymentTransaction[]>;
   updatePaymentTransaction(id: number, transaction: Partial<InsertPaymentTransaction>): Promise<PaymentTransaction | undefined>;
 }
 
