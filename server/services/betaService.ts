@@ -18,12 +18,38 @@ export class BetaService {
    */
   static async createInvitation(email: string, notes?: string, maxUses: number = 1, expiryDays: number = 30): Promise<{success: boolean, code?: string, message?: string}> {
     try {
+      console.log('Creazione invito beta per:', { email, maxUses, expiryDays });
+      
+      // Validazione dei parametri
+      if (!email || email.trim() === '') {
+        console.error('Errore: Email mancante nella creazione invito');
+        return {
+          success: false,
+          message: 'Email obbligatoria per la creazione dell\'invito'
+        };
+      }
+      
+      if (maxUses < 1) {
+        console.error('Errore: Numero utilizzi non valido:', maxUses);
+        return {
+          success: false,
+          message: 'Il numero massimo di utilizzi deve essere almeno 1'
+        };
+      }
+      
       // Genera il codice di invito
       const invitationCode = this.generateInvitationCode();
       
       // Imposta la scadenza dell'invito in base ai giorni specificati
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + expiryDays);
+      
+      console.log('Preparazione dati invito:', { 
+        email, 
+        invitationCode,
+        expiryDays,
+        expirationDate: expirationDate.toISOString()
+      });
       
       // Crea l'invito
       const invitation: InsertBetaInvitation = {
@@ -38,6 +64,7 @@ export class BetaService {
       };
       
       const newInvitation = await storage.createBetaInvitation(invitation);
+      console.log('Invito creato con successo:', { id: newInvitation.id, code: newInvitation.invitationCode });
       
       return {
         success: true,

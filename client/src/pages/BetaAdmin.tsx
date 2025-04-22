@@ -260,11 +260,20 @@ export default function BetaAdmin() {
     setIsChangingPassword(false);
   };
   
-  // Controlla se l'utente è già autenticato all'avvio
+  // Controlla se l'utente è già autenticato all'avvio e imposta la password memorizzata
   useEffect(() => {
+    // Verifica se c'è già un'autenticazione valida nella sessione
     const isAuthenticatedFromSession = sessionStorage.getItem('betaAdminAuthenticated') === 'true';
+    
+    // Se l'utente è già autenticato, imposta lo stato
     if (isAuthenticatedFromSession) {
       setIsAuthenticated(true);
+      
+      // Imposta sempre la password al valore memorizzato per consentire le chiamate API autenticate
+      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
+      setAdminPassword(savedPassword);
+      
+      console.log('Utente già autenticato, ripristinata password da localStorage');
     }
   }, []);
   
