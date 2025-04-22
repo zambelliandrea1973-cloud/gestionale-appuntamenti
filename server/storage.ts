@@ -230,6 +230,8 @@ export class MemStorage implements IStorage {
   private invoices: Map<number, Invoice>;
   private invoiceItems: Map<number, InvoiceItem>;
   private payments: Map<number, Payment>;
+  private betaInvitations: Map<number, BetaInvitation>;
+  private betaFeedback: Map<number, BetaFeedback>;
   
   private clientIdCounter: number;
   private serviceIdCounter: number;
@@ -238,6 +240,8 @@ export class MemStorage implements IStorage {
   private invoiceIdCounter: number;
   private invoiceItemIdCounter: number;
   private paymentIdCounter: number;
+  private betaInvitationIdCounter: number;
+  private betaFeedbackIdCounter: number;
   
   private dataFile: string;
   
@@ -263,6 +267,10 @@ export class MemStorage implements IStorage {
         this.invoiceItems = data.invoiceItems ? new Map(data.invoiceItems) : new Map();
         this.payments = data.payments ? new Map(data.payments) : new Map();
         
+        // Restore beta related maps if they exist
+        this.betaInvitations = data.betaInvitations ? new Map(data.betaInvitations) : new Map();
+        this.betaFeedback = data.betaFeedback ? new Map(data.betaFeedback) : new Map();
+        
         // Restore counters
         this.clientIdCounter = data.clientIdCounter;
         this.serviceIdCounter = data.serviceIdCounter;
@@ -271,6 +279,8 @@ export class MemStorage implements IStorage {
         this.invoiceIdCounter = data.invoiceIdCounter || 1;
         this.invoiceItemIdCounter = data.invoiceItemIdCounter || 1;
         this.paymentIdCounter = data.paymentIdCounter || 1;
+        this.betaInvitationIdCounter = data.betaInvitationIdCounter || 1;
+        this.betaFeedbackIdCounter = data.betaFeedbackIdCounter || 1;
         
         console.log('Dati caricati dal file:', this.dataFile);
       } else {
@@ -283,6 +293,8 @@ export class MemStorage implements IStorage {
         this.invoices = new Map();
         this.invoiceItems = new Map();
         this.payments = new Map();
+        this.betaInvitations = new Map();
+        this.betaFeedback = new Map();
         
         this.clientIdCounter = 1;
         this.serviceIdCounter = 1;
@@ -291,6 +303,8 @@ export class MemStorage implements IStorage {
         this.invoiceIdCounter = 1;
         this.invoiceItemIdCounter = 1;
         this.paymentIdCounter = 1;
+        this.betaInvitationIdCounter = 1;
+        this.betaFeedbackIdCounter = 1;
         
         // Initialize with default services
         this.initDefaultServices();
@@ -305,6 +319,8 @@ export class MemStorage implements IStorage {
       this.invoices = new Map();
       this.invoiceItems = new Map();
       this.payments = new Map();
+      this.betaInvitations = new Map();
+      this.betaFeedback = new Map();
       
       this.clientIdCounter = 1;
       this.serviceIdCounter = 1;
@@ -313,6 +329,8 @@ export class MemStorage implements IStorage {
       this.invoiceIdCounter = 1;
       this.invoiceItemIdCounter = 1;
       this.paymentIdCounter = 1;
+      this.betaInvitationIdCounter = 1;
+      this.betaFeedbackIdCounter = 1;
       
       // Initialize with default services
       this.initDefaultServices();
@@ -330,13 +348,17 @@ export class MemStorage implements IStorage {
         invoices: Array.from(this.invoices.entries()),
         invoiceItems: Array.from(this.invoiceItems.entries()),
         payments: Array.from(this.payments.entries()),
+        betaInvitations: Array.from(this.betaInvitations.entries()),
+        betaFeedback: Array.from(this.betaFeedback.entries()),
         clientIdCounter: this.clientIdCounter,
         serviceIdCounter: this.serviceIdCounter,
         appointmentIdCounter: this.appointmentIdCounter,
         consentIdCounter: this.consentIdCounter,
         invoiceIdCounter: this.invoiceIdCounter,
         invoiceItemIdCounter: this.invoiceItemIdCounter,
-        paymentIdCounter: this.paymentIdCounter
+        paymentIdCounter: this.paymentIdCounter,
+        betaInvitationIdCounter: this.betaInvitationIdCounter,
+        betaFeedbackIdCounter: this.betaFeedbackIdCounter
       };
       
       fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
