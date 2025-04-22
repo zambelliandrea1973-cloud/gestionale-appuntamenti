@@ -20,6 +20,7 @@ import ConsentPage from "./pages/ConsentPage";
 import TestNotificationsPage from "./pages/TestNotificationsPage";
 import ClientAppointments from "./pages/ClientAppointments";
 import BetaPage from "./pages/BetaPage";
+import BetaAdmin from "./pages/BetaAdmin";
 import SubscribePage from "./pages/SubscribePage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
@@ -153,6 +154,11 @@ function AppRoutes() {
       <Route path="/beta">
         <StaffPageWrapper>
           <BetaPage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/beta-admin">
+        <StaffPageWrapper>
+          <BetaAdmin />
         </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
