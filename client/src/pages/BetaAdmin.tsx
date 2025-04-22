@@ -52,7 +52,12 @@ interface BetaFeedback {
 
 export default function BetaAdmin() {
   const { toast } = useToast();
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [inviteData, setInviteData] = useState<InviteFormData>({
     email: '',
     maxUses: 1,
@@ -64,26 +69,26 @@ export default function BetaAdmin() {
   const { data: invitations, isLoading: invitationsLoading, refetch: refetchInvitations } = useQuery({
     queryKey: ['/api/beta/invitations'],
     queryFn: async () => {
-      const res = await apiRequest('GET', '/api/beta/invitations');
+      const res = await apiRequest('GET', '/api/beta/invitations', undefined, { withBetaAdminToken: true });
       return await res.json();
     },
-    enabled: !!user && isAdmin, // Esegui solo se l'utente è admin
+    enabled: isAuthenticated, // Esegui solo se autenticato con la password beta admin
   });
 
   // Query per ottenere tutti i feedback
   const { data: feedbacks, isLoading: feedbacksLoading, refetch: refetchFeedbacks } = useQuery({
     queryKey: ['/api/beta/feedback'],
     queryFn: async () => {
-      const res = await apiRequest('GET', '/api/beta/feedback');
+      const res = await apiRequest('GET', '/api/beta/feedback', undefined, { withBetaAdminToken: true });
       return await res.json();
     },
-    enabled: !!user && isAdmin, // Esegui solo se l'utente è admin
+    enabled: isAuthenticated, // Esegui solo se autenticato con la password beta admin
   });
 
   // Mutation per creare un nuovo invito
   const createInviteMutation = useMutation({
     mutationFn: async (data: InviteFormData) => {
-      const res = await apiRequest('POST', '/api/beta/invitations', data);
+      const res = await apiRequest('POST', '/api/beta/invitations', data, { withBetaAdminToken: true });
       return await res.json();
     },
     onSuccess: () => {
@@ -174,12 +179,6 @@ export default function BetaAdmin() {
   const handleUpdateFeedbackStatus = (id: number, status: 'pending' | 'reviewed' | 'implemented') => {
     updateFeedbackStatusMutation.mutate({ id, status });
   };
-
-  const [adminPassword, setAdminPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isChangingPassword, setIsChangingPassword] = useState(false);
   
   // Password amministrativa iniziale (verrà caricata dal localStorage se è stata cambiata)
   const DEFAULT_ADMIN_PASSWORD = 'EF2025Admin';

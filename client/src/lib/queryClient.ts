@@ -11,6 +11,9 @@ export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
+  options?: {
+    withBetaAdminToken?: boolean
+  }
 ): Promise<Response> {
   console.log(`Esecuzione richiesta ${method} a ${url}`, data ? JSON.stringify(data) : "");
   
@@ -33,6 +36,13 @@ export async function apiRequest(
     if (isPWA) {
       headers["x-pwa-app"] = "true";
       console.log("Modalità PWA rilevata, aggiunto header x-pwa-app");
+    }
+    
+    // Se è richiesto il token di autenticazione per l'area beta admin
+    if (options?.withBetaAdminToken) {
+      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
+      headers["X-Beta-Admin-Token"] = savedPassword;
+      console.log("Aggiunto token di autenticazione per l'area beta admin");
     }
     
     // Se è DuckDuckGo, aggiunge un flag specifico
