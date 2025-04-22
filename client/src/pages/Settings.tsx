@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield, Eye, EyeOff } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
@@ -32,6 +32,7 @@ export default function Settings() {
   const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [isPasswordSubmitting, setIsPasswordSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleAdminAccess = () => {
     setIsPasswordSubmitting(true);
@@ -40,7 +41,14 @@ export default function Settings() {
     if (adminPassword === "gironico") {
       setIsPasswordSubmitting(false);
       setIsAdminDialogOpen(false);
-      setAdminPassword('');
+      
+      // Salva la password in localStorage per consentire accesso successivo
+      localStorage.setItem('betaAdminPassword', adminPassword);
+      localStorage.setItem('betaAdminAuthenticated', 'true');
+      sessionStorage.setItem('betaAdminAuthenticated', 'true');
+      
+      console.log('Password salvata in localStorage e sessionStorage');
+      
       // Reindirizza alla dashboard beta admin
       setLocation("/beta-admin");
     } else {
@@ -220,17 +228,30 @@ export default function Settings() {
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
-            <Input
-              type="password"
-              placeholder="Password"
-              value={adminPassword}
-              onChange={(e) => setAdminPassword(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleAdminAccess();
-                }
-              }}
-            />
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleAdminAccess();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <Eye className="h-5 w-5 text-gray-500" />
+                )}
+              </button>
+            </div>
           </div>
           <DialogFooter>
             <Button 
