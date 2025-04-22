@@ -207,8 +207,15 @@ export default function BetaAdmin() {
     if (adminPassword === getCurrentPassword()) {
       setIsAuthenticated(true);
       
-      // Salva lo stato di autenticazione nella sessione per mantenerlo durante la navigazione
+      // Salva lo stato di autenticazione sia nella sessione che in localStorage
+      // per mantenerlo durante la navigazione e tra sessioni diverse
       sessionStorage.setItem('betaAdminAuthenticated', 'true');
+      localStorage.setItem('betaAdminAuthenticated', 'true');
+      
+      // Assicurati che la password corrente sia salvata in localStorage
+      localStorage.setItem('betaAdminPassword', adminPassword);
+      
+      console.log('Login effettuato con successo, stato salvato in sessionStorage e localStorage');
       
       toast({
         title: 'Accesso effettuato',
@@ -216,6 +223,7 @@ export default function BetaAdmin() {
         variant: 'default',
       });
     } else {
+      console.log('Login fallito: password non corretta');
       toast({
         title: 'Accesso negato',
         description: 'La password inserita non è corretta.',
@@ -248,6 +256,11 @@ export default function BetaAdmin() {
     // Salva la nuova password nel localStorage
     localStorage.setItem('betaAdminPassword', newPassword);
     
+    // Aggiorna anche il valore nella variabile di stato per mantenerlo sincronizzato
+    setAdminPassword(newPassword);
+    
+    console.log('Password amministrativa aggiornata e salvata in localStorage');
+    
     toast({
       title: 'Password aggiornata',
       description: 'La password amministrativa è stata modificata con successo.',
@@ -262,18 +275,24 @@ export default function BetaAdmin() {
   
   // Controlla se l'utente è già autenticato all'avvio e imposta la password memorizzata
   useEffect(() => {
-    // Verifica se c'è già un'autenticazione valida nella sessione
+    // Verifica se c'è già un'autenticazione valida nella sessione o localStorage
     const isAuthenticatedFromSession = sessionStorage.getItem('betaAdminAuthenticated') === 'true';
+    const isAuthenticatedFromLocalStorage = localStorage.getItem('betaAdminAuthenticated') === 'true';
     
-    // Se l'utente è già autenticato, imposta lo stato
-    if (isAuthenticatedFromSession) {
+    // Imposta la password al valore memorizzato in localStorage
+    const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
+    setAdminPassword(savedPassword);
+    
+    // Se l'utente è già autenticato (da sessionStorage o localStorage), imposta lo stato
+    if (isAuthenticatedFromSession || isAuthenticatedFromLocalStorage) {
       setIsAuthenticated(true);
-      
-      // Imposta sempre la password al valore memorizzato per consentire le chiamate API autenticate
-      const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
-      setAdminPassword(savedPassword);
-      
       console.log('Utente già autenticato, ripristinata password da localStorage');
+      
+      // Sincronizza lo stato di autenticazione tra storage per assicurare consistenza
+      sessionStorage.setItem('betaAdminAuthenticated', 'true');
+      localStorage.setItem('betaAdminAuthenticated', 'true');
+    } else {
+      console.log('Nessuna autenticazione trovata, serve login');
     }
   }, []);
   
