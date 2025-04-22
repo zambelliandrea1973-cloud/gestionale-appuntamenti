@@ -991,6 +991,121 @@ export class MemStorage implements IStorage {
     this.saveToStorage();
     return result;
   }
+  
+  // Beta Invitation operations
+  async createBetaInvitation(invitation: InsertBetaInvitation): Promise<BetaInvitation> {
+    const id = this.betaInvitationIdCounter++;
+    const newInvitation: BetaInvitation = {
+      ...invitation,
+      id,
+      createdAt: new Date(),
+      usedCount: 0,
+      isUsed: false
+    };
+    this.betaInvitations.set(id, newInvitation);
+    this.saveToStorage();
+    return newInvitation;
+  }
+  
+  async getBetaInvitation(code: string): Promise<BetaInvitation | undefined> {
+    return Array.from(this.betaInvitations.values())
+      .find(invitation => invitation.invitationCode === code);
+  }
+  
+  async getBetaInvitations(): Promise<BetaInvitation[]> {
+    return Array.from(this.betaInvitations.values());
+  }
+  
+  async updateBetaInvitation(id: number, invitation: Partial<InsertBetaInvitation>): Promise<BetaInvitation | undefined> {
+    const existingInvitation = this.betaInvitations.get(id);
+    if (!existingInvitation) return undefined;
+    
+    const updatedInvitation: BetaInvitation = { ...existingInvitation, ...invitation };
+    this.betaInvitations.set(id, updatedInvitation);
+    this.saveToStorage();
+    return updatedInvitation;
+  }
+  
+  async deleteBetaInvitation(id: number): Promise<boolean> {
+    const result = this.betaInvitations.delete(id);
+    this.saveToStorage();
+    return result;
+  }
+  
+  async markBetaInvitationAsUsed(code: string, userId: number): Promise<BetaInvitation | undefined> {
+    const invitation = await this.getBetaInvitation(code);
+    if (!invitation) return undefined;
+    
+    const updatedInvitation: BetaInvitation = {
+      ...invitation,
+      isUsed: true,
+      usedCount: invitation.usedCount + 1,
+      usedAt: new Date(),
+      usedBy: userId
+    };
+    
+    this.betaInvitations.set(invitation.id, updatedInvitation);
+    this.saveToStorage();
+    return updatedInvitation;
+  }
+  
+  // Beta Feedback operations
+  async createBetaFeedback(feedback: InsertBetaFeedback): Promise<BetaFeedback> {
+    const id = this.betaFeedbackIdCounter++;
+    const newFeedback: BetaFeedback = {
+      ...feedback,
+      id,
+      createdAt: new Date()
+    };
+    this.betaFeedback.set(id, newFeedback);
+    this.saveToStorage();
+    return newFeedback;
+  }
+  
+  async getBetaFeedback(id: number): Promise<BetaFeedbackWithUserDetails | undefined> {
+    const feedback = this.betaFeedback.get(id);
+    if (!feedback) return undefined;
+    
+    const user = await this.getUser(feedback.userId);
+    if (!user) return undefined;
+    
+    return {
+      ...feedback,
+      username: user.username
+    };
+  }
+  
+  async getBetaFeedbackByUser(userId: number): Promise<BetaFeedback[]> {
+    return Array.from(this.betaFeedback.values())
+      .filter(feedback => feedback.userId === userId);
+  }
+  
+  async getAllBetaFeedback(): Promise<BetaFeedbackWithUserDetails[]> {
+    const feedbacks = Array.from(this.betaFeedback.values());
+    const result: BetaFeedbackWithUserDetails[] = [];
+    
+    for (const feedback of feedbacks) {
+      const user = await this.getUser(feedback.userId);
+      if (user) {
+        result.push({
+          ...feedback,
+          username: user.username
+        });
+      }
+    }
+    
+    return result;
+  }
+  
+  async updateBetaFeedback(id: number, feedback: Partial<InsertBetaFeedback>): Promise<BetaFeedback | undefined> {
+    const existingFeedback = this.betaFeedback.get(id);
+    if (!existingFeedback) return undefined;
+    
+    const updatedFeedback: BetaFeedback = { ...existingFeedback, ...feedback };
+    this.betaFeedback.set(id, updatedFeedback);
+    this.saveToStorage();
+    return updatedFeedback;
+  }
 }
 
 export class DatabaseStorage implements IStorage {
