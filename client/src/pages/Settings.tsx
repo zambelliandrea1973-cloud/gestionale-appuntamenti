@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
@@ -18,6 +28,30 @@ import { NotificationSettingsForm } from '@/components/NotificationSettingsForm'
 export default function Settings() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
+  const { toast } = useToast();
+  const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isPasswordSubmitting, setIsPasswordSubmitting] = useState(false);
+
+  const handleAdminAccess = () => {
+    setIsPasswordSubmitting(true);
+    
+    // Controlla la password (quella corretta è "gironico")
+    if (adminPassword === "gironico") {
+      setIsPasswordSubmitting(false);
+      setIsAdminDialogOpen(false);
+      setAdminPassword('');
+      // Reindirizza alla dashboard beta admin
+      setLocation("/beta-admin");
+    } else {
+      setIsPasswordSubmitting(false);
+      toast({
+        title: "Errore di autenticazione",
+        description: "Password non valida. Riprova.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="container mx-auto p-4 max-w-6xl">
@@ -70,8 +104,28 @@ export default function Settings() {
                 {t('settings.generalDesc', 'Configura le impostazioni generali dell\'applicazione')}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-8">
               <ServiceManager />
+              
+              <div className="pt-6 mt-6 border-t">
+                <div className="flex items-center mb-4">
+                  <Shield className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <h3 className="text-lg font-medium">Area Amministrativa</h3>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Accedi all'area di amministrazione beta per gestire gli inviti e monitorare i feedback degli utenti beta.
+                  </p>
+                  <Button 
+                    variant="default" 
+                    className="flex items-center" 
+                    onClick={() => setIsAdminDialogOpen(true)}
+                  >
+                    <Lock className="mr-2 h-4 w-4" />
+                    Accedi alla Dashboard Beta Admin
+                  </Button>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -151,30 +205,63 @@ export default function Settings() {
                 </div>
                 <CompanyNameEditor />
               </div>
-              
-              <div className="pt-6 mt-6 border-t">
-                <div className="flex items-center mb-4">
-                  <Shield className="h-5 w-5 mr-2 text-muted-foreground" />
-                  <h3 className="text-lg font-medium">Area Amministrativa</h3>
-                </div>
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Accedi all'area di amministrazione beta per gestire gli inviti e monitorare i feedback degli utenti.
-                  </p>
-                  <Button 
-                    variant="default" 
-                    className="flex items-center" 
-                    onClick={() => setLocation("/beta-admin")}
-                  >
-                    <Lock className="mr-2 h-4 w-4" />
-                    Accedi alla Dashboard Beta Admin
-                  </Button>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Dialog per la richiesta della password */}
+      <Dialog open={isAdminDialogOpen} onOpenChange={setIsAdminDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Accesso Area Amministrativa</DialogTitle>
+            <DialogDescription>
+              Inserisci la password per accedere all'area amministrativa beta
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              type="password"
+              placeholder="Password"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleAdminAccess();
+                }
+              }}
+            />
+          </div>
+          <DialogFooter>
+            <Button 
+              variant="secondary" 
+              onClick={() => {
+                setIsAdminDialogOpen(false);
+                setAdminPassword('');
+              }}
+            >
+              Annulla
+            </Button>
+            <Button 
+              onClick={handleAdminAccess} 
+              disabled={isPasswordSubmitting}
+              className="flex items-center"
+            >
+              {isPasswordSubmitting ? (
+                <>
+                  <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                  Verifica...
+                </>
+              ) : (
+                <>
+                  <Lock className="mr-2 h-4 w-4" />
+                  Accedi
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
