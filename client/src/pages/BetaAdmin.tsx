@@ -935,6 +935,7 @@ export default function BetaAdmin() {
                 <TabsTrigger value="transactions">Transazioni</TabsTrigger>
                 <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
                 <TabsTrigger value="plans">Piani</TabsTrigger>
+                <TabsTrigger value="external-links">Collegamenti</TabsTrigger>
               </TabsList>
               
               <TabsContent value="transactions">
@@ -1111,6 +1112,166 @@ export default function BetaAdmin() {
                           )}
                         </TableBody>
                       </Table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="external-links">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Collegamenti Esterni</CardTitle>
+                    <CardDescription>
+                      Accedi direttamente alle piattaforme di pagamento
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="flex flex-col p-6 border rounded-lg space-y-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="bg-indigo-100 p-3 rounded-full">
+                            <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M20.0065 7.5H16.756C16.756 7.5 17.622 5.75 17.089 4.75C16.556 3.75 15.4895 3.5 14.956 3.5C14.4225 3.5 8.089 3.5 8.089 3.5C8.089 3.5 6.75605 3.25 6.089 5C5.42195 6.75 6.58905 9.5 6.58905 9.5H4.0065C3.54451 9.5 3.10108 9.6844 2.77257 10.0129C2.44407 10.3414 2.25981 10.7848 2.26002 11.2468C2.26045 13.9171 3.10271 16.5157 4.6861 18.6853C6.2695 20.8549 8.4942 22.4807 11.0065 23.3468C11.0065 23.3468 11.839 23.5 12.0065 23.5C12.174 23.5 13.0065 23.3468 13.0065 23.3468C15.5188 22.4807 17.7435 20.8549 19.3269 18.6853C20.9103 16.5157 21.7526 13.9171 21.753 11.2468C21.7532 10.7848 21.5689 10.3414 21.2404 10.0129C20.9119 9.6844 20.4685 9.5 20.0065 9.5V7.5Z" fill="#003087"/>
+                              <path d="M18.6033 10.9077C18.5243 10.7432 18.4011 10.604 18.2476 10.5035C18.0942 10.403 17.9162 10.3448 17.7323 10.3348H14.3143C14.2697 10.3348 14.2262 10.3476 14.1883 10.3719C14.1504 10.3962 14.1194 10.4312 14.0991 10.4729C14.0789 10.5145 14.0701 10.5613 14.0736 10.6079C14.0771 10.6544 14.0928 10.6989 14.1187 10.7364L14.6647 11.5364C14.6985 11.5856 14.7168 11.6443 14.7173 11.7044V13.0044C14.7173 13.0727 14.6901 13.1381 14.6421 13.1862C14.594 13.2342 14.5286 13.2614 14.4603 13.2614H13.9423C13.874 13.2614 13.8086 13.2342 13.7605 13.1862C13.7125 13.1381 13.6853 13.0727 13.6853 13.0044V12.2324C13.6853 12.1641 13.6581 12.0987 13.61 12.0507C13.562 12.0026 13.4966 11.9754 13.4283 11.9754H12.1353C12.067 11.9754 12.0016 12.0026 11.9535 12.0507C11.9055 12.0987 11.8783 12.1641 11.8783 12.2324V13.0044C11.8783 13.0727 11.8511 13.1381 11.803 13.1862C11.755 13.2342 11.6896 13.2614 11.6213 13.2614H11.1033C11.035 13.2614 10.9696 13.2342 10.9215 13.1862C10.8735 13.1381 10.8463 13.0727 10.8463 13.0044V11.7044C10.8467 11.6443 10.865 11.5856 10.8988 11.5364L11.4448 10.7364C11.4708 10.6989 11.4864 10.6544 11.4899 10.6079C11.4935 10.5613 11.4846 10.5145 11.4644 10.4729C11.4442 10.4312 11.4132 10.3962 11.3752 10.3719C11.3373 10.3476 11.2938 10.3348 11.2493 10.3348H7.83129C7.64743 10.3448 7.46939 10.403 7.31592 10.5035C7.16246 10.604 7.03927 10.7432 6.96029 10.9077C6.76929 11.2977 6.67529 12.3517 6.67529 12.7157C6.67529 13.0797 6.75829 15.6037 6.84129 15.9997C6.98329 16.7197 7.45929 17.3557 8.13929 17.6797C8.33429 17.7837 8.55329 17.8357 8.77429 17.8357H16.7843C17.0073 17.8357 17.2233 17.7837 17.4253 17.6797C18.1033 17.3577 18.5813 16.7197 18.7233 15.9997C18.8033 15.6077 18.8853 13.0837 18.8853 12.7157C18.8853 12.3477 18.7973 11.2977 18.6033 10.9077Z" fill="#0070E0"/>
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold">PayPal</h3>
+                            <p className="text-sm text-gray-500">Gestisci transazioni e abbonamenti</p>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 gap-4">
+                          <a 
+                            href="https://www.paypal.com/businessmanage/dashboard" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
+                          >
+                            <span>Dashboard Business</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                          
+                          <a 
+                            href="https://www.paypal.com/businessmanage/transactions/completed" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
+                          >
+                            <span>Transazioni Completate</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                          
+                          <a 
+                            href="https://www.paypal.com/businessmanage/billing/plans" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
+                          >
+                            <span>Piani di Abbonamento</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                          
+                          <a 
+                            href="https://www.paypal.com/businessmanage/billing/subscriptions" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-indigo-200 rounded-lg text-indigo-700 hover:bg-indigo-50 transition-colors"
+                          >
+                            <span>Gestione Abbonamenti</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col p-6 border rounded-lg space-y-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="bg-blue-100 p-3 rounded-full">
+                            <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M3 6.5V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V17.5" stroke="#00B9FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M12.5714 8L10 12L7.42857 8" stroke="#00B9FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M16.5714 16L14 12L11.4286 16" stroke="#00B9FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M10 12H14" stroke="#00B9FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold">Wise</h3>
+                            <p className="text-sm text-gray-500">Gestisci pagamenti internazionali</p>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 gap-4">
+                          <a 
+                            href="https://wise.com/user/account" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
+                          >
+                            <span>Dashboard Account</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                          
+                          <a 
+                            href="https://wise.com/user/balances" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
+                          >
+                            <span>Bilancio e Movimenti</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                          
+                          <a 
+                            href="https://wise.com/user/activity" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
+                          >
+                            <span>Attività Recenti</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                          
+                          <a 
+                            href="https://wise.com/user/recipients" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex justify-between items-center w-full py-2 px-4 border border-blue-200 rounded-lg text-blue-700 hover:bg-blue-50 transition-colors"
+                          >
+                            <span>Gestione Destinatari</span>
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex items-start">
+                        <svg className="w-5 h-5 text-blue-500 mt-0.5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13 16H12V12H11M12 8H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        <div>
+                          <h4 className="text-sm font-medium">Nota importante</h4>
+                          <p className="text-sm text-gray-500 mt-1">
+                            Questi collegamenti aprono le interfacce ufficiali di PayPal e Wise per una gestione diretta delle transazioni. Assicurati di essere connesso agli account corretti prima di eseguire operazioni importanti.
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
