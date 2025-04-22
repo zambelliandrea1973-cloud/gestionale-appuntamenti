@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
@@ -150,6 +150,26 @@ export default function Settings() {
                   <h3 className="text-lg font-medium">{t('settings.companyName', 'Nome Aziendale')}</h3>
                 </div>
                 <CompanyNameEditor />
+              </div>
+              
+              <div className="pt-6 mt-6 border-t">
+                <div className="flex items-center mb-4">
+                  <Shield className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <h3 className="text-lg font-medium">Area Amministrativa</h3>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Accedi all'area di amministrazione beta per gestire gli inviti e monitorare i feedback degli utenti.
+                  </p>
+                  <Button 
+                    variant="default" 
+                    className="flex items-center" 
+                    onClick={() => setLocation("/beta-admin")}
+                  >
+                    <Lock className="mr-2 h-4 w-4" />
+                    Accedi alla Dashboard Beta Admin
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
