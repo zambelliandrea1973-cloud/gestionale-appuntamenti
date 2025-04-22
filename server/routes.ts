@@ -30,6 +30,8 @@ import { smtpDetectionService } from "./services/smtpDetectionService";
 import { clientAccessService } from "./services/clientAccessService";
 import multer from 'multer';
 import sharp from 'sharp';
+import betaRoutes from './routes/betaRoutes';
+import paymentRoutes from './routes/paymentRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
