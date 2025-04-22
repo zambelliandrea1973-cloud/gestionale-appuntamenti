@@ -42,7 +42,9 @@ export async function apiRequest(
     if (options?.withBetaAdminToken) {
       const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
       headers["X-Beta-Admin-Token"] = savedPassword;
-      console.log("Aggiunto token di autenticazione per l'area beta admin");
+      // Aggiunge un altro header per dispositivi mobili che potrebbero avere problemi con la gestione delle intestazioni
+      headers["Authorization"] = `Bearer ${savedPassword}`;
+      console.log("Aggiunto token di autenticazione per l'area beta admin", { savedPassword });
     }
     
     // Se è DuckDuckGo, aggiunge un flag specifico
@@ -107,7 +109,9 @@ export const getQueryFn: <T>(options: {
     if (withBetaAdminToken) {
       const savedPassword = localStorage.getItem('betaAdminPassword') || 'gironico';
       headers["X-Beta-Admin-Token"] = savedPassword;
-      console.log("Aggiunto token di autenticazione per l'area beta admin (query)");
+      // Aggiunge un altro header per dispositivi mobili che potrebbero avere problemi con la gestione delle intestazioni
+      headers["Authorization"] = `Bearer ${savedPassword}`;
+      console.log("Aggiunto token di autenticazione per l'area beta admin (query)", { savedPassword });
     }
     
     // Se è DuckDuckGo, aggiunge un flag specifico

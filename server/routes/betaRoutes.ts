@@ -9,20 +9,35 @@ const DEFAULT_BETA_ADMIN_PASSWORD = 'gironico';
 
 // Middleware per l'autenticazione personalizzata per l'area beta
 const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
-  // Controlla l'header X-Beta-Admin-Token
+  // Controlla entrambi gli header X-Beta-Admin-Token e Authorization
   const adminToken = req.headers['x-beta-admin-token'];
+  const authHeader = req.headers['authorization'];
   
-  if (!adminToken) {
+  // Estrae il token dall'header Authorization se presente
+  let bearerToken: string | undefined;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    bearerToken = authHeader.substring(7); // Rimuove "Bearer " dall'inizio
+  }
+  
+  // Verifica se uno dei token è presente
+  if (!adminToken && !bearerToken) {
+    console.log('Accesso negato: nessun token di autenticazione fornito');
     return res.status(401).json({ message: 'Accesso non autorizzato: token mancante' });
   }
   
-  // Verifica se il token corrisponde alla password
-  // Per semplicità accettiamo sia la password predefinita che quella originale precedente
-  if (adminToken === DEFAULT_BETA_ADMIN_PASSWORD || adminToken === 'EF2025Admin') {
+  // Verifica se uno dei token corrisponde a una password valida
+  const validToken = adminToken === DEFAULT_BETA_ADMIN_PASSWORD || 
+                    adminToken === 'EF2025Admin' || 
+                    bearerToken === DEFAULT_BETA_ADMIN_PASSWORD || 
+                    bearerToken === 'EF2025Admin';
+  
+  if (validToken) {
+    console.log('Autenticazione admin beta riuscita');
     return next();
   }
   
   // Se arriviamo qui, il token non è valido
+  console.log('Autenticazione admin beta fallita: token non valido', { adminToken, bearerToken });
   return res.status(401).json({ message: 'Accesso non autorizzato: token non valido' });
 };
 
