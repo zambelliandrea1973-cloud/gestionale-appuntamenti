@@ -66,7 +66,7 @@ export default function BetaAdmin() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   // Query per ottenere tutti gli inviti beta
-  const { data: invitations, isLoading: invitationsLoading, refetch: refetchInvitations } = useQuery({
+  const { data: invitations = [], isLoading: invitationsLoading, refetch: refetchInvitations } = useQuery<BetaInvitation[]>({
     queryKey: ['/api/beta/invitations'],
     queryFn: getQueryFn({ 
       on401: "throw",
@@ -76,7 +76,7 @@ export default function BetaAdmin() {
   });
 
   // Query per ottenere tutti i feedback
-  const { data: feedbacks, isLoading: feedbacksLoading, refetch: refetchFeedbacks } = useQuery({
+  const { data: feedbacks = [], isLoading: feedbacksLoading, refetch: refetchFeedbacks } = useQuery<BetaFeedback[]>({
     queryKey: ['/api/beta/feedback'],
     queryFn: getQueryFn({ 
       on401: "throw",
