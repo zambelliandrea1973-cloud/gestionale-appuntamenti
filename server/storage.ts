@@ -2815,6 +2815,185 @@ export class DatabaseStorage implements IStorage {
       return [];
     }
   }
+  
+  async getPaymentTransactionsByUser(userId: number): Promise<PaymentTransaction[]> {
+    try {
+      return await db
+        .select()
+        .from(paymentTransactions)
+        .where(eq(paymentTransactions.userId, userId))
+        .orderBy(desc(paymentTransactions.createdAt));
+    } catch (error) {
+      console.error(`Errore nel recupero delle transazioni di pagamento per l'utente ${userId}:`, error);
+      return [];
+    }
+  }
+  
+  async getPaymentTransactionsBySubscription(subscriptionId: number): Promise<PaymentTransaction[]> {
+    try {
+      return await db
+        .select()
+        .from(paymentTransactions)
+        .where(eq(paymentTransactions.subscriptionId, subscriptionId))
+        .orderBy(desc(paymentTransactions.createdAt));
+    } catch (error) {
+      console.error(`Errore nel recupero delle transazioni di pagamento per la sottoscrizione ${subscriptionId}:`, error);
+      return [];
+    }
+  }
+  
+  async getPaymentTransactionsByMethod(method: string): Promise<PaymentTransaction[]> {
+    try {
+      return await db
+        .select()
+        .from(paymentTransactions)
+        .where(eq(paymentTransactions.paymentMethod, method))
+        .orderBy(desc(paymentTransactions.createdAt));
+    } catch (error) {
+      console.error(`Errore nel recupero delle transazioni di pagamento per il metodo ${method}:`, error);
+      return [];
+    }
+  }
+  
+  async getAllPaymentTransactions(): Promise<PaymentTransaction[]> {
+    try {
+      return await db
+        .select()
+        .from(paymentTransactions)
+        .orderBy(desc(paymentTransactions.createdAt));
+    } catch (error) {
+      console.error('Errore nel recupero di tutte le transazioni di pagamento:', error);
+      return [];
+    }
+  }
+  
+  async getSubscriptions(): Promise<SubscriptionWithDetails[]> {
+    try {
+      // Recupera tutte le sottoscrizioni con i dettagli dei piani
+      const result = await db
+        .select({
+          subscriptions: subscriptions,
+          plans: subscriptionPlans
+        })
+        .from(subscriptions)
+        .leftJoin(subscriptionPlans, eq(subscriptions.planId, subscriptionPlans.id))
+        .orderBy(desc(subscriptions.createdAt));
+      
+      // Trasforma i risultati nel formato richiesto
+      const subscriptionsWithDetails: SubscriptionWithDetails[] = result.map((row) => {
+        const subscription: Subscription = {
+          id: row.subscriptions.id,
+          userId: row.subscriptions.userId,
+          planId: row.subscriptions.planId,
+          status: row.subscriptions.status || null,
+          currentPeriodStart: row.subscriptions.currentPeriodStart || null,
+          currentPeriodEnd: row.subscriptions.currentPeriodEnd || null,
+          cancelAtPeriodEnd: row.subscriptions.cancelAtPeriodEnd || null,
+          createdAt: row.subscriptions.createdAt || null,
+          updatedAt: row.subscriptions.updatedAt || null,
+          paymentMethod: row.subscriptions.paymentMethod || null,
+          paypalSubscriptionId: row.subscriptions.paypalSubscriptionId || null,
+          wiseSubscriptionId: row.subscriptions.wiseSubscriptionId || null,
+          metadata: row.subscriptions.metadata
+        };
+        
+        const plan = row.plans ? {
+          id: row.plans.id,
+          name: row.plans.name,
+          description: row.plans.description,
+          price: row.plans.price,
+          interval: row.plans.interval,
+          features: row.plans.features,
+          clientLimit: row.plans.clientLimit,
+          isActive: row.plans.isActive,
+          sortOrder: row.plans.sortOrder,
+          createdAt: row.plans.createdAt,
+          updatedAt: row.plans.updatedAt
+        } : null;
+
+        return {
+          ...subscription,
+          plan
+        };
+      });
+        
+      return subscriptionsWithDetails;
+    } catch (error) {
+      console.error('Errore nel recupero di tutte le sottoscrizioni:', error);
+      return [];
+    }
+  }
+  
+  async getActiveSubscriptions(): Promise<SubscriptionWithDetails[]> {
+    try {
+      // Recupera solo le sottoscrizioni attive con i dettagli dei piani
+      const result = await db
+        .select({
+          subscriptions: subscriptions,
+          plans: subscriptionPlans
+        })
+        .from(subscriptions)
+        .leftJoin(subscriptionPlans, eq(subscriptions.planId, subscriptionPlans.id))
+        .where(eq(subscriptions.status, 'active'))
+        .orderBy(desc(subscriptions.createdAt));
+      
+      // Trasforma i risultati nel formato richiesto
+      const subscriptionsWithDetails: SubscriptionWithDetails[] = result.map((row) => {
+        const subscription: Subscription = {
+          id: row.subscriptions.id,
+          userId: row.subscriptions.userId,
+          planId: row.subscriptions.planId,
+          status: row.subscriptions.status || null,
+          currentPeriodStart: row.subscriptions.currentPeriodStart || null,
+          currentPeriodEnd: row.subscriptions.currentPeriodEnd || null,
+          cancelAtPeriodEnd: row.subscriptions.cancelAtPeriodEnd || null,
+          createdAt: row.subscriptions.createdAt || null,
+          updatedAt: row.subscriptions.updatedAt || null,
+          paymentMethod: row.subscriptions.paymentMethod || null,
+          paypalSubscriptionId: row.subscriptions.paypalSubscriptionId || null,
+          wiseSubscriptionId: row.subscriptions.wiseSubscriptionId || null,
+          metadata: row.subscriptions.metadata
+        };
+        
+        const plan = row.plans ? {
+          id: row.plans.id,
+          name: row.plans.name,
+          description: row.plans.description,
+          price: row.plans.price,
+          interval: row.plans.interval,
+          features: row.plans.features,
+          clientLimit: row.plans.clientLimit,
+          isActive: row.plans.isActive,
+          sortOrder: row.plans.sortOrder,
+          createdAt: row.plans.createdAt,
+          updatedAt: row.plans.updatedAt
+        } : null;
+
+        return {
+          ...subscription,
+          plan
+        };
+      });
+        
+      return subscriptionsWithDetails;
+    } catch (error) {
+      console.error('Errore nel recupero delle sottoscrizioni attive:', error);
+      return [];
+    }
+  }
+  
+  async getActiveSubscriptionPlans(): Promise<SubscriptionPlan[]> {
+    try {
+      return await db
+        .select()
+        .from(subscriptionPlans)
+        .where(eq(subscriptionPlans.isActive, true))
+        .orderBy(asc(subscriptionPlans.sortOrder));
+    } catch (error) {
+      console.error('Errore nel recupero dei piani di abbonamento attivi:', error);
+      return [];
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
