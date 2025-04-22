@@ -33,7 +33,7 @@ const isBetaAdmin = (req: Request, res: Response, next: NextFunction) => {
  */
 router.post('/invitations', isBetaAdmin, async (req, res) => {
   try {
-    const { email, notes } = req.body;
+    const { email, notes, maxUses = 1, expiryDays = 30 } = req.body;
     
     if (!email) {
       return res.status(400).json({
@@ -42,7 +42,7 @@ router.post('/invitations', isBetaAdmin, async (req, res) => {
       });
     }
     
-    const result = await BetaService.createInvitation(email, notes);
+    const result = await BetaService.createInvitation(email, notes, maxUses, expiryDays);
     
     if (!result.success) {
       return res.status(500).json(result);
@@ -53,7 +53,7 @@ router.post('/invitations', isBetaAdmin, async (req, res) => {
     console.error('Errore durante la creazione dell\'invito beta:', error);
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
