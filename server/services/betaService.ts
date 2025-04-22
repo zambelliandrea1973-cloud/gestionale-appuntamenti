@@ -16,14 +16,14 @@ export class BetaService {
   /**
    * Crea un nuovo invito per beta tester
    */
-  static async createInvitation(email: string, notes?: string): Promise<{success: boolean, code?: string, message?: string}> {
+  static async createInvitation(email: string, notes?: string, maxUses: number = 1, expiryDays: number = 30): Promise<{success: boolean, code?: string, message?: string}> {
     try {
       // Genera il codice di invito
       const invitationCode = this.generateInvitationCode();
       
-      // Imposta la scadenza dell'invito a 30 giorni da ora
+      // Imposta la scadenza dell'invito in base ai giorni specificati
       const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 30);
+      expirationDate.setDate(expirationDate.getDate() + expiryDays);
       
       // Crea l'invito
       const invitation: InsertBetaInvitation = {
@@ -31,20 +31,21 @@ export class BetaService {
         invitationCode,
         expiresAt: expirationDate,
         isUsed: false,
-        notes
+        notes,
+        usedById: null
       };
       
-      await storage.createBetaInvitation(invitation);
+      const newInvitation = await storage.createBetaInvitation(invitation);
       
       return {
         success: true,
-        code: invitationCode
+        code: newInvitation.invitationCode
       };
     } catch (error) {
       console.error('Errore durante la creazione dell\'invito beta:', error);
       return {
         success: false,
-        message: 'Errore durante la creazione dell\'invito beta'
+        message: 'Errore durante la creazione dell\'invito beta: ' + (error instanceof Error ? error.message : String(error))
       };
     }
   }
