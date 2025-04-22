@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, date } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -313,6 +313,126 @@ export const insertNotificationSettingsSchema = createInsertSchema(notificationS
   updatedAt: true,
 });
 
+// Beta Tester System Tables
+export const betaInvitations = pgTable("beta_invitations", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  invitationCode: text("invitation_code").notNull().unique(),
+  isUsed: boolean("is_used").default(false),
+  usedById: integer("used_by_id"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  notes: text("notes"),
+});
+
+export const insertBetaInvitationSchema = createInsertSchema(betaInvitations).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const betaFeedback = pgTable("beta_feedback", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  feedbackType: text("feedback_type").default("general"), // general, bug, feature, usability
+  content: text("content").notNull(),
+  rating: integer("rating"), // 1-5 rating
+  status: text("status").default("pending"), // pending, reviewed, implemented, rejected
+  reviewedBy: integer("reviewed_by"),
+  reviewedAt: timestamp("reviewed_at"),
+  screenshot: text("screenshot"), // URL to screenshot if attached
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertBetaFeedbackSchema = createInsertSchema(betaFeedback).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Payment System Tables
+export const subscriptionPlans = pgTable("subscription_plans", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  price: integer("price").notNull(), // in cents
+  interval: text("interval").notNull().default("month"), // month, year
+  features: json("features"), // JSON array of features included in this plan
+  clientLimit: integer("client_limit"), // Maximum number of clients
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertSubscriptionPlanSchema = createInsertSchema(subscriptionPlans).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const subscriptions = pgTable("subscriptions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(), // The staff user who owns this subscription
+  planId: integer("plan_id").notNull(),
+  status: text("status").default("active"), // active, canceled, past_due, incomplete
+  currentPeriodStart: timestamp("current_period_start"),
+  currentPeriodEnd: timestamp("current_period_end"),
+  cancelAtPeriodEnd: boolean("cancel_at_period_end").default(false),
+  paypalSubscriptionId: text("paypal_subscription_id"),
+  wiseSubscriptionId: text("wise_subscription_id"),
+  paymentMethod: text("payment_method"), // paypal, wise, etc.
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertSubscriptionSchema = createInsertSchema(subscriptions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const paymentMethods = pgTable("payment_methods", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  paymentType: text("payment_type").notNull(), // paypal, wise, etc
+  isDefault: boolean("is_default").default(false),
+  paypalEmail: text("paypal_email"),
+  wiseAccountId: text("wise_account_id"),
+  lastFour: text("last_four"), // Last four characters of account
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPaymentMethodSchema = createInsertSchema(paymentMethods).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const paymentTransactions = pgTable("payment_transactions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  subscriptionId: integer("subscription_id"),
+  amount: integer("amount").notNull(), // in cents
+  currency: text("currency").default("EUR").notNull(),
+  status: text("status").notNull(), // completed, pending, failed
+  paymentMethod: text("payment_method").notNull(), // paypal, wise, etc.
+  transactionId: text("transaction_id"), // External ID from payment provider
+  description: text("description"),
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPaymentTransactionSchema = createInsertSchema(paymentTransactions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Define types
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = z.infer<typeof insertClientSchema>;
@@ -361,6 +481,24 @@ export type InsertClientNote = z.infer<typeof insertClientNoteSchema>;
 
 export type ClientAccess = typeof clientAccesses.$inferSelect;
 export type InsertClientAccess = z.infer<typeof insertClientAccessSchema>;
+
+export type BetaInvitation = typeof betaInvitations.$inferSelect;
+export type InsertBetaInvitation = z.infer<typeof insertBetaInvitationSchema>;
+
+export type BetaFeedback = typeof betaFeedback.$inferSelect;
+export type InsertBetaFeedback = z.infer<typeof insertBetaFeedbackSchema>;
+
+export type SubscriptionPlan = typeof subscriptionPlans.$inferSelect;
+export type InsertSubscriptionPlan = z.infer<typeof insertSubscriptionPlanSchema>;
+
+export type Subscription = typeof subscriptions.$inferSelect;
+export type InsertSubscription = z.infer<typeof insertSubscriptionSchema>;
+
+export type PaymentMethod = typeof paymentMethods.$inferSelect;
+export type InsertPaymentMethod = z.infer<typeof insertPaymentMethodSchema>;
+
+export type PaymentTransaction = typeof paymentTransactions.$inferSelect;
+export type InsertPaymentTransaction = z.infer<typeof insertPaymentTransactionSchema>;
 
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
@@ -484,10 +622,69 @@ export const clientAccessesRelations = relations(clientAccesses, ({ one }) => ({
   }),
 }));
 
-export const usersRelations = relations(users, ({ one }) => ({
+export const usersRelations = relations(users, ({ one, many }) => ({
   client: one(clients, {
     fields: [users.clientId],
     references: [clients.id],
+  }),
+  subscription: one(subscriptions, {
+    fields: [users.id],
+    references: [subscriptions.userId],
+  }),
+  paymentMethods: many(paymentMethods),
+  paymentTransactions: many(paymentTransactions),
+  betaFeedback: many(betaFeedback),
+}));
+
+export const subscriptionPlansRelations = relations(subscriptionPlans, ({ many }) => ({
+  subscriptions: many(subscriptions),
+}));
+
+export const subscriptionsRelations = relations(subscriptions, ({ one, many }) => ({
+  user: one(users, {
+    fields: [subscriptions.userId],
+    references: [users.id],
+  }),
+  plan: one(subscriptionPlans, {
+    fields: [subscriptions.planId],
+    references: [subscriptionPlans.id],
+  }),
+  transactions: many(paymentTransactions),
+}));
+
+export const paymentMethodsRelations = relations(paymentMethods, ({ one }) => ({
+  user: one(users, {
+    fields: [paymentMethods.userId],
+    references: [users.id],
+  }),
+}));
+
+export const paymentTransactionsRelations = relations(paymentTransactions, ({ one }) => ({
+  user: one(users, {
+    fields: [paymentTransactions.userId],
+    references: [users.id],
+  }),
+  subscription: one(subscriptions, {
+    fields: [paymentTransactions.subscriptionId],
+    references: [subscriptions.id],
+  }),
+}));
+
+export const betaInvitationsRelations = relations(betaInvitations, ({ one }) => ({
+  usedBy: one(users, {
+    fields: [betaInvitations.usedById],
+    references: [users.id],
+  }),
+}));
+
+export const betaFeedbackRelations = relations(betaFeedback, ({ one }) => ({
+  user: one(users, {
+    fields: [betaFeedback.userId],
+    references: [users.id],
+  }),
+  reviewedByUser: one(users, {
+    fields: [betaFeedback.reviewedBy],
+    references: [users.id],
   }),
 }));
 
@@ -514,6 +711,17 @@ export type InvoiceWithDetails = Invoice & {
 export type InvoiceItemWithDetails = InvoiceItem & {
   service?: Service;
   appointment?: Appointment;
+};
+
+export type SubscriptionWithDetails = Subscription & {
+  plan: SubscriptionPlan;
+  user: User;
+  transactions: PaymentTransaction[];
+};
+
+export type BetaFeedbackWithUserDetails = BetaFeedback & {
+  user: User;
+  reviewedByUser?: User;
 };
 
 // Template per i promemoria degli appuntamenti
