@@ -448,6 +448,10 @@ router.get('/payment-admin/dashboard', isPaymentAdmin, async (req, res) => {
         total: subscriptions.length,
         byPlan: subscriptionsByPlan
       },
+      activeSubscriptions: subscriptions.length,
+      transactionCount: allTransactions.length,
+      totalRevenue,
+      plans,
       recentTransactions: allTransactions
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .slice(0, 10)
@@ -501,6 +505,50 @@ router.get('/payment-admin/subscriptions', isPaymentAdmin, async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+    });
+  }
+});
+
+/**
+ * Endpoint per autenticare l'admin dei pagamenti
+ * POST /api/payments/payment-admin/authenticate
+ * Accesso: pubblico
+ */
+router.post('/payment-admin/authenticate', async (req, res) => {
+  try {
+    const { password } = req.body;
+    
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password richiesta'
+      });
+    }
+    
+    // Verifica la password
+    if (password === DEFAULT_PAYMENT_ADMIN_PASSWORD || password === 'EF2025Admin') {
+      console.log('Autenticazione amministratore pagamenti riuscita');
+      
+      // Genera un token semplice (in un sistema reale, usare JWT con scadenza)
+      const token = DEFAULT_PAYMENT_ADMIN_PASSWORD;
+      
+      return res.json({
+        success: true,
+        message: 'Autenticazione riuscita',
+        token
+      });
+    }
+    
+    console.log('Tentativo di autenticazione fallito: password errata');
+    return res.status(401).json({
+      success: false,
+      message: 'Credenziali non valide'
+    });
+  } catch (error) {
+    console.error('Errore durante autenticazione amministratore:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
     });
   }
 });
