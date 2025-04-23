@@ -111,12 +111,34 @@ function CompanyName() {
   return <div style={nameStyle}>{settings.name}</div>;
 }
 
+// Componente Badge Beta
+function BetaBadge() {
+  const [isBetaTester, setIsBetaTester] = useState(false);
+  
+  useEffect(() => {
+    // Verifica se l'utente ha un badge beta valido
+    const betaStatus = localStorage.getItem('betaInviteStatus');
+    setIsBetaTester(betaStatus === 'valid');
+  }, []);
+  
+  if (!isBetaTester) return null;
+  
+  return (
+    <div className="absolute top-2 right-2 animate-pulse">
+      <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold rounded-full shadow-lg">
+        Beta Tester
+      </span>
+    </div>
+  );
+}
+
 export default function Home() {
   const [_, navigate] = useLocation();
   const { t } = useTranslation();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      <BetaBadge />
       <div className="text-center my-8">
         <div className="flex flex-col items-center mb-6">
           <div className="w-32 h-32 rounded-full shadow-lg bg-white border-4 border-primary/20 flex items-center justify-center overflow-hidden icon-rotate">
