@@ -32,6 +32,7 @@ import multer from 'multer';
 import sharp from 'sharp';
 import betaRoutes from './routes/betaRoutes';
 import paymentRoutes from './routes/paymentRoutes';
+import { adminRouter } from './routes/adminRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -240,9 +241,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Registra le route per il sistema beta e pagamenti
+  // Registra le route per il sistema beta, pagamenti e funzioni amministrative
   app.use('/api/beta', betaRoutes);
-  app.use('/api/payments', paymentRoutes);
+  app.use('/api/payment', paymentRoutes);
+  app.use('/api/admin', adminRouter);
 
   const httpServer = createServer(app);
 
