@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
 import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
+import { BetaStatusChecker } from "./components/BetaStatusChecker";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
@@ -44,9 +45,14 @@ function ActivationPageWrapper({ children }: { children: React.ReactNode }) {
 
 /**
  * Wrapper per le pagine staff (con il layout standard)
+ * Include anche il controllo per gli utenti beta
  */
 function StaffPageWrapper({ children }: { children: React.ReactNode }) {
-  return <Layout>{children}</Layout>;
+  return (
+    <Layout>
+      {children}
+    </Layout>
+  );
 }
 
 function AppRoutes() {
@@ -269,6 +275,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
       <TimezoneDetector />
+      {/* BetaStatusChecker verifica se l'utente è un beta tester */}
+      <BetaStatusChecker />
       <WouterRouter>
         <AppRoutes />
       </WouterRouter>

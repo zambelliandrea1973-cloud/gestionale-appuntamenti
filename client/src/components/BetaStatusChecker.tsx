@@ -2,9 +2,15 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { 
+  isBetaTester, 
+  getBetaCode, 
+  clearBetaInvite, 
+  isBetaCodeUsed,
+  markBetaCodeAsUsed
+} from '@/lib/betaUtils';
 
 export function BetaStatusChecker() {
-  const [isBetaTester, setIsBetaTester] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
@@ -13,14 +19,11 @@ export function BetaStatusChecker() {
     const checkBetaStatus = async () => {
       try {
         // Verifica se l'utente ha un badge beta valido in localStorage
-        const betaStatus = localStorage.getItem('betaInviteStatus');
-        const betaCode = localStorage.getItem('betaInviteCode');
-        
-        if (betaStatus === 'valid' && betaCode) {
-          setIsBetaTester(true);
+        if (isBetaTester()) {
+          const betaCode = getBetaCode();
           
           // Verifica se il codice è stato utilizzato
-          if (localStorage.getItem('betaCodeUsed') !== 'true') {
+          if (!isBetaCodeUsed() && betaCode) {
             setIsChecking(true);
             
             // Verifica il codice beta sul server
@@ -29,7 +32,7 @@ export function BetaStatusChecker() {
             
             if (data.valid) {
               // Codice valido, segnala che questo è un beta tester
-              localStorage.setItem('betaCodeUsed', 'true');
+              markBetaCodeAsUsed();
               
               // Mostra un toast di benvenuto per il beta tester
               toast({
@@ -40,10 +43,7 @@ export function BetaStatusChecker() {
               });
             } else {
               // Codice non valido o già usato, rimuovilo dal localStorage
-              localStorage.removeItem('betaInviteStatus');
-              localStorage.removeItem('betaInviteCode');
-              localStorage.removeItem('betaInviteEmail');
-              setIsBetaTester(false);
+              clearBetaInvite();
               
               toast({
                 title: 'Codice beta non valido',
