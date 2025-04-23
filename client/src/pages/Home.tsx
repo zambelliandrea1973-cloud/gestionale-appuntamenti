@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useTranslation } from 'react-i18next';
 import { 
   CalendarDays, 
@@ -113,21 +113,38 @@ function CompanyName() {
 
 // Componente Badge Beta
 function BetaBadge() {
-  const [isBetaTester, setIsBetaTester] = useState(false);
+  const [isBeta, setIsBeta] = useState(false);
+  const { t } = useTranslation();
   
   useEffect(() => {
-    // Verifica se l'utente ha un badge beta valido
-    const betaStatus = localStorage.getItem('betaInviteStatus');
-    setIsBetaTester(betaStatus === 'valid');
+    // Utilizziamo la funzione di utilità per verificare se l'utente è un beta tester
+    import('@/lib/betaUtils').then(({ isBetaTester }) => {
+      setIsBeta(isBetaTester());
+    });
+    
+    // Ricontrolliamo se lo stato beta cambia
+    const checkBetaStatus = () => {
+      import('@/lib/betaUtils').then(({ isBetaTester }) => {
+        setIsBeta(isBetaTester());
+      });
+    };
+    
+    window.addEventListener('storage', checkBetaStatus);
+    
+    return () => {
+      window.removeEventListener('storage', checkBetaStatus);
+    };
   }, []);
   
-  if (!isBetaTester) return null;
+  if (!isBeta) return null;
   
   return (
     <div className="absolute top-2 right-2 animate-pulse">
-      <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold rounded-full shadow-lg">
-        Beta Tester
-      </span>
+      <Link href="/beta" className="inline-block">
+        <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-semibold rounded-full shadow-lg hover:shadow-xl transition-shadow">
+          Beta Tester
+        </span>
+      </Link>
     </div>
   );
 }
