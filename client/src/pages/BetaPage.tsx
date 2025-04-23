@@ -33,17 +33,17 @@ export default function BetaPage() {
     },
     onSuccess: (data) => {
       if (data.valid) {
-        toast({
-          title: 'Codice valido!',
-          description: 'Il codice di invito è valido.',
-          variant: 'default',
-        });
         // Se l'utente è loggato, procedi all'utilizzo del codice
         if (user) {
           useCodeMutation.mutate(code);
         } else {
-          // Altrimenti reindirizza alla pagina di login/registrazione con email e codice
-          setLocation('/auth?betaCode=' + code + '&email=' + encodeURIComponent(data.email));
+          // Mostra una notifica di successo senza reindirizzamento
+          toast({
+            title: 'Codice valido!',
+            description: `Il codice di invito è valido. Codice: ${code}, Email: ${data.email}. Condividi questi dettagli con l'amministratore che ti ha inviato il codice per completare l'attivazione del tuo account.`,
+            variant: 'default',
+            duration: 10000, // Mostra per 10 secondi
+          });
         }
       } else {
         toast({
