@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield, Eye, EyeOff, RefreshCw } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
@@ -24,6 +24,7 @@ import ServiceManager from '@/components/ServiceManager';
 import ReminderTemplateManager from '@/components/ReminderTemplateManager';
 import WhatsAppConfigHelper from '@/components/WhatsAppConfigHelper';
 import { NotificationSettingsForm } from '@/components/NotificationSettingsForm';
+import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
   const [, setLocation] = useLocation();
@@ -124,14 +125,46 @@ export default function Settings() {
                   <p className="text-sm text-muted-foreground">
                     Accedi all'area di amministrazione beta per gestire gli inviti e monitorare i feedback degli utenti beta.
                   </p>
-                  <Button 
-                    variant="default" 
-                    className="flex items-center" 
-                    onClick={() => setIsAdminDialogOpen(true)}
-                  >
-                    <Lock className="mr-2 h-4 w-4" />
-                    Accedi alla Dashboard Beta Admin
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button 
+                      variant="default" 
+                      className="flex items-center" 
+                      onClick={() => setIsAdminDialogOpen(true)}
+                    >
+                      <Lock className="mr-2 h-4 w-4" />
+                      Accedi alla Dashboard Beta Admin
+                    </Button>
+                    
+                    <RestartAppButton 
+                      variant="outline" 
+                      className="border-dashed"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-6 mt-6 border-t">
+                <div className="flex items-center mb-4">
+                  <RefreshCw className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <h3 className="text-lg font-medium">Gestione Sistema</h3>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Da qui puoi gestire il sistema, riavviare l'applicazione o verificare lo stato di salute.
+                  </p>
+                  <div className="bg-muted/50 p-4 rounded-lg border border-dashed space-y-3">
+                    <div className="flex flex-wrap gap-3 items-center">
+                      <span className="text-sm font-medium">Stato server:</span>
+                      <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center">
+                        <span className="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
+                        Online
+                      </span>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-3">
+                      <RestartAppButton />
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>

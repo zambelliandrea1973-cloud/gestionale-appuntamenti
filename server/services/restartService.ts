@@ -4,24 +4,26 @@
 import { exec } from 'child_process';
 import { v4 as uuidv4 } from 'uuid';
 
-// Tokens validi per il riavvio (per sicurezza)
-let restartTokens: { [key: string]: { timestamp: number, used: boolean } } = {};
+// Token di riavvio validi
+const restartTokens: { [token: string]: number } = {};
 
-// Pulizia periodica dei token scaduti (dopo 5 minuti)
-setInterval(() => {
-  const now = Date.now();
-  restartTokens = Object.fromEntries(
-    Object.entries(restartTokens).filter(([_, data]) => now - data.timestamp < 5 * 60 * 1000)
-  );
-}, 60 * 1000); // Controlla ogni minuto
+// Tempo di validità del token (5 minuti)
+const TOKEN_VALIDITY = 5 * 60 * 1000;
 
 /**
  * Genera un token di riavvio
- * @returns token di riavvio
+ * @returns token di riavvio generato
  */
 export function generateRestartToken(): string {
+  // Genera un token UUID v4
   const token = uuidv4();
-  restartTokens[token] = { timestamp: Date.now(), used: false };
+  
+  // Memorizza il token con timestamp corrente
+  restartTokens[token] = Date.now();
+  
+  // Pulisci i token scaduti
+  cleanExpiredTokens();
+  
   return token;
 }
 
@@ -31,20 +33,34 @@ export function generateRestartToken(): string {
  * @returns true se il token è valido, false altrimenti
  */
 export function isValidRestartToken(token: string): boolean {
-  const tokenData = restartTokens[token];
-  if (!tokenData) return false;
+  // Verifica che il token esista e non sia scaduto
+  const timestamp = restartTokens[token];
   
-  // Token già utilizzato
-  if (tokenData.used) return false;
-  
-  // Token scaduto (5 minuti)
-  const now = Date.now();
-  if (now - tokenData.timestamp > 5 * 60 * 1000) {
-    delete restartTokens[token];
+  if (!timestamp) {
     return false;
   }
   
-  return true;
+  const isValid = Date.now() - timestamp <= TOKEN_VALIDITY;
+  
+  // Se il token è scaduto, rimuovilo
+  if (!isValid) {
+    delete restartTokens[token];
+  }
+  
+  return isValid;
+}
+
+/**
+ * Elimina i token scaduti
+ */
+function cleanExpiredTokens(): void {
+  const now = Date.now();
+  
+  Object.entries(restartTokens).forEach(([token, timestamp]) => {
+    if (now - timestamp > TOKEN_VALIDITY) {
+      delete restartTokens[token];
+    }
+  });
 }
 
 /**
@@ -55,34 +71,57 @@ export function isValidRestartToken(token: string): boolean {
 export async function restartApplication(token: string): Promise<{ success: boolean, message: string }> {
   // Verifica il token
   if (!isValidRestartToken(token)) {
-    return { success: false, message: 'Token di riavvio non valido o scaduto' };
+    return { 
+      success: false, 
+      message: "Token di riavvio non valido o scaduto" 
+    };
   }
   
-  // Segna il token come utilizzato
-  restartTokens[token].used = true;
-  
-  // Log del riavvio
-  console.log(`[${new Date().toISOString()}] Riavvio dell'applicazione richiesto`);
+  // Rimuovi il token utilizzato
+  delete restartTokens[token];
   
   try {
-    // Esegui il riavvio dell'applicazione dopo un breve ritardo
-    setTimeout(() => {
-      console.log(`[${new Date().toISOString()}] Esecuzione riavvio...`);
-      
-      // Opzione 1: usando process.exit() - Replit dovrebbe riavviare automaticamente
-      process.exit(0);
-      
-      // Opzione 2: usando comando kill (decommentare se l'opzione 1 non funziona)
-      // exec('kill 1', (error) => {
-      //   if (error) {
-      //     console.error(`Errore durante il riavvio: ${error.message}`);
-      //   }
-      // });
-    }, 2000); // Attende 2 secondi per permettere l'invio della risposta HTTP
-    
-    return { success: true, message: 'Riavvio avviato, l\'applicazione sarà disponibile tra pochi secondi' };
+    // Esegui il comando di riavvio in base all'ambiente
+    if (process.env.REPLIT_ENVIRONMENT) {
+      // In ambiente Replit, invia un segnale HUP al processo Node
+      process.kill(process.pid, 'SIGHUP');
+      return { 
+        success: true, 
+        message: "Riavvio avviato. L'applicazione sarà nuovamente disponibile tra pochi secondi."
+      };
+    } else {
+      // Su altri ambienti, esegui pm2 reload o restart
+      return new Promise((resolve) => {
+        exec('pm2 reload all 2>/dev/null || pm2 restart all 2>/dev/null || pkill -HUP node', (error) => {
+          if (error) {
+            console.error('Errore durante il riavvio:', error);
+            // Fallback al processo Node
+            try {
+              process.kill(process.pid, 'SIGHUP');
+              resolve({
+                success: true,
+                message: "Riavvio avviato utilizzando il fallback. L'applicazione sarà nuovamente disponibile tra pochi secondi."
+              });
+            } catch (e) {
+              resolve({
+                success: false,
+                message: "Impossibile riavviare l'applicazione: " + e
+              });
+            }
+          } else {
+            resolve({
+              success: true,
+              message: "Riavvio avviato. L'applicazione sarà nuovamente disponibile tra pochi secondi."
+            });
+          }
+        });
+      });
+    }
   } catch (error) {
     console.error('Errore durante il riavvio:', error);
-    return { success: false, message: `Errore durante il riavvio: ${error}` };
+    return {
+      success: false,
+      message: `Errore durante il riavvio: ${error}`
+    };
   }
 }
