@@ -37,13 +37,22 @@ export default function BetaPage() {
         if (user) {
           useCodeMutation.mutate(code);
         } else {
-          // Mostra una notifica di successo senza reindirizzamento
+          // Mostra una notifica di successo e memorizza l'invito valido
           toast({
             title: 'Codice valido!',
-            description: `Il codice di invito è valido. Codice: ${code}, Email: ${data.email}. Condividi questi dettagli con l'amministratore che ti ha inviato il codice per completare l'attivazione del tuo account.`,
+            description: 'Il codice di invito è valido. Ora puoi accedere al programma beta.',
             variant: 'default',
-            duration: 10000, // Mostra per 10 secondi
           });
+          
+          // Memorizza l'invito valido
+          localStorage.setItem('betaInviteCode', code);
+          localStorage.setItem('betaInviteEmail', data.email);
+          localStorage.setItem('betaInviteStatus', 'valid');
+          
+          // Reindirizza all'app principale dopo un breve ritardo
+          setTimeout(() => {
+            window.location.href = '/'; // Reindirizza alla home page
+          }, 2000);
         }
       } else {
         toast({
