@@ -86,3 +86,42 @@ adminRouter.post('/restart', async (req: Request, res: Response) => {
     });
   }
 });
+
+/**
+ * Endpoint pubblico per il riavvio d'emergenza
+ * Può essere chiamato anche quando l'applicazione è quasi offline
+ * Richiede una chiave di sicurezza fissa nel parametro "key"
+ * 
+ * Questo endpoint può essere chiamato con:
+ * curl -X POST http://localhost:5000/api/admin/emergency-restart?key=gironico-restart-2025
+ */
+adminRouter.post('/emergency-restart', async (req: Request, res: Response) => {
+  try {
+    const { key } = req.query;
+    const EMERGENCY_RESTART_KEY = 'gironico-restart-2025';
+    
+    if (!key || key !== EMERGENCY_RESTART_KEY) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Chiave di riavvio d\'emergenza non valida' 
+      });
+    }
+    
+    console.log('🚨 RIAVVIO DI EMERGENZA AVVIATO');
+    
+    // Genera un token temporaneo per il riavvio
+    const token = generateRestartToken();
+    
+    const result = await restartApplication(token);
+    res.json({
+      ...result,
+      mode: 'emergency'
+    });
+  } catch (error) {
+    console.error('Errore durante il riavvio di emergenza:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: `Errore durante il riavvio di emergenza: ${error}` 
+    });
+  }
+});
