@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>Riavvia Applicazione - Launcher mobile</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+    }
+    
+    .logo {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 16px;
+    }
+    
+    h1 {
+      margin: 16px 0;
+      font-size: 24px;
+    }
+    
+    p {
+      margin: 12px 0;
+      font-size: 16px;
+      color: #94a3b8;
+    }
+    
+    .restart-btn {
+      display: inline-block;
+      width: 220px;
+      padding: 20px 24px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 20px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+    
+    .restart-btn:hover, .restart-btn:active {
+      background-color: #1d4ed8;
+      transform: translateY(-2px);
+    }
+    
+    .restart-btn:active {
+      transform: translateY(0);
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .countdown {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 20px 0;
+      color: #38bdf8;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 16px 0;
+      padding: 8px 16px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+    }
+    
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .status-indicator.red {
+      background-color: #ef4444;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+    }
+    
+    .status-indicator.green {
+      background-color: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+    
+    .status-indicator.yellow {
+      background-color: #f59e0b;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    }
+    
+    .message {
+      margin: 16px 0;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    #restart-container, #countdown-container {
+      width: 100%;
+    }
+    
+    #countdown-container {
+      display: none;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="/restart-icons/quick-restart.svg" alt="Riavvio" class="logo">
+    
+    <h1>Riavvio d'Emergenza</h1>
+    
+    <div class="status">
+      <span class="status-indicator red"></span>
+      <span>App offline o non risponde</span>
+    </div>
+    
+    <p>
+      Questa pagina ti permette di riavviare l'applicazione quando è offline o non risponde.
+    </p>
+    
+    <div id="restart-container">
+      <button id="restart-btn" class="restart-btn">
+        Riavvia l'Applicazione
+      </button>
+    </div>
+    
+    <div id="countdown-container">
+      <p>Riavvio in corso, attendere...</p>
+      <div class="countdown" id="countdown">15</div>
+      <p>La pagina principale si caricherà automaticamente</p>
+    </div>
+  </div>
+  
+  <footer>
+    &copy; 2025 - Strumento di riavvio d'emergenza
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const restartBtn = document.getElementById('restart-btn');
+      const restartContainer = document.getElementById('restart-container');
+      const countdownContainer = document.getElementById('countdown-container');
+      const countdownElement = document.getElementById('countdown');
+      
+      // Determina l'URL di base dell'applicazione
+      const baseUrl = window.location.origin;
+      
+      // URL per l'API di riavvio d'emergenza
+      const restartApiUrl = `${baseUrl}/api/admin/emergency-restart?key=gironico-restart-2025`;
+      
+      // Aggiungi l'evento click al pulsante di riavvio
+      restartBtn.addEventListener('click', restartApp);
+      
+      // Funzione per riavviare l'applicazione
+      async function restartApp() {
+        // Disabilita il pulsante e mostra lo spinner
+        restartBtn.disabled = true;
+        restartBtn.innerHTML = '<span class="spinner"></span> Riavvio in corso...';
+        
+        try {
+          // Invia la richiesta di riavvio
+          const response = await fetch(restartApiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          // Se la risposta è valida, avvia il countdown
+          if (response.ok) {
+            startCountdown();
+          } else {
+            // Se la risposta non è ok, avvia comunque il countdown
+            // (l'app potrebbe essere in fase di riavvio)
+            startCountdown();
+          }
+        } catch (error) {
+          // Se c'è un errore, avvia comunque il countdown
+          // (l'app è probabilmente offline)
+          console.error('Errore durante il riavvio:', error);
+          startCountdown();
+        }
+      }
+      
+      // Funzione per avviare il conto alla rovescia
+      function startCountdown() {
+        // Nascondi il container del riavvio
+        restartContainer.style.display = 'none';
+        
+        // Mostra il container del countdown
+        countdownContainer.style.display = 'block';
+        
+        // Imposta il countdown iniziale
+        let seconds = 15;
+        countdownElement.textContent = seconds;
+        
+        // Avvia il countdown
+        const interval = setInterval(() => {
+          seconds--;
+          countdownElement.textContent = seconds;
+          
+          if (seconds <= 0) {
+            clearInterval(interval);
+            
+            // Reindirizza alla home page
+            window.location.href = baseUrl;
+          }
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>
