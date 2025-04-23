@@ -15,6 +15,7 @@ export default function BetaPage() {
   const { user } = useAuth();
   const [location, setLocation] = useLocation();
   const [code, setCode] = useState('');
+  const [email, setEmail] = useState('');
   const [feedbackData, setFeedbackData] = useState({
     feedbackType: 'general',
     content: '',
@@ -23,9 +24,12 @@ export default function BetaPage() {
 
   // Query per verificare un codice di invito
   const verifyCode = useMutation({
-    mutationFn: async (inviteCode: string) => {
-      const res = await apiRequest('GET', `/api/beta/verify/${inviteCode}`);
-      return res.json();
+    mutationFn: async (data: { inviteCode: string, email: string }) => {
+      const res = await apiRequest('GET', `/api/beta/verify/${data.inviteCode}`);
+      const responseData = await res.json();
+      // Salva l'email per creare l'account
+      localStorage.setItem('betaRegistrationEmail', data.email);
+      return { ...responseData, email: data.email };
     },
     onSuccess: (data) => {
       if (data.valid) {
@@ -38,8 +42,8 @@ export default function BetaPage() {
         if (user) {
           useCodeMutation.mutate(code);
         } else {
-          // Altrimenti reindirizza alla pagina di login/registrazione
-          setLocation('/auth?betaCode=' + code);
+          // Altrimenti reindirizza alla pagina di login/registrazione con email e codice
+          setLocation('/auth?betaCode=' + code + '&email=' + encodeURIComponent(data.email));
         }
       } else {
         toast({
@@ -136,7 +140,21 @@ export default function BetaPage() {
       });
       return;
     }
-    verifyCode.mutate(code);
+    
+    if (!email || !validateEmail(email)) {
+      toast({
+        title: 'Email non valida',
+        description: 'Inserisci un indirizzo email valido.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    verifyCode.mutate({ inviteCode: code, email });
+  };
+
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const handleSendFeedback = (e: React.FormEvent) => {
@@ -161,9 +179,9 @@ export default function BetaPage() {
           {/* Card per il codice di invito */}
           <Card>
             <CardHeader>
-              <CardTitle>Codice di Invito</CardTitle>
+              <CardTitle>Accesso Beta Tester</CardTitle>
               <CardDescription>
-                Inserisci il tuo codice di invito per partecipare al programma beta
+                Inserisci il tuo codice di invito e l'email associata per partecipare al programma beta
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -177,10 +195,23 @@ export default function BetaPage() {
                     onChange={(e) => setCode(e.target.value)}
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="inviteEmail">Email</Label>
+                  <Input
+                    id="inviteEmail"
+                    type="email"
+                    placeholder="Inserisci la tua email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <p className="text-xs text-gray-500">
+                    Deve corrispondere all'email associata al tuo invito beta
+                  </p>
+                </div>
                 <Button 
                   type="submit" 
                   className="w-full"
-                  disabled={verifyCode.isPending || !code}
+                  disabled={verifyCode.isPending || !code || !email}
                 >
                   {verifyCode.isPending ? (
                     <>
@@ -270,7 +301,7 @@ export default function BetaPage() {
           <div className="grid gap-6 md:grid-cols-3 mt-8">
             <div className="p-6 border rounded-lg">
               <h3 className="text-xl font-bold mb-2">1. Ottieni un Codice</h3>
-              <p>Inserisci il tuo codice di invito per accedere come beta tester</p>
+              <p>Inserisci il tuo codice di invito e l'email associata per accedere come beta tester</p>
             </div>
             <div className="p-6 border rounded-lg">
               <h3 className="text-xl font-bold mb-2">2. Esplora l'App</h3>
