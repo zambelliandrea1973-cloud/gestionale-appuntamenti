@@ -281,7 +281,8 @@ export const notificationService = {
         // Calcoliamo la differenza oraria considerando il fuso orario
         // Il server è in UTC, dobbiamo applicare l'offset per il fuso orario locale
         const rawHoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-        const hoursDiff = rawHoursDiff - TIMEZONE_OFFSET_HOURS;
+        // Correzione: aggiungiamo (non sottraiamo) l'offset per il calcolo corretto
+        const hoursDiff = rawHoursDiff + TIMEZONE_OFFSET_HOURS;
         
         // Logghiamo informazioni utili per il debug
         console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
