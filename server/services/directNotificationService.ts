@@ -365,7 +365,7 @@ export const directNotificationService = {
       const tomorrowStr = format(addDays(now, 1), 'yyyy-MM-dd');
       
       console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlusReminderHours.toISOString()}`);
-      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, Fuso orario server: UTC, Fuso orario utilizzato: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
+      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
       
       // Recupera tutti gli appuntamenti di oggi e domani
       let appointments = [];
@@ -393,21 +393,18 @@ export const directNotificationService = {
         // Crea un oggetto Date per l'appuntamento
         const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
         
-        // Calcoliamo la differenza oraria considerando il fuso orario
-        // Il server è in UTC, dobbiamo applicare l'offset per il fuso orario locale
-        const rawHoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-        // Correzione: aggiungiamo (non sottraiamo) l'offset per il calcolo corretto
-        const hoursDiff = rawHoursDiff + TIMEZONE_OFFSET_HOURS;
+        // Calcoliamo semplicemente la differenza oraria in ore senza complicare con offset
+        // Utilizziamo direttamente il timestamp come riferimento assoluto
+        const hoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
         
         // Logghiamo informazioni utili per il debug
         console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
-                    `Ore di differenza (raw): ${rawHoursDiff.toFixed(1)}, ` +
-                    `Con offset fuso orario ${timezoneName}: ${hoursDiff.toFixed(1)}`);
+                    `Ore di differenza: ${hoursDiff.toFixed(1)} (usando timestamp diretto senza offset)`);
         
         // Verifica se l'appuntamento è nel periodo di invio promemoria
         // Usiamo reminderWindowStart invece di 24 per dare un po' di margine
         if (hoursDiff >= reminderWindowStart && hoursDiff <= reminderWindowEnd) {
-          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore (considerando fuso orario ${timezoneName}), invio promemoria...`);
+          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
           apptsToRemind.push(appointment);
         }
       }
