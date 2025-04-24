@@ -250,7 +250,7 @@ export const notificationService = {
       const tomorrowStr = format(nowPlus24Hours, 'yyyy-MM-dd');
       
       console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
-      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, Fuso orario server: UTC, Fuso orario utilizzato: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
+      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
       
       // Recupera tutti gli appuntamenti di oggi e domani
       let appointments = [];
@@ -289,7 +289,7 @@ export const notificationService = {
         // Verifica se l'appuntamento è tra 23 e 25 ore nel futuro
         // Usiamo 23 invece di 24 per dare un po' di margine e non perderci promemoria
         if (hoursDiff >= 23 && hoursDiff <= 25) {
-          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore (considerando fuso orario ${timezoneName}), invio promemoria...`);
+          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
           apptsToRemind.push(appointment);
         }
       }
