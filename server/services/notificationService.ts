@@ -278,16 +278,13 @@ export const notificationService = {
         // Crea un oggetto Date per l'appuntamento
         const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
         
-        // Calcoliamo la differenza oraria considerando il fuso orario
-        // Il server è in UTC, dobbiamo applicare l'offset per il fuso orario locale
-        const rawHoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-        // Correzione: aggiungiamo (non sottraiamo) l'offset per il calcolo corretto
-        const hoursDiff = rawHoursDiff + TIMEZONE_OFFSET_HOURS;
+        // Calcoliamo semplicemente la differenza oraria in ore senza complicare con offset
+        // Utilizziamo direttamente il timestamp come riferimento assoluto
+        const hoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
         
         // Logghiamo informazioni utili per il debug
         console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
-                    `Ore di differenza (raw): ${rawHoursDiff.toFixed(1)}, ` +
-                    `Con offset fuso orario ${timezoneName}: ${hoursDiff.toFixed(1)}`);
+                    `Ore di differenza: ${hoursDiff.toFixed(1)} (usando timestamp diretto senza offset)`);
         
         // Verifica se l'appuntamento è tra 23 e 25 ore nel futuro
         // Usiamo 23 invece di 24 per dare un po' di margine e non perderci promemoria
