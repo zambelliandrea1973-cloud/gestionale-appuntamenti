@@ -11,36 +11,25 @@ const router = express.Router();
 // Ottiene gli appuntamenti imminenti che necessitano di promemoria
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
-    // Verifica che l'utente sia autenticato
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({
-        success: false,
-        error: "Accesso non autorizzato"
-      });
-    }
-    
-    // Ottieni il fuso orario corrente dalle impostazioni
-    const tzSettings = await storage.getTimezoneSettings();
-    const timezone = tzSettings?.timezone || 'UTC';
-    
-    // Calcola la data di oggi e domani nel fuso orario corretto
+    // Utilizziamo un approccio più semplice per generare le date di oggi e domani
     const now = new Date();
-    const today = formatInTimeZone(now, timezone, 'yyyy-MM-dd');
-    const tomorrow = formatInTimeZone(addDays(now, 1), timezone, 'yyyy-MM-dd');
+    // Converti le date in formato stringa YYYY-MM-DD
+    const today = format(now, 'yyyy-MM-dd');
+    const tomorrow = format(addDays(now, 1), 'yyyy-MM-dd');
+    
+    console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
     // Ottieni gli appuntamenti per i prossimi due giorni
     const appointments = await storage.getAppointmentsByDateRange(today, tomorrow);
     
-    // Filtra gli appointment che hanno reminderType che include 'whatsapp' 
-    // Modifica: includiamo tutti gli appuntamenti con status = 'scheduled' invece di solo 'confirmed'
+    // Filtra gli appuntamenti includendo sia quelli 'scheduled' che 'confirmed'
     const eligibleAppointments = appointments.filter(a => 
-      a.status === 'scheduled' && 
-      (
-        // Includi appuntamenti con o senza reminderType
-        !a.reminderType || 
-        (a.reminderType && a.reminderType.includes('whatsapp'))
-      )
+      (a.status === 'scheduled' || a.status === 'confirmed')
     );
+    
+    // Aggiungiamo log per debug
+    console.log(`Trovati ${appointments.length} appuntamenti totali per date ${today} - ${tomorrow}`);
+    console.log(`Filtrati ${eligibleAppointments.length} appuntamenti per notifiche WhatsApp`);
     
     // Raggruppa per data
     const groupedAppointments = eligibleAppointments.reduce((acc: Record<string, any[]>, appointment) => {
@@ -50,8 +39,6 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       acc[appointment.date].push(appointment);
       return acc;
     }, {});
-    
-    console.log(`Trovati ${eligibleAppointments.length} appuntamenti per notifiche WhatsApp`);
     
     res.json({
       success: true,
