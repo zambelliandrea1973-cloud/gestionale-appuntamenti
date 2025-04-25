@@ -11,7 +11,8 @@ import {
   Clock,
   Grid,
   Flower,
-  ImageIcon
+  ImageIcon,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -223,6 +224,35 @@ export default function Home() {
                   onClick={() => navigate("/clients")}
                 >
                   {t('clients.goTo')}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div>
+          <Card className="h-full card-hover flex flex-col">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MessageSquare className="mr-2 h-5 w-5 text-primary" />
+                {t('whatsappNotifications.title')}
+              </CardTitle>
+              <CardDescription>
+                {t('whatsappNotifications.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <p className="flex-1">
+                {t('whatsappNotifications.subDescription')}
+              </p>
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full btn-with-icon" 
+                  onClick={() => navigate("/notifications")}
+                >
+                  {t('whatsappNotifications.goTo')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>

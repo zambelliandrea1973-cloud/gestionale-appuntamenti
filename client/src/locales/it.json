@@ -282,6 +282,12 @@
     "clientDeleted": "Cliente eliminato",
     "clientDeletedSuccess": "Il cliente è stato eliminato con successo"
   },
+  "whatsappNotifications": {
+    "title": "Notifiche WhatsApp",
+    "description": "Gestisci i promemoria per gli appuntamenti",
+    "subDescription": "Invia promemoria WhatsApp ai clienti per i loro appuntamenti imminenti",
+    "goTo": "Gestisci Notifiche"
+  },
   "errors": {
     "genericError": "Si è verificato un errore: {{error}}",
     "qrCodeFetchError": "Errore nel recupero del QR code esistente:"
