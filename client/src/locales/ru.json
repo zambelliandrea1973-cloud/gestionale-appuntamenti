@@ -282,6 +282,124 @@
     "subDescription": "Отправляйте WhatsApp-напоминания клиентам о предстоящих встречах",
     "goTo": "Управление уведомлениями"
   },
+  "notificationsPage": {
+    "title": "Уведомления клиентов",
+    "subtitle": "Управление напоминаниями о встречах клиентов",
+    "refresh": "Обновить",
+    "tabs": {
+      "upcoming": "Для отправки",
+      "history": "История",
+      "settings": "Настройки уведомлений",
+      "calendar": "Google Календарь"
+    },
+    "howItWorks": {
+      "title": "Как работают WhatsApp уведомления",
+      "steps": [
+        "Выберите записи, для которых хотите отправить напоминание",
+        "Нажмите \"Создать WhatsApp уведомления\" для создания ссылок",
+        "Будут созданы ссылки, открывающие WhatsApp с предварительно заполненными текстами",
+        "Вы можете настроить стандартный текст перед отправкой"
+      ]
+    },
+    "customMessage": {
+      "title": "Персонализированное сообщение (опционально)",
+      "description": "Если указано, этот текст будет добавлен к стандартному сообщению",
+      "placeholder": "Например: Не забудьте принести предыдущую медицинскую документацию.",
+      "characters": "символов",
+      "clear": "Очистить"
+    },
+    "noAppointments": {
+      "loading": "Загрузка записей...",
+      "empty": "Нет записей для уведомления",
+      "description": "Нет предстоящих записей, требующих напоминаний."
+    },
+    "table": {
+      "client": "Клиент",
+      "service": "Услуга",
+      "time": "Время",
+      "actions": "Действия",
+      "send": "Отправить",
+      "selectAll": "Выбрать все"
+    },
+    "buttons": {
+      "generating": "Создание...",
+      "generateWhatsApp": "Создать WhatsApp уведомления"
+    },
+    "history": {
+      "title": "История уведомлений",
+      "description": "Последние напоминания, отправленные через WhatsApp",
+      "noNotifications": "Недавно не отправлено ни одного уведомления",
+      "table": {
+        "date": "Дата",
+        "message": "Сообщение",
+        "actions": "Действия",
+        "reopen": "Повторно открыть"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Выбрать все",
+      "actions": "Действия",
+      "sendButton": "Создать WhatsApp уведомления",
+      "sending": "Создание уведомлений..."
+    },
+    "errors": {
+      "loadingAppointments": "Невозможно загрузить записи",
+      "loadingHistory": "Невозможно загрузить историю",
+      "noneSelected": "Выберите хотя бы одну запись для отправки уведомлений",
+      "sendingFailed": "Не удалось отправить напоминания"
+    },
+    "success": {
+      "remindersSent": "Напоминания успешно созданы"
+    },
+    "whatsappLink": "Открыть WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Настройки уведомлений",
+    "enableEmailNotifications": "Включить уведомления по электронной почте",
+    "emailSetup": {
+      "title": "Быстрая настройка электронной почты",
+      "email": "Электронная почта",
+      "emailPlaceholder": "Введите свой адрес электронной почты",
+      "password": "Пароль",
+      "passwordPlaceholder": "Введите пароль от электронной почты",
+      "description": "Эта конфигурация настраивает вашу учетную запись электронной почты для отправки уведомлений.",
+      "autoDetect": "Автоматическое определение настроек",
+      "emailRequired": "Введите свой адрес электронной почты для определения настроек"
+    },
+    "errors": {
+      "loadingSettings": "Невозможно загрузить настройки уведомлений",
+      "savingSettings": "Невозможно сохранить настройки",
+      "testEmailMissing": "Введите адрес электронной почты для тестирования"
+    },
+    "success": {
+      "settingsSaved": "Настройки уведомлений успешно сохранены",
+      "testEmailSent": "Тестовое письмо успешно отправлено",
+      "remindersProcessed": "Напоминания успешно обработаны"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Календарь",
+    "setupInstructions": "Настройка интеграции с Google Calendar",
+    "emailLabel": "Аккаунт Gmail",
+    "emailPlaceholder": "ваш.адрес@gmail.com",
+    "emailDescription": "Аккаунт Google, который вы хотите использовать для календаря",
+    "connected": "Аккаунт подключен",
+    "notConnected": "Аккаунт еще не подключен",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Ваш Client ID Google",
+    "clientIdDescription": "Получите это значение из консоли Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Ваш Client Secret Google",
+    "clientSecretDescription": "Получите это значение из консоли Google Cloud",
+    "configHelp": "Помощь с настройкой",
+    "errors": {
+      "authorizationUrlFailed": "Невозможно создать URL авторизации"
+    },
+    "success": {
+      "settingsSaved": "Настройки синхронизации успешно сохранены",
+      "authorizationComplete": "Ваш аккаунт Google успешно подключен"
+    }
+  },
   "errors": {
     "genericError": "Произошла ошибка: {{error}}",
     "qrCodeFetchError": "Ошибка при получении существующего QR-кода:"
