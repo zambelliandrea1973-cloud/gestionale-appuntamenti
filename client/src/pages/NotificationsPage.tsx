@@ -5,6 +5,7 @@ import { NotificationSettingsForm } from '@/components/NotificationSettingsForm'
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
 import {
   Card,
   CardContent,
@@ -68,6 +69,7 @@ interface GroupedAppointments {
 }
 
 const NotificationsPage: React.FC = () => {
+  const { t } = useTranslation();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [groupedAppointments, setGroupedAppointments] = useState<GroupedAppointments>({});
   const [loading, setLoading] = useState(true);
@@ -284,8 +286,8 @@ const NotificationsPage: React.FC = () => {
       <div className="flex-grow container mx-auto py-6 px-4">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold">Notifiche WhatsApp</h1>
-            <p className="text-muted-foreground">Gestisci i promemoria per gli appuntamenti dei clienti</p>
+            <h1 className="text-2xl font-bold">{t('notificationsPage.title')}</h1>
+            <p className="text-muted-foreground">{t('notificationsPage.subtitle')}</p>
           </div>
           
           <div className="mt-4 md:mt-0 flex gap-2">
@@ -295,7 +297,7 @@ const NotificationsPage: React.FC = () => {
               disabled={loading}
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              Aggiorna
+              {t('notificationsPage.refresh')}
             </Button>
           </div>
         </div>
@@ -309,32 +311,32 @@ const NotificationsPage: React.FC = () => {
           <TabsList className="grid grid-cols-4">
             <TabsTrigger value="upcoming">
               <MessageSquare className="h-4 w-4 mr-2" />
-              Da inviare
+              {t('notificationsPage.tabs.upcoming')}
             </TabsTrigger>
             <TabsTrigger value="history">
               <CheckCircle className="h-4 w-4 mr-2" />
-              Cronologia
+              {t('notificationsPage.tabs.history')}
             </TabsTrigger>
             <TabsTrigger value="settings">
               <Bell className="h-4 w-4 mr-2" />
-              Impostazioni notifiche
+              {t('notificationsPage.tabs.settings')}
             </TabsTrigger>
             <TabsTrigger value="calendar">
               <Calendar className="h-4 w-4 mr-2" />
-              Google Calendario
+              {t('notificationsPage.tabs.calendar')}
             </TabsTrigger>
           </TabsList>
           
           <TabsContent value="upcoming" className="space-y-4">
             <Alert variant="default" className="bg-muted">
               <Info className="h-4 w-4" />
-              <AlertTitle>Come funzionano le notifiche WhatsApp</AlertTitle>
+              <AlertTitle>{t('notificationsPage.howItWorks.title')}</AlertTitle>
               <AlertDescription>
                 <ul className="list-disc pl-5 text-sm space-y-1 mt-2">
-                  <li>Seleziona gli appuntamenti per cui vuoi inviare un promemoria</li>
-                  <li>Clicca su "Genera notifiche WhatsApp" per creare i link</li>
-                  <li>Verranno generati link che aprono WhatsApp con testi precompilati</li>
-                  <li>Puoi personalizzare il testo standard prima dell'invio</li>
+                  <li>{t('notificationsPage.howItWorks.steps.0')}</li>
+                  <li>{t('notificationsPage.howItWorks.steps.1')}</li>
+                  <li>{t('notificationsPage.howItWorks.steps.2')}</li>
+                  <li>{t('notificationsPage.howItWorks.steps.3')}</li>
                 </ul>
               </AlertDescription>
             </Alert>
@@ -350,14 +352,14 @@ const NotificationsPage: React.FC = () => {
             {/* Textarea per messaggio personalizzato */}
             <Card className="mb-6">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Messaggio personalizzato (opzionale)</CardTitle>
+                <CardTitle className="text-base">{t('notificationsPage.customMessage.title')}</CardTitle>
                 <CardDescription>
-                  Se specificato, questo testo verrà aggiunto al messaggio standard
+                  {t('notificationsPage.customMessage.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea
-                  placeholder="Es. Ricordo di portare con sé la documentazione medica precedente."
+                  placeholder={t('notificationsPage.customMessage.placeholder')}
                   className="resize-none"
                   value={customMessage}
                   onChange={(e) => setCustomMessage(e.target.value)}
@@ -365,7 +367,7 @@ const NotificationsPage: React.FC = () => {
               </CardContent>
               <CardFooter className="flex justify-between pt-0">
                 <p className="text-sm text-muted-foreground">
-                  {customMessage.length} caratteri
+                  {customMessage.length} {t('notificationsPage.customMessage.characters')}
                 </p>
                 <Button 
                   variant="destructive" 
@@ -373,7 +375,7 @@ const NotificationsPage: React.FC = () => {
                   disabled={!customMessage.trim()}
                   onClick={() => setCustomMessage('')}
                 >
-                  Cancella
+                  {t('notificationsPage.customMessage.clear')}
                 </Button>
               </CardFooter>
             </Card>
@@ -385,14 +387,14 @@ const NotificationsPage: React.FC = () => {
                   {loading ? (
                     <div className="flex flex-col items-center">
                       <RefreshCw className="h-10 w-10 text-primary animate-spin mb-4" />
-                      <p>Caricamento appuntamenti in corso...</p>
+                      <p>{t('notificationsPage.noAppointments.loading')}</p>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center text-muted-foreground">
                       <MessageSquare className="h-10 w-10 mb-4" />
-                      <p className="font-medium">Nessun appuntamento da notificare</p>
+                      <p className="font-medium">{t('notificationsPage.noAppointments.empty')}</p>
                       <p className="text-sm mt-1">
-                        Non ci sono appuntamenti imminenti che richiedono promemoria.
+                        {t('notificationsPage.noAppointments.description')}
                       </p>
                     </div>
                   )}
