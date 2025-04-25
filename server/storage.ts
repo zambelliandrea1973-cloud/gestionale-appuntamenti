@@ -171,6 +171,17 @@ export interface IStorage {
   saveNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
   updateNotificationSettings(id: number, settings: Partial<InsertNotificationSettings>): Promise<NotificationSettings | undefined>;
   
+  // Timezone settings
+  getTimezoneSettings(): Promise<{ timezone: string; offset: number; name: string; } | undefined>;
+  saveTimezoneSettings(timezone: string, offset: number, name: string): Promise<{ timezone: string; offset: number; name: string; }>;
+  
+  // Contact Info
+  getContactInfo(): Promise<{ email: string; phone1: string; website: string; instagram: string; phone2: string; businessName?: string; address?: string; } | undefined>;
+  
+  // Notifications additional methods
+  saveNotification(notification: InsertNotification): Promise<Notification>;
+  getNotificationsByType(type: string, limit?: number): Promise<Notification[]>;
+  
   // Beta Tester operations
   createBetaInvitation(invitation: InsertBetaInvitation): Promise<BetaInvitation>;
   getBetaInvitation(code: string): Promise<BetaInvitation | undefined>;
@@ -2253,6 +2264,26 @@ export class DatabaseStorage implements IStorage {
       throw error;
     }
   }
+  
+  // Alias for createNotification - for compatibility with notificationRoutes.ts
+  async saveNotification(notification: InsertNotification): Promise<Notification> {
+    return this.createNotification(notification);
+  }
+  
+  async getNotificationsByType(type: string, limit: number = 100): Promise<Notification[]> {
+    try {
+      const notificationsList = await db
+        .select()
+        .from(notifications)
+        .where(eq(notifications.type, type))
+        .orderBy(desc(notifications.sentAt))
+        .limit(limit);
+      return notificationsList;
+    } catch (error) {
+      console.error(`Error getting notifications by type ${type}:`, error);
+      return [];
+    }
+  }
 
   async markNotificationAsRead(id: number): Promise<boolean> {
     try {
@@ -2536,6 +2567,142 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  // Timezone settings operations
+  async getTimezoneSettings(): Promise<{ timezone: string; offset: number; name: string; } | undefined> {
+    try {
+      const timezoneSetting = await this.getSetting("timezone");
+      const offsetSetting = await this.getSetting("timezoneOffset");
+      const nameSetting = await this.getSetting("timezoneName");
+      
+      if (!timezoneSetting) {
+        return {
+          timezone: "UTC",
+          offset: 0,
+          name: "Coordinated Universal Time"
+        };
+      }
+      
+      return {
+        timezone: timezoneSetting.value,
+        offset: offsetSetting ? parseInt(offsetSetting.value) : 0,
+        name: nameSetting ? nameSetting.value : "Coordinated Universal Time"
+      };
+    } catch (error) {
+      console.error("Errore nel recupero delle impostazioni del fuso orario:", error);
+      return {
+        timezone: "UTC",
+        offset: 0,
+        name: "Coordinated Universal Time"
+      };
+    }
+  }
+  
+  async saveTimezoneSettings(timezone: string, offset: number, name: string): Promise<{ timezone: string; offset: number; name: string; }> {
+    try {
+      await this.saveSetting("timezone", timezone);
+      await this.saveSetting("timezoneOffset", offset.toString());
+      await this.saveSetting("timezoneName", name);
+      
+      return { timezone, offset, name };
+    } catch (error) {
+      console.error("Errore nel salvataggio delle impostazioni del fuso orario:", error);
+      throw error;
+    }
+  }
+  
+  // Contact Info operations
+  async getContactInfo(): Promise<{ email: string; phone1: string; website: string; instagram: string; phone2: string; businessName?: string; address?: string; } | undefined> {
+    try {
+      const email = await this.getSetting("contactEmail");
+      const phone1 = await this.getSetting("contactPhone1");
+      const website = await this.getSetting("contactWebsite");
+      const instagram = await this.getSetting("contactInstagram");
+      const phone2 = await this.getSetting("contactPhone2");
+      const businessName = await this.getSetting("businessName");
+      const address = await this.getSetting("businessAddress");
+      
+      if (!email && !phone1) {
+        // Se non ci sono informazioni di contatto, restituisci undefined
+        return undefined;
+      }
+      
+      return {
+        email: email ? email.value : "",
+        phone1: phone1 ? phone1.value : "",
+        website: website ? website.value : "",
+        instagram: instagram ? instagram.value : "",
+        phone2: phone2 ? phone2.value : "",
+        businessName: businessName ? businessName.value : undefined,
+        address: address ? address.value : undefined
+      };
+    } catch (error) {
+      console.error("Errore nel recupero delle informazioni di contatto:", error);
+      return undefined;
+    }
+  }
+  
+  // Notification Settings operations
+  async getNotificationSettings(): Promise<NotificationSettings | undefined> {
+    try {
+      const [settings] = await db.select().from(notificationSettings);
+      return settings;
+    } catch (error) {
+      console.error("Errore nel recupero delle impostazioni di notifica:", error);
+      return undefined;
+    }
+  }
+  
+  async saveNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings> {
+    try {
+      // Prima controlla se esistono già delle impostazioni
+      const existing = await this.getNotificationSettings();
+      
+      if (existing) {
+        // Aggiorna le impostazioni esistenti
+        const [updated] = await db
+          .update(notificationSettings)
+          .set({
+            ...settings,
+            updatedAt: new Date()
+          })
+          .where(eq(notificationSettings.id, existing.id))
+          .returning();
+        return updated;
+      } else {
+        // Crea nuove impostazioni
+        const [created] = await db
+          .insert(notificationSettings)
+          .values({
+            ...settings,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          })
+          .returning();
+        return created;
+      }
+    } catch (error) {
+      console.error("Errore nel salvataggio delle impostazioni di notifica:", error);
+      throw error;
+    }
+  }
+  
+  async updateNotificationSettings(id: number, settings: Partial<InsertNotificationSettings>): Promise<NotificationSettings | undefined> {
+    try {
+      const [updated] = await db
+        .update(notificationSettings)
+        .set({
+          ...settings,
+          updatedAt: new Date()
+        })
+        .where(eq(notificationSettings.id, id))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error("Errore nell'aggiornamento delle impostazioni di notifica:", error);
+      return undefined;
+    }
+  }
+  
   // Reminder Template operations
   async getReminderTemplate(id: number): Promise<ReminderTemplate | undefined> {
     try {
