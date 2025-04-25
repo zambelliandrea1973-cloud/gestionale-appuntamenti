@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '@/components/Layout';
+// Rimosso import Layout per evitare layout annidati
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import {
@@ -275,28 +275,28 @@ const NotificationsPage: React.FC = () => {
     return match ? match[1] : null;
   };
 
+  // Renderizza direttamente il contenuto senza il Layout
   return (
-    <Layout>
-      <div className="container mx-auto py-6 px-4">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold">Notifiche WhatsApp</h1>
-            <p className="text-muted-foreground">Gestisci i promemoria per gli appuntamenti dei clienti</p>
-          </div>
-          
-          <div className="mt-4 md:mt-0 flex gap-2">
-            <Button 
-              variant="outline" 
-              onClick={fetchUpcomingAppointments}
-              disabled={loading}
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              Aggiorna
-            </Button>
-          </div>
+    <div className="container mx-auto py-6 px-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">Notifiche WhatsApp</h1>
+          <p className="text-muted-foreground">Gestisci i promemoria per gli appuntamenti dei clienti</p>
         </div>
+        
+        <div className="mt-4 md:mt-0 flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={fetchUpcomingAppointments}
+            disabled={loading}
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            Aggiorna
+          </Button>
+        </div>
+      </div>
 
-        <Tabs 
+      <Tabs 
           defaultValue="upcoming" 
           value={activeTab}
           onValueChange={setActiveTab}
@@ -601,9 +601,8 @@ const NotificationsPage: React.FC = () => {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
-      </div>
-    </Layout>
+      </Tabs>
+    </div>
   );
 };
 
