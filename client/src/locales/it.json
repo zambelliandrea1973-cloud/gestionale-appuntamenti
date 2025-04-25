@@ -283,10 +283,105 @@
     "clientDeletedSuccess": "Il cliente è stato eliminato con successo"
   },
   "whatsappNotifications": {
-    "title": "Notifiche WhatsApp",
+    "title": "Notifiche ai clienti",
     "description": "Gestisci i promemoria per gli appuntamenti",
     "subDescription": "Invia promemoria WhatsApp ai clienti per i loro appuntamenti imminenti",
     "goTo": "Gestisci Notifiche"
+  },
+  "notificationsPage": {
+    "title": "Notifiche ai clienti",
+    "subtitle": "Gestisci i promemoria per gli appuntamenti dei clienti",
+    "refresh": "Aggiorna",
+    "tabs": {
+      "upcoming": "Da inviare",
+      "history": "Cronologia",
+      "settings": "Impostazioni notifiche",
+      "calendar": "Google Calendario"
+    },
+    "howItWorks": {
+      "title": "Come funzionano le notifiche WhatsApp",
+      "steps": [
+        "Seleziona gli appuntamenti per cui vuoi inviare un promemoria",
+        "Clicca su \"Genera notifiche WhatsApp\" per creare i link",
+        "Verranno generati link che aprono WhatsApp con testi precompilati",
+        "Puoi personalizzare il testo standard prima dell'invio"
+      ]
+    },
+    "customMessage": {
+      "title": "Messaggio personalizzato (opzionale)",
+      "description": "Se specificato, questo testo verrà aggiunto al messaggio standard",
+      "placeholder": "Es. Ricordo di portare con sé la documentazione medica precedente.",
+      "characters": "caratteri",
+      "clear": "Cancella"
+    },
+    "noAppointments": {
+      "loading": "Caricamento appuntamenti in corso...",
+      "empty": "Nessun appuntamento da notificare",
+      "description": "Non ci sono appuntamenti imminenti che richiedono promemoria."
+    },
+    "appointmentList": {
+      "selectAll": "Seleziona tutti",
+      "actions": "Azioni",
+      "sendButton": "Genera notifiche WhatsApp",
+      "sending": "Generazione notifiche in corso..."
+    },
+    "errors": {
+      "loadingAppointments": "Impossibile caricare gli appuntamenti",
+      "loadingHistory": "Impossibile caricare lo storico",
+      "noneSelected": "Seleziona almeno un appuntamento per inviare notifiche",
+      "sendingFailed": "Impossibile inviare i promemoria"
+    },
+    "success": {
+      "remindersSent": "Promemoria generati con successo"
+    },
+    "whatsappLink": "Apri WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Impostazioni notifiche",
+    "enableEmailNotifications": "Abilita notifiche email",
+    "emailSetup": {
+      "title": "Configurazione Rapida Email",
+      "email": "Email",
+      "emailPlaceholder": "Inserisci il tuo indirizzo email",
+      "password": "Password",
+      "passwordPlaceholder": "Inserisci la tua password email",
+      "description": "Questa configurazione imposta il tuo account email per l'invio delle notifiche.",
+      "autoDetect": "Rileva automaticamente",
+      "emailRequired": "Inserisci il tuo indirizzo email per rilevare le impostazioni"
+    },
+    "errors": {
+      "loadingSettings": "Impossibile caricare le impostazioni di notifica",
+      "savingSettings": "Impossibile salvare le impostazioni",
+      "testEmailMissing": "Inserisci un indirizzo email per il test"
+    },
+    "success": {
+      "settingsSaved": "Impostazioni di notifica salvate con successo",
+      "testEmailSent": "Email di test inviata con successo",
+      "remindersProcessed": "Promemoria elaborati con successo"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendario",
+    "setupInstructions": "Configura l'integrazione con Google Calendar",
+    "emailLabel": "Account Gmail",
+    "emailPlaceholder": "tuo.indirizzo@gmail.com",
+    "emailDescription": "L'account Google che desideri utilizzare per il calendario",
+    "connected": "Account collegato",
+    "notConnected": "Account non ancora collegato",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Il tuo Client ID di Google",
+    "clientIdDescription": "Ottieni questo valore dalla console Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Il tuo Client Secret di Google",
+    "clientSecretDescription": "Ottieni questo valore dalla console Google Cloud",
+    "configHelp": "Aiuto con la configurazione",
+    "errors": {
+      "authorizationUrlFailed": "Impossibile generare l'URL di autorizzazione"
+    },
+    "success": {
+      "settingsSaved": "Le impostazioni di sincronizzazione sono state salvate con successo",
+      "authorizationComplete": "Il tuo account Google è stato collegato con successo"
+    }
   },
   "errors": {
     "genericError": "Si è verificato un errore: {{error}}",
