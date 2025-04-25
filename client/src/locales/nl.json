@@ -272,6 +272,124 @@
     "subDescription": "Stuur WhatsApp-herinneringen naar klanten voor hun komende afspraken",
     "goTo": "Meldingen beheren"
   },
+  "notificationsPage": {
+    "title": "Klantmeldingen",
+    "subtitle": "Afspraakherinneringen voor klanten beheren",
+    "refresh": "Vernieuwen",
+    "tabs": {
+      "upcoming": "Te verzenden",
+      "history": "Geschiedenis",
+      "settings": "Meldingsinstellingen",
+      "calendar": "Google Agenda"
+    },
+    "howItWorks": {
+      "title": "Hoe WhatsApp-meldingen werken",
+      "steps": [
+        "Selecteer afspraken waarvoor u een herinnering wilt sturen",
+        "Klik op \"WhatsApp-meldingen genereren\" om links te maken",
+        "Er worden links gegenereerd die WhatsApp openen met vooraf ingevulde teksten",
+        "U kunt de standaardtekst voor het verzenden aanpassen"
+      ]
+    },
+    "customMessage": {
+      "title": "Aangepast bericht (optioneel)",
+      "description": "Indien gespecificeerd, wordt deze tekst toegevoegd aan het standaardbericht",
+      "placeholder": "Bijv. Vergeet niet uw eerdere medische documentatie mee te nemen.",
+      "characters": "tekens",
+      "clear": "Wissen"
+    },
+    "noAppointments": {
+      "loading": "Afspraken laden...",
+      "empty": "Geen afspraken om te melden",
+      "description": "Er zijn geen komende afspraken die herinneringen nodig hebben."
+    },
+    "table": {
+      "client": "Klant",
+      "service": "Dienst",
+      "time": "Tijd",
+      "actions": "Acties",
+      "send": "Verzenden",
+      "selectAll": "Alles selecteren"
+    },
+    "buttons": {
+      "generating": "Genereren...",
+      "generateWhatsApp": "WhatsApp-meldingen genereren"
+    },
+    "history": {
+      "title": "Meldingsgeschiedenis",
+      "description": "Laatst verzonden herinneringen via WhatsApp",
+      "noNotifications": "Recent zijn er geen meldingen verzonden",
+      "table": {
+        "date": "Datum",
+        "message": "Bericht",
+        "actions": "Acties",
+        "reopen": "Opnieuw openen"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Alles selecteren",
+      "actions": "Acties",
+      "sendButton": "WhatsApp-meldingen genereren",
+      "sending": "Meldingen genereren..."
+    },
+    "errors": {
+      "loadingAppointments": "Kan afspraken niet laden",
+      "loadingHistory": "Kan geschiedenis niet laden",
+      "noneSelected": "Selecteer ten minste één afspraak om meldingen te verzenden",
+      "sendingFailed": "Kan herinneringen niet verzenden"
+    },
+    "success": {
+      "remindersSent": "Herinneringen succesvol gegenereerd"
+    },
+    "whatsappLink": "WhatsApp openen"
+  },
+  "notificationSettings": {
+    "title": "Meldingsinstellingen",
+    "enableEmailNotifications": "E-mailmeldingen inschakelen",
+    "emailSetup": {
+      "title": "Snelle e-mailinstellingen",
+      "email": "E-mail",
+      "emailPlaceholder": "Voer uw e-mailadres in",
+      "password": "Wachtwoord",
+      "passwordPlaceholder": "Voer uw e-mailwachtwoord in",
+      "description": "Deze configuratie stelt uw e-mailaccount in voor het verzenden van meldingen.",
+      "autoDetect": "Instellingen automatisch detecteren",
+      "emailRequired": "Voer uw e-mailadres in om instellingen te detecteren"
+    },
+    "errors": {
+      "loadingSettings": "Kan meldingsinstellingen niet laden",
+      "savingSettings": "Kan instellingen niet opslaan",
+      "testEmailMissing": "Voer een e-mailadres in voor testen"
+    },
+    "success": {
+      "settingsSaved": "Meldingsinstellingen succesvol opgeslagen",
+      "testEmailSent": "Test-e-mail succesvol verzonden",
+      "remindersProcessed": "Herinneringen succesvol verwerkt"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Agenda",
+    "setupInstructions": "Google Calendar-integratie instellen",
+    "emailLabel": "Gmail-account",
+    "emailPlaceholder": "jouw.adres@gmail.com",
+    "emailDescription": "Het Google-account dat u wilt gebruiken voor de agenda",
+    "connected": "Account verbonden",
+    "notConnected": "Account nog niet verbonden",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Uw Google Client ID",
+    "clientIdDescription": "Haal deze waarde op uit de Google Cloud-console",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Uw Google Client Secret",
+    "clientSecretDescription": "Haal deze waarde op uit de Google Cloud-console",
+    "configHelp": "Hulp bij configuratie",
+    "errors": {
+      "authorizationUrlFailed": "Kan autorisatie-URL niet genereren"
+    },
+    "success": {
+      "settingsSaved": "Synchronisatie-instellingen zijn succesvol opgeslagen",
+      "authorizationComplete": "Uw Google-account is succesvol verbonden"
+    }
+  },
   "errors": {
     "genericError": "Er is een fout opgetreden: {{error}}",
     "qrCodeFetchError": "Fout bij het ophalen van bestaande QR-code:"
