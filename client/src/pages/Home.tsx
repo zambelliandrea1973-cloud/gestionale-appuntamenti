@@ -236,7 +236,7 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <MessageSquare className="mr-2 h-5 w-5 text-primary" />
-                {t('whatsappNotifications.title')}
+                Notifiche ai clienti
               </CardTitle>
               <CardDescription>
                 {t('whatsappNotifications.description')}
