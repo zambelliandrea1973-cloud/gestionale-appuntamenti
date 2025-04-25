@@ -196,7 +196,8 @@ export const notifications = pgTable("notifications", {
   isRead: boolean("is_read").default(false),
   sentAt: timestamp("sent_at").defaultNow(),
   scheduledFor: timestamp("scheduled_for"),
-  channel: text("channel").default("app"), // app, sms, email
+  channel: text("channel").default("app"), // app, sms, email, whatsapp
+  metadata: json("metadata"), // Metadati aggiuntivi (per esempio SID Twilio, stato dell'invio SMS, ecc.)
 });
 
 export const insertNotificationSchema = createInsertSchema(notifications).omit({
