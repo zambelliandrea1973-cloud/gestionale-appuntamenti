@@ -188,6 +188,15 @@ const NotificationsPage: React.FC = () => {
       fetchSmsHistory();
     }
   }, [activeTab]);
+  
+  // Aggiorna lo storico SMS quando visualizzo la cronologia
+  useEffect(() => {
+    // Controlla se entrambi i tab 'history' e subtab 'sms' sono attivi
+    const tabsElements = document.querySelectorAll('[data-state="active"][value="sms"]');
+    if (activeTab === 'history' && tabsElements.length > 0) {
+      fetchSmsHistory();
+    }
+  }, [activeTab]);
 
   // Gestisce la selezione di un appuntamento
   const handleAppointmentSelection = (appointmentId: number, checked: boolean) => {
@@ -327,12 +336,14 @@ const NotificationsPage: React.FC = () => {
       if (data.success) {
         toast({
           title: 'SMS inviati',
-          description: `${data.results.filter(r => r.success).length} SMS inviati con successo`,
+          description: `${data.results.filter((r: any) => r.success).length} SMS inviati con successo`,
           variant: 'default'
         });
         
         // Aggiorna la lista dopo l'invio
         fetchUpcomingAppointments();
+        // Aggiorna lo storico degli SMS
+        fetchSmsHistory();
         // Reset delle selezioni e del messaggio personalizzato
         setSelectedAppointments({});
         setCustomMessage('');
@@ -774,16 +785,16 @@ const NotificationsPage: React.FC = () => {
                       ) : smsHistory.length === 0 ? (
                         <div className="text-center py-8 text-muted-foreground">
                           <Send className="h-8 w-8 mx-auto mb-4 opacity-40" />
-                          <p>Nessun SMS inviato finora</p>
+                          <p>{t('notificationsPage.history.noSmsNotifications')}</p>
                         </div>
                       ) : (
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead>Data invio</TableHead>
-                              <TableHead>Cliente</TableHead>
-                              <TableHead>Messaggio</TableHead>
-                              <TableHead>Stato</TableHead>
+                              <TableHead>{t('notificationsPage.history.table.date')}</TableHead>
+                              <TableHead>{t('notificationsPage.history.table.client')}</TableHead>
+                              <TableHead>{t('notificationsPage.history.table.message')}</TableHead>
+                              <TableHead>{t('notificationsPage.history.table.status')}</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
@@ -812,10 +823,10 @@ const NotificationsPage: React.FC = () => {
                                   </TableCell>
                                   <TableCell>
                                     <Badge variant={(metadata as any)?.status === 'delivered' ? 'default' : (metadata as any)?.status === 'sent' ? 'outline' : 'destructive'}>
-                                      {(metadata as any)?.status === 'delivered' ? 'Consegnato' : 
-                                       (metadata as any)?.status === 'sent' ? 'Inviato' : 
-                                       (metadata as any)?.status === 'undelivered' ? 'Non consegnato' : 
-                                       (metadata as any)?.status === 'failed' ? 'Fallito' : 'Sconosciuto'}
+                                      {(metadata as any)?.status === 'delivered' ? t('notificationsPage.history.status.delivered') : 
+                                       (metadata as any)?.status === 'sent' ? t('notificationsPage.history.status.sent') : 
+                                       (metadata as any)?.status === 'undelivered' ? t('notificationsPage.history.status.undelivered') : 
+                                       (metadata as any)?.status === 'failed' ? t('notificationsPage.history.status.failed') : t('notificationsPage.history.status.unknown')}
                                     </Badge>
                                   </TableCell>
                                 </TableRow>
