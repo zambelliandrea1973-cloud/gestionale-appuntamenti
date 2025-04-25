@@ -586,21 +586,39 @@ const NotificationsPage: React.FC = () => {
                                     </div>
                                   </TableCell>
                                   <TableCell className="text-right">
-                                    <Button
-                                      size="sm"
-                                      variant="ghost"
-                                      onClick={() => {
-                                        const updatedSelection = { ...selectedAppointments };
-                                        updatedSelection[appointment.id] = true;
-                                        setSelectedAppointments(updatedSelection);
+                                    <div className="flex gap-2 justify-end">
+                                        <Button
+                                          size="sm"
+                                          variant="ghost"
+                                          onClick={() => {
+                                            const updatedSelection = { ...selectedAppointments };
+                                            updatedSelection[appointment.id] = true;
+                                            setSelectedAppointments(updatedSelection);
+                                            
+                                            handleSendNotifications();
+                                          }}
+                                          disabled={sendingNotifications}
+                                        >
+                                          <MessageSquare className="h-4 w-4 mr-1" />
+                                          WhatsApp
+                                        </Button>
                                         
-                                        handleSendNotifications();
-                                      }}
-                                      disabled={sendingNotifications}
-                                    >
-                                      <Send className="h-4 w-4 mr-1" />
-                                      {t('notificationsPage.table.send')}
-                                    </Button>
+                                        <Button
+                                          size="sm"
+                                          variant="ghost"
+                                          onClick={() => {
+                                            const updatedSelection = { ...selectedAppointments };
+                                            updatedSelection[appointment.id] = true;
+                                            setSelectedAppointments(updatedSelection);
+                                            
+                                            handleSendSMS();
+                                          }}
+                                          disabled={sendingSMS}
+                                        >
+                                          <Send className="h-4 w-4 mr-1" />
+                                          SMS
+                                        </Button>
+                                      </div>
                                   </TableCell>
                                 </TableRow>
                               ))}
@@ -617,27 +635,52 @@ const NotificationsPage: React.FC = () => {
             {/* Pulsante invio multiplo in fondo */}
             {Object.keys(groupedAppointments).length > 0 && (
               <div className="flex justify-center mt-6">
-                <Button 
-                  size="lg"
-                  onClick={handleSendNotifications}
-                  disabled={
-                    sendingNotifications || 
-                    Object.values(selectedAppointments).filter(Boolean).length === 0
-                  }
-                  className="w-full md:w-auto"
-                >
-                  {sendingNotifications ? (
-                    <>
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> 
-                      {t('notificationsPage.buttons.generating')}
-                    </>
-                  ) : (
-                    <>
-                      <MessageSquare className="h-4 w-4 mr-2" />
-                      {t('notificationsPage.buttons.generateWhatsApp')}
-                    </>
-                  )}
-                </Button>
+                <div className="flex flex-col md:flex-row gap-3">
+                  <Button 
+                    size="lg"
+                    onClick={handleSendNotifications}
+                    disabled={
+                      sendingNotifications || 
+                      Object.values(selectedAppointments).filter(Boolean).length === 0
+                    }
+                    className="w-full md:w-auto"
+                  >
+                    {sendingNotifications ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> 
+                        {t('notificationsPage.buttons.generating')}
+                      </>
+                    ) : (
+                      <>
+                        <MessageSquare className="h-4 w-4 mr-2" />
+                        {t('notificationsPage.buttons.generateWhatsApp')}
+                      </>
+                    )}
+                  </Button>
+                  
+                  <Button 
+                    size="lg"
+                    variant="outline"
+                    onClick={handleSendSMS}
+                    disabled={
+                      sendingSMS || 
+                      Object.values(selectedAppointments).filter(Boolean).length === 0
+                    }
+                    className="w-full md:w-auto"
+                  >
+                    {sendingSMS ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> 
+                        Invio SMS in corso...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        Invia SMS
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             )}
           </TabsContent>
@@ -651,55 +694,136 @@ const NotificationsPage: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {loadingHistory ? (
+                {loadingHistory && loadingSmsHistory ? (
                   <div className="flex justify-center py-8">
                     <RefreshCw className="h-10 w-10 text-primary animate-spin" />
                   </div>
-                ) : sentHistory.length === 0 ? (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <CheckCircle className="h-8 w-8 mx-auto mb-4" />
-                    <p>{t('notificationsPage.history.noNotifications')}</p>
-                  </div>
                 ) : (
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>{t('notificationsPage.history.table.date')}</TableHead>
-                        <TableHead>{t('notificationsPage.history.table.message')}</TableHead>
-                        <TableHead className="text-right">{t('notificationsPage.history.table.actions')}</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {sentHistory.map((notification) => {
-                        const whatsappLink = extractWhatsAppLink(notification.message);
-                        return (
-                          <TableRow key={notification.id}>
-                            <TableCell className="whitespace-nowrap">
-                              {notification.sent_at ? format(new Date(notification.sent_at), 'dd/MM/yyyy HH:mm') : 'N/D'}
-                            </TableCell>
-                            <TableCell>
-                              <div className="max-w-md truncate" title={notification.message}>
-                                {notification.message.replace(/\[Apri WhatsApp\]\(.*?\)/g, '')}
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {whatsappLink && (
-                                <a 
-                                  href={whatsappLink} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-800"
-                                >
-                                  <ExternalLink className="h-4 w-4" />
-                                  <span>{t('notificationsPage.history.table.reopen')}</span>
-                                </a>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
+                  <Tabs defaultValue="whatsapp">
+                    <TabsList className="mb-4">
+                      <TabsTrigger value="whatsapp">
+                        <MessageSquare className="h-4 w-4 mr-2" />
+                        WhatsApp
+                      </TabsTrigger>
+                      <TabsTrigger value="sms">
+                        <Send className="h-4 w-4 mr-2" />
+                        SMS
+                      </TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="whatsapp">
+                      {loadingHistory ? (
+                        <div className="flex justify-center py-8">
+                          <RefreshCw className="h-8 w-8 text-primary animate-spin" />
+                        </div>
+                      ) : sentHistory.length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <CheckCircle className="h-8 w-8 mx-auto mb-4" />
+                          <p>{t('notificationsPage.history.noNotifications')}</p>
+                        </div>
+                      ) : (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>{t('notificationsPage.history.table.date')}</TableHead>
+                              <TableHead>{t('notificationsPage.history.table.message')}</TableHead>
+                              <TableHead className="text-right">{t('notificationsPage.history.table.actions')}</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {sentHistory.map((notification) => {
+                              const whatsappLink = extractWhatsAppLink(notification.message);
+                              return (
+                                <TableRow key={notification.id}>
+                                  <TableCell className="whitespace-nowrap">
+                                    {notification.sent_at ? format(new Date(notification.sent_at), 'dd/MM/yyyy HH:mm') : 'N/D'}
+                                  </TableCell>
+                                  <TableCell>
+                                    <div className="max-w-md truncate" title={notification.message}>
+                                      {notification.message.replace(/\[Apri WhatsApp\]\(.*?\)/g, '')}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="text-right">
+                                    {whatsappLink && (
+                                      <a 
+                                        href={whatsappLink} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-800"
+                                      >
+                                        <ExternalLink className="h-4 w-4" />
+                                        <span>{t('notificationsPage.history.table.reopen')}</span>
+                                      </a>
+                                    )}
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </TableBody>
+                        </Table>
+                      )}
+                    </TabsContent>
+                    
+                    <TabsContent value="sms">
+                      {loadingSmsHistory ? (
+                        <div className="flex justify-center py-8">
+                          <RefreshCw className="h-8 w-8 text-primary animate-spin" />
+                        </div>
+                      ) : smsHistory.length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <Send className="h-8 w-8 mx-auto mb-4 opacity-40" />
+                          <p>Nessun SMS inviato finora</p>
+                        </div>
+                      ) : (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Data invio</TableHead>
+                              <TableHead>Cliente</TableHead>
+                              <TableHead>Messaggio</TableHead>
+                              <TableHead>Stato</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {smsHistory.map((notification: any) => {
+                              let metadata = {};
+                              try {
+                                if (notification.metadata) {
+                                  metadata = JSON.parse(notification.metadata);
+                                }
+                              } catch (e) {
+                                console.error("Errore nel parsing dei metadata:", e);
+                              }
+                              
+                              return (
+                                <TableRow key={notification.id}>
+                                  <TableCell className="whitespace-nowrap">
+                                    {notification.sent_at ? format(new Date(notification.sent_at), 'dd/MM/yyyy HH:mm') : 'N/D'}
+                                  </TableCell>
+                                  <TableCell>
+                                    {notification.client?.firstName} {notification.client?.lastName}
+                                  </TableCell>
+                                  <TableCell>
+                                    <div className="max-w-md truncate" title={notification.message}>
+                                      {notification.message}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge variant={(metadata as any)?.status === 'delivered' ? 'default' : (metadata as any)?.status === 'sent' ? 'outline' : 'destructive'}>
+                                      {(metadata as any)?.status === 'delivered' ? 'Consegnato' : 
+                                       (metadata as any)?.status === 'sent' ? 'Inviato' : 
+                                       (metadata as any)?.status === 'undelivered' ? 'Non consegnato' : 
+                                       (metadata as any)?.status === 'failed' ? 'Fallito' : 'Sconosciuto'}
+                                    </Badge>
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </TableBody>
+                        </Table>
+                      )}
+                    </TabsContent>
+                  </Tabs>
                 )}
               </CardContent>
             </Card>
