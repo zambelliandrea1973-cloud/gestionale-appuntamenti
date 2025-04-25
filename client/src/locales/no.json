@@ -272,6 +272,124 @@
     "subDescription": "Send WhatsApp-påminnelser til kunder for deres kommende avtaler",
     "goTo": "Administrer varsler"
   },
+  "notificationsPage": {
+    "title": "Kundevarsler",
+    "subtitle": "Administrer påminnelser for kundetimer",
+    "refresh": "Oppdater",
+    "tabs": {
+      "upcoming": "Til sending",
+      "history": "Historikk",
+      "settings": "Varslingsinnstillinger",
+      "calendar": "Google Kalender"
+    },
+    "howItWorks": {
+      "title": "Hvordan WhatsApp-varsler fungerer",
+      "steps": [
+        "Velg avtaler du vil sende påminnelse for",
+        "Klikk på \"Generer WhatsApp-varsler\" for å lage lenker",
+        "Lenker som åpner WhatsApp med forhåndsutfylte tekster vil bli generert",
+        "Du kan tilpasse standardteksten før sending"
+      ]
+    },
+    "customMessage": {
+      "title": "Tilpasset melding (valgfritt)",
+      "description": "Hvis spesifisert, vil denne teksten legges til standardmeldingen",
+      "placeholder": "F.eks. Husk å ta med tidligere medisinsk dokumentasjon.",
+      "characters": "tegn",
+      "clear": "Tøm"
+    },
+    "noAppointments": {
+      "loading": "Laster avtaler...",
+      "empty": "Ingen avtaler å varsle",
+      "description": "Det er ingen kommende avtaler som trenger påminnelser."
+    },
+    "table": {
+      "client": "Kunde",
+      "service": "Tjeneste",
+      "time": "Tid",
+      "actions": "Handlinger",
+      "send": "Send",
+      "selectAll": "Velg alle"
+    },
+    "buttons": {
+      "generating": "Genererer...",
+      "generateWhatsApp": "Generer WhatsApp-varsler"
+    },
+    "history": {
+      "title": "Varslingshistorikk",
+      "description": "Nylig sendte påminnelser via WhatsApp",
+      "noNotifications": "Ingen varsler har blitt sendt nylig",
+      "table": {
+        "date": "Dato",
+        "message": "Melding",
+        "actions": "Handlinger",
+        "reopen": "Åpne på nytt"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Velg alle",
+      "actions": "Handlinger",
+      "sendButton": "Generer WhatsApp-varsler",
+      "sending": "Genererer varsler..."
+    },
+    "errors": {
+      "loadingAppointments": "Kunne ikke laste avtaler",
+      "loadingHistory": "Kunne ikke laste historikk",
+      "noneSelected": "Velg minst én avtale for å sende varsler",
+      "sendingFailed": "Kunne ikke sende påminnelser"
+    },
+    "success": {
+      "remindersSent": "Påminnelser generert vellykket"
+    },
+    "whatsappLink": "Åpne WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Varslingsinnstillinger",
+    "enableEmailNotifications": "Aktiver e-postvarsler",
+    "emailSetup": {
+      "title": "Rask e-postoppsett",
+      "email": "E-post",
+      "emailPlaceholder": "Skriv inn e-postadressen din",
+      "password": "Passord",
+      "passwordPlaceholder": "Skriv inn e-postpassordet ditt",
+      "description": "Denne konfigurasjonen setter opp e-postkontoen din for sending av varsler.",
+      "autoDetect": "Automatisk oppdagelse av innstillinger",
+      "emailRequired": "Skriv inn e-postadressen din for å oppdage innstillinger"
+    },
+    "errors": {
+      "loadingSettings": "Kunne ikke laste varslingsinnstillinger",
+      "savingSettings": "Kunne ikke lagre innstillinger",
+      "testEmailMissing": "Skriv inn en e-postadresse for testing"
+    },
+    "success": {
+      "settingsSaved": "Varslingsinnstillinger lagret vellykket",
+      "testEmailSent": "Test-e-post sendt vellykket",
+      "remindersProcessed": "Påminnelser behandlet vellykket"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Kalender",
+    "setupInstructions": "Sett opp Google Kalender-integrasjon",
+    "emailLabel": "Gmail-konto",
+    "emailPlaceholder": "din.epost@gmail.com",
+    "emailDescription": "Google-kontoen du vil bruke for kalenderen",
+    "connected": "Konto tilkoblet",
+    "notConnected": "Konto ikke tilkoblet ennå",
+    "clientIdLabel": "Klient-ID",
+    "clientIdPlaceholder": "Din Google Klient-ID",
+    "clientIdDescription": "Få denne verdien fra Google Cloud-konsollen",
+    "clientSecretLabel": "Klienthemmelighet",
+    "clientSecretPlaceholder": "Din Google Klienthemmelighet",
+    "clientSecretDescription": "Få denne verdien fra Google Cloud-konsollen",
+    "configHelp": "Hjelp med oppsett",
+    "errors": {
+      "authorizationUrlFailed": "Kunne ikke generere autorisasjons-URL"
+    },
+    "success": {
+      "settingsSaved": "Synkroniseringsinnstillinger lagret vellykket",
+      "authorizationComplete": "Google-kontoen din er vellykket tilkoblet"
+    }
+  },
   "errors": {
     "genericError": "Det oppstod en feil: {{error}}",
     "qrCodeFetchError": "Feil ved henting av eksisterende QR-kode:"

@@ -272,6 +272,124 @@
     "subDescription": "Trimiteți memento-uri WhatsApp clienților pentru programările lor viitoare",
     "goTo": "Gestionare notificări"
   },
+  "notificationsPage": {
+    "title": "Notificări clienți",
+    "subtitle": "Gestionați memento-urile pentru programările clienților",
+    "refresh": "Reîmprospătare",
+    "tabs": {
+      "upcoming": "De trimis",
+      "history": "Istoric",
+      "settings": "Setări notificări",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "Cum funcționează notificările WhatsApp",
+      "steps": [
+        "Selectați programările pentru care doriți să trimiteți un memento",
+        "Apăsați pe \"Generare notificări WhatsApp\" pentru a crea link-uri",
+        "Se vor genera link-uri care deschid WhatsApp cu texte precompletate",
+        "Puteți personaliza textul standard înainte de trimitere"
+      ]
+    },
+    "customMessage": {
+      "title": "Mesaj personalizat (opțional)",
+      "description": "Dacă este specificat, acest text va fi adăugat la mesajul standard",
+      "placeholder": "De ex. Nu uitați să aduceți documentația medicală anterioară.",
+      "characters": "caractere",
+      "clear": "Golire"
+    },
+    "noAppointments": {
+      "loading": "Se încarcă programările...",
+      "empty": "Nu există programări de notificat",
+      "description": "Nu există programări viitoare care să necesite memento-uri."
+    },
+    "table": {
+      "client": "Client",
+      "service": "Serviciu",
+      "time": "Ora",
+      "actions": "Acțiuni",
+      "send": "Trimite",
+      "selectAll": "Selectează tot"
+    },
+    "buttons": {
+      "generating": "Se generează...",
+      "generateWhatsApp": "Generare notificări WhatsApp"
+    },
+    "history": {
+      "title": "Istoric notificări",
+      "description": "Memento-uri trimise recent prin WhatsApp",
+      "noNotifications": "Nu au fost trimise notificări recent",
+      "table": {
+        "date": "Data",
+        "message": "Mesaj",
+        "actions": "Acțiuni",
+        "reopen": "Redeschide"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Selectează tot",
+      "actions": "Acțiuni",
+      "sendButton": "Generare notificări WhatsApp",
+      "sending": "Se generează notificările..."
+    },
+    "errors": {
+      "loadingAppointments": "Nu s-au putut încărca programările",
+      "loadingHistory": "Nu s-a putut încărca istoricul",
+      "noneSelected": "Selectați cel puțin o programare pentru a trimite notificări",
+      "sendingFailed": "Nu s-au putut trimite memento-urile"
+    },
+    "success": {
+      "remindersSent": "Memento-urile au fost generate cu succes"
+    },
+    "whatsappLink": "Deschide WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Setări notificări",
+    "enableEmailNotifications": "Activare notificări prin e-mail",
+    "emailSetup": {
+      "title": "Configurare rapidă e-mail",
+      "email": "E-mail",
+      "emailPlaceholder": "Introduceți adresa dvs. de e-mail",
+      "password": "Parolă",
+      "passwordPlaceholder": "Introduceți parola dvs. de e-mail",
+      "description": "Această configurație setează contul dvs. de e-mail pentru trimiterea notificărilor.",
+      "autoDetect": "Detectare automată a setărilor",
+      "emailRequired": "Introduceți adresa dvs. de e-mail pentru a detecta setările"
+    },
+    "errors": {
+      "loadingSettings": "Nu s-au putut încărca setările de notificare",
+      "savingSettings": "Nu s-au putut salva setările",
+      "testEmailMissing": "Introduceți o adresă de e-mail pentru testare"
+    },
+    "success": {
+      "settingsSaved": "Setările notificărilor au fost salvate cu succes",
+      "testEmailSent": "E-mail de test trimis cu succes",
+      "remindersProcessed": "Memento-urile au fost procesate cu succes"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Configurare integrare Google Calendar",
+    "emailLabel": "Cont Gmail",
+    "emailPlaceholder": "adresa.ta@gmail.com",
+    "emailDescription": "Contul Google pe care doriți să-l utilizați pentru calendar",
+    "connected": "Cont conectat",
+    "notConnected": "Cont încă neconectat",
+    "clientIdLabel": "ID Client",
+    "clientIdPlaceholder": "ID-ul tău Google Client",
+    "clientIdDescription": "Obțineți această valoare din consola Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Client Secret-ul tău Google",
+    "clientSecretDescription": "Obțineți această valoare din consola Google Cloud",
+    "configHelp": "Ajutor pentru configurare",
+    "errors": {
+      "authorizationUrlFailed": "Nu s-a putut genera URL-ul de autorizare"
+    },
+    "success": {
+      "settingsSaved": "Setările de sincronizare au fost salvate cu succes",
+      "authorizationComplete": "Contul dvs. Google a fost conectat cu succes"
+    }
+  },
   "errors": {
     "genericError": "A apărut o eroare: {{error}}",
     "qrCodeFetchError": "Eroare la obținerea codului QR existent:"
