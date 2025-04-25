@@ -282,6 +282,101 @@
     "subDescription": "Send WhatsApp reminders to clients for their upcoming appointments",
     "goTo": "Manage Notifications"
   },
+  "notificationsPage": {
+    "title": "Client Notifications",
+    "subtitle": "Manage reminders for client appointments",
+    "refresh": "Refresh",
+    "tabs": {
+      "upcoming": "To Send",
+      "history": "History",
+      "settings": "Notification Settings",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "How WhatsApp notifications work",
+      "steps": [
+        "Select appointments for which you want to send a reminder",
+        "Click on \"Generate WhatsApp notifications\" to create links",
+        "Links will be generated that open WhatsApp with pre-filled texts",
+        "You can customize the standard text before sending"
+      ]
+    },
+    "customMessage": {
+      "title": "Custom message (optional)",
+      "description": "If specified, this text will be added to the standard message",
+      "placeholder": "E.g. Remember to bring your previous medical documentation.",
+      "characters": "characters",
+      "clear": "Clear"
+    },
+    "noAppointments": {
+      "loading": "Loading appointments...",
+      "empty": "No appointments to notify",
+      "description": "There are no upcoming appointments that require reminders."
+    },
+    "appointmentList": {
+      "selectAll": "Select all",
+      "actions": "Actions",
+      "sendButton": "Generate WhatsApp notifications",
+      "sending": "Generating notifications..."
+    },
+    "errors": {
+      "loadingAppointments": "Unable to load appointments",
+      "loadingHistory": "Unable to load history",
+      "noneSelected": "Select at least one appointment to send notifications",
+      "sendingFailed": "Unable to send reminders"
+    },
+    "success": {
+      "remindersSent": "Reminders generated successfully"
+    },
+    "whatsappLink": "Open WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Notification Settings",
+    "enableEmailNotifications": "Enable email notifications",
+    "emailSetup": {
+      "title": "Quick Email Setup",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email address",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your email password",
+      "description": "This configuration sets up your email account for sending notifications.",
+      "autoDetect": "Auto-detect settings",
+      "emailRequired": "Enter your email address to detect settings"
+    },
+    "errors": {
+      "loadingSettings": "Unable to load notification settings",
+      "savingSettings": "Unable to save settings",
+      "testEmailMissing": "Enter an email address for testing"
+    },
+    "success": {
+      "settingsSaved": "Notification settings saved successfully",
+      "testEmailSent": "Test email sent successfully",
+      "remindersProcessed": "Reminders processed successfully"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Set up Google Calendar integration",
+    "emailLabel": "Gmail Account",
+    "emailPlaceholder": "your.address@gmail.com",
+    "emailDescription": "The Google account you want to use for calendar",
+    "connected": "Account connected",
+    "notConnected": "Account not yet connected",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Your Google Client ID",
+    "clientIdDescription": "Get this value from the Google Cloud console",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Your Google Client Secret",
+    "clientSecretDescription": "Get this value from the Google Cloud console",
+    "configHelp": "Help with configuration",
+    "errors": {
+      "authorizationUrlFailed": "Unable to generate authorization URL"
+    },
+    "success": {
+      "settingsSaved": "Synchronization settings have been saved successfully",
+      "authorizationComplete": "Your Google account has been successfully connected"
+    }
+  },
   "errors": {
     "genericError": "An error occurred: {{error}}",
     "qrCodeFetchError": "Error retrieving existing QR code:"

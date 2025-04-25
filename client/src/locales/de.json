@@ -282,6 +282,101 @@
     "subDescription": "Senden Sie WhatsApp-Erinnerungen an Kunden für ihre bevorstehenden Termine",
     "goTo": "Benachrichtigungen verwalten"
   },
+  "notificationsPage": {
+    "title": "Kundenbenachrichtigungen",
+    "subtitle": "Verwalten Sie Erinnerungen für Kundentermine",
+    "refresh": "Aktualisieren",
+    "tabs": {
+      "upcoming": "Zu senden",
+      "history": "Verlauf",
+      "settings": "Benachrichtigungseinstellungen",
+      "calendar": "Google Kalender"
+    },
+    "howItWorks": {
+      "title": "Wie WhatsApp-Benachrichtigungen funktionieren",
+      "steps": [
+        "Wählen Sie Termine aus, für die Sie eine Erinnerung senden möchten",
+        "Klicken Sie auf \"WhatsApp-Benachrichtigungen generieren\", um Links zu erstellen",
+        "Es werden Links generiert, die WhatsApp mit vorausgefüllten Texten öffnen",
+        "Sie können den Standardtext vor dem Versenden anpassen"
+      ]
+    },
+    "customMessage": {
+      "title": "Benutzerdefinierte Nachricht (optional)",
+      "description": "Falls angegeben, wird dieser Text zur Standardnachricht hinzugefügt",
+      "placeholder": "z.B. Bitte bringen Sie Ihre vorherige medizinische Dokumentation mit.",
+      "characters": "Zeichen",
+      "clear": "Löschen"
+    },
+    "noAppointments": {
+      "loading": "Termine werden geladen...",
+      "empty": "Keine Termine zum Benachrichtigen",
+      "description": "Es gibt keine bevorstehenden Termine, die Erinnerungen benötigen."
+    },
+    "appointmentList": {
+      "selectAll": "Alle auswählen",
+      "actions": "Aktionen",
+      "sendButton": "WhatsApp-Benachrichtigungen generieren",
+      "sending": "Benachrichtigungen werden generiert..."
+    },
+    "errors": {
+      "loadingAppointments": "Termine können nicht geladen werden",
+      "loadingHistory": "Verlauf kann nicht geladen werden",
+      "noneSelected": "Wählen Sie mindestens einen Termin aus, um Benachrichtigungen zu senden",
+      "sendingFailed": "Erinnerungen können nicht gesendet werden"
+    },
+    "success": {
+      "remindersSent": "Erinnerungen erfolgreich generiert"
+    },
+    "whatsappLink": "WhatsApp öffnen"
+  },
+  "notificationSettings": {
+    "title": "Benachrichtigungseinstellungen",
+    "enableEmailNotifications": "E-Mail-Benachrichtigungen aktivieren",
+    "emailSetup": {
+      "title": "Schnelle E-Mail-Einrichtung",
+      "email": "E-Mail",
+      "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+      "password": "Passwort",
+      "passwordPlaceholder": "Geben Sie Ihr E-Mail-Passwort ein",
+      "description": "Diese Konfiguration richtet Ihr E-Mail-Konto für den Versand von Benachrichtigungen ein.",
+      "autoDetect": "Automatisch erkennen",
+      "emailRequired": "Geben Sie Ihre E-Mail-Adresse ein, um Einstellungen zu erkennen"
+    },
+    "errors": {
+      "loadingSettings": "Benachrichtigungseinstellungen können nicht geladen werden",
+      "savingSettings": "Einstellungen können nicht gespeichert werden",
+      "testEmailMissing": "Geben Sie eine E-Mail-Adresse für den Test ein"
+    },
+    "success": {
+      "settingsSaved": "Benachrichtigungseinstellungen erfolgreich gespeichert",
+      "testEmailSent": "Test-E-Mail erfolgreich gesendet",
+      "remindersProcessed": "Erinnerungen erfolgreich verarbeitet"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Kalender",
+    "setupInstructions": "Richten Sie die Google Kalender-Integration ein",
+    "emailLabel": "Gmail-Konto",
+    "emailPlaceholder": "ihre.adresse@gmail.com",
+    "emailDescription": "Das Google-Konto, das Sie für den Kalender verwenden möchten",
+    "connected": "Konto verbunden",
+    "notConnected": "Konto noch nicht verbunden",
+    "clientIdLabel": "Client-ID",
+    "clientIdPlaceholder": "Ihre Google-Client-ID",
+    "clientIdDescription": "Erhalten Sie diesen Wert aus der Google Cloud-Konsole",
+    "clientSecretLabel": "Client-Secret",
+    "clientSecretPlaceholder": "Ihr Google-Client-Secret",
+    "clientSecretDescription": "Erhalten Sie diesen Wert aus der Google Cloud-Konsole",
+    "configHelp": "Hilfe bei der Konfiguration",
+    "errors": {
+      "authorizationUrlFailed": "Autorisierungs-URL kann nicht generiert werden"
+    },
+    "success": {
+      "settingsSaved": "Synchronisierungseinstellungen wurden erfolgreich gespeichert",
+      "authorizationComplete": "Ihr Google-Konto wurde erfolgreich verbunden"
+    }
+  },
   "errors": {
     "genericError": "Ein Fehler ist aufgetreten: {{error}}",
     "qrCodeFetchError": "Fehler beim Abrufen des vorhandenen QR-Codes:"

@@ -282,6 +282,101 @@
     "subDescription": "Envoyez des rappels WhatsApp aux clients pour leurs rendez-vous à venir",
     "goTo": "Gérer les notifications"
   },
+  "notificationsPage": {
+    "title": "Notifications clients",
+    "subtitle": "Gérer les rappels pour les rendez-vous des clients",
+    "refresh": "Actualiser",
+    "tabs": {
+      "upcoming": "À envoyer",
+      "history": "Historique",
+      "settings": "Paramètres de notification",
+      "calendar": "Google Agenda"
+    },
+    "howItWorks": {
+      "title": "Comment fonctionnent les notifications WhatsApp",
+      "steps": [
+        "Sélectionnez les rendez-vous pour lesquels vous souhaitez envoyer un rappel",
+        "Cliquez sur \"Générer des notifications WhatsApp\" pour créer des liens",
+        "Des liens seront générés qui ouvrent WhatsApp avec des textes préremplis",
+        "Vous pouvez personnaliser le texte standard avant l'envoi"
+      ]
+    },
+    "customMessage": {
+      "title": "Message personnalisé (facultatif)",
+      "description": "Si précisé, ce texte sera ajouté au message standard",
+      "placeholder": "Ex. N'oubliez pas d'apporter votre documentation médicale précédente.",
+      "characters": "caractères",
+      "clear": "Effacer"
+    },
+    "noAppointments": {
+      "loading": "Chargement des rendez-vous...",
+      "empty": "Aucun rendez-vous à notifier",
+      "description": "Il n'y a pas de rendez-vous à venir qui nécessitent des rappels."
+    },
+    "appointmentList": {
+      "selectAll": "Tout sélectionner",
+      "actions": "Actions",
+      "sendButton": "Générer des notifications WhatsApp",
+      "sending": "Génération des notifications..."
+    },
+    "errors": {
+      "loadingAppointments": "Impossible de charger les rendez-vous",
+      "loadingHistory": "Impossible de charger l'historique",
+      "noneSelected": "Sélectionnez au moins un rendez-vous pour envoyer des notifications",
+      "sendingFailed": "Impossible d'envoyer les rappels"
+    },
+    "success": {
+      "remindersSent": "Rappels générés avec succès"
+    },
+    "whatsappLink": "Ouvrir WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Paramètres de notification",
+    "enableEmailNotifications": "Activer les notifications par e-mail",
+    "emailSetup": {
+      "title": "Configuration rapide de l'e-mail",
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe e-mail",
+      "description": "Cette configuration configure votre compte e-mail pour l'envoi de notifications.",
+      "autoDetect": "Détecter automatiquement",
+      "emailRequired": "Entrez votre adresse e-mail pour détecter les paramètres"
+    },
+    "errors": {
+      "loadingSettings": "Impossible de charger les paramètres de notification",
+      "savingSettings": "Impossible d'enregistrer les paramètres",
+      "testEmailMissing": "Entrez une adresse e-mail pour le test"
+    },
+    "success": {
+      "settingsSaved": "Paramètres de notification enregistrés avec succès",
+      "testEmailSent": "E-mail de test envoyé avec succès",
+      "remindersProcessed": "Rappels traités avec succès"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Agenda",
+    "setupInstructions": "Configurer l'intégration avec Google Agenda",
+    "emailLabel": "Compte Gmail",
+    "emailPlaceholder": "votre.adresse@gmail.com",
+    "emailDescription": "Le compte Google que vous souhaitez utiliser pour l'agenda",
+    "connected": "Compte connecté",
+    "notConnected": "Compte pas encore connecté",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Votre Client ID Google",
+    "clientIdDescription": "Obtenez cette valeur depuis la console Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Votre Client Secret Google",
+    "clientSecretDescription": "Obtenez cette valeur depuis la console Google Cloud",
+    "configHelp": "Aide à la configuration",
+    "errors": {
+      "authorizationUrlFailed": "Impossible de générer l'URL d'autorisation"
+    },
+    "success": {
+      "settingsSaved": "Les paramètres de synchronisation ont été enregistrés avec succès",
+      "authorizationComplete": "Votre compte Google a été connecté avec succès"
+    }
+  },
   "errors": {
     "genericError": "Une erreur s'est produite: {{error}}",
     "qrCodeFetchError": "Erreur lors de la récupération du QR code existant:"

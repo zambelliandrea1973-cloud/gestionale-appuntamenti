@@ -282,6 +282,101 @@
     "subDescription": "Enviar recordatorios de WhatsApp a los clientes para sus próximas citas",
     "goTo": "Gestionar notificaciones"
   },
+  "notificationsPage": {
+    "title": "Notificaciones a clientes",
+    "subtitle": "Gestiona los recordatorios para las citas de clientes",
+    "refresh": "Actualizar",
+    "tabs": {
+      "upcoming": "Por enviar",
+      "history": "Historial",
+      "settings": "Configuración de notificaciones",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "Cómo funcionan las notificaciones de WhatsApp",
+      "steps": [
+        "Selecciona las citas para las que quieres enviar un recordatorio",
+        "Haz clic en \"Generar notificaciones de WhatsApp\" para crear enlaces",
+        "Se generarán enlaces que abren WhatsApp con textos preestablecidos",
+        "Puedes personalizar el texto estándar antes de enviar"
+      ]
+    },
+    "customMessage": {
+      "title": "Mensaje personalizado (opcional)",
+      "description": "Si se especifica, este texto se añadirá al mensaje estándar",
+      "placeholder": "Ej. Recuerde traer su documentación médica anterior.",
+      "characters": "caracteres",
+      "clear": "Borrar"
+    },
+    "noAppointments": {
+      "loading": "Cargando citas...",
+      "empty": "No hay citas para notificar",
+      "description": "No hay próximas citas que requieran recordatorios."
+    },
+    "appointmentList": {
+      "selectAll": "Seleccionar todo",
+      "actions": "Acciones",
+      "sendButton": "Generar notificaciones de WhatsApp",
+      "sending": "Generando notificaciones..."
+    },
+    "errors": {
+      "loadingAppointments": "No se pueden cargar las citas",
+      "loadingHistory": "No se puede cargar el historial",
+      "noneSelected": "Seleccione al menos una cita para enviar notificaciones",
+      "sendingFailed": "No se pueden enviar los recordatorios"
+    },
+    "success": {
+      "remindersSent": "Recordatorios generados con éxito"
+    },
+    "whatsappLink": "Abrir WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Configuración de notificaciones",
+    "enableEmailNotifications": "Habilitar notificaciones por correo electrónico",
+    "emailSetup": {
+      "title": "Configuración rápida de correo electrónico",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Introduce tu dirección de correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Introduce tu contraseña de correo electrónico",
+      "description": "Esta configuración establece tu cuenta de correo electrónico para el envío de notificaciones.",
+      "autoDetect": "Detectar automáticamente",
+      "emailRequired": "Introduce tu dirección de correo electrónico para detectar la configuración"
+    },
+    "errors": {
+      "loadingSettings": "No se puede cargar la configuración de notificaciones",
+      "savingSettings": "No se puede guardar la configuración",
+      "testEmailMissing": "Introduce una dirección de correo electrónico para la prueba"
+    },
+    "success": {
+      "settingsSaved": "Configuración de notificaciones guardada con éxito",
+      "testEmailSent": "Correo electrónico de prueba enviado con éxito",
+      "remindersProcessed": "Recordatorios procesados con éxito"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Configurar la integración con Google Calendar",
+    "emailLabel": "Cuenta de Gmail",
+    "emailPlaceholder": "tu.direccion@gmail.com",
+    "emailDescription": "La cuenta de Google que deseas utilizar para el calendario",
+    "connected": "Cuenta conectada",
+    "notConnected": "Cuenta aún no conectada",
+    "clientIdLabel": "ID de cliente",
+    "clientIdPlaceholder": "Tu ID de cliente de Google",
+    "clientIdDescription": "Obtén este valor desde la consola de Google Cloud",
+    "clientSecretLabel": "Secreto del cliente",
+    "clientSecretPlaceholder": "Tu secreto de cliente de Google",
+    "clientSecretDescription": "Obtén este valor desde la consola de Google Cloud",
+    "configHelp": "Ayuda con la configuración",
+    "errors": {
+      "authorizationUrlFailed": "No se puede generar la URL de autorización"
+    },
+    "success": {
+      "settingsSaved": "La configuración de sincronización se ha guardado con éxito",
+      "authorizationComplete": "Tu cuenta de Google se ha conectado con éxito"
+    }
+  },
   "errors": {
     "genericError": "Se ha producido un error: {{error}}",
     "qrCodeFetchError": "Error al recuperar el código QR existente:"
