@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // Rimosso import Layout per evitare layout annidati
 import FooterOnly from '@/components/FooterOnly';
+import { NotificationSettingsForm } from '@/components/NotificationSettingsForm';
+import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import {
@@ -31,7 +33,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
-import { MessageSquare, Send, RefreshCw, CheckCircle, UserCircle, Calendar, Clock, Scissors, ExternalLink, Info } from 'lucide-react';
+import { MessageSquare, Send, RefreshCw, CheckCircle, UserCircle, Calendar, Clock, Scissors, ExternalLink, Info, Bell } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { AlertCircle } from 'lucide-react';
@@ -304,7 +306,7 @@ const NotificationsPage: React.FC = () => {
           onValueChange={setActiveTab}
           className="space-y-4"
         >
-          <TabsList>
+          <TabsList className="grid grid-cols-4">
             <TabsTrigger value="upcoming">
               <MessageSquare className="h-4 w-4 mr-2" />
               Da inviare
@@ -312,6 +314,14 @@ const NotificationsPage: React.FC = () => {
             <TabsTrigger value="history">
               <CheckCircle className="h-4 w-4 mr-2" />
               Cronologia
+            </TabsTrigger>
+            <TabsTrigger value="settings">
+              <Bell className="h-4 w-4 mr-2" />
+              Impostazioni notifiche
+            </TabsTrigger>
+            <TabsTrigger value="calendar">
+              <Calendar className="h-4 w-4 mr-2" />
+              Google Calendario
             </TabsTrigger>
           </TabsList>
           
@@ -597,6 +607,16 @@ const NotificationsPage: React.FC = () => {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+          
+          {/* Tab per le impostazioni notifiche */}
+          <TabsContent value="settings">
+            <NotificationSettingsForm />
+          </TabsContent>
+          
+          {/* Tab per Google Calendar */}
+          <TabsContent value="calendar">
+            <GoogleCalendarSettings />
           </TabsContent>
         </Tabs>
       </div>
