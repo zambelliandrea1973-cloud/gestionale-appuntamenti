@@ -579,16 +579,161 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
       });
     }
     
-    // Reindirizza alla rotta standard ma con tipo 'sms'
-    req.body.type = 'sms';
-    return await router.handle(req, res, () => {
-      // Se arriviamo qui, c'è stato un errore nella gestione
-      res.status(500).json({
-        success: false,
-        error: 'Errore nell\'elaborazione della richiesta SMS'
-      });
-    });
+    // Verifica se Twilio è configurato
+    const notificationSettings = await storage.getNotificationSettings();
+    const twilioClient = getTwilioClient();
     
+    if (!twilioClient) {
+      return res.status(400).json({
+        success: false,
+        error: 'Twilio non è configurato correttamente'
+      });
+    }
+    
+    // Ottieni i template dei promemoria
+    const templates = await storage.getReminderTemplates();
+    const defaultTemplate = templates.find(t => t.isDefault);
+    
+    // Recupera le informazioni di contatto
+    const contactInfo = await storage.getContactInfo();
+    
+    // Ottieni il fuso orario corrente dalle impostazioni
+    const tzSettings = await storage.getTimezoneSettings();
+    const timezone = tzSettings?.timezone || 'UTC';
+    
+    const results = [];
+    
+    // Per ogni appuntamento, invia SMS
+    for (const appointmentId of appointmentIds) {
+      try {
+        const appointment = await storage.getAppointment(appointmentId);
+        
+        if (!appointment) {
+          results.push({
+            id: appointmentId,
+            success: false,
+            error: 'Appuntamento non trovato'
+          });
+          continue;
+        }
+        
+        const client = await storage.getClient(appointment.clientId);
+        const service = await storage.getService(appointment.serviceId);
+        
+        if (!client || !service) {
+          results.push({
+            id: appointmentId,
+            success: false,
+            error: 'Dati cliente o servizio mancanti'
+          });
+          continue;
+        }
+        
+        // Trova il template specifico per il servizio, altrimenti usa quello di default
+        const serviceTemplate = templates.find(t => t.serviceId === service.id);
+        const template = serviceTemplate || defaultTemplate;
+        
+        // Se non c'è alcun template, usa un messaggio predefinito
+        let message = template 
+          ? template.template // Usiamo il campo template definito nello schema
+          : `Gentile {clientName}, le ricordiamo l'appuntamento per {serviceName} del {appointmentDate} alle ore {appointmentTime}.`;
+        
+        // Aggiungi messaggio personalizzato se specificato
+        if (customMessage && customMessage.trim()) {
+          message += `\n\n${customMessage}`;
+        }
+        
+        // Dati da sostituire nel template
+        const appointmentDate = format(parseISO(appointment.date), 'EEEE d MMMM yyyy', { locale: it });
+        const appointmentTime = appointment.startTime.substring(0, 5);
+        const clientName = `${client.firstName} ${client.lastName}`;
+        
+        // Effettua le sostituzioni nel template
+        message = message
+          .replace(/{clientName}/g, clientName)
+          .replace(/{firstName}/g, client.firstName)
+          .replace(/{lastName}/g, client.lastName)
+          .replace(/{serviceName}/g, service.name)
+          .replace(/{appointmentDate}/g, appointmentDate)
+          .replace(/{appointmentTime}/g, appointmentTime)
+          .replace(/{businessName}/g, contactInfo?.businessName || '')
+          .replace(/{businessAddress}/g, contactInfo?.address || '')
+          .replace(/{businessPhone}/g, contactInfo?.phone1 || '');
+        
+        // Prepara il numero di telefono per SMS (assicurati che inizi con + per formato E.164)
+        let phoneNumber = client.phone.replace(/\s+/g, '');
+        if (!phoneNumber.startsWith('+')) {
+          phoneNumber = '+' + phoneNumber;
+        }
+        
+        try {
+          // Invia SMS tramite Twilio
+          const smsResult = await twilioClient.messages.create({
+            body: message,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: phoneNumber
+          });
+          
+          // Salva la notifica nel database
+          await storage.saveNotification({
+            appointmentId,
+            clientId: client.id,
+            type: 'sms',
+            message: message,
+            channel: 'sms',
+            metadata: JSON.stringify({
+              sid: smsResult.sid,
+              status: smsResult.status
+            })
+          });
+          
+          // Aggiorna lo stato del promemoria nell'appuntamento
+          let reminderStatus = appointment.reminderStatus || '';
+          if (!reminderStatus.includes('sms_sent')) {
+            reminderStatus = reminderStatus 
+              ? `${reminderStatus},sms_sent` 
+              : 'sms_sent';
+          }
+          
+          await storage.updateAppointment(appointmentId, {
+            ...appointment,
+            reminderStatus
+          });
+          
+          results.push({
+            id: appointmentId,
+            success: true,
+            clientName,
+            serviceName: service.name,
+            date: appointmentDate,
+            time: appointmentTime,
+            message,
+            smsStatus: smsResult.status,
+            smsSid: smsResult.sid
+          });
+        } catch (smsError: any) {
+          // Gestione degli errori Twilio
+          console.error(`Errore nell'invio SMS a ${phoneNumber}:`, smsError);
+          results.push({
+            id: appointmentId,
+            success: false,
+            clientName,
+            error: `Errore SMS: ${smsError.message}`
+          });
+        }
+      } catch (err: any) {
+        results.push({
+          id: appointmentId,
+          success: false,
+          error: err.message
+        });
+      }
+    }
+    
+    res.json({
+      success: true,
+      results
+    });
   } catch (error: any) {
     console.error('Errore nell\'invio SMS batch:', error);
     res.status(500).json({
