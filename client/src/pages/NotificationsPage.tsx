@@ -392,7 +392,7 @@ const NotificationsPage: React.FC = () => {
                       <MessageSquare className="h-10 w-10 mb-4" />
                       <p className="font-medium">Nessun appuntamento da notificare</p>
                       <p className="text-sm mt-1">
-                        Non ci sono appuntamenti imminenti che richiedono promemoria WhatsApp.
+                        Non ci sono appuntamenti imminenti che richiedono promemoria.
                       </p>
                     </div>
                   )}
@@ -538,7 +538,7 @@ const NotificationsPage: React.FC = () => {
                   ) : (
                     <>
                       <MessageSquare className="h-4 w-4 mr-2" />
-                      Genera notifiche WhatsApp
+                      Genera notifiche
                     </>
                   )}
                 </Button>
@@ -551,7 +551,7 @@ const NotificationsPage: React.FC = () => {
               <CardHeader>
                 <CardTitle>Cronologia notifiche inviate</CardTitle>
                 <CardDescription>
-                  Ultimi promemoria inviati tramite WhatsApp
+                  Ultimi promemoria inviati ai clienti
                 </CardDescription>
               </CardHeader>
               <CardContent>
