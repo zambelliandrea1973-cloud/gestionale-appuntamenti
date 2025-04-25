@@ -23,9 +23,10 @@ import FooterContactIcons from "./FooterContactIcons";
 
 interface LayoutProps {
   children: ReactNode;
+  hideHeader?: boolean;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const { t } = useTranslation();
@@ -35,129 +36,129 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="bg-primary text-white shadow-md">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-2">
-              <Link href="/">
-                <div className="flex items-center space-x-2 cursor-pointer">
-                  <CalendarDays className="h-5 w-5" />
-                  {location === "/" && <h1 className="text-xl font-medium">{t('app.title')}</h1>}
-                </div>
-              </Link>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-4">
-              {/* Mostra il pulsante Home solo se non siamo già nella home page */}
-              {location !== "/" && (
+      {/* Header - nascosto nella pagina delle notifiche */}
+      {!hideHeader && location !== "/notifications" && (
+        <header className="bg-primary text-white shadow-md">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between py-4">
+              <div className="flex items-center space-x-2">
                 <Link href="/">
-                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <Grid className="h-4 w-4" />
-                    <span>{t('navigation.home')}</span>
-                  </Button>
+                  <div className="flex items-center space-x-2 cursor-pointer">
+                    <CalendarDays className="h-5 w-5" />
+                    {location === "/" && <h1 className="text-xl font-medium">{t('app.title')}</h1>}
+                  </div>
                 </Link>
-              )}
-            
-              <Link href="/calendar">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Calendar className="h-4 w-4" />
-                  <span>{t('calendar.title')}</span>
-                </Button>
-              </Link>
+              </div>
               
-              <Link href="/clients">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Users className="h-4 w-4" />
-                  <span>{t('clients.title')}</span>
-                </Button>
-              </Link>
-              
-              <Link href="/invoices">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <FileText className="h-4 w-4" />
-                  <span>{t('invoices.title')}</span>
-                </Button>
-              </Link>
-
-              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
-              {location === "/" && (
-                <>
-                  <Link href="/settings">
+              <div className="hidden md:flex items-center space-x-4">
+                {/* Mostra il pulsante Home solo se non siamo già nella home page */}
+                {location !== "/" && (
+                  <Link href="/">
                     <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                      <SettingsIcon className="h-4 w-4" />
-                      <span>{t('settings.title')}</span>
+                      <Grid className="h-4 w-4" />
+                      <span>{t('navigation.home')}</span>
                     </Button>
                   </Link>
-                  
-                  <LanguageSelector />
-                </>
-              )}
+                )}
               
-              {/* Pulsante Nuovo Appuntamento rimosso come richiesto */}
-            </div>
-            
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" className="md:hidden" size="icon">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col gap-4 py-4">
-                  <h2 className="text-lg font-medium">Menu</h2>
-                  <nav className="flex flex-col gap-2">
-                    <Link href="/">
-                      <Button variant={isActive("/") ? "secondary" : "ghost"} className="justify-start w-full">
-                        Home
+                <Link href="/calendar">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Calendar className="h-4 w-4" />
+                    <span>{t('calendar.title')}</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/clients">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Users className="h-4 w-4" />
+                    <span>{t('clients.title')}</span>
+                  </Button>
+                </Link>
+                
+                <Link href="/invoices">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <FileText className="h-4 w-4" />
+                    <span>{t('invoices.title')}</span>
+                  </Button>
+                </Link>
+
+                {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
+                {location === "/" && (
+                  <>
+                    <Link href="/settings">
+                      <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                        <SettingsIcon className="h-4 w-4" />
+                        <span>{t('settings.title')}</span>
                       </Button>
                     </Link>
-                    <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <CalendarDays className="mr-2 h-4 w-4" />
-                        {t('calendar.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <Users className="mr-2 h-4 w-4" />
-                        {t('clients.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/invoices">
-                      <Button variant={isActive("/invoices") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <FileText className="mr-2 h-4 w-4" />
-                        {t('invoices.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/reports">
-                      <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <BarChart className="mr-2 h-4 w-4" />
-                        {t('reports.title')}
-                      </Button>
-                    </Link>
-                    {/* Mostra il pulsante Impostazioni solo nella home page */}
-                    {location === "/" && (
-                      <Link href="/settings">
-                        <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <SettingsIcon className="mr-2 h-4 w-4" />
-                          {t('settings.title')}
+                    
+                    <LanguageSelector />
+                  </>
+                )}
+              </div>
+              
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" className="md:hidden" size="icon">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <div className="flex flex-col gap-4 py-4">
+                    <h2 className="text-lg font-medium">Menu</h2>
+                    <nav className="flex flex-col gap-2">
+                      <Link href="/">
+                        <Button variant={isActive("/") ? "secondary" : "ghost"} className="justify-start w-full">
+                          Home
                         </Button>
                       </Link>
+                      <Link href="/calendar">
+                        <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <CalendarDays className="mr-2 h-4 w-4" />
+                          {t('calendar.title')}
+                        </Button>
+                      </Link>
+                      <Link href="/clients">
+                        <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <Users className="mr-2 h-4 w-4" />
+                          {t('clients.title')}
+                        </Button>
+                      </Link>
+                      <Link href="/invoices">
+                        <Button variant={isActive("/invoices") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <FileText className="mr-2 h-4 w-4" />
+                          {t('invoices.title')}
+                        </Button>
+                      </Link>
+                      <Link href="/reports">
+                        <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <BarChart className="mr-2 h-4 w-4" />
+                          {t('reports.title')}
+                        </Button>
+                      </Link>
+                      {/* Mostra il pulsante Impostazioni solo nella home page */}
+                      {location === "/" && (
+                        <Link href="/settings">
+                          <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                            <SettingsIcon className="mr-2 h-4 w-4" />
+                            {t('settings.title')}
+                          </Button>
+                        </Link>
+                      )}
+                    </nav>
+                    {/* Mostra il selettore lingua solo nella home page */}
+                    {location === "/" && (
+                      <div className="mt-4">
+                        <LanguageSelector />
+                      </div>
                     )}
-                  </nav>
-                  {/* Mostra il selettore lingua solo nella home page */}
-                  {location === "/" && (
-                    <div className="mt-4">
-                      <LanguageSelector />
-                    </div>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      )}
 
       {/* Main content */}
       <main className="flex-grow container mx-auto px-4 py-6">
