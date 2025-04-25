@@ -276,6 +276,12 @@
     "clientDeleted": "Клиент удален",
     "clientDeletedSuccess": "Клиент был успешно удален"
   },
+  "whatsappNotifications": {
+    "title": "Уведомления клиентов",
+    "description": "Управление напоминаниями о встречах",
+    "subDescription": "Отправляйте WhatsApp-напоминания клиентам о предстоящих встречах",
+    "goTo": "Управление уведомлениями"
+  },
   "errors": {
     "genericError": "Произошла ошибка: {{error}}",
     "qrCodeFetchError": "Ошибка при получении существующего QR-кода:"

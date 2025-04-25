@@ -266,6 +266,12 @@
     "clientDeleted": "Klant verwijderd",
     "clientDeletedSuccess": "De klant is succesvol verwijderd"
   },
+  "whatsappNotifications": {
+    "title": "Klantmeldingen",
+    "description": "Afspraakherinneringen beheren",
+    "subDescription": "Stuur WhatsApp-herinneringen naar klanten voor hun komende afspraken",
+    "goTo": "Meldingen beheren"
+  },
   "errors": {
     "genericError": "Er is een fout opgetreden: {{error}}",
     "qrCodeFetchError": "Fout bij het ophalen van bestaande QR-code:"
