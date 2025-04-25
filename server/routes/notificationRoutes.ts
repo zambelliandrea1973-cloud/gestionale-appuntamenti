@@ -312,25 +312,194 @@ router.post('/send-multiple', async (req: Request, res: Response) => {
     
     const results = [];
     
+    // Ottieni i template dei promemoria
+    const templates = await storage.getReminderTemplates();
+    const defaultTemplate = templates.find(t => t.isDefault);
+    
+    // Recupera le informazioni di contatto
+    const contactInfo = await storage.getContactInfo();
+    
+    // Ottieni il fuso orario corrente dalle impostazioni
+    const tzSettings = await storage.getTimezoneSettings();
+    const timezone = tzSettings?.timezone || 'UTC';
+    
     // Per ogni appuntamento, invia il promemoria appropriato
     for (const appointmentId of appointmentIds) {
       try {
-        // Logica di invio specifica per il tipo di notifica
-        if (type === 'whatsapp') {
-          // Utilizza la logica esistente in /send-batch
-          // TODO: Implementare
-        } else if (type === 'sms' && twilioClient) {
-          // Logica per SMS
-          // TODO: Implementare
-        } else if (type === 'email' && notificationSettings.emailEnabled) {
-          // Logica per email
-          // TODO: Implementare
+        const appointment = await storage.getAppointment(appointmentId);
+        
+        if (!appointment) {
+          results.push({
+            id: appointmentId,
+            success: false,
+            error: 'Appuntamento non trovato'
+          });
+          continue;
         }
         
-        results.push({
-          id: appointmentId,
-          success: true
-        });
+        const client = await storage.getClient(appointment.clientId);
+        const service = await storage.getService(appointment.serviceId);
+        
+        if (!client || !service) {
+          results.push({
+            id: appointmentId,
+            success: false,
+            error: 'Dati cliente o servizio mancanti'
+          });
+          continue;
+        }
+        
+        // Trova il template specifico per il servizio, altrimenti usa quello di default
+        const serviceTemplate = templates.find(t => t.serviceId === service.id);
+        const template = serviceTemplate || defaultTemplate;
+        
+        // Se non c'è alcun template, usa un messaggio predefinito
+        let message = template 
+          ? template.template // Usiamo il campo template definito nello schema
+          : `Gentile {clientName}, le ricordiamo l'appuntamento per {serviceName} del {appointmentDate} alle ore {appointmentTime}.`;
+        
+        // Aggiungi messaggio personalizzato se specificato
+        if (customMessage && customMessage.trim()) {
+          message += `\n\n${customMessage}`;
+        }
+        
+        // Dati da sostituire nel template
+        const appointmentDate = format(parseISO(appointment.date), 'EEEE d MMMM yyyy', { locale: it });
+        const appointmentTime = appointment.startTime.substring(0, 5);
+        const clientName = `${client.firstName} ${client.lastName}`;
+        
+        // Effettua le sostituzioni nel template
+        message = message
+          .replace(/{clientName}/g, clientName)
+          .replace(/{firstName}/g, client.firstName)
+          .replace(/{lastName}/g, client.lastName)
+          .replace(/{serviceName}/g, service.name)
+          .replace(/{appointmentDate}/g, appointmentDate)
+          .replace(/{appointmentTime}/g, appointmentTime)
+          .replace(/{businessName}/g, contactInfo?.businessName || '')
+          .replace(/{businessAddress}/g, contactInfo?.address || '')
+          .replace(/{businessPhone}/g, contactInfo?.phone1 || '');
+        
+        // Logica di invio specifica per il tipo di notifica
+        if (type === 'whatsapp') {
+          // Prepara il numero di telefono (rimuovi spazi e + iniziale per WhatsApp)
+          const phoneNumber = client.phone.replace(/\s+/g, '').replace(/^\+/, '');
+          
+          // Genera l'URL di WhatsApp
+          const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          
+          // Aggiungi link cliccabile al messaggio
+          const messageWithLink = `${message}\n\n[Apri WhatsApp](${whatsappUrl})`;
+          
+          // Salva il promemoria nel database come inviato
+          await storage.saveNotification({
+            appointmentId,
+            clientId: client.id,
+            type: 'whatsapp',
+            message: messageWithLink,
+            channel: 'whatsapp'
+          });
+          
+          // Aggiorna lo stato del promemoria nell'appuntamento
+          let reminderStatus = appointment.reminderStatus || '';
+          if (!reminderStatus.includes('whatsapp_generated')) {
+            reminderStatus = reminderStatus 
+              ? `${reminderStatus},whatsapp_generated` 
+              : 'whatsapp_generated';
+          }
+          
+          await storage.updateAppointment(appointmentId, {
+            ...appointment,
+            reminderStatus
+          });
+          
+          results.push({
+            id: appointmentId,
+            success: true,
+            clientName,
+            serviceName: service.name,
+            date: appointmentDate,
+            time: appointmentTime,
+            message,
+            whatsappUrl
+          });
+          
+        } else if (type === 'sms' && twilioClient) {
+          // Prepara il numero di telefono per SMS (assicurati che inizi con + per formato E.164)
+          let phoneNumber = client.phone.replace(/\s+/g, '');
+          if (!phoneNumber.startsWith('+')) {
+            phoneNumber = '+' + phoneNumber;
+          }
+          
+          try {
+            // Invia SMS tramite Twilio
+            const smsResult = await twilioClient.messages.create({
+              body: message,
+              from: process.env.TWILIO_PHONE_NUMBER,
+              to: phoneNumber
+            });
+            
+            // Salva la notifica nel database
+            await storage.saveNotification({
+              appointmentId,
+              clientId: client.id,
+              type: 'sms',
+              message: message,
+              channel: 'sms',
+              metadata: JSON.stringify({
+                sid: smsResult.sid,
+                status: smsResult.status
+              })
+            });
+            
+            // Aggiorna lo stato del promemoria nell'appuntamento
+            let reminderStatus = appointment.reminderStatus || '';
+            if (!reminderStatus.includes('sms_sent')) {
+              reminderStatus = reminderStatus 
+                ? `${reminderStatus},sms_sent` 
+                : 'sms_sent';
+            }
+            
+            await storage.updateAppointment(appointmentId, {
+              ...appointment,
+              reminderStatus
+            });
+            
+            results.push({
+              id: appointmentId,
+              success: true,
+              clientName,
+              serviceName: service.name,
+              date: appointmentDate,
+              time: appointmentTime,
+              message,
+              smsStatus: smsResult.status,
+              smsSid: smsResult.sid
+            });
+          } catch (smsError: any) {
+            // Gestione degli errori Twilio
+            console.error(`Errore nell'invio SMS a ${phoneNumber}:`, smsError);
+            results.push({
+              id: appointmentId,
+              success: false,
+              clientName,
+              error: `Errore SMS: ${smsError.message}`
+            });
+          }
+        } else if (type === 'email' && notificationSettings.emailEnabled) {
+          // Logica per email - per future implementazioni
+          results.push({
+            id: appointmentId,
+            success: false,
+            error: 'Invio email non ancora implementato'
+          });
+        } else {
+          results.push({
+            id: appointmentId,
+            success: false,
+            error: `Tipo di notifica "${type}" non supportato o configurazione incompleta`
+          });
+        }
       } catch (err: any) {
         results.push({
           id: appointmentId,
@@ -368,6 +537,60 @@ router.get('/whatsapp-history', async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.error('Errore nel recupero storico WhatsApp:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
+ * Ottiene lo storico degli SMS inviati
+ */
+router.get('/sms-history', async (req: Request, res: Response) => {
+  try {
+    // Recupera le ultime 100 notifiche SMS
+    const notifications = await storage.getNotificationsByType('sms', 100);
+    
+    res.json({
+      success: true,
+      notifications
+    });
+  } catch (error: any) {
+    console.error('Errore nel recupero storico SMS:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
+ * Invia SMS in batch a tutti gli appuntamenti selezionati
+ */
+router.post('/send-sms-batch', async (req: Request, res: Response) => {
+  try {
+    const { appointmentIds, customMessage } = req.body;
+    
+    if (!appointmentIds || !Array.isArray(appointmentIds) || appointmentIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'È necessario specificare gli ID degli appuntamenti'
+      });
+    }
+    
+    // Reindirizza alla rotta standard ma con tipo 'sms'
+    req.body.type = 'sms';
+    return await router.handle(req, res, () => {
+      // Se arriviamo qui, c'è stato un errore nella gestione
+      res.status(500).json({
+        success: false,
+        error: 'Errore nell\'elaborazione della richiesta SMS'
+      });
+    });
+    
+  } catch (error: any) {
+    console.error('Errore nell\'invio SMS batch:', error);
     res.status(500).json({
       success: false,
       error: error.message
