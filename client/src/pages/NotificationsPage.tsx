@@ -149,6 +149,8 @@ const NotificationsPage: React.FC = () => {
   useEffect(() => {
     fetchUpcomingAppointments();
   }, []);
+  
+  // Nota: useEffect per cambiare tab mantenuto più sotto
 
   // Carica lo storico delle notifiche SMS
   const fetchSmsHistory = async () => {
