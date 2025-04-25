@@ -43,7 +43,7 @@ export default function Layout({ children }: LayoutProps) {
               <Link href="/">
                 <div className="flex items-center space-x-2 cursor-pointer">
                   <CalendarDays className="h-5 w-5" />
-                  <h1 className="text-xl font-medium">{t('app.title')}</h1>
+                  {location === "/" && <h1 className="text-xl font-medium">{t('app.title')}</h1>}
                 </div>
               </Link>
             </div>
