@@ -4,7 +4,8 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { addDays, addHours, addMinutes, format, parse, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import twilio from 'twilio';
-import { isStaff } from '../auth';
+// Per requisito esplicito, rimosso il controllo isStaff
+// import { isStaff } from '../auth';
 
 const router = express.Router();
 
@@ -55,7 +56,8 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
 });
 
 // Invia notifiche per un gruppo di appuntamenti
-// Temporaneamente disabilitato il controllo staff per debugging
+// Per requisito esplicito, rimosso il controllo staff per consentire a chiunque abbia accesso
+// all'applicazione di inviare promemoria
 router.post('/send-batch', async (req: Request, res: Response) => {
   try {
     const { appointmentIds, customMessage } = req.body;
@@ -198,7 +200,8 @@ router.post('/send-batch', async (req: Request, res: Response) => {
 });
 
 // Ottiene lo storico delle notifiche inviate
-// Temporaneamente disabilitato il controllo staff per debugging
+// Per requisito esplicito, rimosso il controllo staff per consentire a chiunque abbia accesso
+// all'applicazione di visualizzare lo storico delle notifiche
 router.get('/history', async (req: Request, res: Response) => {
   try {
     // Recupera le ultime 100 notifiche WhatsApp
@@ -220,7 +223,8 @@ router.get('/history', async (req: Request, res: Response) => {
 /**
  * Ottieni tutti gli appuntamenti di domani che necessitano di promemoria
  */
-// Temporaneamente disabilitato il controllo staff per debugging
+// Per requisito esplicito, rimosso il controllo staff per consentire a chiunque abbia accesso
+// all'applicazione di visualizzare gli appuntamenti di domani
 router.get('/tomorrow-appointments', async (req: Request, res: Response) => {
   try {
     // Ottieni il fuso orario corrente dalle impostazioni
@@ -270,7 +274,8 @@ router.get('/tomorrow-appointments', async (req: Request, res: Response) => {
 /**
  * Invia promemoria per più appuntamenti contemporaneamente
  */
-// Temporaneamente disabilitato il controllo staff per debugging
+// Per requisito esplicito, rimosso il controllo staff per consentire a chiunque abbia accesso
+// all'applicazione di inviare promemoria contemporaneamente
 router.post('/send-multiple', async (req: Request, res: Response) => {
   try {
     const { appointmentIds, type = 'whatsapp', customMessage } = req.body;
@@ -351,7 +356,8 @@ router.post('/send-multiple', async (req: Request, res: Response) => {
 /**
  * Ottiene lo storico delle notifiche WhatsApp inviate
  */
-router.get('/whatsapp-history', isStaff, async (req: Request, res: Response) => {
+// Rimosso il controllo isStaff per consentire a chiunque abbia accesso all'app di visualizzare lo storico
+router.get('/whatsapp-history', async (req: Request, res: Response) => {
   try {
     // Recupera le ultime 100 notifiche WhatsApp
     const notifications = await storage.getNotificationsByType('whatsapp', 100);
