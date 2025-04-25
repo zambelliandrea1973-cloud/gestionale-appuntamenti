@@ -179,6 +179,13 @@ function AppRoutes() {
           <SubscribePage />
         </StaffPageWrapper>
       </Route>
+      
+      {/* Route per la pagina di notifiche WhatsApp */}
+      <Route path="/notifications">
+        <StaffPageWrapper>
+          <NotificationsPage />
+        </StaffPageWrapper>
+      </Route>
 
       {/* Route per visualizzare gli appuntamenti di un cliente */}
       <Route path="/clients/:id/appointments">

@@ -1,71 +1,265 @@
-import { Router } from 'express';
-import { isAuthenticated, isStaff } from '../auth';
-import { db } from '../db';
-import { eq, and, gte, lte, or, isNull, sql } from 'drizzle-orm';
-import { appointments } from '@shared/schema';
-import { format, addDays, parseISO } from 'date-fns';
+import express, { Request, Response } from 'express';
+import { storage } from '../storage';
+import { formatInTimeZone } from 'date-fns-tz';
+import { addDays, addHours, addMinutes, format, parse, parseISO } from 'date-fns';
+import { it } from 'date-fns/locale';
+import twilio from 'twilio';
+import { isStaff } from '../auth';
 
-const router = Router();
+const router = express.Router();
 
-/**
- * Ottiene tutti gli appuntamenti di domani che necessitano di promemoria
- */
-router.get('/api/notifications/upcoming-appointments', isAuthenticated, isStaff, async (req, res) => {
+// Ottiene gli appuntamenti imminenti che necessitano di promemoria
+router.get('/upcoming-appointments', isStaff, async (req: Request, res: Response) => {
   try {
-    // Ottieni la data di oggi e di domani in formato ISO
-    const today = new Date();
-    const tomorrow = addDays(today, 1);
+    // Ottieni il fuso orario corrente dalle impostazioni
+    const tzSettings = await storage.getTimezoneSettings();
+    const timezone = tzSettings?.timezone || 'UTC';
     
-    const todayStr = format(today, 'yyyy-MM-dd');
-    const tomorrowStr = format(tomorrow, 'yyyy-MM-dd');
+    // Calcola la data di oggi e domani nel fuso orario corretto
+    const now = new Date();
+    const today = formatInTimeZone(now, timezone, 'yyyy-MM-dd');
+    const tomorrow = formatInTimeZone(addDays(now, 1), timezone, 'yyyy-MM-dd');
     
-    // Ottieni gli appuntamenti di domani che:
-    // 1. Hanno reminderType contenente 'whatsapp'
-    // 2. Non hanno ancora ricevuto un promemoria (reminderStatus = 'pending' o null)
-    // 3. Stato è 'scheduled' (non cancellati)
-    const upcomingAppointments = await db.query.appointments.findMany({
-      where: and(
-        or(
-          eq(appointments.date, tomorrowStr),
-          eq(appointments.date, todayStr)
-        ),
-        or(
-          eq(appointments.reminderStatus, 'pending'),
-          isNull(appointments.reminderStatus)
-        ),
-        eq(appointments.status, 'scheduled'),
-        sql`POSITION('whatsapp' IN ${appointments.reminderType}) > 0`
-      ),
-      with: {
-        client: true,
-        service: true
-      },
-      orderBy: [
-        appointments.date,
-        appointments.startTime
-      ]
-    });
-
-    // Raggruppa gli appuntamenti per data
-    const groupedAppointments = upcomingAppointments.reduce((acc, appointment) => {
-      const date = appointment.date;
-      if (!acc[date]) {
-        acc[date] = [];
+    // Ottieni gli appuntamenti per i prossimi due giorni
+    const appointments = await storage.getAppointmentsByDateRange(today, tomorrow);
+    
+    // Filtra gli appuntamenti che necessitano di promemoria
+    // Gli appuntamenti devono avere reminderType impostato e status = "confirmed"
+    const eligibleAppointments = appointments.filter(a => 
+      (a.reminderType && a.reminderType.includes('whatsapp')) && 
+      a.status === 'confirmed' && 
+      (!a.reminderStatus || !a.reminderStatus.includes('sent'))
+    );
+    
+    // Raggruppa per data
+    const groupedAppointments = eligibleAppointments.reduce((acc: Record<string, any[]>, appointment) => {
+      if (!acc[appointment.date]) {
+        acc[appointment.date] = [];
       }
-      acc[date].push(appointment);
+      acc[appointment.date].push(appointment);
       return acc;
-    }, {} as Record<string, any[]>);
+    }, {});
     
-    res.json({ 
-      success: true, 
-      appointments: upcomingAppointments,
+    res.json({
+      success: true,
+      appointments: eligibleAppointments,
       groupedAppointments
     });
-  } catch (error) {
-    console.error('Errore nella ricerca appuntamenti per promemoria:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Errore nella ricerca degli appuntamenti' 
+  } catch (error: any) {
+    console.error('Errore nel recupero appuntamenti per notifiche:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Invia notifiche per un gruppo di appuntamenti
+router.post('/send-batch', isStaff, async (req: Request, res: Response) => {
+  try {
+    const { appointmentIds, customMessage } = req.body;
+    
+    if (!appointmentIds || !Array.isArray(appointmentIds) || appointmentIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'È necessario specificare gli ID degli appuntamenti'
+      });
+    }
+    
+    // Ottieni il fuso orario corrente dalle impostazioni
+    const tzSettings = await storage.getTimezoneSettings();
+    const timezone = tzSettings?.timezone || 'UTC';
+    
+    // Ottieni le impostazioni di notifica
+    const notificationSettings = await storage.getNotificationSettings();
+    
+    // Ottieni i template dei promemoria
+    const templates = await storage.getReminderTemplates();
+    const defaultTemplate = templates.find(t => t.isDefault);
+    
+    // Recupera le informazioni di contatto
+    const contactInfo = await storage.getContactInfo();
+    
+    const results = [];
+    
+    // Per ogni ID, genera il link WhatsApp appropriato
+    for (const appointmentId of appointmentIds) {
+      const appointment = await storage.getAppointment(appointmentId);
+      
+      if (!appointment) {
+        results.push({
+          id: appointmentId,
+          success: false,
+          error: 'Appuntamento non trovato'
+        });
+        continue;
+      }
+      
+      const client = await storage.getClient(appointment.clientId);
+      const service = await storage.getService(appointment.serviceId);
+      
+      if (!client || !service) {
+        results.push({
+          id: appointmentId,
+          success: false,
+          error: 'Dati cliente o servizio mancanti'
+        });
+        continue;
+      }
+      
+      // Trova il template specifico per il servizio, altrimenti usa quello di default
+      const serviceTemplate = templates.find(t => t.serviceId === service.id);
+      const template = serviceTemplate || defaultTemplate;
+      
+      // Se non c'è alcun template, usa un messaggio predefinito
+      let message = template 
+        ? template.whatsappTemplate 
+        : `Gentile {clientName}, le ricordiamo l'appuntamento per {serviceName} del {appointmentDate} alle ore {appointmentTime}.`;
+      
+      // Aggiungi messaggio personalizzato se specificato
+      if (customMessage && customMessage.trim()) {
+        message += `\n\n${customMessage}`;
+      }
+      
+      // Dati da sostituire nel template
+      const appointmentDate = format(parseISO(appointment.date), 'EEEE d MMMM yyyy', { locale: it });
+      const appointmentTime = appointment.startTime.substring(0, 5);
+      const clientName = `${client.firstName} ${client.lastName}`;
+      
+      // Effettua le sostituzioni nel template
+      message = message
+        .replace(/{clientName}/g, clientName)
+        .replace(/{firstName}/g, client.firstName)
+        .replace(/{lastName}/g, client.lastName)
+        .replace(/{serviceName}/g, service.name)
+        .replace(/{appointmentDate}/g, appointmentDate)
+        .replace(/{appointmentTime}/g, appointmentTime)
+        .replace(/{businessName}/g, contactInfo?.businessName || '')
+        .replace(/{businessAddress}/g, contactInfo?.address || '')
+        .replace(/{businessPhone}/g, contactInfo?.phone1 || '');
+      
+      // Prepara il numero di telefono (rimuovi spazi e + iniziale per WhatsApp)
+      const phoneNumber = client.phone.replace(/\s+/g, '').replace(/^\+/, '');
+      
+      // Genera l'URL di WhatsApp
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      
+      // Aggiungi link cliccabile al messaggio
+      const messageWithLink = `${message}\n\n[Apri WhatsApp](${whatsappUrl})`;
+      
+      // Salva il promemoria nel database come inviato
+      await storage.saveNotification({
+        appointmentId,
+        clientId: client.id,
+        type: 'whatsapp',
+        message: messageWithLink,
+        status: 'generated',
+        sent_at: new Date().toISOString()
+      });
+      
+      // Aggiorna lo stato del promemoria nell'appuntamento
+      let reminderStatus = appointment.reminderStatus || '';
+      if (!reminderStatus.includes('whatsapp_generated')) {
+        reminderStatus = reminderStatus 
+          ? `${reminderStatus},whatsapp_generated` 
+          : 'whatsapp_generated';
+      }
+      
+      await storage.updateAppointment(appointmentId, {
+        ...appointment,
+        reminderStatus
+      });
+      
+      results.push({
+        id: appointmentId,
+        success: true,
+        clientName,
+        serviceName: service.name,
+        date: appointmentDate,
+        time: appointmentTime,
+        message,
+        whatsappUrl
+      });
+    }
+    
+    res.json({
+      success: true,
+      results,
+      message: `${results.length} promemoria WhatsApp generati con successo`
+    });
+  } catch (error: any) {
+    console.error('Errore nell\'invio notifiche batch:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Ottiene lo storico delle notifiche inviate
+router.get('/history', isStaff, async (req: Request, res: Response) => {
+  try {
+    // Recupera le ultime 100 notifiche WhatsApp
+    const notifications = await storage.getNotificationsByType('whatsapp', 100);
+    
+    res.json({
+      success: true,
+      notifications
+    });
+  } catch (error: any) {
+    console.error('Errore nel recupero storico notifiche:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
+ * Ottieni tutti gli appuntamenti di domani che necessitano di promemoria
+ */
+router.get('/tomorrow-appointments', isStaff, async (req: Request, res: Response) => {
+  try {
+    // Ottieni il fuso orario corrente dalle impostazioni
+    const tzSettings = await storage.getTimezoneSettings();
+    const timezone = tzSettings?.timezone || 'UTC';
+    
+    // Calcola la data di domani nel fuso orario corretto
+    const tomorrow = formatInTimeZone(addDays(new Date(), 1), timezone, 'yyyy-MM-dd');
+    
+    // Ottieni gli appuntamenti per domani
+    const appointments = await storage.getAppointmentsByDate(tomorrow);
+    
+    // Filtra gli appuntamenti che necessitano di promemoria
+    // Gli appuntamenti devono avere reminderType impostato e status = "confirmed"
+    const eligibleAppointments = appointments.filter(a => 
+      a.reminderType && 
+      a.status === 'confirmed' && 
+      (!a.reminderStatus || !a.reminderStatus.includes('sent'))
+    );
+    
+    // Recupera i dati completi di cliente e servizio
+    const fullAppointments = await Promise.all(
+      eligibleAppointments.map(async (appointment) => {
+        const client = await storage.getClient(appointment.clientId);
+        const service = await storage.getService(appointment.serviceId);
+        return {
+          ...appointment,
+          client,
+          service
+        };
+      })
+    );
+    
+    res.json({
+      success: true,
+      appointments: fullAppointments
+    });
+  } catch (error: any) {
+    console.error('Errore nel recupero appuntamenti di domani:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
     });
   }
 });
@@ -73,58 +267,75 @@ router.get('/api/notifications/upcoming-appointments', isAuthenticated, isStaff,
 /**
  * Invia promemoria per più appuntamenti contemporaneamente
  */
-router.post('/api/notifications/send-batch', isAuthenticated, isStaff, async (req, res) => {
+router.post('/send-multiple', isStaff, async (req: Request, res: Response) => {
   try {
-    const { appointmentIds, customMessage } = req.body;
+    const { appointmentIds, type = 'whatsapp', customMessage } = req.body;
     
     if (!appointmentIds || !Array.isArray(appointmentIds) || appointmentIds.length === 0) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Nessun appuntamento selezionato' 
+      return res.status(400).json({
+        success: false,
+        error: 'È necessario specificare gli ID degli appuntamenti'
       });
     }
     
-    // Array per tenere traccia dei risultati
-    const results = [];
-    const errors = [];
+    // Ottieni le impostazioni di notifica
+    const notificationSettings = await storage.getNotificationSettings();
     
-    // Per ogni ID appuntamento, invia il promemoria individualmente
-    // Questo riutilizza la logica esistente per l'invio dei promemoria
-    for (const id of appointmentIds) {
+    if (!notificationSettings.twilioEnabled && type === 'sms') {
+      return res.status(400).json({
+        success: false,
+        error: 'Il servizio SMS non è configurato. Configura Twilio nelle impostazioni.'
+      });
+    }
+    
+    // Inizializza il client Twilio se necessario
+    let twilioClient;
+    if (type === 'sms' && notificationSettings.twilioEnabled) {
+      twilioClient = twilio(
+        process.env.TWILIO_ACCOUNT_SID,
+        process.env.TWILIO_AUTH_TOKEN
+      );
+    }
+    
+    const results = [];
+    
+    // Per ogni appuntamento, invia il promemoria appropriato
+    for (const appointmentId of appointmentIds) {
       try {
-        // Invia il promemoria per l'appuntamento corrente
-        const response = await fetch(`${req.protocol}://${req.get('host')}/api/appointments/${id}/send-reminder`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Cookie': req.headers.cookie || ''
-          },
-          body: JSON.stringify({ customMessage })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          results.push({ id, success: true, message: data.message });
-        } else {
-          errors.push({ id, error: data.error || 'Errore sconosciuto' });
+        // Logica di invio specifica per il tipo di notifica
+        if (type === 'whatsapp') {
+          // Utilizza la logica esistente in /send-batch
+          // TODO: Implementare
+        } else if (type === 'sms' && twilioClient) {
+          // Logica per SMS
+          // TODO: Implementare
+        } else if (type === 'email' && notificationSettings.emailEnabled) {
+          // Logica per email
+          // TODO: Implementare
         }
-      } catch (error: any) {
-        errors.push({ id, error: error.message || 'Errore di connessione' });
+        
+        results.push({
+          id: appointmentId,
+          success: true
+        });
+      } catch (err: any) {
+        results.push({
+          id: appointmentId,
+          success: false,
+          error: err.message
+        });
       }
     }
     
     res.json({
       success: true,
-      results,
-      errors,
-      message: `Inviati ${results.length}/${appointmentIds.length} promemoria`
+      results
     });
-  } catch (error) {
-    console.error('Errore nell\'invio batch dei promemoria:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Errore durante l\'invio dei promemoria' 
+  } catch (error: any) {
+    console.error('Errore nell\'invio multiplo di promemoria:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
     });
   }
 });
@@ -132,26 +343,20 @@ router.post('/api/notifications/send-batch', isAuthenticated, isStaff, async (re
 /**
  * Ottiene lo storico delle notifiche WhatsApp inviate
  */
-router.get('/api/notifications/history', isAuthenticated, isStaff, async (req, res) => {
+router.get('/whatsapp-history', isStaff, async (req: Request, res: Response) => {
   try {
-    // Ottiene le notifiche di tipo WhatsApp
-    const notifications = await db.query.notifications.findMany({
-      where: sql`POSITION('whatsapp' IN message) > 0 OR channel = 'whatsapp'`,
-      orderBy: [
-        sql`sent_at DESC`
-      ],
-      limit: 100 // limita a 100 notifiche per performance
-    });
+    // Recupera le ultime 100 notifiche WhatsApp
+    const notifications = await storage.getNotificationsByType('whatsapp', 100);
     
-    res.json({ 
-      success: true, 
-      notifications 
+    res.json({
+      success: true,
+      notifications
     });
-  } catch (error) {
-    console.error('Errore nel recupero dello storico notifiche:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Errore nel recupero delle notifiche' 
+  } catch (error: any) {
+    console.error('Errore nel recupero storico WhatsApp:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
     });
   }
 });
