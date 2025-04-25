@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // Rimosso import Layout per evitare layout annidati
+import FooterOnly from '@/components/FooterOnly';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import {
@@ -275,28 +276,29 @@ const NotificationsPage: React.FC = () => {
     return match ? match[1] : null;
   };
 
-  // Renderizza direttamente il contenuto senza il Layout
+  // Renderizza la pagina con il footer
   return (
-    <div className="container mx-auto py-6 px-4">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Notifiche WhatsApp</h1>
-          <p className="text-muted-foreground">Gestisci i promemoria per gli appuntamenti dei clienti</p>
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow container mx-auto py-6 px-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold">Notifiche WhatsApp</h1>
+            <p className="text-muted-foreground">Gestisci i promemoria per gli appuntamenti dei clienti</p>
+          </div>
+          
+          <div className="mt-4 md:mt-0 flex gap-2">
+            <Button 
+              variant="outline" 
+              onClick={fetchUpcomingAppointments}
+              disabled={loading}
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              Aggiorna
+            </Button>
+          </div>
         </div>
-        
-        <div className="mt-4 md:mt-0 flex gap-2">
-          <Button 
-            variant="outline" 
-            onClick={fetchUpcomingAppointments}
-            disabled={loading}
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Aggiorna
-          </Button>
-        </div>
-      </div>
 
-      <Tabs 
+        <Tabs 
           defaultValue="upcoming" 
           value={activeTab}
           onValueChange={setActiveTab}
@@ -527,11 +529,6 @@ const NotificationsPage: React.FC = () => {
                     <>
                       <MessageSquare className="h-4 w-4 mr-2" />
                       Genera notifiche WhatsApp
-                      {Object.values(selectedAppointments).filter(Boolean).length > 0 && (
-                        <Badge variant="outline" className="ml-2">
-                          {Object.values(selectedAppointments).filter(Boolean).length}
-                        </Badge>
-                      )}
                     </>
                   )}
                 </Button>
@@ -539,23 +536,23 @@ const NotificationsPage: React.FC = () => {
             )}
           </TabsContent>
           
-          <TabsContent value="history" className="space-y-4">
+          <TabsContent value="history">
             <Card>
               <CardHeader>
-                <CardTitle>Cronologia notifiche WhatsApp</CardTitle>
+                <CardTitle>Cronologia notifiche inviate</CardTitle>
                 <CardDescription>
-                  Le ultime 100 notifiche WhatsApp generate dal sistema
+                  Ultimi promemoria inviati tramite WhatsApp
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {loadingHistory ? (
-                  <div className="flex justify-center py-6">
-                    <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
+                  <div className="flex justify-center py-8">
+                    <RefreshCw className="h-10 w-10 text-primary animate-spin" />
                   </div>
                 ) : sentHistory.length === 0 ? (
-                  <div className="text-center py-6 text-muted-foreground">
-                    <MessageSquare className="h-10 w-10 mx-auto mb-2" />
-                    <p>Nessuna notifica WhatsApp inviata finora.</p>
+                  <div className="text-center py-8 text-muted-foreground">
+                    <CheckCircle className="h-8 w-8 mx-auto mb-4" />
+                    <p>Nessuna notifica inviata recentemente</p>
                   </div>
                 ) : (
                   <Table>
@@ -601,7 +598,11 @@ const NotificationsPage: React.FC = () => {
               </CardContent>
             </Card>
           </TabsContent>
-      </Tabs>
+        </Tabs>
+      </div>
+      
+      {/* Footer della pagina */}
+      <FooterOnly />
     </div>
   );
 };
