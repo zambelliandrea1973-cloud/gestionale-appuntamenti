@@ -276,6 +276,12 @@
     "clientDeleted": "Client deleted",
     "clientDeletedSuccess": "The client has been successfully deleted"
   },
+  "whatsappNotifications": {
+    "title": "Client Notifications",
+    "description": "Manage appointment reminders",
+    "subDescription": "Send WhatsApp reminders to clients for their upcoming appointments",
+    "goTo": "Manage Notifications"
+  },
   "errors": {
     "genericError": "An error occurred: {{error}}",
     "qrCodeFetchError": "Error retrieving existing QR code:"

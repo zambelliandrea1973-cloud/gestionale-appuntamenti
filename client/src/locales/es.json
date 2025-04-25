@@ -276,6 +276,12 @@
     "clientDeleted": "Cliente eliminado",
     "clientDeletedSuccess": "El cliente ha sido eliminado correctamente"
   },
+  "whatsappNotifications": {
+    "title": "Notificaciones a clientes",
+    "description": "Gestionar recordatorios de citas",
+    "subDescription": "Enviar recordatorios de WhatsApp a los clientes para sus próximas citas",
+    "goTo": "Gestionar notificaciones"
+  },
   "errors": {
     "genericError": "Se ha producido un error: {{error}}",
     "qrCodeFetchError": "Error al recuperar el código QR existente:"

@@ -276,6 +276,12 @@
     "clientDeleted": "Kunde gelöscht",
     "clientDeletedSuccess": "Der Kunde wurde erfolgreich gelöscht"
   },
+  "whatsappNotifications": {
+    "title": "Kundenbenachrichtigungen",
+    "description": "Terminerinnerungen verwalten",
+    "subDescription": "Senden Sie WhatsApp-Erinnerungen an Kunden für ihre bevorstehenden Termine",
+    "goTo": "Benachrichtigungen verwalten"
+  },
   "errors": {
     "genericError": "Ein Fehler ist aufgetreten: {{error}}",
     "qrCodeFetchError": "Fehler beim Abrufen des vorhandenen QR-Codes:"
