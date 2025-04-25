@@ -4,6 +4,18 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { addDays, addHours, addMinutes, format, parse, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import twilio from 'twilio';
+
+// Funzione per inizializzare il client Twilio
+function getTwilioClient() {
+  if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
+    return null;
+  }
+  
+  return twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
+  );
+}
 // Per requisito esplicito, rimosso il controllo isStaff
 // import { isStaff } from '../auth';
 
