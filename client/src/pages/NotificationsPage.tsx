@@ -284,7 +284,7 @@ const NotificationsPage: React.FC = () => {
       <div className="flex-grow container mx-auto py-6 px-4">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold">Notifiche ai clienti</h1>
+            <h1 className="text-2xl font-bold">Notifiche WhatsApp</h1>
             <p className="text-muted-foreground">Gestisci i promemoria per gli appuntamenti dei clienti</p>
           </div>
           
@@ -328,11 +328,11 @@ const NotificationsPage: React.FC = () => {
           <TabsContent value="upcoming" className="space-y-4">
             <Alert variant="default" className="bg-muted">
               <Info className="h-4 w-4" />
-              <AlertTitle>Come funzionano le notifiche ai clienti</AlertTitle>
+              <AlertTitle>Come funzionano le notifiche WhatsApp</AlertTitle>
               <AlertDescription>
                 <ul className="list-disc pl-5 text-sm space-y-1 mt-2">
                   <li>Seleziona gli appuntamenti per cui vuoi inviare un promemoria</li>
-                  <li>Clicca su "Genera notifiche" per creare i link</li>
+                  <li>Clicca su "Genera notifiche WhatsApp" per creare i link</li>
                   <li>Verranno generati link che aprono WhatsApp con testi precompilati</li>
                   <li>Puoi personalizzare il testo standard prima dell'invio</li>
                 </ul>
@@ -538,7 +538,7 @@ const NotificationsPage: React.FC = () => {
                   ) : (
                     <>
                       <MessageSquare className="h-4 w-4 mr-2" />
-                      Genera notifiche
+                      Genera notifiche WhatsApp
                     </>
                   )}
                 </Button>
@@ -551,7 +551,7 @@ const NotificationsPage: React.FC = () => {
               <CardHeader>
                 <CardTitle>Cronologia notifiche inviate</CardTitle>
                 <CardDescription>
-                  Ultimi promemoria inviati ai clienti
+                  Ultimi promemoria inviati tramite WhatsApp
                 </CardDescription>
               </CardHeader>
               <CardContent>
