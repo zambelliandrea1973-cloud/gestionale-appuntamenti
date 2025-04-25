@@ -9,8 +9,16 @@ import { isStaff } from '../auth';
 const router = express.Router();
 
 // Ottiene gli appuntamenti imminenti che necessitano di promemoria
-router.get('/upcoming-appointments', isStaff, async (req: Request, res: Response) => {
+router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
+    // Verifica che l'utente sia autenticato
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({
+        success: false,
+        error: "Accesso non autorizzato"
+      });
+    }
+    
     // Ottieni il fuso orario corrente dalle impostazioni
     const tzSettings = await storage.getTimezoneSettings();
     const timezone = tzSettings?.timezone || 'UTC';
@@ -23,12 +31,15 @@ router.get('/upcoming-appointments', isStaff, async (req: Request, res: Response
     // Ottieni gli appuntamenti per i prossimi due giorni
     const appointments = await storage.getAppointmentsByDateRange(today, tomorrow);
     
-    // Filtra gli appuntamenti che necessitano di promemoria
-    // Gli appuntamenti devono avere reminderType impostato e status = "confirmed"
+    // Filtra gli appointment che hanno reminderType che include 'whatsapp' 
+    // Modifica: includiamo tutti gli appuntamenti con status = 'scheduled' invece di solo 'confirmed'
     const eligibleAppointments = appointments.filter(a => 
-      (a.reminderType && a.reminderType.includes('whatsapp')) && 
-      a.status === 'confirmed' && 
-      (!a.reminderStatus || !a.reminderStatus.includes('sent'))
+      a.status === 'scheduled' && 
+      (
+        // Includi appuntamenti con o senza reminderType
+        !a.reminderType || 
+        (a.reminderType && a.reminderType.includes('whatsapp'))
+      )
     );
     
     // Raggruppa per data
@@ -39,6 +50,8 @@ router.get('/upcoming-appointments', isStaff, async (req: Request, res: Response
       acc[appointment.date].push(appointment);
       return acc;
     }, {});
+    
+    console.log(`Trovati ${eligibleAppointments.length} appuntamenti per notifiche WhatsApp`);
     
     res.json({
       success: true,
