@@ -319,6 +319,29 @@
       "empty": "Nessun appuntamento da notificare",
       "description": "Non ci sono appuntamenti imminenti che richiedono promemoria."
     },
+    "table": {
+      "client": "Cliente",
+      "service": "Servizio",
+      "time": "Orario",
+      "actions": "Azioni",
+      "send": "Invia",
+      "selectAll": "Seleziona tutti"
+    },
+    "buttons": {
+      "generating": "Generazione in corso...",
+      "generateWhatsApp": "Genera notifiche WhatsApp"
+    },
+    "history": {
+      "title": "Cronologia notifiche inviate",
+      "description": "Ultimi promemoria inviati tramite WhatsApp",
+      "noNotifications": "Nessuna notifica inviata recentemente",
+      "table": {
+        "date": "Data",
+        "message": "Messaggio",
+        "actions": "Azioni",
+        "reopen": "Riapri"
+      }
+    },
     "appointmentList": {
       "selectAll": "Seleziona tutti",
       "actions": "Azioni",

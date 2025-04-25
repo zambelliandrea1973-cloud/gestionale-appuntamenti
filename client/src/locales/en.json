@@ -313,6 +313,29 @@
       "empty": "No appointments to notify",
       "description": "There are no upcoming appointments that require reminders."
     },
+    "table": {
+      "client": "Client",
+      "service": "Service",
+      "time": "Time",
+      "actions": "Actions",
+      "send": "Send",
+      "selectAll": "Select all"
+    },
+    "buttons": {
+      "generating": "Generating...",
+      "generateWhatsApp": "Generate WhatsApp notifications"
+    },
+    "history": {
+      "title": "Notification history",
+      "description": "Last reminders sent via WhatsApp",
+      "noNotifications": "No notifications recently sent",
+      "table": {
+        "date": "Date",
+        "message": "Message",
+        "actions": "Actions",
+        "reopen": "Reopen"
+      }
+    },
     "appointmentList": {
       "selectAll": "Select all",
       "actions": "Actions",
