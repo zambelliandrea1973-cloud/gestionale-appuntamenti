@@ -307,9 +307,9 @@
     "accessOurContacts": "Accede a nuestros contactos"
   },
   "appointment": {
-    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "Conferma e associa cliente",
-    "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectTimeSlots": "Seleccionar hora para nueva cita",
+    "confirmAndAssociateClient": "Confirmar y asociar cliente",
+    "selected": "Seleccionado",
+    "selectSlots": "Seleccionar rangos horarios"
   }
 }

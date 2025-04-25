@@ -266,6 +266,12 @@
     "clientDeleted": "Client șters",
     "clientDeletedSuccess": "Clientul a fost șters cu succes"
   },
+  "whatsappNotifications": {
+    "title": "Notificări clienți",
+    "description": "Gestionare memento-uri pentru programări",
+    "subDescription": "Trimiteți memento-uri WhatsApp clienților pentru programările lor viitoare",
+    "goTo": "Gestionare notificări"
+  },
   "errors": {
     "genericError": "A apărut o eroare: {{error}}",
     "qrCodeFetchError": "Eroare la obținerea codului QR existent:"

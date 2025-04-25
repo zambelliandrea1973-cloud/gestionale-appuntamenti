@@ -266,6 +266,12 @@
     "clientDeleted": "Kunde slettet",
     "clientDeletedSuccess": "Kunden ble slettet"
   },
+  "whatsappNotifications": {
+    "title": "Kundevarsler",
+    "description": "Administrer timepåminnelser",
+    "subDescription": "Send WhatsApp-påminnelser til kunder for deres kommende avtaler",
+    "goTo": "Administrer varsler"
+  },
   "errors": {
     "genericError": "Det oppstod en feil: {{error}}",
     "qrCodeFetchError": "Feil ved henting av eksisterende QR-kode:"
