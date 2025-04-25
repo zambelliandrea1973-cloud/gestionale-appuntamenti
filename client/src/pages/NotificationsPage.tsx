@@ -77,9 +77,12 @@ const NotificationsPage: React.FC = () => {
   const [selectedAppointments, setSelectedAppointments] = useState<Record<number, boolean>>({});
   const [customMessage, setCustomMessage] = useState('');
   const [sendingNotifications, setSendingNotifications] = useState(false);
+  const [sendingSMS, setSendingSMS] = useState(false);
   const [activeTab, setActiveTab] = useState('upcoming');
   const [sentHistory, setSentHistory] = useState<any[]>([]);
+  const [smsHistory, setSmsHistory] = useState<any[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [loadingSmsHistory, setLoadingSmsHistory] = useState(false);
 
   // Carica gli appuntamenti imminenti
   const fetchUpcomingAppointments = async () => {
@@ -147,10 +150,40 @@ const NotificationsPage: React.FC = () => {
     fetchUpcomingAppointments();
   }, []);
 
-  // Carica lo storico quando cambio tab
+  // Carica lo storico delle notifiche SMS
+  const fetchSmsHistory = async () => {
+    setLoadingSmsHistory(true);
+    
+    try {
+      const response = await fetch('/api/notifications/sms-history');
+      
+      if (!response.ok) {
+        throw new Error(`Errore durante il recupero dello storico SMS: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setSmsHistory(data.notifications || []);
+      } else {
+        throw new Error(data.error || 'Errore sconosciuto');
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Errore',
+        description: `Impossibile caricare lo storico SMS: ${err.message}`,
+        variant: 'destructive'
+      });
+    } finally {
+      setLoadingSmsHistory(false);
+    }
+  };
+
+  // Carica gli storici quando cambio tab
   useEffect(() => {
     if (activeTab === 'history') {
       fetchNotificationHistory();
+      fetchSmsHistory();
     }
   }, [activeTab]);
 
@@ -193,7 +226,7 @@ const NotificationsPage: React.FC = () => {
     return selected === total && total > 0;
   };
 
-  // Invia notifiche per gli appuntamenti selezionati
+  // Invia notifiche WhatsApp per gli appuntamenti selezionati
   const handleSendNotifications = async () => {
     const selectedIds = Object.entries(selectedAppointments)
       .filter(([_, isSelected]) => isSelected)
@@ -230,7 +263,7 @@ const NotificationsPage: React.FC = () => {
       
       if (data.success) {
         toast({
-          title: 'Promemoria generati',
+          title: 'Promemoria WhatsApp generati',
           description: data.message || `${data.results.length} promemoria WhatsApp generati con successo`,
           variant: 'default'
         });
@@ -246,11 +279,72 @@ const NotificationsPage: React.FC = () => {
     } catch (err: any) {
       toast({
         title: 'Errore',
-        description: `Impossibile inviare i promemoria: ${err.message}`,
+        description: `Impossibile inviare i promemoria WhatsApp: ${err.message}`,
         variant: 'destructive'
       });
     } finally {
       setSendingNotifications(false);
+    }
+  };
+  
+  // Invia SMS per gli appuntamenti selezionati
+  const handleSendSMS = async () => {
+    const selectedIds = Object.entries(selectedAppointments)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([id]) => parseInt(id));
+    
+    if (selectedIds.length === 0) {
+      toast({
+        title: 'Nessun appuntamento selezionato',
+        description: 'Seleziona almeno un appuntamento per inviare SMS',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    setSendingSMS(true);
+    
+    try {
+      const response = await fetch('/api/notifications/send-sms-batch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          appointmentIds: selectedIds,
+          customMessage: customMessage.trim() || undefined
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Errore durante l'invio degli SMS: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        toast({
+          title: 'SMS inviati',
+          description: `${data.results.filter(r => r.success).length} SMS inviati con successo`,
+          variant: 'default'
+        });
+        
+        // Aggiorna la lista dopo l'invio
+        fetchUpcomingAppointments();
+        // Reset delle selezioni e del messaggio personalizzato
+        setSelectedAppointments({});
+        setCustomMessage('');
+      } else {
+        throw new Error(data.error || 'Errore sconosciuto');
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Errore',
+        description: `Impossibile inviare gli SMS: ${err.message}`,
+        variant: 'destructive'
+      });
+    } finally {
+      setSendingSMS(false);
     }
   };
 
