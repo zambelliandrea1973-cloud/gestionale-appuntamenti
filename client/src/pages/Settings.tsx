@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { 
   Dialog,
@@ -15,15 +14,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Calendar, Type, Bell, Lock, Shield, Eye, EyeOff, RefreshCw } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
-import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
-import ReminderTemplateManager from '@/components/ReminderTemplateManager';
-import WhatsAppConfigHelper from '@/components/WhatsAppConfigHelper';
-import { NotificationSettingsForm } from '@/components/NotificationSettingsForm';
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
@@ -82,7 +77,7 @@ export default function Settings() {
       </header>
 
       <Tabs defaultValue="app" className="w-full">
-        <TabsList className="grid grid-cols-5 mb-6">
+        <TabsList className="grid grid-cols-3 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -90,14 +85,6 @@ export default function Settings() {
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
             <span>{t('settings.contacts', 'Contatti')}</span>
-          </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center whitespace-nowrap">
-            <Bell className="mr-2 h-4 w-4" />
-            <span>{t('settings.notifications', 'Promemoria')}</span>
-          </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
-            <Calendar className="mr-2 h-4 w-4" />
-            <span className="truncate">{t('settings.googleCalendar', 'Google calendario')}</span>
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
@@ -188,36 +175,7 @@ export default function Settings() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="notifications">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Bell className="mr-2 h-5 w-5" />
-                {t('settings.notificationsTitle', 'Impostazioni Promemoria')}
-              </CardTitle>
-              <CardDescription>
-                {t('settings.notificationsDesc', 'Gestisci i modelli di promemoria per gli appuntamenti')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Gestione Notifiche e Promemoria</h3>
-                <NotificationSettingsForm />
-              </div>
-              
-              <Separator className="my-6" />
-              
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Modelli di Promemoria</h3>
-                <ReminderTemplateManager />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="integrations">
-          <GoogleCalendarSettings />
-        </TabsContent>
+
         
         <TabsContent value="appearance">
           <Card>
