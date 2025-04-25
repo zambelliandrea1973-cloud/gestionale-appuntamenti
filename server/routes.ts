@@ -33,6 +33,7 @@ import sharp from 'sharp';
 import betaRoutes from './routes/betaRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import { adminRouter } from './routes/adminRoutes';
+import notificationRoutes from './routes/notificationRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -241,10 +242,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Registra le route per il sistema beta, pagamenti e funzioni amministrative
+  // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
   app.use('/api/payment', paymentRoutes);
   app.use('/api/admin', adminRouter);
+  app.use(notificationRoutes);
 
   const httpServer = createServer(app);
 
