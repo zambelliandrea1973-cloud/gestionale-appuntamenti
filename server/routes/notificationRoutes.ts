@@ -113,7 +113,7 @@ router.post('/send-batch', isStaff, async (req: Request, res: Response) => {
       
       // Se non c'è alcun template, usa un messaggio predefinito
       let message = template 
-        ? template.whatsappTemplate 
+        ? template.template // Usiamo il campo template definito nello schema
         : `Gentile {clientName}, le ricordiamo l'appuntamento per {serviceName} del {appointmentDate} alle ore {appointmentTime}.`;
       
       // Aggiungi messaggio personalizzato se specificato
@@ -153,8 +153,8 @@ router.post('/send-batch', isStaff, async (req: Request, res: Response) => {
         clientId: client.id,
         type: 'whatsapp',
         message: messageWithLink,
-        status: 'generated',
-        sent_at: new Date().toISOString()
+        channel: 'whatsapp'
+        // sentAt verrà impostato automaticamente dal database
       });
       
       // Aggiorna lo stato del promemoria nell'appuntamento
@@ -279,7 +279,11 @@ router.post('/send-multiple', isStaff, async (req: Request, res: Response) => {
     }
     
     // Ottieni le impostazioni di notifica
-    const notificationSettings = await storage.getNotificationSettings();
+    const notificationSettings = await storage.getNotificationSettings() || {
+      twilioEnabled: false,
+      emailEnabled: false,
+      whatsappEnabled: true // Impostiamo WhatsApp come sempre abilitato di default
+    };
     
     if (!notificationSettings.twilioEnabled && type === 'sms') {
       return res.status(400).json({
