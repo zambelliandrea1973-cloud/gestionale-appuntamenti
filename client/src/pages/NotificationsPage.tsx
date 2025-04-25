@@ -218,7 +218,7 @@ const NotificationsPage: React.FC = () => {
       });
       
       if (!response.ok) {
-        throw new Error(\`Errore durante l'invio delle notifiche: \${response.status}\`);
+        throw new Error(`Errore durante l'invio delle notifiche: ${response.status}`);
       }
       
       const data = await response.json();
@@ -226,7 +226,7 @@ const NotificationsPage: React.FC = () => {
       if (data.success) {
         toast({
           title: 'Promemoria generati',
-          description: data.message || \`\${data.results.length} promemoria WhatsApp generati con successo\`,
+          description: data.message || `${data.results.length} promemoria WhatsApp generati con successo`,
           variant: 'default'
         });
         
@@ -241,7 +241,7 @@ const NotificationsPage: React.FC = () => {
     } catch (err: any) {
       toast({
         title: 'Errore',
-        description: \`Impossibile inviare i promemoria: \${err.message}\`,
+        description: `Impossibile inviare i promemoria: ${err.message}`,
         variant: 'destructive'
       });
     } finally {

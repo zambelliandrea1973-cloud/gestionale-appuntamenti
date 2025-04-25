@@ -246,7 +246,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/beta', betaRoutes);
   app.use('/api/payment', paymentRoutes);
   app.use('/api/admin', adminRouter);
-  app.use(notificationRoutes);
+  app.use('/api/notifications', notificationRoutes);
 
   const httpServer = createServer(app);
 
