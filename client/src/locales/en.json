@@ -329,11 +329,21 @@
       "title": "Notification history",
       "description": "Last reminders sent via WhatsApp",
       "noNotifications": "No notifications recently sent",
+      "noSmsNotifications": "No SMS sent yet",
       "table": {
         "date": "Date",
         "message": "Message",
         "actions": "Actions",
-        "reopen": "Reopen"
+        "reopen": "Reopen",
+        "client": "Client",
+        "status": "Status"
+      },
+      "status": {
+        "delivered": "Delivered",
+        "sent": "Sent",
+        "undelivered": "Undelivered",
+        "failed": "Failed",
+        "unknown": "Unknown"
       }
     },
     "appointmentList": {

@@ -335,11 +335,21 @@
       "title": "Cronologia notifiche inviate",
       "description": "Ultimi promemoria inviati tramite WhatsApp",
       "noNotifications": "Nessuna notifica inviata recentemente",
+      "noSmsNotifications": "Nessun SMS inviato finora",
       "table": {
         "date": "Data",
         "message": "Messaggio",
         "actions": "Azioni",
-        "reopen": "Riapri"
+        "reopen": "Riapri",
+        "client": "Cliente",
+        "status": "Stato"
+      },
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
       }
     },
     "appointmentList": {
