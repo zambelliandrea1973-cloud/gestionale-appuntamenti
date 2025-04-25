@@ -437,7 +437,7 @@ const NotificationsPage: React.FC = () => {
                                 className="text-sm"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                Seleziona tutti
+                                {t('notificationsPage.table.selectAll')}
                               </label>
                             </div>
                             <Badge variant={selected > 0 ? "default" : "outline"}>
@@ -452,10 +452,10 @@ const NotificationsPage: React.FC = () => {
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="w-10"></TableHead>
-                                <TableHead>Cliente</TableHead>
-                                <TableHead>Servizio</TableHead>
-                                <TableHead>Orario</TableHead>
-                                <TableHead className="text-right">Azioni</TableHead>
+                                <TableHead>{t('notificationsPage.table.client')}</TableHead>
+                                <TableHead>{t('notificationsPage.table.service')}</TableHead>
+                                <TableHead>{t('notificationsPage.table.time')}</TableHead>
+                                <TableHead className="text-right">{t('notificationsPage.table.actions')}</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -505,7 +505,7 @@ const NotificationsPage: React.FC = () => {
                                       disabled={sendingNotifications}
                                     >
                                       <Send className="h-4 w-4 mr-1" />
-                                      Invia
+                                      {t('notificationsPage.table.send')}
                                     </Button>
                                   </TableCell>
                                 </TableRow>
@@ -535,12 +535,12 @@ const NotificationsPage: React.FC = () => {
                   {sendingNotifications ? (
                     <>
                       <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> 
-                      Generazione in corso...
+                      {t('notificationsPage.buttons.generating')}
                     </>
                   ) : (
                     <>
                       <MessageSquare className="h-4 w-4 mr-2" />
-                      Genera notifiche WhatsApp
+                      {t('notificationsPage.buttons.generateWhatsApp')}
                     </>
                   )}
                 </Button>
@@ -551,9 +551,9 @@ const NotificationsPage: React.FC = () => {
           <TabsContent value="history">
             <Card>
               <CardHeader>
-                <CardTitle>Cronologia notifiche inviate</CardTitle>
+                <CardTitle>{t('notificationsPage.history.title')}</CardTitle>
                 <CardDescription>
-                  Ultimi promemoria inviati tramite WhatsApp
+                  {t('notificationsPage.history.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -564,15 +564,15 @@ const NotificationsPage: React.FC = () => {
                 ) : sentHistory.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
                     <CheckCircle className="h-8 w-8 mx-auto mb-4" />
-                    <p>Nessuna notifica inviata recentemente</p>
+                    <p>{t('notificationsPage.history.noNotifications')}</p>
                   </div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Data</TableHead>
-                        <TableHead>Messaggio</TableHead>
-                        <TableHead className="text-right">Azioni</TableHead>
+                        <TableHead>{t('notificationsPage.history.table.date')}</TableHead>
+                        <TableHead>{t('notificationsPage.history.table.message')}</TableHead>
+                        <TableHead className="text-right">{t('notificationsPage.history.table.actions')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -597,7 +597,7 @@ const NotificationsPage: React.FC = () => {
                                   className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-800"
                                 >
                                   <ExternalLink className="h-4 w-4" />
-                                  <span>Riapri</span>
+                                  <span>{t('notificationsPage.history.table.reopen')}</span>
                                 </a>
                               )}
                             </TableCell>
