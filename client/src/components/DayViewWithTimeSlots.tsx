@@ -595,22 +595,42 @@ export default function DayViewWithTimeSlots({
                     )}
                   </div>
                   
-                  <div className="flex gap-1 mt-1 sm:mt-0">
+                  <div className={`flex ${isMobile ? 'justify-end gap-3 mt-2 mb-1' : 'gap-1 mt-1 sm:mt-0'}`}>
                     <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="h-5 w-5 sm:h-6 sm:w-6 p-0"
+                      variant={isMobile ? "outline" : "ghost"} 
+                      size={isMobile ? "default" : "icon"}
+                      className={isMobile 
+                        ? "h-10 px-3 rounded-md border-2 border-blue-300 bg-blue-50" 
+                        : "h-5 w-5 sm:h-6 sm:w-6 p-0"
+                      }
                       onClick={() => editAppointment(appointment)}
                     >
-                      <Edit className="h-3 w-3" />
+                      {isMobile ? (
+                        <>
+                          <Edit className="h-4 w-4 mr-1" />
+                          <span>{t("common.edit")}</span>
+                        </>
+                      ) : (
+                        <Edit className="h-3 w-3" />
+                      )}
                     </Button>
                     <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className={`${isMobile ? 'h-8 w-8 sm:h-8 sm:w-8' : 'h-5 w-5 sm:h-6 sm:w-6'} p-0 text-red-500`}
+                      variant={isMobile ? "destructive" : "ghost"}
+                      size={isMobile ? "default" : "icon"}
+                      className={isMobile 
+                        ? "h-10 px-3 rounded-md" 
+                        : "h-5 w-5 sm:h-6 sm:w-6 p-0 text-red-500"
+                      }
                       onClick={() => confirmDeleteAppointment(appointment.id)}
                     >
-                      <Trash2 className={`${isMobile ? 'h-5 w-5' : 'h-3 w-3'}`} />
+                      {isMobile ? (
+                        <>
+                          <Trash2 className="h-4 w-4 mr-1" />
+                          <span>{t("common.delete")}</span>
+                        </>
+                      ) : (
+                        <Trash2 className="h-3 w-3" />
+                      )}
                     </Button>
                   </div>
                 </div>
