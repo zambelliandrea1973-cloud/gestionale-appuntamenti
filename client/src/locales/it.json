@@ -8,7 +8,9 @@
     "selectTimeSlots": "Seleziona orario nuovo appuntamento",
     "confirmAndAssociateClient": "Conferma e associa cliente",
     "selected": "Selezionato",
-    "selectSlots": "Seleziona gli slot temporali"
+    "selectSlots": "Seleziona gli slot temporali",
+    "confirmDelete": "Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "Elimina appuntamento"
   },
   "navigation": {
     "home": "Home"
