@@ -37,6 +37,8 @@ export default function DayViewWithTimeSlots({
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
   const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null); // Aggiungiamo un ref per il timer
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Rileva se siamo su mobile
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [appointmentToDelete, setAppointmentToDelete] = useState<number | null>(null);
   
   // Gestione del cambio di dimensione della finestra
   useEffect(() => {
@@ -385,6 +387,17 @@ export default function DayViewWithTimeSlots({
   };
 
   // Elimina un appuntamento
+  // Richiedi conferma per eliminare un appuntamento
+  const confirmDeleteAppointment = (id: number) => {
+    setAppointmentToDelete(id);
+    setShowDeleteConfirm(true);
+    // Su mobile, chiudiamo l'appuntamento espanso
+    if (isMobile) {
+      setExpandedAppointment(null);
+    }
+  };
+  
+  // Eliminare un appuntamento dopo conferma
   const deleteAppointment = (id: number) => {
     if (window.confirm(t("appointment.confirmDelete"))) {
       deleteMutation.mutate(id);
@@ -594,10 +607,10 @@ export default function DayViewWithTimeSlots({
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-5 w-5 sm:h-6 sm:w-6 p-0 text-red-500"
-                      onClick={() => deleteAppointment(appointment.id)}
+                      className={`${isMobile ? 'h-8 w-8 sm:h-8 sm:w-8' : 'h-5 w-5 sm:h-6 sm:w-6'} p-0 text-red-500`}
+                      onClick={() => confirmDeleteAppointment(appointment.id)}
                     >
-                      <Trash2 className="h-3 w-3" />
+                      <Trash2 className={`${isMobile ? 'h-5 w-5' : 'h-3 w-3'}`} />
                     </Button>
                   </div>
                 </div>
@@ -642,6 +655,39 @@ export default function DayViewWithTimeSlots({
           text={t('calendar.selectTimeNewAppointment')}
           position="bottom-right"
         />
+      )}
+      
+      {/* Dialog di conferma eliminazione */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <h3 className="text-lg font-bold mb-2">{t("appointment.confirmDeleteTitle")}</h3>
+            <p className="mb-4">{t("appointment.confirmDelete")}</p>
+            <div className="flex justify-end gap-2">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setAppointmentToDelete(null);
+                }}
+              >
+                {t("common.cancel")}
+              </Button>
+              <Button 
+                variant="destructive" 
+                onClick={() => {
+                  if (appointmentToDelete !== null) {
+                    deleteMutation.mutate(appointmentToDelete);
+                    setShowDeleteConfirm(false);
+                    setAppointmentToDelete(null);
+                  }
+                }}
+              >
+                {t("common.delete")}
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </Card>
   );
