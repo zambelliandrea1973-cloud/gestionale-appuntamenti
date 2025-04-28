@@ -77,7 +77,10 @@ router.post('/start-pairing', async (req, res) => {
         const status = phoneDeviceService.getStatus().status;
         if (!phoneDeviceService.getCurrentQR() && status === 'connecting') {
           console.log('Generazione QR code di test dopo timeout');
-          const testQR = "https://wa.me/12345678901?text=Test%20messaggio%20WhatsApp";
+          // Generiamo un QR code che simula quello di WhatsApp
+          const timestamp = Date.now(); 
+          const randomStr = Math.random().toString(36).substring(2, 10);
+          const testQR = `whatsapp:web:${timestamp}:${randomStr}:1,0,0,0,0,0,0,0`;
           phoneDeviceService.setTestQRCode(testQR);
         }
       }, 2000);
