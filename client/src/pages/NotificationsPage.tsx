@@ -323,7 +323,7 @@ const NotificationsPage: React.FC = () => {
         },
         body: JSON.stringify({
           appointmentIds: selectedIds,
-          customMessage: customMessage.trim() || undefined
+          message: customMessage.trim() || undefined
         })
       });
       
@@ -334,11 +334,52 @@ const NotificationsPage: React.FC = () => {
       const data = await response.json();
       
       if (data.success) {
-        toast({
-          title: 'SMS inviati',
-          description: `${data.results.filter((r: any) => r.success).length} SMS inviati con successo`,
-          variant: 'default'
-        });
+        // Controlla se è presente un avviso per account trial o con limitazioni
+        if (data.trialAccount || data.trialWarning) {
+          toast({
+            title: "Account Twilio con limitazioni",
+            description: data.trialWarning || "Il tuo account Twilio ha delle limitazioni e potrebbe non consegnare SMS a tutti i numeri.",
+            variant: "destructive",
+            duration: 8000,
+          });
+        }
+        
+        // Verifica se ci sono errori specifici da mostrare
+        const errorsFound = data.results.some((r: any) => !r.success);
+        
+        if (errorsFound) {
+          // Raggruppa gli errori per tipo per evitare toast duplicati
+          const errorTypes: Record<string, number> = {};
+          
+          data.results.forEach((result: any) => {
+            if (!result.success && result.errorCode) {
+              errorTypes[result.errorCode] = (errorTypes[result.errorCode] || 0) + 1;
+            }
+          });
+          
+          // Mostra i messaggi di errore principali
+          Object.entries(errorTypes).forEach(([errorCode, count]) => {
+            const errorResult = data.results.find((r: any) => !r.success && r.errorCode === errorCode);
+            if (errorResult) {
+              toast({
+                title: `Errore invio SMS (${count} ${count === 1 ? 'destinatario' : 'destinatari'})`,
+                description: errorResult.error,
+                variant: "destructive",
+                duration: 6000,
+              });
+            }
+          });
+        }
+        
+        // Mostra il toast di successo solo se ci sono stati invii riusciti
+        const successCount = data.stats?.success || data.results.filter((r: any) => r.success).length;
+        if (successCount > 0) {
+          toast({
+            title: 'SMS inviati',
+            description: `${successCount} SMS inviati con successo`,
+            variant: 'default'
+          });
+        }
         
         // Aggiorna la lista dopo l'invio
         fetchUpcomingAppointments();
@@ -444,6 +485,19 @@ const NotificationsPage: React.FC = () => {
                   <li>{t('notificationsPage.howItWorks.steps.1')}</li>
                   <li>{t('notificationsPage.howItWorks.steps.2')}</li>
                   <li>{t('notificationsPage.howItWorks.steps.3')}</li>
+                </ul>
+              </AlertDescription>
+            </Alert>
+            
+            <Alert variant="warning" className="bg-amber-50 border-amber-200">
+              <AlertCircle className="h-4 w-4 text-amber-600" />
+              <AlertTitle className="text-amber-800">Limitazioni SMS Twilio</AlertTitle>
+              <AlertDescription className="text-amber-700">
+                <p className="mb-1">Gli SMS potrebbero non essere consegnati in questi casi:</p>
+                <ul className="list-disc pl-5 text-sm space-y-1">
+                  <li>Account Twilio in modalità trial (gratuita): SMS inviati solo a numeri verificati</li>
+                  <li>Restrizioni geografiche: alcuni prefissi internazionali potrebbero essere bloccati</li>
+                  <li>Numeri non validi: verifica la formattazione (es. +393471234567)</li>
                 </ul>
               </AlertDescription>
             </Alert>
