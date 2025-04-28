@@ -50,6 +50,15 @@ const PhoneDeviceSetupPage = () => {
     
     newSocket.on('connect', () => {
       console.log('Connesso al server socket.io');
+      // Quando la connessione è stabilita, richiediamo lo stato attuale del dispositivo
+      fetch('/api/phone-device/status')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.status) {
+            setDeviceInfo(data.status);
+          }
+        })
+        .catch(err => console.error('Errore nel recupero dello stato:', err));
     });
 
     newSocket.on('device_status', (data: DeviceInfo) => {
@@ -83,6 +92,8 @@ const PhoneDeviceSetupPage = () => {
     newSocket.on('qr_code', (qr: string) => {
       console.log('Ricevuto QR code');
       setQrCode(qr);
+      // Aggiorniamo anche lo stato del dispositivo quando riceviamo un QR
+      setDeviceInfo(prev => ({...prev, status: DeviceStatus.QR_READY}));
     });
 
     newSocket.on('disconnect', () => {
@@ -102,29 +113,71 @@ const PhoneDeviceSetupPage = () => {
   }, []);
 
   // Gestione delle azioni sul dispositivo
-  const handleStartPairing = () => {
-    if (!socket) return;
-    
+  const handleStartPairing = async () => {
     setIsConnecting(true);
     setQrCode(null);
-    socket.emit('start_pairing');
     
     toast({
       title: "Inizializzazione dispositivo",
       description: "Preparazione del codice QR per l'accoppiamento...",
     });
+    
+    try {
+      const response = await fetch('/api/phone-device/start-pairing', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      
+      if (!data.success) {
+        toast({
+          title: "Errore",
+          description: data.message || "Impossibile inizializzare il dispositivo",
+          variant: "destructive",
+        });
+        setIsConnecting(false);
+      }
+    } catch (error) {
+      console.error('Errore durante l\'inizializzazione:', error);
+      toast({
+        title: "Errore di connessione",
+        description: "Impossibile comunicare con il server",
+        variant: "destructive",
+      });
+      setIsConnecting(false);
+    }
   };
 
-  const handleDisconnect = () => {
-    if (!socket) return;
-    
+  const handleDisconnect = async () => {
     setIsDisconnecting(true);
-    socket.emit('disconnect_device');
     
     toast({
       title: "Disconnessione in corso",
       description: "Disconnessione del dispositivo...",
     });
+    
+    try {
+      const response = await fetch('/api/phone-device/disconnect', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      
+      if (!data.success) {
+        toast({
+          title: "Errore",
+          description: data.message || "Impossibile disconnettere il dispositivo",
+          variant: "destructive",
+        });
+        setIsDisconnecting(false);
+      }
+    } catch (error) {
+      console.error('Errore durante la disconnessione:', error);
+      toast({
+        title: "Errore di connessione",
+        description: "Impossibile comunicare con il server",
+        variant: "destructive",
+      });
+      setIsDisconnecting(false);
+    }
   };
 
   // Invia un messaggio di test
@@ -299,7 +352,7 @@ const PhoneDeviceSetupPage = () => {
             <CardContent className="flex justify-center">
               {/* Visualizza il QR code come immagine */}
               <div className="border p-4 bg-white">
-                <QRCode value={qrCode} size={256} />
+                <QRCodeSVG value={qrCode} size={256} />
               </div>
             </CardContent>
             <CardFooter>
