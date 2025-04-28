@@ -1,4 +1,4 @@
-import { Client, LocalAuth } from 'whatsapp-web.js';
+import { Client } from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import { Server as SocketIOServer } from 'socket.io';
 import { storage } from '../storage';
@@ -106,9 +106,8 @@ class PhoneDeviceService {
       // Genera un ID univoco per questo dispositivo se non ne ha già uno
       this.deviceId = Date.now().toString();
 
-      // Crea il client WhatsApp con autenticazione locale
+      // Crea il client WhatsApp con autenticazione standard
       this.client = new Client({
-        authStrategy: new LocalAuth({ clientId: this.deviceId }),
         puppeteer: {
           args: ['--no-sandbox', '--disable-setuid-sandbox']
         }
@@ -229,12 +228,8 @@ class PhoneDeviceService {
         // Aggiorna le impostazioni esistenti
         await storage.updateSetting('whatsapp_device', JSON.stringify(deviceData));
       } else {
-        // Crea nuove impostazioni utilizzando il metodo corretto del repository
-        await storage.saveSetting({
-          key: 'whatsapp_device',
-          value: JSON.stringify(deviceData),
-          description: 'Impostazioni del dispositivo WhatsApp accoppiato'
-        });
+        // Crea nuove impostazioni utilizzando il metodo saveSetting
+        await storage.saveSetting('whatsapp_device', JSON.stringify(deviceData), 'Impostazioni del dispositivo WhatsApp accoppiato');
       }
       
       console.log('Impostazioni del dispositivo salvate nel database');
