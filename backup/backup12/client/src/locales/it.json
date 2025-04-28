@@ -1,0 +1,445 @@
+{
+  "app": {
+    "title": "Gestione Appuntamenti",
+    "welcome": "Benvenuto nella Gestione Appuntamenti",
+    "description": "Gestisci facilmente gli appuntamenti, i clienti e le fatture"
+  },
+  "appointment": {
+    "selectTimeSlots": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
+    "selected": "Selezionato",
+    "selectSlots": "Seleziona gli slot temporali",
+    "confirmDelete": "Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "Elimina appuntamento"
+  },
+  "navigation": {
+    "home": "Home"
+  },
+  "sidebar": {
+    "clients": "Clienti",
+    "calendar": "Calendario",
+    "invoices": "Fatture",
+    "reports": "Report",
+    "settings": "Impostazioni"
+  },
+  "language": {
+    "it": "Italiano",
+    "en": "Inglese",
+    "de": "Tedesco",
+    "fr": "Francese",
+    "es": "Spagnolo",
+    "ru": "Russo",
+    "nl": "Olandese",
+    "no": "Norvegese",
+    "ro": "Rumeno",
+    "select": "Seleziona lingua"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendario",
+      "description": "Visualizza e gestisci tutti gli appuntamenti",
+      "content": "Visualizza gli appuntamenti in modalità giornaliera, settimanale o mensile, e crea facilmente nuovi appuntamenti.",
+      "button": "Vai al Calendario"
+    },
+    "clients": {
+      "title": "Clienti",
+      "description": "Gestisci l'anagrafica dei clienti",
+      "content": "Aggiungi, modifica e visualizza i dati dei clienti, compresi i dati anagrafici e medici.",
+      "button": "Gestisci Clienti"
+    },
+    "invoices": {
+      "title": "Fatture",
+      "description": "Gestisci fatture e pagamenti",
+      "content": "Crea e gestisci fatture, registra pagamenti e monitora lo stato delle fatture in tempo reale.",
+      "button": "Gestisci Fatture"
+    },
+    "reports": {
+      "title": "Report",
+      "description": "Analizza l'andamento delle attività",
+      "content": "Visualizza report giornalieri, settimanali e mensili per analizzare l'andamento delle attività.",
+      "button": "Visualizza Report"
+    }
+  },
+  "calendar": {
+    "title": "Calendario",
+    "description": "Visualizza e gestisci tutti gli appuntamenti",
+    "subDescription": "Visualizza gli appuntamenti in modalità giornaliera, settimanale o mensile, e crea facilmente nuovi appuntamenti",
+    "goTo": "Vai al Calendario",
+    "daily": "Giornaliero",
+    "weekly": "Settimanale",
+    "monthly": "Mensile",
+    "weekView": "Vista settimanale",
+    "monthView": "Vista mensile",
+    "addAppointment": "Nuovo Appuntamento",
+    "selectNewAppointment": "Seleziona nuovo appuntamento",
+    "selectTimeNewAppointment": "Seleziona orario nuovo appuntamento",
+    "confirmAndAssociateClient": "Conferma e associa cliente",
+    "today": "Oggi",
+    "searchResults": "Risultati della ricerca",
+    "noAppointmentsFound": "Nessun appuntamento trovato per",
+    "goToDay": "Vai al giorno",
+    "hasAppointments": "Ha appuntamenti",
+    "slotOccupied": "Slot occupato da appuntamento precedente",
+    "customDuration": "Durata personalizzata",
+    "incrementBy15Min": "Incrementa di 15 min",
+    "decrementBy15Min": "Decrementa di 15 min",
+    "selected": "Selezionato",
+    "select": "Seleziona",
+    "days": {
+      "monday": "Lunedì",
+      "tuesday": "Martedì",
+      "wednesday": "Mercoledì",
+      "thursday": "Giovedì",
+      "friday": "Venerdì",
+      "saturday": "Sabato",
+      "sunday": "Domenica"
+    },
+    "months": {
+      "january": "Gennaio",
+      "february": "Febbraio",
+      "march": "Marzo",
+      "april": "Aprile",
+      "may": "Maggio",
+      "june": "Giugno",
+      "july": "Luglio",
+      "august": "Agosto",
+      "september": "Settembre",
+      "october": "Ottobre",
+      "november": "Novembre",
+      "december": "Dicembre"
+    }
+  },
+  "clients": {
+    "title": "Clienti",
+    "description": "Gestisci l'anagrafica dei clienti",
+    "subDescription": "Aggiungi, modifica e visualizza i dati dei clienti, compresi i dati anagrafici e medici",
+    "goTo": "Gestisci Clienti",
+    "addClient": "Nuovo Cliente",
+    "newClient": "Nuovo Cliente",
+    "addFirstClient": "Aggiungi il primo cliente",
+    "search": {
+      "placeholder": "Cerca clienti per nome, telefono o email...",
+      "minLength": "Inserisci almeno 2 caratteri per la ricerca"
+    },
+    "filter": {
+      "all": "Tutti",
+      "frequent": "Frequenti",
+      "noConsent": "Senza Consenso"
+    },
+    "noClientsFound": "Nessun cliente trovato",
+    "noClientsInSystem": "Non ci sono clienti registrati nel sistema",
+    "noResultsMatch": "Nessun cliente corrisponde ai criteri di ricerca \"{{query}}\"",
+    "refreshSuccess": "I dati dei clienti sono stati aggiornati",
+    "lastUpdate": "Ultimo aggiornamento",
+    "autoUpdate": "Aggiornamento automatico ogni ora e alle 23:59",
+    "stats": {
+      "total": "Totale clienti",
+      "frequent": "Clienti frequenti",
+      "noConsent": "Senza consenso"
+    },
+    "table": {
+      "name": "Nome",
+      "surname": "Cognome",
+      "email": "Email",
+      "phone": "Telefono",
+      "actions": "Azioni"
+    },
+    "details": {
+      "title": "Dettagli Cliente",
+      "personalInfo": "Informazioni Personali",
+      "medicalInfo": "Informazioni Mediche",
+      "appointments": "Appuntamenti",
+      "notes": "Note",
+      "consents": "Consensi",
+      "clientFile": "Cartella cliente",
+      "addAppointment": "Nuovo appuntamento",
+      "generateQRCode": "Genera QR Code",
+      "accessActivated": "QR Code di accesso cliente",
+      "showDetails": "Dettagli",
+      "deleteClient": "Elimina cliente",
+      "deleteClientConfirmation": "Sei sicuro di voler eliminare questo cliente? Verranno eliminati anche tutti i suoi appuntamenti. Questa azione non può essere annullata.",
+      "notFound": "Cliente non trovato",
+      "notSpecified": "Non specificato",
+      "frequentClient": "Cliente frequente",
+      "dataConsent": "Consenso al trattamento dati",
+      "obtained": "Ottenuto",
+      "notObtained": "Non ottenuto",
+      "viewAllAppointments": "Visualizza tutti gli appuntamenti",
+      "backToClients": "Torna all'elenco clienti",
+      "structuredNotes": "Note strutturate",
+      "legacyMedicalData": "Dati medici legacy",
+      "otherInfo": "Altre informazioni",
+      "viewMode": "Modalità di visualizzazione note",
+      "stackedView": "Visualizzazione a schede sovrapposte",
+      "classicView": "Visualizzazione classica",
+      "stackedViewDescription": "Le note sono visualizzate come schede sovrapposte. Clicca sulle schede o usa i pulsanti di navigazione per sfogliarle.",
+      "classicViewDescription": "Le note sono visualizzate in sequenza verticale.",
+      "generalNotes": "Note generali",
+      "medicalNotes": "Note mediche",
+      "allergiesInfo": "Allergie e informazioni sanitarie",
+      "medicalNotesLegacy": "Note mediche (legacy)",
+      "allergiesInfoLegacy": "Allergie e informazioni sanitarie (legacy)",
+      "generalNotesLegacy": "Note generali (legacy)",
+      "noMedicalNotes": "Nessuna nota medica registrata",
+      "noAllergiesInfo": "Nessuna allergia o informazione sanitaria registrata",
+      "noGeneralNotes": "Nessuna nota generale registrata"
+    },
+    "form": {
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "email": "Email",
+      "phone": "Telefono",
+      "birthDate": "Data di Nascita",
+      "address": "Indirizzo",
+      "city": "Città",
+      "zipCode": "CAP",
+      "notes": "Note",
+      "save": "Salva",
+      "cancel": "Annulla"
+    }
+  },
+  "invoices": {
+    "title": "Fatture",
+    "description": "Gestisci fatture e pagamenti",
+    "subDescription": "Crea e gestisci fatture, registra pagamenti e monitora lo stato delle fatture in tempo reale",
+    "goTo": "Gestisci Fatture",
+    "addInvoice": "Nuova Fattura",
+    "table": {
+      "number": "Numero",
+      "date": "Data",
+      "client": "Cliente",
+      "amount": "Importo",
+      "status": "Stato",
+      "actions": "Azioni"
+    },
+    "status": {
+      "paid": "Pagata",
+      "unpaid": "Non Pagata",
+      "partial": "Pagamento Parziale"
+    }
+  },
+  "reports": {
+    "title": "Report",
+    "description": "Analizza l'andamento delle attività",
+    "subDescription": "Visualizza report giornalieri, settimanali e mensili per analizzare l'andamento delle attività",
+    "goTo": "Visualizza Report",
+    "daily": "Report Giornaliero",
+    "weekly": "Report Settimanale",
+    "monthly": "Report Mensile",
+    "appointments": "Appuntamenti",
+    "clients": "Clienti",
+    "revenue": "Fatturato"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "general": "Generali",
+    "profile": "Profilo",
+    "appearance": "Aspetto",
+    "notifications": "Notifiche",
+    "language": "Lingua",
+    "theme": "Tema",
+    "save": "Salva Impostazioni",
+    "saving": "Salvataggio in corso...",
+    "contacts": "Contatti",
+    "contactsTitle": "Informazioni di Contatto",
+    "contactsDesc": "Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
+    "appName": "Nome App",
+    "appIcon": "Icona App",
+    "googleCalendar": "Google calendario",
+    "integrations": "Integrazioni",
+    "appearanceTitle": "Identità Aziendale",
+    "appearanceDesc": "Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+  },
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "view": "Visualizza",
+    "search": "Cerca",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "actions": "Azioni",
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefono",
+    "address": "Indirizzo",
+    "date": "Data",
+    "time": "Ora",
+    "description": "Descrizione",
+    "support": "Supporto",
+    "terms": "Termini di Servizio",
+    "refresh": "Aggiorna",
+    "error": "Errore",
+    "birthday": "Data di nascita",
+    "yes": "Sì",
+    "no": "No"
+  },
+  "notifications": {
+    "success": "Operazione completata con successo",
+    "error": "Si è verificato un errore",
+    "warning": "Attenzione",
+    "info": "Informazione",
+    "clientDeleted": "Cliente eliminato",
+    "clientDeletedSuccess": "Il cliente è stato eliminato con successo"
+  },
+  "whatsappNotifications": {
+    "title": "Notifiche ai clienti",
+    "description": "Gestisci i promemoria per gli appuntamenti",
+    "subDescription": "Invia promemoria WhatsApp ai clienti per i loro appuntamenti imminenti",
+    "goTo": "Gestisci Notifiche"
+  },
+  "notificationsPage": {
+    "title": "Notifiche ai clienti",
+    "subtitle": "Gestisci i promemoria per gli appuntamenti dei clienti",
+    "refresh": "Aggiorna",
+    "tabs": {
+      "upcoming": "Da inviare",
+      "history": "Cronologia",
+      "settings": "Impostazioni notifiche",
+      "calendar": "Google Calendario"
+    },
+    "howItWorks": {
+      "title": "Come funzionano le notifiche WhatsApp",
+      "steps": [
+        "Seleziona gli appuntamenti per cui vuoi inviare un promemoria",
+        "Clicca su \"Genera notifiche WhatsApp\" per creare i link",
+        "Verranno generati link che aprono WhatsApp con testi precompilati",
+        "Puoi personalizzare il testo standard prima dell'invio"
+      ]
+    },
+    "customMessage": {
+      "title": "Messaggio personalizzato (opzionale)",
+      "description": "Se specificato, questo testo verrà aggiunto al messaggio standard",
+      "placeholder": "Es. Ricordo di portare con sé la documentazione medica precedente.",
+      "characters": "caratteri",
+      "clear": "Cancella"
+    },
+    "noAppointments": {
+      "loading": "Caricamento appuntamenti in corso...",
+      "empty": "Nessun appuntamento da notificare",
+      "description": "Non ci sono appuntamenti imminenti che richiedono promemoria."
+    },
+    "table": {
+      "client": "Cliente",
+      "service": "Servizio",
+      "time": "Orario",
+      "actions": "Azioni",
+      "send": "Invia",
+      "selectAll": "Seleziona tutti"
+    },
+    "buttons": {
+      "generating": "Generazione in corso...",
+      "generateWhatsApp": "Genera notifiche WhatsApp"
+    },
+    "history": {
+      "title": "Cronologia notifiche inviate",
+      "description": "Ultimi promemoria inviati tramite WhatsApp",
+      "noNotifications": "Nessuna notifica inviata recentemente",
+      "noSmsNotifications": "Nessun SMS inviato finora",
+      "table": {
+        "date": "Data",
+        "message": "Messaggio",
+        "actions": "Azioni",
+        "reopen": "Riapri",
+        "client": "Cliente",
+        "status": "Stato"
+      },
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Seleziona tutti",
+      "actions": "Azioni",
+      "sendButton": "Genera notifiche WhatsApp",
+      "sending": "Generazione notifiche in corso..."
+    },
+    "errors": {
+      "loadingAppointments": "Impossibile caricare gli appuntamenti",
+      "loadingHistory": "Impossibile caricare lo storico",
+      "noneSelected": "Seleziona almeno un appuntamento per inviare notifiche",
+      "sendingFailed": "Impossibile inviare i promemoria"
+    },
+    "success": {
+      "remindersSent": "Promemoria generati con successo"
+    },
+    "whatsappLink": "Apri WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Impostazioni notifiche",
+    "enableEmailNotifications": "Abilita notifiche email",
+    "emailSetup": {
+      "title": "Configurazione Rapida Email",
+      "email": "Email",
+      "emailPlaceholder": "Inserisci il tuo indirizzo email",
+      "password": "Password",
+      "passwordPlaceholder": "Inserisci la tua password email",
+      "description": "Questa configurazione imposta il tuo account email per l'invio delle notifiche.",
+      "autoDetect": "Rileva automaticamente",
+      "emailRequired": "Inserisci il tuo indirizzo email per rilevare le impostazioni"
+    },
+    "errors": {
+      "loadingSettings": "Impossibile caricare le impostazioni di notifica",
+      "savingSettings": "Impossibile salvare le impostazioni",
+      "testEmailMissing": "Inserisci un indirizzo email per il test"
+    },
+    "success": {
+      "settingsSaved": "Impostazioni di notifica salvate con successo",
+      "testEmailSent": "Email di test inviata con successo",
+      "remindersProcessed": "Promemoria elaborati con successo"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendario",
+    "setupInstructions": "Configura l'integrazione con Google Calendar",
+    "emailLabel": "Account Gmail",
+    "emailPlaceholder": "tuo.indirizzo@gmail.com",
+    "emailDescription": "L'account Google che desideri utilizzare per il calendario",
+    "connected": "Account collegato",
+    "notConnected": "Account non ancora collegato",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Il tuo Client ID di Google",
+    "clientIdDescription": "Ottieni questo valore dalla console Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Il tuo Client Secret di Google",
+    "clientSecretDescription": "Ottieni questo valore dalla console Google Cloud",
+    "configHelp": "Aiuto con la configurazione",
+    "errors": {
+      "authorizationUrlFailed": "Impossibile generare l'URL di autorizzazione"
+    },
+    "success": {
+      "settingsSaved": "Le impostazioni di sincronizzazione sono state salvate con successo",
+      "authorizationComplete": "Il tuo account Google è stato collegato con successo"
+    }
+  },
+  "errors": {
+    "genericError": "Si è verificato un errore: {{error}}",
+    "qrCodeFetchError": "Errore nel recupero del QR code esistente:"
+  },
+  "auth": {
+    "login": "Accedi",
+    "logout": "Esci",
+    "username": "Nome utente",
+    "password": "Password",
+    "rememberMe": "Ricordami",
+    "forgotPassword": "Password dimenticata?",
+    "loginButton": "Accedi"
+  },
+  "clientArea": {
+    "title": "Area Cliente",
+    "welcome": "Benvenuto nella tua Area Personale",
+    "appointments": "I tuoi Appuntamenti",
+    "personalInfo": "Informazioni Personali",
+    "consents": "Gestione Consensi",
+    "messages": "Messaggi"
+  },
+  "contacts": {
+    "accessOurContacts": "Accedi ai nostri contatti"
+  }
+}
