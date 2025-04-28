@@ -76,6 +76,40 @@ export const directNotificationService = {
     
     return `https://wa.me/${formattedTo}?text=${encodedMessage}`;
   },
+  
+  /**
+   * Genera un link WhatsApp e invia una notifica al centro notifiche
+   * @param client Dati del cliente
+   * @param message Testo del messaggio
+   * @param appointmentId ID dell'appuntamento
+   * @param appointmentDate Data dell'appuntamento formattata
+   * @returns true se l'operazione è riuscita
+   */
+  async generateWhatsAppLinkAndNotify(
+    client: any, 
+    message: string, 
+    appointmentId: number, 
+    appointmentDate: string
+  ): Promise<boolean> {
+    try {
+      if (!client.phone) return false;
+      
+      const whatsappLink = this.generateWhatsAppLink(client.phone, message);
+      
+      await this.addToNotificationCenter(
+        0, // ID speciale per il professionista 
+        `📱 Invia promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}. [Apri WhatsApp](${whatsappLink})`,
+        'staff_reminder',
+        appointmentId
+      );
+      
+      console.log(`Generato link WhatsApp per l'appuntamento ${appointmentId}: ${whatsappLink}`);
+      return true;
+    } catch (error) {
+      console.error('Errore nella generazione del link WhatsApp:', error);
+      return false;
+    }
+  },
 
   /**
    * Invia un messaggio email utilizzando SMTP
