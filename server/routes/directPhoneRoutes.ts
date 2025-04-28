@@ -115,23 +115,24 @@ router.post('/disconnect-direct', async (req, res) => {
 });
 
 /**
- * Invia un SMS di test
+ * Genera un link WhatsApp per un messaggio di test
  * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
  */
 router.post('/send-test-direct', async (req, res) => {
   try {
-    await directPhoneService.sendTestSms();
+    const result = await directPhoneService.sendTestSms();
     
     res.json({
       success: true,
-      message: 'SMS di test inviato con successo'
+      message: 'Link WhatsApp generato con successo',
+      whatsappLink: result.whatsappLink
     });
   } catch (error: any) {
-    console.error('Errore nell\'invio dell\'SMS di test:', error);
+    console.error('Errore nella generazione del link WhatsApp:', error);
     
     res.status(500).json({
       success: false,
-      error: error.message || 'Errore nell\'invio dell\'SMS di test'
+      error: error.message || 'Errore nella generazione del link WhatsApp'
     });
   }
 });

@@ -189,10 +189,10 @@ class DirectPhoneService {
   }
   
   /**
-   * Invia un SMS di test al telefono attivo
+   * Invia un WhatsApp di test al telefono attivo
    * @returns Vero se l'invio è riuscito
    */
-  public async sendTestSms(): Promise<boolean> {
+  public async sendTestSms(): Promise<{ success: boolean; whatsappLink?: string }> {
     try {
       if (!this.activePhone || !this.activePhone.phoneNumber) {
         throw new Error('Nessun telefono attivo configurato');
@@ -201,34 +201,23 @@ class DirectPhoneService {
       const phoneNumber = this.activePhone.phoneNumber;
       
       const messageText = `Studio Medico: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`;
-      console.log(`Tentativo di invio SMS di test a ${phoneNumber} utilizzando Twilio...`);
-      console.log(`Parametri: from=${process.env.TWILIO_PHONE_NUMBER}, body=${messageText}`);
+      console.log(`Generazione link WhatsApp per ${phoneNumber}...`);
       
-      // Invio effettivo dell'SMS con Twilio
-      if (twilioClient) {
-        try {
-          const message = await twilioClient.messages.create({
-            body: `Studio Medico: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: phoneNumber
-          });
-          
-          // Aggiungiamo più dettagli sul messaggio inviato
-          console.log(`SMS di test inviato con successo a ${phoneNumber}`);
-          console.log(`ID messaggio Twilio: ${message.sid}`);
-          console.log(`Stato messaggio: ${message.status}`);
-          console.log(`Errori: ${message.errorMessage || 'Nessuno'}`);
-        } catch (twilioError) {
-          console.error('Errore specifico di Twilio nell\'invio dell\'SMS di test:', twilioError);
-          throw twilioError;
-        }
-      } else {
-        console.log(`Twilio non configurato, SMS di test simulato per ${phoneNumber}`);
-      }
+      // Creiamo un link WhatsApp
+      const whatsappLink = encodeURI(`https://wa.me/${phoneNumber.replace('+', '')}?text=${messageText}`);
       
-      return true;
+      console.log(`Link WhatsApp generato: ${whatsappLink}`);
+      console.log(`WhatsApp di test preparato per ${phoneNumber}`);
+      
+      // Notifichiamo che l'utente deve utilizzare il link
+      console.log('NOTA: Per completare l\'invio, aprire il link WhatsApp manualmente');
+      
+      return {
+        success: true,
+        whatsappLink: whatsappLink
+      };
     } catch (error) {
-      console.error('Errore nell\'invio dell\'SMS di test:', error);
+      console.error('Errore nella preparazione del messaggio WhatsApp di test:', error);
       throw error;
     }
   }
