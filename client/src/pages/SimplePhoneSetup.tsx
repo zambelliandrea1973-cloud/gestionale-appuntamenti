@@ -202,7 +202,7 @@ const SimplePhoneSetup: React.FC = () => {
     }
   };
   
-  // Invia un SMS di test
+  // Genera e apre un link WhatsApp per inviare un messaggio di test
   const handleSendTestSms = async () => {
     try {
       const response = await fetch('/api/direct-phone/send-test-direct', {
@@ -211,20 +211,23 @@ const SimplePhoneSetup: React.FC = () => {
       
       const data = await response.json();
       
-      if (data.success) {
+      if (data.success && data.whatsappLink) {
+        // Apri il link WhatsApp in una nuova finestra
+        window.open(data.whatsappLink, '_blank', 'noopener,noreferrer');
+        
         toast({
-          title: 'SMS inviato',
-          description: 'SMS di test inviato con successo al tuo numero',
+          title: 'Link WhatsApp generato',
+          description: 'Abbiamo aperto WhatsApp con un messaggio di test',
         });
       } else {
-        throw new Error(data.error || 'Errore sconosciuto durante l\'invio del test');
+        throw new Error(data.error || 'Errore sconosciuto durante la generazione del link WhatsApp');
       }
     } catch (error) {
-      console.error('Errore nell\'invio dell\'SMS di test', error);
+      console.error('Errore nella generazione del link WhatsApp', error);
       
       toast({
         title: 'Errore',
-        description: 'Impossibile inviare l\'SMS di test. Riprova.',
+        description: 'Impossibile generare il link WhatsApp. Riprova.',
         variant: 'destructive',
       });
     }
@@ -369,7 +372,7 @@ const SimplePhoneSetup: React.FC = () => {
                       {t('Verifica il tuo numero')}
                     </h3>
                     <p className="text-amber-700 mb-4">
-                      {t('Abbiamo inviato un SMS con un codice di verifica al numero')} <strong>{savedPhoneNumber}</strong>
+                      {t('Abbiamo inviato un codice di verifica al numero')} <strong>{savedPhoneNumber}</strong>
                     </p>
                   </div>
                   
