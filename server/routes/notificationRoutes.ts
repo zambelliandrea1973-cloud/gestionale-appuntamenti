@@ -5,16 +5,28 @@ import { addDays, addHours, addMinutes, format, parse, parseISO } from 'date-fns
 import { it } from 'date-fns/locale';
 import twilio from 'twilio';
 
-// Funzione per inizializzare il client Twilio
+// Funzione per inizializzare il client Twilio con gestione errori migliore
 function getTwilioClient() {
   if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
+    console.error('Credenziali Twilio mancanti nelle variabili di ambiente');
     return null;
   }
   
-  return twilio(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_AUTH_TOKEN
-  );
+  // Verifica che il numero mittente sia configurato
+  if (!process.env.TWILIO_PHONE_NUMBER) {
+    console.error('Numero di telefono mittente Twilio mancante nelle variabili di ambiente');
+    return null;
+  }
+  
+  try {
+    return twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    );
+  } catch (error) {
+    console.error('Errore nell\'inizializzazione del client Twilio:', error);
+    return null;
+  }
 }
 // Per requisito esplicito, rimosso il controllo isStaff
 // import { isStaff } from '../auth';
@@ -582,7 +594,7 @@ router.get('/sms-history', async (req: Request, res: Response) => {
  */
 router.post('/send-sms-batch', async (req: Request, res: Response) => {
   try {
-    const { appointmentIds, customMessage } = req.body;
+    const { appointmentIds, message: customMessage } = req.body;
     
     if (!appointmentIds || !Array.isArray(appointmentIds) || appointmentIds.length === 0) {
       return res.status(400).json({
@@ -598,7 +610,7 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
     if (!twilioClient) {
       return res.status(400).json({
         success: false,
-        error: 'Twilio non è configurato correttamente'
+        error: 'Twilio non è configurato correttamente. Verifica le credenziali nelle variabili di ambiente.'
       });
     }
     
@@ -614,6 +626,10 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
     const timezone = tzSettings?.timezone || 'UTC';
     
     const results = [];
+    let successCount = 0;
+    let errorCount = 0;
+    
+    console.log(`Elaborazione invio SMS per ${appointmentIds.length} appuntamenti`);
     
     // Per ogni appuntamento, invia SMS
     for (const appointmentId of appointmentIds) {
@@ -621,11 +637,13 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
         const appointment = await storage.getAppointment(appointmentId);
         
         if (!appointment) {
+          console.warn(`Appuntamento ID ${appointmentId} non trovato`);
           results.push({
             id: appointmentId,
             success: false,
             error: 'Appuntamento non trovato'
           });
+          errorCount++;
           continue;
         }
         
@@ -633,11 +651,26 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
         const service = await storage.getService(appointment.serviceId);
         
         if (!client || !service) {
+          console.warn(`Dati mancanti per appuntamento ID ${appointmentId}: client=${!!client}, service=${!!service}`);
           results.push({
             id: appointmentId,
             success: false,
             error: 'Dati cliente o servizio mancanti'
           });
+          errorCount++;
+          continue;
+        }
+        
+        // Verifica che il cliente abbia un numero di telefono
+        if (!client.phone || client.phone.trim() === '') {
+          console.warn(`Il cliente ${client.firstName} ${client.lastName} (ID: ${client.id}) non ha un numero di telefono`);
+          results.push({
+            id: appointmentId,
+            success: false,
+            clientName: `${client.firstName} ${client.lastName}`,
+            error: 'Il cliente non ha un numero di telefono'
+          });
+          errorCount++;
           continue;
         }
         
@@ -650,9 +683,9 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
           ? template.template // Usiamo il campo template definito nello schema
           : `Gentile {clientName}, le ricordiamo l'appuntamento per {serviceName} del {appointmentDate} alle ore {appointmentTime}.`;
         
-        // Aggiungi messaggio personalizzato se specificato
+        // Usa il messaggio personalizzato se specificato
         if (customMessage && customMessage.trim()) {
-          message += `\n\n${customMessage}`;
+          message = customMessage; // Sostituisci completamente il messaggio con quello personalizzato
         }
         
         // Dati da sostituire nel template
@@ -675,8 +708,15 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
         // Prepara il numero di telefono per SMS (assicurati che inizi con + per formato E.164)
         let phoneNumber = client.phone.replace(/\s+/g, '');
         if (!phoneNumber.startsWith('+')) {
-          phoneNumber = '+' + phoneNumber;
+          // Aggiunge il prefisso +39 solo se non c'è già un prefisso internazionale
+          if (!phoneNumber.match(/^\d{1,3}/)) {
+            phoneNumber = '+39' + phoneNumber;
+          } else {
+            phoneNumber = '+' + phoneNumber;
+          }
         }
+        
+        console.log(`Invio SMS a ${phoneNumber} per cliente ${clientName} (ID: ${client.id}), appuntamento ${appointmentId}`);
         
         try {
           // Invia SMS tramite Twilio
@@ -685,6 +725,8 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             from: process.env.TWILIO_PHONE_NUMBER,
             to: phoneNumber
           });
+          
+          console.log(`SMS inviato con successo a ${phoneNumber}, SID: ${smsResult.sid}, stato: ${smsResult.status}`);
           
           // Salva la notifica nel database
           await storage.saveNotification({
@@ -723,24 +765,48 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             smsStatus: smsResult.status,
             smsSid: smsResult.sid
           });
+          
+          successCount++;
         } catch (smsError: any) {
-          // Gestione degli errori Twilio
+          // Gestione dettagliata degli errori Twilio
+          let errorMessage = `Errore SMS: ${smsError.message}`;
+          let errorCode = smsError.code || 'unknown';
+          
           console.error(`Errore nell'invio SMS a ${phoneNumber}:`, smsError);
+          
+          // Gestione specifica di errori comuni
+          if (errorCode === 21608) {
+            errorMessage = `Il numero ${phoneNumber} non è verificato. Questo è un limite tipico degli account Twilio in modalità trial.`;
+          } else if (errorCode === 21211) {
+            errorMessage = `Il numero ${phoneNumber} non è valido. Verifica che sia in formato E.164 (es. +393471234567).`;
+          } else if (errorCode === 21612) {
+            errorMessage = `Il numero ${phoneNumber} non può ricevere SMS. Potrebbe essere un telefono fisso.`;
+          } else if (errorCode === 21610) {
+            errorMessage = `Il numero Twilio ${process.env.TWILIO_PHONE_NUMBER} non è autorizzato a inviare SMS a ${phoneNumber}.`;
+          }
+          
           results.push({
             id: appointmentId,
             success: false,
             clientName,
-            error: `Errore SMS: ${smsError.message}`
+            error: errorMessage,
+            errorCode
           });
+          
+          errorCount++;
         }
       } catch (err: any) {
+        console.error(`Errore generico per appuntamento ID ${appointmentId}:`, err);
         results.push({
           id: appointmentId,
           success: false,
           error: err.message
         });
+        errorCount++;
       }
     }
+    
+    console.log(`Elaborazione invio SMS completata: ${successCount} successi, ${errorCount} errori`);
     
     res.json({
       success: true,
