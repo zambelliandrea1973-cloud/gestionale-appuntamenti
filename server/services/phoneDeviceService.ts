@@ -229,8 +229,8 @@ class PhoneDeviceService {
         // Aggiorna le impostazioni esistenti
         await storage.updateSetting('whatsapp_device', JSON.stringify(deviceData));
       } else {
-        // Crea nuove impostazioni
-        await storage.createSetting({
+        // Crea nuove impostazioni utilizzando il metodo corretto del repository
+        await storage.saveSetting({
           key: 'whatsapp_device',
           value: JSON.stringify(deviceData),
           description: 'Impostazioni del dispositivo WhatsApp accoppiato'
