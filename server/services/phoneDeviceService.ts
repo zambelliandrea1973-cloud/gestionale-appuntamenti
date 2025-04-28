@@ -226,7 +226,9 @@ class PhoneDeviceService {
       
       if (deviceSetting) {
         // Aggiorna le impostazioni esistenti
-        await storage.updateSetting('whatsapp_device', JSON.stringify(deviceData));
+        // Assicuriamoci che settingId sia un numero
+        const settingId = typeof deviceSetting.id === 'number' ? deviceSetting.id : parseInt(deviceSetting.id as any);
+        await storage.updateSetting(settingId, { value: JSON.stringify(deviceData) });
       } else {
         // Crea nuove impostazioni utilizzando il metodo saveSetting
         await storage.saveSetting('whatsapp_device', JSON.stringify(deviceData), 'Impostazioni del dispositivo WhatsApp accoppiato');
