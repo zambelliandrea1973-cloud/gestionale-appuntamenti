@@ -129,7 +129,7 @@ const WhatsAppCenterPage: React.FC = () => {
           if (data.phoneInfo.status === DeviceStatus.VERIFIED || 
               data.phoneInfo.status === DeviceStatus.CONNECTED) {
             fetchUpcomingAppointments();
-            fetchSmsHistory();
+            fetchWhatsAppHistory();
           }
         }
       } catch (error) {
@@ -166,7 +166,7 @@ const WhatsAppCenterPage: React.FC = () => {
   };
 
   // Funzione per caricare lo storico delle notifiche WhatsApp
-  const fetchSmsHistory = async () => {
+  const fetchWhatsAppHistory = async () => {
     setHistoryLoading(true);
     try {
       const response = await fetch('/api/notifications/history');
@@ -217,7 +217,7 @@ const WhatsAppCenterPage: React.FC = () => {
       if (data.success) {
         toast({
           title: 'Numero registrato',
-          description: 'Ti abbiamo inviato un SMS con un codice di verifica',
+          description: 'Ti abbiamo inviato un codice di verifica',
         });
         
         // Aggiorniamo lo stato in attesa di verifica
@@ -240,12 +240,12 @@ const WhatsAppCenterPage: React.FC = () => {
     }
   };
   
-  // Verifica il codice SMS
+  // Verifica il codice di verifica
   const handleVerifyCode = async () => {
     if (!verificationCode.trim()) {
       toast({
         title: 'Errore',
-        description: 'Inserisci il codice di verifica ricevuto via SMS',
+        description: 'Inserisci il codice di verifica ricevuto',
         variant: 'destructive',
       });
       return;
@@ -896,7 +896,7 @@ const WhatsAppCenterPage: React.FC = () => {
                                   {appointment.startTime.substring(0, 5)}
                                 </TableCell>
                                 <TableCell>
-                                  <Badge variant={appointment.reminderStatus?.includes('whatsapp_generated') ? 'outline' : 'default'}>
+                                  <Badge variant={appointment.reminderStatus?.includes('whatsapp_generated') ? 'secondary' : 'default'}>
                                     {appointment.reminderStatus?.includes('whatsapp_generated') ? t('WhatsApp inviato') : t('Da inviare')}
                                   </Badge>
                                 </TableCell>
@@ -954,7 +954,7 @@ const WhatsAppCenterPage: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Alert variant="outline" className="mb-6">
+          <Alert className="mb-6">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>{t('Importante')}</AlertTitle>
             <AlertDescription>
