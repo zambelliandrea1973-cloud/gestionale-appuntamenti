@@ -300,14 +300,7 @@ router.post('/send-multiple', async (req: Request, res: Response) => {
       });
     }
     
-    // Inizializza il client Twilio se necessario
-    let twilioClient;
-    if (type === 'sms' && notificationSettings.twilioEnabled) {
-      twilioClient = twilio(
-        process.env.TWILIO_ACCOUNT_SID,
-        process.env.TWILIO_AUTH_TOKEN
-      );
-    }
+    // WhatsApp è ora il sistema predefinito per l'invio di notifiche
     
     const results = [];
     
