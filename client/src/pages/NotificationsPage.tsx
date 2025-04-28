@@ -34,10 +34,9 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
-import { MessageSquare, Send, RefreshCw, CheckCircle, UserCircle, Calendar, Clock, Scissors, ExternalLink, Info, Bell } from 'lucide-react';
+import { MessageSquare, Send, RefreshCw, CheckCircle, UserCircle, Calendar, Clock, Scissors, ExternalLink, Info, Bell, Phone, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { AlertCircle } from 'lucide-react';
 
 interface Appointment {
   id: number;
@@ -446,6 +445,14 @@ const NotificationsPage: React.FC = () => {
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               {t('notificationsPage.refresh')}
+            </Button>
+            
+            <Button 
+              variant="secondary"
+              onClick={() => window.location.href = '/phone-device-setup'}
+            >
+              <Phone className="h-4 w-4 mr-2" />
+              Configurazione Dispositivo
             </Button>
           </div>
         </div>

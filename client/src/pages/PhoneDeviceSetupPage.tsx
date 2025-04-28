@@ -510,6 +510,15 @@ const PhoneDeviceSetupPage = () => {
                     <p className="text-sm text-muted-foreground">
                       {t('Riprova generando un nuovo codice QR. Assicurati che la fotocamera del telefono sia pulita e che ci sia abbastanza luce.')}
                     </p>
+                    <div className="mt-2 bg-slate-50 p-3 rounded-md border border-dashed">
+                      <h5 className="text-sm font-medium mb-1">Modalità test / simulazione</h5>
+                      <p className="text-xs text-muted-foreground mb-2">
+                        In modalità test, puoi simulare la scansione del QR code attraverso una chiamata API diretta:
+                      </p>
+                      <p className="text-xs font-mono bg-slate-100 p-2 rounded">
+                        curl -X POST http://localhost:5000/api/phone-device/simulate-scan
+                      </p>
+                    </div>
                   </div>
                   
                   <div>
