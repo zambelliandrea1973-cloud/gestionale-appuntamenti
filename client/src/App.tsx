@@ -25,6 +25,7 @@ import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
 import SubscribePage from "./pages/SubscribePage";
 import NotificationsPage from "./pages/NotificationsPage";
+import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -184,6 +185,13 @@ function AppRoutes() {
       <Route path="/notifications">
         <StaffPageWrapper>
           <NotificationsPage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Route per la pagina di configurazione del dispositivo telefonico */}
+      <Route path="/phone-device-setup">
+        <StaffPageWrapper>
+          <PhoneDeviceSetupPage />
         </StaffPageWrapper>
       </Route>
 
