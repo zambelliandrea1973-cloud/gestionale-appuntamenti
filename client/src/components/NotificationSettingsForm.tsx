@@ -648,7 +648,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     {form.watch("useContactPhoneForNotifications") && (
                       <FormField
                         control={form.control}
-                        name="notificationWhatsappPhone"
+                        name="notificationPhone"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Numero WhatsApp per notifiche</FormLabel>
