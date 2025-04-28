@@ -7,6 +7,15 @@ import nodemailer from 'nodemailer';
 const messagesPendingDelivery = new Map<string, boolean>();
 
 /**
+ * Definizione dell'interfaccia per il modulo phoneDeviceService
+ * per evitare problemi di import circolare
+ */
+interface PhoneDeviceInterface {
+  getStatus(): { status: string; deviceId: string | null; phoneNumber: string | null };
+  sendWhatsAppMessage(to: string, message: string): Promise<{ success: boolean; messageId?: string; error?: string }>;
+}
+
+/**
  * Servizio per l'invio di notifiche e promemoria attraverso metodi diretti
  * senza dipendere da servizi esterni come Twilio
  */
@@ -275,28 +284,60 @@ export const directNotificationService = {
           }
         }
         
-        // Per SMS e WhatsApp, poiché stiamo passando a metodi diretti,
-        // generiamo i link e li includiamo nel centro notifiche per il professionista
+        // Per SMS e WhatsApp utilizziamo il phoneDeviceService se è disponibile,
+        // altrimenti generiamo i link come fallback
         
-        // Genera link WhatsApp se il cliente ha un numero di telefono e WhatsApp è abilitato
-        if (client.phone && settings?.whatsappEnabled) {
-          // Ottieni il numero di telefono del mittente (del professionista) dalle impostazioni
-          const senderPhone = await this.getNotificationPhone();
+        // Verifica se il dispositivo è accoppiato e connesso
+        let phoneDevice = null;
+        let deviceConnected = false;
+        
+        try {
+          // Import dinamico per evitare dipendenze circolari
+          const phoneDeviceModule = await import('./phoneDeviceService');
+          phoneDevice = phoneDeviceModule.phoneDeviceService;
           
-          if (senderPhone) {
-            const whatsappLink = this.generateWhatsAppLink(client.phone, message);
-            
-            await this.addToNotificationCenter(
-              0, // ID speciale per il professionista 
-              `📱 Invia promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}. [Apri WhatsApp](${whatsappLink})`,
-              'staff_reminder',
-              appointment.id
-            );
-            
-            console.log(`Generato link WhatsApp per l'appuntamento ${appointment.id}: ${whatsappLink}`);
-            successCount++; // Considera anche questo come un successo
+          const status = phoneDevice.getStatus();
+          deviceConnected = status.status === phoneDeviceModule.DeviceStatus.CONNECTED;
+        } catch (error) {
+          console.warn('Servizio phoneDevice non disponibile:', error);
+        }
+        
+        // Gestione messaggi WhatsApp
+        if (client.phone && settings?.whatsappEnabled) {
+          if (deviceConnected && phoneDevice) {
+            try {
+              // Invia il messaggio direttamente tramite il dispositivo
+              const result = await phoneDevice.sendWhatsAppMessage(client.phone, message);
+              
+              if (result.success) {
+                console.log(`WhatsApp inviato automaticamente per l'appuntamento ${appointment.id} tramite dispositivo accoppiato`);
+                successCount++;
+                
+                // Aggiungi anche una notifica nel centro notifiche
+                await this.addToNotificationCenter(
+                  0, // ID speciale per il professionista 
+                  `✅ Inviato automaticamente promemoria WhatsApp al cliente ${client.firstName} ${client.lastName} per l'appuntamento del ${appointmentDate}.`,
+                  'staff_reminder',
+                  appointment.id
+                );
+              } else {
+                console.error(`Errore nell'invio automatico di WhatsApp: ${result.error}`);
+                
+                // Fallback: genera link WhatsApp tradizionale
+                this.generateWhatsAppLinkAndNotify(client, message, appointment.id, appointmentDate);
+                successCount++;
+              }
+            } catch (error) {
+              console.error(`Errore nel tentativo di invio WhatsApp diretto:`, error);
+              
+              // Fallback: genera link WhatsApp tradizionale
+              this.generateWhatsAppLinkAndNotify(client, message, appointment.id, appointmentDate);
+              successCount++;
+            }
           } else {
-            console.error(`Impossibile generare link WhatsApp: numero di telefono per notifiche non configurato`);
+            // Dispositivo non disponibile, genera link WhatsApp tradizionale
+            this.generateWhatsAppLinkAndNotify(client, message, appointment.id, appointmentDate);
+            successCount++;
           }
         }
         
