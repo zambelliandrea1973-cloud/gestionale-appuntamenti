@@ -340,7 +340,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-3 mb-4">
                 <TabsTrigger value="email">Email</TabsTrigger>
-                <TabsTrigger value="direct">Notifiche telefoniche</TabsTrigger>
+                <TabsTrigger value="direct">WhatsApp</TabsTrigger>
                 <TabsTrigger value="general">Impostazioni generali</TabsTrigger>
               </TabsList>
 
