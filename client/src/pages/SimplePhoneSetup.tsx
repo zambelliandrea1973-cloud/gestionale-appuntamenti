@@ -43,7 +43,7 @@ const SimplePhoneSetup: React.FC = () => {
   useEffect(() => {
     const fetchInitialStatus = async () => {
       try {
-        const response = await fetch('/api/phone-device/direct-status');
+        const response = await fetch('/api/direct-phone/direct-status');
         const data = await response.json();
         
         if (data.success && data.phoneInfo) {
