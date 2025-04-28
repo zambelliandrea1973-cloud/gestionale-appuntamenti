@@ -3,51 +3,6 @@ import { storage } from '../storage';
 import { formatInTimeZone } from 'date-fns-tz';
 import { addDays, addHours, addMinutes, format, parse, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
-import twilio from 'twilio';
-
-// Funzione per inizializzare il client Twilio con gestione errori migliore
-function getTwilioClient() {
-  if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
-    console.error('Credenziali Twilio mancanti nelle variabili di ambiente');
-    return null;
-  }
-  
-  // Verifica che il numero mittente sia configurato
-  if (!process.env.TWILIO_PHONE_NUMBER) {
-    console.error('Numero di telefono mittente Twilio mancante nelle variabili di ambiente');
-    return null;
-  }
-  
-  try {
-    return twilio(
-      process.env.TWILIO_ACCOUNT_SID,
-      process.env.TWILIO_AUTH_TOKEN
-    );
-  } catch (error) {
-    console.error('Errore nell\'inizializzazione del client Twilio:', error);
-    return null;
-  }
-}
-
-// Funzione per verificare se l'account Twilio è in modalità trial
-async function isTwilioTrialAccount() {
-  try {
-    const client = getTwilioClient();
-    if (!client) return true; // Se non c'è client, assumiamo limitazioni
-    
-    const accountSid = process.env.TWILIO_ACCOUNT_SID;
-    if (!accountSid) {
-      console.error('TWILIO_ACCOUNT_SID non è definito nelle variabili di ambiente');
-      return true; // Se non c'è SID, assumiamo limitazioni
-    }
-    
-    const account = await client.api.accounts(accountSid).fetch();
-    return account.type === 'Trial';
-  } catch (error) {
-    console.error('Errore durante la verifica dello stato dell\'account Twilio:', error);
-    return true; // In caso di errore, assumiamo che sia un account trial
-  }
-}
 // Per requisito esplicito, rimosso il controllo isStaff
 // import { isStaff } from '../auth';
 
