@@ -2902,6 +2902,56 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
+  // Endpoint di test per le notifiche WhatsApp
+  app.post('/api/notification-settings/test-whatsapp', async (req: Request, res: Response) => {
+    try {
+      const { phone } = req.body;
+      
+      if (!phone) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Numero di telefono obbligatorio per il test' 
+        });
+      }
+      
+      // Recupera le impostazioni di notifica
+      const settings = await notificationSettingsService.getSettings();
+      
+      // Verifica che tutte le impostazioni necessarie siano presenti
+      if (!settings) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Nessuna configurazione notifiche trovata. Salva prima le impostazioni.' 
+        });
+      }
+      
+      if (!settings.whatsappEnabled) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Le notifiche WhatsApp non sono abilitate. Attiva prima le notifiche WhatsApp.' 
+        });
+      }
+      
+      // Crea un messaggio di test
+      const message = "Questo è un messaggio di test per WhatsApp. Se lo ricevi, significa che le tue impostazioni di notifica sono configurate correttamente.";
+      
+      // Genera un link WhatsApp per il numero fornito
+      const whatsappLink = directNotificationService.generateWhatsAppLink(phone, message);
+      
+      res.json({
+        success: true,
+        message: "Link WhatsApp generato con successo",
+        whatsappLink
+      });
+    } catch (error: any) {
+      console.error("Errore nel test WhatsApp:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: `Errore durante la generazione del link WhatsApp: ${error.message || 'errore sconosciuto'}` 
+      });
+    }
+  });
+
   // Endpoint per inviare/processare i promemoria manualmente
   app.post('/api/process-reminders', async (req: Request, res: Response) => {
     try {
