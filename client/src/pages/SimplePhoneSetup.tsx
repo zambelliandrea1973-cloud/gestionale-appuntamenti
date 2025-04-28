@@ -498,13 +498,16 @@ const SimplePhoneSetup: React.FC = () => {
                   
                   <ul className="mt-2 space-y-2 list-disc pl-5 text-amber-700">
                     <li>
-                      {t('Utilizza un numero di telefono con un piano che includa SMS')}
+                      {t('Questo sistema utilizza il servizio Twilio per inviare SMS')}
                     </li>
                     <li>
                       {t('Assicurati di inserire il prefisso internazionale corretto (es. +39 per l\'Italia)')}
                     </li>
                     <li>
-                      {t('I costi degli SMS verranno addebitati secondo il tuo piano tariffario')}
+                      {t('Se non ricevi gli SMS, verifica che il tuo operatore non blocchi i messaggi da numeri internazionali')}
+                    </li>
+                    <li>
+                      {t('Il numero mittente è un numero USA (+1) gestito da Twilio')}
                     </li>
                   </ul>
                 </div>
