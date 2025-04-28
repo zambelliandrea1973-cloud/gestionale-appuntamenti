@@ -523,15 +523,15 @@ const NotificationsPage: React.FC = () => {
               </AlertDescription>
             </Alert>
             
-            <Alert className="bg-amber-50 border-amber-200">
-              <AlertCircle className="h-4 w-4 text-amber-600" />
-              <AlertTitle className="text-amber-800">Limitazioni SMS Twilio</AlertTitle>
-              <AlertDescription className="text-amber-700">
-                <p className="mb-1">Gli SMS potrebbero non essere consegnati in questi casi:</p>
+            <Alert variant="default" className="bg-green-50 border-green-200">
+              <MessageSquare className="h-4 w-4 text-green-600" />
+              <AlertTitle className="text-green-800">Notifiche WhatsApp</AlertTitle>
+              <AlertDescription className="text-green-700">
+                <p className="mb-1">Informazioni sulle notifiche WhatsApp:</p>
                 <ul className="list-disc pl-5 text-sm space-y-1">
-                  <li>Account Twilio in modalità trial (gratuita): SMS inviati solo a numeri verificati</li>
-                  <li>Restrizioni geografiche: alcuni prefissi internazionali potrebbero essere bloccati</li>
-                  <li>Numeri non validi: verifica la formattazione (es. +393471234567)</li>
+                  <li>I messaggi WhatsApp sono gratuiti e più affidabili degli SMS</li>
+                  <li>Verifica che i numeri di telefono siano corretti con prefisso internazionale (es. +393471234567)</li>
+                  <li>Tutti i messaggi generano un link WhatsApp che si apre automaticamente</li>
                 </ul>
               </AlertDescription>
             </Alert>
@@ -704,21 +704,7 @@ const NotificationsPage: React.FC = () => {
                                           WhatsApp
                                         </Button>
                                         
-                                        <Button
-                                          size="sm"
-                                          variant="ghost"
-                                          onClick={() => {
-                                            const updatedSelection = { ...selectedAppointments };
-                                            updatedSelection[appointment.id] = true;
-                                            setSelectedAppointments(updatedSelection);
-                                            
-                                            handleSendSMS();
-                                          }}
-                                          disabled={sendingSMS}
-                                        >
-                                          <Send className="h-4 w-4 mr-1" />
-                                          SMS
-                                        </Button>
+
                                       </div>
                                   </TableCell>
                                 </TableRow>
