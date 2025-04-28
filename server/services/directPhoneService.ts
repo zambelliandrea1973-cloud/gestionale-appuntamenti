@@ -200,14 +200,15 @@ class DirectPhoneService {
       
       const phoneNumber = this.activePhone.phoneNumber;
       
+      const messageText = `Studio Medico: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`;
       console.log(`Tentativo di invio SMS di test a ${phoneNumber} utilizzando Twilio...`);
-      console.log(`Parametri: from=${process.env.TWILIO_PHONE_NUMBER}, body=Questo è un messaggio di test...`);
+      console.log(`Parametri: from=${process.env.TWILIO_PHONE_NUMBER}, body=${messageText}`);
       
       // Invio effettivo dell'SMS con Twilio
       if (twilioClient) {
         try {
           const message = await twilioClient.messages.create({
-            body: `Promemoria: conferma disponibilità per appuntamento di domani. Rispondi SI per confermare.`,
+            body: `Studio Medico: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`,
             from: process.env.TWILIO_PHONE_NUMBER,
             to: phoneNumber
           });
