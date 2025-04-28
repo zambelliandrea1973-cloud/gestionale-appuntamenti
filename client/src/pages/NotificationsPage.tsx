@@ -745,28 +745,7 @@ const NotificationsPage: React.FC = () => {
                     )}
                   </Button>
                   
-                  <Button 
-                    size="lg"
-                    variant="outline"
-                    onClick={handleSendSMS}
-                    disabled={
-                      sendingSMS || 
-                      Object.values(selectedAppointments).filter(Boolean).length === 0
-                    }
-                    className="w-full md:w-auto"
-                  >
-                    {sendingSMS ? (
-                      <>
-                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> 
-                        Invio SMS in corso...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4 mr-2" />
-                        Invia SMS
-                      </>
-                    )}
-                  </Button>
+
                 </div>
               </div>
             )}
