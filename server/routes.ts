@@ -35,6 +35,7 @@ import paymentRoutes from './routes/paymentRoutes';
 import { adminRouter } from './routes/adminRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import phoneDeviceRoutes, { initializePhoneDeviceSocket } from './routes/phoneDeviceRoutes';
+import directPhoneRoutes from './routes/directPhoneRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
