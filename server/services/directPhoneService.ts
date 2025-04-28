@@ -207,7 +207,7 @@ class DirectPhoneService {
       if (twilioClient) {
         try {
           const message = await twilioClient.messages.create({
-            body: `Questo è un messaggio di test dal tuo sistema di notifiche. Ora sei pronto per inviare messaggi ai clienti!`,
+            body: `Promemoria: conferma disponibilità per appuntamento di domani. Rispondi SI per confermare.`,
             from: process.env.TWILIO_PHONE_NUMBER,
             to: phoneNumber
           });
