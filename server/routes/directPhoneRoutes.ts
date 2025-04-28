@@ -10,8 +10,9 @@ const router = Router();
 
 /**
  * Ottiene lo stato del telefono configurato
+ * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
  */
-router.get('/direct-status', isAuthenticated, isStaff, async (req, res) => {
+router.get('/direct-status', async (req, res) => {
   try {
     const phoneInfo = directPhoneService.getPhoneInfo();
     
@@ -31,8 +32,9 @@ router.get('/direct-status', isAuthenticated, isStaff, async (req, res) => {
 
 /**
  * Registra un nuovo numero di telefono
+ * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
  */
-router.post('/register-direct', isAuthenticated, isStaff, async (req, res) => {
+router.post('/register-direct', async (req, res) => {
   try {
     const { phoneNumber } = req.body;
     
@@ -61,8 +63,9 @@ router.post('/register-direct', isAuthenticated, isStaff, async (req, res) => {
 
 /**
  * Verifica un codice ricevuto via SMS
+ * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
  */
-router.post('/verify-direct', isAuthenticated, isStaff, async (req, res) => {
+router.post('/verify-direct', async (req, res) => {
   try {
     const { phoneNumber, verificationCode } = req.body;
     
