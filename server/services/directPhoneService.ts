@@ -200,14 +200,27 @@ class DirectPhoneService {
       
       const phoneNumber = this.activePhone.phoneNumber;
       
+      console.log(`Tentativo di invio SMS di test a ${phoneNumber} utilizzando Twilio...`);
+      console.log(`Parametri: from=${process.env.TWILIO_PHONE_NUMBER}, body=Questo è un messaggio di test...`);
+      
       // Invio effettivo dell'SMS con Twilio
       if (twilioClient) {
-        await twilioClient.messages.create({
-          body: `Questo è un messaggio di test dal tuo sistema di notifiche. Ora sei pronto per inviare messaggi ai clienti!`,
-          from: process.env.TWILIO_PHONE_NUMBER,
-          to: phoneNumber
-        });
-        console.log(`SMS di test inviato a ${phoneNumber}`);
+        try {
+          const message = await twilioClient.messages.create({
+            body: `Questo è un messaggio di test dal tuo sistema di notifiche. Ora sei pronto per inviare messaggi ai clienti!`,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: phoneNumber
+          });
+          
+          // Aggiungiamo più dettagli sul messaggio inviato
+          console.log(`SMS di test inviato con successo a ${phoneNumber}`);
+          console.log(`ID messaggio Twilio: ${message.sid}`);
+          console.log(`Stato messaggio: ${message.status}`);
+          console.log(`Errori: ${message.errorMessage || 'Nessuno'}`);
+        } catch (twilioError) {
+          console.error('Errore specifico di Twilio nell\'invio dell\'SMS di test:', twilioError);
+          throw twilioError;
+        }
       } else {
         console.log(`Twilio non configurato, SMS di test simulato per ${phoneNumber}`);
       }
