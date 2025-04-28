@@ -116,8 +116,9 @@ router.post('/disconnect-direct', async (req, res) => {
 
 /**
  * Invia un SMS di test
+ * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
  */
-router.post('/send-test-direct', isAuthenticated, isStaff, async (req, res) => {
+router.post('/send-test-direct', async (req, res) => {
   try {
     await directPhoneService.sendTestSms();
     
