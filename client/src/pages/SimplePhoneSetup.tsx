@@ -420,7 +420,7 @@ const SimplePhoneSetup: React.FC = () => {
                       onClick={handleSendTestSms}
                     >
                       <Send className="h-4 w-4 mr-2" />
-                      {t('Invia SMS di test')}
+                      {t('Invia WhatsApp di test')}
                     </Button>
                     
                     <Button
@@ -473,7 +473,7 @@ const SimplePhoneSetup: React.FC = () => {
                       <div>
                         <h4 className="text-lg font-medium">{t('Verifica il numero')}</h4>
                         <p className="text-muted-foreground mt-1">
-                          {t('Riceverai un SMS con un codice da inserire per verificare il tuo numero')}
+                          {t('Riceverai un codice di verifica da inserire per confermare il tuo numero')}
                         </p>
                       </div>
                     </div>
@@ -490,24 +490,24 @@ const SimplePhoneSetup: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
-                  <h4 className="text-lg font-medium text-amber-800 flex items-center">
-                    <AlertCircle className="h-5 w-5 mr-2 text-amber-600" />
-                    {t('Note importanti:')}
+                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h4 className="text-lg font-medium text-green-800 flex items-center">
+                    <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
+                    {t('WhatsApp consigliato:')}
                   </h4>
                   
-                  <ul className="mt-2 space-y-2 list-disc pl-5 text-amber-700">
+                  <ul className="mt-2 space-y-2 list-disc pl-5 text-green-700">
                     <li>
-                      {t('Questo sistema utilizza il servizio Twilio per inviare SMS')}
+                      {t('Questo numero sarà utilizzato principalmente per l\'invio di notifiche via WhatsApp')}
                     </li>
                     <li>
-                      {t('Assicurati di inserire il prefisso internazionale corretto (es. +39 per l\'Italia)')}
+                      {t('I messaggi WhatsApp sono gratuiti e più affidabili degli SMS')}
                     </li>
                     <li>
-                      {t('Se non ricevi gli SMS, verifica che il tuo operatore non blocchi i messaggi da numeri internazionali')}
+                      {t('Assicurati che il numero abbia WhatsApp installato e attivo')}
                     </li>
                     <li>
-                      {t('Il numero mittente è un numero USA (+1) gestito da Twilio')}
+                      {t('Inserisci il prefisso internazionale corretto (es. +39 per l\'Italia)')}
                     </li>
                   </ul>
                 </div>
@@ -525,7 +525,7 @@ const SimplePhoneSetup: React.FC = () => {
                           {t('Tornare alla pagina Notifiche e inviare messaggi ai clienti')}
                         </li>
                         <li>
-                          {t('Inviare un SMS di test per verificare il funzionamento')}
+                          {t('Inviare un messaggio WhatsApp di test per verificare il funzionamento')}
                         </li>
                       </ul>
                     </AlertDescription>
