@@ -447,13 +447,40 @@ const NotificationsPage: React.FC = () => {
               {t('notificationsPage.refresh')}
             </Button>
             
-            <Button 
-              variant="secondary"
-              onClick={() => window.location.href = '/phone-device-setup'}
-            >
-              <Phone className="h-4 w-4 mr-2" />
-              Configurazione Dispositivo
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="secondary"
+                onClick={() => window.location.href = '/simple-phone-setup'}
+              >
+                <Phone className="h-4 w-4 mr-2" />
+                Configurazione Telefono
+              </Button>
+              
+              <Button 
+                variant="outline"
+                size="icon"
+                title="Configurazione avanzata (metodo QR)"
+                onClick={() => window.location.href = '/phone-device-setup'}
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="18" 
+                  height="18" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M7 7h.01" />
+                  <path d="M17 7h.01" />
+                  <path d="M7 17h.01" />
+                  <rect x="10" y="10" width="4" height="4" />
+                </svg>
+              </Button>
+            </div>
           </div>
         </div>
 
