@@ -94,8 +94,9 @@ router.post('/verify-direct', async (req, res) => {
 
 /**
  * Disconnette un telefono
+ * Nota: Questo endpoint è pubblico per consentire la configurazione anche senza autenticazione
  */
-router.post('/disconnect-direct', isAuthenticated, isStaff, async (req, res) => {
+router.post('/disconnect-direct', async (req, res) => {
   try {
     await directPhoneService.disconnectPhone();
     

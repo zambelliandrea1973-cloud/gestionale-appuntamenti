@@ -78,7 +78,7 @@ const SimplePhoneSetup: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/phone-device/register-direct', {
+      const response = await fetch('/api/direct-phone/register-direct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const SimplePhoneSetup: React.FC = () => {
     setIsVerifying(true);
     
     try {
-      const response = await fetch('/api/phone-device/verify-direct', {
+      const response = await fetch('/api/direct-phone/verify-direct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ const SimplePhoneSetup: React.FC = () => {
   // Disconnette il dispositivo
   const handleDisconnect = async () => {
     try {
-      const response = await fetch('/api/phone-device/disconnect-direct', {
+      const response = await fetch('/api/direct-phone/disconnect-direct', {
         method: 'POST',
       });
       
@@ -205,7 +205,7 @@ const SimplePhoneSetup: React.FC = () => {
   // Invia un SMS di test
   const handleSendTestSms = async () => {
     try {
-      const response = await fetch('/api/phone-device/send-test-direct', {
+      const response = await fetch('/api/direct-phone/send-test-direct', {
         method: 'POST',
       });
       
