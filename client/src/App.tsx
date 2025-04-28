@@ -26,6 +26,7 @@ import PaymentAdmin from "./pages/PaymentAdmin";
 import SubscribePage from "./pages/SubscribePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
+import SimplePhoneSetup from "./pages/SimplePhoneSetup";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -188,10 +189,17 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       
-      {/* Route per la pagina di configurazione del dispositivo telefonico */}
+      {/* Route per la pagina di configurazione del dispositivo telefonico (metodo QR) */}
       <Route path="/phone-device-setup">
         <StaffPageWrapper>
           <PhoneDeviceSetupPage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Route per la nuova pagina di configurazione semplificata */}
+      <Route path="/simple-phone-setup">
+        <StaffPageWrapper>
+          <SimplePhoneSetup />
         </StaffPageWrapper>
       </Route>
 
