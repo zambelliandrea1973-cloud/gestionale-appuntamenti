@@ -112,8 +112,12 @@ class PhoneDeviceService {
       
       // Per la demo, impostiamo immediatamente un QR di test e impostiamo lo stato a QR_READY
       setTimeout(() => {
-        // Link a WhatsApp per avviare una chat con il numero specificato
-        const testQR = "https://wa.me/12345678901?text=Messaggio%20di%20test%20WhatsApp";
+        // Generiamo un QR code che simula quello di WhatsApp
+        // Questo non è un vero QR di WhatsApp ma tenta di imitare il formato
+        // Il formato reale è molto più complesso e include firme crittografiche
+        const timestamp = Date.now();
+        const randomStr = Math.random().toString(36).substring(2, 15);
+        const testQR = `1@J52ZJcMCWoTIGo9mVON9UHiWYGOCyYxCmjG71V6+MRlAQKUQk9xxbKVL3+p6WYauFP8GTHnCt7ZCNA==,${randomStr},${timestamp}`;
         this.currentQR = testQR;
         this.deviceStatus = DeviceStatus.QR_READY;
         

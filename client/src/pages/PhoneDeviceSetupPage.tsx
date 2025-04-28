@@ -352,7 +352,7 @@ const PhoneDeviceSetupPage = () => {
             <CardContent className="flex justify-center">
               {/* Visualizza il QR code come immagine */}
               <div className="border p-4 bg-white">
-                <QRCodeSVG value={qrCode} size={256} />
+                <QRCode value={qrCode} size={256} />
               </div>
             </CardContent>
             <CardFooter>
