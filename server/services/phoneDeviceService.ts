@@ -351,6 +351,28 @@ class PhoneDeviceService {
       phoneNumber: this.phoneNumber
     };
   }
+  
+  /**
+   * Ottiene il codice QR attuale
+   */
+  getCurrentQR(): string | null {
+    return this.currentQR;
+  }
+  
+  /**
+   * Imposta un codice QR di test per debugging/testing
+   */
+  setTestQRCode(qrData: string): void {
+    this.currentQR = qrData;
+    this.deviceStatus = DeviceStatus.QR_READY;
+    
+    // Emetti lo stato e il QR code a tutti i client
+    this.emitStatus();
+    if (this.socketServer) {
+      this.socketServer.emit('qr_code', qrData);
+      console.log('QR code di test inviato ai client');
+    }
+  }
 
   /**
    * Avvia l'accoppiamento automaticamente se ci sono impostazioni salvate

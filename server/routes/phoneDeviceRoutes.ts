@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Server as SocketIOServer } from 'socket.io';
 import { Server as HttpServer } from 'http';
-import { phoneDeviceService } from '../services/phoneDeviceService';
+import { phoneDeviceService, DeviceStatus } from '../services/phoneDeviceService';
 import { isAuthenticated, isStaff } from '../auth';
 
 const router = Router();
@@ -70,7 +70,8 @@ router.post('/start-pairing', async (req, res) => {
     // generiamo un QR di test per testare l'interfaccia
     if (result && !phoneDeviceService.getCurrentQR()) {
       setTimeout(() => {
-        if (!phoneDeviceService.getCurrentQR() && phoneDeviceService.getStatus().status === DeviceStatus.CONNECTING) {
+        const status = phoneDeviceService.getStatus().status;
+        if (!phoneDeviceService.getCurrentQR() && status === 'connecting') {
           console.log('Generazione QR code di test dopo timeout');
           const testQR = "https://wa.me/12345678901?text=Test%20messaggio%20WhatsApp";
           phoneDeviceService.setTestQRCode(testQR);
