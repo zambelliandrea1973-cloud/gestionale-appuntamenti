@@ -1,0 +1,481 @@
+import { useState, useEffect } from 'react';
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
+import { apiRequest } from '@/lib/queryClient';
+import { 
+  Euro, 
+  Users, 
+  ArrowDownUp, 
+  CreditCard, 
+  CheckCircle2, 
+  Timer, 
+  AlertCircle,
+  Tag,
+  Wallet
+} from 'lucide-react';
+import { format } from 'date-fns';
+import { it } from 'date-fns/locale';
+
+// Token di autenticazione archiviato in localStorage/sessionStorage
+let authToken: string | null = null;
+
+export default function PaymentAdmin() {
+  const { toast } = useToast();
+  const [password, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [subscriptions, setSubscriptions] = useState<any[]>([]);
+
+  // Verifica token memorizzato nei cookie/localStorage al caricamento della pagina
+  useEffect(() => {
+    // Verifica prima in localStorage, poi in sessionStorage
+    const storedToken = localStorage.getItem('paymentAdminToken') || sessionStorage.getItem('paymentAdminToken');
+    if (storedToken) {
+      authToken = storedToken;
+      // Tenta di utilizzare il token memorizzato
+      fetchDashboardData(storedToken);
+    }
+  }, []);
+
+  // Funzione per autenticare l'amministratore
+  const handleLogin = async () => {
+    if (!password) {
+      toast({
+        title: "Errore",
+        description: "Inserisci la password per accedere",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await apiRequest("POST", "/api/payments/payment-admin/authenticate", { password });
+      const data = await response.json();
+
+      if (data.success && data.token) {
+        authToken = data.token;
+        
+        // Memorizza il token sia in localStorage che in sessionStorage per garantire
+        // la persistenza dell'autenticazione anche dopo il refresh della pagina
+        localStorage.setItem('paymentAdminToken', data.token);
+        sessionStorage.setItem('paymentAdminToken', data.token);
+        
+        setIsAuthenticated(true);
+        fetchDashboardData(data.token);
+        
+        toast({
+          title: "Accesso effettuato",
+          description: "Benvenuto nell'interfaccia di amministrazione dei pagamenti",
+        });
+      } else {
+        toast({
+          title: "Errore di autenticazione",
+          description: data.message || "Password non valida",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Errore durante l\'autenticazione:', error);
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore durante l'autenticazione.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Funzione per caricare i dati della dashboard
+  const fetchDashboardData = async (token: string) => {
+    setIsLoading(true);
+    try {
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+      
+      // Primo tentativo con il token fornito
+      const dashboardResponse = await fetch('/api/payments/payment-admin/dashboard', { 
+        method: 'GET',
+        headers
+      });
+
+      if (dashboardResponse.status === 401) {
+        // Token non valido o scaduto
+        authToken = null;
+        localStorage.removeItem('paymentAdminToken');
+        sessionStorage.removeItem('paymentAdminToken');
+        setIsAuthenticated(false);
+        toast({
+          title: "Sessione scaduta",
+          description: "La tua sessione è scaduta. Accedi nuovamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const dashboardData = await dashboardResponse.json();
+      setDashboardData(dashboardData);
+      setIsAuthenticated(true);
+
+      // Carica anche transazioni e abbonamenti
+      const transactionsResponse = await fetch('/api/payments/payment-admin/transactions', { 
+        method: 'GET',
+        headers
+      });
+      const transactionsData = await transactionsResponse.json();
+      setTransactions(transactionsData);
+
+      const subscriptionsResponse = await fetch('/api/payments/payment-admin/subscriptions', { 
+        method: 'GET',
+        headers
+      });
+      const subscriptionsData = await subscriptionsResponse.json();
+      setSubscriptions(subscriptionsData);
+
+    } catch (error) {
+      console.error('Errore durante il recupero dei dati:', error);
+      toast({
+        title: "Errore",
+        description: "Impossibile caricare i dati del dashboard.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Gestisce il logout
+  const handleLogout = () => {
+    authToken = null;
+    localStorage.removeItem('paymentAdminToken');
+    sessionStorage.removeItem('paymentAdminToken');
+    setIsAuthenticated(false);
+    setDashboardData(null);
+    setTransactions([]);
+    setSubscriptions([]);
+    setPassword('');
+    toast({
+      title: "Logout effettuato",
+      description: "Hai effettuato il logout dall'interfaccia di amministrazione",
+    });
+  };
+
+  // Formatta il valore in Euro
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('it-IT', { 
+      style: 'currency', 
+      currency: 'EUR' 
+    }).format(amount);
+  };
+
+  // Formatta la data
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), 'dd MMM yyyy, HH:mm', { locale: it });
+    } catch (error) {
+      return 'Data non valida';
+    }
+  };
+
+  // Genera un badge per lo stato della transazione
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><CheckCircle2 className="w-3 h-3 mr-1" /> Completato</span>;
+      case 'pending':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><Timer className="w-3 h-3 mr-1" /> In attesa</span>;
+      case 'failed':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><AlertCircle className="w-3 h-3 mr-1" /> Fallito</span>;
+      default:
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">{status}</span>;
+    }
+  };
+
+  // Genera un badge per il metodo di pagamento
+  const getPaymentMethodBadge = (method: string) => {
+    switch (method) {
+      case 'paypal':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"><CreditCard className="w-3 h-3 mr-1" /> PayPal</span>;
+      case 'wise':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><Wallet className="w-3 h-3 mr-1" /> Wise</span>;
+      case 'stripe':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"><CreditCard className="w-3 h-3 mr-1" /> Stripe</span>;
+      default:
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">{method}</span>;
+    }
+  };
+
+  // Se non autenticato, mostra il form di login
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-slate-50 dark:bg-slate-900">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">Amministrazione Pagamenti</CardTitle>
+            <CardDescription className="text-center">
+              Accedi per gestire i pagamenti e gli abbonamenti
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col space-y-4">
+              <Input
+                type="password"
+                placeholder="Password di amministrazione"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+              />
+              <Button 
+                onClick={handleLogin} 
+                disabled={isLoading}
+                className="w-full"
+              >
+                {isLoading ? "Autenticazione in corso..." : "Accedi"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Interfaccia amministrativa dopo l'autenticazione
+  return (
+    <div className="min-h-screen p-4 bg-slate-50 dark:bg-slate-900">
+      <header className="mb-8 flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Dashboard Amministrazione Pagamenti</h1>
+        <Button variant="outline" onClick={handleLogout}>Logout</Button>
+      </header>
+
+      {isLoading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <div className="container mx-auto">
+          {dashboardData && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Entrate Totali</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center">
+                    <Euro className="h-5 w-5 text-muted-foreground mr-2" />
+                    <span className="text-2xl font-bold">{formatCurrency(dashboardData.totalRevenue)}</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Abbonamenti Attivi</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center">
+                    <Users className="h-5 w-5 text-muted-foreground mr-2" />
+                    <span className="text-2xl font-bold">{dashboardData.activeSubscriptions || 0}</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Transazioni Totali</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center">
+                    <ArrowDownUp className="h-5 w-5 text-muted-foreground mr-2" />
+                    <span className="text-2xl font-bold">{dashboardData.transactionCount || 0}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          <Tabs defaultValue="transactions" className="w-full">
+            <TabsList className="mb-4">
+              <TabsTrigger value="transactions">Transazioni</TabsTrigger>
+              <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
+              <TabsTrigger value="plans">Piani</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="transactions">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Ultime Transazioni</CardTitle>
+                  <CardDescription>
+                    Dettaglio delle ultime transazioni di pagamento
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-md border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>ID</TableHead>
+                          <TableHead>Data</TableHead>
+                          <TableHead>Importo</TableHead>
+                          <TableHead>Metodo</TableHead>
+                          <TableHead>Stato</TableHead>
+                          <TableHead>Descrizione</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {transactions.length > 0 ? (
+                          transactions.map((transaction) => (
+                            <TableRow key={transaction.id}>
+                              <TableCell className="font-medium">{transaction.id}</TableCell>
+                              <TableCell>{formatDate(transaction.createdAt)}</TableCell>
+                              <TableCell>{formatCurrency(transaction.amount / 100)}</TableCell>
+                              <TableCell>{getPaymentMethodBadge(transaction.paymentMethod)}</TableCell>
+                              <TableCell>{getStatusBadge(transaction.status)}</TableCell>
+                              <TableCell className="max-w-xs truncate">{transaction.description || '-'}</TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center py-4">
+                              Nessuna transazione trovata
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="subscriptions">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Abbonamenti</CardTitle>
+                  <CardDescription>
+                    Elenco degli abbonamenti attivi e scaduti
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-md border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>ID</TableHead>
+                          <TableHead>Utente</TableHead>
+                          <TableHead>Piano</TableHead>
+                          <TableHead>Stato</TableHead>
+                          <TableHead>Inizio</TableHead>
+                          <TableHead>Scadenza</TableHead>
+                          <TableHead>Metodo</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {subscriptions.length > 0 ? (
+                          subscriptions.map((subscription) => (
+                            <TableRow key={subscription.id}>
+                              <TableCell className="font-medium">{subscription.id}</TableCell>
+                              <TableCell>{subscription.userId}</TableCell>
+                              <TableCell>{subscription.plan?.name || '-'}</TableCell>
+                              <TableCell>{getStatusBadge(subscription.status)}</TableCell>
+                              <TableCell>{formatDate(subscription.currentPeriodStart)}</TableCell>
+                              <TableCell>{formatDate(subscription.currentPeriodEnd)}</TableCell>
+                              <TableCell>{getPaymentMethodBadge(subscription.paymentMethod || '-')}</TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={7} className="text-center py-4">
+                              Nessun abbonamento trovato
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="plans">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Piani di Abbonamento</CardTitle>
+                  <CardDescription>
+                    Dettaglio dei piani di abbonamento disponibili
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-md border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>ID</TableHead>
+                          <TableHead>Nome</TableHead>
+                          <TableHead>Prezzo</TableHead>
+                          <TableHead>Intervallo</TableHead>
+                          <TableHead>Stato</TableHead>
+                          <TableHead>Features</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {dashboardData?.plans?.length > 0 ? (
+                          dashboardData.plans.map((plan: any) => (
+                            <TableRow key={plan.id}>
+                              <TableCell className="font-medium">{plan.id}</TableCell>
+                              <TableCell>{plan.name}</TableCell>
+                              <TableCell>{formatCurrency(plan.price / 100)}</TableCell>
+                              <TableCell>{plan.interval === 'month' ? 'Mensile' : 'Annuale'}</TableCell>
+                              <TableCell>
+                                {plan.isActive ? (
+                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <CheckCircle2 className="w-3 h-3 mr-1" /> Attivo
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    Inattivo
+                                  </span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {plan.features && typeof plan.features === 'string' ? (
+                                  <div className="flex flex-wrap gap-1">
+                                    {JSON.parse(plan.features).map((feature: string, index: number) => (
+                                      <span key={index} className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-blue-50 text-blue-800">
+                                        <Tag className="w-3 h-3 mr-1" /> {feature}
+                                      </span>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  '-'
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={6} className="text-center py-4">
+                              Nessun piano di abbonamento trovato
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      )}
+    </div>
+  );
+}
