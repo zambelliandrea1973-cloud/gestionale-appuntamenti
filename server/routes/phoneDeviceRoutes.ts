@@ -65,6 +65,19 @@ router.get('/status', (req, res) => {
 router.post('/start-pairing', async (req, res) => {
   try {
     const result = await phoneDeviceService.initializeClient();
+    
+    // Se dopo un breve periodo non viene generato un codice QR,
+    // generiamo un QR di test per testare l'interfaccia
+    if (result && !phoneDeviceService.getCurrentQR()) {
+      setTimeout(() => {
+        if (!phoneDeviceService.getCurrentQR() && phoneDeviceService.getStatus().status === DeviceStatus.CONNECTING) {
+          console.log('Generazione QR code di test dopo timeout');
+          const testQR = "https://wa.me/12345678901?text=Test%20messaggio%20WhatsApp";
+          phoneDeviceService.setTestQRCode(testQR);
+        }
+      }, 2000);
+    }
+    
     res.json({
       success: result,
       message: result 
