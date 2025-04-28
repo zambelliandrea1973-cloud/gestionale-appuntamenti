@@ -28,6 +28,26 @@ function getTwilioClient() {
     return null;
   }
 }
+
+// Funzione per verificare se l'account Twilio è in modalità trial
+async function isTwilioTrialAccount() {
+  try {
+    const client = getTwilioClient();
+    if (!client) return true; // Se non c'è client, assumiamo limitazioni
+    
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    if (!accountSid) {
+      console.error('TWILIO_ACCOUNT_SID non è definito nelle variabili di ambiente');
+      return true; // Se non c'è SID, assumiamo limitazioni
+    }
+    
+    const account = await client.api.accounts(accountSid).fetch();
+    return account.type === 'Trial';
+  } catch (error) {
+    console.error('Errore durante la verifica dello stato dell\'account Twilio:', error);
+    return true; // In caso di errore, assumiamo che sia un account trial
+  }
+}
 // Per requisito esplicito, rimosso il controllo isStaff
 // import { isStaff } from '../auth';
 
@@ -614,6 +634,9 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
       });
     }
     
+    // Verifica se l'account è in modalità trial
+    const isTrial = await isTwilioTrialAccount();
+    
     // Ottieni i template dei promemoria
     const templates = await storage.getReminderTemplates();
     const defaultTemplate = templates.find(t => t.isDefault);
@@ -629,7 +652,7 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
     let successCount = 0;
     let errorCount = 0;
     
-    console.log(`Elaborazione invio SMS per ${appointmentIds.length} appuntamenti`);
+    console.log(`Elaborazione invio SMS per ${appointmentIds.length} appuntamenti - Account Trial: ${isTrial ? 'Sì' : 'No'}`);
     
     // Per ogni appuntamento, invia SMS
     for (const appointmentId of appointmentIds) {
@@ -719,6 +742,11 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
         console.log(`Invio SMS a ${phoneNumber} per cliente ${clientName} (ID: ${client.id}), appuntamento ${appointmentId}`);
         
         try {
+          // Se l'account è in modalità trial, avvisa del possibile problema
+          if (isTrial) {
+            console.warn(`ATTENZIONE: Account Twilio in modalità trial. L'SMS potrebbe non essere consegnato a ${phoneNumber} a meno che non sia un numero verificato nell'account Twilio.`);
+          }
+          
           // Invia SMS tramite Twilio
           const smsResult = await twilioClient.messages.create({
             body: message,
@@ -737,7 +765,8 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             channel: 'sms',
             metadata: JSON.stringify({
               sid: smsResult.sid,
-              status: smsResult.status
+              status: smsResult.status,
+              isTrial
             })
           });
           
@@ -754,7 +783,7 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             reminderStatus
           });
           
-          results.push({
+          const result = {
             id: appointmentId,
             success: true,
             clientName,
@@ -764,8 +793,17 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             message,
             smsStatus: smsResult.status,
             smsSid: smsResult.sid
-          });
+          };
           
+          // Se è un account trial, aggiungiamo un avviso nel risultato
+          if (isTrial) {
+            Object.assign(result, {
+              trialAccount: true,
+              trialWarning: 'Account Twilio in modalità trial: l\'SMS sarà consegnato solo a numeri verificati nell\'account Twilio.'
+            });
+          }
+          
+          results.push(result);
           successCount++;
         } catch (smsError: any) {
           // Gestione dettagliata degli errori Twilio
@@ -783,6 +821,8 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             errorMessage = `Il numero ${phoneNumber} non può ricevere SMS. Potrebbe essere un telefono fisso.`;
           } else if (errorCode === 21610) {
             errorMessage = `Il numero Twilio ${process.env.TWILIO_PHONE_NUMBER} non è autorizzato a inviare SMS a ${phoneNumber}.`;
+          } else if (errorCode === 21408) {
+            errorMessage = `Il servizio SMS non è abilitato per la regione del numero ${phoneNumber}. È necessario attivare il servizio nel dashboard Twilio.`;
           }
           
           results.push({
@@ -790,7 +830,8 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
             success: false,
             clientName,
             error: errorMessage,
-            errorCode
+            errorCode,
+            isTrial
           });
           
           errorCount++;
@@ -808,10 +849,25 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
     
     console.log(`Elaborazione invio SMS completata: ${successCount} successi, ${errorCount} errori`);
     
-    res.json({
+    // Aggiungiamo informazioni generali sulla modalità trial
+    const response = {
       success: true,
-      results
-    });
+      results,
+      stats: {
+        total: appointmentIds.length,
+        success: successCount,
+        error: errorCount
+      }
+    };
+    
+    if (isTrial) {
+      Object.assign(response, {
+        trialAccount: true,
+        trialWarning: 'IMPORTANTE: Stai usando un account Twilio in modalità trial. Gli SMS saranno consegnati SOLO a numeri di telefono verificati nell\'account Twilio. Per inviare SMS a qualsiasi numero, è necessario aggiornare l\'account Twilio a un account pagante.'
+      });
+    }
+    
+    res.json(response);
   } catch (error: any) {
     console.error('Errore nell\'invio SMS batch:', error);
     res.status(500).json({
