@@ -250,6 +250,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/admin', adminRouter);
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
+  app.use('/api/phone-device', directPhoneRoutes); // Aggiungiamo il nuovo sistema di configurazione del telefono
 
   const httpServer = createServer(app);
   
