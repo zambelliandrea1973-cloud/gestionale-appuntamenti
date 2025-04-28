@@ -549,10 +549,10 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
 
               <TabsContent value="direct" className="space-y-4">
                 <div className="bg-muted p-4 rounded-lg mb-4">
-                  <h3 className="text-base font-medium mb-2">Notifiche telefoniche</h3>
+                  <h3 className="text-base font-medium mb-2">Notifiche WhatsApp</h3>
                   <p className="text-sm text-muted-foreground">
-                    Le notifiche telefoniche generano link che puoi utilizzare per inviare 
-                    messaggi manualmente attraverso WhatsApp o altri servizi, senza 
+                    Le notifiche via WhatsApp ti permettono di inviare promemoria e comunicazioni 
+                    ai tuoi clienti direttamente attraverso WhatsApp Web, senza 
                     costi aggiuntivi.
                   </p>
                 </div>
@@ -630,9 +630,9 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       render={({ field }) => (
                         <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                           <div className="space-y-0.5">
-                            <FormLabel className="text-base">Usa numero WhatsApp dedicato</FormLabel>
+                            <FormLabel className="text-base">Inserisci numero WhatsApp</FormLabel>
                             <FormDescription>
-                              Inserisci manualmente il numero WhatsApp da utilizzare per inviare notifiche ai tuoi clienti.
+                              Configura il tuo numero WhatsApp per inviare comunicazioni ai clienti.
                             </FormDescription>
                           </div>
                           <FormControl>
@@ -654,28 +654,6 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                             <FormLabel>Numero WhatsApp per notifiche</FormLabel>
                             <FormDescription>
                               Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).
-                            </FormDescription>
-                            <FormControl>
-                              <Input 
-                                placeholder="+39 XXX XXX XXXX" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-
-                    {!form.watch("useContactPhoneForNotifications") && (
-                      <FormField
-                        control={form.control}
-                        name="notificationPhone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Numero dedicato per notifiche</FormLabel>
-                            <FormDescription>
-                              Inserisci un numero di telefono WhatsApp diverso da utilizzare per l'invio di notifiche telefoniche. Inserisci il numero con prefisso internazionale (es. +39).
                             </FormDescription>
                             <FormControl>
                               <Input 
