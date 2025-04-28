@@ -776,3 +776,22 @@ export const reminderTemplatesRelations = relations(reminderTemplates, ({ one })
     relationName: "service_reminder_templates",
   }),
 }));
+
+// Phones table schema (for direct phone configuration)
+export const phones = pgTable("phones", {
+  id: serial("id").primaryKey(),
+  phoneNumber: text("phone_number").notNull(),
+  isVerified: boolean("is_verified").default(false),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPhoneSchema = createInsertSchema(phones).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type Phone = typeof phones.$inferSelect;
+export type InsertPhone = z.infer<typeof insertPhoneSchema>;
