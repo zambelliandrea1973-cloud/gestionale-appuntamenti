@@ -280,7 +280,7 @@ const WhatsAppCenterPage: React.FC = () => {
         
         // Carica gli appuntamenti dopo la verifica
         fetchUpcomingAppointments();
-        fetchSmsHistory();
+        fetchWhatsAppHistory();
         
         // Passa alla tab di invio messaggi
         setActiveTab("send-notifications");
@@ -429,7 +429,7 @@ const WhatsAppCenterPage: React.FC = () => {
         // Aggiorna la lista dopo l'invio
         fetchUpcomingAppointments();
         // Aggiorna lo storico delle notifiche
-        fetchSmsHistory();
+        fetchWhatsAppHistory();
         // Reset delle selezioni e del messaggio personalizzato
         setSelectedAppointments({});
         setCustomMessage('');
@@ -1069,7 +1069,7 @@ const WhatsAppCenterPage: React.FC = () => {
           <div className="flex justify-end">
             <Button
               variant="outline"
-              onClick={fetchSmsHistory}
+              onClick={fetchWhatsAppHistory}
               className="ml-auto"
             >
               <RefreshCw className="h-4 w-4 mr-2" />
