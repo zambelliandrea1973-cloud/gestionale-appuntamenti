@@ -34,6 +34,7 @@ import betaRoutes from './routes/betaRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import { adminRouter } from './routes/adminRoutes';
 import notificationRoutes from './routes/notificationRoutes';
+import phoneDeviceRoutes, { initializePhoneDeviceSocket } from './routes/phoneDeviceRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -247,8 +248,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/payment', paymentRoutes);
   app.use('/api/admin', adminRouter);
   app.use('/api/notifications', notificationRoutes);
+  app.use('/api/phone-device', phoneDeviceRoutes);
 
   const httpServer = createServer(app);
+  
+  // Inizializza il server WebSocket per la comunicazione con il dispositivo telefonico
+  initializePhoneDeviceSocket(httpServer);
 
   // Client routes
   app.get("/api/clients", async (_req: Request, res: Response) => {
