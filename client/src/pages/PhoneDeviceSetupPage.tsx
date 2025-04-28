@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Loader2, Smartphone, QrCode, PhoneOff, Check, RefreshCw, Send } from 'lucide-react';
+import { Loader2, Smartphone, QrCode as LucideQrCode, PhoneOff, Check, RefreshCw, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { io, Socket } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
+import { QRCodeSVG } from 'qrcode.react';
 
 enum DeviceStatus {
   DISCONNECTED = 'disconnected',
@@ -256,7 +257,7 @@ const PhoneDeviceSetupPage = () => {
                     </>
                   ) : (
                     <>
-                      <QrCode className="mr-2 h-4 w-4" />
+                      <LucideQrCode className="mr-2 h-4 w-4" />
                       {t('Inizia Accoppiamento')}
                     </>
                   )}
@@ -490,21 +491,16 @@ const PhoneDeviceSetupPage = () => {
 
 // Componente per visualizzare il QR code
 const QRCode = ({ value, size = 256 }: { value: string, size?: number }) => {
-  // Genera URL data per il QR code
-  useEffect(() => {
-    // In un'applicazione reale, useresti una libreria come qrcode.react
-    // Qui simuliamo solo la struttura per la demo
-  }, [value]);
-
   return (
     <div style={{ width: size, height: size, position: 'relative' }}>
-      {/* Simuliamo un QR code con una rappresentazione visiva */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <QrCode size={size} />
-        <div className="absolute text-sm">
-          Scansiona con WhatsApp
-        </div>
-      </div>
+      <QRCodeSVG 
+        value={value}
+        size={size}
+        bgColor={"#ffffff"}
+        fgColor={"#000000"}
+        level={"L"}
+        includeMargin={false}
+      />
     </div>
   );
 };
