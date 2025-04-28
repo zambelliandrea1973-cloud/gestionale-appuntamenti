@@ -630,9 +630,9 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                       render={({ field }) => (
                         <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                           <div className="space-y-0.5">
-                            <FormLabel className="text-base">Usa numero di contatto</FormLabel>
+                            <FormLabel className="text-base">Usa numero WhatsApp dedicato</FormLabel>
                             <FormDescription>
-                              Utilizza il numero di telefono nelle informazioni di contatto per le notifiche telefoniche.
+                              Inserisci manualmente il numero WhatsApp da utilizzare per inviare notifiche ai tuoi clienti.
                             </FormDescription>
                           </div>
                           <FormControl>
@@ -648,27 +648,19 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     {form.watch("useContactPhoneForNotifications") && (
                       <FormField
                         control={form.control}
-                        name="preferredContactPhone"
+                        name="notificationWhatsappPhone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Numero di contatto da utilizzare</FormLabel>
+                            <FormLabel>Numero WhatsApp per notifiche</FormLabel>
                             <FormDescription>
-                              Scegli quale dei tuoi numeri di contatto utilizzare per le notifiche telefoniche.
+                              Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).
                             </FormDescription>
-                            <Select 
-                              value={field.value} 
-                              onValueChange={field.onChange}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Seleziona un'opzione" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="primary">Numero principale</SelectItem>
-                                <SelectItem value="secondary">Numero secondario</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <FormControl>
+                              <Input 
+                                placeholder="+39 XXX XXX XXXX" 
+                                {...field} 
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
