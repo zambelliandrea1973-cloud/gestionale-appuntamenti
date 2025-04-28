@@ -90,11 +90,11 @@ class PhoneDeviceService {
   }
 
   /**
-   * Inizializza un nuovo client WhatsApp
+   * Inizializza un nuovo client WhatsApp (versione demo)
    * 
-   * In questa versione modificata per demo/test, generiamo immediatamente un QR di test
-   * invece di inizializzare un client WhatsApp reale, dato che ci sono problemi con 
-   * le dipendenze di Puppeteer nell'ambiente Replit.
+   * In questa versione modificata per demo/test, non tentiamo di utilizzare WhatsApp reale,
+   * ma simuliamo il processo di accoppiamento generando un QR code interno che verrà utilizzato
+   * per la simulazione. Questa versione è intesa solo per test dell'interfaccia.
    */
   async initializeClient() {
     try {
@@ -103,21 +103,21 @@ class PhoneDeviceService {
         await this.disconnectClient();
       }
 
-      console.log('Inizializzazione client WhatsApp di test...');
+      console.log('Inizializzazione client di test...');
       this.deviceStatus = DeviceStatus.CONNECTING;
       this.emitStatus();
 
       // Genera un ID univoco per questo dispositivo
       this.deviceId = Date.now().toString();
       
-      // Per la demo, impostiamo immediatamente un QR di test e impostiamo lo stato a QR_READY
+      // Per la demo, impostiamo immediatamente un QR di test
       setTimeout(() => {
-        // Generiamo un QR code che simula quello di WhatsApp
-        // Questo non è un vero QR di WhatsApp ma tenta di imitare il formato
-        // Il formato reale è molto più complesso e include firme crittografiche
+        // Generiamo un QR code per il nostro sistema interno
+        // Questo codice contiene informazioni per il nostro sistema di test
         const timestamp = Date.now();
-        const randomStr = Math.random().toString(36).substring(2, 15);
-        const testQR = `1@J52ZJcMCWoTIGo9mVON9UHiWYGOCyYxCmjG71V6+MRlAQKUQk9xxbKVL3+p6WYauFP8GTHnCt7ZCNA==,${randomStr},${timestamp}`;
+        const deviceId = this.deviceId;
+        // Codice QR con info di test
+        const testQR = `test-device:${deviceId}:${timestamp}`;
         this.currentQR = testQR;
         this.deviceStatus = DeviceStatus.QR_READY;
         
@@ -242,8 +242,9 @@ class PhoneDeviceService {
 
   /**
    * Salva o aggiorna le impostazioni del dispositivo nel database
+   * Implementazione interna
    */
-  private async saveDeviceSettings() {
+  private async _saveDeviceSettings() {
     try {
       // Cerca prima se c'è già un dispositivo salvato
       const deviceSetting = await storage.getSetting('whatsapp_device');
@@ -432,6 +433,40 @@ class PhoneDeviceService {
     if (this.socketServer) {
       this.socketServer.emit('qr_code', qrData);
       console.log('QR code di test inviato ai client');
+    }
+  }
+  
+  /**
+   * Imposta il numero di telefono del dispositivo accoppiato
+   * (solo per la modalità test)
+   */
+  setPhoneNumber(phoneNumber: string): void {
+    this.phoneNumber = phoneNumber;
+    console.log(`Numero di telefono impostato: ${phoneNumber}`);
+    this.emitStatus();
+  }
+  
+  /**
+   * Imposta lo stato del dispositivo
+   * (solo per la modalità test)
+   */
+  setDeviceStatus(status: DeviceStatus): void {
+    this.deviceStatus = status;
+    console.log(`Stato dispositivo impostato: ${status}`);
+    this.emitStatus();
+  }
+  
+  /**
+   * Espone la funzione saveDeviceSettings per uso esterno
+   * (solo per la modalità test)
+   */
+  async saveDeviceSettings(): Promise<boolean> {
+    try {
+      await this._saveDeviceSettings();
+      return true;
+    } catch (error) {
+      console.error('Errore pubblico nel salvataggio impostazioni:', error);
+      return false;
     }
   }
 

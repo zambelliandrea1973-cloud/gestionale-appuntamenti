@@ -156,4 +156,46 @@ router.post('/send-test', async (req, res) => {
   }
 });
 
+/**
+ * Simula la scansione del QR code da parte dell'utente
+ * Questa è una rotta di test per simulare l'accoppiamento del dispositivo
+ */
+router.post('/simulate-scan', async (req, res) => {
+  try {
+    // Ottieni lo stato attuale
+    const status = phoneDeviceService.getStatus();
+    
+    // Se siamo in modalità QR_READY, procediamo con la simulazione
+    if (status.status === DeviceStatus.QR_READY) {
+      // Simula un telefono
+      phoneDeviceService.setPhoneNumber('+393471445767');
+      phoneDeviceService.setDeviceStatus(DeviceStatus.AUTHENTICATED);
+      
+      // Breve attesa per simulare l'autenticazione
+      setTimeout(() => {
+        // Imposta lo stato a connesso
+        phoneDeviceService.setDeviceStatus(DeviceStatus.CONNECTED);
+        
+        // Non è necessario eseguire phoneDeviceService.saveDeviceSettings() qui
+        // in quanto setDeviceStatus() già emette lo stato aggiornato
+      }, 2000);
+      
+      res.json({
+        success: true,
+        message: 'Scansione QR simulata con successo. Dispositivo in fase di autenticazione...'
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: `Impossibile simulare la scansione: il dispositivo non è in stato QR_READY (stato attuale: ${status.status})`
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Errore nella simulazione della scansione'
+    });
+  }
+});
+
 export default router;
