@@ -41,6 +41,7 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
   const [isLoading, setIsLoading] = useState(false);
   const [settings, setSettings] = useState<NotificationSettings | null>(null);
   const [testEmailAddress, setTestEmailAddress] = useState("");
+  const [testWhatsAppNumber, setTestWhatsAppNumber] = useState("");
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [activeTab, setActiveTab] = useState("email");
 
@@ -216,6 +217,61 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
       toast({
         title: "Errore",
         description: "Si è verificato un problema durante l'invio dell'email di test",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSendingTest(false);
+    }
+  };
+
+  // Invia un test WhatsApp
+  const sendTestWhatsApp = async () => {
+    if (!testWhatsAppNumber) {
+      toast({
+        title: "Errore",
+        description: "Inserisci un numero WhatsApp per il test",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsSendingTest(true);
+      const response = await apiRequest("POST", "/api/notification-settings/test-whatsapp", {
+        phone: testWhatsAppNumber,
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          // Se riceveremo un link WhatsApp, lo apriamo automaticamente
+          if (result.whatsappLink) {
+            window.open(result.whatsappLink, "_blank");
+          }
+          
+          toast({
+            title: "Successo",
+            description: "Link WhatsApp generato con successo. Si aprirà una nuova finestra per inviare il messaggio.",
+          });
+        } else {
+          toast({
+            title: "Errore",
+            description: result.message || "Impossibile generare il link WhatsApp",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Errore",
+          description: "Si è verificato un errore durante la generazione del link WhatsApp",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Errore durante il test WhatsApp:", error);
+      toast({
+        title: "Errore",
+        description: "Si è verificato un problema durante il test WhatsApp",
         variant: "destructive",
       });
     } finally {
@@ -646,25 +702,52 @@ export function NotificationSettingsForm({ onSettingsSaved }: NotificationSettin
                     />
 
                     {form.watch("useContactPhoneForNotifications") && (
-                      <FormField
-                        control={form.control}
-                        name="notificationPhone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Numero WhatsApp per notifiche</FormLabel>
-                            <FormDescription>
-                              Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).
-                            </FormDescription>
-                            <FormControl>
-                              <Input 
-                                placeholder="+39 XXX XXX XXXX" 
-                                {...field} 
+                      <>
+                        <FormField
+                          control={form.control}
+                          name="notificationPhone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Numero WhatsApp per notifiche</FormLabel>
+                              <FormDescription>
+                                Inserisci il numero di telefono WhatsApp da utilizzare per inviare notifiche ai clienti. Assicurati di includere il prefisso internazionale (es. +39).
+                              </FormDescription>
+                              <FormControl>
+                                <Input 
+                                  placeholder="+39 XXX XXX XXXX" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <div className="mt-4 bg-muted p-4 rounded-lg">
+                          <h4 className="text-sm font-medium mb-2">Test notifica WhatsApp</h4>
+                          <div className="grid gap-4">
+                            <div className="flex flex-col sm:flex-row gap-2">
+                              <Input
+                                placeholder="Numero per test (es. +39...)"
+                                value={testWhatsAppNumber}
+                                onChange={(e) => setTestWhatsAppNumber(e.target.value)}
                               />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={sendTestWhatsApp}
+                                disabled={isSendingTest || !form.watch("whatsappEnabled")}
+                                className="whitespace-nowrap"
+                              >
+                                {isSendingTest ? "Invio..." : "Testa WhatsApp"}
+                              </Button>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Inserisci un numero con prefisso internazionale per testare l'invio WhatsApp. Verrà aperto WhatsApp Web con un messaggio di test.
+                            </p>
+                          </div>
+                        </div>
+                      </>
                     )}
                   </div>
                 )}
