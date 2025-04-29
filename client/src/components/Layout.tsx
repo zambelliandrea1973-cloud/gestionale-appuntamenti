@@ -36,7 +36,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header - nella pagina delle notifiche mostriamo solo il menu senza il titolo principale */}
+      {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-4">
@@ -45,7 +45,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <div className="flex items-center space-x-2 cursor-pointer">
                   <CalendarDays className="h-5 w-5" />
                   {/* Mostra il titolo solo se non siamo nella pagina delle notifiche o nella home */}
-                  {(location === "/" || (location !== "/notifications" && !hideHeader)) && (
+                  {(location === "/" || (location !== "/notifications" && location !== "/whatsapp-center" && location !== "/phone-device-setup" && location !== "/simple-phone-setup" && !hideHeader)) && (
                     <h1 className="text-xl font-medium">{t('app.title')}</h1>
                   )}
                 </div>
@@ -167,7 +167,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       </main>
 
       {/* Footer - nascosto nella pagina delle notifiche o quando specificato */}
-      {location !== "/notifications" && (
+      {location !== "/notifications" && location !== "/whatsapp-center" && location !== "/phone-device-setup" && location !== "/simple-phone-setup" && (
         <footer className="bg-gray-100 border-t border-gray-300 py-4">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center">
