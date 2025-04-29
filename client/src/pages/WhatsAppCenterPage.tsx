@@ -88,6 +88,23 @@ interface Appointment {
   };
 }
 
+// Interfaccia per le notifiche nella cronologia
+interface NotificationHistoryItem {
+  id: number;
+  appointmentId: number;
+  clientId: number;
+  type: string;
+  message: string;
+  sent_at: string;
+  status: string;
+  client?: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+  };
+}
+
 // Componente principale
 const WhatsAppCenterPage: React.FC = () => {
   const { t } = useTranslation();
@@ -109,7 +126,7 @@ const WhatsAppCenterPage: React.FC = () => {
   const [customMessage, setCustomMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [smsHistory, setSmsHistory] = useState<any[]>([]);
+  const [smsHistory, setSmsHistory] = useState<NotificationHistoryItem[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   
   // Tab attivo
@@ -1090,11 +1107,14 @@ const WhatsAppCenterPage: React.FC = () => {
                       const whatsappLink = match ? match[1] : null;
                       
                       return (
-                        <TableRow key={notification.id}>
+                        <TableRow 
+                          key={notification.id}
+                          className={notification.status === 'sent' ? 'bg-red-100' : ''}
+                        >
                           <TableCell className="whitespace-nowrap">
                             {notification.sent_at ? format(new Date(notification.sent_at), 'dd/MM/yyyy HH:mm') : 'N/D'}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="font-medium">
                             {notification.client?.firstName} {notification.client?.lastName}
                           </TableCell>
                           <TableCell>
