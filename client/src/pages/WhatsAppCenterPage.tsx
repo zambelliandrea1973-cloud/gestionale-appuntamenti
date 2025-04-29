@@ -42,7 +42,8 @@ import {
   Calendar, 
   Clock, 
   Smartphone, 
-  AlertCircle, 
+  AlertCircle,
+  X, 
   Phone,
   ExternalLink
 } from 'lucide-react';
