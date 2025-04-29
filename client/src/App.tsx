@@ -27,6 +27,7 @@ import SubscribePage from "./pages/SubscribePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
+import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -182,24 +183,30 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       
-      {/* Route per la pagina di notifiche WhatsApp */}
+      {/* Centro notifiche WhatsApp unificato */}
       <Route path="/notifications">
         <StaffPageWrapper>
-          <NotificationsPage />
+          <WhatsAppCenterPage />
         </StaffPageWrapper>
       </Route>
       
-      {/* Route per la pagina di configurazione del dispositivo telefonico (metodo QR) */}
+      {/* Route alternative che reindirizzano al nuovo centro WhatsApp unificato */}
       <Route path="/phone-device-setup">
         <StaffPageWrapper>
-          <PhoneDeviceSetupPage />
+          <WhatsAppCenterPage />
         </StaffPageWrapper>
       </Route>
       
-      {/* Route per la nuova pagina di configurazione semplificata */}
       <Route path="/simple-phone-setup">
         <StaffPageWrapper>
-          <SimplePhoneSetup />
+          <WhatsAppCenterPage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Route per la nuova pagina del Centro WhatsApp */}
+      <Route path="/whatsapp-center">
+        <StaffPageWrapper>
+          <WhatsAppCenterPage />
         </StaffPageWrapper>
       </Route>
 
