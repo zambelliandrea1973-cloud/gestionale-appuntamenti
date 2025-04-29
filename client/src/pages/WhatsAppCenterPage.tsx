@@ -1109,7 +1109,7 @@ const WhatsAppCenterPage: React.FC = () => {
                       return (
                         <TableRow 
                           key={notification.id}
-                          className={notification.status === 'sent' ? 'bg-red-100' : ''}
+                          className={notification.status === 'sent' || whatsappLink ? 'bg-red-100' : ''}
                         >
                           <TableCell className="whitespace-nowrap">
                             {notification.sent_at ? format(new Date(notification.sent_at), 'dd/MM/yyyy HH:mm') : 'N/D'}
@@ -1156,70 +1156,64 @@ const WhatsAppCenterPage: React.FC = () => {
         </TabsContent>
       </Tabs>
       
-      {/* Modal per i link generati */}
+      {/* Modal per i link generati - versione di tipo popup che mantiene visibili gli elementi sottostanti */}
       {showGeneratedLinks && generatedLinks.length > 0 && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-            <div className="p-6 bg-primary text-white">
-              <h3 className="text-xl font-bold mb-2">
-                {t('Link WhatsApp generati')}
-              </h3>
-              <p>{t('Invia messaggi ai clienti selezionati')}</p>
+        <div className="fixed bottom-0 right-0 z-50 p-4 pointer-events-none">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden pointer-events-auto border-2 border-primary">
+            <div className="p-4 bg-primary text-white flex justify-between items-center">
+              <div>
+                <h3 className="text-lg font-bold">
+                  {t('Link WhatsApp')}
+                </h3>
+                <p className="text-sm">{t('Contatto')} {currentLinkIndex + 1} di {generatedLinks.length}</p>
+              </div>
+              <Badge variant="secondary">
+                {Math.round((currentLinkIndex + 1) / generatedLinks.length * 100)}%
+              </Badge>
             </div>
             
-            <div className="p-6">
-              <div className="bg-muted/50 p-4 rounded-lg mb-6">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="font-medium">
-                    {currentLinkIndex + 1} di {generatedLinks.length}
-                  </span>
-                  <Badge variant="outline">
-                    {Math.round((currentLinkIndex + 1) / generatedLinks.length * 100)}%
-                  </Badge>
-                </div>
-                
-                <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                  <div 
-                    className="bg-primary h-2.5 rounded-full" 
-                    style={{ width: `${((currentLinkIndex + 1) / generatedLinks.length) * 100}%` }}
-                  />
-                </div>
-                
-                <div className="p-4 border rounded-lg bg-white mb-3">
-                  <p className="font-bold text-lg mb-1">
-                    {generatedLinks[currentLinkIndex]?.name}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    {t('Premi il pulsante sotto per aprire WhatsApp e inviare il messaggio')}
-                  </p>
-                </div>
+            <div className="p-4">
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                <div 
+                  className="bg-primary h-2 rounded-full" 
+                  style={{ width: `${((currentLinkIndex + 1) / generatedLinks.length) * 100}%` }}
+                />
               </div>
               
-              <div className="flex gap-3 flex-col sm:flex-row">
+              <div className="border rounded-lg bg-white p-3 mb-3">
+                <p className="font-bold text-base">
+                  {generatedLinks[currentLinkIndex]?.name}
+                </p>
+              </div>
+              
+              <div className="flex gap-2">
                 <Button
                   onClick={openCurrentLink}
+                  size="sm"
                   className="flex-1"
                 >
-                  <Send className="h-4 w-4 mr-2" />
+                  <Send className="h-4 w-4 mr-1" />
                   {t('Apri WhatsApp')}
                 </Button>
                 
                 <Button
                   onClick={goToNextLink}
                   variant="outline"
+                  size="sm"
                   className="flex-1"
                 >
-                  {currentLinkIndex < generatedLinks.length - 1 ? t('Prossimo contatto') : t('Termina')}
+                  {currentLinkIndex < generatedLinks.length - 1 ? t('Prossimo') : t('Termina')}
+                </Button>
+                
+                <Button
+                  onClick={closeGeneratedLinks}
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                >
+                  <X className="h-4 w-4" />
                 </Button>
               </div>
-              
-              <Button
-                onClick={closeGeneratedLinks}
-                variant="ghost"
-                className="w-full mt-3"
-              >
-                {t('Annulla')}
-              </Button>
             </div>
           </div>
         </div>
