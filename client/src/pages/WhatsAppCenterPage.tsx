@@ -449,6 +449,9 @@ const WhatsAppCenterPage: React.FC = () => {
         fetchUpcomingAppointments();
         // Aggiorna lo storico delle notifiche
         fetchWhatsAppHistory();
+        
+        // Passa automaticamente alla tab cronologia
+        setActiveTab("history");
       } else {
         throw new Error(data.error || 'Errore nell\'invio delle notifiche');
       }
@@ -488,15 +491,19 @@ const WhatsAppCenterPage: React.FC = () => {
       setSelectedAppointments({});
       setCustomMessage('');
       setShowGeneratedLinks(false);
+      // Passa automaticamente alla tab cronologia
+      setActiveTab("history");
     }
   };
   
-  // Chiudi la lista dei link generati
+  // Chiudi la lista dei link generati e passa alla tab cronologia
   const closeGeneratedLinks = () => {
     setShowGeneratedLinks(false);
     // Reset delle selezioni e del messaggio personalizzato
     setSelectedAppointments({});
     setCustomMessage('');
+    // Passa alla tab cronologia dopo aver generato i link
+    setActiveTab("history");
   };
   
   // Ottiene il testo dello stato in base allo stato del dispositivo
