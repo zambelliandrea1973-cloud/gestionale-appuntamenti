@@ -386,6 +386,11 @@ const WhatsAppCenterPage: React.FC = () => {
     setSelectedAppointments(updatedSelection);
   };
   
+  // Stato per i link WhatsApp generati
+  const [generatedLinks, setGeneratedLinks] = useState<{id: number, name: string, link: string}[]>([]);
+  const [showGeneratedLinks, setShowGeneratedLinks] = useState(false);
+  const [currentLinkIndex, setCurrentLinkIndex] = useState(0);
+
   // Invia messaggi agli appuntamenti selezionati
   const handleSendNotifications = async () => {
     const selectedIds = Object.entries(selectedAppointments)
@@ -420,9 +425,23 @@ const WhatsAppCenterPage: React.FC = () => {
       if (data.success) {
         const successCount = data.results.filter((r: any) => r.success).length;
         
+        // Estrai i link WhatsApp dai risultati
+        const links = data.results
+          .filter((r: any) => r.success && r.whatsappLink)
+          .map((r: any) => ({
+            id: r.appointmentId,
+            name: r.clientName || 'Cliente',
+            link: r.whatsappLink
+          }));
+        
+        // Salva i link generati nello stato
+        setGeneratedLinks(links);
+        setShowGeneratedLinks(true);
+        setCurrentLinkIndex(0);
+        
         toast({
           title: 'WhatsApp generati',
-          description: `${successCount} link WhatsApp generati con successo`,
+          description: `${successCount} link WhatsApp generati con successo. Puoi aprirli ora in sequenza.`,
           variant: 'default'
         });
         
@@ -430,9 +449,6 @@ const WhatsAppCenterPage: React.FC = () => {
         fetchUpcomingAppointments();
         // Aggiorna lo storico delle notifiche
         fetchWhatsAppHistory();
-        // Reset delle selezioni e del messaggio personalizzato
-        setSelectedAppointments({});
-        setCustomMessage('');
       } else {
         throw new Error(data.error || 'Errore nell\'invio delle notifiche');
       }
@@ -447,6 +463,40 @@ const WhatsAppCenterPage: React.FC = () => {
     } finally {
       setIsSending(false);
     }
+  };
+  
+  // Aprire il link WhatsApp attuale
+  const openCurrentLink = () => {
+    if (generatedLinks.length > 0 && currentLinkIndex < generatedLinks.length) {
+      window.open(generatedLinks[currentLinkIndex].link, '_blank', 'noopener,noreferrer');
+    }
+  };
+  
+  // Passa al link successivo
+  const goToNextLink = () => {
+    if (currentLinkIndex < generatedLinks.length - 1) {
+      setCurrentLinkIndex(currentLinkIndex + 1);
+    } else {
+      // Finiti tutti i link
+      toast({
+        title: 'Completato',
+        description: 'Hai inviato tutti i messaggi WhatsApp!',
+        variant: 'default'
+      });
+      
+      // Reset delle selezioni e del messaggio personalizzato
+      setSelectedAppointments({});
+      setCustomMessage('');
+      setShowGeneratedLinks(false);
+    }
+  };
+  
+  // Chiudi la lista dei link generati
+  const closeGeneratedLinks = () => {
+    setShowGeneratedLinks(false);
+    // Reset delle selezioni e del messaggio personalizzato
+    setSelectedAppointments({});
+    setCustomMessage('');
   };
   
   // Ottiene il testo dello stato in base allo stato del dispositivo
