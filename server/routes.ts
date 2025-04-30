@@ -36,6 +36,8 @@ import { adminRouter } from './routes/adminRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import phoneDeviceRoutes, { initializePhoneDeviceSocket } from './routes/phoneDeviceRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
+import googleAuthRoutes from './routes/googleAuthRoutes';
+import emailCalendarRoutes from './routes/emailCalendarRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -251,6 +253,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
   app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
+  app.use('/api/google-auth', googleAuthRoutes);
+  app.use('/api/email-calendar-settings', emailCalendarRoutes);
 
   const httpServer = createServer(app);
   
