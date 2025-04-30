@@ -954,39 +954,33 @@ const WhatsAppCenterPage: React.FC = () => {
                 <div className="space-y-6">
                                   <div className="flex flex-col gap-3">
                     <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id="select-all"
-                          checked={appointments.length > 0 && appointments.every(app => selectedAppointments[app.id])}
-                          onCheckedChange={(checked) => toggleAllAppointments(!!checked)}
-                        />
-                        <Label htmlFor="select-all" className="cursor-pointer">
-                          {t('Seleziona tutti')} ({appointments.length})
-                        </Label>
-                      </div>
-                      
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={fetchUpcomingAppointments}
-                      >
-                        <RefreshCw className="h-4 w-4 mr-2" />
-                        {t('Aggiorna lista')}
-                      </Button>
-                    </div>
-                    
-                    <div className="flex flex-col gap-3">
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-1">
                         <Button
                           size="sm"
                           variant="secondary"
                           onClick={selectOnlyUnsent}
                           className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
                         >
-                          <CheckSquare className="h-4 w-4 mr-2" />
+                          <CheckSquare className="h-4 w-4 mr-1" />
                           {t('Seleziona solo non inviati')}
                         </Button>
                         
+                        <div className="relative inline-block group">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0"
+                          >
+                            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                            <span className="sr-only">{t('Informazioni')}</span>
+                          </Button>
+                          <div className="absolute z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white p-2 rounded shadow-lg border w-60 text-xs text-muted-foreground">
+                            {t('Seleziona più appuntamenti e premi "Invia in sequenza" per inviarli uno dopo l\'altro')}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-1">
                         <Button
                           size="sm"
                           variant="default"
@@ -994,14 +988,19 @@ const WhatsAppCenterPage: React.FC = () => {
                           disabled={isSending || Object.values(selectedAppointments).filter(Boolean).length === 0}
                           className="bg-blue-600 hover:bg-blue-700"
                         >
-                          <Send className="h-4 w-4 mr-2" />
+                          <Send className="h-4 w-4 mr-1" />
                           {isSending ? t('Invio in corso...') : t('Invia in sequenza')}
                         </Button>
-                      </div>
-                      
-                      <div className="text-sm text-muted-foreground bg-yellow-50 p-2 rounded-md border border-yellow-200">
-                        <AlertCircle className="h-4 w-4 inline-block mr-1 text-yellow-600" />
-                        {t('Seleziona più appuntamenti e premi "Invia in sequenza" per inviarli uno dopo l\'altro')}
+                        
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={fetchUpcomingAppointments}
+                          className="ml-1"
+                        >
+                          <RefreshCw className="h-4 w-4" />
+                          <span className="sr-only">{t('Aggiorna lista')}</span>
+                        </Button>
                       </div>
                     </div>
                   </div>
