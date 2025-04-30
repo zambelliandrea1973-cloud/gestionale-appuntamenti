@@ -347,8 +347,8 @@ const WhatsAppCenterPage: React.FC = () => {
       const data = await response.json();
       
       if (data.success && data.whatsappLink) {
-        // Apri il link WhatsApp in una nuova finestra
-        window.open(data.whatsappLink, '_blank', 'noopener,noreferrer');
+        // Apri il link WhatsApp in un popup
+        window.open(data.whatsappLink, '_blank', 'width=800,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=50,top=50');
         
         toast({
           title: 'Link WhatsApp generato',
@@ -447,8 +447,8 @@ const WhatsAppCenterPage: React.FC = () => {
           
           // Apri automaticamente il primo link WhatsApp
           if (links.length > 0) {
-            // Apri immediatamente il primo link
-            window.open(links[0].link, '_blank', 'noopener,noreferrer');
+            // Apri immediatamente il primo link in un popup
+            window.open(links[0].link, '_blank', 'width=800,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=50,top=50');
           }
           
           // Rimaniamo nella tab di invio notifiche dopo aver completato
@@ -473,7 +473,7 @@ const WhatsAppCenterPage: React.FC = () => {
   // Funzione per aprire il link corrente
   const openCurrentLink = () => {
     if (generatedLinks.length > 0 && currentLinkIndex < generatedLinks.length) {
-      window.open(generatedLinks[currentLinkIndex].link, '_blank', 'noopener,noreferrer');
+      window.open(generatedLinks[currentLinkIndex].link, '_blank', 'width=800,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=50,top=50');
     }
   };
   
@@ -880,8 +880,8 @@ const WhatsAppCenterPage: React.FC = () => {
                                     console.error('Errore nell\'aggiornamento dello stato', error);
                                   }
                                   
-                                  // Poi apriamo WhatsApp
-                                  window.open(generateWhatsAppLink(), '_blank', 'noopener,noreferrer');
+                                  // Poi apriamo WhatsApp in un popup
+                                  window.open(generateWhatsAppLink(), '_blank', 'width=800,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=50,top=50');
                                 };
                                 
                                 return (
