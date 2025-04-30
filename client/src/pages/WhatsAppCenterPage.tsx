@@ -130,13 +130,14 @@ const WhatsAppCenterPage: React.FC = () => {
   const [isSending, setIsSending] = useState(false);
   // La sezione cronologia è stata rimossa
   
-  // Tab attivo
-  const [activeTab, setActiveTab] = useState("device-setup");
+  // Tab attivo - mostriamo direttamente "Invia notifiche" come tab di default
+  const [activeTab, setActiveTab] = useState("send-notifications");
 
-  // Carica lo stato iniziale del dispositivo telefonico
+  // Carica lo stato iniziale del dispositivo telefonico e gli appuntamenti
   useEffect(() => {
-    const fetchInitialStatus = async () => {
+    const fetchInitialData = async () => {
       try {
+        // Carica lo stato del dispositivo
         const response = await fetch('/api/direct-phone/direct-status');
         const data = await response.json();
         
@@ -147,6 +148,14 @@ const WhatsAppCenterPage: React.FC = () => {
           if (data.phoneInfo.status === DeviceStatus.VERIFIED || 
               data.phoneInfo.status === DeviceStatus.CONNECTED) {
             fetchUpcomingAppointments();
+          } else if (activeTab === "send-notifications") {
+            // Se siamo nella tab di invio ma il telefono non è configurato, mostra un messaggio
+            toast({
+              title: 'Telefono non configurato',
+              description: 'È necessario configurare il telefono prima di inviare notifiche',
+              variant: 'warning',
+            });
+            setActiveTab("device-setup");
           }
         }
       } catch (error) {
@@ -154,8 +163,13 @@ const WhatsAppCenterPage: React.FC = () => {
       }
     };
     
-    fetchInitialStatus();
-  }, []);
+    fetchInitialData();
+    
+    // Carica sempre gli appuntamenti quando la tab è "send-notifications"
+    if (activeTab === "send-notifications") {
+      fetchUpcomingAppointments();
+    }
+  }, [activeTab]);
 
   // Funzione per caricare gli appuntamenti
   const fetchUpcomingAppointments = async () => {
