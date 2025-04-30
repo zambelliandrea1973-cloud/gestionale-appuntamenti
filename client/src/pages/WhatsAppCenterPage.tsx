@@ -852,8 +852,14 @@ const WhatsAppCenterPage: React.FC = () => {
                                 // Creiamo un link WhatsApp diretto
                                 const generateWhatsAppLink = () => {
                                   const phone = appointment.client?.phone?.replace(/[+\s]/g, '');
-                                  const defaultMessage = `Gentile ${appointment.client?.firstName},\nLe ricordiamo il Suo appuntamento di ${appointment.service?.name} per ${format(new Date(appointment.date), 'dd/MM/yyyy')} alle ore ${appointment.startTime.substring(0, 5)}.`;
-                                  const encodedMessage = encodeURIComponent(defaultMessage);
+                                  let messageText = `Gentile ${appointment.client?.firstName},\nLe ricordiamo il Suo appuntamento di ${appointment.service?.name} per ${format(new Date(appointment.date), 'dd/MM/yyyy')} alle ore ${appointment.startTime.substring(0, 5)}.`;
+                                  
+                                  // Aggiungiamo il messaggio personalizzato se presente
+                                  if (customMessage && customMessage.trim() !== '') {
+                                    messageText += `\n\n${customMessage.trim()}`;
+                                  }
+                                  
+                                  const encodedMessage = encodeURIComponent(messageText);
                                   return `https://wa.me/${phone}?text=${encodedMessage}`;
                                 };
                                 
@@ -936,6 +942,13 @@ const WhatsAppCenterPage: React.FC = () => {
                       </span>
                     </div>
                     
+                    <div className="bg-muted/30 border border-muted rounded-md p-3 mb-2 text-sm flex gap-2">
+                      <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                      <p>
+                        {t('Inserisci qui un messaggio aggiuntivo che verrà incluso nei messaggi WhatsApp per tutti i clienti selezionati sopra. Questo ti permette di personalizzare il contenuto del messaggio standard.')}
+                      </p>
+                    </div>
+                    
                     <Textarea
                       id="custom-message"
                       placeholder={t('Inserisci un messaggio personalizzato che verrà aggiunto al testo standard...')}
@@ -943,28 +956,6 @@ const WhatsAppCenterPage: React.FC = () => {
                       value={customMessage}
                       onChange={(e) => setCustomMessage(e.target.value)}
                     />
-                  </div>
-                  
-                  <div className="pt-4 flex justify-end">
-                    <Button
-                      onClick={handleGenerateLinks}
-                      disabled={
-                        Object.values(selectedAppointments).filter(Boolean).length === 0 ||
-                        isSending
-                      }
-                    >
-                      {isSending ? (
-                        <>
-                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Generazione in corso...')}
-                        </>
-                      ) : (
-                        <>
-                          <Send className="h-4 w-4 mr-2" />
-                          {t('Genera link WhatsApp')}
-                        </>
-                      )}
-                    </Button>
                   </div>
                 </div>
               )}
