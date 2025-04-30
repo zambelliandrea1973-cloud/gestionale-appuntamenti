@@ -385,6 +385,16 @@ const WhatsAppCenterPage: React.FC = () => {
     setSelectedAppointments(updatedSelection);
   };
   
+  // Seleziona solo gli appuntamenti non ancora inviati (in verde)
+  const selectOnlyUnsent = () => {
+    const updatedSelection: Record<number, boolean> = {};
+    appointments.forEach(appointment => {
+      const isMessageSent = appointment.reminderStatus?.includes('whatsapp_generated');
+      updatedSelection[appointment.id] = !isMessageSent; // seleziona solo i non inviati
+    });
+    setSelectedAppointments(updatedSelection);
+  };
+  
   // Stato per i link WhatsApp generati
   const [generatedLinks, setGeneratedLinks] = useState<{id: number, name: string, link: string}[]>([]);
   const [showGeneratedLinks, setShowGeneratedLinks] = useState(false);
