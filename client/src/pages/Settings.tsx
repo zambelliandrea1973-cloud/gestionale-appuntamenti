@@ -14,11 +14,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
+import EmailAndCalendarSettings from '@/components/EmailAndCalendarSettings';
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
@@ -77,7 +78,7 @@ export default function Settings() {
       </header>
 
       <Tabs defaultValue="app" className="w-full">
-        <TabsList className="grid grid-cols-3 mb-6">
+        <TabsList className="grid grid-cols-4 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -85,6 +86,10 @@ export default function Settings() {
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
             <span>{t('settings.contacts', 'Contatti')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
+            <Mail className="mr-2 h-4 w-4" />
+            <span>{t('settings.integrations', 'Email & Calendario')}</span>
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
@@ -174,8 +179,23 @@ export default function Settings() {
             </CardContent>
           </Card>
         </TabsContent>
-
-
+        
+        <TabsContent value="integrations">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Mail className="mr-2 h-5 w-5" />
+                <span>{t('settings.integrations', 'Email & Google Calendar')}</span>
+              </CardTitle>
+              <CardDescription>
+                {t('settings.integrationsDesc', 'Configura l\'invio delle email e la sincronizzazione con Google Calendar')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <EmailAndCalendarSettings />
+            </CardContent>
+          </Card>
+        </TabsContent>
         
         <TabsContent value="appearance">
           <Card>
