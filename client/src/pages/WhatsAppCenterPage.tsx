@@ -1091,13 +1091,18 @@ const WhatsAppCenterPage: React.FC = () => {
                                     
                                     <div className="text-right flex items-center">
                                       <Button
-                                        variant="outline"
+                                        variant={isMessageSent ? "secondary" : "outline"}
                                         size="sm"
-                                        className="h-8 px-3"
+                                        className={`h-8 px-3 ${isMessageSent ? 'bg-red-100 text-red-600 border-red-300 hover:bg-red-200' : ''}`}
                                         onClick={openWhatsApp}
+                                        disabled={isMessageSent}
                                       >
-                                        <Send className="h-3 w-3 mr-1" />
-                                        {t('Invia')}
+                                        {isMessageSent ? (
+                                          <CheckCircle className="h-3 w-3 mr-1" />
+                                        ) : (
+                                          <Send className="h-3 w-3 mr-1" />
+                                        )}
+                                        {isMessageSent ? t('INVIATO') : t('Invia')}
                                       </Button>
                                     </div>
                                   </div>
