@@ -36,11 +36,21 @@ let authInfo: {
 // Inizia il processo di autorizzazione
 router.get('/start', (req, res) => {
   try {
+    // Stampa il client ID per debug
+    console.log("Google Client ID:", process.env.GOOGLE_CLIENT_ID);
+    
+    // Stampa l'URI esatto di reindirizzamento che stiamo usando
+    console.log("Redirect URI esatto:", redirectUri);
+    
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
+      response_type: 'code',
       scope: SCOPES,
       prompt: 'consent', // Forza il prompt di consenso per ottenere sempre il refresh token
+      // Non aggiungere altri parametri non necessari
     });
+    
+    console.log("Auth URL generato:", authUrl);
     
     res.json({ success: true, authUrl });
   } catch (error) {
@@ -163,6 +173,9 @@ router.get('/callback', async (req, res) => {
 
 // Controlla lo stato dell'autorizzazione
 router.get('/status', (req, res) => {
+  // Aggiungi info di debug
+  console.log("Auth status check. Current state:", authInfo);
+  
   res.json({ 
     success: true, 
     authorized: authInfo.authorized 
