@@ -867,41 +867,65 @@ const WhatsAppCenterPage: React.FC = () => {
                           </div>
                           
                           <div className="space-y-2 pl-4">
-                            {apps.map(appointment => (
-                              <div 
-                                key={appointment.id} 
-                                className="flex items-center gap-3 p-3 rounded-md border hover:bg-muted/30 transition-colors"
-                              >
-                                <Checkbox
-                                  id={`appointment-${appointment.id}`}
-                                  checked={!!selectedAppointments[appointment.id]}
-                                  onCheckedChange={() => toggleAppointmentSelection(appointment.id)}
-                                />
+                            {apps.map(appointment => {
+                                // Determiniamo se il messaggio è già stato inviato
+                                const isMessageSent = appointment.reminderStatus?.includes('whatsapp_generated');
+                                const bgColor = isMessageSent ? 'bg-red-50' : 'bg-green-50';
                                 
-                                <div className="grid gap-0.5 flex-1">
-                                  <Label 
-                                    htmlFor={`appointment-${appointment.id}`}
-                                    className="cursor-pointer font-medium"
+                                // Creiamo un link WhatsApp diretto
+                                const generateWhatsAppLink = () => {
+                                  const phone = appointment.client?.phone?.replace(/[+\s]/g, '');
+                                  const defaultMessage = `Gentile ${appointment.client?.firstName},\nLe ricordiamo il Suo appuntamento di ${appointment.service?.name} per ${format(new Date(appointment.date), 'dd/MM/yyyy')} alle ore ${appointment.startTime.substring(0, 5)}.`;
+                                  const encodedMessage = encodeURIComponent(defaultMessage);
+                                  return `https://wa.me/${phone}?text=${encodedMessage}`;
+                                };
+                                
+                                const openWhatsApp = () => {
+                                  window.open(generateWhatsAppLink(), '_blank', 'noopener,noreferrer');
+                                };
+                                
+                                return (
+                                  <div 
+                                    key={appointment.id} 
+                                    className={`flex items-center gap-3 p-3 rounded-md border hover:bg-muted/30 transition-colors ${bgColor}`}
                                   >
-                                    {appointment.client?.firstName} {appointment.client?.lastName}
-                                  </Label>
-                                  <div className="text-sm text-muted-foreground flex gap-2 flex-wrap">
-                                    <span>
-                                      {appointment.service?.name}
-                                    </span>
-                                    <span className="text-muted-foreground/70">
-                                      {appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}
-                                    </span>
+                                    <Checkbox
+                                      id={`appointment-${appointment.id}`}
+                                      checked={!!selectedAppointments[appointment.id]}
+                                      onCheckedChange={() => toggleAppointmentSelection(appointment.id)}
+                                    />
+                                    
+                                    <div className="grid gap-0.5 flex-1">
+                                      <Label 
+                                        htmlFor={`appointment-${appointment.id}`}
+                                        className="cursor-pointer font-medium"
+                                      >
+                                        {appointment.client?.firstName} {appointment.client?.lastName}
+                                      </Label>
+                                      <div className="text-sm text-muted-foreground flex gap-2 flex-wrap">
+                                        <span>
+                                          {appointment.service?.name}
+                                        </span>
+                                        <span className="text-muted-foreground/70">
+                                          {appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    
+                                    <div className="text-right flex items-center">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-8 px-3"
+                                        onClick={openWhatsApp}
+                                      >
+                                        <Send className="h-3 w-3 mr-1" />
+                                        {t('Invia')}
+                                      </Button>
+                                    </div>
                                   </div>
-                                </div>
-                                
-                                <div className="hidden md:block text-right">
-                                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
-                                    {appointment.client?.phone}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
+                                );
+                            })}
                           </div>
                         </div>
                       ))}
