@@ -408,17 +408,18 @@ const WhatsAppCenterPage: React.FC = () => {
   const [generatedLinks, setGeneratedLinks] = useState<{id: number, name: string, link: string}[]>([]);
   const [showGeneratedLinks, setShowGeneratedLinks] = useState(false);
   const [currentLinkIndex, setCurrentLinkIndex] = useState(0);
-
-  // Invia messaggi agli appuntamenti selezionati
-  const handleSendNotifications = async () => {
+  
+  // Funzione per generare i link WhatsApp
+  const handleGenerateLinks = async () => {
+    // Controlla se ci sono appuntamenti selezionati
     const selectedIds = Object.entries(selectedAppointments)
-      .filter(([_, isSelected]) => isSelected)
+      .filter(([_, selected]) => selected)
       .map(([id]) => parseInt(id));
     
     if (selectedIds.length === 0) {
       toast({
         title: 'Nessun appuntamento selezionato',
-        description: 'Seleziona almeno un appuntamento per inviare le notifiche',
+        description: 'Seleziona almeno un appuntamento per generare i link WhatsApp',
         variant: 'destructive',
       });
       return;
@@ -434,51 +435,47 @@ const WhatsAppCenterPage: React.FC = () => {
         },
         body: JSON.stringify({
           appointmentIds: selectedIds,
-          customMessage: customMessage.trim() || undefined
+          template: "default",
+          customMessage: customMessage.trim() || null
         }),
       });
       
       const data = await response.json();
       
       if (data.success) {
-        const successCount = data.results.filter((r: any) => r.success).length;
-        
-        // Estrai i link WhatsApp dai risultati
-        const links = data.results
-          .filter((r: any) => r.success && r.whatsappLink)
-          .map((r: any) => ({
-            id: r.appointmentId,
-            name: r.clientName || 'Cliente',
-            link: r.whatsappLink
-          }));
-        
-        // Salva i link generati nello stato
-        setGeneratedLinks(links);
-        setShowGeneratedLinks(true);
-        setCurrentLinkIndex(0);
-        
         toast({
-          title: 'WhatsApp generati',
-          description: `${successCount} link WhatsApp generati con successo. Puoi aprirli ora in sequenza.`,
-          variant: 'default'
+          title: 'Link generati',
+          description: `Sono stati generati ${data.results.length} link WhatsApp`,
         });
         
-        // Aggiorna la lista dopo l'invio
-        fetchUpcomingAppointments();
-        // Aggiorna lo storico delle notifiche
-        fetchWhatsAppHistory();
+        const links = data.results
+          .filter((result: any) => result.success && result.whatsappLink)
+          .map((result: any) => ({
+            id: result.appointmentId,
+            name: result.clientName,
+            link: result.whatsappLink
+          }));
         
-        // Passa automaticamente alla tab cronologia
-        setActiveTab("history");
+        if (links.length > 0) {
+          setGeneratedLinks(links);
+          setShowGeneratedLinks(true);
+          setCurrentLinkIndex(0);
+          
+          // Aggiorna la cronologia dopo aver generato i link
+          fetchWhatsAppHistory();
+          
+          // Passa alla tab della cronologia
+          setActiveTab("history");
+        }
       } else {
-        throw new Error(data.error || 'Errore nell\'invio delle notifiche');
+        throw new Error(data.error || 'Errore sconosciuto durante la generazione dei link');
       }
     } catch (error) {
-      console.error('Errore nell\'invio delle notifiche', error);
+      console.error('Errore nella generazione dei link', error);
       
       toast({
         title: 'Errore',
-        description: error instanceof Error ? error.message : 'Impossibile inviare le notifiche. Riprova.',
+        description: 'Impossibile generare i link WhatsApp. Riprova.',
         variant: 'destructive',
       });
     } finally {
@@ -486,540 +483,461 @@ const WhatsAppCenterPage: React.FC = () => {
     }
   };
   
-  // Aprire il link WhatsApp attuale
+  // Funzione per aprire il link corrente
   const openCurrentLink = () => {
     if (generatedLinks.length > 0 && currentLinkIndex < generatedLinks.length) {
       window.open(generatedLinks[currentLinkIndex].link, '_blank', 'noopener,noreferrer');
     }
   };
   
-  // Passa al link successivo
+  // Funzione per passare al link successivo o chiudere la finestra
   const goToNextLink = () => {
     if (currentLinkIndex < generatedLinks.length - 1) {
-      setCurrentLinkIndex(currentLinkIndex + 1);
+      setCurrentLinkIndex(prev => prev + 1);
     } else {
-      // Finiti tutti i link
-      toast({
-        title: 'Completato',
-        description: 'Hai inviato tutti i messaggi WhatsApp!',
-        variant: 'default'
-      });
-      
-      // Reset delle selezioni e del messaggio personalizzato
-      setSelectedAppointments({});
-      setCustomMessage('');
       setShowGeneratedLinks(false);
-      // Passa automaticamente alla tab cronologia
-      setActiveTab("history");
+      // Aggiorna la cronologia dopo aver inviato tutti i messaggi
+      fetchWhatsAppHistory();
     }
   };
   
-  // Chiudi la lista dei link generati e passa alla tab cronologia
+  // Funzione per chiudere la finestra dei link generati
   const closeGeneratedLinks = () => {
     setShowGeneratedLinks(false);
-    // Reset delle selezioni e del messaggio personalizzato
-    setSelectedAppointments({});
-    setCustomMessage('');
-    // Passa alla tab cronologia dopo aver generato i link
-    setActiveTab("history");
   };
   
-  // Ottiene il testo dello stato in base allo stato del dispositivo
+  // Funzione per ottenere il testo dello stato del dispositivo
   const getStatusText = (status: DeviceStatus): string => {
     switch (status) {
       case DeviceStatus.DISCONNECTED:
-        return t('Nessun telefono configurato');
-      case DeviceStatus.VERIFICATION_PENDING:
-        return t('In attesa di verifica');
-      case DeviceStatus.VERIFIED:
+        return t('Non configurato');
       case DeviceStatus.CONNECTED:
-        return t('Telefono configurato e pronto');
+        return t('Connesso');
+      case DeviceStatus.VERIFICATION_PENDING:
+        return t('Verifica necessaria');
+      case DeviceStatus.VERIFIED:
+        return t('Verificato');
       default:
-        return t('Stato sconosciuto');
+        return t('Sconosciuto');
     }
   };
   
-  // Ottiene il colore dello stato in base allo stato del dispositivo
+  // Funzione per ottenere il colore dello stato del dispositivo
   const getStatusColor = (status: DeviceStatus): string => {
     switch (status) {
       case DeviceStatus.DISCONNECTED:
-        return 'text-slate-500';
-      case DeviceStatus.VERIFICATION_PENDING:
-        return 'text-amber-500';
-      case DeviceStatus.VERIFIED:
+        return 'text-red-600';
       case DeviceStatus.CONNECTED:
+        return 'text-blue-600';
+      case DeviceStatus.VERIFICATION_PENDING:
+        return 'text-amber-600';
+      case DeviceStatus.VERIFIED:
         return 'text-green-600';
       default:
         return 'text-slate-500';
     }
   };
   
-  // Conta il numero di appuntamenti selezionati
-  const countSelectedAppointments = () => {
-    return Object.values(selectedAppointments).filter(isSelected => isSelected).length;
-  };
-  
-  // Formatta la data
-  const formatDate = (dateString: string) => {
-    return format(parseISO(dateString), 'EEEE d MMMM yyyy', { locale: it });
-  };
-
-  // Rendering della pagina principale
   return (
-    <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
-      <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold mb-2">
-          {t('Centro Notifiche WhatsApp')}
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          {t('Configura il tuo telefono e invia messaggi WhatsApp ai tuoi clienti')}
-        </p>
-      </header>
+    <div className="container mx-auto py-8 px-4 max-w-5xl">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">
+            {t('Centro WhatsApp unificato')}
+          </h1>
+          <p className="text-muted-foreground">
+            {t('Configurazione telefono e notifiche WhatsApp')}
+          </p>
+        </div>
+        
+        <div className="text-right">
+          <div className="text-sm text-muted-foreground mb-1">
+            {t('Stato telefono')}:
+            <span className={`ml-2 font-medium ${getStatusColor(deviceStatus)}`}>
+              {getStatusText(deviceStatus)}
+            </span>
+          </div>
+          
+          {savedPhoneNumber && (
+            <div className="text-sm font-medium">
+              {savedPhoneNumber}
+            </div>
+          )}
+          
+          {lastUpdated && (
+            <div className="text-xs text-muted-foreground">
+              {t('Aggiornato')}: {format(lastUpdated, 'dd/MM/yyyy HH:mm')}
+            </div>
+          )}
+        </div>
+      </div>
       
-      <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="flex-1">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="device-setup" className="py-3">
-            <Phone className="h-4 w-4 mr-2" />
-            {t('Configurazione Telefono')}
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-6"
+      >
+        <TabsList className="grid grid-cols-3 w-full md:w-auto">
+          <TabsTrigger value="device-setup">
+            <Smartphone className="h-4 w-4 mr-2" />
+            {t('Configurazione telefono')}
           </TabsTrigger>
-          <TabsTrigger 
-            value="send-notifications"
-            disabled={deviceStatus !== DeviceStatus.VERIFIED && deviceStatus !== DeviceStatus.CONNECTED}
-            className="py-3"
-          >
-            <MessageSquare className="h-4 w-4 mr-2" />
-            {t('Invia Notifiche')}
+          <TabsTrigger value="send-notifications">
+            <Send className="h-4 w-4 mr-2" />
+            {t('Invia notifiche')}
           </TabsTrigger>
-          <TabsTrigger value="history" 
-            disabled={deviceStatus !== DeviceStatus.VERIFIED && deviceStatus !== DeviceStatus.CONNECTED}
-            className="py-3"
-          >
+          <TabsTrigger value="history">
             <Clock className="h-4 w-4 mr-2" />
-            {t('Cronologia Notifiche')}
+            {t('Cronologia')}
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="device-setup" className="flex-1">
-          <div className="grid gap-8 md:grid-cols-12">
-            {/* RIQUADRO PRINCIPALE */}
-            <div className="md:col-span-7">
-              <Card className="shadow-md">
-                <CardHeader className="bg-slate-50">
-                  <CardTitle className="flex items-center text-xl">
-                    <Phone className="mr-3 h-6 w-6 text-primary" />
-                    {t('Il tuo telefono per le notifiche')}
-                  </CardTitle>
-                  <CardDescription className="text-base">
-                    {deviceStatus === DeviceStatus.DISCONNECTED ? 
-                      t('Configura un numero di telefono per inviare notifiche ai clienti') : 
-                      t('Stato attuale del tuo numero per le notifiche')}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="space-y-6 p-6">
-                  {/* STATO */}
-                  <div className="p-4 border rounded-xl bg-muted/30 shadow-sm">
-                    <div className="flex flex-col gap-4">
-                      {/* Indicatore stato */}
-                      <div className="flex items-center">
-                        <div className={`w-4 h-4 rounded-full mr-3 ${getStatusColor(deviceStatus)}`} />
-                        <span className="font-medium text-lg">{getStatusText(deviceStatus)}</span>
-                      </div>
-                      
-                      {/* Dettagli dispositivo, se presente */}
-                      {(deviceStatus !== DeviceStatus.DISCONNECTED) && (
-                        <div className="flex flex-col gap-2 pl-7">
-                          {savedPhoneNumber && (
-                            <div className="flex items-center text-base">
-                              <Smartphone className="h-5 w-5 mr-2 inline text-slate-500" />
-                              <span className="font-medium">{savedPhoneNumber}</span>
-                            </div>
-                          )}
-                          
-                          {lastUpdated && (
-                            <div className="text-sm text-muted-foreground">
-                              Ultimo aggiornamento: {format(lastUpdated, 'HH:mm:ss')}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* CONFIGURAZIONE */}
-                  {deviceStatus === DeviceStatus.DISCONNECTED && (
-                    <div className="border-2 border-dashed border-primary/30 rounded-xl bg-primary/5 p-6">
-                      <div className="text-center mb-4">
-                        <h3 className="font-medium text-lg mb-2">
-                          {t('Configura il tuo numero di telefono')}
-                        </h3>
-                        <p className="text-muted-foreground text-sm mb-4">
-                          {t('Inserisci il tuo numero di telefono con il prefisso internazionale (es. +39)')}
-                        </p>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="phone-number">{t('Numero di telefono')}</Label>
-                          <Input 
-                            id="phone-number"
-                            type="tel" 
-                            placeholder="+39 XXX XXXXXXX"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                          />
-                          <p className="text-xs text-muted-foreground">
-                            {t('Esempio: +393471234567 (senza spazi)')}
-                          </p>
-                        </div>
-                        
-                        <Button
-                          className="w-full"
-                          disabled={isSubmitting || !phoneNumber.trim()}
-                          onClick={handleRegisterPhone}
-                        >
-                          {isSubmitting ? (
-                            <>Registrazione in corso...</>
-                          ) : (
-                            <>Registra questo numero</>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* VERIFICA */}
-                  {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
-                    <div className="border-2 border-dashed border-amber-200 rounded-xl bg-amber-50 p-6">
-                      <div className="text-center mb-4">
-                        <AlertCircle className="h-8 w-8 text-amber-500 mx-auto mb-2" />
-                        <h3 className="font-medium text-lg mb-2 text-amber-800">
-                          {t('Verifica il tuo numero')}
-                        </h3>
-                        <p className="text-amber-700 mb-4">
-                          {t('Abbiamo inviato un codice di verifica al numero')} <strong>{savedPhoneNumber}</strong>
-                        </p>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="verification-code">{t('Codice di verifica')}</Label>
-                          <Input 
-                            id="verification-code"
-                            type="text" 
-                            placeholder="123456"
-                            value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.target.value)}
-                          />
-                        </div>
-                        
-                        <Button
-                          className="w-full"
-                          disabled={isVerifying || !verificationCode.trim()}
-                          onClick={handleVerifyCode}
-                        >
-                          {isVerifying ? (
-                            <>Verifica in corso...</>
-                          ) : (
-                            <>Verifica codice</>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* TELEFONO CONFIGURATO */}
-                  {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
-                    <div className="border-2 border-dashed border-green-200 rounded-xl bg-green-50 p-6">
-                      <div className="text-center mb-4">
-                        <CheckCircle className="h-10 w-10 text-green-500 mx-auto mb-2" />
-                        <h3 className="font-medium text-xl mb-2 text-green-800">
-                          {t('Numero di telefono configurato')}
-                        </h3>
-                        <p className="text-green-700 mb-4">
-                          {t('Il tuo numero è configurato e pronto per inviare notifiche ai clienti')}
-                        </p>
-                      </div>
-                      
-                      <div className="flex flex-col gap-4">
-                        <Button
-                          variant="outline"
-                          className="border-green-300"
-                          onClick={handleSendTestSms}
-                        >
-                          <Send className="h-4 w-4 mr-2" />
-                          {t('Invia WhatsApp di test')}
-                        </Button>
-                        
-                        <Button
-                          variant="outline"
-                          className="border-red-300 text-red-600 hover:bg-red-50"
-                          onClick={handleDisconnect}
-                        >
-                          {t('Rimuovi questo numero')}
-                        </Button>
-                        
-                        {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
-                          <Button
-                            className="w-full mt-4"
-                            onClick={() => setActiveTab("send-notifications")}
-                          >
-                            <MessageSquare className="h-4 w-4 mr-2" />
-                            {t('Vai alla pagina di invio notifiche')}
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-            
-            {/* RIQUADRO GUIDA */}
-            <div className="md:col-span-5">
-              <Card className="shadow-md">
-                <CardHeader className="bg-slate-50">
-                  <CardTitle className="flex items-center">
-                    <Smartphone className="mr-2 h-5 w-5" />
-                    {t('Guida rapida')}
-                  </CardTitle>
-                  <CardDescription>
-                    {t('Informazioni utili per configurare il tuo numero')}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="p-6">
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-xl font-medium mb-4">
-                        {t('Come funziona in 3 passaggi:')}
-                      </h3>
-                      
-                      <div className="space-y-6">
-                        <div className="flex gap-4">
-                          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">1</div>
-                          <div>
-                            <h4 className="text-lg font-medium">{t('Inserisci il tuo numero')}</h4>
-                            <p className="text-muted-foreground mt-1">
-                              {t('Inserisci il tuo numero di telefono con il prefisso internazionale')}
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <div className="flex gap-4">
-                          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">2</div>
-                          <div>
-                            <h4 className="text-lg font-medium">{t('Verifica il numero')}</h4>
-                            <p className="text-muted-foreground mt-1">
-                              {t('Riceverai un codice di verifica da inserire per confermare il tuo numero')}
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <div className="flex gap-4">
-                          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">3</div>
-                          <div>
-                            <h4 className="text-lg font-medium">{t('Inizia a inviare notifiche')}</h4>
-                            <p className="text-muted-foreground mt-1">
-                              {t('Nella scheda "Invia Notifiche" potrai iniziare a inviare messaggi WhatsApp ai tuoi clienti')}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                      <h4 className="text-lg font-medium text-green-800 flex items-center">
-                        <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
-                        {t('WhatsApp consigliato:')}
-                      </h4>
-                      
-                      <ul className="mt-2 space-y-2 list-disc pl-5 text-green-700">
-                        <li>
-                          {t('Questo numero sarà utilizzato principalmente per l\'invio di notifiche via WhatsApp')}
-                        </li>
-                        <li>
-                          {t('I messaggi WhatsApp sono gratuiti e più affidabili degli SMS')}
-                        </li>
-                        <li>
-                          {t('Assicurati che il numero abbia WhatsApp installato e attivo')}
-                        </li>
-                        <li>
-                          {t('Inserisci il prefisso internazionale corretto (es. +39 per l\'Italia)')}
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </TabsContent>
-      
-        <TabsContent value="send-notifications" className="flex-1">
-          <Card className="shadow-md mb-8">
+        <TabsContent value="device-setup" className="space-y-6">
+          <Card>
             <CardHeader className="bg-slate-50">
-              <CardTitle>
-                <div className="flex items-center">
-                  <MessageSquare className="mr-3 h-6 w-6 text-primary" />
-                  {t('Notifiche da inviare')}
-                </div>
+              <CardTitle className="flex items-center">
+                <Smartphone className="mr-3 h-6 w-6 text-primary" />
+                {t('Configurazione telefono WhatsApp')}
               </CardTitle>
               <CardDescription>
-                {t('Seleziona gli appuntamenti e invia notifiche WhatsApp ai tuoi clienti')}
+                {t('Configura il tuo dispositivo per inviare notifiche WhatsApp')}
               </CardDescription>
             </CardHeader>
             
-            <CardContent className="p-6">
-              {isLoading ? (
-                <div className="py-4 text-center">
-                  <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
-                  <p className="text-muted-foreground">{t('Caricamento appuntamenti...')}</p>
-                </div>
-              ) : appointments.length === 0 ? (
-                <div className="text-center py-8">
-                  <AlertCircle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-medium mb-2">{t('Nessun appuntamento trovato')}</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto mb-4">
-                    {t('Non ci sono appuntamenti imminenti che necessitano di notifiche')}
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={fetchUpcomingAppointments}
-                    className="mx-auto"
-                  >
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    {t('Ricarica appuntamenti')}
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center gap-3">
-                      <Checkbox 
-                        id="select-all"
-                        checked={appointments.length > 0 && Object.keys(selectedAppointments).length === appointments.length && Object.values(selectedAppointments).every(Boolean)}
-                        onCheckedChange={(checked) => toggleAllAppointments(!!checked)}
-                      />
-                      <label
-                        htmlFor="select-all"
-                        className="text-sm font-medium cursor-pointer"
-                      >
-                        {t('Seleziona tutti')}
-                      </label>
-                    </div>
-                    
-                    <div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={fetchUpcomingAppointments}
-                        className="ml-auto"
-                      >
-                        <RefreshCw className="h-4 w-4 mr-2" />
-                        {t('Ricarica')}
-                      </Button>
-                    </div>
+            <CardContent className="space-y-6 pt-6">
+              {deviceStatus === DeviceStatus.DISCONNECTED && (
+                <div className="space-y-4">
+                  <Alert variant="default" className="bg-muted/50">
+                    <Smartphone className="h-4 w-4" />
+                    <AlertTitle>{t('Nessun dispositivo configurato')}</AlertTitle>
+                    <AlertDescription>
+                      {t('Inserisci il numero di telefono che userai per inviare messaggi WhatsApp')}
+                    </AlertDescription>
+                  </Alert>
+                  
+                  <div className="grid gap-3">
+                    <Label htmlFor="phone-number">{t('Numero di telefono WhatsApp')}</Label>
+                    <Input
+                      id="phone-number"
+                      type="tel"
+                      placeholder="+39 XXX XXXXXXX"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      disabled={isSubmitting}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      {t('Inserisci il numero completo di prefisso internazionale (es. +39 per Italia)')}
+                    </p>
                   </div>
                   
-                  <div className="space-y-4">
-                    {Object.entries(groupedAppointments).map(([date, dateAppointments]) => (
-                      <Card key={date} className="overflow-hidden">
-                        <CardHeader className="p-4 bg-slate-50">
-                          <CardTitle className="text-base">
-                            <Calendar className="h-4 w-4 inline-block mr-2" />
-                            <span className="capitalize">{formatDate(date)}</span>
-                            <Badge className="ml-2" variant="outline">
-                              {dateAppointments.length} appuntamenti
-                            </Badge>
-                          </CardTitle>
-                        </CardHeader>
-                        
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead className="w-12"></TableHead>
-                              <TableHead>{t('Cliente')}</TableHead>
-                              <TableHead>{t('Servizio')}</TableHead>
-                              <TableHead>{t('Orario')}</TableHead>
-                              <TableHead>{t('Stato')}</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {dateAppointments.map((appointment) => (
-                              <TableRow key={appointment.id}>
-                                <TableCell className="p-2">
-                                  <Checkbox
-                                    id={`select-${appointment.id}`}
-                                    checked={selectedAppointments[appointment.id] || false}
-                                    onCheckedChange={() => toggleAppointmentSelection(appointment.id)}
-                                  />
-                                </TableCell>
-                                <TableCell>
-                                  <div className="flex items-center gap-2">
-                                    <UserCircle className="h-5 w-5 text-muted-foreground" />
-                                    <div>
-                                      <div className="font-medium">{appointment.client?.firstName} {appointment.client?.lastName}</div>
-                                      <div className="text-xs text-muted-foreground">{appointment.client?.phone}</div>
-                                    </div>
-                                  </div>
-                                </TableCell>
-                                <TableCell>
-                                  {appointment.service?.name}
-                                </TableCell>
-                                <TableCell className="whitespace-nowrap">
-                                  {appointment.startTime.substring(0, 5)}
-                                </TableCell>
-                                <TableCell>
-                                  <Badge variant={appointment.reminderStatus?.includes('whatsapp_generated') ? 'secondary' : 'default'}>
-                                    {appointment.reminderStatus?.includes('whatsapp_generated') ? t('WhatsApp inviato') : t('Da inviare')}
-                                  </Badge>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </Card>
-                    ))}
+                  <div className="flex justify-end pt-2">
+                    <Button 
+                      onClick={handleRegisterPhone}
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                          {t('Registrazione in corso...')}
+                        </>
+                      ) : (
+                        <>
+                          <Phone className="h-4 w-4 mr-2" />
+                          {t('Registra numero')}
+                        </>
+                      )}
+                    </Button>
                   </div>
                 </div>
               )}
               
-              {appointments.length > 0 && (
-                <div className="mt-8 space-y-4 border-t pt-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="custom-message">{t('Messaggio personalizzato (opzionale)')}</Label>
-                    <Textarea
-                      id="custom-message"
-                      placeholder={t('Aggiungi un messaggio personalizzato al promemoria...')}
-                      value={customMessage}
-                      onChange={(e) => setCustomMessage(e.target.value)}
-                      rows={3}
+              {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
+                <div className="space-y-4">
+                  <Alert variant="default" className="bg-amber-50 border-amber-200">
+                    <AlertCircle className="h-4 w-4 text-amber-600" />
+                    <AlertTitle>{t('Verifica necessaria')}</AlertTitle>
+                    <AlertDescription>
+                      {t('Ti abbiamo inviato un codice di verifica tramite SMS al numero')} {savedPhoneNumber}.
+                    </AlertDescription>
+                  </Alert>
+                  
+                  <div className="grid gap-3">
+                    <Label htmlFor="verification-code">{t('Codice di verifica')}</Label>
+                    <Input
+                      id="verification-code"
+                      type="text"
+                      placeholder="123456"
+                      value={verificationCode}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                      disabled={isVerifying}
                     />
-                    <p className="text-xs text-muted-foreground">
-                      {t('Questo messaggio verrà aggiunto al template standard del promemoria')}
+                    <p className="text-sm text-muted-foreground">
+                      {t('Inserisci il codice a 6 cifre che hai ricevuto via SMS')}
                     </p>
                   </div>
                   
-                  <div className="flex flex-col xs:flex-row gap-4 justify-between items-center">
-                    <div className="text-sm">
-                      <span className="font-medium">{countSelectedAppointments()}</span> {t('appuntamenti selezionati')}
+                  <div className="flex justify-end gap-3 pt-2">
+                    <Button 
+                      variant="outline"
+                      onClick={handleDisconnect}
+                      disabled={isVerifying}
+                    >
+                      {t('Annulla')}
+                    </Button>
+                    <Button 
+                      onClick={handleVerifyCode}
+                      disabled={isVerifying}
+                    >
+                      {isVerifying ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                          {t('Verifica in corso...')}
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          {t('Verifica codice')}
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
+              
+              {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
+                <div className="space-y-4">
+                  <Alert variant="default" className="bg-green-50 border-green-200">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <AlertTitle>{t('Telefono configurato correttamente')}</AlertTitle>
+                    <AlertDescription>
+                      {t('Il numero')} {savedPhoneNumber} {t('è stato verificato e può essere usato per inviare notifiche WhatsApp')}
+                    </AlertDescription>
+                  </Alert>
+                  
+                  <div className="grid gap-3">
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm font-medium">
+                        {t('Telefono')}:
+                        <span className="text-green-600 ml-2">
+                          {savedPhoneNumber}
+                        </span>
+                      </p>
+                      
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={handleSendTestSms}
+                      >
+                        <Send className="h-4 w-4 mr-2" />
+                        {t('Invia messaggio di test')}
+                      </Button>
+                    </div>
+                    
+                    <div className="rounded-md border p-4 bg-muted/30">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-medium">
+                            {t('Come funziona')}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {t('Segui questi passi per inviare notifiche WhatsApp ai tuoi clienti')}:
+                          </p>
+                        </div>
+                        <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
+                          <MessageSquare className="h-4 w-4 text-white" />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2 mt-4">
+                        <div className="flex gap-2">
+                          <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium">1</div>
+                          <p className="text-sm">{t('Vai alla scheda "Invia notifiche" e seleziona gli appuntamenti')}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium">2</div>
+                          <p className="text-sm">{t('Genera i link WhatsApp e segui le istruzioni sullo schermo')}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium">3</div>
+                          <p className="text-sm">{t('I messaggi verranno inviati uno alla volta tramite la tua app WhatsApp')}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-end pt-2">
+                    <Button 
+                      variant="outline"
+                      onClick={handleDisconnect}
+                    >
+                      <Phone className="h-4 w-4 mr-2" />
+                      {t('Rimuovi telefono')}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="send-notifications" className="space-y-6">
+          <Card>
+            <CardHeader className="bg-slate-50">
+              <CardTitle className="flex items-center">
+                <Send className="mr-3 h-6 w-6 text-primary" />
+                {t('Invia notifiche WhatsApp')}
+              </CardTitle>
+              <CardDescription>
+                {t('Seleziona gli appuntamenti e invia notifiche tramite WhatsApp')}
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-6 pt-6">
+              {!savedPhoneNumber || deviceStatus === DeviceStatus.DISCONNECTED || deviceStatus === DeviceStatus.VERIFICATION_PENDING ? (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>{t('Nessun telefono configurato')}</AlertTitle>
+                  <AlertDescription>
+                    {t('Devi prima configurare un telefono per poter inviare notifiche WhatsApp')}
+                  </AlertDescription>
+                </Alert>
+              ) : isLoading ? (
+                <div className="py-8 text-center">
+                  <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
+                  <p className="text-muted-foreground">{t('Caricamento appuntamenti in corso...')}</p>
+                </div>
+              ) : appointments.length === 0 ? (
+                <div className="text-center py-8">
+                  <Calendar className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-medium mb-2">{t('Nessun appuntamento trovato')}</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto mb-4">
+                    {t('Non ci sono appuntamenti disponibili per i prossimi giorni')}
+                  </p>
+                  <Button 
+                    onClick={fetchUpcomingAppointments}
+                    variant="outline"
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    {t('Aggiorna')}
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        id="select-all"
+                        checked={appointments.length > 0 && appointments.every(app => selectedAppointments[app.id])}
+                        onCheckedChange={(checked) => toggleAllAppointments(!!checked)}
+                      />
+                      <Label htmlFor="select-all" className="cursor-pointer">
+                        {t('Seleziona tutti')} ({appointments.length})
+                      </Label>
                     </div>
                     
                     <Button
-                      className="w-full xs:w-auto"
-                      disabled={countSelectedAppointments() === 0 || isSending}
-                      onClick={handleSendNotifications}
+                      size="sm"
+                      variant="outline"
+                      onClick={fetchUpcomingAppointments}
+                    >
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      {t('Aggiorna lista')}
+                    </Button>
+                  </div>
+                  
+                  <div className="rounded-md border">
+                    <div className="p-4 border-b bg-muted/30">
+                      <h3 className="font-medium">
+                        {t('Appuntamenti prossimi')}
+                      </h3>
+                    </div>
+                    
+                    <div className="p-4 space-y-6">
+                      {Object.entries(groupedAppointments).map(([date, apps]) => (
+                        <div key={date} className="space-y-3">
+                          <div className="flex items-center space-x-2">
+                            <div className="h-2 w-2 rounded-full bg-primary" />
+                            <h4 className="font-medium">{date}</h4>
+                          </div>
+                          
+                          <div className="space-y-2 pl-4">
+                            {apps.map(appointment => (
+                              <div 
+                                key={appointment.id} 
+                                className="flex items-center gap-3 p-3 rounded-md border hover:bg-muted/30 transition-colors"
+                              >
+                                <Checkbox
+                                  id={`appointment-${appointment.id}`}
+                                  checked={!!selectedAppointments[appointment.id]}
+                                  onCheckedChange={() => toggleAppointmentSelection(appointment.id)}
+                                />
+                                
+                                <div className="grid gap-0.5 flex-1">
+                                  <Label 
+                                    htmlFor={`appointment-${appointment.id}`}
+                                    className="cursor-pointer font-medium"
+                                  >
+                                    {appointment.client?.firstName} {appointment.client?.lastName}
+                                  </Label>
+                                  <div className="text-sm text-muted-foreground flex gap-2 flex-wrap">
+                                    <span>
+                                      {appointment.service?.name}
+                                    </span>
+                                    <span className="text-muted-foreground/70">
+                                      {appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}
+                                    </span>
+                                  </div>
+                                </div>
+                                
+                                <div className="hidden md:block text-right">
+                                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                                    {appointment.client?.phone}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-end">
+                      <Label htmlFor="custom-message">
+                        {t('Messaggio personalizzato')} <span className="text-muted-foreground">{t('(opzionale)')}</span>
+                      </Label>
+                      <span className="text-xs text-muted-foreground">
+                        {customMessage.length}/500
+                      </span>
+                    </div>
+                    
+                    <Textarea
+                      id="custom-message"
+                      placeholder={t('Inserisci un messaggio personalizzato che verrà aggiunto al testo standard...')}
+                      maxLength={500}
+                      value={customMessage}
+                      onChange={(e) => setCustomMessage(e.target.value)}
+                    />
+                  </div>
+                  
+                  <div className="pt-4 flex justify-end">
+                    <Button
+                      onClick={handleGenerateLinks}
+                      disabled={
+                        Object.values(selectedAppointments).filter(Boolean).length === 0 ||
+                        isSending
+                      }
                     >
                       {isSending ? (
                         <>
                           <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Invio in corso...')}
+                          {t('Generazione in corso...')}
                         </>
                       ) : (
                         <>
                           <Send className="h-4 w-4 mr-2" />
-                          {t('Genera notifiche WhatsApp')}
+                          {t('Genera link WhatsApp')}
                         </>
                       )}
                     </Button>
@@ -1028,45 +946,10 @@ const WhatsAppCenterPage: React.FC = () => {
               )}
             </CardContent>
           </Card>
-          
-          <Alert className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>{t('Importante')}</AlertTitle>
-            <AlertDescription>
-              {t('I link WhatsApp devono essere aperti manualmente e i messaggi inviati direttamente dall\'app WhatsApp sul tuo telefono.')}
-            </AlertDescription>
-          </Alert>
-          
-          {savedPhoneNumber && (
-            <Card className="shadow-md mb-6">
-              <CardHeader className="bg-slate-50">
-                <CardTitle className="flex items-center text-base font-medium">
-                  <Smartphone className="h-5 w-5 mr-2 text-primary" />
-                  {t('Telefono configurato')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="text-muted-foreground mr-2">{t('Numero:')} </span>
-                    <span className="font-medium">{savedPhoneNumber}</span>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleSendTestSms}
-                  >
-                    <Send className="h-4 w-4 mr-2" />
-                    {t('WhatsApp di test')}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </TabsContent>
         
-        <TabsContent value="history" className="flex-1">
-          <Card className="shadow-md mb-6">
+        <TabsContent value="history" className="space-y-6">
+          <Card>
             <CardHeader className="bg-slate-50">
               <CardTitle className="flex items-center">
                 <Clock className="mr-3 h-6 w-6 text-primary" />
@@ -1092,54 +975,119 @@ const WhatsAppCenterPage: React.FC = () => {
                   </p>
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>{t('Data e ora')}</TableHead>
-                      <TableHead>{t('Cliente')}</TableHead>
-                      <TableHead>{t('Messaggio')}</TableHead>
-                      <TableHead className="text-right">{t('Apri')}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {smsHistory.map((notification) => {
-                      // Estrai il link WhatsApp dal messaggio se presente
-                      const match = notification.message.match(/\[Apri WhatsApp\]\((https:\/\/wa\.me\/[^)]+)\)/);
-                      const whatsappLink = match ? match[1] : null;
+                <div className="space-y-6">
+                  {(() => {
+                    // Raggruppa le notifiche per data
+                    const groupedByDate: Record<string, NotificationHistoryItem[]> = {};
+                    
+                    smsHistory.forEach(notification => {
+                      // Estrai la data dell'appuntamento dal messaggio o usa la data di invio
+                      let appointmentDate = 'Nessuna data';
                       
-                      return (
-                        <TableRow 
-                          key={notification.id}
-                          className={notification.status === 'sent' || whatsappLink ? 'bg-red-100' : ''}
-                        >
-                          <TableCell className="whitespace-nowrap">
-                            {notification.sent_at ? format(new Date(notification.sent_at), 'dd/MM/yyyy HH:mm') : 'N/D'}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {notification.client?.firstName} {notification.client?.lastName}
-                          </TableCell>
-                          <TableCell>
-                            <div className="max-w-md truncate" title={notification.message.replace(/\[Apri WhatsApp\]\(https:\/\/wa\.me\/[^)]+\)/, '')}>
-                              {notification.message.replace(/\[Apri WhatsApp\]\(https:\/\/wa\.me\/[^)]+\)/, '')}
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {whatsappLink && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="h-8 px-2"
-                                onClick={() => window.open(whatsappLink, '_blank', 'noopener,noreferrer')}
-                              >
-                                <ExternalLink className="h-4 w-4" />
-                              </Button>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+                      if (notification.sent_at) {
+                        // Usiamo la data di invio come fallback
+                        appointmentDate = format(new Date(notification.sent_at), 'dd/MM/yyyy');
+                        
+                        // Prova a estrarre la data dal messaggio
+                        const dateMatch = notification.message.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+                        if (dateMatch) {
+                          appointmentDate = `${dateMatch[1]}/${dateMatch[2]}/${dateMatch[3]}`;
+                        }
+                      }
+                      
+                      if (!groupedByDate[appointmentDate]) {
+                        groupedByDate[appointmentDate] = [];
+                      }
+                      
+                      groupedByDate[appointmentDate].push(notification);
+                    });
+                    
+                    // Ordina le date dal più recente al più vecchio
+                    const sortedDates = Object.keys(groupedByDate).sort((a, b) => {
+                      if (a === 'Nessuna data') return 1;
+                      if (b === 'Nessuna data') return -1;
+                      
+                      const [dayA, monthA, yearA] = a.split('/').map(Number);
+                      const [dayB, monthB, yearB] = b.split('/').map(Number);
+                      
+                      const dateA = new Date(yearA, monthA - 1, dayA);
+                      const dateB = new Date(yearB, monthB - 1, dayB);
+                      
+                      return dateB.getTime() - dateA.getTime(); // Ordine decrescente
+                    });
+                    
+                    return sortedDates.map(date => (
+                      <div key={date} className="border rounded-md overflow-hidden">
+                        <div className="bg-slate-100 px-4 py-2 font-medium">
+                          {date === 'Nessuna data' ? t('Data non specificata') : date}
+                        </div>
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>{t('Ora')}</TableHead>
+                              <TableHead>{t('Cliente')}</TableHead>
+                              <TableHead>{t('Messaggio')}</TableHead>
+                              <TableHead className="text-right">{t('Apri')}</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {groupedByDate[date].map((notification) => {
+                              // Estrai il link WhatsApp dal messaggio se presente
+                              const match = notification.message.match(/\[Apri WhatsApp\]\((https:\/\/wa\.me\/[^)]+)\)/);
+                              const whatsappLink = match ? match[1] : null;
+                              const isMessageSent = notification.status === 'sent';
+                              
+                              // Impostiamo il colore dello sfondo in base allo stato
+                              let rowColor = '';
+                              if (isMessageSent || whatsappLink) {
+                                rowColor = 'bg-red-100';
+                              } else {
+                                rowColor = 'bg-green-100';
+                              }
+                              
+                              return (
+                                <TableRow 
+                                  key={notification.id}
+                                  className={rowColor}
+                                >
+                                  <TableCell className="whitespace-nowrap">
+                                    {notification.sent_at ? format(new Date(notification.sent_at), 'HH:mm') : 'N/D'}
+                                  </TableCell>
+                                  <TableCell className="font-medium">
+                                    {notification.client ? 
+                                      `${notification.client.firstName} ${notification.client.lastName}` : 
+                                      t('Cliente sconosciuto')}
+                                  </TableCell>
+                                  <TableCell>
+                                    <div className="max-w-md truncate" title={notification.message.replace(/\[Apri WhatsApp\]\(https:\/\/wa\.me\/[^)]+\)/, '')}>
+                                      {notification.message.replace(/\[Apri WhatsApp\]\(https:\/\/wa\.me\/[^)]+\)/, '')}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="text-right">
+                                    {whatsappLink && (
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="h-8 px-2"
+                                        onClick={() => {
+                                          window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+                                          // Aggiorna lo stato e il colore dopo aver aperto il link
+                                          fetchWhatsAppHistory();
+                                        }}
+                                      >
+                                        <ExternalLink className="h-4 w-4" />
+                                      </Button>
+                                    )}
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    ));
+                  })()}
+                </div>
               )}
             </CardContent>
           </Card>
