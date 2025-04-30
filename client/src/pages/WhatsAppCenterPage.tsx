@@ -464,7 +464,13 @@ const WhatsAppCenterPage: React.FC = () => {
           // Aggiorna la cronologia dopo aver generato i link
           fetchWhatsAppHistory();
           
-          // Passa alla tab della cronologia
+          // Apri automaticamente il primo link WhatsApp
+          if (links.length > 0) {
+            // Apri immediatamente il primo link
+            window.open(links[0].link, '_blank', 'noopener,noreferrer');
+          }
+          
+          // Passa alla tab della cronologia dopo aver completato
           setActiveTab("history");
         }
       } else {
@@ -1039,10 +1045,10 @@ const WhatsAppCenterPage: React.FC = () => {
                               
                               // Impostiamo il colore dello sfondo in base allo stato
                               let rowColor = '';
-                              if (isMessageSent || whatsappLink) {
-                                rowColor = 'bg-red-100';
+                              if (isMessageSent) {
+                                rowColor = 'bg-red-100'; // Messaggi già inviati (rosso)
                               } else {
-                                rowColor = 'bg-green-100';
+                                rowColor = 'bg-green-100'; // Messaggi da inviare (verde)
                               }
                               
                               return (
