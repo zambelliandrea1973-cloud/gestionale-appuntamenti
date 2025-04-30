@@ -5,10 +5,17 @@ import { isAuthenticated } from '../auth';
 const router = Router();
 
 // Configura l'OAuth client
+// L'URL di reindirizzamento deve corrispondere esattamente a quello configurato nella console Google Cloud
+const redirectUri = process.env.APP_URL 
+  ? `${process.env.APP_URL}/api/google-auth/callback` 
+  : "https://google-oauth-replit-redirect.com/oauth2callback";
+
+console.log("Google OAuth callback URL:", redirectUri);
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  `${process.env.APP_URL || 'http://localhost:5000'}/api/google-auth/callback`
+  redirectUri
 );
 
 // Scopes necessari per Calendar e Gmail
