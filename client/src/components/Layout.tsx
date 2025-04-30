@@ -84,6 +84,13 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <span>{t('invoices.title')}</span>
                 </Button>
               </Link>
+              
+              <Link href="/whatsapp-center">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>Notifiche ai clienti</span>
+                </Button>
+              </Link>
 
               {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
               {location === "/" && (
