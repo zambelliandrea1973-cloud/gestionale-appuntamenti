@@ -825,4 +825,58 @@ router.post('/send-sms-batch', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * Marca un appuntamento come "messaggio WhatsApp inviato"
+ * Questo endpoint viene chiamato quando un utente clicca il pulsante "Invia" nella pagina WhatsApp
+ */
+router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => {
+  try {
+    const { appointmentId } = req.params;
+    
+    if (!appointmentId) {
+      return res.status(400).json({
+        success: false,
+        error: 'ID appuntamento mancante'
+      });
+    }
+    
+    // Recupera l'appuntamento
+    const appointment = await storage.getAppointment(parseInt(appointmentId));
+    
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        error: 'Appuntamento non trovato'
+      });
+    }
+    
+    // Aggiorna lo stato del promemoria nell'appuntamento
+    let reminderStatus = appointment.reminderStatus || '';
+    if (!reminderStatus.includes('whatsapp_generated')) {
+      reminderStatus = reminderStatus 
+        ? `${reminderStatus},whatsapp_generated` 
+        : 'whatsapp_generated';
+    }
+    
+    // Aggiorna l'appuntamento
+    await storage.updateAppointment(parseInt(appointmentId), {
+      ...appointment,
+      reminderStatus
+    });
+    
+    console.log(`Appuntamento ${appointmentId} marcato come "WhatsApp inviato"`);
+    
+    res.json({
+      success: true,
+      message: 'Appuntamento marcato come "WhatsApp inviato"'
+    });
+  } catch (error: any) {
+    console.error('Errore nel marcare appuntamento come inviato:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 export default router;

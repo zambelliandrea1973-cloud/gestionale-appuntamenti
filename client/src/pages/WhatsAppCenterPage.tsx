@@ -880,7 +880,24 @@ const WhatsAppCenterPage: React.FC = () => {
                                   return `https://wa.me/${phone}?text=${encodedMessage}`;
                                 };
                                 
-                                const openWhatsApp = () => {
+                                const openWhatsApp = async () => {
+                                  // Prima aggiorniamo lo stato dell'appuntamento (marca come inviato)
+                                  try {
+                                    const response = await fetch(`/api/notifications/mark-sent/${appointment.id}`, {
+                                      method: 'POST',
+                                    });
+                                    
+                                    if (response.ok) {
+                                      // Aggiorna visivamente la riga subito senza richiedere ricaricamento
+                                      appointment.reminderStatus = 'pending,whatsapp_generated';
+                                      // Forza aggiornamento della UI
+                                      setAppointments([...appointments]);
+                                    }
+                                  } catch (error) {
+                                    console.error('Errore nell\'aggiornamento dello stato', error);
+                                  }
+                                  
+                                  // Poi apriamo WhatsApp
                                   window.open(generateWhatsAppLink(), '_blank', 'noopener,noreferrer');
                                 };
                                 
