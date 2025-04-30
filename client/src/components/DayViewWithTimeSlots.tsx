@@ -296,8 +296,9 @@ export default function DayViewWithTimeSlots({
   const handleSlotClick = (slotTime: string) => {
     if (!isSelectionMode) return;
     
-    // Se lo slot è occupato, non permettere la selezione
-    if (isSlotOccupied(slotTime)) return;
+    // Rimuovere il controllo che impedisce di selezionare slot occupati
+    // per consentire la sovrapposizione di appuntamenti dal calendario
+    // if (isSlotOccupied(slotTime)) return;
 
     // Aggiorna la lista degli slot selezionati
     setSelectedSlots(prev => {
@@ -450,7 +451,7 @@ export default function DayViewWithTimeSlots({
               <div 
                 className={`
                   flex items-center h-10 border-t border-gray-200 px-2 py-1 
-                  ${occupied ? 'opacity-30' : 'cursor-pointer hover:bg-gray-50'} 
+                  ${occupied ? 'opacity-70' : ''} cursor-pointer hover:bg-gray-50
                   ${selected ? 'bg-gray-300' : ''}
                 `}
                 data-slot-time={slotTime}
@@ -461,8 +462,8 @@ export default function DayViewWithTimeSlots({
                 </div>
                 
                 <div className="flex-grow">
-                  {!occupied && !selected && isSelectionMode && (
-                    <div className="h-full w-full bg-gray-50 hover:bg-gray-100 rounded border border-dashed border-gray-300"></div>
+                  {!selected && isSelectionMode && (
+                    <div className={`h-full w-full ${occupied ? 'bg-orange-50/50' : 'bg-gray-50'} hover:bg-gray-100 rounded border border-dashed ${occupied ? 'border-orange-300' : 'border-gray-300'}`}></div>
                   )}
                 </div>
               </div>
