@@ -6,9 +6,11 @@ const router = Router();
 
 // Configura l'OAuth client
 // L'URL di reindirizzamento deve corrispondere esattamente a quello configurato nella console Google Cloud
-const redirectUri = process.env.APP_URL 
-  ? `${process.env.APP_URL}/api/google-auth/callback` 
-  : "https://google-oauth-replit-redirect.com/oauth2callback";
+const replitUrl = process.env.REPL_SLUG 
+  ? `https://${process.env.REPL_SLUG}.replit.app` 
+  : process.env.APP_URL;
+
+const redirectUri = `${replitUrl || 'http://localhost:5000'}/api/google-auth/callback`;
 
 console.log("Google OAuth callback URL:", redirectUri);
 
