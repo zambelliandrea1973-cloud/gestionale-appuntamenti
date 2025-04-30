@@ -5,14 +5,15 @@ import { isAuthenticated } from '../auth';
 const router = Router();
 
 // Configura l'OAuth client
-// L'URL di reindirizzamento deve corrispondere esattamente a quello configurato nella console Google Cloud
-const replitUrl = process.env.REPL_SLUG 
-  ? `https://${process.env.REPL_SLUG}.replit.app` 
-  : process.env.APP_URL;
-
-const redirectUri = `${replitUrl || 'http://localhost:5000'}/api/google-auth/callback`;
+// L'URL qui DEVE corrispondere esattamente a quello configurato nella console Google Cloud
+// L'URL deve essere ESATTAMENTE https://workspace.replit.app/api/google-auth/callback (senza trailing slash)
+const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
 
 console.log("Google OAuth callback URL:", redirectUri);
+console.log("Google Credentials:", {
+  clientId: process.env.GOOGLE_CLIENT_ID ? "Present (first chars: " + process.env.GOOGLE_CLIENT_ID.substring(0, 5) + "...)" : "Missing",
+  secretPresent: process.env.GOOGLE_CLIENT_SECRET ? "Present" : "Missing"
+});
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -64,6 +65,7 @@ router.get('/start', (req, res) => {
 
 // Callback che riceve il codice di autorizzazione
 router.get('/callback', async (req, res) => {
+  console.log("Callback ricevuto con parametri:", req.query);
   const { code } = req.query;
   
   if (!code) {
@@ -71,8 +73,12 @@ router.get('/callback', async (req, res) => {
   }
   
   try {
+    console.log("Scambio del codice di autorizzazione:", code);
+    
     // Scambia il codice con i token
     const { tokens } = await oauth2Client.getToken(code as string);
+    console.log("Token ottenuti con successo:", tokens);
+    
     oauth2Client.setCredentials(tokens);
     
     // Salva i token (in un'applicazione reale andrebbero salvati nel database)
