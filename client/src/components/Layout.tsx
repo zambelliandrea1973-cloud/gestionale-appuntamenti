@@ -12,6 +12,7 @@ import {
   Clock,
   Grid,
   Plus,
+  MessageSquare,
   Settings as SettingsIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -138,6 +139,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         {t('reports.title')}
                       </Button>
                     </Link>
+                    
+                    <Link href="/whatsapp-center">
+                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        Notifiche ai clienti
+                      </Button>
+                    </Link>
+                    
                     {/* Mostra il pulsante Impostazioni solo nella home page */}
                     {location === "/" && (
                       <Link href="/settings">

@@ -153,7 +153,7 @@ const WhatsAppCenterPage: React.FC = () => {
             toast({
               title: 'Telefono non configurato',
               description: 'È necessario configurare il telefono prima di inviare notifiche',
-              variant: 'warning',
+              variant: 'destructive',
             });
             setActiveTab("device-setup");
           }
