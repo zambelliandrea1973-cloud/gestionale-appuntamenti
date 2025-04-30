@@ -146,7 +146,6 @@ const WhatsAppCenterPage: React.FC = () => {
           if (data.phoneInfo.status === DeviceStatus.VERIFIED || 
               data.phoneInfo.status === DeviceStatus.CONNECTED) {
             fetchUpcomingAppointments();
-            fetchWhatsAppHistory();
           }
         }
       } catch (error) {
@@ -281,7 +280,6 @@ const WhatsAppCenterPage: React.FC = () => {
         
         // Carica gli appuntamenti dopo la verifica
         fetchUpcomingAppointments();
-        fetchWhatsAppHistory();
         
         // Passa alla tab di invio messaggi
         setActiveTab("send-notifications");
@@ -444,8 +442,8 @@ const WhatsAppCenterPage: React.FC = () => {
           setShowGeneratedLinks(true);
           setCurrentLinkIndex(0);
           
-          // Aggiorna la cronologia dopo aver generato i link
-          fetchWhatsAppHistory();
+          // Aggiorniamo gli appuntamenti con lo stato aggiornato
+          fetchUpcomingAppointments();
           
           // Apri automaticamente il primo link WhatsApp
           if (links.length > 0) {
@@ -453,8 +451,8 @@ const WhatsAppCenterPage: React.FC = () => {
             window.open(links[0].link, '_blank', 'noopener,noreferrer');
           }
           
-          // Passa alla tab della cronologia dopo aver completato
-          setActiveTab("history");
+          // Rimaniamo nella tab di invio notifiche dopo aver completato
+          setActiveTab("send-notifications");
         }
       } else {
         throw new Error(data.error || 'Errore sconosciuto durante la generazione dei link');
@@ -485,8 +483,8 @@ const WhatsAppCenterPage: React.FC = () => {
       setCurrentLinkIndex(prev => prev + 1);
     } else {
       setShowGeneratedLinks(false);
-      // Aggiorna la cronologia dopo aver inviato tutti i messaggi
-      fetchWhatsAppHistory();
+      // Aggiorniamo gli appuntamenti con lo stato aggiornato
+      fetchUpcomingAppointments();
     }
   };
   
