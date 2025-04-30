@@ -16,7 +16,7 @@ let emailCalendarSettings = {
 };
 
 // Ottieni le impostazioni email e calendario
-router.get('/', isAuthenticated, (req, res) => {
+router.get('/', (req, res) => {
   // Non inviare la password reale
   const settingsToSend = {
     ...emailCalendarSettings,
@@ -27,7 +27,7 @@ router.get('/', isAuthenticated, (req, res) => {
 });
 
 // Aggiorna le impostazioni email e calendario
-router.post('/', isAuthenticated, (req, res) => {
+router.post('/', (req, res) => {
   try {
     const {
       emailEnabled,

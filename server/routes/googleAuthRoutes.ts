@@ -8,7 +8,7 @@ const router = Router();
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  `${process.env.APP_URL || 'http://localhost:3000'}/api/google-auth/callback`
+  `${process.env.APP_URL || 'http://localhost:5000'}/api/google-auth/callback`
 );
 
 // Scopes necessari per Calendar e Gmail
@@ -25,7 +25,7 @@ let authInfo: {
 };
 
 // Inizia il processo di autorizzazione
-router.get('/start', isAuthenticated, (req, res) => {
+router.get('/start', (req, res) => {
   try {
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
@@ -153,7 +153,7 @@ router.get('/callback', async (req, res) => {
 });
 
 // Controlla lo stato dell'autorizzazione
-router.get('/status', isAuthenticated, (req, res) => {
+router.get('/status', (req, res) => {
   res.json({ 
     success: true, 
     authorized: authInfo.authorized 
