@@ -1095,7 +1095,6 @@ const WhatsAppCenterPage: React.FC = () => {
                                         size="sm"
                                         className={`h-8 px-3 ${isMessageSent ? 'bg-red-100 text-red-600 border-red-300 hover:bg-red-200' : ''}`}
                                         onClick={openWhatsApp}
-                                        disabled={isMessageSent}
                                       >
                                         {isMessageSent ? (
                                           <CheckCircle className="h-3 w-3 mr-1" />
