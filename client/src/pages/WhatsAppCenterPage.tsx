@@ -38,6 +38,7 @@ import {
   Send, 
   RefreshCw, 
   CheckCircle,
+  CheckSquare,
   AlertCircle, 
   UserCircle, 
   Calendar, 
@@ -816,26 +817,51 @@ const WhatsAppCenterPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <Checkbox
-                        id="select-all"
-                        checked={appointments.length > 0 && appointments.every(app => selectedAppointments[app.id])}
-                        onCheckedChange={(checked) => toggleAllAppointments(!!checked)}
-                      />
-                      <Label htmlFor="select-all" className="cursor-pointer">
-                        {t('Seleziona tutti')} ({appointments.length})
-                      </Label>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="select-all"
+                          checked={appointments.length > 0 && appointments.every(app => selectedAppointments[app.id])}
+                          onCheckedChange={(checked) => toggleAllAppointments(!!checked)}
+                        />
+                        <Label htmlFor="select-all" className="cursor-pointer">
+                          {t('Seleziona tutti')} ({appointments.length})
+                        </Label>
+                      </div>
+                      
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={fetchUpcomingAppointments}
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        {t('Aggiorna lista')}
+                      </Button>
                     </div>
                     
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={fetchUpcomingAppointments}
-                    >
-                      <RefreshCw className="h-4 w-4 mr-2" />
-                      {t('Aggiorna lista')}
-                    </Button>
+                    <div className="flex justify-between items-center">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={selectOnlyUnsent}
+                        className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
+                      >
+                        <CheckSquare className="h-4 w-4 mr-2" />
+                        {t('Seleziona solo non inviati')}
+                      </Button>
+                      
+                      <Button
+                        size="sm"
+                        variant="default"
+                        onClick={handleGenerateLinks}
+                        disabled={isSending || Object.values(selectedAppointments).filter(Boolean).length === 0}
+                        className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        <Send className="h-4 w-4 mr-2" />
+                        {isSending ? t('Caricamento...') : t('Invia selezionati')}
+                      </Button>
+                    </div>
                   </div>
                   
                   <div className="rounded-md border">
