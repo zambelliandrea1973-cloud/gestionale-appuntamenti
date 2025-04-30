@@ -396,12 +396,147 @@ const WhatsAppCenterPage: React.FC = () => {
     setSelectedAppointments(updatedSelection);
   };
   
-  // Stato per i link WhatsApp generati
+  // Stato per i link WhatsApp generati e il processo sequenziale
   const [generatedLinks, setGeneratedLinks] = useState<{id: number, name: string, link: string}[]>([]);
   const [showGeneratedLinks, setShowGeneratedLinks] = useState(false);
   const [currentLinkIndex, setCurrentLinkIndex] = useState(0);
+  const [isSequenceRunning, setIsSequenceRunning] = useState(false);
+  const [sequenceProgress, setSequenceProgress] = useState(0);
+  const [sequenceTotal, setSequenceTotal] = useState(0);
   
-  // Funzione per generare i link WhatsApp
+  // Funzione per avviare l'invio sequenziale
+  const startSequentialSend = async () => {
+    // Raccogliamo tutti gli appuntamenti selezionati
+    const selectedIds = Object.entries(selectedAppointments)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([id]) => parseInt(id));
+    
+    if (selectedIds.length === 0) {
+      toast({
+        title: t('Nessun appuntamento selezionato'),
+        description: t('Seleziona almeno un appuntamento per inviare notifiche'),
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    // Prepariamo la lista dei link da aprire in sequenza
+    const links: {id: number, name: string, link: string}[] = [];
+    setIsSending(true);
+    
+    try {
+      // Prepariamo gli appuntamenti selezionati
+      const selectedAppointmentsDetails = appointments.filter(app => selectedIds.includes(app.id));
+      
+      // Creiamo i link WhatsApp per ogni appuntamento selezionato
+      for (const appointment of selectedAppointmentsDetails) {
+        const phone = appointment.client?.phone?.replace(/[+\s]/g, '');
+        if (!phone) continue;
+        
+        let messageText = `Gentile ${appointment.client?.firstName},\nLe ricordiamo il Suo appuntamento di ${appointment.service?.name} per ${format(new Date(appointment.date), 'dd/MM/yyyy')} alle ore ${appointment.startTime.substring(0, 5)}.`;
+        
+        // Aggiungiamo il messaggio personalizzato se presente
+        if (customMessage && customMessage.trim() !== '') {
+          messageText += `\n\n${customMessage.trim()}`;
+        }
+        
+        const encodedMessage = encodeURIComponent(messageText);
+        const link = `https://wa.me/${phone}?text=${encodedMessage}`;
+        
+        links.push({
+          id: appointment.id,
+          name: `${appointment.client?.firstName} ${appointment.client?.lastName}`,
+          link: link
+        });
+      }
+      
+      // Inizializziamo il processo di invio sequenziale
+      setGeneratedLinks(links);
+      setCurrentLinkIndex(0);
+      setShowGeneratedLinks(true);
+      setIsSequenceRunning(true);
+      setSequenceProgress(0);
+      setSequenceTotal(links.length);
+      
+      // Avviamo il processo aprendo il primo link
+      if (links.length > 0) {
+        await processSequentialLink(links, 0);
+      }
+    } catch (error) {
+      console.error('Errore nella generazione dei link WhatsApp', error);
+      toast({
+        title: t('Errore'),
+        description: t('Impossibile generare i link WhatsApp. Riprova.'),
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
+  
+  // Funzione per processare un link nella sequenza
+  const processSequentialLink = async (links: {id: number, name: string, link: string}[], index: number) => {
+    if (index >= links.length) {
+      // Abbiamo finito la sequenza
+      setIsSequenceRunning(false);
+      toast({
+        title: t('Invio completato'),
+        description: t('Tutti i messaggi sono stati inviati')
+      });
+      setShowGeneratedLinks(false);
+      fetchUpcomingAppointments(); // Aggiorniamo la lista per mostrare i nuovi stati
+      return;
+    }
+    
+    const current = links[index];
+    
+    // Aggiorniamo lo stato dell'appuntamento (marca come inviato)
+    try {
+      const response = await fetch(`/api/notifications/mark-sent/${current.id}`, {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        // Aggiorniamo lo stato negli appuntamenti
+        const updatedAppointments = [...appointments];
+        const appIndex = updatedAppointments.findIndex(a => a.id === current.id);
+        if (appIndex >= 0) {
+          updatedAppointments[appIndex].reminderStatus = 'pending,whatsapp_generated';
+        }
+        setAppointments(updatedAppointments);
+      }
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento dello stato', error);
+    }
+    
+    // Aggiorniamo l'indice corrente e lo stato di avanzamento
+    setCurrentLinkIndex(index);
+    setSequenceProgress(index + 1);
+    
+    // Apriamo il link WhatsApp
+    const popup = window.open(current.link, '_blank', 'width=800,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=50,top=50');
+    
+    // Attendiamo che l'utente chiuda il popup o proceda manualmente
+    // Nota: non possiamo rilevare automaticamente quando il popup viene chiuso per restrizioni di sicurezza
+  };
+  
+  // Funzione per passare al link successivo nella sequenza
+  const goToNextSequentialLink = async () => {
+    if (currentLinkIndex < generatedLinks.length - 1) {
+      await processSequentialLink(generatedLinks, currentLinkIndex + 1);
+    } else {
+      // Abbiamo finito
+      setIsSequenceRunning(false);
+      setShowGeneratedLinks(false);
+      toast({
+        title: t('Completato'),
+        description: t('Tutti i messaggi sono stati processati')
+      });
+      fetchUpcomingAppointments(); // Aggiorniamo la lista per mostrare i nuovi stati
+    }
+  };
+  
+  // Funzione per generare i link WhatsApp (vecchio metodo)
   const handleGenerateLinks = async () => {
     // Controlla se ci sono appuntamenti selezionati
     const selectedIds = Object.entries(selectedAppointments)
@@ -817,7 +952,7 @@ const WhatsAppCenterPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  <div className="flex flex-col gap-3">
+                                  <div className="flex flex-col gap-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <Checkbox
@@ -840,27 +975,34 @@ const WhatsAppCenterPage: React.FC = () => {
                       </Button>
                     </div>
                     
-                    <div className="flex justify-between items-center">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={selectOnlyUnsent}
-                        className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
-                      >
-                        <CheckSquare className="h-4 w-4 mr-2" />
-                        {t('Seleziona solo non inviati')}
-                      </Button>
+                    <div className="flex flex-col gap-3">
+                      <div className="flex justify-between items-center">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={selectOnlyUnsent}
+                          className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
+                        >
+                          <CheckSquare className="h-4 w-4 mr-2" />
+                          {t('Seleziona solo non inviati')}
+                        </Button>
+                        
+                        <Button
+                          size="sm"
+                          variant="default"
+                          onClick={startSequentialSend}
+                          disabled={isSending || Object.values(selectedAppointments).filter(Boolean).length === 0}
+                          className="bg-blue-600 hover:bg-blue-700"
+                        >
+                          <Send className="h-4 w-4 mr-2" />
+                          {isSending ? t('Invio in corso...') : t('Invia in sequenza')}
+                        </Button>
+                      </div>
                       
-                      <Button
-                        size="sm"
-                        variant="default"
-                        onClick={handleGenerateLinks}
-                        disabled={isSending || Object.values(selectedAppointments).filter(Boolean).length === 0}
-                        className="bg-blue-600 hover:bg-blue-700"
-                      >
-                        <Send className="h-4 w-4 mr-2" />
-                        {isSending ? t('Caricamento...') : t('Invia selezionati')}
-                      </Button>
+                      <div className="text-sm text-muted-foreground bg-yellow-50 p-2 rounded-md border border-yellow-200">
+                        <AlertCircle className="h-4 w-4 inline-block mr-1 text-yellow-600" />
+                        {t('Seleziona più appuntamenti e premi "Invia in sequenza" per inviarli uno dopo l\'altro')}
+                      </div>
                     </div>
                   </div>
                   
@@ -1009,7 +1151,7 @@ const WhatsAppCenterPage: React.FC = () => {
             <div className="p-4 bg-primary text-white flex justify-between items-center">
               <div>
                 <h3 className="text-lg font-bold">
-                  {t('Link WhatsApp')}
+                  {isSequenceRunning ? t('Invio in sequenza') : t('Link WhatsApp')}
                 </h3>
                 <p className="text-sm">{t('Contatto')} {currentLinkIndex + 1} di {generatedLinks.length}</p>
               </div>
@@ -1030,36 +1172,57 @@ const WhatsAppCenterPage: React.FC = () => {
                 <p className="font-bold text-base">
                   {generatedLinks[currentLinkIndex]?.name}
                 </p>
+                {isSequenceRunning && (
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {t('WhatsApp si è aperto in una nuova finestra')}
+                  </p>
+                )}
               </div>
               
-              <div className="flex gap-2">
-                <Button
-                  onClick={openCurrentLink}
-                  size="sm"
-                  className="flex-1"
-                >
-                  <Send className="h-4 w-4 mr-1" />
-                  {t('Apri WhatsApp')}
-                </Button>
-                
-                <Button
-                  onClick={goToNextLink}
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                >
-                  {currentLinkIndex < generatedLinks.length - 1 ? t('Prossimo') : t('Termina')}
-                </Button>
-                
-                <Button
-                  onClick={closeGeneratedLinks}
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
+              {isSequenceRunning ? (
+                <div className="flex flex-col gap-2">
+                  <p className="text-sm text-center">{t('Dopo aver inviato il messaggio:')}</p>
+                  <Button
+                    onClick={goToNextSequentialLink}
+                    size="lg"
+                    className="flex-1"
+                  >
+                    <Send className="h-4 w-4 mr-1" />
+                    {currentLinkIndex < generatedLinks.length - 1 
+                      ? t('Vai al prossimo contatto') 
+                      : t('Termina invio')}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <Button
+                    onClick={openCurrentLink}
+                    size="sm"
+                    className="flex-1"
+                  >
+                    <Send className="h-4 w-4 mr-1" />
+                    {t('Apri WhatsApp')}
+                  </Button>
+                  
+                  <Button
+                    onClick={goToNextLink}
+                    variant="outline"
+                    size="sm"
+                    className="flex-1"
+                  >
+                    {currentLinkIndex < generatedLinks.length - 1 ? t('Prossimo') : t('Termina')}
+                  </Button>
+                  
+                  <Button
+                    onClick={closeGeneratedLinks}
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
