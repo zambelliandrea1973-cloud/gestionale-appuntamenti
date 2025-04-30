@@ -127,8 +127,7 @@ const WhatsAppCenterPage: React.FC = () => {
   const [customMessage, setCustomMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [smsHistory, setSmsHistory] = useState<NotificationHistoryItem[]>([]);
-  const [historyLoading, setHistoryLoading] = useState(false);
+  // La sezione cronologia è stata rimossa
   
   // Tab attivo
   const [activeTab, setActiveTab] = useState("device-setup");
@@ -183,23 +182,7 @@ const WhatsAppCenterPage: React.FC = () => {
     }
   };
 
-  // Funzione per caricare lo storico delle notifiche WhatsApp
-  const fetchWhatsAppHistory = async () => {
-    setHistoryLoading(true);
-    try {
-      const response = await fetch('/api/notifications/history');
-      if (response.ok) {
-        const data = await response.json();
-        setSmsHistory(data.notifications || []);
-      } else {
-        throw new Error('Errore nel caricamento dello storico');
-      }
-    } catch (error) {
-      console.error('Errore nel caricamento storico WhatsApp:', error);
-    } finally {
-      setHistoryLoading(false);
-    }
-  };
+  // La funzione per caricare lo storico è stata rimossa
 
   // Aggiorna le informazioni del dispositivo
   const updateDeviceInfo = (data: DeviceInfo) => {
@@ -583,7 +566,7 @@ const WhatsAppCenterPage: React.FC = () => {
         onValueChange={setActiveTab}
         className="space-y-6"
       >
-        <TabsList className="grid grid-cols-3 w-full md:w-auto">
+        <TabsList className="grid grid-cols-2 w-full md:w-auto">
           <TabsTrigger value="device-setup">
             <Smartphone className="h-4 w-4 mr-2" />
             {t('Configurazione telefono')}
@@ -591,10 +574,6 @@ const WhatsAppCenterPage: React.FC = () => {
           <TabsTrigger value="send-notifications">
             <Send className="h-4 w-4 mr-2" />
             {t('Invia notifiche')}
-          </TabsTrigger>
-          <TabsTrigger value="history">
-            <Clock className="h-4 w-4 mr-2" />
-            {t('Cronologia')}
           </TabsTrigger>
         </TabsList>
         
@@ -995,161 +974,7 @@ const WhatsAppCenterPage: React.FC = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="history" className="space-y-6">
-          <Card>
-            <CardHeader className="bg-slate-50">
-              <CardTitle className="flex items-center">
-                <Clock className="mr-3 h-6 w-6 text-primary" />
-                {t('Cronologia notifiche inviate')}
-              </CardTitle>
-              <CardDescription>
-                {t('Visualizza le ultime notifiche WhatsApp generate')}
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="p-4">
-              {historyLoading ? (
-                <div className="py-8 text-center">
-                  <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
-                  <p className="text-muted-foreground">{t('Caricamento cronologia...')}</p>
-                </div>
-              ) : smsHistory.length === 0 ? (
-                <div className="text-center py-8">
-                  <Clock className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-medium mb-2">{t('Nessuna notifica inviata')}</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto mb-4">
-                    {t('Non ci sono notifiche nel registro storico')}
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {(() => {
-                    // Raggruppa le notifiche per data
-                    const groupedByDate: Record<string, NotificationHistoryItem[]> = {};
-                    
-                    smsHistory.forEach(notification => {
-                      // Estrai la data dell'appuntamento dal messaggio o usa la data di invio
-                      let appointmentDate = 'Nessuna data';
-                      
-                      if (notification.sent_at) {
-                        // Usiamo la data di invio come fallback
-                        appointmentDate = format(new Date(notification.sent_at), 'dd/MM/yyyy');
-                        
-                        // Prova a estrarre la data dal messaggio
-                        const dateMatch = notification.message.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-                        if (dateMatch) {
-                          appointmentDate = `${dateMatch[1]}/${dateMatch[2]}/${dateMatch[3]}`;
-                        }
-                      }
-                      
-                      if (!groupedByDate[appointmentDate]) {
-                        groupedByDate[appointmentDate] = [];
-                      }
-                      
-                      groupedByDate[appointmentDate].push(notification);
-                    });
-                    
-                    // Ordina le date dal più recente al più vecchio
-                    const sortedDates = Object.keys(groupedByDate).sort((a, b) => {
-                      if (a === 'Nessuna data') return 1;
-                      if (b === 'Nessuna data') return -1;
-                      
-                      const [dayA, monthA, yearA] = a.split('/').map(Number);
-                      const [dayB, monthB, yearB] = b.split('/').map(Number);
-                      
-                      const dateA = new Date(yearA, monthA - 1, dayA);
-                      const dateB = new Date(yearB, monthB - 1, dayB);
-                      
-                      return dateB.getTime() - dateA.getTime(); // Ordine decrescente
-                    });
-                    
-                    return sortedDates.map(date => (
-                      <div key={date} className="border rounded-md overflow-hidden">
-                        <div className="bg-slate-100 px-4 py-2 font-medium">
-                          {date === 'Nessuna data' ? t('Data non specificata') : date}
-                        </div>
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>{t('Ora')}</TableHead>
-                              <TableHead>{t('Cliente')}</TableHead>
-                              <TableHead>{t('Messaggio')}</TableHead>
-                              <TableHead className="text-right">{t('Apri')}</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {groupedByDate[date].map((notification) => {
-                              // Estrai il link WhatsApp dal messaggio se presente
-                              const match = notification.message.match(/\[Apri WhatsApp\]\((https:\/\/wa\.me\/[^)]+)\)/);
-                              const whatsappLink = match ? match[1] : null;
-                              const isMessageSent = notification.status === 'sent';
-                              
-                              // Impostiamo il colore dello sfondo in base allo stato
-                              let rowColor = '';
-                              if (isMessageSent) {
-                                rowColor = 'bg-red-100'; // Messaggi già inviati (rosso)
-                              } else {
-                                rowColor = 'bg-green-100'; // Messaggi da inviare (verde)
-                              }
-                              
-                              return (
-                                <TableRow 
-                                  key={notification.id}
-                                  className={rowColor}
-                                >
-                                  <TableCell className="whitespace-nowrap">
-                                    {notification.sent_at ? format(new Date(notification.sent_at), 'HH:mm') : 'N/D'}
-                                  </TableCell>
-                                  <TableCell className="font-medium">
-                                    {notification.client ? 
-                                      `${notification.client.firstName} ${notification.client.lastName}` : 
-                                      t('Cliente sconosciuto')}
-                                  </TableCell>
-                                  <TableCell>
-                                    <div className="max-w-md truncate" title={notification.message.replace(/\[Apri WhatsApp\]\(https:\/\/wa\.me\/[^)]+\)/, '')}>
-                                      {notification.message.replace(/\[Apri WhatsApp\]\(https:\/\/wa\.me\/[^)]+\)/, '')}
-                                    </div>
-                                  </TableCell>
-                                  <TableCell className="text-right">
-                                    {whatsappLink && (
-                                      <Button
-                                        size="sm"
-                                        variant="outline"
-                                        className="h-8 px-2"
-                                        onClick={() => {
-                                          window.open(whatsappLink, '_blank', 'noopener,noreferrer');
-                                          // Aggiorna lo stato e il colore dopo aver aperto il link
-                                          fetchWhatsAppHistory();
-                                        }}
-                                      >
-                                        <ExternalLink className="h-4 w-4" />
-                                      </Button>
-                                    )}
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    ));
-                  })()}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-          
-          <div className="flex justify-end">
-            <Button
-              variant="outline"
-              onClick={fetchWhatsAppHistory}
-              className="ml-auto"
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              {t('Aggiorna cronologia')}
-            </Button>
-          </div>
-        </TabsContent>
+
       </Tabs>
       
       {/* Modal per i link generati - versione di tipo popup che mantiene visibili gli elementi sottostanti */}
