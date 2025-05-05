@@ -50,6 +50,7 @@ import { useToast } from "@/hooks/use-toast";
 import InvoiceForm from "@/components/InvoiceForm";
 import InvoiceDetails from "@/components/InvoiceDetails";
 import PaymentForm from "@/components/PaymentForm";
+import ProFeatureGuard from "@/components/ProFeatureGuard";
 import { 
   Euro, Trash2, Printer, FilePlus, FileEdit, 
   CreditCard, FileCheck, Calendar, Filter, Tag 
@@ -90,6 +91,17 @@ type Invoice = {
 };
 
 export default function Invoices() {
+  return (
+    <ProFeatureGuard 
+      featureName="Gestione Fatture"
+      description="La gestione completa delle fatture è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
+    >
+      <InvoicesContent />
+    </ProFeatureGuard>
+  );
+}
+
+function InvoicesContent() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [activeInvoice, setActiveInvoice] = useState<Invoice | null>(null);
