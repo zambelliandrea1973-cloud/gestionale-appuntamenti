@@ -192,7 +192,29 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <EmailAndCalendarSettings />
+              <div className="space-y-6">
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-amber-500 text-white rounded-full mr-4">
+                      <Calendar className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-medium mb-1">Integrazione con Google Calendar semplificata</h3>
+                      <p className="text-sm text-amber-900 mb-3">
+                        Utilizza la nuova interfaccia semplificata PRO per configurare Google Calendar con pochi semplici passaggi.
+                      </p>
+                      <Button 
+                        onClick={() => setLocation("/pro")}
+                        className="bg-amber-500 hover:bg-amber-600 text-white"
+                      >
+                        Vai all'interfaccia semplificata PRO
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <EmailAndCalendarSettings />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
