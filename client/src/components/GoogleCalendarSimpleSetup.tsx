@@ -255,11 +255,31 @@ export default function GoogleCalendarSimpleSetup() {
               Per utilizzare l'integrazione con Google Calendar, devi configurare correttamente il progetto Google Cloud.
               Assicurati che l'URL di reindirizzamento nella console Google Cloud sia esattamente il seguente:
             </p>
-            <div className="p-2 bg-white dark:bg-amber-900 rounded border border-amber-200 dark:border-amber-700 font-mono text-xs break-all">
-              {redirectUri}
+            <div className="relative">
+              <div className="p-3 bg-white dark:bg-amber-900 rounded border border-amber-200 dark:border-amber-700 font-mono text-xs break-all mb-1">
+                https://workspace.replit.app/api/google-auth/callback
+              </div>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText("https://workspace.replit.app/api/google-auth/callback");
+                  toast({
+                    title: "URL copiato",
+                    description: "L'URL di callback è stato copiato negli appunti"
+                  });
+                }}
+                className="absolute top-2 right-2 bg-amber-100 dark:bg-amber-800 p-1 rounded hover:bg-amber-200 dark:hover:bg-amber-700"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-700 dark:text-amber-300">
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
+              </button>
             </div>
             <p className="text-xs text-amber-600 dark:text-amber-500 mt-2">
-              Se riscontri errori 403 (accesso negato), controlla che l'URL corrisponda esattamente.
+              Se riscontri errori 403 (accesso negato), copia questo URL esatto e assicurati che sia configurato correttamente nella console Google Cloud → Credentials → OAuth 2.0 Client IDs → Authorized redirect URIs.
+            </p>
+            <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-2">
+              Verifica attentamente che il dominio sia ".replit.app" e non ".replit.com" o altro.
             </p>
           </div>
           
@@ -369,19 +389,34 @@ export default function GoogleCalendarSimpleSetup() {
             </button>
             
             {showAdvancedHelp && (
-              <div className="mt-3 pl-6 text-sm text-muted-foreground space-y-2">
-                <p>{t('google.advancedHelpDesc', 'Se hai bisogno di assistenza con la configurazione avanzata:')}</p>
-                <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>
-                    <Link to="/google-setup" className="text-primary hover:underline flex items-center">
-                      {t('google.setupGuide', 'Guida alla configurazione avanzata')}
-                      <ArrowRight className="h-3 w-3 ml-1" />
-                    </Link>
-                  </li>
-                  <li>
-                    {t('google.contactSupport', 'Contatta l\'assistenza se riscontri problemi persistenti')}
-                  </li>
-                </ul>
+              <div className="mt-3 text-sm space-y-4">
+                <div className="p-4 border rounded-md bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                  <h5 className="font-medium mb-2">Risoluzione Errore 403 (access_denied)</h5>
+                  <p className="mb-2">Se continui a ricevere l'errore 403, prova questa procedura:</p>
+                  <ol className="list-decimal list-inside space-y-1 ml-2">
+                    <li>Vai alla <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline">Console Google Cloud</a></li>
+                    <li>Seleziona il tuo progetto</li>
+                    <li><strong>Elimina</strong> le vecchie credenziali OAuth 2.0</li>
+                    <li>Crea un nuovo Client ID OAuth 2.0 completamente nuovo</li>
+                    <li>Aggiungi con attenzione l'URL di callback esatto: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs">https://workspace.replit.app/api/google-auth/callback</span></li>
+                    <li>Ritorna qui e riprova l'autorizzazione</li>
+                  </ol>
+                </div>
+                
+                <div className="pl-6 text-muted-foreground">
+                  <p>{t('google.advancedHelpDesc', 'Se hai bisogno di assistenza con la configurazione avanzata:')}</p>
+                  <ul className="list-disc list-inside space-y-1 ml-2">
+                    <li>
+                      <Link to="/google-setup" className="text-primary hover:underline flex items-center">
+                        {t('google.setupGuide', 'Guida alla configurazione avanzata')}
+                        <ArrowRight className="h-3 w-3 ml-1" />
+                      </Link>
+                    </li>
+                    <li>
+                      {t('google.contactSupport', 'Contatta l\'assistenza se riscontri problemi persistenti')}
+                    </li>
+                  </ul>
+                </div>
               </div>
             )}
           </div>
