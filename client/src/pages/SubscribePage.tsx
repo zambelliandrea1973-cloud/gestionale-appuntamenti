@@ -67,7 +67,9 @@ export default function SubscribePage() {
     
     try {
       setIsProcessing(true);
-      await activateLicense(activationCode.trim());
+      // Rimuove tutti gli spazi dal codice prima di inviarlo al server
+      const normalizedCode = activationCode.replace(/\s/g, '');
+      await activateLicense(normalizedCode);
       setShowActivationDialog(false);
       setActivationCode('');
       
@@ -351,8 +353,27 @@ export default function SubscribePage() {
               <Input
                 id="activationCode"
                 value={activationCode}
-                onChange={(e) => setActivationCode(e.target.value)}
-                placeholder="XXXX-XXXX-XXXX-XXXX"
+                onChange={(e) => {
+                  // Rimuove tutti gli spazi dall'input
+                  const rawValue = e.target.value.replace(/\s/g, '');
+                  
+                  if (rawValue.length > 16) {
+                    // Limita a 16 caratteri
+                    return;
+                  }
+                  
+                  // Formatta aggiungendo spazi ogni 4 caratteri
+                  let formattedValue = '';
+                  for (let i = 0; i < rawValue.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                      formattedValue += ' ';
+                    }
+                    formattedValue += rawValue[i];
+                  }
+                  
+                  setActivationCode(formattedValue);
+                }}
+                placeholder="XXXX XXXX XXXX XXXX"
                 className="col-span-3"
               />
             </div>
