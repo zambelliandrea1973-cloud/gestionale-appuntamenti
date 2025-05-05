@@ -61,6 +61,20 @@ router.get('/has-pro-access', async (req, res) => {
   }
 });
 
+// Endpoint per verificare se l'utente ha accesso BUSINESS
+router.get('/has-business-access', async (req, res) => {
+  try {
+    const hasBusinessAccess = await licenseService.hasBusinessAccess();
+    res.json({ hasBusinessAccess });
+  } catch (error) {
+    console.error('Errore nella verifica dell\'accesso BUSINESS:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nella verifica dell\'accesso BUSINESS'
+    });
+  }
+});
+
 // Endpoint per generare un codice (solo per sviluppo/test)
 router.post('/generate-code', isAuthenticated, async (req, res) => {
   try {
@@ -74,7 +88,7 @@ router.post('/generate-code', isAuthenticated, async (req, res) => {
     }
     
     // Verifica che il tipo di licenza sia valido
-    if (!['trial', 'base', 'pro'].includes(licenseType)) {
+    if (!Object.values(LicenseType).includes(licenseType)) {
       return res.status(400).json({
         success: false,
         message: 'Tipo di licenza non valido'
@@ -123,7 +137,7 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
     }
     
     // Verifica del tipo di licenza
-    if (!licenseType || !['pro'].includes(licenseType)) {
+    if (!licenseType || !Object.values(LicenseType).includes(licenseType)) {
       return res.status(400).json({
         success: false,
         message: 'Tipo di licenza non valido o non specificato'
@@ -169,6 +183,62 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Errore nella creazione del codice permanente'
+    });
+  }
+});
+
+// Endpoint specifico per creare il codice passepartout richiesto
+router.post('/create-passepartout', isAuthenticated, async (req, res) => {
+  try {
+    const { password } = req.body;
+    
+    // Verifica la password di amministrazione
+    if (password !== 'gironico') {
+      return res.status(401).json({
+        success: false,
+        message: 'Password amministratore non valida'
+      });
+    }
+    
+    // Codice passepartout richiesto (senza spazi)
+    const rawCode = '0103197320091979';
+    
+    // Controlla se il codice esiste già
+    const existingLicense = await db.query.licenses.findFirst({
+      where: (licenses, { eq }) => eq(licenses.code, rawCode)
+    });
+    
+    if (existingLicense) {
+      return res.status(400).json({
+        success: false,
+        message: 'Il codice passepartout esiste già nel sistema'
+      });
+    }
+    
+    // Inserisci la nuova licenza passepartout permanente
+    await db.insert(licenses).values({
+      code: rawCode,
+      type: LicenseType.PASSEPARTOUT,  // Licenza con accesso a tutte le funzionalità
+      isActive: true,                 // Già attivo
+      createdAt: new Date(),
+      activatedAt: new Date(),        // Già attivato
+      expiresAt: null                 // Nessuna scadenza (permanente)
+    });
+    
+    // Formatta il codice per la visualizzazione
+    const displayCode = `${rawCode.substring(0, 4)} ${rawCode.substring(4, 8)} ${rawCode.substring(8, 12)} ${rawCode.substring(12, 16)}`;
+    
+    res.json({
+      success: true,
+      message: 'Codice passepartout creato con successo',
+      code: displayCode,
+      type: LicenseType.PASSEPARTOUT
+    });
+  } catch (error) {
+    console.error('Errore nella creazione del codice passepartout:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nella creazione del codice passepartout'
     });
   }
 });

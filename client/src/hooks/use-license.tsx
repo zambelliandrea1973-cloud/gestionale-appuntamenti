@@ -7,7 +7,9 @@ import { useToast } from '@/hooks/use-toast';
 export enum LicenseType {
   TRIAL = 'trial',
   BASE = 'base',
-  PRO = 'pro'
+  PRO = 'pro',
+  BUSINESS = 'business',
+  PASSEPARTOUT = 'passepartout'
 }
 
 // Interfaccia per le informazioni sulla licenza
@@ -33,6 +35,13 @@ export function useLicense() {
   // Query per verificare se l'utente ha accesso PRO
   const proAccessQuery = useQuery({
     queryKey: ['/api/license/has-pro-access'],
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5, // 5 minuti
+  });
+  
+  // Query per verificare se l'utente ha accesso BUSINESS
+  const businessAccessQuery = useQuery({
+    queryKey: ['/api/license/has-business-access'],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5, // 5 minuti
   });

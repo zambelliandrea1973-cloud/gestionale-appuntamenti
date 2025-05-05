@@ -18,7 +18,9 @@ import { SQL } from 'drizzle-orm';
 export enum LicenseType {
   TRIAL = 'trial',
   BASE = 'base',
-  PRO = 'pro'
+  PRO = 'pro',
+  BUSINESS = 'business',
+  PASSEPARTOUT = 'passepartout'  // Accesso completo a tutte le funzionalità senza limitazioni
 }
 
 // Durata in giorni dei periodi
@@ -26,6 +28,8 @@ const LICENSE_DURATIONS = {
   [LicenseType.TRIAL]: 40, // 40 giorni di prova
   [LicenseType.BASE]: 365, // Abbonamento base di 1 anno
   [LicenseType.PRO]: 365, // Abbonamento pro di 1 anno
+  [LicenseType.BUSINESS]: 365, // Abbonamento business di 1 anno
+  [LicenseType.PASSEPARTOUT]: 3650, // Abbonamento passepartout di 10 anni (praticamente permanente)
 };
 
 export interface LicenseInfo {
@@ -207,10 +211,35 @@ class LicenseService {
   async hasProAccess(): Promise<boolean> {
     const licenseInfo = await this.getCurrentLicenseInfo();
     
-    // Se la licenza è PRO ed è attiva e non è scaduta
-    if (licenseInfo.type === LicenseType.PRO && 
-        licenseInfo.isActive && 
-        (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date())) {
+    // Verificiamo che la licenza sia attiva e non scaduta
+    const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
+    
+    // Accesso consentito per licenze PRO, BUSINESS e PASSEPARTOUT
+    if (isActive && (
+        licenseInfo.type === LicenseType.PRO || 
+        licenseInfo.type === LicenseType.BUSINESS || 
+        licenseInfo.type === LicenseType.PASSEPARTOUT
+      )) {
+      return true;
+    }
+    
+    return false;
+  }
+  
+  /**
+   * Verifica se l'utente ha accesso alle funzionalità BUSINESS
+   */
+  async hasBusinessAccess(): Promise<boolean> {
+    const licenseInfo = await this.getCurrentLicenseInfo();
+    
+    // Verificiamo che la licenza sia attiva e non scaduta
+    const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
+    
+    // Accesso consentito per licenze BUSINESS e PASSEPARTOUT
+    if (isActive && (
+        licenseInfo.type === LicenseType.BUSINESS || 
+        licenseInfo.type === LicenseType.PASSEPARTOUT
+      )) {
       return true;
     }
     
@@ -243,6 +272,10 @@ class LicenseService {
         return "Gestione Appuntamenti Base";
       case LicenseType.PRO:
         return "Gestione Appuntamenti PRO";
+      case LicenseType.BUSINESS:
+        return "Gestione Appuntamenti BUSINESS";
+      case LicenseType.PASSEPARTOUT:
+        return "Gestione Appuntamenti PASSEPARTOUT";
       default:
         return "Gestione Appuntamenti";
     }
