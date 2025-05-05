@@ -1,6 +1,7 @@
 import { useState, ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from 'react-i18next';
+import { useLicense, LicenseType } from '@/hooks/use-license';
 import { 
   CalendarDays, 
   Users, 
@@ -32,6 +33,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const { t } = useTranslation();
+  const { licenseInfo, appTitle } = useLicense();
 
   // Check active route
   const isActive = (path: string) => location === path;
