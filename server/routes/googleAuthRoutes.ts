@@ -8,7 +8,22 @@ const router = Router();
 // L'URL qui DEVE corrispondere esattamente a quello configurato nella console Google Cloud
 // Utilizziamo l'URL basato sul dominio effettivo dell'applicazione
 const replSlug = process.env.REPL_SLUG || 'workspace';
-const redirectUri = `https://${replSlug}.replit.app/api/google-auth/callback`;
+
+// Prova a capire se siamo sulla versione pubblicata o no
+let domain = `${replSlug}.replit.app`;
+// Se c'è un dominio personalizzato nell'header host, usalo
+if (process.env.CUSTOM_DOMAIN) {
+  domain = process.env.CUSTOM_DOMAIN;
+}
+
+const redirectUri = `https://${domain}/api/google-auth/callback`;
+
+// Stampa informazioni di debug aggiuntive
+console.log('Debug OAuth URL:', {
+  replSlug,
+  domain,
+  redirectUri
+});
 
 console.log("Google OAuth callback URL:", redirectUri);
 console.log("Google Credentials:", {
@@ -186,6 +201,27 @@ router.get('/status', (req, res) => {
   res.json({ 
     success: true, 
     authorized: authInfo.authorized 
+  });
+});
+
+// Aggiungiamo un endpoint di debug per determinare il percorso esatto
+router.get('/debug-url', (req, res) => {
+  const host = req.get('host') || 'unknown';
+  const protocol = req.protocol || 'https';
+  const path = req.originalUrl || '/api/google-auth/debug-url';
+  const fullUrl = `${protocol}://${host}${path}`;
+  
+  // Mostriamo l'URL completo e tutte le intestazioni HTTP
+  res.json({
+    success: true,
+    debug: {
+      host,
+      protocol,
+      path,
+      fullUrl,
+      headers: req.headers,
+      expectedCallback: redirectUri
+    }
   });
 });
 
