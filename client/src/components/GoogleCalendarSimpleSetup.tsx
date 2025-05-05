@@ -23,8 +23,8 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Link } from "wouter";
 
-// URL di callback FISSO che deve corrispondere esattamente a quello configurato in Google Cloud Console
-const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
+// URL di callback - Ora viene gestito lato server in base al dominio reale dell'applicazione
+// Non è più necessario specificarlo qui, perché viene determinato dinamicamente lato server
 
 /**
  * Componente semplificato per la configurazione di Google Calendar.
@@ -256,11 +256,11 @@ export default function GoogleCalendarSimpleSetup() {
             </p>
             <div className="relative">
               <div className="p-3 bg-white dark:bg-amber-900 rounded border border-amber-200 dark:border-amber-700 font-mono text-xs break-all mb-1">
-                https://workspace.replit.app/api/google-auth/callback
+                https://workspace.zambelliandrea1.repl.co/api/google-auth/callback
               </div>
               <button 
                 onClick={() => {
-                  navigator.clipboard.writeText("https://workspace.replit.app/api/google-auth/callback");
+                  navigator.clipboard.writeText("https://workspace.zambelliandrea1.repl.co/api/google-auth/callback");
                   toast({
                     title: "URL copiato",
                     description: "L'URL di callback è stato copiato negli appunti"
