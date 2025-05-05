@@ -48,7 +48,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <CalendarDays className="h-5 w-5" />
                   {/* Mostra il titolo solo se non siamo nella pagina delle notifiche o nella home */}
                   {(location === "/" || (location !== "/notifications" && location !== "/whatsapp-center" && location !== "/phone-device-setup" && location !== "/simple-phone-setup" && !hideHeader)) && (
-                    <h1 className="text-xl font-medium">{t('app.title')}</h1>
+                    <h1 className="text-xl font-medium">
+                      {t('app.title')}
+                      {location === "/" && (
+                        <span className="ml-2 text-sm px-2 py-0.5 rounded bg-white/20">
+                          {t('license.type', 'Prova')}
+                        </span>
+                      )}
+                    </h1>
                   )}
                 </div>
               </Link>

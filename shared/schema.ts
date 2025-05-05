@@ -795,3 +795,22 @@ export const insertPhoneSchema = createInsertSchema(phones).omit({
 
 export type Phone = typeof phones.$inferSelect;
 export type InsertPhone = z.infer<typeof insertPhoneSchema>;
+
+// Licenses table schema
+export const licenses = pgTable("licenses", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  type: text("type").notNull(), // trial, base, pro
+  isActive: boolean("is_active").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  activatedAt: timestamp("activated_at"),
+  expiresAt: timestamp("expires_at"),
+});
+
+export const insertLicenseSchema = createInsertSchema(licenses).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type License = typeof licenses.$inferSelect;
+export type InsertLicense = z.infer<typeof insertLicenseSchema>;
