@@ -17,6 +17,7 @@ import {
 import GoogleCalendarSimpleSetup from '@/components/GoogleCalendarSimpleSetup';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
+import { useLicense } from '@/hooks/use-license';
 
 /**
  * Pagina delle funzionalità PRO
@@ -28,10 +29,10 @@ import { Link } from 'wouter';
 export default function ProFeaturesPage() {
   const { t } = useTranslation();
   const [showUpgradeMessage, setShowUpgradeMessage] = useState(false);
+  const { hasProAccess, isLoading, licenseInfo } = useLicense();
   
-  // In una implementazione reale, questo valore verrebbe recuperato dal server
-  // per determinare se l'utente ha accesso alle funzioni PRO
-  const hasPROAccess = false; // Temporaneamente impostato su false per mostrare il messaggio di upgrade
+  // Utilizziamo l'hook useLicense per verificare se l'utente ha accesso PRO
+  const hasPROAccess = !isLoading && hasProAccess;
   
   const handleUpgradeClick = () => {
     // In un'applicazione reale, qui reindirizzeremmo l'utente verso la pagina di upgrade
