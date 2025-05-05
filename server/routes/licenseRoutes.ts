@@ -187,18 +187,23 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
   }
 });
 
+// Middleware per verificare la password admin senza autenticazione
+function verifyAdminPassword(req: any, res: any, next: any) {
+  const { password } = req.body;
+  
+  if (password !== 'gironico') {
+    return res.status(401).json({
+      success: false,
+      message: 'Password amministratore non valida'
+    });
+  }
+  
+  next();
+}
+
 // Endpoint specifico per creare il codice passepartout richiesto
-router.post('/create-passepartout', async (req, res) => {
+router.post('/create-passepartout', verifyAdminPassword, async (req, res) => {
   try {
-    const { password } = req.body;
-    
-    // Verifica la password di amministrazione
-    if (password !== 'gironico') {
-      return res.status(401).json({
-        success: false,
-        message: 'Password amministratore non valida'
-      });
-    }
     
     // Codice passepartout richiesto (senza spazi)
     const rawCode = '0103197320091979';
