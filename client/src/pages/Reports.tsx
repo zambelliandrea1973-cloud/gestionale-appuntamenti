@@ -36,8 +36,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formatDateForApi } from "@/lib/utils/date";
+import ProFeatureGuard from "@/components/ProFeatureGuard";
 
 export default function Reports() {
+  return (
+    <ProFeatureGuard 
+      featureName="Report Statistici"
+      description="I report dettagliati sull'attività sono disponibili nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
+    >
+      <ReportsContent />
+    </ProFeatureGuard>
+  );
+}
+
+function ReportsContent() {
   const [reportType, setReportType] = useState("monthly");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [aggregatedData, setAggregatedData] = useState<any[]>([]);

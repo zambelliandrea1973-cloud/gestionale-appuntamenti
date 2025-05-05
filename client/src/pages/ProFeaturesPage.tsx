@@ -31,7 +31,7 @@ export default function ProFeaturesPage() {
   
   // In una implementazione reale, questo valore verrebbe recuperato dal server
   // per determinare se l'utente ha accesso alle funzioni PRO
-  const hasPROAccess = true; // Temporaneamente impostato su true per sviluppo
+  const hasPROAccess = false; // Temporaneamente impostato su false per mostrare il messaggio di upgrade
   
   const handleUpgradeClick = () => {
     // In un'applicazione reale, qui reindirizzeremmo l'utente verso la pagina di upgrade
