@@ -23,6 +23,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Link } from "wouter";
 
+// URL di callback dinamico basato sul nome dell'applicazione
+const replicSlug = window.location.hostname.split('.')[0];
+const redirectUri = `https://${replicSlug}.replit.app/api/google-auth/callback`;
+
 /**
  * Componente semplificato per la configurazione di Google Calendar.
  * Incluso nella versione PRO dell'applicazione.
@@ -241,6 +245,24 @@ export default function GoogleCalendarSimpleSetup() {
         </CardHeader>
         
         <CardContent className="pt-6">
+          {/* Nota importante sul dominio */}
+          <div className="mb-6 p-4 border rounded-md bg-amber-50 dark:bg-amber-950">
+            <h4 className="font-medium flex items-center text-amber-800 dark:text-amber-300 mb-2">
+              <AlertCircle className="h-4 w-4 mr-2" />
+              Importante: configurazione Google Cloud
+            </h4>
+            <p className="text-sm text-amber-700 dark:text-amber-400 mb-2">
+              Per utilizzare l'integrazione con Google Calendar, devi configurare correttamente il progetto Google Cloud.
+              Assicurati che l'URL di reindirizzamento nella console Google Cloud sia esattamente il seguente:
+            </p>
+            <div className="p-2 bg-white dark:bg-amber-900 rounded border border-amber-200 dark:border-amber-700 font-mono text-xs break-all">
+              {redirectUri}
+            </div>
+            <p className="text-xs text-amber-600 dark:text-amber-500 mt-2">
+              Se riscontri errori 403 (accesso negato), controlla che l'URL corrisponda esattamente.
+            </p>
+          </div>
+          
           {isGoogleAuthorized ? (
             <div className="space-y-6">
               <div className="flex items-center justify-between p-4 rounded-lg border bg-secondary/10">

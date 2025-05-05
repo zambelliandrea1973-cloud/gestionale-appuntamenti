@@ -6,8 +6,9 @@ const router = Router();
 
 // Configura l'OAuth client
 // L'URL qui DEVE corrispondere esattamente a quello configurato nella console Google Cloud
-// L'URL deve essere ESATTAMENTE https://workspace.replit.app/api/google-auth/callback (senza trailing slash)
-const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
+// Utilizziamo l'URL basato sul dominio effettivo dell'applicazione
+const replSlug = process.env.REPL_SLUG || 'workspace';
+const redirectUri = `https://${replSlug}.replit.app/api/google-auth/callback`;
 
 console.log("Google OAuth callback URL:", redirectUri);
 console.log("Google Credentials:", {
