@@ -59,17 +59,46 @@ router.get('/start', (req, res) => {
     // Stampa l'URI esatto di reindirizzamento che stiamo usando
     console.log("Redirect URI esatto:", redirectUri);
     
+    // Stampa tutte le variabili d'ambiente rilevanti per il debug
+    console.log("Debug variabili ambiente:", {
+      REPL_SLUG: process.env.REPL_SLUG || "non impostato",
+      REPL_OWNER: process.env.REPL_OWNER || "non impostato",
+      REPL_ID: process.env.REPL_ID || "non impostato", 
+      CUSTOM_DOMAIN: process.env.CUSTOM_DOMAIN || "non impostato",
+      HOST: req.get('host') || "non disponibile"
+    });
+    
+    // Ottieni l'host della richiesta per utilizzare il dominio corretto
+    const hostFromRequest = req.get('host');
+    let actualRedirectUri = redirectUri;
+    
+    // Se l'host è diverso da quello che abbiamo calcolato, utilizza quello della richiesta
+    if (hostFromRequest && !hostFromRequest.includes('localhost')) {
+      const protocol = req.protocol || 'https';
+      actualRedirectUri = `${protocol}://${hostFromRequest}/api/google-auth/callback`;
+      console.log("Redirect URI aggiornato da header host:", actualRedirectUri);
+    }
+    
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       response_type: 'code',
       scope: SCOPES,
       prompt: 'consent', // Forza il prompt di consenso per ottenere sempre il refresh token
-      // Non aggiungere altri parametri non necessari
+      redirect_uri: actualRedirectUri, // Usa l'URI corretto basato sull'host
     });
     
     console.log("Auth URL generato:", authUrl);
     
-    res.json({ success: true, authUrl });
+    res.json({ 
+      success: true, 
+      authUrl,
+      debug: {
+        calculatedRedirectUri: redirectUri,
+        actualRedirectUri,
+        host: req.get('host'),
+        protocol: req.protocol
+      }
+    });
   } catch (error) {
     console.error('Errore nella generazione URL di auth:', error);
     res.status(500).json({ 
@@ -91,8 +120,26 @@ router.get('/callback', async (req, res) => {
   try {
     console.log("Scambio del codice di autorizzazione:", code);
     
+    // Ottieni l'host della richiesta per utilizzare il dominio corretto
+    const hostFromRequest = req.get('host');
+    let actualRedirectUri = redirectUri;
+    
+    // Se l'host è diverso da quello che abbiamo calcolato, utilizza quello della richiesta
+    if (hostFromRequest && !hostFromRequest.includes('localhost')) {
+      const protocol = req.protocol || 'https';
+      actualRedirectUri = `${protocol}://${hostFromRequest}/api/google-auth/callback`;
+      console.log("Callback - Redirect URI aggiornato da header host:", actualRedirectUri);
+    }
+    
+    // Usa l'URI di reindirizzamento corretto per lo scambio del token
+    const oauth2ClientForCallback = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      actualRedirectUri
+    );
+    
     // Scambia il codice con i token
-    const { tokens } = await oauth2Client.getToken(code as string);
+    const { tokens } = await oauth2ClientForCallback.getToken(code as string);
     console.log("Token ottenuti con successo:", tokens);
     
     oauth2Client.setCredentials(tokens);
