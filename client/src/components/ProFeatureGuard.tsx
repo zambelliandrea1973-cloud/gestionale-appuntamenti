@@ -1,5 +1,4 @@
-import { ReactNode, useEffect } from 'react';
-import { useLocation } from 'wouter';
+import { ReactNode } from 'react';
 import { useLicense } from '@/hooks/use-license';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +18,8 @@ interface ProFeatureGuardProps {
  */
 export default function ProFeatureGuard({ children, featureName, description }: ProFeatureGuardProps) {
   const { hasProAccess, isLoading } = useLicense();
-  const [, navigate] = useLocation();
+  // Per la navigazione useremo semplici href invece di hook
+  const navigate = (path: string) => { window.location.href = path };
   const { t } = useTranslation();
   
   // Se l'utente sta tentando di utilizzare una funzione PRO ma non ha l'abbonamento,
