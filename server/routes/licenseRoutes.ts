@@ -4,6 +4,9 @@
 import { Router } from 'express';
 import { licenseService } from '../services/licenseService';
 import { isAuthenticated } from '../auth';
+import { db } from '../db';
+import { licenses } from '../../shared/schema';
+import { LicenseType } from '../services/licenseService';
 
 const router = Router();
 
@@ -102,6 +105,70 @@ router.get('/application-title', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Errore nel recupero del titolo dell\'applicazione'
+    });
+  }
+});
+
+// Endpoint per creare un codice di attivazione permanente
+router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
+  try {
+    const { code, licenseType, password } = req.body;
+    
+    // Verifica la password di amministrazione
+    if (password !== 'gironico') {
+      return res.status(401).json({
+        success: false,
+        message: 'Password amministratore non valida'
+      });
+    }
+    
+    // Verifica del tipo di licenza
+    if (!licenseType || !['pro'].includes(licenseType)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Tipo di licenza non valido o non specificato'
+      });
+    }
+    
+    // Formatta il codice rimuovendo spazi e convertendo in maiuscolo
+    const formattedCode = code.replace(/\s/g, '').toUpperCase();
+    
+    // Controlla se il codice esiste già
+    const existingLicense = await db.query.licenses.findFirst({
+      where: (licenses, { eq }) => eq(licenses.code, formattedCode)
+    });
+    
+    if (existingLicense) {
+      return res.status(400).json({
+        success: false,
+        message: 'Questo codice esiste già nel sistema'
+      });
+    }
+    
+    // Inserisci la nuova licenza permanente (senza data di scadenza)
+    await db.insert(licenses).values({
+      code: formattedCode,
+      type: licenseType,
+      isActive: true,         // Già attivo
+      createdAt: new Date(),
+      activatedAt: new Date(), // Già attivato
+      expiresAt: null         // Nessuna scadenza (permanente)
+    });
+    
+    // Formatta il codice per la visualizzazione
+    const displayCode = `${formattedCode.substring(0, 4)} ${formattedCode.substring(4, 8)} ${formattedCode.substring(8, 12)} ${formattedCode.substring(12, 16)}`;
+    
+    res.json({
+      success: true,
+      message: 'Codice di attivazione permanente creato con successo',
+      code: displayCode,
+      type: licenseType
+    });
+  } catch (error) {
+    console.error('Errore nella creazione del codice permanente:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nella creazione del codice permanente'
     });
   }
 });
