@@ -22,11 +22,10 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
-import { Mail, Calendar, RefreshCw, ArrowRight, HelpCircle, ExternalLink } from "lucide-react";
+import { Mail, Calendar, RefreshCw, ArrowRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link } from "wouter";
 
 // Definizione dello schema per il form
 const emailSettingsSchema = z.object({
