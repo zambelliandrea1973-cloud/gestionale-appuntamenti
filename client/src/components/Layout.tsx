@@ -79,13 +79,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Button>
               </Link>
               
-              <Link href="/invoices">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <FileText className="h-4 w-4" />
-                  <span>{t('invoices.title')}</span>
-                </Button>
-              </Link>
-              
               <Link href="/whatsapp-center">
                 <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                   <MessageSquare className="h-4 w-4" />
@@ -140,18 +133,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
                         <Users className="mr-2 h-4 w-4" />
                         {t('clients.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/invoices">
-                      <Button variant={isActive("/invoices") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <FileText className="mr-2 h-4 w-4" />
-                        {t('invoices.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/reports">
-                      <Button variant={isActive("/reports") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <BarChart className="mr-2 h-4 w-4" />
-                        {t('reports.title')}
                       </Button>
                     </Link>
                     
