@@ -1,89 +1,87 @@
-import React from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { useLicense } from '@/hooks/use-license';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Crown, Lock, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import {
-  Crown,
-  Lock,
-  CheckCircle2,
-} from 'lucide-react';
-import { Button } from "@/components/ui/button";
 
 interface ProFeatureGuardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   featureName: string;
   description?: string;
 }
 
 /**
  * Componente che protegge le funzionalità PRO
- * Mostra il contenuto solo se l'utente ha accesso alle funzionalità PRO,
- * altrimenti mostra un messaggio per invitare all'upgrade
+ * Se l'utente non ha un abbonamento PRO, mostra un messaggio di upgrade
+ * altrimenti mostra i contenuti normalmente
  */
 export default function ProFeatureGuard({ children, featureName, description }: ProFeatureGuardProps) {
-  const [, setLocation] = useLocation();
+  const { hasProAccess, isLoading } = useLicense();
+  const [, navigate] = useLocation();
   const { t } = useTranslation();
   
-  // In una implementazione reale, questo valore verrebbe recuperato dal server
-  // per determinare se l'utente ha accesso alle funzioni PRO
-  const hasPROAccess = false; // Temporaneamente impostato su false per mostrare il messaggio di upgrade
-  
-  if (hasPROAccess) {
-    return <>{children}</>;
+  // Se l'utente sta tentando di utilizzare una funzione PRO ma non ha l'abbonamento,
+  // mostriamo un messaggio di upgrade
+  if (!isLoading && !hasProAccess) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full py-12">
+        <Card className="max-w-md w-full mx-auto">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="rounded-full bg-amber-100 p-3">
+                <Lock className="h-8 w-8 text-amber-600" />
+              </div>
+            </div>
+            <CardTitle className="text-2xl">
+              {t('proFeature.title', 'Funzionalità PRO')}
+            </CardTitle>
+            <CardDescription>
+              {t('proFeature.subtitle', `"${featureName}" è disponibile solo con l'abbonamento PRO`)}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center mb-4 text-muted-foreground">
+              {description || t('proFeature.description', 'Passa a un piano premium per sbloccare tutte le funzionalità avanzate.')}
+            </p>
+            
+            <div className="border rounded-lg p-4 mb-4 bg-slate-50">
+              <div className="flex items-center mb-2">
+                <Crown className="h-5 w-5 text-amber-500 mr-2" />
+                <h3 className="font-medium">
+                  {t('proFeature.benefits.title', 'Con PRO ottieni')}:
+                </h3>
+              </div>
+              <ul className="space-y-2 pl-7 list-disc text-sm">
+                <li>{t('proFeature.benefits.invoices', 'Gestione fatture completa')}</li>
+                <li>{t('proFeature.benefits.reports', 'Report dettagliati sull\'attività')}</li>
+                <li>{t('proFeature.benefits.googleCalendar', 'Integrazione con Google Calendar')}</li>
+                <li>{t('proFeature.benefits.support', 'Supporto prioritario')}</li>
+              </ul>
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-2">
+            <Button 
+              className="w-full" 
+              onClick={() => navigate('/subscribe')}
+            >
+              {t('proFeature.upgradeButton', 'Passa a PRO')}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => navigate('/pro')}
+            >
+              {t('proFeature.learnMore', 'Scopri di più')}
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
   }
   
-  return (
-    <div className="min-h-[70vh] flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 p-6 bg-white border rounded-lg shadow-md">
-        <div className="flex flex-col items-center text-center">
-          <div className="h-16 w-16 bg-amber-100 rounded-full flex items-center justify-center mb-4">
-            <Lock className="h-8 w-8 text-amber-600" />
-          </div>
-          <h2 className="text-2xl font-bold mb-2">
-            {featureName} {t('pro.isProFeature', 'è una funzionalità PRO')}
-          </h2>
-          <p className="text-gray-500 mb-6">
-            {description || t('pro.upgradeToAccess', 'Aggiorna il tuo piano per accedere a questa e altre funzionalità avanzate.')}
-          </p>
-          
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 w-full">
-            <h3 className="font-medium text-amber-800 mb-2 flex items-center">
-              <Crown className="h-5 w-5 mr-2 text-amber-500" />
-              {t('pro.benefitsTitle', 'Vantaggi della versione PRO')}
-            </h3>
-            <ul className="space-y-2">
-              <li className="flex items-center text-sm text-amber-700">
-                <CheckCircle2 className="h-4 w-4 mr-2 text-amber-500" />
-                {t('pro.benefit1', 'Integrazione con Google Calendar')}
-              </li>
-              <li className="flex items-center text-sm text-amber-700">
-                <CheckCircle2 className="h-4 w-4 mr-2 text-amber-500" />
-                {t('pro.benefit2', 'Gestione completa delle fatture')}
-              </li>
-              <li className="flex items-center text-sm text-amber-700">
-                <CheckCircle2 className="h-4 w-4 mr-2 text-amber-500" />
-                {t('pro.benefit3', 'Report dettagliati sull\'attività')}
-              </li>
-            </ul>
-          </div>
-          
-          <div className="space-y-3 w-full">
-            <Button 
-              onClick={() => setLocation("/pro")}
-              className="w-full bg-amber-500 hover:bg-amber-600"
-            >
-              <Crown className="h-4 w-4 mr-2" />
-              {t('pro.showPlans', 'Scopri i piani PRO')}
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => setLocation("/")}
-              className="w-full"
-            >
-              {t('common.backToHome', 'Torna alla Home')}
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  // Se l'utente ha l'abbonamento PRO o stiamo ancora caricando, mostriamo i contenuti normalmente
+  return <>{children}</>;
 }

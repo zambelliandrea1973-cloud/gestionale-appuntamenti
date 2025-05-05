@@ -51,10 +51,20 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   {/* Mostra il titolo solo se non siamo nella pagina delle notifiche o nella home */}
                   {(location === "/" || (location !== "/notifications" && location !== "/whatsapp-center" && location !== "/phone-device-setup" && location !== "/simple-phone-setup" && !hideHeader)) && (
                     <h1 className="text-xl font-medium">
-                      {t('app.title')}
-                      {location === "/" && (
-                        <span className="ml-2 text-sm px-2 py-0.5 rounded bg-white/20">
-                          {t('license.type', 'Prova')}
+                      {appTitle || t('app.title')}
+                      {location === "/" && licenseInfo && (
+                        <span className={`ml-2 text-sm px-2 py-0.5 rounded font-medium ${
+                          licenseInfo.type === LicenseType.PRO 
+                            ? 'bg-amber-500 text-white' 
+                            : licenseInfo.type === LicenseType.BASE 
+                              ? 'bg-blue-500 text-white' 
+                              : 'bg-white/20'
+                        }`}>
+                          {licenseInfo.type === LicenseType.PRO 
+                            ? t('license.pro', 'PRO') 
+                            : licenseInfo.type === LicenseType.BASE 
+                              ? t('license.base', 'Base') 
+                              : t('license.trial', 'Prova')}
                         </span>
                       )}
                     </h1>
