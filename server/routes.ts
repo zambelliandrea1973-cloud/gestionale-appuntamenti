@@ -268,7 +268,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Creiamo un nuovo client OAuth2 per sicurezza
       const { google } = await import('googleapis');
-      const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
+      const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
       
       console.log("Callback - Utilizzo URI di reindirizzamento fisso:", redirectUri);
       

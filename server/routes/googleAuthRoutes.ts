@@ -9,7 +9,8 @@ const router = Router();
 // Utilizziamo un URL FISSO che corrisponde esattamente a quello nella console Google Cloud
 
 // IMPORTANTE: Questo URL deve corrispondere ESATTAMENTE a quello configurato in Google Cloud Console
-const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
+// Utilizziamo il dominio effettivo dell'applicazione, basato su REPL_SLUG e REPL_OWNER
+const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
 
 // Stampa informazioni di debug aggiuntive
 console.log('Debug OAuth URL:', {
