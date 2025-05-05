@@ -48,9 +48,9 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import InvoiceForm from "@/components/InvoiceForm";
+import ProFeatureGuard from "@/components/ProFeatureGuard";
 import InvoiceDetails from "@/components/InvoiceDetails";
 import PaymentForm from "@/components/PaymentForm";
-import ProFeatureGuard from "@/components/ProFeatureGuard";
 import { 
   Euro, Trash2, Printer, FilePlus, FileEdit, 
   CreditCard, FileCheck, Calendar, Filter, Tag 

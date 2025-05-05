@@ -1,416 +1,397 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { 
+  Check, 
+  Crown, 
+  CreditCard, 
+  Star, 
+  CalendarRange, 
+  Users, 
+  FileSpreadsheet,
+  CalendarClock,
+  BellRing
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useLicense, LicenseType } from '@/hooks/use-license';
+import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiRequest, queryClient } from '@/lib/queryClient';
-import { useAuth } from '@/hooks/use-auth';
-import { Loader2, Check, CreditCard, Calendar, Users } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
-// Tipo dei piani di abbonamento
-interface SubscriptionPlan {
-  id: number;
+// Importazioni PayPal
+import { useEffect } from 'react';
+
+// Definizione delle offerte
+interface PlanFeature {
   name: string;
+  included: boolean;
+}
+
+interface Plan {
+  id: string;
+  type: LicenseType;
+  name: string;
+  description: string;
   price: number;
-  features: string[];
-  clientLimit: number;
-  billingPeriod: 'monthly' | 'yearly';
-  isPopular?: boolean;
+  priceLabel: string;
+  features: PlanFeature[];
+  popular?: boolean;
+  buttonVariant?: 'default' | 'outline' | 'secondary';
 }
 
 export default function SubscribePage() {
+  const { t } = useTranslation();
+  const { licenseInfo, activateLicense } = useLicense();
   const { toast } = useToast();
-  const { user } = useAuth();
-  const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
-  const [paymentMethod, setPaymentMethod] = useState<'paypal' | 'wise'>('paypal');
-
-  // Query per ottenere i piani disponibili
-  const { data: plans, isLoading: plansLoading } = useQuery({
-    queryKey: ['/api/payments/plans'],
-    queryFn: async () => {
-      const res = await apiRequest('GET', '/api/payments/plans');
-      return await res.json();
-    },
-    enabled: !!user, // Esegui solo se l'utente è autenticato
-  });
-
-  // Query per ottenere lo stato dell'abbonamento attuale
-  const { data: subscription, isLoading: subscriptionLoading } = useQuery({
-    queryKey: ['/api/payments/subscription'],
-    queryFn: async () => {
-      const res = await apiRequest('GET', '/api/payments/subscription');
-      return await res.json();
-    },
-    enabled: !!user, // Esegui solo se l'utente è autenticato
-  });
-
-  // Mutation per avviare un abbonamento PayPal
-  const startPaypalSubscription = useMutation({
-    mutationFn: async (planId: number) => {
-      const res = await apiRequest('POST', '/api/payments/paypal/subscribe', { planId });
-      return await res.json();
-    },
-    onSuccess: (data) => {
-      if (data.approvalUrl) {
-        // Reindirizza a PayPal per il pagamento
-        window.location.href = data.approvalUrl;
-      } else {
-        toast({
-          title: 'Errore',
-          description: 'Non è stato possibile avviare il processo di pagamento',
-          variant: 'destructive',
-        });
-      }
-    },
-    onError: (error: Error) => {
+  const [paymentMethod, setPaymentMethod] = useState<'credit-card' | 'paypal'>('credit-card');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showActivationDialog, setShowActivationDialog] = useState(false);
+  const [activationCode, setActivationCode] = useState('');
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  
+  // Funzione per gestire l'attivazione della licenza
+  const handleActivateCode = async () => {
+    if (!activationCode.trim()) {
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'avvio dell\'abbonamento',
-        variant: 'destructive',
-      });
-    }
-  });
-
-  // Mutation per avviare un abbonamento Wise
-  const startWiseSubscription = useMutation({
-    mutationFn: async (planId: number) => {
-      const res = await apiRequest('POST', '/api/payments/wise/subscribe', { planId });
-      return await res.json();
-    },
-    onSuccess: (data) => {
-      if (data.paymentUrl) {
-        // Reindirizza a Wise per il pagamento
-        window.location.href = data.paymentUrl;
-      } else {
-        toast({
-          title: 'Errore',
-          description: 'Non è stato possibile avviare il processo di pagamento',
-          variant: 'destructive',
-        });
-      }
-    },
-    onError: (error: Error) => {
-      toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'avvio dell\'abbonamento',
-        variant: 'destructive',
-      });
-    }
-  });
-
-  // Mutation per cancellare l'abbonamento
-  const cancelSubscription = useMutation({
-    mutationFn: async () => {
-      const res = await apiRequest('POST', '/api/payments/subscription/cancel');
-      return await res.json();
-    },
-    onSuccess: (data) => {
-      if (data.success) {
-        toast({
-          title: 'Abbonamento cancellato',
-          description: 'Il tuo abbonamento è stato cancellato con successo',
-          variant: 'default',
-        });
-        // Aggiorna la query dell'abbonamento
-        queryClient.invalidateQueries({queryKey: ['/api/payments/subscription']});
-      } else {
-        toast({
-          title: 'Errore',
-          description: data.message || 'Si è verificato un errore durante la cancellazione dell\'abbonamento',
-          variant: 'destructive',
-        });
-      }
-    },
-    onError: (error: Error) => {
-      toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante la cancellazione dell\'abbonamento',
-        variant: 'destructive',
-      });
-    }
-  });
-
-  // In attesa di caricamento dall'API utilizziamo dei piani dimostrativi
-  const demoPlans: SubscriptionPlan[] = [
-    {
-      id: 1,
-      name: 'Base',
-      price: billingPeriod === 'monthly' ? 9.90 : 99,
-      features: ['100 clienti', 'Tutte le funzionalità base', 'Promemoria SMS/Email', 'Accesso area cliente'],
-      clientLimit: 100,
-      billingPeriod,
-    },
-    {
-      id: 2,
-      name: 'Professionale',
-      price: billingPeriod === 'monthly' ? 19.90 : 199,
-      features: ['500 clienti', 'Tutte le funzionalità base', 'Promemoria SMS/Email/WhatsApp', 'Accesso area cliente', 'Sincronizzazione calendario', 'Fatturazione avanzata'],
-      clientLimit: 500,
-      billingPeriod,
-      isPopular: true,
-    },
-    {
-      id: 3,
-      name: 'Business',
-      price: billingPeriod === 'monthly' ? 39.90 : 399,
-      features: ['Clienti illimitati', 'Tutte le funzionalità', 'Supporto prioritario', 'Personalizzazione avanzata', 'Esportazione dati avanzata'],
-      clientLimit: -1, // illimitato
-      billingPeriod,
-    }
-  ];
-
-  // Piani da visualizzare (API o demo)
-  const plansToShow = plans || demoPlans;
-
-  const handleSelectPlan = (planId: number) => {
-    setSelectedPlanId(planId);
-  };
-
-  const handleStartSubscription = () => {
-    if (!selectedPlanId) {
-      toast({
-        title: 'Seleziona un piano',
-        description: 'Seleziona un piano prima di procedere',
+        title: 'Codice mancante',
+        description: 'Inserisci un codice di attivazione valido',
         variant: 'destructive',
       });
       return;
     }
-
-    if (paymentMethod === 'paypal') {
-      startPaypalSubscription.mutate(selectedPlanId);
-    } else if (paymentMethod === 'wise') {
-      startWiseSubscription.mutate(selectedPlanId);
+    
+    try {
+      setIsProcessing(true);
+      await activateLicense(activationCode.trim());
+      setShowActivationDialog(false);
+      setActivationCode('');
+      
+      toast({
+        title: 'Licenza attivata',
+        description: 'La tua licenza è stata attivata con successo.',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Errore',
+        description: error.message || 'Si è verificato un errore durante l\'attivazione della licenza',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
-
-  const handleCancelSubscription = () => {
-    if (confirm('Sei sicuro di voler cancellare il tuo abbonamento?')) {
-      cancelSubscription.mutate();
-    }
+  
+  // Funzione per gestire il pagamento
+  const handlePayment = (planId: string) => {
+    setSelectedPlanId(planId);
+    // Qui in futuro implementeremo il processo di pagamento specifico
+    // Per ora apriamo direttamente la finestra di attivazione
+    setShowActivationDialog(true);
   };
-
-  // Se l'utente è già abbonato, mostriamo informazioni sull'abbonamento corrente
-  if (subscription && subscription.active) {
-    return (
-      <div className="container py-10 mx-auto">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-extrabold tracking-tight text-center mb-10">Il Tuo Abbonamento</h1>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Abbonamento Attivo</CardTitle>
-              <CardDescription>
-                Dettagli del tuo abbonamento attuale
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm font-medium">Piano</p>
-                  <p className="text-xl font-bold">{subscription.planName}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Stato</p>
-                  <div className="flex items-center">
-                    <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center">
-                      <Check className="w-3 h-3 mr-1" />
-                      Attivo
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Prezzo</p>
-                  <p className="text-xl font-bold">€{subscription.price.toFixed(2)}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Periodo</p>
-                  <p>{subscription.billingPeriod === 'monthly' ? 'Mensile' : 'Annuale'}</p>
-                </div>
-                {subscription.startDate && (
-                  <div>
-                    <p className="text-sm font-medium">Data inizio</p>
-                    <p>{new Date(subscription.startDate).toLocaleDateString()}</p>
-                  </div>
-                )}
-                {subscription.nextBillingDate && (
-                  <div>
-                    <p className="text-sm font-medium">Prossimo addebito</p>
-                    <p>{new Date(subscription.nextBillingDate).toLocaleDateString()}</p>
-                  </div>
-                )}
-                <div>
-                  <p className="text-sm font-medium">Metodo di pagamento</p>
-                  <p>{subscription.paymentMethod === 'paypal' ? 'PayPal' : 'Wise'}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Limite clienti</p>
-                  <p>{subscription.clientLimit === -1 ? 'Illimitati' : subscription.clientLimit}</p>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                variant="destructive" 
-                className="w-full"
-                onClick={handleCancelSubscription}
-                disabled={cancelSubscription.isPending}
-              >
-                {cancelSubscription.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Annullamento in corso...
-                  </>
-                ) : (
-                  'Cancella Abbonamento'
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
+  
+  // Funzione per simulare il completamento di un pagamento
+  const handleSimulatePayment = () => {
+    toast({
+      title: 'Pagamento simulato',
+      description: 'In un\'applicazione reale, qui verrebbe elaborato il pagamento con il provider selezionato.',
+    });
+    
+    // Chiudiamo la finestra dopo 2 secondi
+    setTimeout(() => {
+      setShowActivationDialog(true);
+    }, 2000);
+  };
+  
+  // Definizione dei piani
+  const plans: Plan[] = [
+    {
+      id: 'trial',
+      type: LicenseType.TRIAL,
+      name: t('plans.trial.name', 'Prova'),
+      description: t('plans.trial.description', 'Prova gratis per 40 giorni'),
+      price: 0,
+      priceLabel: t('plans.trial.price', 'Gratis'),
+      buttonVariant: 'outline',
+      features: [
+        { name: t('plans.features.appointments', 'Gestione appuntamenti'), included: true },
+        { name: t('plans.features.clients', 'Gestione clienti'), included: true },
+        { name: t('plans.features.notifications', 'Notifiche ai clienti'), included: true },
+        { name: t('plans.features.googleCalendar', 'Integrazione Google Calendar'), included: false },
+        { name: t('plans.features.invoices', 'Gestione fatture'), included: false },
+        { name: t('plans.features.reports', 'Report dettagliati'), included: false },
+      ],
+    },
+    {
+      id: 'base',
+      type: LicenseType.BASE,
+      name: t('plans.base.name', 'Base'),
+      description: t('plans.base.description', 'Per professionisti individuali'),
+      price: 9.90,
+      priceLabel: '€9,90/mese',
+      buttonVariant: 'outline',
+      features: [
+        { name: t('plans.features.appointments', 'Gestione appuntamenti'), included: true },
+        { name: t('plans.features.clients', 'Gestione clienti'), included: true },
+        { name: t('plans.features.notifications', 'Notifiche ai clienti'), included: true },
+        { name: t('plans.features.googleCalendar', 'Integrazione Google Calendar'), included: false },
+        { name: t('plans.features.invoices', 'Gestione fatture'), included: false },
+        { name: t('plans.features.reports', 'Report dettagliati'), included: false },
+      ],
+    },
+    {
+      id: 'pro',
+      type: LicenseType.PRO,
+      name: t('plans.pro.name', 'PRO'),
+      description: t('plans.pro.description', 'Tutte le funzionalità premium'),
+      price: 19.90,
+      priceLabel: '€19,90/mese',
+      popular: true,
+      buttonVariant: 'default',
+      features: [
+        { name: t('plans.features.appointments', 'Gestione appuntamenti'), included: true },
+        { name: t('plans.features.clients', 'Gestione clienti'), included: true },
+        { name: t('plans.features.notifications', 'Notifiche ai clienti'), included: true },
+        { name: t('plans.features.googleCalendar', 'Integrazione Google Calendar'), included: true },
+        { name: t('plans.features.invoices', 'Gestione fatture'), included: true },
+        { name: t('plans.features.reports', 'Report dettagliati'), included: true },
+      ],
+    },
+    {
+      id: 'business',
+      type: LicenseType.PRO,
+      name: t('plans.business.name', 'Business'),
+      description: t('plans.business.description', 'Per studi con più operatori'),
+      price: 39.90,
+      priceLabel: '€39,90/mese',
+      buttonVariant: 'outline',
+      features: [
+        { name: t('plans.features.appointments', 'Gestione appuntamenti'), included: true },
+        { name: t('plans.features.clients', 'Gestione clienti'), included: true },
+        { name: t('plans.features.notifications', 'Notifiche ai clienti'), included: true },
+        { name: t('plans.features.googleCalendar', 'Integrazione Google Calendar'), included: true },
+        { name: t('plans.features.invoices', 'Gestione fatture'), included: true },
+        { name: t('plans.features.reports', 'Report dettagliati'), included: true },
+        { name: t('plans.features.multipleStaff', 'Supporto per più operatori'), included: true },
+      ],
+    },
+  ];
+  
+  // Ottieni le features distintive per mostrare nella sezione hero
+  const keyFeatures = [
+    {
+      icon: <CalendarRange className="h-10 w-10 text-primary" />,
+      title: t('subscribe.features.scheduling.title', 'Gestione Appuntamenti'),
+      description: t('subscribe.features.scheduling.description', 'Organizza facilmente il tuo calendario e gli appuntamenti con i clienti.'),
+    },
+    {
+      icon: <Users className="h-10 w-10 text-primary" />,
+      title: t('subscribe.features.clients.title', 'Gestione Clienti'),
+      description: t('subscribe.features.clients.description', 'Mantieni tutti i dati dei tuoi clienti in un unico posto sicuro.'),
+    },
+    {
+      icon: <BellRing className="h-10 w-10 text-primary" />,
+      title: t('subscribe.features.notifications.title', 'Notifiche Automatiche'),
+      description: t('subscribe.features.notifications.description', 'Invia promemoria automatici ai clienti per ridurre le cancellazioni.'),
+    },
+    {
+      icon: <FileSpreadsheet className="h-10 w-10 text-primary" />,
+      title: t('subscribe.features.reports.title', 'Report Dettagliati'),
+      description: t('subscribe.features.reports.description', 'Analizza la tua attività con report e statistiche complete.'),
+    },
+  ];
+  
+  return (
+    <div className="container py-10">
+      {/* Hero Section */}
+      <div className="text-center mb-16">
+        <h1 className="text-4xl font-bold tracking-tight mb-6">
+          {t('subscribe.title', 'Scegli il piano perfetto per la tua attività')}
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
+          {t('subscribe.subtitle', 'Tutti i piani includono un periodo di prova gratuito di 40 giorni. Nessuna carta di credito richiesta per iniziare.')}
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+          {keyFeatures.map((feature, index) => (
+            <div key={index} className="flex flex-col items-center text-center p-4">
+              <div className="mb-4">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-muted-foreground">{feature.description}</p>
+            </div>
+          ))}
         </div>
       </div>
-    );
-  }
-
-  return (
-    <div className="container py-10 mx-auto">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-extrabold tracking-tight text-center mb-4">Piani di Abbonamento</h1>
-        <p className="text-center text-lg text-gray-500 mb-8">
-          Scegli il piano giusto per le tue esigenze
-        </p>
-
-        <div className="flex justify-center mb-8">
-          <Tabs defaultValue="monthly" className="w-[400px]" onValueChange={(value) => setBillingPeriod(value as 'monthly' | 'yearly')}>
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="monthly">Mensile</TabsTrigger>
-              <TabsTrigger value="yearly">Annuale <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">-16%</span></TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+      
+      {/* Pricing Section */}
+      <div>
+        <h2 className="text-3xl font-bold text-center mb-10 flex items-center justify-center">
+          <Crown className="mr-2 h-8 w-8 text-amber-500" />
+          {t('subscribe.pricingTitle', 'Piani e Prezzi')}
+        </h2>
         
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {plansToShow.map((plan) => (
-            <Card 
-              key={plan.id}
-              className={`relative ${plan.isPopular ? 'border-primary shadow-lg' : ''} ${selectedPlanId === plan.id ? 'ring-2 ring-primary ring-offset-2' : ''}`}
+        {/* Payment Method Tabs */}
+        <Tabs defaultValue="credit-card" className="mb-8 max-w-md mx-auto">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger 
+              value="credit-card" 
+              onClick={() => setPaymentMethod('credit-card')}
+              className="flex items-center"
             >
-              {plan.isPopular && (
-                <div className="absolute -top-3 left-0 right-0 flex justify-center">
-                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                    Più Popolare
+              <CreditCard className="h-4 w-4 mr-2" />
+              {t('subscribe.paymentMethods.card', 'Carta di Credito')}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="paypal" 
+              onClick={() => setPaymentMethod('paypal')}
+              className="flex items-center"
+            >
+              <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.003-2.598 6.726-8.674 6.726h-2.19c-1.279 0-2.385.945-2.585 2.22v.03l-.956 6.05h4.433c.48 0 .888-.348.965-.82l.04-.225.764-4.82.05-.264c.076-.472.485-.82.965-.82h.608c3.938 0 7.014-1.6 7.913-6.228.37-1.92.18-3.521-.685-4.562z" />
+                <path d="M22.8 7.362c-.073-.43-.168-.838-.293-1.224a7.398 7.398 0 0 0-.412-1.143 5.855 5.855 0 0 0-.637-1.042c-.862-1.134-2.355-1.674-4.067-1.674h-7.46A2.486 2.486 0 0 0 7.49.772L4.382 19.316c-.094.596.296 1.15.896 1.15h4.433l1.115-7.07v.228c.19-1.274 1.296-2.218 2.575-2.218h2.19c6.085 0 10.008-3.722 10.675-9.204.02-.163.037-.325.052-.484h-.007c.122-1.586-.012-2.96-.51-4.355z" />
+              </svg>
+              PayPal
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+        
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {plans.map((plan) => (
+            <Card key={plan.id} className={`flex flex-col ${plan.popular ? 'border-primary shadow-md relative' : ''}`}>
+              {plan.popular && (
+                <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+                  <span className="bg-amber-500 text-white text-xs py-1 px-3 rounded-full font-medium">
+                    {t('subscribe.popular', 'Più popolare')}
                   </span>
                 </div>
               )}
+              
               <CardHeader>
-                <CardTitle>{plan.name}</CardTitle>
-                <CardDescription>
-                  <div className="mt-4 flex items-baseline text-5xl font-extrabold">
-                    €{plan.price.toFixed(2)}
-                    <span className="ml-1 text-xl font-medium text-gray-500">
-                      /{billingPeriod === 'monthly' ? 'mese' : 'anno'}
-                    </span>
-                  </div>
-                </CardDescription>
+                <CardTitle className="flex items-center">
+                  {plan.type === LicenseType.PRO ? (
+                    <Crown className="h-5 w-5 mr-2 text-amber-500" />
+                  ) : plan.type === LicenseType.BASE ? (
+                    <Star className="h-5 w-5 mr-2 text-blue-500" />
+                  ) : (
+                    <CalendarClock className="h-5 w-5 mr-2 text-green-500" />
+                  )}
+                  {plan.name}
+                </CardTitle>
+                <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
+              <CardContent className="flex-grow">
+                <div className="mt-2 mb-6">
+                  <span className="text-3xl font-bold">{plan.priceLabel}</span>
+                </div>
+                <ul className="space-y-2 mb-6">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="flex">
-                      <Check className="h-5 w-5 flex-shrink-0 text-green-500" />
-                      <span className="ml-3 text-gray-500">{feature}</span>
+                    <li key={index} className="flex items-start">
+                      <div className={`rounded-full p-1 mr-2 ${feature.included ? 'text-green-500' : 'text-gray-300'}`}>
+                        {feature.included ? <Check className="h-4 w-4" /> : <span className="block h-4 w-4">-</span>}
+                      </div>
+                      <span className={feature.included ? '' : 'text-gray-400'}>{feature.name}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
               <CardFooter>
                 <Button 
-                  className="w-full" 
-                  variant={plan.isPopular ? "default" : "outline"}
-                  onClick={() => handleSelectPlan(plan.id)}
+                  variant={plan.buttonVariant} 
+                  className="w-full"
+                  onClick={() => handlePayment(plan.id)}
+                  disabled={plan.type === LicenseType.TRIAL || plan.id === 'trial'}
                 >
-                  {selectedPlanId === plan.id ? 'Selezionato ✓' : 'Seleziona Piano'}
+                  {plan.type === LicenseType.TRIAL || plan.id === 'trial' 
+                    ? t('subscribe.startTrial', 'Già Attivo') 
+                    : t('subscribe.subscribe', 'Abbonati')}
                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
-
-        {selectedPlanId && (
-          <Card className="max-w-3xl mx-auto">
-            <CardHeader>
-              <CardTitle>Metodo di Pagamento</CardTitle>
-              <CardDescription>
-                Scegli come desideri pagare il tuo abbonamento
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div 
-                  className={`border p-4 rounded-lg cursor-pointer ${paymentMethod === 'paypal' ? 'border-primary bg-primary/5' : ''}`}
-                  onClick={() => setPaymentMethod('paypal')}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-semibold">PayPal</h3>
-                    {paymentMethod === 'paypal' && <Check className="h-5 w-5 text-primary" />}
-                  </div>
-                  <p className="text-sm text-gray-500">Paga in modo sicuro con il tuo account PayPal</p>
-                </div>
-                <div 
-                  className={`border p-4 rounded-lg cursor-pointer ${paymentMethod === 'wise' ? 'border-primary bg-primary/5' : ''}`}
-                  onClick={() => setPaymentMethod('wise')}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-semibold">Bonifico (Wise)</h3>
-                    {paymentMethod === 'wise' && <Check className="h-5 w-5 text-primary" />}
-                  </div>
-                  <p className="text-sm text-gray-500">Paga tramite bonifico bancario internazionale</p>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                className="w-full"
-                onClick={handleStartSubscription}
-                disabled={startPaypalSubscription.isPending || startWiseSubscription.isPending}
-              >
-                {(startPaypalSubscription.isPending || startWiseSubscription.isPending) ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Elaborazione in corso...
-                  </>
-                ) : (
-                  'Procedi al Pagamento'
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        )}
-
-        <div className="mt-12 text-center">
-          <h2 className="text-2xl font-bold mb-4">Domande Frequenti</h2>
-          
-          <div className="max-w-3xl mx-auto mt-8 space-y-6 text-left">
+        
+        {/* FAQ and additional info */}
+        <div className="mt-20 max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-6">{t('subscribe.faq.title', 'Domande Frequenti')}</h2>
+          <div className="text-left space-y-6">
             <div>
-              <h3 className="text-lg font-semibold">Posso cambiare piano in un secondo momento?</h3>
-              <p className="text-gray-500 mt-1">Sì, puoi aggiornare o declassare il tuo piano in qualsiasi momento. Le modifiche avranno effetto dal prossimo ciclo di fatturazione.</p>
+              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q1', 'Posso annullare il mio abbonamento?')}</h3>
+              <p className="text-muted-foreground">{t('subscribe.faq.a1', 'Sì, puoi annullare il tuo abbonamento in qualsiasi momento. L\'accesso alle funzionalità premium rimarrà attivo fino alla fine del periodo pagato.')}</p>
             </div>
             <div>
-              <h3 className="text-lg font-semibold">Cosa succede se supero il limite di clienti?</h3>
-              <p className="text-gray-500 mt-1">Se raggiungi il limite di clienti del tuo piano, verrai avvisato e potrai decidere se fare l'upgrade a un piano superiore.</p>
+              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q2', 'Come funziona il periodo di prova?')}</h3>
+              <p className="text-muted-foreground">{t('subscribe.faq.a2', 'Il periodo di prova di 40 giorni include tutte le funzionalità di base. Non è richiesta una carta di credito per iniziare.')}</p>
             </div>
             <div>
-              <h3 className="text-lg font-semibold">Come posso cancellare il mio abbonamento?</h3>
-              <p className="text-gray-500 mt-1">Puoi cancellare il tuo abbonamento in qualsiasi momento dalla pagina del tuo account. L'abbonamento rimarrà attivo fino alla fine del periodo di fatturazione corrente.</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Sono previsti dei costi aggiuntivi?</h3>
-              <p className="text-gray-500 mt-1">No, il prezzo indicato include tutte le funzionalità del piano selezionato. Non ci sono costi nascosti o addebiti aggiuntivi.</p>
+              <h3 className="text-lg font-medium mb-2">{t('subscribe.faq.q3', 'Posso cambiare piano in seguito?')}</h3>
+              <p className="text-muted-foreground">{t('subscribe.faq.a3', 'Sì, puoi passare a un piano superiore in qualsiasi momento. La differenza di prezzo verrà calcolata proporzionalmente.')}</p>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Dialog per l'attivazione del codice */}
+      <Dialog open={showActivationDialog} onOpenChange={setShowActivationDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('subscribe.activateCode', 'Attiva il tuo codice')}</DialogTitle>
+            <DialogDescription>
+              {t('subscribe.activateCodeDescription', 'Inserisci il codice di attivazione che hai ricevuto dopo il pagamento.')}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="activationCode">{t('subscribe.code', 'Codice di attivazione')}</Label>
+              <Input
+                id="activationCode"
+                value={activationCode}
+                onChange={(e) => setActivationCode(e.target.value)}
+                placeholder="XXXX-XXXX-XXXX-XXXX"
+                className="col-span-3"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox 
+                id="terms" 
+                checked={acceptTerms} 
+                onCheckedChange={(checked) => setAcceptTerms(checked as boolean)} 
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t('subscribe.acceptTerms', 'Accetto i Termini di Servizio e la Privacy Policy')}
+              </label>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowActivationDialog(false)}>
+              {t('common.cancel', 'Annulla')}
+            </Button>
+            <Button 
+              onClick={handleActivateCode} 
+              disabled={isProcessing || !acceptTerms || !activationCode.trim()}
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('common.processing', 'Elaborazione...')}
+                </>
+              ) : (
+                t('common.activate', 'Attiva')
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
