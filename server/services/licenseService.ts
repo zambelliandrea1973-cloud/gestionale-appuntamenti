@@ -79,17 +79,20 @@ class LicenseService {
       return { success: false, message: 'Codice di attivazione non valido' };
     }
     
-    if (license.isActive) {
+    // I codici passepartout sono sempre utilizzabili, anche se già attivati
+    if (license.type !== LicenseType.PASSEPARTOUT && license.isActive) {
       return { success: false, message: 'Questo codice è già stato attivato' };
     }
     
-    // Aggiorniamo la licenza
-    await db.update(licenses)
-      .set({ 
-        isActive: true,
-        activatedAt: new Date(),
-      })
-      .where(eq(licenses.code, normalizedCode));
+    // Se non è già attivo o è un passepartout, aggiorniamo lo stato
+    if (!license.isActive) {
+      await db.update(licenses)
+        .set({ 
+          isActive: true,
+          activatedAt: new Date(),
+        })
+        .where(eq(licenses.code, normalizedCode));
+    }
     
     // Impostiamo questa licenza come quella corrente
     await this.setCurrentLicense(normalizedCode);
