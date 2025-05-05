@@ -188,7 +188,7 @@ router.post('/create-permanent-code', isAuthenticated, async (req, res) => {
 });
 
 // Endpoint specifico per creare il codice passepartout richiesto
-router.post('/create-passepartout', isAuthenticated, async (req, res) => {
+router.post('/create-passepartout', async (req, res) => {
   try {
     const { password } = req.body;
     

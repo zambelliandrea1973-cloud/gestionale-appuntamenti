@@ -70,6 +70,7 @@ export function useLicense() {
       // Invalida tutte le query relative alle licenze per aggiornare i dati
       queryClient.invalidateQueries({ queryKey: ['/api/license/license-info'] });
       queryClient.invalidateQueries({ queryKey: ['/api/license/has-pro-access'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/license/has-business-access'] });
       queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
       
       toast({
@@ -111,8 +112,9 @@ export function useLicense() {
   
   return {
     licenseInfo: licenseQuery.data as LicenseInfo,
-    isLoading: licenseQuery.isLoading || proAccessQuery.isLoading || titleQuery.isLoading,
+    isLoading: licenseQuery.isLoading || proAccessQuery.isLoading || businessAccessQuery.isLoading || titleQuery.isLoading,
     hasProAccess: proAccessQuery.data?.hasProAccess || false,
+    hasBusinessAccess: businessAccessQuery.data?.hasBusinessAccess || false,
     appTitle,
     activateLicense: activateLicenseMutation.mutate,
     generateCode: generateCodeMutation.mutate,
