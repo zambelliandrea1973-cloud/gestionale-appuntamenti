@@ -40,6 +40,35 @@ export default function GoogleSetupInstructionsPage() {
   };
 
   // Funzione per testare la configurazione
+  const startGoogleAuth = async () => {
+    try {
+      const response = await fetch('/api/google-auth/start');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.authUrl) {
+          // Apre l'URL di autorizzazione in una nuova finestra
+          window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
+          
+          toast({
+            title: t('google.authStarted', 'Autorizzazione avviata'),
+            description: t('google.authOpenedWindow', 'Abbiamo aperto una nuova finestra per l\'autorizzazione Google'),
+          });
+        } else {
+          throw new Error('URL di autorizzazione non disponibile');
+        }
+      } else {
+        throw new Error('Non è stato possibile avviare l\'autorizzazione Google');
+      }
+    } catch (error) {
+      console.error('Errore nell\'autorizzazione Google:', error);
+      toast({
+        title: t('google.authError', 'Errore di autorizzazione'),
+        description: error instanceof Error ? error.message : t('google.genericError', 'Si è verificato un errore durante l\'avvio dell\'autorizzazione'),
+        variant: "destructive",
+      });
+    }
+  };
+
   const testConfiguration = async () => {
     setTestingStatus('testing');
     
@@ -248,7 +277,22 @@ export default function GoogleSetupInstructionsPage() {
                   )}
                 </Button>
                 
-                <div className="mt-4">
+                <div className="my-4 p-4 bg-muted rounded-lg border border-muted-foreground/20">
+                  <h4 className="font-medium mb-2">{t('google.tryAuth', 'Prova l\'autorizzazione:')}</h4>
+                  <p className="text-sm mb-3">
+                    {t('google.tryAuthDesc', 'Dopo aver configurato correttamente le credenziali, puoi provare a iniziare il processo di autorizzazione:')}
+                  </p>
+                  <Button 
+                    onClick={startGoogleAuth} 
+                    className="flex items-center"
+                    variant="default"
+                  >
+                    <Calendar className="h-4 w-4 mr-2" />
+                    {t('google.startAuthProcess', 'Avvia processo di autorizzazione')}
+                  </Button>
+                </div>
+                
+                <div className="mt-6">
                   <h4 className="font-medium mb-2">{t('google.commonIssues', 'Problemi comuni e soluzioni:')}</h4>
                   <ul className="list-disc list-inside space-y-2">
                     <li>

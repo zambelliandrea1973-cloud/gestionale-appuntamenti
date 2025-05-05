@@ -252,6 +252,11 @@ export default function EmailAndCalendarSettings() {
               <div className="flex items-center mb-4">
                 <Calendar className="h-5 w-5 mr-2 text-muted-foreground" />
                 <h3 className="text-lg font-medium">{t('settings.googleCalendar', 'Google Calendar')}</h3>
+                <Link to="/google-setup" className="ml-auto flex items-center text-sm text-primary hover:underline">
+                  <HelpCircle className="h-4 w-4 mr-1" />
+                  {t('settings.googleSetupGuide', 'Guida alla configurazione')}
+                  <ExternalLink className="h-3 w-3 ml-1" />
+                </Link>
               </div>
               
               <div className="space-y-4">
