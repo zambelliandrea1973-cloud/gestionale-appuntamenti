@@ -13,7 +13,8 @@ import {
   Grid,
   Plus,
   MessageSquare,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  Crown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -91,6 +92,13 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <span>Notifiche ai clienti</span>
                 </Button>
               </Link>
+              
+              <Link href="/pro">
+                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Crown className="h-4 w-4 text-amber-400" />
+                  <span>Funzionalità PRO</span>
+                </Button>
+              </Link>
 
               {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
               {location === "/" && (
@@ -151,6 +159,13 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
                         <MessageSquare className="mr-2 h-4 w-4" />
                         Notifiche ai clienti
+                      </Button>
+                    </Link>
+                    
+                    <Link href="/pro">
+                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Crown className="mr-2 h-4 w-4 text-amber-400" />
+                        Funzionalità PRO
                       </Button>
                     </Link>
                     
