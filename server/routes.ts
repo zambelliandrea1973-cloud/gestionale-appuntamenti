@@ -36,7 +36,7 @@ import { adminRouter } from './routes/adminRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import phoneDeviceRoutes, { initializePhoneDeviceSocket } from './routes/phoneDeviceRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
-import googleAuthRoutes from './routes/googleAuthRoutes';
+import googleAuthRoutes, { authInfo as googleAuthInfo } from './routes/googleAuthRoutes';
 import emailCalendarRoutes from './routes/emailCalendarRoutes';
 import licenseRoutes from './routes/licenseRoutes';
 
@@ -254,12 +254,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
   app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
-  // Aggiungiamo un handler specifico per il callback di Google OAuth
-  app.get('/api/google-auth/callback', (req, res) => {
-    console.log('Intercettato callback OAuth su path principale, reindirizzamento a sottorotta');
-    // Reindirizza al gestore effettivo nel router
-    // Nota: Mantiene tutti i parametri di query (come 'code')
-    res.redirect(307, '/api/google-auth/callback' + (req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : ''));
+  // Gestione del callback di Google OAuth
+  app.get('/api/google-auth/callback', async (req, res) => {
+    console.log("Callback diretto ricevuto con parametri:", req.query);
+    const { code } = req.query;
+    
+    if (!code) {
+      return res.status(400).send('Codice di autorizzazione mancante');
+    }
+    
+    try {
+      console.log("Scambio diretto del codice di autorizzazione:", code);
+      
+      // Creiamo un nuovo client OAuth2 per sicurezza
+      const { google } = await import('googleapis');
+      const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
+      
+      console.log("Callback - Utilizzo URI di reindirizzamento fisso:", redirectUri);
+      
+      const oauth2ClientForCallback = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        redirectUri
+      );
+      
+      // Scambia il codice con i token
+      const { tokens } = await oauth2ClientForCallback.getToken(code as string);
+      console.log("Token ottenuti con successo:", tokens);
+      
+      // Impostiamo i token per le future richieste all'API Google
+      const { authInfo } = await import('./routes/googleAuthRoutes');
+      authInfo.authorized = true;
+      authInfo.tokens = tokens;
+      
+      // Chiude la finestra popup se è stata aperta come popup
+      res.send(`
+        <html>
+          <head>
+            <title>Autorizzazione completata</title>
+            <script>
+              window.onload = function() {
+                window.opener ? window.opener.postMessage('google-auth-success', '*') : window.location.href = '/settings';
+                setTimeout(function() {
+                  window.close();
+                }, 2000);
+              }
+            </script>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                text-align: center;
+                background-color: #f8f9fa;
+              }
+              .card {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                max-width: 500px;
+                margin: 40px auto;
+              }
+              h1 {
+                color: #4CAF50;
+                margin-bottom: 20px;
+              }
+              p {
+                color: #666;
+                line-height: 1.5;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>✅ Autorizzazione completata!</h1>
+              <p>L'account Google è stato autorizzato con successo.</p>
+              <p>Questa finestra si chiuderà automaticamente tra pochi secondi...</p>
+            </div>
+          </body>
+        </html>
+      `);
+    } catch (error) {
+      console.error('Errore nella gestione diretta del callback OAuth:', error);
+      res.status(500).send(`
+        <html>
+          <head>
+            <title>Errore di autorizzazione</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                text-align: center;
+                background-color: #f8f9fa;
+              }
+              .card {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                max-width: 500px;
+                margin: 40px auto;
+              }
+              h1 {
+                color: #f44336;
+                margin-bottom: 20px;
+              }
+              p {
+                color: #666;
+                line-height: 1.5;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>⚠️ Errore di autorizzazione</h1>
+              <p>Si è verificato un errore durante l'autorizzazione dell'account Google.</p>
+              <p>Per favore chiudi questa finestra e riprova.</p>
+              <p>Dettaglio errore: ${error instanceof Error ? error.message : 'Errore sconosciuto'}</p>
+            </div>
+          </body>
+        </html>
+      `);
+    }
   });
 
   app.use('/api/google-auth', googleAuthRoutes);
