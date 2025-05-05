@@ -278,7 +278,7 @@ export default function GoogleCalendarSimpleSetup() {
               Se riscontri errori 403 (accesso negato), copia questo URL esatto e assicurati che sia configurato correttamente nella console Google Cloud → Credentials → OAuth 2.0 Client IDs → Authorized redirect URIs.
             </p>
             <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-2">
-              Verifica attentamente che il dominio sia ".replit.app" e non ".replit.com" o altro.
+              Verifica attentamente che il dominio sia esattamente "workspace.zambelliandrea1.repl.co" e non ".replit.app" o altro.
             </p>
           </div>
           
@@ -397,7 +397,7 @@ export default function GoogleCalendarSimpleSetup() {
                     <li>Seleziona il tuo progetto</li>
                     <li><strong>Elimina</strong> le vecchie credenziali OAuth 2.0</li>
                     <li>Crea un nuovo Client ID OAuth 2.0 completamente nuovo</li>
-                    <li>Aggiungi con attenzione l'URL di callback esatto: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs">https://workspace.replit.app/api/google-auth/callback</span></li>
+                    <li>Aggiungi con attenzione l'URL di callback esatto: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs">https://workspace.zambelliandrea1.repl.co/api/google-auth/callback</span></li>
                     <li>Ritorna qui e riprova l'autorizzazione</li>
                   </ol>
                 </div>
