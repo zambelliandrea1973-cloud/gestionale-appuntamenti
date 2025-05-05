@@ -59,23 +59,18 @@ router.get('/start', (req, res) => {
       HOST: req.get('host') || "non disponibile"
     });
     
-    // Ottieni l'host della richiesta per utilizzare il dominio corretto
-    const hostFromRequest = req.get('host');
-    let actualRedirectUri = redirectUri;
+    // Non modifichiamo più dinamicamente l'URL di reindirizzamento
+    // Utilizzare sempre l'URL fisso configurato nella console Google Cloud
+    const actualRedirectUri = redirectUri;
     
-    // Se l'host è diverso da quello che abbiamo calcolato, utilizza quello della richiesta
-    if (hostFromRequest && !hostFromRequest.includes('localhost')) {
-      const protocol = req.protocol || 'https';
-      actualRedirectUri = `${protocol}://${hostFromRequest}/api/google-auth/callback`;
-      console.log("Redirect URI aggiornato da header host:", actualRedirectUri);
-    }
+    console.log("Utilizzo URI di reindirizzamento fisso:", actualRedirectUri);
     
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       response_type: 'code',
       scope: SCOPES,
       prompt: 'consent', // Forza il prompt di consenso per ottenere sempre il refresh token
-      redirect_uri: actualRedirectUri, // Usa l'URI corretto basato sull'host
+      // Non specificare redirect_uri qui, in modo che venga utilizzato quello configurato nel client OAuth
     });
     
     console.log("Auth URL generato:", authUrl);
@@ -111,22 +106,15 @@ router.get('/callback', async (req, res) => {
   try {
     console.log("Scambio del codice di autorizzazione:", code);
     
-    // Ottieni l'host della richiesta per utilizzare il dominio corretto
-    const hostFromRequest = req.get('host');
-    let actualRedirectUri = redirectUri;
+    // Non modifichiamo più dinamicamente l'URL di reindirizzamento
+    // Utilizziamo sempre l'URL fisso configurato nella console Google Cloud
+    console.log("Callback - Utilizzo URI di reindirizzamento fisso:", redirectUri);
     
-    // Se l'host è diverso da quello che abbiamo calcolato, utilizza quello della richiesta
-    if (hostFromRequest && !hostFromRequest.includes('localhost')) {
-      const protocol = req.protocol || 'https';
-      actualRedirectUri = `${protocol}://${hostFromRequest}/api/google-auth/callback`;
-      console.log("Callback - Redirect URI aggiornato da header host:", actualRedirectUri);
-    }
-    
-    // Usa l'URI di reindirizzamento corretto per lo scambio del token
+    // Usa l'URI di reindirizzamento fisso per lo scambio del token
     const oauth2ClientForCallback = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
-      actualRedirectUri
+      redirectUri
     );
     
     // Scambia il codice con i token
