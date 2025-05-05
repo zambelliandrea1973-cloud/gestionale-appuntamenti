@@ -283,9 +283,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("Token ottenuti con successo:", tokens);
       
       // Impostiamo i token per le future richieste all'API Google
-      const { authInfo } = await import('./routes/googleAuthRoutes');
-      authInfo.authorized = true;
-      authInfo.tokens = tokens;
+      // Utilizziamo la variabile googleAuthInfo importata direttamente
+      googleAuthInfo.authorized = true;
+      googleAuthInfo.tokens = tokens;
+      
+      console.log("Token salvati correttamente in googleAuthInfo:", { 
+        authorized: googleAuthInfo.authorized,
+        tokenPresent: !!googleAuthInfo.tokens
+      });
       
       // Chiude la finestra popup se è stata aperta come popup
       res.send(`

@@ -4,6 +4,7 @@ import { storage } from '../storage';
 import { db } from '../db';
 import { appointments, clients, googleCalendarEvents, services } from '@shared/schema';
 import { eq } from 'drizzle-orm';
+import { authInfo } from '../routes/googleAuthRoutes';
 
 // Interfaccia per il token OAuth
 interface OAuth2Token {
@@ -63,27 +64,44 @@ export async function saveConfig(config: GoogleCalendarConfig): Promise<boolean>
  */
 async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
   try {
-    const config = await loadConfig();
-    if (!config || !config.enabled || !config.apiKey || !config.clientId) {
-      console.log('Google Calendar non è configurato o abilitato');
-      return null;
+    // Verifica se abbiamo un'autorizzazione attiva in authInfo
+    if (!authInfo.authorized || !authInfo.tokens) {
+      console.log('Nessuna autorizzazione Google attiva in authInfo:', authInfo);
+      
+      // Fallback al metodo precedente con cachedConfig
+      const config = await loadConfig();
+      if (!config || !config.enabled) {
+        console.log('Google Calendar non è configurato o abilitato');
+        return null;
+      }
+      
+      const auth = new google.auth.OAuth2({
+        clientId: process.env.GOOGLE_CLIENT_ID || config.clientId,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || config.clientSecret,
+        redirectUri: 'https://workspace.replit.app/api/google-auth/callback'
+      });
+      
+      // Se abbiamo un token salvato in config, lo impostiamo
+      if (config.token) {
+        auth.setCredentials(config.token);
+      } else {
+        // Senza token non possiamo procedere
+        console.log('Token OAuth non disponibile per Google Calendar, né in authInfo né in cachedConfig');
+        return null;
+      }
+      
+      return google.calendar({ version: 'v3', auth });
     }
     
+    // Usa i token di authInfo
+    console.log('Utilizzo token da authInfo per Google Calendar');
     const auth = new google.auth.OAuth2({
-      clientId: config.clientId,
-      clientSecret: config.clientSecret,
-      redirectUri: config.redirectUri
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      redirectUri: 'https://workspace.replit.app/api/google-auth/callback'
     });
     
-    // Se abbiamo un token salvato, lo impostiamo
-    if (config.token) {
-      auth.setCredentials(config.token);
-    } else {
-      // Senza token non possiamo procedere
-      console.log('Token OAuth non disponibile per Google Calendar');
-      return null;
-    }
-    
+    auth.setCredentials(authInfo.tokens);
     return google.calendar({ version: 'v3', auth });
   } catch (error) {
     console.error('Errore nella creazione del client Google Calendar:', error);
@@ -274,6 +292,13 @@ export async function deleteAppointmentFromGoogleCalendar(googleEventId: string)
  * Verifica se Google Calendar è configurato e abilitato
  */
 export async function isGoogleCalendarEnabled(): Promise<boolean> {
+  // Controlla prima se abbiamo un'autorizzazione attiva in authInfo
+  if (authInfo.authorized && authInfo.tokens) {
+    console.log('Google Calendar abilitato tramite authInfo');
+    return true;
+  }
+  
+  // Fallback al vecchio metodo
   const config = await loadConfig();
   return !!config && config.enabled && !!config.apiKey && !!config.clientId;
 }
