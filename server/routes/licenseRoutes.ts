@@ -25,7 +25,7 @@ router.get('/license-info', async (req, res) => {
 });
 
 // Attiva una licenza con un codice
-router.post('/activate-license', isAuthenticated, async (req, res) => {
+router.post('/activate-license', async (req, res) => {
   try {
     const { activationCode } = req.body;
     
