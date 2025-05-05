@@ -23,9 +23,8 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Link } from "wouter";
 
-// URL di callback dinamico basato sul nome dell'applicazione
-const replicSlug = window.location.hostname.split('.')[0];
-const redirectUri = `https://${replicSlug}.replit.app/api/google-auth/callback`;
+// URL di callback FISSO che deve corrispondere esattamente a quello configurato in Google Cloud Console
+const redirectUri = 'https://workspace.replit.app/api/google-auth/callback';
 
 /**
  * Componente semplificato per la configurazione di Google Calendar.
