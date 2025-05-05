@@ -29,6 +29,7 @@ import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
 import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
 import GoogleSetupInstructionsPage from "./pages/GoogleSetupInstructionsPage";
+import ProFeaturesPage from "./pages/ProFeaturesPage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -215,6 +216,13 @@ function AppRoutes() {
       <Route path="/google-setup">
         <StaffPageWrapper>
           <GoogleSetupInstructionsPage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Pagina delle funzionalità PRO */}
+      <Route path="/pro">
+        <StaffPageWrapper>
+          <ProFeaturesPage />
         </StaffPageWrapper>
       </Route>
 
