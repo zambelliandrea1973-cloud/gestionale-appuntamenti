@@ -254,6 +254,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
   app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
+  // Aggiungiamo un handler specifico per il callback di Google OAuth
+  app.get('/api/google-auth/callback', (req, res) => {
+    console.log('Intercettato callback OAuth su path principale, reindirizzamento a sottorotta');
+    // Reindirizza al gestore effettivo nel router
+    // Nota: Mantiene tutti i parametri di query (come 'code')
+    res.redirect(307, '/api/google-auth/callback' + (req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : ''));
+  });
+
   app.use('/api/google-auth', googleAuthRoutes);
   app.use('/api/email-calendar-settings', emailCalendarRoutes);
   app.use('/api/license', licenseRoutes);
