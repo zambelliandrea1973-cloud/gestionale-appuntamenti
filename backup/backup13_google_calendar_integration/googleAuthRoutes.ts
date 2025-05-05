@@ -188,57 +188,6 @@ router.get('/status', (req, res) => {
   });
 });
 
-// Test della configurazione
-router.get('/test-configuration', async (req, res) => {
-  try {
-    // Verifica la presenza dei segreti necessari
-    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-      return res.status(400).json({
-        success: false,
-        error: 'Credenziali OAuth mancanti. Verifica GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET nei segreti di Replit.'
-      });
-    }
-    
-    // Verifica se l'URL di callback è configurato correttamente
-    console.log("Test configurazione: URL di callback configurato:", redirectUri);
-    
-    // Tenta di generare un URL di autorizzazione (questo verificherà se le credenziali sono formattate correttamente)
-    try {
-      const authUrl = oauth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPES,
-      });
-      
-      console.log("Test configurazione: URL di autorizzazione generato con successo");
-      
-      // Se arriviamo qui, le credenziali sono almeno formattate correttamente
-      res.json({
-        success: true,
-        message: 'Configurazione di base OK. Per completare la verifica, prova ad autorizzare l\'app.',
-        configStatus: {
-          clientIdPresent: true,
-          clientSecretPresent: true,
-          redirectUriConfigured: true,
-          authUrlGenerated: true,
-          authorized: authInfo.authorized,
-        }
-      });
-    } catch (error) {
-      console.error("Errore nella generazione dell'URL di autorizzazione:", error);
-      return res.status(400).json({
-        success: false,
-        error: 'Errore nella generazione dell\'URL di autorizzazione. Le credenziali potrebbero essere invalide.'
-      });
-    }
-  } catch (error) {
-    console.error("Errore nel test della configurazione:", error);
-    res.status(500).json({
-      success: false,
-      error: 'Errore durante il test della configurazione.'
-    });
-  }
-});
-
 // Revoca l'autorizzazione
 router.post('/revoke', isAuthenticated, async (req, res) => {
   if (!authInfo.authorized || !authInfo.tokens) {

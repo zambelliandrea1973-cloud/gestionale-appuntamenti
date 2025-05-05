@@ -28,6 +28,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
 import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
+import GoogleSetupInstructionsPage from "./pages/GoogleSetupInstructionsPage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -207,6 +208,13 @@ function AppRoutes() {
       <Route path="/whatsapp-center">
         <StaffPageWrapper>
           <WhatsAppCenterPage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Pagina di istruzioni per la configurazione di Google Calendar */}
+      <Route path="/google-setup">
+        <StaffPageWrapper>
+          <GoogleSetupInstructionsPage />
         </StaffPageWrapper>
       </Route>
 
