@@ -34,7 +34,8 @@ const SCOPES = [
   'https://www.googleapis.com/auth/gmail.send',
 ];
 
-let authInfo: {
+// Esportiamo authInfo per permettere ad altre parti dell'app di accedervi
+export let authInfo: {
   authorized: boolean;
   tokens?: any;
 } = {
