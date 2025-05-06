@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Card, 
   CardContent, 
@@ -22,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
-import { Mail, Calendar, RefreshCw, ArrowRight, HelpCircle, ExternalLink } from "lucide-react";
+import { Mail, Calendar, RefreshCw, ArrowRight, HelpCircle, ExternalLink, MessagesSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -33,17 +34,27 @@ const emailSettingsSchema = z.object({
   emailEnabled: z.boolean().default(false),
   emailAddress: z.string().email("Inserisci un indirizzo email valido").optional().or(z.literal("")),
   emailPassword: z.string().min(1, "La password è obbligatoria se l'email è abilitata").optional().or(z.literal("")),
+  emailTemplate: z.string().optional(),
+  emailSubject: z.string().optional(),
   calendarEnabled: z.boolean().default(false),
   calendarId: z.string().optional().or(z.literal("")),
 });
 
 type EmailSettingsFormValues = z.infer<typeof emailSettingsSchema>;
 
+// Template predefinito per l'email, simile a quello WhatsApp
+const DEFAULT_EMAIL_TEMPLATE = "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale";
+
+// Oggetto predefinito per l'email
+const DEFAULT_EMAIL_SUBJECT = "Promemoria appuntamento del {{data}}";
+
 export default function EmailAndCalendarSettings() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleAuthorized, setIsGoogleAuthorized] = useState(false);
+  const [isSendingTest, setIsSendingTest] = useState(false);
+  const [testEmailAddress, setTestEmailAddress] = useState("");
   
   const form = useForm<EmailSettingsFormValues>({
     resolver: zodResolver(emailSettingsSchema),
@@ -51,6 +62,8 @@ export default function EmailAndCalendarSettings() {
       emailEnabled: false,
       emailAddress: "",
       emailPassword: "",
+      emailTemplate: DEFAULT_EMAIL_TEMPLATE,
+      emailSubject: DEFAULT_EMAIL_SUBJECT,
       calendarEnabled: false,
       calendarId: "",
     },
@@ -72,6 +85,8 @@ export default function EmailAndCalendarSettings() {
             emailEnabled: data.emailEnabled || false,
             emailAddress: data.emailAddress || "",
             emailPassword: data.emailPassword ? "••••••••••" : "", // Non mostrare la password reale
+            emailTemplate: data.emailTemplate || DEFAULT_EMAIL_TEMPLATE,
+            emailSubject: data.emailSubject || DEFAULT_EMAIL_SUBJECT,
             calendarEnabled: data.calendarEnabled || false,
             calendarId: data.calendarId || "",
           });
@@ -124,6 +139,49 @@ export default function EmailAndCalendarSettings() {
     }
   };
   
+  // Funzione per inviare un'email di test
+  const sendTestEmail = async () => {
+    if (!testEmailAddress) {
+      toast({
+        title: "Errore",
+        description: "Inserisci un indirizzo email per il test",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsSendingTest(true);
+    try {
+      const response = await fetch('/api/email-calendar-settings/send-test-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: testEmailAddress }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        toast({
+          title: "Email inviata",
+          description: "L'email di test è stata inviata con successo",
+        });
+      } else {
+        throw new Error(data.error || 'Si è verificato un errore durante l\'invio dell\'email');
+      }
+    } catch (error) {
+      console.error('Errore nell\'invio dell\'email di test:', error);
+      toast({
+        title: "Errore",
+        description: error instanceof Error ? error.message : "Si è verificato un errore durante l'invio dell'email",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSendingTest(false);
+    }
+  };
+  
   // Funzione per avviare l'autorizzazione Google
   const startGoogleAuth = async () => {
     try {
@@ -170,6 +228,12 @@ export default function EmailAndCalendarSettings() {
         variant: "destructive",
       });
     }
+  };
+  
+  // Reset del template dell'email al valore predefinito
+  const resetEmailTemplate = () => {
+    form.setValue('emailTemplate', DEFAULT_EMAIL_TEMPLATE);
+    form.setValue('emailSubject', DEFAULT_EMAIL_SUBJECT);
   };
   
   return (
@@ -245,6 +309,94 @@ export default function EmailAndCalendarSettings() {
                     </FormItem>
                   )}
                 />
+                
+                <div className="border-t pt-4 mt-4">
+                  <div className="flex items-center mb-4">
+                    <MessagesSquare className="h-5 w-5 mr-2 text-muted-foreground" />
+                    <h4 className="text-base font-medium">Template Email</h4>
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={resetEmailTemplate}
+                      className="ml-auto text-xs"
+                    >
+                      Ripristina predefinito
+                    </Button>
+                  </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="emailSubject"
+                    render={({ field }) => (
+                      <FormItem className="mb-4">
+                        <FormLabel>
+                          Oggetto Email
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            {...field} 
+                            placeholder="Promemoria appuntamento" 
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs">
+                          Puoi usare: {"{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}"}
+                        </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="emailTemplate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Testo Email
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            {...field} 
+                            placeholder="Testo del messaggio" 
+                            className="min-h-[200px]"
+                          />
+                        </FormControl>
+                        <FormDescription className="text-xs mt-2">
+                          Inserisci il testo del messaggio. Puoi usare le seguenti variabili:
+                          {"{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}"}
+                        </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div className="mt-4 pt-4 border-t">
+                    <FormLabel className="mb-2 block">Test invio email</FormLabel>
+                    <div className="flex gap-2">
+                      <Input 
+                        placeholder="Inserisci email per test" 
+                        value={testEmailAddress}
+                        onChange={(e) => setTestEmailAddress(e.target.value)}
+                        className="max-w-sm"
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={sendTestEmail}
+                        disabled={isSendingTest || !form.watch("emailEnabled")}
+                      >
+                        {isSendingTest ? (
+                          <>
+                            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                            Invio in corso...
+                          </>
+                        ) : "Invia test"}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Invia un'email di test per verificare la configurazione
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
             
