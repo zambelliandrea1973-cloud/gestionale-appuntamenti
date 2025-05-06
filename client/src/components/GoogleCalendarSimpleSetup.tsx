@@ -273,11 +273,11 @@ export default function GoogleCalendarSimpleSetup() {
             </p>
             <div className="relative">
               <div className="p-3 bg-white dark:bg-amber-900 rounded border border-amber-200 dark:border-amber-700 font-mono text-xs break-all mb-1">
-                https://workspace.zambelliandrea1.repl.co/api/google-auth/callback
+                https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback
               </div>
               <button 
                 onClick={() => {
-                  navigator.clipboard.writeText("https://workspace.zambelliandrea1.repl.co/api/google-auth/callback");
+                  navigator.clipboard.writeText("https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback");
                   toast({
                     title: "URL copiato",
                     description: "L'URL di callback è stato copiato negli appunti"
@@ -295,7 +295,7 @@ export default function GoogleCalendarSimpleSetup() {
               Se riscontri errori 403 (accesso negato), copia questo URL esatto e assicurati che sia configurato correttamente nella console Google Cloud → Credentials → OAuth 2.0 Client IDs → Authorized redirect URIs.
             </p>
             <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-2">
-              Verifica attentamente che il dominio sia esattamente "workspace.zambelliandrea1.repl.co" e non ".replit.app" o altro.
+              Verifica attentamente che il dominio sia esattamente "wife-scheduler-zambelliandrea1.replit.app" e non ".repl.co" o altro.
             </p>
             <div className="mt-3 border-t border-amber-200 dark:border-amber-700 pt-3">
               <a 
@@ -428,7 +428,7 @@ export default function GoogleCalendarSimpleSetup() {
                     <li>Seleziona il tuo progetto</li>
                     <li><strong>Elimina</strong> le vecchie credenziali OAuth 2.0</li>
                     <li>Crea un nuovo Client ID OAuth 2.0 completamente nuovo</li>
-                    <li>Aggiungi con attenzione l'URL di callback esatto: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs">https://workspace.zambelliandrea1.repl.co/api/google-auth/callback</span></li>
+                    <li>Aggiungi con attenzione l'URL di callback esatto: <span className="font-mono bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded text-xs">https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback</span></li>
                     <li>Ritorna qui e riprova l'autorizzazione</li>
                   </ol>
                 </div>
