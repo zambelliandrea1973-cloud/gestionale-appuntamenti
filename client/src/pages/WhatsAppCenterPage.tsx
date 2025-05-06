@@ -691,52 +691,51 @@ const WhatsAppCenterPage: React.FC = () => {
   
   return (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">
-            {t('Centro WhatsApp unificato')}
-          </h1>
-          <p className="text-muted-foreground">
-            {t('Configurazione telefono e notifiche WhatsApp')}
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl font-bold">
+          {t('Centro Configurazione e Invio Notifiche')}
+        </h1>
+        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          {t('Gestisci le tue notifiche per i clienti attraverso WhatsApp ed Email')}
+        </p>
+      </div>
+      
+      <div className="grid gap-8 mb-8">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+          <div className="mx-auto w-16 h-16 mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+            <Mail className="h-8 w-8 text-blue-600" />
+          </div>
+          <h3 className="text-xl font-medium text-blue-800 mb-3">
+            {t('Configurazione Notifiche Email')}
+          </h3>
+          <p className="mb-4 text-blue-700 max-w-lg mx-auto">
+            {t('Configura i modelli e le impostazioni per inviare promemoria automatici via email ai tuoi clienti')}
           </p>
-        </div>
-        <div>
           <Button 
-            variant="outline"
-            className="flex items-center"
+            variant="default"
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 flex items-center mx-auto"
             onClick={() => setLocation("/email-settings")}
           >
-            <Mail className="mr-2 h-4 w-4" />
+            <Mail className="mr-2 h-5 w-5" />
             {t('Configura Email')}
           </Button>
         </div>
       </div>
       
-      <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-        <div className="flex items-start">
-          <div className="flex-shrink-0 pt-1">
-            <Mail className="h-5 w-5 text-amber-600" />
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-amber-800">
-              {t('Notifiche alternative con email')}
-            </h3>
-            <div className="mt-1 text-sm text-amber-700">
-              <p>
-                {t('Oltre alle notifiche WhatsApp, puoi configurare le notifiche email per i tuoi clienti. Clicca sul pulsante in alto per accedere alle impostazioni email.')}
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="border-t border-b py-6 my-6">
+        <h2 className="text-2xl font-bold text-center mb-6">
+          {t('Configurazione e Utilizzo WhatsApp')}
+        </h2>
       </div>
       
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-xl font-bold">
-            {t('Configurazione e utilizzo WhatsApp')}
-          </h2>
+          <h3 className="text-xl font-medium">
+            {t('Sistema Notifiche WhatsApp')}
+          </h3>
           <p className="text-muted-foreground">
-            {t('Configurazione telefono e notifiche WhatsApp')}
+            {t('Configurazione telefono e invio messaggi WhatsApp')}
           </p>
         </div>
         
