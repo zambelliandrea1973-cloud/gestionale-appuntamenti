@@ -189,22 +189,53 @@ export default function EmailAndCalendarSettings() {
       if (response.ok) {
         const data = await response.json();
         if (data.authUrl) {
-          // Apre l'URL di autorizzazione in una nuova finestra
-          window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
+          // Aggiungiamo un event listener per il messaggio di successo
+          const messageListener = (event: MessageEvent) => {
+            if (event.data === 'google-auth-success') {
+              window.removeEventListener('message', messageListener);
+              
+              // Verifichiamo lo stato dell'autorizzazione
+              (async () => {
+                try {
+                  const statusResponse = await fetch('/api/google-auth/status');
+                  if (statusResponse.ok) {
+                    const statusData = await statusResponse.json();
+                    if (statusData.authorized) {
+                      setIsGoogleAuthorized(true);
+                      toast({
+                        title: "Autorizzazione completata",
+                        description: "L'account Google è stato autorizzato con successo",
+                      });
+                    }
+                  }
+                } catch (error) {
+                  console.error('Errore durante la verifica dell\'autorizzazione:', error);
+                }
+              })();
+            }
+          };
           
-          // Verifica periodicamente se l'autorizzazione è completata
+          window.addEventListener('message', messageListener);
+          
+          // Apre l'URL di autorizzazione in una nuova finestra
+          const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
+          
+          // Verifica periodicamente se l'autorizzazione è completata (come fallback)
           const checkInterval = setInterval(async () => {
             try {
-              const statusResponse = await fetch('/api/google-auth/status');
-              if (statusResponse.ok) {
-                const statusData = await statusResponse.json();
-                if (statusData.authorized) {
-                  clearInterval(checkInterval);
-                  setIsGoogleAuthorized(true);
-                  toast({
-                    title: "Autorizzazione completata",
-                    description: "L'account Google è stato autorizzato con successo",
-                  });
+              // Se la finestra è stata chiusa, controlliamo lo stato
+              if (authWindow && authWindow.closed) {
+                const statusResponse = await fetch('/api/google-auth/status');
+                if (statusResponse.ok) {
+                  const statusData = await statusResponse.json();
+                  if (statusData.authorized) {
+                    clearInterval(checkInterval);
+                    setIsGoogleAuthorized(true);
+                    toast({
+                      title: "Autorizzazione completata",
+                      description: "L'account Google è stato autorizzato con successo",
+                    });
+                  }
                 }
               }
             } catch (error) {
@@ -215,6 +246,7 @@ export default function EmailAndCalendarSettings() {
           // Ferma il controllo dopo 2 minuti (per evitare loop infiniti)
           setTimeout(() => {
             clearInterval(checkInterval);
+            window.removeEventListener('message', messageListener);
           }, 120000);
         }
       } else {

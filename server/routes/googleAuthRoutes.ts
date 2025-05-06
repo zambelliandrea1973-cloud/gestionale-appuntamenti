@@ -177,7 +177,31 @@ router.get('/callback', async (req, res) => {
           <title>Autorizzazione completata</title>
           <script>
             window.onload = function() {
-              window.opener ? window.opener.postMessage('google-auth-success', '*') : window.location.href = '/settings';
+              // Invia esplicitamente un messaggio all'opener per segnalare il successo
+              if (window.opener) {
+                // Tentativo 1: Invia il messaggio direttamente
+                try {
+                  window.opener.postMessage('google-auth-success', '*');
+                  console.log('Messaggio inviato direttamente a opener');
+                } catch (e) {
+                  console.error('Errore nell\'invio diretto del messaggio:', e);
+                }
+                
+                // Tentativo 2: Utilizza un timeout per assicurarsi che l'evento venga inviato
+                setTimeout(function() {
+                  try {
+                    window.opener.postMessage('google-auth-success', '*');
+                    console.log('Messaggio inviato a opener con timeout');
+                  } catch (e) {
+                    console.error('Errore nell\'invio del messaggio con timeout:', e);
+                  }
+                }, 500);
+              } else {
+                // Se non c'è una finestra opener, reindirizza alla pagina delle impostazioni
+                window.location.href = '/settings';
+              }
+              
+              // Chiudi la finestra dopo 2 secondi per dare tempo al messaggio di essere processato
               setTimeout(function() {
                 window.close();
               }, 2000);
