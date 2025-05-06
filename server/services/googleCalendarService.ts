@@ -78,7 +78,7 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
       const auth = new google.auth.OAuth2({
         clientId: process.env.GOOGLE_CLIENT_ID || config.clientId,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET || config.clientSecret,
-        redirectUri: 'https://workspace.replit.app/api/google-auth/callback'
+        redirectUri: `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`
       });
       
       // Se abbiamo un token salvato in config, lo impostiamo
@@ -98,7 +98,7 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
     const auth = new google.auth.OAuth2({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      redirectUri: 'https://workspace.replit.app/api/google-auth/callback'
+      redirectUri: `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`
     });
     
     auth.setCredentials(authInfo.tokens);
