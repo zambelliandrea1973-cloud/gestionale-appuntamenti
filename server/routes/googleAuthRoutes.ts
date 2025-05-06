@@ -62,44 +62,52 @@ router.get('/start', (req, res) => {
     // Stampa l'URI esatto di reindirizzamento che stiamo usando
     console.log("Redirect URI esatto:", redirectUri);
     
-    // Stampa tutte le variabili d'ambiente rilevanti per il debug
-    console.log("Debug variabili ambiente:", {
-      REPL_SLUG: process.env.REPL_SLUG || "non impostato",
-      REPL_OWNER: process.env.REPL_OWNER || "non impostato",
-      REPL_ID: process.env.REPL_ID || "non impostato", 
-      CUSTOM_DOMAIN: process.env.CUSTOM_DOMAIN || "non impostato",
-      HOST: req.get('host') || "non disponibile"
-    });
+    // Approccio completamente nuovo per generare l'URL manualmente
+    // Questo evita qualsiasi aggiunta automatica di parametri come flowName
     
-    // Non modifichiamo più dinamicamente l'URL di reindirizzamento
-    // Utilizzare sempre l'URL fisso configurato nella console Google Cloud
-    const actualRedirectUri = redirectUri;
+    console.log("Generazione URL di autorizzazione manuale...");
     
-    console.log("Utilizzo URI di reindirizzamento fisso:", actualRedirectUri);
+    // Costruisci manualmente l'URL di autenticazione di base
+    const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
+    const encodedRedirectUri = encodeURIComponent(redirectUri);
+    const encodedScopes = encodeURIComponent(SCOPES.join(' '));
     
-    // Generiamo l'URL di autorizzazione con i parametri minimi richiesti
-    // È importante NON includere parametri extra come flowName che causano il mismatch
-    const authUrl = oauth2Client.generateAuthUrl({
+    // Parametri obbligatori nell'ordine corretto per evitare problemi di firma
+    const params = [
+      `client_id=${clientId}`,
+      `redirect_uri=${encodedRedirectUri}`,
+      `response_type=code`,
+      `scope=${encodedScopes}`,
+      `access_type=offline`,
+      `prompt=consent`
+    ];
+    
+    // Generiamo l'URL senza usare la libreria per evitare parametri extra
+    const manualAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.join('&')}`;
+    
+    console.log("Auth URL generato manualmente:", manualAuthUrl);
+    
+    // Confrontiamo con l'URL generato dalla libreria a scopo di debug
+    const libraryAuthUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       response_type: 'code',
       scope: SCOPES,
-      prompt: 'consent', // Forza il prompt di consenso per ottenere sempre il refresh token
-      // Impostiamo esplicitamente il redirect_uri ma senza parametri aggiuntivi
+      prompt: 'consent',
       redirect_uri: redirectUri,
-      // Disabilita il rilevamento automatico di parametri specifici della piattaforma
-      include_granted_scopes: true 
+      include_granted_scopes: true
     });
     
-    console.log("Auth URL generato:", authUrl);
+    console.log("Confronto URL libreria:", libraryAuthUrl);
     
+    // Restituisci l'URL generato manualmente per evitare parametri aggiuntivi
     res.json({ 
       success: true, 
-      authUrl,
+      authUrl: manualAuthUrl,
       debug: {
-        calculatedRedirectUri: redirectUri,
-        actualRedirectUri,
-        host: req.get('host'),
-        protocol: req.protocol
+        manualAuthUrl,
+        libraryAuthUrl,
+        redirectUri,
+        scopes: SCOPES
       }
     });
   } catch (error) {
@@ -273,6 +281,188 @@ router.get('/debug-url', (req, res) => {
       testAuthUrl: testAuthUrl
     }
   });
+});
+
+// Aggiunto endpoint per visualizzare il confronto degli URL di autorizzazione
+router.get('/compare-auth-urls', (req, res) => {
+  // Costruisci manualmente l'URL di autenticazione di base
+  const clientId = encodeURIComponent(process.env.GOOGLE_CLIENT_ID as string);
+  const encodedRedirectUri = encodeURIComponent(redirectUri);
+  const encodedScopes = encodeURIComponent(SCOPES.join(' '));
+  
+  // Generiamo l'URL senza usare la libreria per evitare parametri extra
+  const manualAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodedRedirectUri}&response_type=code&scope=${encodedScopes}&access_type=offline&prompt=consent`;
+  
+  // Generiamo anche l'URL con la libreria ufficiale
+  const libraryAuthUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    response_type: 'code',
+    scope: SCOPES,
+    prompt: 'consent',
+    redirect_uri: redirectUri
+  });
+  
+  res.send(`
+    <html>
+      <head>
+        <title>Confronto URL di autorizzazione Google</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+          }
+          .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 40px auto;
+          }
+          h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+          }
+          h2 {
+            color: #34a853;
+            margin-top: 30px;
+            margin-bottom: 15px;
+          }
+          pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+          }
+          .url-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+          }
+          .manual {
+            border-left: 4px solid #4285f4;
+          }
+          .library {
+            border-left: 4px solid #34a853;
+          }
+          .different {
+            border-left: 4px solid #fbbc04;
+            background-color: #fff8e1;
+          }
+          .button {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+          }
+          .button:hover {
+            background-color: #0d47a1;
+          }
+          .note {
+            background-color: #e8f0fe;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #4285f4;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+          }
+          th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+          }
+          th {
+            background-color: #f2f2f2;
+          }
+          .success {
+            background-color: #e6f4ea;
+            color: #0d652d;
+          }
+          .warning {
+            background-color: #fef7e0;
+            color: #b06000;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Confronto URL di autorizzazione Google</h1>
+          
+          <div class="note">
+            <p><strong>Nota:</strong> Questa pagina confronta due metodi per generare l'URL di autorizzazione Google OAuth. L'URL generato manualmente non contiene parametri aggiuntivi che possono causare problemi di mismatch.</p>
+          </div>
+          
+          <h2>URL generato manualmente (senza parametri extra)</h2>
+          <div class="url-box manual">${manualAuthUrl}</div>
+          
+          <h2>URL generato dalla libreria ufficiale</h2>
+          <div class="url-box library">${libraryAuthUrl}</div>
+          
+          <h2>Differenze tra i due URL</h2>
+          <table>
+            <tr>
+              <th>Parametro</th>
+              <th>URL Manuale</th>
+              <th>URL Libreria</th>
+              <th>Stato</th>
+            </tr>
+            <tr>
+              <td>client_id</td>
+              <td>${process.env.GOOGLE_CLIENT_ID}</td>
+              <td>${process.env.GOOGLE_CLIENT_ID}</td>
+              <td class="success">Identico</td>
+            </tr>
+            <tr>
+              <td>redirect_uri</td>
+              <td>${redirectUri}</td>
+              <td>${redirectUri}</td>
+              <td class="success">Identico</td>
+            </tr>
+            <tr>
+              <td>flowName</td>
+              <td>Non presente</td>
+              <td>${libraryAuthUrl.includes('flowName=') ? 'Presente' : 'Non presente'}</td>
+              <td class="${libraryAuthUrl.includes('flowName=') ? 'warning' : 'success'}">
+                ${libraryAuthUrl.includes('flowName=') ? 'Potenziale causa di errore' : 'OK'}
+              </td>
+            </tr>
+          </table>
+          
+          <h2>Test di autorizzazione</h2>
+          <p>Seleziona uno dei metodi per provare l'autorizzazione:</p>
+          
+          <a href="${manualAuthUrl}" class="button" target="_blank">Test con URL manuale</a>
+          <a href="${libraryAuthUrl}" class="button" style="margin-left: 10px;" target="_blank">Test con URL libreria</a>
+          
+          <div class="note" style="margin-top: 30px;">
+            <p><strong>Importante:</strong> Ricorda che la console Google Cloud deve avere configurato esattamente questo URI di reindirizzamento:</p>
+            <pre>${redirectUri}</pre>
+            <p>Assicurati anche che l'origine JavaScript sia configurata correttamente con lo schema https:</p>
+            <pre>https://workspace.zambelliandrea1.repl.co</pre>
+          </div>
+        </div>
+      </body>
+    </html>
+  `);
 });
 
 // Endpoint per la risoluzione dell'errore 400 e della configurazione Google Calendar
