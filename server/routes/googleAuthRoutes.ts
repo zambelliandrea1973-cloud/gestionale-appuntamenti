@@ -122,10 +122,27 @@ router.get('/start', (req, res) => {
 
 // Callback che riceve il codice di autorizzazione
 router.get('/callback', async (req, res) => {
+  console.log("=== GOOGLE AUTH CALLBACK ===");
   console.log("Callback ricevuto con parametri:", req.query);
+  console.log("Headers:", req.headers);
+  console.log("Host:", req.get('host'));
+  console.log("Origin:", req.get('origin'));
+  console.log("Referer:", req.get('referer'));
+  
+  // Log dell'errore, se presente
+  if (req.query.error) {
+    console.error("ERRORE AUTH GOOGLE:", {
+      error: req.query.error,
+      error_description: req.query.error_description,
+      state: req.query.state
+    });
+    return res.status(400).send(`Errore di autorizzazione: ${req.query.error}<br>Descrizione: ${req.query.error_description || 'Nessuna descrizione'}`);
+  }
+  
   const { code } = req.query;
   
   if (!code) {
+    console.error("ERRORE: Codice di autorizzazione mancante");
     return res.status(400).send('Codice di autorizzazione mancante');
   }
   
@@ -141,6 +158,7 @@ router.get('/callback', async (req, res) => {
     // importante: riutilizziamo l'oggetto oauth2Client esistente per mantenere la coerenza
     
     // Scambia il codice con i token
+    console.log("Attempting to exchange code for token with redirect URI:", redirectUri);
     const { tokens } = await oauth2Client.getToken(code as string);
     console.log("Token ottenuti con successo:", tokens);
     
