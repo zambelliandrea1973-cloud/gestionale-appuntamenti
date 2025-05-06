@@ -700,6 +700,45 @@ const WhatsAppCenterPage: React.FC = () => {
             {t('Configurazione telefono e notifiche WhatsApp')}
           </p>
         </div>
+        <div>
+          <Button 
+            variant="outline"
+            className="flex items-center"
+            onClick={() => setLocation("/email-settings")}
+          >
+            <Mail className="mr-2 h-4 w-4" />
+            {t('Configura Email')}
+          </Button>
+        </div>
+      </div>
+      
+      <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <div className="flex items-start">
+          <div className="flex-shrink-0 pt-1">
+            <Mail className="h-5 w-5 text-amber-600" />
+          </div>
+          <div className="ml-3">
+            <h3 className="text-sm font-medium text-amber-800">
+              {t('Notifiche alternative con email')}
+            </h3>
+            <div className="mt-1 text-sm text-amber-700">
+              <p>
+                {t('Oltre alle notifiche WhatsApp, puoi configurare le notifiche email per i tuoi clienti. Clicca sul pulsante in alto per accedere alle impostazioni email.')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-xl font-bold">
+            {t('Configurazione e utilizzo WhatsApp')}
+          </h2>
+          <p className="text-muted-foreground">
+            {t('Configurazione telefono e notifiche WhatsApp')}
+          </p>
+        </div>
         
         <div className="text-right">
           <div className="text-sm text-muted-foreground mb-1">
