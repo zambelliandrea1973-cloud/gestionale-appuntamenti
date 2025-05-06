@@ -34,9 +34,9 @@ export default function ProFeaturesPage() {
   // Utilizziamo l'hook useLicense per verificare se l'utente ha accesso PRO
   const hasPROAccess = !isLoading && hasProAccess;
   
+  // Reindirizza direttamente alla pagina di abbonamento
   const handleUpgradeClick = () => {
-    // In un'applicazione reale, qui reindirizzeremmo l'utente verso la pagina di upgrade
-    setShowUpgradeMessage(true);
+    window.location.href = '/subscribe';
   };
   
   return (
@@ -60,23 +60,14 @@ export default function ProFeaturesPage() {
               <p className="text-sm text-amber-900 mb-3">
                 {t('pro.upgradeDesc', 'Sblocca funzionalità avanzate per gestire meglio la tua attività: integrazione con Google Calendar, gestione fatture e report dettagliati.')}
               </p>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center">
                 <Button 
                   onClick={handleUpgradeClick}
                   className="bg-amber-500 hover:bg-amber-600 text-white"
                 >
-                  {t('pro.upgrade', 'Passa a PRO')}
+                  {t('pro.unlockFeature', 'Sblocca questa funzionalità')}
                 </Button>
-                <Link to="/subscribe" className="text-sm text-amber-700 hover:underline">
-                  {t('pro.learnMore', 'Scopri di più')}
-                </Link>
               </div>
-              
-              {showUpgradeMessage && (
-                <p className="mt-3 text-sm p-2 bg-amber-100 rounded-md text-amber-800">
-                  {t('pro.upgradeMessage', 'Per migliorare il tuo abbonamento, contatta l\'assistenza o visita il tuo pannello di abbonamento')}
-                </p>
-              )}
             </div>
           </div>
         </div>
