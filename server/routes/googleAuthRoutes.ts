@@ -20,7 +20,8 @@ const router = Router();
 const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 
 // Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
-const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
+// AGGIORNATO: Ora usiamo il dominio .replit.app anziché .repl.co
+const redirectUri = `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
 
 // Stampa informazioni di debug aggiuntive
 console.log('Debug OAuth URL:', {
@@ -457,7 +458,7 @@ router.get('/compare-auth-urls', (req, res) => {
             <p><strong>Importante:</strong> Ricorda che la console Google Cloud deve avere configurato esattamente questo URI di reindirizzamento:</p>
             <pre>${redirectUri}</pre>
             <p>Assicurati anche che l'origine JavaScript sia configurata correttamente con lo schema https:</p>
-            <pre>https://workspace.zambelliandrea1.repl.co</pre>
+            <pre>https://wife-scheduler-zambelliandrea1.replit.app</pre>
           </div>
         </div>
       </body>
