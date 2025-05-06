@@ -67,12 +67,15 @@ router.get('/start', (req, res) => {
     
     console.log("Utilizzo URI di reindirizzamento fisso:", actualRedirectUri);
     
+    // Generiamo l'URL di autorizzazione senza flowName o altri parametri extra
+    // che potrebbero causare problemi con il redirect_uri_mismatch
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       response_type: 'code',
       scope: SCOPES,
       prompt: 'consent', // Forza il prompt di consenso per ottenere sempre il refresh token
-      // Non specificare redirect_uri qui, in modo che venga utilizzato quello configurato nel client OAuth
+      // Impostiamo esplicitamente il redirect_uri per assicurarci che sia corretto
+      redirect_uri: redirectUri
     });
     
     console.log("Auth URL generato:", authUrl);
@@ -113,11 +116,8 @@ router.get('/callback', async (req, res) => {
     console.log("Callback - Utilizzo URI di reindirizzamento fisso:", redirectUri);
     
     // Usa l'URI di reindirizzamento fisso per lo scambio del token
-    const oauth2ClientForCallback = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      redirectUri
-    );
+    // Per evitare problemi di mismatch, usiamo esattamente lo stesso client OAuth
+    // importante: riutilizziamo l'oggetto oauth2Client esistente per mantenere la coerenza
     
     // Scambia il codice con i token
     const { tokens } = await oauth2ClientForCallback.getToken(code as string);
