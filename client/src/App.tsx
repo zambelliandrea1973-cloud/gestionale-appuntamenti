@@ -11,6 +11,7 @@ import Clients from "./pages/Clients";
 import Reports from "./pages/Reports";
 import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
+import EmailSettings from "./pages/EmailSettings";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";
 import ClientLogin from "./pages/ClientLogin";
@@ -223,6 +224,13 @@ function AppRoutes() {
       <Route path="/pro">
         <StaffPageWrapper>
           <ProFeaturesPage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Pagina delle impostazioni email */}
+      <Route path="/email-settings">
+        <StaffPageWrapper>
+          <EmailSettings />
         </StaffPageWrapper>
       </Route>
 

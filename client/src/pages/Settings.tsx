@@ -137,6 +137,28 @@ export default function Settings() {
               
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
+                  <Mail className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <h3 className="text-lg font-medium">Configurazione Email</h3>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Configura l'invio di email ai clienti con promemoria automatici per gli appuntamenti.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button 
+                      variant="default" 
+                      className="flex items-center" 
+                      onClick={() => setLocation("/email-settings")}
+                    >
+                      <Mail className="mr-2 h-4 w-4" />
+                      Configura Email
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t">
+                <div className="flex items-center mb-4">
                   <RefreshCw className="h-5 w-5 mr-2 text-muted-foreground" />
                   <h3 className="text-lg font-medium">Gestione Sistema</h3>
                 </div>
