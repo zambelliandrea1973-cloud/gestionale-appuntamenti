@@ -10,6 +10,16 @@ const router = Router();
 
 // IMPORTANTE: Questo URL deve corrispondere ESATTAMENTE a quello configurato in Google Cloud Console
 // Utilizziamo il dominio effettivo dell'applicazione, basato su REPL_SLUG e REPL_OWNER
+// Vecchio redirect URI fisso
+//const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
+
+// Aggiungiamo la possibilità di sovrascrivere il redirectUri per testing locale
+// Controllo migliorato per l'ambiente di sviluppo locale
+// Impostare la variabile d'ambiente GOOGLE_LOCAL_DEVELOPMENT=true per abilitare l'ambiente locale
+// L'ambiente locale può anche essere dedotto dalle richieste provenienti da localhost
+const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
+
+// Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
 const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
 
 // Stampa informazioni di debug aggiuntive
@@ -251,6 +261,365 @@ router.get('/debug-url', (req, res) => {
       expectedCallback: redirectUri
     }
   });
+});
+
+// Endpoint per la risoluzione dell'errore 400 e della configurazione Google Calendar
+router.get('/fix-error-400', (req, res) => {
+  const redirectUriProduction = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
+  
+  res.send(`
+    <html>
+      <head>
+        <title>Risolvere l'Errore 400 con Google Calendar</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #333;
+          }
+          .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 40px auto;
+          }
+          h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+          }
+          h2 {
+            color: #34a853;
+            margin-top: 30px;
+            margin-bottom: 15px;
+          }
+          .highlight {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+            border-left: 4px solid #1a73e8;
+            margin: 15px 0;
+          }
+          .error {
+            background-color: #fce8e6;
+            border-left: 4px solid #ea4335;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+          }
+          .success {
+            background-color: #e6f4ea;
+            border-left: 4px solid #34a853;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+          }
+          .warning {
+            background-color: #fef7e0;
+            border-left: 4px solid #fbbc04;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+          }
+          .button {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+          }
+          .button:hover {
+            background-color: #0d47a1;
+          }
+          .step {
+            margin-bottom: 30px;
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 40px;
+          }
+          .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #1a73e8;
+            color: white;
+            font-weight: bold;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+          }
+          img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 15px 0;
+          }
+          ul, ol {
+            padding-left: 20px;
+          }
+          li {
+            margin-bottom: 10px;
+          }
+          .section {
+            margin-bottom: 40px;
+          }
+          .console-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+          }
+          .code {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Risolvere l'Errore 400 (redirect_uri_mismatch) di Google OAuth</h1>
+          
+          <div class="error">
+            <strong>Problema:</strong> Impossibile completare l'autenticazione Google OAuth a causa dell'errore 
+            <span class="code">redirect_uri_mismatch</span> con <span class="code">flowName=GeneralOAuthFlow</span>.
+          </div>
+          
+          <div class="section">
+            <h2>Spiegazione del problema</h2>
+            <p>Questo errore significa che l'URL di callback che l'applicazione sta inviando a Google non corrisponde esattamente a quello configurato nella console Google Cloud. Anche una piccola differenza (come uno slash finale, un carattere maiuscolo o minuscolo diverso) può causare questo errore.</p>
+            
+            <p>L'app sta utilizzando il seguente URL di callback:</p>
+            <div class="highlight">${redirectUriProduction}</div>
+            
+            <p>Questo URL deve corrispondere <strong>ESATTAMENTE</strong> a uno degli URI di reindirizzamento autorizzati configurati nella console Google Cloud.</p>
+          </div>
+          
+          <div class="section">
+            <h2>Istruzioni per la correzione</h2>
+            
+            <div class="step">
+              <h3>Accedi alla console Google Cloud</h3>
+              <p>Vai a <a href="https://console.cloud.google.com/apis/credentials" target="_blank">https://console.cloud.google.com/apis/credentials</a> e accedi con l'account associato al progetto.</p>
+            </div>
+            
+            <div class="step">
+              <h3>Trova le credenziali OAuth corrette</h3>
+              <p>Nella sezione "Credenziali", trova l'ID client OAuth 2.0 che stai utilizzando per questa applicazione.</p>
+              <p>Il tuo ID client dovrebbe essere: <span class="code">${process.env.GOOGLE_CLIENT_ID}</span></p>
+            </div>
+            
+            <div class="step">
+              <h3>Verifica o aggiungi l'URI di reindirizzamento</h3>
+              <p>Fai clic sull'ID client per modificarlo. Nella sezione "URI di reindirizzamento autorizzati", verifica se è presente esattamente l'URL seguente:</p>
+              <div class="highlight">${redirectUriProduction}</div>
+              
+              <p>Se non è presente o è diverso (anche per un singolo carattere):</p>
+              <ol>
+                <li>Aggiungi esattamente questo URL come URI di reindirizzamento autorizzato</li>
+                <li>Assicurati che non ci siano spazi o caratteri extra</li>
+                <li>Fai clic su "Salva" in fondo alla pagina</li>
+              </ol>
+            </div>
+            
+            <div class="warning">
+              <p><strong>Importante:</strong> Dopo aver aggiornato gli URI di reindirizzamento nella console Google Cloud, potrebbe essere necessario attendere fino a 5-10 minuti prima che le modifiche diventino effettive. Google memorizza nella cache queste configurazioni e potrebbero non essere immediatamente aggiornate.</p>
+            </div>
+            
+            <div class="step">
+              <h3>Effettua un nuovo tentativo</h3>
+              <p>Dopo aver aggiornato la configurazione e atteso qualche minuto, ritorna alla pagina delle impostazioni nell'applicazione e riprova a collegare Google Calendar.</p>
+            </div>
+          </div>
+          
+          <div class="section">
+            <h2>Risoluzioni comuni per errori persistenti</h2>
+            
+            <div class="console-section">
+              <h3>Se l'errore 400 persiste:</h3>
+              <ul>
+                <li>Verifica che stai utilizzando lo stesso account Google per accedere alla console e per autorizzare l'applicazione</li>
+                <li>Prova a rimuovere tutti gli URI di reindirizzamento esistenti e aggiungi solo quello corretto</li>
+                <li>Assicurati che le API necessarie (Google Calendar API, Gmail API) siano abilitate nel progetto</li>
+                <li>Controlla che il client ID e client secret siano corretti nell'applicazione</li>
+                <li>Se stai testando in locale, configura sia l'URL locale che quello di produzione nella console Google Cloud</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="section">
+            <h2>Verifica dello stato attuale</h2>
+            <p>Stato dell'autorizzazione Google nell'applicazione:</p>
+            <div id="auth-status">Verifica in corso...</div>
+            <button class="button" onclick="checkAuthStatus()">Aggiorna stato</button>
+            
+            <div class="warning" style="margin-top: 20px;">
+              <p><strong>Nota:</strong> Se il sito è inaccessibile pubblicamente (<span class="code">DNS_PROBE_FINISHED_NXDOMAIN</span>), l'integrazione con Google Calendar funzionerà solo quando l'app sarà nuovamente accessibile pubblicamente. Questo perché Google deve poter raggiungere l'URL di callback per completare il processo di autorizzazione.</p>
+            </div>
+          </div>
+          
+          <script>
+            function checkAuthStatus() {
+              fetch('/api/google-auth/status')
+                .then(response => response.json())
+                .then(data => {
+                  const statusElement = document.getElementById('auth-status');
+                  if (data.authorized) {
+                    statusElement.innerHTML = '<div class="success"><strong>✅ Autorizzato</strong> - L\'integrazione con Google Calendar è attiva.</div>';
+                  } else {
+                    statusElement.innerHTML = '<div class="error"><strong>❌ Non autorizzato</strong> - L\'integrazione con Google Calendar non è stata configurata.</div>';
+                  }
+                })
+                .catch(error => {
+                  console.error('Errore nel controllo dello stato:', error);
+                  document.getElementById('auth-status').innerHTML = 
+                    '<div class="error"><strong>⚠️ Errore</strong> - Impossibile verificare lo stato dell\'autorizzazione.</div>';
+                });
+            }
+            
+            // Controlla lo stato all'avvio
+            checkAuthStatus();
+          </script>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
+// Nuovo endpoint di test locale per l'integrazione con Google Calendar
+router.get('/local-test', (req, res) => {
+  const localRedirectUri = 'http://localhost:5000/api/google-auth/callback';
+  const productionRedirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
+  
+  res.send(`
+    <html>
+      <head>
+        <title>Test Locale Integrazione Google Calendar</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+          }
+          .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 40px auto;
+          }
+          h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+          }
+          .highlight {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+          }
+          .step {
+            margin-bottom: 30px;
+          }
+          .note {
+            background-color: #fef9e7;
+            padding: 15px;
+            border-left: 4px solid #f1c40f;
+            margin: 20px 0;
+          }
+          .button {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+          }
+          .button:hover {
+            background-color: #0d47a1;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Configurazione Locale per Google Calendar</h1>
+          
+          <div class="step">
+            <h2>1. Aggiungi questo URL di reindirizzamento alla tua Console Google Cloud</h2>
+            <p>Per effettuare il test locale, aggiungi il seguente URL ai tuoi URI di reindirizzamento autorizzati nella <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Console Google Cloud</a>:</p>
+            <div class="highlight">${localRedirectUri}</div>
+            <p>Nota: Dovrai mantenere anche l'URL di produzione:</p>
+            <div class="highlight">${productionRedirectUri}</div>
+          </div>
+          
+          <div class="note">
+            <p><strong>Importante:</strong> Dopo aver aggiunto l'URL di reindirizzamento alla console Google Cloud, potrebbe essere necessario attendere alcuni minuti prima che le modifiche diventino attive.</p>
+          </div>
+          
+          <div class="step">
+            <h2>2. Testa l'integrazione locale</h2>
+            <p>Una volta aggiunto l'URL di reindirizzamento, puoi testare l'integrazione facendo clic sul pulsante qui sotto:</p>
+            <button class="button" onclick="window.open('/api/google-auth/start')">Testa Autorizzazione Google</button>
+          </div>
+          
+          <div class="step">
+            <h2>3. Verifica lo stato dell'autorizzazione</h2>
+            <p>Controlla lo stato attuale dell'autorizzazione:</p>
+            <div id="auth-status">Verifica in corso...</div>
+            <button class="button" onclick="checkAuthStatus()">Aggiorna Stato</button>
+          </div>
+        </div>
+        
+        <script>
+          function checkAuthStatus() {
+            fetch('/api/google-auth/status')
+              .then(response => response.json())
+              .then(data => {
+                const statusElement = document.getElementById('auth-status');
+                if (data.authorized) {
+                  statusElement.innerHTML = '<span style="color: #4CAF50; font-weight: bold;">✅ Autorizzato</span>';
+                } else {
+                  statusElement.innerHTML = '<span style="color: #f44336; font-weight: bold;">❌ Non autorizzato</span>';
+                }
+              })
+              .catch(error => {
+                console.error('Errore nel controllo dello stato:', error);
+                document.getElementById('auth-status').innerHTML = 
+                  '<span style="color: #f44336;">Errore nel controllo dello stato</span>';
+              });
+          }
+          
+          // Controlla lo stato all'avvio
+          checkAuthStatus();
+          
+          // Controlla periodicamente
+          setInterval(checkAuthStatus, 5000);
+        </script>
+      </body>
+    </html>
+  `);
 });
 
 // Endpoint per verificare direttamente l'URL sulla console di Google Cloud
