@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
-import { Mail, Calendar, RefreshCw, ArrowRight, HelpCircle, ExternalLink, MessagesSquare } from "lucide-react";
+import { Mail, Calendar, RefreshCw, ArrowRight, HelpCircle, ExternalLink, MessagesSquare, AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -436,7 +436,7 @@ export default function EmailAndCalendarSettings() {
               <div className="flex items-center mb-4">
                 <Calendar className="h-5 w-5 mr-2 text-muted-foreground" />
                 <h3 className="text-lg font-medium">{t('settings.googleCalendar', 'Google Calendar')}</h3>
-                <Link to="/google-setup" className="ml-auto flex items-center text-sm text-primary hover:underline">
+                <Link to="/google-troubleshooting" className="ml-auto flex items-center text-sm text-primary hover:underline">
                   <HelpCircle className="h-4 w-4 mr-1" />
                   {t('settings.googleSetupGuide', 'Guida alla configurazione')}
                   <ExternalLink className="h-3 w-3 ml-1" />
@@ -469,18 +469,32 @@ export default function EmailAndCalendarSettings() {
                 />
                 
                 {!isGoogleAuthorized && (
-                  <div className="bg-muted/30 rounded-lg p-4 border">
-                    <p className="text-sm mb-3">{t('settings.googleAuthRequired', 'Per sincronizzare il calendario è necessario autorizzare l\'accesso a Google Calendar')}</p>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      onClick={startGoogleAuth}
-                      className="flex items-center"
-                    >
-                      <Calendar className="h-4 w-4 mr-2" />
-                      {t('settings.authorizeGoogle', 'Autorizza Google Calendar')}
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
+                  <div className="bg-muted/30 rounded-lg p-4 border space-y-3">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium text-amber-700 mb-1">Autorizzazione richiesta</p>
+                        <p className="text-sm mb-1">{t('settings.googleAuthRequired', 'Per sincronizzare il calendario è necessario autorizzare l\'accesso a Google Calendar')}</p>
+                        <p className="text-sm text-muted-foreground">L'icona di divieto sul pulsante di sincronizzazione indica che l'autorizzazione non è ancora stata completata.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={startGoogleAuth}
+                        className="flex items-center"
+                      >
+                        <Calendar className="h-4 w-4 mr-2" />
+                        {t('settings.authorizeGoogle', 'Autorizza Google Calendar')}
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                      <Link to="/google-troubleshooting">
+                        <Button variant="ghost" size="sm">
+                          Risoluzione problemi
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 )}
                 
