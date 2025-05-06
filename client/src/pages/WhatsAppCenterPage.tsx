@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import FooterOnly from '@/components/FooterOnly';
 import { format, parseISO, addDays } from 'date-fns';
 import { it } from 'date-fns/locale';
@@ -46,7 +47,9 @@ import {
   Smartphone, 
   X, 
   Phone,
-  ExternalLink
+  ExternalLink,
+  Mail,
+  Settings
 } from 'lucide-react';
 
 // Stati del dispositivo telefonico
@@ -111,6 +114,7 @@ interface NotificationHistoryItem {
 const WhatsAppCenterPage: React.FC = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   
   // Stati per il dispositivo telefonico
   const [deviceStatus, setDeviceStatus] = useState<DeviceStatus>(DeviceStatus.DISCONNECTED);
