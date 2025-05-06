@@ -77,15 +77,17 @@ router.get('/start', (req, res) => {
     
     console.log("Utilizzo URI di reindirizzamento fisso:", actualRedirectUri);
     
-    // Generiamo l'URL di autorizzazione senza flowName o altri parametri extra
-    // che potrebbero causare problemi con il redirect_uri_mismatch
+    // Generiamo l'URL di autorizzazione con i parametri minimi richiesti
+    // È importante NON includere parametri extra come flowName che causano il mismatch
     const authUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       response_type: 'code',
       scope: SCOPES,
       prompt: 'consent', // Forza il prompt di consenso per ottenere sempre il refresh token
-      // Impostiamo esplicitamente il redirect_uri per assicurarci che sia corretto
-      redirect_uri: redirectUri
+      // Impostiamo esplicitamente il redirect_uri ma senza parametri aggiuntivi
+      redirect_uri: redirectUri,
+      // Disabilita il rilevamento automatico di parametri specifici della piattaforma
+      include_granted_scopes: true 
     });
     
     console.log("Auth URL generato:", authUrl);
@@ -249,7 +251,16 @@ router.get('/debug-url', (req, res) => {
   const path = req.originalUrl || '/api/google-auth/debug-url';
   const fullUrl = `${protocol}://${host}${path}`;
   
-  // Mostriamo l'URL completo e tutte le intestazioni HTTP
+  // Generiamo un URL di test per verificare i parametri
+  const testAuthUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    response_type: 'code',
+    scope: SCOPES,
+    redirect_uri: redirectUri,
+    include_granted_scopes: true
+  });
+  
+  // Mostriamo l'URL completo, le intestazioni HTTP e l'URL di autorizzazione di test
   res.json({
     success: true,
     debug: {
@@ -258,7 +269,8 @@ router.get('/debug-url', (req, res) => {
       path,
       fullUrl,
       headers: req.headers,
-      expectedCallback: redirectUri
+      expectedCallback: redirectUri,
+      testAuthUrl: testAuthUrl
     }
   });
 });
