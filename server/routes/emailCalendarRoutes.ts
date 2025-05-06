@@ -3,11 +3,26 @@ import { isAuthenticated } from '../auth';
 
 const router = Router();
 
+// Template predefinito per l'email
+const DEFAULT_EMAIL_TEMPLATE = `Gentile {{nome}} {{cognome}},
+
+Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
+
+Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
+
+Cordiali saluti,
+Studio Professionale`;
+
+// Oggetto predefinito per l'email
+const DEFAULT_EMAIL_SUBJECT = "Promemoria appuntamento del {{data}}";
+
 // Variabile per memorizzare le impostazioni (in un'app reale andrebbero salvate nel database)
 let emailCalendarSettings = {
   emailEnabled: false,
   emailAddress: '',
   emailPassword: '',
+  emailTemplate: DEFAULT_EMAIL_TEMPLATE,
+  emailSubject: DEFAULT_EMAIL_SUBJECT,
   calendarEnabled: false,
   calendarId: '',
   googleAuthStatus: {
@@ -33,6 +48,8 @@ router.post('/', (req, res) => {
       emailEnabled,
       emailAddress,
       emailPassword,
+      emailTemplate,
+      emailSubject,
       calendarEnabled,
       calendarId,
     } = req.body;
@@ -43,6 +60,8 @@ router.post('/', (req, res) => {
     if (emailPassword !== undefined && emailPassword !== '••••••••••') {
       emailCalendarSettings.emailPassword = emailPassword;
     }
+    if (emailTemplate !== undefined) emailCalendarSettings.emailTemplate = emailTemplate;
+    if (emailSubject !== undefined) emailCalendarSettings.emailSubject = emailSubject;
     if (calendarEnabled !== undefined) emailCalendarSettings.calendarEnabled = calendarEnabled;
     if (calendarId !== undefined) emailCalendarSettings.calendarId = calendarId;
     
@@ -73,8 +92,22 @@ router.post('/send-test-email', isAuthenticated, async (req, res) => {
       });
     }
     
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        error: 'Nessun indirizzo email fornito per il test'
+      });
+    }
+    
     // Qui normalmente invieresti un'email di test
     // Per questo esempio, simuliamo un invio avvenuto con successo
+    console.log(`Invio email di test a ${email} usando le seguenti impostazioni:`, {
+      mittente: emailCalendarSettings.emailAddress,
+      oggetto: emailCalendarSettings.emailSubject,
+      template: emailCalendarSettings.emailTemplate,
+    });
     
     res.json({ 
       success: true, 
