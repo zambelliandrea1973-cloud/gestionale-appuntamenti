@@ -20,8 +20,8 @@ const router = Router();
 const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 
 // Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
-// AGGIORNATO: Ora usiamo il dominio corretto dell'applicazione
-const redirectUri = `https://wife-scheduler.zambelliandrea1.replit.app/api/google-auth/callback`;
+// AGGIORNATO: Ora usiamo il dominio corretto dell'applicazione con trattino
+const redirectUri = `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
 
 // Stampa informazioni di debug aggiuntive
 console.log('Debug OAuth URL:', {
