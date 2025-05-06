@@ -70,12 +70,20 @@ export default function GoogleCalendarSimpleSetup() {
     setIsAuthenticating(true);
     
     try {
+      // Utilizziamo l'URL generato manualmente per evitare errori redirect_uri_mismatch
       const response = await fetch('/api/google-auth/start');
       if (response.ok) {
         const data = await response.json();
         if (data.authUrl) {
+          console.log("Auth URL:", data.authUrl);
+          console.log("Auth debug info:", data.debug || "Non disponibile");
+          
           // Apre l'URL di autorizzazione in una nuova finestra
           const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
+          
+          if (!authWindow) {
+            throw new Error(t('google.popupBlocked', 'Il popup è stato bloccato. Disabilita il blocco popup per questo sito.'));
+          }
           
           // Verifica periodicamente se l'autorizzazione è completata
           const checkInterval = setInterval(async () => {
@@ -129,6 +137,15 @@ export default function GoogleCalendarSimpleSetup() {
           t('google.unknownError', 'Si è verificato un errore durante l\'autorizzazione Google'),
         variant: "destructive",
       });
+      
+      // Aggiungi un suggerimento per l'errore 400 redirect_uri_mismatch
+      toast({
+        title: "Suggerimento per errore 400",
+        description: "Se riscontri l'errore 400 (redirect_uri_mismatch), visita /api/google-auth/compare-auth-urls per risolvere il problema.",
+        variant: "default",
+        duration: 10000
+      });
+      
       setIsAuthenticating(false);
     }
   };
@@ -280,6 +297,20 @@ export default function GoogleCalendarSimpleSetup() {
             <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mt-2">
               Verifica attentamente che il dominio sia esattamente "workspace.zambelliandrea1.repl.co" e non ".replit.app" o altro.
             </p>
+            <div className="mt-3 border-t border-amber-200 dark:border-amber-700 pt-3">
+              <a 
+                href="/api/google-auth/compare-auth-urls" 
+                target="_blank" 
+                className="text-xs inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                Strumento di debug per errore 400 (redirect_uri_mismatch)
+              </a>
+            </div>
           </div>
           
           {isGoogleAuthorized ? (
