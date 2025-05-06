@@ -295,6 +295,48 @@ router.get('/status', (req, res) => {
   });
 });
 
+// Endpoint per testare la configurazione di Google OAuth
+router.get('/test-configuration', (req, res) => {
+  try {
+    // Verifica la presenza delle credenziali
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+      return res.status(400).json({
+        success: false,
+        message: "Credenziali Google mancanti"
+      });
+    }
+    
+    // Verifica l'URL di callback
+    console.log("Test configurazione: URL di callback configurato:", redirectUri);
+    
+    // Genera un URL di autorizzazione per test
+    const testAuthUrl = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: SCOPES,
+      redirect_uri: redirectUri
+    });
+    
+    console.log("Test configurazione: URL di autorizzazione generato con successo");
+    
+    res.json({
+      success: true,
+      message: "Configurazione di base corretta",
+      clientIdPresente: !!process.env.GOOGLE_CLIENT_ID,
+      clientSecretPresente: !!process.env.GOOGLE_CLIENT_SECRET,
+      redirectUri: redirectUri,
+      testAuthUrl: testAuthUrl,
+      scopeValidi: SCOPES
+    });
+  } catch (error: any) {
+    console.error("Errore nel test di configurazione Google:", error);
+    res.status(500).json({
+      success: false,
+      message: `Errore di configurazione: ${error?.message || 'Errore sconosciuto'}`,
+      error: error
+    });
+  }
+});
+
 // Aggiungiamo un endpoint di debug per determinare il percorso esatto
 router.get('/debug-url', (req, res) => {
   const host = req.get('host') || 'unknown';
