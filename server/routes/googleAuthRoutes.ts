@@ -120,7 +120,7 @@ router.get('/callback', async (req, res) => {
     // importante: riutilizziamo l'oggetto oauth2Client esistente per mantenere la coerenza
     
     // Scambia il codice con i token
-    const { tokens } = await oauth2ClientForCallback.getToken(code as string);
+    const { tokens } = await oauth2Client.getToken(code as string);
     console.log("Token ottenuti con successo:", tokens);
     
     oauth2Client.setCredentials(tokens);
@@ -251,6 +251,97 @@ router.get('/debug-url', (req, res) => {
       expectedCallback: redirectUri
     }
   });
+});
+
+// Endpoint per verificare direttamente l'URL sulla console di Google Cloud
+router.get('/verify-redirect', (req, res) => {
+  // Genera un QR code che punta alla console di Google Cloud
+  const consoleUrl = 'https://console.cloud.google.com/apis/credentials';
+  
+  res.send(`
+    <html>
+      <head>
+        <title>Verifica configurazione Google Cloud</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+          }
+          .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 40px auto;
+          }
+          h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+          }
+          .highlight {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+          }
+          .step {
+            margin-bottom: 30px;
+          }
+          .note {
+            background-color: #fef9e7;
+            padding: 15px;
+            border-left: 4px solid #f1c40f;
+            margin: 20px 0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Verifica configurazione OAuth di Google</h1>
+          
+          <div class="step">
+            <h2>1. URL di callback configurato</h2>
+            <p>Il seguente URL di callback deve essere configurato nella console di Google Cloud:</p>
+            <div class="highlight">${redirectUri}</div>
+          </div>
+          
+          <div class="step">
+            <h2>2. Verifica nella console Google Cloud</h2>
+            <p>Apri la <a href="${consoleUrl}" target="_blank">console Google Cloud</a> e verifica che:</p>
+            <ul>
+              <li>L'ID client sia <code>${process.env.GOOGLE_CLIENT_ID}</code></li>
+              <li>Negli "URI di reindirizzamento autorizzati" sia presente esattamente: <code>${redirectUri}</code></li>
+            </ul>
+          </div>
+          
+          <div class="note">
+            <p><strong>Nota importante:</strong> Se hai modificato recentemente gli URI di reindirizzamento nella console di Google Cloud, potrebbe essere necessario attendere alcuni minuti (fino a 5-10 minuti) prima che le modifiche diventino effettive.</p>
+          </div>
+          
+          <div class="step">
+            <h2>3. Errore 400 (redirect_uri_mismatch)</h2>
+            <p>Se continui a ricevere questo errore:</p>
+            <ul>
+              <li>Assicurati che l'URI sia ESATTAMENTE uguale a quello mostrato sopra (anche un singolo carattere di differenza causerà l'errore)</li>
+              <li>Verifica che non ci siano spazi o caratteri speciali nell'URI</li>
+              <li>Prova a cancellare e aggiungere nuovamente l'URI di reindirizzamento nella console</li>
+              <li>Assicurati di aver salvato le modifiche nella console Google Cloud</li>
+            </ul>
+          </div>
+          
+          <div class="step">
+            <h2>4. Verifica diretta</h2>
+            <p>Per effettuare un test diretto dell'autorizzazione OAuth, fai clic sul bottone seguente:</p>
+            <button onclick="window.open('/api/google-auth/start')">Testa autorizzazione Google</button>
+          </div>
+        </div>
+      </body>
+    </html>
+  `);
 });
 
 // Test della configurazione
