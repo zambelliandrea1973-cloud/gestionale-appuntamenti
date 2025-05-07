@@ -6,6 +6,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import {
   CalendarPlus,
   FileSpreadsheet,
@@ -48,6 +49,71 @@ export default function ProFeaturesPage() {
       setLocation("/reports");
     }
   }, [activeTab, setLocation]);
+
+  // Funzione per rendere il contenuto della schermata di blocco
+  const renderLockedFeatureContent = (featureName, description) => {
+    if (hasPROAccess) {
+      return (
+        <div className="space-y-4">
+          {activeTab === "google-calendar" && <GoogleCalendarSimpleSetup />}
+        </div>
+      );
+    }
+
+    return (
+      <Card className="max-w-md w-full mx-auto">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="rounded-full bg-amber-100 p-3">
+              <Lock className="h-8 w-8 text-amber-600" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl">
+            {t('proFeature.title', 'Funzionalità PRO')}
+          </CardTitle>
+          <CardDescription>
+            {t('proFeature.subtitle', `"${featureName}" è disponibile solo con l'abbonamento PRO`)}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center mb-4 text-muted-foreground">
+            {description}
+          </p>
+          
+          <div className="border rounded-lg p-4 mb-4 bg-slate-50">
+            <div className="flex items-center mb-2">
+              <Crown className="h-5 w-5 text-amber-500 mr-2" />
+              <h3 className="font-medium">
+                {t('proFeature.benefits.title', 'Con PRO ottieni')}:
+              </h3>
+            </div>
+            <ul className="space-y-2 pl-7 list-disc text-sm">
+              <li>{t('proFeature.benefits.invoices', 'Gestione fatture completa')}</li>
+              <li>{t('proFeature.benefits.reports', 'Report dettagliati sull\'attività')}</li>
+              <li>{t('proFeature.benefits.googleCalendar', 'Integrazione con Google Calendar')}</li>
+              <li>{t('proFeature.benefits.support', 'Supporto prioritario')}</li>
+            </ul>
+          </div>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-2">
+          <Button 
+            className="w-full" 
+            onClick={handleUpgradeClick}
+          >
+            {t('proFeature.upgradeButton', 'Passa a PRO')}
+          </Button>
+          <Link to="/">
+            <Button
+              variant="outline"
+              className="w-full"
+            >
+              {t('common.backToHome', 'Torna alla Home')}
+            </Button>
+          </Link>
+        </CardFooter>
+      </Card>
+    );
+  };
   
   return (
     <div className="container py-6">
@@ -57,8 +123,6 @@ export default function ProFeaturesPage() {
           {t('pro.title', 'Funzionalità PRO')}
         </h1>
       </div>
-      
-      {/* Banner rimosso per evitare duplicazione */}
       
       <Tabs 
         defaultValue="google-calendar" 
@@ -81,86 +145,18 @@ export default function ProFeaturesPage() {
         </TabsList>
         
         <TabsContent value="google-calendar">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="col-span-1 md:col-span-2 lg:col-span-3">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight">
-                    {t('pro.googleCalendarIntegration', 'Integrazione Google Calendar')}
-                  </h2>
-                  <p className="text-muted-foreground">
-                    {t('pro.googleCalendarDesc', 'Sincronizza i tuoi appuntamenti con Google Calendar')}
-                  </p>
-                </div>
-                <Link to="/">
-                  <Button variant="outline">
-                    {t('common.backToHome', 'Torna alla Home')}
-                  </Button>
-                </Link>
-              </div>
-              
-              {hasPROAccess ? (
-                <GoogleCalendarSimpleSetup />
-              ) : (
-                <div className="rounded-lg border p-10 text-center">
-                  <Lock className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-                  <h3 className="text-lg font-medium mb-2">{t('pro.featureLocked', 'Funzionalità bloccata')}</h3>
-                  <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
-                    {t('pro.googleCalendarLocked', 'L\'integrazione con Google Calendar è disponibile solo per utenti PRO.')}
-                  </p>
-                  <div className="flex justify-center gap-4">
-                    <Button onClick={handleUpgradeClick}>
-                      {t('pro.unlockFeature', 'Sblocca questa funzionalità')}
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          {renderLockedFeatureContent(
+            t('pro.googleCalendarIntegration', 'Integrazione Google Calendar'),
+            t('pro.googleCalendarLocked', 'L\'integrazione con Google Calendar è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità.')
+          )}
         </TabsContent>
         
         <TabsContent value="invoices">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="col-span-1 md:col-span-2 lg:col-span-3">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight">
-                    {t('pro.invoicesIntegration', 'Gestione Fatture')}
-                  </h2>
-                  <p className="text-muted-foreground">
-                    {t('pro.invoicesDesc', 'Crea e gestisci le tue fatture')}
-                  </p>
-                </div>
-                <Link to="/">
-                  <Button variant="outline">
-                    {t('common.backToHome', 'Torna alla Home')}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
+          {/* Contenuto vuoto - reindirizzamento gestito dall'effetto */}
         </TabsContent>
         
         <TabsContent value="reports">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="col-span-1 md:col-span-2 lg:col-span-3">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight">
-                    {t('pro.reportsIntegration', 'Report Avanzati')}
-                  </h2>
-                  <p className="text-muted-foreground">
-                    {t('pro.reportsDesc', 'Analizza i dati della tua attività')}
-                  </p>
-                </div>
-                <Link to="/">
-                  <Button variant="outline">
-                    {t('common.backToHome', 'Torna alla Home')}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
+          {/* Contenuto vuoto - reindirizzamento gestito dall'effetto */}
         </TabsContent>
       </Tabs>
     </div>
