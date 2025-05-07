@@ -87,9 +87,8 @@ export default function ProFeaturesPage() {
   );
 
   return (
-    <div className="container">
-      <ProFeatureNavbar />
+    <ProFeatureNavbar>
       {content}
-    </div>
+    </ProFeatureNavbar>
   );
 }
