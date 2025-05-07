@@ -49,6 +49,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import InvoiceForm from "@/components/InvoiceForm";
 import ProFeatureGuard from "@/components/ProFeatureGuard";
+import ProFeatureNavbar from "@/components/ProFeatureNavbar";
 import InvoiceDetails from "@/components/InvoiceDetails";
 import PaymentForm from "@/components/PaymentForm";
 import { 
@@ -96,7 +97,10 @@ export default function Invoices() {
       featureName="Gestione Fatture"
       description="La gestione completa delle fatture è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
     >
-      <InvoicesContent />
+      <div className="container py-6">
+        <ProFeatureNavbar />
+        <InvoicesContent />
+      </div>
     </ProFeatureGuard>
   );
 }
