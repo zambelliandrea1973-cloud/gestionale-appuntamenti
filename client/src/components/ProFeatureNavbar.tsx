@@ -1,51 +1,27 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
 import {
   CalendarPlus,
   FileSpreadsheet,
   Receipt,
   Crown,
 } from "lucide-react";
-import { useLocation } from 'wouter';
+import { Link } from 'wouter';
 
 /**
  * Componente di navigazione per le funzionalità PRO
  * Utilizzato su tutte le pagine PRO per mantenere una UI coerente
  */
-interface ProFeatureNavbarProps {
-  children: ReactNode;
-}
-
-export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
+export default function ProFeatureNavbar() {
   const { t } = useTranslation();
-  const [location, setLocation] = useLocation();
   
-  // Determina quale tab è attiva in base al percorso
-  const getActiveTab = () => {
-    if (location.includes('/invoices')) return "invoices";
-    if (location.includes('/reports')) return "reports";
-    return "google-calendar";
-  };
-  
-  // Gestisce il cambio di tab
-  const handleTabChange = (value: string) => {
-    if (value === "google-calendar") {
-      setLocation("/pro-features");
-    } else if (value === "invoices") {
-      setLocation("/invoices");
-    } else if (value === "reports") {
-      setLocation("/reports");
-    }
+  // Tab corrente basato sul percorso
+  const isActive = (path: string) => {
+    return window.location.pathname.includes(path);
   };
   
   return (
-    <div className="container py-6">
+    <div className="container py-6 mb-6">
       <div className="flex items-center mb-6">
         <Crown className="h-6 w-6 mr-2 text-amber-500" />
         <h1 className="text-3xl font-bold tracking-tight">
@@ -53,28 +29,46 @@ export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
         </h1>
       </div>
       
-      <Tabs 
-        value={getActiveTab()} 
-        className="w-full" 
-        onValueChange={handleTabChange}
-      >
-        <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="google-calendar" className="flex items-center">
+      <div className="grid w-full grid-cols-3 mb-8">
+        <Link to="/pro-features">
+          <div 
+            className={`flex items-center justify-center py-2 px-3 ${
+              isActive('/pro-features') && !isActive('/invoices') && !isActive('/reports') 
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
             <CalendarPlus className="h-4 w-4 mr-2" />
             {t('pro.googleCalendar', 'Google Calendar')}
-          </TabsTrigger>
-          <TabsTrigger value="invoices" className="flex items-center">
+          </div>
+        </Link>
+        
+        <Link to="/invoices">
+          <div 
+            className={`flex items-center justify-center py-2 px-3 ${
+              isActive('/invoices') 
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
             <Receipt className="h-4 w-4 mr-2" />
-            {t('pro.invoices', 'Fatture')} 
-          </TabsTrigger>
-          <TabsTrigger value="reports" className="flex items-center">
+            {t('pro.invoices', 'Fatture')}
+          </div>
+        </Link>
+        
+        <Link to="/reports">
+          <div 
+            className={`flex items-center justify-center py-2 px-3 ${
+              isActive('/reports') 
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
             <FileSpreadsheet className="h-4 w-4 mr-2" />
             {t('pro.reports', 'Report')}
-          </TabsTrigger>
-        </TabsList>
-        
-        {children}
-      </Tabs>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 }
