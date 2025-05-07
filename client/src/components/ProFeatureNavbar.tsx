@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Tabs,
@@ -18,7 +18,11 @@ import { useLocation } from 'wouter';
  * Componente di navigazione per le funzionalità PRO
  * Utilizzato su tutte le pagine PRO per mantenere una UI coerente
  */
-export default function ProFeatureNavbar() {
+interface ProFeatureNavbarProps {
+  children: ReactNode;
+}
+
+export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   
@@ -41,7 +45,7 @@ export default function ProFeatureNavbar() {
   };
   
   return (
-    <>
+    <div className="container py-6">
       <div className="flex items-center mb-6">
         <Crown className="h-6 w-6 mr-2 text-amber-500" />
         <h1 className="text-3xl font-bold tracking-tight">
@@ -51,10 +55,10 @@ export default function ProFeatureNavbar() {
       
       <Tabs 
         value={getActiveTab()} 
-        className="w-full mb-8" 
+        className="w-full" 
         onValueChange={handleTabChange}
       >
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-3 mb-8">
           <TabsTrigger value="google-calendar" className="flex items-center">
             <CalendarPlus className="h-4 w-4 mr-2" />
             {t('pro.googleCalendar', 'Google Calendar')}
@@ -68,7 +72,9 @@ export default function ProFeatureNavbar() {
             {t('pro.reports', 'Report')}
           </TabsTrigger>
         </TabsList>
+        
+        {children}
       </Tabs>
-    </>
+    </div>
   );
 }

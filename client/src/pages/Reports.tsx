@@ -45,10 +45,11 @@ export default function Reports() {
       featureName="Report Statistici"
       description="I report dettagliati sull'attività sono disponibili nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
     >
-      <div className="container py-6">
-        <ProFeatureNavbar />
-        <ReportsContent />
-      </div>
+      <ProFeatureNavbar>
+        <TabsContent value="reports">
+          <ReportsContent />
+        </TabsContent>
+      </ProFeatureNavbar>
     </ProFeatureGuard>
   );
 }
