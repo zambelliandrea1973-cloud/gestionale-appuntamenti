@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select";
 import { formatDateForApi } from "@/lib/utils/date";
 import ProFeatureGuard from "@/components/ProFeatureGuard";
+import ProFeatureNavbar from "@/components/ProFeatureNavbar";
 
 export default function Reports() {
   return (
@@ -44,7 +45,10 @@ export default function Reports() {
       featureName="Report Statistici"
       description="I report dettagliati sull'attività sono disponibili nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
     >
-      <ReportsContent />
+      <div className="container py-6">
+        <ProFeatureNavbar />
+        <ReportsContent />
+      </div>
     </ProFeatureGuard>
   );
 }
