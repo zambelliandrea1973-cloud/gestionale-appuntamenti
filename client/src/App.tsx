@@ -235,6 +235,13 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       
+      {/* Alias per la pagina delle funzionalità PRO */}
+      <Route path="/pro-features">
+        <StaffPageWrapper>
+          <ProFeaturesPage />
+        </StaffPageWrapper>
+      </Route>
+      
       {/* Pagina delle impostazioni email */}
       <Route path="/email-settings">
         <StaffPageWrapper>

@@ -437,7 +437,7 @@ export default function GoogleCalendarSimpleSetup() {
                   <p>{t('google.advancedHelpDesc', 'Se hai bisogno di assistenza con la configurazione avanzata:')}</p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>
-                      <Link to="/google-setup" className="text-primary hover:underline flex items-center">
+                      <Link to="/google-troubleshooting" className="text-primary hover:underline flex items-center">
                         {t('google.setupGuide', 'Guida alla configurazione avanzata')}
                         <ArrowRight className="h-3 w-3 ml-1" />
                       </Link>
@@ -459,12 +459,18 @@ export default function GoogleCalendarSimpleSetup() {
               ? t('google.lastSyncStatus', 'Stato: Connesso a Google Calendar') 
               : t('google.notConnected', 'Stato: Non connesso')}
           </div>
-          {isGoogleAuthorized && (
-            <Link to="/settings" className="text-xs text-primary hover:underline flex items-center">
-              {t('google.advancedSettings', 'Impostazioni avanzate')}
+          <div className="flex items-center gap-4">
+            {isGoogleAuthorized && (
+              <Link to="/settings" className="text-xs text-primary hover:underline flex items-center">
+                {t('google.advancedSettings', 'Impostazioni avanzate')}
+                <ArrowRight className="h-3 w-3 ml-1" />
+              </Link>
+            )}
+            <Link to="/" className="text-xs text-primary hover:underline flex items-center">
+              {t('common.backToHome', 'Torna alla Home')}
               <ArrowRight className="h-3 w-3 ml-1" />
             </Link>
-          )}
+          </div>
         </CardFooter>
       </Card>
     </div>

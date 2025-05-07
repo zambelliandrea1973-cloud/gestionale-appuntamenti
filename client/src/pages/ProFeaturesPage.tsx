@@ -81,20 +81,49 @@ export default function ProFeaturesPage() {
         </TabsList>
         
         <TabsContent value="google-calendar">
-          {hasPROAccess ? (
-            <GoogleCalendarSimpleSetup />
-          ) : (
-            <div className="rounded-lg border p-10 text-center">
-              <Lock className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-              <h3 className="text-lg font-medium mb-2">{t('pro.featureLocked', 'Funzionalità bloccata')}</h3>
-              <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
-                {t('pro.googleCalendarLocked', 'L\'integrazione con Google Calendar è disponibile solo per utenti PRO.')}
-              </p>
-              <Button onClick={handleUpgradeClick}>
-                {t('pro.unlockFeature', 'Sblocca questa funzionalità')}
-              </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="col-span-1 md:col-span-2 lg:col-span-3">
+              {hasPROAccess ? (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-2xl font-bold tracking-tight">
+                        {t('pro.googleCalendarIntegration', 'Integrazione Google Calendar')}
+                      </h2>
+                      <p className="text-muted-foreground">
+                        {t('pro.googleCalendarDesc', 'Sincronizza i tuoi appuntamenti con Google Calendar')}
+                      </p>
+                    </div>
+                    <Link to="/">
+                      <Button variant="outline" className="flex items-center gap-2">
+                        {t('common.backToHome', 'Torna alla Home')}
+                      </Button>
+                    </Link>
+                  </div>
+                  
+                  <GoogleCalendarSimpleSetup />
+                </div>
+              ) : (
+                <div className="rounded-lg border p-10 text-center">
+                  <Lock className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
+                  <h3 className="text-lg font-medium mb-2">{t('pro.featureLocked', 'Funzionalità bloccata')}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
+                    {t('pro.googleCalendarLocked', 'L\'integrazione con Google Calendar è disponibile solo per utenti PRO.')}
+                  </p>
+                  <div className="flex justify-center gap-4">
+                    <Button onClick={handleUpgradeClick}>
+                      {t('pro.unlockFeature', 'Sblocca questa funzionalità')}
+                    </Button>
+                    <Link to="/">
+                      <Button variant="outline">
+                        {t('common.backToHome', 'Torna alla Home')}
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </TabsContent>
         
         <TabsContent value="invoices">
