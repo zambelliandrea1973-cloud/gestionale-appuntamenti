@@ -97,10 +97,11 @@ export default function Invoices() {
       featureName="Gestione Fatture"
       description="La gestione completa delle fatture è disponibile nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
     >
-      <div className="container py-6">
-        <ProFeatureNavbar />
-        <InvoicesContent />
-      </div>
+      <ProFeatureNavbar>
+        <TabsContent value="invoices">
+          <InvoicesContent />
+        </TabsContent>
+      </ProFeatureNavbar>
     </ProFeatureGuard>
   );
 }
