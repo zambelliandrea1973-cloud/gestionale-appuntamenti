@@ -2,13 +2,87 @@ import { ReactNode } from 'react';
 import { useLicense } from '@/hooks/use-license';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Crown, Lock, ArrowRight } from 'lucide-react';
+import { 
+  Crown, 
+  Lock, 
+  ArrowRight, 
+  CalendarPlus, 
+  FileSpreadsheet, 
+  Receipt 
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'wouter';
 
 interface ProFeatureGuardProps {
   children: ReactNode;
   featureName: string;
   description?: string;
+}
+
+/**
+ * Barra di navigazione delle funzionalità PRO
+ * Questo componente è sempre visibile, anche se l'utente non ha accesso PRO
+ */
+function ProNavigationBar() {
+  const { t } = useTranslation();
+  const currentPath = window.location.pathname;
+  
+  // Determina quale tab è attivo
+  const isGoogleCalendarActive = currentPath.includes('/pro-features');
+  const isInvoicesActive = currentPath.includes('/invoices');
+  const isReportsActive = currentPath.includes('/reports');
+
+  return (
+    <div className="mb-8">
+      <div className="flex items-center mb-6">
+        <Crown className="h-6 w-6 mr-2 text-amber-500" />
+        <h1 className="text-3xl font-bold tracking-tight">
+          {t('pro.title', 'Funzionalità PRO')}
+        </h1>
+      </div>
+      
+      <div className="grid w-full grid-cols-3">
+        <Link to="/pro-features">
+          <div 
+            className={`flex items-center justify-center py-3 px-3 ${
+              isGoogleCalendarActive
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
+            <CalendarPlus className="h-4 w-4 mr-2" />
+            {t('pro.googleCalendar', 'Google Calendar')}
+          </div>
+        </Link>
+        
+        <Link to="/invoices">
+          <div 
+            className={`flex items-center justify-center py-3 px-3 ${
+              isInvoicesActive 
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
+            <Receipt className="h-4 w-4 mr-2" />
+            {t('pro.invoices', 'Fatture')}
+          </div>
+        </Link>
+        
+        <Link to="/reports">
+          <div 
+            className={`flex items-center justify-center py-3 px-3 ${
+              isReportsActive 
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
+            <FileSpreadsheet className="h-4 w-4 mr-2" />
+            {t('pro.reports', 'Report')}
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 /**
@@ -22,11 +96,13 @@ export default function ProFeatureGuard({ children, featureName, description }: 
   const navigate = (path: string) => { window.location.href = path };
   const { t } = useTranslation();
   
-  // Se l'utente sta tentando di utilizzare una funzione PRO ma non ha l'abbonamento,
-  // mostriamo un messaggio di upgrade
+  // La barra di navigazione PRO è sempre visibile
+  // Se l'utente non ha l'abbonamento PRO, mostriamo il messaggio di upgrade
   if (!isLoading && !hasProAccess) {
     return (
-      <div className="flex flex-col items-center justify-center h-full py-12">
+      <div className="container py-6">
+        <ProNavigationBar />
+        
         <Card className="max-w-md w-full mx-auto">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
@@ -82,6 +158,11 @@ export default function ProFeatureGuard({ children, featureName, description }: 
     );
   }
   
-  // Se l'utente ha l'abbonamento PRO o stiamo ancora caricando, mostriamo i contenuti normalmente
-  return <>{children}</>;
+  // Se l'utente ha l'abbonamento PRO, mostriamo i contenuti con la barra di navigazione
+  return (
+    <div className="container py-6">
+      <ProNavigationBar />
+      {children}
+    </div>
+  );
 }
