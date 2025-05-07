@@ -113,7 +113,7 @@ export default function AppointmentForm({
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
       notes: "",
-      reminderType: "sms" // Imposta SMS come valore predefinito
+      reminderType: "whatsapp,email" // Imposta WhatsApp ed Email come valori predefiniti
     }
   });
 
@@ -795,43 +795,16 @@ export default function AppointmentForm({
                 <Bell className="h-5 w-5 mr-2" />
                 Seleziona Canali di Notifica
               </h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="reminderSMS" 
-                    className="data-[state=checked]:bg-green-600"
-                    checked={true} 
-                    defaultChecked={true}
-                    onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || 'sms';
-                      let types = currentReminders ? currentReminders.split(',') : ['sms'];
-                      
-                      if (checked) {
-                        if (!types.includes('sms')) types.push('sms');
-                      } else {
-                        const index = types.indexOf('sms');
-                        if (index !== -1) types.splice(index, 1);
-                      }
-                      
-                      console.log("SMS checkbox: setting value to", types.join(','));
-                      form.setValue('reminderType', types.join(','));
-                    }}
-                  />
-                  <label
-                    htmlFor="reminderSMS"
-                    className="text-sm font-medium flex items-center leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Smartphone className="h-4 w-4 mr-1" /> SMS
-                  </label>
-                </div>
-                
+              <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
                   <Checkbox 
                     id="reminderWhatsApp" 
                     className="data-[state=checked]:bg-green-600"
+                    checked={true}
+                    defaultChecked={true}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || 'sms';
-                      let types = currentReminders ? currentReminders.split(',') : ['sms'];
+                      const currentReminders = form.getValues().reminderType || 'whatsapp,email';
+                      let types = currentReminders ? currentReminders.split(',') : ['whatsapp', 'email'];
                       
                       if (checked) {
                         if (!types.includes('whatsapp')) types.push('whatsapp');
@@ -856,9 +829,11 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderEmail" 
                     className="data-[state=checked]:bg-green-600"
+                    checked={true}
+                    defaultChecked={true}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || 'sms';
-                      let types = currentReminders ? currentReminders.split(',') : ['sms'];
+                      const currentReminders = form.getValues().reminderType || 'whatsapp,email';
+                      let types = currentReminders ? currentReminders.split(',') : ['whatsapp', 'email'];
                       
                       if (checked) {
                         if (!types.includes('email')) types.push('email');
