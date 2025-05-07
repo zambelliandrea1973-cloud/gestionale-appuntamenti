@@ -800,7 +800,6 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderWhatsApp" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={true}
                     defaultChecked={true}
                     onCheckedChange={(checked) => {
                       const currentReminders = form.getValues().reminderType || 'whatsapp';
