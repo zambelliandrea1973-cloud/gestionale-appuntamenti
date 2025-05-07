@@ -87,10 +87,9 @@ export default function ProFeaturesPage() {
   );
 
   return (
-    <ProFeatureNavbar>
-      <TabsContent value="google-calendar">
-        {content}
-      </TabsContent>
-    </ProFeatureNavbar>
+    <div className="container">
+      <ProFeatureNavbar />
+      {content}
+    </div>
   );
 }
