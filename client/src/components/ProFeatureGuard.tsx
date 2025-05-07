@@ -72,9 +72,9 @@ export default function ProFeatureGuard({ children, featureName, description }: 
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => navigate('/pro')}
+              onClick={() => navigate('/')}
             >
-              {t('proFeature.learnMore', 'Scopri di più')}
+              {t('common.backToHome', 'Torna alla Home')}
             </Button>
           </CardFooter>
         </Card>

@@ -83,26 +83,24 @@ export default function ProFeaturesPage() {
         <TabsContent value="google-calendar">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="col-span-1 md:col-span-2 lg:col-span-3">
-              {hasPROAccess ? (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h2 className="text-2xl font-bold tracking-tight">
-                        {t('pro.googleCalendarIntegration', 'Integrazione Google Calendar')}
-                      </h2>
-                      <p className="text-muted-foreground">
-                        {t('pro.googleCalendarDesc', 'Sincronizza i tuoi appuntamenti con Google Calendar')}
-                      </p>
-                    </div>
-                    <Link to="/">
-                      <Button variant="outline" className="flex items-center gap-2">
-                        {t('common.backToHome', 'Torna alla Home')}
-                      </Button>
-                    </Link>
-                  </div>
-                  
-                  <GoogleCalendarSimpleSetup />
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight">
+                    {t('pro.googleCalendarIntegration', 'Integrazione Google Calendar')}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {t('pro.googleCalendarDesc', 'Sincronizza i tuoi appuntamenti con Google Calendar')}
+                  </p>
                 </div>
+                <Link to="/">
+                  <Button variant="outline">
+                    {t('common.backToHome', 'Torna alla Home')}
+                  </Button>
+                </Link>
+              </div>
+              
+              {hasPROAccess ? (
+                <GoogleCalendarSimpleSetup />
               ) : (
                 <div className="rounded-lg border p-10 text-center">
                   <Lock className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
@@ -114,11 +112,6 @@ export default function ProFeaturesPage() {
                     <Button onClick={handleUpgradeClick}>
                       {t('pro.unlockFeature', 'Sblocca questa funzionalità')}
                     </Button>
-                    <Link to="/">
-                      <Button variant="outline">
-                        {t('common.backToHome', 'Torna alla Home')}
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               )}
@@ -127,11 +120,47 @@ export default function ProFeaturesPage() {
         </TabsContent>
         
         <TabsContent value="invoices">
-          {/* Contenuto vuoto - reindirizzamento gestito dall'effetto */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="col-span-1 md:col-span-2 lg:col-span-3">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight">
+                    {t('pro.invoicesIntegration', 'Gestione Fatture')}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {t('pro.invoicesDesc', 'Crea e gestisci le tue fatture')}
+                  </p>
+                </div>
+                <Link to="/">
+                  <Button variant="outline">
+                    {t('common.backToHome', 'Torna alla Home')}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
         </TabsContent>
         
         <TabsContent value="reports">
-          {/* Contenuto vuoto - reindirizzamento gestito dall'effetto */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="col-span-1 md:col-span-2 lg:col-span-3">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight">
+                    {t('pro.reportsIntegration', 'Report Avanzati')}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {t('pro.reportsDesc', 'Analizza i dati della tua attività')}
+                  </p>
+                </div>
+                <Link to="/">
+                  <Button variant="outline">
+                    {t('common.backToHome', 'Torna alla Home')}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
