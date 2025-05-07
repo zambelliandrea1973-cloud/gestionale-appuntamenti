@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   CalendarPlus,
@@ -12,7 +12,11 @@ import { Link } from 'wouter';
  * Componente di navigazione per le funzionalità PRO
  * Utilizzato su tutte le pagine PRO per mantenere una UI coerente
  */
-export default function ProFeatureNavbar() {
+interface ProFeatureNavbarProps {
+  children: ReactNode;
+}
+
+export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
   const { t } = useTranslation();
   
   // Tab corrente basato sul percorso
@@ -21,7 +25,7 @@ export default function ProFeatureNavbar() {
   };
   
   return (
-    <div className="container py-6 mb-6">
+    <div className="container py-6">
       <div className="flex items-center mb-6">
         <Crown className="h-6 w-6 mr-2 text-amber-500" />
         <h1 className="text-3xl font-bold tracking-tight">
@@ -32,7 +36,7 @@ export default function ProFeatureNavbar() {
       <div className="grid w-full grid-cols-3 mb-8">
         <Link to="/pro-features">
           <div 
-            className={`flex items-center justify-center py-2 px-3 ${
+            className={`flex items-center justify-center py-3 px-3 ${
               isActive('/pro-features') && !isActive('/invoices') && !isActive('/reports') 
                 ? 'border-b-2 border-primary font-medium text-primary' 
                 : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
@@ -45,7 +49,7 @@ export default function ProFeatureNavbar() {
         
         <Link to="/invoices">
           <div 
-            className={`flex items-center justify-center py-2 px-3 ${
+            className={`flex items-center justify-center py-3 px-3 ${
               isActive('/invoices') 
                 ? 'border-b-2 border-primary font-medium text-primary' 
                 : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
@@ -58,7 +62,7 @@ export default function ProFeatureNavbar() {
         
         <Link to="/reports">
           <div 
-            className={`flex items-center justify-center py-2 px-3 ${
+            className={`flex items-center justify-center py-3 px-3 ${
               isActive('/reports') 
                 ? 'border-b-2 border-primary font-medium text-primary' 
                 : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
@@ -69,6 +73,8 @@ export default function ProFeatureNavbar() {
           </div>
         </Link>
       </div>
+      
+      {children}
     </div>
   );
 }
