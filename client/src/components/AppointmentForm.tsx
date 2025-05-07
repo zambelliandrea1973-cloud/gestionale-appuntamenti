@@ -113,7 +113,7 @@ export default function AppointmentForm({
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
       notes: "",
-      reminderType: "whatsapp,email" // Imposta WhatsApp ed Email come valori predefiniti
+      reminderType: "whatsapp" // Imposta solo WhatsApp come valore predefinito
     }
   });
 
@@ -803,8 +803,8 @@ export default function AppointmentForm({
                     checked={true}
                     defaultChecked={true}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || 'whatsapp,email';
-                      let types = currentReminders ? currentReminders.split(',') : ['whatsapp', 'email'];
+                      const currentReminders = form.getValues().reminderType || 'whatsapp';
+                      let types = currentReminders ? currentReminders.split(',') : ['whatsapp'];
                       
                       if (checked) {
                         if (!types.includes('whatsapp')) types.push('whatsapp');
@@ -829,11 +829,10 @@ export default function AppointmentForm({
                   <Checkbox 
                     id="reminderEmail" 
                     className="data-[state=checked]:bg-green-600"
-                    checked={true}
-                    defaultChecked={true}
+                    defaultChecked={false}
                     onCheckedChange={(checked) => {
-                      const currentReminders = form.getValues().reminderType || 'whatsapp,email';
-                      let types = currentReminders ? currentReminders.split(',') : ['whatsapp', 'email'];
+                      const currentReminders = form.getValues().reminderType || 'whatsapp';
+                      let types = currentReminders ? currentReminders.split(',') : ['whatsapp'];
                       
                       if (checked) {
                         if (!types.includes('email')) types.push('email');
