@@ -133,8 +133,8 @@ export default function SubscribePage() {
       type: LicenseType.BASE,
       name: t('plans.base.name', 'Base'),
       description: t('plans.base.description', 'Per professionisti individuali'),
-      price: 9.90,
-      priceLabel: '€9,90/mese',
+      price: 3.99,
+      priceLabel: '€3,99/mese',
       buttonVariant: 'outline',
       features: [
         { name: t('plans.features.appointments', 'Gestione appuntamenti'), included: true },
@@ -150,8 +150,8 @@ export default function SubscribePage() {
       type: LicenseType.PRO,
       name: t('plans.pro.name', 'PRO'),
       description: t('plans.pro.description', 'Tutte le funzionalità premium'),
-      price: 19.90,
-      priceLabel: '€19,90/mese',
+      price: 6.99,
+      priceLabel: '€6,99/mese',
       popular: true,
       buttonVariant: 'default',
       features: [
@@ -168,8 +168,8 @@ export default function SubscribePage() {
       type: LicenseType.PRO,
       name: t('plans.business.name', 'Business'),
       description: t('plans.business.description', 'Per studi con più operatori'),
-      price: 39.90,
-      priceLabel: '€39,90/mese',
+      price: 9.99,
+      priceLabel: '€9,99/mese',
       buttonVariant: 'outline',
       features: [
         { name: t('plans.features.appointments', 'Gestione appuntamenti'), included: true },
