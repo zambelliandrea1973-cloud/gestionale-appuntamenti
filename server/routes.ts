@@ -852,6 +852,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Endpoint per ottenere info utente con licenza per il badge utente
+  app.get("/api/user-with-license", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user as any;
+      
+      // Ottieni le informazioni sulla licenza
+      const licenseInfo = await licenseService.getCurrentLicenseInfo();
+      
+      // Prepara l'oggetto da restituire conforme all'interfaccia UserWithLicense
+      const userWithLicense = {
+        id: user.id,
+        username: user.username,
+        email: user.email || null,
+        type: user.type || 'user', // 'user', 'staff', 'admin'
+        firstName: user.firstName || null,
+        lastName: user.lastName || null,
+        licenseInfo: {
+          type: licenseInfo.type,
+          expiresAt: licenseInfo.expiresAt ? licenseInfo.expiresAt.toISOString() : null,
+          isActive: licenseInfo.isActive,
+          daysLeft: licenseInfo.daysLeft
+        }
+      };
+      
+      res.json(userWithLicense);
+    } catch (error) {
+      console.error("Errore nel recupero dei dati utente con licenza:", error);
+      res.status(500).json({ message: "Errore nel recupero dei dati utente con licenza" });
+    }
+  });
+
   // Client with appointments route
   app.get("/api/clients/:id/with-appointments", async (req: Request, res: Response) => {
     try {
