@@ -121,6 +121,9 @@ export default function WelcomePage() {
           </div>
         </div>
       </footer>
+      
+      {/* Componente Toaster per mostrare notifiche */}
+      <Toaster />
     </div>
   );
 }
