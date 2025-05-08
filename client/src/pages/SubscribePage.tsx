@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'wouter';
+import { useAuth } from '@/hooks/use-auth';
 import { 
   Check, 
   Crown, 
@@ -51,12 +53,26 @@ export default function SubscribePage() {
   const { t } = useTranslation();
   const { licenseInfo, activateLicense } = useLicense();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [paymentMethod, setPaymentMethod] = useState<'credit-card' | 'paypal'>('credit-card');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showActivationDialog, setShowActivationDialog] = useState(false);
   const [activationCode, setActivationCode] = useState('');
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
+  
+  // Reindirizza alla pagina di login se l'utente non è autenticato
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      toast({
+        title: 'Accesso richiesto',
+        description: 'Devi effettuare l\'accesso per sottoscrivere un abbonamento',
+        variant: 'destructive',
+      });
+      setLocation('/login');
+    }
+  }, [isAuthenticated, isLoading, setLocation, toast]);
   
   // Funzione per gestire l'attivazione della licenza
   const handleActivateCode = async () => {
