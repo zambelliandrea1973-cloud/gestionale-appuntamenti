@@ -167,7 +167,7 @@ class LicenseService {
         return {
           type: LicenseType.TRIAL,
           expiresAt: trialLicense.expiresAt,
-          isActive: trialLicense.isActive,
+          isActive: trialLicense.isActive === true,
           daysLeft
         };
       }
@@ -176,7 +176,7 @@ class LicenseService {
     // Carica la licenza dal database
     const [license] = await db.select()
       .from(licenses)
-      .where(eq(licenses.code, currentLicenseCode));
+      .where(eq(licenses.code, currentLicenseCode as string));
     
     if (!license) {
       // Fallback a TRIAL se la licenza non esiste

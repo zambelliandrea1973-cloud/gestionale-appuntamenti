@@ -52,7 +52,7 @@ export default function StaffLogin() {
       }
       
       // Login riuscito, reindirizza alla dashboard
-      navigate("/");
+      navigate("/dashboard");
     } catch (err: any) {
       setError(err.message || "Si è verificato un errore durante l'accesso");
     } finally {
