@@ -30,6 +30,7 @@ const LICENSE_DURATIONS = {
   [LicenseType.BASE]: 365, // Abbonamento base di 1 anno
   [LicenseType.PRO]: 365, // Abbonamento pro di 1 anno
   [LicenseType.BUSINESS]: 365, // Abbonamento business di 1 anno
+  [LicenseType.STAFF_FREE]: 365 * 10, // 10 anni di licenza per lo staff
   [LicenseType.PASSEPARTOUT]: null, // Abbonamento passepartout permanente senza scadenza
 };
 

@@ -59,7 +59,21 @@ function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
   res.status(403).json({ message: "Accesso negato" });
 }
 
+// Dichiarazione namespace per accesso globale al contesto della richiesta
+declare global {
+  namespace NodeJS {
+    interface Global {
+      currentRequest?: any;
+    }
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Middleware per rendere disponibile la richiesta corrente al servizio di licenza
+  app.use((req, res, next) => {
+    global.currentRequest = req;
+    next();
+  });
   // Configura l'autenticazione
   setupAuth(app);
   
