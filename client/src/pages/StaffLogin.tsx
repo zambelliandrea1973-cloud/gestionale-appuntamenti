@@ -61,8 +61,20 @@ export default function StaffLogin() {
         throw new Error(data.message || "Errore durante l'accesso");
       }
       
-      // Login riuscito, reindirizza alla dashboard
-      navigate("/dashboard");
+      // Ottieni i dati dell'utente dalla risposta
+      const userData = await response.json();
+      console.log("Login riuscito, dati utente:", userData);
+      
+      // Verifica se l'utente è l'amministratore principale
+      if (userData && userData.role === "admin" && userData.username === "zambelli.andrea.1973@gmail.com") {
+        console.log("Utente admin principale, reindirizzamento a /staff-management");
+        // Se è l'admin principale, reindirizza alla pagina di gestione staff
+        navigate("/staff-management");
+      } else {
+        console.log("Utente standard, reindirizzamento alla dashboard");
+        // Altrimenti reindirizza alla dashboard standard
+        navigate("/dashboard");
+      }
     } catch (err: any) {
       setError(err.message || "Si è verificato un errore durante l'accesso");
     } finally {
