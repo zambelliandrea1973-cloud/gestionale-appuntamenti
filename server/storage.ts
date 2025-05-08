@@ -2112,6 +2112,29 @@ export class DatabaseStorage implements IStorage {
       return undefined;
     }
   }
+  
+  async getAllStaffUsers(): Promise<User[]> {
+    try {
+      // Seleziona tutti gli utenti dove clientId è null (gli utenti staff non hanno clientId)
+      // e ordinali per id in modo ascendente
+      const staffUsers = await db.select().from(users)
+        .where(
+          and(
+            eq(users.clientId, null),
+            or(
+              eq(users.role, "staff"),
+              eq(users.role, "admin")
+            )
+          )
+        )
+        .orderBy(asc(users.id));
+      
+      return staffUsers;
+    } catch (error) {
+      console.error("Error getting all staff users:", error);
+      return [];
+    }
+  }
 
   async createUser(user: InsertUser): Promise<User> {
     try {
