@@ -17,7 +17,8 @@ import {
   Settings as SettingsIcon,
   Crown,
   Shield,
-  UserCog
+  UserCog,
+  LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -143,6 +144,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <LanguageSelector />
                 </>
               )}
+              
+              {/* Pulsante di logout */}
+              <div className="ml-2">
+                <LogoutButton />
+              </div>
             </div>
             
             <Sheet>
