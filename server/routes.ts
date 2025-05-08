@@ -40,6 +40,7 @@ import googleAuthRoutes, { authInfo as googleAuthInfo } from './routes/googleAut
 import emailCalendarRoutes from './routes/emailCalendarRoutes';
 import licenseRoutes from './routes/licenseRoutes';
 import setupRegistrationRoutes from './routes/registrationRoutes';
+import adminLicenseRoutes from './routes/adminLicenseRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -390,6 +391,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/google-auth', googleAuthRoutes);
   app.use('/api/email-calendar-settings', emailCalendarRoutes);
   app.use('/api/license', licenseRoutes);
+  app.use('/api/admin-license', adminLicenseRoutes);
 
   const httpServer = createServer(app);
   
