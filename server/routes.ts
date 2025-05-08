@@ -39,6 +39,7 @@ import directPhoneRoutes from './routes/directPhoneRoutes';
 import googleAuthRoutes, { authInfo as googleAuthInfo } from './routes/googleAuthRoutes';
 import emailCalendarRoutes from './routes/emailCalendarRoutes';
 import licenseRoutes from './routes/licenseRoutes';
+import setupRegistrationRoutes from './routes/registrationRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
