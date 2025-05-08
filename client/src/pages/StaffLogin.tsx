@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,13 +8,24 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function StaffLogin() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [, navigate] = useLocation();
+  
+  // Carica le credenziali memorizzate quando la pagina viene caricata
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("staffUsername");
+    if (savedUsername) {
+      setUsername(savedUsername);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,7 +101,32 @@ export default function StaffLogin() {
                 />
               </div>
               
-              <Button type="submit" className="w-full" disabled={loading}>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="rememberMe" 
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                />
+                <Label
+                  htmlFor="rememberMe"
+                  className="text-sm font-normal cursor-pointer"
+                >
+                  Ricorda il mio account
+                </Label>
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={loading}
+                onClick={() => {
+                  if (rememberMe && username) {
+                    localStorage.setItem("staffUsername", username);
+                  } else {
+                    localStorage.removeItem("staffUsername");
+                  }
+                }}
+              >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 {loading ? "Accesso in corso..." : "Accedi"}
               </Button>
@@ -98,6 +134,21 @@ export default function StaffLogin() {
           </CardContent>
           <CardFooter className="flex flex-col space-y-2 text-center text-sm">
             <div>Non hai un account? <a href="/register" className="text-primary hover:underline">Registrati</a></div>
+            <div className="pt-2 border-t">
+              <span className="text-muted-foreground">
+                Sei un cliente? {" "}
+                <a 
+                  href="/client-login" 
+                  className="text-primary hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/client-login");
+                  }}
+                >
+                  Accedi all'area clienti
+                </a>
+              </span>
+            </div>
           </CardFooter>
         </Card>
         

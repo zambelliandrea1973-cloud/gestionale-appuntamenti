@@ -426,6 +426,22 @@ export default function ClientLogin() {
               </span>
             </div>
             
+            <div className="text-center text-sm pt-2 border-t">
+              <span className="text-muted-foreground">
+                Sei un professionista? {" "}
+                <a 
+                  href="/staff-login" 
+                  className="text-primary hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setLocation("/staff-login");
+                  }}
+                >
+                  Accedi all'area staff
+                </a>
+              </span>
+            </div>
+            
             {/* Aggiungi un extra messaggio per le PWA */}
             {window.matchMedia('(display-mode: standalone)').matches && (
               <div className="mt-4 text-center text-xs text-muted-foreground">
