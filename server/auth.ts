@@ -59,7 +59,15 @@ export function setupAuth(app: Express) {
       if (!user || !(await comparePasswords(password, user.password))) {
         return done(null, false, { message: "Username o password non validi" });
       }
-      return done(null, { ...user, type: "staff" });
+      
+      // Conserviamo il campo 'role' originale (admin, staff, etc.)
+      // ma impostiamo type come 'staff' per distinguere da 'client'
+      const userType = user.role === 'admin' ? 'admin' : 'staff';
+      
+      return done(null, { 
+        ...user, 
+        type: userType // mantiene il ruolo originale dell'utente (admin o staff)
+      });
     } catch (err) {
       return done(err);
     }
@@ -117,10 +125,13 @@ export function setupAuth(app: Express) {
       const [type, idStr] = serialized.split(":");
       const id = parseInt(idStr, 10);
 
-      if (type === "staff") {
+      if (type === "staff" || type === "admin") {
         const user = await storage.getUser(id);
         if (!user) return done(null, false);
-        return done(null, { ...user, type: "staff" });
+        
+        // Manteniamo la coerenza con la strategia di login sopra
+        const userType = user.role === 'admin' ? 'admin' : 'staff';
+        return done(null, { ...user, type: userType });
       } else if (type === "client") {
         const clientAccount = await storage.getClientAccount(id);
         if (!clientAccount || !clientAccount.isActive) return done(null, false);
@@ -307,7 +318,7 @@ export function setupAuth(app: Express) {
   app.post("/api/staff/register", async (req, res, next) => {
     try {
       // Verifica che l'utente che fa la richiesta sia un admin
-      if (!req.isAuthenticated() || (req.user as any).type !== "staff" || (req.user as any).role !== "admin") {
+      if (!req.isAuthenticated() || (req.user as any).type !== "admin") {
         return res.status(403).json({ message: "Solo gli amministratori possono registrare nuovi staff" });
       }
 
@@ -331,8 +342,8 @@ export function setupAuth(app: Express) {
   // Registrazione per clienti (può essere fatta da uno staff membro)
   app.post("/api/client/register", async (req, res, next) => {
     try {
-      // Verifica che l'utente che fa la richiesta sia staff
-      if (!req.isAuthenticated() || (req.user as any).type !== "staff") {
+      // Verifica che l'utente che fa la richiesta sia staff o admin
+      if (!req.isAuthenticated() || ((req.user as any).type !== "staff" && (req.user as any).type !== "admin")) {
         return res.status(403).json({ message: "Solo lo staff può registrare nuovi clienti" });
       }
 
@@ -395,7 +406,7 @@ export function isAuthenticated(req: any, res: any, next: any) {
 
 // Middleware per verificare ruolo staff (admin o staff)
 export function isStaff(req: any, res: any, next: any) {
-  if (req.isAuthenticated() && req.user.type === "staff") {
+  if (req.isAuthenticated() && (req.user.type === "staff" || req.user.type === "admin")) {
     return next();
   }
   res.status(403).json({ message: "Accesso negato: richiesto ruolo staff" });
@@ -403,7 +414,7 @@ export function isStaff(req: any, res: any, next: any) {
 
 // Middleware per verificare ruolo admin
 export function isAdmin(req: any, res: any, next: any) {
-  if (req.isAuthenticated() && req.user.type === "staff" && req.user.role === "admin") {
+  if (req.isAuthenticated() && req.user.type === "admin") {
     return next();
   }
   res.status(403).json({ message: "Accesso negato: richiesto ruolo amministratore" });
@@ -426,8 +437,8 @@ export function isOwnClientData(clientIdParamName = 'clientId') {
     
     const paramClientId = parseInt(req.params[clientIdParamName]);
     
-    // Se è un utente staff, ha sempre accesso
-    if (req.user.type === "staff") {
+    // Se è un utente staff o admin, ha sempre accesso
+    if (req.user.type === "staff" || req.user.type === "admin") {
       return next();
     }
     
