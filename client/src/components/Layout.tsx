@@ -47,6 +47,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const { t } = useTranslation();
   const { licenseInfo, appTitle } = useLicense();
 
@@ -57,7 +58,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
         const response = await apiRequest('GET', '/api/current-user');
         if (response.ok) {
           const userData = await response.json();
-          setIsAdmin(userData.type === "admin");
+          setIsAdmin(userData.role === "admin");
+          setCurrentUser(userData);
         }
       } catch (error) {
         console.error("Errore nel verificare lo stato di amministratore:", error);
@@ -78,16 +80,22 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           {/* Layout a tre colonne per desktop */}
           <div className="hidden md:grid grid-cols-3 gap-4 items-center">
             {/* Colonna sinistra: Nome applicazione e dettagli utente */}
-            <div className="border border-white/30 rounded-md p-3 bg-primary-dark/20">
+            <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20">
               <div className="flex items-center space-x-2">
                 <CalendarDays className="h-6 w-6" />
                 <div>
-                  <h1 className="text-xl font-medium">{appTitle || t('app.title')}</h1>
+                  {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin */}
+                  <h1 className="text-xl font-medium">
+                    {isAdmin && appTitle 
+                      ? appTitle.replace(' Prova', '') 
+                      : (appTitle || t('app.title'))}
+                  </h1>
                   <div className="text-sm flex items-center gap-1">
-                    <span>Utente: {licenseInfo?.username || 'Guest'}</span>
-                    <UserLicenseBadge className="ml-1" />
+                    <span>Utente: {currentUser?.username || 'Guest'}</span>
+                    <UserLicenseBadge />
                   </div>
-                  {licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
+                  {/* Mostra il conteggio solo se l'utente è in prova e NON è admin */}
+                  {licenseInfo?.type === 'trial' && !isAdmin && licenseInfo?.expiresAt && (
                     <div className="text-xs mt-1 text-amber-300 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       <span>
@@ -102,68 +110,70 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
             
             {/* Colonna centrale: Menu di navigazione su due righe */}
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col">
               {/* Prima riga di navigazione */}
-              <div className="flex justify-center space-x-1">
+              <div className="flex justify-center space-x-4 mb-1">
                 <Link href="/dashboard">
-                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <Home className="h-4 w-4" />
+                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                    <Home className="h-4 w-4 mr-1" />
                     <span>Home</span>
                   </Button>
                 </Link>
                 <Link href="/calendar">
-                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <CalendarDays className="h-4 w-4" />
+                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                    <CalendarDays className="h-4 w-4 mr-1" />
                     <span>{t('calendar.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/clients">
-                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <Users className="h-4 w-4" />
+                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                    <Users className="h-4 w-4 mr-1" />
                     <span>{t('clients.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
-                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <MessageSquare className="h-4 w-4" />
+                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                    <MessageSquare className="h-4 w-4 mr-1" />
                     <span>Notifiche</span>
                   </Button>
                 </Link>
               </div>
               
               {/* Seconda riga di navigazione */}
-              <div className="flex justify-center space-x-1">
+              <div className="flex justify-center space-x-4">
                 <Link href="/pro">
-                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <Crown className="h-4 w-4 text-amber-400" />
+                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                    <Crown className="h-4 w-4 mr-1 text-amber-400" />
                     <span>PRO</span>
                   </Button>
                 </Link>
+                
+                {/* Pulsante Staff senza evidenziazione in bianco */}
                 {isAdmin && (
                   <Link href="/staff-management">
-                    <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                      <UserCog className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark">
+                      <UserCog className="h-4 w-4 mr-1" />
                       <span>Staff</span>
                     </Button>
                   </Link>
                 )}
-                {location === "/dashboard" && (
-                  <Link href="/settings">
-                    <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                      <SettingsIcon className="h-4 w-4" />
-                      <span>{t('settings.title')}</span>
-                    </Button>
-                  </Link>
-                )}
-                {location === "/dashboard" && (
-                  <LanguageSelector />
-                )}
+                
+                {/* Pulsante impostazioni sempre presente nella seconda riga */}
+                <Link href="/settings">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                    <SettingsIcon className="h-4 w-4 mr-1" />
+                    <span>{t('settings.title')}</span>
+                  </Button>
+                </Link>
+                
+                {/* Selettore lingua sempre presente nella seconda riga */}
+                <LanguageSelector />
               </div>
             </div>
             
             {/* Colonna destra: Pulsante di uscita */}
             <div className="flex justify-end">
-              <LogoutButton variant="secondary" className="w-36 h-10" iconPosition="right" />
+              <LogoutButton variant="secondary" className="w-24 h-10" iconPosition="right" />
             </div>
           </div>
           
@@ -174,7 +184,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <div className="flex items-center space-x-2 cursor-pointer">
                   <CalendarDays className="h-5 w-5" />
                   <h1 className="text-lg font-medium flex items-center">
-                    {appTitle || t('app.title')}
+                    {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin */}
+                    {isAdmin && appTitle 
+                      ? appTitle.replace(' Prova', '') 
+                      : (appTitle || t('app.title'))}
                   </h1>
                 </div>
               </Link>
@@ -190,10 +203,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <div className="flex flex-col gap-4 py-4">
                   <div className="border border-gray-200 rounded-md p-3 bg-gray-50">
                     <div className="flex items-center space-x-2">
-                      <UserLicenseBadge size="lg" />
+                      <UserLicenseBadge />
                       <div>
-                        <h2 className="font-medium">{licenseInfo?.username || 'Guest'}</h2>
-                        {licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
+                        <h2 className="font-medium">{currentUser?.username || 'Guest'}</h2>
+                        {/* Mostra il conteggio solo se l'utente è in prova e NON è admin */}
+                        {licenseInfo?.type === 'trial' && !isAdmin && licenseInfo?.expiresAt && (
                           <div className="text-xs text-amber-600 flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             <span>
@@ -256,10 +270,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+                    {/* Mostra il collegamento per la gestione staff solo agli amministratori - senza evidenziazione in bianco */}
                     {isAdmin && (
                       <Link href="/staff-management">
-                        <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Button variant="ghost" className="justify-start w-full">
                           <UserCog className="mr-2 h-4 w-4" />
                           Gestione Staff
                         </Button>
