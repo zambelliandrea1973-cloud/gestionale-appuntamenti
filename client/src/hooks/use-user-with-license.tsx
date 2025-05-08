@@ -1,7 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
-import { LicenseInfo } from './use-license';
+import { createContext, ReactNode, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
-// Interfaccia per i dati utente con le informazioni sulla licenza
+// Definizione delle interfacce dei dati
+export interface LicenseInfo {
+  type: string;
+  expiresAt: string | null;
+  isActive: boolean;
+  daysLeft: number | null;
+}
+
 export interface UserWithLicense {
   id: number;
   username: string;
@@ -12,49 +20,66 @@ export interface UserWithLicense {
   licenseInfo: LicenseInfo;
 }
 
-export function useUserWithLicense() {
+interface UserLicenseContextType {
+  user: UserWithLicense | null;
+  isLoading: boolean;
+  error: Error | null;
+  getLicenseBadgeType: (licenseType: string) => string;
+  getUserType: (userType: string) => string;
+  getFullName: () => string;
+}
+
+const UserLicenseContext = createContext<UserLicenseContextType | null>(null);
+
+export function UserLicenseProvider({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
+  
   const {
     data: user,
     error,
-    isLoading
+    isLoading,
   } = useQuery<UserWithLicense>({
-    queryKey: ['/api/user-with-license'],
+    queryKey: ["/api/user-with-license"],
+    retry: 1,
+    // Se c'è un errore 401, non mostriamo errori ma semplicemente restituiamo null
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5, // 5 minuti
   });
 
-  // Funzione helper per ottenere un badge di tipo di licenza formattato
+  // Funzione per ottenere il tipo di licenza formattato per il badge
   const getLicenseBadgeType = (licenseType: string): string => {
     switch(licenseType) {
-      case 'pro':
-        return 'PRO';
-      case 'base':
-        return 'Base';
-      case 'business':
-        return 'BUSINESS';
-      case 'staff_free':
-        return 'Staff';
-      case 'passepartout':
-        return 'ADMIN';
       case 'trial':
+        return t('license.type.trial', 'Prova');
+      case 'base':
+        return t('license.type.base', 'Base');
+      case 'pro':
+        return t('license.type.pro', 'Pro');
+      case 'business':
+        return t('license.type.business', 'Business');
+      case 'staff_free':
+        return t('license.type.staff', 'Staff');
+      case 'passepartout':
+        return t('license.type.passepartout', 'Master');
       default:
-        return 'Prova';
+        return licenseType;
     }
   };
 
-  // Ottiene il tipo di account in formato leggibile
-  const getUserType = (type: string): string => {
-    switch(type) {
+  // Funzione per ottenere il tipo di utente formattato
+  const getUserType = (userType: string): string => {
+    switch(userType) {
       case 'admin':
-        return 'Admin';
+        return t('user.type.admin', 'Admin');
       case 'staff':
-        return 'Staff';
+        return t('user.type.staff', 'Staff');
+      case 'user':
+        return t('user.type.user', 'Utente');
       default:
-        return 'Utente';
+        return userType;
     }
   };
 
-  // Funzione formattata per ottenere il nome completo dell'utente
+  // Funzione per ottenere il nome completo dell'utente
   const getFullName = (): string => {
     if (!user) return '';
     
@@ -62,15 +87,37 @@ export function useUserWithLicense() {
       return `${user.firstName} ${user.lastName}`;
     }
     
+    if (user.firstName) {
+      return user.firstName;
+    }
+    
+    if (user.lastName) {
+      return user.lastName;
+    }
+    
     return user.username;
   };
 
-  return {
-    user,
-    error,
-    isLoading,
-    getLicenseBadgeType,
-    getUserType,
-    getFullName
-  };
+  return (
+    <UserLicenseContext.Provider
+      value={{
+        user: user ?? null,
+        isLoading,
+        error: error as Error | null,
+        getLicenseBadgeType,
+        getUserType,
+        getFullName
+      }}
+    >
+      {children}
+    </UserLicenseContext.Provider>
+  );
+}
+
+export function useUserWithLicense() {
+  const context = useContext(UserLicenseContext);
+  if (!context) {
+    throw new Error("useUserWithLicense must be used within a UserLicenseProvider");
+  }
+  return context;
 }
