@@ -18,7 +18,15 @@ import {
   Crown,
   Shield,
   UserCog,
-  LogOut
+  LogOut,
+  Home,
+  CalendarClock,
+  ClipboardList,
+  BookOpen,
+  BookText,
+  Book,
+  Clipboard,
+  FileQuestion
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -67,7 +75,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-4">
+          {/* Riga principale con logo, titolo e controlli */}
+          <div className="flex items-center justify-between py-3">
             <div className="flex items-center space-x-2">
               <Link href="/dashboard">
                 <div className="flex items-center space-x-2 cursor-pointer">
@@ -83,58 +92,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </Link>
             </div>
             
-            <div className="hidden md:flex items-center space-x-4">
-              {/* Mostra il pulsante Home solo se non siamo già nella dashboard */}
-              {location !== "/dashboard" && (
-                <Link href="/dashboard">
-                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <Grid className="h-4 w-4" />
-                    <span>{t('navigation.home')}</span>
-                  </Button>
-                </Link>
-              )}
-            
-              <Link href="/calendar">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Calendar className="h-4 w-4" />
-                  <span>{t('calendar.title')}</span>
-                </Button>
-              </Link>
-              
-              <Link href="/clients">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Users className="h-4 w-4" />
-                  <span>{t('clients.title')}</span>
-                </Button>
-              </Link>
-              
-              <Link href="/whatsapp-center">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <MessageSquare className="h-4 w-4" />
-                  <span>Notifiche ai clienti</span>
-                </Button>
-              </Link>
-              
-              <Link href="/pro">
-                <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Crown className="h-4 w-4 text-amber-400" />
-                  <span>Funzionalità PRO</span>
-                </Button>
-              </Link>
-
-              {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
-              {isAdmin && (
-                <Link href="/staff-management">
-                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <UserCog className="h-4 w-4" />
-                    <span>Gestione Staff</span>
-                  </Button>
-                </Link>
-              )}
-
-              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella dashboard */}
+            <div className="flex items-center space-x-2">
+              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella dashboard (sempre visibili) */}
               {location === "/dashboard" && (
-                <>
+                <div className="hidden md:flex items-center space-x-2">
                   <Link href="/settings">
                     <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                       <SettingsIcon className="h-4 w-4" />
@@ -143,96 +104,188 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Link>
                   
                   <LanguageSelector />
-                </>
+                </div>
               )}
               
               {/* Pulsante di logout */}
-              <div className="ml-2">
+              <div className="hidden md:block">
                 <LogoutButton variant="ghost" />
               </div>
+              
+              {/* Menu hamburger per mobile */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" className="md:hidden" size="icon">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <div className="flex flex-col gap-4 py-4">
+                    <h2 className="text-lg font-medium">Menu</h2>
+                    <nav className="flex flex-col gap-2">
+                      <Link href="/dashboard">
+                        <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <Home className="mr-2 h-4 w-4" />
+                          Home
+                        </Button>
+                      </Link>
+                      <Link href="/calendar">
+                        <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <CalendarDays className="mr-2 h-4 w-4" />
+                          {t('calendar.title')}
+                        </Button>
+                      </Link>
+                      <Link href="/clients">
+                        <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <Users className="mr-2 h-4 w-4" />
+                          {t('clients.title')}
+                        </Button>
+                      </Link>
+                      
+                      <Link href="/whatsapp-center">
+                        <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <MessageSquare className="mr-2 h-4 w-4" />
+                          Notifiche ai clienti
+                        </Button>
+                      </Link>
+                      
+                      <Link href="/pro">
+                        <Button variant={isActive("/pro") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <Crown className="mr-2 h-4 w-4 text-amber-400" />
+                          Funzionalità PRO
+                        </Button>
+                      </Link>
+                      
+                      <Link href="/appointments">
+                        <Button variant={isActive("/appointments") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <CalendarClock className="mr-2 h-4 w-4" />
+                          Gestione Appuntamenti
+                        </Button>
+                      </Link>
+                      
+                      <Link href="/questionnaires">
+                        <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <ClipboardList className="mr-2 h-4 w-4" />
+                          Anamnesi/Questionari
+                        </Button>
+                      </Link>
+                      
+                      <Link href="/medical-records">
+                        <Button variant={isActive("/medical-records") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <Book className="mr-2 h-4 w-4" />
+                          Base
+                        </Button>
+                      </Link>
+                      
+                      {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+                      {isAdmin && (
+                        <Link href="/staff-management">
+                          <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
+                            <UserCog className="mr-2 h-4 w-4" />
+                            Gestione Staff
+                          </Button>
+                        </Link>
+                      )}
+                      
+                      {/* Mostra il pulsante Impostazioni solo nella dashboard */}
+                      {location === "/dashboard" && (
+                        <Link href="/settings">
+                          <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                            <SettingsIcon className="mr-2 h-4 w-4" />
+                            {t('settings.title')}
+                          </Button>
+                        </Link>
+                      )}
+                    </nav>
+                    {/* Mostra il selettore lingua solo nella dashboard */}
+                    {location === "/dashboard" && (
+                      <div className="mt-4">
+                        <LanguageSelector />
+                      </div>
+                    )}
+                    
+                    {/* Pulsante di logout nel menu mobile */}
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <LogoutButton 
+                        variant="ghost" 
+                        fullWidth={true} 
+                        className="justify-start" 
+                        iconPosition="left" 
+                      />
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
+          
+          {/* Barra di navigazione su due righe - Solo per desktop */}
+          <div className="hidden md:block pb-3">
+            {/* Prima riga di navigazione */}
+            <div className="flex flex-wrap items-center space-x-1 mb-2">
+              <Link href="/dashboard">
+                <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Home className="h-4 w-4" />
+                  <span>Home</span>
+                </Button>
+              </Link>
+              <Link href="/calendar">
+                <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <CalendarDays className="h-4 w-4" />
+                  <span>{t('calendar.title')}</span>
+                </Button>
+              </Link>
+              <Link href="/clients">
+                <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Users className="h-4 w-4" />
+                  <span>{t('clients.title')}</span>
+                </Button>
+              </Link>
+              <Link href="/whatsapp-center">
+                <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>Notifiche ai clienti</span>
+                </Button>
+              </Link>
+              <Link href="/pro">
+                <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Crown className="h-4 w-4 text-amber-400" />
+                  <span>Funzionalità PRO</span>
+                </Button>
+              </Link>
             </div>
             
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" className="md:hidden" size="icon">
-                  <Menu className="h-5 w-5" />
+            {/* Seconda riga di navigazione */}
+            <div className="flex flex-wrap items-center space-x-1">
+              <Link href="/appointments">
+                <Button variant={isActive("/appointments") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <CalendarClock className="h-4 w-4" />
+                  <span>Gestione Appuntamenti</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col gap-4 py-4">
-                  <h2 className="text-lg font-medium">Menu</h2>
-                  <nav className="flex flex-col gap-2">
-                    <Link href="/dashboard">
-                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
-                        Home
-                      </Button>
-                    </Link>
-                    <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <CalendarDays className="mr-2 h-4 w-4" />
-                        {t('calendar.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <Users className="mr-2 h-4 w-4" />
-                        {t('clients.title')}
-                      </Button>
-                    </Link>
-                    
-                    <Link href="/whatsapp-center">
-                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <MessageSquare className="mr-2 h-4 w-4" />
-                        Notifiche ai clienti
-                      </Button>
-                    </Link>
-                    
-                    <Link href="/pro">
-                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <Crown className="mr-2 h-4 w-4 text-amber-400" />
-                        Funzionalità PRO
-                      </Button>
-                    </Link>
-                    
-                    {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
-                    {isAdmin && (
-                      <Link href="/staff-management">
-                        <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <UserCog className="mr-2 h-4 w-4" />
-                          Gestione Staff
-                        </Button>
-                      </Link>
-                    )}
-                    
-                    {/* Mostra il pulsante Impostazioni solo nella dashboard */}
-                    {location === "/dashboard" && (
-                      <Link href="/settings">
-                        <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <SettingsIcon className="mr-2 h-4 w-4" />
-                          {t('settings.title')}
-                        </Button>
-                      </Link>
-                    )}
-                  </nav>
-                  {/* Mostra il selettore lingua solo nella dashboard */}
-                  {location === "/dashboard" && (
-                    <div className="mt-4">
-                      <LanguageSelector />
-                    </div>
-                  )}
-                  
-                  {/* Pulsante di logout nel menu mobile */}
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <LogoutButton 
-                      variant="ghost" 
-                      fullWidth={true} 
-                      className="justify-start" 
-                      iconPosition="left" 
-                    />
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+              </Link>
+              <Link href="/questionnaires">
+                <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <ClipboardList className="h-4 w-4" />
+                  <span>Anamnesi/Questionari</span>
+                </Button>
+              </Link>
+              <Link href="/medical-records">
+                <Button variant={isActive("/medical-records") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Book className="h-4 w-4" />
+                  <span>Base</span>
+                </Button>
+              </Link>
+              
+              {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+              {isAdmin && (
+                <Link href="/staff-management">
+                  <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <UserCog className="h-4 w-4" />
+                    <span>Gestione Staff</span>
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </header>
