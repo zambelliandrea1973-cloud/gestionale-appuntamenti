@@ -41,6 +41,7 @@ import emailCalendarRoutes from './routes/emailCalendarRoutes';
 import licenseRoutes from './routes/licenseRoutes';
 import setupRegistrationRoutes from './routes/registrationRoutes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
+import setupStaffRoutes from './routes/staffRoutes';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -62,8 +63,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Configura l'autenticazione
   setupAuth(app);
   
-  // Configura le route di registrazione
+  // Configura le route di registrazione e gestione staff
   setupRegistrationRoutes(app);
+  setupStaffRoutes(app);
   
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
