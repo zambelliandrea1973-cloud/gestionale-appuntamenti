@@ -95,39 +95,39 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
             
             {/* Colonna centrale: Menu di navigazione su due righe */}
-            <div className="flex flex-col">
-              {/* Prima riga di navigazione */}
-              <div className="flex justify-center space-x-4 mb-1">
+            <div className="flex flex-col w-full">
+              {/* Prima riga di navigazione - aumento spazio tra elementi */}
+              <div className="flex justify-center space-x-5 mb-2">
                 <Link href="/dashboard">
-                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
                     <Home className="h-4 w-4 mr-1" />
                     <span>Home</span>
                   </Button>
                 </Link>
                 <Link href="/calendar">
-                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
                     <CalendarDays className="h-4 w-4 mr-1" />
                     <span>{t('calendar.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/clients">
-                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
                     <Users className="h-4 w-4 mr-1" />
                     <span>{t('clients.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
-                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
                     <MessageSquare className="h-4 w-4 mr-1" />
                     <span>Notifiche</span>
                   </Button>
                 </Link>
               </div>
               
-              {/* Seconda riga di navigazione */}
-              <div className="flex justify-center space-x-4">
+              {/* Seconda riga di navigazione - distribuzione migliorata */}
+              <div className="flex justify-center space-x-5">
                 <Link href="/pro">
-                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
                     <span>PRO</span>
                   </Button>
@@ -136,7 +136,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 {/* Pulsante Staff senza evidenziazione in bianco */}
                 {isAdmin && (
                   <Link href="/staff-management">
-                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark">
+                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark px-2">
                       <UserCog className="h-4 w-4 mr-1" />
                       <span>Staff</span>
                     </Button>
@@ -145,7 +145,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 
                 {/* Pulsante impostazioni sempre presente nella seconda riga */}
                 <Link href="/settings">
-                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
                     <SettingsIcon className="h-4 w-4 mr-1" />
                     <span>{t('settings.title')}</span>
                   </Button>
