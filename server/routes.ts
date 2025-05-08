@@ -42,7 +42,7 @@ import licenseRoutes from './routes/licenseRoutes';
 import setupRegistrationRoutes from './routes/registrationRoutes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import setupStaffRoutes from './routes/staffRoutes';
-import { licenseService } from './services/licenseService';
+import { licenseService, LicenseType } from './services/licenseService';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -857,8 +857,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const user = req.user as any;
       
-      // Ottieni le informazioni sulla licenza
-      const licenseInfo = await licenseService.getCurrentLicenseInfo();
+      console.log('Richiesta user-with-license da:', user.username, 'tipo:', user.type, 'role:', user.role);
+      
+      // Determina il tipo di licenza in base al ruolo/tipo dell'utente
+      let licenseInfo = {
+        type: 'trial',
+        expiresAt: null,
+        isActive: true,
+        daysLeft: null
+      };
+      
+      // Se l'utente è un admin, impostiamo licenza Passepartout
+      if (user.type === 'admin') {
+        licenseInfo = {
+          type: 'passepartout',
+          expiresAt: null, // Nessuna scadenza
+          isActive: true,
+          daysLeft: null
+        };
+      } 
+      // Se l'utente è staff, impostiamo licenza Staff Free con durata 10 anni
+      else if (user.type === 'staff') {
+        const expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() + 10);
+        
+        licenseInfo = {
+          type: 'staff_free',
+          expiresAt: expiryDate,
+          isActive: true,
+          daysLeft: 365 * 10
+        };
+      } 
+      // Solo per utenti normali usiamo il servizio licenza standard
+      else {
+        licenseInfo = await licenseService.getCurrentLicenseInfo();
+      }
       
       // Prepara l'oggetto da restituire conforme all'interfaccia UserWithLicense
       const userWithLicense = {
