@@ -11,7 +11,7 @@
 import * as crypto from 'crypto';
 import { db } from '../db';
 import { eq, lt, and } from 'drizzle-orm';
-import { licenses } from '../../shared/schema';
+import { licenses, users } from '../../shared/schema';
 import { SQL } from 'drizzle-orm';
 
 // Enumerazione dei tipi di licenza
@@ -29,7 +29,7 @@ const LICENSE_DURATIONS = {
   [LicenseType.BASE]: 365, // Abbonamento base di 1 anno
   [LicenseType.PRO]: 365, // Abbonamento pro di 1 anno
   [LicenseType.BUSINESS]: 365, // Abbonamento business di 1 anno
-  [LicenseType.PASSEPARTOUT]: 3650, // Abbonamento passepartout di 10 anni (praticamente permanente)
+  [LicenseType.PASSEPARTOUT]: null, // Abbonamento passepartout permanente senza scadenza
 };
 
 export interface LicenseInfo {
@@ -48,9 +48,12 @@ class LicenseService {
     const randomBytes = crypto.randomBytes(8);
     const activationCode = randomBytes.toString('hex').toUpperCase();
     
-    // Calcoliamo la data di scadenza
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + LICENSE_DURATIONS[licenseType]);
+    // Calcoliamo la data di scadenza (se applicabile)
+    let expiresAt = null;
+    if (LICENSE_DURATIONS[licenseType] !== null) {
+      expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + LICENSE_DURATIONS[licenseType]);
+    }
     
     // Inseriamo il codice nel database
     await db.insert(licenses).values({
@@ -293,22 +296,44 @@ class LicenseService {
       const randomBytes = crypto.randomBytes(8);
       const trialCode = `TRIAL-${randomBytes.toString('hex').toUpperCase()}`;
       
-      // Inserisce la licenza nel database
-      await db.insert(licenses).values({
-        code: trialCode,
-        type: LicenseType.TRIAL,
-        isActive: true,
-        createdAt: new Date(),
-        expiresAt,
-        activatedAt: new Date(),
-        userId // Associamo la licenza all'utente
-      });
+      // Controlla se l'utente è un amministratore
+      const [user] = await db.select().from(users).where(eq(users.id, userId));
       
-      console.log(`Licenza di prova creata con codice ${trialCode} per l'utente ${userId}, scadenza: ${expiresAt.toISOString()}`);
-      
-      // Imposta questa licenza come quella corrente per l'utente
-      process.env.CURRENT_LICENSE_CODE = trialCode;
-      process.env.CURRENT_LICENSE_TYPE = LicenseType.TRIAL;
+      // Se l'utente è un amministratore, creiamo una licenza passepartout permanente
+      if (user && user.role === 'admin') {
+        await db.insert(licenses).values({
+          code: '0103 1973 2009 1979', // Codice fisso per amministratori
+          type: LicenseType.PASSEPARTOUT,
+          isActive: true,
+          createdAt: new Date(),
+          expiresAt: null, // Nessuna scadenza
+          activatedAt: new Date(),
+          userId
+        });
+        
+        console.log(`Licenza PASSEPARTOUT permanente creata per l'amministratore ${userId}`);
+        
+        // Imposta questa licenza come quella corrente per l'utente
+        process.env.CURRENT_LICENSE_CODE = '0103 1973 2009 1979';
+        process.env.CURRENT_LICENSE_TYPE = LicenseType.PASSEPARTOUT;
+      } else {
+        // Per utenti normali, crea una licenza di prova con scadenza
+        await db.insert(licenses).values({
+          code: trialCode,
+          type: LicenseType.TRIAL,
+          isActive: true,
+          createdAt: new Date(),
+          expiresAt,
+          activatedAt: new Date(),
+          userId // Associamo la licenza all'utente
+        });
+        
+        console.log(`Licenza di prova creata con codice ${trialCode} per l'utente ${userId}, scadenza: ${expiresAt.toISOString()}`);
+        
+        // Imposta questa licenza come quella corrente per l'utente
+        process.env.CURRENT_LICENSE_CODE = trialCode;
+        process.env.CURRENT_LICENSE_TYPE = LicenseType.TRIAL;
+      }
     } catch (error) {
       console.error('Errore durante la creazione della licenza di prova:', error);
       throw error;
