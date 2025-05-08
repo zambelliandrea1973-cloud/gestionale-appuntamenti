@@ -299,7 +299,7 @@ export function setupAuth(app: Express) {
           }
           
           // Aggiungiamo il token alla risposta se è stato generato
-          const responseUser = { ...user };
+          const responseUser: any = { ...user };
           if (token) {
             responseUser.token = token;
           }
