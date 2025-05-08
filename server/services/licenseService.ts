@@ -20,6 +20,7 @@ export enum LicenseType {
   BASE = 'base',
   PRO = 'pro',
   BUSINESS = 'business',
+  STAFF_FREE = 'staff_free', // Licenza gratuita di 10 anni per lo staff
   PASSEPARTOUT = 'passepartout'  // Accesso completo a tutte le funzionalità senza limitazioni
 }
 
@@ -336,6 +337,55 @@ class LicenseService {
       }
     } catch (error) {
       console.error('Errore durante la creazione della licenza di prova:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Genera una licenza di 10 anni per un membro dello staff
+   * Solo l'amministratore può generare queste licenze speciali
+   */
+  async generateStaffLicense(userId: number, licenseType: LicenseType, expiresAt: Date): Promise<string> {
+    try {
+      // Genera un codice univoco con prefisso STAFF-
+      const randomBytes = crypto.randomBytes(6);
+      const staffCode = `STAFF-${randomBytes.toString('hex').toUpperCase()}`;
+      
+      // Inserisci la licenza nel database
+      await db.insert(licenses).values({
+        code: staffCode,
+        type: licenseType,
+        isActive: true,
+        createdAt: new Date(),
+        expiresAt, // Scadenza a 10 anni
+        activatedAt: new Date(),
+        userId
+      });
+      
+      console.log(`Licenza staff di 10 anni creata con codice ${staffCode} per l'utente ${userId}, scadenza: ${expiresAt.toISOString()}`);
+      
+      return staffCode;
+    } catch (error) {
+      console.error('Errore durante la creazione della licenza staff:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Revoca una licenza esistente
+   */
+  async revokeLicense(licenseId: number): Promise<void> {
+    try {
+      // Disattiva la licenza senza eliminarla dal database (per mantenere la storia)
+      await db.update(licenses)
+        .set({ 
+          isActive: false
+        })
+        .where(eq(licenses.id, licenseId));
+      
+      console.log(`Licenza ${licenseId} revocata`);
+    } catch (error) {
+      console.error('Errore durante la revoca della licenza:', error);
       throw error;
     }
   }
