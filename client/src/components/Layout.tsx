@@ -53,6 +53,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   // Utilizziamo direttamente l'hook per ottenere i dati dell'utente
   const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
   const isAdmin = userWithLicense?.type === 'admin';
+  const isStaff = userWithLicense?.type === 'staff';
   
   // Check active route
   const isActive = (path: string) => location === path;
@@ -79,8 +80,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>Utente: {userWithLicense?.username || 'Guest'}</span>
                     <UserLicenseBadge />
                   </div>
-                  {/* Mostra il conteggio solo se l'utente è in prova e NON è admin */}
-                  {licenseInfo?.type === 'trial' && !isAdmin && licenseInfo?.expiresAt && (
+                  {/* Mostra il conteggio solo se l'utente è in prova e NON è admin o staff */}
+                  {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
                     <div className="text-xs mt-1 text-amber-300 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       <span>
@@ -96,28 +97,28 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             
             {/* Colonna centrale: Menu di navigazione su due righe */}
             <div className="flex flex-col w-full">
-              {/* Prima riga di navigazione - aumento spazio tra elementi */}
-              <div className="flex justify-center space-x-5 mb-2">
+              {/* Prima riga di navigazione - aumento spazio tra elementi e aggiungo più spazio interno */}
+              <div className="flex justify-center space-x-6 mb-2">
                 <Link href="/dashboard">
-                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
                     <span>Home</span>
                   </Button>
                 </Link>
                 <Link href="/calendar">
-                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[100px]">
                     <CalendarDays className="h-4 w-4 mr-1" />
                     <span>{t('calendar.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/clients">
-                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[100px]">
                     <Users className="h-4 w-4 mr-1" />
                     <span>{t('clients.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
-                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[100px]">
                     <MessageSquare className="h-4 w-4 mr-1" />
                     <span>Notifiche</span>
                   </Button>
@@ -125,9 +126,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </div>
               
               {/* Seconda riga di navigazione - distribuzione migliorata */}
-              <div className="flex justify-center space-x-5">
+              <div className="flex justify-center space-x-6">
                 <Link href="/pro">
-                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[80px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
                     <span>PRO</span>
                   </Button>
@@ -136,7 +137,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 {/* Pulsante Staff senza evidenziazione in bianco */}
                 {isAdmin && (
                   <Link href="/staff-management">
-                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[80px]">
                       <UserCog className="h-4 w-4 mr-1" />
                       <span>Staff</span>
                     </Button>
@@ -145,7 +146,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 
                 {/* Pulsante impostazioni sempre presente nella seconda riga */}
                 <Link href="/settings">
-                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[110px]">
                     <SettingsIcon className="h-4 w-4 mr-1" />
                     <span>{t('settings.title')}</span>
                   </Button>
@@ -191,8 +192,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <UserLicenseBadge />
                       <div>
                         <h2 className="font-medium">{userWithLicense?.username || 'Guest'}</h2>
-                        {/* Mostra il conteggio solo se l'utente è in prova e NON è admin */}
-                        {licenseInfo?.type === 'trial' && !isAdmin && licenseInfo?.expiresAt && (
+                        {/* Mostra il conteggio solo se l'utente è in prova e NON è admin o staff */}
+                        {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
                           <div className="text-xs text-amber-600 flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             <span>
