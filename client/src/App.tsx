@@ -36,6 +36,7 @@ import GoogleTroubleshootingPage from "./pages/GoogleTroubleshootingPage";
 import ProFeaturesPage from "./pages/ProFeaturesPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
+import WelcomePage from "./pages/WelcomePage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -135,8 +136,15 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* Pagine staff con layout standard */}
+      {/* Pagina iniziale (Welcome) */}
       <Route path="/">
+        <ClientPageWrapper>
+          <WelcomePage />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Dashboard principale (spostata da root a /dashboard) */}
+      <Route path="/dashboard">
         <StaffPageWrapper>
           <Home />
         </StaffPageWrapper>
@@ -326,11 +334,11 @@ function App() {
             console.log('Reindirizzamento alla pagina di attivazione con dati QR');
             window.location.href = `/activate?data=${encodeURIComponent(qrData)}`;
           } else {
-            // Altrimenti, reindirizza alla pagina di login predefinita
+            // Altrimenti, reindirizza alla pagina principale
             const currentPath = window.location.pathname;
             if (currentPath === '/' || currentPath === '') {
-              console.log('Reindirizzamento alla pagina di login predefinita');
-              window.location.href = event.data.defaultPath || '/client-login';
+              console.log('Reindirizzamento alla pagina principale');
+              window.location.href = event.data.defaultPath || '/';
             }
           }
         }
