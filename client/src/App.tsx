@@ -136,11 +136,9 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* Pagina iniziale (Welcome) */}
+      {/* Pagina iniziale (Welcome) con layout specifico della pagina */}
       <Route path="/">
-        <ClientPageWrapper>
-          <WelcomePage />
-        </ClientPageWrapper>
+        <WelcomePage />
       </Route>
       
       {/* Dashboard principale (spostata da root a /dashboard) */}
