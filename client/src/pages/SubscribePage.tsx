@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Check, 
@@ -9,22 +9,24 @@ import {
   Users, 
   FileSpreadsheet,
   CalendarClock,
-  BellRing
+  BellRing,
+  AlertCircle,
+  Loader2,
+  ArrowRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLicense, LicenseType } from '@/hooks/use-license';
-import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 // Importazioni per API e gestione pagamenti
-import { useEffect } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 
 // Definizione delle offerte
@@ -160,8 +162,26 @@ export default function SubscribePage() {
     }
   };
   
+  // Ottieni i piani dal server
+  const { data: serverPlans, isLoading: isLoadingPlans } = useQuery({
+    queryKey: ['/api/payments/plans'],
+    queryFn: async () => {
+      const res = await apiRequest('GET', '/api/payments/plans');
+      return await res.json();
+    },
+  });
+  
+  // Ottieni lo stato attuale dell'abbonamento
+  const { data: subscriptionInfo, isLoading: isLoadingSubscription } = useQuery({
+    queryKey: ['/api/payments/subscription'],
+    queryFn: async () => {
+      const res = await apiRequest('GET', '/api/payments/subscription');
+      return await res.json();
+    },
+  });
+
   // Definizione dei piani
-  const plans: Plan[] = [
+  const fallbackPlans: Plan[] = [
     {
       id: 'trial',
       type: LicenseType.TRIAL,
@@ -180,7 +200,7 @@ export default function SubscribePage() {
       ],
     },
     {
-      id: 'base',
+      id: '1',
       type: LicenseType.BASE,
       name: t('plans.base.name', 'Base'),
       description: t('plans.base.description', 'Per professionisti individuali'),
@@ -197,7 +217,7 @@ export default function SubscribePage() {
       ],
     },
     {
-      id: 'pro',
+      id: '2',
       type: LicenseType.PRO,
       name: t('plans.pro.name', 'PRO'),
       description: t('plans.pro.description', 'Tutte le funzionalità premium'),
@@ -215,8 +235,8 @@ export default function SubscribePage() {
       ],
     },
     {
-      id: 'business',
-      type: LicenseType.PRO,
+      id: '3',
+      type: LicenseType.BUSINESS,
       name: t('plans.business.name', 'Business'),
       description: t('plans.business.description', 'Per studi con più operatori'),
       price: 9.99,
@@ -233,6 +253,44 @@ export default function SubscribePage() {
       ],
     },
   ];
+  
+  // Definisci l'interfaccia per i piani dal server
+  interface ServerPlan {
+    id: string | number;
+    name: string;
+    description?: string;
+    price: number;
+    features?: string;
+    active?: boolean;
+  }
+
+  // Converte i piani dal server al formato locale
+  const plans = serverPlans?.length 
+    ? serverPlans.map((plan: ServerPlan) => {
+        const features = plan.features ? JSON.parse(plan.features) : [];
+        
+        const planType = plan.name.toLowerCase().includes('pro') 
+          ? LicenseType.PRO 
+          : plan.name.toLowerCase().includes('business')
+            ? LicenseType.BUSINESS
+            : LicenseType.BASE;
+        
+        return {
+          id: String(plan.id),
+          type: planType,
+          name: plan.name,
+          description: plan.description || '',
+          price: plan.price / 100, // Converti da centesimi a euro
+          priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/mese`,
+          popular: plan.name.toLowerCase().includes('pro'),
+          buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
+          features: Array.isArray(features) ? features.map((f: string) => ({
+            name: f,
+            included: true
+          })) : fallbackPlans.find(p => p.type === planType)?.features || [],
+        };
+      }) 
+    : fallbackPlans;
   
   // Ottieni le features distintive per mostrare nella sezione hero
   const keyFeatures = [
@@ -269,6 +327,34 @@ export default function SubscribePage() {
           {t('subscribe.subtitle', 'Tutti i piani includono un periodo di prova gratuito di 40 giorni. Nessuna carta di credito richiesta per iniziare.')}
         </p>
         
+        {/* Subscription Status */}
+        {subscriptionInfo && (
+          <Alert className="max-w-3xl mx-auto mb-8 bg-green-50 border-green-200">
+            <div className="flex items-center">
+              <Check className="h-5 w-5 text-green-500 mr-2" />
+              <h3 className="font-medium text-green-800">
+                {t('subscribe.activeSubscription', 'Abbonamento attivo')}
+              </h3>
+            </div>
+            <AlertDescription className="text-green-700 mt-2">
+              {subscriptionInfo.plan ? (
+                <>
+                  <p className="mb-1">
+                    {t('subscribe.currentPlan', 'Piano attuale')}: <strong>{subscriptionInfo.plan.name}</strong>
+                  </p>
+                  {subscriptionInfo.expiresAt && (
+                    <p>
+                      {t('subscribe.expiresAt', 'Scadenza')}: <strong>{new Date(subscriptionInfo.expiresAt).toLocaleDateString()}</strong>
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p>{t('subscribe.trialActive', 'Il tuo periodo di prova è attivo fino al')}: <strong>{new Date(licenseInfo?.expiresAt || '').toLocaleDateString()}</strong></p>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
           {keyFeatures.map((feature, index) => (
             <div key={index} className="flex flex-col items-center text-center p-4">
@@ -287,86 +373,137 @@ export default function SubscribePage() {
           {t('subscribe.pricingTitle', 'Piani e Prezzi')}
         </h2>
         
-        {/* Payment Method Tabs */}
-        <Tabs defaultValue="credit-card" className="mb-8 max-w-md mx-auto">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger 
-              value="credit-card" 
-              onClick={() => setPaymentMethod('credit-card')}
-              className="flex items-center"
-            >
-              <CreditCard className="h-4 w-4 mr-2" />
-              {t('subscribe.paymentMethods.card', 'Carta di Credito')}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="paypal" 
-              onClick={() => setPaymentMethod('paypal')}
-              className="flex items-center"
-            >
-              <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.003-2.598 6.726-8.674 6.726h-2.19c-1.279 0-2.385.945-2.585 2.22v.03l-.956 6.05h4.433c.48 0 .888-.348.965-.82l.04-.225.764-4.82.05-.264c.076-.472.485-.82.965-.82h.608c3.938 0 7.014-1.6 7.913-6.228.37-1.92.18-3.521-.685-4.562z" />
-                <path d="M22.8 7.362c-.073-.43-.168-.838-.293-1.224a7.398 7.398 0 0 0-.412-1.143 5.855 5.855 0 0 0-.637-1.042c-.862-1.134-2.355-1.674-4.067-1.674h-7.46A2.486 2.486 0 0 0 7.49.772L4.382 19.316c-.094.596.296 1.15.896 1.15h4.433l1.115-7.07v.228c.19-1.274 1.296-2.218 2.575-2.218h2.19c6.085 0 10.008-3.722 10.675-9.204.02-.163.037-.325.052-.484h-.007c.122-1.586-.012-2.96-.51-4.355z" />
-              </svg>
-              PayPal
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-        
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {plans.map((plan) => (
-            <Card key={plan.id} className={`flex flex-col ${plan.popular ? 'border-primary shadow-md relative' : ''}`}>
-              {plan.popular && (
-                <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
-                  <span className="bg-amber-500 text-white text-xs py-1 px-3 rounded-full font-medium">
-                    {t('subscribe.popular', 'Più popolare')}
-                  </span>
-                </div>
-              )}
-              
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  {plan.type === LicenseType.PRO ? (
-                    <Crown className="h-5 w-5 mr-2 text-amber-500" />
-                  ) : plan.type === LicenseType.BASE ? (
-                    <Star className="h-5 w-5 mr-2 text-blue-500" />
-                  ) : (
-                    <CalendarClock className="h-5 w-5 mr-2 text-green-500" />
-                  )}
-                  {plan.name}
-                </CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <div className="mt-2 mb-6">
-                  <span className="text-3xl font-bold">{plan.priceLabel}</span>
-                </div>
-                <ul className="space-y-2 mb-6">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className={`rounded-full p-1 mr-2 ${feature.included ? 'text-green-500' : 'text-gray-300'}`}>
-                        {feature.included ? <Check className="h-4 w-4" /> : <span className="block h-4 w-4">-</span>}
-                      </div>
-                      <span className={feature.included ? '' : 'text-gray-400'}>{feature.name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  variant={plan.buttonVariant} 
-                  className="w-full"
-                  onClick={() => handlePayment(plan.id)}
-                  disabled={plan.type === LicenseType.TRIAL || plan.id === 'trial'}
+        {isLoadingPlans || isLoadingSubscription ? (
+          <div className="flex justify-center items-center p-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2">{t('common.loading', 'Caricamento...')}</span>
+          </div>
+        ) : (
+          <>
+            {/* Payment Method Tabs */}
+            <Tabs defaultValue="credit-card" className="mb-8 max-w-md mx-auto">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger 
+                  value="credit-card" 
+                  onClick={() => setPaymentMethod('credit-card')}
+                  className="flex items-center"
                 >
-                  {plan.type === LicenseType.TRIAL || plan.id === 'trial' 
-                    ? t('subscribe.startTrial', 'Già Attivo') 
-                    : t('subscribe.subscribe', 'Abbonati')}
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  {t('subscribe.paymentMethods.card', 'Carta di Credito')}
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="paypal" 
+                  onClick={() => setPaymentMethod('paypal')}
+                  className="flex items-center"
+                >
+                  <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.003-2.598 6.726-8.674 6.726h-2.19c-1.279 0-2.385.945-2.585 2.22v.03l-.956 6.05h4.433c.48 0 .888-.348.965-.82l.04-.225.764-4.82.05-.264c.076-.472.485-.82.965-.82h.608c3.938 0 7.014-1.6 7.913-6.228.37-1.92.18-3.521-.685-4.562z" />
+                    <path d="M22.8 7.362c-.073-.43-.168-.838-.293-1.224a7.398 7.398 0 0 0-.412-1.143 5.855 5.855 0 0 0-.637-1.042c-.862-1.134-2.355-1.674-4.067-1.674h-7.46A2.486 2.486 0 0 0 7.49.772L4.382 19.316c-.094.596.296 1.15.896 1.15h4.433l1.115-7.07v.228c.19-1.274 1.296-2.218 2.575-2.218h2.19c6.085 0 10.008-3.722 10.675-9.204.02-.163.037-.325.052-.484h-.007c.122-1.586-.012-2.96-.51-4.355z" />
+                  </svg>
+                  PayPal
+                </TabsTrigger>
+              </TabsList>
+              
+              <div className="text-center mt-4 text-sm text-muted-foreground">
+                <p className="flex items-center justify-center">
+                  <AlertCircle className="h-4 w-4 mr-1 text-amber-500" />
+                  {t('subscribe.paymentSecurity', 'Pagamenti sicuri e protetti')}
+                </p>
+              </div>
+            </Tabs>
+            
+            {/* Pricing Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {plans.map((plan: Plan) => {
+                const isCurrentPlan = subscriptionInfo?.plan?.id === plan.id || 
+                                    (plan.type === LicenseType.TRIAL && 
+                                     licenseInfo?.type === LicenseType.TRIAL);
+                                     
+                return (
+                  <Card key={plan.id} className={`flex flex-col ${plan.popular ? 'border-primary shadow-md relative' : ''} ${isCurrentPlan ? 'border-green-500 bg-green-50/30' : ''}`}>
+                    {plan.popular && (
+                      <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+                        <span className="bg-amber-500 text-white text-xs py-1 px-3 rounded-full font-medium">
+                          {t('subscribe.popular', 'Più popolare')}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {isCurrentPlan && (
+                      <div className="absolute top-0 left-0 transform -translate-x-2 -translate-y-2">
+                        <span className="bg-green-500 text-white text-xs py-1 px-3 rounded-full font-medium">
+                          {t('subscribe.currentPlan', 'Piano attuale')}
+                        </span>
+                      </div>
+                    )}
+                    
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        {plan.type === LicenseType.PRO ? (
+                          <Crown className="h-5 w-5 mr-2 text-amber-500" />
+                        ) : plan.type === LicenseType.BUSINESS ? (
+                          <Users className="h-5 w-5 mr-2 text-purple-500" />
+                        ) : plan.type === LicenseType.BASE ? (
+                          <Star className="h-5 w-5 mr-2 text-blue-500" />
+                        ) : (
+                          <CalendarClock className="h-5 w-5 mr-2 text-green-500" />
+                        )}
+                        {plan.name}
+                      </CardTitle>
+                      <CardDescription>{plan.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                      <div className="mt-2 mb-6">
+                        <span className="text-3xl font-bold">{plan.priceLabel}</span>
+                      </div>
+                      <ul className="space-y-2 mb-6">
+                        {plan.features.map((feature: PlanFeature, index: number) => (
+                          <li key={index} className="flex items-start">
+                            <div className={`rounded-full p-1 mr-2 ${feature.included ? 'text-green-500' : 'text-gray-300'}`}>
+                              {feature.included ? <Check className="h-4 w-4" /> : <span className="block h-4 w-4">-</span>}
+                            </div>
+                            <span className={feature.included ? '' : 'text-gray-400'}>{feature.name}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                    <CardFooter>
+                      <Button 
+                        variant={isCurrentPlan ? 'outline' : plan.buttonVariant}
+                        className={`w-full ${isCurrentPlan ? 'border-green-500 text-green-700 hover:bg-green-50' : ''}`}
+                        onClick={() => !isCurrentPlan && handlePayment(plan.id)}
+                        disabled={isCurrentPlan || plan.type === LicenseType.TRIAL || plan.id === 'trial'}
+                      >
+                        {isCurrentPlan ? (
+                          <div className="flex items-center justify-center">
+                            <Check className="h-5 w-5 mr-2" />
+                            {t('subscribe.active', 'Attivo')}
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center">
+                            {plan.type === LicenseType.TRIAL || plan.id === 'trial' 
+                              ? t('subscribe.startTrial', 'Già Attivo')
+                              : (
+                                <>
+                                  {startStripeSubscription.isPending || startPaypalSubscription.isPending ? (
+                                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                  ) : (
+                                    <ArrowRight className="h-4 w-4 mr-2" />
+                                  )}
+                                  {t('subscribe.subscribe', 'Abbonati')}
+                                </>
+                              )
+                            }
+                          </div>
+                        )}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </div>
+          </>
+        )}
         
         {/* FAQ and additional info */}
         <div className="mt-20 max-w-3xl mx-auto text-center">
