@@ -165,6 +165,49 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
 });
 
 /**
+ * Endpoint per creare una sessione di checkout Stripe
+ * POST /api/payments/stripe/create-checkout-session
+ * Accesso: utente autenticato
+ */
+router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res) => {
+  try {
+    const { planId } = req.body;
+    const userId = req.user!.id;
+    
+    if (!planId) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID del piano è obbligatorio'
+      });
+    }
+    
+    // Costruisci gli URL di ritorno
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const successUrl = `${baseUrl}/payment/success`;
+    const cancelUrl = `${baseUrl}/payment/cancel`;
+    
+    const result = await PaymentService.createStripeCheckoutSession(
+      userId,
+      parseInt(planId),
+      successUrl,
+      cancelUrl
+    );
+    
+    if (!result.success) {
+      return res.status(500).json(result);
+    }
+    
+    return res.json(result);
+  } catch (error) {
+    console.error('Errore durante la creazione della sessione di checkout Stripe:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
  * Endpoint per finalizzare un abbonamento PayPal dopo l'approvazione dell'utente
  * POST /api/payments/paypal/capture
  * Accesso: utente autenticato
@@ -266,6 +309,74 @@ router.post('/wise/subscribe', isAuthenticated, async (req, res) => {
     }
   } catch (error) {
     console.error('Errore durante la creazione dell\'abbonamento Wise:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
+ * Endpoint per gestire le notifiche webhook da Stripe
+ * POST /api/payments/stripe/webhook
+ * Accesso: pubblico (ma con verifica della firma)
+ */
+router.post('/stripe/webhook', async (req, res) => {
+  try {
+    // Ottieni la firma dal header
+    const signature = req.headers['stripe-signature'];
+    
+    if (!signature) {
+      return res.status(400).json({
+        success: false,
+        message: 'Manca la firma Stripe'
+      });
+    }
+    
+    // Ottieni la chiave segreta Stripe
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeSecretKey) {
+      return res.status(500).json({
+        success: false,
+        message: 'Configurazione Stripe mancante'
+      });
+    }
+    
+    const stripe = new Stripe(stripeSecretKey, {
+      apiVersion: '2023-10-16'
+    });
+    
+    // Ottieni il webhook secret da variabile d'ambiente
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      console.warn('Attenzione: STRIPE_WEBHOOK_SECRET non configurato. Le firme non saranno verificate in ambiente di test.');
+      // Per test, procedi senza verifica
+      const result = await PaymentService.handleStripeWebhook(req.body);
+      return res.json(result);
+    }
+    
+    // Verifica la firma
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        signature,
+        webhookSecret
+      );
+    } catch (err: any) {
+      console.error('Errore di verifica della firma Stripe:', err.message);
+      return res.status(400).json({
+        success: false,
+        message: `Errore di verifica firma: ${err.message}`
+      });
+    }
+    
+    // Gestisci l'evento
+    const result = await PaymentService.handleStripeWebhook(event);
+    
+    return res.json(result);
+  } catch (error) {
+    console.error('Errore durante la gestione del webhook Stripe:', error);
     return res.status(500).json({
       success: false,
       message: 'Errore interno del server'
