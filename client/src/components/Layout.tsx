@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from 'react-i18next';
 import { useLicense, LicenseType } from '@/hooks/use-license';
@@ -15,7 +15,9 @@ import {
   Plus,
   MessageSquare,
   Settings as SettingsIcon,
-  Crown
+  Crown,
+  Shield,
+  UserCog
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -23,6 +25,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import AppointmentForm from "./AppointmentForm";
 import FooterContactIcons from "./FooterContactIcons";
+import { apiRequest } from "@/lib/queryClient";
 
 interface LayoutProps {
   children: ReactNode;
@@ -32,8 +35,26 @@ interface LayoutProps {
 export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { t } = useTranslation();
   const { licenseInfo, appTitle } = useLicense();
+
+  // Verifica se l'utente corrente è un amministratore
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const response = await apiRequest('GET', '/api/current-user');
+        if (response.ok) {
+          const userData = await response.json();
+          setIsAdmin(userData.type === "admin");
+        }
+      } catch (error) {
+        console.error("Errore nel verificare lo stato di amministratore:", error);
+      }
+    };
+    
+    checkAdminStatus();
+  }, []);
 
   // Check active route
   const isActive = (path: string) => location === path;
@@ -112,6 +133,16 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Button>
               </Link>
 
+              {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+              {isAdmin && (
+                <Link href="/staff-management">
+                  <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <UserCog className="h-4 w-4" />
+                    <span>Gestione Staff</span>
+                  </Button>
+                </Link>
+              )}
+
               {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella dashboard */}
               {location === "/dashboard" && (
                 <>
@@ -168,6 +199,16 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         Funzionalità PRO
                       </Button>
                     </Link>
+                    
+                    {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+                    {isAdmin && (
+                      <Link href="/staff-management">
+                        <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <UserCog className="mr-2 h-4 w-4" />
+                          Gestione Staff
+                        </Button>
+                      </Link>
+                    )}
                     
                     {/* Mostra il pulsante Impostazioni solo nella dashboard */}
                     {location === "/dashboard" && (
