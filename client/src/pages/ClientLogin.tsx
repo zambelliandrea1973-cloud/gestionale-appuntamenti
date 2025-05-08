@@ -20,6 +20,7 @@ export default function ClientLogin() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [autoLoginAttempted, setAutoLoginAttempted] = useState<boolean>(false);
   const [directLinkLoading, setDirectLinkLoading] = useState<boolean>(false);
 
@@ -111,10 +112,11 @@ export default function ClientLogin() {
       console.log("Usando nome utente memorizzato:", storedUsername);
       setUsername(storedUsername);
       
-      // Se c'è anche la password memorizzata (opzionale), imposta anche quella
+      // Se c'è anche la password memorizzata, imposta anche quella e preseleziona "ricorda accesso"
       if (storedPassword) {
-        console.log("Usando password memorizzata (PWA)");
+        console.log("Usando password memorizzata e preselezionando l'opzione 'ricorda accesso'");
         setPassword(storedPassword);
+        setRememberMe(true);
         
         // Se siamo in una PWA, tentiamo un login automatico immediato con credenziali salvate
         if (isPWA) {
@@ -300,6 +302,13 @@ export default function ClientLogin() {
         }
         localStorage.setItem('clientUsername', username);
         
+        // Se è stato selezionato "ricorda accesso", salva anche la password
+        if (rememberMe) {
+          localStorage.setItem('clientPassword', password);
+        } else {
+          localStorage.removeItem('clientPassword');
+        }
+        
         // Salviamo anche il token se presente nella risposta
         if (user.token) {
           localStorage.setItem('clientAccessToken', user.token);
@@ -399,6 +408,20 @@ export default function ClientLogin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox 
+                id="rememberMe" 
+                checked={rememberMe}
+                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+              />
+              <Label
+                htmlFor="rememberMe"
+                className="text-sm font-normal cursor-pointer"
+              >
+                Ricorda il mio account
+              </Label>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
