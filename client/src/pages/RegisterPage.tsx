@@ -65,8 +65,8 @@ export default function RegisterPage() {
         throw new Error(data.message || "Errore durante la registrazione");
       }
       
-      // Registrazione riuscita, reindirizza alla pagina di login
-      navigate("/login");
+      // Registrazione riuscita, reindirizza alla pagina di login dello staff poiché si registra come staff
+      navigate("/staff-login");
     } catch (err: any) {
       setError(err.message || "Si è verificato un errore durante la registrazione");
     } finally {
@@ -158,7 +158,7 @@ export default function RegisterPage() {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2 text-center text-sm">
-            <div>Hai già un account? <a href="/login" className="text-primary hover:underline">Accedi</a></div>
+            <div>Hai già un account? <a href="/staff-login" className="text-primary hover:underline">Accedi</a></div>
           </CardFooter>
         </Card>
         
