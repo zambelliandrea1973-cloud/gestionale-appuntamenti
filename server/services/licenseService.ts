@@ -216,15 +216,25 @@ class LicenseService {
    * Verifica se l'utente ha accesso alle funzionalità PRO
    */
   async hasProAccess(): Promise<boolean> {
+    // Ottieni l'utente corrente dalla richiesta (se disponibile)
+    if (global.currentRequest && global.currentRequest.user) {
+      // Se l'utente è di tipo staff o admin, ha automaticamente accesso PRO
+      if (global.currentRequest.user.type === 'staff' || global.currentRequest.user.type === 'admin') {
+        return true;
+      }
+    }
+    
+    // Se non è staff o admin, verifichiamo il tipo di licenza
     const licenseInfo = await this.getCurrentLicenseInfo();
     
     // Verificiamo che la licenza sia attiva e non scaduta
     const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
     
-    // Accesso consentito per licenze PRO, BUSINESS e PASSEPARTOUT
+    // Accesso consentito per licenze PRO, BUSINESS, STAFF_FREE e PASSEPARTOUT
     if (isActive && (
         licenseInfo.type === LicenseType.PRO || 
         licenseInfo.type === LicenseType.BUSINESS || 
+        licenseInfo.type === LicenseType.STAFF_FREE ||
         licenseInfo.type === LicenseType.PASSEPARTOUT
       )) {
       return true;
