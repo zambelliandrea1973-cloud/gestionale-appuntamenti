@@ -249,7 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
-  app.use('/api/payment', paymentRoutes);
+  app.use('/api/payments', paymentRoutes);
   app.use('/api/admin', adminRouter);
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
@@ -1056,99 +1056,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Payment Routes
-  app.get("/api/payments/:id", async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid payment ID" });
-      }
-
-      const payment = await storage.getPayment(id);
-      if (!payment) {
-        return res.status(404).json({ message: "Payment not found" });
-      }
-
-      res.json(payment);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching payment" });
-    }
-  });
-
-  app.get("/api/payments/invoice/:invoiceId", async (req: Request, res: Response) => {
-    try {
-      const invoiceId = parseInt(req.params.invoiceId);
-      if (isNaN(invoiceId)) {
-        return res.status(400).json({ message: "Invalid invoice ID" });
-      }
-
-      const payments = await storage.getPaymentsByInvoice(invoiceId);
-      res.json(payments);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching payments" });
-    }
-  });
-
-  app.post("/api/payments", async (req: Request, res: Response) => {
-    try {
-      const validationResult = insertPaymentSchema.safeParse(req.body);
-      if (!validationResult.success) {
-        return res.status(400).json({
-          message: "Invalid payment data",
-          errors: validationResult.error.errors
-        });
-      }
-
-      const payment = await storage.createPayment(validationResult.data);
-      res.status(201).json(payment);
-    } catch (error) {
-      res.status(500).json({ message: "Error creating payment" });
-    }
-  });
-
-  app.put("/api/payments/:id", async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid payment ID" });
-      }
-
-      const validationResult = insertPaymentSchema.partial().safeParse(req.body);
-      if (!validationResult.success) {
-        return res.status(400).json({
-          message: "Invalid payment data",
-          errors: validationResult.error.errors
-        });
-      }
-
-      const updatedPayment = await storage.updatePayment(id, validationResult.data);
-      if (!updatedPayment) {
-        return res.status(404).json({ message: "Payment not found" });
-      }
-
-      res.json(updatedPayment);
-    } catch (error) {
-      res.status(500).json({ message: "Error updating payment" });
-    }
-  });
-
-  app.delete("/api/payments/:id", async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid payment ID" });
-      }
-
-      const success = await storage.deletePayment(id);
-      if (!success) {
-        return res.status(404).json({ message: "Payment not found" });
-      }
-
-      res.status(204).end();
-    } catch (error) {
-      res.status(500).json({ message: "Error deleting payment" });
-    }
-  });
+  // Nota: Le route di pagamento sono ora gestite tramite il router paymentRoutes
   
   // Helper route for generating an invoice number
   app.get("/api/generate-invoice-number", async (_req: Request, res: Response) => {
