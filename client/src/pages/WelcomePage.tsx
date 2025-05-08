@@ -76,30 +76,14 @@ export default function WelcomePage() {
                 className="h-16 text-lg"
                 size="lg" 
                 variant="outline"
-                onClick={() => setLocation("/staff-login")}
-              >
-                <LogIn className="mr-2 h-5 w-5" />
-                Accedi come professionista
-              </Button>
-              
-              <div className="text-center text-sm text-muted-foreground">
-                Per professionisti che hanno già un account (come zambelli.andrea.1973@gmail.com)
-              </div>
-            </div>
-            
-            <div className="flex flex-col gap-3">
-              <Button 
-                className="h-16 text-lg"
-                size="lg" 
-                variant="secondary"
                 onClick={() => setLocation("/client-login")}
               >
                 <LogIn className="mr-2 h-5 w-5" />
-                Accedi come cliente
+                Accedi
               </Button>
               
               <div className="text-center text-sm text-muted-foreground">
-                Per clienti che hanno ricevuto le credenziali di accesso dal professionista
+                Accesso per clienti e operatori
               </div>
             </div>
           </CardContent>
