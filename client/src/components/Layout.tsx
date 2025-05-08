@@ -74,222 +74,224 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
     <div className="flex flex-col min-h-screen">
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
-        <div className="container mx-auto px-4">
-          {/* Riga principale con logo, titolo e controlli */}
-          <div className="flex items-center justify-between py-3">
+        <div className="container mx-auto px-4 py-2">
+          {/* Layout a tre colonne per desktop */}
+          <div className="hidden md:grid grid-cols-3 gap-4 items-center">
+            {/* Colonna sinistra: Nome applicazione e dettagli utente */}
+            <div className="border border-white/30 rounded-md p-3 bg-primary-dark/20">
+              <div className="flex items-center space-x-2">
+                <CalendarDays className="h-6 w-6" />
+                <div>
+                  <h1 className="text-xl font-medium">{appTitle || t('app.title')}</h1>
+                  <div className="text-sm flex items-center gap-1">
+                    <span>Utente: {licenseInfo?.username || 'Guest'}</span>
+                    <UserLicenseBadge className="ml-1" />
+                  </div>
+                  {licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
+                    <div className="text-xs mt-1 text-amber-300 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      <span>
+                        {new Date(licenseInfo.expiresAt) > new Date() 
+                          ? `Restano ${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni di prova` 
+                          : 'Periodo di prova scaduto'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            {/* Colonna centrale: Menu di navigazione su due righe */}
+            <div className="flex flex-col space-y-2">
+              {/* Prima riga di navigazione */}
+              <div className="flex justify-center space-x-1">
+                <Link href="/dashboard">
+                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Home className="h-4 w-4" />
+                    <span>Home</span>
+                  </Button>
+                </Link>
+                <Link href="/calendar">
+                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <CalendarDays className="h-4 w-4" />
+                    <span>{t('calendar.title')}</span>
+                  </Button>
+                </Link>
+                <Link href="/clients">
+                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Users className="h-4 w-4" />
+                    <span>{t('clients.title')}</span>
+                  </Button>
+                </Link>
+                <Link href="/whatsapp-center">
+                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <MessageSquare className="h-4 w-4" />
+                    <span>Notifiche</span>
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Seconda riga di navigazione */}
+              <div className="flex justify-center space-x-1">
+                <Link href="/pro">
+                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <Crown className="h-4 w-4 text-amber-400" />
+                    <span>PRO</span>
+                  </Button>
+                </Link>
+                {isAdmin && (
+                  <Link href="/staff-management">
+                    <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                      <UserCog className="h-4 w-4" />
+                      <span>Staff</span>
+                    </Button>
+                  </Link>
+                )}
+                {location === "/dashboard" && (
+                  <Link href="/settings">
+                    <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                      <SettingsIcon className="h-4 w-4" />
+                      <span>{t('settings.title')}</span>
+                    </Button>
+                  </Link>
+                )}
+                {location === "/dashboard" && (
+                  <LanguageSelector />
+                )}
+              </div>
+            </div>
+            
+            {/* Colonna destra: Pulsante di uscita */}
+            <div className="flex justify-end">
+              <LogoutButton variant="secondary" className="w-36 h-10" iconPosition="right" />
+            </div>
+          </div>
+          
+          {/* Layout mobile */}
+          <div className="flex md:hidden items-center justify-between py-2">
             <div className="flex items-center space-x-2">
               <Link href="/dashboard">
                 <div className="flex items-center space-x-2 cursor-pointer">
                   <CalendarDays className="h-5 w-5" />
-                  {/* Mostra il titolo solo se non siamo nella pagina delle notifiche o nella home */}
-                  {(location === "/" || (location !== "/notifications" && location !== "/whatsapp-center" && location !== "/phone-device-setup" && location !== "/simple-phone-setup" && !hideHeader)) && (
-                    <h1 className="text-xl font-medium flex items-center">
-                      {appTitle || t('app.title')}
-                      <UserLicenseBadge />
-                    </h1>
-                  )}
+                  <h1 className="text-lg font-medium flex items-center">
+                    {appTitle || t('app.title')}
+                  </h1>
                 </div>
               </Link>
             </div>
             
-            <div className="flex items-center space-x-2">
-              {/* Pulsante di logout in desktop */}
-              <div className="hidden md:block">
-                <LogoutButton variant="ghost" />
-              </div>
-              
-              {/* Menu hamburger per mobile */}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" className="md:hidden" size="icon">
-                    <Menu className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <div className="flex flex-col gap-4 py-4">
-                    <h2 className="text-lg font-medium">Menu</h2>
-                    <nav className="flex flex-col gap-2">
-                      <Link href="/dashboard">
-                        <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <Home className="mr-2 h-4 w-4" />
-                          Home
-                        </Button>
-                      </Link>
-                      <Link href="/calendar">
-                        <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <CalendarDays className="mr-2 h-4 w-4" />
-                          {t('calendar.title')}
-                        </Button>
-                      </Link>
-                      <Link href="/clients">
-                        <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <Users className="mr-2 h-4 w-4" />
-                          {t('clients.title')}
-                        </Button>
-                      </Link>
-                      
-                      <Link href="/whatsapp-center">
-                        <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <MessageSquare className="mr-2 h-4 w-4" />
-                          Notifiche ai clienti
-                        </Button>
-                      </Link>
-                      
-                      <Link href="/pro">
-                        <Button variant={isActive("/pro") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <Crown className="mr-2 h-4 w-4 text-amber-400" />
-                          Funzionalità PRO
-                        </Button>
-                      </Link>
-                      
-                      <Link href="/appointments">
-                        <Button variant={isActive("/appointments") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <CalendarClock className="mr-2 h-4 w-4" />
-                          Gestione Appuntamenti
-                        </Button>
-                      </Link>
-                      
-                      <Link href="/questionnaires">
-                        <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <ClipboardList className="mr-2 h-4 w-4" />
-                          Anamnesi/Questionari
-                        </Button>
-                      </Link>
-                      
-                      <Link href="/medical-records">
-                        <Button variant={isActive("/medical-records") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <Book className="mr-2 h-4 w-4" />
-                          Base
-                        </Button>
-                      </Link>
-                      
-                      {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
-                      {isAdmin && (
-                        <Link href="/staff-management">
-                          <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
-                            <UserCog className="mr-2 h-4 w-4" />
-                            Gestione Staff
-                          </Button>
-                        </Link>
-                      )}
-                      
-                      {/* Mostra il pulsante Impostazioni solo nella dashboard */}
-                      {location === "/dashboard" && (
-                        <Link href="/settings">
-                          <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
-                            <SettingsIcon className="mr-2 h-4 w-4" />
-                            {t('settings.title')}
-                          </Button>
-                        </Link>
-                      )}
-                    </nav>
-                    {/* Mostra il selettore lingua solo nella dashboard */}
-                    {location === "/dashboard" && (
-                      <div className="mt-4">
-                        <LanguageSelector />
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <div className="flex flex-col gap-4 py-4">
+                  <div className="border border-gray-200 rounded-md p-3 bg-gray-50">
+                    <div className="flex items-center space-x-2">
+                      <UserLicenseBadge size="lg" />
+                      <div>
+                        <h2 className="font-medium">{licenseInfo?.username || 'Guest'}</h2>
+                        {licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
+                          <div className="text-xs text-amber-600 flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            <span>
+                              {new Date(licenseInfo.expiresAt) > new Date() 
+                                ? `Restano ${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni di prova` 
+                                : 'Periodo di prova scaduto'}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                    
-                    {/* Pulsante di logout nel menu mobile */}
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <LogoutButton 
-                        variant="ghost" 
-                        fullWidth={true} 
-                        className="justify-start" 
-                        iconPosition="left" 
-                      />
                     </div>
                   </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-          
-          {/* Barra di navigazione su due righe - Solo per desktop */}
-          <div className="hidden md:block pb-3">
-            {/* Prima riga di navigazione - allineata con uguale spaziatura */}
-            <div className="grid grid-cols-6 gap-2 mb-2">
-              <Link href="/dashboard" className="col-span-1">
-                <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <Home className="h-4 w-4 mr-1" />
-                  <span>Home</span>
-                </Button>
-              </Link>
-              <Link href="/calendar" className="col-span-1">
-                <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <CalendarDays className="h-4 w-4 mr-1" />
-                  <span>{t('calendar.title')}</span>
-                </Button>
-              </Link>
-              <Link href="/clients" className="col-span-1">
-                <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <Users className="h-4 w-4 mr-1" />
-                  <span>{t('clients.title')}</span>
-                </Button>
-              </Link>
-              <Link href="/whatsapp-center" className="col-span-1">
-                <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <MessageSquare className="h-4 w-4 mr-1" />
-                  <span>Notifiche</span>
-                </Button>
-              </Link>
-              {location === "/dashboard" && (
-                <Link href="/settings" className="col-span-1">
-                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                    <SettingsIcon className="h-4 w-4 mr-1" />
-                    <span>{t('settings.title')}</span>
-                  </Button>
-                </Link>
-              )}
-              {/* Slot vuoto se necessario per mantenere l'allineamento */}
-              {location !== "/dashboard" && <div className="col-span-1"></div>}
-              {location === "/dashboard" && (
-                <div className="col-span-1 flex justify-center items-center">
-                  <LanguageSelector />
+                  
+                  <h2 className="text-lg font-medium">Menu</h2>
+                  <nav className="flex flex-col gap-2">
+                    <Link href="/dashboard">
+                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Home className="mr-2 h-4 w-4" />
+                        Home
+                      </Button>
+                    </Link>
+                    <Link href="/calendar">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <CalendarDays className="mr-2 h-4 w-4" />
+                        {t('calendar.title')}
+                      </Button>
+                    </Link>
+                    <Link href="/clients">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Users className="mr-2 h-4 w-4" />
+                        {t('clients.title')}
+                      </Button>
+                    </Link>
+                    
+                    <Link href="/whatsapp-center">
+                      <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        Notifiche
+                      </Button>
+                    </Link>
+                    
+                    <Link href="/pro">
+                      <Button variant={isActive("/pro") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Crown className="mr-2 h-4 w-4 text-amber-400" />
+                        Funzionalità PRO
+                      </Button>
+                    </Link>
+                    
+                    <Link href="/appointments">
+                      <Button variant={isActive("/appointments") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <CalendarClock className="mr-2 h-4 w-4" />
+                        Appuntamenti
+                      </Button>
+                    </Link>
+                    
+                    <Link href="/questionnaires">
+                      <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <ClipboardList className="mr-2 h-4 w-4" />
+                        Questionari
+                      </Button>
+                    </Link>
+                    
+                    {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+                    {isAdmin && (
+                      <Link href="/staff-management">
+                        <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <UserCog className="mr-2 h-4 w-4" />
+                          Gestione Staff
+                        </Button>
+                      </Link>
+                    )}
+                    
+                    {/* Mostra il pulsante Impostazioni */}
+                    <Link href="/settings">
+                      <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <SettingsIcon className="mr-2 h-4 w-4" />
+                        {t('settings.title')}
+                      </Button>
+                    </Link>
+                  </nav>
+                  
+                  {/* Selettore lingua */}
+                  <div className="mt-4">
+                    <LanguageSelector />
+                  </div>
+                  
+                  {/* Pulsante di logout nel menu mobile */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <LogoutButton 
+                      variant="secondary" 
+                      fullWidth={true} 
+                      className="justify-center" 
+                      iconPosition="right" 
+                    />
+                  </div>
                 </div>
-              )}
-              {location !== "/dashboard" && <div className="col-span-1"></div>}
-            </div>
-            
-            {/* Seconda riga di navigazione - allineata con la prima */}
-            <div className="grid grid-cols-6 gap-2">
-              <Link href="/pro" className="col-span-1">
-                <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <Crown className="h-4 w-4 mr-1 text-amber-400" />
-                  <span>PRO</span>
-                </Button>
-              </Link>
-              
-              {/* Mostra Gestione Staff solo agli amministratori, altrimenti slot vuoto */}
-              {isAdmin ? (
-                <Link href="/staff-management" className="col-span-1">
-                  <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                    <UserCog className="h-4 w-4 mr-1" />
-                    <span>Staff</span>
-                  </Button>
-                </Link>
-              ) : (
-                <div className="col-span-1"></div>
-              )}
-              
-              <Link href="/appointments" className="col-span-1">
-                <Button variant={isActive("/appointments") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <CalendarClock className="h-4 w-4 mr-1" />
-                  <span>Appuntamenti</span>
-                </Button>
-              </Link>
-              
-              <Link href="/questionnaires" className="col-span-1">
-                <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
-                  <ClipboardList className="h-4 w-4 mr-1" />
-                  <span>Questionari</span>
-                </Button>
-              </Link>
-              
-              {/* Gli ultimi due slot rimangono vuoti per mantenere l'allineamento */}
-              <div className="col-span-1"></div>
-              <div className="col-span-1"></div>
-            </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
