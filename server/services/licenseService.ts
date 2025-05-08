@@ -193,7 +193,7 @@ class LicenseService {
     return {
       type: license.type as LicenseType,
       expiresAt: license.expiresAt,
-      isActive: license.isActive,
+      isActive: license.isActive === true,
       daysLeft
     };
   }
