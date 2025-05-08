@@ -45,7 +45,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2">
-              <Link href="/">
+              <Link href="/dashboard">
                 <div className="flex items-center space-x-2 cursor-pointer">
                   <CalendarDays className="h-5 w-5" />
                   {/* Mostra il titolo solo se non siamo nella pagina delle notifiche o nella home */}
