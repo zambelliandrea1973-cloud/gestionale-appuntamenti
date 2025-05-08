@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
 import { BetaStatusChecker } from "./components/BetaStatusChecker";
+import { UserLicenseProvider } from "./hooks/use-user-with-license";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
@@ -390,9 +391,12 @@ function App() {
       <TimezoneDetector />
       {/* BetaStatusChecker verifica se l'utente è un beta tester */}
       <BetaStatusChecker />
-      <WouterRouter>
-        <AppRoutes />
-      </WouterRouter>
+      {/* UserLicenseProvider fornisce le informazioni sulla licenza e l'utente corrente */}
+      <UserLicenseProvider>
+        <WouterRouter>
+          <AppRoutes />
+        </WouterRouter>
+      </UserLicenseProvider>
     </QueryClientProvider>
   );
 }
