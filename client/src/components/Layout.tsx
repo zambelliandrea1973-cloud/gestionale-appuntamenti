@@ -28,6 +28,7 @@ import AppointmentForm from "./AppointmentForm";
 import FooterContactIcons from "./FooterContactIcons";
 import { apiRequest } from "@/lib/queryClient";
 import UserLicenseBadge from "./UserLicenseBadge";
+import LogoutButton from "./LogoutButton";
 
 interface LayoutProps {
   children: ReactNode;
@@ -147,7 +148,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               
               {/* Pulsante di logout */}
               <div className="ml-2">
-                <LogoutButton />
+                <LogoutButton variant="ghost" />
               </div>
             </div>
             
@@ -219,6 +220,16 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <LanguageSelector />
                     </div>
                   )}
+                  
+                  {/* Pulsante di logout nel menu mobile */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <LogoutButton 
+                      variant="ghost" 
+                      fullWidth={true} 
+                      className="justify-start" 
+                      iconPosition="left" 
+                    />
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

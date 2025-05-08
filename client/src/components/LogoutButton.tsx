@@ -5,8 +5,21 @@ import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
-export default function LogoutButton() {
+interface LogoutButtonProps {
+  variant?: "ghost" | "secondary" | "link";
+  className?: string;
+  fullWidth?: boolean;
+  iconPosition?: "left" | "right";
+}
+
+export default function LogoutButton({
+  variant = "ghost",
+  className = "",
+  fullWidth = false,
+  iconPosition = "left"
+}: LogoutButtonProps) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { t } = useTranslation();
   const [_, navigate] = useLocation();
@@ -53,15 +66,27 @@ export default function LogoutButton() {
     }
   };
 
+  // Combinazione di classi di base con quelle personalizzate
+  const buttonClasses = cn(
+    "flex items-center space-x-1",
+    fullWidth ? "w-full justify-start" : "",
+    variant === "ghost" ? "hover:bg-primary-dark" : "",
+    className
+  );
+
+  const iconClass = "h-4 w-4";
+  const labelText = isLoggingOut ? t("auth.loggingOut", "Uscita...") : t("auth.logout", "Esci");
+
   return (
     <Button
-      variant="ghost"
-      className="flex items-center space-x-1 hover:bg-primary-dark"
+      variant={variant}
+      className={buttonClasses}
       onClick={handleLogout}
       disabled={isLoggingOut}
     >
-      <LogOut className="h-4 w-4" />
-      <span>{isLoggingOut ? t("auth.loggingOut", "Uscita...") : t("auth.logout", "Esci")}</span>
+      {iconPosition === "left" && <LogOut className={cn(iconClass, "mr-2")} />}
+      <span>{labelText}</span>
+      {iconPosition === "right" && <LogOut className={cn(iconClass, "ml-2")} />}
     </Button>
   );
 }
