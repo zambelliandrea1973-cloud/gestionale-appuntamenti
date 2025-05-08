@@ -2,6 +2,7 @@ import { useState, ReactNode, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from 'react-i18next';
 import { useLicense, LicenseType } from '@/hooks/use-license';
+import { useUserWithLicense } from '@/hooks/use-user-with-license';
 import { 
   CalendarDays, 
   Users, 
@@ -46,29 +47,13 @@ interface LayoutProps {
 export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const [location] = useLocation();
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [currentUser, setCurrentUser] = useState<any>(null);
   const { t } = useTranslation();
   const { licenseInfo, appTitle } = useLicense();
-
-  // Verifica se l'utente corrente è un amministratore
-  useEffect(() => {
-    const checkAdminStatus = async () => {
-      try {
-        const response = await apiRequest('GET', '/api/current-user');
-        if (response.ok) {
-          const userData = await response.json();
-          setIsAdmin(userData.role === "admin");
-          setCurrentUser(userData);
-        }
-      } catch (error) {
-        console.error("Errore nel verificare lo stato di amministratore:", error);
-      }
-    };
-    
-    checkAdminStatus();
-  }, []);
-
+  
+  // Utilizziamo direttamente l'hook per ottenere i dati dell'utente
+  const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
+  const isAdmin = userWithLicense?.type === 'admin';
+  
   // Check active route
   const isActive = (path: string) => location === path;
 
@@ -91,7 +76,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       : (appTitle || t('app.title'))}
                   </h1>
                   <div className="text-sm flex items-center gap-1">
-                    <span>Utente: {currentUser?.username || 'Guest'}</span>
+                    <span>Utente: {userWithLicense?.username || 'Guest'}</span>
                     <UserLicenseBadge />
                   </div>
                   {/* Mostra il conteggio solo se l'utente è in prova e NON è admin */}
@@ -205,7 +190,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <div className="flex items-center space-x-2">
                       <UserLicenseBadge />
                       <div>
-                        <h2 className="font-medium">{currentUser?.username || 'Guest'}</h2>
+                        <h2 className="font-medium">{userWithLicense?.username || 'Guest'}</h2>
                         {/* Mostra il conteggio solo se l'utente è in prova e NON è admin */}
                         {licenseInfo?.type === 'trial' && !isAdmin && licenseInfo?.expiresAt && (
                           <div className="text-xs text-amber-600 flex items-center gap-1">
