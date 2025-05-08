@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import initialSetupService from "./services/initialSetupService";
 
 const app = express();
 app.use(express.json());
@@ -37,6 +38,13 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Inizializza il servizio di setup iniziale
+  try {
+    await initialSetupService.initialize();
+  } catch (error) {
+    console.error('Errore durante l\'inizializzazione del servizio di setup:', error);
+  }
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
