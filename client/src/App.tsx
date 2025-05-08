@@ -26,6 +26,7 @@ import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
+import StaffLogin from "./pages/StaffLogin";
 import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
@@ -101,6 +102,13 @@ function AppRoutes() {
       <Route path="/login">
         <ClientPageWrapper>
           <ClientLogin />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina di login staff */}
+      <Route path="/staff-login">
+        <ClientPageWrapper>
+          <StaffLogin />
         </ClientPageWrapper>
       </Route>
       
