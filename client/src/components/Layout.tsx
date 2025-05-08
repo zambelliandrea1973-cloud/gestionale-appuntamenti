@@ -74,9 +74,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
             
             <div className="hidden md:flex items-center space-x-4">
-              {/* Mostra il pulsante Home solo se non siamo già nella home page */}
-              {location !== "/" && (
-                <Link href="/">
+              {/* Mostra il pulsante Home solo se non siamo già nella dashboard */}
+              {location !== "/dashboard" && (
+                <Link href="/dashboard">
                   <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
                     <Grid className="h-4 w-4" />
                     <span>{t('navigation.home')}</span>
@@ -112,8 +112,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Button>
               </Link>
 
-              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella home page */}
-              {location === "/" && (
+              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella dashboard */}
+              {location === "/dashboard" && (
                 <>
                   <Link href="/settings">
                     <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
@@ -137,8 +137,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <div className="flex flex-col gap-4 py-4">
                   <h2 className="text-lg font-medium">Menu</h2>
                   <nav className="flex flex-col gap-2">
-                    <Link href="/">
-                      <Button variant={isActive("/") ? "secondary" : "ghost"} className="justify-start w-full">
+                    <Link href="/dashboard">
+                      <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
                         Home
                       </Button>
                     </Link>
@@ -169,8 +169,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Mostra il pulsante Impostazioni solo nella home page */}
-                    {location === "/" && (
+                    {/* Mostra il pulsante Impostazioni solo nella dashboard */}
+                    {location === "/dashboard" && (
                       <Link href="/settings">
                         <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
                           <SettingsIcon className="mr-2 h-4 w-4" />
@@ -179,8 +179,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Link>
                     )}
                   </nav>
-                  {/* Mostra il selettore lingua solo nella home page */}
-                  {location === "/" && (
+                  {/* Mostra il selettore lingua solo nella dashboard */}
+                  {location === "/dashboard" && (
                     <div className="mt-4">
                       <LanguageSelector />
                     </div>
