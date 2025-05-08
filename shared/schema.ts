@@ -803,11 +803,12 @@ export type InsertPhone = z.infer<typeof insertPhoneSchema>;
 export const licenses = pgTable("licenses", {
   id: serial("id").primaryKey(),
   code: text("code").notNull().unique(),
-  type: text("type").notNull(), // trial, base, pro
+  type: text("type").notNull(), // trial, base, pro, business, passepartout
   isActive: boolean("is_active").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   activatedAt: timestamp("activated_at"),
   expiresAt: timestamp("expires_at"),
+  userId: integer("user_id"), // Collegamento con l'utente proprietario della licenza
 });
 
 export const insertLicenseSchema = createInsertSchema(licenses).omit({
@@ -817,3 +818,12 @@ export const insertLicenseSchema = createInsertSchema(licenses).omit({
 
 export type License = typeof licenses.$inferSelect;
 export type InsertLicense = z.infer<typeof insertLicenseSchema>;
+
+// Relazione tra licenses e users
+export const licensesRelations = relations(licenses, ({ one }) => ({
+  user: one(users, {
+    fields: [licenses.userId],
+    references: [users.id],
+    relationName: "user_licenses",
+  }),
+}));

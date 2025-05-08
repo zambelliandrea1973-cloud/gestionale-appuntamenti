@@ -25,6 +25,7 @@ import BetaPage from "./pages/BetaPage";
 import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
 import SubscribePage from "./pages/SubscribePage";
+import RegisterPage from "./pages/RegisterPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
@@ -100,6 +101,13 @@ function AppRoutes() {
       <Route path="/login">
         <ClientPageWrapper>
           <ClientLogin />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina di registrazione nuovo account */}
+      <Route path="/register">
+        <ClientPageWrapper>
+          <RegisterPage />
         </ClientPageWrapper>
       </Route>
       
