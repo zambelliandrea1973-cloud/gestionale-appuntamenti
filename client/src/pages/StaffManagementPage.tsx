@@ -53,6 +53,9 @@ export default function StaffManagementPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [userToDelete, setUserToDelete] = useState<StaffUser | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   
   // Form per nuovo utente staff
   const [newUsername, setNewUsername] = useState<string>("");
@@ -149,6 +152,46 @@ export default function StaffManagementPage() {
     }
   };
 
+  // Funzione per eliminare un utente staff
+  const deleteStaffUser = async () => {
+    if (!userToDelete) return;
+    
+    setIsDeleting(true);
+    
+    try {
+      const response = await apiRequest("DELETE", `/api/staff/${userToDelete.id}`);
+      
+      if (response.ok) {
+        // Rimuovi l'utente dalla lista
+        setStaffUsers(prev => prev.filter(user => user.id !== userToDelete.id));
+        
+        toast({
+          title: "Utente eliminato",
+          description: `L'utente ${userToDelete.username} è stato eliminato con successo`,
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore durante l'eliminazione dell'utente");
+      }
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Errore",
+        description: err.message || "Impossibile eliminare l'utente staff",
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteDialogOpen(false);
+      setUserToDelete(null);
+    }
+  };
+  
+  // Inizia il processo di eliminazione
+  const handleDeleteClick = (user: StaffUser) => {
+    setUserToDelete(user);
+    setIsDeleteDialogOpen(true);
+  };
+  
   // Filtra gli utenti in base alla ricerca
   const filteredUsers = staffUsers.filter(user => 
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -311,10 +354,16 @@ export default function StaffManagementPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="icon" className="h-8 w-8">
+                        <Button variant="outline" size="icon" className="h-8 w-8" disabled={user.role === "admin" && user.username === "zambelli.andrea.1973@gmail.com"}>
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="destructive" size="icon" className="h-8 w-8">
+                        <Button 
+                          variant="destructive" 
+                          size="icon" 
+                          className="h-8 w-8" 
+                          onClick={() => handleDeleteClick(user)}
+                          disabled={user.role === "admin" && user.username === "zambelli.andrea.1973@gmail.com"}
+                        >
                           <Trash className="h-4 w-4" />
                         </Button>
                       </div>
@@ -326,6 +375,43 @@ export default function StaffManagementPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Dialog di conferma eliminazione */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Conferma eliminazione</DialogTitle>
+            <DialogDescription>
+              Sei sicuro di voler eliminare l'utente {userToDelete?.username}?
+              Questa azione non può essere annullata.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <DialogFooter className="flex space-x-2 pt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setIsDeleteDialogOpen(false);
+                setUserToDelete(null);
+              }}
+            >
+              Annulla
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={deleteStaffUser}
+              disabled={isDeleting}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Eliminazione in corso...
+                </>
+              ) : "Elimina"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
