@@ -1,12 +1,27 @@
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
 import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export default function UserLicenseBadge() {
+interface UserLicenseBadgeProps {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+export default function UserLicenseBadge({ size = 'md', className }: UserLicenseBadgeProps) {
   const { user, isLoading, getLicenseBadgeType, getUserType, getFullName } = useUserWithLicense();
 
   // Se stiamo caricando, mostriamo un indicatore di caricamento
   if (isLoading) {
-    return <span className="ml-2 flex items-center"><Loader2 className="h-3 w-3 animate-spin mr-1" /></span>;
+    return (
+      <span className={cn("ml-2 flex items-center", className)}>
+        <Loader2 className={cn(
+          size === 'sm' && "h-2 w-2",
+          size === 'md' && "h-3 w-3",
+          size === 'lg' && "h-4 w-4",
+          "animate-spin mr-1"
+        )} />
+      </span>
+    );
   }
 
   // Se non c'è un utente autenticato, non mostriamo nulla
@@ -41,10 +56,28 @@ export default function UserLicenseBadge() {
     }
   };
 
+  // Configura le dimensioni del badge in base alla prop size
+  const getFontSize = () => {
+    if (size === 'sm') return 'text-xs';
+    if (size === 'lg') return 'text-sm';
+    return 'text-xs'; // default (md)
+  };
+
   return (
-    <div className="ml-2 flex items-center">
-      <span className="text-sm font-medium mr-2">{fullName}</span>
-      <span className={`ml-1 text-xs px-2 py-0.5 rounded-full font-medium ${getBadgeColor()}`}>
+    <div className={cn("flex items-center", className)}>
+      {size !== 'sm' && (
+        <span className={cn(
+          size === 'md' && "text-sm",
+          size === 'lg' && "text-base",
+          "font-medium mr-2"
+        )}>
+          {fullName}
+        </span>
+      )}
+      <span className={cn(
+        `ml-1 px-2 py-0.5 rounded-full font-medium ${getBadgeColor()}`,
+        getFontSize()
+      )}>
         {userType} • {licenseType}
       </span>
     </div>
