@@ -50,6 +50,15 @@ router.post('/activate-license', async (req, res) => {
 // Endpoint per verificare se l'utente ha accesso PRO
 router.get('/has-pro-access', async (req, res) => {
   try {
+    // Se l'utente è autenticato, controlliamo esplicitamente il tipo di utente
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      const user = req.user as any;
+      if (user.type === 'admin' || user.type === 'staff') {
+        return res.json({ hasProAccess: true });
+      }
+    }
+    
+    // Altrimenti, usiamo la logica standard del servizio licenza
     const hasProAccess = await licenseService.hasProAccess();
     res.json({ hasProAccess });
   } catch (error) {
@@ -64,6 +73,15 @@ router.get('/has-pro-access', async (req, res) => {
 // Endpoint per verificare se l'utente ha accesso BUSINESS
 router.get('/has-business-access', async (req, res) => {
   try {
+    // Se l'utente è autenticato, controlliamo esplicitamente il tipo di utente
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      const user = req.user as any;
+      if (user.type === 'admin') {
+        return res.json({ hasBusinessAccess: true });
+      }
+    }
+    
+    // Altrimenti, usiamo la logica standard del servizio licenza
     const hasBusinessAccess = await licenseService.hasBusinessAccess();
     res.json({ hasBusinessAccess });
   } catch (error) {
@@ -112,6 +130,19 @@ router.post('/generate-code', isAuthenticated, async (req, res) => {
 // Endpoint per ottenere il titolo dell'applicazione
 router.get('/application-title', async (req, res) => {
   try {
+    // Se l'utente è autenticato, personalizza il titolo in base al tipo di utente
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      const user = req.user as any;
+      if (user.type === 'admin') {
+        return res.json({ title: "Gestione Appuntamenti" }); // Titolo senza "Prova" per admin
+      }
+      
+      if (user.type === 'staff') {
+        return res.json({ title: "Gestione Appuntamenti PRO" }); // Titolo per staff
+      }
+    }
+    
+    // Altrimenti, usiamo la logica standard del servizio licenza
     const title = await licenseService.getApplicationTitle();
     res.json({ title });
   } catch (error) {
