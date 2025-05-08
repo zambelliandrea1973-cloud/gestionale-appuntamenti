@@ -23,20 +23,21 @@ export default function UserLicenseBadge() {
 
   // Determina il colore di sfondo in base al tipo di licenza
   const getBadgeColor = () => {
-    switch(user.licenseInfo.type) {
-      case 'pro':
-        return 'bg-amber-500 text-white';
-      case 'base':
-        return 'bg-blue-500 text-white';
-      case 'business':
-        return 'bg-purple-500 text-white';
-      case 'staff_free':
-        return 'bg-green-500 text-white';
-      case 'passepartout':
-        return 'bg-red-500 text-white font-bold';
-      case 'trial':
-      default:
-        return 'bg-white/20';
+    const licenseRawType = user.licenseInfo.type;
+    if (licenseRawType === 'pro') {
+      return 'bg-amber-500 text-white';
+    } else if (licenseRawType === 'base') {
+      return 'bg-blue-500 text-white';
+    } else if (licenseRawType === 'business') {
+      return 'bg-purple-500 text-white';
+    } else if (licenseRawType === 'staff_free') {
+      return 'bg-green-500 text-white';
+    } else if (licenseRawType === 'passepartout') {
+      return 'bg-red-500 text-white font-bold';
+    } else if (licenseRawType === 'trial') {
+      return 'bg-white/20';
+    } else {
+      return 'bg-white/20';
     }
   };
 
