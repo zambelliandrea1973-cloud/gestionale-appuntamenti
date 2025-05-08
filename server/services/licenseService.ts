@@ -283,6 +283,37 @@ class LicenseService {
         return "Gestione Appuntamenti";
     }
   }
+  
+  /**
+   * Crea una licenza di prova per un utente
+   */
+  async createTrialLicense(userId: number, expiresAt: Date): Promise<void> {
+    try {
+      // Genera un codice univoco per la licenza di prova
+      const randomBytes = crypto.randomBytes(8);
+      const trialCode = `TRIAL-${randomBytes.toString('hex').toUpperCase()}`;
+      
+      // Inserisce la licenza nel database
+      await db.insert(licenses).values({
+        code: trialCode,
+        type: LicenseType.TRIAL,
+        isActive: true,
+        createdAt: new Date(),
+        expiresAt,
+        activatedAt: new Date(),
+        userId // Associamo la licenza all'utente
+      });
+      
+      console.log(`Licenza di prova creata con codice ${trialCode} per l'utente ${userId}, scadenza: ${expiresAt.toISOString()}`);
+      
+      // Imposta questa licenza come quella corrente per l'utente
+      process.env.CURRENT_LICENSE_CODE = trialCode;
+      process.env.CURRENT_LICENSE_TYPE = LicenseType.TRIAL;
+    } catch (error) {
+      console.error('Errore durante la creazione della licenza di prova:', error);
+      throw error;
+    }
+  }
 }
 
 export const licenseService = new LicenseService();
