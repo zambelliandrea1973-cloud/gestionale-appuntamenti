@@ -24,6 +24,7 @@ import ClientAppointments from "./pages/ClientAppointments";
 import BetaPage from "./pages/BetaPage";
 import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
+import StaffManagementPage from "./pages/StaffManagementPage";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
@@ -203,6 +204,11 @@ function AppRoutes() {
       <Route path="/payment-admin">
         <StaffPageWrapper>
           <PaymentAdmin />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/staff-management">
+        <StaffPageWrapper>
+          <StaffManagementPage />
         </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
