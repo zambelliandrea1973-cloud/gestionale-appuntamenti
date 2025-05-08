@@ -93,21 +93,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
             
             <div className="flex items-center space-x-2">
-              {/* Mostra il pulsante Impostazioni e il selettore lingua solo nella dashboard (sempre visibili) */}
-              {location === "/dashboard" && (
-                <div className="hidden md:flex items-center space-x-2">
-                  <Link href="/settings">
-                    <Button variant="ghost" className="flex items-center space-x-1 hover:bg-primary-dark">
-                      <SettingsIcon className="h-4 w-4" />
-                      <span>{t('settings.title')}</span>
-                    </Button>
-                  </Link>
-                  
-                  <LanguageSelector />
-                </div>
-              )}
-              
-              {/* Pulsante di logout */}
+              {/* Pulsante di logout in desktop */}
               <div className="hidden md:block">
                 <LogoutButton variant="ghost" />
               </div>
@@ -247,32 +233,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <span>Notifiche ai clienti</span>
                 </Button>
               </Link>
-              <Link href="/pro">
-                <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Crown className="h-4 w-4 text-amber-400" />
-                  <span>Funzionalità PRO</span>
-                </Button>
-              </Link>
             </div>
             
             {/* Seconda riga di navigazione */}
             <div className="flex flex-wrap items-center space-x-1">
-              <Link href="/appointments">
-                <Button variant={isActive("/appointments") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <CalendarClock className="h-4 w-4" />
-                  <span>Gestione Appuntamenti</span>
-                </Button>
-              </Link>
-              <Link href="/questionnaires">
-                <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <ClipboardList className="h-4 w-4" />
-                  <span>Anamnesi/Questionari</span>
-                </Button>
-              </Link>
-              <Link href="/medical-records">
-                <Button variant={isActive("/medical-records") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Book className="h-4 w-4" />
-                  <span>Base</span>
+              <Link href="/pro">
+                <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                  <Crown className="h-4 w-4 text-amber-400" />
+                  <span>Funzionalità PRO</span>
                 </Button>
               </Link>
               
@@ -284,6 +252,21 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>Gestione Staff</span>
                   </Button>
                 </Link>
+              )}
+              
+              {/* Mostra il pulsante Impostazioni solo nella dashboard */}
+              {location === "/dashboard" && (
+                <Link href="/settings">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
+                    <SettingsIcon className="h-4 w-4" />
+                    <span>{t('settings.title')}</span>
+                  </Button>
+                </Link>
+              )}
+              
+              {/* Mostra il selettore lingua solo nella dashboard */}
+              {location === "/dashboard" && (
+                <LanguageSelector />
               )}
             </div>
           </div>
