@@ -6,18 +6,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 export default function StaffLogin() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const [isAdminLogin, setIsAdminLogin] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [, navigate] = useLocation();
+  const { toast } = useToast();
   
   // Controlla se dobbiamo mostrare la pagina di login per admin
   useEffect(() => {
@@ -36,33 +38,18 @@ export default function StaffLogin() {
       setRememberMe(true);
     }
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    
-    // Verifica che tutti i campi siano compilati
-    if (!username || !password) {
-      setError("Inserisci sia username che password");
-      return;
-    }
-    
-    try {
-      setLoading(true);
-      
-      // Invia richiesta di login staff
-      const response = await apiRequest("POST", "/api/staff/login", {
-        username,
-        password
-      });
-      
+  
+  // Crea la mutazione per gestire il login
+  const loginMutation = useMutation({
+    mutationFn: async (credentials: { username: string; password: string }) => {
+      const response = await apiRequest("POST", "/api/staff/login", credentials);
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Errore durante l'accesso");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore durante l'accesso");
       }
-      
-      // Ottieni i dati dell'utente dalla risposta
-      const userData = await response.json();
+      return response.json();
+    },
+    onSuccess: (userData) => {
       console.log("Login riuscito, dati utente:", userData);
       
       // Verifica se l'utente è l'amministratore principale
@@ -75,11 +62,36 @@ export default function StaffLogin() {
         // Altrimenti reindirizza alla dashboard standard
         navigate("/dashboard");
       }
-    } catch (err: any) {
-      setError(err.message || "Si è verificato un errore durante l'accesso");
-    } finally {
-      setLoading(false);
+    },
+    onError: (error: Error) => {
+      setError(error.message || "Si è verificato un errore durante l'accesso");
+      toast({
+        title: "Errore di accesso",
+        description: error.message || "Si è verificato un errore durante l'accesso",
+        variant: "destructive",
+      });
     }
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    
+    // Verifica che tutti i campi siano compilati
+    if (!username || !password) {
+      setError("Inserisci sia username che password");
+      return;
+    }
+    
+    // Se abbiamo selezionato "Ricorda il mio account", salva l'username
+    if (rememberMe) {
+      localStorage.setItem("staffUsername", username);
+    } else {
+      localStorage.removeItem("staffUsername");
+    }
+    
+    // Esegui la mutazione
+    loginMutation.mutate({ username, password });
   };
   
   return (
@@ -144,17 +156,10 @@ export default function StaffLogin() {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={loading}
-                onClick={() => {
-                  if (rememberMe && username) {
-                    localStorage.setItem("staffUsername", username);
-                  } else {
-                    localStorage.removeItem("staffUsername");
-                  }
-                }}
+                disabled={loginMutation.isPending}
               >
-                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                {loading ? "Accesso in corso..." : "Accedi"}
+                {loginMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                {loginMutation.isPending ? "Accesso in corso..." : "Accedi"}
               </Button>
             </form>
           </CardContent>
