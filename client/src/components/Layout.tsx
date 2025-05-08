@@ -207,67 +207,88 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           
           {/* Barra di navigazione su due righe - Solo per desktop */}
           <div className="hidden md:block pb-3">
-            {/* Prima riga di navigazione */}
-            <div className="flex flex-wrap items-center space-x-1 mb-2">
-              <Link href="/dashboard">
-                <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Home className="h-4 w-4" />
+            {/* Prima riga di navigazione - allineata con uguale spaziatura */}
+            <div className="grid grid-cols-6 gap-2 mb-2">
+              <Link href="/dashboard" className="col-span-1">
+                <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <Home className="h-4 w-4 mr-1" />
                   <span>Home</span>
                 </Button>
               </Link>
-              <Link href="/calendar">
-                <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <CalendarDays className="h-4 w-4" />
+              <Link href="/calendar" className="col-span-1">
+                <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <CalendarDays className="h-4 w-4 mr-1" />
                   <span>{t('calendar.title')}</span>
                 </Button>
               </Link>
-              <Link href="/clients">
-                <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Users className="h-4 w-4" />
+              <Link href="/clients" className="col-span-1">
+                <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <Users className="h-4 w-4 mr-1" />
                   <span>{t('clients.title')}</span>
                 </Button>
               </Link>
-              <Link href="/whatsapp-center">
-                <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <MessageSquare className="h-4 w-4" />
-                  <span>Notifiche ai clienti</span>
+              <Link href="/whatsapp-center" className="col-span-1">
+                <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <MessageSquare className="h-4 w-4 mr-1" />
+                  <span>Notifiche</span>
                 </Button>
               </Link>
-            </div>
-            
-            {/* Seconda riga di navigazione */}
-            <div className="flex flex-wrap items-center space-x-1">
-              <Link href="/pro">
-                <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                  <Crown className="h-4 w-4 text-amber-400" />
-                  <span>Funzionalità PRO</span>
-                </Button>
-              </Link>
-              
-              {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
-              {isAdmin && (
-                <Link href="/staff-management">
-                  <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <UserCog className="h-4 w-4" />
-                    <span>Gestione Staff</span>
-                  </Button>
-                </Link>
-              )}
-              
-              {/* Mostra il pulsante Impostazioni solo nella dashboard */}
               {location === "/dashboard" && (
-                <Link href="/settings">
-                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center space-x-1 hover:bg-primary-dark">
-                    <SettingsIcon className="h-4 w-4" />
+                <Link href="/settings" className="col-span-1">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                    <SettingsIcon className="h-4 w-4 mr-1" />
                     <span>{t('settings.title')}</span>
                   </Button>
                 </Link>
               )}
-              
-              {/* Mostra il selettore lingua solo nella dashboard */}
+              {/* Slot vuoto se necessario per mantenere l'allineamento */}
+              {location !== "/dashboard" && <div className="col-span-1"></div>}
               {location === "/dashboard" && (
-                <LanguageSelector />
+                <div className="col-span-1 flex justify-center items-center">
+                  <LanguageSelector />
+                </div>
               )}
+              {location !== "/dashboard" && <div className="col-span-1"></div>}
+            </div>
+            
+            {/* Seconda riga di navigazione - allineata con la prima */}
+            <div className="grid grid-cols-6 gap-2">
+              <Link href="/pro" className="col-span-1">
+                <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <Crown className="h-4 w-4 mr-1 text-amber-400" />
+                  <span>PRO</span>
+                </Button>
+              </Link>
+              
+              {/* Mostra Gestione Staff solo agli amministratori, altrimenti slot vuoto */}
+              {isAdmin ? (
+                <Link href="/staff-management" className="col-span-1">
+                  <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                    <UserCog className="h-4 w-4 mr-1" />
+                    <span>Staff</span>
+                  </Button>
+                </Link>
+              ) : (
+                <div className="col-span-1"></div>
+              )}
+              
+              <Link href="/appointments" className="col-span-1">
+                <Button variant={isActive("/appointments") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <CalendarClock className="h-4 w-4 mr-1" />
+                  <span>Appuntamenti</span>
+                </Button>
+              </Link>
+              
+              <Link href="/questionnaires" className="col-span-1">
+                <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} size="sm" className="w-full flex items-center justify-center hover:bg-primary-dark">
+                  <ClipboardList className="h-4 w-4 mr-1" />
+                  <span>Questionari</span>
+                </Button>
+              </Link>
+              
+              {/* Gli ultimi due slot rimangono vuoti per mantenere l'allineamento */}
+              <div className="col-span-1"></div>
+              <div className="col-span-1"></div>
             </div>
           </div>
         </div>
