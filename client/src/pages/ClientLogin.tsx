@@ -450,20 +450,28 @@ export default function ClientLogin() {
               </span>
             </div>
             
-            <div className="text-center text-sm pt-2 border-t">
-              <span className="text-muted-foreground">
-                Sei un professionista? {" "}
-                <a 
-                  href="/staff-login" 
-                  className="text-primary hover:underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setLocation("/staff-login");
-                  }}
-                >
-                  Accedi all'area staff
-                </a>
-              </span>
+            <div className="text-center text-sm pt-4 border-t mt-2">
+              <span className="font-medium mb-2 block">Accesso speciale:</span>
+              <div className="flex justify-center gap-4 mt-2">
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="checkbox" 
+                    id="accessoAdmin" 
+                    className="h-4 w-4"
+                    onClick={() => setLocation("/staff-login?role=admin")}
+                  />
+                  <label htmlFor="accessoAdmin" className="text-sm cursor-pointer">Accesso Admin</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="checkbox" 
+                    id="accessoStaff" 
+                    className="h-4 w-4"
+                    onClick={() => setLocation("/staff-login")}
+                  />
+                  <label htmlFor="accessoStaff" className="text-sm cursor-pointer">Accesso Staff</label>
+                </div>
+              </div>
             </div>
             
             {/* Aggiungi un extra messaggio per le PWA */}

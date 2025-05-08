@@ -16,7 +16,17 @@ export default function StaffLogin() {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAdminLogin, setIsAdminLogin] = useState<boolean>(false);
   const [, navigate] = useLocation();
+  
+  // Controlla se dobbiamo mostrare la pagina di login per admin
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const roleParam = params.get('role');
+    if (roleParam === 'admin') {
+      setIsAdminLogin(true);
+    }
+  }, []);
   
   // Carica le credenziali memorizzate quando la pagina viene caricata
   useEffect(() => {
@@ -66,9 +76,13 @@ export default function StaffLogin() {
         {/* Form di login */}
         <Card className="w-full shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Accesso Staff</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">
+              {isAdminLogin ? "Accesso Amministratore" : "Accesso Staff"}
+            </CardTitle>
             <CardDescription className="text-center">
-              Accedi al pannello di amministrazione
+              {isAdminLogin 
+                ? "Accedi con le credenziali di amministratore" 
+                : "Accedi al pannello di amministrazione"}
             </CardDescription>
           </CardHeader>
           <CardContent>
