@@ -26,6 +26,7 @@ import { LanguageSelector } from "@/components/ui/language-selector";
 import AppointmentForm from "./AppointmentForm";
 import FooterContactIcons from "./FooterContactIcons";
 import { apiRequest } from "@/lib/queryClient";
+import UserLicenseBadge from "./UserLicenseBadge";
 
 interface LayoutProps {
   children: ReactNode;

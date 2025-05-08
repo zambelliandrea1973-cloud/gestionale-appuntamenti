@@ -42,6 +42,7 @@ import licenseRoutes from './routes/licenseRoutes';
 import setupRegistrationRoutes from './routes/registrationRoutes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import setupStaffRoutes from './routes/staffRoutes';
+import { licenseService } from './services/licenseService';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
