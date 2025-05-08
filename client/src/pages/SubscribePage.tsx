@@ -88,25 +88,74 @@ export default function SubscribePage() {
     }
   };
   
-  // Funzione per gestire il pagamento
+  // Mutation per avviare un abbonamento con PayPal
+  const startPaypalSubscription = useMutation({
+    mutationFn: async (planId: string) => {
+      const res = await apiRequest('POST', '/api/payments/paypal/subscribe', { planId });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      if (data.url) {
+        // Reindirizza a PayPal per il pagamento
+        window.location.href = data.url;
+      } else {
+        toast({
+          title: 'Errore',
+          description: 'Non è stato possibile avviare il processo di pagamento',
+          variant: 'destructive',
+        });
+      }
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Errore',
+        description: 'Si è verificato un errore durante l\'avvio dell\'abbonamento con PayPal',
+        variant: 'destructive',
+      });
+      console.error(error);
+    }
+  });
+
+  // Mutation per avviare un abbonamento con carta di credito (Stripe)
+  const startStripeSubscription = useMutation({
+    mutationFn: async (planId: string) => {
+      const res = await apiRequest('POST', '/api/payments/stripe/create-checkout-session', { planId });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      if (data.url) {
+        // Reindirizza a Stripe Checkout per il pagamento
+        window.location.href = data.url;
+      } else {
+        toast({
+          title: 'Errore',
+          description: 'Non è stato possibile avviare il processo di pagamento',
+          variant: 'destructive',
+        });
+      }
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Errore',
+        description: 'Si è verificato un errore durante l\'avvio dell\'abbonamento con Stripe',
+        variant: 'destructive',
+      });
+      console.error(error);
+    }
+  });
+
+  // Funzione per gestire il pagamento in base al metodo selezionato
   const handlePayment = (planId: string) => {
     setSelectedPlanId(planId);
-    // Qui in futuro implementeremo il processo di pagamento specifico
-    // Per ora apriamo direttamente la finestra di attivazione
-    setShowActivationDialog(true);
-  };
-  
-  // Funzione per simulare il completamento di un pagamento
-  const handleSimulatePayment = () => {
-    toast({
-      title: 'Pagamento simulato',
-      description: 'In un\'applicazione reale, qui verrebbe elaborato il pagamento con il provider selezionato.',
-    });
     
-    // Chiudiamo la finestra dopo 2 secondi
-    setTimeout(() => {
+    if (paymentMethod === 'paypal') {
+      startPaypalSubscription.mutate(planId);
+    } else if (paymentMethod === 'credit-card') {
+      startStripeSubscription.mutate(planId);
+    } else {
+      // Per ora, se il metodo è sconosciuto, apriamo la finestra di attivazione
       setShowActivationDialog(true);
-    }, 2000);
+    }
   };
   
   // Definizione dei piani

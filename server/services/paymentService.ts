@@ -1,6 +1,20 @@
 import { storage } from '../storage';
 import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '@shared/schema';
 import paypal from '@paypal/checkout-server-sdk';
+import Stripe from 'stripe';
+
+// Configurazione dell'ambiente Stripe
+const getStripeClient = () => {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  
+  if (!stripeSecretKey) {
+    throw new Error('Manca la chiave segreta di Stripe. Impostare STRIPE_SECRET_KEY nelle variabili d\'ambiente.');
+  }
+  
+  return new Stripe(stripeSecretKey, {
+    apiVersion: '2023-10-16'
+  });
+};
 
 // Configurazione dell'ambiente PayPal (sandbox per test, live per produzione)
 const getPayPalClient = () => {
