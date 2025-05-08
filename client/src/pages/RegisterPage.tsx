@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ export default function RegisterPage() {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       }
       
       // Registrazione riuscita, reindirizza alla pagina di login
-      navigate("/login", { replace: true });
+      navigate("/login");
     } catch (err: any) {
       setError(err.message || "Si è verificato un errore durante la registrazione");
     } finally {
