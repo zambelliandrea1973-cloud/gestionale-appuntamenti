@@ -385,7 +385,10 @@ export const subscriptions = pgTable("subscriptions", {
   cancelAtPeriodEnd: boolean("cancel_at_period_end").default(false),
   paypalSubscriptionId: text("paypal_subscription_id"),
   wiseSubscriptionId: text("wise_subscription_id"),
-  paymentMethod: text("payment_method"), // paypal, wise, etc.
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  stripeSessionId: text("stripe_session_id"),
+  paymentMethod: text("payment_method"), // paypal, wise, stripe, etc.
   metadata: json("metadata"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
