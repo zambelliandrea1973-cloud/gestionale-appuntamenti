@@ -3,6 +3,7 @@ import { PaymentService } from '../services/paymentService';
 import { WiseService } from '../services/wiseService';
 import { isAdmin, isAuthenticated } from '../auth';
 import { storage } from '../storage';
+import Stripe from 'stripe';
 
 const router = Router();
 

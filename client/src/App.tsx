@@ -32,6 +32,8 @@ import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
 import GoogleSetupInstructionsPage from "./pages/GoogleSetupInstructionsPage";
 import GoogleTroubleshootingPage from "./pages/GoogleTroubleshootingPage";
 import ProFeaturesPage from "./pages/ProFeaturesPage";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 import { useEffect } from "react";
@@ -184,6 +186,19 @@ function AppRoutes() {
       <Route path="/subscribe">
         <StaffPageWrapper>
           <SubscribePage />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* Pagine per la gestione dei pagamenti */}
+      <Route path="/payment/success">
+        <StaffPageWrapper>
+          <PaymentSuccess />
+        </StaffPageWrapper>
+      </Route>
+      
+      <Route path="/payment/cancel">
+        <StaffPageWrapper>
+          <PaymentCancel />
         </StaffPageWrapper>
       </Route>
       
