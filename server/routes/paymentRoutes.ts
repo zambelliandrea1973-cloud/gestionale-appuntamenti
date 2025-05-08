@@ -83,6 +83,33 @@ router.get('/plans', async (req, res) => {
 });
 
 /**
+ * Endpoint per ottenere l'abbonamento dell'utente corrente
+ * GET /api/payments/subscription
+ * Accesso: utente autenticato
+ */
+router.get('/subscription', isAuthenticated, async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+    
+    const userId = req.user.id;
+    const subscription = await PaymentService.getUserSubscription(userId);
+    
+    return res.json(subscription);
+  } catch (error) {
+    console.error('Errore durante il recupero dell\'abbonamento:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
  * Endpoint per creare un nuovo piano di abbonamento
  * POST /api/payments/plans
  * Accesso: admin
@@ -407,35 +434,7 @@ router.post('/wise/webhook', async (req, res) => {
   }
 });
 
-/**
- * Endpoint per ottenere informazioni sull'abbonamento dell'utente
- * GET /api/payments/subscription
- * Accesso: utente autenticato
- */
-router.get('/subscription', isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.user!.id;
-    const subscription = await PaymentService.getUserSubscription(userId);
-    
-    if (!subscription) {
-      return res.json({
-        active: false,
-        message: 'Nessun abbonamento attivo'
-      });
-    }
-    
-    return res.json({
-      active: subscription.status === 'active',
-      subscription
-    });
-  } catch (error) {
-    console.error('Errore durante il recupero dell\'abbonamento:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Errore interno del server'
-    });
-  }
-});
+/* L'endpoint subscription è già definito sopra */
 
 /**
  * Endpoint per cancellare un abbonamento
