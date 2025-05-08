@@ -22,8 +22,10 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
-// Importazioni PayPal
+// Importazioni per API e gestione pagamenti
 import { useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 
 // Definizione delle offerte
 interface PlanFeature {
