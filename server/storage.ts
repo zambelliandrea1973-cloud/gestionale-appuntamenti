@@ -2123,19 +2123,22 @@ export class DatabaseStorage implements IStorage {
   
   async getAllStaffUsers(): Promise<User[]> {
     try {
-      // Seleziona tutti gli utenti dove clientId è null (gli utenti staff non hanno clientId)
-      // e ordinali per id in modo ascendente
+      console.log("Recupero utenti staff...");
+      
+      // Seleziona tutti gli utenti staff (inclusi quelli che potrebbero avere clientId)
       const staffUsers = await db.select().from(users)
         .where(
-          and(
-            eq(users.clientId, null),
-            or(
-              eq(users.role, "staff"),
-              eq(users.role, "admin")
-            )
+          or(
+            eq(users.role, "staff"),
+            eq(users.role, "admin")
           )
         )
         .orderBy(asc(users.id));
+      
+      console.log(`Trovati ${staffUsers.length} utenti staff nel database`);
+      staffUsers.forEach(user => {
+        console.log(`- Utente staff: ${user.username}, ruolo: ${user.role}, id: ${user.id}`);
+      });
       
       return staffUsers;
     } catch (error) {
