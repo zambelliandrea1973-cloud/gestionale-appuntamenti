@@ -887,10 +887,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           isActive: true,
           daysLeft: 365 * 10
         };
-      } 
-      // Solo per utenti normali usiamo il servizio licenza standard
-      else {
+      }
+      // Se l'utente è un customer (ha acquistato una licenza), usiamo il servizio licenza standard
+      else if (user.type === 'customer') {
+        console.log('Utente customer identificato, caricando informazioni licenza');
         licenseInfo = await licenseService.getCurrentLicenseInfo();
+      }
+      // Per utenti normali (client) usiamo un tipo generico
+      else {
+        console.log('Utente client standard, usando licenza base');
+        licenseInfo = {
+          type: 'client',
+          expiresAt: null,
+          isActive: true,
+          daysLeft: null
+        };
       }
       
       // Prepara l'oggetto da restituire conforme all'interfaccia UserWithLicense
