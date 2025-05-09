@@ -63,45 +63,47 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
         <div className="w-full max-w-[1400px] mx-auto px-2 py-2">
-          {/* Layout completamente ridisegnato con proporzioni percentuali */}
+          {/* Layout ridisegnato con proporzioni percentuali specifiche e bilanciamento 50/50 */}
           <div className="hidden md:flex items-center w-full">
-            {/* Colonna sinistra: Solo informazioni essenziali - 20% della larghezza */}
-            <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 w-[20%]">
-              <CalendarDays className="h-6 w-6 flex-shrink-0" />
-              <div className="overflow-hidden">
-                {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
-                <h1 className="text-xl font-medium truncate">
-                  {appTitle || t('app.title')}
-                </h1>
-                {/* Il badge contiene già l'informazione sul tipo di utente, rimuovo duplicato */}
-                <div className="text-sm flex items-center gap-1">
-                  <UserLicenseBadge />
-                </div>
-                {/* Mostra il conteggio solo se l'utente è in prova (trial) */}
-                {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                  <div className="flex items-center gap-3">
-                    <div className="text-xs text-amber-300 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      <span>
-                        {new Date(licenseInfo.expiresAt) > new Date() 
-                          ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
-                          : 'Scaduto'}
-                      </span>
-                    </div>
-                    <div className="text-xs text-amber-200 flex items-center">
-                      <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
-                        {t('trial.upgradeMessage', 'Scopri i piani premium')} →
-                      </Link>
-                    </div>
+            {/* Colonna sinistra: Solo informazioni essenziali - 30% della larghezza */}
+            <div className="w-[30%]">
+              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 mr-auto max-w-[280px]">
+                <CalendarDays className="h-6 w-6 flex-shrink-0" />
+                <div className="overflow-hidden">
+                  {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
+                  <h1 className="text-xl font-medium truncate">
+                    {appTitle || t('app.title')}
+                  </h1>
+                  {/* Il badge contiene già l'informazione sul tipo di utente */}
+                  <div className="text-sm flex items-center gap-1">
+                    <UserLicenseBadge />
                   </div>
-                )}
+                  {/* Mostra il conteggio solo se l'utente è in prova (trial) */}
+                  {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
+                    <div className="flex items-center gap-3">
+                      <div className="text-xs text-amber-300 flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        <span>
+                          {new Date(licenseInfo.expiresAt) > new Date() 
+                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
+                            : 'Scaduto'}
+                        </span>
+                      </div>
+                      <div className="text-xs text-amber-200 flex items-center">
+                        <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
+                          {t('trial.upgradeMessage', 'Scopri i piani premium')} →
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             
-            {/* Colonna centrale: Menu di navigazione su due righe - 60% della larghezza con pulsanti allineati a sinistra */}
-            <div className="flex flex-col w-[60%] pl-4">
-              {/* Prima riga di navigazione - tutto a sinistra */}
-              <div className="flex justify-start space-x-3 mb-1">
+            {/* Colonna centrale: Menu di navigazione su due righe - 60% della larghezza con spazio equamente distribuito */}
+            <div className="flex flex-col w-[60%] items-center">
+              {/* Prima riga di navigazione - con spacing distribuito per bilanciamento 50/50 */}
+              <div className="flex justify-center gap-x-3 mb-1 w-full">
                 <Link href="/dashboard">
                   <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
@@ -128,8 +130,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Link>
               </div>
               
-              {/* Seconda riga di navigazione - tutto a sinistra */}
-              <div className="flex justify-start space-x-3">
+              {/* Seconda riga di navigazione - con spacing distribuito per bilanciamento 50/50 */}
+              <div className="flex justify-center gap-x-3 w-full">
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
@@ -160,8 +162,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </div>
             </div>
             
-            {/* Colonna destra: Solo pulsante logout - 20% della larghezza */}
-            <div className="flex justify-end w-[20%]">
+            {/* Colonna destra: Solo pulsante logout - 10% della larghezza */}
+            <div className="flex justify-end w-[10%]">
               <LogoutButton variant="secondary" className="w-24 h-10" iconPosition="right" />
             </div>
           </div>
