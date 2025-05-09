@@ -52,16 +52,23 @@ export default function StaffLogin() {
     onSuccess: (userData) => {
       console.log("Login riuscito, dati utente:", userData);
       
-      // Verifica se l'utente è l'amministratore principale
-      if (userData && userData.role === "admin" && userData.username === "zambelli.andrea.1973@gmail.com") {
-        console.log("Utente admin principale, reindirizzamento a /staff-management");
-        // Se è l'admin principale, reindirizza alla pagina di gestione staff
-        navigate("/staff-management");
-      } else {
-        console.log("Utente standard, reindirizzamento alla dashboard");
-        // Altrimenti reindirizza alla dashboard standard
-        navigate("/dashboard");
-      }
+      // Forza la ripultura della cache per ottenere i dati utente aggiornati
+      queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
+      
+      // Aggiungiamo un piccolo ritardo per permettere al browser di respirare
+      setTimeout(() => {
+        // Verifica se l'utente è l'amministratore principale
+        if (userData && userData.role === "admin" && userData.username === "zambelli.andrea.1973@gmail.com") {
+          console.log("Utente admin principale, reindirizzamento a /staff-management");
+          // Se è l'admin principale, reindirizza alla pagina di gestione staff
+          window.location.href = "/staff-management";
+        } else {
+          console.log("Utente standard, reindirizzamento alla dashboard");
+          // Altrimenti reindirizza alla dashboard standard
+          window.location.href = "/dashboard";
+        }
+      }, 100);
     },
     onError: (error: Error) => {
       setError(error.message || "Si è verificato un errore durante l'accesso");
