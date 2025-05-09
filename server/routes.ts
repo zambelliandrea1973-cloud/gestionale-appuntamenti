@@ -866,10 +866,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           daysLeft: 365 * 10
         };
       }
-      // Se l'utente è un customer (ha acquistato una licenza), usiamo il servizio licenza standard
+      // Se l'utente è un customer (ha acquistato una licenza), usiamo il servizio licenza specifico per questo utente
       else if (user.type === 'customer') {
-        console.log('Utente customer identificato, caricando informazioni licenza');
-        licenseInfo = await licenseService.getCurrentLicenseInfo();
+        console.log('Utente customer identificato, caricando informazioni licenza per userId:', user.id);
+        licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
       }
       // Per utenti normali (client) usiamo un tipo generico
       else {

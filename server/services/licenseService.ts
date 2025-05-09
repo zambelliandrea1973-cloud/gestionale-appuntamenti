@@ -131,8 +131,44 @@ class LicenseService {
   
   /**
    * Ottiene informazioni sulla licenza corrente
+   * Se userId è fornito, cerca licenze specifiche di quell'utente
    */
-  async getCurrentLicenseInfo(): Promise<LicenseInfo> {
+  async getCurrentLicenseInfo(userId?: number): Promise<LicenseInfo> {
+    console.log(`Ottengo info licenza${userId ? ` per utente ${userId}` : " corrente"}`);
+    
+    // Se userId è fornito, controlla se l'utente ha licenze specifiche
+    if (userId) {
+      try {
+        // Cerca la licenza attiva più recente per questo utente
+        const [userLicense] = await db.select()
+          .from(licenses)
+          .where(
+            and(
+              eq(licenses.userId, userId),
+              eq(licenses.isActive, true)
+            )
+          )
+          .orderBy(licenses.createdAt, 'desc')
+          .limit(1);
+        
+        if (userLicense) {
+          console.log(`Trovata licenza di tipo ${userLicense.type} per utente ${userId}`);
+          const daysLeft = this.calculateDaysLeft(userLicense.expiresAt);
+          return {
+            type: userLicense.type as LicenseType,
+            expiresAt: userLicense.expiresAt,
+            isActive: true,
+            daysLeft
+          };
+        } else {
+          console.log(`Nessuna licenza trovata per utente ${userId}, utilizzando licenza di sistema`);
+        }
+      } catch (error) {
+        console.error('Errore durante il recupero licenza utente:', error);
+      }
+    }
+    
+    // Procedi con il metodo normale se non c'è userId o se non sono state trovate licenze
     // Prova a caricare la licenza attuale
     const currentLicenseCode = process.env.CURRENT_LICENSE_CODE;
     
