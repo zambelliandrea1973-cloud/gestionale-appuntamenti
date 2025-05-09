@@ -84,16 +84,26 @@ function AppRoutes() {
       '/consent'
     ];
     
+    // Pagine di login che potrebbero causare loop di reindirizzamento
+    const loginPages = ['/staff-login', '/client-login', '/login'];
+    
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
-      // Se l'utente è autenticato e sta cercando di accedere alla home o a pagine di login/registrazione
-      if (user && (location === '/' || publicPaths.includes(location))) {
-        // Reindirizza alla dashboard in base al tipo di utente
+      console.log('Stato autenticazione:', { user: !!user, location, isLoading });
+      
+      // Se l'utente è autenticato e sta cercando di accedere alla home
+      if (user && location === '/') {
+        console.log('Utente autenticato sulla home, reindirizzamento a /dashboard');
         setLocation('/dashboard');
       } 
+      // Se l'utente è autenticato e tenta di accedere a pagine di login
+      else if (user && loginPages.includes(location)) {
+        console.log('Utente già autenticato su pagina login, reindirizzamento a /dashboard');
+        setLocation('/dashboard');
+      }
       // Se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
       else if (!user && location !== '/' && !publicPaths.includes(location)) {
-        // Reindirizza alla pagina di benvenuto
+        console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
       }
     }
