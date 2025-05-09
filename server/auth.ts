@@ -131,16 +131,41 @@ export function setupAuth(app: Express) {
 
   // Serializziamo l'utente con un formato che ci permette di riconoscere se è staff o cliente
   passport.serializeUser((user: any, done) => {
+    // Logging per debug
+    console.log('Serializzazione utente:', user.username, 'tipo:', user.type, 'id:', user.id);
+    
     const userType = user.type;
     const userId = user.id;
     
+    if (!userType || !userId) {
+      console.error('Errore di serializzazione: tipo o ID mancante', { userType, userId, user });
+      return done(new Error('Tipo utente o ID mancante durante la serializzazione'));
+    }
+    
+    // Formato: "tipo:id" per deserializzare correttamente
     done(null, `${userType}:${userId}`);
   });
 
   // Deserializziamo l'utente in base al tipo
   passport.deserializeUser(async (serialized: string, done) => {
     try {
+      // Logging per debug
+      console.log('Deserializzazione utente con serialized:', serialized);
+      
+      // Verifica se serialized è una stringa valida
+      if (!serialized || typeof serialized !== 'string') {
+        console.error('Errore deserializzazione: serialized non valido', serialized);
+        return done(new Error('ID sessione non valido'));
+      }
+      
       const [type, idStr] = serialized.split(":");
+      
+      // Verifica se abbiamo sia type che idStr
+      if (!type || !idStr) {
+        console.error('Errore deserializzazione: formato ID non valido', { type, idStr, serialized });
+        return done(new Error('Formato ID sessione non valido'));
+      }
+      
       const id = parseInt(idStr, 10);
 
       if (type === "staff" || type === "admin") {
@@ -477,9 +502,9 @@ export function isAdmin(req: any, res: any, next: any) {
   res.status(403).json({ message: "Solo gli amministratori possono visualizzare questa pagina" });
 }
 
-// Middleware per verificare se è un cliente
+// Middleware per verificare se è un cliente (include anche customer)
 export function isClient(req: any, res: any, next: any) {
-  if (req.isAuthenticated() && req.user.type === "client") {
+  if (req.isAuthenticated() && (req.user.type === "client" || req.user.type === "customer")) {
     return next();
   }
   res.status(403).json({ message: "Accesso negato: richiesto ruolo cliente" });
