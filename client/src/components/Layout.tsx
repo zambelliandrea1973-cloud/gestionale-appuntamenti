@@ -63,10 +63,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
         <div className="w-full max-w-[1400px] mx-auto px-2 py-2">
-          {/* Layout a tre colonne per desktop - riduzione dei gap e utilizzo container più ampio */}
-          <div className="hidden md:grid grid-cols-3 gap-4 items-center w-full">
-            {/* Colonna sinistra: Solo informazioni essenziali */}
-            <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2">
+          {/* Layout completamente ridisegnato con proporzioni percentuali */}
+          <div className="hidden md:flex items-center w-full">
+            {/* Colonna sinistra: Solo informazioni essenziali - 20% della larghezza */}
+            <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 w-[20%]">
               <CalendarDays className="h-6 w-6 flex-shrink-0" />
               <div className="overflow-hidden">
                 {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
@@ -98,10 +98,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </div>
             </div>
             
-            {/* Colonna centrale: Menu di navigazione su due righe - maggiore larghezza */}
-            <div className="flex flex-col w-full">
-              {/* Prima riga di navigazione - massimo a sinistra */}
-              <div className="flex justify-start space-x-4 mb-1 pl-0 pr-96">
+            {/* Colonna centrale: Menu di navigazione su due righe - 60% della larghezza con pulsanti allineati a sinistra */}
+            <div className="flex flex-col w-[60%] pl-4">
+              {/* Prima riga di navigazione - tutto a sinistra */}
+              <div className="flex justify-start space-x-3 mb-1">
                 <Link href="/dashboard">
                   <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
@@ -128,8 +128,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Link>
               </div>
               
-              {/* Seconda riga di navigazione - massimo a sinistra */}
-              <div className="flex justify-start space-x-4 pl-0 pr-96">
+              {/* Seconda riga di navigazione - tutto a sinistra */}
+              <div className="flex justify-start space-x-3">
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
@@ -160,8 +160,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </div>
             </div>
             
-            {/* Colonna destra: Solo pulsante logout */}
-            <div className="flex justify-end">
+            {/* Colonna destra: Solo pulsante logout - 20% della larghezza */}
+            <div className="flex justify-end w-[20%]">
               <LogoutButton variant="secondary" className="w-24 h-10" iconPosition="right" />
             </div>
           </div>
