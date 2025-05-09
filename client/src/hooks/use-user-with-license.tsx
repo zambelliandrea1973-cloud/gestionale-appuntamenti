@@ -14,7 +14,7 @@ export interface UserWithLicense {
   id: number;
   username: string;
   email: string | null;
-  type: 'user' | 'staff' | 'admin'; // Tipi di account possibili
+  type: 'user' | 'staff' | 'admin' | 'customer' | 'client'; // Tipi di account possibili
   firstName: string | null;
   lastName: string | null;
   licenseInfo: LicenseInfo;
@@ -74,6 +74,10 @@ export function UserLicenseProvider({ children }: { children: ReactNode }) {
         return t('user.type.staff', 'Staff');
       case 'user':
         return t('user.type.user', 'Utente');
+      case 'customer':
+        return t('user.type.customer', 'Acquirente');
+      case 'client':
+        return t('user.type.client', 'Cliente');
       default:
         return userType;
     }
