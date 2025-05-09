@@ -139,6 +139,16 @@ class LicenseService {
     // Se userId è fornito, controlla se l'utente ha licenze specifiche
     if (userId) {
       try {
+        // DEBUG: Mostriamo tutte le licenze per questo utente
+        const userLicenses = await db.select()
+          .from(licenses)
+          .where(eq(licenses.userId, userId));
+        
+        console.log(`DEBUG: Trovate ${userLicenses.length} licenze totali per l'utente ${userId}`);
+        for (const lic of userLicenses) {
+          console.log(`- ID: ${lic.id}, Tipo: ${lic.type}, Attiva: ${lic.isActive}, Scadenza: ${lic.expiresAt}`);
+        }
+        
         // Cerca la licenza attiva più recente per questo utente
         const [userLicense] = await db.select()
           .from(licenses)
@@ -152,7 +162,7 @@ class LicenseService {
           .limit(1);
         
         if (userLicense) {
-          console.log(`Trovata licenza di tipo ${userLicense.type} per utente ${userId}`);
+          console.log(`Trovata licenza di tipo ${userLicense.type} per utente ${userId} (ID licenza: ${userLicense.id})`);
           const daysLeft = this.calculateDaysLeft(userLicense.expiresAt);
           return {
             type: userLicense.type as LicenseType,
