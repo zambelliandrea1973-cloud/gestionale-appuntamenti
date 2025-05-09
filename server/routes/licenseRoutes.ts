@@ -13,6 +13,18 @@ const router = Router();
 // Verifica lo stato della licenza corrente
 router.get('/license-info', async (req, res) => {
   try {
+    // Se l'utente è autenticato, ottieni le informazioni della licenza dell'utente
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      const user = req.user as any;
+      if (user.id) {
+        console.log(`Ottenendo licenza specifica per utente ${user.id} (${user.username})`);
+        const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
+        return res.json(licenseInfo);
+      }
+    }
+    
+    // Altrimenti ottieni la licenza di sistema predefinita
+    console.log('Ottenendo licenza di sistema (utente non autenticato o senza ID)');
     const licenseInfo = await licenseService.getCurrentLicenseInfo();
     res.json(licenseInfo);
   } catch (error) {
@@ -145,6 +157,34 @@ router.get('/application-title', async (req, res) => {
       if (user.type === 'staff') {
         console.log('Staff user detected, returning PRO title');
         return res.json({ title: "Gestione Appuntamenti PRO" }); // Titolo per staff
+      }
+      
+      // Per utenti customer, verifica la licenza specifica
+      if (user.type === 'customer' && user.id) {
+        console.log(`Customer user detected (ID: ${user.id}), checking license`);
+        const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
+        
+        // Genera un titolo personalizzato in base alla licenza dell'utente
+        let title;
+        switch(licenseInfo.type) {
+          case 'trial':
+            title = "Gestione Appuntamenti Prova";
+            break;
+          case 'base':
+            title = "Gestione Appuntamenti Base";
+            break;
+          case 'pro':
+            title = "Gestione Appuntamenti PRO";
+            break;
+          case 'business':
+            title = "Gestione Appuntamenti BUSINESS";
+            break;
+          default:
+            title = "Gestione Appuntamenti";
+        }
+        
+        console.log(`Usando titolo personalizzato per license type ${licenseInfo.type}: ${title}`);
+        return res.json({ title });
       }
     }
     
