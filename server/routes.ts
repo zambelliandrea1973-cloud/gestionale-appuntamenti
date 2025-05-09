@@ -805,16 +805,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Endpoint per ottenere l'utente corrente con i dettagli del cliente se è di tipo client
   app.get("/api/current-user", async (req: Request, res: Response) => {
     if (!req.isAuthenticated()) {
+      console.log('Richiesta current-user da utente non autenticato');
       return res.status(401).json({ message: "Non autenticato" });
     }
     
     try {
       const user = req.user as any;
+      console.log('Richiesta current-user da:', user.username, 'tipo:', user.type);
       
-      // Se l'utente è un cliente, carica anche i dati del cliente
-      if (user.type === "client" && user.clientId) {
+      // Se l'utente è un cliente o un customer, carica anche i dati del cliente
+      if ((user.type === "client" || user.type === "customer") && user.clientId) {
         const client = await storage.getClient(user.clientId);
         if (client) {
+          console.log('Dati cliente trovati:', client.firstName, client.lastName);
           // Aggiungi i dati del cliente all'oggetto utente
           return res.json({
             ...user,
@@ -824,8 +827,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Altrimenti restituisci solo i dati dell'utente
+      console.log('Restituendo dati utente senza estensioni cliente');
       res.json(user);
     } catch (error: any) {
+      console.error('Errore nel recupero dati utente corrente:', error);
       res.status(500).json({ message: error.message });
     }
   });
