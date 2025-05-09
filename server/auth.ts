@@ -40,6 +40,7 @@ export function setupAuth(app: Express) {
     secret: process.env.SESSION_SECRET || "secret-placeholder-change-in-production",
     resave: false,
     saveUninitialized: false,
+    store: storage.sessionStore,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 settimana
       httpOnly: true,
@@ -213,8 +214,9 @@ export function setupAuth(app: Express) {
     // Prima verifichiamo se ci sono token e clientId (priorità alta)
     if (token && clientId) {
       try {
-        // Importa il servizio token
-        const tokenService = require('./services/tokenService').default;
+        // Importa il servizio token (import dinamico)
+        const tokenServiceModule = await import('./services/tokenService');
+        const tokenService = tokenServiceModule.default;
         
         // Verifica il token
         const validClientId = await tokenService.verifyActivationToken(token);
@@ -230,10 +232,13 @@ export function setupAuth(app: Express) {
             console.log('Autenticazione bypass con solo token attivata');
             
             try {
-              // Importa dipendenze necessarie
-              const db = require('./db').db;
-              const { eq } = require('drizzle-orm');
-              const { users, clients } = require('../shared/schema');
+              // Importa dipendenze necessarie (usando import dinamico)
+              const dbModule = await import('./db');
+              const db = dbModule.db;
+              const ormModule = await import('drizzle-orm');
+              const { eq } = ormModule;
+              const schemaModule = await import('../shared/schema');
+              const { users, clients } = schemaModule;
               
               // Recupera l'utente associato a questo cliente
               const [user] = await db.select()
@@ -317,7 +322,9 @@ export function setupAuth(app: Express) {
         if (user.clientId) {
           try {
             // Importa il servizio token se necessario
-            const tokenService = require('./services/tokenService').default;
+            // Usiamo import dinamico invece di require per evitare errori
+            const tokenServiceModule = await import('./services/tokenService');
+            const tokenService = tokenServiceModule.default;
             // Genera un token per questo cliente
             token = await tokenService.createActivationToken(user.clientId);
             console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
