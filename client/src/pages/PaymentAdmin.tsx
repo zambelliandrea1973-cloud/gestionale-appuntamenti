@@ -341,6 +341,7 @@ export default function PaymentAdmin() {
               <TabsTrigger value="transactions">Transazioni</TabsTrigger>
               <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
               <TabsTrigger value="plans">Piani</TabsTrigger>
+              <TabsTrigger value="licenses">Licenze</TabsTrigger>
             </TabsList>
             
             <TabsContent value="transactions">
@@ -498,6 +499,69 @@ export default function PaymentAdmin() {
                           <TableRow>
                             <TableCell colSpan={6} className="text-center py-4">
                               Nessun piano di abbonamento trovato
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="licenses">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Licenze</CardTitle>
+                  <CardDescription>
+                    Gestione delle licenze e degli utenti associati
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-md border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>ID</TableHead>
+                          <TableHead>Utente</TableHead>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Tipo</TableHead>
+                          <TableHead>Stato</TableHead>
+                          <TableHead>Data Creazione</TableHead>
+                          <TableHead>Scadenza</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {licenses.length > 0 ? (
+                          licenses.map((license) => (
+                            <TableRow key={license.id}>
+                              <TableCell className="font-medium">{license.id}</TableCell>
+                              <TableCell>{license.user?.username || '-'}</TableCell>
+                              <TableCell>{license.user?.email || '-'}</TableCell>
+                              <TableCell>{getLicenseTypeBadge(license.type)}</TableCell>
+                              <TableCell>
+                                {license.isActive ? (
+                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <CheckCircle2 className="w-3 h-3 mr-1" /> Attiva
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    <AlertCircle className="w-3 h-3 mr-1" /> Scaduta
+                                  </span>
+                                )}
+                              </TableCell>
+                              <TableCell>{formatDate(license.createdAt)}</TableCell>
+                              <TableCell>
+                                {license.expiresAt ? formatDate(license.expiresAt) : 
+                                 license.type === 'passepartout' ? 
+                                  <span className="text-green-600 font-medium">Illimitata</span> : '-'}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={7} className="text-center py-4">
+                              Nessuna licenza trovata
                             </TableCell>
                           </TableRow>
                         )}
