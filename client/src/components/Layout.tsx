@@ -79,13 +79,20 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </div>
                 {/* Mostra il conteggio solo se l'utente è in prova (trial) */}
                 {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                  <div className="text-xs text-amber-300 flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    <span>
-                      {new Date(licenseInfo.expiresAt) > new Date() 
-                        ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
-                        : 'Scaduto'}
-                    </span>
+                  <div className="flex flex-col">
+                    <div className="text-xs text-amber-300 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      <span>
+                        {new Date(licenseInfo.expiresAt) > new Date() 
+                          ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
+                          : 'Scaduto'}
+                      </span>
+                    </div>
+                    <div className="text-xs text-amber-200 mt-1 flex items-center">
+                      <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
+                        {t('trial.upgradeMessage', 'Scopri i piani premium')} →
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
@@ -185,13 +192,20 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <UserLicenseBadge />
                       {/* Solo informazioni essenziali, senza duplicati */}
                       {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                        <div className="text-xs text-amber-600 flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          <span>
-                            {new Date(licenseInfo.expiresAt) > new Date() 
-                              ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
-                              : 'Scaduto'}
-                          </span>
+                        <div className="flex flex-col">
+                          <div className="text-xs text-amber-600 flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            <span>
+                              {new Date(licenseInfo.expiresAt) > new Date() 
+                                ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
+                                : 'Scaduto'}
+                            </span>
+                          </div>
+                          <div className="text-xs text-amber-500 mt-1">
+                            <Link href="/pro" className="hover:text-amber-400 underline transition-colors">
+                              {t('trial.upgradeMessage', 'Scopri i piani premium')} →
+                            </Link>
+                          </div>
                         </div>
                       )}
                     </div>
