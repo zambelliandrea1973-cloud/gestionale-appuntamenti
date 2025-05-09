@@ -101,10 +101,27 @@ export function setupAuth(app: Express) {
         return done(null, false, { message: "Account cliente non valido" });
       }
       
+      // Verifica se l'account è associato a un customer (utente con licenza)
+      let userType = "client";
+      
+      // Verifichiamo se l'email del client corrisponde a un account customer
+      if (client.email) {
+        try {
+          const customerAccount = await storage.getUserByUsername(client.email);
+          if (customerAccount && customerAccount.type === 'customer') {
+            userType = "customer";
+            console.log(`Cliente ${client.email} identificato come customer con licenza`);
+          }
+        } catch (err) {
+          console.error("Errore durante la verifica customer:", err);
+          // Non è un errore fatale, continuiamo con tipo client
+        }
+      }
+      
       return done(null, { 
         ...clientAccount, 
         client, 
-        type: "client" 
+        type: userType 
       });
     } catch (err) {
       return done(err);
@@ -139,10 +156,27 @@ export function setupAuth(app: Express) {
         const client = await storage.getClient(clientAccount.clientId);
         if (!client) return done(null, false);
         
+        // Verifica se l'account è associato a un customer (utente con licenza)
+        let userType = "client";
+      
+        // Verifichiamo se l'email del client corrisponde a un account customer
+        if (client.email) {
+          try {
+            const customerAccount = await storage.getUserByUsername(client.email);
+            if (customerAccount && customerAccount.type === 'customer') {
+              userType = "customer";
+              console.log(`Cliente ${client.email} identificato come customer con licenza (deserialize)`);
+            }
+          } catch (err) {
+            console.error("Errore durante la verifica customer in deserialize:", err);
+            // Non è un errore fatale, continuiamo con tipo client
+          }
+        }
+        
         return done(null, { 
           ...clientAccount, 
           client, 
-          type: "client" 
+          type: userType 
         });
       }
 
