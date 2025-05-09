@@ -495,10 +495,33 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/logout", (req, res, next) => {
-    req.logout((err) => {
-      if (err) return next(err);
-      res.sendStatus(200);
-    });
+    if (req.session) {
+      // Assicuriamoci che la sessione esista prima
+      console.log(`Tentativo di logout per utente ${req.user?.username || 'sconosciuto'}, tipo: ${req.user?.type || 'non specificato'}`);
+      
+      req.logout((err) => {
+        if (err) {
+          console.error(`Errore durante il logout:`, err);
+          return next(err);
+        }
+        
+        // Distruggi completamente la sessione, non solo i dati utente
+        req.session.destroy((err) => {
+          if (err) {
+            console.error(`Errore nella distruzione della sessione:`, err);
+            return next(err);
+          }
+          
+          // Cancella il cookie di sessione sul client
+          res.clearCookie('session-id');
+          console.log(`Logout completato con successo`);
+          res.status(200).json({ success: true, message: "Logout completato con successo" });
+        });
+      });
+    } else {
+      console.log(`Tentativo di logout con sessione mancante`);
+      res.status(200).json({ success: true, message: "Nessuna sessione attiva" });
+    }
   });
 
   app.get("/api/current-user", (req, res) => {
