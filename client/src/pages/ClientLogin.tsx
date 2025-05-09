@@ -189,14 +189,20 @@ export default function ClientLogin() {
             if (response.ok) {
               const result = await response.json();
               
-              // Auto-redirezione alla client area
+              // Auto-redirezione in base al tipo di utente
               toast({
                 title: "Accesso automatico effettuato",
                 description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
               });
               
               setTimeout(() => {
-                setLocation(`/client-area?token=${token}`);
+                if (result.type === 'customer') {
+                  console.log("Utente customer (auto-login), reindirizzamento alla dashboard principale");
+                  window.location.href = "/dashboard";
+                } else {
+                  console.log("Utente client standard (auto-login), reindirizzamento all'area client");
+                  setLocation(`/client-area?token=${token}`);
+                }
               }, 500);
               
               return; // Interrompi il flusso qui
@@ -232,15 +238,21 @@ export default function ClientLogin() {
             localStorage.setItem('clientUsername', result.username);
           }
           
-          // Redirezione alla pagina client area
+          // Redirezione in base al tipo di utente
           toast({
             title: "Accesso diretto effettuato",
             description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
           });
           
           setTimeout(() => {
-            // Aggiungi il token all'URL della pagina client per poterlo riutilizzare
-            setLocation(`/client-area?token=${token}`);
+            if (result.type === 'customer') {
+              console.log("Utente customer (accesso diretto), reindirizzamento alla dashboard principale");
+              window.location.href = "/dashboard";
+            } else {
+              console.log("Utente client standard (accesso diretto), reindirizzamento all'area client");
+              // Aggiungi il token all'URL della pagina client per poterlo riutilizzare
+              setLocation(`/client-area?token=${token}`);
+            }
           }, 500);
           
         } else {
@@ -320,9 +332,16 @@ export default function ClientLogin() {
           description: `Benvenuto, ${user.client?.firstName || username}!`,
         });
         
-        // Redirect semplice all'area client
+        // Verifica se l'utente è un "customer" (ha una licenza)
+        // In tal caso, reindirizza alla dashboard invece che all'area client
         setTimeout(() => {
-          setLocation("/client-area");
+          if (user.type === 'customer') {
+            console.log("Utente customer, reindirizzamento alla dashboard principale");
+            window.location.href = "/dashboard";
+          } else {
+            console.log("Utente client standard, reindirizzamento all'area client");
+            setLocation("/client-area");
+          }
         }, 1000);
       } else {
         // Gestisci errori di login
