@@ -15,7 +15,11 @@ import {
   Timer, 
   AlertCircle,
   Tag,
-  Wallet
+  Wallet,
+  KeyRound,
+  UserCheck,
+  Calendar,
+  BadgeCheck
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
@@ -31,6 +35,7 @@ export default function PaymentAdmin() {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [subscriptions, setSubscriptions] = useState<any[]>([]);
+  const [licenses, setLicenses] = useState<any[]>([]);
 
   // Verifica token memorizzato nei cookie/localStorage al caricamento della pagina
   useEffect(() => {
@@ -141,6 +146,14 @@ export default function PaymentAdmin() {
       const subscriptionsData = await subscriptionsResponse.json();
       setSubscriptions(subscriptionsData);
 
+      // Carica anche le licenze con dettagli utente
+      const licensesResponse = await fetch('/api/payments/payment-admin/licenses', { 
+        method: 'GET',
+        headers
+      });
+      const licensesData = await licensesResponse.json();
+      setLicenses(licensesData);
+
     } catch (error) {
       console.error('Errore durante il recupero dei dati:', error);
       toast({
@@ -162,11 +175,32 @@ export default function PaymentAdmin() {
     setDashboardData(null);
     setTransactions([]);
     setSubscriptions([]);
+    setLicenses([]);
     setPassword('');
     toast({
       title: "Logout effettuato",
       description: "Hai effettuato il logout dall'interfaccia di amministrazione",
     });
+  };
+
+  // Genera un badge per il tipo di licenza
+  const getLicenseTypeBadge = (type: string) => {
+    switch (type) {
+      case 'trial':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"><Timer className="w-3 h-3 mr-1" /> Trial</span>;
+      case 'base':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"><Tag className="w-3 h-3 mr-1" /> Base</span>;
+      case 'pro':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"><UserCheck className="w-3 h-3 mr-1" /> Pro</span>;
+      case 'business':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800"><Users className="w-3 h-3 mr-1" /> Business</span>;
+      case 'staff':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><BadgeCheck className="w-3 h-3 mr-1" /> Staff</span>;
+      case 'passepartout':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><KeyRound className="w-3 h-3 mr-1" /> Admin</span>;
+      default:
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">{type}</span>;
+    }
   };
 
   // Formatta il valore in Euro
