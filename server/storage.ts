@@ -138,6 +138,14 @@ export interface IStorage {
   searchClients(query: string): Promise<Client[]>;
   generateInvoiceNumber(): Promise<string>;
   
+  // License operations
+  getLicense(id: number): Promise<License | undefined>;
+  getLicenses(): Promise<License[]>;
+  getLicensesByUserId(userId: number): Promise<License[]>;
+  createLicense(license: InsertLicense): Promise<License>;
+  updateLicense(id: number, license: Partial<InsertLicense>): Promise<License | undefined>;
+  getSubscriptions(): Promise<Subscription[]>;
+  
   // Activation token operations
   createActivationToken(token: InsertActivationToken): Promise<ActivationToken>;
   getActivationToken(token: string): Promise<ActivationToken | undefined>;
