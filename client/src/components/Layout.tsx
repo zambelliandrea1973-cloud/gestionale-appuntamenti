@@ -67,11 +67,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           <div className="hidden md:flex items-center w-full">
             {/* Colonna sinistra: Solo informazioni essenziali - 35% della larghezza */}
             <div className="w-[35%]">
-              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 mr-auto max-w-[300px]">
+              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 mr-auto max-w-none min-w-[380px]">
                 <CalendarDays className="h-6 w-6 flex-shrink-0" />
-                <div className="overflow-hidden">
+                <div className="w-full">
                   {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
-                  <h1 className="text-xl font-medium truncate">
+                  <h1 className="text-xl font-medium">
                     {appTitle || t('app.title')}
                   </h1>
                   {/* Il badge contiene già l'informazione sul tipo di utente */}
@@ -80,8 +80,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </div>
                   {/* Mostra il conteggio solo se l'utente è in prova (trial) */}
                   {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                    <div className="flex items-center gap-3">
-                      <div className="text-xs text-amber-300 flex items-center gap-1">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <div className="text-xs text-amber-300 flex items-center gap-1 whitespace-nowrap">
                         <Clock className="h-3 w-3" />
                         <span>
                           {new Date(licenseInfo.expiresAt) > new Date() 
@@ -89,7 +89,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                             : 'Scaduto'}
                         </span>
                       </div>
-                      <div className="text-xs text-amber-200 flex items-center">
+                      <div className="text-xs text-amber-200 flex items-center whitespace-nowrap">
                         <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
                           {t('trial.upgradeMessage', 'Scopri i piani premium')} →
                         </Link>
