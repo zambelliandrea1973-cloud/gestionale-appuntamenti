@@ -65,12 +65,26 @@ router.get('/has-pro-access', async (req, res) => {
     // Se l'utente è autenticato, controlliamo esplicitamente il tipo di utente
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
+      
+      // Admin e staff hanno sempre accesso PRO
       if (user.type === 'admin' || user.type === 'staff') {
         return res.json({ hasProAccess: true });
       }
+      
+      // Customer con licenza Pro o Business hanno accesso PRO
+      if (user.type === 'customer' && user.id) {
+        const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
+        if (licenseInfo.isActive && (
+            licenseInfo.type === LicenseType.PRO || 
+            licenseInfo.type === LicenseType.BUSINESS || 
+            licenseInfo.type === LicenseType.PASSEPARTOUT
+        )) {
+          return res.json({ hasProAccess: true });
+        }
+      }
     }
     
-    // Altrimenti, usiamo la logica standard del servizio licenza
+    // Per casi standard, usiamo la logica del servizio licenza
     const hasProAccess = await licenseService.hasProAccess();
     res.json({ hasProAccess });
   } catch (error) {
@@ -88,12 +102,25 @@ router.get('/has-business-access', async (req, res) => {
     // Se l'utente è autenticato, controlliamo esplicitamente il tipo di utente
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
+      
+      // Amministratore ha sempre accesso Business
       if (user.type === 'admin') {
         return res.json({ hasBusinessAccess: true });
       }
+      
+      // Customer con licenza Business o Passepartout hanno accesso Business
+      if (user.type === 'customer' && user.id) {
+        const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
+        if (licenseInfo.isActive && (
+            licenseInfo.type === LicenseType.BUSINESS || 
+            licenseInfo.type === LicenseType.PASSEPARTOUT
+        )) {
+          return res.json({ hasBusinessAccess: true });
+        }
+      }
     }
     
-    // Altrimenti, usiamo la logica standard del servizio licenza
+    // Per casi standard, usiamo la logica del servizio licenza
     const hasBusinessAccess = await licenseService.hasBusinessAccess();
     res.json({ hasBusinessAccess });
   } catch (error) {
