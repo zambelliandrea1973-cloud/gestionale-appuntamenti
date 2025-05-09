@@ -532,19 +532,7 @@ export function setupAuth(app: Express) {
   });
   
   // Lista degli utenti staff (solo per admin)
-  app.get("/api/staff/list", async (req, res, next) => {
-    try {
-      // Verifica che l'utente che fa la richiesta sia un admin
-      if (!req.isAuthenticated() || (req.user as any).type !== "admin") {
-        return res.status(403).json({ message: "Solo gli amministratori possono vedere la lista dello staff" });
-      }
-
-      const staffUsers = await storage.getAllStaffUsers();
-      res.json(staffUsers);
-    } catch (err) {
-      next(err);
-    }
-  });
+  // Endpoint spostato in staffRoutes.ts
 }
 
 // Middleware per verificare che l'utente sia autenticato
