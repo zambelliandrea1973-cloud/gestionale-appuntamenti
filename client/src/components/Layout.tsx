@@ -100,8 +100,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             
             {/* Colonna centrale: Menu di navigazione su due righe - maggiore larghezza */}
             <div className="flex flex-col w-full">
-              {/* Prima riga di navigazione - ottimizzata e bilanciata */}
-              <div className="flex justify-center space-x-4 mb-1 ml-16 mr-8">
+              {/* Prima riga di navigazione - perfettamente bilanciata */}
+              <div className="flex justify-center space-x-4 mb-1 ml-8 mr-16">
                 <Link href="/dashboard">
                   <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
@@ -128,8 +128,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Link>
               </div>
               
-              {/* Seconda riga di navigazione - ottimizzata e bilanciata */}
-              <div className="flex justify-center space-x-4 ml-16 mr-8">
+              {/* Seconda riga di navigazione - perfettamente bilanciata */}
+              <div className="flex justify-center space-x-4 ml-8 mr-16">
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
