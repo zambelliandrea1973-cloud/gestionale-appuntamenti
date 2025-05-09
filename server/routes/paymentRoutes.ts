@@ -543,7 +543,20 @@ router.get('/payment-admin/dashboard', isPaymentAdmin, async (req, res) => {
       count: subscriptions.filter(s => s.planId === plan.id).length
     }));
     
-    console.log(`Trovati ${allTransactions.length} transazioni e ${subscriptions.length} abbonamenti attivi`);
+    // Ottieni tutte le licenze attive
+    const licenses = await storage.getLicenses();
+    const activeLicenses = licenses.filter(license => license.isActive);
+    
+    // Conteggia licenze per tipo
+    const licensesByType = {};
+    activeLicenses.forEach(license => {
+      if (!licensesByType[license.type]) {
+        licensesByType[license.type] = 0;
+      }
+      licensesByType[license.type]++;
+    });
+    
+    console.log(`Trovati ${allTransactions.length} transazioni, ${subscriptions.length} abbonamenti attivi e ${activeLicenses.length} licenze attive`);
     
     return res.json({
       transactionStats: {
@@ -559,7 +572,12 @@ router.get('/payment-admin/dashboard', isPaymentAdmin, async (req, res) => {
         total: subscriptions.length,
         byPlan: subscriptionsByPlan
       },
+      licenseStats: {
+        total: activeLicenses.length,
+        byType: licensesByType
+      },
       activeSubscriptions: subscriptions.length,
+      activeLicenses: activeLicenses.length,
       transactionCount: allTransactions.length,
       totalRevenue,
       plans,
@@ -695,6 +713,59 @@ router.post('/payment-admin/authenticate', async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Errore interno del server'
+    });
+  }
+});
+
+/**
+ * Endpoint per ottenere tutte le licenze con informazioni sugli utenti
+ * GET /api/payments/payment-admin/licenses
+ * Accesso: payment admin (utilizza autenticazione con token)
+ */
+router.get('/payment-admin/licenses', isPaymentAdmin, async (req, res) => {
+  try {
+    console.log('Recupero licenze con dettagli utente...');
+    const licenses = await storage.getLicenses();
+    
+    // Arricchisci i dati con informazioni sugli utenti
+    const enrichedLicenses = await Promise.all(licenses.map(async (license) => {
+      // Ottieni dati utente associato alla licenza
+      const user = await storage.getUser(license.userId);
+      
+      // Ottieni abbonamento associato all'utente
+      const subscription = user ? await storage.getSubscriptionByUserId(user.id) : null;
+      const plan = subscription ? await storage.getSubscriptionPlan(subscription.planId) : null;
+      
+      return {
+        ...license,
+        // Aggiungi dati utente
+        user: user ? {
+          id: user.id,
+          username: user.username,
+          email: user.email || null,
+          type: user.type,
+          role: user.role,
+          createdAt: user.createdAt
+        } : null,
+        // Aggiungi dati abbonamento
+        subscription: subscription ? {
+          id: subscription.id,
+          status: subscription.status,
+          planId: subscription.planId,
+          planName: plan ? plan.name : `Piano ${subscription.planId}`,
+          currentPeriodStart: subscription.currentPeriodStart,
+          currentPeriodEnd: subscription.currentPeriodEnd
+        } : null
+      };
+    }));
+    
+    console.log(`Trovate ${licenses.length} licenze con dettagli utente`);
+    return res.json(enrichedLicenses);
+  } catch (error) {
+    console.error('Errore durante il recupero delle licenze:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
     });
   }
 });
