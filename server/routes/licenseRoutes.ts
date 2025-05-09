@@ -133,16 +133,23 @@ router.get('/application-title', async (req, res) => {
     // Se l'utente è autenticato, personalizza il titolo in base al tipo di utente
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
-      if (user.type === 'admin') {
+      console.log('User in application-title:', user);
+      
+      // Verifica se l'utente è admin basandosi sul ruolo
+      if (user.role === 'admin') {
+        console.log('Admin user detected, returning clean title');
         return res.json({ title: "Gestione Appuntamenti" }); // Titolo senza "Prova" per admin
       }
       
+      // Verifica se l'utente è staff basandosi sul tipo
       if (user.type === 'staff') {
+        console.log('Staff user detected, returning PRO title');
         return res.json({ title: "Gestione Appuntamenti PRO" }); // Titolo per staff
       }
     }
     
     // Altrimenti, usiamo la logica standard del servizio licenza
+    console.log('No special user type, using license service logic');
     const title = await licenseService.getApplicationTitle();
     res.json({ title });
   } catch (error) {
