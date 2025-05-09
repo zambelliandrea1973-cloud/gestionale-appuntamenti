@@ -42,10 +42,12 @@ export function setupAuth(app: Express) {
     saveUninitialized: false,
     store: storage.sessionStore,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 settimana
+      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 giorni
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: 'lax' // consentire autenticazione cross-site
     },
+    name: 'session-id', // nome specifico per evitare conflitti
   };
 
   app.set("trust proxy", 1);
@@ -480,8 +482,10 @@ export function setupAuth(app: Express) {
 // Middleware per verificare che l'utente sia autenticato
 export function isAuthenticated(req: any, res: any, next: any) {
   if (req.isAuthenticated()) {
+    console.log('Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
     return next();
   }
+  console.log('Tentativo di accesso non autorizzato, nessuna sessione valida');
   res.status(401).json({ message: "Accesso non autorizzato" });
 }
 
@@ -524,8 +528,9 @@ export function isOwnClientData(clientIdParamName = 'clientId') {
       return next();
     }
     
-    // Se è un cliente, verifica che stia accedendo ai propri dati
-    if (req.user.type === "client" && req.user.clientId === paramClientId) {
+    // Se è un cliente o customer, verifica che stia accedendo ai propri dati
+    if ((req.user.type === "client" || req.user.type === "customer") && req.user.clientId === paramClientId) {
+      console.log(`Accesso consentito ai propri dati per cliente: ${req.user.username} (id: ${req.user.id}, clientId: ${req.user.clientId})`);
       return next();
     }
     
