@@ -62,9 +62,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
     <div className="flex flex-col min-h-screen">
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
-        <div className="container mx-auto px-4 py-2">
+        <div className="w-full max-w-[1400px] mx-auto px-2 py-2">
           {/* Layout a tre colonne per desktop - riduzione dei gap e utilizzo container più ampio */}
-          <div className="hidden md:grid grid-cols-3 gap-2 items-center w-full">
+          <div className="hidden md:grid grid-cols-3 gap-4 items-center w-full">
             {/* Colonna sinistra: Solo informazioni essenziali */}
             <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2">
               <CalendarDays className="h-6 w-6 flex-shrink-0" />
@@ -292,14 +292,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       </header>
 
       {/* Main content */}
-      <main className="flex-grow container mx-auto px-4 py-6">
+      <main className="flex-grow w-full max-w-[1400px] mx-auto px-2 py-6">
         {children}
       </main>
 
       {/* Footer - nascosto nella pagina delle notifiche o quando specificato */}
       {location !== "/notifications" && location !== "/whatsapp-center" && location !== "/phone-device-setup" && location !== "/simple-phone-setup" && (
         <footer className="bg-gray-100 border-t border-gray-300 py-4">
-          <div className="container mx-auto px-4">
+          <div className="w-full max-w-[1400px] mx-auto px-2">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-sm text-gray-600 mb-2 md:mb-0">
                 &copy; {new Date().getFullYear()} Zambelli Andrea - G.A.
