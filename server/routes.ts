@@ -205,29 +205,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
-  // Endpoint per ottenere informazioni complete sull'utente corrente con il suo livello di autorizzazione
-  app.get("/api/user-with-license", isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      // Ottieni informazioni sulla licenza corrente
-      const licenseInfo = await licenseService.getCurrentLicenseInfo();
-      
-      // Combina i dati dell'utente con le informazioni sulla licenza
-      const userWithLicense = {
-        ...req.user,
-        licenseInfo: {
-          type: licenseInfo.type,
-          expiresAt: licenseInfo.expiresAt,
-          isActive: licenseInfo.isActive,
-          daysLeft: licenseInfo.daysLeft
-        }
-      };
-      
-      res.json(userWithLicense);
-    } catch (error) {
-      console.error("Errore nel recupero delle informazioni utente con licenza:", error);
-      res.status(500).json({ message: "Errore nel recupero delle informazioni utente" });
-    }
-  });
+  // Endpoint rimosso per evitare la duplicazione con quello definito più avanti
   
   // Client Access API endpoints
   // Endpoint per registrare un nuovo accesso di un cliente
