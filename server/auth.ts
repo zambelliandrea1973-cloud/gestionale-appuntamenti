@@ -238,8 +238,27 @@ export function setupAuth(app: Express) {
   });
 
   // Rotte di autenticazione per utenti professionali
-  app.post("/api/staff/login", passport.authenticate("local-staff"), (req, res) => {
-    res.status(200).json(req.user);
+  app.post("/api/staff/login", (req, res, next) => {
+    console.log('Login staff richiesto per:', req.body.username);
+    passport.authenticate("local-staff", (err, user, info) => {
+      if (err) {
+        console.error('Errore durante autenticazione staff:', err);
+        return next(err);
+      }
+      if (!user) {
+        console.log('Login staff fallito per:', req.body.username);
+        return res.status(401).json(info || { message: "Credenziali non valide" });
+      }
+      
+      req.login(user, (err) => {
+        if (err) {
+          console.error('Errore durante login staff:', err);
+          return next(err);
+        }
+        console.log('Login staff completato con successo per:', user.username, 'tipo:', user.type);
+        return res.status(200).json(user);
+      });
+    })(req, res, next);
   });
 
   // Rotte di autenticazione per clienti
