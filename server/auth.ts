@@ -178,28 +178,31 @@ export function setupAuth(app: Express) {
         const userType = user.role === 'admin' ? 'admin' : 'staff';
         return done(null, { ...user, type: userType });
       } else if (type === "customer") {
-        // Recuperiamo direttamente l'utente customer dal database
-        const user = await storage.getUser(id);
-        if (!user) {
-          console.error(`Customer con ID ${id} non trovato durante la deserializzazione`);
+        // ATTENZIONE: Gli utenti customer sono in realtà salvati nella tabella client_accounts
+        // NON nella tabella users, quindi dobbiamo usare getClientAccount invece di getUser
+        console.log(`Cliente tipo "customer" con ID ${id} - usando getClientAccount`);
+        
+        const clientAccount = await storage.getClientAccount(id);
+        if (!clientAccount) {
+          console.error(`Customer con ID ${id} non trovato nella tabella client_accounts`);
           return done(null, false);
         }
         
-        // Se l'utente customer ha un clientId, carichiamo anche i dati del cliente
-        if (user.clientId) {
-          const client = await storage.getClient(user.clientId);
-          if (client) {
-            console.log(`Dati cliente trovati per customer ${user.username}`);
-            return done(null, { 
-              ...user, 
-              client, 
-              type: 'customer' 
-            });
-          }
+        // Carichiamo anche i dati del cliente
+        const client = await storage.getClient(clientAccount.clientId);
+        if (!client) {
+          console.error(`Cliente con ID ${clientAccount.clientId} non trovato per customer ID ${id}`);
+          return done(null, false);
         }
         
-        console.log(`Customer ${user.username} deserializzato correttamente`);
-        return done(null, { ...user, type: 'customer' });
+        console.log(`Customer ${clientAccount.username} deserializzato correttamente dalla tabella client_accounts`);
+        console.log(`Associato a cliente ${client.firstName} ${client.lastName} (ID: ${client.id})`);
+        
+        return done(null, { 
+          ...clientAccount, 
+          client, 
+          type: 'customer' 
+        });
       } else if (type === "client") {
         const clientAccount = await storage.getClientAccount(id);
         if (!clientAccount || !clientAccount.isActive) return done(null, false);
