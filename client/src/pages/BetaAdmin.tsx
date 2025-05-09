@@ -256,6 +256,46 @@ export default function BetaAdmin() {
     }),
     enabled: isAuthenticated, // Esegui solo se autenticato con la password beta admin
   });
+  
+  // Interfaccia per i dati delle licenze
+  interface License {
+    id: number;
+    code: string;
+    type: string;
+    isActive: boolean;
+    createdAt: string;
+    activatedAt: string | null;
+    expiresAt: string | null;
+    userId: number | null;
+    user: {
+      id: number | null;
+      username: string;
+      email: string | null;
+      type: string;
+      role: string;
+      createdAt: string;
+      clientId?: number;
+      clientName?: string | null;
+    } | null;
+    subscription: {
+      id: number;
+      status: string;
+      planId: number;
+      planName: string;
+      currentPeriodStart: string;
+      currentPeriodEnd: string;
+    } | null;
+  }
+  
+  // Query per ottenere le licenze
+  const { data: licenses = [], isLoading: licensesLoading, refetch: refetchLicenses } = useQuery<License[]>({
+    queryKey: ['/api/payments/payment-admin/licenses'],
+    queryFn: getQueryFn({ 
+      on401: "throw",
+      withBetaAdminToken: true 
+    }),
+    enabled: isAuthenticated, // Esegui solo se autenticato con la password beta admin
+  });
 
   // Mutation per creare un nuovo invito
   const createInviteMutation = useMutation({
@@ -979,6 +1019,7 @@ export default function BetaAdmin() {
               <TabsList className="mb-4">
                 <TabsTrigger value="transactions">Transazioni</TabsTrigger>
                 <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
+                <TabsTrigger value="licenses">Licenze</TabsTrigger>
                 <TabsTrigger value="plans">Piani</TabsTrigger>
                 <TabsTrigger value="external-links">Collegamenti</TabsTrigger>
               </TabsList>
@@ -1083,6 +1124,133 @@ export default function BetaAdmin() {
                             <TableRow>
                               <TableCell colSpan={7} className="text-center py-4">
                                 Nessun abbonamento trovato
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="licenses">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Licenze</CardTitle>
+                    <CardDescription>
+                      Elenco delle licenze e degli account associati
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="rounded-md border overflow-hidden">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Codice</TableHead>
+                            <TableHead>Tipo</TableHead>
+                            <TableHead>Utente</TableHead>
+                            <TableHead>Stato</TableHead>
+                            <TableHead>Attivata</TableHead>
+                            <TableHead>Scadenza</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {licensesLoading ? (
+                            <TableRow>
+                              <TableCell colSpan={6} className="text-center py-4">
+                                <Loader2 className="h-6 w-6 animate-spin mx-auto" />
+                              </TableCell>
+                            </TableRow>
+                          ) : licenses.length > 0 ? (
+                            licenses.map((license) => (
+                              <TableRow key={license.id}>
+                                <TableCell className="font-medium">{license.code}</TableCell>
+                                <TableCell>
+                                  {(() => {
+                                    switch(license.type) {
+                                      case 'trial':
+                                        return (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            <Timer className="w-3 h-3 mr-1" /> Trial
+                                          </span>
+                                        );
+                                      case 'base':
+                                        return (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Base
+                                          </span>
+                                        );
+                                      case 'pro':
+                                        return (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                            Pro
+                                          </span>
+                                        );
+                                      case 'business':
+                                        return (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                            Business
+                                          </span>
+                                        );
+                                      case 'staff':
+                                        return (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            <Users className="w-3 h-3 mr-1" /> Staff
+                                          </span>
+                                        );
+                                      case 'admin':
+                                        return (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            Admin
+                                          </span>
+                                        );
+                                      default:
+                                        return license.type;
+                                    }
+                                  })()}
+                                </TableCell>
+                                <TableCell>
+                                  {license.user ? (
+                                    <div className="flex flex-col">
+                                      <span>{license.user.username}</span>
+                                      {license.user.clientName && (
+                                        <span className="text-xs text-gray-500">{license.user.clientName}</span>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <span className="text-gray-500">-</span>
+                                  )}
+                                </TableCell>
+                                <TableCell>
+                                  {license.isActive ? (
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                      <CheckCircle2 className="w-3 h-3 mr-1" /> Attiva
+                                    </span>
+                                  ) : (
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                      <X className="w-3 h-3 mr-1" /> Scaduta
+                                    </span>
+                                  )}
+                                </TableCell>
+                                <TableCell>{formatDate(license.activatedAt || license.createdAt)}</TableCell>
+                                <TableCell>
+                                  {license.expiresAt ? (
+                                    <span className={`${
+                                      new Date(license.expiresAt) < new Date() ? 'text-red-600' : ''
+                                    }`}>
+                                      {formatDate(license.expiresAt)}
+                                    </span>
+                                  ) : (
+                                    <span className="text-gray-500">Nessuna scadenza</span>
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          ) : (
+                            <TableRow>
+                              <TableCell colSpan={6} className="text-center py-4">
+                                Nessuna licenza trovata
                               </TableCell>
                             </TableRow>
                           )}
