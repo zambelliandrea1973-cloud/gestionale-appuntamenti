@@ -71,16 +71,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               <div className="overflow-hidden">
                 {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
                 <h1 className="text-xl font-medium truncate">
-                  {(isAdmin || isStaff) && appTitle 
-                    ? appTitle.replace(' Prova', '') 
-                    : (appTitle || t('app.title'))}
+                  {appTitle || t('app.title')}
                 </h1>
                 {/* Il badge contiene già l'informazione sul tipo di utente, rimuovo duplicato */}
                 <div className="text-sm flex items-center gap-1">
                   <UserLicenseBadge />
                 </div>
-                {/* Mostra il conteggio solo se l'utente è in prova e NON è admin o staff */}
-                {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
+                {/* Mostra il conteggio solo se l'utente è in prova (trial) */}
+                {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
                   <div className="text-xs text-amber-300 flex items-center gap-1">
                     <Clock className="h-3 w-3" />
                     <span>
@@ -168,10 +166,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <div className="flex items-center space-x-2 cursor-pointer">
                   <CalendarDays className="h-5 w-5 flex-shrink-0" />
                   <h1 className="text-lg font-medium truncate max-w-[200px]">
-                    {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
-                    {(isAdmin || isStaff) && appTitle 
-                      ? appTitle.replace(' Prova', '') 
-                      : (appTitle || t('app.title'))}
+                    {appTitle || t('app.title')}
                   </h1>
                 </div>
               </Link>
@@ -189,7 +184,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <div className="flex items-center space-x-2">
                       <UserLicenseBadge />
                       {/* Solo informazioni essenziali, senza duplicati */}
-                      {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
+                      {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
                         <div className="text-xs text-amber-600 flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           <span>
