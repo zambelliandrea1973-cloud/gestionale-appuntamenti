@@ -75,37 +75,27 @@ function AppRoutes() {
   const { user, isLoading } = useUserWithLicense();
   const [location, setLocation] = useLocation();
   
-  // Effetto per reindirizzare in base all'autenticazione
+  // Effetto per reindirizzare SOLO gli utenti non autenticati dalle pagine protette alla home
   useEffect(() => {
     // Percorsi che sono sempre accessibili anche senza autenticazione
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', '/client-login', 
       '/login', '/staff-login', '/register', '/client-area', 
-      '/consent'
+      '/consent', '/'
     ];
-    
-    // Pagine di login che potrebbero causare loop di reindirizzamento
-    const loginPages = ['/staff-login', '/client-login', '/login'];
     
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
       
-      // Se l'utente è autenticato e sta cercando di accedere alla home
-      if (user && location === '/') {
-        console.log('Utente autenticato sulla home, reindirizzamento a /dashboard');
-        setLocation('/dashboard');
-      } 
-      // Se l'utente è autenticato e tenta di accedere a pagine di login
-      else if (user && loginPages.includes(location)) {
-        console.log('Utente già autenticato su pagina login, reindirizzamento a /dashboard');
-        setLocation('/dashboard');
-      }
-      // Se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
-      else if (!user && location !== '/' && !publicPaths.includes(location)) {
+      // SOLO se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
+      if (!user && !publicPaths.includes(location)) {
         console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
       }
+      
+      // Non facciamo altri reindirizzamenti automatici
+      // Il reindirizzamento dopo il login è gestito direttamente dalle pagine di login
     }
   }, [user, isLoading, location, setLocation]);
 
