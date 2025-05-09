@@ -79,7 +79,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </div>
                 {/* Mostra il conteggio solo se l'utente è in prova (trial) */}
                 {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                  <div className="flex flex-col">
+                  <div className="flex items-center gap-3">
                     <div className="text-xs text-amber-300 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       <span>
@@ -88,7 +88,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                           : 'Scaduto'}
                       </span>
                     </div>
-                    <div className="text-xs text-amber-200 mt-1 flex items-center">
+                    <div className="text-xs text-amber-200 flex items-center">
                       <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
                         {t('trial.upgradeMessage', 'Scopri i piani premium')} →
                       </Link>
@@ -100,8 +100,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             
             {/* Colonna centrale: Menu di navigazione su due righe - maggiore larghezza */}
             <div className="flex flex-col w-full">
-              {/* Prima riga di navigazione - ottimizzata */}
-              <div className="flex justify-center space-x-3 mb-1">
+              {/* Prima riga di navigazione - ottimizzata e centrata */}
+              <div className="flex justify-center space-x-4 mb-1 ml-8">
                 <Link href="/dashboard">
                   <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
@@ -128,8 +128,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 </Link>
               </div>
               
-              {/* Seconda riga di navigazione - ottimizzata */}
-              <div className="flex justify-center space-x-3">
+              {/* Seconda riga di navigazione - ottimizzata e centrata */}
+              <div className="flex justify-center space-x-4 ml-8">
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
@@ -192,7 +192,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <UserLicenseBadge />
                       {/* Solo informazioni essenziali, senza duplicati */}
                       {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                        <div className="flex flex-col">
+                        <div className="flex items-center gap-2">
                           <div className="text-xs text-amber-600 flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             <span>
@@ -201,7 +201,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                                 : 'Scaduto'}
                             </span>
                           </div>
-                          <div className="text-xs text-amber-500 mt-1">
+                          <div className="text-xs text-amber-500">
                             <Link href="/pro" className="hover:text-amber-400 underline transition-colors">
                               {t('trial.upgradeMessage', 'Scopri i piani premium')} →
                             </Link>
