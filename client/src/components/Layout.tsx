@@ -190,12 +190,20 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               <SheetContent>
                 <div className="flex flex-col gap-4 py-4">
                   <div className="border border-gray-200 rounded-md p-3 bg-gray-50">
-                    <div className="flex items-center space-x-2">
-                      <UserLicenseBadge />
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center">
+                        <UserLicenseBadge />
+                      </div>
+                      {/* Dati utente, sempre visibili */}
+                      <div className="flex flex-col gap-1">
+                        <div className="text-xs text-gray-600 font-medium whitespace-nowrap overflow-visible">
+                          {userWithLicense?.username}
+                        </div>
+                      </div>
                       {/* Solo informazioni essenziali, senza duplicati */}
                       {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
-                        <div className="flex items-center gap-2">
-                          <div className="text-xs text-amber-600 flex items-center gap-1">
+                        <div className="flex flex-col gap-1">
+                          <div className="text-xs text-amber-600 flex items-center gap-1 whitespace-nowrap">
                             <Clock className="h-3 w-3" />
                             <span>
                               {new Date(licenseInfo.expiresAt) > new Date() 
@@ -203,7 +211,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                                 : 'Scaduto'}
                             </span>
                           </div>
-                          <div className="text-xs text-amber-500">
+                          <div className="text-xs text-amber-500 whitespace-nowrap">
                             <Link href="/pro" className="hover:text-amber-400 underline transition-colors">
                               {t('trial.upgradeMessage', 'Scopri i piani premium')} →
                             </Link>
