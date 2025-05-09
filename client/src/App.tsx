@@ -1,11 +1,12 @@
-import { Route, Router as WouterRouter, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
 import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
 import { BetaStatusChecker } from "./components/BetaStatusChecker";
-import { UserLicenseProvider } from "./hooks/use-user-with-license";
+import { UserLicenseProvider, useUserWithLicense } from "./hooks/use-user-with-license";
+import { useEffect } from "react";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
@@ -41,7 +42,6 @@ import PaymentCancel from "./pages/PaymentCancel";
 import WelcomePage from "./pages/WelcomePage";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
-import { useEffect } from "react";
 
 /**
  * Wrapper per le pagine client (con layout cliente)
@@ -71,6 +71,34 @@ function StaffPageWrapper({ children }: { children: React.ReactNode }) {
 }
 
 function AppRoutes() {
+  // Hook per ottenere dati utente e licenza
+  const { user, isLoading } = useUserWithLicense();
+  const [location, setLocation] = useLocation();
+  
+  // Effetto per reindirizzare in base all'autenticazione
+  useEffect(() => {
+    // Percorsi che sono sempre accessibili anche senza autenticazione
+    const publicPaths = [
+      '/activate', '/pwa', '/auto-login', '/client-login', 
+      '/login', '/staff-login', '/register', '/client-area', 
+      '/consent'
+    ];
+    
+    // Aspetta che il caricamento delle informazioni utente sia completo
+    if (!isLoading) {
+      // Se l'utente è autenticato e sta cercando di accedere alla home o a pagine di login/registrazione
+      if (user && (location === '/' || publicPaths.includes(location))) {
+        // Reindirizza alla dashboard in base al tipo di utente
+        setLocation('/dashboard');
+      } 
+      // Se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
+      else if (!user && location !== '/' && !publicPaths.includes(location)) {
+        // Reindirizza alla pagina di benvenuto
+        setLocation('/');
+      }
+    }
+  }, [user, isLoading, location, setLocation]);
+
   return (
     <Switch>
       {/* Pagina di attivazione senza layout */}
