@@ -63,72 +63,70 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
         <div className="container mx-auto px-4 py-2">
-          {/* Layout a tre colonne per desktop */}
-          <div className="hidden md:grid grid-cols-3 gap-4 items-center">
-            {/* Colonna sinistra: Nome applicazione e dettagli utente */}
-            <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20">
-              <div className="flex items-center space-x-2">
-                <CalendarDays className="h-6 w-6" />
-                <div>
-                  {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin */}
-                  <h1 className="text-xl font-medium">
-                    {isAdmin && appTitle 
-                      ? appTitle.replace(' Prova', '') 
-                      : (appTitle || t('app.title'))}
-                  </h1>
-                  <div className="text-sm flex items-center gap-1">
-                    <span>Utente: {userWithLicense?.username || 'Guest'}</span>
-                    <UserLicenseBadge />
-                  </div>
-                  {/* Mostra il conteggio solo se l'utente è in prova e NON è admin o staff */}
-                  {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
-                    <div className="text-xs mt-1 text-amber-300 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      <span>
-                        {new Date(licenseInfo.expiresAt) > new Date() 
-                          ? `Restano ${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni di prova` 
-                          : 'Periodo di prova scaduto'}
-                      </span>
-                    </div>
-                  )}
+          {/* Layout a tre colonne per desktop - riduzione dei gap e utilizzo container più ampio */}
+          <div className="hidden md:grid grid-cols-3 gap-2 items-center w-full">
+            {/* Colonna sinistra: Solo informazioni essenziali */}
+            <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2">
+              <CalendarDays className="h-6 w-6 flex-shrink-0" />
+              <div className="overflow-hidden">
+                {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
+                <h1 className="text-xl font-medium truncate">
+                  {(isAdmin || isStaff) && appTitle 
+                    ? appTitle.replace(' Prova', '') 
+                    : (appTitle || t('app.title'))}
+                </h1>
+                {/* Il badge contiene già l'informazione sul tipo di utente, rimuovo duplicato */}
+                <div className="text-sm flex items-center gap-1">
+                  <UserLicenseBadge />
                 </div>
+                {/* Mostra il conteggio solo se l'utente è in prova e NON è admin o staff */}
+                {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
+                  <div className="text-xs text-amber-300 flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    <span>
+                      {new Date(licenseInfo.expiresAt) > new Date() 
+                        ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
+                        : 'Scaduto'}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             
-            {/* Colonna centrale: Menu di navigazione su due righe */}
+            {/* Colonna centrale: Menu di navigazione su due righe - maggiore larghezza */}
             <div className="flex flex-col w-full">
-              {/* Prima riga di navigazione - aumento spazio tra elementi e aggiungo più spazio interno */}
-              <div className="flex justify-center space-x-6 mb-2">
+              {/* Prima riga di navigazione - ottimizzata */}
+              <div className="flex justify-center space-x-3 mb-1">
                 <Link href="/dashboard">
-                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[80px]">
+                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
                     <span>Home</span>
                   </Button>
                 </Link>
                 <Link href="/calendar">
-                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[100px]">
+                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <CalendarDays className="h-4 w-4 mr-1" />
                     <span>{t('calendar.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/clients">
-                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[100px]">
+                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <Users className="h-4 w-4 mr-1" />
                     <span>{t('clients.title')}</span>
                   </Button>
                 </Link>
                 <Link href="/whatsapp-center">
-                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[100px]">
+                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <MessageSquare className="h-4 w-4 mr-1" />
                     <span>Notifiche</span>
                   </Button>
                 </Link>
               </div>
               
-              {/* Seconda riga di navigazione - distribuzione migliorata */}
-              <div className="flex justify-center space-x-6">
+              {/* Seconda riga di navigazione - ottimizzata */}
+              <div className="flex justify-center space-x-3">
                 <Link href="/pro">
-                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[80px]">
+                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
                     <span>PRO</span>
                   </Button>
@@ -137,41 +135,41 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 {/* Pulsante Staff senza evidenziazione in bianco */}
                 {isAdmin && (
                   <Link href="/staff-management">
-                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[80px]">
+                    <Button variant="ghost" size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                       <UserCog className="h-4 w-4 mr-1" />
                       <span>Staff</span>
                     </Button>
                   </Link>
                 )}
                 
-                {/* Pulsante impostazioni sempre presente nella seconda riga */}
+                {/* Pulsante impostazioni */}
                 <Link href="/settings">
-                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-3 min-w-[110px]">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <SettingsIcon className="h-4 w-4 mr-1" />
                     <span>{t('settings.title')}</span>
                   </Button>
                 </Link>
                 
-                {/* Selettore lingua sempre presente nella seconda riga */}
+                {/* Selettore lingua con dimensione ridotta */}
                 <LanguageSelector />
               </div>
             </div>
             
-            {/* Colonna destra: Pulsante di uscita */}
+            {/* Colonna destra: Solo pulsante logout */}
             <div className="flex justify-end">
               <LogoutButton variant="secondary" className="w-24 h-10" iconPosition="right" />
             </div>
           </div>
           
-          {/* Layout mobile */}
+          {/* Layout mobile ottimizzato */}
           <div className="flex md:hidden items-center justify-between py-2">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 overflow-hidden">
               <Link href="/dashboard">
                 <div className="flex items-center space-x-2 cursor-pointer">
-                  <CalendarDays className="h-5 w-5" />
-                  <h1 className="text-lg font-medium flex items-center">
-                    {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin */}
-                    {isAdmin && appTitle 
+                  <CalendarDays className="h-5 w-5 flex-shrink-0" />
+                  <h1 className="text-lg font-medium truncate max-w-[200px]">
+                    {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
+                    {(isAdmin || isStaff) && appTitle 
                       ? appTitle.replace(' Prova', '') 
                       : (appTitle || t('app.title'))}
                   </h1>
@@ -190,20 +188,17 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <div className="border border-gray-200 rounded-md p-3 bg-gray-50">
                     <div className="flex items-center space-x-2">
                       <UserLicenseBadge />
-                      <div>
-                        <h2 className="font-medium">{userWithLicense?.username || 'Guest'}</h2>
-                        {/* Mostra il conteggio solo se l'utente è in prova e NON è admin o staff */}
-                        {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
-                          <div className="text-xs text-amber-600 flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            <span>
-                              {new Date(licenseInfo.expiresAt) > new Date() 
-                                ? `Restano ${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni di prova` 
-                                : 'Periodo di prova scaduto'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                      {/* Solo informazioni essenziali, senza duplicati */}
+                      {licenseInfo?.type === 'trial' && !isAdmin && !isStaff && licenseInfo?.expiresAt && (
+                        <div className="text-xs text-amber-600 flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          <span>
+                            {new Date(licenseInfo.expiresAt) > new Date() 
+                              ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
+                              : 'Scaduto'}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   
