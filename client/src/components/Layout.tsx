@@ -63,11 +63,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       {/* Header - in alcune pagine mostriamo solo il menu senza il titolo principale */}
       <header className="bg-primary text-white shadow-md">
         <div className="w-full max-w-[1400px] mx-auto px-2 py-2">
-          {/* Layout ridisegnato con proporzioni percentuali specifiche e bilanciamento 50/50 */}
+          {/* Layout con proporzioni ottimizzate: 35% - 55% - 10% */}
           <div className="hidden md:flex items-center w-full">
-            {/* Colonna sinistra: Solo informazioni essenziali - 30% della larghezza */}
-            <div className="w-[30%]">
-              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 mr-auto max-w-[280px]">
+            {/* Colonna sinistra: Solo informazioni essenziali - 35% della larghezza */}
+            <div className="w-[35%]">
+              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2 mr-auto max-w-[300px]">
                 <CalendarDays className="h-6 w-6 flex-shrink-0" />
                 <div className="overflow-hidden">
                   {/* Rimuove "Prova" dal titolo dell'app se l'utente è admin o staff */}
@@ -100,8 +100,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </div>
             </div>
             
-            {/* Colonna centrale: Menu di navigazione su due righe - 60% della larghezza con spazio equamente distribuito */}
-            <div className="flex flex-col w-[60%] items-center">
+            {/* Colonna centrale: Menu di navigazione su due righe - 55% della larghezza con spazio equamente distribuito */}
+            <div className="flex flex-col w-[55%] items-center">
               {/* Prima riga di navigazione - con spacing distribuito per bilanciamento 50/50 */}
               <div className="flex justify-center gap-x-3 mb-1 w-full">
                 <Link href="/dashboard">
