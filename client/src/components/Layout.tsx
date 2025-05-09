@@ -132,10 +132,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Pulsante Staff per admin - più visibile */}
+                {/* Pulsante Staff per admin - più visibile e prominente */}
                 {isAdmin && (
                   <Link href="/staff-management">
-                    <Button variant={isActive("/staff-management") ? "secondary" : "outline"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] border-white/60">
+                    <Button variant={isActive("/staff-management") ? "secondary" : "outline"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] border-white/60 font-medium">
                       <UserCog className="h-4 w-4 mr-1" />
                       <span>Staff</span>
                     </Button>
@@ -254,9 +254,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori - più visibile */}
                     {isAdmin && (
                       <Link href="/staff-management">
-                        <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40">
+                        <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
                           <UserCog className="mr-2 h-4 w-4" />
-                          Gestione Staff
+                          <span className="font-medium">Gestione Staff</span>
                         </Button>
                       </Link>
                     )}
