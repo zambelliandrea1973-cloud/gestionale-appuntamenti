@@ -116,11 +116,11 @@ export default function ClientArea() {
       if (response.ok) {
         const userData = await response.json();
         
-        // Verifica che l'utente sia un cliente o un customer
-        if (userData.type !== "client" && userData.type !== "customer") {
+        // Verifica che l'utente sia SOLO un client, NON un customer
+        if (userData.type !== "client") {
           toast({
             title: "Accesso negato",
-            description: "Questa area è riservata ai clienti",
+            description: "Questa area è riservata ai clienti dei professionisti",
             variant: "destructive",
           });
           
@@ -129,7 +129,7 @@ export default function ClientArea() {
         }
         
         // Log per aiutare il debug
-        console.log(`Utente autorizzato ad accedere all'area clienti - tipo: ${userData.type}, clientId: ${userData.client?.id}`);
+        console.log(`Utente client autorizzato ad accedere all'area clienti - clientId: ${userData.client?.id}`);
         
         // Se è un cliente valido, salviamo l'ID nel localStorage per supporto PWA
         if (userData.client?.id) {
