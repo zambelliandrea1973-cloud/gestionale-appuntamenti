@@ -609,8 +609,43 @@ router.get('/payment-admin/subscriptions', isPaymentAdmin, async (req, res) => {
   try {
     console.log('Recupero abbonamenti...');
     const subscriptions = await storage.getSubscriptions();
-    console.log(`Trovati ${subscriptions.length} abbonamenti`);
-    return res.json(subscriptions);
+    
+    // Arricchisci i dati con informazioni sugli utenti e le licenze
+    const enrichedSubscriptions = await Promise.all(subscriptions.map(async (sub) => {
+      // Ottieni dati utente
+      const user = await storage.getUser(sub.userId);
+      
+      // Ottieni licenza associata all'utente
+      const userLicenses = await storage.getLicensesByUserId(sub.userId);
+      const activeLicense = userLicenses.find(lic => lic.isActive);
+      
+      // Recupera piano sottoscrizione
+      const plan = await storage.getSubscriptionPlan(sub.planId);
+      
+      return {
+        ...sub,
+        // Aggiungi dati utente
+        user: user ? {
+          id: user.id,
+          username: user.username,
+          email: user.email || null,
+          type: user.type,
+          role: user.role
+        } : null,
+        // Aggiungi dati licenza
+        license: activeLicense ? {
+          id: activeLicense.id,
+          type: activeLicense.type,
+          expiresAt: activeLicense.expiresAt,
+          isActive: activeLicense.isActive
+        } : null,
+        // Aggiungi nome piano
+        planName: plan ? plan.name : `Piano ${sub.planId}`
+      };
+    }));
+    
+    console.log(`Trovati ${subscriptions.length} abbonamenti con dettagli utente e licenza`);
+    return res.json(enrichedSubscriptions);
   } catch (error) {
     console.error('Errore durante il recupero degli abbonamenti:', error);
     return res.status(500).json({
