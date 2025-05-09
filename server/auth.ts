@@ -429,10 +429,11 @@ export function isStaff(req: any, res: any, next: any) {
 
 // Middleware per verificare ruolo admin
 export function isAdmin(req: any, res: any, next: any) {
-  if (req.isAuthenticated() && req.user.type === "admin") {
+  if (req.isAuthenticated() && (req.user.type === "admin" || req.user.role === "admin")) {
     return next();
   }
-  res.status(403).json({ message: "Accesso negato: richiesto ruolo amministratore" });
+  console.log("Utente non admin:", req.user);
+  res.status(403).json({ message: "Solo gli amministratori possono visualizzare questa pagina" });
 }
 
 // Middleware per verificare se è un cliente
