@@ -4,6 +4,9 @@ import { WiseService } from '../services/wiseService';
 import { isAdmin, isAuthenticated } from '../auth';
 import { storage } from '../storage';
 import Stripe from 'stripe';
+import { db } from '../db';
+import { eq, desc } from 'drizzle-orm';
+import { subscriptionPlans, subscriptions, licenses, users } from '@shared/schema';
 
 const router = Router();
 
@@ -725,16 +728,72 @@ router.post('/payment-admin/authenticate', async (req, res) => {
 router.get('/payment-admin/licenses', isPaymentAdmin, async (req, res) => {
   try {
     console.log('Recupero licenze con dettagli utente...');
-    const licenses = await storage.getLicenses();
+    
+    // Utilizziamo direttamente una query al database per ottenere le licenze
+    // Questo approccio è temporaneo finché non risolviamo gli errori in storage.ts
+    const licensesQuery = await db
+      .select({
+        license: {
+          id: licenses.id,
+          code: licenses.code,
+          type: licenses.type,
+          isActive: licenses.isActive,
+          createdAt: licenses.createdAt,
+          activatedAt: licenses.activatedAt,
+          expiresAt: licenses.expiresAt,
+          userId: licenses.userId
+        }
+      })
+      .from(licenses)
+      .orderBy(desc(licenses.createdAt));
+    
+    // Mappa i risultati nel formato richiesto
+    const mappedLicenses = licensesQuery.map(row => row.license);
     
     // Arricchisci i dati con informazioni sugli utenti
-    const enrichedLicenses = await Promise.all(licenses.map(async (license) => {
+    const enrichedLicenses = await Promise.all(mappedLicenses.map(async (license) => {
       // Ottieni dati utente associato alla licenza
-      const user = await storage.getUser(license.userId);
+      let user = null;
+      if (license.userId) {
+        const userResult = await db
+          .select()
+          .from(users)
+          .where(eq(users.id, license.userId))
+          .limit(1);
+        
+        if (userResult.length > 0) {
+          user = userResult[0];
+        }
+      }
       
       // Ottieni abbonamento associato all'utente
-      const subscription = user ? await storage.getSubscriptionByUserId(user.id) : null;
-      const plan = subscription ? await storage.getSubscriptionPlan(subscription.planId) : null;
+      let subscription = null;
+      let plan = null;
+      
+      if (user) {
+        const subscriptionResult = await db
+          .select()
+          .from(subscriptions)
+          .where(eq(subscriptions.userId, user.id))
+          .orderBy(desc(subscriptions.createdAt))
+          .limit(1);
+        
+        if (subscriptionResult.length > 0) {
+          subscription = subscriptionResult[0];
+          
+          if (subscription.planId) {
+            const planResult = await db
+              .select()
+              .from(subscriptionPlans)
+              .where(eq(subscriptionPlans.id, subscription.planId))
+              .limit(1);
+            
+            if (planResult.length > 0) {
+              plan = planResult[0];
+            }
+          }
+        }
+      }
       
       return {
         ...license,
@@ -759,7 +818,7 @@ router.get('/payment-admin/licenses', isPaymentAdmin, async (req, res) => {
       };
     }));
     
-    console.log(`Trovate ${licenses.length} licenze con dettagli utente`);
+    console.log(`Trovate ${mappedLicenses.length} licenze con dettagli utente`);
     return res.json(enrichedLicenses);
   } catch (error) {
     console.error('Errore durante il recupero delle licenze:', error);

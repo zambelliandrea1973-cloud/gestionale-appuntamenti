@@ -23,6 +23,7 @@ import {
   subscriptions, type Subscription, type InsertSubscription,
   paymentMethods, type PaymentMethod, type InsertPaymentMethod,
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
+  licenses, type License, type InsertLicense,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -3074,6 +3075,103 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error('Errore nel recupero di tutte le transazioni di pagamento:', error);
       return [];
+    }
+  }
+  
+  /**
+   * Ottiene tutte le licenze presenti nel sistema
+   */
+  async getLicenses(): Promise<License[]> {
+    try {
+      console.log('Recupero tutte le licenze dal database');
+      const result = await db
+        .select()
+        .from(licenses)
+        .orderBy(desc(licenses.createdAt));
+      
+      console.log(`Trovate ${result.length} licenze totali`);
+      return result;
+    } catch (error) {
+      console.error('Errore nel recupero delle licenze:', error);
+      return [];
+    }
+  }
+  
+  /**
+   * Ottiene tutte le licenze di uno specifico utente
+   */
+  async getLicensesByUserId(userId: number): Promise<License[]> {
+    try {
+      console.log(`Recupero licenze per l'utente ID ${userId}`);
+      const result = await db
+        .select()
+        .from(licenses)
+        .where(eq(licenses.userId, userId))
+        .orderBy(desc(licenses.createdAt));
+      
+      console.log(`Trovate ${result.length} licenze per l'utente ${userId}`);
+      return result;
+    } catch (error) {
+      console.error(`Errore nel recupero delle licenze per l'utente ${userId}:`, error);
+      return [];
+    }
+  }
+  
+  /**
+   * Ottiene una licenza specifica tramite ID
+   */
+  async getLicense(id: number): Promise<License | undefined> {
+    try {
+      console.log(`Recupero licenza con ID ${id}`);
+      const [result] = await db
+        .select()
+        .from(licenses)
+        .where(eq(licenses.id, id))
+        .limit(1);
+      
+      return result;
+    } catch (error) {
+      console.error(`Errore nel recupero della licenza ${id}:`, error);
+      return undefined;
+    }
+  }
+  
+  /**
+   * Crea una nuova licenza
+   */
+  async createLicense(licenseData: InsertLicense): Promise<License> {
+    try {
+      console.log(`Creazione nuova licenza di tipo: ${licenseData.type}`);
+      const [license] = await db
+        .insert(licenses)
+        .values(licenseData)
+        .returning();
+      
+      console.log(`Licenza creata con ID: ${license.id}`);
+      return license;
+    } catch (error) {
+      console.error('Errore nella creazione della licenza:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Aggiorna i dati di una licenza esistente
+   */
+  async updateLicense(id: number, licenseData: Partial<InsertLicense>): Promise<License | undefined> {
+    try {
+      console.log(`Aggiornamento licenza con ID ${id}`);
+      const [license] = await db
+        .update(licenses)
+        .set(licenseData)
+        .where(eq(licenses.id, id))
+        .returning();
+      
+      console.log(`Licenza ${id} aggiornata`);
+      return license;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento della licenza ${id}:`, error);
+      return undefined;
     }
   }
   
