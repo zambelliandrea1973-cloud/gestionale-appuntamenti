@@ -1,11 +1,27 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import Layout from '@/components/Layout';
+import { Toaster } from '@/components/ui/toaster';
 
+// Versione ottimizzata che non utilizza il Layout completo per migliorare le performance
 export default function PrivacyPolicy() {
   return (
-    <Layout>
-      <div className="container mx-auto py-8">
+    <div className="flex flex-col min-h-screen">
+      {/* Header semplificato */}
+      <header className="bg-primary text-white py-3 shadow-md">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center">
+            <a href="/" className="text-white hover:text-gray-200">
+              <h1 className="text-xl font-semibold">Gestione Appuntamenti</h1>
+            </a>
+            <a href="/dashboard" className="text-white hover:text-gray-200 text-sm">
+              Torna alla Dashboard
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Contenuto */}
+      <main className="flex-grow container mx-auto py-8 px-4">
         <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
         
         <Card className="mb-8">
@@ -80,10 +96,6 @@ export default function PrivacyPolicy() {
                 <li>Autorità pubbliche, quando richiesto dalla legge</li>
                 <li>Professionisti esterni (consulenti, esperti IT)</li>
               </ul>
-              <p className="mt-3">
-                Tutti i terzi con cui condividiamo i dati sono vincolati da accordi che garantiscono 
-                la protezione dei dati in conformità con la normativa applicabile.
-              </p>
             </section>
             
             <section className="mb-6">
@@ -92,21 +104,18 @@ export default function PrivacyPolicy() {
               <ul className="list-disc list-inside ml-4 space-y-2">
                 <li>Accedere ai propri dati personali</li>
                 <li>Rettificare dati inesatti</li>
-                <li>Richiedere la cancellazione dei dati ("diritto all'oblio")</li>
+                <li>Richiedere la cancellazione dei dati</li>
                 <li>Limitare il trattamento in determinate circostanze</li>
-                <li>Opporsi al trattamento per motivi legittimi</li>
-                <li>Ricevere i dati in formato elettronico per trasferirli ad altro titolare (portabilità)</li>
+                <li>Ricevere i dati in formato elettronico (portabilità)</li>
                 <li>Revocare il consenso in qualsiasi momento</li>
-                <li>Presentare reclamo all'Autorità Garante per la protezione dei dati personali</li>
               </ul>
             </section>
             
             <section className="mb-6">
               <h3 className="text-lg font-semibold mb-2">Sicurezza dei Dati</h3>
               <p className="mb-3">
-                Adottiamo misure tecniche e organizzative adeguate per proteggere i dati personali da 
-                perdita, uso improprio e accesso non autorizzato, inclusa la crittografia dei dati sensibili, 
-                l'accesso limitato e controllato, e procedure di backup regolari.
+                Adottiamo misure tecniche e organizzative adeguate per proteggere i dati personali, 
+                inclusa la crittografia dei dati sensibili, l'accesso limitato e procedure di backup regolari.
               </p>
             </section>
             
@@ -114,7 +123,7 @@ export default function PrivacyPolicy() {
               <h3 className="text-lg font-semibold mb-2">Modifiche alla Privacy Policy</h3>
               <p className="mb-3">
                 Ci riserviamo il diritto di modificare questa Privacy Policy in qualsiasi momento. Le modifiche saranno pubblicate su questa pagina con 
-                l'indicazione della data di aggiornamento. In caso di modifiche significative, informeremo gli utenti tramite email o notifica nell'applicazione.
+                l'indicazione della data di aggiornamento. In caso di modifiche significative, informeremo gli utenti tramite email o notifica.
               </p>
             </section>
             
@@ -127,7 +136,24 @@ export default function PrivacyPolicy() {
             </section>
           </CardContent>
         </Card>
-      </div>
-    </Layout>
+      </main>
+
+      {/* Footer semplificato */}
+      <footer className="bg-gray-100 border-t border-gray-300 py-4">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-sm text-gray-600 mb-2 md:mb-0">
+              &copy; {new Date().getFullYear()} Zambelli Andrea - G.A.
+            </div>
+            <div className="flex space-x-4">
+              <a href="/privacy-policy" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</a>
+              <a href="/terms-of-service" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      
+      <Toaster />
+    </div>
   );
 }
