@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Toaster } from '@/components/ui/toaster';
 import FooterContactIcons from './FooterContactIcons';
+import FooterContent from './FooterContent';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -61,10 +62,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
               `}} />
 
               {/* Links */}
-              <div className="flex space-x-4">
-                <a href="/privacy-policy" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</a>
-                <a href="/terms-of-service" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</a>
-              </div>
+              <FooterContent />
             </div>
           </div>
         </div>

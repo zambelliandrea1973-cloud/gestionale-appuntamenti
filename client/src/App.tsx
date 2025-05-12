@@ -330,14 +330,7 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
 
-      {/* Pagine per Privacy Policy e Termini di Servizio */}
-      <Route path="/privacy-policy">
-        <PrivacyPolicy />
-      </Route>
 
-      <Route path="/terms-of-service">
-        <TermsOfService />
-      </Route>
       
       {/* Fallback route */}
       <Route>
