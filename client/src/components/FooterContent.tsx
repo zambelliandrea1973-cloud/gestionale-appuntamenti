@@ -144,7 +144,7 @@ export default function FooterContent() {
             </p>
             <ul className="list-disc pl-6 mt-2">
               <li>Via email: privacy@example.com</li>
-              <li>Via telefono: +41 077 401 35 05</li>
+              <li>Via telefono: +39 123 456 7890</li>
             </ul>
             
           </div>
@@ -235,7 +235,7 @@ export default function FooterContent() {
             </p>
             <ul className="list-disc pl-6 mt-2">
               <li>Via email: terms@example.com</li>
-              <li>Via telefono: +41 077 401 35 05</li>
+              <li>Via telefono: +39 123 456 7890</li>
             </ul>
           </div>
         </ScrollArea>
