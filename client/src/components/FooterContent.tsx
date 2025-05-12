@@ -144,7 +144,7 @@ export default function FooterContent() {
             </p>
             <ul className="list-disc pl-6 mt-2">
               <li>Via email: privacy@example.com</li>
-              <li>Via telefono: +39 123 456 7890</li>
+              <li>Via telefono: +41 077 401 35 05</li>
             </ul>
             
           </div>
@@ -235,7 +235,7 @@ export default function FooterContent() {
             </p>
             <ul className="list-disc pl-6 mt-2">
               <li>Via email: terms@example.com</li>
-              <li>Via telefono: +39 123 456 7890</li>
+              <li>Via telefono: +41 077 401 35 05</li>
             </ul>
           </div>
         </ScrollArea>
@@ -262,40 +262,12 @@ export default function FooterContent() {
             <div className="bg-background rounded-lg p-4 border shadow-sm">
               <h3 className="text-lg font-medium">Assistenza Telefonica</h3>
               <p className="mt-2">Chiama il nostro numero di supporto:</p>
-              <p className="font-medium mt-1">+39 123 456 7890</p>
+              <p className="font-medium mt-1">+41 077 401 35 05</p>
               <p className="text-muted-foreground text-sm mt-2">Disponibile dal lunedì al venerdì, 9:00-18:00</p>
             </div>
           </div>
           
-          <div className="mt-6">
-            <h3 className="text-lg font-medium">Domande Frequenti</h3>
-            
-            <div className="mt-4 space-y-3">
-              <div className="bg-background rounded-lg p-4 border shadow-sm">
-                <h4 className="font-medium">Come posso modificare i miei appuntamenti?</h4>
-                <p className="mt-1 text-muted-foreground">
-                  Per modificare un appuntamento, vai alla sezione "I miei appuntamenti" nel tuo profilo, 
-                  seleziona l'appuntamento che desideri modificare e clicca sul pulsante "Modifica".
-                </p>
-              </div>
-              
-              <div className="bg-background rounded-lg p-4 border shadow-sm">
-                <h4 className="font-medium">Come posso aggiornare i miei dati personali?</h4>
-                <p className="mt-1 text-muted-foreground">
-                  Per aggiornare i tuoi dati personali, vai alla sezione "Profilo" e clicca su "Modifica profilo". 
-                  Dopo aver apportato le modifiche, clicca su "Salva".
-                </p>
-              </div>
-              
-              <div className="bg-background rounded-lg p-4 border shadow-sm">
-                <h4 className="font-medium">Come posso cambiare il mio piano di abbonamento?</h4>
-                <p className="mt-1 text-muted-foreground">
-                  Per cambiare il tuo piano di abbonamento, vai alla sezione "Abbonamento" nel tuo profilo, 
-                  clicca su "Cambia piano" e seleziona il nuovo piano a cui desideri passare.
-                </p>
-              </div>
-            </div>
-          </div>
+
         </div>
       )
     });
