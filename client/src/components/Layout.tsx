@@ -327,8 +327,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 {/* Links */}
                 <div className="flex space-x-4">
                   <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.support', 'Supporto')}</Button>
-                  <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
-                  <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
+                  <a href="/privacy-policy">
+                    <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
+                  </a>
+                  <a href="/terms-of-service">
+                    <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
+                  </a>
                 </div>
               </div>
             </div>
