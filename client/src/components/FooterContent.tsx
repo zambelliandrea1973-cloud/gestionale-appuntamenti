@@ -144,7 +144,7 @@ export default function FooterContent() {
             </p>
             <ul className="list-disc pl-6 mt-2">
               <li>Via email: privacy@example.com</li>
-              <li>Via telefono: +41 077 401 35 05</li>
+              <li>Via telefono: +39 123 456 7890</li>
             </ul>
             
           </div>
@@ -235,7 +235,7 @@ export default function FooterContent() {
             </p>
             <ul className="list-disc pl-6 mt-2">
               <li>Via email: terms@example.com</li>
-              <li>Via telefono: +41 077 401 35 05</li>
+              <li>Via telefono: +39 123 456 7890</li>
             </ul>
           </div>
         </ScrollArea>
@@ -275,15 +275,15 @@ export default function FooterContent() {
 
   return (
     <div className="flex space-x-4">
-      <a onClick={openSupport} className="text-primary hover:text-primary-dark text-sm cursor-pointer">
+      <Button variant="link" onClick={openSupport} className="text-primary hover:text-primary-dark text-sm">
         {t('common.support', 'Supporto')}
-      </a>
-      <a onClick={openPrivacyPolicy} className="text-primary hover:text-primary-dark text-sm cursor-pointer">
+      </Button>
+      <Button variant="link" onClick={openPrivacyPolicy} className="text-primary hover:text-primary-dark text-sm">
         Privacy Policy
-      </a>
-      <a onClick={openTermsOfService} className="text-primary hover:text-primary-dark text-sm cursor-pointer">
+      </Button>
+      <Button variant="link" onClick={openTermsOfService} className="text-primary hover:text-primary-dark text-sm">
         {t('common.terms', 'Termini di Servizio')}
-      </a>
+      </Button>
 
       <Dialog open={dialogContent.isOpen} onOpenChange={(open) => {
         if (!open) closeDialog();

@@ -271,12 +271,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
+                    {/* Mostra il collegamento per la gestione staff solo agli amministratori - più visibile */}
                     {isAdmin && (
                       <Link href="/staff-management">
-                        <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
                           <UserCog className="mr-2 h-4 w-4" />
-                          <span>Gestione Staff</span>
+                          <span className="font-medium">Gestione Staff</span>
                         </Button>
                       </Link>
                     )}
