@@ -1,11 +1,28 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import Layout from '@/components/Layout';
+import FooterOnly from '@/components/FooterOnly';
+import { Toaster } from '@/components/ui/toaster';
 
+// Versione ottimizzata che non utilizza il Layout completo per migliorare le performance
 export default function TermsOfService() {
   return (
-    <Layout>
-      <div className="container mx-auto py-8">
+    <div className="flex flex-col min-h-screen">
+      {/* Header semplificato */}
+      <header className="bg-primary text-white py-3 shadow-md">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center">
+            <a href="/" className="text-white hover:text-gray-200">
+              <h1 className="text-xl font-semibold">Gestione Appuntamenti</h1>
+            </a>
+            <a href="/dashboard" className="text-white hover:text-gray-200 text-sm">
+              Torna alla Dashboard
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Contenuto */}
+      <main className="flex-grow container mx-auto py-8 px-4">
         <h1 className="text-3xl font-bold mb-8">Termini di Servizio</h1>
         
         <Card className="mb-8">
@@ -72,10 +89,6 @@ export default function TermsOfService() {
                 testi e contenuti, sono di proprietà esclusiva del Fornitore o dei suoi licenzianti. Nessuna disposizione dei presenti 
                 Termini trasferisce alcun diritto di proprietà intellettuale all'utente.
               </p>
-              <p className="mb-3">
-                L'utente riceve una licenza limitata, non esclusiva, non trasferibile e revocabile per utilizzare l'Applicazione 
-                in conformità con i presenti Termini e con il piano di abbonamento sottoscritto.
-              </p>
             </section>
             
             <section className="mb-6">
@@ -84,20 +97,13 @@ export default function TermsOfService() {
                 L'Applicazione è fornita "così com'è" e "come disponibile", senza garanzie di alcun tipo, esplicite o implicite. 
                 Il Fornitore non garantisce che l'Applicazione sarà ininterrotta, tempestiva, sicura o priva di errori.
               </p>
-              <p className="mb-3">
-                Nei limiti consentiti dalla legge, il Fornitore non sarà responsabile per danni diretti, indiretti, incidentali, 
-                speciali, consequenziali o punitivi, inclusi ma non limitati a perdita di profitti, dati, uso o altre perdite 
-                intangibili derivanti dall'utilizzo o dall'impossibilità di utilizzare l'Applicazione.
-              </p>
             </section>
             
             <section className="mb-6">
               <h3 className="text-lg font-semibold mb-2">8. Indennità</h3>
               <p className="mb-3">
-                L'utente accetta di indennizzare, difendere e tenere indenne il Fornitore e i suoi affiliati, direttori, 
-                funzionari, dipendenti e agenti da qualsiasi reclamo, responsabilità, danno, perdita e spesa, incluse le 
-                spese legali ragionevoli, derivanti da o in qualsiasi modo collegati all'utilizzo dell'Applicazione da parte 
-                dell'utente o alla violazione dei presenti Termini.
+                L'utente accetta di indennizzare e tenere indenne il Fornitore da qualsiasi reclamo derivante dall'utilizzo 
+                dell'Applicazione o dalla violazione dei presenti Termini.
               </p>
             </section>
             
@@ -105,39 +111,43 @@ export default function TermsOfService() {
               <h3 className="text-lg font-semibold mb-2">9. Modifiche ai Termini</h3>
               <p className="mb-3">
                 Il Fornitore si riserva il diritto di modificare i presenti Termini in qualsiasi momento. Le modifiche saranno 
-                efficaci dopo la pubblicazione dei Termini aggiornati nell'Applicazione. L'uso continuato dell'Applicazione 
-                dopo tali modifiche costituisce accettazione dei nuovi Termini.
+                efficaci dopo la pubblicazione dei Termini aggiornati nell'Applicazione.
               </p>
             </section>
             
             <section className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">10. Risoluzione</h3>
+              <h3 className="text-lg font-semibold mb-2">10. Legge Applicabile</h3>
               <p className="mb-3">
-                Il Fornitore può, a sua esclusiva discrezione, sospendere o terminare l'accesso dell'utente all'Applicazione 
-                per violazione dei presenti Termini o per qualsiasi altra ragione. L'utente può interrompere l'utilizzo 
-                dell'Applicazione in qualsiasi momento.
-              </p>
-            </section>
-            
-            <section className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">11. Legge Applicabile</h3>
-              <p className="mb-3">
-                I presenti Termini sono regolati e interpretati in conformità con le leggi italiane, senza riguardo ai 
-                principi di conflitto di leggi. Qualsiasi controversia relativa ai presenti Termini sarà soggetta alla 
-                giurisdizione esclusiva dei tribunali di Milano, Italia.
+                I presenti Termini sono regolati dalle leggi italiane, con giurisdizione esclusiva dei tribunali di Milano, Italia.
               </p>
             </section>
             
             <section>
-              <h3 className="text-lg font-semibold mb-2">12. Contatti</h3>
+              <h3 className="text-lg font-semibold mb-2">11. Contatti</h3>
               <p>
-                Per domande o chiarimenti relativi ai presenti Termini, contattare il Fornitore all'indirizzo email: 
-                zambelli.andrea.1973@gmail.com.
+                Per domande relative ai presenti Termini, contattare: zambelli.andrea.1973@gmail.com
               </p>
             </section>
           </CardContent>
         </Card>
-      </div>
-    </Layout>
+      </main>
+
+      {/* Footer semplificato */}
+      <footer className="bg-gray-100 border-t border-gray-300 py-4">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-sm text-gray-600 mb-2 md:mb-0">
+              &copy; {new Date().getFullYear()} Zambelli Andrea - G.A.
+            </div>
+            <div className="flex space-x-4">
+              <a href="/privacy-policy" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</a>
+              <a href="/terms-of-service" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      
+      <Toaster />
+    </div>
   );
 }
