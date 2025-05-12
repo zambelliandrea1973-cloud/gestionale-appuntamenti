@@ -62,7 +62,8 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
               {/* Links */}
               <div className="flex space-x-4">
-                <a href="#" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</a>
+                <a href="/privacy-policy" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</a>
+                <a href="/terms-of-service" className="text-primary hover:text-primary-dark text-sm">Termini di Servizio</a>
               </div>
             </div>
           </div>
