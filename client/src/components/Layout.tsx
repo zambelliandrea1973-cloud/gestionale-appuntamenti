@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useTranslation } from 'react-i18next';
 import { useLicense, LicenseType } from '@/hooks/use-license';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
+import FooterContent from './FooterContent';
 import { 
   CalendarDays, 
   Users, 
@@ -325,15 +326,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               </div>
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0">
                 {/* Links */}
-                <div className="flex space-x-4">
-                  <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.support', 'Supporto')}</Button>
-                  <a href="/privacy-policy">
-                    <Button variant="link" className="text-primary hover:text-primary-dark text-sm">Privacy Policy</Button>
-                  </a>
-                  <a href="/terms-of-service">
-                    <Button variant="link" className="text-primary hover:text-primary-dark text-sm">{t('common.terms', 'Termini di Servizio')}</Button>
-                  </a>
-                </div>
+                <FooterContent />
               </div>
             </div>
           </div>
