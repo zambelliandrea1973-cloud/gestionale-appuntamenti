@@ -40,6 +40,8 @@ import ProFeaturesPage from "./pages/ProFeaturesPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 import WelcomePage from "./pages/WelcomePage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
 
@@ -81,7 +83,7 @@ function AppRoutes() {
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', '/client-login', 
       '/login', '/staff-login', '/register', '/client-area', 
-      '/consent', '/'
+      '/consent', '/', '/privacy-policy', '/terms-of-service'
     ];
     
     // Aspetta che il caricamento delle informazioni utente sia completo
@@ -325,6 +327,19 @@ function AppRoutes() {
       <Route path="/clients/:id/appointments">
         <StaffPageWrapper>
           <ClientAppointments />
+        </StaffPageWrapper>
+      </Route>
+
+      {/* Pagine per Privacy Policy e Termini di Servizio */}
+      <Route path="/privacy-policy">
+        <StaffPageWrapper>
+          <PrivacyPolicy />
+        </StaffPageWrapper>
+      </Route>
+
+      <Route path="/terms-of-service">
+        <StaffPageWrapper>
+          <TermsOfService />
         </StaffPageWrapper>
       </Route>
       
