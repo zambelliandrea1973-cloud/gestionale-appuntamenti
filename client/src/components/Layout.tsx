@@ -140,10 +140,10 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Pulsante Staff per admin - uguale agli altri */}
+                {/* Pulsante Staff per admin - esattamente uguale agli altri pulsanti */}
                 {isAdmin && (
                   <Link href="/staff-management">
-                    <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
+                    <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] bg-transparent border-0">
                       <UserCog className="h-4 w-4 mr-1" />
                       <span>Staff</span>
                     </Button>
