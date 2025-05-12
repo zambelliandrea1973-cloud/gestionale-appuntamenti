@@ -275,15 +275,15 @@ export default function FooterContent() {
 
   return (
     <div className="flex space-x-4">
-      <Button variant="link" onClick={openSupport} className="text-primary hover:text-primary-dark text-sm">
+      <a onClick={openSupport} className="text-primary hover:text-primary-dark text-sm cursor-pointer">
         {t('common.support', 'Supporto')}
-      </Button>
-      <Button variant="link" onClick={openPrivacyPolicy} className="text-primary hover:text-primary-dark text-sm">
+      </a>
+      <a onClick={openPrivacyPolicy} className="text-primary hover:text-primary-dark text-sm cursor-pointer">
         Privacy Policy
-      </Button>
-      <Button variant="link" onClick={openTermsOfService} className="text-primary hover:text-primary-dark text-sm">
+      </a>
+      <a onClick={openTermsOfService} className="text-primary hover:text-primary-dark text-sm cursor-pointer">
         {t('common.terms', 'Termini di Servizio')}
-      </Button>
+      </a>
 
       <Dialog open={dialogContent.isOpen} onOpenChange={(open) => {
         if (!open) closeDialog();
