@@ -10,6 +10,16 @@ import {
   CardHeader, 
   CardTitle
 } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { 
   Form, 
   FormControl, 
@@ -77,6 +87,58 @@ export default function EmailSettings() {
   });
   
   // Al caricamento del componente, carica le impostazioni esistenti
+  // Funzione per verificare se il testo contiene modifiche ai campi tra parentesi graffe
+  const checkTemplateChanges = (newValue: string, oldValue: string) => {
+    // Estrae tutti i campi tra parentesi graffe dal template precedente
+    const templateVarRegex = /{{([^}]+)}}/g;
+    let oldMatches: string[] = [];
+    let match;
+    
+    // Usiamo un approccio più compatibile per iterare sui match
+    while ((match = templateVarRegex.exec(oldValue)) !== null) {
+      oldMatches.push(match[0]);
+    }
+    
+    // Verifica se tutti i campi precompilati esistono ancora nel nuovo valore
+    for (const match of oldMatches) {
+      if (!newValue.includes(match)) {
+        return true; // È stata rilevata una modifica o eliminazione di un campo precompilato
+      }
+    }
+    
+    return false; // Nessuna modifica rilevata ai campi precompilati
+  };
+  
+  // Gestione del cambiamento del template
+  const handleTemplateChange = (value: string, fieldName: 'emailTemplate' | 'emailSubject') => {
+    const oldValue = fieldName === 'emailTemplate' 
+      ? lastValidTemplate || DEFAULT_EMAIL_TEMPLATE 
+      : lastValidSubject || DEFAULT_EMAIL_SUBJECT;
+    
+    // Se è la prima volta che memorizziamo un valore valido
+    if (!lastValidTemplate && fieldName === 'emailTemplate') {
+      setLastValidTemplate(value);
+    } else if (!lastValidSubject && fieldName === 'emailSubject') {
+      setLastValidSubject(value);
+    }
+    
+    // Verifica se il nuovo valore contiene modifiche ai campi precompilati
+    if (checkTemplateChanges(value, oldValue)) {
+      setShowTemplateWarning(true);
+      // Non aggiorniamo direttamente il valore nel form, aspettiamo conferma
+      return false;
+    }
+    
+    // Aggiorna il valore valido memorizzato
+    if (fieldName === 'emailTemplate') {
+      setLastValidTemplate(value);
+    } else {
+      setLastValidSubject(value);
+    }
+    
+    return true;
+  };
+  
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -87,13 +149,20 @@ export default function EmailSettings() {
           // Aggiorna lo stato delle impostazioni salvate
           setEmailCalendarSettings(data);
           
+          const template = data.emailTemplate || DEFAULT_EMAIL_TEMPLATE;
+          const subject = data.emailSubject || DEFAULT_EMAIL_SUBJECT;
+          
+          // Memorizza i valori iniziali come validi
+          setLastValidTemplate(template);
+          setLastValidSubject(subject);
+          
           // Imposta i valori del form
           form.reset({
             emailEnabled: data.emailEnabled || false,
             emailAddress: data.emailAddress || "",
             emailPassword: data.emailPassword ? "••••••••••" : "", // Non mostrare la password reale
-            emailTemplate: data.emailTemplate || DEFAULT_EMAIL_TEMPLATE,
-            emailSubject: data.emailSubject || DEFAULT_EMAIL_SUBJECT,
+            emailTemplate: template,
+            emailSubject: subject,
           });
         }
       } catch (error) {
@@ -260,8 +329,61 @@ export default function EmailSettings() {
     form.setValue('emailSubject', DEFAULT_EMAIL_SUBJECT);
   };
   
+  // Variabili di stato per il dialog
+  const [pendingValue, setPendingValue] = useState('');
+  const [pendingField, setPendingField] = useState<'emailTemplate' | 'emailSubject' | null>(null);
+  
+  // Funzione che gestisce la conferma della modifica nonostante l'avviso
+  const handleWarningConfirm = () => {
+    if (pendingField && pendingValue) {
+      // Aggiorna il campo con il valore in attesa
+      form.setValue(pendingField, pendingValue);
+      
+      // Aggiorna l'ultimo valore valido
+      if (pendingField === 'emailTemplate') {
+        setLastValidTemplate(pendingValue);
+      } else {
+        setLastValidSubject(pendingValue);
+      }
+    }
+    
+    // Chiudi il dialog
+    setShowTemplateWarning(false);
+  };
+  
+  // Funzione che gestisce l'annullamento della modifica
+  const handleWarningCancel = () => {
+    // Ripristina il valore precedente nel form
+    if (pendingField === 'emailTemplate') {
+      form.setValue('emailTemplate', lastValidTemplate);
+    } else if (pendingField === 'emailSubject') {
+      form.setValue('emailSubject', lastValidSubject);
+    }
+    
+    // Chiudi il dialog
+    setShowTemplateWarning(false);
+  };
+  
   return (
     <div className="space-y-6">
+      {/* Dialog di avviso per la modifica dei campi precompilati */}
+      <AlertDialog open={showTemplateWarning} onOpenChange={setShowTemplateWarning}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Attenzione!</AlertDialogTitle>
+            <AlertDialogDescription>
+              <p className="mb-2">Hai modificato o eliminato dei campi precompilati tra parentesi graffe (es. {'{{nome}}'}, {'{{data}}'}).</p>
+              <p className="mb-2">Questi campi sono essenziali per il funzionamento corretto dei promemoria automatici ai clienti.</p>
+              <p className="font-medium">Se confermi questa modifica, potresti causare un malfunzionamento nell'invio dei promemoria.</p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleWarningCancel}>Annulla modifica</AlertDialogCancel>
+            <AlertDialogAction onClick={handleWarningConfirm}>Conferma modifica</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      
       <div>
         <div className="flex items-center mb-4">
           <Mail className="h-5 w-5 mr-2 text-muted-foreground" />
@@ -401,9 +523,7 @@ export default function EmailSettings() {
                     </Button>
                   </div>
                   
-                  <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md text-amber-800 text-sm">
-                    <strong>Attenzione:</strong> La modifica dei campi tra parentesi graffe (es. {`{{nome}}`}, {`{{data}}`}) può causare un malfunzionamento dei messaggi automatici di promemoria ai clienti. Modificare solo il testo normale.
-                  </div>
+
                   
                   <FormField
                     control={form.control}
@@ -416,7 +536,20 @@ export default function EmailSettings() {
                         <FormControl>
                           <Input 
                             {...field} 
-                            placeholder="Promemoria appuntamento" 
+                            placeholder="Promemoria appuntamento"
+                            onChange={(e) => {
+                              const newValue = e.target.value;
+                              // Verifica se c'è stato un cambiamento ai campi precompilati
+                              if (checkTemplateChanges(newValue, lastValidSubject)) {
+                                // Se sì, mostra l'avviso e memorizza il valore in attesa
+                                setPendingValue(newValue);
+                                setPendingField('emailSubject');
+                                setShowTemplateWarning(true);
+                              } else {
+                                // Altrimenti aggiorna direttamente il valore
+                                field.onChange(newValue);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormDescription className="text-xs">
@@ -439,6 +572,19 @@ export default function EmailSettings() {
                             {...field} 
                             placeholder="Testo del messaggio" 
                             className="min-h-[200px]"
+                            onChange={(e) => {
+                              const newValue = e.target.value;
+                              // Verifica se c'è stato un cambiamento ai campi precompilati
+                              if (checkTemplateChanges(newValue, lastValidTemplate)) {
+                                // Se sì, mostra l'avviso e memorizza il valore in attesa
+                                setPendingValue(newValue);
+                                setPendingField('emailTemplate');
+                                setShowTemplateWarning(true);
+                              } else {
+                                // Altrimenti aggiorna direttamente il valore
+                                field.onChange(newValue);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormDescription className="text-xs mt-2">
