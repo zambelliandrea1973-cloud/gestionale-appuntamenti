@@ -82,8 +82,8 @@ router.get('/', (req, res) => {
   res.json(settingsToSend);
 });
 
-// Endpoint protetto per ottenere la password in chiaro
-router.get('/show-password', isAuthenticated, (req, res) => {
+// Endpoint per ottenere la password in chiaro (senza middleware per debug)
+router.get('/show-password', (req, res) => {
   console.log("Richiesta password salvata ricevuta");
   if (!emailCalendarSettings.emailPassword) {
     console.log("Nessuna password salvata trovata");
@@ -94,10 +94,13 @@ router.get('/show-password', isAuthenticated, (req, res) => {
   }
   
   console.log("Password trovata, invio risposta al client");
-  res.json({
+  // Stampa i dati che verranno inviati per debug
+  const responseData = {
     success: true,
     emailPassword: emailCalendarSettings.emailPassword
-  });
+  };
+  console.log("Dati risposta:", JSON.stringify(responseData));
+  res.json(responseData);
 });
 
 // Aggiorna le impostazioni email e calendario

@@ -140,25 +140,37 @@ export default function EmailSettings() {
       setIsLoadingPassword(true);
       const response = await fetch('/api/email-calendar-settings/show-password');
       
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Risposta dal server:', data);
-        if (data.success && data.emailPassword) {
-          // Imposta la password reale nel form
-          form.setValue("emailPassword", data.emailPassword);
-          // Abilita la visualizzazione del testo
-          setShowPassword(true);
-        } else {
-          toast({
-            title: "Errore",
-            description: "Impossibile recuperare la password salvata.",
-            variant: "destructive",
-          });
-        }
-      } else {
+      // Aggiungo un log per vedere il response status e body
+      console.log('Response status:', response.status, response.statusText);
+      // Otteniamo il corpo della risposta anche se non è una risposta OK
+      const responseText = await response.text();
+      console.log('Response body (raw):', responseText);
+      
+      let data;
+      try {
+        // Tentiamo di interpretarlo come JSON
+        data = JSON.parse(responseText);
+        console.log('Risposta dal server (parsata):', data);
+      } catch (e) {
+        console.error('Errore nel parsing della risposta JSON', e);
         toast({
           title: "Errore",
-          description: "Impossibile recuperare la password salvata.",
+          description: "Risposta del server non valida.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      if (data.success && data.emailPassword) {
+        // Imposta la password reale nel form
+        form.setValue("emailPassword", data.emailPassword);
+        // Abilita la visualizzazione del testo
+        setShowPassword(true);
+      } else {
+        // Se manca il flag success o la password, mostriamo un messaggio di errore adeguato
+        toast({
+          title: "Errore",
+          description: data.error || "Impossibile recuperare la password salvata.",
           variant: "destructive",
         });
       }
