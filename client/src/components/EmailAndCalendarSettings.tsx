@@ -36,8 +36,6 @@ const emailSettingsSchema = z.object({
   emailPassword: z.string().min(1, "La password è obbligatoria se l'email è abilitata").optional().or(z.literal("")),
   emailTemplate: z.string().optional(),
   emailSubject: z.string().optional(),
-  calendarEnabled: z.boolean().default(false),
-  calendarId: z.string().optional().or(z.literal("")),
 });
 
 type EmailSettingsFormValues = z.infer<typeof emailSettingsSchema>;
@@ -52,7 +50,6 @@ export default function EmailAndCalendarSettings() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGoogleAuthorized, setIsGoogleAuthorized] = useState(false);
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [testEmailAddress, setTestEmailAddress] = useState("");
   
@@ -64,8 +61,6 @@ export default function EmailAndCalendarSettings() {
       emailPassword: "",
       emailTemplate: DEFAULT_EMAIL_TEMPLATE,
       emailSubject: DEFAULT_EMAIL_SUBJECT,
-      calendarEnabled: false,
-      calendarId: "",
     },
   });
   
