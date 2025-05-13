@@ -72,10 +72,11 @@ let emailCalendarSettings = loadSettings();
 
 // Ottieni le impostazioni email e calendario
 router.get('/', (req, res) => {
-  // Non inviare la password reale
+  // Non inviare la password reale, ma inviare un flag che indica se è impostata
   const settingsToSend = {
     ...emailCalendarSettings,
     emailPassword: emailCalendarSettings.emailPassword ? '••••••••••' : '',
+    hasPasswordSaved: !!emailCalendarSettings.emailPassword, // Indica se una password è stata salvata
   };
   
   res.json(settingsToSend);

@@ -57,6 +57,7 @@ interface EmailCalendarSettings {
   emailPassword: string;
   emailTemplate: string;
   emailSubject: string;
+  hasPasswordSaved?: boolean; // Flag che indica se una password è stata salvata sul server
   [key: string]: any; // Per consentire proprietà aggiuntive
 }
 
@@ -76,6 +77,7 @@ export default function EmailSettings() {
   const [showTemplateWarning, setShowTemplateWarning] = useState(false);
   const [lastValidTemplate, setLastValidTemplate] = useState('');
   const [lastValidSubject, setLastValidSubject] = useState('');
+  const [hasPasswordSaved, setHasPasswordSaved] = useState(false);
   // Utilizziamo l'interfaccia definita per le impostazioni email
   const [emailCalendarSettings, setEmailCalendarSettings] = useState<EmailCalendarSettings>({
     emailEnabled: false,
@@ -179,6 +181,9 @@ export default function EmailSettings() {
             // Poi i dati effettivi dalla risposta
             ...data
           };
+          
+          // Imposta lo stato che indica se una password è salvata sul server
+          setHasPasswordSaved(!!data.hasPasswordSaved);
           setEmailCalendarSettings(safeData);
           
           const template = data.emailTemplate || DEFAULT_EMAIL_TEMPLATE;
@@ -554,6 +559,9 @@ export default function EmailSettings() {
                         </Button>
                       </div>
                       <FormDescription className="text-xs mt-1">
+                        {hasPasswordSaved && form.getValues("emailPassword") === "••••••••••" && (
+                          <p className="mb-2 text-green-600 font-medium">★ Password salvata correttamente e disponibile per l'invio di email</p>
+                        )}
                         <p>{t('settings.passwordNote', 'Per servizi Google, non usare la tua password normale dell\'account')}</p>
                         <p className="mt-1 font-medium">Devi generare una "Password per le app" da <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-primary underline">myaccount.google.com/security</a> (richiede verifica in due passaggi attiva)</p>
                       </FormDescription>
