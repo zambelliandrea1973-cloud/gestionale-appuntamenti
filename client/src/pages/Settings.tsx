@@ -27,9 +27,7 @@ export default function Settings() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
   const { toast } = useToast();
-  const [isAdminDialogOpen, setIsAdminDialogOpen] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [isPasswordSubmitting, setIsPasswordSubmitting] = useState(false);
+  const { user } = useUserWithLicense(); // Ottiene i dati dell'utente corrente incluso il tipo
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("app");
   
@@ -41,28 +39,18 @@ export default function Settings() {
     }
   }, []);
 
-  const handleAdminAccess = () => {
-    setIsPasswordSubmitting(true);
-    
-    // Controlla la password (quella corretta è "gironico")
-    if (adminPassword === "gironico") {
-      setIsPasswordSubmitting(false);
-      setIsAdminDialogOpen(false);
-      
-      // Salva la password in localStorage per consentire accesso successivo
-      localStorage.setItem('betaAdminPassword', adminPassword);
-      localStorage.setItem('betaAdminAuthenticated', 'true');
-      sessionStorage.setItem('betaAdminAuthenticated', 'true');
-      
-      console.log('Password salvata in localStorage e sessionStorage');
-      
-      // Reindirizza alla dashboard beta admin
+  // Verifico se l'utente è un amministratore
+  const isAdmin = user?.type === 'admin';
+  
+  // Funzione per accedere direttamente alla dashboard beta admin
+  const handleDirectAdminAccess = () => {
+    if (isAdmin) {
+      // Reindirizza direttamente alla dashboard beta admin
       setLocation("/beta-admin");
     } else {
-      setIsPasswordSubmitting(false);
       toast({
-        title: "Errore di autenticazione",
-        description: "Password non valida. Riprova.",
+        title: "Accesso negato",
+        description: "Solo gli amministratori possono accedere a questa area.",
         variant: "destructive",
       });
     }
@@ -134,7 +122,7 @@ export default function Settings() {
                     <Button 
                       variant="default" 
                       className="flex items-center" 
-                      onClick={() => setIsAdminDialogOpen(true)}
+                      onClick={handleDirectAdminAccess}
                     >
                       <Lock className="mr-2 h-4 w-4" />
                       Accedi alla Dashboard Beta Admin
@@ -248,71 +236,8 @@ export default function Settings() {
         </TabsContent>
       </Tabs>
 
-      {/* Dialog per la richiesta della password */}
-      <Dialog open={isAdminDialogOpen} onOpenChange={setIsAdminDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Accesso Area Amministrativa</DialogTitle>
-            <DialogDescription>
-              Inserisci la password per accedere all'area amministrativa beta
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <div className="relative">
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleAdminAccess();
-                  }
-                }}
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <Eye className="h-5 w-5 text-gray-500" />
-                )}
-              </button>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button 
-              variant="secondary" 
-              onClick={() => {
-                setIsAdminDialogOpen(false);
-                setAdminPassword('');
-              }}
-            >
-              Annulla
-            </Button>
-            <Button 
-              onClick={handleAdminAccess} 
-              disabled={isPasswordSubmitting}
-              className="flex items-center"
-            >
-              {isPasswordSubmitting ? (
-                <>
-                  <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-                  Verifica...
-                </>
-              ) : (
-                <>
-                  <Lock className="mr-2 h-4 w-4" />
-                  Accedi
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Il dialog per la richiesta della password è stato rimosso - 
+         l'accesso è ora diretto per gli utenti amministratori */}
     </div>
   );
 }
