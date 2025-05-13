@@ -28,7 +28,8 @@ import {
   BookText,
   Book,
   Clipboard,
-  FileQuestion
+  FileQuestion,
+  CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -273,12 +274,20 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori - più visibile */}
                     {isAdmin && (
-                      <Link href="/staff-management">
-                        <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
-                          <UserCog className="mr-2 h-4 w-4" />
-                          <span className="font-medium">Gestione Staff</span>
-                        </Button>
-                      </Link>
+                      <>
+                        <Link href="/staff-management">
+                          <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
+                            <UserCog className="mr-2 h-4 w-4" />
+                            <span className="font-medium">Gestione Staff</span>
+                          </Button>
+                        </Link>
+                        <Link href="/payment-admin">
+                          <Button variant={isActive("/payment-admin") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
+                            <CreditCard className="mr-2 h-4 w-4 text-green-500" />
+                            <span className="font-medium">Gestione Pagamenti</span>
+                          </Button>
+                        </Link>
+                      </>
                     )}
                     
                     {/* Mostra il pulsante Impostazioni */}
