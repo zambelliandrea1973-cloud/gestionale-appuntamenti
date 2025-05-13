@@ -32,6 +32,7 @@ import multer from 'multer';
 import sharp from 'sharp';
 import betaRoutes from './routes/betaRoutes';
 import paymentRoutes from './routes/paymentRoutes';
+import paymentMethodRoutes from './routes/paymentMethodRoutes';
 import { adminRouter } from './routes/adminRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import phoneDeviceRoutes, { initializePhoneDeviceSocket } from './routes/phoneDeviceRoutes';

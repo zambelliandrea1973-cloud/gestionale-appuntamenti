@@ -3302,6 +3302,74 @@ export class DatabaseStorage implements IStorage {
       return [];
     }
   }
+  
+  /**
+   * Recupera tutti i metodi di pagamento configurati
+   */
+  async getPaymentMethods(): Promise<any[]> {
+    try {
+      console.log('Recupero metodi di pagamento configurati');
+      
+      // Creiamo un file JSON persistente per i metodi di pagamento
+      const paymentMethodsPath = './payment_methods.json';
+      
+      // Se il file non esiste, restituisci un array vuoto
+      if (!fs.existsSync(paymentMethodsPath)) {
+        console.log('File metodi di pagamento non trovato, nessun metodo configurato');
+        return [];
+      }
+      
+      // Leggi il file JSON
+      const fileContent = fs.readFileSync(paymentMethodsPath, 'utf8');
+      if (!fileContent) {
+        console.log('File metodi di pagamento vuoto');
+        return [];
+      }
+      
+      // Parsa il JSON e restituisci i metodi di pagamento
+      const paymentMethods = JSON.parse(fileContent);
+      console.log(`Recuperati ${paymentMethods.length} metodi di pagamento configurati`);
+      return paymentMethods;
+    } catch (error) {
+      console.error('Errore nel recupero dei metodi di pagamento:', error);
+      return [];
+    }
+  }
+  
+  /**
+   * Salva la configurazione dei metodi di pagamento
+   */
+  async savePaymentMethods(methods: any[]): Promise<boolean> {
+    try {
+      console.log(`Salvataggio di ${methods.length} metodi di pagamento`);
+      
+      // Creiamo un file JSON persistente per i metodi di pagamento
+      const paymentMethodsPath = './payment_methods.json';
+      
+      // Scrive i metodi di pagamento nel file JSON
+      fs.writeFileSync(paymentMethodsPath, JSON.stringify(methods, null, 2), 'utf8');
+      
+      console.log('Metodi di pagamento salvati con successo');
+      return true;
+    } catch (error) {
+      console.error('Errore nel salvataggio dei metodi di pagamento:', error);
+      return false;
+    }
+  }
+  
+  async getSubscription(id: number): Promise<Subscription | undefined> {
+    try {
+      const [subscription] = await db
+        .select()
+        .from(subscriptions)
+        .where(eq(subscriptions.id, id));
+      
+      return subscription;
+    } catch (error) {
+      console.error(`Errore nel recupero della sottoscrizione ${id}:`, error);
+      return undefined;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
