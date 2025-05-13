@@ -52,6 +52,13 @@ export default function EmailSettings() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [testEmailAddress, setTestEmailAddress] = useState("");
+  const [emailCalendarSettings, setEmailCalendarSettings] = useState({
+    emailEnabled: false,
+    emailAddress: '',
+    emailPassword: '',
+    emailTemplate: '',
+    emailSubject: '',
+  });
   
   const form = useForm<EmailSettingsFormValues>({
     resolver: zodResolver(emailSettingsSchema),
@@ -215,19 +222,31 @@ export default function EmailSettings() {
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      {t('settings.enableEmail', 'Abilita invio email')}
-                    </FormLabel>
+                    <div className="flex items-center gap-2">
+                      <FormLabel className="text-base">
+                        {t('settings.enableEmail', 'Abilita invio email')}
+                      </FormLabel>
+                      {form.formState.isDirty && (
+                        <span className="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-medium">
+                          Modifiche non salvate! Clicca "Salva impostazioni" dopo aver modificato.
+                        </span>
+                      )}
+                    </div>
                     <FormDescription>
                       {t('settings.emailDesc', 'Abilita l\'invio di email di notifica ai clienti')}
                     </FormDescription>
                   </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
+                  <div className="flex flex-col items-end gap-1">
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <span className={`text-xs font-medium ${emailCalendarSettings.emailEnabled ? 'text-green-600' : 'text-red-600'}`}>
+                      {emailCalendarSettings.emailEnabled ? 'Attualmente abilitato' : 'Attualmente disabilitato'}
+                    </span>
+                  </div>
                 </FormItem>
               )}
             />
