@@ -576,8 +576,8 @@ export default function EmailSettings() {
                   </Button>
                 </div>
 
-                <div className="border-t pt-4 mt-4">
-                  <div className="flex items-center mb-4">
+                <div className="border-t pt-5 mt-6">
+                  <div className="flex items-center mb-5">
                     <MessagesSquare className="h-5 w-5 mr-2 text-muted-foreground" />
                     <h4 className="text-base font-medium">Template Email</h4>
                     <Button 
@@ -591,14 +591,19 @@ export default function EmailSettings() {
                     </Button>
                   </div>
                   
+                  <div className="bg-muted/20 p-3 rounded mb-4 text-xs border border-muted">
+                    <p className="font-medium">Variabili disponibili:</p>
+                    <p className="mt-1">Puoi inserire queste variabili nei tuoi messaggi: <code>{'{{nome}}'}</code>, <code>{'{{cognome}}'}</code>, <code>{'{{data}}'}</code>, <code>{'{{ora}}'}</code>, <code>{'{{servizio}}'}</code></p>
+                  </div>
+                  
 
                   
                   <FormField
                     control={form.control}
                     name="emailSubject"
                     render={({ field }) => (
-                      <FormItem className="mb-4">
-                        <FormLabel>
+                      <FormItem className="mb-5">
+                        <FormLabel className="text-base font-medium">
                           Oggetto Email
                         </FormLabel>
                         <FormControl>
@@ -621,9 +626,6 @@ export default function EmailSettings() {
                             }}
                           />
                         </FormControl>
-                        <FormDescription className="text-xs">
-                          Puoi usare: {"{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}"}
-                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -657,10 +659,6 @@ export default function EmailSettings() {
                             }}
                           />
                         </FormControl>
-                        <FormDescription className="text-xs mt-2">
-                          Inserisci il testo del messaggio. Puoi usare le seguenti variabili:
-                          {"{{nome}}, {{cognome}}, {{data}}, {{ora}}, {{servizio}}"}
-                        </FormDescription>
                       </FormItem>
                     )}
                   />
