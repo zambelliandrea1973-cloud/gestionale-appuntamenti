@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,6 +30,15 @@ export default function Settings() {
   const [adminPassword, setAdminPassword] = useState('');
   const [isPasswordSubmitting, setIsPasswordSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState("app");
+  
+  // Recupera la tab selezionata da localStorage quando il componente viene montato
+  useEffect(() => {
+    const savedTab = localStorage.getItem('settings_active_tab');
+    if (savedTab) {
+      setActiveTab(savedTab);
+    }
+  }, []);
 
   const handleAdminAccess = () => {
     setIsPasswordSubmitting(true);
@@ -77,7 +86,10 @@ export default function Settings() {
         </p>
       </header>
 
-      <Tabs defaultValue="app" className="w-full">
+      <Tabs value={activeTab} className="w-full" onValueChange={(value) => {
+        setActiveTab(value);
+        localStorage.setItem('settings_active_tab', value);
+      }}>
         <TabsList className="grid grid-cols-4 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
