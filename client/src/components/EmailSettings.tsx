@@ -78,6 +78,7 @@ export default function EmailSettings() {
   const [lastValidTemplate, setLastValidTemplate] = useState('');
   const [lastValidSubject, setLastValidSubject] = useState('');
   const [hasPasswordSaved, setHasPasswordSaved] = useState(false);
+  const [isLoadingPassword, setIsLoadingPassword] = useState(false);
   // Utilizziamo l'interfaccia definita per le impostazioni email
   const [emailCalendarSettings, setEmailCalendarSettings] = useState<EmailCalendarSettings>({
     emailEnabled: false,
@@ -131,6 +132,45 @@ export default function EmailSettings() {
     }
     
     return false; // Nessuna modifica rilevata ai campi precompilati
+  };
+  
+  // Funzione per recuperare la password reale dal server
+  const fetchRealPassword = async () => {
+    try {
+      setIsLoadingPassword(true);
+      const response = await fetch('/api/email-calendar-settings/show-password');
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.emailPassword) {
+          // Imposta la password reale nel form
+          form.setValue("emailPassword", data.emailPassword);
+          // Abilita la visualizzazione del testo
+          setShowPassword(true);
+        } else {
+          toast({
+            title: "Errore",
+            description: "Impossibile recuperare la password salvata.",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Errore",
+          description: "Impossibile recuperare la password salvata.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Errore nel recupero della password:', error);
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore durante il recupero della password.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingPassword(false);
+    }
   };
   
   // Gestione del cambiamento del template
@@ -564,19 +604,29 @@ export default function EmailSettings() {
                           size="sm"
                           disabled={!field.value}
                           onClick={() => {
-                            // Se il campo è mascherato (••••••••••), non possiamo mostrare la password reale
+                            // Se il campo è mascherato (••••••••••), recuperiamo la password reale dal server
                             if (field.value === "••••••••••" && !showPassword) {
-                              toast({
-                                title: "Informazione",
-                                description: "La password è memorizzata in modo sicuro sul server. Per modificarla, inserisci una nuova password.",
-                              });
+                              fetchRealPassword();
                             } else {
+                              // Altrimenti, alterna lo stato di visualizzazione
                               setShowPassword(!showPassword);
+                              
+                              // Se nascondiamo e c'è una password salvata, ripristina gli asterischi
+                              if (showPassword && hasPasswordSaved) {
+                                setTimeout(() => {
+                                  form.setValue("emailPassword", "••••••••••");
+                                }, 100);
+                              }
                             }
                           }}
                           className="h-9 px-3"
                         >
-                          {showPassword ? (
+                          {isLoadingPassword ? (
+                            <span className="flex items-center gap-1">
+                              <RefreshCw className="h-4 w-4 animate-spin" />
+                              Carico...
+                            </span>
+                          ) : showPassword ? (
                             <span className="flex items-center gap-1">
                               <Eye className="h-4 w-4" />
                               Nascondi
