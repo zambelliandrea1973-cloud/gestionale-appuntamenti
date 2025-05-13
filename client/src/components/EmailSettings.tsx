@@ -220,7 +220,20 @@ export default function EmailSettings() {
           setEmailCalendarSettings(refreshData);
         }
       } else {
-        throw new Error(data.error || 'Si è verificato un errore durante l\'invio dell\'email');
+        // Mostriamo un messaggio di errore più dettagliato dal server
+        const errorMessage = data.error || 'Si è verificato un errore durante l\'invio dell\'email';
+        
+        // Aggiungiamo informazioni di aiuto basate sull'errore
+        let helpText = '';
+        if (errorMessage.includes('EAUTH')) {
+          helpText = '. Verifica che la "Password per le app" sia corretta e che Gmail non abbia bloccato l\'accesso.';
+        } else if (errorMessage.includes('ETIMEDOUT') || errorMessage.includes('ECONNECTION')) {
+          helpText = '. Verifica che il server SMTP sia raggiungibile (smtp.gmail.com) e che la porta 587 sia aperta.';
+        } else if (errorMessage.includes('Invalid login')) {
+          helpText = '. Nome utente o password non validi.';
+        }
+        
+        throw new Error(errorMessage + helpText);
       }
     } catch (error) {
       console.error('Errore nell\'invio dell\'email di test:', error);
