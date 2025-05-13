@@ -53,6 +53,9 @@ export default function EmailSettings() {
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [testEmailAddress, setTestEmailAddress] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showTemplateWarning, setShowTemplateWarning] = useState(false);
+  const [lastValidTemplate, setLastValidTemplate] = useState('');
+  const [lastValidSubject, setLastValidSubject] = useState('');
   // Utilizziamo una tipizzazione più flessibile per evitare errori di tipo
   const [emailCalendarSettings, setEmailCalendarSettings] = useState<any>({
     emailEnabled: false,
@@ -369,6 +372,20 @@ export default function EmailSettings() {
                   )}
                 />
                 
+                {/* Pulsante Salva dopo credenziali */}
+                <div className="pt-4 flex justify-center">
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="flex items-center"
+                  >
+                    {isSubmitting && (
+                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    )}
+                    {t('common.save', 'Salva impostazioni')}
+                  </Button>
+                </div>
+
                 <div className="border-t pt-4 mt-4">
                   <div className="flex items-center mb-4">
                     <MessagesSquare className="h-5 w-5 mr-2 text-muted-foreground" />
@@ -382,6 +399,10 @@ export default function EmailSettings() {
                     >
                       Ripristina predefinito
                     </Button>
+                  </div>
+                  
+                  <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md text-amber-800 text-sm">
+                    <strong>Attenzione:</strong> La modifica dei campi tra parentesi graffe (es. {`{{nome}}`}, {`{{data}}`}) può causare un malfunzionamento dei messaggi automatici di promemoria ai clienti. Modificare solo il testo normale.
                   </div>
                   
                   <FormField
@@ -456,19 +477,6 @@ export default function EmailSettings() {
                 </div>
               </div>
             )}
-            
-            <div className="pt-4 flex justify-end">
-              <Button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="flex items-center"
-              >
-                {isSubmitting && (
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                )}
-                {t('common.save', 'Salva impostazioni')}
-              </Button>
-            </div>
           </form>
         </Form>
       </div>
