@@ -72,7 +72,7 @@ let emailCalendarSettings = loadSettings();
 
 // Ottieni le impostazioni email e calendario
 router.get('/', (req, res) => {
-  // Non inviare la password reale, ma inviare un flag che indica se è impostata
+  // Non inviare la password reale per default, ma inviare un flag che indica se è impostata
   const settingsToSend = {
     ...emailCalendarSettings,
     emailPassword: emailCalendarSettings.emailPassword ? '••••••••••' : '',
@@ -80,6 +80,21 @@ router.get('/', (req, res) => {
   };
   
   res.json(settingsToSend);
+});
+
+// Endpoint protetto per ottenere la password in chiaro
+router.get('/show-password', isAuthenticated, (req, res) => {
+  if (!emailCalendarSettings.emailPassword) {
+    return res.status(404).json({
+      success: false,
+      error: 'Nessuna password salvata'
+    });
+  }
+  
+  res.json({
+    success: true,
+    emailPassword: emailCalendarSettings.emailPassword
+  });
 });
 
 // Aggiorna le impostazioni email e calendario
