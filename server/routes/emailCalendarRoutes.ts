@@ -16,8 +16,15 @@ Studio Professionale`;
 // Oggetto predefinito per l'email
 const DEFAULT_EMAIL_SUBJECT = "Promemoria appuntamento del {{data}}";
 
-// Variabile per memorizzare le impostazioni (in un'app reale andrebbero salvate nel database)
-let emailCalendarSettings = {
+// Importiamo il file system per salvare/caricare le impostazioni in modo persistente
+import fs from 'fs';
+import path from 'path';
+
+// Percorso del file di configurazione
+const CONFIG_FILE_PATH = path.join(process.cwd(), 'email_settings.json');
+
+// Struttura predefinita delle impostazioni
+const DEFAULT_SETTINGS = {
   emailEnabled: false,
   emailAddress: '',
   emailPassword: '',
@@ -29,6 +36,39 @@ let emailCalendarSettings = {
     authorized: false,
   }
 };
+
+// Carica le impostazioni dal file o usa i valori predefiniti
+function loadSettings() {
+  try {
+    if (fs.existsSync(CONFIG_FILE_PATH)) {
+      const data = fs.readFileSync(CONFIG_FILE_PATH, 'utf8');
+      const settings = JSON.parse(data);
+      console.log('Impostazioni email caricate dal file di configurazione');
+      return settings;
+    }
+  } catch (error) {
+    console.error('Errore nel caricamento delle impostazioni email:', error);
+  }
+  
+  // Se il file non esiste o c'è un errore, usa i valori predefiniti
+  console.log('Utilizzo delle impostazioni email predefinite');
+  return DEFAULT_SETTINGS;
+}
+
+// Salva le impostazioni nel file
+function saveSettings(settings: any) {
+  try {
+    fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(settings, null, 2), 'utf8');
+    console.log('Impostazioni email salvate nel file di configurazione');
+    return true;
+  } catch (error) {
+    console.error('Errore nel salvataggio delle impostazioni email:', error);
+    return false;
+  }
+}
+
+// Carica le impostazioni all'avvio
+let emailCalendarSettings = loadSettings();
 
 // Ottieni le impostazioni email e calendario
 router.get('/', (req, res) => {
@@ -57,7 +97,7 @@ router.post('/', (req, res) => {
     // Aggiorna solo i campi forniti
     if (emailEnabled !== undefined) emailCalendarSettings.emailEnabled = emailEnabled;
     if (emailAddress !== undefined) emailCalendarSettings.emailAddress = emailAddress;
-    if (emailPassword !== undefined && emailPassword !== '••••••••••') {
+    if (emailPassword !== undefined) {
       emailCalendarSettings.emailPassword = emailPassword;
     }
     if (emailTemplate !== undefined) emailCalendarSettings.emailTemplate = emailTemplate;
@@ -65,7 +105,14 @@ router.post('/', (req, res) => {
     if (calendarEnabled !== undefined) emailCalendarSettings.calendarEnabled = calendarEnabled;
     if (calendarId !== undefined) emailCalendarSettings.calendarId = calendarId;
     
-    res.json({ success: true, message: 'Impostazioni aggiornate con successo' });
+    // Salva le impostazioni in modo persistente
+    const saved = saveSettings(emailCalendarSettings);
+    
+    if (saved) {
+      res.json({ success: true, message: 'Impostazioni aggiornate con successo' });
+    } else {
+      throw new Error('Errore nel salvataggio delle impostazioni');
+    }
   } catch (error) {
     console.error('Errore durante l\'aggiornamento delle impostazioni:', error);
     res.status(500).json({ 

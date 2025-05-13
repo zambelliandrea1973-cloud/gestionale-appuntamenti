@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
-import { Mail, RefreshCw, MessagesSquare } from "lucide-react";
+import { Mail, RefreshCw, MessagesSquare, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -52,6 +52,7 @@ export default function EmailSettings() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [testEmailAddress, setTestEmailAddress] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   // Utilizziamo una tipizzazione più flessibile per evitare errori di tipo
   const [emailCalendarSettings, setEmailCalendarSettings] = useState<any>({
     emailEnabled: false,
@@ -105,11 +106,14 @@ export default function EmailSettings() {
     setIsSubmitting(true);
     
     try {
-      // Se la password è mascherata (••••••••••), non la inviamo per non sovrascrivere
-      const dataToSend = {
-        ...values,
-        emailPassword: values.emailPassword === "••••••••••" ? undefined : values.emailPassword,
-      };
+      // Verifichiamo quali dati inviare
+      const dataToSend: any = { ...values };
+      
+      // Non inviare la password se è vuota o mascherata
+      if (!values.emailPassword || values.emailPassword === "••••••••••") {
+        // Rimuovi il campo completamente per non sovrascriverlo nel server
+        delete dataToSend.emailPassword;
+      }
       
       const response = await fetch('/api/email-calendar-settings', {
         method: 'POST',
@@ -328,13 +332,34 @@ export default function EmailSettings() {
                       <FormLabel>
                         {t('settings.emailPassword', 'Password o Chiave App')}
                       </FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="password" 
-                          {...field} 
-                          placeholder="••••••••••" 
-                        />
-                      </FormControl>
+                      <div className="flex gap-2 items-center">
+                        <FormControl className="flex-1">
+                          <Input 
+                            type={showPassword ? "text" : "password"} 
+                            {...field} 
+                            placeholder="••••••••••" 
+                          />
+                        </FormControl>
+                        <Button 
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="h-9 px-3"
+                        >
+                          {showPassword ? (
+                            <span className="flex items-center gap-1">
+                              <Eye className="h-4 w-4" />
+                              Nascondi
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-1">
+                              <EyeOff className="h-4 w-4" />
+                              Mostra
+                            </span>
+                          )}
+                        </Button>
+                      </div>
                       <FormDescription className="text-xs mt-1">
                         <p>{t('settings.passwordNote', 'Per servizi Google, non usare la tua password normale dell\'account')}</p>
                         <p className="mt-1 font-medium">Devi generare una "Password per le app" da <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-primary underline">myaccount.google.com/security</a> (richiede verifica in due passaggi attiva)</p>
