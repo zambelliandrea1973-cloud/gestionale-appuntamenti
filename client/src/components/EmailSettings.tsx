@@ -544,14 +544,36 @@ export default function EmailSettings() {
                           <Input 
                             type={showPassword ? "text" : "password"} 
                             {...field} 
-                            placeholder="••••••••••" 
+                            placeholder="••••••••••"
+                            onChange={(e) => {
+                              // Se l'utente inizia a digitare, pulisci il campo precedente
+                              if (field.value === "••••••••••" && e.target.value !== "••••••••••") {
+                                field.onChange("");
+                                setTimeout(() => {
+                                  field.onChange(e.target.value);
+                                }, 0);
+                              } else {
+                                field.onChange(e.target.value);
+                              }
+                            }}
                           />
                         </FormControl>
                         <Button 
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => setShowPassword(!showPassword)}
+                          disabled={!field.value}
+                          onClick={() => {
+                            // Se il campo è mascherato (••••••••••), non possiamo mostrare la password reale
+                            if (field.value === "••••••••••" && !showPassword) {
+                              toast({
+                                title: "Informazione",
+                                description: "La password è memorizzata in modo sicuro sul server. Per modificarla, inserisci una nuova password.",
+                              });
+                            } else {
+                              setShowPassword(!showPassword);
+                            }
+                          }}
                           className="h-9 px-3"
                         >
                           {showPassword ? (
