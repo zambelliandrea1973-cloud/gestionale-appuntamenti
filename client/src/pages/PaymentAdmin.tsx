@@ -24,136 +24,43 @@ import {
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
 
-// Token di autenticazione archiviato in localStorage/sessionStorage
-let authToken: string | null = null;
-
 export default function PaymentAdmin() {
   const { toast } = useToast();
-  const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [subscriptions, setSubscriptions] = useState<any[]>([]);
   const [licenses, setLicenses] = useState<any[]>([]);
 
-  // Verifica token memorizzato nei cookie/localStorage al caricamento della pagina
+  // Carica i dati automaticamente all'avvio del componente
   useEffect(() => {
-    // Verifica prima in localStorage, poi in sessionStorage
-    const storedToken = localStorage.getItem('paymentAdminToken') || sessionStorage.getItem('paymentAdminToken');
-    if (storedToken) {
-      authToken = storedToken;
-      // Tenta di utilizzare il token memorizzato
-      fetchDashboardData(storedToken);
-    }
+    fetchDashboardData();
   }, []);
 
-  // Funzione per autenticare l'amministratore
-  const handleLogin = async () => {
-    if (!password) {
-      toast({
-        title: "Errore",
-        description: "Inserisci la password per accedere",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await apiRequest("POST", "/api/payments/payment-admin/authenticate", { password });
-      const data = await response.json();
-
-      if (data.success && data.token) {
-        authToken = data.token;
-        
-        // Memorizza il token sia in localStorage che in sessionStorage per garantire
-        // la persistenza dell'autenticazione anche dopo il refresh della pagina
-        localStorage.setItem('paymentAdminToken', data.token);
-        sessionStorage.setItem('paymentAdminToken', data.token);
-        
-        setIsAuthenticated(true);
-        fetchDashboardData(data.token);
-        
-        toast({
-          title: "Accesso effettuato",
-          description: "Benvenuto nell'interfaccia di amministrazione dei pagamenti",
-        });
-      } else {
-        toast({
-          title: "Errore di autenticazione",
-          description: data.message || "Password non valida",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Errore durante l\'autenticazione:', error);
-      toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante l'autenticazione.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   // Funzione per caricare i dati della dashboard
-  const fetchDashboardData = async (token: string) => {
+  const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
-      const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
-      
-      // Primo tentativo con il token fornito
-      const dashboardResponse = await fetch('/api/payments/payment-admin/dashboard', { 
-        method: 'GET',
-        headers
-      });
-
-      if (dashboardResponse.status === 401) {
-        // Token non valido o scaduto
-        authToken = null;
-        localStorage.removeItem('paymentAdminToken');
-        sessionStorage.removeItem('paymentAdminToken');
-        setIsAuthenticated(false);
-        toast({
-          title: "Sessione scaduta",
-          description: "La tua sessione è scaduta. Accedi nuovamente.",
-          variant: "destructive",
-        });
-        return;
-      }
-
+      // Carica dati dashboard
+      const dashboardResponse = await apiRequest("GET", "/api/payments/payment-admin/dashboard");
       const dashboardData = await dashboardResponse.json();
       setDashboardData(dashboardData);
-      setIsAuthenticated(true);
 
-      // Carica anche transazioni e abbonamenti
-      const transactionsResponse = await fetch('/api/payments/payment-admin/transactions', { 
-        method: 'GET',
-        headers
-      });
+      // Carica transazioni
+      const transactionsResponse = await apiRequest("GET", "/api/payments/payment-admin/transactions");
       const transactionsData = await transactionsResponse.json();
       setTransactions(transactionsData);
 
-      const subscriptionsResponse = await fetch('/api/payments/payment-admin/subscriptions', { 
-        method: 'GET',
-        headers
-      });
+      // Carica abbonamenti
+      const subscriptionsResponse = await apiRequest("GET", "/api/payments/payment-admin/subscriptions");
       const subscriptionsData = await subscriptionsResponse.json();
       setSubscriptions(subscriptionsData);
 
-      // Carica anche le licenze con dettagli utente
-      const licensesResponse = await fetch('/api/payments/payment-admin/licenses', { 
-        method: 'GET',
-        headers
-      });
+      // Carica licenze con dettagli utente
+      const licensesResponse = await apiRequest("GET", "/api/payments/payment-admin/licenses");
       const licensesData = await licensesResponse.json();
       setLicenses(licensesData);
-
+      
     } catch (error) {
       console.error('Errore durante il recupero dei dati:', error);
       toast({
@@ -166,20 +73,12 @@ export default function PaymentAdmin() {
     }
   };
 
-  // Gestisce il logout
-  const handleLogout = () => {
-    authToken = null;
-    localStorage.removeItem('paymentAdminToken');
-    sessionStorage.removeItem('paymentAdminToken');
-    setIsAuthenticated(false);
-    setDashboardData(null);
-    setTransactions([]);
-    setSubscriptions([]);
-    setLicenses([]);
-    setPassword('');
+  // Funzione per aggiornare i dati
+  const handleRefresh = () => {
+    fetchDashboardData();
     toast({
-      title: "Logout effettuato",
-      description: "Hai effettuato il logout dall'interfaccia di amministrazione",
+      title: "Aggiornamento dati",
+      description: "Aggiornamento dati in corso...",
     });
   };
 
@@ -248,46 +147,12 @@ export default function PaymentAdmin() {
     }
   };
 
-  // Se non autenticato, mostra il form di login
-  if (!isAuthenticated) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-slate-50 dark:bg-slate-900">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Amministrazione Pagamenti</CardTitle>
-            <CardDescription className="text-center">
-              Accedi per gestire i pagamenti e gli abbonamenti
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col space-y-4">
-              <Input
-                type="password"
-                placeholder="Password di amministrazione"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              />
-              <Button 
-                onClick={handleLogin} 
-                disabled={isLoading}
-                className="w-full"
-              >
-                {isLoading ? "Autenticazione in corso..." : "Accedi"}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  // Interfaccia amministrativa dopo l'autenticazione
+  // Interfaccia amministrativa dei pagamenti
   return (
     <div className="min-h-screen p-4 bg-slate-50 dark:bg-slate-900">
       <header className="mb-8 flex justify-between items-center">
         <h1 className="text-3xl font-bold">Dashboard Amministrazione Pagamenti</h1>
-        <Button variant="outline" onClick={handleLogout}>Logout</Button>
+        <Button variant="outline" onClick={handleRefresh}>Aggiorna Dati</Button>
       </header>
 
       {isLoading ? (
