@@ -1,0 +1,46 @@
+[
+  {
+    "id": "stripe",
+    "name": "Carta di Credito (Stripe)",
+    "enabled": false,
+    "config": {
+      "publicKey": "",
+      "secretKey": "",
+      "webhookSecret": "",
+      "statementDescriptor": "Ethera Scheduler"
+    }
+  },
+  {
+    "id": "paypal",
+    "name": "PayPal",
+    "enabled": false,
+    "config": {
+      "clientId": "",
+      "clientSecret": "",
+      "mode": "sandbox"
+    }
+  },
+  {
+    "id": "wise",
+    "name": "Wise (TransferWise)",
+    "enabled": false,
+    "config": {
+      "apiKey": "",
+      "profileId": "",
+      "accountId": "",
+      "recipientEmail": ""
+    }
+  },
+  {
+    "id": "bank",
+    "name": "Bonifico Bancario",
+    "enabled": true,
+    "config": {
+      "accountName": "Ethera Srl",
+      "iban": "IT12A0123456789000000123456",
+      "swift": "ABCDITXX",
+      "bankName": "Banca Esempio",
+      "instructions": "Nel bonifico, indicare il numero di licenza come causale. L'accesso sarà attivato entro 24 ore lavorative dal ricevimento del pagamento."
+    }
+  }
+]
