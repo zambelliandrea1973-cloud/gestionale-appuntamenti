@@ -700,7 +700,7 @@ export default function EmailSettings() {
                   
                   <div className="bg-muted/20 p-3 rounded mb-4 text-xs border border-muted">
                     <p className="font-medium">Promemoria automatici ai clienti:</p>
-                    <p className="mt-1">Il sistema invierà automaticamente un'email di promemoria 24 ore prima dell'appuntamento, utilizzando questo template. Personalizza il messaggio inserendo variabili come <code>{'{{nome}}'}</code>, <code>{'{{cognome}}'}</code>, <code>{'{{data}}'}</code>, <code>{'{{ora}}'}</code>, <code>{'{{servizio}}'}</code> che verranno sostituite con i dati reali del cliente e dell'appuntamento.</p>
+                    <p className="mt-1">Il sistema invierà automaticamente un'email di promemoria 24 ore prima dell'appuntamento, utilizzando questo template. Puoi personalizzare il messaggio inserendo testi personalizzati, ma le variabili come <code>{'{{nome}}'}</code>, <code>{'{{cognome}}'}</code>, <code>{'{{data}}'}</code>, <code>{'{{ora}}'}</code>, <code>{'{{servizio}}'}</code> sono dati che verranno sostituiti in automatico con le informazioni reali del cliente e dell'appuntamento, quindi consigliamo di non modificarli.</p>
                   </div>
                   
 
