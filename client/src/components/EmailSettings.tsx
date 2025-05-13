@@ -634,8 +634,8 @@ export default function EmailSettings() {
                     control={form.control}
                     name="emailTemplate"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
+                      <FormItem className="mt-4">
+                        <FormLabel className="text-base font-medium">
                           Testo Email
                         </FormLabel>
                         <FormControl>
@@ -663,8 +663,11 @@ export default function EmailSettings() {
                     )}
                   />
                   
-                  <div className="mt-4 pt-4 border-t">
-                    <FormLabel className="mb-2 block">Test invio email</FormLabel>
+                  <div className="mt-6 pt-5 border-t">
+                    <FormLabel className="text-base font-medium mb-3 block">Test invio email</FormLabel>
+                    <div className="bg-muted/20 p-3 rounded mb-3 text-xs border border-muted">
+                      <p>Per eseguire un test, assicurati di aver prima <strong>salvato</strong> le credenziali email.</p>
+                    </div>
                     <div className="flex gap-2">
                       <Input 
                         placeholder="Inserisci email per test" 
