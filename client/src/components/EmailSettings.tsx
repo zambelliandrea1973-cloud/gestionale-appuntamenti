@@ -567,7 +567,7 @@ export default function EmailSettings() {
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="flex items-center"
+                    className="flex items-center px-8 w-60"
                   >
                     {isSubmitting && (
                       <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
@@ -592,8 +592,8 @@ export default function EmailSettings() {
                   </div>
                   
                   <div className="bg-muted/20 p-3 rounded mb-4 text-xs border border-muted">
-                    <p className="font-medium">Variabili disponibili:</p>
-                    <p className="mt-1">Puoi inserire queste variabili nei tuoi messaggi: <code>{'{{nome}}'}</code>, <code>{'{{cognome}}'}</code>, <code>{'{{data}}'}</code>, <code>{'{{ora}}'}</code>, <code>{'{{servizio}}'}</code></p>
+                    <p className="font-medium">Promemoria automatici ai clienti:</p>
+                    <p className="mt-1">Il sistema invierà automaticamente un'email di promemoria 24 ore prima dell'appuntamento, utilizzando questo template. Personalizza il messaggio inserendo variabili come <code>{'{{nome}}'}</code>, <code>{'{{cognome}}'}</code>, <code>{'{{data}}'}</code>, <code>{'{{ora}}'}</code>, <code>{'{{servizio}}'}</code> che verranno sostituite con i dati reali del cliente e dell'appuntamento.</p>
                   </div>
                   
 
