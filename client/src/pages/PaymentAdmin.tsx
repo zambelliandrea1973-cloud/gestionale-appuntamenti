@@ -41,23 +41,26 @@ export default function PaymentAdmin() {
   const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
+      // Opzioni per includere il token di autenticazione per l'area admin
+      const options = { withBetaAdminToken: true };
+      
       // Carica dati dashboard
-      const dashboardResponse = await apiRequest("GET", "/api/payments/payment-admin/dashboard");
+      const dashboardResponse = await apiRequest("GET", "/api/payments/payment-admin/dashboard", undefined, options);
       const dashboardData = await dashboardResponse.json();
       setDashboardData(dashboardData);
 
       // Carica transazioni
-      const transactionsResponse = await apiRequest("GET", "/api/payments/payment-admin/transactions");
+      const transactionsResponse = await apiRequest("GET", "/api/payments/payment-admin/transactions", undefined, options);
       const transactionsData = await transactionsResponse.json();
       setTransactions(transactionsData);
 
       // Carica abbonamenti
-      const subscriptionsResponse = await apiRequest("GET", "/api/payments/payment-admin/subscriptions");
+      const subscriptionsResponse = await apiRequest("GET", "/api/payments/payment-admin/subscriptions", undefined, options);
       const subscriptionsData = await subscriptionsResponse.json();
       setSubscriptions(subscriptionsData);
 
       // Carica licenze con dettagli utente
-      const licensesResponse = await apiRequest("GET", "/api/payments/payment-admin/licenses");
+      const licensesResponse = await apiRequest("GET", "/api/payments/payment-admin/licenses", undefined, options);
       const licensesData = await licensesResponse.json();
       setLicenses(licensesData);
       
