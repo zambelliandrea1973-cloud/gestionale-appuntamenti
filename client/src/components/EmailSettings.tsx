@@ -52,7 +52,8 @@ export default function EmailSettings() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSendingTest, setIsSendingTest] = useState(false);
   const [testEmailAddress, setTestEmailAddress] = useState("");
-  const [emailCalendarSettings, setEmailCalendarSettings] = useState({
+  // Utilizziamo una tipizzazione più flessibile per evitare errori di tipo
+  const [emailCalendarSettings, setEmailCalendarSettings] = useState<any>({
     emailEnabled: false,
     emailAddress: '',
     emailPassword: '',
@@ -125,14 +126,20 @@ export default function EmailSettings() {
         });
         
         // Aggiornare lo stato delle impostazioni con la nuova configurazione
-        setEmailCalendarSettings(prev => ({
-          ...prev,
-          emailEnabled: values.emailEnabled,
-          emailAddress: values.emailAddress,
-          ...(values.emailPassword !== "••••••••••" ? { emailPassword: values.emailPassword } : {}),
-          emailTemplate: values.emailTemplate,
-          emailSubject: values.emailSubject,
-        }));
+        setEmailCalendarSettings(prev => {
+          const newState = { ...prev };
+          
+          // Aggiorniamo solo i campi che sono definiti
+          newState.emailEnabled = values.emailEnabled;
+          if (values.emailAddress !== undefined) newState.emailAddress = values.emailAddress;
+          if (values.emailPassword !== undefined && values.emailPassword !== "••••••••••") {
+            newState.emailPassword = values.emailPassword;
+          }
+          if (values.emailTemplate !== undefined) newState.emailTemplate = values.emailTemplate;
+          if (values.emailSubject !== undefined) newState.emailSubject = values.emailSubject;
+          
+          return newState;
+        });
         
         // Ricarica le impostazioni per assicurarsi di avere i dati aggiornati dal server
         const refreshResponse = await fetch('/api/email-calendar-settings');
