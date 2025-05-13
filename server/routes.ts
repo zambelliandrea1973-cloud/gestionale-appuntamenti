@@ -275,6 +275,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
   app.use('/api/payments', paymentRoutes);
+  app.use('/api/payments', paymentMethodRoutes);
   app.use('/api/admin', adminRouter);
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
