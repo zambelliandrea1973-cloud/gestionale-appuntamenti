@@ -156,8 +156,18 @@ export default function EmailSettings() {
         if (response.ok) {
           const data = await response.json();
           
-          // Aggiorna lo stato delle impostazioni salvate
-          setEmailCalendarSettings(data);
+          // Aggiorna lo stato delle impostazioni salvate con dati sicuri
+          const safeData: EmailCalendarSettings = {
+            // Prima i default per evitare sovrascritture
+            emailEnabled: false,
+            emailAddress: '',
+            emailPassword: '',
+            emailTemplate: DEFAULT_EMAIL_TEMPLATE,
+            emailSubject: DEFAULT_EMAIL_SUBJECT,
+            // Poi i dati effettivi dalla risposta
+            ...data
+          };
+          setEmailCalendarSettings(safeData);
           
           const template = data.emailTemplate || DEFAULT_EMAIL_TEMPLATE;
           const subject = data.emailSubject || DEFAULT_EMAIL_SUBJECT;
@@ -213,33 +223,50 @@ export default function EmailSettings() {
         
         // Aggiornare lo stato delle impostazioni con la nuova configurazione
         setEmailCalendarSettings((prev: EmailCalendarSettings): EmailCalendarSettings => {
-          // Creiamo una copia delle impostazioni precedenti
-          const newState: EmailCalendarSettings = { 
-            emailEnabled: prev.emailEnabled,
-            emailAddress: prev.emailAddress,
-            emailPassword: prev.emailPassword,
-            emailTemplate: prev.emailTemplate,
-            emailSubject: prev.emailSubject,
-            ...prev // include eventuali proprietà aggiuntive
+          // Creiamo una nuova configurazione con i valori aggiornati
+          // Evitiamo di usare spread operator per evitare sovrapposizioni
+          const updatedSettings: EmailCalendarSettings = {
+            // Campi obbligatori
+            emailEnabled: values.emailEnabled,
+            emailAddress: values.emailAddress !== undefined ? values.emailAddress : prev.emailAddress,
+            // Gestiamo la password in modo speciale
+            emailPassword: values.emailPassword !== undefined && values.emailPassword !== "••••••••••" 
+              ? values.emailPassword 
+              : prev.emailPassword,
+            emailTemplate: values.emailTemplate !== undefined ? values.emailTemplate : prev.emailTemplate,
+            emailSubject: values.emailSubject !== undefined ? values.emailSubject : prev.emailSubject,
           };
           
-          // Aggiorniamo solo i campi che sono definiti
-          newState.emailEnabled = values.emailEnabled;
-          if (values.emailAddress !== undefined) newState.emailAddress = values.emailAddress;
-          if (values.emailPassword !== undefined && values.emailPassword !== "••••••••••") {
-            newState.emailPassword = values.emailPassword;
+          // Aggiungiamo altre proprietà personalizzate che potrebbero esistere
+          for (const key in prev) {
+            if (key !== 'emailEnabled' && 
+                key !== 'emailAddress' && 
+                key !== 'emailPassword' && 
+                key !== 'emailTemplate' && 
+                key !== 'emailSubject') {
+              (updatedSettings as any)[key] = (prev as any)[key];
+            }
           }
-          if (values.emailTemplate !== undefined) newState.emailTemplate = values.emailTemplate;
-          if (values.emailSubject !== undefined) newState.emailSubject = values.emailSubject;
           
-          return newState;
+          return updatedSettings;
         });
         
         // Ricarica le impostazioni per assicurarsi di avere i dati aggiornati dal server
         const refreshResponse = await fetch('/api/email-calendar-settings');
         if (refreshResponse.ok) {
           const refreshData = await refreshResponse.json();
-          setEmailCalendarSettings(refreshData);
+          // Assicuriamoci che i dati rispecchino la nostra interfaccia
+          const safeData: EmailCalendarSettings = {
+            // Prima i default
+            emailEnabled: false,
+            emailAddress: '',
+            emailPassword: '',
+            emailTemplate: DEFAULT_EMAIL_TEMPLATE,
+            emailSubject: DEFAULT_EMAIL_SUBJECT,
+            // Poi i dati effettivi
+            ...refreshData
+          };
+          setEmailCalendarSettings(safeData);
         }
       } else {
         const error = await response.json();
@@ -311,7 +338,18 @@ export default function EmailSettings() {
         const refreshResponse = await fetch('/api/email-calendar-settings');
         if (refreshResponse.ok) {
           const refreshData = await refreshResponse.json();
-          setEmailCalendarSettings(refreshData);
+          // Assicuriamoci che i dati rispecchino la nostra interfaccia
+          const safeData: EmailCalendarSettings = {
+            // Prima i default
+            emailEnabled: false,
+            emailAddress: '',
+            emailPassword: '',
+            emailTemplate: DEFAULT_EMAIL_TEMPLATE,
+            emailSubject: DEFAULT_EMAIL_SUBJECT,
+            // Poi i dati effettivi
+            ...refreshData
+          };
+          setEmailCalendarSettings(safeData);
         }
       } else {
         // Mostriamo un messaggio di errore più dettagliato dal server
