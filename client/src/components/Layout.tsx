@@ -141,14 +141,22 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Pulsante Staff per admin - esattamente uguale agli altri pulsanti */}
+                {/* Pulsanti admin - esattamente uguali agli altri pulsanti */}
                 {isAdmin && (
-                  <Link href="/staff-management">
-                    <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] bg-transparent border-0 text-white">
-                      <UserCog className="h-4 w-4 mr-1" />
-                      <span className="text-white">Staff</span>
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/staff-management">
+                      <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] bg-transparent border-0 text-white">
+                        <UserCog className="h-4 w-4 mr-1" />
+                        <span className="text-white">Staff</span>
+                      </Button>
+                    </Link>
+                    <Link href="/payment-admin">
+                      <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[110px] bg-transparent border-0 text-white">
+                        <CreditCard className="h-4 w-4 mr-1 text-green-400" />
+                        <span className="text-white">Pagamenti</span>
+                      </Button>
+                    </Link>
+                  </>
                 )}
                 
                 {/* Pulsante impostazioni */}
