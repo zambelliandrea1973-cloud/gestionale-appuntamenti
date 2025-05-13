@@ -79,6 +79,9 @@ export default function EmailSettings() {
         if (response.ok) {
           const data = await response.json();
           
+          // Aggiorna lo stato delle impostazioni salvate
+          setEmailCalendarSettings(data);
+          
           // Imposta i valori del form
           form.reset({
             emailEnabled: data.emailEnabled || false,
@@ -120,6 +123,23 @@ export default function EmailSettings() {
           title: "Impostazioni salvate",
           description: "Le impostazioni di email sono state aggiornate con successo",
         });
+        
+        // Aggiornare lo stato delle impostazioni con la nuova configurazione
+        setEmailCalendarSettings(prev => ({
+          ...prev,
+          emailEnabled: values.emailEnabled,
+          emailAddress: values.emailAddress,
+          ...(values.emailPassword !== "••••••••••" ? { emailPassword: values.emailPassword } : {}),
+          emailTemplate: values.emailTemplate,
+          emailSubject: values.emailSubject,
+        }));
+        
+        // Ricarica le impostazioni per assicurarsi di avere i dati aggiornati dal server
+        const refreshResponse = await fetch('/api/email-calendar-settings');
+        if (refreshResponse.ok) {
+          const refreshData = await refreshResponse.json();
+          setEmailCalendarSettings(refreshData);
+        }
       } else {
         const error = await response.json();
         throw new Error(error.message || 'Si è verificato un errore durante il salvataggio');
@@ -185,6 +205,13 @@ export default function EmailSettings() {
           title: "Email inviata",
           description: "L'email di test è stata inviata con successo",
         });
+        
+        // L'invio di email è riuscito, aggiorniamo lo stato delle impostazioni per essere sicuri
+        const refreshResponse = await fetch('/api/email-calendar-settings');
+        if (refreshResponse.ok) {
+          const refreshData = await refreshResponse.json();
+          setEmailCalendarSettings(refreshData);
+        }
       } else {
         throw new Error(data.error || 'Si è verificato un errore durante l\'invio dell\'email');
       }
