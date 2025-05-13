@@ -101,18 +101,68 @@ router.post('/send-test-email', isAuthenticated, async (req, res) => {
       });
     }
     
-    // Qui normalmente invieresti un'email di test
-    // Per questo esempio, simuliamo un invio avvenuto con successo
-    console.log(`Invio email di test a ${email} usando le seguenti impostazioni:`, {
-      mittente: emailCalendarSettings.emailAddress,
-      oggetto: emailCalendarSettings.emailSubject,
-      template: emailCalendarSettings.emailTemplate,
-    });
+    // Importiamo il servizio di notifica per inviare l'email
+    const { directNotificationService } = await import('../services/directNotificationService');
     
-    res.json({ 
-      success: true, 
-      message: 'Email di test inviata con successo' 
-    });
+    try {
+      // Creiamo un testo di prova per l'email
+      let testSubject = emailCalendarSettings.emailSubject;
+      let testMessage = emailCalendarSettings.emailTemplate;
+      
+      // Sostituiamo le variabili con valori di esempio
+      testSubject = testSubject.replace(/{{data}}/g, '15/05/2025');
+      testMessage = testMessage
+        .replace(/{{nome}}/g, 'Mario')
+        .replace(/{{cognome}}/g, 'Rossi')
+        .replace(/{{servizio}}/g, 'Consulenza')
+        .replace(/{{data}}/g, '15/05/2025')
+        .replace(/{{ora}}/g, '10:00');
+      
+      // Creiamo un trasportatore NodeMailer per questo test specifico
+      const nodemailer = require('nodemailer');
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com', // Server SMTP di Gmail
+        port: 587,
+        secure: false, // true per porta 465, false per altre porte
+        auth: {
+          user: emailCalendarSettings.emailAddress,
+          pass: emailCalendarSettings.emailPassword,
+        },
+        debug: true, // Attiva debug per vedere dettagli di connessione
+      });
+      
+      // Verifichiamo la connessione prima di inviare
+      await transporter.verify();
+      console.log('Connessione SMTP verificata con successo');
+      
+      // Inviamo l'email di test
+      const mailOptions = {
+        from: emailCalendarSettings.emailAddress,
+        to: email,
+        subject: testSubject,
+        text: testMessage,
+        html: testMessage.replace(/\n/g, '<br>'),
+      };
+      
+      console.log(`Tentativo di invio email di test a ${email}`);
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Email di test inviata con successo: ${info.messageId}`);
+      
+      res.json({ 
+        success: true, 
+        message: 'Email di test inviata con successo' 
+      });
+    } catch (error) {
+      console.error('Errore nell\'invio dell\'email di test:', error);
+      
+      // Fornisci un messaggio di errore più dettagliato
+      let errorMessage = 'Errore durante l\'invio dell\'email di test';
+      if (error instanceof Error) {
+        errorMessage = `${errorMessage}: ${error.message}`;
+      }
+      
+      throw new Error(errorMessage);
+    }
   } catch (error) {
     console.error('Errore durante l\'invio dell\'email di test:', error);
     res.status(500).json({ 
