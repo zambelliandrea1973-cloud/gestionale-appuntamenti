@@ -131,6 +131,7 @@ export default function EmailSettings() {
   
   // Funzione per inviare un'email di test
   const sendTestEmail = async () => {
+    // Verifica che l'email di test sia stata inserita
     if (!testEmailAddress) {
       toast({
         title: "Errore",
@@ -140,6 +141,26 @@ export default function EmailSettings() {
       return;
     }
     
+    // Verifica che le impostazioni email siano state configurate
+    if (!form.getValues("emailEnabled")) {
+      toast({
+        title: "Configurazione incompleta",
+        description: "Devi prima attivare l'invio email usando l'interruttore in alto",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!form.getValues("emailAddress") || !form.getValues("emailPassword")) {
+      toast({
+        title: "Configurazione incompleta",
+        description: "Devi inserire sia l'indirizzo email che la password/chiave app",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Se le condizioni sono soddisfatte, procedi con il test
     setIsSendingTest(true);
     try {
       const response = await fetch('/api/email-calendar-settings/send-test-email', {
@@ -222,8 +243,12 @@ export default function EmailSettings() {
                         {t('settings.emailAddress', 'Indirizzo Email')}
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="esempio@tuodominio.com" />
+                        <Input {...field} placeholder="esempio@gmail.com" />
                       </FormControl>
+                      <FormDescription className="text-xs mt-1">
+                        <p>Se utilizzi Gmail, dovrai anche configurare un server SMTP separatamente.</p>
+                        <p className="mt-1">Server SMTP per Gmail: <span className="font-mono bg-muted p-0.5 rounded">smtp.gmail.com</span>, porta: <span className="font-mono bg-muted p-0.5 rounded">587</span></p>
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -244,8 +269,9 @@ export default function EmailSettings() {
                           placeholder="••••••••••" 
                         />
                       </FormControl>
-                      <FormDescription>
-                        {t('settings.passwordNote', 'Per servizi Google, usa una password specifica per app')}
+                      <FormDescription className="text-xs mt-1">
+                        <p>{t('settings.passwordNote', 'Per servizi Google, non usare la tua password normale dell\'account')}</p>
+                        <p className="mt-1 font-medium">Devi generare una "Password per le app" da <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-primary underline">myaccount.google.com/security</a> (richiede verifica in due passaggi attiva)</p>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
