@@ -1,48 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mail } from "lucide-react";
-import EmailAndCalendarSettings from '@/components/EmailAndCalendarSettings';
+import { Loader2 } from "lucide-react";
 
+// Questa pagina ora reindirizza semplicemente alla pagina principale delle impostazioni
+// con la scheda email attiva, per evitare duplicazione di funzionalità
 export default function EmailSettings() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
 
-  return (
-    <div className="container mx-auto p-4 max-w-6xl">
-      <header className="mb-6">
-        <div className="flex items-center mb-2">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="mr-2 h-8 w-8"
-            onClick={() => setLocation("/settings")}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <h1 className="text-3xl font-bold tracking-tight">Impostazioni Email</h1>
-        </div>
-        <p className="text-muted-foreground">
-          Configura l'invio di email ai clienti con template personalizzato
-        </p>
-      </header>
+  useEffect(() => {
+    // Imposta la scheda attiva delle impostazioni e reindirizza
+    localStorage.setItem('settings_active_tab', 'integrations');
+    setLocation("/settings");
+  }, [setLocation]);
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Mail className="mr-2 h-5 w-5" />
-            <span>Configurazione Email</span>
-          </CardTitle>
-          <CardDescription>
-            Configura l'invio delle email di notifica per i promemoria degli appuntamenti
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <EmailAndCalendarSettings />
-        </CardContent>
-      </Card>
+  // Mostra un caricatore durante il reindirizzamento
+  return (
+    <div className="container mx-auto flex items-center justify-center min-h-screen">
+      <div className="text-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+        <p className="text-lg">{t('Reindirizzamento alle impostazioni email...')}</p>
+      </div>
     </div>
   );
 }
