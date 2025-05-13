@@ -50,6 +50,16 @@ const emailSettingsSchema = z.object({
 
 type EmailSettingsFormValues = z.infer<typeof emailSettingsSchema>;
 
+// Interfaccia per le impostazioni email
+interface EmailCalendarSettings {
+  emailEnabled: boolean;
+  emailAddress: string;
+  emailPassword: string;
+  emailTemplate: string;
+  emailSubject: string;
+  [key: string]: any; // Per consentire proprietà aggiuntive
+}
+
 // Template predefinito per l'email, simile a quello WhatsApp
 const DEFAULT_EMAIL_TEMPLATE = "Gentile {{nome}} {{cognome}},\n\nQuesto è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.\n\nPer qualsiasi modifica o cancellazione, La preghiamo di contattarci.\n\nCordiali saluti,\nStudio Professionale";
 
@@ -66,8 +76,8 @@ export default function EmailSettings() {
   const [showTemplateWarning, setShowTemplateWarning] = useState(false);
   const [lastValidTemplate, setLastValidTemplate] = useState('');
   const [lastValidSubject, setLastValidSubject] = useState('');
-  // Utilizziamo una tipizzazione più flessibile per evitare errori di tipo
-  const [emailCalendarSettings, setEmailCalendarSettings] = useState<any>({
+  // Utilizziamo l'interfaccia definita per le impostazioni email
+  const [emailCalendarSettings, setEmailCalendarSettings] = useState<EmailCalendarSettings>({
     emailEnabled: false,
     emailAddress: '',
     emailPassword: '',
@@ -202,8 +212,16 @@ export default function EmailSettings() {
         });
         
         // Aggiornare lo stato delle impostazioni con la nuova configurazione
-        setEmailCalendarSettings(prev => {
-          const newState = { ...prev };
+        setEmailCalendarSettings((prev: EmailCalendarSettings): EmailCalendarSettings => {
+          // Creiamo una copia delle impostazioni precedenti
+          const newState: EmailCalendarSettings = { 
+            emailEnabled: prev.emailEnabled,
+            emailAddress: prev.emailAddress,
+            emailPassword: prev.emailPassword,
+            emailTemplate: prev.emailTemplate,
+            emailSubject: prev.emailSubject,
+            ...prev // include eventuali proprietà aggiuntive
+          };
           
           // Aggiorniamo solo i campi che sono definiti
           newState.emailEnabled = values.emailEnabled;
