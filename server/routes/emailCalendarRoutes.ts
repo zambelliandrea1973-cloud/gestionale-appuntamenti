@@ -119,8 +119,8 @@ router.post('/send-test-email', isAuthenticated, async (req, res) => {
         .replace(/{{ora}}/g, '10:00');
       
       // Creiamo un trasportatore NodeMailer per questo test specifico
-      const nodemailer = require('nodemailer');
-      const transporter = nodemailer.createTransport({
+      const nodemailer = await import('nodemailer');
+      const transporter = nodemailer.default.createTransport({
         host: 'smtp.gmail.com', // Server SMTP di Gmail
         port: 587,
         secure: false, // true per porta 465, false per altre porte
