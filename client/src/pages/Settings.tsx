@@ -215,7 +215,7 @@ export default function Settings() {
                   </div>
                 </div>
                 
-                <EmailAndCalendarSettings />
+                <EmailSettings />
               </div>
             </CardContent>
           </Card>
