@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { apiRequest } from '@/lib/queryClient';
+import PaymentMethodsConfig from '@/components/payment/PaymentMethodsConfig';
 import { 
   Euro, 
   Users, 
@@ -19,7 +20,8 @@ import {
   KeyRound,
   UserCheck,
   Calendar,
-  BadgeCheck
+  BadgeCheck,
+  Settings
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
@@ -210,6 +212,10 @@ export default function PaymentAdmin() {
               <TabsTrigger value="subscriptions">Abbonamenti</TabsTrigger>
               <TabsTrigger value="plans">Piani</TabsTrigger>
               <TabsTrigger value="licenses">Licenze</TabsTrigger>
+              <TabsTrigger value="payment-methods" className="flex items-center gap-1">
+                <Settings className="h-4 w-4" />
+                <span>Metodi di Pagamento</span>
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="transactions">
@@ -438,6 +444,11 @@ export default function PaymentAdmin() {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+            
+            {/* Tab Metodi di Pagamento */}
+            <TabsContent value="payment-methods">
+              <PaymentMethodsConfig />
             </TabsContent>
           </Tabs>
         </div>
