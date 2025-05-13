@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
-import { Mail, Calendar, RefreshCw, ArrowRight, HelpCircle, ExternalLink, MessagesSquare, AlertCircle } from "lucide-react";
+import { Mail, RefreshCw, MessagesSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -72,9 +72,6 @@ export default function EmailAndCalendarSettings() {
         if (response.ok) {
           const data = await response.json();
           
-          // Verifica lo stato dell'autorizzazione Google
-          setIsGoogleAuthorized(!!data.googleAuthStatus?.authorized);
-          
           // Imposta i valori del form
           form.reset({
             emailEnabled: data.emailEnabled || false,
@@ -82,12 +79,10 @@ export default function EmailAndCalendarSettings() {
             emailPassword: data.emailPassword ? "••••••••••" : "", // Non mostrare la password reale
             emailTemplate: data.emailTemplate || DEFAULT_EMAIL_TEMPLATE,
             emailSubject: data.emailSubject || DEFAULT_EMAIL_SUBJECT,
-            calendarEnabled: data.calendarEnabled || false,
-            calendarId: data.calendarId || "",
           });
         }
       } catch (error) {
-        console.error('Errore nel caricamento delle impostazioni email/calendario:', error);
+        console.error('Errore nel caricamento delle impostazioni email:', error);
       }
     };
     
@@ -116,7 +111,7 @@ export default function EmailAndCalendarSettings() {
       if (response.ok) {
         toast({
           title: "Impostazioni salvate",
-          description: "Le impostazioni di email e calendario sono state aggiornate con successo",
+          description: "Le impostazioni di email sono state aggiornate con successo",
         });
       } else {
         const error = await response.json();
@@ -174,86 +169,6 @@ export default function EmailAndCalendarSettings() {
       });
     } finally {
       setIsSendingTest(false);
-    }
-  };
-  
-  // Funzione per avviare l'autorizzazione Google
-  const startGoogleAuth = async () => {
-    try {
-      const response = await fetch('/api/google-auth/start');
-      if (response.ok) {
-        const data = await response.json();
-        if (data.authUrl) {
-          // Aggiungiamo un event listener per il messaggio di successo
-          const messageListener = (event: MessageEvent) => {
-            if (event.data === 'google-auth-success') {
-              window.removeEventListener('message', messageListener);
-              
-              // Verifichiamo lo stato dell'autorizzazione
-              (async () => {
-                try {
-                  const statusResponse = await fetch('/api/google-auth/status');
-                  if (statusResponse.ok) {
-                    const statusData = await statusResponse.json();
-                    if (statusData.authorized) {
-                      setIsGoogleAuthorized(true);
-                      toast({
-                        title: "Autorizzazione completata",
-                        description: "L'account Google è stato autorizzato con successo",
-                      });
-                    }
-                  }
-                } catch (error) {
-                  console.error('Errore durante la verifica dell\'autorizzazione:', error);
-                }
-              })();
-            }
-          };
-          
-          window.addEventListener('message', messageListener);
-          
-          // Apre l'URL di autorizzazione in una nuova finestra
-          const authWindow = window.open(data.authUrl, 'googleAuthWindow', 'width=800,height=600');
-          
-          // Verifica periodicamente se l'autorizzazione è completata (come fallback)
-          const checkInterval = setInterval(async () => {
-            try {
-              // Se la finestra è stata chiusa, controlliamo lo stato
-              if (authWindow && authWindow.closed) {
-                const statusResponse = await fetch('/api/google-auth/status');
-                if (statusResponse.ok) {
-                  const statusData = await statusResponse.json();
-                  if (statusData.authorized) {
-                    clearInterval(checkInterval);
-                    setIsGoogleAuthorized(true);
-                    toast({
-                      title: "Autorizzazione completata",
-                      description: "L'account Google è stato autorizzato con successo",
-                    });
-                  }
-                }
-              }
-            } catch (error) {
-              console.error('Errore durante il controllo dell\'autorizzazione:', error);
-            }
-          }, 3000); // Controlla ogni 3 secondi
-          
-          // Ferma il controllo dopo 2 minuti (per evitare loop infiniti)
-          setTimeout(() => {
-            clearInterval(checkInterval);
-            window.removeEventListener('message', messageListener);
-          }, 120000);
-        }
-      } else {
-        throw new Error('Non è stato possibile avviare l\'autorizzazione Google');
-      }
-    } catch (error) {
-      console.error('Errore nell\'autorizzazione Google:', error);
-      toast({
-        title: "Errore",
-        description: error instanceof Error ? error.message : "Si è verificato un errore durante l'autorizzazione Google",
-        variant: "destructive",
-      });
     }
   };
   
@@ -409,112 +324,21 @@ export default function EmailAndCalendarSettings() {
                         type="button" 
                         variant="outline" 
                         onClick={sendTestEmail}
-                        disabled={isSendingTest || !form.watch("emailEnabled")}
+                        disabled={isSendingTest || !form.getValues("emailEnabled")}
+                        className="flex items-center"
                       >
                         {isSendingTest ? (
-                          <>
-                            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                            Invio in corso...
-                          </>
-                        ) : "Invia test"}
+                          <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Mail className="mr-2 h-4 w-4" />
+                        )}
+                        Invia test
                       </Button>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Invia un'email di test per verificare la configurazione
-                    </p>
                   </div>
                 </div>
               </div>
             )}
-            
-            <div className="pt-4 border-t">
-              <div className="flex items-center mb-4">
-                <Calendar className="h-5 w-5 mr-2 text-muted-foreground" />
-                <h3 className="text-lg font-medium">{t('settings.googleCalendar', 'Google Calendar')}</h3>
-                <Link to="/google-troubleshooting" className="ml-auto flex items-center text-sm text-primary hover:underline">
-                  <HelpCircle className="h-4 w-4 mr-1" />
-                  {t('settings.googleSetupGuide', 'Guida alla configurazione')}
-                  <ExternalLink className="h-3 w-3 ml-1" />
-                </Link>
-              </div>
-              
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="calendarEnabled"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                      <div className="space-y-0.5">
-                        <FormLabel className="text-base">
-                          {t('settings.enableCalendar', 'Sincronizza con Google Calendar')}
-                        </FormLabel>
-                        <FormDescription>
-                          {t('settings.calendarDesc', 'Gli appuntamenti verranno sincronizzati con il tuo calendario Google')}
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          disabled={!isGoogleAuthorized}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                
-                {!isGoogleAuthorized && (
-                  <div className="bg-muted/30 rounded-lg p-4 border space-y-3">
-                    <div className="flex items-start gap-2">
-                      <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-amber-700 mb-1">Autorizzazione richiesta</p>
-                        <p className="text-sm mb-1">{t('settings.googleAuthRequired', 'Per sincronizzare il calendario è necessario autorizzare l\'accesso a Google Calendar')}</p>
-                        <p className="text-sm text-muted-foreground">L'icona di divieto sul pulsante di sincronizzazione indica che l'autorizzazione non è ancora stata completata.</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={startGoogleAuth}
-                        className="flex items-center"
-                      >
-                        <Calendar className="h-4 w-4 mr-2" />
-                        {t('settings.authorizeGoogle', 'Autorizza Google Calendar')}
-                        <ArrowRight className="h-4 w-4 ml-2" />
-                      </Button>
-                      <Link to="/google-troubleshooting">
-                        <Button variant="ghost" size="sm">
-                          Risoluzione problemi
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-                
-                {isGoogleAuthorized && form.watch("calendarEnabled") && (
-                  <FormField
-                    control={form.control}
-                    name="calendarId"
-                    render={({ field }) => (
-                      <FormItem className="bg-muted/30 rounded-lg p-4 border">
-                        <FormLabel>
-                          {t('settings.calendarId', 'ID Calendario (opzionale)')}
-                        </FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="primary o ID calendario specifico" />
-                        </FormControl>
-                        <FormDescription>
-                          {t('settings.calendarIdDesc', 'Lascia vuoto per usare il calendario principale')}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
-              </div>
-            </div>
             
             <div className="pt-4 flex justify-end">
               <Button 
