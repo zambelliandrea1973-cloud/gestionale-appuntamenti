@@ -26,24 +26,45 @@ export const tokenService = {
         return validToken.token;
       }
       
-      // Se non esiste un token valido, generiamo un token deterministico basato sull'ID cliente
-      // Questo garantisce che lo stesso cliente ottenga sempre lo stesso token
+      // Se non esiste un token valido, verifichiamo se esiste un token con lo stesso ID cliente
+      // Per farlo, generiamo il token deterministico
       const clientIdString = clientId.toString();
       const secretKey = 'SECRETO_FISSO_CLIENTE_' + clientIdString; // Segretino univoco per cliente
       const token = crypto.createHash('sha256').update(secretKey).digest('hex');
+      
+      // Verifica se il token esiste già nel database
+      const existingToken = await storage.getActivationToken(token);
+      
+      // Se il token esiste già ma appartiene a questo cliente, lo aggiorniamo e lo restituiamo
+      if (existingToken && existingToken.clientId === clientId) {
+        console.log('Aggiornamento token esistente per il cliente:', clientId);
+        
+        // Calcola la nuova data di scadenza
+        const expiresAt = addDays(new Date(), expiresInDays);
+        
+        // Aggiorna la data di scadenza del token
+        await storage.updateActivationTokenExpiry(existingToken.id, expiresAt);
+        
+        return token;
+      }
+      
+      // Se il token esiste già ma appartiene a un altro cliente o non esiste,
+      // generiamo un token unico aggiungendo un timestamp
+      const uniqueSecretKey = 'SECRETO_FISSO_CLIENTE_' + clientIdString + '_' + Date.now();
+      const uniqueToken = crypto.createHash('sha256').update(uniqueSecretKey).digest('hex');
       
       // Calcola la data di scadenza (impostata a 365 giorni di default per renderlo persistente)
       const expiresAt = addDays(new Date(), expiresInDays);
       
       // Salva il token nel database
       await storage.createActivationToken({
-        token,
+        token: uniqueToken,
         clientId,
         expiresAt,
         used: false
       });
       
-      return token;
+      return uniqueToken;
     } catch (error) {
       console.error('Errore nella generazione del token di attivazione:', error);
       throw new Error('Impossibile generare il token di attivazione');
