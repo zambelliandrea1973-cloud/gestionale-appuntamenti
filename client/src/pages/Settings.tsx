@@ -195,25 +195,7 @@ export default function Settings() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-500 text-white rounded-full mr-4">
-                      <Calendar className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-medium text-blue-700 mb-1">Integrazione con Google Calendar spostata</h3>
-                      <p className="text-sm text-blue-900 mb-3">
-                        L'integrazione con Google Calendar è stata spostata esclusivamente nella sezione PRO per migliorare l'organizzazione delle funzionalità. Accedi alla sezione PRO per configurare e gestire la sincronizzazione del calendario.
-                      </p>
-                      <Button 
-                        onClick={() => setLocation("/pro")}
-                        className="bg-blue-500 hover:bg-blue-600 text-white"
-                      >
-                        Vai alla sezione PRO
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+
                 
                 <EmailSettings />
               </div>
