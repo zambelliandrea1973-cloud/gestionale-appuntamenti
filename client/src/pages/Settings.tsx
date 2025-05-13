@@ -19,7 +19,7 @@ import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
-import EmailAndCalendarSettings from '@/components/EmailAndCalendarSettings';
+import EmailAndCalendarSettings from '@/components/EmailAndCalendarSettings'; // Nome del componente da aggiornare in futuro
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
@@ -89,7 +89,7 @@ export default function Settings() {
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Mail className="mr-2 h-4 w-4" />
-            <span>{t('settings.integrations', 'Email & Calendario')}</span>
+            <span>{t('settings.integrations', 'Email')}</span>
           </TabsTrigger>
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
@@ -187,27 +187,27 @@ export default function Settings() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Mail className="mr-2 h-5 w-5" />
-                <span>{t('settings.integrations', 'Email & Google Calendar')}</span>
+                <span>{t('settings.integrations', 'Configurazione Email')}</span>
               </CardTitle>
               <CardDescription>
-                {t('settings.integrationsDesc', 'Configura l\'invio delle email e la sincronizzazione con Google Calendar')}
+                {t('settings.integrationsDesc', 'Configura l\'invio delle email per le notifiche ai clienti')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                <div className="bg-amber-100 border border-amber-300 rounded-lg p-4 mb-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-amber-500 text-white rounded-full mr-4">
+                    <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-500 text-white rounded-full mr-4">
                       <Calendar className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-medium mb-1">Integrazione con Google Calendar</h3>
-                      <p className="text-sm text-amber-900 mb-3">
-                        L'integrazione con Google Calendar è disponibile esclusivamente nella sezione PRO. Accedi alla sezione PRO per configurare e gestire questa funzionalità avanzata.
+                      <h3 className="text-base font-medium text-blue-700 mb-1">Integrazione con Google Calendar spostata</h3>
+                      <p className="text-sm text-blue-900 mb-3">
+                        L'integrazione con Google Calendar è stata spostata esclusivamente nella sezione PRO per migliorare l'organizzazione delle funzionalità. Accedi alla sezione PRO per configurare e gestire la sincronizzazione del calendario.
                       </p>
                       <Button 
                         onClick={() => setLocation("/pro")}
-                        className="bg-amber-500 hover:bg-amber-600 text-white"
+                        className="bg-blue-500 hover:bg-blue-600 text-white"
                       >
                         Vai alla sezione PRO
                       </Button>
