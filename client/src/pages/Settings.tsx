@@ -19,7 +19,7 @@ import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
-import EmailAndCalendarSettings from '@/components/EmailAndCalendarSettings'; // Nome del componente da aggiornare in futuro
+import EmailSettings from '@/components/EmailSettings';
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
