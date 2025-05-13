@@ -33,7 +33,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
-import { Mail, RefreshCw, MessagesSquare, Eye, EyeOff } from "lucide-react";
+import { Mail, RefreshCw, MessagesSquare, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -263,6 +263,15 @@ export default function EmailSettings() {
                 key !== 'emailSubject') {
               (updatedSettings as any)[key] = (prev as any)[key];
             }
+          }
+          
+          // Se abbiamo inviato una nuova password, aggiorniamo il flag
+          if (values.emailPassword && values.emailPassword !== "••••••••••") {
+            setHasPasswordSaved(true);
+            // Aggiorna il campo password a "••••••••••" nel form
+            setTimeout(() => {
+              form.setValue("emailPassword", "••••••••••");
+            }, 100);
           }
           
           return updatedSettings;
@@ -560,7 +569,12 @@ export default function EmailSettings() {
                       </div>
                       <FormDescription className="text-xs mt-1">
                         {hasPasswordSaved && form.getValues("emailPassword") === "••••••••••" && (
-                          <p className="mb-2 text-green-600 font-medium">★ Password salvata correttamente e disponibile per l'invio di email</p>
+                          <div className="mb-2 p-2 bg-green-50 border border-green-200 rounded-md">
+                            <p className="text-green-600 font-medium flex items-center gap-1">
+                              <CheckCircle2 className="h-4 w-4 text-green-500" /> Password salvata in modo sicuro sul server
+                            </p>
+                            <p className="text-green-700 text-xs mt-1">La password è già memorizzata e pronta per l'invio di email. Non è necessario reinserirla ad ogni riavvio.</p>
+                          </div>
                         )}
                         <p>{t('settings.passwordNote', 'Per servizi Google, non usare la tua password normale dell\'account')}</p>
                         <p className="mt-1 font-medium">Devi generare una "Password per le app" da <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-primary underline">myaccount.google.com/security</a> (richiede verifica in due passaggi attiva)</p>
