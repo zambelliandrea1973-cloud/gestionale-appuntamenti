@@ -99,7 +99,7 @@ export default function EmailSettings() {
   // Al caricamento del componente, carica le impostazioni esistenti
   // Funzione per verificare se il testo contiene modifiche ai campi tra parentesi graffe
   const checkTemplateChanges = (newValue: string, oldValue: string) => {
-    // Estrae tutti i campi tra parentesi graffe dal template precedente
+    // Estrae tutti i campi tra parentesi graffe (incluse le parentesi) dal template precedente
     const templateVarRegex = /{{([^}]+)}}/g;
     let oldMatches: string[] = [];
     let match;
@@ -114,6 +114,18 @@ export default function EmailSettings() {
       if (!newValue.includes(match)) {
         return true; // È stata rilevata una modifica o eliminazione di un campo precompilato
       }
+    }
+    
+    // Verifica anche se sono state modificate le parentesi graffe
+    // Contiamo le parentesi graffe aperte e chiuse nei due testi
+    const oldOpenBrackets = (oldValue.match(/{/g) || []).length;
+    const oldCloseBrackets = (oldValue.match(/}/g) || []).length;
+    const newOpenBrackets = (newValue.match(/{/g) || []).length;
+    const newCloseBrackets = (newValue.match(/}/g) || []).length;
+    
+    // Se il numero di parentesi è cambiato, potrebbe essere stata modificata una parte dei campi precompilati
+    if (oldOpenBrackets !== newOpenBrackets || oldCloseBrackets !== newCloseBrackets) {
+      return true;
     }
     
     return false; // Nessuna modifica rilevata ai campi precompilati
@@ -591,8 +603,8 @@ export default function EmailSettings() {
                         </FormLabel>
                         <FormControl>
                           <Input 
-                            {...field} 
                             placeholder="Promemoria appuntamento"
+                            value={field.value}
                             onChange={(e) => {
                               const newValue = e.target.value;
                               // Verifica se c'è stato un cambiamento ai campi precompilati
@@ -601,6 +613,7 @@ export default function EmailSettings() {
                                 setPendingValue(newValue);
                                 setPendingField('emailSubject');
                                 setShowTemplateWarning(true);
+                                // Non aggiorniamo il campo finché l'utente non conferma
                               } else {
                                 // Altrimenti aggiorna direttamente il valore
                                 field.onChange(newValue);
@@ -625,9 +638,9 @@ export default function EmailSettings() {
                         </FormLabel>
                         <FormControl>
                           <Textarea 
-                            {...field} 
                             placeholder="Testo del messaggio" 
                             className="min-h-[200px]"
+                            value={field.value}
                             onChange={(e) => {
                               const newValue = e.target.value;
                               // Verifica se c'è stato un cambiamento ai campi precompilati
@@ -636,6 +649,7 @@ export default function EmailSettings() {
                                 setPendingValue(newValue);
                                 setPendingField('emailTemplate');
                                 setShowTemplateWarning(true);
+                                // Non aggiorniamo il campo finché l'utente non conferma
                               } else {
                                 // Altrimenti aggiorna direttamente il valore
                                 field.onChange(newValue);
