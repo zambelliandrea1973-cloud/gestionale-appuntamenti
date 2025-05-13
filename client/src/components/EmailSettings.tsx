@@ -142,6 +142,7 @@ export default function EmailSettings() {
       
       if (response.ok) {
         const data = await response.json();
+        console.log('Risposta dal server:', data);
         if (data.success && data.emailPassword) {
           // Imposta la password reale nel form
           form.setValue("emailPassword", data.emailPassword);

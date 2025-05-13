@@ -84,13 +84,16 @@ router.get('/', (req, res) => {
 
 // Endpoint protetto per ottenere la password in chiaro
 router.get('/show-password', isAuthenticated, (req, res) => {
+  console.log("Richiesta password salvata ricevuta");
   if (!emailCalendarSettings.emailPassword) {
+    console.log("Nessuna password salvata trovata");
     return res.status(404).json({
       success: false,
       error: 'Nessuna password salvata'
     });
   }
   
+  console.log("Password trovata, invio risposta al client");
   res.json({
     success: true,
     emailPassword: emailCalendarSettings.emailPassword
