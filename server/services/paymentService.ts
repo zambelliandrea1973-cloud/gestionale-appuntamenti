@@ -21,15 +21,26 @@ const getPayPalClient = () => {
   const clientId = process.env.PAYPAL_CLIENT_ID;
   const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
   
+  console.log('PayPal Config:', {
+    clientIdPresent: !!clientId,
+    clientSecretPresent: !!clientSecret,
+    environment: process.env.NODE_ENV || 'development'
+  });
+  
   if (!clientId || !clientSecret) {
     throw new Error('Mancano le credenziali PayPal. Impostare PAYPAL_CLIENT_ID e PAYPAL_CLIENT_SECRET nelle variabili d\'ambiente.');
   }
   
-  const environment = process.env.NODE_ENV === 'production'
-    ? new paypal.core.LiveEnvironment(clientId, clientSecret)
-    : new paypal.core.SandboxEnvironment(clientId, clientSecret);
-  
-  return new paypal.core.PayPalHttpClient(environment);
+  try {
+    const environment = process.env.NODE_ENV === 'production'
+      ? new paypal.core.LiveEnvironment(clientId, clientSecret)
+      : new paypal.core.SandboxEnvironment(clientId, clientSecret);
+    
+    return new paypal.core.PayPalHttpClient(environment);
+  } catch (error) {
+    console.error('Errore nella creazione del client PayPal:', error);
+    throw error;
+  }
 };
 
 /**
