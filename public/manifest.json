@@ -1,5 +1,5 @@
 {
-  "name": "Gestione Appuntamenti v3",
+  "name": "Gestione Appuntamenti v4",
   "short_name": "App Cliente",
   "description": "Gestione consensi e servizi medici",
   "start_url": "/pwa",
@@ -15,7 +15,7 @@
   "dir": "ltr",
   "prefer_related_applications": false,
   "scope": "/",
-  "id": "gestione-appuntamenti-client-v3",
+  "id": "gestione-appuntamenti-client-v4",
   "icons": [
     {
       "src": "/icons/default-app-icon.jpg",
