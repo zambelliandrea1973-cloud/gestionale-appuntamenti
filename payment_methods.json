@@ -40,6 +40,7 @@
       "iban": "IT12A0123456789000000123456",
       "swift": "ABCDITXX",
       "bankName": "Banca Esempio",
+      "recipient": "Ethera Srl",
       "instructions": "Nel bonifico, indicare il numero di licenza come causale. L'accesso sarà attivato entro 24 ore lavorative dal ricevimento del pagamento."
     }
   }
