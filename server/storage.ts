@@ -3101,6 +3101,70 @@ export class DatabaseStorage implements IStorage {
   }
   
   /**
+   * Annulla un abbonamento
+   * @param id ID dell'abbonamento da annullare
+   * @param cancelAtPeriodEnd Se true, l'abbonamento terminerà alla fine del periodo corrente
+   * @returns Abbonamento aggiornato o undefined se non trovato
+   */
+  async cancelSubscription(id: number, cancelAtPeriodEnd: boolean): Promise<Subscription | undefined> {
+    try {
+      console.log(`Annullamento abbonamento ID: ${id}, cancelAtPeriodEnd: ${cancelAtPeriodEnd}`);
+      
+      const [subscription] = await db.select().from(subscriptions).where(eq(subscriptions.id, id));
+      if (!subscription) {
+        console.error(`Abbonamento ID ${id} non trovato per l'annullamento`);
+        return undefined;
+      }
+      
+      // Se cancelAtPeriodEnd è true, impostiamo solo il flag e l'abbonamento terminerà alla fine del periodo
+      // Altrimenti, impostiamo lo stato come 'cancelled' immediatamente
+      const updateData: Partial<InsertSubscription> = {
+        cancelAtPeriodEnd,
+        updatedAt: new Date()
+      };
+      
+      if (!cancelAtPeriodEnd) {
+        updateData.status = 'cancelled';
+        updateData.cancelledAt = new Date();
+      }
+      
+      const [updated] = await db.update(subscriptions)
+        .set(updateData)
+        .where(eq(subscriptions.id, id))
+        .returning();
+      
+      console.log(`Abbonamento aggiornato dopo annullamento:`, updated);
+      return updated;
+    } catch (error) {
+      console.error(`Errore durante l'annullamento dell'abbonamento ID ${id}:`, error);
+      return undefined;
+    }
+  }
+  
+  /**
+   * Crea una nuova transazione di pagamento
+   * @param transaction Dati della transazione da creare
+   * @returns Transazione creata
+   */
+  async createPaymentTransaction(transaction: InsertPaymentTransaction): Promise<PaymentTransaction> {
+    try {
+      console.log(`Creazione nuova transazione di pagamento:`, transaction);
+      const [newTransaction] = await db.insert(paymentTransactions)
+        .values({
+          ...transaction,
+          createdAt: transaction.createdAt || new Date(),
+        })
+        .returning();
+      
+      console.log(`Transazione di pagamento creata:`, newTransaction);
+      return newTransaction;
+    } catch (error) {
+      console.error(`Errore durante la creazione della transazione di pagamento:`, error);
+      throw error;
+    }
+  }
+  
+  /**
    * Ottiene tutte le licenze presenti nel sistema
    */
   async getLicenses(): Promise<License[]> {
