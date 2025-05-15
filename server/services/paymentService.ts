@@ -108,6 +108,8 @@ export class PaymentService {
     cancelUrl: string
   ): Promise<{success: boolean, url?: string, subscriptionId?: string, message?: string}> {
     try {
+      console.log('createPayPalSubscription iniziato con:', { userId, planId, returnUrl, cancelUrl });
+      
       // Ottieni le informazioni sul piano
       const plan = await storage.getSubscriptionPlan(planId);
       if (!plan) {
@@ -117,10 +119,21 @@ export class PaymentService {
         };
       }
       
+      console.log('Piano trovato:', plan);
+      
       // Calcola il prezzo in euro
       const priceInEuro = (plan.price / 100).toFixed(2);
       
-      // Crea l'abbonamento in PayPal
+      console.log('PayPal Config:', {
+        clientIdPresent: !!process.env.PAYPAL_CLIENT_ID,
+        clientSecretPresent: !!process.env.PAYPAL_CLIENT_SECRET,
+        environment: process.env.NODE_ENV || 'development',
+        price: priceInEuro,
+        planName: plan.name
+      });
+      
+      // Utilizza API di PayPal per un ordine singolo (più semplice per l'integrazione)
+      // In un'implementazione completa dovremmo usare l'API Subscriptions di PayPal
       const request = new paypal.orders.OrdersCreateRequest();
       request.prefer('return=representation');
       request.requestBody({
@@ -130,20 +143,29 @@ export class PaymentService {
             currency_code: 'EUR',
             value: priceInEuro
           },
-          description: `Abbonamento: ${plan.name}`
+          description: `Abbonamento: ${plan.name} (1 anno)`
         }],
         application_context: {
           return_url: returnUrl,
           cancel_url: cancelUrl,
-          brand_name: 'HealthApp',
+          brand_name: 'Gestione Appuntamenti',
           landing_page: 'BILLING',
-          user_action: 'PAY_NOW'
+          user_action: 'PAY_NOW',
+          shipping_preference: 'NO_SHIPPING'
         }
       });
+      
+      console.log('Invio richiesta a PayPal...');
       
       // Invia la richiesta a PayPal
       const client = getPayPalClient();
       const response = await client.execute(request);
+      
+      console.log('Risposta PayPal:', {
+        statusCode: response.statusCode,
+        resultId: response.result.id,
+        linksCount: response.result.links?.length || 0
+      });
       
       if (response.statusCode !== 201) {
         return {
@@ -155,16 +177,19 @@ export class PaymentService {
       // Trova l'URL di approvazione
       const approvalLink = response.result.links.find(link => link.rel === 'approve');
       if (!approvalLink) {
+        console.error('Links disponibili:', response.result.links);
         return {
           success: false,
           message: 'URL di approvazione PayPal non trovato'
         };
       }
       
+      console.log('URL approvazione trovato:', approvalLink.href);
+      
       // Crea una pre-sottoscrizione nel database
       const currentDate = new Date();
       const endDate = new Date();
-      endDate.setMonth(endDate.getMonth() + (plan.interval === 'month' ? 1 : 12));
+      endDate.setFullYear(endDate.getFullYear() + 1); // Sempre 1 anno per semplicità
       
       const subscriptionData: InsertSubscription = {
         userId,
