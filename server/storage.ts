@@ -3304,6 +3304,38 @@ export class DatabaseStorage implements IStorage {
   }
   
   /**
+   * Recupera un piano di abbonamento specifico per ID
+   */
+  async getSubscriptionPlan(id: number): Promise<SubscriptionPlan | undefined> {
+    try {
+      const [plan] = await db
+        .select()
+        .from(subscriptionPlans)
+        .where(eq(subscriptionPlans.id, id));
+      
+      return plan;
+    } catch (error) {
+      console.error(`Errore nel recupero del piano di abbonamento con ID ${id}:`, error);
+      return undefined;
+    }
+  }
+  
+  /**
+   * Recupera tutti i piani di abbonamento
+   */
+  async getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
+    try {
+      return await db
+        .select()
+        .from(subscriptionPlans)
+        .orderBy(asc(subscriptionPlans.sortOrder));
+    } catch (error) {
+      console.error('Errore nel recupero dei piani di abbonamento:', error);
+      return [];
+    }
+  }
+  
+  /**
    * Recupera tutti i metodi di pagamento configurati
    */
   async getPaymentMethods(): Promise<any[]> {
