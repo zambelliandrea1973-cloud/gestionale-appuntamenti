@@ -209,14 +209,20 @@ export default function SubscribePage() {
   const handlePayment = (planId: string) => {
     setSelectedPlanId(planId);
     
+    console.log('Metodo di pagamento selezionato:', paymentMethod);
+    
     if (paymentMethod === 'paypal') {
+      console.log('Avvio flusso PayPal con planId:', planId);
       startPaypalSubscription.mutate(planId);
     } else if (paymentMethod === 'credit-card') {
+      console.log('Avvio flusso Stripe con planId:', planId);
       startStripeSubscription.mutate(planId);
     } else if (paymentMethod === 'bank') {
+      console.log('Avvio flusso Bonifico con planId:', planId);
       // Per bonifico bancario, mostra le istruzioni per il pagamento
       getBankTransferInfo.mutate(planId);
     } else {
+      console.log('Metodo di pagamento non riconosciuto, mostrando finestra di attivazione');
       // Per altri metodi sconosciuti, apriamo la finestra di attivazione
       setShowActivationDialog(true);
     }
@@ -441,11 +447,21 @@ export default function SubscribePage() {
         ) : (
           <>
             {/* Payment Method Tabs */}
-            <Tabs defaultValue="credit-card" className="mb-8 max-w-md mx-auto">
+            <Tabs 
+              defaultValue="credit-card" 
+              className="mb-8 max-w-md mx-auto"
+              onValueChange={(value) => {
+                console.log('Tab selezionata:', value);
+                // Converti il valore della tab nel tipo di metodo di pagamento corretto
+                if (value === 'credit-card' || value === 'paypal' || value === 'bank') {
+                  setPaymentMethod(value);
+                  console.log('Metodo di pagamento impostato a:', value);
+                }
+              }}
+            >
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger 
                   value="credit-card" 
-                  onClick={() => setPaymentMethod('credit-card')}
                   className="flex items-center"
                 >
                   <CreditCard className="h-4 w-4 mr-2" />
@@ -453,7 +469,6 @@ export default function SubscribePage() {
                 </TabsTrigger>
                 <TabsTrigger 
                   value="paypal" 
-                  onClick={() => setPaymentMethod('paypal')}
                   className="flex items-center"
                 >
                   <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
@@ -464,7 +479,6 @@ export default function SubscribePage() {
                 </TabsTrigger>
                 <TabsTrigger 
                   value="bank" 
-                  onClick={() => setPaymentMethod('bank')}
                   className="flex items-center"
                 >
                   <Wallet className="h-4 w-4 mr-2" />
