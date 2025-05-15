@@ -187,10 +187,28 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
     
     return res.json(result);
   } catch (error) {
-    console.error('Errore durante la creazione dell\'abbonamento PayPal:', error);
+    console.error('Errore durante la creazione dell\'abbonamento PayPal:');
+    
+    if (error instanceof Error) {
+      console.error('Messaggio:', error.message);
+      console.error('Stack:', error.stack);
+    } else {
+      console.error('Errore non standard:', error);
+    }
+    
+    // Verifica credenziali PayPal
+    const clientId = process.env.PAYPAL_CLIENT_ID;
+    const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+    
+    console.log('Verifica credenziali PayPal:');
+    console.log('- Client ID presente:', !!clientId);
+    console.log('- Client Secret presente:', !!clientSecret);
+    
     return res.status(500).json({
       success: false,
-      message: 'Errore interno del server'
+      message: error instanceof Error 
+        ? `Errore PayPal: ${error.message}` 
+        : 'Errore interno durante la connessione con PayPal'
     });
   }
 });
