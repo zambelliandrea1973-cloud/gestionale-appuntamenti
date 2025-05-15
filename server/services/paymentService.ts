@@ -174,10 +174,34 @@ export class PaymentService {
         subscriptionId: response.result.id
       };
     } catch (error) {
-      console.error('Errore durante la creazione dell\'abbonamento PayPal:', error);
+      // Log dettagliato dell'errore per il debug
+      console.error('Errore durante la creazione dell\'abbonamento PayPal:');
+      
+      if (error instanceof Error) {
+        console.error('Messaggio:', error.message);
+        console.error('Stack:', error.stack);
+      } else {
+        console.error('Errore non standard:', error);
+      }
+      
+      // Verifica il tipo di errore e fornisci un messaggio più specifico
+      let errorMessage = 'Errore durante la creazione dell\'abbonamento PayPal';
+      
+      if (error instanceof Error) {
+        errorMessage += ': ' + error.message;
+      }
+      
+      // Verifica le credenziali PayPal
+      const clientId = process.env.PAYPAL_CLIENT_ID;
+      const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+      
+      if (!clientId || !clientSecret) {
+        errorMessage = 'Credenziali PayPal mancanti o non valide';
+      }
+      
       return {
         success: false,
-        message: 'Errore durante la creazione dell\'abbonamento PayPal'
+        message: errorMessage
       };
     }
   }
