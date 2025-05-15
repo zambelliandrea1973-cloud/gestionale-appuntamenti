@@ -32,9 +32,9 @@ const getPayPalClient = () => {
   }
   
   try {
-    const environment = process.env.NODE_ENV === 'production'
-      ? new paypal.core.LiveEnvironment(clientId, clientSecret)
-      : new paypal.core.SandboxEnvironment(clientId, clientSecret);
+    // Utilizziamo direttamente l'ambiente di produzione (LiveEnvironment) indipendentemente da NODE_ENV
+    const environment = new paypal.core.LiveEnvironment(clientId, clientSecret);
+    console.log('PayPal: usando ambiente PRODUZIONE');
     
     return new paypal.core.PayPalHttpClient(environment);
   } catch (error) {
