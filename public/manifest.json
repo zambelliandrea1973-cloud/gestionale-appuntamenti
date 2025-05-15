@@ -1,7 +1,7 @@
 {
-  "name": "Gestione Appuntamenti",
+  "name": "Gestione Appuntamenti v2",
   "short_name": "App Cliente",
-  "description": "Gestione appuntamenti e consensi",
+  "description": "Gestione consensi e servizi medici",
   "start_url": "/pwa",
   "display": "standalone",
   "background_color": "#ffffff",

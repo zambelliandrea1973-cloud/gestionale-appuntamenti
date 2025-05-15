@@ -58,8 +58,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   // Check active route
   const isActive = (path: string) => location === path;
   
-  // Intercetta click su voci di menu non valide
+  // Intercetta click su voci di menu non valide e rimuove link obsoleti dal DOM
   useEffect(() => {
+    // 1. Intercettazione click su voci menu invalide
     const handleInvalidPathClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const link = target.closest('a');
@@ -69,15 +70,87 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
           e.preventDefault();
           e.stopPropagation();
           console.warn(`Tentativo di navigazione a percorso non valido: ${href}`);
+          // Nasconde l'elemento per evitare ulteriori clic
+          link.style.display = 'none';
           return false;
         }
       }
     };
     
+    // 2. Rimozione fisica di elementi non validi dalla DOM per pulizia cache
+    const removeObsoleteLinks = () => {
+      // Cerca tutti i link che puntano a percorsi obsoleti
+      const obsoleteLinks = document.querySelectorAll('a[href="/appointments"], a[href="/questionnaires"]');
+      
+      // Rimuovi tutti i link obsoleti trovati
+      obsoleteLinks.forEach(link => {
+        console.warn(`Rimosso link obsoleto: ${link.getAttribute('href')}`);
+        const parent = link.parentElement;
+        if (parent) {
+          parent.removeChild(link);
+        }
+      });
+      
+      // Cerca anche elementi di testo che contengono le parole chiave (approccio più aggressivo)
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(el => {
+        if (el.textContent && 
+            (el.textContent.includes('Questionari') || 
+             (el.textContent === 'Appuntamenti' && el.tagName !== 'TITLE'))) {
+          console.warn(`Trovato elemento con testo obsoleto: ${el.textContent}`);
+          // Nascondi invece di rimuovere per evitare problemi di layout
+          if (el.textContent === 'Appuntamenti' && 
+              !el.closest('.text-lg.flex.items-center') && // Non nascondere quello in ClientArea
+              !el.closest('[data-title="calendar"]')) {    // Non nascondere quello nel calendario
+            console.warn('Nascondendo elemento obsoleto');
+            (el as HTMLElement).style.display = 'none';
+          }
+        }
+      });
+    };
+    
+    // Registra gli eventi
     document.addEventListener('click', handleInvalidPathClick, true);
+    
+    // Esegui la pulizia iniziale e periodica
+    removeObsoleteLinks();
+    const cleanupInterval = setInterval(removeObsoleteLinks, 2000); // Controlla periodicamente
+    
+    // Forza ricaricamento completo dell'applicazione dopo pochi secondi per aggiornare cache
+    setTimeout(() => {
+      // Cerca specificamente elementi problematici dopo il caricamento completo della pagina
+      const menuItems = document.querySelectorAll('nav a, .mobile-menu a');
+      menuItems.forEach(item => {
+        const href = item.getAttribute('href');
+        const text = item.textContent;
+        if ((href === '/appointments' || href === '/questionnaires') ||
+            (text && (text === 'Questionari' || text === 'Appuntamenti'))) {
+          console.warn(`Rimuovo elemento di menu problematico: ${text} (${href})`);
+          item.parentElement?.removeChild(item);
+        }
+      });
+      
+      // Controlla il localStorage per elementi di cache obsoleti
+      try {
+        // Cancella eventuali dati di cache obsoleti
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && 
+              (key.includes('appointments') || 
+               key.includes('questionnaires') ||
+               key.includes('menu-cache'))) {
+            console.warn(`Rimuovo chiave localStorage obsoleta: ${key}`);
+            localStorage.removeItem(key);
+          }
+        }
+      } catch (e) {
+        console.error('Errore durante la pulizia della cache:', e);
+      }
+    }, 5000);
     
     return () => {
       document.removeEventListener('click', handleInvalidPathClick, true);
+      clearInterval(cleanupInterval);
     };
   }, []);
 
