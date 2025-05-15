@@ -3402,6 +3402,60 @@ export class DatabaseStorage implements IStorage {
       return undefined;
     }
   }
+
+  /**
+   * Recupera la sottoscrizione di un utente con i dettagli del piano e le transazioni
+   */
+  async getSubscriptionByUserId(userId: number): Promise<SubscriptionWithDetails | undefined> {
+    try {
+      console.log(`Recupero sottoscrizione per l'utente con ID ${userId}`);
+      
+      // Prima recuperiamo la sottoscrizione base
+      const [subscription] = await db
+        .select()
+        .from(subscriptions)
+        .where(eq(subscriptions.userId, userId))
+        .orderBy(desc(subscriptions.createdAt))
+        .limit(1);
+      
+      if (!subscription) {
+        console.log(`Nessuna sottoscrizione trovata per l'utente ${userId}`);
+        return undefined;
+      }
+      
+      // Recuperiamo il piano associato
+      const plan = await this.getSubscriptionPlan(subscription.planId);
+      if (!plan) {
+        console.error(`Piano di abbonamento ${subscription.planId} non trovato per la sottoscrizione ${subscription.id}`);
+        return undefined;
+      }
+      
+      // Recuperiamo l'utente
+      const user = await this.getUser(userId);
+      if (!user) {
+        console.error(`Utente ${userId} non trovato per la sottoscrizione ${subscription.id}`);
+        return undefined;
+      }
+      
+      // Recuperiamo le transazioni associate
+      const transactions = await db
+        .select()
+        .from(paymentTransactions)
+        .where(eq(paymentTransactions.subscriptionId, subscription.id))
+        .orderBy(desc(paymentTransactions.createdAt));
+      
+      // Combiniamo tutto
+      return {
+        ...subscription,
+        plan,
+        user,
+        transactions
+      };
+    } catch (error) {
+      console.error(`Errore nel recupero della sottoscrizione per l'utente ${userId}:`, error);
+      return undefined;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
