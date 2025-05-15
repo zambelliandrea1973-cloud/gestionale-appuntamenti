@@ -266,20 +266,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    <Link href="/appointments">
-                      <Button variant={isActive("/appointments") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <CalendarClock className="mr-2 h-4 w-4" />
-                        Appuntamenti
-                      </Button>
-                    </Link>
-                    
-                    <Link href="/questionnaires">
-                      <Button variant={isActive("/questionnaires") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <ClipboardList className="mr-2 h-4 w-4" />
-                        Questionari
-                      </Button>
-                    </Link>
-                    
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori - più visibile */}
                     {isAdmin && (
                       <>
