@@ -13,10 +13,10 @@
   {
     "id": "paypal",
     "name": "PayPal",
-    "enabled": false,
+    "enabled": true,
     "config": {
-      "clientId": "",
-      "clientSecret": "",
+      "clientId": "AfHjuOnMnvF8d2e8m3mON-IsPt9pSOkC6Qlvwa9u026ctvJ9zvdQD34srqbZIFqq4AFxVY_UWdU8LHxF",
+      "clientSecret": "ENwVoFXV9J4u0MNW9WD8nb_pKy0xW5AEzaQKlXQkSIr7AtfX5d7_8k5tCWmXj3aKl9sLg24m3OgPLUdP",
       "mode": "sandbox"
     }
   },
