@@ -4,7 +4,7 @@
  */
 
 // Nome della cache per il nucleo dell'applicazione
-const CACHE_NAME = 'app-core-v2.0.1';
+const CACHE_NAME = 'app-core-v3.0.0';
 
 // Risorse essenziali da cachare immediatamente durante l'installazione
 const CORE_ASSETS = [
