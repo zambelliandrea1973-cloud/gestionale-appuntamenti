@@ -299,6 +299,7 @@ router.get('/available-methods', async (req, res) => {
               bankName: method.config.bankName,
               iban: method.config.iban,
               swift: method.config.swift,
+              recipient: method.config.recipient || method.config.accountName,
               instructions: method.config.instructions
             }
           : {}
