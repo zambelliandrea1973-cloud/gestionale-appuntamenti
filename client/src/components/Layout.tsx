@@ -58,99 +58,141 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   // Check active route
   const isActive = (path: string) => location === path;
   
-  // Intercetta click su voci di menu non valide e rimuove link obsoleti dal DOM
+  // SOLUZIONE RADICALE: Rimuove completamente voci di menu obsolete dal DOM
   useEffect(() => {
-    // 1. Intercettazione click su voci menu invalide
-    const handleInvalidPathClick = (e: MouseEvent) => {
+    // Funzione per rimuovere completamente qualsiasi elemento problematico
+    const purgeAllInvalidElements = () => {
+      console.log("Avvio pulizia radicale degli elementi menu obsoleti");
+
+      // 1. Maniera più aggressiva: rimuove l'intero div della sidebar mobile se contiene voci obsolete
+      const mobileSidebar = document.querySelector('.mobile-menu');
+      if (mobileSidebar) {
+        const mobileMenuItems = mobileSidebar.querySelectorAll('a');
+        mobileMenuItems.forEach(link => {
+          if (link.getAttribute('href') === '/appointments' || 
+              link.getAttribute('href') === '/questionnaires' ||
+              link.textContent?.includes('Questionari') ||
+              link.textContent?.includes('Appuntamenti')) {
+            
+            // Rimuovi l'intero elemento list item del menu
+            const listItem = link.closest('li');
+            if (listItem) {
+              console.warn(`Rimozione completa elemento menu: ${link.textContent}`);
+              listItem.parentElement?.removeChild(listItem);
+            } else {
+              // Rimuovi direttamente il link se non è in un <li>
+              link.parentElement?.removeChild(link);
+            }
+          }
+        });
+      }
+
+      // 2. Rimuove anche dalla navbar principale
+      const mainNav = document.querySelector('nav');
+      if (mainNav) {
+        const navLinks = mainNav.querySelectorAll('a');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '/appointments' || 
+              link.getAttribute('href') === '/questionnaires' ||
+              link.textContent?.includes('Questionari') ||
+              link.textContent?.includes('Appuntamenti')) {
+            
+            // Rimuovi il link o l'intero elemento se è parte di un item
+            const navItem = link.closest('.nav-item') || link.parentElement;
+            if (navItem) {
+              console.warn(`Rimozione completa elemento navbar: ${link.textContent}`);
+              navItem.parentElement?.removeChild(navItem);
+            }
+          }
+        });
+      }
+
+      // 3. Pulizia totale di tutti gli elementi con testo problematico
+      const allElements = document.querySelectorAll('*');
+      const problemTerms = ['Questionari', 'Appuntamenti', 'questionnaires', 'appointments'];
+      
+      allElements.forEach(el => {
+        // Salta elementi importanti
+        if (el.closest('[data-title="calendar"]') || 
+            el.closest('.text-lg.flex.items-center') ||
+            el.tagName === 'TITLE') {
+          return;
+        }
+        
+        const text = el.textContent?.trim();
+        if (text && problemTerms.some(term => text.includes(term))) {
+          if (el instanceof HTMLElement) {
+            console.warn(`Nascondo elemento con testo problematico: ${text}`);
+            el.style.display = 'none';
+            
+            // Svuota anche il contenuto
+            if (el.children.length === 0) {
+              el.textContent = '';
+            }
+          }
+        }
+      });
+
+      // 4. Rimuove tutti i nodi testo che contengono parole problematiche
+      const walkDOM = (node: Node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent;
+          if (text && problemTerms.some(term => text.includes(term))) {
+            node.textContent = '';
+          }
+        } else {
+          node.childNodes.forEach(child => walkDOM(child));
+        }
+      };
+      walkDOM(document.body);
+
+      // 5. Pulizia completa del localStorage e sessionStorage
+      try {
+        // Svuota tutto il localStorage e sessionStorage
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log("Storage del browser completamente pulito");
+      } catch (e) {
+        console.error('Errore pulizia storage:', e);
+      }
+    };
+
+    // Esegui la pulizia immediatamente
+    purgeAllInvalidElements();
+    
+    // Esegui periodicamente per catturare elementi che potrebbero essere aggiunti dinamicamente
+    const cleanupInterval = setInterval(purgeAllInvalidElements, 3000);
+    
+    // Intercetta click per prevenire navigazione a percorsi invalidi
+    const blockInvalidNavigation = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const link = target.closest('a');
       if (link) {
         const href = link.getAttribute('href');
-        if (href === '/appointments' || href === '/questionnaires') {
+        const text = link.textContent;
+        if ((href && (href.includes('appointments') || href.includes('questionnaires'))) ||
+            (text && (text.includes('Questionari') || text.includes('Appuntamenti')))) {
           e.preventDefault();
           e.stopPropagation();
-          console.warn(`Tentativo di navigazione a percorso non valido: ${href}`);
-          // Nasconde l'elemento per evitare ulteriori clic
-          link.style.display = 'none';
+          console.warn(`Bloccato click su elemento invalido: ${text || href}`);
+          // Rimuovi immediatamente dal DOM
+          link.parentElement?.removeChild(link);
           return false;
         }
       }
     };
     
-    // 2. Rimozione fisica di elementi non validi dalla DOM per pulizia cache
-    const removeObsoleteLinks = () => {
-      // Cerca tutti i link che puntano a percorsi obsoleti
-      const obsoleteLinks = document.querySelectorAll('a[href="/appointments"], a[href="/questionnaires"]');
-      
-      // Rimuovi tutti i link obsoleti trovati
-      obsoleteLinks.forEach(link => {
-        console.warn(`Rimosso link obsoleto: ${link.getAttribute('href')}`);
-        const parent = link.parentElement;
-        if (parent) {
-          parent.removeChild(link);
-        }
-      });
-      
-      // Cerca anche elementi di testo che contengono le parole chiave (approccio più aggressivo)
-      const allElements = document.querySelectorAll('*');
-      allElements.forEach(el => {
-        if (el.textContent && 
-            (el.textContent.includes('Questionari') || 
-             (el.textContent === 'Appuntamenti' && el.tagName !== 'TITLE'))) {
-          console.warn(`Trovato elemento con testo obsoleto: ${el.textContent}`);
-          // Nascondi invece di rimuovere per evitare problemi di layout
-          if (el.textContent === 'Appuntamenti' && 
-              !el.closest('.text-lg.flex.items-center') && // Non nascondere quello in ClientArea
-              !el.closest('[data-title="calendar"]')) {    // Non nascondere quello nel calendario
-            console.warn('Nascondendo elemento obsoleto');
-            (el as HTMLElement).style.display = 'none';
-          }
-        }
-      });
-    };
-    
-    // Registra gli eventi
-    document.addEventListener('click', handleInvalidPathClick, true);
-    
-    // Esegui la pulizia iniziale e periodica
-    removeObsoleteLinks();
-    const cleanupInterval = setInterval(removeObsoleteLinks, 2000); // Controlla periodicamente
-    
-    // Forza ricaricamento completo dell'applicazione dopo pochi secondi per aggiornare cache
+    // Intercetta tutti i click
+    document.addEventListener('click', blockInvalidNavigation, true);
+
+    // Notifica che la pagina è stata pulita
     setTimeout(() => {
-      // Cerca specificamente elementi problematici dopo il caricamento completo della pagina
-      const menuItems = document.querySelectorAll('nav a, .mobile-menu a');
-      menuItems.forEach(item => {
-        const href = item.getAttribute('href');
-        const text = item.textContent;
-        if ((href === '/appointments' || href === '/questionnaires') ||
-            (text && (text === 'Questionari' || text === 'Appuntamenti'))) {
-          console.warn(`Rimuovo elemento di menu problematico: ${text} (${href})`);
-          item.parentElement?.removeChild(item);
-        }
-      });
-      
-      // Controlla il localStorage per elementi di cache obsoleti
-      try {
-        // Cancella eventuali dati di cache obsoleti
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && 
-              (key.includes('appointments') || 
-               key.includes('questionnaires') ||
-               key.includes('menu-cache'))) {
-            console.warn(`Rimuovo chiave localStorage obsoleta: ${key}`);
-            localStorage.removeItem(key);
-          }
-        }
-      } catch (e) {
-        console.error('Errore durante la pulizia della cache:', e);
-      }
+      console.log("Pulizia completa della pagina eseguita");
     }, 5000);
     
     return () => {
-      document.removeEventListener('click', handleInvalidPathClick, true);
       clearInterval(cleanupInterval);
+      document.removeEventListener('click', blockInvalidNavigation, true);
     };
   }, []);
 
