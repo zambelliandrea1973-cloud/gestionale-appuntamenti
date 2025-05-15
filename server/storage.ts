@@ -3079,6 +3079,28 @@ export class DatabaseStorage implements IStorage {
   }
   
   /**
+   * Aggiorna un abbonamento esistente
+   * @param id ID dell'abbonamento da aggiornare
+   * @param subscription Dati parziali da aggiornare
+   * @returns Abbonamento aggiornato o undefined se non trovato
+   */
+  async updateSubscription(id: number, subscription: Partial<InsertSubscription>): Promise<Subscription | undefined> {
+    try {
+      console.log(`Aggiornamento abbonamento ID: ${id} con dati:`, subscription);
+      const [updated] = await db.update(subscriptions)
+        .set(subscription)
+        .where(eq(subscriptions.id, id))
+        .returning();
+      
+      console.log(`Abbonamento aggiornato:`, updated);
+      return updated;
+    } catch (error) {
+      console.error(`Errore durante l'aggiornamento dell'abbonamento ID ${id}:`, error);
+      return undefined;
+    }
+  }
+  
+  /**
    * Ottiene tutte le licenze presenti nel sistema
    */
   async getLicenses(): Promise<License[]> {
