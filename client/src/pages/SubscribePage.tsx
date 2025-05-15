@@ -505,7 +505,7 @@ export default function SubscribePage() {
                                      licenseInfo?.type === LicenseType.TRIAL);
                                      
                 return (
-                  <Card key={plan.id} className={`flex flex-col ${plan.popular ? 'border-primary shadow-md relative' : ''} ${isCurrentPlan ? 'border-green-500 bg-green-50/30' : ''}`}>
+                  <Card key={plan.id} className={`flex flex-col h-full ${plan.popular ? 'border-primary shadow-md relative' : ''} ${isCurrentPlan ? 'border-green-500 bg-green-50/30' : ''}`}>
                     {plan.popular && (
                       <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
                         <span className="bg-amber-500 text-white text-xs py-1 px-3 rounded-full font-medium">
@@ -522,7 +522,7 @@ export default function SubscribePage() {
                       </div>
                     )}
                     
-                    <CardHeader>
+                    <CardHeader className="pb-4">
                       <CardTitle className="flex items-center">
                         {plan.type === LicenseType.PRO ? (
                           <Crown className="h-5 w-5 mr-2 text-amber-500" />
@@ -537,9 +537,15 @@ export default function SubscribePage() {
                       </CardTitle>
                       <CardDescription>{plan.description}</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-grow">
-                      <div className="mt-2 mb-6">
+                    <CardContent className="flex-grow pt-0">
+                      <div className="mt-2 mb-4">
                         <span className="text-3xl font-bold">{plan.priceLabel}</span>
+                        {plan.type === LicenseType.TRIAL && (
+                          <span className="block text-sm text-muted-foreground">Per 40 giorni</span>
+                        )}
+                        {plan.type !== LicenseType.TRIAL && (
+                          <span className="block text-sm text-muted-foreground">Abbonamento annuale</span>
+                        )}
                       </div>
                       <ul className="space-y-2 mb-6">
                         {plan.features.map((feature: PlanFeature, index: number) => (
