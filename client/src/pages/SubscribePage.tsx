@@ -14,7 +14,9 @@ import {
   BellRing,
   AlertCircle,
   Loader2,
-  ArrowRight
+  ArrowRight,
+  Wallet,
+  Copy
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +27,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
 
 // Importazioni per API e gestione pagamenti
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -55,7 +58,7 @@ export default function SubscribePage() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth();
-  const [paymentMethod, setPaymentMethod] = useState<'credit-card' | 'paypal'>('credit-card');
+  const [paymentMethod, setPaymentMethod] = useState<'credit-card' | 'paypal' | 'bank'>('credit-card');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showActivationDialog, setShowActivationDialog] = useState(false);
   const [activationCode, setActivationCode] = useState('');
@@ -168,7 +171,14 @@ export default function SubscribePage() {
   // Stato per mostrare le istruzioni del bonifico
   const [showBankTransferInfo, setShowBankTransferInfo] = useState(false);
   // Contenuto istruzioni bonifico
-  const [bankTransferInfo, setBankTransferInfo] = useState<any>(null);
+  const [bankTransferInfo, setBankTransferInfo] = useState<{
+    bankInfo: {
+      recipient?: string;
+      iban?: string;
+      notes?: string;
+    };
+    planId: string;
+  } | null>(null);
 
   // Mutation per ottenere le informazioni sul bonifico bancario
   const getBankTransferInfo = useMutation({
@@ -655,6 +665,86 @@ export default function SubscribePage() {
               ) : (
                 t('common.activate', 'Attiva')
               )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Dialog per le istruzioni del bonifico bancario */}
+      <Dialog open={showBankTransferInfo} onOpenChange={setShowBankTransferInfo}>
+        <DialogContent className="sm:max-w-[550px]">
+          <DialogHeader>
+            <DialogTitle>{t('subscribe.bankTransfer.title', 'Pagamento con Bonifico Bancario')}</DialogTitle>
+            <DialogDescription>
+              {t('subscribe.bankTransfer.description', 'Segui le istruzioni per completare il pagamento tramite bonifico bancario.')}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {bankTransferInfo && (
+            <div className="space-y-4 py-2">
+              <div className="border rounded-md p-4 bg-muted/30">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.plan', 'Piano')}</span>
+                    <span className="text-sm">{serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name}</span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span className="text-sm font-medium">{t('subscribe.bankTransfer.amount', 'Importo')}</span>
+                    <span className="text-sm">€{serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.price}</span>
+                  </div>
+                  
+                  <Separator className="my-2" />
+                  
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.recipient', 'Intestatario')}</h4>
+                    <p className="text-sm">{bankTransferInfo.bankInfo.recipient || 'Non specificato'}</p>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-medium">IBAN</h4>
+                    <p className="text-sm font-mono">{bankTransferInfo.bankInfo.iban || 'Non specificato'}</p>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-medium">{t('subscribe.bankTransfer.reason', 'Causale')}</h4>
+                    <p className="text-sm font-mono">{t('subscribe.bankTransfer.reasonTemplate', 'Abbonamento {{plan}}', { plan: serverPlans?.find((p: any) => p.id === bankTransferInfo.planId)?.name })}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>{t('subscribe.bankTransfer.noteTitle', 'Nota importante')}</AlertTitle>
+                <AlertDescription>
+                  {t('subscribe.bankTransfer.noteDesc', 'Dopo aver effettuato il bonifico, contatta il supporto per comunicare l\'avvenuto pagamento fornendo la ricevuta del bonifico. Ti invieremo un codice di attivazione per attivare il tuo abbonamento.')}
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
+          
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setShowBankTransferInfo(false)}>
+              {t('common.close', 'Chiudi')}
+            </Button>
+            <Button variant="default" onClick={() => {
+              // Copia negli appunti le informazioni del bonifico
+              const info = `
+IBAN: ${bankTransferInfo?.bankInfo.iban || 'Non specificato'}
+Intestatario: ${bankTransferInfo?.bankInfo.recipient || 'Non specificato'}
+Importo: €${serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.price}
+Causale: Abbonamento ${serverPlans?.find((p: any) => p.id === bankTransferInfo?.planId)?.name}
+              `.trim();
+              
+              navigator.clipboard.writeText(info).then(() => {
+                toast({
+                  title: t('common.copied', 'Copiato'),
+                  description: t('subscribe.bankTransfer.copiedDetails', 'Dettagli del bonifico copiati negli appunti'),
+                });
+              });
+            }}>
+              <Copy className="mr-2 h-4 w-4" />
+              {t('common.copy', 'Copia dettagli')}
             </Button>
           </DialogFooter>
         </DialogContent>
