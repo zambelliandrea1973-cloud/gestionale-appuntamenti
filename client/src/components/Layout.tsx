@@ -22,8 +22,6 @@ import {
   UserCog,
   LogOut,
   Home,
-  CalendarClock,
-  ClipboardList,
   BookOpen,
   BookText,
   Book,
