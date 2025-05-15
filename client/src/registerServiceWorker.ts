@@ -7,7 +7,7 @@
 export function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     // Versione attuale dell'app, cambiare quando si aggiornano risorse
-    const APP_VERSION = 'v2.0.1';
+    const APP_VERSION = 'v3.0.0';
     
     window.addEventListener('load', async () => {
       try {
