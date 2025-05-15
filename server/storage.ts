@@ -3456,6 +3456,26 @@ export class DatabaseStorage implements IStorage {
       return undefined;
     }
   }
+
+  /**
+   * Crea una nuova sottoscrizione nel database
+   */
+  async createSubscription(subscriptionData: InsertSubscription): Promise<Subscription> {
+    try {
+      console.log('Creazione nuova sottoscrizione:', subscriptionData);
+      
+      const [subscription] = await db
+        .insert(subscriptions)
+        .values(subscriptionData)
+        .returning();
+      
+      console.log('Sottoscrizione creata con successo:', subscription);
+      return subscription;
+    } catch (error) {
+      console.error('Errore nella creazione della sottoscrizione:', error);
+      throw error;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
