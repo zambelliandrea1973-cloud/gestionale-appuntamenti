@@ -186,23 +186,39 @@ export class PaymentService {
       
       console.log('URL approvazione trovato:', approvalLink.href);
       
-      // Crea una pre-sottoscrizione nel database
+      // Controlla se esiste già un abbonamento per questo utente
+      const existingSubscription = await storage.getSubscriptionByUserId(userId);
       const currentDate = new Date();
       const endDate = new Date();
       endDate.setFullYear(endDate.getFullYear() + 1); // Sempre 1 anno per semplicità
       
-      const subscriptionData: InsertSubscription = {
-        userId,
-        planId,
-        status: 'pending',
-        currentPeriodStart: currentDate,
-        currentPeriodEnd: endDate,
-        cancelAtPeriodEnd: false,
-        paypalSubscriptionId: response.result.id,
-        paymentMethod: 'paypal'
-      };
-      
-      await storage.createSubscription(subscriptionData);
+      if (existingSubscription) {
+        // Se esiste già un abbonamento, aggiornalo invece di crearne uno nuovo
+        console.log(`Abbonamento esistente trovato (ID: ${existingSubscription.id}), lo aggiorno invece di crearne uno nuovo`);
+        await storage.updateSubscription(existingSubscription.id, {
+          planId,
+          status: 'pending',
+          currentPeriodStart: currentDate,
+          currentPeriodEnd: endDate,
+          cancelAtPeriodEnd: false,
+          paypalSubscriptionId: response.result.id,
+          paymentMethod: 'paypal'
+        });
+      } else {
+        // Crea una nuova pre-sottoscrizione nel database
+        const subscriptionData: InsertSubscription = {
+          userId,
+          planId,
+          status: 'pending',
+          currentPeriodStart: currentDate,
+          currentPeriodEnd: endDate,
+          cancelAtPeriodEnd: false,
+          paypalSubscriptionId: response.result.id,
+          paymentMethod: 'paypal'
+        };
+        
+        await storage.createSubscription(subscriptionData);
+      }
       
       return {
         success: true,
@@ -438,23 +454,39 @@ export class PaymentService {
         cancel_url: cancelUrl,
       });
       
-      // Crea una pre-sottoscrizione nel database
+      // Controlla se esiste già un abbonamento per questo utente
+      const existingSubscription = await storage.getSubscriptionByUserId(userId);
       const currentDate = new Date();
       const endDate = new Date();
       endDate.setMonth(endDate.getMonth() + (plan.interval === 'month' ? 1 : 12));
       
-      const subscriptionData: InsertSubscription = {
-        userId,
-        planId,
-        status: 'pending',
-        currentPeriodStart: currentDate,
-        currentPeriodEnd: endDate,
-        cancelAtPeriodEnd: false,
-        stripeSessionId: session.id,
-        paymentMethod: 'stripe'
-      };
-      
-      await storage.createSubscription(subscriptionData);
+      if (existingSubscription) {
+        // Se esiste già un abbonamento, aggiornalo invece di crearne uno nuovo
+        console.log(`Abbonamento esistente trovato (ID: ${existingSubscription.id}), lo aggiorno invece di crearne uno nuovo`);
+        await storage.updateSubscription(existingSubscription.id, {
+          planId,
+          status: 'pending',
+          currentPeriodStart: currentDate,
+          currentPeriodEnd: endDate,
+          cancelAtPeriodEnd: false,
+          stripeSessionId: session.id,
+          paymentMethod: 'stripe'
+        });
+      } else {
+        // Crea una nuova pre-sottoscrizione nel database
+        const subscriptionData: InsertSubscription = {
+          userId,
+          planId,
+          status: 'pending',
+          currentPeriodStart: currentDate,
+          currentPeriodEnd: endDate,
+          cancelAtPeriodEnd: false,
+          stripeSessionId: session.id,
+          paymentMethod: 'stripe'
+        };
+        
+        await storage.createSubscription(subscriptionData);
+      }
       
       return {
         success: true,
