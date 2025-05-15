@@ -165,6 +165,37 @@ export default function SubscribePage() {
   });
 
   // Funzione per gestire il pagamento in base al metodo selezionato
+  // Stato per mostrare le istruzioni del bonifico
+  const [showBankTransferInfo, setShowBankTransferInfo] = useState(false);
+  // Contenuto istruzioni bonifico
+  const [bankTransferInfo, setBankTransferInfo] = useState<any>(null);
+
+  // Mutation per ottenere le informazioni sul bonifico bancario
+  const getBankTransferInfo = useMutation({
+    mutationFn: async (planId: string) => {
+      const res = await apiRequest('GET', '/api/payments/available-methods');
+      const methods = await res.json();
+      // Trova il metodo banco
+      const bankMethod = methods.find((m: any) => m.id === 'bank');
+      return { 
+        bankInfo: bankMethod?.publicConfig || {},
+        planId
+      };
+    },
+    onSuccess: (data) => {
+      setBankTransferInfo(data);
+      setShowBankTransferInfo(true);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Errore',
+        description: 'Non è stato possibile ottenere le informazioni per il bonifico bancario',
+        variant: 'destructive',
+      });
+      console.error(error);
+    }
+  });
+
   const handlePayment = (planId: string) => {
     setSelectedPlanId(planId);
     
@@ -172,8 +203,11 @@ export default function SubscribePage() {
       startPaypalSubscription.mutate(planId);
     } else if (paymentMethod === 'credit-card') {
       startStripeSubscription.mutate(planId);
+    } else if (paymentMethod === 'bank') {
+      // Per bonifico bancario, mostra le istruzioni per il pagamento
+      getBankTransferInfo.mutate(planId);
     } else {
-      // Per ora, se il metodo è sconosciuto, apriamo la finestra di attivazione
+      // Per altri metodi sconosciuti, apriamo la finestra di attivazione
       setShowActivationDialog(true);
     }
   };
@@ -398,7 +432,7 @@ export default function SubscribePage() {
           <>
             {/* Payment Method Tabs */}
             <Tabs defaultValue="credit-card" className="mb-8 max-w-md mx-auto">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger 
                   value="credit-card" 
                   onClick={() => setPaymentMethod('credit-card')}
@@ -417,6 +451,14 @@ export default function SubscribePage() {
                     <path d="M22.8 7.362c-.073-.43-.168-.838-.293-1.224a7.398 7.398 0 0 0-.412-1.143 5.855 5.855 0 0 0-.637-1.042c-.862-1.134-2.355-1.674-4.067-1.674h-7.46A2.486 2.486 0 0 0 7.49.772L4.382 19.316c-.094.596.296 1.15.896 1.15h4.433l1.115-7.07v.228c.19-1.274 1.296-2.218 2.575-2.218h2.19c6.085 0 10.008-3.722 10.675-9.204.02-.163.037-.325.052-.484h-.007c.122-1.586-.012-2.96-.51-4.355z" />
                   </svg>
                   PayPal
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="bank" 
+                  onClick={() => setPaymentMethod('bank')}
+                  className="flex items-center"
+                >
+                  <Wallet className="h-4 w-4 mr-2" />
+                  {t('subscribe.paymentMethods.bank', 'Bonifico Bancario')}
                 </TabsTrigger>
               </TabsList>
               
