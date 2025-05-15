@@ -368,7 +368,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </div>
                   
                   <h2 className="text-lg font-medium">Menu</h2>
-                  {/* Menu principale aggiornato - versione 2.0 - rimuove voci non necessarie */}
+                  {/* Menu principale versione mobile 3.0.0 - semplificato con solo voci essenziali */}
                   <nav className="flex flex-col gap-2">
                     <Link href="/dashboard">
                       <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
@@ -376,19 +376,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         Home
                       </Button>
                     </Link>
-                    <Link href="/calendar">
-                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <CalendarDays className="mr-2 h-4 w-4" />
-                        {t('calendar.title')}
-                      </Button>
-                    </Link>
-                    <Link href="/clients">
-                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
-                        <Users className="mr-2 h-4 w-4" />
-                        {t('clients.title')}
-                      </Button>
-                    </Link>
                     
+                    {/* Menu limitato alle funzionalità principali */}
                     <Link href="/whatsapp-center">
                       <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
                         <MessageSquare className="mr-2 h-4 w-4" />
@@ -403,7 +392,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Mostra il collegamento per la gestione staff solo agli amministratori - più visibile */}
+                    {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (
                       <>
                         <Link href="/staff-management">
@@ -421,7 +410,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </>
                     )}
                     
-                    {/* Mostra il pulsante Impostazioni */}
+                    {/* Impostazioni */}
                     <Link href="/settings">
                       <Button variant={isActive("/settings") ? "secondary" : "ghost"} className="justify-start w-full">
                         <SettingsIcon className="mr-2 h-4 w-4" />
