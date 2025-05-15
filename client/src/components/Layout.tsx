@@ -57,6 +57,29 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   
   // Check active route
   const isActive = (path: string) => location === path;
+  
+  // Intercetta click su voci di menu non valide
+  useEffect(() => {
+    const handleInvalidPathClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+      if (link) {
+        const href = link.getAttribute('href');
+        if (href === '/appointments' || href === '/questionnaires') {
+          e.preventDefault();
+          e.stopPropagation();
+          console.warn(`Tentativo di navigazione a percorso non valido: ${href}`);
+          return false;
+        }
+      }
+    };
+    
+    document.addEventListener('click', handleInvalidPathClick, true);
+    
+    return () => {
+      document.removeEventListener('click', handleInvalidPathClick, true);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -230,6 +253,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </div>
                   
                   <h2 className="text-lg font-medium">Menu</h2>
+                  {/* Menu principale aggiornato - versione 2.0 - rimuove voci non necessarie */}
                   <nav className="flex flex-col gap-2">
                     <Link href="/dashboard">
                       <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
