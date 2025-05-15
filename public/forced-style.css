@@ -1,0 +1,39 @@
+/**
+ * Stili forzati da caricare direttamente per risolvere i problemi con il menu mobile
+ * Versione: v4.0.0
+ */
+
+a[href*="/surveys"],
+a[href*="/appointments"],
+a[href="/surveys"],
+a[href="/appointments"],
+button[data-survey-link="true"],
+button[data-appointment-link="true"],
+*[data-mobile-hidden="true"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -999 !important;
+  transform: scale(0) !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Stile extra per rimozione diretta sui dispositivi specifici */
+@media screen and (max-width: 768px) {
+  /* Assicuriamo che tutti i selettori possibili siano coperti */
+  [href*="questionari"],
+  [href*="appuntamenti"],
+  [href*="surveys"],
+  [href*="appointments"],
+  nav a:nth-child(3),
+  nav a:nth-child(4) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}

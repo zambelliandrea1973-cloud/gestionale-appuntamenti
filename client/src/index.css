@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix per rimuovere i link problematici nel menu mobile - v3.0.0 */
+a[href*="/surveys"],
+a[href*="/appointments"],
+a[href="/surveys"],
+a[href="/appointments"],
+button[data-survey-link="true"],
+button[data-appointment-link="true"],
+*[data-mobile-hidden="true"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -999 !important;
+  transform: scale(0) !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
