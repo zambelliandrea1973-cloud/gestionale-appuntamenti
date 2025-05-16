@@ -62,93 +62,22 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   useEffect(() => {
     // Funzione per rimuovere completamente qualsiasi elemento problematico
     const purgeAllInvalidElements = () => {
-      console.log("Avvio pulizia radicale degli elementi menu obsoleti");
+      console.log("Avvio pulizia radicale degli elementi menu obsoleti - Versione 5.0");
 
-      // 1. Maniera più aggressiva: rimuove l'intero div della sidebar mobile se contiene voci obsolete
-      const mobileSidebar = document.querySelector('.mobile-menu');
-      if (mobileSidebar) {
-        const mobileMenuItems = mobileSidebar.querySelectorAll('a');
-        mobileMenuItems.forEach(link => {
-          if (link.getAttribute('href') === '/appointments' || 
-              link.getAttribute('href') === '/questionnaires' ||
-              link.textContent?.includes('Questionari') ||
-              link.textContent?.includes('Appuntamenti')) {
-            
-            // Rimuovi l'intero elemento list item del menu
-            const listItem = link.closest('li');
-            if (listItem) {
-              console.warn(`Rimozione completa elemento menu: ${link.textContent}`);
-              listItem.parentElement?.removeChild(listItem);
-            } else {
-              // Rimuovi direttamente il link se non è in un <li>
-              link.parentElement?.removeChild(link);
-            }
-          }
-        });
-      }
-
-      // 2. Rimuove anche dalla navbar principale
-      const mainNav = document.querySelector('nav');
-      if (mainNav) {
-        const navLinks = mainNav.querySelectorAll('a');
-        navLinks.forEach(link => {
-          if (link.getAttribute('href') === '/appointments' || 
-              link.getAttribute('href') === '/questionnaires' ||
-              link.textContent?.includes('Questionari') ||
-              link.textContent?.includes('Appuntamenti')) {
-            
-            // Rimuovi il link o l'intero elemento se è parte di un item
-            const navItem = link.closest('.nav-item') || link.parentElement;
-            if (navItem) {
-              console.warn(`Rimozione completa elemento navbar: ${link.textContent}`);
-              navItem.parentElement?.removeChild(navItem);
-            }
-          }
-        });
-      }
-
-      // 3. Pulizia totale di tutti gli elementi con testo problematico
-      const allElements = document.querySelectorAll('*');
-      const problemTerms = ['Questionari', 'Appuntamenti', 'questionnaires', 'appointments'];
-      
-      allElements.forEach(el => {
-        // Salta elementi importanti
-        if (el.closest('[data-title="calendar"]') || 
-            el.closest('.text-lg.flex.items-center') ||
-            el.tagName === 'TITLE') {
-          return;
-        }
-        
-        const text = el.textContent?.trim();
-        if (text && problemTerms.some(term => text.includes(term))) {
-          if (el instanceof HTMLElement) {
-            console.warn(`Nascondo elemento con testo problematico: ${text}`);
-            el.style.display = 'none';
-            
-            // Svuota anche il contenuto
-            if (el.children.length === 0) {
-              el.textContent = '';
-            }
-          }
-        }
+      // Rimuove tutti gli elementi con attributi href specifici
+      document.querySelectorAll('a[href="/appointments"], a[href="/questionnaires"], a[href="/surveys"]').forEach(el => {
+        console.log("Rimozione diretta elemento con href invalido");
+        el.remove();
       });
 
-      // 4. Rimuove tutti i nodi testo che contengono parole problematiche
-      const walkDOM = (node: Node) => {
-        if (node.nodeType === Node.TEXT_NODE) {
-          const text = node.textContent;
-          if (text && problemTerms.some(term => text.includes(term))) {
-            node.textContent = '';
-          }
-        } else {
-          node.childNodes.forEach(child => walkDOM(child));
-        }
-      };
-      walkDOM(document.body);
+      // Rimuove qualsiasi elemento che potrebbe essere parte di un sistema di navigazione con href contenente testi problematici
+      document.querySelectorAll('a[href*="appointments"], a[href*="questionnaires"], a[href*="surveys"]').forEach(el => {
+        console.log("Rimozione diretta elemento con href parziale invalido");
+        el.remove();
+      });
 
-      // 5. Pulizia completa del localStorage e sessionStorage
+      // Pulizia totale del localStorage e sessionStorage per rimuovere qualsiasi stato memorizzato
       try {
-        // Svuota tutto il localStorage e sessionStorage
         localStorage.clear();
         sessionStorage.clear();
         console.log("Storage del browser completamente pulito");
@@ -160,7 +89,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
     // Esegui la pulizia immediatamente
     purgeAllInvalidElements();
     
-    // Esegui periodicamente per catturare elementi che potrebbero essere aggiunti dinamicamente
+    // Esegui una volta ogni 3 secondi per catturare elementi che potrebbero essere aggiunti dinamicamente
     const cleanupInterval = setInterval(purgeAllInvalidElements, 3000);
     
     // Intercetta click per prevenire navigazione a percorsi invalidi
@@ -169,14 +98,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
       const link = target.closest('a');
       if (link) {
         const href = link.getAttribute('href');
-        const text = link.textContent;
-        if ((href && (href.includes('appointments') || href.includes('questionnaires'))) ||
-            (text && (text.includes('Questionari') || text.includes('Appuntamenti')))) {
+        if (href && (href.includes('appointments') || href.includes('questionnaires') || href.includes('surveys'))) {
           e.preventDefault();
           e.stopPropagation();
-          console.warn(`Bloccato click su elemento invalido: ${text || href}`);
-          // Rimuovi immediatamente dal DOM
-          link.parentElement?.removeChild(link);
+          console.warn(`Bloccato click su elemento invalido con href: ${href}`);
+          link.remove();
           return false;
         }
       }
@@ -184,11 +110,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
     
     // Intercetta tutti i click
     document.addEventListener('click', blockInvalidNavigation, true);
-
-    // Notifica che la pagina è stata pulita
-    setTimeout(() => {
-      console.log("Pulizia completa della pagina eseguita");
-    }, 5000);
     
     return () => {
       clearInterval(cleanupInterval);
