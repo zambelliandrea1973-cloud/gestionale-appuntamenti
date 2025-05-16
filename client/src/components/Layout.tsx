@@ -233,7 +233,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </div>
                   
                   <h2 className="text-lg font-medium">Menu</h2>
-                  {/* Menu principale versione mobile 3.0.0 - semplificato con solo voci essenziali */}
+                  {/* Menu principale versione mobile 4.0.0 - Ottimizzato e privo di voci non necessarie */}
                   <nav className="flex flex-col gap-2">
                     <Link href="/dashboard">
                       <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
@@ -242,7 +242,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Menu limitato alle funzionalità principali */}
+                    {/* NOTA: Voci "Questionari" e "Appuntamenti" completamente rimosse dal codice sorgente */}
+                    
+                    {/* Menu ridotto alle sole funzionalità essenziali */}
                     <Link href="/whatsapp-center">
                       <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
                         <MessageSquare className="mr-2 h-4 w-4" />
