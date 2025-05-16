@@ -1,104 +1,116 @@
-// Soluzione radicale rimuovi voci di menu - v8.0.0
+// Rimozione definitiva voci "Appuntamenti" e "Questionari" - v9.0.0
 (function() {
-  // Esegui immediatamente all'avvio e dopo aver caricato il DOM
-  function inizia() {
-    console.log('Avvio pulizia menu mobile versione 8.0.0');
-    
-    // Rimozione elementi problematici con più tentativi
-    pulisciMenu();
-    
-    // Programma pulizie periodiche per catturare elementi aggiunti dinamicamente
-    setInterval(pulisciMenu, 500);
-  }
   
-  function pulisciMenu() {
-    // 1. Cerca tutti i pulsanti con testo "Questionari" o "Appuntamenti"
-    document.querySelectorAll('button, a').forEach(elemento => {
-      const testo = elemento.innerText || elemento.textContent || '';
-      if (testo.includes('Questionari') || testo.includes('Appuntamenti')) {
-        console.log('Trovato elemento problematico:', testo);
+  /**
+   * Funzione principale di pulizia menu
+   * Versione 9.0.0 - Rimozione completa
+   * 
+   * Questo script rimuove permanentemente i pulsanti "Appuntamenti" e "Questionari"
+   * dal menu mobile come richiesto dal cliente.
+   * 
+   * La soluzione è strutturata per rimuovere fisicamente gli elementi dal DOM
+   * anziché solo nasconderli.
+   */
+  
+  let rimossiAppuntamenti = 0;
+  let rimossiQuestionari = 0;
+  
+  function pulisciMenuMobile() {
+    try {
+      // 1. Rimozione diretta di tutti i pulsanti con testo problematico
+      document.querySelectorAll('button, a, div').forEach(el => {
+        const testo = (el.innerText || el.textContent || '').trim();
         
-        // Trova il contenitore dell'elemento di menu
-        let contenitore = elemento;
-        
-        // Risali fino a 3 livelli per trovare il container completo
-        for (let i = 0; i < 3; i++) {
-          if (contenitore.parentElement) {
+        if (testo === 'Appuntamenti' || testo === 'Questionari') {
+          // Se è un pulsante del menu, trova il contenitore completo (tipicamente un <li> o <a>)
+          let contenitore = el;
+          while (contenitore && contenitore.parentElement && 
+                 !['NAV', 'UL', 'BODY'].includes(contenitore.parentElement.tagName)) {
             contenitore = contenitore.parentElement;
           }
-        }
-        
-        // Nascondi completamente l'elemento
-        elemento.style.display = 'none';
-        elemento.style.visibility = 'hidden';
-        elemento.style.opacity = '0';
-        elemento.style.pointerEvents = 'none';
-        elemento.style.height = '0';
-        elemento.style.width = '0';
-        elemento.style.overflow = 'hidden';
-        elemento.style.position = 'absolute';
-        elemento.style.zIndex = '-9999';
-        
-        // Rimuovi anche il testo
-        elemento.innerHTML = '';
-        elemento.innerText = '';
-        elemento.textContent = '';
-        
-        // Aggiungi attributo per identificare elementi nascosti
-        elemento.setAttribute('data-removed', 'true');
-      }
-    });
-    
-    // 2. Cerca specificamente all'interno dei menu mobili (sheet)
-    document.querySelectorAll('[class*="sheet"], [class*="menu"], [class*="mobile"]').forEach(menu => {
-      const items = menu.querySelectorAll('div, a, button, li');
-      items.forEach(item => {
-        const testo = item.innerText || item.textContent || '';
-        if (testo.includes('Questionari') || testo.includes('Appuntamenti')) {
-          console.log('Trovato elemento problematico in menu:', testo);
-          item.style.display = 'none';
-          item.style.visibility = 'hidden';
-          item.innerHTML = '';
+          
+          // Rimuovi fisicamente dal DOM
+          if (contenitore && contenitore.parentNode) {
+            if (testo === 'Appuntamenti') rimossiAppuntamenti++;
+            if (testo === 'Questionari') rimossiQuestionari++;
+            
+            contenitore.parentNode.removeChild(contenitore);
+            console.log(`Rimosso elemento '${testo}' dal menu mobile`);
+          } else {
+            // Se non troviamo un contenitore adatto, rimuovi almeno l'elemento
+            if (el.parentNode) {
+              el.parentNode.removeChild(el);
+              console.log(`Rimosso elemento '${testo}' (senza contenitore)`);
+            }
+          }
         }
       });
-    });
-    
-    // 3. Blocco specifico dello sheet mobile se contiene voci problematiche
-    document.querySelectorAll('[role="dialog"]').forEach(dialog => {
-      const content = dialog.innerText || dialog.textContent || '';
-      if (content.includes('Questionari') || content.includes('Appuntamenti')) {
-        console.log('Trovato dialog con contenuto problematico');
-        // Inserisci una funzione che impedisca di aprire lo sheet
-        const problematicItems = dialog.querySelectorAll('a, button, div');
-        problematicItems.forEach(item => {
-          const itemText = item.innerText || item.textContent || '';
-          if (itemText.includes('Questionari') || itemText.includes('Appuntamenti')) {
-            item.style.display = 'none';
-            item.setAttribute('data-removed', 'true');
+      
+      // 2. Rimozione anche dai componenti di dialog aperti
+      document.querySelectorAll('[role="dialog"], [aria-modal="true"], .mobile-menu, .sheet-content').forEach(dialog => {
+        const links = dialog.querySelectorAll('a, button, [role="button"]');
+        links.forEach(link => {
+          const testo = (link.innerText || link.textContent || '').trim();
+          if (testo === 'Appuntamenti' || testo === 'Questionari') {
+            // Trova il contenitore più appropriato
+            let contenitore = link;
+            for (let i = 0; i < 3; i++) {
+              if (contenitore.parentElement) {
+                contenitore = contenitore.parentElement;
+              }
+            }
+            
+            if (contenitore && contenitore.parentNode) {
+              contenitore.parentNode.removeChild(contenitore);
+              console.log(`Rimosso elemento di dialogo '${testo}'`);
+            }
           }
         });
+      });
+      
+      // 3. Rimuovi anche elementi che vengono caricati dinamicamente con nomi tradotti
+      const testiDaRimuovere = ['Appuntamenti', 'Questionari', 'Appointments', 'Surveys', 'Questionnaires'];
+      document.querySelectorAll('[role="menuitem"], [class*="menu-item"]').forEach(item => {
+        const testo = (item.innerText || item.textContent || '').trim();
+        if (testiDaRimuovere.some(t => testo.includes(t))) {
+          if (item.parentNode) {
+            item.parentNode.removeChild(item);
+          }
+        }
+      });
+      
+      // 4. Mostra statistiche in console solo se ci sono stati cambiamenti
+      if (rimossiAppuntamenti > 0 || rimossiQuestionari > 0) {
+        console.log(`Pulizia menu completata. Rimossi: ${rimossiAppuntamenti} 'Appuntamenti', ${rimossiQuestionari} 'Questionari'`);
       }
-    });
+    } catch (error) {
+      console.error('Errore durante la pulizia del menu:', error);
+    }
   }
   
-  // Avvia subito
-  inizia();
+  // Esecuzione immediata
+  pulisciMenuMobile();
   
-  // Aggiungi anche listener DOMContentLoaded per sicurezza
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inizia);
-  }
+  // Monitoring continuo (ogni 300ms) per catturare nuovi elementi che potrebbero essere aggiunti
+  setInterval(pulisciMenuMobile, 300);
   
-  // Intercetta modifiche al DOM
+  // Osservatore per rilevare cambiamenti del DOM
   const observer = new MutationObserver(() => {
-    pulisciMenu();
+    pulisciMenuMobile();
   });
   
-  // Osserva tutto il documento per modifiche
+  // Osserva tutto il documento
   observer.observe(document.documentElement, {
     childList: true,
-    subtree: true,
-    attributes: true,
-    characterData: true
+    subtree: true
   });
+  
+  // Assicurati che venga eseguito anche dopo il caricamento completo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', pulisciMenuMobile);
+  }
+  
+  // E quando la pagina è completamente caricata
+  window.addEventListener('load', pulisciMenuMobile);
+  
 })();
