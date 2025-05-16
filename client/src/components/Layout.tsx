@@ -233,8 +233,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </div>
                   
                   <h2 className="text-lg font-medium">Menu</h2>
-                  {/* Menu principale versione mobile 5.0.0 - Completamente ristrutturato senza voci problematiche */}
+                  {/* Menu mobile v6.0.0 - Completamente riscritto con soli pulsanti essenziali */}
                   <nav className="flex flex-col gap-2">
+                    {/* Home - sempre presente */}
                     <Link href="/dashboard">
                       <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} className="justify-start w-full">
                         <Home className="mr-2 h-4 w-4" />
@@ -242,10 +243,23 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* RIMOZIONE COMPLETA: eliminate le voci "Calendario", "Clienti", "Appuntamenti" e "Questionari" */}
-                    {/* Per impedire che anche traduzioni dinamiche possano mostrare queste voci */}
+                    {/* Calendario - mantenuto come richiesto */}
+                    <Link href="/calendar">
+                      <Button variant={isActive("/calendar") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <CalendarDays className="mr-2 h-4 w-4" />
+                        Calendario
+                      </Button>
+                    </Link>
                     
-                    {/* Menu con sole funzionalità essenziali verificate */}
+                    {/* Clienti - mantenuto come richiesto */}
+                    <Link href="/clients">
+                      <Button variant={isActive("/clients") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <Users className="mr-2 h-4 w-4" />
+                        Clienti
+                      </Button>
+                    </Link>
+                    
+                    {/* Notifiche */}
                     <Link href="/whatsapp-center">
                       <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} className="justify-start w-full">
                         <MessageSquare className="mr-2 h-4 w-4" />
@@ -253,6 +267,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
+                    {/* PRO */}
                     <Link href="/pro">
                       <Button variant={isActive("/pro") ? "secondary" : "ghost"} className="justify-start w-full">
                         <Crown className="mr-2 h-4 w-4 text-amber-400" />
