@@ -1,39 +1,34 @@
 /**
- * Stili forzati da caricare direttamente per risolvere i problemi con il menu mobile
- * Versione: v4.0.0
+ * CSS per rimuovere forzatamente i pulsanti Appuntamenti e Questionari
+ * Questo file sovrascrive qualsiasi stile dinamico applicato ai pulsanti problematici
  */
 
-a[href*="/surveys"],
-a[href*="/appointments"],
-a[href="/surveys"],
-a[href="/appointments"],
-button[data-survey-link="true"],
-button[data-appointment-link="true"],
-*[data-mobile-hidden="true"] {
+/* Nascondi qualsiasi pulsante nel menu mobile che contenga le parole Appuntamenti o Questionari */
+nav button:has(span:contains("Appuntamenti")),
+nav a:has(span:contains("Appuntamenti")),
+nav button:has(span:contains("Questionari")),
+nav a:has(span:contains("Questionari")) {
   display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  z-index: -999 !important;
-  transform: scale(0) !important;
-  height: 0 !important;
-  width: 0 !important;
-  overflow: hidden !important;
 }
 
-/* Stile extra per rimozione diretta sui dispositivi specifici */
-@media screen and (max-width: 768px) {
-  /* Assicuriamo che tutti i selettori possibili siano coperti */
-  [href*="questionari"],
-  [href*="appuntamenti"],
-  [href*="surveys"],
-  [href*="appointments"],
-  nav a:nth-child(3),
-  nav a:nth-child(4) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
+/* Approccio alternativo usando attributi di testo */
+nav [class*="Button"]:has(span:nth-child(n):contains("Appuntamenti")),
+nav [class*="Button"]:has(span:nth-child(n):contains("Questionari")) {
+  display: none !important;
+}
+
+/* Usare selettori generici per menu mobili */
+.mobile-menu button:has(span:contains("Appuntamenti")),
+.mobile-menu button:has(span:contains("Questionari")),
+[data-sidebar] button:has(span:contains("Appuntamenti")),
+[data-sidebar] button:has(span:contains("Questionari")) {
+  display: none !important;
+}
+
+/* Fallback con selettori più specifici basati sui percorsi URL */
+a[href*="/appointments"],
+a[href*="/questionnaires"],
+button[data-href*="/appointments"],
+button[data-href*="/questionnaires"] {
+  display: none !important;
 }
