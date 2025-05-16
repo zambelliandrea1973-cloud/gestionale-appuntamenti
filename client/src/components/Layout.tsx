@@ -58,64 +58,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   // Check active route
   const isActive = (path: string) => location === path;
   
-  // SOLUZIONE RADICALE: Rimuove completamente voci di menu obsolete dal DOM
-  useEffect(() => {
-    // Funzione per rimuovere completamente qualsiasi elemento problematico
-    const purgeAllInvalidElements = () => {
-      console.log("Avvio pulizia radicale degli elementi menu obsoleti - Versione 5.0");
-
-      // Rimuove tutti gli elementi con attributi href specifici
-      document.querySelectorAll('a[href="/appointments"], a[href="/questionnaires"], a[href="/surveys"]').forEach(el => {
-        console.log("Rimozione diretta elemento con href invalido");
-        el.remove();
-      });
-
-      // Rimuove qualsiasi elemento che potrebbe essere parte di un sistema di navigazione con href contenente testi problematici
-      document.querySelectorAll('a[href*="appointments"], a[href*="questionnaires"], a[href*="surveys"]').forEach(el => {
-        console.log("Rimozione diretta elemento con href parziale invalido");
-        el.remove();
-      });
-
-      // Pulizia totale del localStorage e sessionStorage per rimuovere qualsiasi stato memorizzato
-      try {
-        localStorage.clear();
-        sessionStorage.clear();
-        console.log("Storage del browser completamente pulito");
-      } catch (e) {
-        console.error('Errore pulizia storage:', e);
-      }
-    };
-
-    // Esegui la pulizia immediatamente
-    purgeAllInvalidElements();
-    
-    // Esegui una volta ogni 3 secondi per catturare elementi che potrebbero essere aggiunti dinamicamente
-    const cleanupInterval = setInterval(purgeAllInvalidElements, 3000);
-    
-    // Intercetta click per prevenire navigazione a percorsi invalidi
-    const blockInvalidNavigation = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const link = target.closest('a');
-      if (link) {
-        const href = link.getAttribute('href');
-        if (href && (href.includes('appointments') || href.includes('questionnaires') || href.includes('surveys'))) {
-          e.preventDefault();
-          e.stopPropagation();
-          console.warn(`Bloccato click su elemento invalido con href: ${href}`);
-          link.remove();
-          return false;
-        }
-      }
-    };
-    
-    // Intercetta tutti i click
-    document.addEventListener('click', blockInvalidNavigation, true);
-    
-    return () => {
-      clearInterval(cleanupInterval);
-      document.removeEventListener('click', blockInvalidNavigation, true);
-    };
-  }, []);
+  // Nessun useEffect per pulizia voci menu obsolete - Versione 6.0.0
+  // Rimosse tutte le voci di menu non necessarie direttamente dal codice sorgente
 
   return (
     <div className="flex flex-col min-h-screen">
