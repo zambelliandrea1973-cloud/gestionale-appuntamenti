@@ -142,15 +142,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Solo gli admin possono vedere il pulsante pagamenti */}
-                {isAdmin && (
-                  <Link href="/payment">
-                    <Button variant={isActive("/payment") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[100px]">
-                      <CreditCard className="h-4 w-4 mr-1 text-green-400" />
-                      <span>Pagamenti</span>
-                    </Button>
-                  </Link>
-                )}
+
                 
                 {/* Pulsanti admin - esattamente uguali agli altri pulsanti */}
                 {isAdmin && (
@@ -285,15 +277,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Pagamenti con carta - solo per admin */}
-                    {isAdmin && (
-                      <Link href="/payment">
-                        <Button variant={isActive("/payment") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <CreditCard className="mr-2 h-4 w-4 text-green-400" />
-                          Pagamenti
-                        </Button>
-                      </Link>
-                    )}
+
                     
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (

@@ -248,13 +248,7 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       
-      {/* Pagine per la gestione dei pagamenti */}
-      <Route path="/payment">
-        <StaffPageWrapper>
-          <PaymentPage />
-        </StaffPageWrapper>
-      </Route>
-      
+      {/* Pagine per il risultato dei pagamenti */}
       <Route path="/payment/success">
         <StaffPageWrapper>
           <PaymentSuccess />
