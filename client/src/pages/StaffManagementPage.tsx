@@ -54,8 +54,11 @@ export default function StaffManagementPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [userToDelete, setUserToDelete] = useState<StaffUser | null>(null);
+  const [userToEdit, setUserToEdit] = useState<StaffUser | null>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   
   // Form per nuovo utente staff
   const [newUsername, setNewUsername] = useState<string>("");
@@ -63,6 +66,12 @@ export default function StaffManagementPage() {
   const [newEmail, setNewEmail] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [formError, setFormError] = useState<string | null>(null);
+  
+  // Form per modificare utente staff
+  const [editUsername, setEditUsername] = useState<string>("");
+  const [editPassword, setEditPassword] = useState<string>("");
+  const [editEmail, setEditEmail] = useState<string>("");
+  const [editFormError, setEditFormError] = useState<string | null>(null);
   
   const { toast } = useToast();
 
@@ -190,6 +199,80 @@ export default function StaffManagementPage() {
   const handleDeleteClick = (user: StaffUser) => {
     setUserToDelete(user);
     setIsDeleteDialogOpen(true);
+  };
+  
+  // Inizia il processo di modifica
+  const handleEditClick = (user: StaffUser) => {
+    setUserToEdit(user);
+    setEditUsername(user.username);
+    setEditEmail(user.email || "");
+    setEditPassword(""); // Password vuota, la modificheremo solo se inserita
+    setEditFormError(null);
+    setIsEditDialogOpen(true);
+  };
+  
+  // Funzione per aggiornare un utente staff
+  const updateStaffUser = async () => {
+    if (!userToEdit) return;
+    
+    setEditFormError(null);
+    setIsEditing(true);
+    
+    // Prepara i dati da inviare - includi solo i campi che sono stati modificati
+    const updateData: any = {};
+    
+    if (editUsername !== userToEdit.username) {
+      updateData.username = editUsername;
+    }
+    
+    if (editEmail !== (userToEdit.email || "")) {
+      updateData.email = editEmail || null; // Se vuoto, imposta null
+    }
+    
+    // Includi la password solo se è stata inserita
+    if (editPassword) {
+      updateData.password = editPassword;
+    }
+    
+    // Se non è stato modificato nulla, mostra un errore
+    if (Object.keys(updateData).length === 0) {
+      setEditFormError("Nessuna modifica apportata");
+      setIsEditing(false);
+      return;
+    }
+    
+    try {
+      const response = await apiRequest("PATCH", `/api/staff/${userToEdit.id}`, updateData);
+      
+      if (response.ok) {
+        const updatedUser = await response.json();
+        
+        // Aggiorna la lista degli utenti
+        setStaffUsers(prev => 
+          prev.map(user => user.id === userToEdit.id ? { ...user, ...updatedUser } : user)
+        );
+        
+        toast({
+          title: "Utente aggiornato",
+          description: `L'utente ${updatedUser.username} è stato aggiornato con successo`,
+        });
+        
+        // Chiudi dialog
+        setIsEditDialogOpen(false);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore durante l'aggiornamento dell'utente");
+      }
+    } catch (err: any) {
+      setEditFormError(err.message || "Si è verificato un errore durante l'aggiornamento dell'utente");
+      toast({
+        variant: "destructive",
+        title: "Errore",
+        description: err.message || "Impossibile aggiornare l'utente staff",
+      });
+    } finally {
+      setIsEditing(false);
+    }
   };
   
   // Filtra gli utenti in base alla ricerca
@@ -354,7 +437,12 @@ export default function StaffManagementPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="icon" className="h-8 w-8" disabled={user.role === "admin" && user.username === "zambelli.andrea.1973@gmail.com"}>
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8" 
+                          onClick={() => handleEditClick(user)}
+                        >
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button 
