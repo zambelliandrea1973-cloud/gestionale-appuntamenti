@@ -58,14 +58,12 @@ export default function StaffLogin() {
       
       // Aggiungiamo un piccolo ritardo per permettere al browser di respirare
       setTimeout(() => {
-        // Verifica se l'utente è l'amministratore principale
-        if (userData && userData.role === "admin" && userData.username === "zambelli.andrea.1973@gmail.com") {
-          console.log("Utente admin principale, reindirizzamento a /staff-management");
-          // Se è l'admin principale, reindirizza alla pagina di gestione staff
-          window.location.href = "/staff-management";
+        // Tutti gli utenti vengono reindirizzati alla dashboard, incluso l'admin
+        if (userData && userData.role === "admin") {
+          console.log("Utente admin, reindirizzamento alla dashboard");
+          window.location.href = "/dashboard";
         } else {
           console.log("Utente standard, reindirizzamento alla dashboard");
-          // Altrimenti reindirizza alla dashboard standard
           window.location.href = "/dashboard";
         }
       }, 100);
