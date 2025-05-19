@@ -43,8 +43,8 @@ export default function setupRegistrationRoutes(app: Express) {
         username,
         email,
         password: hashedPassword,
-        role: 'staff', // I nuovi utenti hanno il ruolo 'staff' di default
-        type: 'staff'
+        role: 'user', // I nuovi utenti hanno il ruolo 'user' di default
+        type: 'customer' // Tutti i nuovi utenti sono 'customer' di default, solo admin può promuovere a 'staff'
       });
       
       console.log(`Nuovo utente registrato: ${username} (${email})`);
