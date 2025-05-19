@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
 import StripeCheckoutButton from '../components/StripeCheckoutButton';
-import PayPalButton from '../components/PayPalButton';
 import { Badge } from '../components/ui/badge';
 
 export default function PaymentPage() {
@@ -162,11 +161,16 @@ export default function PaymentPage() {
                   </TabsContent>
                   
                   <TabsContent value="paypal" className="mt-0">
-                    <PayPalButton 
-                      amount={(plan.price / 100).toString()} 
-                      currency="EUR"
-                      intent="CAPTURE"
-                    />
+                    <div
+                      id="paypal-button" 
+                      className="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white py-2 px-4 rounded-md cursor-pointer flex items-center justify-center"
+                      onClick={() => {
+                        console.log('PayPal button clicked for plan:', plan.id);
+                        // Qui sarà implementata la logica PayPal
+                      }}
+                    >
+                      Paga con PayPal
+                    </div>
                   </TabsContent>
                 </Tabs>
               </CardFooter>

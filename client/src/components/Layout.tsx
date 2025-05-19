@@ -142,6 +142,13 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
+                <Link href="/payment">
+                  <Button variant={isActive("/payment") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[100px]">
+                    <CreditCard className="h-4 w-4 mr-1 text-green-400" />
+                    <span>Pagamenti</span>
+                  </Button>
+                </Link>
+                
                 {/* Pulsanti admin - esattamente uguali agli altri pulsanti */}
                 {isAdmin && (
                   <>
