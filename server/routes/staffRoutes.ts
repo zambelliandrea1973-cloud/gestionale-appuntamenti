@@ -69,6 +69,72 @@ export default function setupStaffRoutes(app: Express) {
     }
   });
 
+  // Aggiorna un utente staff (solo per admin)
+  app.patch("/api/staff/:id", isAdmin, async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.id);
+      
+      // Verifica che l'ID sia valido
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "ID utente non valido" });
+      }
+      
+      // Verifica che l'utente esista
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Utente non trovato" });
+      }
+      
+      // Verifica che l'utente sia uno staff (non un cliente)
+      if (user.clientId) {
+        return res.status(400).json({ message: "Non è possibile modificare un utente cliente da questa API" });
+      }
+      
+      // Dati da aggiornare
+      const updateData: any = {};
+      const { username, email, password } = req.body;
+      
+      // Controlla se l'username è stato fornito e se è cambiato
+      if (username && username !== user.username) {
+        // Verifica se l'username è già in uso da un altro utente
+        const existingUser = await storage.getUserByUsername(username);
+        if (existingUser && existingUser.id !== userId) {
+          return res.status(400).json({ message: "Username già in uso da un altro utente" });
+        }
+        updateData.username = username;
+      }
+      
+      // Aggiorna l'email se fornita
+      if (email !== undefined) {
+        updateData.email = email || null; // Consenti di rimuovere l'email impostando null
+      }
+      
+      // Aggiorna la password se fornita
+      if (password) {
+        updateData.password = await hashPassword(password);
+      }
+      
+      // Verifica che ci sia almeno un campo da aggiornare
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ message: "Nessun dato da aggiornare fornito" });
+      }
+      
+      // Aggiorna l'utente
+      const updatedUser = await storage.updateUser(userId, updateData);
+      
+      if (updatedUser) {
+        // Rimuovi la password dalla risposta
+        const { password: _, ...userWithoutPassword } = updatedUser;
+        res.json(userWithoutPassword);
+      } else {
+        res.status(500).json({ message: "Impossibile aggiornare l'utente" });
+      }
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento dell'utente staff:", error);
+      res.status(500).json({ message: "Si è verificato un errore durante l'aggiornamento dell'utente staff" });
+    }
+  });
+
   // Elimina un utente staff (solo per admin)
   app.delete("/api/staff/:id", isAdmin, async (req: Request, res: Response) => {
     try {

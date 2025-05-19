@@ -500,6 +500,85 @@ export default function StaffManagementPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      
+      {/* Dialog di modifica utente */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Modifica utente</DialogTitle>
+            <DialogDescription>
+              Modifica le informazioni dell'utente {userToEdit?.username}.
+              Lascia vuota la password se non desideri modificarla.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            {editFormError && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Errore</AlertTitle>
+                <AlertDescription>{editFormError}</AlertDescription>
+              </Alert>
+            )}
+            
+            <div className="space-y-2">
+              <Label htmlFor="editUsername">Username</Label>
+              <Input
+                id="editUsername"
+                value={editUsername}
+                onChange={(e) => setEditUsername(e.target.value)}
+                placeholder="Username per il login"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="editPassword">
+                Password <span className="text-muted-foreground text-xs">(lascia vuoto per non modificare)</span>
+              </Label>
+              <PasswordInput
+                id="editPassword"
+                value={editPassword}
+                onChange={(e) => setEditPassword(e.target.value)}
+                placeholder="Nuova password"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="editEmail">Email (opzionale)</Label>
+              <Input
+                id="editEmail"
+                type="email"
+                value={editEmail}
+                onChange={(e) => setEditEmail(e.target.value)}
+                placeholder="Indirizzo email"
+              />
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setIsEditDialogOpen(false);
+                setUserToEdit(null);
+              }}
+            >
+              Annulla
+            </Button>
+            <Button 
+              onClick={updateStaffUser} 
+              disabled={isEditing}
+            >
+              {isEditing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Aggiornamento in corso...
+                </>
+              ) : "Salva modifiche"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
