@@ -55,7 +55,7 @@ export function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Strategia di autenticazione per utenti professionali (admin/staff)
+  // Strategia di autenticazione per utenti professionali (admin/staff/customer)
   passport.use("local-staff", new LocalStrategy(async (username, password, done) => {
     try {
       const user = await storage.getUserByUsername(username);
@@ -63,13 +63,21 @@ export function setupAuth(app: Express) {
         return done(null, false, { message: "Username o password non validi" });
       }
       
-      // Conserviamo il campo 'role' originale (admin, staff, etc.)
-      // ma impostiamo type come 'staff' per distinguere da 'client'
-      const userType = user.role === 'admin' ? 'admin' : 'staff';
+      // CORREZIONE: Manteniamo il tipo originale dell'utente (admin, staff o customer)
+      // Utilizziamo il campo 'role' SOLO se il tipo non è già definito
+      let userType = user.type;
+      
+      // Se il tipo non è definito, determiniamolo dal ruolo
+      if (!userType || userType === 'undefined') {
+        userType = user.role === 'admin' ? 'admin' : 'staff';
+        console.log(`Tipo utente non definito per ${username}, impostato a ${userType} basato sul ruolo`);
+      } else {
+        console.log(`Tipo utente mantenuto per ${username}: ${userType}`);
+      }
       
       return done(null, { 
         ...user, 
-        type: userType // mantiene il ruolo originale dell'utente (admin o staff)
+        type: userType // mantiene il tipo originale dell'utente
       });
     } catch (err) {
       return done(err);
@@ -170,39 +178,23 @@ export function setupAuth(app: Express) {
       
       const id = parseInt(idStr, 10);
 
-      if (type === "staff" || type === "admin") {
+      if (type === "staff" || type === "admin" || type === "customer") {
         const user = await storage.getUser(id);
         if (!user) return done(null, false);
         
-        // Manteniamo la coerenza con la strategia di login sopra
-        const userType = user.role === 'admin' ? 'admin' : 'staff';
+        // CORREZIONE: Manteniamo il tipo originale se presente
+        let userType = user.type;
+        if (!userType || userType === 'undefined') {
+          userType = user.role === 'admin' ? 'admin' : (type === 'customer' ? 'customer' : 'staff');
+          console.log(`Tipo utente non definito per ID ${id}, impostato a ${userType} basato sul tipo serializzato`);
+        } else {
+          console.log(`Tipo utente mantenuto per ID ${id}: ${userType}`);
+        }
+        
         return done(null, { ...user, type: userType });
-      } else if (type === "customer") {
-        // ATTENZIONE: Gli utenti customer sono in realtà salvati nella tabella client_accounts
-        // NON nella tabella users, quindi dobbiamo usare getClientAccount invece di getUser
-        console.log(`Cliente tipo "customer" con ID ${id} - usando getClientAccount`);
-        
-        const clientAccount = await storage.getClientAccount(id);
-        if (!clientAccount) {
-          console.error(`Customer con ID ${id} non trovato nella tabella client_accounts`);
-          return done(null, false);
-        }
-        
-        // Carichiamo anche i dati del cliente
-        const client = await storage.getClient(clientAccount.clientId);
-        if (!client) {
-          console.error(`Cliente con ID ${clientAccount.clientId} non trovato per customer ID ${id}`);
-          return done(null, false);
-        }
-        
-        console.log(`Customer ${clientAccount.username} deserializzato correttamente dalla tabella client_accounts`);
-        console.log(`Associato a cliente ${client.firstName} ${client.lastName} (ID: ${client.id})`);
-        
-        return done(null, { 
-          ...clientAccount, 
-          client, 
-          type: 'customer' 
-        });
+      } else if (type === "client" && !serialized.startsWith("customer:")) {
+        // ATTENZIONE: I clienti e i customer sono gestiti in modo diverso
+        console.log(`Cliente tipo "client" con ID ${id} - usando getClientAccount`);
       } else if (type === "client") {
         const clientAccount = await storage.getClientAccount(id);
         if (!clientAccount || !clientAccount.isActive) return done(null, false);
