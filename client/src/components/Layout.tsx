@@ -275,6 +275,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
+                    {/* Pagamenti con carta */}
+                    <Link href="/payment">
+                      <Button variant={isActive("/payment") ? "secondary" : "ghost"} className="justify-start w-full">
+                        <CreditCard className="mr-2 h-4 w-4 text-green-400" />
+                        Pagamenti
+                      </Button>
+                    </Link>
+                    
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (
                       <>

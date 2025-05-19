@@ -39,6 +39,7 @@ import GoogleTroubleshootingPage from "./pages/GoogleTroubleshootingPage";
 import ProFeaturesPage from "./pages/ProFeaturesPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
+import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
 
 import NotFound from "./pages/not-found";
@@ -248,6 +249,12 @@ function AppRoutes() {
       </Route>
       
       {/* Pagine per la gestione dei pagamenti */}
+      <Route path="/payment">
+        <StaffPageWrapper>
+          <PaymentPage />
+        </StaffPageWrapper>
+      </Route>
+      
       <Route path="/payment/success">
         <StaffPageWrapper>
           <PaymentSuccess />
