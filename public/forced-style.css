@@ -1,34 +1,104 @@
 /**
- * CSS per rimuovere forzatamente i pulsanti Appuntamenti e Questionari
+ * CSS ultra-potenziato per rimuovere forzatamente i pulsanti Appuntamenti e Questionari 
  * Questo file sovrascrive qualsiasi stile dinamico applicato ai pulsanti problematici
+ * Versione 2.0 - Basata sugli screenshot del menu mobile
  */
 
-/* Nascondi qualsiasi pulsante nel menu mobile che contenga le parole Appuntamenti o Questionari */
+/* STILE NASCOSTO COMPLETO: applica tutte le proprietà possibili per garantire che l'elemento sparisca */
+.hidden-element-complete {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  pointer-events: none !important;
+}
+
+/* SELETTORI SUPER SPECIFICI BASATI SUGLI SCREENSHOT */
+
+/* Selettori per la struttura esatta di menu vista negli screenshot */
+[role="menuitem"]:has(svg + span:contains("Appuntamenti")),
+[role="menuitem"]:has(svg + span:contains("Questionari")),
+div:has(> svg + span:contains("Appuntamenti")),
+div:has(> svg + span:contains("Questionari")),
+div:has(> div > span:contains("Appuntamenti")),
+div:has(> div > span:contains("Questionari")) {
+  composes: hidden-element-complete;
+}
+
+/* Selettori visti nello screenshot con modello esatto */
+/* Cattura specificamente i <div> con icona e testo "Appuntamenti"/"Questionari" */
+div:has(> svg[class*="lucide"] + span:contains("Appuntamenti")),
+div:has(> svg[class*="lucide"] + span:contains("Questionari")) {
+  composes: hidden-element-complete;
+}
+
+/* Nascondi qualsiasi elemento di menu con questi testi */
+[class*="menu"] div:has(span:contains("Appuntamenti")),
+[class*="menu"] div:has(span:contains("Questionari")),
+[class*="Menu"] div:has(span:contains("Appuntamenti")),
+[class*="Menu"] div:has(span:contains("Questionari")) {
+  composes: hidden-element-complete;
+}
+
+/* Selettori per strutture di menu React comuni */
 nav button:has(span:contains("Appuntamenti")),
 nav a:has(span:contains("Appuntamenti")),
 nav button:has(span:contains("Questionari")),
 nav a:has(span:contains("Questionari")) {
-  display: none !important;
+  composes: hidden-element-complete;
 }
 
-/* Approccio alternativo usando attributi di testo */
+/* Approccio mirato sugli elementi stile Radix UI come visto nello screenshot */
 nav [class*="Button"]:has(span:nth-child(n):contains("Appuntamenti")),
-nav [class*="Button"]:has(span:nth-child(n):contains("Questionari")) {
-  display: none !important;
+nav [class*="Button"]:has(span:nth-child(n):contains("Questionari")),
+[data-state="open"] div:has(span:contains("Appuntamenti")),
+[data-state="open"] div:has(span:contains("Questionari")) {
+  composes: hidden-element-complete;
 }
 
-/* Usare selettori generici per menu mobili */
+/* Selettori specifici per menu laterali e mobili come visti nello screenshot */
 .mobile-menu button:has(span:contains("Appuntamenti")),
 .mobile-menu button:has(span:contains("Questionari")),
 [data-sidebar] button:has(span:contains("Appuntamenti")),
-[data-sidebar] button:has(span:contains("Questionari")) {
-  display: none !important;
+[data-sidebar] button:has(span:contains("Questionari")),
+[role="dialog"] div:has(span:contains("Appuntamenti")),
+[role="dialog"] div:has(span:contains("Questionari")) {
+  composes: hidden-element-complete;
 }
 
-/* Fallback con selettori più specifici basati sui percorsi URL */
+/* Fallback con selettori specifici basati sui percorsi URL */
 a[href*="/appointments"],
 a[href*="/questionnaires"],
+a[href*="/appuntamenti"],
+a[href*="/questionari"],
 button[data-href*="/appointments"],
-button[data-href*="/questionnaires"] {
-  display: none !important;
+button[data-href*="/questionnaires"],
+button[data-href*="/appuntamenti"],
+button[data-href*="/questionari"] {
+  composes: hidden-element-complete;
+}
+
+/* SELETTORI EXTRA AGGRESSIVI - L'ARMA DEFINITIVA */
+
+/* Cattura specificamente la struttura dello screenshot */
+body div:has(div > span:contains("Menu")) div:has(span:contains("Appuntamenti")),
+body div:has(div > span:contains("Menu")) div:has(span:contains("Questionari")) {
+  composes: hidden-element-complete !important;
+}
+
+/* Selettori ultra-specifici per i pulsanti problematici */
+body [role="navigation"] div:has(span:contains("Appuntamenti")),
+body [role="navigation"] div:has(span:contains("Questionari")),
+body [role="dialog"] div:has(span:contains("Appuntamenti")),
+body [role="dialog"] div:has(span:contains("Questionari")),
+body div[class*="menu"] div:has(span:contains("Appuntamenti")),
+body div[class*="menu"] div:has(span:contains("Questionari")) {
+  composes: hidden-element-complete !important;
 }
