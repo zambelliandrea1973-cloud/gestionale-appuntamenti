@@ -9,7 +9,7 @@ const router = express.Router();
  * Ottiene statistiche e dettagli sui referral dell'utente corrente
  * GET /api/referral/stats
  */
-router.get('/stats', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
+router.get('/stats', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -34,7 +34,7 @@ router.get('/stats', ensureAuthenticated, isStaff, async (req: Request, res: Res
  * Genera un nuovo codice referral per l'utente
  * POST /api/referral/generate-code
  */
-router.post('/generate-code', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
+router.post('/generate-code', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -62,7 +62,7 @@ router.post('/generate-code', ensureAuthenticated, isStaff, async (req: Request,
  * Salva il conto bancario dell'utente
  * POST /api/referral/bank-account
  */
-router.post('/bank-account', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
+router.post('/bank-account', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
