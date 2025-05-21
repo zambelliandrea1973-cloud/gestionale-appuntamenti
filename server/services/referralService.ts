@@ -297,3 +297,133 @@ export async function saveBankAccount(
     return null;
   }
 }
+
+/**
+ * Recupera tutti i pagamenti in sospeso
+ */
+export async function getPendingPayments(): Promise<Array<schema.ReferralPayment & { user?: any, bankAccount?: any }>> {
+  try {
+    // Recupera tutti i pagamenti con stato 'pending'
+    const payments = await db
+      .select()
+      .from(schema.referralPayments)
+      .where(eq(schema.referralPayments.status, 'pending'))
+      .orderBy(desc(schema.referralPayments.createdAt));
+    
+    // Arricchisci i dati con informazioni sugli utenti e i conti bancari
+    const enrichedPayments = await Promise.all(payments.map(async (payment) => {
+      // Recupera i dati dell'utente
+      const [user] = await db
+        .select()
+        .from(schema.users)
+        .where(eq(schema.users.id, payment.userId))
+        .limit(1);
+      
+      // Recupera il conto bancario
+      const bankAccount = await getBankAccount(payment.userId);
+      
+      return {
+        ...payment,
+        user: user || undefined,
+        bankAccount: bankAccount || undefined
+      };
+    }));
+    
+    return enrichedPayments;
+  } catch (error) {
+    console.error('Errore nel recupero dei pagamenti in sospeso:', error);
+    return [];
+  }
+}
+
+/**
+ * Genera pagamenti per tutti gli utenti per un periodo specifico
+ */
+export async function generatePaymentsForAllUsers(period: string): Promise<{ count: number, payments: schema.ReferralPayment[] }> {
+  try {
+    // Recupera tutti gli utenti di tipo staff
+    const staffUsers = await db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.type, 'staff'));
+    
+    // Genera pagamenti per ogni utente che ha commissioni attive
+    const payments: schema.ReferralPayment[] = [];
+    let count = 0;
+    
+    for (const user of staffUsers) {
+      // Verifica se l'utente ha commissioni attive
+      const commissions = await getActiveCommissions(user.id);
+      
+      if (commissions.length > 0) {
+        // Calcola l'importo da pagare
+        const amount = await calculateCommissionsForPeriod(user.id, period);
+        
+        // Se l'importo è positivo, genera un pagamento
+        if (amount > 0) {
+          const payment = await generatePaymentForPeriod(user.id, period);
+          
+          if (payment) {
+            payments.push(payment);
+            count++;
+          }
+        }
+      }
+    }
+    
+    return { count, payments };
+  } catch (error) {
+    console.error('Errore nella generazione dei pagamenti per tutti gli utenti:', error);
+    return { count: 0, payments: [] };
+  }
+}
+
+/**
+ * Aggiorna lo stato di un pagamento
+ */
+export async function updatePaymentStatus(
+  paymentId: number, 
+  status: string,
+  processingNote?: string
+): Promise<schema.ReferralPayment | null> {
+  try {
+    // Verifica se il pagamento esiste
+    const [existingPayment] = await db
+      .select()
+      .from(schema.referralPayments)
+      .where(eq(schema.referralPayments.id, paymentId))
+      .limit(1);
+    
+    if (!existingPayment) {
+      console.log(`Pagamento con ID ${paymentId} non trovato`);
+      return null;
+    }
+    
+    // Aggiorna il pagamento
+    const updateData: Partial<schema.ReferralPayment> = {
+      status,
+      updatedAt: new Date()
+    };
+    
+    // Se è processato, aggiungi la data di pagamento
+    if (status === 'processed') {
+      updateData.paymentDate = new Date();
+    }
+    
+    // Se c'è una nota, aggiungila
+    if (processingNote) {
+      updateData.processingNote = processingNote;
+    }
+    
+    const [updatedPayment] = await db
+      .update(schema.referralPayments)
+      .set(updateData)
+      .where(eq(schema.referralPayments.id, paymentId))
+      .returning();
+    
+    return updatedPayment;
+  } catch (error) {
+    console.error(`Errore nell'aggiornamento del pagamento ${paymentId}:`, error);
+    return null;
+  }
+}

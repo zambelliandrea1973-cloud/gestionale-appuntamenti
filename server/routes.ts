@@ -43,6 +43,7 @@ import licenseRoutes from './routes/licenseRoutes';
 import setupRegistrationRoutes from './routes/registrationRoutes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import setupStaffRoutes from './routes/staffRoutes';
+import referralRoutes from './routes/referralRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
@@ -280,6 +281,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
   app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
+  app.use('/api/referral', referralRoutes); // Sistema di referral per lo staff
   // Gestione del callback di Google OAuth
   app.get('/api/google-auth/callback', async (req, res) => {
     console.log("Callback diretto ricevuto con parametri:", req.query);

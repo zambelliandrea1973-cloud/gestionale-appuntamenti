@@ -14,6 +14,13 @@ const router = express.Router();
  */
 router.post('/generate-code', ensureAuthenticated, isStaff, async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+    
     const userId = req.user.id;
     const code = await referralService.generateReferralCode(userId);
     
