@@ -1,429 +1,364 @@
+import { db } from '../db';
+import { bankAccounts, users, subscriptions, referralCommissions, referralPayments } from '@shared/schema';
+import { eq, and, gte, isNull, count, sum, sql } from 'drizzle-orm';
+import { format, subMonths, startOfMonth, endOfMonth } from 'date-fns';
+import { randomBytes } from 'crypto';
+
 /**
  * Servizio per la gestione del sistema di referral
  */
-import { db } from '../db';
-import * as schema from '@shared/schema';
-import { eq, and, isNull, gt, lte, desc, sql } from 'drizzle-orm';
-import { nanoid } from 'nanoid';
-import { format, subMonths, startOfMonth, endOfMonth } from 'date-fns';
-
-// Quanti codici di referral devono essere generati prima che inizi la commissione
-const MIN_REFERRALS_FOR_COMMISSION = 3;
-
-// Valore della commissione mensile in centesimi (1€)
-const MONTHLY_COMMISSION_AMOUNT = 100;
-
-/**
- * Genera un codice di referral univoco per un utente
- */
-export async function generateReferralCode(userId: number): Promise<string> {
-  // Genera un codice di 8 caratteri, univoco nel database
-  let code = nanoid(8).toUpperCase();
-  let isUnique = false;
-
-  while (!isUnique) {
-    // Verifica che il codice non esista già
-    const existingUser = await db
-      .select({ id: schema.users.id })
-      .from(schema.users)
-      .where(eq(schema.users.referralCode, code))
-      .limit(1);
+export class ReferralService {
+  /**
+   * Genera un codice di referral unico per un utente
+   * @param userId - ID dell'utente
+   * @returns Il nuovo codice di referral
+   */
+  async generateReferralCode(userId: number): Promise<string> {
+    // Genera un codice casuale di 8 caratteri
+    const code = randomBytes(4).toString('hex').toUpperCase();
     
-    isUnique = existingUser.length === 0;
+    // Aggiorna l'utente con il nuovo codice
+    await db.update(users)
+      .set({ referralCode: code })
+      .where(eq(users.id, userId));
+      
+    return code;
+  }
+
+  /**
+   * Ottiene le statistiche sui referral di un utente
+   * @param userId - ID dell'utente
+   * @returns Statistiche sui referral
+   */
+  async getReferralStats(userId: number) {
+    // Calcola il numero di commissioni attive
+    const [commissionCountResult] = await db
+      .select({ count: count() })
+      .from(referralCommissions)
+      .where(
+        and(
+          eq(referralCommissions.referrerId, userId),
+          eq(referralCommissions.status, 'active')
+        )
+      );
+      
+    const totalActiveCommissions = commissionCountResult?.count || 0;
     
-    // Se non è univoco, genera un nuovo codice
-    if (!isUnique) {
-      code = nanoid(8).toUpperCase();
+    // Calcola l'importo del mese corrente
+    const currentMonth = format(new Date(), 'yyyy-MM');
+    const [currentMonthSum] = await db
+      .select({ sum: sum(referralCommissions.monthlyAmount) })
+      .from(referralCommissions)
+      .where(
+        and(
+          eq(referralCommissions.referrerId, userId),
+          eq(referralCommissions.status, 'active'),
+          gte(referralCommissions.startDate, startOfMonth(new Date()).toISOString()),
+          isNull(referralCommissions.endDate)
+        )
+      );
+      
+    const currentMonthAmount = currentMonthSum?.sum || 0;
+    
+    // Calcola l'importo del mese precedente
+    const lastMonth = format(subMonths(new Date(), 1), 'yyyy-MM');
+    const [lastMonthSum] = await db
+      .select({ sum: sum(referralCommissions.monthlyAmount) })
+      .from(referralCommissions)
+      .where(
+        and(
+          eq(referralCommissions.referrerId, userId),
+          eq(referralCommissions.status, 'active'),
+          gte(referralCommissions.startDate, startOfMonth(subMonths(new Date(), 1)).toISOString()),
+          isNull(referralCommissions.endDate)
+        )
+      );
+      
+    const lastMonthAmount = lastMonthSum?.sum || 0;
+    
+    // Verifica se l'utente ha un conto bancario
+    const [bankAccount] = await db
+      .select()
+      .from(bankAccounts)
+      .where(eq(bankAccounts.userId, userId));
+      
+    const hasBankAccount = !!bankAccount;
+    
+    return {
+      totalActiveCommissions,
+      currentMonthAmount,
+      lastMonthAmount,
+      hasBankAccount
+    };
+  }
+
+  /**
+   * Ottiene i dettagli del referral di un utente
+   * @param userId - ID dell'utente
+   * @returns Dettagli completi del referral
+   */
+  async getReferralDetails(userId: number) {
+    // Ottieni l'utente con il suo codice di referral
+    const [userData] = await db
+      .select({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+        referralCode: users.referralCode,
+        referredBy: users.referredBy
+      })
+      .from(users)
+      .where(eq(users.id, userId));
+      
+    // Ottieni le commissioni attive
+    const commissionsData = await db
+      .select()
+      .from(referralCommissions)
+      .where(eq(referralCommissions.referrerId, userId));
+      
+    // Ottieni il conto bancario
+    const [bankData] = await db
+      .select()
+      .from(bankAccounts)
+      .where(eq(bankAccounts.userId, userId));
+      
+    // Ottieni le statistiche
+    const statsData = await this.getReferralStats(userId);
+    
+    return {
+      userData,
+      commissionsData,
+      bankData,
+      statsData
+    };
+  }
+
+  /**
+   * Salva un conto bancario per un utente
+   * @param userId - ID dell'utente
+   * @param bankData - Dati del conto bancario
+   * @returns Il conto bancario aggiornato o creato
+   */
+  async saveBankAccount(userId: number, bankData: any) {
+    // Verifica se esiste già un conto bancario per questo utente
+    const [existingAccount] = await db
+      .select()
+      .from(bankAccounts)
+      .where(eq(bankAccounts.userId, userId));
+      
+    if (existingAccount) {
+      // Aggiorna il conto esistente
+      const [updatedAccount] = await db
+        .update(bankAccounts)
+        .set({
+          bankName: bankData.bankName,
+          accountHolder: bankData.accountHolder,
+          iban: bankData.iban,
+          swift: bankData.swift,
+          updatedAt: new Date()
+        })
+        .where(eq(bankAccounts.id, existingAccount.id))
+        .returning();
+        
+      return updatedAccount;
+    } else {
+      // Crea un nuovo conto
+      const [newAccount] = await db
+        .insert(bankAccounts)
+        .values({
+          userId,
+          bankName: bankData.bankName,
+          accountHolder: bankData.accountHolder,
+          iban: bankData.iban,
+          swift: bankData.swift,
+          isDefault: true
+        })
+        .returning();
+        
+      return newAccount;
     }
   }
-  
-  // Salva il nuovo codice nel database
-  await db
-    .update(schema.users)
-    .set({ referralCode: code })
-    .where(eq(schema.users.id, userId));
-  
-  return code;
-}
 
-/**
- * Registra un nuovo utente come referral di un altro utente
- */
-export async function registerReferral(referrerCode: string, newUserId: number): Promise<boolean> {
-  try {
+  /**
+   * Registra un nuovo referral quando un utente usa un codice di invito
+   * @param referralCode - Codice di referral
+   * @param newUserId - ID del nuovo utente
+   * @returns true se il referral è stato registrato con successo
+   */
+  async registerReferral(referralCode: string, newUserId: number) {
     // Trova l'utente che ha generato il codice
-    const referrer = await db
+    const [referrer] = await db
       .select()
-      .from(schema.users)
-      .where(eq(schema.users.referralCode, referrerCode))
-      .limit(1);
-    
-    if (referrer.length === 0) {
-      console.log(`Nessun utente trovato con il codice referral: ${referrerCode}`);
+      .from(users)
+      .where(eq(users.referralCode, referralCode));
+      
+    if (!referrer) {
       return false;
     }
     
-    const referrerId = referrer[0].id;
-    
-    // Associa l'utente referrer al nuovo utente
+    // Aggiorna il nuovo utente con il riferimento al referrer
     await db
-      .update(schema.users)
-      .set({ referredBy: referrerId })
-      .where(eq(schema.users.id, newUserId));
+      .update(users)
+      .set({ referredBy: referrer.id })
+      .where(eq(users.id, newUserId));
       
-    console.log(`Utente ${newUserId} registrato come referral di ${referrerId}`);
-    return true;
-  } catch (error) {
-    console.error('Errore nella registrazione del referral:', error);
-    return false;
-  }
-}
-
-/**
- * Verifica se un utente ha raggiunto il numero minimo di referral per la commissione
- */
-export async function hasMinReferrals(userId: number): Promise<boolean> {
-  const referrals = await db
-    .select()
-    .from(schema.users)
-    .where(eq(schema.users.referredBy, userId));
-  
-  return referrals.length >= MIN_REFERRALS_FOR_COMMISSION;
-}
-
-/**
- * Crea una nuova commissione per un utente che ha fatto referral
- */
-export async function createCommission(
-  referrerId: number, 
-  referredId: number,
-  subscriptionId: number
-): Promise<schema.ReferralCommission | null> {
-  try {
-    // Verifica che l'utente abbia almeno 3 referral prima di iniziare a guadagnare
-    const hasMinimum = await hasMinReferrals(referrerId);
-    if (!hasMinimum) {
-      console.log(`L'utente ${referrerId} non ha ancora ${MIN_REFERRALS_FOR_COMMISSION} referral. Non viene creata commissione.`);
-      return null;
-    }
-    
-    // Crea la commissione
-    const [commission] = await db
-      .insert(schema.referralCommissions)
-      .values({
-        referrerId,
-        referredId,
-        subscriptionId,
-        monthlyAmount: MONTHLY_COMMISSION_AMOUNT,
-        status: 'active'
-      })
-      .returning();
-    
-    return commission;
-  } catch (error) {
-    console.error('Errore nella creazione della commissione:', error);
-    return null;
-  }
-}
-
-/**
- * Ottiene tutte le commissioni attive per un utente
- */
-export async function getActiveCommissions(userId: number): Promise<schema.ReferralCommission[]> {
-  return db
-    .select()
-    .from(schema.referralCommissions)
-    .where(
-      and(
-        eq(schema.referralCommissions.referrerId, userId),
-        eq(schema.referralCommissions.status, 'active')
-      )
-    );
-}
-
-/**
- * Calcola il totale delle commissioni per un utente in un periodo specifico
- */
-export async function calculateCommissionsForPeriod(
-  userId: number, 
-  period: string // formato: "YYYY-MM"
-): Promise<number> {
-  const commissions = await getActiveCommissions(userId);
-  let total = 0;
-  
-  // Verifica per ogni commissione se è attiva nel periodo specificato
-  for (const commission of commissions) {
-    const [year, month] = period.split('-').map(p => parseInt(p));
-    const periodDate = new Date(year, month - 1, 1); // Mese è 0-indexed in JavaScript
-    
-    const startDate = new Date(commission.startDate);
-    const endDate = commission.endDate ? new Date(commission.endDate) : null;
-    
-    // La commissione è attiva se è iniziata prima della fine del periodo
-    // e non è terminata o è terminata dopo l'inizio del periodo
-    if (startDate <= endOfMonth(periodDate) && (!endDate || endDate >= startOfMonth(periodDate))) {
-      total += commission.monthlyAmount;
-    }
-  }
-  
-  return total;
-}
-
-/**
- * Genera il pagamento per le commissioni di un periodo
- */
-export async function generatePaymentForPeriod(
-  userId: number, 
-  period: string // formato: "YYYY-MM"
-): Promise<schema.ReferralPayment | null> {
-  try {
-    // Verifica se esiste già un pagamento per questo periodo
-    const existingPayment = await db
+    // Trova l'abbonamento del nuovo utente
+    const [subscription] = await db
       .select()
-      .from(schema.referralPayments)
-      .where(
-        and(
-          eq(schema.referralPayments.userId, userId),
-          eq(schema.referralPayments.period, period)
-        )
-      )
-      .limit(1);
-    
-    if (existingPayment.length > 0) {
-      console.log(`Pagamento già esistente per l'utente ${userId} nel periodo ${period}`);
-      return existingPayment[0];
-    }
-    
-    // Calcola l'importo totale delle commissioni per il periodo
-    const amount = await calculateCommissionsForPeriod(userId, period);
-    
-    // Se non ci sono commissioni, non generare un pagamento
-    if (amount === 0) {
-      console.log(`Nessuna commissione da pagare per l'utente ${userId} nel periodo ${period}`);
-      return null;
-    }
-    
-    // Crea il pagamento
-    const [payment] = await db
-      .insert(schema.referralPayments)
-      .values({
-        userId,
-        amount,
-        status: 'pending',
-        period,
-      })
-      .returning();
-    
-    // Aggiorna lastPaidPeriod per tutte le commissioni attive
-    await db
-      .update(schema.referralCommissions)
-      .set({ lastPaidPeriod: period })
-      .where(
-        and(
-          eq(schema.referralCommissions.referrerId, userId),
-          eq(schema.referralCommissions.status, 'active')
-        )
-      );
-    
-    return payment;
-  } catch (error) {
-    console.error('Errore nella generazione del pagamento:', error);
-    return null;
-  }
-}
-
-/**
- * Ottieni i dati del conto bancario per un utente
- */
-export async function getBankAccount(userId: number): Promise<schema.BankAccount | null> {
-  const accounts = await db
-    .select()
-    .from(schema.bankAccounts)
-    .where(eq(schema.bankAccounts.userId, userId))
-    .orderBy(desc(schema.bankAccounts.isDefault));
-  
-  return accounts.length > 0 ? accounts[0] : null;
-}
-
-/**
- * Salva un nuovo conto bancario per un utente
- */
-export async function saveBankAccount(
-  userId: number,
-  data: Omit<schema.InsertBankAccount, 'userId'>
-): Promise<schema.BankAccount | null> {
-  try {
-    // Se è impostato come predefinito, rimuovi il flag predefinito dagli altri conti
-    if (data.isDefault) {
-      await db
-        .update(schema.bankAccounts)
-        .set({ isDefault: false })
-        .where(eq(schema.bankAccounts.userId, userId));
-    }
-    
-    // Verifica se l'utente ha già un conto bancario
-    const existingAccount = await db
-      .select()
-      .from(schema.bankAccounts)
-      .where(eq(schema.bankAccounts.userId, userId))
-      .limit(1);
-    
-    // Se esiste, aggiorna il conto esistente
-    if (existingAccount.length > 0) {
-      const [account] = await db
-        .update(schema.bankAccounts)
-        .set({
-          ...data,
-          updatedAt: new Date()
-        })
-        .where(eq(schema.bankAccounts.userId, userId))
-        .returning();
+      .from(subscriptions)
+      .where(eq(subscriptions.userId, newUserId));
       
-      return account;
-    }
-    
-    // Altrimenti crea un nuovo conto
-    const [account] = await db
-      .insert(schema.bankAccounts)
-      .values({
-        userId,
-        ...data
-      })
-      .returning();
-    
-    return account;
-  } catch (error) {
-    console.error('Errore nel salvataggio del conto bancario:', error);
-    return null;
-  }
-}
-
-/**
- * Recupera tutti i pagamenti in sospeso
- */
-export async function getPendingPayments(): Promise<Array<schema.ReferralPayment & { user?: any, bankAccount?: any }>> {
-  try {
-    // Recupera tutti i pagamenti con stato 'pending'
-    const payments = await db
-      .select()
-      .from(schema.referralPayments)
-      .where(eq(schema.referralPayments.status, 'pending'))
-      .orderBy(desc(schema.referralPayments.createdAt));
-    
-    // Arricchisci i dati con informazioni sugli utenti e i conti bancari
-    const enrichedPayments = await Promise.all(payments.map(async (payment) => {
-      // Recupera i dati dell'utente
-      const [user] = await db
-        .select()
-        .from(schema.users)
-        .where(eq(schema.users.id, payment.userId))
-        .limit(1);
-      
-      // Recupera il conto bancario
-      const bankAccount = await getBankAccount(payment.userId);
-      
-      return {
-        ...payment,
-        user: user || undefined,
-        bankAccount: bankAccount || undefined
-      };
-    }));
-    
-    return enrichedPayments;
-  } catch (error) {
-    console.error('Errore nel recupero dei pagamenti in sospeso:', error);
-    return [];
-  }
-}
-
-/**
- * Genera pagamenti per tutti gli utenti per un periodo specifico
- */
-export async function generatePaymentsForAllUsers(period: string): Promise<{ count: number, payments: schema.ReferralPayment[] }> {
-  try {
-    // Recupera tutti gli utenti di tipo staff
-    const staffUsers = await db
-      .select()
-      .from(schema.users)
-      .where(eq(schema.users.type, 'staff'));
-    
-    // Genera pagamenti per ogni utente che ha commissioni attive
-    const payments: schema.ReferralPayment[] = [];
-    let count = 0;
-    
-    for (const user of staffUsers) {
-      // Verifica se l'utente ha commissioni attive
-      const commissions = await getActiveCommissions(user.id);
-      
-      if (commissions.length > 0) {
-        // Calcola l'importo da pagare
-        const amount = await calculateCommissionsForPeriod(user.id, period);
+    if (subscription) {
+      // Conta i referral esistenti
+      const [{ count: referralCount }] = await db
+        .select({ count: count() })
+        .from(users)
+        .where(eq(users.referredBy, referrer.id));
         
-        // Se l'importo è positivo, genera un pagamento
-        if (amount > 0) {
-          const payment = await generatePaymentForPeriod(user.id, period);
-          
-          if (payment) {
-            payments.push(payment);
-            count++;
-          }
-        }
+      // Le commissioni iniziano dopo almeno 3 referral
+      if (referralCount >= 3) {
+        // Crea una commissione
+        await db
+          .insert(referralCommissions)
+          .values({
+            referrerId: referrer.id,
+            referredId: newUserId,
+            subscriptionId: subscription.id,
+            monthlyAmount: 100, // €1 al mese (in centesimi)
+            startDate: new Date(),
+            status: 'active'
+          });
       }
     }
     
-    return { count, payments };
-  } catch (error) {
-    console.error('Errore nella generazione dei pagamenti per tutti gli utenti:', error);
-    return { count: 0, payments: [] };
+    return true;
+  }
+
+  /**
+   * Ottiene tutti i pagamenti in sospeso (per amministratori)
+   * @returns Lista dei pagamenti in sospeso
+   */
+  async getPendingPayments() {
+    return await db
+      .select({
+        payment: referralPayments,
+        user: {
+          id: users.id,
+          username: users.username,
+          email: users.email
+        },
+        bankAccount: {
+          bankName: bankAccounts.bankName,
+          accountHolder: bankAccounts.accountHolder,
+          iban: bankAccounts.iban,
+          swift: bankAccounts.swift
+        }
+      })
+      .from(referralPayments)
+      .leftJoin(users, eq(referralPayments.userId, users.id))
+      .leftJoin(bankAccounts, eq(users.id, bankAccounts.userId))
+      .where(eq(referralPayments.status, 'pending'));
+  }
+
+  /**
+   * Genera i pagamenti per tutti gli utenti per un periodo specifico
+   * @param period - Periodo nel formato YYYY-MM
+   * @returns I nuovi pagamenti generati
+   */
+  async generatePaymentsForAllUsers(period: string) {
+    // Ottieni tutti gli utenti con commissioni attive
+    const users = await db
+      .select({
+        userId: referralCommissions.referrerId,
+        totalAmount: sql<number>`SUM(${referralCommissions.monthlyAmount})`
+      })
+      .from(referralCommissions)
+      .where(
+        and(
+          eq(referralCommissions.status, 'active'),
+          isNull(referralCommissions.endDate)
+        )
+      )
+      .groupBy(referralCommissions.referrerId);
+      
+    // Crea pagamenti per ogni utente
+    const payments = [];
+    
+    for (const user of users) {
+      // Verifica se esiste già un pagamento per questo periodo
+      const [existingPayment] = await db
+        .select()
+        .from(referralPayments)
+        .where(
+          and(
+            eq(referralPayments.userId, user.userId),
+            eq(referralPayments.period, period)
+          )
+        );
+        
+      if (!existingPayment && user.totalAmount > 0) {
+        // Ottieni il conto bancario dell'utente
+        const [bankAccount] = await db
+          .select()
+          .from(bankAccounts)
+          .where(eq(bankAccounts.userId, user.userId));
+          
+        // Crea un nuovo pagamento
+        const [payment] = await db
+          .insert(referralPayments)
+          .values({
+            userId: user.userId,
+            period,
+            amount: user.totalAmount,
+            status: 'pending',
+            bankAccountId: bankAccount?.id
+          })
+          .returning();
+          
+        payments.push(payment);
+      }
+    }
+    
+    return payments;
+  }
+
+  /**
+   * Aggiorna lo stato di un pagamento
+   * @param paymentId - ID del pagamento
+   * @param status - Nuovo stato
+   * @param processingNote - Note sul pagamento
+   * @returns Il pagamento aggiornato
+   */
+  async updatePaymentStatus(paymentId: number, status: string, processingNote?: string) {
+    const [payment] = await db
+      .update(referralPayments)
+      .set({
+        status,
+        processingNote,
+        processingDate: status === 'processed' ? new Date() : undefined,
+        updatedAt: new Date()
+      })
+      .where(eq(referralPayments.id, paymentId))
+      .returning();
+      
+    // Aggiorna l'ultimo periodo pagato nelle commissioni
+    if (status === 'processed') {
+      const commissions = await db
+        .select()
+        .from(referralCommissions)
+        .where(eq(referralCommissions.referrerId, payment.userId));
+        
+      for (const commission of commissions) {
+        await db
+          .update(referralCommissions)
+          .set({ lastPaidPeriod: payment.period })
+          .where(eq(referralCommissions.id, commission.id));
+      }
+    }
+    
+    return payment;
   }
 }
 
-/**
- * Aggiorna lo stato di un pagamento
- */
-export async function updatePaymentStatus(
-  paymentId: number, 
-  status: string,
-  processingNote?: string
-): Promise<schema.ReferralPayment | null> {
-  try {
-    // Verifica se il pagamento esiste
-    const [existingPayment] = await db
-      .select()
-      .from(schema.referralPayments)
-      .where(eq(schema.referralPayments.id, paymentId))
-      .limit(1);
-    
-    if (!existingPayment) {
-      console.log(`Pagamento con ID ${paymentId} non trovato`);
-      return null;
-    }
-    
-    // Aggiorna il pagamento
-    const updateData: Partial<schema.ReferralPayment> = {
-      status,
-      updatedAt: new Date()
-    };
-    
-    // Se è processato, aggiungi la data di pagamento
-    if (status === 'processed') {
-      updateData.paymentDate = new Date();
-    }
-    
-    // Se c'è una nota, aggiungila
-    if (processingNote) {
-      updateData.processingNote = processingNote;
-    }
-    
-    const [updatedPayment] = await db
-      .update(schema.referralPayments)
-      .set(updateData)
-      .where(eq(schema.referralPayments.id, paymentId))
-      .returning();
-    
-    return updatedPayment;
-  } catch (error) {
-    console.error(`Errore nell'aggiornamento del pagamento ${paymentId}:`, error);
-    return null;
-  }
-}
+// Esporta un'istanza del servizio
+export const referralService = new ReferralService();
