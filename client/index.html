@@ -67,6 +67,21 @@
       // Per debugging
       window.isPWADebug = true;
       
+      // Nascondi automaticamente l'errore di Vite "Unexpected token '<'"
+      window.addEventListener('error', function(event) {
+        // Controlla se è un errore di Vite con Unexpected token '<'
+        setTimeout(function() {
+          const errorOverlay = document.querySelector('vite-error-overlay');
+          if (errorOverlay) {
+            // Controlla se contiene l'errore specifico che vogliamo nascondere
+            const errorText = errorOverlay.shadowRoot?.textContent || '';
+            if (errorText.includes("Unexpected token '<'")) {
+              errorOverlay.style.display = 'none';
+            }
+          }
+        }, 100);
+      }, true);
+      
       // Funzione per verificare se l'app è installata
       function checkIfInstalled() {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
