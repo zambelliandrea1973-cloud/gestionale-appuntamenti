@@ -179,7 +179,7 @@ router.post('/register', async (req: Request, res: Response) => {
  * Ottiene tutti i pagamenti di referral in sospeso
  * GET /api/referral/admin/pending-payments
  */
-router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req, res) => {
+router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
   try {
     // Ottieni i pagamenti in sospeso dal database
     const pendingPayments = await referralService.getPendingPayments();
@@ -201,7 +201,7 @@ router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req, 
  * Genera pagamenti per tutti gli utenti per il periodo corrente
  * POST /api/referral/admin/generate-payments
  */
-router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req, res) => {
+router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
   try {
     const period = req.body.period || format(new Date(), 'yyyy-MM');
     const result = await referralService.generatePaymentsForAllUsers(period);
@@ -224,7 +224,7 @@ router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req
  * Aggiorna lo stato di un pagamento
  * PUT /api/referral/admin/payment/:id
  */
-router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req, res) => {
+router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
   try {
     const paymentId = parseInt(req.params.id);
     const { status, processingNote } = req.body;
