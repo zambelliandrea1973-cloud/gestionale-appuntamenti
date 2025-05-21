@@ -11,6 +11,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { format } from 'date-fns';
 import { Copy, AlertCircle, Euro, Clipboard, Building, Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLocation } from 'wouter';
+import { useUserWithLicense } from '@/hooks/use-user-with-license';
 
 interface Commission {
   id: number;
@@ -57,6 +59,29 @@ interface ReferralResponse {
 
 export default function ReferralPage() {
   const { toast } = useToast();
+  const [, navigate] = useLocation();
+  const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
+  
+  // Reindirizza alla home con messaggio informativo se non ha i permessi necessari
+  useEffect(() => {
+    if (!isUserLoading && userWithLicense) {
+      // Solo gli utenti staff, admin e i piani pro/business possono accedere
+      const hasPermission = 
+        userWithLicense.type === 'staff' || 
+        userWithLicense.type === 'admin' || 
+        (userWithLicense.licenseInfo?.type === 'pro' || userWithLicense.licenseInfo?.type === 'business');
+      
+      if (!hasPermission) {
+        toast({
+          title: "Accesso non consentito",
+          description: "Il programma di referral è disponibile solo per utenti con abbonamento Pro o Business e per lo staff. Aggiorna il tuo piano per accedere a questa funzionalità.",
+          variant: "destructive"
+        });
+        navigate('/dashboard');
+      }
+    }
+  }, [userWithLicense, isUserLoading, navigate, toast]);
+  
   // Non usiamo useAuth ma prendiamo le informazioni dell'utente dalla risposta dell'API
   const [bankAccountForm, setBankAccountForm] = useState({
     bankName: '',
