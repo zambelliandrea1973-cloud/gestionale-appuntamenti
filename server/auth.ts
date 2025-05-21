@@ -156,6 +156,9 @@ export function setupAuth(app: Express) {
     done(null, `${userType}:${userId}`);
   });
 
+  // Importa il servizio di correzione dell'identità
+  import { correctIdentityIfNeeded } from './fixes/identity-fix';
+  
   // Deserializziamo l'utente in base al tipo
   passport.deserializeUser(async (serialized: string, done) => {
     try {
@@ -189,13 +192,28 @@ export function setupAuth(app: Express) {
         
         console.log(`getUser: Trovato utente ${user.username}, tipo: ${user.type || 'non specificato'}`);
         
-        // Correzione per zambelli.andrea.1973B
-        if (user.username === "zambelli.andrea.1973B") {
-          console.log("CORREZIONE IDENTITÀ: Rilevato zambelli.andrea.1973B - cercando l'utente corretto");
-          const correctUser = await storage.getUserByUsername("zambelli.andrea.1973B");
+        // Correzione identità per utenti specifici (problema di Elisa Faverio/Zambelli Andrea)
+        // Questo risolve il problema di quando fai login con un account ma vedi i dati di un altro
+        const correctId = await correctIdentityIfNeeded(id, type);
+        if (correctId) {
+          console.log(`🔄 Correzione identità applicata: ${user.username} → ${correctId.username}`);
+          
+          // Ottieni l'utente corretto con l'ID giusto
+          const correctUser = await storage.getUser(correctId.id);
+          if (correctUser) {
+            return done(null, { ...correctUser, type });
+          }
+        }
+        
+        // Correzione specifica per zambelli.andrea.1973B
+        if (user.username === "zambelli.andrea.1973B" || user.username === "zambelli.andrea.1973B@gmail.com") {
+          console.log("🔍 CORREZIONE IDENTITÀ: Rilevato zambelli.andrea.1973B - cercando l'utente corretto");
+          // Cerca l'utente con il nome corretto invece dell'ID, che potrebbe essere sbagliato
+          const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B'));
+          
           if (correctUser && correctUser.id !== id) {
-            console.log(`RISOLUZIONE: Utente zambelli.andrea.1973B corretto trovato con ID ${correctUser.id}`);
-            return done(null, { ...correctUser, type: type });
+            console.log(`✅ RISOLUZIONE: Utente zambelli.andrea.1973B corretto trovato con ID ${correctUser.id}`);
+            return done(null, { ...correctUser, type: correctUser.type || type });
           }
         }
         
