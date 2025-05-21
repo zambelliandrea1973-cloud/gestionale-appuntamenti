@@ -62,25 +62,29 @@ export default function ReferralPage() {
   const [, navigate] = useLocation();
   const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
   
-  // Reindirizza alla home con messaggio informativo se non ha i permessi necessari
+  // Gestisce gli utenti che non hanno i permessi necessari
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  
   useEffect(() => {
     if (!isUserLoading && userWithLicense) {
       // Solo gli utenti staff, admin e i piani business possono accedere
-      const hasPermission = 
+      const permission = 
         userWithLicense.type === 'staff' || 
         userWithLicense.type === 'admin' || 
         userWithLicense.licenseInfo?.type === 'business';
       
-      if (!hasPermission) {
+      setHasPermission(permission);
+      
+      // Non reindirizzare, mostriamo un messaggio informativo
+      if (!permission) {
         toast({
-          title: "Accesso non consentito",
-          description: "Il programma di referral è disponibile solo per utenti con abbonamento Business e per lo staff autorizzato. Aggiorna il tuo piano per accedere a questa funzionalità.",
+          title: "Funzionalità limitata",
+          description: "Il programma di referral è disponibile solo per utenti con abbonamento Business e per lo staff autorizzato.",
           variant: "destructive"
         });
-        navigate('/dashboard');
       }
     }
-  }, [userWithLicense, isUserLoading, navigate, toast]);
+  }, [userWithLicense, isUserLoading, toast]);
   
   // Non usiamo useAuth ma prendiamo le informazioni dell'utente dalla risposta dell'API
   const [bankAccountForm, setBankAccountForm] = useState({
@@ -208,10 +212,42 @@ export default function ReferralPage() {
     });
   };
 
-  if (isLoadingReferral) {
+  // Mostra un loader durante il caricamento
+  if (isLoadingReferral || isUserLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  
+  // Mostra un messaggio informativo se non ha i permessi necessari
+  if (hasPermission === false) {
+    return (
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold mb-6">Programma di Referral</h1>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Accesso limitato</CardTitle>
+            <CardDescription>
+              Questa funzionalità è riservata agli utenti con piano Business e membri dello staff.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8">
+              <AlertCircle className="mx-auto h-12 w-12 mb-4 text-amber-500" />
+              <h3 className="font-semibold text-lg mb-2">Aggiorna il tuo piano per accedere</h3>
+              <p className="mb-6 text-muted-foreground">
+                Il programma di referral ti permette di guadagnare invitando nuovi professionisti ad utilizzare la piattaforma.
+                Questa funzionalità è disponibile esclusivamente per gli utenti con piano Business.
+              </p>
+              <Button onClick={() => navigate('/subscription')}>
+                Scopri il piano Business
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }

@@ -178,18 +178,21 @@ export function setupAuth(app: Express) {
       
       const id = parseInt(idStr, 10);
 
+      // Verifica prima il tipo esatto dall'ID serializzato
       if (type === "staff" || type === "admin" || type === "customer") {
+        console.log(`getUser: Cercando utente con ID ${id}`);
         const user = await storage.getUser(id);
-        if (!user) return done(null, false);
-        
-        // CORREZIONE: Manteniamo il tipo originale se presente
-        let userType = user.type;
-        if (!userType || userType === 'undefined') {
-          userType = user.role === 'admin' ? 'admin' : (type === 'customer' ? 'customer' : 'staff');
-          console.log(`Tipo utente non definito per ID ${id}, impostato a ${userType} basato sul tipo serializzato`);
-        } else {
-          console.log(`Tipo utente mantenuto per ID ${id}: ${userType}`);
+        if (!user) {
+          console.log(`getUser: Nessun utente trovato con ID ${id}`);
+          return done(null, false);
         }
+        
+        console.log(`getUser: Trovato utente ${user.username}, tipo: ${user.type || 'non specificato'}`);
+        
+        // Importantissimo: Rispettiamo il tipo che è stato serializzato
+        // Questo evita confusione quando ci sono più utenti nel sistema
+        const userType = type;
+        console.log(`Tipo utente rispettato dal serialized per ID ${id}: ${userType}`);
         
         return done(null, { ...user, type: userType });
       } else if (type === "client" && !serialized.startsWith("customer:")) {
