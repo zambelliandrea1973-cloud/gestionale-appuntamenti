@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { referralService } from '../services/referralService';
+import { simplifiedReferralService } from '../services/simplifiedReferralService';
 import { ensureAuthenticated, isStaff, isAdmin } from '../middleware/authMiddleware';
 import { format } from 'date-fns';
 
@@ -18,7 +18,7 @@ router.get('/stats', ensureAuthenticated, isStaff, async (req: Request, res: Res
       });
     }
 
-    const referralDetails = await referralService.getReferralDetails(req.user.id);
+    const referralDetails = await simplifiedReferralService.getReferralDetails(req.user.id);
     
     res.json(referralDetails);
   } catch (error) {
@@ -43,7 +43,7 @@ router.post('/generate-code', ensureAuthenticated, isStaff, async (req: Request,
       });
     }
 
-    const code = await referralService.generateReferralCode(req.user.id);
+    const code = await simplifiedReferralService.generateReferralCode(req.user.id);
     
     res.json({
       success: true,
@@ -71,7 +71,7 @@ router.post('/bank-account', ensureAuthenticated, isStaff, async (req: Request, 
       });
     }
 
-    const bankAccount = await referralService.saveBankAccount(req.user.id, req.body);
+    const bankAccount = await simplifiedReferralService.saveBankAccount(req.user.id, req.body);
     
     res.json({
       success: true,
@@ -103,7 +103,7 @@ router.post('/register', async (req: Request, res: Response) => {
       });
     }
 
-    const result = await referralService.registerReferral(referralCode, userId);
+    const result = await simplifiedReferralService.registerReferral(referralCode, userId);
     
     res.json({
       success: result,
@@ -129,7 +129,7 @@ router.post('/register', async (req: Request, res: Response) => {
 router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
   try {
     // Ottieni i pagamenti in sospeso dal database
-    const pendingPayments = await referralService.getPendingPayments();
+    const pendingPayments = await simplifiedReferralService.getPendingPayments();
     
     res.json({
       success: true,
@@ -151,7 +151,7 @@ router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: 
 router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
   try {
     const period = req.body.period || format(new Date(), 'yyyy-MM');
-    const result = await referralService.generatePaymentsForAllUsers(period);
+    const result = await simplifiedReferralService.generatePaymentsForAllUsers(period);
     
     res.json({
       success: true,
@@ -183,7 +183,7 @@ router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req: Reque
       });
     }
 
-    const payment = await referralService.updatePaymentStatus(paymentId, status, processingNote);
+    const payment = await simplifiedReferralService.updatePaymentStatus(paymentId, status, processingNote);
     
     res.json({
       success: true,
