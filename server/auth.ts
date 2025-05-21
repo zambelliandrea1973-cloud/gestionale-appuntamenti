@@ -6,6 +6,9 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User, ClientAccount, users } from "@shared/schema";
+import { correctIdentityIfNeeded } from './fixes/identity-fix';
+import { db } from './db';
+import { eq } from 'drizzle-orm';
 
 declare global {
   namespace Express {
@@ -156,8 +159,8 @@ export function setupAuth(app: Express) {
     done(null, `${userType}:${userId}`);
   });
 
-  // Importa il servizio di correzione dell'identità
-  import { correctIdentityIfNeeded } from './fixes/identity-fix';
+// Importiamo all'inizio del file
+// Questo evita errori di sintassi
   
   // Deserializziamo l'utente in base al tipo
   passport.deserializeUser(async (serialized: string, done) => {
