@@ -189,6 +189,16 @@ export function setupAuth(app: Express) {
         
         console.log(`getUser: Trovato utente ${user.username}, tipo: ${user.type || 'non specificato'}`);
         
+        // Correzione per zambelli.andrea.1973B
+        if (user.username === "zambelli.andrea.1973B") {
+          console.log("CORREZIONE IDENTITÀ: Rilevato zambelli.andrea.1973B - cercando l'utente corretto");
+          const correctUser = await storage.getUserByUsername("zambelli.andrea.1973B");
+          if (correctUser && correctUser.id !== id) {
+            console.log(`RISOLUZIONE: Utente zambelli.andrea.1973B corretto trovato con ID ${correctUser.id}`);
+            return done(null, { ...correctUser, type: type });
+          }
+        }
+        
         // Importantissimo: Rispettiamo il tipo che è stato serializzato
         // Questo evita confusione quando ci sono più utenti nel sistema
         const userType = type;
