@@ -441,7 +441,7 @@ export function setupAuth(app: Express) {
       try {
         // Importa il servizio token (import dinamico)
         const tokenServiceModule = await import('./services/tokenService');
-        const tokenService = tokenServiceModule.default;
+        const { tokenService } = tokenServiceModule;
         
         // Verifica il token
         const validClientId = await tokenService.verifyActivationToken(token);
@@ -549,9 +549,11 @@ export function setupAuth(app: Express) {
             // Importa il servizio token se necessario
             // Usiamo import dinamico invece di require per evitare errori
             const tokenServiceModule = await import('./services/tokenService');
-            const tokenService = tokenServiceModule.default;
-            // Genera un token per questo cliente
-            token = await tokenService.createActivationToken(user.clientId);
+            // Corretto: Accedi a tokenService direttamente dall'import (non è un default export)
+            const { tokenService } = tokenServiceModule;
+            
+            // Utilizza generateActivationToken invece di createActivationToken che non esiste
+            token = await tokenService.generateActivationToken(user.clientId);
             console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
           } catch (error) {
             console.error("Errore nella generazione token:", error);
