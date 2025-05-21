@@ -41,6 +41,20 @@ interface ReferralStats {
   hasBankAccount: boolean;
 }
 
+// Definizione dell'interfaccia per la risposta API
+interface ReferralResponse {
+  userData: {
+    id: number;
+    username: string;
+    email: string;
+    referralCode: string | null;
+    referredBy: number | null;
+  };
+  commissionsData: Commission[];
+  bankData: BankAccount | null;
+  statsData: ReferralStats;
+}
+
 export default function ReferralPage() {
   const { toast } = useToast();
   // Non usiamo useAuth ma prendiamo le informazioni dell'utente dalla risposta dell'API
@@ -53,7 +67,7 @@ export default function ReferralPage() {
   const [openBankDialog, setOpenBankDialog] = useState(false);
 
   // Ottieni le statistiche sui referral
-  const { data: referralData, isLoading: isLoadingReferral } = useQuery({
+  const { data: referralData, isLoading: isLoadingReferral } = useQuery<ReferralResponse>({
     queryKey: ['/api/referral/stats'],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
