@@ -277,7 +277,15 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-
+                    {/* Referral - solo per staff e admin */}
+                    {(isStaff || isAdmin) && (
+                      <Link href="/referral">
+                        <Button variant={isActive("/referral") ? "secondary" : "ghost"} className="justify-start w-full">
+                          <Users className="mr-2 h-4 w-4 text-blue-400" />
+                          Programma Referral
+                        </Button>
+                      </Link>
+                    )}
                     
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (
