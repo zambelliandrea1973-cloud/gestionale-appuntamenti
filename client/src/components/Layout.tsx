@@ -142,8 +142,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Pulsante referral - visibile solo per staff, admin e utenti con licenze pro/business */}
-                {(isStaff || isAdmin || (userWithLicense?.licenseInfo?.type === 'pro' || userWithLicense?.licenseInfo?.type === 'business')) && (
+                {/* Pulsante referral - visibile solo per staff, admin e utenti con licenza business */}
+                {(isStaff || isAdmin || userWithLicense?.licenseInfo?.type === 'business') && (
                   <Link href="/referral">
                     <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                       <Users className="h-4 w-4 mr-1 text-blue-400" />
@@ -285,8 +285,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Referral - solo per staff, admin e utenti pro/business */}
-                    {(isStaff || isAdmin || (userWithLicense?.licenseInfo?.type === 'pro' || userWithLicense?.licenseInfo?.type === 'business')) && (
+                    {/* Referral - solo per staff, admin e utenti business */}
+                    {(isStaff || isAdmin || userWithLicense?.licenseInfo?.type === 'business') && (
                       <Link href="/referral">
                         <Button variant={isActive("/referral") ? "secondary" : "ghost"} className="justify-start w-full">
                           <Users className="mr-2 h-4 w-4 text-blue-400" />

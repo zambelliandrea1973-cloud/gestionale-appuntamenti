@@ -65,16 +65,16 @@ export default function ReferralPage() {
   // Reindirizza alla home con messaggio informativo se non ha i permessi necessari
   useEffect(() => {
     if (!isUserLoading && userWithLicense) {
-      // Solo gli utenti staff, admin e i piani pro/business possono accedere
+      // Solo gli utenti staff, admin e i piani business possono accedere
       const hasPermission = 
         userWithLicense.type === 'staff' || 
         userWithLicense.type === 'admin' || 
-        (userWithLicense.licenseInfo?.type === 'pro' || userWithLicense.licenseInfo?.type === 'business');
+        userWithLicense.licenseInfo?.type === 'business';
       
       if (!hasPermission) {
         toast({
           title: "Accesso non consentito",
-          description: "Il programma di referral è disponibile solo per utenti con abbonamento Pro o Business e per lo staff. Aggiorna il tuo piano per accedere a questa funzionalità.",
+          description: "Il programma di referral è disponibile solo per utenti con abbonamento Business e per lo staff autorizzato. Aggiorna il tuo piano per accedere a questa funzionalità.",
           variant: "destructive"
         });
         navigate('/dashboard');
