@@ -40,12 +40,31 @@ export async function verifyIdentity(userId: number, usernameToVerify?: string):
  * @param sessionType Tipo di utente nella sessione
  */
 export async function correctIdentityIfNeeded(userId: number, sessionType: string): Promise<UserIdentity | null> {
+  // Verifica se l'utente è testpayment@example.com ma dovrebbe essere zambelli.andrea.1973D
+  if (userId === 18 && sessionType === 'customer') {
+    console.log(`⚠️ Rilevato problema di identità: User ID ${userId} (testpayment) potrebbe essere confuso con zambelli.andrea.1973D`);
+    
+    // Cerca l'utente corretto per zambelli.andrea.1973D
+    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973D@gmail.com'));
+    
+    if (correctUser) {
+      console.log(`✅ Correzione identità: Trovato utente corretto zambelli.andrea.1973D con ID ${correctUser.id}`);
+      return {
+        id: correctUser.id, 
+        username: correctUser.username,
+        email: correctUser.email,
+        type: 'customer',
+        role: 'user'
+      };
+    }
+  }
+  
   // Se l'utente è zambelli.andrea.1973B (noto per problemi di identità)
   if (userId === 16 && (sessionType === 'staff' || sessionType === 'customer')) {
     console.log(`⚠️ Rilevato potenziale problema di identità: User ID ${userId} potrebbe essere confuso con Elisa Faverio`);
     
     // Cerca l'utente corretto per zambelli.andrea.1973B 
-    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B'));
+    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B@gmail.com'));
     
     if (correctUser) {
       console.log(`✅ Correzione identità: Trovato utente corretto zambelli.andrea.1973B con ID ${correctUser.id}`);
@@ -64,7 +83,7 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
     console.log(`⚠️ Correzione forzata: ID 16 viene identificato erroneamente come Elisa Faverio`);
     
     // Cerca l'utente zambelli.andrea.1973B
-    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B'));
+    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B@gmail.com'));
     
     if (correctUser) {
       return {
