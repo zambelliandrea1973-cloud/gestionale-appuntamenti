@@ -69,7 +69,7 @@ export class ReferralService {
         and(
           eq(referralCommissions.referrerId, userId),
           eq(referralCommissions.status, 'active'),
-          gte(referralCommissions.startDate, startOfMonth(subMonths(new Date(), 1)).toISOString()),
+          // Rimuoviamo il confronto con le date che causa problemi
           isNull(referralCommissions.endDate)
         )
       );
