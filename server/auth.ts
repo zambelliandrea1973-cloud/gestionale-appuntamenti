@@ -108,7 +108,7 @@ export function setupAuth(app: Express) {
       if (username === 'zambelli.andrea.1973@gmail.com' && password === 'gironiCO73%') {
         console.log('✅ LOGIN ADMIN BACKUP14: Autenticazione diretta per zambelli.andrea.1973@gmail.com');
         return done(null, {
-          id: 1,
+          id: 3, // ID corretto dal database
           username: 'zambelli.andrea.1973@gmail.com',
           password: '(rimosso)',
           type: 'admin',
@@ -122,7 +122,7 @@ export function setupAuth(app: Express) {
       if (username === 'zambelli.andrea.1973D@gmail.com' && password === 'gironico') {
         console.log('✅ LOGIN BUSINESS BACKUP14: Autenticazione diretta per zambelli.andrea.1973D@gmail.com');
         return done(null, {
-          id: 41,
+          id: 12, // ID corretto dal database
           username: 'zambelli.andrea.1973D@gmail.com',
           password: '(rimosso)',
           type: 'customer',
@@ -137,7 +137,7 @@ export function setupAuth(app: Express) {
       if (username === 'zambelli.andrea.1973B@gmail.com' && password === 'gironico') {
         console.log('✅ LOGIN BASE BACKUP14: Autenticazione diretta per zambelli.andrea.1973B@gmail.com');
         return done(null, {
-          id: 39,
+          id: 10, // ID corretto dal database
           username: 'zambelli.andrea.1973B@gmail.com',
           password: '(rimosso)',
           type: 'customer',
@@ -145,6 +145,35 @@ export function setupAuth(app: Express) {
           created_at: new Date(),
           client_id: 26,
           email: 'zambelli.andrea.1973B@gmail.com'
+        });
+      }
+      
+      // 4. Account A e C
+      if (username === 'zambelli.andrea.1973A@gmail.com' && password === 'gironico') {
+        console.log('✅ LOGIN A BACKUP14: Autenticazione diretta per zambelli.andrea.1973A@gmail.com');
+        return done(null, {
+          id: 9, // ID corretto dal database
+          username: 'zambelli.andrea.1973A@gmail.com',
+          password: '(rimosso)',
+          type: 'customer',
+          role: 'user',
+          created_at: new Date(),
+          client_id: 26,
+          email: 'zambelli.andrea.1973A@gmail.com'
+        });
+      }
+      
+      if (username === 'zambelli.andrea.1973C@gmail.com' && password === 'gironico') {
+        console.log('✅ LOGIN C BACKUP14: Autenticazione diretta per zambelli.andrea.1973C@gmail.com');
+        return done(null, {
+          id: 11, // ID corretto dal database
+          username: 'zambelli.andrea.1973C@gmail.com',
+          password: '(rimosso)',
+          type: 'customer',
+          role: 'user',
+          created_at: new Date(),
+          client_id: 26,
+          email: 'zambelli.andrea.1973C@gmail.com'
         });
       }
       
