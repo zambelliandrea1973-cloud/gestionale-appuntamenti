@@ -43,7 +43,7 @@ interface ReferralStats {
 
 export default function ReferralPage() {
   const { toast } = useToast();
-  const { user } = useAuth();
+  // Non usiamo useAuth ma prendiamo le informazioni dell'utente dalla risposta dell'API
   const [bankAccountForm, setBankAccountForm] = useState({
     bankName: '',
     accountHolder: '',
@@ -55,8 +55,7 @@ export default function ReferralPage() {
   // Ottieni le statistiche sui referral
   const { data: referralData, isLoading: isLoadingReferral } = useQuery({
     queryKey: ['/api/referral/stats'],
-    queryFn: getQueryFn(),
-    enabled: !!user && user.type === 'staff',
+    queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
   // Genera un nuovo codice di referral
@@ -112,8 +111,8 @@ export default function ReferralPage() {
 
   // Gestisce la copia del codice di referral negli appunti
   const copyToClipboard = () => {
-    if (referralData?.user?.referralCode) {
-      navigator.clipboard.writeText(referralData.user.referralCode);
+    if (referralData?.userData?.referralCode) {
+      navigator.clipboard.writeText(referralData.userData.referralCode);
       toast({
         title: "Codice copiato!",
         description: "Il codice è stato copiato negli appunti.",
@@ -123,8 +122,8 @@ export default function ReferralPage() {
 
   // Gestisce la condivisione del codice referral
   const shareReferralCode = () => {
-    if (referralData?.user?.referralCode) {
-      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.user.referralCode}`;
+    if (referralData?.userData?.referralCode) {
+      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.userData.referralCode}`;
       
       if (navigator.share) {
         navigator.share({
@@ -146,15 +145,15 @@ export default function ReferralPage() {
 
   // Carica i dati bancari se presenti
   useEffect(() => {
-    if (referralData?.bankAccount) {
+    if (referralData?.bankData) {
       setBankAccountForm({
-        bankName: referralData.bankAccount.bankName || '',
-        accountHolder: referralData.bankAccount.accountHolder || '',
-        iban: referralData.bankAccount.iban || '',
-        swift: referralData.bankAccount.swift || ''
+        bankName: referralData.bankData.bankName || '',
+        accountHolder: referralData.bankData.accountHolder || '',
+        iban: referralData.bankData.iban || '',
+        swift: referralData.bankData.swift || ''
       });
     }
-  }, [referralData?.bankAccount]);
+  }, [referralData?.bankData]);
 
   // Gestisce il submit del form dei dati bancari
   const handleBankFormSubmit = (e: React.FormEvent) => {
@@ -178,16 +177,16 @@ export default function ReferralPage() {
     );
   }
 
-  const stats: ReferralStats = referralData?.stats || {
+  const stats: ReferralStats = referralData?.statsData || {
     totalActiveCommissions: 0,
     currentMonthAmount: 0,
     lastMonthAmount: 0,
     hasBankAccount: false
   };
 
-  const commissions: Commission[] = referralData?.commissions || [];
-  const bankAccount: BankAccount | null = referralData?.bankAccount || null;
-  const referralCode = referralData?.user?.referralCode;
+  const commissions: Commission[] = referralData?.commissionsData || [];
+  const bankAccount: BankAccount | null = referralData?.bankData || null;
+  const referralCode = referralData?.userData?.referralCode;
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -274,7 +273,7 @@ export default function ReferralPage() {
                   className="w-full"
                   onClick={() => setOpenBankDialog(true)}
                 >
-                  <BankIcon className="mr-2 h-4 w-4" />
+                  <Building className="mr-2 h-4 w-4" />
                   Aggiungi dati bancari
                 </Button>
               )}
@@ -284,7 +283,7 @@ export default function ReferralPage() {
                   className="w-full"
                   onClick={() => setOpenBankDialog(true)}
                 >
-                  <BankIcon className="mr-2 h-4 w-4" />
+                  <Building className="mr-2 h-4 w-4" />
                   Modifica dati bancari
                 </Button>
               )}

@@ -1,45 +1,12 @@
-/**
- * Routes per la gestione del sistema di referral
- */
-import express from 'express';
-import { ensureAuthenticated, isAdmin, isStaff } from '../middleware/authMiddleware';
-import * as referralService from '../services/referralService';
-import { format, subMonths } from 'date-fns';
-import type { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
+import { referralService } from '../services/referralService';
+import { ensureAuthenticated, isStaff, isAdmin } from '../middleware/authMiddleware';
+import { format } from 'date-fns';
 
 const router = express.Router();
 
 /**
- * Genera un codice di referral per l'utente corrente
- * POST /api/referral/generate-code
- */
-router.post('/generate-code', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Utente non autenticato'
-      });
-    }
-    
-    const userId = req.user.id;
-    const code = await referralService.generateReferralCode(userId);
-    
-    return res.status(200).json({
-      success: true,
-      code
-    });
-  } catch (error) {
-    console.error('Errore nella generazione del codice referral:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Errore nella generazione del codice referral'
-    });
-  }
-});
-
-/**
- * Ottiene le statistiche sui referral dell'utente corrente
+ * Ottiene statistiche e dettagli sui referral dell'utente corrente
  * GET /api/referral/stats
  */
 router.get('/stats', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
@@ -50,38 +17,43 @@ router.get('/stats', ensureAuthenticated, isStaff, async (req: Request, res: Res
         message: 'Utente non autenticato'
       });
     }
+
+    const referralDetails = await referralService.getReferralDetails(req.user.id);
     
-    const userId = req.user.id;
+    res.json(referralDetails);
+  } catch (error) {
+    console.error('Errore nel recupero statistiche referral:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel recupero delle statistiche di referral'
+    });
+  }
+});
+
+/**
+ * Genera un nuovo codice referral per l'utente
+ * POST /api/referral/generate-code
+ */
+router.post('/generate-code', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+
+    const code = await referralService.generateReferralCode(req.user.id);
     
-    // Ottieni le commissioni attive
-    const commissions = await referralService.getActiveCommissions(userId);
-    
-    // Calcola le statistiche
-    const currentPeriod = format(new Date(), 'yyyy-MM');
-    const lastPeriod = format(subMonths(new Date(), 1), 'yyyy-MM');
-    
-    const currentAmount = await referralService.calculateCommissionsForPeriod(userId, currentPeriod);
-    const lastAmount = await referralService.calculateCommissionsForPeriod(userId, lastPeriod);
-    
-    // Ottieni le informazioni sul conto bancario
-    const bankAccount = await referralService.getBankAccount(userId);
-    
-    return res.status(200).json({
+    res.json({
       success: true,
-      stats: {
-        totalActiveCommissions: commissions.length,
-        currentMonthAmount: currentAmount,
-        lastMonthAmount: lastAmount,
-        hasBankAccount: !!bankAccount,
-      },
-      commissions,
-      bankAccount
+      code
     });
   } catch (error) {
-    console.error('Errore nel recupero delle statistiche sui referral:', error);
-    return res.status(500).json({
+    console.error('Errore nella generazione codice referral:', error);
+    res.status(500).json({
       success: false,
-      message: 'Errore nel recupero delle statistiche sui referral'
+      message: 'Errore nella generazione del codice referral'
     });
   }
 });
@@ -98,41 +70,16 @@ router.post('/bank-account', ensureAuthenticated, isStaff, async (req: Request, 
         message: 'Utente non autenticato'
       });
     }
+
+    const bankAccount = await referralService.saveBankAccount(req.user.id, req.body);
     
-    const userId = req.user.id;
-    const { bankName, accountHolder, iban, swift, isDefault = true } = req.body;
-    
-    // Validazione dei campi
-    if (!bankName || !accountHolder || !iban) {
-      return res.status(400).json({
-        success: false,
-        message: 'Dati mancanti. Banca, intestatario e IBAN sono obbligatori.'
-      });
-    }
-    
-    // Salva il conto bancario
-    const account = await referralService.saveBankAccount(userId, {
-      bankName,
-      accountHolder,
-      iban,
-      swift,
-      isDefault
-    });
-    
-    if (!account) {
-      return res.status(500).json({
-        success: false,
-        message: 'Errore nel salvataggio del conto bancario'
-      });
-    }
-    
-    return res.status(200).json({
+    res.json({
       success: true,
-      account
+      bankAccount
     });
   } catch (error) {
-    console.error('Errore nel salvataggio del conto bancario:', error);
-    return res.status(500).json({
+    console.error('Errore nel salvataggio conto bancario:', error);
+    res.status(500).json({
       success: false,
       message: 'Errore nel salvataggio del conto bancario'
     });
@@ -152,21 +99,21 @@ router.post('/register', async (req: Request, res: Response) => {
     if (!referralCode || !userId) {
       return res.status(400).json({
         success: false,
-        message: 'Codice referral e ID utente sono obbligatori'
+        message: 'Parametri mancanti'
       });
     }
-    
+
     const result = await referralService.registerReferral(referralCode, userId);
     
-    return res.status(200).json({
+    res.json({
       success: result,
       message: result 
         ? 'Referral registrato con successo' 
-        : 'Impossibile registrare il referral. Codice non valido o già utilizzato.'
+        : 'Impossibile registrare il referral (codice non valido)'
     });
   } catch (error) {
-    console.error('Errore nella registrazione del referral:', error);
-    return res.status(500).json({
+    console.error('Errore nella registrazione referral:', error);
+    res.status(500).json({
       success: false,
       message: 'Errore nella registrazione del referral'
     });
@@ -184,13 +131,13 @@ router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: 
     // Ottieni i pagamenti in sospeso dal database
     const pendingPayments = await referralService.getPendingPayments();
     
-    return res.status(200).json({
+    res.json({
       success: true,
-      payments: pendingPayments
+      pendingPayments
     });
   } catch (error) {
-    console.error('Errore nel recupero dei pagamenti in sospeso:', error);
-    return res.status(500).json({
+    console.error('Errore nel recupero pagamenti in sospeso:', error);
+    res.status(500).json({
       success: false,
       message: 'Errore nel recupero dei pagamenti in sospeso'
     });
@@ -206,14 +153,14 @@ router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req
     const period = req.body.period || format(new Date(), 'yyyy-MM');
     const result = await referralService.generatePaymentsForAllUsers(period);
     
-    return res.status(200).json({
+    res.json({
       success: true,
-      message: `Generati ${result.count} pagamenti per il periodo ${period}`,
-      payments: result.payments
+      paymentsGenerated: result.length,
+      payments: result
     });
   } catch (error) {
     console.error('Errore nella generazione dei pagamenti:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'Errore nella generazione dei pagamenti'
     });
@@ -229,29 +176,22 @@ router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req: Reque
     const paymentId = parseInt(req.params.id);
     const { status, processingNote } = req.body;
     
-    if (!status) {
+    if (!status || !paymentId) {
       return res.status(400).json({
         success: false,
-        message: 'Lo stato del pagamento è obbligatorio'
+        message: 'Parametri mancanti'
       });
     }
-    
+
     const payment = await referralService.updatePaymentStatus(paymentId, status, processingNote);
     
-    if (!payment) {
-      return res.status(404).json({
-        success: false,
-        message: 'Pagamento non trovato'
-      });
-    }
-    
-    return res.status(200).json({
+    res.json({
       success: true,
       payment
     });
   } catch (error) {
     console.error('Errore nell\'aggiornamento del pagamento:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'Errore nell\'aggiornamento del pagamento'
     });
