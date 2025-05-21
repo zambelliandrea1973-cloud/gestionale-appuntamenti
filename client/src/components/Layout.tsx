@@ -142,7 +142,15 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-
+                {/* Pulsante referral - visibile solo per staff e admin */}
+                {(isStaff || isAdmin) && (
+                  <Link href="/referral">
+                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
+                      <Users className="h-4 w-4 mr-1 text-blue-400" />
+                      <span>Referral</span>
+                    </Button>
+                  </Link>
+                )}
                 
                 {/* Pulsanti admin - esattamente uguali agli altri pulsanti */}
                 {isAdmin && (
