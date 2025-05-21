@@ -59,40 +59,16 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
     }
   }
   
-  // Se l'utente è zambelli.andrea.1973B (noto per problemi di identità)
+  // IMPORTANTE: NON correggere l'ID 16 che è Elisa Faverio, non Zambelli
+  // Questo è un fix per il backup14, manteniamo l'identità corretta
   if (userId === 16 && (sessionType === 'staff' || sessionType === 'customer')) {
-    console.log(`⚠️ Rilevato potenziale problema di identità: User ID ${userId} potrebbe essere confuso con Elisa Faverio`);
+    // Verifichiamo che sia davvero Elisa Faverio
+    const [elisaUser] = await db.select().from(users).where(eq(users.id, 16));
     
-    // Cerca l'utente corretto per zambelli.andrea.1973B 
-    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B@gmail.com'));
-    
-    if (correctUser) {
-      console.log(`✅ Correzione identità: Trovato utente corretto zambelli.andrea.1973B con ID ${correctUser.id}`);
-      return {
-        id: correctUser.id, 
-        username: correctUser.username,
-        email: correctUser.email,
-        type: correctUser.type || sessionType,
-        role: correctUser.role
-      };
-    }
-  }
-  
-  // Se è l'account di ElisaFaverio ma dovrebbe essere qualcun altro
-  if (userId === 16 && (sessionType === 'staff' || sessionType === 'customer')) {
-    console.log(`⚠️ Correzione forzata: ID 16 viene identificato erroneamente come Elisa Faverio`);
-    
-    // Cerca l'utente zambelli.andrea.1973B
-    const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B@gmail.com'));
-    
-    if (correctUser) {
-      return {
-        id: correctUser.id,
-        username: correctUser.username,
-        email: correctUser.email,
-        type: correctUser.type || sessionType,
-        role: correctUser.role
-      };
+    if (elisaUser && elisaUser.username === 'faverioelisa6@gmail.com') {
+      console.log(`✅ Confermata identità corretta: L'ID 16 è Elisa Faverio`);
+      // Non facciamo correzioni, lasciamo l'identità corretta
+      return null;
     }
   }
   
