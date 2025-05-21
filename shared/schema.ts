@@ -415,6 +415,65 @@ export const paymentMethods = pgTable("payment_methods", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Tabelle sistema referral
+export const bankAccounts = pgTable("bank_accounts", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(),
+  bankName: text("bank_name").notNull(),
+  accountHolder: text("account_holder").notNull(),
+  iban: text("iban").notNull(),
+  swift: text("swift"),
+  isDefault: boolean("is_default").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertBankAccountSchema = createInsertSchema(bankAccounts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const referralCommissions = pgTable("referral_commissions", {
+  id: serial("id").primaryKey(),
+  referrerId: integer("referrer_id").notNull(), // Utente che ha fatto il referral
+  referredId: integer("referred_id").notNull(), // Utente che è stato invitato
+  subscriptionId: integer("subscription_id").notNull(), // Abbonamento associato
+  monthlyAmount: integer("monthly_amount").notNull().default(100), // Importo mensile in centesimi (default €1)
+  status: text("status").default("active").notNull(), // active, inactive
+  startDate: date("start_date").notNull().defaultNow(), // Data di inizio commissione
+  endDate: date("end_date"), // Data di fine (null se ancora attiva)
+  lastPaidPeriod: text("last_paid_period"), // Ultimo periodo pagato (YYYY-MM)
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReferralCommissionSchema = createInsertSchema(referralCommissions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const referralPayments = pgTable("referral_payments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Utente che riceve il pagamento
+  period: text("period").notNull(), // Periodo del pagamento (YYYY-MM)
+  amount: integer("amount").notNull(), // Importo totale in centesimi
+  status: text("status").default("pending").notNull(), // pending, processed, failed
+  bankAccountId: integer("bank_account_id"), // Conto bancario utilizzato
+  processingDate: timestamp("processing_date"), // Data di elaborazione
+  processingNote: text("processing_note"), // Note sull'elaborazione
+  paymentReference: text("payment_reference"), // Riferimento del pagamento
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReferralPaymentSchema = createInsertSchema(referralPayments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertPaymentMethodSchema = createInsertSchema(paymentMethods).omit({
   id: true,
   createdAt: true,
