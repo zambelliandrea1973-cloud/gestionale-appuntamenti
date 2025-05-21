@@ -54,7 +54,7 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
         username: correctUser.username,
         email: correctUser.email,
         type: 'customer',
-        role: 'user'
+        role: 'business'
       };
     }
   }
@@ -69,6 +69,40 @@ export async function correctIdentityIfNeeded(userId: number, sessionType: strin
       console.log(`✅ Confermata identità corretta: L'ID 16 è Elisa Faverio`);
       // Non facciamo correzioni, lasciamo l'identità corretta
       return null;
+    }
+  }
+  
+  // Account A: Aggiungiamo supporto per zambelli.andrea.1973A@gmail.com
+  if (userId === 9 && sessionType === 'customer') {
+    // Verifichiamo che sia davvero l'account A
+    const [userA] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973A@gmail.com'));
+    
+    if (userA) {
+      console.log(`🔄 Mantengo identità corretta per account A con ID ${userA.id}`);
+      return {
+        id: userA.id,
+        username: userA.username,
+        email: userA.email,
+        type: 'customer',
+        role: userA.role || 'user'
+      };
+    }
+  }
+  
+  // Account C: Aggiungiamo supporto per zambelli.andrea.1973C@gmail.com
+  if (userId === 11 && sessionType === 'customer') {
+    // Verifichiamo che sia davvero l'account C
+    const [userC] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973C@gmail.com'));
+    
+    if (userC) {
+      console.log(`🔄 Mantengo identità corretta per account C con ID ${userC.id}`);
+      return {
+        id: userC.id,
+        username: userC.username,
+        email: userC.email,
+        type: 'customer',
+        role: userC.role || 'user'
+      };
     }
   }
   
