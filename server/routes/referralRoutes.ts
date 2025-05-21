@@ -5,6 +5,7 @@ import express from 'express';
 import { ensureAuthenticated, isAdmin, isStaff } from '../middleware/authMiddleware';
 import * as referralService from '../services/referralService';
 import { format, subMonths } from 'date-fns';
+import type { Request, Response } from 'express';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ const router = express.Router();
  * Genera un codice di referral per l'utente corrente
  * POST /api/referral/generate-code
  */
-router.post('/generate-code', ensureAuthenticated, isStaff, async (req, res) => {
+router.post('/generate-code', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -41,8 +42,15 @@ router.post('/generate-code', ensureAuthenticated, isStaff, async (req, res) => 
  * Ottiene le statistiche sui referral dell'utente corrente
  * GET /api/referral/stats
  */
-router.get('/stats', ensureAuthenticated, isStaff, async (req, res) => {
+router.get('/stats', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+    
     const userId = req.user.id;
     
     // Ottieni le commissioni attive
@@ -82,8 +90,15 @@ router.get('/stats', ensureAuthenticated, isStaff, async (req, res) => {
  * Salva il conto bancario dell'utente
  * POST /api/referral/bank-account
  */
-router.post('/bank-account', ensureAuthenticated, isStaff, async (req, res) => {
+router.post('/bank-account', ensureAuthenticated, isStaff, async (req: Request, res: Response) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+    
     const userId = req.user.id;
     const { bankName, accountHolder, iban, swift, isDefault = true } = req.body;
     
@@ -130,7 +145,7 @@ router.post('/bank-account', ensureAuthenticated, isStaff, async (req, res) => {
  * Richiede il codice di referral e l'ID del nuovo utente
  * Utilizzata internamente dal processo di registrazione
  */
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
   try {
     const { referralCode, userId } = req.body;
     
