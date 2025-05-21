@@ -259,6 +259,26 @@ export function setupAuth(app: Express) {
         }
       }
       
+      // Dobbiamo cercare l'utente reale quando è un customer
+      if (userType === "customer") {
+        try {
+          // Otteniamo l'utente del database corrispondente a questo username
+          const realUser = await storage.getUserByUsername(username);
+          if (realUser) {
+            console.log(`✅ Trovato utente reale corrispondente (ID ${realUser.id}) per login cliente ${username}`);
+            return done(null, { 
+              ...clientAccount,
+              id: realUser.id, // Usiamo l'ID dell'utente reale invece dell'ID dell'account
+              client, 
+              type: userType 
+            });
+          }
+        } catch (err) {
+          console.error(`Errore durante la ricerca dell'utente reale per ${username}:`, err);
+        }
+      }
+      
+      // Se non è un customer o non abbiamo trovato un utente reale corrispondente
       return done(null, { 
         ...clientAccount, 
         client, 
