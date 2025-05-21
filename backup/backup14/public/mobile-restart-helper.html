@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strumenti di Riavvio per Dispositivi Mobili</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2d3748">
+  <link rel="icon" href="/restart-icons/restart-192.png">
+  <link rel="apple-touch-icon" href="/restart-icons/restart-180.png">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+        "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f7fafc;
+      color: #2d3748;
+    }
+    
+    header {
+      background-color: #2d3748;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    
+    main {
+      flex: 1;
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-title {
+      margin-top: 0;
+      font-size: 1.25rem;
+      color: #2d3748;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      margin-bottom: 1rem;
+      text-decoration: none;
+    }
+    
+    .btn-secondary {
+      background-color: #edf2f7;
+      color: #2d3748;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn:hover {
+      opacity: 0.9;
+    }
+    
+    .tool-icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+    
+    .bookmark-instructions {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background-color: #ebf8ff;
+      border-radius: 4px;
+      border-left: 4px solid #4299e1;
+    }
+    
+    .bookmark-instructions ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    
+    .bookmark-instructions li {
+      margin-bottom: 0.5rem;
+    }
+    
+    footer {
+      background-color: #edf2f7;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #718096;
+      margin-top: auto;
+    }
+    
+    @media (min-width: 768px) {
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+    
+    /* For PWA */
+    #install-prompt {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #2d3748;
+      color: white;
+      padding: 1rem;
+      display: none;
+    }
+    
+    #install-prompt button {
+      background-color: white;
+      color: #2d3748;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Strumenti di Riavvio dell'Applicazione</h1>
+  </header>
+  
+  <main>
+    <p>Questa pagina contiene strumenti utili per riavviare l'applicazione quando è offline o non risponde.</p>
+    
+    <div class="grid">
+      <div class="card">
+        <h2 class="card-title">Strumenti di Riavvio</h2>
+        <a href="/offline-restart.html" class="btn">
+          <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Riavvio Offline
+        </a>
+        <a href="/bookmarklet.html" class="btn">
+          <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          </svg>
+          Bookmarklet per Riavvio
+        </a>
+      </div>
+      
+      <div class="card">
+        <h2 class="card-title">Pagine di Stato</h2>
+        <a href="/maintenance.html" class="btn btn-secondary">
+          <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+          Pagina di Manutenzione
+        </a>
+        <a href="/404.html" class="btn btn-secondary">
+          <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          Pagina 404 Personalizzata
+        </a>
+        <a href="/500.html" class="btn btn-secondary">
+          <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Pagina 500 Personalizzata
+        </a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">Riavvio Rapido</h2>
+      <p>Puoi usare questi collegamenti diretti per riavviare l'applicazione:</p>
+      
+      <button id="restart-btn" class="btn">
+        <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        Riavvia Ora
+      </button>
+      
+      <div class="bookmark-instructions">
+        <p><strong>Suggerimento:</strong> Salva questa pagina nella schermata Home del tuo dispositivo per accedervi rapidamente:</p>
+        <ol>
+          <li>Apri il menu del browser</li>
+          <li>Seleziona "Aggiungi a schermata Home" o opzione simile</li>
+          <li>Conferma l'operazione</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div id="install-prompt">
+      <span>Aggiungi alla schermata Home per un accesso rapido</span>
+      <button id="install-btn">Installa</button>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 - Strumenti di Riavvio dell'Applicazione</p>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const restartBtn = document.getElementById('restart-btn');
+      
+      // Funzione per riavviare l'applicazione
+      async function restartApp() {
+        try {
+          restartBtn.disabled = true;
+          restartBtn.innerHTML = `
+            <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Riavvio in corso...
+          `;
+          
+          const appUrl = window.location.origin;
+          const response = await fetch(`${appUrl}/api/admin/emergency-restart?key=gironico-restart-2025`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            alert('Riavvio avviato con successo! La pagina verrà ricaricata tra 10 secondi.');
+            
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 10000);
+          } else {
+            alert('Errore durante il riavvio! Riprova tra qualche istante.');
+            
+            restartBtn.disabled = false;
+            restartBtn.innerHTML = `
+              <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Riavvia Ora
+            `;
+          }
+        } catch (error) {
+          console.error('Errore:', error);
+          alert('Impossibile contattare il server. L\'applicazione potrebbe essere offline. Riprova tra qualche istante.');
+          
+          restartBtn.disabled = false;
+          restartBtn.innerHTML = `
+            <svg class="tool-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Riavvia Ora
+          `;
+        }
+      }
+      
+      // Event listener per il pulsante di riavvio
+      restartBtn.addEventListener('click', restartApp);
+      
+      // PWA install prompt
+      let deferredPrompt;
+      const installPrompt = document.getElementById('install-prompt');
+      const installBtn = document.getElementById('install-btn');
+      
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installPrompt.style.display = 'flex';
+      });
+      
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          console.log('Utente ha accettato l\'installazione');
+        } else {
+          console.log('Utente ha rifiutato l\'installazione');
+        }
+        
+        deferredPrompt = null;
+        installPrompt.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
