@@ -140,6 +140,8 @@ export const users = pgTable("users", {
   role: text("role").default("staff").notNull(), // admin, staff, client
   clientId: integer("client_id"), // Solo per utenti di tipo client
   type: text("type").default("staff").notNull(), // staff, client
+  referralCode: text("referral_code").unique(), // Codice univoco per invitare nuovi utenti
+  referredBy: integer("referred_by"), // ID dell'utente che ha invitato questo utente
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -825,5 +827,108 @@ export const licensesRelations = relations(licenses, ({ one }) => ({
     fields: [licenses.userId],
     references: [users.id],
     relationName: "user_licenses",
+  }),
+}));
+
+// Tabella per i pagamenti di referral agli utenti staff
+export const referralPayments = pgTable("referral_payments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // L'utente staff che riceve il pagamento
+  amount: integer("amount").notNull(), // Importo in centesimi
+  status: text("status").default("pending").notNull(), // pending, processed, failed
+  paymentDate: timestamp("payment_date"), // Data in cui è stato effettuato il pagamento
+  processingNote: text("processing_note"), // Note sul pagamento/errori
+  period: text("period").notNull(), // Periodo per cui si effettua il pagamento (es: "2025-05")
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReferralPaymentSchema = createInsertSchema(referralPayments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ReferralPayment = typeof referralPayments.$inferSelect;
+export type InsertReferralPayment = z.infer<typeof insertReferralPaymentSchema>;
+
+// Tabella per i dati bancari degli utenti
+export const bankAccounts = pgTable("bank_accounts", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(), // L'utente a cui appartiene il conto
+  bankName: text("bank_name").notNull(), // Nome della banca
+  accountHolder: text("account_holder").notNull(), // Intestatario del conto
+  iban: text("iban").notNull(), // IBAN
+  swift: text("swift"), // Codice SWIFT/BIC
+  isDefault: boolean("is_default").default(true), // Se è il conto predefinito
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertBankAccountSchema = createInsertSchema(bankAccounts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type BankAccount = typeof bankAccounts.$inferSelect;
+export type InsertBankAccount = z.infer<typeof insertBankAccountSchema>;
+
+// Tabella per tracciare le commissioni maturate sui referral
+export const referralCommissions = pgTable("referral_commissions", {
+  id: serial("id").primaryKey(),
+  referrerId: integer("referrer_id").notNull(), // ID dell'utente che ha fatto il referral
+  referredId: integer("referred_id").notNull(), // ID dell'utente invitato
+  subscriptionId: integer("subscription_id").notNull(), // ID dell'abbonamento associato
+  monthlyAmount: integer("monthly_amount").notNull(), // Importo mensile della commissione in centesimi
+  status: text("status").default("active").notNull(), // active o inactive
+  startDate: timestamp("start_date").defaultNow().notNull(), // Da quando inizia a maturare la commissione
+  endDate: timestamp("end_date"), // Quando è terminata (null se ancora attiva)
+  lastPaidPeriod: text("last_paid_period"), // Ultimo periodo pagato (es: "2025-05")
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReferralCommissionSchema = createInsertSchema(referralCommissions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ReferralCommission = typeof referralCommissions.$inferSelect;
+export type InsertReferralCommission = z.infer<typeof insertReferralCommissionSchema>;
+
+// Relazioni per le nuove tabelle
+export const bankAccountsRelations = relations(bankAccounts, ({ one }) => ({
+  user: one(users, {
+    fields: [bankAccounts.userId],
+    references: [users.id],
+    relationName: "user_bank_accounts",
+  }),
+}));
+
+export const referralPaymentsRelations = relations(referralPayments, ({ one }) => ({
+  user: one(users, {
+    fields: [referralPayments.userId],
+    references: [users.id],
+    relationName: "user_referral_payments",
+  }),
+}));
+
+export const referralCommissionsRelations = relations(referralCommissions, ({ one }) => ({
+  referrer: one(users, {
+    fields: [referralCommissions.referrerId],
+    references: [users.id],
+    relationName: "referrer_commissions",
+  }),
+  referred: one(users, {
+    fields: [referralCommissions.referredId],
+    references: [users.id],
+    relationName: "referred_commissions",
+  }),
+  subscription: one(subscriptions, {
+    fields: [referralCommissions.subscriptionId],
+    references: [subscriptions.id],
+    relationName: "subscription_commissions",
   }),
 }));
