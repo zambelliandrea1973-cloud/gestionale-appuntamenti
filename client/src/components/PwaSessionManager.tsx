@@ -102,47 +102,26 @@ export default function PwaSessionManager({ children }: { children: React.ReactN
                   console.log("PwaSessionManager - Recupero sessione fallito");
                   setIsAuthenticated(false);
                   
-                  // Reindirizza al login
-                  toast({
-                    title: "Sessione scaduta",
-                    description: "La tua sessione è scaduta, effettua nuovamente l'accesso.",
-                    variant: "destructive",
-                  });
-                  
-                  setTimeout(() => {
-                    setLocation("/client-login");
-                  }, 1000);
+                  // Reindirizza direttamente al login senza mostrare il messaggio di errore
+                  // Questo è più user-friendly durante il logout normale
+                  setLocation("/client-login");
+                  // Nessun messaggio toast, per migliorare l'esperienza utente
                 }
               } catch (error) {
                 console.error("PwaSessionManager - Errore recupero sessione:", error);
                 setIsAuthenticated(false);
                 
-                // Reindirizza al login
-                toast({
-                  title: "Errore sessione",
-                  description: "Si è verificato un errore nel ripristino della sessione.",
-                  variant: "destructive",
-                });
-                
-                setTimeout(() => {
-                  setLocation("/client-login");
-                }, 1000);
+                // Reindirizza direttamente al login senza messaggi di errore
+                setLocation("/client-login");
               }
             } else {
               // Nessuna credenziale salvata
               console.log("PwaSessionManager - Nessuna credenziale salvata");
               setIsAuthenticated(false);
               
-              // Reindirizza al login
-              toast({
-                title: "Sessione scaduta",
-                description: "La tua sessione è scaduta, effettua nuovamente l'accesso.",
-                variant: "destructive",
-              });
-              
-              setTimeout(() => {
-                setLocation("/client-login");
-              }, 1000);
+              // Reindirizza direttamente al login senza mostrare il messaggio di errore
+              // per una migliore esperienza utente
+              setLocation("/client-login");
             }
           } else {
             // Non siamo in PWA, semplicemente considera non autenticato
