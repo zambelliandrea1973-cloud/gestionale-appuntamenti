@@ -35,6 +35,14 @@ export function isCustomer(req: Request, res: Response, next: NextFunction) {
   return res.status(403).json({ success: false, message: 'Accesso negato. Richiesti privilegi di cliente.' });
 }
 
+// Middleware per verificare se l'utente è admin o staff
+export function isAdminOrStaff(req: Request, res: Response, next: NextFunction) {
+  if (req.user && (req.user.type === 'admin' || req.user.type === 'staff')) {
+    return next();
+  }
+  return res.status(403).json({ success: false, message: 'Accesso negato. Richiesti privilegi di admin o staff.' });
+}
+
 // Estendi l'oggetto Request di Express
 declare global {
   namespace Express {
