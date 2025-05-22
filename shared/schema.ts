@@ -713,9 +713,20 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     fields: [users.id],
     references: [subscriptions.userId],
   }),
+  settings: one(userSettings, {
+    fields: [users.id],
+    references: [userSettings.userId],
+  }),
   paymentMethods: many(paymentMethods),
   paymentTransactions: many(paymentTransactions),
   betaFeedback: many(betaFeedback),
+}));
+
+export const userSettingsRelations = relations(userSettings, ({ one }) => ({
+  user: one(users, {
+    fields: [userSettings.userId],
+    references: [users.id],
+  }),
 }));
 
 export const subscriptionPlansRelations = relations(subscriptionPlans, ({ many }) => ({
