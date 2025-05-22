@@ -45,6 +45,11 @@ export interface IStorage {
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
   
+  // Client visibility operations
+  setClientVisibility(userId: number, clientId: number, isVisible: boolean): Promise<boolean>;
+  getClientVisibility(userId: number, clientId: number): Promise<boolean>;
+  getVisibleClientsForUser(userId: number, role: string): Promise<Client[]>;
+  
   // Reminder Template operations
   getReminderTemplate(id: number): Promise<ReminderTemplate | undefined>;
   getReminderTemplates(): Promise<ReminderTemplate[]>;
