@@ -3336,6 +3336,101 @@ export class DatabaseStorage implements IStorage {
     }
   }
   
+  // Client visibility functions
+  async setClientVisibility(userId: number, clientId: number, isVisible: boolean): Promise<boolean> {
+    try {
+      // Verificare se esiste già un record per questo utente e cliente
+      const [existingRecord] = await db.execute(
+        sql`SELECT * FROM client_visibility WHERE user_id = ${userId} AND client_id = ${clientId}`
+      );
+      
+      if (existingRecord && existingRecord.length > 0) {
+        // Aggiorna il record esistente
+        await db.execute(
+          sql`UPDATE client_visibility SET is_visible = ${isVisible} WHERE user_id = ${userId} AND client_id = ${clientId}`
+        );
+      } else {
+        // Crea un nuovo record
+        await db.execute(
+          sql`INSERT INTO client_visibility (user_id, client_id, is_visible) VALUES (${userId}, ${clientId}, ${isVisible})`
+        );
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Errore nel setting della visibilità client:', error);
+      return false;
+    }
+  }
+  
+  async getClientVisibility(userId: number, clientId: number): Promise<boolean> {
+    try {
+      const [records] = await db.execute(
+        sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${clientId}`
+      );
+      
+      // Se non esiste un record, il client è visibile di default
+      if (!records || records.length === 0) {
+        return true;
+      }
+      
+      return records[0].is_visible;
+    } catch (error) {
+      console.error('Errore nel recupero della visibilità client:', error);
+      return true; // Default a visibile in caso di errore
+    }
+  }
+  
+  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
+    try {
+      let allClients: Client[] = await this.getClients();
+      
+      // Admin vede tutti i clienti
+      if (role === 'admin') {
+        return allClients;
+      }
+      
+      // Per gli altri account (staff e customer)
+      let visibleClients: Client[] = [];
+      
+      for (const client of allClients) {
+        // Caso 1: I clienti di default (senza owner_id) sono visibili a tutti
+        // Caso 2: I clienti creati dall'utente (con owner_id = userId) sono visibili
+        // Caso 3: Casi speciali (come Silvia Busnari che vede clienti specifici)
+        
+        // Prima verifichiamo se il cliente è normalmente visibile in base alla logica precedente
+        let normallyVisible = client.ownerId === null || client.ownerId === userId;
+        
+        // Casi speciali (come per Silvia Busnari)
+        let specialCase = false;
+        if (userId === 14 && (client.id === 251 || client.id === 252)) {
+          specialCase = true;
+        }
+        
+        // Ora verifichiamo la visibilità nella tabella client_visibility
+        const [records] = await db.execute(
+          sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${client.id}`
+        );
+        
+        // Se c'è un record nella tabella client_visibility, lo usiamo
+        if (records && records.length > 0) {
+          if (records[0].is_visible) {
+            visibleClients.push(client);
+          }
+        } 
+        // Altrimenti usiamo la logica normale
+        else if (normallyVisible || specialCase) {
+          visibleClients.push(client);
+        }
+      }
+      
+      return visibleClients;
+    } catch (error) {
+      console.error('Errore nel recupero dei clienti visibili:', error);
+      return []; // Restituisci lista vuota in caso di errore
+    }
+  }
+
   async getActiveSubscriptions(): Promise<SubscriptionWithDetails[]> {
     try {
       // Recupera solo le sottoscrizioni attive con i dettagli dei piani
