@@ -543,7 +543,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const visibleClients = await storage.getVisibleClientsForUser(user.id, user.role);
       const clientExists = visibleClients.some(client => client.id === id);
       
+      console.log(`🔍 DEBUG DELETE: Utente ${user.id} (${user.username}) tenta di eliminare cliente ${id}`);
+      console.log(`🔍 DEBUG DELETE: Clienti visibili trovati: ${visibleClients.length}`);
+      console.log(`🔍 DEBUG DELETE: Cliente ${id} trovato nei visibili: ${clientExists}`);
+      
       if (!clientExists) {
+        console.log(`❌ DEBUG DELETE: Cliente ${id} NON trovato tra i clienti visibili`);
         return res.status(404).json({ message: "Client not found" });
       }
       
