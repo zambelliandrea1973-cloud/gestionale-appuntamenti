@@ -2284,58 +2284,64 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  app.get('/api/client-app-info', (req: Request, res: Response) => {
+  app.get('/api/client-app-info', ensureAuthenticated, async (req: Request, res: Response) => {
     try {
-      // Controlla diversi formati di icona personalizzata
-      // Priorità: JPG, PNG, SVG per mostrare immagini caricate di recente
-      const iconFormats = [
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      // Controlla se l'utente ha un'icona personalizzata
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      const userIconFormats = [
         { path: 'app-icon.jpg', mime: 'image/jpeg' },
         { path: 'app-icon.png', mime: 'image/png' },
         { path: 'app-icon.svg', mime: 'image/svg+xml' }
       ];
       
-      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
-      const defaultIconExists = fs.existsSync(defaultIconPath);
-      
       let iconInfo = null;
-      let customIconFound = false;
+      let userIconFound = false;
       
-      // Cerca tra i formati supportati
-      for (const format of iconFormats) {
-        const iconPath = path.join(process.cwd(), 'public', 'icons', format.path);
-        if (fs.existsSync(iconPath)) {
-          const stats = fs.statSync(iconPath);
+      // Prima cerca un'icona personalizzata per questo utente
+      for (const format of userIconFormats) {
+        const userIconPath = path.join(userIconsDir, format.path);
+        if (fs.existsSync(userIconPath)) {
+          const stats = fs.statSync(userIconPath);
           
           iconInfo = {
             exists: true,
             isCustom: true,
-            iconPath: `/icons/${format.path}`,
+            iconPath: `/user-icons/user-${userId}/${format.path}`,
             mimeType: format.mime,
             lastModified: stats.mtime.toISOString()
           };
           
-          customIconFound = true;
+          userIconFound = true;
           break;
         }
       }
       
-      // Se non è stata trovata un'icona personalizzata, usa quella predefinita
-      if (!customIconFound && defaultIconExists) {
-        const stats = fs.statSync(defaultIconPath);
+      // Se l'utente non ha un'icona personalizzata, usa quella predefinita
+      if (!userIconFound) {
+        const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+        const defaultIconExists = fs.existsSync(defaultIconPath);
         
-        iconInfo = {
-          exists: true,
-          isCustom: false,
-          iconPath: '/icons/default-app-icon.jpg',
-          mimeType: 'image/jpeg',
-          lastModified: stats.mtime.toISOString()
-        };
-      } 
-      // Nessuna icona disponibile
-      else if (!customIconFound) {
-        iconInfo = {
-          exists: false
-        };
+        if (defaultIconExists) {
+          const stats = fs.statSync(defaultIconPath);
+        
+          iconInfo = {
+            exists: true,
+            isCustom: false,
+            iconPath: '/icons/default-app-icon.jpg',
+            mimeType: 'image/jpeg',
+            lastModified: stats.mtime.toISOString()
+          };
+        } else {
+          // Nessuna icona disponibile
+          iconInfo = {
+            exists: false
+          };
+        }
       }
       
       // Lettura delle informazioni dal manifest.json
