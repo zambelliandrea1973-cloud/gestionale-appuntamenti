@@ -180,6 +180,9 @@ export default function Clients() {
     // Invalidare anche tutte le query relative agli appuntamenti
     queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
     
+    // Resetta la barra di ricerca per mostrare tutti i clienti
+    setSearchQuery('');
+    
     // Refresh locale
     refetchClients();
     setIsClientDialogOpen(false);
