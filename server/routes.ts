@@ -484,7 +484,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         };
       }
 
+      // Creiamo il cliente nel database
       const client = await storage.createClient(clientData);
+      
+      // Assicuriamoci che il cliente sia visibile per l'utente che lo ha creato
+      // Questo non è strettamente necessario per la logica normale (l'utente vede i clienti che crea)
+      // ma è utile per avere un record esplicito e per mantenere la coerenza
+      await storage.setClientVisibility(user.id, client.id, true);
+      
+      console.log(`Nuovo cliente ID ${client.id} creato e impostato come visibile per l'utente ${user.username} (ID: ${user.id})`);
+      
       res.status(201).json(client);
     } catch (error) {
       console.error("Error creating client:", error);
@@ -545,13 +554,69 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Error hiding client" });
     }
   });
+  
+  // Endpoint per ripristinare un cliente precedentemente nascosto
+  app.post("/api/clients/:id/restore", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid client ID" });
+      }
+      
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+      
+      // Verifica che il cliente esista
+      const client = await storage.getClient(id);
+      if (!client) {
+        return res.status(404).json({ message: "Client not found" });
+      }
+      
+      // Imposta la visibilità a true per questo utente
+      const success = await storage.setClientVisibility(user.id, id, true);
+      
+      if (!success) {
+        return res.status(500).json({ message: "Error restoring client" });
+      }
+      
+      console.log(`Cliente ID ${id} ripristinato per l'utente ${user.username} (ID: ${user.id})`);
+      
+      res.status(200).json({ message: "Client restored successfully", clientId: id });
+    } catch (error) {
+      console.error("Error restoring client:", error);
+      res.status(500).json({ message: "Error restoring client" });
+    }
+  });
 
-  app.get("/api/clients/search/:query", async (req: Request, res: Response) => {
+  app.get("/api/clients/search/:query", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const query = req.params.query;
-      const clients = await storage.searchClients(query);
-      res.json(clients);
+      const user = req.user;
+      
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+      
+      // Ottieni i clienti visibili per l'utente
+      const visibleClients = await storage.getVisibleClientsForUser(user.id, user.role);
+      
+      // Filtra i clienti in base alla query di ricerca
+      const matchingClients = visibleClients.filter(client => {
+        const fullName = `${client.firstName} ${client.lastName}`.toLowerCase();
+        return (
+          fullName.includes(query.toLowerCase()) ||
+          (client.email?.toLowerCase() || "").includes(query.toLowerCase()) ||
+          (client.phone?.toLowerCase() || "").includes(query.toLowerCase())
+        );
+      });
+
+      console.log(`Ricerca clienti per "${query}" - Trovati ${matchingClients.length} risultati tra ${visibleClients.length} clienti visibili per l'utente ${user.username}`);
+      
+      res.json(matchingClients);
     } catch (error) {
+      console.error("Error searching clients:", error);
       res.status(500).json({ message: "Error searching clients" });
     }
   });
