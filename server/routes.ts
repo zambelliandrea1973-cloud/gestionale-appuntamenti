@@ -429,40 +429,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "User not authenticated" });
       }
 
-      let clients;
-      
-      // Recupera tutti i clienti dal database
-      const allClients = await storage.getClients();
-      
-      // Applica diversi filtri in base al ruolo dell'utente
-      if (user.role === 'admin') {
-        // Admin: vede tutti i clienti senza restrizioni
-        clients = allClients;
-      } else if (user.role === 'staff') {
-        // Per Silvia Busnari (ID 14), mostriamo anche i clienti di Marco Berto e Bruna Pizzolato
-        if (user.id === 14) {
-          // Aggiunge al filtro i clienti speciali Marco Berto (ID 252) e Bruna Pizzolato (ID 251)
-          clients = allClients.filter(client => 
-            client.ownerId === null || 
-            client.ownerId === user.id || 
-            client.id === 251 || 
-            client.id === 252
-          );
-          console.log(`Filtraggio clienti speciale per Silvia Busnari (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
-        } else {
-          // Altri staff: vedono solo i clienti di default (senza owner_id) e quelli creati da loro stessi
-          clients = allClients.filter(client => 
-            client.ownerId === null || client.ownerId === user.id
-          );
-          console.log(`Filtraggio clienti per staff ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
-        }
-      } else {
-        // Customer: vede solo i clienti di default (senza owner_id) e quelli creati da loro stessi
-        clients = allClients.filter(client => 
-          client.ownerId === null || client.ownerId === user.id
-        );
-        console.log(`Filtraggio clienti per customer ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
-      }
+      // Usa il nuovo sistema di visibilità dei clienti
+      // questo restituirà solo i clienti che sono visibili per questo account
+      const clients = await storage.getVisibleClientsForUser(user.id, user.role);
       
       res.json(clients);
     } catch (error) {
@@ -549,21 +518,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/clients/:id", async (req: Request, res: Response) => {
+  app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
         return res.status(400).json({ message: "Invalid client ID" });
       }
-
-      const success = await storage.deleteClient(id);
+      
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+      
+      // Invece di eliminare il cliente dal database, imposta la sua visibilità a falso per questo utente
+      const success = await storage.setClientVisibility(user.id, id, false);
+      
       if (!success) {
         return res.status(404).json({ message: "Client not found" });
       }
+      
+      console.log(`Cliente ID ${id} nascosto per l'utente ${user.username} (ID: ${user.id})`);
 
       res.status(204).end();
     } catch (error) {
-      res.status(500).json({ message: "Error deleting client" });
+      console.error("Error hiding client:", error);
+      res.status(500).json({ message: "Error hiding client" });
     }
   });
 
