@@ -1,0 +1,451 @@
+{
+  "app": {
+    "title": "Appointment Management",
+    "welcome": "Welcome to Appointment Management",
+    "description": "Easily manage appointments, clients and invoices"
+  },
+  "appointment": {
+    "selectTimeSlots": "Select time for new appointment",
+    "confirmAndAssociateClient": "Confirm and associate client",
+    "selected": "Selected",
+    "selectSlots": "Select time slots",
+    "confirmDelete": "Are you sure you want to delete this appointment?",
+    "confirmDeleteTitle": "Delete appointment"
+  },
+  "navigation": {
+    "home": "Home"
+  },
+  "sidebar": {
+    "clients": "Clients",
+    "calendar": "Calendar",
+    "invoices": "Invoices",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "language": {
+    "it": "Italian",
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish",
+    "ru": "Russian",
+    "nl": "Dutch",
+    "no": "Norwegian",
+    "ro": "Romanian",
+    "select": "Select language"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendar",
+      "description": "View and manage all appointments",
+      "content": "View appointments in daily, weekly or monthly mode, and easily create new appointments.",
+      "button": "Go to Calendar"
+    },
+    "clients": {
+      "title": "Clients",
+      "description": "Manage client information",
+      "content": "Add, edit and view client data, including personal and medical information.",
+      "button": "Manage Clients"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "description": "Manage invoices and payments",
+      "content": "Create and manage invoices, record payments and monitor invoice status in real time.",
+      "button": "Manage Invoices"
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Analyze business performance",
+      "content": "View daily, weekly and monthly reports to analyze business performance.",
+      "button": "View Reports"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "description": "View and manage all appointments",
+    "subDescription": "View appointments in daily, weekly or monthly mode, and easily create new appointments",
+    "goTo": "Go to Calendar",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "weekView": "Weekly view",
+    "monthView": "Monthly view",
+    "addAppointment": "New Appointment",
+    "today": "Today",
+    "searchResults": "Search results",
+    "noAppointmentsFound": "No appointments found for",
+    "goToDay": "Go to day",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "selectNewAppointment": "Select new appointment",
+    "selectTimeNewAppointment": "Select time for new appointment",
+    "confirmAndAssociateClient": "Confirm and associate client",
+    "hasAppointments": "Has appointments",
+    "slotOccupied": "Slot occupied by previous appointment",
+    "customDuration": "Custom duration",
+    "incrementBy15Min": "Increase by 15 min",
+    "decrementBy15Min": "Decrease by 15 min",
+    "selected": "Selected",
+    "select": "Select"
+  },
+  "clients": {
+    "title": "Clients",
+    "description": "Manage client information",
+    "subDescription": "Add, edit and view client data, including personal and medical information",
+    "goTo": "Manage Clients",
+    "addClient": "New Client",
+    "newClient": "New Client",
+    "addFirstClient": "Add first client",
+    "search": {
+      "placeholder": "Search clients by name, phone or email...",
+      "minLength": "Enter at least 2 characters to search"
+    },
+    "filter": {
+      "all": "All",
+      "frequent": "Frequent",
+      "noConsent": "No Consent"
+    },
+    "noClientsFound": "No clients found",
+    "noClientsInSystem": "There are no clients registered in the system",
+    "noResultsMatch": "No clients match the search criteria \"{{query}}\"",
+    "refreshSuccess": "Client data has been updated",
+    "lastUpdate": "Last update",
+    "autoUpdate": "Automatic update every hour and at 11:59 PM",
+    "stats": {
+      "total": "Total clients",
+      "frequent": "Frequent clients",
+      "noConsent": "Without consent"
+    },
+    "table": {
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "phone": "Phone",
+      "actions": "Actions"
+    },
+    "details": {
+      "title": "Client Details",
+      "personalInfo": "Personal Information",
+      "medicalInfo": "Medical Information",
+      "appointments": "Appointments",
+      "notes": "Notes",
+      "consents": "Consents",
+      "clientFile": "Client File",
+      "addAppointment": "New Appointment",
+      "generateQRCode": "Generate QR Code",
+      "accessActivated": "Client access QR Code",
+      "showDetails": "Details",
+      "deleteClient": "Delete client",
+      "deleteClientConfirmation": "Are you sure you want to delete this client? All their appointments will also be deleted. This action cannot be undone.",
+      "notFound": "Client not found",
+      "notSpecified": "Not specified",
+      "frequentClient": "Frequent client",
+      "dataConsent": "Data treatment consent",
+      "obtained": "Obtained",
+      "notObtained": "Not obtained",
+      "viewAllAppointments": "View all appointments",
+      "backToClients": "Back to clients list",
+      "structuredNotes": "Structured notes",
+      "legacyMedicalData": "Legacy medical data",
+      "otherInfo": "Other information",
+      "viewMode": "Notes display mode",
+      "stackedView": "Stacked cards view",
+      "classicView": "Classic view",
+      "stackedViewDescription": "Notes are displayed as stacked cards. Click on cards or use navigation buttons to browse them.",
+      "classicViewDescription": "Notes are displayed in vertical sequence.",
+      "generalNotes": "General notes",
+      "medicalNotes": "Medical notes",
+      "allergiesInfo": "Allergies and health information",
+      "medicalNotesLegacy": "Medical notes (legacy)",
+      "allergiesInfoLegacy": "Allergies and health information (legacy)",
+      "generalNotesLegacy": "General notes (legacy)",
+      "noMedicalNotes": "No medical notes recorded",
+      "noAllergiesInfo": "No allergies or health information recorded",
+      "noGeneralNotes": "No general notes recorded"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "birthDate": "Birth Date",
+      "address": "Address",
+      "city": "City",
+      "zipCode": "ZIP Code",
+      "notes": "Notes",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "description": "Manage invoices and payments",
+    "subDescription": "Create and manage invoices, record payments and monitor invoice status in real time",
+    "goTo": "Manage Invoices",
+    "addInvoice": "New Invoice",
+    "table": {
+      "number": "Number",
+      "date": "Date",
+      "client": "Client",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "partial": "Partial Payment"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "description": "Analyze business performance",
+    "subDescription": "View daily, weekly and monthly reports to analyze business performance",
+    "goTo": "View Reports",
+    "daily": "Daily Report",
+    "weekly": "Weekly Report",
+    "monthly": "Monthly Report",
+    "appointments": "Appointments",
+    "clients": "Clients",
+    "revenue": "Revenue"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "profile": "Profile",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "save": "Save Settings",
+    "saving": "Saving...",
+    "contacts": "Contacts",
+    "contactsTitle": "Contact Information",
+    "contactsDesc": "Manage your contact information that will be shown in the footer of the client app",
+    "appName": "App Name",
+    "appIcon": "App Icon",
+    "googleCalendar": "Google calendar",
+    "integrations": "Integrations",
+    "appearanceTitle": "Brand Identity",
+    "appearanceDesc": "Customize the name and icon of the application to reflect your company's identity. These settings will apply to both the main app and the client app."
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "actions": "Actions",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "date": "Date",
+    "time": "Time",
+    "description": "Description",
+    "support": "Support",
+    "terms": "Terms of Service",
+    "refresh": "Refresh",
+    "error": "Error",
+    "birthday": "Birth date",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "notifications": {
+    "success": "Operation completed successfully",
+    "error": "An error has occurred",
+    "warning": "Warning",
+    "info": "Information",
+    "clientDeleted": "Client deleted",
+    "clientDeletedSuccess": "The client has been successfully deleted"
+  },
+  "whatsappNotifications": {
+    "title": "Client Notifications",
+    "description": "Manage appointment reminders",
+    "subDescription": "Send WhatsApp reminders to clients for their upcoming appointments",
+    "goTo": "Manage Notifications"
+  },
+  "notificationsPage": {
+    "title": "Client Notifications",
+    "subtitle": "Manage reminders for client appointments",
+    "refresh": "Refresh",
+    "tabs": {
+      "upcoming": "To Send",
+      "history": "History",
+      "settings": "Notification Settings",
+      "calendar": "Google Calendar"
+    },
+    "howItWorks": {
+      "title": "How WhatsApp notifications work",
+      "steps": [
+        "Select appointments for which you want to send a reminder",
+        "Click on \"Generate WhatsApp notifications\" to create links",
+        "Links will be generated that open WhatsApp with pre-filled texts",
+        "You can customize the standard text before sending"
+      ]
+    },
+    "customMessage": {
+      "title": "Custom message (optional)",
+      "description": "If specified, this text will be added to the standard message",
+      "placeholder": "E.g. Remember to bring your previous medical documentation.",
+      "characters": "characters",
+      "clear": "Clear"
+    },
+    "noAppointments": {
+      "loading": "Loading appointments...",
+      "empty": "No appointments to notify",
+      "description": "There are no upcoming appointments that require reminders."
+    },
+    "table": {
+      "client": "Client",
+      "service": "Service",
+      "time": "Time",
+      "actions": "Actions",
+      "send": "Send",
+      "selectAll": "Select all"
+    },
+    "buttons": {
+      "generating": "Generating...",
+      "generateWhatsApp": "Generate WhatsApp notifications"
+    },
+    "history": {
+      "title": "Notification history",
+      "description": "Last reminders sent via WhatsApp",
+      "noNotifications": "No notifications recently sent",
+      "noSmsNotifications": "No SMS sent yet",
+      "table": {
+        "date": "Date",
+        "message": "Message",
+        "actions": "Actions",
+        "reopen": "Reopen",
+        "client": "Client",
+        "status": "Status"
+      },
+      "status": {
+        "delivered": "Delivered",
+        "sent": "Sent",
+        "undelivered": "Undelivered",
+        "failed": "Failed",
+        "unknown": "Unknown"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Select all",
+      "actions": "Actions",
+      "sendButton": "Generate WhatsApp notifications",
+      "sending": "Generating notifications..."
+    },
+    "errors": {
+      "loadingAppointments": "Unable to load appointments",
+      "loadingHistory": "Unable to load history",
+      "noneSelected": "Select at least one appointment to send notifications",
+      "sendingFailed": "Unable to send reminders"
+    },
+    "success": {
+      "remindersSent": "Reminders generated successfully"
+    },
+    "whatsappLink": "Open WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Notification Settings",
+    "enableEmailNotifications": "Enable email notifications",
+    "emailSetup": {
+      "title": "Quick Email Setup",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email address",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your email password",
+      "description": "This configuration sets up your email account for sending notifications.",
+      "autoDetect": "Auto-detect settings",
+      "emailRequired": "Enter your email address to detect settings"
+    },
+    "errors": {
+      "loadingSettings": "Unable to load notification settings",
+      "savingSettings": "Unable to save settings",
+      "testEmailMissing": "Enter an email address for testing"
+    },
+    "success": {
+      "settingsSaved": "Notification settings saved successfully",
+      "testEmailSent": "Test email sent successfully",
+      "remindersProcessed": "Reminders processed successfully"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Calendar",
+    "setupInstructions": "Set up Google Calendar integration",
+    "emailLabel": "Gmail Account",
+    "emailPlaceholder": "your.address@gmail.com",
+    "emailDescription": "The Google account you want to use for calendar",
+    "connected": "Account connected",
+    "notConnected": "Account not yet connected",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Your Google Client ID",
+    "clientIdDescription": "Get this value from the Google Cloud console",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Your Google Client Secret",
+    "clientSecretDescription": "Get this value from the Google Cloud console",
+    "configHelp": "Help with configuration",
+    "errors": {
+      "authorizationUrlFailed": "Unable to generate authorization URL"
+    },
+    "success": {
+      "settingsSaved": "Synchronization settings have been saved successfully",
+      "authorizationComplete": "Your Google account has been successfully connected"
+    }
+  },
+  "errors": {
+    "genericError": "An error occurred: {{error}}",
+    "qrCodeFetchError": "Error retrieving existing QR code:"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login"
+  },
+  "clientArea": {
+    "title": "Client Area",
+    "welcome": "Welcome to your Personal Area",
+    "appointments": "Your Appointments",
+    "personalInfo": "Personal Information",
+    "consents": "Consent Management",
+    "messages": "Messages"
+  },
+  "contacts": {
+    "accessOurContacts": "Access our contacts"
+  },
+  "appointment": {
+    "selectTimeSlots": "Select time for new appointment",
+    "confirmAndAssociateClient": "Confirm and associate client",
+    "selected": "Selected",
+    "selectSlots": "Select time slots"
+  }
+}
