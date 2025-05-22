@@ -422,11 +422,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   initializePhoneDeviceSocket(httpServer);
 
   // Client routes
-  app.get("/api/clients", async (_req: Request, res: Response) => {
+  app.get("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      const clients = await storage.getClients();
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      let clients;
+      
+      // Se l'utente è un amministratore, mostra tutti i clienti
+      if (user.role === 'admin') {
+        clients = await storage.getClients();
+      } else {
+        // Per account professionali (customer), mostra solo i clienti di cui sono proprietari
+        clients = await storage.getClients(user.id);
+      }
+      
       res.json(clients);
     } catch (error) {
+      console.error("Error fetching clients:", error);
       res.status(500).json({ message: "Error fetching clients" });
     }
   });
