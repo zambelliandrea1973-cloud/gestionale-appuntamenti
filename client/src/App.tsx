@@ -13,6 +13,7 @@ import Clients from "./pages/Clients";
 import Reports from "./pages/Reports";
 import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
+import UserSettings from "./pages/UserSettings";
 import EmailSettings from "./pages/EmailSettings";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";

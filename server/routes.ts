@@ -12,7 +12,8 @@ import {
   insertInvoiceSchema,
   insertInvoiceItemSchema,
   insertPaymentSchema,
-  insertReminderTemplateSchema
+  insertReminderTemplateSchema,
+  insertUserSettingsSchema
 } from "@shared/schema";
 import { setupAuth, isAdmin, isAuthenticated, isStaff, isClient } from "./auth";
 import { ensureAuthenticated } from "./middleware/authMiddleware";
@@ -3024,6 +3025,186 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     } catch (error) {
       console.error("Errore nel salvataggio delle impostazioni del fuso orario:", error);
       res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni del fuso orario' });
+    }
+  });
+
+  // ===== USER SETTINGS API - Personalizzazioni per ogni utente =====
+  
+  // Recupera le impostazioni personalizzate dell'utente corrente
+  app.get('/api/user-settings', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      let settings = await storage.getUserSettings(userId);
+      
+      // Se non esistono impostazioni, crea quelle di default
+      if (!settings) {
+        const defaultSettings = {
+          userId,
+          businessName: null,
+          primaryColor: '#3f51b5',
+          theme: 'professional',
+          appearance: 'light'
+        };
+        
+        settings = await storage.createUserSettings(defaultSettings);
+      }
+
+      res.json(settings);
+    } catch (error) {
+      console.error('Errore nel recupero impostazioni utente:', error);
+      res.status(500).json({ message: 'Errore nel recupero delle impostazioni' });
+    }
+  });
+
+  // Aggiorna le impostazioni personalizzate dell'utente corrente
+  app.put('/api/user-settings', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const validationResult = insertUserSettingsSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: 'Dati non validi',
+          errors: validationResult.error.errors
+        });
+      }
+
+      // Verifica se esistono già impostazioni per questo utente
+      const existingSettings = await storage.getUserSettings(userId);
+      
+      let settings;
+      if (existingSettings) {
+        // Aggiorna le impostazioni esistenti
+        settings = await storage.updateUserSettings(userId, validationResult.data);
+      } else {
+        // Crea nuove impostazioni
+        settings = await storage.createUserSettings({
+          ...validationResult.data,
+          userId
+        });
+      }
+
+      if (!settings) {
+        return res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
+      }
+
+      res.json(settings);
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento impostazioni utente:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
+    }
+  });
+
+  // Recupera solo il branding dell'utente corrente
+  app.get('/api/user-branding', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const branding = await storage.getUserBranding(userId);
+      
+      // Se non ci sono impostazioni di branding, restituisci valori di default
+      if (!branding) {
+        return res.json({
+          businessName: null,
+          logoUrl: null,
+          primaryColor: '#3f51b5'
+        });
+      }
+
+      res.json(branding);
+    } catch (error) {
+      console.error('Errore nel recupero branding utente:', error);
+      res.status(500).json({ message: 'Errore nel recupero del branding' });
+    }
+  });
+
+  // Aggiorna solo il branding dell'utente corrente
+  app.put('/api/user-branding', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const { businessName, logoUrl, primaryColor } = req.body;
+      
+      const success = await storage.updateUserBranding(userId, {
+        businessName,
+        logoUrl,
+        primaryColor
+      });
+
+      if (!success) {
+        return res.status(500).json({ message: 'Errore nell\'aggiornamento del branding' });
+      }
+
+      res.json({ message: 'Branding aggiornato con successo' });
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento branding utente:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento del branding' });
+    }
+  });
+
+  // Recupera solo le informazioni di contatto dell'utente corrente
+  app.get('/api/user-contact-info', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const contactInfo = await storage.getUserContactInfo(userId);
+      
+      // Se non ci sono informazioni di contatto personalizzate, restituisci null
+      if (!contactInfo) {
+        return res.json({
+          contactEmail: null,
+          contactPhone: null,
+          website: null
+        });
+      }
+
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Errore nel recupero contatti utente:', error);
+      res.status(500).json({ message: 'Errore nel recupero delle informazioni di contatto' });
+    }
+  });
+
+  // Aggiorna solo le informazioni di contatto dell'utente corrente
+  app.put('/api/user-contact-info', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const { contactEmail, contactPhone, website } = req.body;
+      
+      const success = await storage.updateUserContactInfo(userId, {
+        contactEmail,
+        contactPhone,
+        website
+      });
+
+      if (!success) {
+        return res.status(500).json({ message: 'Errore nell\'aggiornamento delle informazioni di contatto' });
+      }
+
+      res.json({ message: 'Informazioni di contatto aggiornate con successo' });
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento contatti utente:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento delle informazioni di contatto' });
     }
   });
 
