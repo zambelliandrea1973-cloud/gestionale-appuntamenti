@@ -409,8 +409,15 @@ export class MemStorage implements IStorage {
     return this.clients.get(id);
   }
   
-  async getClients(): Promise<Client[]> {
-    return Array.from(this.clients.values());
+  async getClients(ownerId?: number): Promise<Client[]> {
+    const allClients = Array.from(this.clients.values());
+    
+    if (ownerId !== undefined) {
+      return allClients.filter(client => (client as any).ownerId === ownerId)
+        .sort((a, b) => a.lastName.localeCompare(b.lastName));
+    }
+    
+    return allClients.sort((a, b) => a.lastName.localeCompare(b.lastName));
   }
   
   async createClient(client: InsertClient): Promise<Client> {
@@ -1369,8 +1376,14 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getClients(): Promise<Client[]> {
+  async getClients(ownerId?: number): Promise<Client[]> {
     try {
+      if (ownerId !== undefined) {
+        return await db.select().from(clients)
+          .where(eq(clients.ownerId, ownerId))
+          .orderBy(clients.lastName);
+      }
+      
       return await db.select().from(clients).orderBy(clients.lastName);
     } catch (error) {
       console.error("Error getting clients:", error);
