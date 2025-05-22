@@ -40,7 +40,7 @@ import { eq, desc, and, gte, lte, like, or, sql, ne, asc } from 'drizzle-orm';
 export interface IStorage {
   // Client operations
   getClient(id: number): Promise<Client | undefined>;
-  getClients(): Promise<Client[]>;
+  getClients(ownerId?: number): Promise<Client[]>;
   createClient(client: InsertClient): Promise<Client>;
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
