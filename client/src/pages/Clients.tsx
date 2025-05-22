@@ -321,7 +321,7 @@ export default function Clients() {
         </div>
         
         <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
-          <TabsList className="grid grid-cols-4 w-full md:w-[540px]">
+          <TabsList className="grid grid-cols-3 w-full md:w-[420px]">
             <TabsTrigger value="all">{t('clients.filter.all')}</TabsTrigger>
             <TabsTrigger value="frequent" className="flex items-center">
               <Star className="mr-1 h-3.5 w-3.5 text-pink-500" />
@@ -330,10 +330,6 @@ export default function Clients() {
             <TabsTrigger value="no-consent" className="flex items-center">
               <AlertCircle className="mr-1 h-3.5 w-3.5 text-amber-500" />
               {t('clients.filter.noConsent')}
-            </TabsTrigger>
-            <TabsTrigger value="deleted" className="flex items-center">
-              <AlertTriangle className="mr-1 h-3.5 w-3.5 text-red-500" />
-              {t('clients.filter.deleted', 'Eliminati')}
             </TabsTrigger>
           </TabsList>
         </Tabs>
