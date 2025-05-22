@@ -5,9 +5,14 @@ import { Request, Response, NextFunction } from 'express';
 
 // Middleware per verificare se l'utente è autenticato
 export function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
+  console.log(`🔐 MIDDLEWARE ensureAuthenticated chiamato per ${req.method} ${req.path}`);
+  
   if (req.isAuthenticated && req.isAuthenticated()) {
+    console.log(`✅ Utente autenticato nel middleware: ${req.user?.username} (ID: ${req.user?.id})`);
     return next();
   }
+  
+  console.log(`❌ Utente NON autenticato nel middleware`);
   return res.status(401).json({ success: false, message: 'Non autorizzato' });
 }
 
