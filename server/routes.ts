@@ -439,15 +439,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Admin: vede tutti i clienti senza restrizioni
         clients = allClients;
       } else if (user.role === 'staff') {
-        // Staff: vede solo i clienti comuni (senza owner_id) e quelli creati da loro stessi
+        // Staff: vede solo i clienti di default (senza owner_id) e quelli creati da loro stessi
         clients = allClients.filter(client => 
           client.ownerId === null || client.ownerId === user.id
         );
+        // Registra il filtraggio per debug
+        console.log(`Filtraggio clienti per staff ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
       } else {
-        // Customer: vede solo i clienti comuni (senza owner_id) e quelli creati da loro stessi
+        // Customer: vede solo i clienti di default (senza owner_id) e quelli creati da loro stessi
         clients = allClients.filter(client => 
           client.ownerId === null || client.ownerId === user.id
         );
+        // Registra il filtraggio per debug
+        console.log(`Filtraggio clienti per customer ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
       }
       
       res.json(clients);
