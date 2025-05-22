@@ -2458,30 +2458,51 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
   
-  // Manteniamo anche l'endpoint originale per retrocompatibilità
-  app.get('/api/app-icon-info', (req: Request, res: Response) => {
+  // Endpoint per recuperare informazioni icona personalizzata dell'utente
+  app.get('/api/app-icon-info', ensureAuthenticated, (req: Request, res: Response) => {
     try {
-      const iconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
-      const iconExists = fs.existsSync(iconPath);
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
 
-      // Se esiste, invia informazioni sull'icona
-      if (iconExists) {
-        // Ottieni la data di modifica del file
-        const stats = fs.statSync(iconPath);
-        const lastModified = stats.mtime;
-        
+      // Prima controlla se esiste un'icona personalizzata per questo utente
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      const userIconFormats = ['app-icon.svg', 'app-icon.png', 'app-icon.jpg'];
+      
+      for (const format of userIconFormats) {
+        const userIconPath = path.join(userIconsDir, format);
+        if (fs.existsSync(userIconPath)) {
+          const stats = fs.statSync(userIconPath);
+          return res.json({
+            exists: true,
+            isCustom: true,
+            iconPath: `/user-icons/user-${userId}/${format}`,
+            lastModified: stats.mtime.toISOString()
+          });
+        }
+      }
+
+      // Se non c'è icona personalizzata, usa quella di default
+      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+      const defaultExists = fs.existsSync(defaultIconPath);
+
+      if (defaultExists) {
+        const stats = fs.statSync(defaultIconPath);
         res.json({
           exists: true,
+          isCustom: false,
           iconPath: '/icons/app-icon.svg',
-          lastModified: lastModified.toISOString()
+          lastModified: stats.mtime.toISOString()
         });
       } else {
         res.json({
-          exists: false
+          exists: false,
+          isCustom: false
         });
       }
     } catch (error: any) {
-      console.error('Errore nel recupero delle informazioni sull\'icona:', error);
+      console.error('Errore nel recupero delle informazioni sull\'icona personalizzata:', error);
       res.status(500).json({ message: error.message });
     }
   });
