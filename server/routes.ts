@@ -539,11 +539,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "User not authenticated" });
       }
       
-      // Invece di eliminare il cliente dal database, imposta la sua visibilità a falso per questo utente
+      // Prima verifica che il cliente esista e sia accessibile dall'utente corrente
+      const visibleClients = await storage.getVisibleClientsForUser(user.id, user.role);
+      const clientExists = visibleClients.some(client => client.id === id);
+      
+      if (!clientExists) {
+        return res.status(404).json({ message: "Client not found" });
+      }
+      
+      // Ora nasconde il cliente impostando la sua visibilità a falso per questo utente
       const success = await storage.setClientVisibility(user.id, id, false);
       
       if (!success) {
-        return res.status(404).json({ message: "Client not found" });
+        return res.status(500).json({ message: "Error hiding client" });
       }
       
       console.log(`Cliente ID ${id} nascosto per l'utente ${user.username} (ID: ${user.id})`);
