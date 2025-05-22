@@ -471,7 +471,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/clients", async (req: Request, res: Response) => {
+  app.post("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const validationResult = insertClientSchema.safeParse(req.body);
       if (!validationResult.success) {
@@ -481,9 +481,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const client = await storage.createClient(validationResult.data);
+      // Ottieni l'ID dell'utente che sta creando il cliente
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      // Se l'utente non è admin o staff, assegna il cliente all'utente corrente
+      // Ciò significa che ogni account vedrà solo i propri clienti creati da ora in poi
+      let clientData = validationResult.data;
+      if (user.role !== 'admin' && user.role !== 'staff') {
+        clientData = {
+          ...clientData,
+          ownerId: user.id
+        };
+      }
+
+      const client = await storage.createClient(clientData);
       res.status(201).json(client);
     } catch (error) {
+      console.error("Error creating client:", error);
       res.status(500).json({ message: "Error creating client" });
     }
   });
