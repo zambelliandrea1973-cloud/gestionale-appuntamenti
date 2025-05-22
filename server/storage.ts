@@ -1457,7 +1457,15 @@ export class DatabaseStorage implements IStorage {
         console.log(`⚠️ Errore eliminazione fatture per cliente ${id}:`, invoiceError);
       }
       
-      // STEP 6: Finalmente elimina il cliente
+      // STEP 4: Elimina tutti i record di visibilità del cliente (PROCESSO INVERSO DELLA CREAZIONE!)
+      try {
+        await db.execute(sql`DELETE FROM client_visibility WHERE client_id = ${id}`);
+        console.log(`✅ Eliminati record visibilità per cliente ${id}`);
+      } catch (visibilityError) {
+        console.log(`⚠️ Errore eliminazione visibilità per cliente ${id}:`, visibilityError);
+      }
+      
+      // STEP 5: Finalmente elimina il cliente
       const result = await db.delete(clients).where(eq(clients.id, id));
       console.log(`✅ Cliente ${id} eliminato completamente dal database`);
       
