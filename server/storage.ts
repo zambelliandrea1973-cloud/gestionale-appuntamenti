@@ -1435,7 +1435,7 @@ export class DatabaseStorage implements IStorage {
       
       // STEP 2: Elimina tutti i consensi del cliente
       try {
-        await db.delete(clientConsents).where(eq(clientConsents.clientId, id));
+        await db.delete(consents).where(eq(consents.clientId, id));
         console.log(`✅ Eliminati consensi per cliente ${id}`);
       } catch (consentError) {
         console.log(`⚠️ Errore eliminazione consensi per cliente ${id}:`, consentError);
@@ -1455,22 +1455,6 @@ export class DatabaseStorage implements IStorage {
         console.log(`✅ Eliminate fatture per cliente ${id}`);
       } catch (invoiceError) {
         console.log(`⚠️ Errore eliminazione fatture per cliente ${id}:`, invoiceError);
-      }
-      
-      // STEP 4: Elimina record di visibilità del cliente
-      try {
-        await db.delete(clientVisibility).where(eq(clientVisibility.clientId, id));
-        console.log(`✅ Eliminati record visibilità per cliente ${id}`);
-      } catch (visibilityError) {
-        console.log(`⚠️ Errore eliminazione visibilità per cliente ${id}:`, visibilityError);
-      }
-      
-      // STEP 5: Elimina accessi client del cliente  
-      try {
-        await db.delete(clientAccess).where(eq(clientAccess.clientId, id));
-        console.log(`✅ Eliminati accessi per cliente ${id}`);
-      } catch (accessError) {
-        console.log(`⚠️ Errore eliminazione accessi per cliente ${id}:`, accessError);
       }
       
       // STEP 6: Finalmente elimina il cliente
