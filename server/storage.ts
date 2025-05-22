@@ -3810,7 +3810,7 @@ export class DatabaseStorage implements IStorage {
   async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
     try {
       const [newUserSettings] = await db
-        .insert(userSettings)
+        .insert(user_settings)
         .values(settings)
         .returning();
       
@@ -3829,8 +3829,8 @@ export class DatabaseStorage implements IStorage {
     try {
       const [settings] = await db
         .select()
-        .from(userSettings)
-        .where(eq(userSettings.userId, userId));
+        .from(user_settings)
+        .where(eq(user_settings.userId, userId));
       
       return settings;
     } catch (error) {
@@ -3845,12 +3845,12 @@ export class DatabaseStorage implements IStorage {
   async updateUserSettings(userId: number, settingsUpdate: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
     try {
       const [updatedSettings] = await db
-        .update(userSettings)
+        .update(user_settings)
         .set({
           ...settingsUpdate,
           updatedAt: new Date()
         })
-        .where(eq(userSettings.userId, userId))
+        .where(eq(user_settings.userId, userId))
         .returning();
       
       console.log(`Impostazioni aggiornate per utente ${userId}`);
