@@ -2486,14 +2486,25 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  app.post('/api/upload-app-icon', upload.single('icon'), async (req: Request, res: Response) => {
+  app.post('/api/upload-app-icon', ensureAuthenticated, upload.single('icon'), async (req: Request, res: Response) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: 'Nessun file caricato' });
       }
+
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
       
       // Percorso del file caricato
       const filePath = req.file.path;
+      
+      // Crea directory personalizzata per l'utente
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      if (!fs.existsSync(userIconsDir)) {
+        fs.mkdirSync(userIconsDir, { recursive: true });
+      }
       
       // Ottimizza l'immagine ma mantieni il formato originale
       try {
