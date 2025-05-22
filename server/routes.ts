@@ -282,7 +282,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
 
-  // ENDPOINT DELETE CLIENTI - DEVE ESSERE PRIMA DEI ROUTER ESTERNI
+  // ENDPOINT DELETE CLIENTI - ELIMINAZIONE VERA DAL DATABASE
   app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
       console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
@@ -317,14 +317,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Client not found" });
       }
 
-      // Invece di eliminare, nascondi il cliente dall'utente
-      console.log(`🔄 Nascondo cliente ${id} dall'utente ${user.id}`);
+      // ELIMINAZIONE VERA DAL DATABASE
+      console.log(`🗑️ ELIMINAZIONE COMPLETA cliente ${id} dal database`);
       try {
-        await storage.setClientVisibility(id, user.id, false);
-        console.log(`✅ Cliente ${id} nascosto con successo dall'utente ${user.id}`);
-      } catch (setVisibilityError) {
-        console.error(`❌ Errore impostazione visibilità:`, setVisibilityError);
-        return res.status(500).json({ message: "Error hiding client" });
+        await storage.deleteClient(id);
+        console.log(`✅ Cliente ${id} eliminato completamente dal database`);
+      } catch (deleteError) {
+        console.error(`❌ Errore eliminazione cliente:`, deleteError);
+        return res.status(500).json({ message: "Error deleting client from database" });
       }
 
       res.status(204).end();
