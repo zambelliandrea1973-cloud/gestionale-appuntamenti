@@ -301,22 +301,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "User not authenticated" });
       }
 
-      console.log(`🔍 Verifica visibilità cliente ${id} per utente ${user.id} (${user.username})`);
+      console.log(`🗑️ Procedura di eliminazione diretta per cliente ${id} da utente ${user.id} (${user.username})`);
       
-      // Verifica che il cliente sia visibile all'utente
-      let isVisible;
-      try {
-        isVisible = await storage.isClientVisibleToUser(id, user.id);
-        console.log(`👁️ Cliente ${id} visibile all'utente ${user.id}:`, isVisible);
-      } catch (visibilityError) {
-        console.error(`❌ Errore verifica visibilità:`, visibilityError);
-        return res.status(500).json({ message: "Error checking client visibility" });
-      }
-      
-      if (!isVisible) {
-        console.log(`❌ Cliente ${id} non visibile all'utente ${user.id}`);
-        return res.status(404).json({ message: "Client not found" });
-      }
+      // LOGICA INVERSA DELLA CREAZIONE: eliminazione diretta senza controlli di visibilità
 
       // ELIMINAZIONE VERA DAL DATABASE
       console.log(`🗑️ ELIMINAZIONE COMPLETA cliente ${id} dal database`);
