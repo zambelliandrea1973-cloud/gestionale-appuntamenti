@@ -2601,11 +2601,18 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
           format = 'jpeg';
         }
         
-        // Ottimizza l'immagine e salvala nel percorso corretto
+        // Crea un file temporaneo per l'ottimizzazione
+        const tempPath = path.join(userIconDir, `temp-${Date.now()}.${format === 'png' ? 'png' : 'jpg'}`);
+        
+        // Ottimizza l'immagine e salvala nel file temporaneo
         await sharp(filePath)
           .resize(512, 512)
           .toFormat(format as keyof sharp.FormatEnum)
-          .toFile(newIconPath);
+          .toFile(tempPath);
+          
+        // Rimuovi il file originale e rinomina quello temporaneo
+        fs.unlinkSync(filePath);
+        fs.renameSync(tempPath, newIconPath);
           
         console.log(`Immagine ottimizzata salvata: ${newIconPath}, tipo: ${req.file.mimetype}`);
       } catch (error) {
