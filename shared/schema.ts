@@ -16,6 +16,7 @@ export const clients = pgTable("clients", {
   isFrequent: boolean("is_frequent").default(false),
   medicalNotes: text("medical_notes"),
   allergies: text("allergies"),
+  ownerId: integer("owner_id"), // ID dell'account professionale che ha registrato questo cliente
   createdAt: timestamp("created_at").defaultNow(),
   hasConsent: boolean("has_consent").default(false),
 });
