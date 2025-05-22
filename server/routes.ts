@@ -439,18 +439,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Admin: vede tutti i clienti senza restrizioni
         clients = allClients;
       } else if (user.role === 'staff') {
-        // Staff: vede solo i clienti di default (senza owner_id) e quelli creati da loro stessi
-        clients = allClients.filter(client => 
-          client.ownerId === null || client.ownerId === user.id
-        );
-        // Registra il filtraggio per debug
-        console.log(`Filtraggio clienti per staff ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
+        // Per Silvia Busnari (ID 14), mostriamo anche i clienti di Marco Berto e Bruna Pizzolato
+        if (user.id === 14) {
+          // Aggiunge al filtro i clienti speciali Marco Berto (ID 252) e Bruna Pizzolato (ID 251)
+          clients = allClients.filter(client => 
+            client.ownerId === null || 
+            client.ownerId === user.id || 
+            client.id === 251 || 
+            client.id === 252
+          );
+          console.log(`Filtraggio clienti speciale per Silvia Busnari (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
+        } else {
+          // Altri staff: vedono solo i clienti di default (senza owner_id) e quelli creati da loro stessi
+          clients = allClients.filter(client => 
+            client.ownerId === null || client.ownerId === user.id
+          );
+          console.log(`Filtraggio clienti per staff ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
+        }
       } else {
         // Customer: vede solo i clienti di default (senza owner_id) e quelli creati da loro stessi
         clients = allClients.filter(client => 
           client.ownerId === null || client.ownerId === user.id
         );
-        // Registra il filtraggio per debug
         console.log(`Filtraggio clienti per customer ${user.username} (ID: ${user.id}): vedere ${clients.length} di ${allClients.length} totali`);
       }
       
