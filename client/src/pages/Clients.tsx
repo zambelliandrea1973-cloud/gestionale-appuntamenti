@@ -31,6 +31,7 @@ export default function Clients() {
   const [lastRefreshTime, setLastRefreshTime] = useState<Date>(new Date());
   const autoRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
+  const [deletedClients, setDeletedClients] = useState<any[]>([]);
   
   // Fetch all clients
   const {
@@ -40,6 +41,22 @@ export default function Clients() {
   } = useQuery({
     queryKey: ["/api/clients"]
   });
+  
+  // Funzione per cercare i clienti eliminati (nascosti)
+  const fetchDeletedClients = async () => {
+    try {
+      const response = await fetch('/api/clients/deleted');
+      if (!response.ok) {
+        throw new Error('Errore nel recupero dei clienti eliminati');
+      }
+      
+      const data = await response.json();
+      setDeletedClients(data || []);
+    } catch (error) {
+      console.error('Errore nel recupero dei clienti eliminati:', error);
+      setDeletedClients([]);
+    }
+  };
   
   // Imposta un intervallo per aggiornare i dati ogni 5 minuti 
   // e un aggiornamento programmato a mezzanotte
