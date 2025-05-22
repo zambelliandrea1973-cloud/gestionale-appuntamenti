@@ -1423,10 +1423,63 @@ export class DatabaseStorage implements IStorage {
 
   async deleteClient(id: number): Promise<boolean> {
     try {
+      console.log(`🗑️ Inizio eliminazione completa cliente ID: ${id}`);
+      
+      // STEP 1: Elimina tutti gli appuntamenti del cliente
+      try {
+        await db.delete(appointments).where(eq(appointments.clientId, id));
+        console.log(`✅ Eliminati appuntamenti per cliente ${id}`);
+      } catch (appointmentError) {
+        console.log(`⚠️ Errore eliminazione appuntamenti per cliente ${id}:`, appointmentError);
+      }
+      
+      // STEP 2: Elimina tutti i consensi del cliente
+      try {
+        await db.delete(clientConsents).where(eq(clientConsents.clientId, id));
+        console.log(`✅ Eliminati consensi per cliente ${id}`);
+      } catch (consentError) {
+        console.log(`⚠️ Errore eliminazione consensi per cliente ${id}:`, consentError);
+      }
+      
+      // STEP 3: Elimina tutte le fatture del cliente (e i relativi item/pagamenti)
+      try {
+        const clientInvoices = await db.select({ id: invoices.id }).from(invoices).where(eq(invoices.clientId, id));
+        for (const invoice of clientInvoices) {
+          // Elimina item fattura
+          await db.delete(invoiceItems).where(eq(invoiceItems.invoiceId, invoice.id));
+          // Elimina pagamenti fattura
+          await db.delete(payments).where(eq(payments.invoiceId, invoice.id));
+        }
+        // Elimina le fatture
+        await db.delete(invoices).where(eq(invoices.clientId, id));
+        console.log(`✅ Eliminate fatture per cliente ${id}`);
+      } catch (invoiceError) {
+        console.log(`⚠️ Errore eliminazione fatture per cliente ${id}:`, invoiceError);
+      }
+      
+      // STEP 4: Elimina record di visibilità del cliente
+      try {
+        await db.delete(clientVisibility).where(eq(clientVisibility.clientId, id));
+        console.log(`✅ Eliminati record visibilità per cliente ${id}`);
+      } catch (visibilityError) {
+        console.log(`⚠️ Errore eliminazione visibilità per cliente ${id}:`, visibilityError);
+      }
+      
+      // STEP 5: Elimina accessi client del cliente  
+      try {
+        await db.delete(clientAccess).where(eq(clientAccess.clientId, id));
+        console.log(`✅ Eliminati accessi per cliente ${id}`);
+      } catch (accessError) {
+        console.log(`⚠️ Errore eliminazione accessi per cliente ${id}:`, accessError);
+      }
+      
+      // STEP 6: Finalmente elimina il cliente
       const result = await db.delete(clients).where(eq(clients.id, id));
+      console.log(`✅ Cliente ${id} eliminato completamente dal database`);
+      
       return true;
     } catch (error) {
-      console.error("Error deleting client:", error);
+      console.error(`❌ Errore durante eliminazione completa cliente ${id}:`, error);
       return false;
     }
   }
