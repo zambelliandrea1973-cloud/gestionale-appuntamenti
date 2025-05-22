@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/hooks/use-auth";
 import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -37,6 +38,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [_, setLocation] = useLocation();
+  const { isAdmin } = useAuth();
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
@@ -104,6 +106,11 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           <div>
             <h3 className="text-lg font-medium flex items-center">
               {client.firstName} {client.lastName}
+              {isAdmin && (
+                <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-mono">
+                  ID: {client.id}
+                </span>
+              )}
               {client.isFrequent && (
                 <Star className="h-4 w-4 ml-1.5 text-pink-500" />
               )}
