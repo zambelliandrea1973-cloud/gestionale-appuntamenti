@@ -24,6 +24,7 @@ import {
   paymentMethods, type PaymentMethod, type InsertPaymentMethod,
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
   licenses, type License, type InsertLicense,
+  userSettings, type UserSettings, type InsertUserSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -3810,7 +3811,7 @@ export class DatabaseStorage implements IStorage {
   async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
     try {
       const [newUserSettings] = await db
-        .insert(user_settings)
+        .insert(userSettings)
         .values(settings)
         .returning();
       
@@ -3829,8 +3830,8 @@ export class DatabaseStorage implements IStorage {
     try {
       const [settings] = await db
         .select()
-        .from(user_settings)
-        .where(eq(user_settings.userId, userId));
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId));
       
       return settings;
     } catch (error) {
@@ -3845,12 +3846,12 @@ export class DatabaseStorage implements IStorage {
   async updateUserSettings(userId: number, settingsUpdate: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
     try {
       const [updatedSettings] = await db
-        .update(user_settings)
+        .update(userSettings)
         .set({
           ...settingsUpdate,
           updatedAt: new Date()
         })
-        .where(eq(user_settings.userId, userId))
+        .where(eq(userSettings.userId, userId))
         .returning();
       
       console.log(`Impostazioni aggiornate per utente ${userId}`);
