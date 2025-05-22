@@ -712,11 +712,15 @@ export function setupAuth(app: Express) {
 
 // Middleware per verificare che l'utente sia autenticato
 export function isAuthenticated(req: any, res: any, next: any) {
+  console.log(`🔐 MIDDLEWARE isAuthenticated chiamato per ${req.method} ${req.path}`);
+  console.log(`🔐 req.isAuthenticated():`, req.isAuthenticated());
+  console.log(`🔐 req.user:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'undefined');
+  
   if (req.isAuthenticated()) {
-    console.log('Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
+    console.log('✅ Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
     return next();
   }
-  console.log('Tentativo di accesso non autorizzato, nessuna sessione valida');
+  console.log('❌ Tentativo di accesso non autorizzato, nessuna sessione valida');
   res.status(401).json({ message: "Accesso non autorizzato" });
 }
 
