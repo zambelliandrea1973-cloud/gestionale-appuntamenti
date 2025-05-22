@@ -272,6 +272,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: error.message || "Errore nel recupero degli accessi" });
     }
   });
+
+  // ENDPOINT DELETE CLIENTI - DEVE ESSERE PRIMA DEI ROUTER ESTERNI
+  app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
+      console.log(`🔐 Utente autenticato:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'NESSUNO');
+      
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        console.log(`❌ ID cliente non valido: ${req.params.id}`);
+        return res.status(400).json({ message: "Invalid client ID" });
+      }
+      
+      const user = req.user;
+      if (!user) {
+        console.log(`❌ Utente non autenticato nella richiesta DELETE`);
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      console.log(`🔍 Verifica visibilità cliente ${id} per utente ${user.id} (${user.username})`);
+      
+      // Verifica che il cliente sia visibile all'utente
+      const isVisible = await storage.isClientVisibleToUser(id, user.id);
+      console.log(`👁️ Cliente ${id} visibile all'utente ${user.id}:`, isVisible);
+      
+      if (!isVisible) {
+        console.log(`❌ Cliente ${id} non visibile all'utente ${user.id}`);
+        return res.status(404).json({ message: "Client not found" });
+      }
+
+      // Invece di eliminare, nascondi il cliente dall'utente
+      console.log(`🔄 Nascondo cliente ${id} dall'utente ${user.id}`);
+      await storage.setClientVisibility(id, user.id, false);
+      console.log(`✅ Cliente ${id} nascosto con successo dall'utente ${user.id}`);
+
+      res.status(204).end();
+    } catch (error) {
+      console.error(`❌ Errore durante l'eliminazione del cliente ${req.params.id}:`, error);
+      res.status(500).json({ message: "Error deleting client" });
+    }
+  });
   
   // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
@@ -527,51 +568,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
-      console.log(`🔐 Utente autenticato:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'NESSUNO');
-      
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        console.log(`❌ ID cliente non valido: ${req.params.id}`);
-        return res.status(400).json({ message: "Invalid client ID" });
-      }
-      
-      const user = req.user;
-      if (!user) {
-        console.log(`❌ Utente non autenticato nella richiesta DELETE`);
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-      
-      // Prima verifica che il cliente esista e sia accessibile dall'utente corrente
-      const visibleClients = await storage.getVisibleClientsForUser(user.id, user.role);
-      const clientExists = visibleClients.some(client => client.id === id);
-      
-      console.log(`🔍 DEBUG DELETE: Utente ${user.id} (${user.username}) tenta di eliminare cliente ${id}`);
-      console.log(`🔍 DEBUG DELETE: Clienti visibili trovati: ${visibleClients.length}`);
-      console.log(`🔍 DEBUG DELETE: Cliente ${id} trovato nei visibili: ${clientExists}`);
-      
-      if (!clientExists) {
-        console.log(`❌ DEBUG DELETE: Cliente ${id} NON trovato tra i clienti visibili`);
-        return res.status(404).json({ message: "Client not found" });
-      }
-      
-      // Ora nasconde il cliente impostando la sua visibilità a falso per questo utente
-      const success = await storage.setClientVisibility(user.id, id, false);
-      
-      if (!success) {
-        return res.status(500).json({ message: "Error hiding client" });
-      }
-      
-      console.log(`Cliente ID ${id} nascosto per l'utente ${user.username} (ID: ${user.id})`);
 
-      res.status(204).end();
-    } catch (error) {
-      console.error("Error hiding client:", error);
-      res.status(500).json({ message: "Error hiding client" });
-    }
-  });
   
   // Endpoint per ripristinare un cliente precedentemente nascosto
   app.post("/api/clients/:id/restore", isAuthenticated, async (req: Request, res: Response) => {
