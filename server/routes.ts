@@ -15,6 +15,7 @@ import {
   insertReminderTemplateSchema
 } from "@shared/schema";
 import { setupAuth, isAdmin, isAuthenticated, isStaff, isClient } from "./auth";
+import { ensureAuthenticated } from "./middleware/authMiddleware";
 import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";
 import { notificationService } from "./services/notificationService";
@@ -283,7 +284,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // ENDPOINT DELETE CLIENTI - ELIMINAZIONE VERA DAL DATABASE
-  app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
+  app.delete("/api/clients/:id", ensureAuthenticated, async (req: Request, res: Response) => {
     try {
       console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
       console.log(`🔐 Utente autenticato:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'NESSUNO');
