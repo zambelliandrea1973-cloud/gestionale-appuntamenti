@@ -206,6 +206,11 @@ function AppRoutes() {
           <Settings />
         </StaffPageWrapper>
       </Route>
+      <Route path="/user-settings">
+        <StaffPageWrapper>
+          <UserSettings />
+        </StaffPageWrapper>
+      </Route>
       <Route path="/client-medical-details">
         <StaffPageWrapper>
           <ClientMedicalDetails />
