@@ -529,13 +529,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
+      console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
+      console.log(`🔐 Utente autenticato:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'NESSUNO');
+      
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
+        console.log(`❌ ID cliente non valido: ${req.params.id}`);
         return res.status(400).json({ message: "Invalid client ID" });
       }
       
       const user = req.user;
       if (!user) {
+        console.log(`❌ Utente non autenticato nella richiesta DELETE`);
         return res.status(401).json({ message: "User not authenticated" });
       }
       
