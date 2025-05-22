@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-05-22T13:09:05.205Z",
+  "description": "Backup15 - Prima dell'implementazione impostazioni personalizzate per utente",
+  "features": [
+    "Sistema attuale con impostazioni condivise",
+    "Funzionalità eliminazione clienti operativa",
+    "ID cliente visibile solo agli admin",
+    "Sistema di autenticazione multi-tier funzionante",
+    "15 account attivi (2 admin, 7 staff, 6 customer)",
+    "255 clienti privati distribuiti correttamente"
+  ],
+  "nextSteps": [
+    "Implementare tabella user_settings per personalizzazioni",
+    "Creare interfaccia gestione impostazioni personalizzate",
+    "Permettere upload logo personalizzato per ogni utente",
+    "Gestire temi e colori indipendenti",
+    "Configurazioni email/WhatsApp separate per utente"
+  ],
+  "accounts": {
+    "admin": [
+      "zambelli.andrea.1973@gmail.com",
+      "elisa.faverio@example.com"
+    ],
+    "staff": 7,
+    "customer": 6,
+    "totalClients": 255
+  }
+}

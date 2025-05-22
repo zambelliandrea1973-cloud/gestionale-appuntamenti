@@ -443,75 +443,6 @@ export const insertPaymentTransactionSchema = createInsertSchema(paymentTransact
   updatedAt: true,
 });
 
-// User Settings table - Personalizzazioni per ogni utente
-export const userSettings = pgTable("user_settings", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().unique(), // Un record per utente
-  
-  // Branding & Aspetto
-  businessName: text("business_name"), // Nome dell'attività/studio
-  logoUrl: text("logo_url"), // URL del logo personalizzato
-  primaryColor: text("primary_color").default("#3f51b5"), // Colore primario del tema
-  secondaryColor: text("secondary_color").default("#f50057"), // Colore secondario
-  theme: text("theme").default("professional"), // professional, vibrant, tint
-  appearance: text("appearance").default("light"), // light, dark, system
-  
-  // Informazioni di contatto personalizzate
-  contactEmail: text("contact_email"),
-  contactPhone: text("contact_phone"),
-  contactPhone2: text("contact_phone2"),
-  website: text("website"),
-  address: text("address"),
-  
-  // Social Media
-  instagramHandle: text("instagram_handle"),
-  facebookPage: text("facebook_page"),
-  linkedinProfile: text("linkedin_profile"),
-  
-  // Configurazioni Email
-  emailProvider: text("email_provider"), // sendgrid, gmail, outlook, etc.
-  emailApiKey: text("email_api_key"),
-  emailFromName: text("email_from_name"),
-  emailFromAddress: text("email_from_address"),
-  emailSignature: text("email_signature"),
-  
-  // Configurazioni WhatsApp
-  whatsappEnabled: boolean("whatsapp_enabled").default(false),
-  whatsappNumber: text("whatsapp_number"),
-  whatsappApiKey: text("whatsapp_api_key"),
-  whatsappTemplate: text("whatsapp_template"),
-  
-  // Impostazioni appuntamenti
-  workingHoursStart: time("working_hours_start").default("09:00"),
-  workingHoursEnd: time("working_hours_end").default("18:00"),
-  workingDays: json("working_days").default(["monday", "tuesday", "wednesday", "thursday", "friday"]),
-  timeSlotDuration: integer("time_slot_duration").default(30), // minuti
-  
-  // Impostazioni notifiche
-  reminderEnabled: boolean("reminder_enabled").default(true),
-  reminderHoursBefore: integer("reminder_hours_before").default(24),
-  confirmationEnabled: boolean("confirmation_enabled").default(true),
-  
-  // Impostazioni fatturazione
-  invoicePrefix: text("invoice_prefix").default("INV"),
-  taxRate: decimal("tax_rate", { precision: 5, scale: 2 }).default("22.00"), // IVA Italia default
-  currency: text("currency").default("EUR"),
-  
-  // Metadata personalizzate
-  customFields: json("custom_fields"),
-  preferences: json("preferences"),
-  
-  // Timestamps
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertUserSettingsSchema = createInsertSchema(userSettings).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
 // Define types
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = z.infer<typeof insertClientSchema>;
@@ -578,9 +509,6 @@ export type InsertPaymentMethod = z.infer<typeof insertPaymentMethodSchema>;
 
 export type PaymentTransaction = typeof paymentTransactions.$inferSelect;
 export type InsertPaymentTransaction = z.infer<typeof insertPaymentTransactionSchema>;
-
-export type UserSettings = typeof userSettings.$inferSelect;
-export type InsertUserSettings = z.infer<typeof insertUserSettingsSchema>;
 
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
