@@ -1423,41 +1423,38 @@ export class DatabaseStorage implements IStorage {
 
   async deleteClient(id: number): Promise<boolean> {
     try {
-      console.log(`🗑️ Inizio eliminazione completa cliente ID: ${id}`);
+      console.log(`🗑️ Inizio eliminazione completa cliente ID: ${id} (metodo SQL diretto)`);
       
-      // STEP 1: Elimina tutti gli appuntamenti del cliente
+      // STEP 1: Elimina tutti gli appuntamenti del cliente (SQL diretto)
       try {
-        await db.delete(appointments).where(eq(appointments.clientId, id));
+        await db.execute(sql`DELETE FROM appointments WHERE client_id = ${id}`);
         console.log(`✅ Eliminati appuntamenti per cliente ${id}`);
       } catch (appointmentError) {
         console.log(`⚠️ Errore eliminazione appuntamenti per cliente ${id}:`, appointmentError);
       }
       
-      // STEP 2: Elimina tutti i consensi del cliente
+      // STEP 2: Elimina tutti i consensi del cliente (SQL diretto)
       try {
-        await db.delete(consents).where(eq(consents.clientId, id));
+        await db.execute(sql`DELETE FROM consents WHERE client_id = ${id}`);
         console.log(`✅ Eliminati consensi per cliente ${id}`);
       } catch (consentError) {
         console.log(`⚠️ Errore eliminazione consensi per cliente ${id}:`, consentError);
       }
       
-      // STEP 3: Elimina tutte le fatture del cliente (e i relativi item/pagamenti)
+      // STEP 3: Elimina tutte le fatture del cliente e componenti (SQL diretto)
       try {
-        const clientInvoices = await db.select({ id: invoices.id }).from(invoices).where(eq(invoices.clientId, id));
-        for (const invoice of clientInvoices) {
-          // Elimina item fattura
-          await db.delete(invoiceItems).where(eq(invoiceItems.invoiceId, invoice.id));
-          // Elimina pagamenti fattura
-          await db.delete(payments).where(eq(payments.invoiceId, invoice.id));
-        }
+        // Elimina item delle fatture
+        await db.execute(sql`DELETE FROM invoice_items WHERE invoice_id IN (SELECT id FROM invoices WHERE client_id = ${id})`);
+        // Elimina pagamenti delle fatture
+        await db.execute(sql`DELETE FROM payments WHERE invoice_id IN (SELECT id FROM invoices WHERE client_id = ${id})`);
         // Elimina le fatture
-        await db.delete(invoices).where(eq(invoices.clientId, id));
-        console.log(`✅ Eliminate fatture per cliente ${id}`);
+        await db.execute(sql`DELETE FROM invoices WHERE client_id = ${id}`);
+        console.log(`✅ Eliminate fatture e componenti per cliente ${id}`);
       } catch (invoiceError) {
         console.log(`⚠️ Errore eliminazione fatture per cliente ${id}:`, invoiceError);
       }
       
-      // STEP 4: Elimina tutti i record di visibilità del cliente (PROCESSO INVERSO DELLA CREAZIONE!)
+      // STEP 4: Elimina tutti i record di visibilità del cliente (IL PEZZO CRUCIALE!)
       try {
         await db.execute(sql`DELETE FROM client_visibility WHERE client_id = ${id}`);
         console.log(`✅ Eliminati record visibilità per cliente ${id}`);
@@ -1465,11 +1462,16 @@ export class DatabaseStorage implements IStorage {
         console.log(`⚠️ Errore eliminazione visibilità per cliente ${id}:`, visibilityError);
       }
       
-      // STEP 5: Finalmente elimina il cliente
-      const result = await db.delete(clients).where(eq(clients.id, id));
-      console.log(`✅ Cliente ${id} eliminato completamente dal database`);
+      // STEP 5: Finalmente elimina il cliente (SQL diretto)
+      try {
+        await db.execute(sql`DELETE FROM clients WHERE id = ${id}`);
+        console.log(`✅ Cliente ${id} eliminato completamente dal database`);
+        return true;
+      } catch (clientError) {
+        console.error(`❌ Errore eliminazione cliente ${id}:`, clientError);
+        return false;
+      }
       
-      return true;
     } catch (error) {
       console.error(`❌ Errore durante eliminazione completa cliente ${id}:`, error);
       return false;
