@@ -3413,11 +3413,12 @@ export class DatabaseStorage implements IStorage {
           sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${client.id}`
         );
         
-        // Se c'è un record nella tabella client_visibility, lo usiamo
+        // Se c'è un record nella tabella client_visibility, rispettiamo sempre quella impostazione
         if (records && records.length > 0) {
           if (records[0].is_visible) {
             visibleClients.push(client);
           }
+          // Se is_visible è false, il cliente è stato nascosto - non aggiungerlo
         } 
         // Altrimenti usiamo la logica normale
         else if (normallyVisible || specialCase) {
