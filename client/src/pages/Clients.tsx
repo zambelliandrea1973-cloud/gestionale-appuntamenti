@@ -137,24 +137,35 @@ export default function Clients() {
   };
   
   // Filter clients based on search query and active tab, then sort by lastName
-  const filteredClients = clients
-    .filter(client => {
-      // Apply search filter
-      const matchesSearch = searchQuery.trim().length < 2 || 
-        `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client.phone.includes(searchQuery) || 
-        (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      // Apply tab filter
-      const matchesTab = 
-        activeTab === "all" || 
-        (activeTab === "frequent" && client.isFrequent) ||
-        (activeTab === "no-consent" && !client.hasConsent);
-      
-      return matchesSearch && matchesTab;
-    })
-    // Ordina alfabeticamente per cognome
-    .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
+  const filteredClients = activeTab === "deleted" 
+    // Se il tab attivo è "deleted", mostra i clienti eliminati
+    ? deletedClients
+        .filter(client => 
+          searchQuery.trim().length < 2 || 
+          `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          client.phone.includes(searchQuery) || 
+          (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+        .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'))
+    // Altrimenti, mostra i client visibili filtrati
+    : clients
+        .filter(client => {
+          // Apply search filter
+          const matchesSearch = searchQuery.trim().length < 2 || 
+            `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            client.phone.includes(searchQuery) || 
+            (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
+          
+          // Apply tab filter
+          const matchesTab = 
+            activeTab === "all" || 
+            (activeTab === "frequent" && client.isFrequent) ||
+            (activeTab === "no-consent" && !client.hasConsent);
+          
+          return matchesSearch && matchesTab;
+        })
+        // Ordina alfabeticamente per cognome
+        .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
   
   // Otteniamo l'istanza del queryClient
   const queryClient = useQueryClient();
@@ -307,7 +318,7 @@ export default function Clients() {
         </div>
         
         <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
-          <TabsList className="grid grid-cols-3 w-full md:w-[400px]">
+          <TabsList className="grid grid-cols-4 w-full md:w-[540px]">
             <TabsTrigger value="all">{t('clients.filter.all')}</TabsTrigger>
             <TabsTrigger value="frequent" className="flex items-center">
               <Star className="mr-1 h-3.5 w-3.5 text-pink-500" />
@@ -316,6 +327,10 @@ export default function Clients() {
             <TabsTrigger value="no-consent" className="flex items-center">
               <AlertCircle className="mr-1 h-3.5 w-3.5 text-amber-500" />
               {t('clients.filter.noConsent')}
+            </TabsTrigger>
+            <TabsTrigger value="deleted" className="flex items-center">
+              <AlertTriangle className="mr-1 h-3.5 w-3.5 text-red-500" />
+              {t('clients.filter.deleted', 'Eliminati')}
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -333,24 +348,96 @@ export default function Clients() {
           <p className="text-gray-500 mb-4">
             {searchQuery 
               ? t('clients.noResultsMatch', { query: searchQuery })
-              : t('clients.noClientsInSystem')
+              : activeTab === "deleted"
+                ? t('clients.noDeletedClients', 'Nessun cliente eliminato')
+                : t('clients.noClientsInSystem')
             }
           </p>
-          <Button 
-            onClick={() => setIsClientDialogOpen(true)}
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            {t('clients.addFirstClient')}
-          </Button>
+          {activeTab !== "deleted" && (
+            <Button 
+              onClick={() => setIsClientDialogOpen(true)}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              {t('clients.addFirstClient')}
+            </Button>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredClients.map(client => (
-            <ClientCard 
-              key={client.id} 
-              client={client} 
-              onUpdate={() => refetchClients()}
-            />
+            activeTab === "deleted" ? (
+              <Card key={client.id} className="overflow-hidden border border-gray-200 bg-white shadow-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-800 truncate">
+                      {client.firstName} {client.lastName}
+                    </h3>
+                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                      {t('clients.status.deleted', 'Eliminato')}
+                    </Badge>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    {client.phone && (
+                      <div className="flex items-center text-gray-600">
+                        <Phone className="mr-2 h-4 w-4" />
+                        <span>{client.phone}</span>
+                      </div>
+                    )}
+                    {client.email && (
+                      <div className="flex items-center text-gray-600">
+                        <Mail className="mr-2 h-4 w-4" />
+                        <span className="truncate">{client.email}</span>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+                <CardFooter className="bg-gray-50 px-6 py-3 flex justify-end">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={async () => {
+                      try {
+                        const response = await fetch(`/api/clients/${client.id}/restore`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          }
+                        });
+                        
+                        if (!response.ok) {
+                          throw new Error(`Errore durante il ripristino: ${response.statusText}`);
+                        }
+                        
+                        toast({
+                          title: t('notifications.success'),
+                          description: t('clients.clientRestored', 'Cliente ripristinato con successo'),
+                        });
+                        
+                        // Aggiorna entrambi gli elenchi (visibili ed eliminati)
+                        refetchClients();
+                        fetchDeletedClients();
+                      } catch (error) {
+                        console.error('Errore durante il ripristino del cliente:', error);
+                        toast({
+                          title: t('notifications.error'),
+                          description: t('clients.restoreError', 'Errore durante il ripristino del cliente'),
+                          variant: "destructive"
+                        });
+                      }
+                    }}
+                  >
+                    {t('clients.actions.restore', 'Ripristina')}
+                  </Button>
+                </CardFooter>
+              </Card>
+            ) : (
+              <ClientCard 
+                key={client.id} 
+                client={client} 
+                onUpdate={() => refetchClients()}
+              />
+            )
           ))}
         </div>
       )}
