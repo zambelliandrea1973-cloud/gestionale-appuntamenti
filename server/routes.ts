@@ -431,12 +431,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       let clients;
       
-      // Se l'utente è un amministratore, mostra tutti i clienti
-      if (user.role === 'admin') {
+      // Se l'utente è un amministratore o staff, mostra tutti i clienti
+      if (user.role === 'admin' || user.role === 'staff') {
         clients = await storage.getClients();
       } else {
-        // Per account professionali (customer), mostra solo i clienti di cui sono proprietari
-        clients = await storage.getClients(user.id);
+        // Per account professionali (customer), mostra:
+        // 1. Tutti i clienti senza owner_id assegnato (clienti comuni/preesistenti)
+        // 2. Clienti di cui sono proprietari (con owner_id uguale all'ID utente)
+        const allClients = await storage.getClients();
+        
+        // Filtra i clienti che non hanno owner_id (accessibili a tutti) o hanno owner_id dell'utente corrente
+        clients = allClients.filter(client => 
+          client.ownerId === null || client.ownerId === user.id
+        );
       }
       
       res.json(clients);
