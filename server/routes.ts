@@ -589,6 +589,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Error restoring client" });
     }
   });
+  
+  // Endpoint per ottenere i clienti eliminati (nascosti) per l'utente corrente
+  app.get("/api/clients/deleted", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+      
+      // Ottieni tutti i clienti eliminati (nascosti) per l'utente corrente
+      const deletedClients = await storage.getDeletedClientsForUser(user.id);
+      
+      console.log(`Recuperati ${deletedClients.length} clienti nascosti per l'utente ${user.username} (ID: ${user.id})`);
+      
+      res.status(200).json(deletedClients);
+    } catch (error) {
+      console.error("Error fetching deleted clients:", error);
+      res.status(500).json({ message: "Error fetching deleted clients" });
+    }
+  });
 
   app.get("/api/clients/search/:query", isAuthenticated, async (req: Request, res: Response) => {
     try {
