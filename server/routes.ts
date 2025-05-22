@@ -283,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
 
-  // ENDPOINT DELETE CLIENTI - ELIMINAZIONE VERA DAL DATABASE
+  // ENDPOINT DELETE CLIENTI - ELIMINAZIONE INTELLIGENTE
   app.delete("/api/clients/:id", ensureAuthenticated, async (req: Request, res: Response) => {
     try {
       console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
@@ -301,18 +301,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "User not authenticated" });
       }
 
-      console.log(`🗑️ Procedura di eliminazione diretta per cliente ${id} da utente ${user.id} (${user.username})`);
-      
-      // LOGICA INVERSA DELLA CREAZIONE: eliminazione diretta senza controlli di visibilità
+      // STEP 1: Verifica se il cliente esiste e determina se è privato o condiviso
+      const client = await storage.getClient(id);
+      if (!client) {
+        console.log(`❌ Cliente ${id} non trovato`);
+        return res.status(404).json({ message: "Client not found" });
+      }
 
-      // ELIMINAZIONE VERA DAL DATABASE
-      console.log(`🗑️ ELIMINAZIONE COMPLETA cliente ${id} dal database`);
-      try {
-        await storage.deleteClient(id);
-        console.log(`✅ Cliente ${id} eliminato completamente dal database`);
-      } catch (deleteError) {
-        console.error(`❌ Errore eliminazione cliente:`, deleteError);
-        return res.status(500).json({ message: "Error deleting client from database" });
+      console.log(`🔍 Cliente ${id}: ${client.firstName} ${client.lastName}`);
+      console.log(`📋 Owner ID del cliente: ${client.ownerId || 'NESSUNO (condiviso)'}`);
+
+      if (client.ownerId) {
+        // CASO 1: CLIENTE PRIVATO (ha un owner_id) → ELIMINAZIONE COMPLETA
+        console.log(`🗑️ CLIENTE PRIVATO: eliminazione completa dal database`);
+        
+        if (client.ownerId !== user.id && user.type !== 'admin') {
+          console.log(`❌ Utente ${user.id} non autorizzato a eliminare cliente privato ${id} (owner: ${client.ownerId})`);
+          return res.status(403).json({ message: "Not authorized to delete this client" });
+        }
+
+        try {
+          await storage.deleteClient(id);
+          console.log(`✅ Cliente privato ${id} eliminato completamente dal database`);
+        } catch (deleteError) {
+          console.error(`❌ Errore eliminazione cliente privato:`, deleteError);
+          return res.status(500).json({ message: "Error deleting private client" });
+        }
+      } else {
+        // CASO 2: CLIENTE CONDIVISO (senza owner_id) → SOLO NASCONDERE PER L'ACCOUNT CORRENTE
+        console.log(`👁️ CLIENTE CONDIVISO: solo nascondere dalla vista dell'account ${user.id}`);
+        
+        try {
+          // Rimuovi la visibilità solo per l'utente corrente
+          await storage.removeClientVisibility(id, user.id);
+          console.log(`✅ Cliente condiviso ${id} nascosto per utente ${user.id}`);
+        } catch (hideError) {
+          console.error(`❌ Errore nascondimento cliente condiviso:`, hideError);
+          return res.status(500).json({ message: "Error hiding shared client" });
+        }
       }
 
       res.status(204).end();

@@ -1478,6 +1478,22 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  // NUOVO METODO: Nasconde un cliente condiviso dalla vista di un utente specifico
+  async removeClientVisibility(clientId: number, userId: number): Promise<boolean> {
+    try {
+      console.log(`👁️ Rimozione visibilità cliente ${clientId} per utente ${userId}`);
+      
+      // Rimuovi il record di visibilità per questo utente specifico
+      await db.execute(sql`DELETE FROM client_visibility WHERE client_id = ${clientId} AND user_id = ${userId}`);
+      
+      console.log(`✅ Cliente ${clientId} nascosto per utente ${userId}`);
+      return true;
+    } catch (error) {
+      console.error(`❌ Errore rimozione visibilità cliente ${clientId} per utente ${userId}:`, error);
+      return false;
+    }
+  }
+
   // SERVICE OPERATIONS
   async getService(id: number): Promise<Service | undefined> {
     try {
