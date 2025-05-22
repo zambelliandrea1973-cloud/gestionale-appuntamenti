@@ -273,6 +273,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // LOG GLOBALE per tutte le richieste DELETE
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'DELETE' && req.path.includes('/api/clients/')) {
+      console.log(`🌐 RICHIESTA DELETE INTERCETTATA: ${req.method} ${req.path}`);
+      console.log(`🌐 Headers:`, Object.keys(req.headers));
+    }
+    next();
+  });
+
   // ENDPOINT DELETE CLIENTI - DEVE ESSERE PRIMA DEI ROUTER ESTERNI
   app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
