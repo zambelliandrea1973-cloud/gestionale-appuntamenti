@@ -3431,6 +3431,46 @@ export class DatabaseStorage implements IStorage {
       return []; // Restituisci lista vuota in caso di errore
     }
   }
+  
+  async getDeletedClientsForUser(userId: number): Promise<Client[]> {
+    try {
+      // Ottieni tutti i clienti nel sistema
+      const allClients = await this.getClients();
+      const deletedClients: Client[] = [];
+      
+      for (const client of allClients) {
+        // Verifichiamo se normalmente questo cliente sarebbe visibile all'utente
+        // (proprietà null o cliente creato dall'utente)
+        let wouldBeNormallyVisible = client.ownerId === null || client.ownerId === userId;
+        
+        // Casi speciali (come per Silvia Busnari)
+        let specialCase = false;
+        if (userId === 14 && (client.id === 251 || client.id === 252)) {
+          specialCase = true;
+        }
+        
+        // Se il cliente sarebbe normalmente visibile o è un caso speciale,
+        // controlliamo se è stato nascosto esplicitamente
+        if (wouldBeNormallyVisible || specialCase) {
+          // Verifichiamo se esiste un record di visibilità che lo nasconde esplicitamente
+          const [records] = await db.execute(
+            sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${client.id}`
+          );
+          
+          // Se c'è un record e is_visible è false, allora è un cliente eliminato (nascosto)
+          if (records && records.length > 0 && !records[0].is_visible) {
+            deletedClients.push(client);
+          }
+        }
+      }
+      
+      console.log(`Trovati ${deletedClients.length} clienti eliminati (nascosti) per l'utente ID ${userId}`);
+      return deletedClients;
+    } catch (error) {
+      console.error('Errore nel recupero dei clienti eliminati:', error);
+      return []; // Restituisci lista vuota in caso di errore
+    }
+  }
 
   async getActiveSubscriptions(): Promise<SubscriptionWithDetails[]> {
     try {

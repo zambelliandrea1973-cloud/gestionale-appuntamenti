@@ -58,6 +58,14 @@ export default function Clients() {
     }
   };
   
+  // Carica i clienti eliminati quando viene montato il componente o cambia la tab
+  useEffect(() => {
+    // Se la tab attiva è "deleted", carica i clienti eliminati
+    if (activeTab === "deleted") {
+      fetchDeletedClients();
+    }
+  }, [activeTab]);
+
   // Imposta un intervallo per aggiornare i dati ogni 5 minuti 
   // e un aggiornamento programmato a mezzanotte
   useEffect(() => {
@@ -66,6 +74,11 @@ export default function Clients() {
       console.log("Esecuzione aggiornamento automatico dati clienti");
       refetchClients().then(() => {
         setLastRefreshTime(new Date());
+        
+        // Se siamo nella tab dei clienti eliminati, aggiorniamo anche quelli
+        if (activeTab === "deleted") {
+          fetchDeletedClients();
+        }
       });
     };
     
@@ -106,7 +119,7 @@ export default function Clients() {
       }
       clearTimeout(midnightTimer);
     };
-  }, []);
+  }, [activeTab]);
   
   // Client search
   const handleSearch = async () => {
