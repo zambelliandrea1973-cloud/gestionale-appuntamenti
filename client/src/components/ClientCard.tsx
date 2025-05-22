@@ -73,8 +73,12 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
         description: t('notifications.clientDeletedSuccess'),
       });
       
-      // Invalidate queries to refresh data
+      // Invalidate all client-related queries to refresh data
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      await queryClient.invalidateQueries({ queryKey: ['/api/client-access'] });
+      
+      // Force refetch of client list
+      await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
       
       if (onUpdate) {
         onUpdate();
