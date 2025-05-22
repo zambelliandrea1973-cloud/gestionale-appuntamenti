@@ -2344,25 +2344,36 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         }
       }
       
-      // Lettura delle informazioni dal manifest.json
-      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
-      let appName = "App Cliente";
-      let appShortName = "App Cliente";
+      // Recupera le impostazioni personalizzate dell'utente
+      let userSettings = await storage.getUserSettings(userId);
       
-      if (fs.existsSync(manifestPath)) {
-        try {
-          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-          appName = manifest.name || "App Cliente";
-          appShortName = manifest.short_name || "App Cliente";
-        } catch (error) {
-          console.error('Errore durante la lettura del manifest:', error);
-        }
+      // Se non esistono impostazioni, crea quelle di default
+      if (!userSettings) {
+        const defaultSettings = {
+          userId,
+          businessName: null,
+          primaryColor: '#3f51b5',
+          theme: 'professional',
+          appearance: 'light'
+        };
+        userSettings = await storage.createUserSettings(defaultSettings);
       }
+      
+      // Usa le impostazioni personalizzate dell'utente invece del manifest globale
+      const appName = userSettings.businessName || "La tua Attività";
+      const appShortName = userSettings.businessName ? userSettings.businessName.substring(0, 12) : "Attività";
       
       res.json({
         icon: iconInfo,
         appName,
-        appShortName
+        appShortName,
+        primaryColor: userSettings.primaryColor,
+        secondaryColor: userSettings.secondaryColor,
+        theme: userSettings.theme,
+        appearance: userSettings.appearance,
+        contactEmail: userSettings.contactEmail,
+        contactPhone: userSettings.contactPhone,
+        website: userSettings.website
       });
     } catch (error: any) {
       console.error('Errore nel recupero delle informazioni dell\'app:', error);
@@ -2427,39 +2438,36 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  // Endpoint per aggiornare le informazioni dell'app
-  app.post('/api/update-app-info', async (req: Request, res: Response) => {
+  // Endpoint per aggiornare le informazioni personalizzate dell'app dell'utente
+  app.post('/api/update-app-info', ensureAuthenticated, async (req: Request, res: Response) => {
     try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
       const { appName, appShortName } = req.body;
       
       if (!appName && !appShortName) {
         return res.status(400).json({ message: 'Nessun dato da aggiornare' });
       }
       
-      // Aggiorna il manifest.json
-      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
-      if (fs.existsSync(manifestPath)) {
-        try {
-          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-          
-          if (appName) manifest.name = appName;
-          if (appShortName) manifest.short_name = appShortName;
-          
-          fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-          
-          res.json({ 
-            success: true, 
-            message: 'Informazioni dell\'app aggiornate con successo' 
-          });
-        } catch (error: any) {
-          console.error('Errore durante l\'aggiornamento del manifest:', error);
-          res.status(500).json({ message: error.message });
-        }
-      } else {
-        res.status(404).json({ message: 'Manifest.json non trovato' });
+      // Aggiorna le impostazioni personalizzate dell'utente invece del manifest globale
+      const updateData: any = {};
+      if (appName) updateData.businessName = appName;
+      
+      const success = await storage.updateUserSettings(userId, updateData);
+      
+      if (!success) {
+        return res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
       }
+      
+      res.json({ 
+        success: true, 
+        message: 'Informazioni personalizzate dell\'app aggiornate con successo' 
+      });
     } catch (error: any) {
-      console.error('Errore durante l\'aggiornamento delle informazioni dell\'app:', error);
+      console.error('Errore durante l\'aggiornamento delle informazioni personalizzate dell\'app:', error);
       res.status(500).json({ message: error.message });
     }
   });
