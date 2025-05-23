@@ -49,7 +49,7 @@ export default function CompanyNameEditor() {
     setIsLoading(true);
     try {
       // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
-      const response = await fetch('/api/company-name-settings', {
+      const response = await fetch('/api/company-settings-v2', {
         method: 'GET',
         credentials: 'include'
       });
@@ -82,7 +82,7 @@ export default function CompanyNameEditor() {
     
     try {
       // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
-      const response = await fetch('/api/company-name-settings', {
+      const response = await fetch('/api/company-settings-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
