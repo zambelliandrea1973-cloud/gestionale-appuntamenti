@@ -472,10 +472,22 @@ export default function UserSettings() {
 
       <Separator />
 
-      <div className="text-center">
+      <div className="text-center space-y-4">
+        <Button 
+          onClick={async () => {
+            // SALVA TUTTO INSIEME con database separati
+            await saveBusinessName(); // Nome aziendale
+            await saveColor(); // Colori
+          }}
+          disabled={saving || !settings}
+          className="w-full max-w-md"
+          size="lg"
+        >
+          {saving ? "Salvataggio..." : "💾 Salva Tutte le Impostazioni"}
+        </Button>
+        
         <div className="text-sm text-muted-foreground">
-          Le tue personalizzazioni sono private e non influenzano altri account<br/>
-          <strong>Usa i pulsanti "💾 Salva" specifici in ogni sezione</strong>
+          Le tue personalizzazioni sono private e non influenzano altri account
         </div>
       </div>
     </div>
