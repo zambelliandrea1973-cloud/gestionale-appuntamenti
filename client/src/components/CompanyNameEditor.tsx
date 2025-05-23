@@ -48,15 +48,25 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      // Temporaneamente, utilizziamo localStorage per simulare l'API
-      const storedSettings = localStorage.getItem('companyNameSettings');
+      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
+      const response = await fetch('/api/company-name-settings', {
+        method: 'GET',
+        credentials: 'include'
+      });
       
-      if (storedSettings) {
-        const data = JSON.parse(storedSettings);
-        setSettings(data);
+      if (response.ok) {
+        const data = await response.json();
+        setSettings({
+          name: data.businessName || '',
+          fontSize: 24,
+          fontFamily: 'Arial',
+          fontStyle: 'normal',
+          color: '#000000',
+          enabled: true
+        });
+        console.log(`✅ IMPOSTAZIONI CARICATE SEPARATAMENTE per utente: ${data.businessName}`);
       } else {
-        // Salva le impostazioni predefinite se non ce ne sono di salvate
-        localStorage.setItem('companyNameSettings', JSON.stringify(settings));
+        console.error('Errore nel caricamento delle impostazioni');
       }
     } catch (error) {
       console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
@@ -71,15 +81,30 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // Temporaneamente, utilizziamo localStorage per simulare l'API
-      localStorage.setItem('companyNameSettings', JSON.stringify(settings));
-      
-      setSaveSuccess(true);
-      toast({
-        title: "Impostazioni salvate",
-        description: "Le impostazioni del nome aziendale sono state salvate con successo.",
-        variant: "default",
+      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
+      const response = await fetch('/api/company-name-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          businessName: settings.name
+        })
       });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log(`✅ NOME SALVATO SEPARATAMENTE: "${settings.name}" per utente ${result.userId}`);
+        setSaveSuccess(true);
+        toast({
+          title: "Impostazioni salvate",
+          description: "Le impostazioni del nome aziendale sono state salvate con successo.",
+          variant: "default",
+        });
+      } else {
+        throw new Error('Errore nel salvataggio');
+      }
     } catch (error: any) {
       setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
       toast({
