@@ -477,17 +477,11 @@ export default function UserSettings() {
 
       <Separator />
 
-      <div className="flex items-center justify-between">
+      <div className="text-center">
         <div className="text-sm text-muted-foreground">
-          Le tue personalizzazioni sono private e non influenzano altri account
+          Le tue personalizzazioni sono private e non influenzano altri account<br/>
+          <strong>Usa i pulsanti "💾 Salva" specifici in ogni sezione</strong>
         </div>
-        <Button 
-          onClick={saveSettings} 
-          disabled={saving || !settings}
-          className="px-8"
-        >
-          {saving ? "Salvataggio..." : "Salva Impostazioni"}
-        </Button>
       </div>
     </div>
   );
