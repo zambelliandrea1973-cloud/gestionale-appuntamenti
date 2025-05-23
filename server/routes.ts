@@ -112,6 +112,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Middleware per servire le icone personalizzate degli utenti
+  app.get("/user-icons/:userId/:filename", (req: Request, res: Response) => {
+    try {
+      const { userId, filename } = req.params;
+      const userIconPath = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`, filename);
+      
+      if (fs.existsSync(userIconPath)) {
+        // Imposta il MIME type corretto in base al file
+        if (filename.endsWith('.svg')) {
+          res.setHeader("Content-Type", "image/svg+xml");
+        } else if (filename.endsWith('.png')) {
+          res.setHeader("Content-Type", "image/png");
+        } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+          res.setHeader("Content-Type", "image/jpeg");
+        }
+        
+        res.sendFile(userIconPath);
+      } else {
+        // Se l'icona personalizzata non esiste, serve l'icona di default
+        const defaultIconPath = path.join(publicDir, 'icons', 'app-icon.png');
+        if (fs.existsSync(defaultIconPath)) {
+          res.setHeader("Content-Type", "image/png");
+          res.sendFile(defaultIconPath);
+        } else {
+          res.status(404).send("Icon not found");
+        }
+      }
+    } catch (error) {
+      console.error("Errore nel servire l'icona utente:", error);
+      res.status(500).send("Error serving user icon");
+    }
+  });
+  
   // Middleware specifico per il service worker - assicura che sia servito con il MIME type corretto
   app.get("/service-worker.js", (req: Request, res: Response) => {
     try {
