@@ -7,6 +7,7 @@ const router = Router();
 // Ottieni le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
 router.get('/company-name-settings', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
+    console.log(`🎯 *** GET /api/company-name-settings CHIAMATO ***`);
     const userId = req.user!.id;
     console.log(`🎯 GET company-name-settings per User ID: ${userId}`);
     
@@ -19,6 +20,7 @@ router.get('/company-name-settings', ensureAuthenticated, async (req: Request, r
     };
     
     console.log(`✅ SETTINGS CARICATI per User ID ${userId}: ${JSON.stringify(settings)}`);
+    console.log(`🎯 *** RETURNING JSON: ${JSON.stringify(settings)} ***`);
     res.json(settings);
   } catch (error) {
     console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
