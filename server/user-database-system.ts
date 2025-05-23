@@ -5,19 +5,20 @@
 
 // Mappa dei codici univoci per ogni campo personalizzabile
 export const FIELD_CODES = {
-  // Branding (COD_001 - COD_005)
+  // Branding (COD_001 - COD_006)
   BUSINESS_NAME: 'COD_001',      // Nome Aziendale
   TEXT_SIZE: 'COD_002',          // Dimensione Testo  
   FONT_TYPE: 'COD_003',          // Tipo di Carattere
   TEXT_STYLE: 'COD_004',         // Stile Testo
-  COLOR: 'COD_005',              // Colore
+  PRIMARY_COLOR: 'COD_005',      // Colore Primario
+  SECONDARY_COLOR: 'COD_006',    // Colore Secondario
   
-  // Informazioni Contatto (COD_006 - COD_010)
-  CONTACT_EMAIL: 'COD_006',      // Email di Contatto
-  CONTACT_PHONE: 'COD_007',      // Telefono Principale
-  CONTACT_PHONE2: 'COD_008',     // Telefono Secondario
-  WEBSITE: 'COD_009',            // Sito Web
-  ADDRESS: 'COD_010',            // Indirizzo
+  // Informazioni Contatto (COD_007 - COD_011)
+  CONTACT_EMAIL: 'COD_007',      // Email di Contatto
+  CONTACT_PHONE: 'COD_008',      // Telefono Principale
+  CONTACT_PHONE2: 'COD_009',     // Telefono Secondario
+  WEBSITE: 'COD_010',            // Sito Web
+  ADDRESS: 'COD_011',            // Indirizzo
   
   // Social Media (COD_011 - COD_013)
   INSTAGRAM: 'COD_011',          // Instagram Handle
@@ -95,7 +96,8 @@ export class UserDatabaseSystem {
       [FIELD_CODES.TEXT_SIZE]: "16px", 
       [FIELD_CODES.FONT_TYPE]: "Arial",
       [FIELD_CODES.TEXT_STYLE]: "normal",
-      [FIELD_CODES.COLOR]: `#${(0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1,6)}`, // Colore casuale per ogni utente
+      [FIELD_CODES.PRIMARY_COLOR]: `#${(0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1,6)}`, // Colore primario casuale
+      [FIELD_CODES.SECONDARY_COLOR]: "#ffffff", // Colore secondario bianco
       [FIELD_CODES.WORKING_HOURS_START]: "09:00",
       [FIELD_CODES.WORKING_HOURS_END]: "18:00", 
       [FIELD_CODES.TIME_SLOT_DURATION]: "30",
@@ -131,7 +133,8 @@ export class UserDatabaseSystem {
       // Mappa i codici univoci ai campi del database
       const fieldMapping: Record<string, keyof typeof userSettings> = {
         [FIELD_CODES.BUSINESS_NAME]: 'businessName',
-        [FIELD_CODES.COLOR]: 'primaryColor',
+        [FIELD_CODES.PRIMARY_COLOR]: 'primaryColor',
+        [FIELD_CODES.SECONDARY_COLOR]: 'secondaryColor',
         [FIELD_CODES.CONTACT_EMAIL]: 'contactEmail',
         [FIELD_CODES.CONTACT_PHONE]: 'contactPhone',
         [FIELD_CODES.CONTACT_PHONE2]: 'contactPhone2',
