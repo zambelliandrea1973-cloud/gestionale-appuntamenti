@@ -49,8 +49,8 @@ export default function CompanyNameEditor() {
     setIsLoading(true);
     try {
       console.log('🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ');
-      // USA L'API CHE FUNZIONA GIÀ PER I DATABASE SEPARATI
-      const response = await fetch('/api/client-app-info', {
+      // USA L'API CHE FUNZIONA GIÀ PER I DATABASE SEPARATI - CON CACHE BUSTING
+      const response = await fetch(`/api/client-app-info?t=${Date.now()}`, {
         method: 'GET',
         credentials: 'include'
       });
