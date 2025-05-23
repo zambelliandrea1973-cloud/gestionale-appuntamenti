@@ -2460,8 +2460,8 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
       const userDB = createUnifiedUserDatabase(userId);
       
-      // Inizializza il database se è la prima volta
-      await userDB.initializeAccount();
+      // NON inizializziamo più - questo sovrascriveva i valori salvati
+      // await userDB.initializeAccount();
       
       // Carica tutti i dati dell'utente usando il sistema unificato
       const businessName = await userDB.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME) || `Attività ${userId}`;
