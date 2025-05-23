@@ -384,6 +384,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // API per nome aziendale con database separati - PRIORITÀ MASSIMA
+  app.use('/api', companyNameApi);
+  
   // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
   app.use('/api/payments', paymentRoutes);
@@ -393,7 +396,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/phone-device', phoneDeviceRoutes);
   app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
   app.use('/api/referral', referralRoutes); // Sistema di referral per lo staff
-  app.use('/api', companyNameApi); // API per nome aziendale con database separati
   // Gestione del callback di Google OAuth
   app.get('/api/google-auth/callback', async (req, res) => {
     console.log("Callback diretto ricevuto con parametri:", req.query);
