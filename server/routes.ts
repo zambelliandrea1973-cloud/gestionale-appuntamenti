@@ -28,6 +28,7 @@ import { directNotificationService } from "./services/directNotificationService"
 import { keepAliveService } from './services/keepAliveService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
+import { UserDatabaseSystem } from "./services/UserDatabaseSystem";
 import { smtpDetectionService } from "./services/smtpDetectionService";
 import { clientAccessService } from "./services/clientAccessService";
 import multer from 'multer';
@@ -1599,7 +1600,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // 🚀 ENDPOINT SALVATAGGIO NOME AZIENDALE CON DATABASE SEPARATI
+  // 🚀 ENDPOINT SALVATAGGIO NOME AZIENDALE - COPIA ESATTA DI CLIENT-APP-INFO
   app.post('/api/company-settings-v2', ensureAuthenticated, async (req, res) => {
     try {
       const userId = req.user!.id;
@@ -1607,24 +1608,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`🚀 SALVANDO NOME AZIENDALE per User ID: ${userId}, Nome: "${businessName}"`);
       
-      // Usa il sistema esistente che già funziona
+      // Usa esattamente la stessa logica di /api/client-app-info
+      console.log(`🎯 INIZIALIZZAZIONE DATABASE SEPARATO per User ID: ${userId}`);
       const userDB = new UserDatabaseSystem(userId);
-      const success = await userDB.setValue('COD_001', businessName); // Usa direttamente COD_001
+      await userDB.setValue('COD_001', businessName);
       
-      if (success) {
-        console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
-        res.json({ 
-          success: true,
-          message: 'Nome aziendale salvato con successo', 
-          userId, 
-          businessName 
-        });
-      } else {
-        res.status(500).json({ success: false, message: 'Errore durante il salvataggio' });
-      }
+      console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
+      res.json({ 
+        success: true,
+        message: 'Nome aziendale salvato con successo', 
+        userId, 
+        businessName 
+      });
     } catch (error: any) {
-      console.error('Errore salvataggio nome aziendale:', error);
-      res.status(500).json({ success: false, message: 'Errore durante il salvataggio' });
+      console.error('❌ ERRORE SALVATAGGIO NOME AZIENDALE:', error);
+      res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
     }
   });
   
