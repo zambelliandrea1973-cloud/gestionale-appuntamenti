@@ -219,7 +219,8 @@ export class UnifiedUserDatabase {
         [UNIFIED_FIELD_CODES.CURRENCY]: 'EUR'
       };
 
-      return await this.setMultipleFields(defaultValues);
+      // ELIMINATO: questa funzione sovrascriveva sempre i dati salvati
+      return true;
       
     } catch (error) {
       console.error(`❌ UNIFIED INIT per User ID ${this.userId}:`, error);
