@@ -100,13 +100,21 @@ export default function CompanyNameEditor() {
         const result = await response.json();
         console.log(`✅ NOME SALVATO SEPARATAMENTE: "${settings.name}" per utente ${result.userId}`);
         setSaveSuccess(true);
+        
+        // 🔄 REFRESH DELLA HOME PAGE per mostrare immediatamente il nuovo nome
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        
         toast({
           title: "Impostazioni salvate",
           description: "Le impostazioni del nome aziendale sono state salvate con successo.",
           variant: "default",
         });
       } else {
-        throw new Error('Errore nel salvataggio');
+        const errorText = await response.text();
+        console.error('Errore risposta server:', errorText);
+        throw new Error(`Errore nel salvataggio: ${response.status}`);
       }
     } catch (error: any) {
       setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
