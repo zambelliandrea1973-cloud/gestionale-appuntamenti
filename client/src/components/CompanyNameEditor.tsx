@@ -60,7 +60,7 @@ export default function CompanyNameEditor() {
         const data = await response.json();
         console.log('🔍 DATI COMPLETI RICEVUTI:', JSON.stringify(data, null, 2));
         setSettings({
-          name: data.businessName || data.appName || '',
+          name: data.appName || '',
           fontSize: 24,
           fontFamily: 'Arial',
           fontStyle: 'normal',
