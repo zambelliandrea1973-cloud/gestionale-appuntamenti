@@ -110,15 +110,105 @@ export class UserDatabaseSystem {
     }
   }
   
-  // Metodi privati di implementazione
+  // Metodi privati di implementazione - REPLICANO IL SISTEMA BACKUP15
   private async getUserFieldValue(fieldCode: string): Promise<string | null> {
-    // TODO: Implementare recupero dal database user_settings
-    return null;
+    try {
+      const { storage } = await import('./storage');
+      const userSettings = await storage.getUserSettings(this.userId);
+      
+      if (!userSettings) {
+        console.log(`🔍 CODICE ${fieldCode}: Nessuna impostazione trovata per User ID ${this.userId}`);
+        return null;
+      }
+      
+      // Mappa i codici univoci ai campi del database
+      const fieldMapping: Record<string, keyof typeof userSettings> = {
+        [FIELD_CODES.BUSINESS_NAME]: 'businessName',
+        [FIELD_CODES.COLOR]: 'primaryColor',
+        [FIELD_CODES.CONTACT_EMAIL]: 'contactEmail',
+        [FIELD_CODES.CONTACT_PHONE]: 'contactPhone',
+        [FIELD_CODES.CONTACT_PHONE2]: 'contactPhone2',
+        [FIELD_CODES.WEBSITE]: 'website',
+        [FIELD_CODES.ADDRESS]: 'address',
+        [FIELD_CODES.INSTAGRAM]: 'instagramHandle',
+        [FIELD_CODES.FACEBOOK]: 'facebookPage',
+        [FIELD_CODES.LINKEDIN]: 'linkedinProfile',
+        [FIELD_CODES.EMAIL_PROVIDER]: 'emailProvider',
+        [FIELD_CODES.EMAIL_API_KEY]: 'emailApiKey',
+        [FIELD_CODES.EMAIL_FROM_NAME]: 'emailFromName',
+        [FIELD_CODES.EMAIL_FROM_ADDRESS]: 'emailFromAddress',
+        [FIELD_CODES.EMAIL_SIGNATURE]: 'emailSignature',
+        [FIELD_CODES.WORKING_HOURS_START]: 'workingHoursStart',
+        [FIELD_CODES.WORKING_HOURS_END]: 'workingHoursEnd',
+        [FIELD_CODES.TIME_SLOT_DURATION]: 'timeSlotDuration',
+        [FIELD_CODES.INVOICE_PREFIX]: 'invoicePrefix',
+        [FIELD_CODES.TAX_RATE]: 'taxRate',
+        [FIELD_CODES.CURRENCY]: 'currency'
+      };
+      
+      const fieldKey = fieldMapping[fieldCode];
+      if (!fieldKey) {
+        console.log(`⚠️ CODICE ${fieldCode}: Campo non mappato per User ID ${this.userId}`);
+        return null;
+      }
+      
+      const value = userSettings[fieldKey];
+      console.log(`✅ CODICE ${fieldCode}: Recuperato "${value}" per User ID ${this.userId}`);
+      return value ? String(value) : null;
+      
+    } catch (error) {
+      console.error(`❌ Errore recupero ${fieldCode} per User ID ${this.userId}:`, error);
+      return null;
+    }
   }
   
   private async setUserFieldValue(fieldCode: string, value: string): Promise<boolean> {
-    // TODO: Implementare salvataggio nel database user_settings
-    return true;
+    try {
+      const { storage } = await import('./storage');
+      
+      // Mappa i codici univoci ai campi del database
+      const fieldMapping: Record<string, string> = {
+        [FIELD_CODES.BUSINESS_NAME]: 'businessName',
+        [FIELD_CODES.COLOR]: 'primaryColor',
+        [FIELD_CODES.CONTACT_EMAIL]: 'contactEmail',
+        [FIELD_CODES.CONTACT_PHONE]: 'contactPhone',
+        [FIELD_CODES.CONTACT_PHONE2]: 'contactPhone2',
+        [FIELD_CODES.WEBSITE]: 'website',
+        [FIELD_CODES.ADDRESS]: 'address',
+        [FIELD_CODES.INSTAGRAM]: 'instagramHandle',
+        [FIELD_CODES.FACEBOOK]: 'facebookPage',
+        [FIELD_CODES.LINKEDIN]: 'linkedinProfile',
+        [FIELD_CODES.EMAIL_PROVIDER]: 'emailProvider',
+        [FIELD_CODES.EMAIL_API_KEY]: 'emailApiKey',
+        [FIELD_CODES.EMAIL_FROM_NAME]: 'emailFromName',
+        [FIELD_CODES.EMAIL_FROM_ADDRESS]: 'emailFromAddress',
+        [FIELD_CODES.EMAIL_SIGNATURE]: 'emailSignature',
+        [FIELD_CODES.WORKING_HOURS_START]: 'workingHoursStart',
+        [FIELD_CODES.WORKING_HOURS_END]: 'workingHoursEnd',
+        [FIELD_CODES.TIME_SLOT_DURATION]: 'timeSlotDuration',
+        [FIELD_CODES.INVOICE_PREFIX]: 'invoicePrefix',
+        [FIELD_CODES.TAX_RATE]: 'taxRate',
+        [FIELD_CODES.CURRENCY]: 'currency'
+      };
+      
+      const fieldKey = fieldMapping[fieldCode];
+      if (!fieldKey) {
+        console.log(`⚠️ CODICE ${fieldCode}: Campo non mappato per salvataggio User ID ${this.userId}`);
+        return false;
+      }
+      
+      // Costruisce l'oggetto di aggiornamento
+      const updateData = { [fieldKey]: value };
+      
+      const success = await storage.updateUserSettings(this.userId, updateData);
+      console.log(`${success ? '✅' : '❌'} CODICE ${fieldCode}: ${success ? 'Salvato' : 'Errore salvataggio'} "${value}" per User ID ${this.userId}`);
+      
+      return success;
+      
+    } catch (error) {
+      console.error(`❌ Errore salvataggio ${fieldCode} per User ID ${this.userId}:`, error);
+      return false;
+    }
   }
 }
 
