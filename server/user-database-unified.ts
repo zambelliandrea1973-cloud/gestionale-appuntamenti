@@ -154,32 +154,9 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * SCRITTURA MULTIPLA - Salva più campi simultaneamente
+   * FUNZIONE ELIMINATA - Causava sovrascrittura dei dati salvati
+   * Ora si usa solo setField() per salvare singoli campi
    */
-  async setMultipleFields(fields: Record<string, string>): Promise<boolean> {
-    try {
-      const sql = await this.initConnection();
-      
-      for (const [fieldCode, value] of Object.entries(fields)) {
-        await sql`
-          INSERT INTO user_custom_data (user_id, field_code, value, created_at, updated_at)
-          VALUES (${this.userId}, ${fieldCode}, ${value}, NOW(), NOW())
-          ON CONFLICT (user_id, field_code) 
-          DO UPDATE SET value = EXCLUDED.value, updated_at = NOW()
-        `;
-      }
-      
-      await this.closeConnection();
-      
-      console.log(`✅ UNIFIED SET MULTIPLE: Salvati ${Object.keys(fields).length} campi per User ID ${this.userId}`);
-      return true;
-      
-    } catch (error) {
-      console.error(`❌ UNIFIED SET MULTIPLE per User ID ${this.userId}:`, error);
-      await this.closeConnection();
-      return false;
-    }
-  }
 
   /**
    * INIZIALIZZAZIONE ACCOUNT - Crea valori predefiniti SOLO per nuovi account
