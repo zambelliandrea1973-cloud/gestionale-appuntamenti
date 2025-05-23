@@ -1,12 +1,24 @@
 import { Router, Request, Response } from 'express';
-import { companyNameService } from '../services/companyNameService';
+import { UserDatabaseSystem, FIELD_CODES } from '../user-database-system';
+import { ensureAuthenticated } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// Ottieni le impostazioni del nome aziendale
-router.get('/company-name-settings', (req: Request, res: Response) => {
+// Ottieni le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
+router.get('/company-name-settings', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
-    const settings = companyNameService.getSettings();
+    const userId = req.user!.id;
+    console.log(`🎯 GET company-name-settings per User ID: ${userId}`);
+    
+    const userDb = new UserDatabaseSystem(userId);
+    const businessName = await userDb.getValue(FIELD_CODES.BUSINESS_NAME);
+    
+    const settings = {
+      businessName: businessName || `Attività ${userId}`,
+      userId: userId
+    };
+    
+    console.log(`✅ SETTINGS CARICATI per User ID ${userId}: ${JSON.stringify(settings)}`);
     res.json(settings);
   } catch (error) {
     console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
@@ -14,13 +26,20 @@ router.get('/company-name-settings', (req: Request, res: Response) => {
   }
 });
 
-// Aggiorna le impostazioni del nome aziendale
-router.post('/company-name-settings', (req: Request, res: Response) => {
+// Aggiorna le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
+router.post('/company-name-settings', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
-    const success = companyNameService.saveSettings(req.body);
+    const userId = req.user!.id;
+    const { businessName } = req.body;
+    
+    console.log(`🎯 POST company-name-settings per User ID: ${userId}, Nome: "${businessName}"`);
+    
+    const userDb = new UserDatabaseSystem(userId);
+    const success = await userDb.setValue(FIELD_CODES.BUSINESS_NAME, businessName);
     
     if (success) {
-      res.json({ message: 'Impostazioni salvate con successo' });
+      console.log(`✅ NOME AZIENDALE SALVATO SEPARATAMENTE per User ID ${userId}: "${businessName}"`);
+      res.json({ message: 'Impostazioni salvate con successo', userId, businessName });
     } else {
       res.status(500).json({ message: 'Errore durante il salvataggio delle impostazioni' });
     }
