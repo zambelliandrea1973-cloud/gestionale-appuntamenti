@@ -1600,33 +1600,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // 🚀 SALVATAGGIO NOME AZIENDALE - USA IL SISTEMA updateUserSettings CHE GIÀ FUNZIONA
-  app.post('/api/company-settings-v2', ensureAuthenticated, async (req, res) => {
-    try {
-      const userId = req.user!.id;
-      const { businessName } = req.body;
-      
-      console.log(`🚀 SALVANDO NOME AZIENDALE per User ID: ${userId}, Nome: "${businessName}"`);
-      
-      // Usa il metodo updateUserSettings che già esiste e funziona!
-      const success = await storage.updateUserSettings(userId, { businessName });
-      
-      if (success) {
-        console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
-        res.json({ 
-          success: true,
-          message: 'Nome aziendale salvato con successo', 
-          userId, 
-          businessName 
-        });
-      } else {
-        throw new Error('Errore nel salvataggio nel database');
-      }
-    } catch (error: any) {
-      console.error('❌ ERRORE SALVATAGGIO NOME AZIENDALE:', error);
-      res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
-    }
-  });
+  // ❌ ENDPOINT RIMOSSO - Ora usa solo il sistema database separati in companyNameApi.ts
 
   // 🚀 SALVATAGGIO ENTRAMBI I COLORI - STESSO SISTEMA DEL NOME AZIENDALE
   app.post('/api/color-settings-v2', ensureAuthenticated, async (req, res) => {
