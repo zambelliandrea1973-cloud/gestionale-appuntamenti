@@ -47,13 +47,13 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       const iconData = data.icon;
       setIconInfo(iconData);
 
-      // Se esiste un'icona, imposta l'URL di anteprima
+      // Se esiste un'icona, imposta l'URL di anteprima dalla cartella personalizzata dell'utente
       if (iconData.exists && iconData.iconPath) {
-        // Aggiungi timestamp per evitare la cache del browser
+        // Usa sempre il percorso personalizzato dell'utente con timestamp per evitare la cache
         setPreviewUrl(`${iconData.iconPath}?t=${new Date().getTime()}`);
       } else {
-        // Imposta l'icona predefinita se non c'è nessuna icona
-        setPreviewUrl('/icons/default-app-icon.jpg');
+        // Se non c'è un'icona, non mostrare nulla (verrà creata al primo caricamento)
+        setPreviewUrl(null);
       }
     } catch (error) {
       console.error('Errore nel recupero delle informazioni sull\'icona:', error);
