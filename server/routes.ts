@@ -1628,29 +1628,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // 🚀 SALVATAGGIO COLORE PRIMARIO - STESSO SISTEMA DEL NOME AZIENDALE
+  // 🚀 SALVATAGGIO ENTRAMBI I COLORI - STESSO SISTEMA DEL NOME AZIENDALE
   app.post('/api/color-settings-v2', ensureAuthenticated, async (req, res) => {
     try {
       const userId = req.user!.id;
-      const { primaryColor } = req.body;
+      const { primaryColor, secondaryColor } = req.body;
       
-      console.log(`🚀 SALVANDO COLORE PRIMARIO per User ID: ${userId}, Colore: "${primaryColor}"`);
+      console.log(`🚀 SALVANDO ENTRAMBI I COLORI per User ID: ${userId}, Primario: "${primaryColor}", Secondario: "${secondaryColor}"`);
       
-      const success = await storage.updateUserSettings(userId, { primaryColor });
+      const success = await storage.updateUserSettings(userId, { primaryColor, secondaryColor });
       
       if (success) {
-        console.log(`✅ COLORE PRIMARIO SALVATO CON SUCCESSO per User ID ${userId}: "${primaryColor}"`);
+        console.log(`✅ ENTRAMBI I COLORI SALVATI CON SUCCESSO per User ID ${userId}: "${primaryColor}" + "${secondaryColor}"`);
         res.json({ 
           success: true,
-          message: 'Colore primario salvato con successo', 
+          message: 'Colori salvati con successo', 
           userId, 
-          primaryColor 
+          primaryColor,
+          secondaryColor 
         });
       } else {
         throw new Error('Errore nel salvataggio nel database');
       }
     } catch (error: any) {
-      console.error('❌ ERRORE SALVATAGGIO COLORE PRIMARIO:', error);
+      console.error('❌ ERRORE SALVATAGGIO COLORI:', error);
       res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
     }
   });
