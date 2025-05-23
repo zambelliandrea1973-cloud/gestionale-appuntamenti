@@ -91,8 +91,8 @@ export default function UserSettings() {
     try {
       console.log('🚀 SALVATAGGIO IMPOSTAZIONI: Usando endpoint database separati', settings);
       
-      // USA LO STESSO ENDPOINT CHE FUNZIONA PER IL NOME AZIENDALE
-      const response = await fetch('/api/user-settings', {
+      // USA IL NUOVO ENDPOINT CHE FUNZIONA COME IL NOME AZIENDALE
+      const response = await fetch('/api/user-settings-v2', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -1627,6 +1627,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
     }
   });
+
+  // 🚀 SALVATAGGIO IMPOSTAZIONI - STESSO SISTEMA SEMPLICE CHE FUNZIONA
+  app.put('/api/user-settings-v2', ensureAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user!.id;
+      
+      console.log(`🚀 SALVANDO IMPOSTAZIONI per User ID: ${userId}`, req.body);
+      
+      // USA IL METODO updateUserSettings CHE FUNZIONA PERFETTAMENTE
+      const success = await storage.updateUserSettings(userId, req.body);
+      
+      if (success) {
+        console.log(`✅ IMPOSTAZIONI SALVATE CON SUCCESSO per User ID ${userId}`);
+        res.json({ 
+          success: true,
+          message: 'Impostazioni salvate con successo', 
+          userId,
+          savedSettings: req.body
+        });
+      } else {
+        throw new Error('Errore nel salvataggio nel database');
+      }
+    } catch (error: any) {
+      console.error('❌ ERRORE SALVATAGGIO IMPOSTAZIONI:', error);
+      res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
+    }
+  });
   
   // Endpoint per verificare e autenticare direttamente con un token (per i link diretti)
   // Nota: abbiamo implementato una soluzione matematica (divisione per 4)
