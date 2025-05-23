@@ -1628,29 +1628,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // 🚀 SALVATAGGIO IMPOSTAZIONI - STESSO SISTEMA SEMPLICE CHE FUNZIONA
-  app.put('/api/user-settings-v2', ensureAuthenticated, async (req, res) => {
+  // 🚀 SALVATAGGIO COLORE PRIMARIO - STESSO SISTEMA DEL NOME AZIENDALE
+  app.post('/api/color-settings-v2', ensureAuthenticated, async (req, res) => {
     try {
       const userId = req.user!.id;
+      const { primaryColor } = req.body;
       
-      console.log(`🚀 SALVANDO IMPOSTAZIONI per User ID: ${userId}`, req.body);
+      console.log(`🚀 SALVANDO COLORE PRIMARIO per User ID: ${userId}, Colore: "${primaryColor}"`);
       
-      // USA IL METODO updateUserSettings CHE FUNZIONA PERFETTAMENTE
-      const success = await storage.updateUserSettings(userId, req.body);
+      const success = await storage.updateUserSettings(userId, { primaryColor });
       
       if (success) {
-        console.log(`✅ IMPOSTAZIONI SALVATE CON SUCCESSO per User ID ${userId}`);
+        console.log(`✅ COLORE PRIMARIO SALVATO CON SUCCESSO per User ID ${userId}: "${primaryColor}"`);
         res.json({ 
           success: true,
-          message: 'Impostazioni salvate con successo', 
-          userId,
-          savedSettings: req.body
+          message: 'Colore primario salvato con successo', 
+          userId, 
+          primaryColor 
         });
       } else {
         throw new Error('Errore nel salvataggio nel database');
       }
     } catch (error: any) {
-      console.error('❌ ERRORE SALVATAGGIO IMPOSTAZIONI:', error);
+      console.error('❌ ERRORE SALVATAGGIO COLORE PRIMARIO:', error);
+      res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
+    }
+  });
+
+  // 🚀 SALVATAGGIO TEMA - STESSO SISTEMA DEL NOME AZIENDALE
+  app.post('/api/theme-settings-v2', ensureAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user!.id;
+      const { theme, appearance } = req.body;
+      
+      console.log(`🚀 SALVANDO TEMA per User ID: ${userId}, Tema: "${theme}", Aspetto: "${appearance}"`);
+      
+      const success = await storage.updateUserSettings(userId, { theme, appearance });
+      
+      if (success) {
+        console.log(`✅ TEMA SALVATO CON SUCCESSO per User ID ${userId}: "${theme}" - "${appearance}"`);
+        res.json({ 
+          success: true,
+          message: 'Tema salvato con successo', 
+          userId, 
+          theme,
+          appearance 
+        });
+      } else {
+        throw new Error('Errore nel salvataggio nel database');
+      }
+    } catch (error: any) {
+      console.error('❌ ERRORE SALVATAGGIO TEMA:', error);
       res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
     }
   });
