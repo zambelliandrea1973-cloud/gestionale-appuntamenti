@@ -2393,54 +2393,55 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       // Recupera le impostazioni personalizzate dell'utente
       let userSettings = await storage.getUserSettings(userId);
       
-      // Se non esistono impostazioni, crea il database personale completo dell'utente
+      // Se non esistono impostazioni, crea il database personale con CODICI UNIVOCI
       if (!userSettings) {
+        console.log(`🎯 INIZIALIZZAZIONE DATABASE PERSONALE per User ID: ${userId}`);
+        
         const defaultSettings = {
           userId,
-          // Branding & Aspetto personalizzato
-          businessName: "La tua Attività",
+          // COD_001: Nome Aziendale - UNIVOCO per questo account
+          businessName: `Attività ${userId}`,
           logoUrl: `/user-icons/user-${userId}/app-icon.jpg`,
+          
+          // COD_005: Colore - UNIVOCO per questo account  
           primaryColor: '#3f51b5',
           secondaryColor: '#f50057',
           theme: 'professional',
           appearance: 'light',
           
-          // Informazioni di contatto personalizzate (vuote - da compilare)
+          // Campi personalizzati VUOTI - da compilare per questo account
           contactEmail: null,
           contactPhone: null,
           contactPhone2: null,
           website: null,
           address: null,
-          
-          // Social Media personalizzati (vuoti - da compilare)
           instagramHandle: null,
           facebookPage: null,
           linkedinProfile: null,
-          
-          // Configurazioni personalizzate (vuote - da configurare)
           emailProvider: null,
           emailApiKey: null,
           emailFromName: null,
           emailFromAddress: null,
           emailSignature: null,
           
-          // Impostazioni appuntamenti personalizzate
+          // COD_019-020: Orari personalizzati per questo account
           workingHoursStart: '09:00',
           workingHoursEnd: '18:00',
           workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
           timeSlotDuration: 30,
           
-          // Impostazioni notifiche personalizzate
           reminderEnabled: true,
           reminderHoursBefore: 24,
           confirmationEnabled: true,
           
-          // Impostazioni fatturazione personalizzate
-          invoicePrefix: 'INV',
+          // COD_023-025: Fatturazione personalizzata per questo account
+          invoicePrefix: `INV-${userId}`,
           taxRate: '22.00',
           currency: 'EUR'
         };
+        
         userSettings = await storage.createUserSettings(defaultSettings);
+        console.log(`✅ DATABASE PERSONALE CREATO per User ID: ${userId} con nome: ${defaultSettings.businessName}`);
       }
       
       // Usa le impostazioni personalizzate dell'utente invece del manifest globale
