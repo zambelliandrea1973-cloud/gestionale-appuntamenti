@@ -58,15 +58,16 @@ export default function CompanyNameEditor() {
       
       if (response.ok) {
         const data = await response.json();
+        console.log('🔍 DATI COMPLETI RICEVUTI:', JSON.stringify(data, null, 2));
         setSettings({
-          name: data.businessName || '',
+          name: data.businessName || data.appName || '',
           fontSize: 24,
           fontFamily: 'Arial',
           fontStyle: 'normal',
           color: '#000000',
           enabled: true
         });
-        console.log(`✅ IMPOSTAZIONI CARICATE DA CLIENT-APP-INFO: ${data.businessName}`);
+        console.log(`✅ IMPOSTAZIONI CARICATE: businessName="${data.businessName}", appName="${data.appName}"`);
       } else {
         console.error('Errore nel caricamento delle impostazioni');
       }
