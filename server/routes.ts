@@ -3216,30 +3216,30 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       let allSuccess = true;
       const savedSettings: any = { userId };
       
-      // Mappa i campi ai codici univoci e salva - COME NEL BACKUP15
+      // Mappa i campi ai codici unificati - NUOVO SISTEMA FUNZIONANTE
       const fieldMapping: Record<string, string> = {
-        'businessName': FIELD_CODES.BUSINESS_NAME,
-        'primaryColor': FIELD_CODES.COLOR,
-        'contactEmail': FIELD_CODES.CONTACT_EMAIL,
-        'contactPhone': FIELD_CODES.CONTACT_PHONE,
-        'contactPhone2': FIELD_CODES.CONTACT_PHONE2,
-        'website': FIELD_CODES.WEBSITE,
-        'address': FIELD_CODES.ADDRESS,
-        'instagramHandle': FIELD_CODES.INSTAGRAM,
-        'facebookPage': FIELD_CODES.FACEBOOK,
-        'linkedinProfile': FIELD_CODES.LINKEDIN,
-        'workingHoursStart': FIELD_CODES.WORKING_HOURS_START,
-        'workingHoursEnd': FIELD_CODES.WORKING_HOURS_END,
-        'invoicePrefix': FIELD_CODES.INVOICE_PREFIX,
-        'taxRate': FIELD_CODES.TAX_RATE,
-        'currency': FIELD_CODES.CURRENCY
+        'businessName': UNIFIED_FIELD_CODES.BUSINESS_NAME,
+        'primaryColor': UNIFIED_FIELD_CODES.PRIMARY_COLOR,
+        'contactEmail': UNIFIED_FIELD_CODES.CONTACT_EMAIL,
+        'contactPhone': UNIFIED_FIELD_CODES.CONTACT_PHONE,
+        'contactPhone2': UNIFIED_FIELD_CODES.CONTACT_PHONE2,
+        'website': UNIFIED_FIELD_CODES.WEBSITE,
+        'address': UNIFIED_FIELD_CODES.ADDRESS,
+        'instagramHandle': UNIFIED_FIELD_CODES.INSTAGRAM,
+        'facebookPage': UNIFIED_FIELD_CODES.FACEBOOK,
+        'linkedinProfile': UNIFIED_FIELD_CODES.LINKEDIN,
+        'workingHoursStart': UNIFIED_FIELD_CODES.WORKING_HOURS_START,
+        'workingHoursEnd': UNIFIED_FIELD_CODES.WORKING_HOURS_END,
+        'invoicePrefix': UNIFIED_FIELD_CODES.INVOICE_PREFIX,
+        'taxRate': UNIFIED_FIELD_CODES.TAX_RATE,
+        'currency': UNIFIED_FIELD_CODES.CURRENCY
       };
       
       // Salva ogni campo usando il sistema di codici univoci
       for (const [fieldName, fieldValue] of Object.entries(updates)) {
         const fieldCode = fieldMapping[fieldName];
         if (fieldCode && fieldValue !== undefined) {
-          const success = await userDB.setValue(fieldCode, String(fieldValue));
+          const success = await userDB.setField(fieldCode, String(fieldValue));
           if (!success) {
             console.error(`❌ Errore salvataggio ${fieldCode} per User ID ${userId}`);
             allSuccess = false;
