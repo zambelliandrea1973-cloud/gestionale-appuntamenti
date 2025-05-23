@@ -443,10 +443,10 @@ export const insertPaymentTransactionSchema = createInsertSchema(paymentTransact
   updatedAt: true,
 });
 
-// User Settings table - Personalizzazioni per ogni utente
+// User Settings table - Personalizzazioni con codici univoci per ogni utente
 export const userSettings = pgTable("user_settings", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().unique(), // Un record per utente
+  userId: integer("user_id").notNull().unique(), // Un record per utente - COMPLETAMENTE ISOLATO
   
   // Branding & Aspetto
   businessName: text("business_name"), // Nome dell'attività/studio
