@@ -122,49 +122,22 @@ export class UserDatabaseSystem {
   // Metodi privati di implementazione - REPLICANO IL SISTEMA BACKUP15
   private async getUserFieldValue(fieldCode: string): Promise<string | null> {
     try {
-      const { storage } = await import('./storage');
-      const userSettings = await storage.getUserSettings(this.userId);
+      const { pool } = await import('./db');
       
-      if (!userSettings) {
+      // LEGGE DIRETTAMENTE DALLA TABELLA user_custom_data (database separato)
+      const result = await pool.query(`
+        SELECT value FROM user_custom_data 
+        WHERE user_id = $1 AND field_code = $2
+      `, [this.userId, fieldCode]);
+      
+      if (result.rows.length > 0) {
+        const value = result.rows[0].value;
+        console.log(`✅ CODICE ${fieldCode}: Recuperato "${value}" per User ID ${this.userId}`);
+        return value;
+      } else {
         console.log(`🔍 CODICE ${fieldCode}: Nessuna impostazione trovata per User ID ${this.userId}`);
         return null;
       }
-      
-      // Mappa i codici univoci ai campi del database
-      const fieldMapping: Record<string, keyof typeof userSettings> = {
-        [FIELD_CODES.BUSINESS_NAME]: 'businessName',
-        [FIELD_CODES.PRIMARY_COLOR]: 'primaryColor',
-        [FIELD_CODES.SECONDARY_COLOR]: 'secondaryColor',
-        [FIELD_CODES.CONTACT_EMAIL]: 'contactEmail',
-        [FIELD_CODES.CONTACT_PHONE]: 'contactPhone',
-        [FIELD_CODES.CONTACT_PHONE2]: 'contactPhone2',
-        [FIELD_CODES.WEBSITE]: 'website',
-        [FIELD_CODES.ADDRESS]: 'address',
-        [FIELD_CODES.INSTAGRAM]: 'instagramHandle',
-        [FIELD_CODES.FACEBOOK]: 'facebookPage',
-        [FIELD_CODES.LINKEDIN]: 'linkedinProfile',
-        [FIELD_CODES.EMAIL_PROVIDER]: 'emailProvider',
-        [FIELD_CODES.EMAIL_API_KEY]: 'emailApiKey',
-        [FIELD_CODES.EMAIL_FROM_NAME]: 'emailFromName',
-        [FIELD_CODES.EMAIL_FROM_ADDRESS]: 'emailFromAddress',
-        [FIELD_CODES.EMAIL_SIGNATURE]: 'emailSignature',
-        [FIELD_CODES.WORKING_HOURS_START]: 'workingHoursStart',
-        [FIELD_CODES.WORKING_HOURS_END]: 'workingHoursEnd',
-        [FIELD_CODES.TIME_SLOT_DURATION]: 'timeSlotDuration',
-        [FIELD_CODES.INVOICE_PREFIX]: 'invoicePrefix',
-        [FIELD_CODES.TAX_RATE]: 'taxRate',
-        [FIELD_CODES.CURRENCY]: 'currency'
-      };
-      
-      const fieldKey = fieldMapping[fieldCode];
-      if (!fieldKey) {
-        console.log(`⚠️ CODICE ${fieldCode}: Campo non mappato per User ID ${this.userId}`);
-        return null;
-      }
-      
-      const value = userSettings[fieldKey];
-      console.log(`✅ CODICE ${fieldCode}: Recuperato "${value}" per User ID ${this.userId}`);
-      return value ? String(value) : null;
       
     } catch (error) {
       console.error(`❌ Errore recupero ${fieldCode} per User ID ${this.userId}:`, error);
