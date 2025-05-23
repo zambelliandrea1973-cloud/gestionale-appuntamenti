@@ -2456,16 +2456,16 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       // 🎯 SISTEMA CON CODICI UNIVOCI - Replica esatta del backup15 con database separati
       console.log(`🎯 CARICAMENTO APP INFO con sistema codici univoci per User ID: ${userId}`);
       
-      // Usa il nuovo sistema con codici univoci
-      const { createUserDatabase, FIELD_CODES } = await import('./user-database-system');
-      const userDB = createUserDatabase(userId);
+      // Usa il sistema unificato che funziona
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
       
       // Inizializza il database se è la prima volta
-      await userDB.initializeUserDatabase();
+      await userDB.initializeAccount();
       
-      // Carica tutti i dati dell'utente usando i codici univoci - COME NEL BACKUP15
-      const businessName = await userDB.getValue(FIELD_CODES.BUSINESS_NAME) || `Attività ${userId}`;
-      const primaryColor = await userDB.getValue(FIELD_CODES.COLOR) || '#3f51b5';
+      // Carica tutti i dati dell'utente usando il sistema unificato
+      const businessName = await userDB.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME) || `Attività ${userId}`;
+      const primaryColor = await userDB.getField(UNIFIED_FIELD_CODES.PRIMARY_COLOR) || '#3f51b5';
       
       console.log(`✅ CODICI CARICATI per User ID ${userId}: Nome="${businessName}", Colore="${primaryColor}"`);
       
@@ -2473,10 +2473,10 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       const appName = businessName;
       const appShortName = businessName.substring(0, 12);
       
-      // Carica tutti i dati usando il sistema di codici univoci - COMPLETAMENTE SEPARATI
-      const contactEmail = await userDB.getValue(FIELD_CODES.CONTACT_EMAIL);
-      const contactPhone = await userDB.getValue(FIELD_CODES.CONTACT_PHONE);
-      const website = await userDB.getValue(FIELD_CODES.WEBSITE);
+      // Carica tutti i dati usando il sistema unificato - COMPLETAMENTE SEPARATI
+      const contactEmail = await userDB.getField(UNIFIED_FIELD_CODES.CONTACT_EMAIL);
+      const contactPhone = await userDB.getField(UNIFIED_FIELD_CODES.CONTACT_PHONE);
+      const website = await userDB.getField(UNIFIED_FIELD_CODES.WEBSITE);
 
       console.log(`🎯 DATI SEPARATI per User ID ${userId}: Email="${contactEmail}", Tel="${contactPhone}", Web="${website}"`);
 
@@ -3208,9 +3208,9 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
 
       console.log(`🎯 SALVATAGGIO IMPOSTAZIONI con codici univoci per User ID: ${userId}`);
       
-      // Usa il nuovo sistema con codici univoci - REPLICA ESATTA DEL BACKUP15
-      const { createUserDatabase, FIELD_CODES } = await import('./user-database-system');
-      const userDB = createUserDatabase(userId);
+      // Usa il sistema unificato che funziona
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
       
       const updates = req.body;
       let allSuccess = true;
