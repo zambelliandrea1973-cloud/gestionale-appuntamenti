@@ -182,10 +182,29 @@ export class UnifiedUserDatabase {
   }
 
   /**
-   * INIZIALIZZAZIONE ACCOUNT - Crea valori predefiniti per nuovo account
+   * INIZIALIZZAZIONE ACCOUNT - Crea valori predefiniti SOLO per nuovi account
    */
   async initializeAccount(): Promise<boolean> {
     try {
+      const sql = await this.initConnection();
+      
+      // Controlla se l'account ha già dati salvati
+      const existingData = await sql`
+        SELECT COUNT(*) as count 
+        FROM user_custom_data 
+        WHERE user_id = ${this.userId}
+      `;
+      
+      const hasExistingData = existingData[0]?.count > 0;
+      
+      if (hasExistingData) {
+        console.log(`🔄 UNIFIED INIT: Account ${this.userId} ha già dati salvati, non sovrascrivo`);
+        await this.closeConnection();
+        return true;
+      }
+      
+      console.log(`🆕 UNIFIED INIT: Inizializzazione nuovo account ${this.userId} con valori default`);
+      
       const defaultValues = {
         [UNIFIED_FIELD_CODES.BUSINESS_NAME]: `Attività ${this.userId}`,
         [UNIFIED_FIELD_CODES.PRIMARY_COLOR]: '#3f51b5',
