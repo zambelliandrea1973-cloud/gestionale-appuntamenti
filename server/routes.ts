@@ -2425,6 +2425,7 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         icon: iconInfo,
         appName,
         appShortName,
+        businessName, // ✅ AGGIUNTO CAMPO MANCANTE PER LE IMPOSTAZIONI
         primaryColor,
         secondaryColor: '#ffffff',
         theme: 'professional',
