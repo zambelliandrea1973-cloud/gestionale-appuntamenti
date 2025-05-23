@@ -305,16 +305,7 @@ export default function UserSettings() {
                 </div>
               </div>
 
-              {/* PULSANTE SPECIFICO PER COLORI */}
-              <div className="pt-4 border-t">
-                <Button 
-                  onClick={saveColor} 
-                  disabled={saving || !settings}
-                  className="w-full"
-                >
-                  {saving ? "Salvataggio colori..." : "💾 Salva Colori"}
-                </Button>
-              </div>
+
             </CardContent>
           </Card>
         </TabsContent>
