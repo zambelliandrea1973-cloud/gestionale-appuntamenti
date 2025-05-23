@@ -1598,6 +1598,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ valid: false, message: "Errore durante la verifica del token" });
     }
   });
+
+  // 🚀 ENDPOINT SALVATAGGIO NOME AZIENDALE CON DATABASE SEPARATI
+  app.post('/api/company-settings-v2', ensureAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user!.id;
+      const { businessName } = req.body;
+      
+      console.log(`🚀 SALVANDO NOME AZIENDALE per User ID: ${userId}, Nome: "${businessName}"`);
+      
+      const userDB = new UserDatabaseSystem(userId);
+      const success = await userDB.setValue(FIELD_CODES.BUSINESS_NAME, businessName);
+      
+      if (success) {
+        console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
+        res.json({ 
+          success: true,
+          message: 'Nome aziendale salvato con successo', 
+          userId, 
+          businessName 
+        });
+      } else {
+        res.status(500).json({ success: false, message: 'Errore durante il salvataggio' });
+      }
+    } catch (error: any) {
+      console.error('Errore salvataggio nome aziendale:', error);
+      res.status(500).json({ success: false, message: 'Errore durante il salvataggio' });
+    }
+  });
   
   // Endpoint per verificare e autenticare direttamente con un token (per i link diretti)
   // Nota: abbiamo implementato una soluzione matematica (divisione per 4)
