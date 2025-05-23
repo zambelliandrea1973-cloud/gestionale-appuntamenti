@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { Settings, Palette, Mail, Phone, Building, Globe } from "lucide-react";
+import ColorEditor from "@/components/ColorEditor";
 
 interface UserSettings {
   id?: number;
@@ -263,54 +264,8 @@ export default function UserSettings() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="primaryColor">Colore Primario</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="primaryColor"
-                      type="color"
-                      value={settings?.primaryColor || "#3f51b5"}
-                      onChange={(e) => updateSetting('primaryColor', e.target.value)}
-                      className="w-20"
-                    />
-                    <Input
-                      value={settings?.primaryColor || "#3f51b5"}
-                      onChange={(e) => updateSetting('primaryColor', e.target.value)}
-                      placeholder="#3f51b5"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="secondaryColor">Colore Secondario</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="secondaryColor"
-                      type="color"
-                      value={settings?.secondaryColor || "#f50057"}
-                      onChange={(e) => updateSetting('secondaryColor', e.target.value)}
-                      className="w-20"
-                    />
-                    <Input
-                      value={settings?.secondaryColor || "#f50057"}
-                      onChange={(e) => updateSetting('secondaryColor', e.target.value)}
-                      placeholder="#f50057"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* PULSANTE SPECIFICO PER COLORI - STESSO SISTEMA DEL NOME AZIENDALE */}
-              <div className="pt-4 border-t">
-                <Button 
-                  onClick={saveColor} 
-                  disabled={saving || !settings}
-                  className="w-full"
-                >
-                  {saving ? "Salvataggio colori..." : "💾 Salva Colori"}
-                </Button>
-              </div>
+              {/* USA IL COMPONENTE DEDICATO COLOREDITOR - STESSO SISTEMA DEL NOME AZIENDALE */}
+              <ColorEditor />
             </CardContent>
           </Card>
         </TabsContent>
