@@ -84,22 +84,25 @@ export default function UserSettings() {
     }
   }, [user]);
 
-  // Salva COLORE usando endpoint specifico (stesso sistema del nome aziendale)
+  // Salva ENTRAMBI I COLORI usando endpoint specifico
   const saveColor = async () => {
     if (!settings || !user) return;
     
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO COLORE: Usando endpoint specifico', settings.primaryColor);
+      console.log('🚀 SALVATAGGIO COLORI: Salvando entrambi i colori', settings.primaryColor, settings.secondaryColor);
       
-      // USA ENDPOINT SPECIFICO COME PER IL NOME AZIENDALE
+      // SALVA ENTRAMBI I COLORI COME IL NOME AZIENDALE
       const response = await fetch('/api/color-settings-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ primaryColor: settings.primaryColor }),
+        body: JSON.stringify({ 
+          primaryColor: settings.primaryColor,
+          secondaryColor: settings.secondaryColor 
+        }),
       });
 
       if (response.ok) {
