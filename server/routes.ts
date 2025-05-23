@@ -1607,8 +1607,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`🚀 SALVANDO NOME AZIENDALE per User ID: ${userId}, Nome: "${businessName}"`);
       
+      // Usa il sistema esistente che già funziona
       const userDB = new UserDatabaseSystem(userId);
-      const success = await userDB.setValue(FIELD_CODES.BUSINESS_NAME, businessName);
+      const success = await userDB.setValue('COD_001', businessName); // Usa direttamente COD_001
       
       if (success) {
         console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
