@@ -174,47 +174,18 @@ export class UserDatabaseSystem {
   
   private async setUserFieldValue(fieldCode: string, value: string): Promise<boolean> {
     try {
-      const { storage } = await import('./storage');
+      const { pool } = await import('./db');
       
-      // Mappa i codici univoci ai campi del database
-      const fieldMapping: Record<string, string> = {
-        [FIELD_CODES.BUSINESS_NAME]: 'businessName',
-        [FIELD_CODES.PRIMARY_COLOR]: 'primaryColor',
-        [FIELD_CODES.SECONDARY_COLOR]: 'secondaryColor',
-        [FIELD_CODES.CONTACT_EMAIL]: 'contactEmail',
-        [FIELD_CODES.CONTACT_PHONE]: 'contactPhone',
-        [FIELD_CODES.CONTACT_PHONE2]: 'contactPhone2',
-        [FIELD_CODES.WEBSITE]: 'website',
-        [FIELD_CODES.ADDRESS]: 'address',
-        [FIELD_CODES.INSTAGRAM]: 'instagramHandle',
-        [FIELD_CODES.FACEBOOK]: 'facebookPage',
-        [FIELD_CODES.LINKEDIN]: 'linkedinProfile',
-        [FIELD_CODES.EMAIL_PROVIDER]: 'emailProvider',
-        [FIELD_CODES.EMAIL_API_KEY]: 'emailApiKey',
-        [FIELD_CODES.EMAIL_FROM_NAME]: 'emailFromName',
-        [FIELD_CODES.EMAIL_FROM_ADDRESS]: 'emailFromAddress',
-        [FIELD_CODES.EMAIL_SIGNATURE]: 'emailSignature',
-        [FIELD_CODES.WORKING_HOURS_START]: 'workingHoursStart',
-        [FIELD_CODES.WORKING_HOURS_END]: 'workingHoursEnd',
-        [FIELD_CODES.TIME_SLOT_DURATION]: 'timeSlotDuration',
-        [FIELD_CODES.INVOICE_PREFIX]: 'invoicePrefix',
-        [FIELD_CODES.TAX_RATE]: 'taxRate',
-        [FIELD_CODES.CURRENCY]: 'currency'
-      };
+      // USA DIRETTAMENTE LA TABELLA user_custom_data (database separato)
+      await pool.query(`
+        INSERT INTO user_custom_data (user_id, field_code, value, created_at, updated_at)
+        VALUES ($1, $2, $3, NOW(), NOW())
+        ON CONFLICT (user_id, field_code) 
+        DO UPDATE SET value = $3, updated_at = NOW()
+      `, [this.userId, fieldCode, value]);
       
-      const fieldKey = fieldMapping[fieldCode];
-      if (!fieldKey) {
-        console.log(`⚠️ CODICE ${fieldCode}: Campo non mappato per salvataggio User ID ${this.userId}`);
-        return false;
-      }
-      
-      // Costruisce l'oggetto di aggiornamento
-      const updateData = { [fieldKey]: value };
-      
-      const success = await storage.updateUserSettings(this.userId, updateData);
-      console.log(`${success ? '✅' : '❌'} CODICE ${fieldCode}: ${success ? 'Salvato' : 'Errore salvataggio'} "${value}" per User ID ${this.userId}`);
-      
-      return success;
+      console.log(`✅ CODICE ${fieldCode}: Salvato "${value}" per User ID ${this.userId} in database separato`);
+      return true;
       
     } catch (error) {
       console.error(`❌ Errore salvataggio ${fieldCode} per User ID ${this.userId}:`, error);
