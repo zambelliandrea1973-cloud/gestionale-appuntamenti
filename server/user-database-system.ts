@@ -122,16 +122,19 @@ export class UserDatabaseSystem {
   // Metodi privati di implementazione - REPLICANO IL SISTEMA BACKUP15
   private async getUserFieldValue(fieldCode: string): Promise<string | null> {
     try {
-      // USA IL METODO DIRETTO COME IL SISTEMA CHE FUNZIONAVA PRIMA
-      const { db } = await import('./db');
+      // USA IL CLIENT POSTGRES DIRETTO CON SINTASSI CORRETTA
+      const postgres = (await import('postgres')).default;
+      const sql = postgres(process.env.DATABASE_URL!);
       
-      const result = await db.execute(`
+      const result = await sql`
         SELECT value FROM user_custom_data 
-        WHERE user_id = ? AND field_code = ?
-      `, [this.userId, fieldCode]);
+        WHERE user_id = ${this.userId} AND field_code = ${fieldCode}
+      `;
       
-      if (result.rows.length > 0) {
-        const value = result.rows[0].value as string;
+      await sql.end();
+      
+      if (result.length > 0) {
+        const value = result[0].value as string;
         console.log(`✅ CODICE ${fieldCode}: Recuperato "${value}" per User ID ${this.userId}`);
         return value;
       } else {
@@ -147,16 +150,19 @@ export class UserDatabaseSystem {
   
   private async setUserFieldValue(fieldCode: string, value: string): Promise<boolean> {
     try {
-      // USA LO STESSO METODO DEL SISTEMA DI LETTURA
-      const { db } = await import('./db');
+      // USA LA STESSA SINTASSI DEL METODO DI LETTURA
+      const postgres = (await import('postgres')).default;
+      const sql = postgres(process.env.DATABASE_URL!);
       
-      const result = await db.execute(`
+      const result = await sql`
         INSERT INTO user_custom_data (user_id, field_code, value, created_at, updated_at)
-        VALUES (?, ?, ?, NOW(), NOW())
+        VALUES (${this.userId}, ${fieldCode}, ${value}, NOW(), NOW())
         ON CONFLICT (user_id, field_code) 
         DO UPDATE SET value = EXCLUDED.value, updated_at = NOW()
         RETURNING *
-      `, [this.userId, fieldCode, value]);
+      `;
+      
+      await sql.end();
       
       console.log(`✅ CODICE ${fieldCode}: Salvato "${value}" per User ID ${this.userId} in database separato`);
       return true;
