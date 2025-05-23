@@ -2548,13 +2548,13 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         let format = '';
         
         if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/jpg') {
-          newIconPath = path.join(userIconDir, 'app-icon.jpg');
+          newIconPath = path.join(userIconsDir, 'app-icon.jpg');
           format = 'jpeg';
         } else if (req.file.mimetype === 'image/png') {
-          newIconPath = path.join(userIconDir, 'app-icon.png');
+          newIconPath = path.join(userIconsDir, 'app-icon.png');
           format = 'png';
         } else if (req.file.mimetype === 'image/svg+xml') {
-          newIconPath = path.join(userIconDir, 'app-icon.svg');
+          newIconPath = path.join(userIconsDir, 'app-icon.svg');
           // Per SVG facciamo solo copia del file
           fs.copyFileSync(filePath, newIconPath);
           console.log(`SVG copiato in: ${newIconPath}`);
@@ -2597,7 +2597,7 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
           return; // Esci dalla funzione
         } else {
           // Formato non supportato, usa JPG come default
-          newIconPath = path.join(userIconDir, 'app-icon.jpg');
+          newIconPath = path.join(userIconsDir, 'app-icon.jpg');
           format = 'jpeg';
         }
         
