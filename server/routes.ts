@@ -2354,25 +2354,38 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         }
       }
       
-      // Se l'utente non ha un'icona personalizzata, usa quella predefinita
+      // Se l'utente non ha un'icona personalizzata, crea una predefinita nella SUA cartella
       if (!userIconFound) {
-        const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
-        const defaultIconExists = fs.existsSync(defaultIconPath);
+        // Crea l'icona predefinita nella cartella personale dell'utente
+        const defaultSourcePath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+        const userDefaultPath = path.join(userIconsDir, 'app-icon.jpg');
         
-        if (defaultIconExists) {
-          const stats = fs.statSync(defaultIconPath);
+        // Assicurati che la directory dell'utente esista
+        if (!fs.existsSync(userIconsDir)) {
+          fs.mkdirSync(userIconsDir, { recursive: true });
+        }
+        
+        // Copia l'icona predefinita nella cartella dell'utente se non esiste già
+        if (fs.existsSync(defaultSourcePath) && !fs.existsSync(userDefaultPath)) {
+          fs.copyFileSync(defaultSourcePath, userDefaultPath);
+        }
+        
+        if (fs.existsSync(userDefaultPath)) {
+          const stats = fs.statSync(userDefaultPath);
         
           iconInfo = {
             exists: true,
             isCustom: false,
-            iconPath: '/icons/default-app-icon.jpg',
+            iconPath: `/user-icons/user-${userId}/app-icon.jpg`,
             mimeType: 'image/jpeg',
             lastModified: stats.mtime.toISOString()
           };
         } else {
-          // Nessuna icona disponibile
+          // Se non c'è nemmeno l'icona sorgente, crea un'icona vuota
           iconInfo = {
-            exists: false
+            exists: false,
+            isCustom: false,
+            iconPath: `/user-icons/user-${userId}/app-icon.jpg`
           };
         }
       }
@@ -2380,14 +2393,52 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       // Recupera le impostazioni personalizzate dell'utente
       let userSettings = await storage.getUserSettings(userId);
       
-      // Se non esistono impostazioni, crea quelle di default
+      // Se non esistono impostazioni, crea il database personale completo dell'utente
       if (!userSettings) {
         const defaultSettings = {
           userId,
-          businessName: null,
+          // Branding & Aspetto personalizzato
+          businessName: "La tua Attività",
+          logoUrl: `/user-icons/user-${userId}/app-icon.jpg`,
           primaryColor: '#3f51b5',
+          secondaryColor: '#f50057',
           theme: 'professional',
-          appearance: 'light'
+          appearance: 'light',
+          
+          // Informazioni di contatto personalizzate (vuote - da compilare)
+          contactEmail: null,
+          contactPhone: null,
+          contactPhone2: null,
+          website: null,
+          address: null,
+          
+          // Social Media personalizzati (vuoti - da compilare)
+          instagramHandle: null,
+          facebookPage: null,
+          linkedinProfile: null,
+          
+          // Configurazioni personalizzate (vuote - da configurare)
+          emailProvider: null,
+          emailApiKey: null,
+          emailFromName: null,
+          emailFromAddress: null,
+          emailSignature: null,
+          
+          // Impostazioni appuntamenti personalizzate
+          workingHoursStart: '09:00',
+          workingHoursEnd: '18:00',
+          workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+          timeSlotDuration: 30,
+          
+          // Impostazioni notifiche personalizzate
+          reminderEnabled: true,
+          reminderHoursBefore: 24,
+          confirmationEnabled: true,
+          
+          // Impostazioni fatturazione personalizzate
+          invoicePrefix: 'INV',
+          taxRate: '22.00',
+          currency: 'EUR'
         };
         userSettings = await storage.createUserSettings(defaultSettings);
       }
