@@ -179,7 +179,8 @@ export class UserDatabaseSystem {
       // Mappa i codici univoci ai campi del database
       const fieldMapping: Record<string, string> = {
         [FIELD_CODES.BUSINESS_NAME]: 'businessName',
-        [FIELD_CODES.COLOR]: 'primaryColor',
+        [FIELD_CODES.PRIMARY_COLOR]: 'primaryColor',
+        [FIELD_CODES.SECONDARY_COLOR]: 'secondaryColor',
         [FIELD_CODES.CONTACT_EMAIL]: 'contactEmail',
         [FIELD_CODES.CONTACT_PHONE]: 'contactPhone',
         [FIELD_CODES.CONTACT_PHONE2]: 'contactPhone2',
