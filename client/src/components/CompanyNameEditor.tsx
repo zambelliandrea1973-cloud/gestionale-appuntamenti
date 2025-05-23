@@ -48,9 +48,9 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      console.log('🎯 FRONTEND: Chiamando /api/company-settings-v2');
-      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
-      const response = await fetch('/api/company-settings-v2', {
+      console.log('🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ');
+      // USA L'API CHE FUNZIONA GIÀ PER I DATABASE SEPARATI
+      const response = await fetch('/api/client-app-info', {
         method: 'GET',
         credentials: 'include'
       });
@@ -66,7 +66,7 @@ export default function CompanyNameEditor() {
           color: '#000000',
           enabled: true
         });
-        console.log(`✅ IMPOSTAZIONI CARICATE SEPARATAMENTE per utente: ${data.businessName}`);
+        console.log(`✅ IMPOSTAZIONI CARICATE DA CLIENT-APP-INFO: ${data.businessName}`);
       } else {
         console.error('Errore nel caricamento delle impostazioni');
       }
