@@ -2410,17 +2410,24 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       const appName = businessName;
       const appShortName = businessName.substring(0, 12);
       
+      // Carica tutti i dati usando il sistema di codici univoci - COMPLETAMENTE SEPARATI
+      const contactEmail = await userDB.getValue(FIELD_CODES.CONTACT_EMAIL);
+      const contactPhone = await userDB.getValue(FIELD_CODES.CONTACT_PHONE);
+      const website = await userDB.getValue(FIELD_CODES.WEBSITE);
+
+      console.log(`🎯 DATI SEPARATI per User ID ${userId}: Email="${contactEmail}", Tel="${contactPhone}", Web="${website}"`);
+
       res.json({
         icon: iconInfo,
         appName,
         appShortName,
-        primaryColor: userSettings.primaryColor,
-        secondaryColor: userSettings.secondaryColor,
-        theme: userSettings.theme,
-        appearance: userSettings.appearance,
-        contactEmail: userSettings.contactEmail,
-        contactPhone: userSettings.contactPhone,
-        website: userSettings.website
+        primaryColor,
+        secondaryColor: '#ffffff',
+        theme: 'professional',
+        appearance: 'light',
+        contactEmail,
+        contactPhone,
+        website
       });
     } catch (error: any) {
       console.error('Errore nel recupero delle informazioni dell\'app:', error);
