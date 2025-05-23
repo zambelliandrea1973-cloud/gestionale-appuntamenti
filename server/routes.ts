@@ -2390,63 +2390,25 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         }
       }
       
-      // Recupera le impostazioni personalizzate dell'utente
-      let userSettings = await storage.getUserSettings(userId);
+      // 🎯 SISTEMA CON CODICI UNIVOCI - Replica esatta del backup15 con database separati
+      console.log(`🎯 CARICAMENTO APP INFO con sistema codici univoci per User ID: ${userId}`);
       
-      // Se non esistono impostazioni, crea il database personale con CODICI UNIVOCI
-      if (!userSettings) {
-        console.log(`🎯 INIZIALIZZAZIONE DATABASE PERSONALE per User ID: ${userId}`);
-        
-        const defaultSettings = {
-          userId,
-          // COD_001: Nome Aziendale - UNIVOCO per questo account
-          businessName: `Attività ${userId}`,
-          logoUrl: `/user-icons/user-${userId}/app-icon.jpg`,
-          
-          // COD_005: Colore - UNIVOCO per questo account  
-          primaryColor: '#3f51b5',
-          secondaryColor: '#f50057',
-          theme: 'professional',
-          appearance: 'light',
-          
-          // Campi personalizzati VUOTI - da compilare per questo account
-          contactEmail: null,
-          contactPhone: null,
-          contactPhone2: null,
-          website: null,
-          address: null,
-          instagramHandle: null,
-          facebookPage: null,
-          linkedinProfile: null,
-          emailProvider: null,
-          emailApiKey: null,
-          emailFromName: null,
-          emailFromAddress: null,
-          emailSignature: null,
-          
-          // COD_019-020: Orari personalizzati per questo account
-          workingHoursStart: '09:00',
-          workingHoursEnd: '18:00',
-          workingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
-          timeSlotDuration: 30,
-          
-          reminderEnabled: true,
-          reminderHoursBefore: 24,
-          confirmationEnabled: true,
-          
-          // COD_023-025: Fatturazione personalizzata per questo account
-          invoicePrefix: `INV-${userId}`,
-          taxRate: '22.00',
-          currency: 'EUR'
-        };
-        
-        userSettings = await storage.createUserSettings(defaultSettings);
-        console.log(`✅ DATABASE PERSONALE CREATO per User ID: ${userId} con nome: ${defaultSettings.businessName}`);
-      }
+      // Usa il nuovo sistema con codici univoci
+      const { createUserDatabase, FIELD_CODES } = await import('./user-database-system');
+      const userDB = createUserDatabase(userId);
       
-      // Usa le impostazioni personalizzate dell'utente invece del manifest globale
-      const appName = userSettings.businessName || "La tua Attività";
-      const appShortName = userSettings.businessName ? userSettings.businessName.substring(0, 12) : "Attività";
+      // Inizializza il database se è la prima volta
+      await userDB.initializeUserDatabase();
+      
+      // Carica tutti i dati dell'utente usando i codici univoci - COME NEL BACKUP15
+      const businessName = await userDB.getValue(FIELD_CODES.BUSINESS_NAME) || `Attività ${userId}`;
+      const primaryColor = await userDB.getValue(FIELD_CODES.COLOR) || '#3f51b5';
+      
+      console.log(`✅ CODICI CARICATI per User ID ${userId}: Nome="${businessName}", Colore="${primaryColor}"`);
+      
+      // Usa le impostazioni personalizzate SEPARATE per ogni account
+      const appName = businessName;
+      const appShortName = businessName.substring(0, 12);
       
       res.json({
         icon: iconInfo,
@@ -3165,7 +3127,7 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  // Aggiorna le impostazioni personalizzate dell'utente corrente
+  // 🎯 SALVATAGGIO CON CODICI UNIVOCI - Sistema esatto del backup15 con database separati
   app.put('/api/user-settings', ensureAuthenticated, async (req: Request, res: Response) => {
     try {
       const userId = req.user?.id;
@@ -3173,34 +3135,63 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         return res.status(401).json({ message: 'Utente non autenticato' });
       }
 
-      const validationResult = insertUserSettingsSchema.partial().safeParse(req.body);
-      if (!validationResult.success) {
-        return res.status(400).json({
-          message: 'Dati non validi',
-          errors: validationResult.error.errors
-        });
-      }
-
-      // Verifica se esistono già impostazioni per questo utente
-      const existingSettings = await storage.getUserSettings(userId);
+      console.log(`🎯 SALVATAGGIO IMPOSTAZIONI con codici univoci per User ID: ${userId}`);
       
-      let settings;
-      if (existingSettings) {
-        // Aggiorna le impostazioni esistenti
-        settings = await storage.updateUserSettings(userId, validationResult.data);
+      // Usa il nuovo sistema con codici univoci - REPLICA ESATTA DEL BACKUP15
+      const { createUserDatabase, FIELD_CODES } = await import('./user-database-system');
+      const userDB = createUserDatabase(userId);
+      
+      const updates = req.body;
+      let allSuccess = true;
+      const savedSettings: any = { userId };
+      
+      // Mappa i campi ai codici univoci e salva - COME NEL BACKUP15
+      const fieldMapping: Record<string, string> = {
+        'businessName': FIELD_CODES.BUSINESS_NAME,
+        'primaryColor': FIELD_CODES.COLOR,
+        'contactEmail': FIELD_CODES.CONTACT_EMAIL,
+        'contactPhone': FIELD_CODES.CONTACT_PHONE,
+        'contactPhone2': FIELD_CODES.CONTACT_PHONE2,
+        'website': FIELD_CODES.WEBSITE,
+        'address': FIELD_CODES.ADDRESS,
+        'instagramHandle': FIELD_CODES.INSTAGRAM,
+        'facebookPage': FIELD_CODES.FACEBOOK,
+        'linkedinProfile': FIELD_CODES.LINKEDIN,
+        'workingHoursStart': FIELD_CODES.WORKING_HOURS_START,
+        'workingHoursEnd': FIELD_CODES.WORKING_HOURS_END,
+        'invoicePrefix': FIELD_CODES.INVOICE_PREFIX,
+        'taxRate': FIELD_CODES.TAX_RATE,
+        'currency': FIELD_CODES.CURRENCY
+      };
+      
+      // Salva ogni campo usando il sistema di codici univoci
+      for (const [fieldName, fieldValue] of Object.entries(updates)) {
+        const fieldCode = fieldMapping[fieldName];
+        if (fieldCode && fieldValue !== undefined) {
+          const success = await userDB.setValue(fieldCode, String(fieldValue));
+          if (!success) {
+            console.error(`❌ Errore salvataggio ${fieldCode} per User ID ${userId}`);
+            allSuccess = false;
+          } else {
+            console.log(`✅ SALVATO ${fieldCode}="${fieldValue}" per User ID ${userId}`);
+            savedSettings[fieldName] = fieldValue;
+          }
+        } else {
+          // Campi non mappati (come theme, appearance, ecc.) li salviamo nel sistema tradizionale
+          savedSettings[fieldName] = fieldValue;
+        }
+      }
+      
+      // Salva anche nel sistema tradizionale per compatibilità
+      const settings = await storage.updateUserSettings(userId, updates) || 
+                      await storage.createUserSettings({ ...updates, userId });
+      
+      if (allSuccess && settings) {
+        console.log(`✅ TUTTE LE IMPOSTAZIONI SALVATE per User ID ${userId}`);
+        res.json(settings);
       } else {
-        // Crea nuove impostazioni
-        settings = await storage.createUserSettings({
-          ...validationResult.data,
-          userId
-        });
+        res.status(500).json({ message: 'Errore nel salvataggio di alcune impostazioni' });
       }
-
-      if (!settings) {
-        return res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
-      }
-
-      res.json(settings);
     } catch (error) {
       console.error('Errore nell\'aggiornamento impostazioni utente:', error);
       res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
