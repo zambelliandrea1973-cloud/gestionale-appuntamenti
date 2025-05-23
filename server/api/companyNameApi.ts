@@ -5,7 +5,7 @@ import { ensureAuthenticated } from '../middleware/authMiddleware';
 const router = Router();
 
 // Ottieni le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
-router.get('/company-name-settings', ensureAuthenticated, async (req: Request, res: Response) => {
+router.get('/company-settings-v2', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     console.log(`🎯 *** GET /api/company-name-settings CHIAMATO ***`);
     const userId = req.user!.id;
@@ -29,7 +29,7 @@ router.get('/company-name-settings', ensureAuthenticated, async (req: Request, r
 });
 
 // Aggiorna le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
-router.post('/company-name-settings', ensureAuthenticated, async (req: Request, res: Response) => {
+router.post('/company-settings-v2', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;
     const { businessName } = req.body;
