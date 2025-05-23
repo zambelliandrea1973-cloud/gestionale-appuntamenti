@@ -83,34 +83,33 @@ export default function UserSettings() {
     }
   }, [user]);
 
-  // Salva le impostazioni con database separati (stesso sistema del nome aziendale)
-  const saveSettings = async () => {
+  // Salva COLORE usando endpoint specifico (stesso sistema del nome aziendale)
+  const saveColor = async () => {
     if (!settings || !user) return;
     
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO IMPOSTAZIONI: Usando endpoint database separati', settings);
+      console.log('🚀 SALVATAGGIO COLORE: Usando endpoint specifico', settings.primaryColor);
       
-      // USA IL NUOVO ENDPOINT CHE FUNZIONA COME IL NOME AZIENDALE
-      const response = await fetch('/api/user-settings-v2', {
-        method: 'PUT',
+      // USA ENDPOINT SPECIFICO COME PER IL NOME AZIENDALE
+      const response = await fetch('/api/color-settings-v2', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify(settings),
+        body: JSON.stringify({ primaryColor: settings.primaryColor }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ IMPOSTAZIONI SALVATE CON DATABASE SEPARATI:', result);
+        console.log('✅ COLORE SALVATO CON DATABASE SEPARATI:', result);
         
         toast({
-          title: "Impostazioni salvate",
-          description: "Le tue personalizzazioni sono state salvate con successo nel tuo database separato!",
+          title: "Colore salvato",
+          description: "Il colore primario è stato salvato con successo!",
         });
         
-        // Ricarica la pagina per mostrare i cambiamenti
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -120,10 +119,57 @@ export default function UserSettings() {
         throw new Error(`Errore nel salvataggio: ${response.status}`);
       }
     } catch (error: any) {
-      console.error('Errore salvataggio impostazioni:', error);
+      console.error('Errore salvataggio colore:', error);
       toast({
         title: "Errore",
-        description: "Impossibile salvare le impostazioni. Riprova.",
+        description: "Impossibile salvare il colore. Riprova.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Salva TEMA usando endpoint specifico (stesso sistema del nome aziendale)
+  const saveTheme = async () => {
+    if (!settings || !user) return;
+    
+    setSaving(true);
+    try {
+      console.log('🚀 SALVATAGGIO TEMA: Usando endpoint specifico', settings.theme, settings.appearance);
+      
+      // USA ENDPOINT SPECIFICO COME PER IL NOME AZIENDALE
+      const response = await fetch('/api/theme-settings-v2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ theme: settings.theme, appearance: settings.appearance }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ TEMA SALVATO CON DATABASE SEPARATI:', result);
+        
+        toast({
+          title: "Tema salvato",
+          description: "Il tema è stato salvato con successo!",
+        });
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        const errorText = await response.text();
+        console.error('Errore risposta server:', errorText);
+        throw new Error(`Errore nel salvataggio: ${response.status}`);
+      }
+    } catch (error: any) {
+      console.error('Errore salvataggio tema:', error);
+      toast({
+        title: "Errore",
+        description: "Impossibile salvare il tema. Riprova.",
         variant: "destructive",
       });
     } finally {
@@ -253,6 +299,17 @@ export default function UserSettings() {
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* PULSANTE SPECIFICO PER COLORI - STESSO SISTEMA DEL NOME AZIENDALE */}
+              <div className="pt-4 border-t">
+                <Button 
+                  onClick={saveColor} 
+                  disabled={saving || !settings}
+                  className="w-full"
+                >
+                  {saving ? "Salvataggio colori..." : "💾 Salva Colori"}
+                </Button>
               </div>
             </CardContent>
           </Card>
