@@ -48,11 +48,13 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
+      console.log('🎯 FRONTEND: Chiamando /api/company-settings-v2');
       // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
       const response = await fetch('/api/company-settings-v2', {
         method: 'GET',
         credentials: 'include'
       });
+      console.log('🎯 FRONTEND: Response status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
