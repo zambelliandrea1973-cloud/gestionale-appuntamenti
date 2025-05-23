@@ -443,25 +443,13 @@ export const insertPaymentTransactionSchema = createInsertSchema(paymentTransact
   updatedAt: true,
 });
 
-// User Settings table - Personalizzazioni con codici univoci per ogni utente
+// User Settings table - SOLO per campi non migrati ai database separati
 export const userSettings = pgTable("user_settings", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().unique(), // Un record per utente - COMPLETAMENTE ISOLATO
+  userId: integer("user_id").notNull().unique(), // Un record per utente
   
-  // Branding & Aspetto
-  businessName: text("business_name"), // Nome dell'attività/studio
+  // SOLO campi che NON sono stati migrati ai database separati
   logoUrl: text("logo_url"), // URL del logo personalizzato
-  primaryColor: text("primary_color").default("#3f51b5"), // Colore primario del tema
-  secondaryColor: text("secondary_color").default("#f50057"), // Colore secondario
-  theme: text("theme").default("professional"), // professional, vibrant, tint
-  appearance: text("appearance").default("light"), // light, dark, system
-  
-  // Informazioni di contatto personalizzate
-  contactEmail: text("contact_email"),
-  contactPhone: text("contact_phone"),
-  contactPhone2: text("contact_phone2"),
-  website: text("website"),
-  address: text("address"),
   
   // Social Media
   instagramHandle: text("instagram_handle"),
