@@ -2522,39 +2522,7 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  // Endpoint per aggiornare le informazioni personalizzate dell'app dell'utente
-  app.post('/api/update-app-info', ensureAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const userId = req.user?.id;
-      if (!userId) {
-        return res.status(401).json({ message: 'Utente non autenticato' });
-      }
-
-      const { appName, appShortName } = req.body;
-      
-      if (!appName && !appShortName) {
-        return res.status(400).json({ message: 'Nessun dato da aggiornare' });
-      }
-      
-      // Aggiorna le impostazioni personalizzate dell'utente invece del manifest globale
-      const updateData: any = {};
-      if (appName) updateData.businessName = appName;
-      
-      const success = await storage.updateUserSettings(userId, updateData);
-      
-      if (!success) {
-        return res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
-      }
-      
-      res.json({ 
-        success: true, 
-        message: 'Informazioni personalizzate dell\'app aggiornate con successo' 
-      });
-    } catch (error: any) {
-      console.error('Errore durante l\'aggiornamento delle informazioni personalizzate dell\'app:', error);
-      res.status(500).json({ message: error.message });
-    }
-  });
+  // ELIMINATO - Ora tutto passa attraverso /api/user-settings per mantenere isolamento completo
   
   // Endpoint per recuperare informazioni icona personalizzata dell'utente
   app.get('/api/app-icon-info', ensureAuthenticated, (req: Request, res: Response) => {
