@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { UserDatabaseSystem, FIELD_CODES } from '../user-database-system';
+import { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } from '../user-database-unified';
 import { ensureAuthenticated } from '../middleware/authMiddleware';
 
 const router = Router();
@@ -11,8 +11,8 @@ router.get('/company-settings-v2', ensureAuthenticated, async (req: Request, res
     const userId = req.user!.id;
     console.log(`🎯 GET company-name-settings per User ID: ${userId}`);
     
-    const userDb = new UserDatabaseSystem(userId);
-    const businessName = await userDb.getValue(FIELD_CODES.BUSINESS_NAME);
+    const userDb = createUnifiedUserDatabase(userId);
+    const businessName = await userDb.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME);
     
     const settings = {
       businessName: businessName || `Attività ${userId}`,
@@ -36,8 +36,8 @@ router.post('/company-settings-v2', ensureAuthenticated, async (req: Request, re
     
     console.log(`🎯 POST company-name-settings per User ID: ${userId}, Nome: "${businessName}"`);
     
-    const userDb = new UserDatabaseSystem(userId);
-    const success = await userDb.setValue(FIELD_CODES.BUSINESS_NAME, businessName);
+    const userDb = createUnifiedUserDatabase(userId);
+    const success = await userDb.setField(UNIFIED_FIELD_CODES.BUSINESS_NAME, businessName);
     
     if (success) {
       console.log(`✅ NOME AZIENDALE SALVATO SEPARATAMENTE per User ID ${userId}: "${businessName}"`);
