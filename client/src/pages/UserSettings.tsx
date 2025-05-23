@@ -39,16 +39,37 @@ export default function UserSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Carica le impostazioni dell'utente
+  // Carica le impostazioni dell'utente con database separati
   useEffect(() => {
     const loadUserSettings = async () => {
       try {
-        const response = await fetch('/api/user-settings');
+        console.log('🎯 CARICAMENTO IMPOSTAZIONI: Usando /api/client-app-info che funziona con database separati');
+        // USA L'ENDPOINT CHE FUNZIONA GIÀ PER I DATABASE SEPARATI
+        const response = await fetch(`/api/client-app-info?t=${Date.now()}`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
         if (response.ok) {
           const data = await response.json();
-          setSettings(data);
+          console.log('✅ IMPOSTAZIONI SEPARATE CARICATE:', data);
+          
+          // Mappa i dati nel formato che si aspetta il componente
+          const mappedSettings: UserSettings = {
+            userId: user?.id || 0,
+            businessName: data.businessName || '',
+            primaryColor: data.primaryColor || '#3f51b5',
+            secondaryColor: data.secondaryColor || '#ffffff',
+            theme: data.theme || 'professional',
+            appearance: data.appearance || 'light',
+            contactEmail: data.contactEmail || '',
+            contactPhone: data.contactPhone || '',
+            website: data.website || ''
+          };
+          
+          setSettings(mappedSettings);
         } else {
-          console.error('Errore nel caricamento delle impostazioni');
+          console.error('Errore nel caricamento delle impostazioni separate');
         }
       } catch (error) {
         console.error('Errore nel caricamento delle impostazioni:', error);
@@ -62,31 +83,44 @@ export default function UserSettings() {
     }
   }, [user]);
 
-  // Salva le impostazioni
+  // Salva le impostazioni con database separati (stesso sistema del nome aziendale)
   const saveSettings = async () => {
     if (!settings || !user) return;
     
     setSaving(true);
     try {
+      console.log('🚀 SALVATAGGIO IMPOSTAZIONI: Usando endpoint database separati', settings);
+      
+      // USA LO STESSO ENDPOINT CHE FUNZIONA PER IL NOME AZIENDALE
       const response = await fetch('/api/user-settings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(settings),
       });
 
       if (response.ok) {
-        const updatedSettings = await response.json();
-        setSettings(updatedSettings);
+        const result = await response.json();
+        console.log('✅ IMPOSTAZIONI SALVATE CON DATABASE SEPARATI:', result);
+        
         toast({
           title: "Impostazioni salvate",
-          description: "Le tue personalizzazioni sono state salvate con successo!",
+          description: "Le tue personalizzazioni sono state salvate con successo nel tuo database separato!",
         });
+        
+        // Ricarica la pagina per mostrare i cambiamenti
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
-        throw new Error('Errore nel salvataggio');
+        const errorText = await response.text();
+        console.error('Errore risposta server:', errorText);
+        throw new Error(`Errore nel salvataggio: ${response.status}`);
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Errore salvataggio impostazioni:', error);
       toast({
         title: "Errore",
         description: "Impossibile salvare le impostazioni. Riprova.",
