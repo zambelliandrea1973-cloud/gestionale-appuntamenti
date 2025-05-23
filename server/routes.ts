@@ -1600,7 +1600,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // 🚀 ENDPOINT SALVATAGGIO NOME AZIENDALE - COPIA ESATTA DI CLIENT-APP-INFO
+  // 🚀 SALVATAGGIO NOME AZIENDALE - USA IL SISTEMA updateUserSettings CHE GIÀ FUNZIONA
   app.post('/api/company-settings-v2', ensureAuthenticated, async (req, res) => {
     try {
       const userId = req.user!.id;
@@ -1608,18 +1608,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`🚀 SALVANDO NOME AZIENDALE per User ID: ${userId}, Nome: "${businessName}"`);
       
-      // Usa esattamente la stessa logica di /api/client-app-info
-      console.log(`🎯 INIZIALIZZAZIONE DATABASE SEPARATO per User ID: ${userId}`);
-      const userDB = new UserDatabaseSystem(userId);
-      await userDB.setValue('COD_001', businessName);
+      // Usa il metodo updateUserSettings che già esiste e funziona!
+      const success = await storage.updateUserSettings(userId, { businessName });
       
-      console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
-      res.json({ 
-        success: true,
-        message: 'Nome aziendale salvato con successo', 
-        userId, 
-        businessName 
-      });
+      if (success) {
+        console.log(`✅ NOME AZIENDALE SALVATO CON SUCCESSO per User ID ${userId}: "${businessName}"`);
+        res.json({ 
+          success: true,
+          message: 'Nome aziendale salvato con successo', 
+          userId, 
+          businessName 
+        });
+      } else {
+        throw new Error('Errore nel salvataggio nel database');
+      }
     } catch (error: any) {
       console.error('❌ ERRORE SALVATAGGIO NOME AZIENDALE:', error);
       res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
