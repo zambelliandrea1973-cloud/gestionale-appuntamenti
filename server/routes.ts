@@ -3189,13 +3189,10 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         }
       }
       
-      // Salva anche nel sistema tradizionale per compatibilità
-      const settings = await storage.updateUserSettings(userId, updates) || 
-                      await storage.createUserSettings({ ...updates, userId });
-      
-      if (allSuccess && settings) {
-        console.log(`✅ TUTTE LE IMPOSTAZIONI SALVATE per User ID ${userId}`);
-        res.json(settings);
+      // SOLO sistema di codici univoci - NO sistema condiviso!
+      if (allSuccess) {
+        console.log(`✅ TUTTE LE IMPOSTAZIONI SALVATE CON CODICI UNIVOCI per User ID ${userId}`);
+        res.json({ success: true, message: 'Impostazioni salvate con successo', userId, savedSettings });
       } else {
         res.status(500).json({ message: 'Errore nel salvataggio di alcune impostazioni' });
       }
