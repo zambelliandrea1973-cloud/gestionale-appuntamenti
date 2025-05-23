@@ -84,28 +84,35 @@ export class UserDatabaseSystem {
   }
   
   /**
-   * Inizializza il database dell'utente con valori predefiniti
+   * Inizializza il database dell'utente con valori predefiniti PERSONALIZZATI
    */
   async initializeUserDatabase(): Promise<void> {
+    console.log(`🎯 INIZIALIZZAZIONE DATABASE SEPARATO per User ID: ${this.userId}`);
+    
+    // Valori predefiniti PERSONALIZZATI per ogni utente - COME NEL TUO SCHEMA
     const defaultValues = {
-      [FIELD_CODES.BUSINESS_NAME]: "La tua Attività",
-      [FIELD_CODES.TEXT_SIZE]: "16px",
+      [FIELD_CODES.BUSINESS_NAME]: `Attività ${this.userId}`,
+      [FIELD_CODES.TEXT_SIZE]: "16px", 
       [FIELD_CODES.FONT_TYPE]: "Arial",
       [FIELD_CODES.TEXT_STYLE]: "normal",
-      [FIELD_CODES.COLOR]: "#3f51b5",
+      [FIELD_CODES.COLOR]: `#${(0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1,6)}`, // Colore casuale per ogni utente
       [FIELD_CODES.WORKING_HOURS_START]: "09:00",
-      [FIELD_CODES.WORKING_HOURS_END]: "18:00",
+      [FIELD_CODES.WORKING_HOURS_END]: "18:00", 
       [FIELD_CODES.TIME_SLOT_DURATION]: "30",
-      [FIELD_CODES.INVOICE_PREFIX]: "INV",
+      [FIELD_CODES.INVOICE_PREFIX]: `INV-${this.userId}`,
       [FIELD_CODES.TAX_RATE]: "22.00",
       [FIELD_CODES.CURRENCY]: "EUR"
     };
     
-    // Salva i valori predefiniti solo se non esistono già
+    // Forza l'inizializzazione con valori personalizzati per ogni utente
     for (const [code, value] of Object.entries(defaultValues)) {
       const existing = await this.getValue(code);
-      if (!existing) {
-        await this.setValue(code, value);
+      if (!existing || existing === "La tua Attività" || existing === "INV") {
+        // Forza il salvataggio di valori personalizzati
+        const success = await this.setValue(code, value);
+        console.log(`🎯 INIZIALIZZATO ${code}="${value}" per User ID ${this.userId}: ${success ? 'OK' : 'ERRORE'}`);
+      } else {
+        console.log(`🎯 GIÀ ESISTENTE ${code}="${existing}" per User ID ${this.userId}`);
       }
     }
   }
