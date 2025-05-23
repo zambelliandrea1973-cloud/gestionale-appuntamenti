@@ -264,8 +264,54 @@ export default function UserSettings() {
                 />
               </div>
 
-              {/* USA IL COMPONENTE DEDICATO COLOREDITOR - STESSO SISTEMA DEL NOME AZIENDALE */}
-              <ColorEditor />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="primaryColor">Colore Primario</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="primaryColor"
+                      type="color"
+                      value={settings?.primaryColor || "#3f51b5"}
+                      onChange={(e) => updateSetting('primaryColor', e.target.value)}
+                      className="w-20"
+                    />
+                    <Input
+                      value={settings?.primaryColor || "#3f51b5"}
+                      onChange={(e) => updateSetting('primaryColor', e.target.value)}
+                      placeholder="#3f51b5"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="secondaryColor">Colore Secondario</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="secondaryColor"
+                      type="color"
+                      value={settings?.secondaryColor || "#ffffff"}
+                      onChange={(e) => updateSetting('secondaryColor', e.target.value)}
+                      className="w-20"
+                    />
+                    <Input
+                      value={settings?.secondaryColor || "#ffffff"}
+                      onChange={(e) => updateSetting('secondaryColor', e.target.value)}
+                      placeholder="#ffffff"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* PULSANTE SPECIFICO PER COLORI */}
+              <div className="pt-4 border-t">
+                <Button 
+                  onClick={saveColor} 
+                  disabled={saving || !settings}
+                  className="w-full"
+                >
+                  {saving ? "Salvataggio colori..." : "💾 Salva Colori"}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
