@@ -159,50 +159,12 @@ export class UnifiedUserDatabase {
    */
 
   /**
-   * INIZIALIZZAZIONE ACCOUNT - Crea valori predefiniti SOLO per nuovi account
+   * INIZIALIZZAZIONE DISABILITATA - Non sovrascrive mai i dati
    */
   async initializeAccount(): Promise<boolean> {
-    try {
-      const sql = await this.initConnection();
-      
-      // Controlla se l'account ha già dati salvati
-      const existingData = await sql`
-        SELECT COUNT(*) as count 
-        FROM user_custom_data 
-        WHERE user_id = ${this.userId}
-      `;
-      
-      const hasExistingData = existingData[0]?.count > 0;
-      
-      if (hasExistingData) {
-        console.log(`🔄 UNIFIED INIT: Account ${this.userId} ha già dati salvati, non sovrascrivo`);
-        await this.closeConnection();
-        return true;
-      }
-      
-      console.log(`🆕 UNIFIED INIT: Inizializzazione nuovo account ${this.userId} con valori default`);
-      
-      const defaultValues = {
-        [UNIFIED_FIELD_CODES.BUSINESS_NAME]: `Attività ${this.userId}`,
-        [UNIFIED_FIELD_CODES.PRIMARY_COLOR]: '#3f51b5',
-        [UNIFIED_FIELD_CODES.SECONDARY_COLOR]: '#ffffff',
-        [UNIFIED_FIELD_CODES.THEME]: 'professional',
-        [UNIFIED_FIELD_CODES.APPEARANCE]: 'light',
-        [UNIFIED_FIELD_CODES.WORKING_HOURS_START]: '09:00',
-        [UNIFIED_FIELD_CODES.WORKING_HOURS_END]: '18:00',
-        [UNIFIED_FIELD_CODES.APPOINTMENT_DURATION]: '60',
-        [UNIFIED_FIELD_CODES.INVOICE_PREFIX]: `INV-${this.userId}`,
-        [UNIFIED_FIELD_CODES.TAX_RATE]: '22.00',
-        [UNIFIED_FIELD_CODES.CURRENCY]: 'EUR'
-      };
-
-      // ELIMINATO: questa funzione sovrascriveva sempre i dati salvati
-      return true;
-      
-    } catch (error) {
-      console.error(`❌ UNIFIED INIT per User ID ${this.userId}:`, error);
-      return false;
-    }
+    // COMPLETAMENTE DISABILITATA per evitare sovrascrittura dati
+    console.log(`🚫 INIT DISABILITATA per User ID ${this.userId} - preservo dati esistenti`);
+    return true;
   }
 }
 
