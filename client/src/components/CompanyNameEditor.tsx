@@ -361,9 +361,12 @@ export default function CompanyNameEditor() {
                     await saveSettings();
                     console.log("✅ Nome aziendale salvato!");
                     
-                    // 2. RICARICA I DATI AGGIORNATI
+                    // 2. RICARICA I DATI AGGIORNATI CON CACHE BUSTING
                     await fetchSettings();
                     console.log("✅ Dati ricaricati!");
+                    
+                    // 3. FORZA AGGIORNAMENTO INTERFACCIA
+                    window.location.reload();
                     
                     // 3. MOSTRA CONFERMA DETTAGLIATA
                     toast({
