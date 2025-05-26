@@ -397,15 +397,33 @@ export default function UserSettings() {
               {/* PULSANTE UNIFICATO - SALVA TUTTO */}
               <div className="flex justify-end mt-6">
                 <Button 
-                  onClick={() => {
-                    console.log('🔥 CLICK PULSANTE RILEVATO!');
-                    saveAllSettings();
+                  onClick={async () => {
+                    try {
+                      console.log("🚀 INIZIO SALVATAGGIO COMPLETO");
+                      
+                      // SALVA TUTTO INSIEME con database separati
+                      console.log("📝 1. Salvando nome aziendale...");
+                      await saveBusinessName(); // Nome aziendale (COD_001)
+                      console.log("✅ 1. Nome aziendale salvato!");
+                      
+                      console.log("🎨 2. Salvando colore...");
+                      await saveColor(); // Colore primario (COD_002)
+                      console.log("✅ 2. Colore salvato!");
+                      
+                      console.log("🎭 3. Salvando tema...");
+                      await saveTheme(); // Tema (COD_005)
+                      console.log("✅ 3. Tema salvato!");
+                      
+                      console.log("🎉 TUTTI I SALVATAGGI COMPLETATI!");
+                    } catch (error) {
+                      console.error("❌ ERRORE DURANTE IL SALVATAGGIO:", error);
+                    }
                   }} 
                   disabled={saving}
                   className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                   size="lg"
                 >
-                  {saving ? "Salvando..." : "Salva Tutte le Impostazioni"}
+                  {saving ? "Salvando..." : "💾 Salva Impostazioni"}
                 </Button>
               </div>
 
