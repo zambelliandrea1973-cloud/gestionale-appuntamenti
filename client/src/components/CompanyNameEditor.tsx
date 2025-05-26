@@ -347,9 +347,24 @@ export default function CompanyNameEditor() {
               </div>
             </div>
 
-            <div className="pt-4">
-              <Button onClick={saveSettings} className="w-full" disabled={!settings.enabled}>
-                Salva impostazioni
+            <div className="pt-4 space-y-3">
+              <Button onClick={saveSettings} className="w-full bg-green-600 hover:bg-green-700" disabled={!settings.enabled}>
+                🔥 PULSANTE VERDE
+              </Button>
+              
+              <Button 
+                onClick={async () => {
+                  try {
+                    alert("💾 PULSANTE BLU CLICCATO!");
+                    console.log("💾 SECONDO PULSANTE FUNZIONA!");
+                  } catch (error) {
+                    console.error("❌ ERRORE:", error);
+                  }
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                disabled={!settings.enabled}
+              >
+                💾 PULSANTE BLU
               </Button>
             </div>
           </div>
