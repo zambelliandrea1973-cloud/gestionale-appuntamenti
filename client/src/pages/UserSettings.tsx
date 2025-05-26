@@ -308,6 +308,16 @@ export default function UserSettings() {
                 </div>
               </div>
 
+              {/* BOTTONE SALVA COLORI - STESSO SISTEMA DEL NOME AZIENDALE */}
+              <div className="flex justify-end mt-4">
+                <Button 
+                  onClick={saveColor} 
+                  disabled={saving}
+                  className="w-full sm:w-auto"
+                >
+                  {saving ? "Salvando..." : "Salva Colori"}
+                </Button>
+              </div>
 
             </CardContent>
           </Card>
