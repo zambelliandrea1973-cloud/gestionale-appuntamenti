@@ -596,6 +596,45 @@ export default function UserSettings() {
                 </div>
               </div>
               
+              {/* DUE PULSANTI NELLA SEZIONE ASPETTO */}
+              <div className="flex gap-4 justify-center mt-6 pt-4 border-t">
+                <Button 
+                  onClick={async () => {
+                    try {
+                      alert("🎯 PULSANTE VERDE CLICCATO!");
+                      console.log("🚀 SALVATAGGIO TEMA E ASPETTO");
+                      await saveTheme();
+                      console.log("✅ TEMA SALVATO!");
+                      await loadSettings();
+                    } catch (error) {
+                      console.error("❌ ERRORE:", error);
+                    }
+                  }} 
+                  disabled={saving}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  size="lg"
+                >
+                  {saving ? "Salvando..." : "🔥 PULSANTE VERDE"}
+                </Button>
+
+                <Button 
+                  onClick={async () => {
+                    try {
+                      alert("💾 PULSANTE BLU CLICCATO!");
+                      console.log("💾 CREAZIONE NUOVI DATI");
+                      const newCode = `COD_${Math.floor(Math.random() * 900) + 100}`;
+                      console.log(`✅ Codice: ${newCode}`);
+                    } catch (error) {
+                      console.error("❌ ERRORE:", error);
+                    }
+                  }} 
+                  disabled={saving}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  size="lg"
+                >
+                  {saving ? "Creando..." : "💾 PULSANTE BLU"}
+                </Button>
+              </div>
 
             </CardContent>
           </Card>
