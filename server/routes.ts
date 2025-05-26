@@ -1608,9 +1608,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user!.id;
       const { primaryColor, secondaryColor } = req.body;
       
-      console.log(`🚀 SALVANDO ENTRAMBI I COLORI per User ID: ${userId}, Primario: "${primaryColor}", Secondario: "${secondaryColor}"`);
+      console.log(`🚀 SALVANDO ENTRAMBI I COLORI CON CODICI UNIVOCI per User ID: ${userId}, Primario: "${primaryColor}", Secondario: "${secondaryColor}"`);
       
-      const success = await storage.updateUserSettings(userId, { primaryColor, secondaryColor });
+      // USA IL SISTEMA DI CODICI UNIVOCI COME IL NOME AZIENDALE
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
+      
+      let allSuccess = true;
+      
+      // Salva colore primario con COD_002
+      if (primaryColor) {
+        const primarySuccess = await userDB.setField(UNIFIED_FIELD_CODES.PRIMARY_COLOR, primaryColor);
+        if (!primarySuccess) allSuccess = false;
+        console.log(`🎨 COLORE PRIMARIO ${primarySuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${primaryColor} (COD_002)`);
+      }
+      
+      // Salva colore secondario con COD_003
+      if (secondaryColor) {
+        const secondarySuccess = await userDB.setField(UNIFIED_FIELD_CODES.SECONDARY_COLOR, secondaryColor);
+        if (!secondarySuccess) allSuccess = false;
+        console.log(`🎨 COLORE SECONDARIO ${secondarySuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${secondaryColor} (COD_003)`);
+      }
+      
+      const success = allSuccess;
       
       if (success) {
         console.log(`✅ ENTRAMBI I COLORI SALVATI CON SUCCESSO per User ID ${userId}: "${primaryColor}" + "${secondaryColor}"`);
@@ -1636,9 +1656,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user!.id;
       const { theme, appearance } = req.body;
       
-      console.log(`🚀 SALVANDO TEMA per User ID: ${userId}, Tema: "${theme}", Aspetto: "${appearance}"`);
+      console.log(`🚀 SALVANDO TEMA CON CODICI UNIVOCI per User ID: ${userId}, Tema: "${theme}", Aspetto: "${appearance}"`);
       
-      const success = await storage.updateUserSettings(userId, { theme, appearance });
+      // USA IL SISTEMA DI CODICI UNIVOCI COME IL NOME AZIENDALE
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
+      
+      let allSuccess = true;
+      
+      // Salva tema con COD_005
+      if (theme) {
+        const themeSuccess = await userDB.setField(UNIFIED_FIELD_CODES.THEME, theme);
+        if (!themeSuccess) allSuccess = false;
+        console.log(`🎨 TEMA ${themeSuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${theme} (COD_005)`);
+      }
+      
+      // Salva appearance con COD_006
+      if (appearance) {
+        const appearanceSuccess = await userDB.setField(UNIFIED_FIELD_CODES.APPEARANCE, appearance);
+        if (!appearanceSuccess) allSuccess = false;
+        console.log(`🎨 APPEARANCE ${appearanceSuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${appearance} (COD_006)`);
+      }
+      
+      const success = allSuccess;
       
       if (success) {
         console.log(`✅ TEMA SALVATO CON SUCCESSO per User ID ${userId}: "${theme}" - "${appearance}"`);
