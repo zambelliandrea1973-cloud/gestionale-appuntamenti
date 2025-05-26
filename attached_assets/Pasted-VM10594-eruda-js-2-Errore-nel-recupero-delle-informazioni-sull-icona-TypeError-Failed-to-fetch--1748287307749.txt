@@ -1,0 +1,86 @@
+VM10594 eruda.js:2 Errore nel recupero delle informazioni sull'icona: TypeError: Failed to fetch
+    at window.fetch (VM10594 eruda.js:2:218642)
+    at fetchIconInfo (VM10767 AppIconUploader.tsx:42:30)
+    at VM10767 AppIconUploader.tsx:37:5
+    at commitHookEffectListMount (VM10626 chunk-C43VWYGG.js:16883:34)
+    at invokePassiveEffectMountInDEV (VM10626 chunk-C43VWYGG.js:18292:19)
+    at invokeEffectsInDev (VM10626 chunk-C43VWYGG.js:19669:19)
+    at commitDoubleInvokeEffectsInDEV (VM10626 chunk-C43VWYGG.js:19654:15)
+    at flushPassiveEffectsImpl (VM10626 chunk-C43VWYGG.js:19471:13)
+    at flushPassiveEffects (VM10626 chunk-C43VWYGG.js:19415:22)
+    at commitRootImpl (VM10626 chunk-C43VWYGG.js:19384:13)
+VM10594 eruda.js:2 Errore nel recupero delle informazioni sull'icona: TypeError: Failed to fetch
+    at window.fetch (VM10594 eruda.js:2:218642)
+    at fetchIconInfo (VM10767 AppIconUploader.tsx:42:30)
+    at VM10767 AppIconUploader.tsx:37:5
+    at commitHookEffectListMount (VM10626 chunk-C43VWYGG.js:16883:34)
+    at commitPassiveMountOnFiber (VM10626 chunk-C43VWYGG.js:18124:19)
+    at commitPassiveMountEffects_complete (VM10626 chunk-C43VWYGG.js:18097:17)
+    at commitPassiveMountEffects_begin (VM10626 chunk-C43VWYGG.js:18087:15)
+    at commitPassiveMountEffects (VM10626 chunk-C43VWYGG.js:18077:11)
+    at flushPassiveEffectsImpl (VM10626 chunk-C43VWYGG.js:19458:11)
+    at flushPassiveEffects (VM10626 chunk-C43VWYGG.js:19415:22)
+Console.js:61 PWA check - standalone mode: false
+Console.js:61 PWA check - iOS fullscreen: undefined
+cleanup-menu.js:1 Uncaught SyntaxError: Unexpected token '<' (at cleanup-menu.js:1:1)
+Console.js:61 Script di correzione errori caricato e attivo
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ
+Console.js:61 🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ
+Console.js:61 Fuso orario già correttamente impostato
+Console.js:61 Stato autenticazione: 
+{user: true, location: '/settings', isLoading: false}
+Console.js:61 Fuso orario già correttamente impostato
+Console.js:61 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+Console.js:61 Service Worker precedente rimosso
+The script has an unsupported MIME type ('text/html').
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/sw.js?v=v3.0.0'): The script has an unsupported MIME type ('text/html').
+Console.js:61 🎯 FRONTEND: Response status: 200
+Console.js:61 🔍 DATI COMPLETI RICEVUTI: {
+  "icon": {
+    "exists": true,
+    "isCustom": true,
+    "iconPath": "/user-icons/user-12/app-icon.jpg",
+    "mimeType": "image/jpeg",
+    "lastModified": "2025-05-26T12:56:23.924Z"
+  },
+  "appName": "pulsante test 4",
+  "appShortName": "pulsante tes",
+  "businessName": "pulsante test 4",
+  "primaryColor": "#3f51b5",
+  "secondaryColor": "#ffffff",
+  "theme": "#3f51b5",
+  "appearance": "#ffffff",
+  "contactEmail": "zambelli.andrea.1973D@gmail.com",
+  "contactPhone": null,
+  "website": null
+}
+Console.js:61 ✅ IMPOSTAZIONI CARICATE: businessName="pulsante test 4", appName="pulsante test 4"
+app-icon.jpg:1 
+ GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748287297725 404 (Not Found)
+Console.js:61 🎯 FRONTEND: Response status: 200
+Console.js:61 🔍 DATI COMPLETI RICEVUTI: {
+  "icon": {
+    "exists": true,
+    "isCustom": true,
+    "iconPath": "/user-icons/user-12/app-icon.jpg",
+    "mimeType": "image/jpeg",
+    "lastModified": "2025-05-26T12:56:23.924Z"
+  },
+  "appName": "pulsante test 4",
+  "appShortName": "pulsante tes",
+  "businessName": "pulsante test 4",
+  "primaryColor": "#3f51b5",
+  "secondaryColor": "#ffffff",
+  "theme": "#3f51b5",
+  "appearance": "#ffffff",
+  "contactEmail": "zambelli.andrea.1973D@gmail.com",
+  "contactPhone": null,
+  "website": null
+}
+Console.js:61 ✅ IMPOSTAZIONI CARICATE: businessName="pulsante test 4", appName="pulsante test 4"
+d6546abb-db52-44bc-b…g?t=1748287301576:1 
+ GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748287301576 404 (Not Found)
+﻿
+
