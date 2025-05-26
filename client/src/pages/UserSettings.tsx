@@ -151,6 +151,92 @@ export default function UserSettings() {
     }
   };
 
+  // Salva NOME AZIENDALE usando endpoint specifico
+  const saveBusinessName = async () => {
+    if (!settings || !user) return;
+    
+    setSaving(true);
+    try {
+      console.log('🚀 SALVATAGGIO NOME AZIENDALE: Usando endpoint specifico', settings.businessName);
+      
+      // USA ENDPOINT SPECIFICO ESISTENTE
+      const response = await fetch('/api/company-name/business-name', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ businessName: settings.businessName }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ NOME AZIENDALE SALVATO CON DATABASE SEPARATI:', result);
+        
+        toast({
+          title: "Nome aziendale salvato",
+          description: "Il nome aziendale è stato salvato con successo!",
+        });
+      } else {
+        const errorText = await response.text();
+        console.error('Errore risposta server:', errorText);
+        throw new Error(`Errore nel salvataggio: ${response.status}`);
+      }
+    } catch (error: any) {
+      console.error('Errore salvataggio nome aziendale:', error);
+      toast({
+        title: "Errore",
+        description: "Impossibile salvare il nome aziendale. Riprova.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Salva COLORE usando endpoint specifico (stesso sistema del nome aziendale)
+  const saveColor = async () => {
+    if (!settings || !user) return;
+    
+    setSaving(true);
+    try {
+      console.log('🚀 SALVATAGGIO COLORE: Usando endpoint specifico', settings.primaryColor);
+      
+      // USA ENDPOINT SPECIFICO COME PER IL NOME AZIENDALE
+      const response = await fetch('/api/color/primary-color', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ primaryColor: settings.primaryColor }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ COLORE SALVATO CON DATABASE SEPARATI:', result);
+        
+        toast({
+          title: "Colore salvato",
+          description: "Il colore è stato salvato con successo!",
+        });
+      } else {
+        const errorText = await response.text();
+        console.error('Errore risposta server:', errorText);
+        throw new Error(`Errore nel salvataggio: ${response.status}`);
+      }
+    } catch (error: any) {
+      console.error('Errore salvataggio colore:', error);
+      toast({
+        title: "Errore",
+        description: "Impossibile salvare il colore. Riprova.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   // Salva TEMA usando endpoint specifico (stesso sistema del nome aziendale)
   const saveTheme = async () => {
     if (!settings || !user) return;
