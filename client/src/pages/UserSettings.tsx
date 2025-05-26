@@ -665,7 +665,7 @@ export default function UserSettings() {
           className="w-full max-w-md"
           size="lg"
         >
-          {saving ? "Salvataggio..." : "💾 Salva Tutte le Impostazioni"}
+          {saving ? "Salvataggio..." : "Salva impostazioni"}
         </Button>
         
         <div className="text-sm text-muted-foreground">
