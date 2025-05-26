@@ -630,6 +630,7 @@ export default function UserSettings() {
         <Button 
           onClick={async () => {
             try {
+              alert("🎯 PULSANTE CLICCATO! Controlla la Console per i log.");
               console.log("🚀 INIZIO SALVATAGGIO COMPLETO - TUTTE LE IMPOSTAZIONI");
               
               // SALVA TUTTO: Nome aziendale, Colori, Tema, Contatti
