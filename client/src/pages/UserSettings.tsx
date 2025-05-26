@@ -90,9 +90,10 @@ export default function UserSettings() {
     
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO COLORI: Salvando entrambi i colori', settings.primaryColor, settings.secondaryColor);
+      console.log('🚀 SALVATAGGIO COLORI: Inizio richiesta per salvare', settings.primaryColor, settings.secondaryColor);
       
       // SALVA ENTRAMBI I COLORI COME IL NOME AZIENDALE
+      console.log('📡 FRONTEND: Invio richiesta POST a /api/color-settings-v2');
       const response = await fetch('/api/color-settings-v2', {
         method: 'POST',
         headers: {
@@ -104,6 +105,8 @@ export default function UserSettings() {
           secondaryColor: settings.secondaryColor 
         }),
       });
+      
+      console.log('📡 FRONTEND: Risposta ricevuta, status:', response.status);
 
       if (response.ok) {
         const result = await response.json();
