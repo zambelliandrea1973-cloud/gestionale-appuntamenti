@@ -1603,7 +1603,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ❌ ENDPOINT RIMOSSO - Ora usa solo il sistema database separati in companyNameApi.ts
 
   // 🚀 SALVATAGGIO ENTRAMBI I COLORI - STESSO SISTEMA DEL NOME AZIENDALE
-  app.post('/api/color-settings-v2', ensureAuthenticated, async (req, res) => {
+  app.post('/api/color-settings-v2', isAuthenticated, async (req, res) => {
     try {
       const userId = req.user!.id;
       const { primaryColor, secondaryColor } = req.body;
@@ -1651,7 +1651,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // 🚀 SALVATAGGIO TEMA - STESSO SISTEMA DEL NOME AZIENDALE
-  app.post('/api/theme-settings-v2', ensureAuthenticated, async (req, res) => {
+  app.post('/api/theme-settings-v2', isAuthenticated, async (req, res) => {
     try {
       const userId = req.user!.id;
       const { theme, appearance } = req.body;
