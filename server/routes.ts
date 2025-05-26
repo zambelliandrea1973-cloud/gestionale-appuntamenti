@@ -2464,7 +2464,13 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       // await userDB.initializeAccount();
       
       // Carica tutti i dati dell'utente usando il sistema unificato
-      const businessName = await userDB.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME) || `Attività ${userId}`;
+      let businessName = await userDB.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME);
+      
+      // Se il nome aziendale è l'email dell'utente, usa il valore predefinito
+      if (!businessName || businessName === req.user?.email || businessName.includes('@')) {
+        businessName = `Attività ${userId}`;
+      }
+      
       const primaryColor = await userDB.getField(UNIFIED_FIELD_CODES.PRIMARY_COLOR) || '#3f51b5';
       
       console.log(`✅ CODICI CARICATI per User ID ${userId}: Nome="${businessName}", Colore="${primaryColor}"`);
