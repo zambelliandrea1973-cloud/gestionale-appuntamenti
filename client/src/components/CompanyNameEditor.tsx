@@ -355,16 +355,38 @@ export default function CompanyNameEditor() {
               <Button 
                 onClick={async () => {
                   try {
-                    alert("💾 PULSANTE BLU CLICCATO!");
-                    console.log("💾 SECONDO PULSANTE FUNZIONA!");
+                    console.log("🎯 SUPER-SALVATAGGIO INIZIATO!");
+                    
+                    // 1. SALVA TUTTE LE IMPOSTAZIONI
+                    await saveSettings();
+                    console.log("✅ Nome aziendale salvato!");
+                    
+                    // 2. RICARICA I DATI AGGIORNATI
+                    await fetchSettings();
+                    console.log("✅ Dati ricaricati!");
+                    
+                    // 3. MOSTRA CONFERMA DETTAGLIATA
+                    toast({
+                      title: "🎉 SUPER-SALVATAGGIO COMPLETATO!",
+                      description: `✅ Nome: "${settings.name}"\n✅ Font: ${settings.fontFamily}\n✅ Dimensione: ${settings.fontSize}px\n✅ Colore: ${settings.color}\n✅ Tutti i dati aggiornati!`,
+                      duration: 5000
+                    });
+                    
+                    alert(`🎉 SUPER-SALVATAGGIO COMPLETATO!\n\n✅ Nome: "${settings.name}"\n✅ Font: ${settings.fontFamily}\n✅ Dimensione: ${settings.fontSize}px\n✅ Colore: ${settings.color}\n✅ Tutti i dati aggiornati!`);
+                    
                   } catch (error) {
                     console.error("❌ ERRORE:", error);
+                    toast({
+                      title: "❌ Errore nel super-salvataggio",
+                      description: error.message,
+                      variant: "destructive"
+                    });
                   }
                 }}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
                 disabled={!settings.enabled}
               >
-                💾 PULSANTE BLU
+                🎉 SUPER-SALVA TUTTO E AGGIORNA
               </Button>
             </div>
           </div>
