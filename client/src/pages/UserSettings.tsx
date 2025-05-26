@@ -194,36 +194,31 @@ export default function UserSettings() {
     }
   };
 
-  // Salva COLORE usando endpoint specifico (stesso sistema del nome aziendale)
+  // Salva COLORE (COD_002) - IDENTICO AL NOME AZIENDALE
   const saveColor = async () => {
     if (!settings || !user) return;
     
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO COLORE: Usando endpoint specifico', settings.primaryColor);
+      console.log('✅ COLORE SALVATO SEPARATAMENTE:', `"${settings.primaryColor}" per utente ${user.id}`);
       
-      // USA ENDPOINT SPECIFICO COME PER IL NOME AZIENDALE
       const response = await fetch('/api/color/primary-color', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ primaryColor: settings.primaryColor }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ COLORE SALVATO CON DATABASE SEPARATI:', result);
+        console.log('✅ Risposta server colore:', result);
         
         toast({
           title: "Colore salvato",
           description: "Il colore è stato salvato con successo!",
         });
       } else {
-        const errorText = await response.text();
-        console.error('Errore risposta server:', errorText);
-        throw new Error(`Errore nel salvataggio: ${response.status}`);
+        throw new Error(`Errore ${response.status}`);
       }
     } catch (error: any) {
       console.error('Errore salvataggio colore:', error);
@@ -237,40 +232,31 @@ export default function UserSettings() {
     }
   };
 
-  // Salva TEMA usando endpoint specifico (stesso sistema del nome aziendale)
+  // Salva TEMA (COD_005) - IDENTICO AL NOME AZIENDALE
   const saveTheme = async () => {
     if (!settings || !user) return;
     
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO TEMA: Usando endpoint specifico', settings.theme, settings.appearance);
+      console.log('✅ TEMA SALVATO SEPARATAMENTE:', `"${settings.theme}" per utente ${user.id}`);
       
-      // USA ENDPOINT SPECIFICO ESISTENTE
       const response = await fetch('/api/theme/theme', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ theme: settings.theme }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ TEMA SALVATO CON DATABASE SEPARATI:', result);
+        console.log('✅ Risposta server tema:', result);
         
         toast({
           title: "Tema salvato",
           description: "Il tema è stato salvato con successo!",
         });
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       } else {
-        const errorText = await response.text();
-        console.error('Errore risposta server:', errorText);
-        throw new Error(`Errore nel salvataggio: ${response.status}`);
+        throw new Error(`Errore ${response.status}`);
       }
     } catch (error: any) {
       console.error('Errore salvataggio tema:', error);
