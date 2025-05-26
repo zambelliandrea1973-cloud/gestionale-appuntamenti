@@ -604,6 +604,12 @@ export default function UserSettings() {
                       console.log("✅ 3. Tema salvato!");
                       
                       console.log("🎉 ASPETTO COMPLETO: TUTTI i campi salvati con successo!");
+                      
+                      // 4. Ricarica automaticamente i dati salvati
+                      console.log("🔄 4. Ricaricando i dati salvati nell'interfaccia...");
+                      await loadSettings();
+                      console.log("✅ 4. Dati ricaricati nell'interfaccia!");
+                      
                     } catch (error) {
                       console.error("❌ ERRORE SALVATAGGIO ASPETTO COMPLETO:", error);
                     }
