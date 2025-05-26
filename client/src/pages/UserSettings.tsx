@@ -574,54 +574,7 @@ export default function UserSettings() {
                 </div>
               </div>
               
-              {/* PULSANTE SALVA ASPETTO */}
-              <div className="flex justify-end mt-6">
-                <Button 
-                  onClick={async () => {
-                    try {
-                      console.log("🎭 SALVATAGGIO ASPETTO COMPLETO: Salvando TUTTI i campi della sezione");
-                      console.log("📋 Campi da salvare:", {
-                        tema: settings?.theme,
-                        modalita: settings?.appearance,
-                        nomeAziendale: settings?.businessName,
-                        colorePrimario: settings?.primaryColor,
-                        coloreSecondario: settings?.secondaryColor
-                      });
-                      
-                      // 1. Salva nome aziendale
-                      console.log("📝 1. Salvando nome aziendale...");
-                      await saveBusinessName();
-                      console.log("✅ 1. Nome aziendale salvato!");
-                      
-                      // 2. Salva colori
-                      console.log("🎨 2. Salvando colori...");
-                      await saveColor();
-                      console.log("✅ 2. Colori salvati!");
-                      
-                      // 3. Salva tema
-                      console.log("🎭 3. Salvando tema e modalità...");
-                      await saveTheme();
-                      console.log("✅ 3. Tema salvato!");
-                      
-                      console.log("🎉 ASPETTO COMPLETO: TUTTI i campi salvati con successo!");
-                      
-                      // 4. Ricarica automaticamente i dati salvati
-                      console.log("🔄 4. Ricaricando i dati salvati nell'interfaccia...");
-                      await loadSettings();
-                      console.log("✅ 4. Dati ricaricati nell'interfaccia!");
-                      
-                    } catch (error) {
-                      console.error("❌ ERRORE SALVATAGGIO ASPETTO COMPLETO:", error);
-                    }
-                  }} 
-                  disabled={saving}
-                  className="bg-green-600 hover:bg-green-700"
-                  size="lg"
-                >
-                  {saving ? "Salvando..." : "💾 Salva Impostazioni Aspetto"}
-                </Button>
-              </div>
-              
+
             </CardContent>
           </Card>
         </TabsContent>
@@ -698,6 +651,12 @@ export default function UserSettings() {
               
               console.log("🎉 TUTTI I SALVATAGGI COMPLETATI!");
               console.log("✅ SALVATI: Nome, Colori, Tema, Contatti - TUTTO IN DATABASE SEPARATI!");
+              
+              // 5. Ricarica automaticamente i dati salvati
+              console.log("🔄 5. Ricaricando i dati salvati nell'interfaccia...");
+              await loadSettings();
+              console.log("✅ 5. Dati ricaricati nell'interfaccia!");
+              
             } catch (error) {
               console.error("❌ ERRORE DURANTE IL SALVATAGGIO:", error);
             }
