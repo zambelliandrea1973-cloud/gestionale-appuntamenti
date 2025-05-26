@@ -663,10 +663,10 @@ export default function UserSettings() {
             }
           }}
           disabled={saving || !settings}
-          className="w-full max-w-md"
+          className="w-full max-w-md bg-green-600 hover:bg-green-700 text-white"
           size="lg"
         >
-          {saving ? "Salvataggio..." : "Salva impostazioni"}
+          {saving ? "Salvataggio..." : "🔥 PULSANTE SALVA TUTTO 🔥"}
         </Button>
         
         <div className="text-sm text-muted-foreground">
