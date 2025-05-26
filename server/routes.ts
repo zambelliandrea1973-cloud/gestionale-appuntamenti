@@ -3793,6 +3793,17 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
 
 
 
+  // ===== ENDPOINT SEPARATI PER PERSONALIZZAZIONI (seguendo il pattern del nome aziendale) =====
+  
+  // Registra gli endpoint per i colori
+  app.use('/api/color', colorApi);
+  
+  // Registra gli endpoint per i temi
+  app.use('/api/theme', themeApi);
+  
+  // Registra gli endpoint per il nome aziendale (già esistente)
+  app.use('/api/company-name', companyNameApi);
+
   // Inizializza il servizio keep-alive per mantenere l'applicazione sempre attiva
   keepAliveService.initialize(httpServer);
   
