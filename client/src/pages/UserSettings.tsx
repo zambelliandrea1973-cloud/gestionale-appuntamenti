@@ -84,52 +84,76 @@ export default function UserSettings() {
     }
   }, [user]);
 
-  // Salva ENTRAMBI I COLORI usando endpoint specifico
-  const saveColor = async () => {
+  // FUNZIONE UNIFICATA - SALVA TUTTE LE IMPOSTAZIONI
+  const saveAllSettings = async () => {
     if (!settings || !user) return;
     
     setSaving(true);
     try {
-      console.log('🚀 SALVATAGGIO COLORI: Inizio richiesta per salvare', settings.primaryColor, settings.secondaryColor);
+      console.log('🚀 SALVATAGGIO COMPLETO: Inizio salvataggio di tutte le impostazioni');
       
-      // SALVA ENTRAMBI I COLORI COME IL NOME AZIENDALE
-      console.log('📡 FRONTEND: Invio richiesta POST a /api/color-settings-v2');
-      const response = await fetch('/api/color-settings-v2', {
+      // 1. SALVA NOME AZIENDALE (COD_001)
+      if (settings.businessName) {
+        const nameResponse = await fetch('/api/company-name', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ businessName: settings.businessName }),
+        });
+        console.log('📝 Nome aziendale:', nameResponse.ok ? '✅ SALVATO' : '❌ ERRORE');
+      }
+
+      // 2. SALVA COLORI (COD_002 e COD_003)
+      const colorResponse = await fetch('/api/color-settings-v2', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ 
           primaryColor: settings.primaryColor,
           secondaryColor: settings.secondaryColor 
         }),
       });
-      
-      console.log('📡 FRONTEND: Risposta ricevuta, status:', response.status);
+      console.log('🎨 Colori:', colorResponse.ok ? '✅ SALVATI' : '❌ ERRORE');
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('✅ COLORE SALVATO CON DATABASE SEPARATI:', result);
+      // 3. SALVA TEMA E ASPETTO (COD_005 e COD_006)
+      const themeResponse = await fetch('/api/theme-settings-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ 
+          theme: settings.theme,
+          appearance: settings.appearance 
+        }),
+      });
+      console.log('🎭 Tema:', themeResponse.ok ? '✅ SALVATO' : '❌ ERRORE');
+
+      // 4. SALVA ICONA (se presente)
+      if (iconFile) {
+        const iconFormData = new FormData();
+        iconFormData.append('icon', iconFile);
         
-        toast({
-          title: "Colore salvato",
-          description: "Il colore primario è stato salvato con successo!",
+        const iconResponse = await fetch('/api/upload-icon', {
+          method: 'POST',
+          credentials: 'include',
+          body: iconFormData,
         });
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        const errorText = await response.text();
-        console.error('Errore risposta server:', errorText);
-        throw new Error(`Errore nel salvataggio: ${response.status}`);
+        console.log('🖼️ Icona:', iconResponse.ok ? '✅ SALVATA' : '❌ ERRORE');
       }
+
+      toast({
+        title: "Impostazioni salvate",
+        description: "Tutte le impostazioni sono state salvate con successo!",
+      });
+      
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+
     } catch (error: any) {
-      console.error('Errore salvataggio colore:', error);
+      console.error('Errore salvataggio completo:', error);
       toast({
         title: "Errore",
-        description: "Impossibile salvare il colore. Riprova.",
+        description: "Impossibile salvare le impostazioni. Riprova.",
         variant: "destructive",
       });
     } finally {
@@ -308,14 +332,15 @@ export default function UserSettings() {
                 </div>
               </div>
 
-              {/* BOTTONE SALVA COLORI - STESSO SISTEMA DEL NOME AZIENDALE */}
-              <div className="flex justify-end mt-4">
+              {/* PULSANTE UNIFICATO - SALVA TUTTO */}
+              <div className="flex justify-end mt-6">
                 <Button 
-                  onClick={saveColor} 
+                  onClick={saveAllSettings} 
                   disabled={saving}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  size="lg"
                 >
-                  {saving ? "Salvando..." : "Salva Colori"}
+                  {saving ? "Salvando..." : "Salva Tutte le Impostazioni"}
                 </Button>
               </div>
 
