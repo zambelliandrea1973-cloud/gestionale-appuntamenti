@@ -573,6 +573,29 @@ export default function UserSettings() {
                   </Select>
                 </div>
               </div>
+              
+              {/* PULSANTE SALVA ASPETTO */}
+              <div className="flex justify-end mt-6">
+                <Button 
+                  onClick={async () => {
+                    try {
+                      console.log("🎭 SALVATAGGIO ASPETTO: Inizio salvataggio tema e modalità");
+                      
+                      await saveTheme(); // Salva tema (COD_005)
+                      
+                      console.log("✅ ASPETTO: Tema e modalità salvati con successo!");
+                    } catch (error) {
+                      console.error("❌ ERRORE SALVATAGGIO ASPETTO:", error);
+                    }
+                  }} 
+                  disabled={saving}
+                  className="bg-green-600 hover:bg-green-700"
+                  size="lg"
+                >
+                  {saving ? "Salvando..." : "💾 Salva Impostazioni Aspetto"}
+                </Button>
+              </div>
+              
             </CardContent>
           </Card>
         </TabsContent>
