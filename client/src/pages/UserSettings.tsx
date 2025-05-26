@@ -579,13 +579,33 @@ export default function UserSettings() {
                 <Button 
                   onClick={async () => {
                     try {
-                      console.log("🎭 SALVATAGGIO ASPETTO: Inizio salvataggio tema e modalità");
+                      console.log("🎭 SALVATAGGIO ASPETTO COMPLETO: Salvando TUTTI i campi della sezione");
+                      console.log("📋 Campi da salvare:", {
+                        tema: settings?.theme,
+                        modalita: settings?.appearance,
+                        nomeAziendale: settings?.businessName,
+                        colorePrimario: settings?.primaryColor,
+                        coloreSecondario: settings?.secondaryColor
+                      });
                       
-                      await saveTheme(); // Salva tema (COD_005)
+                      // 1. Salva nome aziendale
+                      console.log("📝 1. Salvando nome aziendale...");
+                      await saveBusinessName();
+                      console.log("✅ 1. Nome aziendale salvato!");
                       
-                      console.log("✅ ASPETTO: Tema e modalità salvati con successo!");
+                      // 2. Salva colori
+                      console.log("🎨 2. Salvando colori...");
+                      await saveColor();
+                      console.log("✅ 2. Colori salvati!");
+                      
+                      // 3. Salva tema
+                      console.log("🎭 3. Salvando tema e modalità...");
+                      await saveTheme();
+                      console.log("✅ 3. Tema salvato!");
+                      
+                      console.log("🎉 ASPETTO COMPLETO: TUTTI i campi salvati con successo!");
                     } catch (error) {
-                      console.error("❌ ERRORE SALVATAGGIO ASPETTO:", error);
+                      console.error("❌ ERRORE SALVATAGGIO ASPETTO COMPLETO:", error);
                     }
                   }} 
                   disabled={saving}
