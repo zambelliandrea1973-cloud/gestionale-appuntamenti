@@ -2486,15 +2486,20 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
 
       console.log(`🎯 DATI SEPARATI per User ID ${userId}: Email="${contactEmail}", Tel="${contactPhone}", Web="${website}"`);
 
+      // Carica tutti i campi dal sistema di codici univoci
+      const secondaryColor = await userDB.getField(UNIFIED_FIELD_CODES.SECONDARY_COLOR) || '#ffffff';
+      const theme = await userDB.getField(UNIFIED_FIELD_CODES.THEME) || 'professional';
+      const appearance = await userDB.getField(UNIFIED_FIELD_CODES.APPEARANCE) || 'light';
+      
       res.json({
         icon: iconInfo,
         appName,
         appShortName,
-        businessName, // ✅ AGGIUNTO CAMPO MANCANTE PER LE IMPOSTAZIONI
+        businessName,
         primaryColor,
-        secondaryColor: '#ffffff',
-        theme: 'professional',
-        appearance: 'light',
+        secondaryColor,
+        theme,
+        appearance,
         contactEmail,
         contactPhone,
         website
@@ -3222,23 +3227,122 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       let allSuccess = true;
       const savedSettings: any = { userId };
       
-      // Mappa i campi ai codici unificati - NUOVO SISTEMA FUNZIONANTE
+      // SISTEMA COMPLETO DI MAPPATURA - TUTTI I 100 CODICI UNIVOCI
       const fieldMapping: Record<string, string> = {
+        // ===== BRANDING E UI =====
         'businessName': UNIFIED_FIELD_CODES.BUSINESS_NAME,
         'primaryColor': UNIFIED_FIELD_CODES.PRIMARY_COLOR,
+        'secondaryColor': UNIFIED_FIELD_CODES.SECONDARY_COLOR,
+        'logoUrl': UNIFIED_FIELD_CODES.LOGO_URL,
+        'theme': UNIFIED_FIELD_CODES.THEME,
+        'appearance': UNIFIED_FIELD_CODES.APPEARANCE,
+        
+        // ===== CONTATTI AZIENDALI =====
         'contactEmail': UNIFIED_FIELD_CODES.CONTACT_EMAIL,
         'contactPhone': UNIFIED_FIELD_CODES.CONTACT_PHONE,
         'contactPhone2': UNIFIED_FIELD_CODES.CONTACT_PHONE2,
         'website': UNIFIED_FIELD_CODES.WEBSITE,
         'address': UNIFIED_FIELD_CODES.ADDRESS,
+        'city': UNIFIED_FIELD_CODES.CITY,
+        'zipCode': UNIFIED_FIELD_CODES.ZIP_CODE,
+        'country': UNIFIED_FIELD_CODES.COUNTRY,
+        
+        // ===== SOCIAL MEDIA =====
         'instagramHandle': UNIFIED_FIELD_CODES.INSTAGRAM,
         'facebookPage': UNIFIED_FIELD_CODES.FACEBOOK,
         'linkedinProfile': UNIFIED_FIELD_CODES.LINKEDIN,
+        'twitterHandle': UNIFIED_FIELD_CODES.TWITTER,
+        'youtubeChannel': UNIFIED_FIELD_CODES.YOUTUBE,
+        'tiktokHandle': UNIFIED_FIELD_CODES.TIKTOK,
+        
+        // ===== ORARI E APPUNTAMENTI =====
         'workingHoursStart': UNIFIED_FIELD_CODES.WORKING_HOURS_START,
         'workingHoursEnd': UNIFIED_FIELD_CODES.WORKING_HOURS_END,
+        'appointmentDuration': UNIFIED_FIELD_CODES.APPOINTMENT_DURATION,
+        'breakDuration': UNIFIED_FIELD_CODES.BREAK_DURATION,
+        'lunchStart': UNIFIED_FIELD_CODES.LUNCH_START,
+        'lunchEnd': UNIFIED_FIELD_CODES.LUNCH_END,
+        'daysAvailable': UNIFIED_FIELD_CODES.DAYS_AVAILABLE,
+        'advanceBookingDays': UNIFIED_FIELD_CODES.ADVANCE_BOOKING_DAYS,
+        'cancellationHours': UNIFIED_FIELD_CODES.CANCELLATION_HOURS,
+        
+        // ===== FATTURAZIONE E PAGAMENTI =====
         'invoicePrefix': UNIFIED_FIELD_CODES.INVOICE_PREFIX,
         'taxRate': UNIFIED_FIELD_CODES.TAX_RATE,
-        'currency': UNIFIED_FIELD_CODES.CURRENCY
+        'currency': UNIFIED_FIELD_CODES.CURRENCY,
+        'paymentTerms': UNIFIED_FIELD_CODES.PAYMENT_TERMS,
+        'bankAccount': UNIFIED_FIELD_CODES.BANK_ACCOUNT,
+        'vatNumber': UNIFIED_FIELD_CODES.VAT_NUMBER,
+        'fiscalCode': UNIFIED_FIELD_CODES.FISCAL_CODE,
+        
+        // ===== SERVIZI E PREZZI =====
+        'defaultServicePrice': UNIFIED_FIELD_CODES.DEFAULT_SERVICE_PRICE,
+        'consultationPrice': UNIFIED_FIELD_CODES.CONSULTATION_PRICE,
+        'followUpPrice': UNIFIED_FIELD_CODES.FOLLOW_UP_PRICE,
+        'emergencySurcharge': UNIFIED_FIELD_CODES.EMERGENCY_SURCHARGE,
+        
+        // ===== MESSAGGI E COMUNICAZIONI =====
+        'welcomeMessage': UNIFIED_FIELD_CODES.WELCOME_MESSAGE,
+        'appointmentConfirmationMsg': UNIFIED_FIELD_CODES.APPOINTMENT_CONFIRMATION_MSG,
+        'reminderMessage': UNIFIED_FIELD_CODES.REMINDER_MESSAGE,
+        'cancellationMessage': UNIFIED_FIELD_CODES.CANCELLATION_MESSAGE,
+        'noShowMessage': UNIFIED_FIELD_CODES.NO_SHOW_MESSAGE,
+        
+        // ===== PERSONALIZZAZIONE CLIENTE =====
+        'customField1Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_1_NAME,
+        'customField1Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_1_TYPE,
+        'customField2Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_2_NAME,
+        'customField2Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_2_TYPE,
+        'customField3Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_3_NAME,
+        'customField3Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_3_TYPE,
+        
+        // ===== NOTIFICHE E PROMEMORIA =====
+        'emailNotifications': UNIFIED_FIELD_CODES.EMAIL_NOTIFICATIONS,
+        'smsNotifications': UNIFIED_FIELD_CODES.SMS_NOTIFICATIONS,
+        'whatsappNotifications': UNIFIED_FIELD_CODES.WHATSAPP_NOTIFICATIONS,
+        'reminderTiming': UNIFIED_FIELD_CODES.REMINDER_TIMING,
+        
+        // ===== FUSO ORARIO E LOCALITÀ =====
+        'timezone': UNIFIED_FIELD_CODES.TIMEZONE,
+        'language': UNIFIED_FIELD_CODES.LANGUAGE,
+        'dateFormat': UNIFIED_FIELD_CODES.DATE_FORMAT,
+        'timeFormat': UNIFIED_FIELD_CODES.TIME_FORMAT,
+        
+        // ===== PRIVACY E GDPR =====
+        'privacyPolicyUrl': UNIFIED_FIELD_CODES.PRIVACY_POLICY_URL,
+        'termsOfServiceUrl': UNIFIED_FIELD_CODES.TERMS_OF_SERVICE_URL,
+        'dataRetentionDays': UNIFIED_FIELD_CODES.DATA_RETENTION_DAYS,
+        'consentText': UNIFIED_FIELD_CODES.CONSENT_TEXT,
+        
+        // ===== PERSONALIZZAZIONE AVANZATA =====
+        'customCss': UNIFIED_FIELD_CODES.CUSTOM_CSS,
+        'customHeader': UNIFIED_FIELD_CODES.CUSTOM_HEADER,
+        'customFooter': UNIFIED_FIELD_CODES.CUSTOM_FOOTER,
+        'faviconUrl': UNIFIED_FIELD_CODES.FAVICON_URL,
+        
+        // ===== INTEGRAZIONE ESTERNA =====
+        'googleCalendarId': UNIFIED_FIELD_CODES.GOOGLE_CALENDAR_ID,
+        'stripeAccountId': UNIFIED_FIELD_CODES.STRIPE_ACCOUNT_ID,
+        'paypalAccount': UNIFIED_FIELD_CODES.PAYPAL_ACCOUNT,
+        
+        // ===== BACKUP E SICUREZZA =====
+        'backupFrequency': UNIFIED_FIELD_CODES.BACKUP_FREQUENCY,
+        'twoFactorAuth': UNIFIED_FIELD_CODES.TWO_FACTOR_AUTH,
+        'sessionTimeout': UNIFIED_FIELD_CODES.SESSION_TIMEOUT,
+        
+        // ===== PERSONALIZZAZIONE UI =====
+        'dashboardLayout': UNIFIED_FIELD_CODES.DASHBOARD_LAYOUT,
+        'sidebarColor': UNIFIED_FIELD_CODES.SIDEBAR_COLOR,
+        'buttonStyle': UNIFIED_FIELD_CODES.BUTTON_STYLE,
+        'fontFamily': UNIFIED_FIELD_CODES.FONT_FAMILY,
+        'fontSize': UNIFIED_FIELD_CODES.FONT_SIZE,
+        
+        // ===== ALTRI CAMPI BUSINESS =====
+        'businessType': UNIFIED_FIELD_CODES.BUSINESS_TYPE,
+        'specialization': UNIFIED_FIELD_CODES.SPECIALIZATION,
+        'yearsExperience': UNIFIED_FIELD_CODES.YEARS_EXPERIENCE,
+        'certifications': UNIFIED_FIELD_CODES.CERTIFICATIONS,
+        'aboutText': UNIFIED_FIELD_CODES.ABOUT_TEXT
       };
       
       // Salva ogni campo usando il sistema di codici univoci
