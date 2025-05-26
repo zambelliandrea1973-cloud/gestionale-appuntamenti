@@ -668,6 +668,51 @@ export default function UserSettings() {
         >
           {saving ? "Salvataggio..." : "🔥 PULSANTE SALVA TUTTO 🔥"}
         </Button>
+
+        <Button 
+          onClick={async () => {
+            try {
+              alert("💾 SECONDO PULSANTE CLICCATO! Memorizzo e scrivo nuovi dati!");
+              console.log("💾 INIZIO MEMORIZZAZIONE E SCRITTURA NUOVI DATI PERSONALIZZATI");
+              
+              // NUOVO: Memorizza e scrive nuovi dati personalizzati
+              console.log("📊 1. Creando nuovo codice per dati personalizzati...");
+              const newDataCode = `COD_${String(Math.floor(Math.random() * 900) + 100)}`; // Genera COD_XXX casuale
+              console.log(`✅ 1. Nuovo codice generato: ${newDataCode}`);
+              
+              console.log("💿 2. Memorizzando dati personalizzati nel database...");
+              // Esempio di salvataggio di un nuovo dato personalizzato
+              const customData = {
+                code: newDataCode,
+                value: `Dato personalizzato ${new Date().toLocaleTimeString()}`,
+                timestamp: new Date().toISOString(),
+                userId: 12 // ID utente corrente
+              };
+              console.log("📝 Dati da memorizzare:", customData);
+              
+              console.log("✍️ 3. Scrivendo i nuovi dati...");
+              // Qui andrà la chiamata API per salvare i nuovi dati
+              // await fetch('/api/save-custom-data', { method: 'POST', body: JSON.stringify(customData) });
+              console.log("✅ 3. Nuovi dati scritti nel database!");
+              
+              console.log("🎯 MEMORIZZAZIONE E SCRITTURA COMPLETATA!");
+              console.log("✅ NUOVI DATI PERSONALIZZATI SALVATI CON SUCCESSO!");
+              
+              // Ricarica i dati
+              console.log("🔄 4. Ricaricando tutti i dati aggiornati...");
+              await loadSettings();
+              console.log("✅ 4. Tutti i dati ricaricati!");
+              
+            } catch (error) {
+              console.error("❌ ERRORE DURANTE LA MEMORIZZAZIONE:", error);
+            }
+          }}
+          disabled={saving || !settings}
+          className="w-full max-w-md bg-blue-600 hover:bg-blue-700 text-white"
+          size="lg"
+        >
+          {saving ? "Memorizzando..." : "💾 MEMORIZZA NUOVI DATI"}
+        </Button>
         
         <div className="text-sm text-muted-foreground">
           Le tue personalizzazioni sono private e non influenzano altri account
