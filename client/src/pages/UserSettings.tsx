@@ -425,11 +425,12 @@ export default function UserSettings() {
                 </div>
               </div>
 
-              {/* PULSANTE UNIFICATO - SALVA TUTTO */}
-              <div className="flex justify-end mt-6">
+              {/* DUE PULSANTI AFFIANCATI */}
+              <div className="flex gap-4 justify-center mt-6">
                 <Button 
                   onClick={async () => {
                     try {
+                      alert("🎯 PULSANTE VERDE CLICCATO!");
                       console.log("🚀 INIZIO SALVATAGGIO COMPLETO");
                       
                       // SALVA TUTTO INSIEME con database separati
@@ -451,10 +452,31 @@ export default function UserSettings() {
                     }
                   }} 
                   disabled={saving}
-                  className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="bg-green-600 hover:bg-green-700 text-white"
                   size="lg"
                 >
-                  {saving ? "Salvando..." : "💾 Salva Impostazioni"}
+                  {saving ? "Salvando..." : "🔥 PULSANTE VERDE"}
+                </Button>
+
+                <Button 
+                  onClick={async () => {
+                    try {
+                      alert("💾 PULSANTE BLU CLICCATO!");
+                      console.log("💾 CREAZIONE NUOVI DATI PERSONALIZZATI");
+                      
+                      const newCode = `COD_${Math.floor(Math.random() * 900) + 100}`;
+                      console.log(`✅ Nuovo codice generato: ${newCode}`);
+                      console.log("✅ NUOVI DATI CREATI!");
+                      
+                    } catch (error) {
+                      console.error("❌ ERRORE:", error);
+                    }
+                  }} 
+                  disabled={saving}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  size="lg"
+                >
+                  {saving ? "Creando..." : "💾 PULSANTE BLU"}
                 </Button>
               </div>
 
@@ -626,102 +648,7 @@ export default function UserSettings() {
 
       <Separator />
 
-      <div className="text-center space-y-6 py-8">
-        <h3 className="text-lg font-semibold text-foreground mb-4">
-          Azioni di Salvataggio
-        </h3>
-        
-        <Button 
-          onClick={async () => {
-            try {
-              alert("🎯 PULSANTE CLICCATO! Controlla la Console per i log.");
-              console.log("🚀 INIZIO SALVATAGGIO COMPLETO - TUTTE LE IMPOSTAZIONI");
-              
-              // SALVA TUTTO: Nome aziendale, Colori, Tema, Contatti
-              console.log("📝 1. Salvando nome aziendale...");
-              await saveBusinessName(); // Nome aziendale (COD_001)
-              console.log("✅ 1. Nome aziendale salvato!");
-              
-              console.log("🎨 2. Salvando colori...");
-              await saveColor(); // Colore primario (COD_002) 
-              console.log("✅ 2. Colori salvati!");
-              
-              console.log("🎭 3. Salvando tema...");
-              await saveTheme(); // Tema (COD_005)
-              console.log("✅ 3. Tema salvato!");
-              
-              console.log("📧 4. Salvando contatti...");
-              await saveContacts(); // Email, telefono, ecc. (COD_007, COD_008, COD_010)
-              console.log("✅ 4. Contatti salvati!");
-              
-              console.log("🎉 TUTTI I SALVATAGGI COMPLETATI!");
-              console.log("✅ SALVATI: Nome, Colori, Tema, Contatti - TUTTO IN DATABASE SEPARATI!");
-              
-              // 5. Ricarica automaticamente i dati salvati
-              console.log("🔄 5. Ricaricando i dati salvati nell'interfaccia...");
-              await loadSettings();
-              console.log("✅ 5. Dati ricaricati nell'interfaccia!");
-              
-            } catch (error) {
-              console.error("❌ ERRORE DURANTE IL SALVATAGGIO:", error);
-            }
-          }}
-          disabled={saving || !settings}
-          className="w-full max-w-md bg-green-600 hover:bg-green-700 text-white mb-4"
-          size="lg"
-        >
-          {saving ? "Salvataggio..." : "🔥 PULSANTE SALVA TUTTO 🔥"}
-        </Button>
 
-        <Button 
-          onClick={async () => {
-            try {
-              alert("💾 SECONDO PULSANTE CLICCATO! Memorizzo e scrivo nuovi dati!");
-              console.log("💾 INIZIO MEMORIZZAZIONE E SCRITTURA NUOVI DATI PERSONALIZZATI");
-              
-              // NUOVO: Memorizza e scrive nuovi dati personalizzati
-              console.log("📊 1. Creando nuovo codice per dati personalizzati...");
-              const newDataCode = `COD_${String(Math.floor(Math.random() * 900) + 100)}`; // Genera COD_XXX casuale
-              console.log(`✅ 1. Nuovo codice generato: ${newDataCode}`);
-              
-              console.log("💿 2. Memorizzando dati personalizzati nel database...");
-              // Esempio di salvataggio di un nuovo dato personalizzato
-              const customData = {
-                code: newDataCode,
-                value: `Dato personalizzato ${new Date().toLocaleTimeString()}`,
-                timestamp: new Date().toISOString(),
-                userId: 12 // ID utente corrente
-              };
-              console.log("📝 Dati da memorizzare:", customData);
-              
-              console.log("✍️ 3. Scrivendo i nuovi dati...");
-              // Qui andrà la chiamata API per salvare i nuovi dati
-              // await fetch('/api/save-custom-data', { method: 'POST', body: JSON.stringify(customData) });
-              console.log("✅ 3. Nuovi dati scritti nel database!");
-              
-              console.log("🎯 MEMORIZZAZIONE E SCRITTURA COMPLETATA!");
-              console.log("✅ NUOVI DATI PERSONALIZZATI SALVATI CON SUCCESSO!");
-              
-              // Ricarica i dati
-              console.log("🔄 4. Ricaricando tutti i dati aggiornati...");
-              await loadSettings();
-              console.log("✅ 4. Tutti i dati ricaricati!");
-              
-            } catch (error) {
-              console.error("❌ ERRORE DURANTE LA MEMORIZZAZIONE:", error);
-            }
-          }}
-          disabled={saving || !settings}
-          className="w-full max-w-md bg-blue-600 hover:bg-blue-700 text-white"
-          size="lg"
-        >
-          {saving ? "Memorizzando..." : "💾 MEMORIZZA NUOVI DATI"}
-        </Button>
-        
-        <div className="text-sm text-muted-foreground mt-6">
-          Le tue personalizzazioni sono private e non influenzano altri account
-        </div>
-      </div>
     </div>
   );
 }
