@@ -579,8 +579,9 @@ export default function UserSettings() {
         <Button 
           onClick={async () => {
             // SALVA TUTTO INSIEME con database separati
-            await saveBusinessName(); // Nome aziendale
-            await saveColor(); // Colori
+            await saveBusinessName(); // Nome aziendale (COD_001)
+            await saveColor(); // Colore primario (COD_002)
+            await saveTheme(); // Tema (COD_005)
           }}
           disabled={saving || !settings}
           className="w-full max-w-md"
