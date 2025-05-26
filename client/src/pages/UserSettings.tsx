@@ -335,7 +335,10 @@ export default function UserSettings() {
               {/* PULSANTE UNIFICATO - SALVA TUTTO */}
               <div className="flex justify-end mt-6">
                 <Button 
-                  onClick={saveAllSettings} 
+                  onClick={() => {
+                    console.log('🔥 CLICK PULSANTE RILEVATO!');
+                    saveAllSettings();
+                  }} 
                   disabled={saving}
                   className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                   size="lg"
