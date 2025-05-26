@@ -578,10 +578,26 @@ export default function UserSettings() {
       <div className="text-center space-y-4">
         <Button 
           onClick={async () => {
-            // SALVA TUTTO INSIEME con database separati
-            await saveBusinessName(); // Nome aziendale (COD_001)
-            await saveColor(); // Colore primario (COD_002)
-            await saveTheme(); // Tema (COD_005)
+            try {
+              console.log("🚀 INIZIO SALVATAGGIO COMPLETO");
+              
+              // SALVA TUTTO INSIEME con database separati
+              console.log("📝 1. Salvando nome aziendale...");
+              await saveBusinessName(); // Nome aziendale (COD_001)
+              console.log("✅ 1. Nome aziendale salvato!");
+              
+              console.log("🎨 2. Salvando colore...");
+              await saveColor(); // Colore primario (COD_002)
+              console.log("✅ 2. Colore salvato!");
+              
+              console.log("🎭 3. Salvando tema...");
+              await saveTheme(); // Tema (COD_005)
+              console.log("✅ 3. Tema salvato!");
+              
+              console.log("🎉 TUTTI I SALVATAGGI COMPLETATI!");
+            } catch (error) {
+              console.error("❌ ERRORE DURANTE IL SALVATAGGIO:", error);
+            }
           }}
           disabled={saving || !settings}
           className="w-full max-w-md"
