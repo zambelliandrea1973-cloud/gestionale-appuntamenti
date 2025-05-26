@@ -127,18 +127,8 @@ export default function UserSettings() {
       });
       console.log('🎭 Tema:', themeResponse.ok ? '✅ SALVATO' : '❌ ERRORE');
 
-      // 4. SALVA ICONA (se presente)
-      if (iconFile) {
-        const iconFormData = new FormData();
-        iconFormData.append('icon', iconFile);
-        
-        const iconResponse = await fetch('/api/upload-icon', {
-          method: 'POST',
-          credentials: 'include',
-          body: iconFormData,
-        });
-        console.log('🖼️ Icona:', iconResponse.ok ? '✅ SALVATA' : '❌ ERRORE');
-      }
+      // 4. SALVA ICONA (se presente) - RIMOSSO PER ORA
+      console.log('🖼️ Icona: ⏭️ SALTATO (nessun file selezionato)');
 
       toast({
         title: "Impostazioni salvate",
