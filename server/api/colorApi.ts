@@ -27,27 +27,6 @@ router.post('/primary-color', ensureAuthenticated, async (req: Request, res: Res
   }
 });
 
-// COLORE SECONDARIO (COD_003) - STESSO SISTEMA DEL NOME AZIENDALE
-router.post('/secondary-color', ensureAuthenticated, async (req: Request, res: Response) => {
-  try {
-    const userId = req.user!.id;
-    const { secondaryColor } = req.body;
-    
-    console.log(`🎯 POST secondary-color per User ID: ${userId}, Colore: "${secondaryColor}"`);
-    
-    const userDb = createUnifiedUserDatabase(userId);
-    const success = await userDb.setField(UNIFIED_FIELD_CODES.SECONDARY_COLOR, secondaryColor);
-    
-    if (success) {
-      console.log(`✅ COLORE SECONDARIO SALVATO SEPARATAMENTE per User ID ${userId}: "${secondaryColor}"`);
-      res.json({ message: 'Colore secondario salvato con successo', userId, secondaryColor });
-    } else {
-      res.status(500).json({ message: 'Errore durante il salvataggio del colore secondario' });
-    }
-  } catch (error) {
-    console.error('Errore durante il salvataggio del colore secondario:', error);
-    res.status(500).json({ message: 'Errore durante il salvataggio del colore secondario' });
-  }
-});
+// RIMOSSO COLORE SECONDARIO - UN SOLO COLORE COME IL NOME AZIENDALE
 
 export default router;
