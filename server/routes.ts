@@ -49,6 +49,8 @@ import setupStaffRoutes from './routes/staffRoutes';
 import referralRoutes from './routes/referralRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
 import companyNameApi from './api/companyNameApi';
+import colorApi from './api/colorApi';
+import themeApi from './api/themeApi';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
