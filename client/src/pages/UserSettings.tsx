@@ -245,14 +245,14 @@ export default function UserSettings() {
     try {
       console.log('🚀 SALVATAGGIO TEMA: Usando endpoint specifico', settings.theme, settings.appearance);
       
-      // USA ENDPOINT SPECIFICO COME PER IL NOME AZIENDALE
-      const response = await fetch('/api/theme-settings-v2', {
+      // USA ENDPOINT SPECIFICO ESISTENTE
+      const response = await fetch('/api/theme/theme', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ theme: settings.theme, appearance: settings.appearance }),
+        body: JSON.stringify({ theme: settings.theme }),
       });
 
       if (response.ok) {
