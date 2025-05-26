@@ -389,6 +389,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // API per nome aziendale con database separati - PRIORITÀ MASSIMA
   app.use('/api', companyNameApi);
+  app.use('/api', colorApi);
+  app.use('/api', themeApi);
   
   // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
