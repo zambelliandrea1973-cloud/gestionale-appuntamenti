@@ -626,7 +626,11 @@ export default function UserSettings() {
 
       <Separator />
 
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-6 py-8">
+        <h3 className="text-lg font-semibold text-foreground mb-4">
+          Azioni di Salvataggio
+        </h3>
+        
         <Button 
           onClick={async () => {
             try {
@@ -663,7 +667,7 @@ export default function UserSettings() {
             }
           }}
           disabled={saving || !settings}
-          className="w-full max-w-md bg-green-600 hover:bg-green-700 text-white"
+          className="w-full max-w-md bg-green-600 hover:bg-green-700 text-white mb-4"
           size="lg"
         >
           {saving ? "Salvataggio..." : "🔥 PULSANTE SALVA TUTTO 🔥"}
@@ -714,7 +718,7 @@ export default function UserSettings() {
           {saving ? "Memorizzando..." : "💾 MEMORIZZA NUOVI DATI"}
         </Button>
         
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground mt-6">
           Le tue personalizzazioni sono private e non influenzano altri account
         </div>
       </div>
