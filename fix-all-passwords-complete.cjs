@@ -19,23 +19,23 @@ async function main() {
   });
 
   try {
-    // Password ripristinate agli originali
+    // Password unificate per semplicità: tutti "gironico" tranne admin
     const accounts = [
       { email: "zambelli.andrea.1973@gmail.com", password: "gironiCO73%" },
       { email: "zambelli.andrea.1973A@gmail.com", password: "gironico" },
       { email: "zambelli.andrea.1973B@gmail.com", password: "gironico" },
       { email: "zambelli.andrea.1973C@gmail.com", password: "gironico" },
       { email: "zambelli.andrea.1973D@gmail.com", password: "gironico" },
-      { email: "test@example.com", password: "password123" },
-      { email: "zambelli.andrea.19732@gmail.com", password: "password123" },
-      { email: "busnari.silvia@libero.it", password: "password123" },
-      { email: "faverioelisa6@gmail.com", password: "password123" },
-      { email: "testpayment@example.com", password: "password123" },
-      { email: "professionista.test@example.com", password: "password123" },
-      { email: "1professionista.test@example.com", password: "password123" },
-      { email: "2professionista.test@example.com", password: "password123" },
-      { email: "3professionista.test@example.com", password: "password123" },
-      { email: "4professionista.test@example.com", password: "password123" }
+      { email: "test@example.com", password: "gironico" },
+      { email: "zambelli.andrea.19732@gmail.com", password: "gironico" },
+      { email: "busnari.silvia@libero.it", password: "gironico" },
+      { email: "faverioelisa6@gmail.com", password: "gironico" },
+      { email: "testpayment@example.com", password: "gironico" },
+      { email: "professionista.test@example.com", password: "gironico" },
+      { email: "1professionista.test@example.com", password: "gironico" },
+      { email: "2professionista.test@example.com", password: "gironico" },
+      { email: "3professionista.test@example.com", password: "gironico" },
+      { email: "4professionista.test@example.com", password: "gironico" }
     ];
 
     console.log("🔧 RIPRISTINO COMPLETO DELLE PASSWORD IN CORSO...\n");
@@ -60,10 +60,9 @@ async function main() {
     }
 
     console.log("\n🎉 RIPRISTINO COMPLETATO!");
-    console.log("\n📋 PASSWORD RIPRISTINATE:");
+    console.log("\n📋 PASSWORD UNIFICATE:");
     console.log("Admin: zambelli.andrea.1973@gmail.com → gironiCO73%");
-    console.log("Customer A-D: zambelli.andrea.1973[A-D]@gmail.com → gironico");
-    console.log("Altri account: → password123");
+    console.log("TUTTI gli altri account → gironico");
 
   } catch (error) {
     console.error("❌ Errore durante il ripristino:", error);
