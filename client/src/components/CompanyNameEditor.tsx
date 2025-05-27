@@ -85,38 +85,46 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // PRIMA SALVO IL NOME AZIENDALE (che funziona)
+      // STRATEGIA MULTIPLA: UN CAMPO ALLA VOLTA (come il nome che funziona)
+      console.log(`🔥 SALVATAGGIO MULTIPLO INIZIATO!`);
+      
+      // 1. Nome aziendale (già funziona)
       const nameResponse = await fetch('/api/company-settings-v2', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({
-          businessName: settings.name
-        })
+        body: JSON.stringify({ businessName: settings.name })
       });
+      console.log(`✅ 1/4 Nome salvato`);
       
-      console.log(`📝 Nome salvato, ora salvo anche gli altri campi...`);
-      
-      // POI SALVO TUTTI GLI ALTRI CAMPI
-      const styleResponse = await fetch('/api/company-settings-complete', {
+      // 2. Dimensione font
+      const sizeResponse = await fetch('/api/company-settings-v2', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({
-          businessName: settings.name,
-          fontSize: settings.fontSize,
-          fontFamily: settings.fontFamily,
-          fontStyle: settings.fontStyle,
-          color: settings.color,
-          enabled: settings.enabled
-        })
+        body: JSON.stringify({ fontSize: settings.fontSize })
       });
+      console.log(`✅ 2/4 Dimensione salvata`);
       
-      const response = styleResponse; // Uso la seconda risposta per i controlli
+      // 3. Tipo font 
+      const familyResponse = await fetch('/api/company-settings-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ fontFamily: settings.fontFamily })
+      });
+      console.log(`✅ 3/4 Famiglia salvata`);
+      
+      // 4. Colore font
+      const colorResponse = await fetch('/api/company-settings-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ color: settings.color })
+      });
+      console.log(`✅ 4/4 Colore salvato - TUTTO COMPLETATO!`);
+      
+      const response = nameResponse; // Uso la prima risposta per i controlli
       
       if (response.ok) {
         const result = await response.json();
