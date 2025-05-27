@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { simplifiedReferralService } from '../services/simplifiedReferralService';
 import { ensureAuthenticated, isStaff, isAdmin } from '../middleware/authMiddleware';
+import { getStaffReferralStats } from '../api/referralApi';
 import { format } from 'date-fns';
 
 const router = express.Router();
@@ -116,6 +117,31 @@ router.post('/register', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Errore nella registrazione del referral'
+    });
+  }
+});
+
+/**
+ * Ottiene statistiche referral per lo staff corrente
+ * GET /api/referral/staff
+ */
+router.get('/staff', ensureAuthenticated, async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+
+    // Chiama la funzione esistente passando l'ID dello staff come parametro
+    req.params.staffId = req.user.id.toString();
+    await getStaffReferralStats(req, res);
+  } catch (error) {
+    console.error('Errore nel recupero statistiche staff:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel recupero delle statistiche staff'
     });
   }
 });
