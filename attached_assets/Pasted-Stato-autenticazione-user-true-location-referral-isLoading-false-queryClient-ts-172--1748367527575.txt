@@ -1,0 +1,64 @@
+Stato autenticazione: {user: true, location: '/referral', isLoading: false}
+queryClient.ts:172 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/referral/staff 500 (Internal Server Error)
+window.fetch @ Network.js:219
+(anonymous) @ queryClient.ts:172
+fetchFn @ @tanstack_react-query.js?v=fb3585ee:840
+run @ @tanstack_react-query.js?v=fb3585ee:494
+start @ @tanstack_react-query.js?v=fb3585ee:536
+fetch @ @tanstack_react-query.js?v=fb3585ee:926
+executeFetch_fn @ @tanstack_react-query.js?v=fb3585ee:2211
+onSubscribe @ @tanstack_react-query.js?v=fb3585ee:1898
+subscribe @ @tanstack_react-query.js?v=fb3585ee:24
+(anonymous) @ @tanstack_react-query.js?v=fb3585ee:3022
+subscribeToStore @ chunk-C43VWYGG.js?v=fb3585ee:12587
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=fb3585ee:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=fb3585ee:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=fb3585ee:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=fb3585ee:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=fb3585ee:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=fb3585ee:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=fb3585ee:19384
+commitRoot @ chunk-C43VWYGG.js?v=fb3585ee:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=fb3585ee:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=fb3585ee:9119
+(anonymous) @ chunk-C43VWYGG.js?v=fb3585ee:18595Understand this error
+Console.js:61 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Console.js:61 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Console.js:61 Stato autenticazione: {user: true, location: '/settings', isLoading: false}
+Console.js:61 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Console.js:61 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Console.js:61 Stato autenticazione: {user: true, location: '/pro', isLoading: false}
+Console.js:61 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Console.js:61 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Console.js:61 Stato autenticazione: {user: true, location: '/referral', isLoading: false}
+queryClient.ts:172 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/referral/staff 500 (Internal Server Error)
+window.fetch @ Network.js:219
+(anonymous) @ queryClient.ts:172
+fetchFn @ @tanstack_react-query.js?v=fb3585ee:840
+run @ @tanstack_react-query.js?v=fb3585ee:494
+start @ @tanstack_react-query.js?v=fb3585ee:536
+fetch @ @tanstack_react-query.js?v=fb3585ee:926
+executeFetch_fn @ @tanstack_react-query.js?v=fb3585ee:2211
+onSubscribe @ @tanstack_react-query.js?v=fb3585ee:1898
+subscribe @ @tanstack_react-query.js?v=fb3585ee:24
+(anonymous) @ @tanstack_react-query.js?v=fb3585ee:3022
+subscribeToStore @ chunk-C43VWYGG.js?v=fb3585ee:12587
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=fb3585ee:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=fb3585ee:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=fb3585ee:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=fb3585ee:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=fb3585ee:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=fb3585ee:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=fb3585ee:19384
+commitRoot @ chunk-C43VWYGG.js?v=fb3585ee:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=fb3585ee:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=fb3585ee:9119
+(anonymous) @ chunk-C43VWYGG.js?v=fb3585ee:18595Understand this error
