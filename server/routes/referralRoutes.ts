@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import { simplifiedReferralService } from '../services/simplifiedReferralService';
 import { isAuthenticated } from '../auth';
-import { getWorkingReferralOverview, getWorkingStaffReferral } from '../api/workingReferralSystem';
+import { getWorkingReferralOverview } from '../api/workingReferralSystem';
+import { getIndividualStaffReferral } from '../api/individualStaffReferral';
 import { format } from 'date-fns';
 
 const router = express.Router();
@@ -138,7 +139,7 @@ router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
     
     // Chiama la funzione esistente passando l'ID dello staff come parametro
     req.params.staffId = req.user.id.toString();
-    await getWorkingStaffReferral(req, res);
+    await getIndividualStaffReferral(req, res);
   } catch (error) {
     console.error('Errore nel recupero statistiche staff:', error);
     res.status(500).json({
