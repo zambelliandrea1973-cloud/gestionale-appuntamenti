@@ -153,6 +153,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         <span className="text-white">Staff</span>
                       </Button>
                     </Link>
+                    <Link href="/referral">
+                      <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px] bg-transparent border-0 text-white">
+                        <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
+                        <span className="text-white">Referral</span>
+                      </Button>
+                    </Link>
                     <Link href="/payment-admin">
                       <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[110px] bg-transparent border-0 text-white">
                         <CreditCard className="h-4 w-4 mr-1 text-green-400" />
@@ -286,6 +292,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                           <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
                             <UserCog className="mr-2 h-4 w-4" />
                             <span className="font-medium">Gestione Staff</span>
+                          </Button>
+                        </Link>
+                        <Link href="/referral">
+                          <Button variant={isActive("/referral") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
+                            <CreditCard className="mr-2 h-4 w-4 text-blue-500" />
+                            <span className="font-medium">Commissioni Referral</span>
                           </Button>
                         </Link>
                         <Link href="/payment-admin">
