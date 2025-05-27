@@ -114,6 +114,36 @@ export default function ReferralCommissionsPage() {
     return format(new Date(dateString), 'dd/MM/yyyy HH:mm', { locale: it });
   };
 
+  // Funzione per pagare le commissioni di uno staff
+  const handlePayCommission = async (staffId: number, amount: number) => {
+    try {
+      const response = await fetch(`/api/referral/staff/${staffId}/pay-commissions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore nel pagamento commissioni');
+      }
+
+      toast({
+        title: "Commissioni Pagate!",
+        description: `Pagato €${(amount/100).toFixed(2)} allo staff`,
+        variant: "default",
+      });
+
+      // Ricarica i dati
+      queryClient.invalidateQueries({ queryKey: ['/api/referral/overview'] });
+    } catch (error) {
+      toast({
+        title: "Errore Pagamento",
+        description: "Impossibile completare il pagamento",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (!user) {
     return <div className="text-center p-8">Devi essere autenticato per vedere questa pagina.</div>;
   }
