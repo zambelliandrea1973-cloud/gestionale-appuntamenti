@@ -280,6 +280,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/payments', paymentMethodRoutes);
   app.use('/api/admin', adminRouter);
   app.use('/api/notifications', notificationRoutes);
+  app.use('/api/referral', referralRoutes);
   app.use('/api/phone-device', phoneDeviceRoutes);
   app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
   // Gestione del callback di Google OAuth
