@@ -5,6 +5,8 @@
 
 // Registra il service worker
 export function registerServiceWorker() {
+  // TEMPORANEAMENTE DISABILITATO per evitare errore "Unexpected token '<'"
+  return;
   if ('serviceWorker' in navigator) {
     // Versione attuale dell'app, cambiare quando si aggiornano risorse
     const APP_VERSION = 'v3.0.0';
