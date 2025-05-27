@@ -161,9 +161,9 @@ export default function ReferralCommissionsPage() {
                       <Button
                         onClick={() => {
                           const code = userStats.stats?.myReferralCode || userStats.myReferralCode || '';
-                          const message = `Usa il mio codice referral: ${code} per ottenere vantaggi speciali durante la registrazione!`;
+                          const message = `Utilizza il codice di attivazione (${code}) durante la registrazione`;
                           if (navigator.share) {
-                            navigator.share({ title: 'Codice Referral', text: message });
+                            navigator.share({ title: 'Codice di Attivazione', text: message });
                           } else {
                             navigator.clipboard.writeText(message);
                             toast({
@@ -184,7 +184,7 @@ export default function ReferralCommissionsPage() {
                 
                 <div className="mt-3 text-center">
                   <p className="text-green-100 text-xs">
-                    📝 <strong>Messaggio:</strong> "Usa il mio codice referral: <span className="font-mono bg-white/20 px-1 rounded">{userStats.stats?.myReferralCode || userStats.myReferralCode || '...'}</span> per ottenere vantaggi speciali!"
+                    📝 <strong>Messaggio:</strong> "Utilizza il codice di attivazione (<span className="font-mono bg-white/20 px-1 rounded">{userStats.stats?.myReferralCode || userStats.myReferralCode || '...'}</span>) durante la registrazione"
                   </p>
                 </div>
               </CardContent>
