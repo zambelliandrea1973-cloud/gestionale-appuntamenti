@@ -21,9 +21,9 @@ export async function getStaffReferralStats(req: Request, res: Response) {
     // Commissioni totali
     const [totalCommissions] = await db
       .select({ 
-        total: sql<number>`COALESCE(SUM(commission_amount), 0)`,
-        paid: sql<number>`COALESCE(SUM(CASE WHEN is_paid THEN commission_amount ELSE 0 END), 0)`,
-        pending: sql<number>`COALESCE(SUM(CASE WHEN NOT is_paid THEN commission_amount ELSE 0 END), 0)`
+        total: sql<number>`COALESCE(SUM(${staffCommissions.commissionAmount}), 0)`,
+        paid: sql<number>`COALESCE(SUM(CASE WHEN ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`,
+        pending: sql<number>`COALESCE(SUM(CASE WHEN NOT ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`
       })
       .from(staffCommissions)
       .where(eq(staffCommissions.staffId, staffId));
