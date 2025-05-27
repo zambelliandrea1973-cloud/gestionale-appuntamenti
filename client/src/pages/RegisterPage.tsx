@@ -15,7 +15,8 @@ export default function RegisterPage() {
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    referralCode: ""
   });
   
   const [loading, setLoading] = useState(false);
@@ -57,7 +58,8 @@ export default function RegisterPage() {
         name: formData.name,
         username: formData.username,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        referralCode: formData.referralCode
       });
       
       if (!response.ok) {
@@ -149,6 +151,21 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   placeholder="Ripeti la password"
                 />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="referralCode">Codice Referral (opzionale)</Label>
+                <Input
+                  id="referralCode"
+                  name="referralCode"
+                  value={formData.referralCode}
+                  onChange={handleChange}
+                  placeholder="Inserisci il codice del tuo sponsor"
+                  className="uppercase"
+                />
+                <p className="text-sm text-muted-foreground">
+                  Se hai ricevuto un codice referral da uno staff, inseriscilo qui per collegare il tuo account
+                </p>
               </div>
               
               <Button type="submit" className="w-full" disabled={loading}>
