@@ -76,10 +76,10 @@ export async function getReferralOverview(req: Request, res: Response) {
         staffId: users.id,
         staffName: users.username,
         staffEmail: users.email,
-        sponsoredCount: sql<number>`COUNT(DISTINCT l.id)`,
-        totalCommissions: sql<number>`COALESCE(SUM(sc.commission_amount), 0)`,
-        paidCommissions: sql<number>`COALESCE(SUM(CASE WHEN sc.is_paid THEN sc.commission_amount ELSE 0 END), 0)`,
-        pendingCommissions: sql<number>`COALESCE(SUM(CASE WHEN NOT sc.is_paid THEN sc.commission_amount ELSE 0 END), 0)`
+        sponsoredCount: sql<number>`COUNT(DISTINCT licenses.id)`,
+        totalCommissions: sql<number>`COALESCE(SUM(staffCommissions.commission_amount), 0)`,
+        paidCommissions: sql<number>`COALESCE(SUM(CASE WHEN staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`,
+        pendingCommissions: sql<number>`COALESCE(SUM(CASE WHEN NOT staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`
       })
       .from(users)
       .leftJoin(licenses, eq(licenses.sponsoredBy, users.id))
@@ -89,15 +89,15 @@ export async function getReferralOverview(req: Request, res: Response) {
         eq(users.role, "staff")
       ))
       .groupBy(users.id, users.username, users.email)
-      .orderBy(desc(sql`COUNT(DISTINCT l.id)`));
+      .orderBy(desc(sql`COUNT(DISTINCT licenses.id)`));
 
     // Totali generali
     const [totals] = await db
       .select({
-        totalSponsored: sql<number>`COUNT(DISTINCT l.id)`,
-        totalCommissions: sql<number>`COALESCE(SUM(sc.commission_amount), 0)`,
-        totalPaid: sql<number>`COALESCE(SUM(CASE WHEN sc.is_paid THEN sc.commission_amount ELSE 0 END), 0)`,
-        totalPending: sql<number>`COALESCE(SUM(CASE WHEN NOT sc.is_paid THEN sc.commission_amount ELSE 0 END), 0)`
+        totalSponsored: sql<number>`COUNT(DISTINCT licenses.id)`,
+        totalCommissions: sql<number>`COALESCE(SUM(staffCommissions.commission_amount), 0)`,
+        totalPaid: sql<number>`COALESCE(SUM(CASE WHEN staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`,
+        totalPending: sql<number>`COALESCE(SUM(CASE WHEN NOT staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`
       })
       .from(licenses)
       .leftJoin(staffCommissions, eq(staffCommissions.licenseId, licenses.id))
