@@ -262,19 +262,29 @@ export default function ReferralPage() {
   const commissions: Commission[] = referralData?.commissionsData || [];
   const bankAccount: BankAccount | null = referralData?.bankData || null;
   const referralCode = referralData?.userData?.referralCode;
+  
+  // Determina se l'utente è staff o admin
+  const isAdmin = userWithLicense?.type === 'admin';
+  const isStaff = userWithLicense?.type === 'staff';
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">Programma di Referral</h1>
+      <h1 className="text-3xl font-bold mb-6">
+        {isStaff ? 'Il Mio Programma Referral' : 'Gestione Programma Referral'}
+      </h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
         {/* Sezione codice referral */}
         <Card className="lg:col-span-8">
           <CardHeader>
-            <CardTitle>Il tuo codice referral</CardTitle>
+            <CardTitle>
+              {isStaff ? 'Il tuo codice referral personale' : 'Codice referral'}
+            </CardTitle>
             <CardDescription>
-              Condividi questo codice con i tuoi colleghi. Per ogni nuovo utente che si iscrive con il tuo codice
-              e mantiene un abbonamento attivo, riceverai €1 al mese dopo aver raggiunto almeno 3 referral.
+              {isStaff 
+                ? 'Condividi questo codice per invitare nuovi professionisti. Riceverai €1/mese per ogni abbonamento attivo dal tuo 3° referral.'
+                : 'Gestione dei codici referral e commissioni per tutti gli staff.'
+              }
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -319,9 +329,14 @@ export default function ReferralPage() {
         {/* Sezione statistiche */}
         <Card className="lg:col-span-4">
           <CardHeader>
-            <CardTitle>Le tue statistiche</CardTitle>
+            <CardTitle>
+              {isStaff ? 'Le mie commissioni' : 'Statistiche generali'}
+            </CardTitle>
             <CardDescription>
-              Riepilogo delle tue commissioni attuali
+              {isStaff 
+                ? 'Riepilogo dei tuoi guadagni personali'
+                : 'Panoramica commissioni di tutti gli staff'
+              }
             </CardDescription>
           </CardHeader>
           <CardContent>
