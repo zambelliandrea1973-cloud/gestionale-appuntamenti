@@ -520,7 +520,7 @@ export default function ReferralCommissionsPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-bold text-blue-600">{overview.totals.totalSponsored}</div>
+                    <div className="text-3xl font-bold text-blue-600">{overview?.totals?.totalSponsored || overview?.statsData?.totalSponsored || 0}</div>
                   </CardContent>
                 </Card>
 
@@ -533,7 +533,7 @@ export default function ReferralCommissionsPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-bold text-green-600">
-                      {formatCurrency(overview.totals.totalCommissions)}
+                      {formatCurrency(overview?.totals?.totalCommissions || overview?.statsData?.totalCommissions || 0)}
                     </div>
                   </CardContent>
                 </Card>
@@ -547,7 +547,7 @@ export default function ReferralCommissionsPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-bold text-emerald-600">
-                      {formatCurrency(overview.totals.totalPaid)}
+                      {formatCurrency(overview?.totals?.totalPaid || overview?.statsData?.totalPaid || 0)}
                     </div>
                   </CardContent>
                 </Card>
@@ -561,7 +561,7 @@ export default function ReferralCommissionsPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-bold text-orange-600">
-                      {formatCurrency(overview.totals.totalPending)}
+                      {formatCurrency(overview?.totals?.totalPending || overview?.statsData?.totalPending || 0)}
                     </div>
                   </CardContent>
                 </Card>
