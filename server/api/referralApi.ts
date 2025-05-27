@@ -77,9 +77,9 @@ export async function getReferralOverview(req: Request, res: Response) {
         staffName: users.username,
         staffEmail: users.email,
         sponsoredCount: sql<number>`COUNT(DISTINCT licenses.id)`,
-        totalCommissions: sql<number>`COALESCE(SUM(staffCommissions.commission_amount), 0)`,
-        paidCommissions: sql<number>`COALESCE(SUM(CASE WHEN staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`,
-        pendingCommissions: sql<number>`COALESCE(SUM(CASE WHEN NOT staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`
+        totalCommissions: sql<number>`COALESCE(SUM(${staffCommissions.commissionAmount}), 0)`,
+        paidCommissions: sql<number>`COALESCE(SUM(CASE WHEN ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`,
+        pendingCommissions: sql<number>`COALESCE(SUM(CASE WHEN NOT ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`
       })
       .from(users)
       .leftJoin(licenses, eq(licenses.sponsoredBy, users.id))
@@ -95,9 +95,9 @@ export async function getReferralOverview(req: Request, res: Response) {
     const [totals] = await db
       .select({
         totalSponsored: sql<number>`COUNT(DISTINCT licenses.id)`,
-        totalCommissions: sql<number>`COALESCE(SUM(staffCommissions.commission_amount), 0)`,
-        totalPaid: sql<number>`COALESCE(SUM(CASE WHEN staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`,
-        totalPending: sql<number>`COALESCE(SUM(CASE WHEN NOT staffCommissions.is_paid THEN staffCommissions.commission_amount ELSE 0 END), 0)`
+        totalCommissions: sql<number>`COALESCE(SUM(${staffCommissions.commissionAmount}), 0)`,
+        totalPaid: sql<number>`COALESCE(SUM(CASE WHEN ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`,
+        totalPending: sql<number>`COALESCE(SUM(CASE WHEN NOT ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`
       })
       .from(licenses)
       .leftJoin(staffCommissions, eq(staffCommissions.licenseId, licenses.id))
