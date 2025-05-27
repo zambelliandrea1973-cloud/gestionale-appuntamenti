@@ -1,5 +1,5 @@
 import { db } from '../db';
-import { bankAccounts, users, subscriptions, referralCommissions, referralPayments } from '@shared/schema';
+import { users, licenses, staffCommissions } from '@shared/schema';
 import { eq, and, isNull, count, sum, sql } from 'drizzle-orm';
 import { randomBytes } from 'crypto';
 

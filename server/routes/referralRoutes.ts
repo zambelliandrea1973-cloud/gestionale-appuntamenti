@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { simplifiedReferralService } from '../services/simplifiedReferralService';
-import { ensureAuthenticated, isStaff, isAdmin } from '../middleware/authMiddleware';
+import { isAuthenticated } from '../auth';
 import { getStaffReferralStats } from '../api/referralApi';
 import { format } from 'date-fns';
 
@@ -10,7 +10,7 @@ const router = express.Router();
  * Ottiene statistiche e dettagli sui referral dell'utente corrente
  * GET /api/referral/stats
  */
-router.get('/stats', ensureAuthenticated, async (req: Request, res: Response) => {
+router.get('/stats', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -35,7 +35,7 @@ router.get('/stats', ensureAuthenticated, async (req: Request, res: Response) =>
  * Genera un nuovo codice referral per l'utente
  * POST /api/referral/generate-code
  */
-router.post('/generate-code', ensureAuthenticated, async (req: Request, res: Response) => {
+router.post('/generate-code', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -63,7 +63,7 @@ router.post('/generate-code', ensureAuthenticated, async (req: Request, res: Res
  * Salva il conto bancario dell'utente
  * POST /api/referral/bank-account
  */
-router.post('/bank-account', ensureAuthenticated, async (req: Request, res: Response) => {
+router.post('/bank-account', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -125,7 +125,7 @@ router.post('/register', async (req: Request, res: Response) => {
  * Ottiene statistiche referral per lo staff corrente
  * GET /api/referral/staff
  */
-router.get('/staff', ensureAuthenticated, async (req: Request, res: Response) => {
+router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -154,7 +154,7 @@ router.get('/staff', ensureAuthenticated, async (req: Request, res: Response) =>
  * Ottiene tutti i pagamenti di referral in sospeso
  * GET /api/referral/admin/pending-payments
  */
-router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.get('/admin/pending-payments', isAuthenticated, async (req: Request, res: Response) => {
   try {
     // Ottieni i pagamenti in sospeso dal database
     const pendingPayments = await simplifiedReferralService.getPendingPayments();
@@ -176,7 +176,7 @@ router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: 
  * Genera pagamenti per tutti gli utenti per il periodo corrente
  * POST /api/referral/admin/generate-payments
  */
-router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.post('/admin/generate-payments', isAuthenticated, async (req: Request, res: Response) => {
   try {
     const period = req.body.period || format(new Date(), 'yyyy-MM');
     const result = await simplifiedReferralService.generatePaymentsForAllUsers(period);
@@ -199,7 +199,7 @@ router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req
  * Aggiorna lo stato di un pagamento
  * PUT /api/referral/admin/payment/:id
  */
-router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.put('/admin/payment/:id', isAuthenticated, async (req: Request, res: Response) => {
   try {
     const paymentId = parseInt(req.params.id);
     const { status, processingNote } = req.body;
