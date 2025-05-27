@@ -185,6 +185,13 @@ export default function ReferralCommissionsPage() {
                   </div>
                 </div>
                 
+                <div className="bg-white/10 rounded-lg p-4 mb-4">
+                  <p className="text-green-100 text-sm font-semibold mb-2">📝 Messaggio da condividere:</p>
+                  <div className="bg-white/20 rounded p-3 text-white font-mono text-sm">
+                    "Usa il mio codice referral: {userStats.myReferralCode} per ottenere vantaggi speciali durante la registrazione!"
+                  </div>
+                </div>
+                
                 <div className="text-center text-green-100">
                   <p className="text-sm">
                     💡 <strong>Come usarlo:</strong> I nuovi clienti inseriscono questo codice nel campo "Codice Referral" durante la registrazione
