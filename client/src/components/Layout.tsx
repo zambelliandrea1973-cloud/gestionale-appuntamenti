@@ -139,8 +139,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>Notifiche</span>
                   </Button>
                 </Link>
-                {/* Link Referral sulla prima riga per admin */}
-                {isAdmin && (
+                {/* Link Referral sulla prima riga per staff e admin */}
+                {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
                   <Link href="/referral">
                     <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                       <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
