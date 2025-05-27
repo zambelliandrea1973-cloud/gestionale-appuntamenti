@@ -7,6 +7,7 @@ import { eq, and, desc, sql } from "drizzle-orm";
 export async function getStaffReferralStats(req: Request, res: Response) {
   try {
     const staffId = parseInt(req.params.staffId);
+    console.log(`🎯 REFERRAL STAFF: Richiesta statistiche per staff ID: ${staffId}`);
     
     // Conta abbonamenti sponsorizzati
     const [sponsoredCount] = await db
@@ -58,7 +59,7 @@ export async function getStaffReferralStats(req: Request, res: Response) {
       .from(users)
       .where(eq(users.id, staffId));
 
-    res.json({
+    const responseData = {
       userData: userData || {
         id: staffId,
         username: "Staff User",
@@ -79,7 +80,10 @@ export async function getStaffReferralStats(req: Request, res: Response) {
       pendingCommissions: totalCommissions.pending || 0,
       commissionRate: 100, // 1€ in centesimi
       minSponsorshipForCommission: 3 // Dal 3° abbonamento
-    });
+    };
+    
+    console.log(`🎯 REFERRAL STAFF: Dati restituiti per staff ${staffId}:`, JSON.stringify(responseData, null, 2));
+    res.json(responseData);
 
   } catch (error) {
     console.error("Errore nel recupero statistiche referral:", error);
