@@ -1,7 +1,4 @@
 import { Request, Response } from "express";
-import { db } from "../db";
-import { users } from "@shared/schema";
-import { eq } from "drizzle-orm";
 
 // Sistema referral autonomo per staff - VERSIONE SENZA DRIZZLE
 export async function getMyReferralData(req: Request, res: Response) {
