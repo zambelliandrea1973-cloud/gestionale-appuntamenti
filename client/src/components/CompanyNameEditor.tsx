@@ -62,13 +62,13 @@ export default function CompanyNameEditor() {
         
         setSettings({
           name: data.businessName || '',
-          fontSize: 24,
-          fontFamily: 'Arial',
-          fontStyle: 'normal',
-          color: '#000000',
-          enabled: true
+          fontSize: data.fontSize || 24,
+          fontFamily: data.fontFamily || 'Arial',
+          fontStyle: data.fontStyle || 'normal',
+          color: data.color || '#000000',
+          enabled: data.enabled !== false
         });
-        console.log(`✅ IMPOSTAZIONI CARICATE: businessName="${data.businessName}"`);
+        console.log(`✅ TUTTE LE IMPOSTAZIONI CARICATE:`, data);
       } else {
         console.error('Errore nel caricamento delle impostazioni');
       }
@@ -85,7 +85,7 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
+      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE - SALVA TUTTI I CAMPI
       const response = await fetch('/api/company-settings-v2', {
         method: 'POST',
         headers: {
@@ -93,7 +93,12 @@ export default function CompanyNameEditor() {
         },
         credentials: 'include',
         body: JSON.stringify({
-          businessName: settings.name
+          businessName: settings.name,
+          fontSize: settings.fontSize,
+          fontFamily: settings.fontFamily,
+          fontStyle: settings.fontStyle,
+          color: settings.color,
+          enabled: settings.enabled
         })
       });
       
