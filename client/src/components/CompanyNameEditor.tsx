@@ -85,8 +85,22 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE - SALVA TUTTI I CAMPI
-      const response = await fetch('/api/company-settings-v2', {
+      // PRIMA SALVO IL NOME AZIENDALE (che funziona)
+      const nameResponse = await fetch('/api/company-settings-v2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          businessName: settings.name
+        })
+      });
+      
+      console.log(`📝 Nome salvato, ora salvo anche gli altri campi...`);
+      
+      // POI SALVO TUTTI GLI ALTRI CAMPI
+      const styleResponse = await fetch('/api/company-settings-complete', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -101,6 +115,8 @@ export default function CompanyNameEditor() {
           enabled: settings.enabled
         })
       });
+      
+      const response = styleResponse; // Uso la seconda risposta per i controlli
       
       if (response.ok) {
         const result = await response.json();
