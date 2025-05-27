@@ -13,19 +13,19 @@ router.get('/company-settings-v2', ensureAuthenticated, async (req: Request, res
     
     const userDb = createUnifiedUserDatabase(userId);
     
-    // Carica TUTTI i campi di stile dal database separato
+    // Carica TUTTI i campi di stile dal database separato usando codici esistenti
     const [businessName, fontSize, fontFamily, fontStyle, fontColor, fontEnabled] = await Promise.all([
       userDb.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME),
-      userDb.getField(UNIFIED_FIELD_CODES.FONT_SIZE),
-      userDb.getField(UNIFIED_FIELD_CODES.FONT_FAMILY),
-      userDb.getField(UNIFIED_FIELD_CODES.FONT_STYLE),
-      userDb.getField(UNIFIED_FIELD_CODES.FONT_COLOR),
-      userDb.getField(UNIFIED_FIELD_CODES.FONT_ENABLED)
+      userDb.getField('COD_078'), // FONT_SIZE esistente
+      userDb.getField('COD_077'), // FONT_FAMILY esistente
+      userDb.getField('COD_079'), // FONT_STYLE
+      userDb.getField('COD_080'), // FONT_COLOR
+      userDb.getField('COD_081')  // FONT_ENABLED
     ]);
     
     const settings = {
       businessName: businessName || `Attività ${userId}`,
-      fontSize: parseInt(fontSize) || 24,
+      fontSize: parseInt(fontSize || '24') || 24,
       fontFamily: fontFamily || 'Arial',
       fontStyle: fontStyle || 'normal',
       color: fontColor || '#000000',
@@ -60,19 +60,19 @@ router.post('/company-settings-v2', ensureAuthenticated, async (req: Request, re
       savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.BUSINESS_NAME, businessName));
     }
     if (fontSize !== undefined) {
-      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_SIZE, fontSize.toString()));
+      savePromises.push(userDb.setField('COD_078', fontSize.toString())); // FONT_SIZE
     }
     if (fontFamily !== undefined) {
-      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_FAMILY, fontFamily));
+      savePromises.push(userDb.setField('COD_077', fontFamily)); // FONT_FAMILY
     }
     if (fontStyle !== undefined) {
-      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_STYLE, fontStyle));
+      savePromises.push(userDb.setField('COD_079', fontStyle)); // Uso codice libero
     }
     if (color !== undefined) {
-      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_COLOR, color));
+      savePromises.push(userDb.setField('COD_080', color)); // Uso codice libero
     }
     if (enabled !== undefined) {
-      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_ENABLED, enabled.toString()));
+      savePromises.push(userDb.setField('COD_081', enabled.toString())); // Uso codice libero
     }
     
     const results = await Promise.allSettled(savePromises);
