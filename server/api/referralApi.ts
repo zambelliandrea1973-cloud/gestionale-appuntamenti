@@ -110,7 +110,7 @@ export async function getReferralOverview(req: Request, res: Response) {
       })
       .from(users)
       .leftJoin(licenses, eq(licenses.sponsoredBy, users.id))
-      .leftJoin(staffCommissions, eq(staffCommissions.staffId, users.id))
+      .leftJoin(referralCommissions, eq(referralCommissions.referrerId, users.id))
       .where(and(
         eq(users.type, "staff"),
         eq(users.role, "staff")
