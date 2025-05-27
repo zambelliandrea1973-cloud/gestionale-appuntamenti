@@ -24,7 +24,6 @@ import {
   paymentMethods, type PaymentMethod, type InsertPaymentMethod,
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
   licenses, type License, type InsertLicense,
-  userSettings, type UserSettings, type InsertUserSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -41,16 +40,10 @@ import { eq, desc, and, gte, lte, like, or, sql, ne, asc } from 'drizzle-orm';
 export interface IStorage {
   // Client operations
   getClient(id: number): Promise<Client | undefined>;
-  getClients(ownerId?: number): Promise<Client[]>;
+  getClients(): Promise<Client[]>;
   createClient(client: InsertClient): Promise<Client>;
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
-  
-  // Client visibility operations
-  setClientVisibility(userId: number, clientId: number, isVisible: boolean): Promise<boolean>;
-  getClientVisibility(userId: number, clientId: number): Promise<boolean>;
-  getVisibleClientsForUser(userId: number, role: string): Promise<Client[]>;
-  getDeletedClientsForUser(userId: number): Promise<Client[]>;
   
   // Reminder Template operations
   getReminderTemplate(id: number): Promise<ReminderTemplate | undefined>;
@@ -249,18 +242,6 @@ export interface IStorage {
   getPaymentTransactionsByMethod(method: string): Promise<PaymentTransaction[]>;
   getAllPaymentTransactions(): Promise<PaymentTransaction[]>;
   updatePaymentTransaction(id: number, transaction: Partial<InsertPaymentTransaction>): Promise<PaymentTransaction | undefined>;
-  
-  // User Settings operations - Personalizzazioni per ogni utente
-  createUserSettings(settings: InsertUserSettings): Promise<UserSettings>;
-  getUserSettings(userId: number): Promise<UserSettings | undefined>;
-  updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined>;
-  deleteUserSettings(userId: number): Promise<boolean>;
-  
-  // Helper methods per impostazioni specifiche
-  getUserBranding(userId: number): Promise<{businessName?: string, logoUrl?: string, primaryColor?: string} | undefined>;
-  updateUserBranding(userId: number, branding: {businessName?: string, logoUrl?: string, primaryColor?: string}): Promise<boolean>;
-  getUserContactInfo(userId: number): Promise<{contactEmail?: string, contactPhone?: string, website?: string} | undefined>;
-  updateUserContactInfo(userId: number, contact: {contactEmail?: string, contactPhone?: string, website?: string}): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -428,15 +409,8 @@ export class MemStorage implements IStorage {
     return this.clients.get(id);
   }
   
-  async getClients(ownerId?: number): Promise<Client[]> {
-    const allClients = Array.from(this.clients.values());
-    
-    if (ownerId !== undefined) {
-      return allClients.filter(client => (client as any).ownerId === ownerId)
-        .sort((a, b) => a.lastName.localeCompare(b.lastName));
-    }
-    
-    return allClients.sort((a, b) => a.lastName.localeCompare(b.lastName));
+  async getClients(): Promise<Client[]> {
+    return Array.from(this.clients.values());
   }
   
   async createClient(client: InsertClient): Promise<Client> {
@@ -1395,14 +1369,8 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getClients(ownerId?: number): Promise<Client[]> {
+  async getClients(): Promise<Client[]> {
     try {
-      if (ownerId !== undefined) {
-        return await db.select().from(clients)
-          .where(eq(clients.ownerId, ownerId))
-          .orderBy(clients.lastName);
-      }
-      
       return await db.select().from(clients).orderBy(clients.lastName);
     } catch (error) {
       console.error("Error getting clients:", error);
@@ -1436,73 +1404,10 @@ export class DatabaseStorage implements IStorage {
 
   async deleteClient(id: number): Promise<boolean> {
     try {
-      console.log(`🗑️ Inizio eliminazione completa cliente ID: ${id} (metodo SQL diretto)`);
-      
-      // STEP 1: Elimina tutti gli appuntamenti del cliente (SQL diretto)
-      try {
-        await db.execute(sql`DELETE FROM appointments WHERE client_id = ${id}`);
-        console.log(`✅ Eliminati appuntamenti per cliente ${id}`);
-      } catch (appointmentError) {
-        console.log(`⚠️ Errore eliminazione appuntamenti per cliente ${id}:`, appointmentError);
-      }
-      
-      // STEP 2: Elimina tutti i consensi del cliente (SQL diretto)
-      try {
-        await db.execute(sql`DELETE FROM consents WHERE client_id = ${id}`);
-        console.log(`✅ Eliminati consensi per cliente ${id}`);
-      } catch (consentError) {
-        console.log(`⚠️ Errore eliminazione consensi per cliente ${id}:`, consentError);
-      }
-      
-      // STEP 3: Elimina tutte le fatture del cliente e componenti (SQL diretto)
-      try {
-        // Elimina item delle fatture
-        await db.execute(sql`DELETE FROM invoice_items WHERE invoice_id IN (SELECT id FROM invoices WHERE client_id = ${id})`);
-        // Elimina pagamenti delle fatture
-        await db.execute(sql`DELETE FROM payments WHERE invoice_id IN (SELECT id FROM invoices WHERE client_id = ${id})`);
-        // Elimina le fatture
-        await db.execute(sql`DELETE FROM invoices WHERE client_id = ${id}`);
-        console.log(`✅ Eliminate fatture e componenti per cliente ${id}`);
-      } catch (invoiceError) {
-        console.log(`⚠️ Errore eliminazione fatture per cliente ${id}:`, invoiceError);
-      }
-      
-      // STEP 4: Elimina tutti i record di visibilità del cliente (IL PEZZO CRUCIALE!)
-      try {
-        await db.execute(sql`DELETE FROM client_visibility WHERE client_id = ${id}`);
-        console.log(`✅ Eliminati record visibilità per cliente ${id}`);
-      } catch (visibilityError) {
-        console.log(`⚠️ Errore eliminazione visibilità per cliente ${id}:`, visibilityError);
-      }
-      
-      // STEP 5: Finalmente elimina il cliente (SQL diretto)
-      try {
-        await db.execute(sql`DELETE FROM clients WHERE id = ${id}`);
-        console.log(`✅ Cliente ${id} eliminato completamente dal database`);
-        return true;
-      } catch (clientError) {
-        console.error(`❌ Errore eliminazione cliente ${id}:`, clientError);
-        return false;
-      }
-      
-    } catch (error) {
-      console.error(`❌ Errore durante eliminazione completa cliente ${id}:`, error);
-      return false;
-    }
-  }
-
-  // NUOVO METODO: Nasconde un cliente condiviso dalla vista di un utente specifico
-  async removeClientVisibility(clientId: number, userId: number): Promise<boolean> {
-    try {
-      console.log(`👁️ Rimozione visibilità cliente ${clientId} per utente ${userId}`);
-      
-      // Rimuovi il record di visibilità per questo utente specifico
-      await db.execute(sql`DELETE FROM client_visibility WHERE client_id = ${clientId} AND user_id = ${userId}`);
-      
-      console.log(`✅ Cliente ${clientId} nascosto per utente ${userId}`);
+      const result = await db.delete(clients).where(eq(clients.id, id));
       return true;
     } catch (error) {
-      console.error(`❌ Errore rimozione visibilità cliente ${clientId} per utente ${userId}:`, error);
+      console.error("Error deleting client:", error);
       return false;
     }
   }
@@ -3413,142 +3318,6 @@ export class DatabaseStorage implements IStorage {
     }
   }
   
-  // Client visibility functions
-  async setClientVisibility(userId: number, clientId: number, isVisible: boolean): Promise<boolean> {
-    try {
-      // Verificare se esiste già un record per questo utente e cliente
-      const [existingRecord] = await db.execute(
-        sql`SELECT * FROM client_visibility WHERE user_id = ${userId} AND client_id = ${clientId}`
-      );
-      
-      if (existingRecord && existingRecord.length > 0) {
-        // Aggiorna il record esistente
-        await db.execute(
-          sql`UPDATE client_visibility SET is_visible = ${isVisible} WHERE user_id = ${userId} AND client_id = ${clientId}`
-        );
-      } else {
-        // Crea un nuovo record
-        await db.execute(
-          sql`INSERT INTO client_visibility (user_id, client_id, is_visible) VALUES (${userId}, ${clientId}, ${isVisible})`
-        );
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('Errore nel setting della visibilità client:', error);
-      return false;
-    }
-  }
-  
-  async getClientVisibility(userId: number, clientId: number): Promise<boolean> {
-    try {
-      const [records] = await db.execute(
-        sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${clientId}`
-      );
-      
-      // Se non esiste un record, il client è visibile di default
-      if (!records || records.length === 0) {
-        return true;
-      }
-      
-      return records[0].is_visible;
-    } catch (error) {
-      console.error('Errore nel recupero della visibilità client:', error);
-      return true; // Default a visibile in caso di errore
-    }
-  }
-  
-  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
-    try {
-      let allClients: Client[] = await this.getClients();
-      
-      // Admin vede tutti i clienti
-      if (role === 'admin') {
-        return allClients;
-      }
-      
-      // Per gli altri account (staff e customer)
-      let visibleClients: Client[] = [];
-      
-      for (const client of allClients) {
-        // Caso 1: I clienti di default (senza owner_id) sono visibili a tutti
-        // Caso 2: I clienti creati dall'utente (con owner_id = userId) sono visibili
-        // Caso 3: Casi speciali (come Silvia Busnari che vede clienti specifici)
-        
-        // Prima verifichiamo se il cliente è normalmente visibile in base alla logica precedente
-        let normallyVisible = client.ownerId === null || client.ownerId === userId;
-        
-        // Casi speciali (come per Silvia Busnari)
-        let specialCase = false;
-        if (userId === 14 && (client.id === 251 || client.id === 252)) {
-          specialCase = true;
-        }
-        
-        // Ora verifichiamo la visibilità nella tabella client_visibility
-        const [records] = await db.execute(
-          sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${client.id}`
-        );
-        
-        // Se c'è un record nella tabella client_visibility, rispettiamo sempre quella impostazione
-        if (records && records.length > 0) {
-          if (records[0].is_visible) {
-            visibleClients.push(client);
-          }
-          // Se is_visible è false, il cliente è stato nascosto - non aggiungerlo
-        } 
-        // Altrimenti usiamo la logica normale
-        else if (normallyVisible || specialCase) {
-          visibleClients.push(client);
-        }
-      }
-      
-      return visibleClients;
-    } catch (error) {
-      console.error('Errore nel recupero dei clienti visibili:', error);
-      return []; // Restituisci lista vuota in caso di errore
-    }
-  }
-  
-  async getDeletedClientsForUser(userId: number): Promise<Client[]> {
-    try {
-      // Ottieni tutti i clienti nel sistema
-      const allClients = await this.getClients();
-      const deletedClients: Client[] = [];
-      
-      for (const client of allClients) {
-        // Verifichiamo se normalmente questo cliente sarebbe visibile all'utente
-        // (proprietà null o cliente creato dall'utente)
-        let wouldBeNormallyVisible = client.ownerId === null || client.ownerId === userId;
-        
-        // Casi speciali (come per Silvia Busnari)
-        let specialCase = false;
-        if (userId === 14 && (client.id === 251 || client.id === 252)) {
-          specialCase = true;
-        }
-        
-        // Se il cliente sarebbe normalmente visibile o è un caso speciale,
-        // controlliamo se è stato nascosto esplicitamente
-        if (wouldBeNormallyVisible || specialCase) {
-          // Verifichiamo se esiste un record di visibilità che lo nasconde esplicitamente
-          const [records] = await db.execute(
-            sql`SELECT is_visible FROM client_visibility WHERE user_id = ${userId} AND client_id = ${client.id}`
-          );
-          
-          // Se c'è un record e is_visible è false, allora è un cliente eliminato (nascosto)
-          if (records && records.length > 0 && !records[0].is_visible) {
-            deletedClients.push(client);
-          }
-        }
-      }
-      
-      console.log(`Trovati ${deletedClients.length} clienti eliminati (nascosti) per l'utente ID ${userId}`);
-      return deletedClients;
-    } catch (error) {
-      console.error('Errore nel recupero dei clienti eliminati:', error);
-      return []; // Restituisci lista vuota in caso di errore
-    }
-  }
-
   async getActiveSubscriptions(): Promise<SubscriptionWithDetails[]> {
     try {
       // Recupera solo le sottoscrizioni attive con i dettagli dei piani
@@ -3800,166 +3569,6 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error('Errore nella creazione della sottoscrizione:', error);
       throw error;
-    }
-  }
-
-  // ===== USER SETTINGS OPERATIONS - Personalizzazioni per ogni utente =====
-  
-  /**
-   * Crea le impostazioni personalizzate per un utente
-   */
-  async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
-    try {
-      const [newUserSettings] = await db
-        .insert(userSettings)
-        .values(settings)
-        .returning();
-      
-      console.log(`Impostazioni create per utente ${settings.userId}`);
-      return newUserSettings;
-    } catch (error) {
-      console.error('Errore nella creazione delle impostazioni utente:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Recupera le impostazioni personalizzate di un utente
-   */
-  async getUserSettings(userId: number): Promise<UserSettings | undefined> {
-    try {
-      const [settings] = await db
-        .select()
-        .from(userSettings)
-        .where(eq(userSettings.userId, userId));
-      
-      return settings;
-    } catch (error) {
-      console.error(`Errore nel recupero impostazioni utente ${userId}:`, error);
-      return undefined;
-    }
-  }
-
-  /**
-   * Aggiorna le impostazioni personalizzate di un utente
-   */
-  async updateUserSettings(userId: number, settingsUpdate: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
-    try {
-      const [updatedSettings] = await db
-        .update(userSettings)
-        .set({
-          ...settingsUpdate,
-          updatedAt: new Date()
-        })
-        .where(eq(userSettings.userId, userId))
-        .returning();
-      
-      console.log(`Impostazioni aggiornate per utente ${userId}`);
-      return updatedSettings;
-    } catch (error) {
-      console.error(`Errore nell'aggiornamento impostazioni utente ${userId}:`, error);
-      return undefined;
-    }
-  }
-
-  /**
-   * Elimina le impostazioni personalizzate di un utente
-   */
-  async deleteUserSettings(userId: number): Promise<boolean> {
-    try {
-      await db
-        .delete(userSettings)
-        .where(eq(userSettings.userId, userId));
-      
-      console.log(`Impostazioni eliminate per utente ${userId}`);
-      return true;
-    } catch (error) {
-      console.error(`Errore nell'eliminazione impostazioni utente ${userId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Recupera solo le informazioni di branding di un utente
-   */
-  async getUserBranding(userId: number): Promise<{businessName?: string, logoUrl?: string, primaryColor?: string} | undefined> {
-    try {
-      const [settings] = await db
-        .select({
-          businessName: userSettings.businessName,
-          logoUrl: userSettings.logoUrl,
-          primaryColor: userSettings.primaryColor
-        })
-        .from(userSettings)
-        .where(eq(userSettings.userId, userId));
-      
-      return settings;
-    } catch (error) {
-      console.error(`Errore nel recupero branding utente ${userId}:`, error);
-      return undefined;
-    }
-  }
-
-  /**
-   * Aggiorna solo le informazioni di branding di un utente
-   */
-  async updateUserBranding(userId: number, branding: {businessName?: string, logoUrl?: string, primaryColor?: string}): Promise<boolean> {
-    try {
-      await db
-        .update(userSettings)
-        .set({
-          ...branding,
-          updatedAt: new Date()
-        })
-        .where(eq(userSettings.userId, userId));
-      
-      console.log(`Branding aggiornato per utente ${userId}`);
-      return true;
-    } catch (error) {
-      console.error(`Errore nell'aggiornamento branding utente ${userId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Recupera solo le informazioni di contatto di un utente
-   */
-  async getUserContactInfo(userId: number): Promise<{contactEmail?: string, contactPhone?: string, website?: string} | undefined> {
-    try {
-      const [settings] = await db
-        .select({
-          contactEmail: userSettings.contactEmail,
-          contactPhone: userSettings.contactPhone,
-          website: userSettings.website
-        })
-        .from(userSettings)
-        .where(eq(userSettings.userId, userId));
-      
-      return settings;
-    } catch (error) {
-      console.error(`Errore nel recupero contatti utente ${userId}:`, error);
-      return undefined;
-    }
-  }
-
-  /**
-   * Aggiorna solo le informazioni di contatto di un utente
-   */
-  async updateUserContactInfo(userId: number, contact: {contactEmail?: string, contactPhone?: string, website?: string}): Promise<boolean> {
-    try {
-      await db
-        .update(userSettings)
-        .set({
-          ...contact,
-          updatedAt: new Date()
-        })
-        .where(eq(userSettings.userId, userId));
-      
-      console.log(`Contatti aggiornati per utente ${userId}`);
-      return true;
-    } catch (error) {
-      console.error(`Errore nell'aggiornamento contatti utente ${userId}:`, error);
-      return false;
     }
   }
 }

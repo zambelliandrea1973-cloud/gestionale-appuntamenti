@@ -6,9 +6,6 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User, ClientAccount, users } from "@shared/schema";
-import { correctIdentityIfNeeded } from './fixes/identity-fix';
-import { db } from './db';
-import { eq } from 'drizzle-orm';
 
 declare global {
   namespace Express {
@@ -32,48 +29,10 @@ export async function hashPassword(password: string) {
 }
 
 export async function comparePasswords(supplied: string, stored: string) {
-  console.log("🔑 Verifico password:", supplied, "vs hash:", stored.substring(0, 20) + "...");
-  
-  // Account admin e staff - password backup14
-  if (supplied === 'gironiCO73%') {
-    console.log("⭐ Autenticazione ADMIN con backup14: gironiCO73%");
-    return true;
-  }
-  
-  // Account customer/business - password backup14
-  if (supplied === 'gironico') {
-    console.log("⭐ Autenticazione CUSTOMER/BUSINESS con backup14: gironico");
-    return true;
-  }
-  
-  // Controllo delle password di staff
-  if (supplied === 'password123' && 
-      ['teststaff@example.com', 'testpayment@example.com', 'customer1@example.com', 'customer2@example.com'].includes(stored)) {
-    console.log("⭐ Autenticazione account ESEMPIO con password123");
-    return true;
-  }
-  
-  if (supplied === 'elisaF2025!' && stored.includes('faverioelisa6@gmail.com')) {
-    console.log("⭐ Autenticazione Elisa Faverio con elisaF2025!");
-    return true;
-  }
-  
-  if (supplied === 'busnarimilano' && stored.includes('busnari.silvia@libero.it')) {
-    console.log("⭐ Autenticazione Busnari con busnarimilano");
-    return true;
-  }
-  
-  // Confronto password standard
-  try {
-    // Recupera le parti dell'hash memorizzato
-    const [hashed, salt] = stored.split(".");
-    const hashedBuf = Buffer.from(hashed, "hex");
-    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-    return timingSafeEqual(hashedBuf, suppliedBuf);
-  } catch (err) {
-    console.error('Errore confronto password:', err);
-    return false;
-  }
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+  return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
 export function setupAuth(app: Express) {
@@ -99,117 +58,28 @@ export function setupAuth(app: Express) {
   // Strategia di autenticazione per utenti professionali (admin/staff/customer)
   passport.use("local-staff", new LocalStrategy(async (username, password, done) => {
     try {
-      console.log(`Login staff per ${username} con password ${password}`);
-      
-      // BACKUP14 RIPRISTINO ESATTO: Account predefiniti con password hard-coded
-      // Questo è il ripristino esatto del backup14 come richiesto
-      
-      // 1. Account admin principale zambelli.andrea.1973@gmail.com
-      if (username === 'zambelli.andrea.1973@gmail.com' && password === 'gironiCO73%') {
-        console.log('✅ LOGIN ADMIN BACKUP14: Autenticazione diretta per zambelli.andrea.1973@gmail.com');
-        return done(null, {
-          id: 3, // ID corretto dal database
-          username: 'zambelli.andrea.1973@gmail.com',
-          password: '(rimosso)',
-          type: 'admin',
-          role: 'admin',
-          created_at: new Date(),
-          email: 'zambelli.andrea.1973@gmail.com'
-        });
+      const user = await storage.getUserByUsername(username);
+      if (!user || !(await comparePasswords(password, user.password))) {
+        return done(null, false, { message: "Username o password non validi" });
       }
       
-      // 2. Account business zambelli.andrea.1973D@gmail.com
-      if (username === 'zambelli.andrea.1973D@gmail.com' && password === 'gironico') {
-        console.log('✅ LOGIN BUSINESS BACKUP14: Autenticazione diretta per zambelli.andrea.1973D@gmail.com');
-        return done(null, {
-          id: 12, // ID corretto dal database
-          username: 'zambelli.andrea.1973D@gmail.com',
-          password: '(rimosso)',
-          type: 'customer',
-          role: 'business',
-          created_at: new Date(),
-          client_id: 26,
-          email: 'zambelli.andrea.1973D@gmail.com'
-        });
+      // CORREZIONE: Manteniamo il tipo originale dell'utente (admin, staff o customer)
+      // Utilizziamo il campo 'role' SOLO se il tipo non è già definito
+      let userType = user.type;
+      
+      // Se il tipo non è definito, determiniamolo dal ruolo
+      if (!userType || userType === 'undefined') {
+        userType = user.role === 'admin' ? 'admin' : 'staff';
+        console.log(`Tipo utente non definito per ${username}, impostato a ${userType} basato sul ruolo`);
+      } else {
+        console.log(`Tipo utente mantenuto per ${username}: ${userType}`);
       }
       
-      // 3. Account base zambelli.andrea.1973B@gmail.com
-      if (username === 'zambelli.andrea.1973B@gmail.com' && password === 'gironico') {
-        console.log('✅ LOGIN BASE BACKUP14: Autenticazione diretta per zambelli.andrea.1973B@gmail.com');
-        return done(null, {
-          id: 10, // ID corretto dal database
-          username: 'zambelli.andrea.1973B@gmail.com',
-          password: '(rimosso)',
-          type: 'customer',
-          role: 'base',
-          created_at: new Date(),
-          client_id: 26,
-          email: 'zambelli.andrea.1973B@gmail.com'
-        });
-      }
-      
-      // 4. Account A e C
-      if (username === 'zambelli.andrea.1973A@gmail.com' && password === 'gironico') {
-        console.log('✅ LOGIN A BACKUP14: Autenticazione diretta per zambelli.andrea.1973A@gmail.com');
-        return done(null, {
-          id: 9, // ID corretto dal database
-          username: 'zambelli.andrea.1973A@gmail.com',
-          password: '(rimosso)',
-          type: 'customer',
-          role: 'user',
-          created_at: new Date(),
-          client_id: 26,
-          email: 'zambelli.andrea.1973A@gmail.com'
-        });
-      }
-      
-      if (username === 'zambelli.andrea.1973C@gmail.com' && password === 'gironico') {
-        console.log('✅ LOGIN C BACKUP14: Autenticazione diretta per zambelli.andrea.1973C@gmail.com');
-        return done(null, {
-          id: 11, // ID corretto dal database
-          username: 'zambelli.andrea.1973C@gmail.com',
-          password: '(rimosso)',
-          type: 'customer',
-          role: 'user',
-          created_at: new Date(),
-          client_id: 26,
-          email: 'zambelli.andrea.1973C@gmail.com'
-        });
-      }
-      
-      // Standard auth flow con database
-      try {
-        const user = await storage.getUserByUsername(username);
-        if (!user || !(await comparePasswords(password, user.password))) {
-          return done(null, false, { message: "Username o password non validi" });
-        }
-        
-        // CORREZIONE: Manteniamo il tipo originale dell'utente (admin, staff o customer)
-        // Utilizziamo il campo 'role' SOLO se il tipo non è già definito
-        let userType = user.type;
-        
-        // Se il tipo non è definito, determiniamolo dal ruolo
-        if (!userType || userType === 'undefined') {
-          userType = user.role === 'admin' ? 'admin' : 'staff';
-          console.log(`Tipo utente non definito per ${username}, impostato a ${userType} basato sul ruolo`);
-        } else {
-          console.log(`Tipo utente mantenuto per ${username}: ${userType}`);
-        }
-        
-        return done(null, { 
-          ...user, 
-          type: userType // mantiene il tipo originale dell'utente
-        });
-      } catch (dbError) {
-        console.error("Errore database durante autenticazione:", dbError);
-        // Continua con le credenziali hardcoded in caso di errore del database
-      }
-      
-      // Fallback finale per problemi di database
-      console.log('❌ Autenticazione fallita per:', username);
-      return done(null, false, { message: "Username o password non validi" });
+      return done(null, { 
+        ...user, 
+        type: userType // mantiene il tipo originale dell'utente
+      });
     } catch (err) {
-      console.error("Errore generale in local-staff strategy:", err);
       return done(err);
     }
   }));
@@ -259,26 +129,6 @@ export function setupAuth(app: Express) {
         }
       }
       
-      // Dobbiamo cercare l'utente reale quando è un customer
-      if (userType === "customer") {
-        try {
-          // Otteniamo l'utente del database corrispondente a questo username
-          const realUser = await storage.getUserByUsername(username);
-          if (realUser) {
-            console.log(`✅ Trovato utente reale corrispondente (ID ${realUser.id}) per login cliente ${username}`);
-            return done(null, { 
-              ...clientAccount,
-              id: realUser.id, // Usiamo l'ID dell'utente reale invece dell'ID dell'account
-              client, 
-              type: userType 
-            });
-          }
-        } catch (err) {
-          console.error(`Errore durante la ricerca dell'utente reale per ${username}:`, err);
-        }
-      }
-      
-      // Se non è un customer o non abbiamo trovato un utente reale corrispondente
       return done(null, { 
         ...clientAccount, 
         client, 
@@ -306,9 +156,6 @@ export function setupAuth(app: Express) {
     done(null, `${userType}:${userId}`);
   });
 
-// Importiamo all'inizio del file
-// Questo evita errori di sintassi
-  
   // Deserializziamo l'utente in base al tipo
   passport.deserializeUser(async (serialized: string, done) => {
     try {
@@ -331,46 +178,18 @@ export function setupAuth(app: Express) {
       
       const id = parseInt(idStr, 10);
 
-      // Verifica prima il tipo esatto dall'ID serializzato
       if (type === "staff" || type === "admin" || type === "customer") {
-        console.log(`getUser: Cercando utente con ID ${id}`);
         const user = await storage.getUser(id);
-        if (!user) {
-          console.log(`getUser: Nessun utente trovato con ID ${id}`);
-          return done(null, false);
+        if (!user) return done(null, false);
+        
+        // CORREZIONE: Manteniamo il tipo originale se presente
+        let userType = user.type;
+        if (!userType || userType === 'undefined') {
+          userType = user.role === 'admin' ? 'admin' : (type === 'customer' ? 'customer' : 'staff');
+          console.log(`Tipo utente non definito per ID ${id}, impostato a ${userType} basato sul tipo serializzato`);
+        } else {
+          console.log(`Tipo utente mantenuto per ID ${id}: ${userType}`);
         }
-        
-        console.log(`getUser: Trovato utente ${user.username}, tipo: ${user.type || 'non specificato'}`);
-        
-        // Correzione identità per utenti specifici (problema di Elisa Faverio/Zambelli Andrea)
-        // Questo risolve il problema di quando fai login con un account ma vedi i dati di un altro
-        const correctId = await correctIdentityIfNeeded(id, type);
-        if (correctId) {
-          console.log(`🔄 Correzione identità applicata: ${user.username} → ${correctId.username}`);
-          
-          // Ottieni l'utente corretto con l'ID giusto
-          const correctUser = await storage.getUser(correctId.id);
-          if (correctUser) {
-            return done(null, { ...correctUser, type });
-          }
-        }
-        
-        // Correzione specifica per zambelli.andrea.1973B
-        if (user.username === "zambelli.andrea.1973B" || user.username === "zambelli.andrea.1973B@gmail.com") {
-          console.log("🔍 CORREZIONE IDENTITÀ: Rilevato zambelli.andrea.1973B - cercando l'utente corretto");
-          // Cerca l'utente con il nome corretto invece dell'ID, che potrebbe essere sbagliato
-          const [correctUser] = await db.select().from(users).where(eq(users.username, 'zambelli.andrea.1973B'));
-          
-          if (correctUser && correctUser.id !== id) {
-            console.log(`✅ RISOLUZIONE: Utente zambelli.andrea.1973B corretto trovato con ID ${correctUser.id}`);
-            return done(null, { ...correctUser, type: correctUser.type || type });
-          }
-        }
-        
-        // Importantissimo: Rispettiamo il tipo che è stato serializzato
-        // Questo evita confusione quando ci sono più utenti nel sistema
-        const userType = type;
-        console.log(`Tipo utente rispettato dal serialized per ID ${id}: ${userType}`);
         
         return done(null, { ...user, type: userType });
       } else if (type === "client" && !serialized.startsWith("customer:")) {
@@ -461,7 +280,7 @@ export function setupAuth(app: Express) {
       try {
         // Importa il servizio token (import dinamico)
         const tokenServiceModule = await import('./services/tokenService');
-        const { tokenService } = tokenServiceModule;
+        const tokenService = tokenServiceModule.default;
         
         // Verifica il token
         const validClientId = await tokenService.verifyActivationToken(token);
@@ -569,11 +388,9 @@ export function setupAuth(app: Express) {
             // Importa il servizio token se necessario
             // Usiamo import dinamico invece di require per evitare errori
             const tokenServiceModule = await import('./services/tokenService');
-            // Corretto: Accedi a tokenService direttamente dall'import (non è un default export)
-            const { tokenService } = tokenServiceModule;
-            
-            // Utilizza generateActivationToken invece di createActivationToken che non esiste
-            token = await tokenService.generateActivationToken(user.clientId);
+            const tokenService = tokenServiceModule.default;
+            // Genera un token per questo cliente
+            token = await tokenService.createActivationToken(user.clientId);
             console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
           } catch (error) {
             console.error("Errore nella generazione token:", error);
@@ -712,15 +529,11 @@ export function setupAuth(app: Express) {
 
 // Middleware per verificare che l'utente sia autenticato
 export function isAuthenticated(req: any, res: any, next: any) {
-  console.log(`🔐 MIDDLEWARE isAuthenticated chiamato per ${req.method} ${req.path}`);
-  console.log(`🔐 req.isAuthenticated():`, req.isAuthenticated());
-  console.log(`🔐 req.user:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'undefined');
-  
   if (req.isAuthenticated()) {
-    console.log('✅ Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
+    console.log('Utente autenticato con successo in isAuthenticated middleware:', req.user.username, 'tipo:', req.user.type);
     return next();
   }
-  console.log('❌ Tentativo di accesso non autorizzato, nessuna sessione valida');
+  console.log('Tentativo di accesso non autorizzato, nessuna sessione valida');
   res.status(401).json({ message: "Accesso non autorizzato" });
 }
 

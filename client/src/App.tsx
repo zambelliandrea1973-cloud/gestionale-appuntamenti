@@ -13,7 +13,6 @@ import Clients from "./pages/Clients";
 import Reports from "./pages/Reports";
 import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
-import UserSettings from "./pages/UserSettings";
 import EmailSettings from "./pages/EmailSettings";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";
@@ -42,7 +41,6 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
-import ReferralPage from "./pages/ReferralPage";
 
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
@@ -206,11 +204,6 @@ function AppRoutes() {
           <Settings />
         </StaffPageWrapper>
       </Route>
-      <Route path="/user-settings">
-        <StaffPageWrapper>
-          <UserSettings />
-        </StaffPageWrapper>
-      </Route>
       <Route path="/client-medical-details">
         <StaffPageWrapper>
           <ClientMedicalDetails />
@@ -255,13 +248,6 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       
-      {/* Pagina del programma di referral */}
-      <Route path="/referral">
-        <StaffPageWrapper>
-          <ReferralPage />
-        </StaffPageWrapper>
-      </Route>
-
       {/* Pagine per il risultato dei pagamenti */}
       <Route path="/payment/success">
         <StaffPageWrapper>

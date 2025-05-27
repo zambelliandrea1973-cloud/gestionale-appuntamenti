@@ -56,12 +56,9 @@
     
     <!-- CSS per rimuovere voci di menu problematiche -->
     <link rel="stylesheet" href="/forced-style.css">
-    <!-- CSS per nascondere completamente gli errori di Vite -->
-    <link rel="stylesheet" href="/hide-error-overlay.css">
     
     <!-- Script per ripulire il menu da voci non necessarie -->
     <script src="/cleanup-menu.js" defer></script>
-    <script src="/fix-error.js" defer></script>
   </head>
   <body>
     <div id="root"></div>
@@ -69,21 +66,6 @@
     <script>
       // Per debugging
       window.isPWADebug = true;
-      
-      // Nascondi automaticamente l'errore di Vite "Unexpected token '<'"
-      window.addEventListener('error', function(event) {
-        // Controlla se è un errore di Vite con Unexpected token '<'
-        setTimeout(function() {
-          const errorOverlay = document.querySelector('vite-error-overlay');
-          if (errorOverlay) {
-            // Controlla se contiene l'errore specifico che vogliamo nascondere
-            const errorText = errorOverlay.shadowRoot?.textContent || '';
-            if (errorText.includes("Unexpected token '<'")) {
-              errorOverlay.style.display = 'none';
-            }
-          }
-        }, 100);
-      }, true);
       
       // Funzione per verificare se l'app è installata
       function checkIfInstalled() {

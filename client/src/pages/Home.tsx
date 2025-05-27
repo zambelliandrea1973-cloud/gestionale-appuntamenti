@@ -86,29 +86,12 @@ function CompanyName() {
   } | null>(null);
   
   useEffect(() => {
-    // 🚀 USA IL NUOVO SISTEMA DATABASE SEPARATI (STESSO DI IMPOSTAZIONI)
-    const fetchCompanyName = async () => {
-      try {
-        const response = await apiRequest("GET", "/api/client-app-info");
-        const data = await response.json();
-        
-        if (data.appName) {
-          setSettings({
-            name: data.appName,
-            fontSize: 24,
-            fontFamily: 'Arial',
-            fontStyle: 'normal',
-            color: '#000000',
-            enabled: true
-          });
-          console.log(`✅ HOME: Nome aziendale caricato dal database separato: "${data.appName}"`);
-        }
-      } catch (error) {
-        console.error('Errore nel caricamento del nome aziendale:', error);
-      }
-    };
-    
-    fetchCompanyName();
+    // Carica le impostazioni dal localStorage
+    const storedSettings = localStorage.getItem('companyNameSettings');
+    if (storedSettings) {
+      const data = JSON.parse(storedSettings);
+      setSettings(data);
+    }
   }, []);
   
   if (!settings || !settings.enabled || !settings.name) {

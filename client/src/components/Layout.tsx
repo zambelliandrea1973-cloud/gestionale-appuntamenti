@@ -142,15 +142,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Pulsante referral - visibile solo per staff, admin e utenti con licenza business */}
-                {(isStaff || isAdmin || userWithLicense?.licenseInfo?.type === 'business') && (
-                  <Link href="/referral">
-                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
-                      <Users className="h-4 w-4 mr-1 text-blue-400" />
-                      <span>Referral</span>
-                    </Button>
-                  </Link>
-                )}
+
                 
                 {/* Pulsanti admin - esattamente uguali agli altri pulsanti */}
                 {isAdmin && (
@@ -285,15 +277,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Referral - solo per staff, admin e utenti business */}
-                    {(isStaff || isAdmin || userWithLicense?.licenseInfo?.type === 'business') && (
-                      <Link href="/referral">
-                        <Button variant={isActive("/referral") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <Users className="mr-2 h-4 w-4 text-blue-400" />
-                          Programma Referral
-                        </Button>
-                      </Link>
-                    )}
+
                     
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (
