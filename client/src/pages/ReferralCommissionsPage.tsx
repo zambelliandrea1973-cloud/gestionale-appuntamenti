@@ -584,7 +584,7 @@ export default function ReferralCommissionsPage() {
                           <p className="text-sm text-gray-600">{staff.staffEmail}</p>
                           <p className="text-sm text-blue-600">{staff.sponsoredCount} abbonamenti sponsorizzati</p>
                         </div>
-                        <div className="text-right space-y-1">
+                        <div className="text-right space-y-2">
                           <div className="text-lg font-semibold text-green-600">
                             {formatCurrency(staff.totalCommissions)}
                           </div>
@@ -596,6 +596,20 @@ export default function ReferralCommissionsPage() {
                               Pending: {formatCurrency(staff.pendingCommissions)}
                             </span>
                           </div>
+                          {staff.pendingCommissions > 0 && staff.sponsoredCount >= 3 && (
+                            <Button
+                              onClick={() => handlePayCommission(staff.staffId, staff.pendingCommissions)}
+                              className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1"
+                              size="sm"
+                            >
+                              💰 Paga €{staff.pendingCommissions}
+                            </Button>
+                          )}
+                          {staff.sponsoredCount < 3 && (
+                            <div className="text-xs text-gray-500">
+                              Quota minima: {staff.sponsoredCount}/3
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
