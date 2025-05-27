@@ -18,15 +18,17 @@ export async function getStaffReferralStats(req: Request, res: Response) {
         eq(licenses.isActive, true)
       ));
 
-    // Commissioni totali
-    const [totalCommissions] = await db
-      .select({ 
-        total: sql<number>`COALESCE(SUM(${staffCommissions.commissionAmount}), 0)`,
-        paid: sql<number>`COALESCE(SUM(CASE WHEN ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`,
-        pending: sql<number>`COALESCE(SUM(CASE WHEN NOT ${staffCommissions.isPaid} THEN ${staffCommissions.commissionAmount} ELSE 0 END), 0)`
-      })
+    // Commissioni totali - Query semplificata
+    const allCommissions = await db
+      .select()
       .from(staffCommissions)
       .where(eq(staffCommissions.staffId, staffId));
+
+    const totalCommissions = {
+      total: allCommissions.reduce((sum, comm) => sum + comm.commissionAmount, 0) / 100, // Converti da centesimi a euro
+      paid: allCommissions.filter(comm => comm.isPaid).reduce((sum, comm) => sum + comm.commissionAmount, 0) / 100,
+      pending: allCommissions.filter(comm => !comm.isPaid).reduce((sum, comm) => sum + comm.commissionAmount, 0) / 100
+    };
 
     // Lista commissioni recenti
     const recentCommissions = await db
