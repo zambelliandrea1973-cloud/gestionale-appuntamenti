@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { simplifiedReferralService } from '../services/simplifiedReferralService';
 import { isAuthenticated } from '../auth';
-import { getMyReferralData } from '../api/staffReferralSystem';
+import { getWorkingReferralOverview, getWorkingStaffReferral } from '../api/workingReferralSystem';
 import { format } from 'date-fns';
 
 const router = express.Router();
@@ -138,12 +138,31 @@ router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
     
     // Chiama la funzione esistente passando l'ID dello staff come parametro
     req.params.staffId = req.user.id.toString();
-    await getMyReferralData(req, res);
+    await getWorkingStaffReferral(req, res);
   } catch (error) {
     console.error('Errore nel recupero statistiche staff:', error);
     res.status(500).json({
       success: false,
       message: 'Errore nel recupero delle statistiche staff'
+    });
+  }
+});
+
+// Rotte amministrative (solo per admin)
+
+/**
+ * Ottiene la panoramica referral per admin
+ * GET /api/referral/overview
+ */
+router.get('/overview', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    console.log(`🚀 ADMIN REFERRAL: Panoramica richiesta da ${req.user!.email}`);
+    await getWorkingReferralOverview(req, res);
+  } catch (error) {
+    console.error('Errore nella panoramica admin:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel caricamento panoramica referral'
     });
   }
 });
