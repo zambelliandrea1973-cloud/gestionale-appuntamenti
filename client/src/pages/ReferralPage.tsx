@@ -252,16 +252,17 @@ export default function ReferralPage() {
     );
   }
 
-  const stats: ReferralStats = referralData?.statsData || {
+  // Gestisce entrambe le strutture dati (admin e staff)
+  const stats: ReferralStats = referralData?.statsData || referralData?.stats || {
     totalActiveCommissions: 0,
     currentMonthAmount: 0,
     lastMonthAmount: 0,
     hasBankAccount: false
   };
 
-  const commissions: Commission[] = referralData?.commissionsData || [];
+  const commissions: Commission[] = referralData?.commissionsData || referralData?.commissions || [];
   const bankAccount: BankAccount | null = referralData?.bankData || null;
-  const referralCode = referralData?.userData?.referralCode;
+  const referralCode = referralData?.userData?.referralCode || referralData?.referralCode;
   
   // Determina se l'utente è staff o admin
   const isAdmin = userWithLicense?.type === 'admin';
