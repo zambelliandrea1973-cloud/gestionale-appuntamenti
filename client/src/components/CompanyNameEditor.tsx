@@ -84,15 +84,20 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
-      const response = await fetch('/api/company-settings-v2', {
+      // 🎯 SALVA TUTTI I CAMPI NEL DATABASE SEPARATO PER UTENTE
+      const response = await fetch('/api/company-settings-complete', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({
-          businessName: settings.name
+          businessName: settings.name,
+          fontSize: settings.fontSize,
+          fontFamily: settings.fontFamily,
+          fontStyle: settings.fontStyle,
+          color: settings.color,
+          enabled: settings.enabled
         })
       });
       
