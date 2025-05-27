@@ -175,6 +175,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
       setUploadSuccess(true);
       
+      // Aggiorna l'anteprima con l'immagine caricata (con timestamp per forzare refresh)
+      const timestamp = new Date().getTime();
+      setPreviewUrl(`/user-icons/user-12/app-icon.jpg?t=${timestamp}`);
+      
       // Ricarica le informazioni sull'icona per aggiornare la data di modifica
       await fetchIconInfo();
       
