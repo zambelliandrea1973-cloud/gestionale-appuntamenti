@@ -51,7 +51,7 @@ router.post('/company-settings-v2', ensureAuthenticated, async (req: Request, re
   }
 });
 
-// 🎯 NUOVA API COMPLETA: Salva TUTTI i campi di stile nel database separato
+// 🎯 API COMPLETA: Salva TUTTI i campi di stile nel database separato con codici corretti
 router.post('/company-settings-complete', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;
@@ -62,24 +62,14 @@ router.post('/company-settings-complete', ensureAuthenticated, async (req: Reque
     
     const userDb = createUnifiedUserDatabase(userId);
     
-    // Definisco i nuovi codici per i campi di stile
-    const STYLE_CODES = {
-      BUSINESS_NAME: 'COD_001',
-      FONT_SIZE: 'COD_011', 
-      FONT_FAMILY: 'COD_012',
-      FONT_STYLE: 'COD_013',
-      FONT_COLOR: 'COD_014',
-      ENABLED: 'COD_015'
-    };
-    
-    // Salva TUTTI i campi separatamente 
+    // Salva TUTTI i campi separatamente usando i codici corretti
     const results = await Promise.allSettled([
-      userDb.setField(STYLE_CODES.BUSINESS_NAME, businessName),
-      userDb.setField(STYLE_CODES.FONT_SIZE, fontSize.toString()),
-      userDb.setField(STYLE_CODES.FONT_FAMILY, fontFamily),
-      userDb.setField(STYLE_CODES.FONT_STYLE, fontStyle),
-      userDb.setField(STYLE_CODES.FONT_COLOR, color),
-      userDb.setField(STYLE_CODES.ENABLED, enabled.toString())
+      userDb.setField(UNIFIED_FIELD_CODES.BUSINESS_NAME, businessName),
+      userDb.setField(UNIFIED_FIELD_CODES.FONT_SIZE, fontSize.toString()),
+      userDb.setField(UNIFIED_FIELD_CODES.FONT_FAMILY, fontFamily),
+      userDb.setField(UNIFIED_FIELD_CODES.FONT_STYLE, fontStyle),
+      userDb.setField(UNIFIED_FIELD_CODES.FONT_COLOR, color),
+      userDb.setField(UNIFIED_FIELD_CODES.FONT_ENABLED, enabled.toString())
     ]);
     
     // Verifica risultati
