@@ -809,6 +809,7 @@ export const licenses = pgTable("licenses", {
   activatedAt: timestamp("activated_at"),
   expiresAt: timestamp("expires_at"),
   userId: integer("user_id"), // Collegamento con l'utente proprietario della licenza
+  sponsoredBy: integer("sponsored_by"), // ID dello staff che ha sponsorizzato questa licenza
 });
 
 export const insertLicenseSchema = createInsertSchema(licenses).omit({
@@ -819,11 +820,53 @@ export const insertLicenseSchema = createInsertSchema(licenses).omit({
 export type License = typeof licenses.$inferSelect;
 export type InsertLicense = z.infer<typeof insertLicenseSchema>;
 
+// Staff Commissions table schema (Sistema Referral)
+export const staffCommissions = pgTable("staff_commissions", {
+  id: serial("id").primaryKey(),
+  staffId: integer("staff_id").notNull(), // ID dello staff che riceve la commissione
+  licenseId: integer("license_id").notNull(), // ID della licenza sponsorizzata
+  commissionAmount: integer("commission_amount").default(100), // Commissione in centesimi (1€ = 100)
+  isPaid: boolean("is_paid").default(false),
+  paidAt: timestamp("paid_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  notes: text("notes"), // Note per il pagamento
+});
+
+export const insertStaffCommissionSchema = createInsertSchema(staffCommissions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type StaffCommission = typeof staffCommissions.$inferSelect;
+export type InsertStaffCommission = z.infer<typeof insertStaffCommissionSchema>;
+
 // Relazione tra licenses e users
-export const licensesRelations = relations(licenses, ({ one }) => ({
+export const licensesRelations = relations(licenses, ({ one, many }) => ({
   user: one(users, {
     fields: [licenses.userId],
     references: [users.id],
     relationName: "user_licenses",
+  }),
+  sponsoredByStaff: one(users, {
+    fields: [licenses.sponsoredBy],
+    references: [users.id],
+    relationName: "sponsored_licenses",
+  }),
+  commissions: many(staffCommissions, {
+    relationName: "license_commissions",
+  }),
+}));
+
+// Relazioni per Staff Commissions
+export const staffCommissionsRelations = relations(staffCommissions, ({ one }) => ({
+  staff: one(users, {
+    fields: [staffCommissions.staffId],
+    references: [users.id],
+    relationName: "staff_commissions",
+  }),
+  license: one(licenses, {
+    fields: [staffCommissions.licenseId],
+    references: [licenses.id],
+    relationName: "license_commissions",
   }),
 }));
