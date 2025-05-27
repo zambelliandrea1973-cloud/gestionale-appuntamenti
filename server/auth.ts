@@ -388,7 +388,7 @@ export function setupAuth(app: Express) {
             // Importa il servizio token se necessario
             // Usiamo import dinamico invece di require per evitare errori
             const tokenServiceModule = await import('./services/tokenService');
-            const tokenService = tokenServiceModule.default;
+            const tokenService = tokenServiceModule.tokenService;
             // Genera un token per questo cliente
             token = await tokenService.generateActivationToken(user.clientId);
             console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
