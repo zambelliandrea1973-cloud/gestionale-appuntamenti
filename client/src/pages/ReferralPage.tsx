@@ -97,7 +97,7 @@ export default function ReferralPage() {
 
   // Ottieni le statistiche sui referral
   const { data: referralData, isLoading: isLoadingReferral } = useQuery<ReferralResponse>({
-    queryKey: ['/api/referral/stats'],
+    queryKey: ['/api/referral/staff'],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
