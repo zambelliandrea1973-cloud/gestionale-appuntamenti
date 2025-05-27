@@ -131,6 +131,15 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>Notifiche</span>
                   </Button>
                 </Link>
+                {/* Link Referral sulla prima riga per admin */}
+                {isAdmin && (
+                  <Link href="/referral">
+                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
+                      <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
+                      <span>Referral</span>
+                    </Button>
+                  </Link>
+                )}
               </div>
               
               {/* Seconda riga di navigazione - con spacing distribuito per bilanciamento 50/50 */}
@@ -151,12 +160,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] bg-transparent border-0 text-white">
                         <UserCog className="h-4 w-4 mr-1" />
                         <span className="text-white">Staff</span>
-                      </Button>
-                    </Link>
-                    <Link href="/referral">
-                      <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px] bg-transparent border-0 text-white">
-                        <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
-                        <span className="text-white">Referral</span>
                       </Button>
                     </Link>
                     <Link href="/payment-admin">
