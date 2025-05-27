@@ -288,6 +288,16 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     
 
                     
+                    {/* Commissioni Referral - visibile a staff e admin */}
+                    {(isStaff || isAdmin) && (
+                      <Link href="/referral">
+                        <Button variant={isActive("/referral") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
+                          <CreditCard className="mr-2 h-4 w-4 text-blue-500" />
+                          <span className="font-medium">Commissioni Referral</span>
+                        </Button>
+                      </Link>
+                    )}
+
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (
                       <>
@@ -295,12 +305,6 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                           <Button variant={isActive("/staff-management") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
                             <UserCog className="mr-2 h-4 w-4" />
                             <span className="font-medium">Gestione Staff</span>
-                          </Button>
-                        </Link>
-                        <Link href="/referral">
-                          <Button variant={isActive("/referral") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
-                            <CreditCard className="mr-2 h-4 w-4 text-blue-500" />
-                            <span className="font-medium">Commissioni Referral</span>
                           </Button>
                         </Link>
                         <Link href="/payment-admin">
