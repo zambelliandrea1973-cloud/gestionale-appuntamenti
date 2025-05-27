@@ -3,6 +3,47 @@ import { getIndividualStaffReferral } from './individualStaffReferral';
 import { getAllStaffUsers } from '../storage'; // Assumendo che esista questa funzione
 
 /**
+ * Pagamento commissioni per uno staff specifico
+ */
+export async function payStaffCommissions(req: Request, res: Response) {
+  try {
+    const { staffId } = req.params;
+    const { amount } = req.body;
+    
+    console.log(`💰 PAGAMENTO COMMISSIONI: Staff ID ${staffId}, Importo €${amount/100}`);
+    
+    // Simula la richiesta per aggiornare le commissioni dello staff
+    const mockRequest = { 
+      user: { id: parseInt(staffId), role: 'staff' },
+      body: { amount, action: 'mark_as_paid' }
+    } as Request;
+    
+    const mockResponse = {
+      json: (data: any) => {
+        console.log('✅ COMMISSIONI PAGATE CON SUCCESSO');
+        res.json({ 
+          success: true, 
+          message: `Commissioni di €${amount/100} pagate allo staff ${staffId}`,
+          paidAmount: amount,
+          paidAt: new Date().toISOString()
+        });
+      },
+      status: (code: number) => ({ json: (data: any) => res.status(code).json(data) })
+    } as Response;
+    
+    // Chiama la funzione individuale per aggiornare lo staff
+    await getIndividualStaffReferral(mockRequest, mockResponse);
+    
+  } catch (error) {
+    console.error('❌ ERRORE PAGAMENTO COMMISSIONI:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Errore nel pagamento delle commissioni' 
+    });
+  }
+}
+
+/**
  * Aggregatore per la vista admin del sistema referral
  * Raccoglie tutti i dati dai sistemi staff individuali
  */

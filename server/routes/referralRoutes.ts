@@ -3,7 +3,7 @@ import { simplifiedReferralService } from '../services/simplifiedReferralService
 import { isAuthenticated } from '../auth';
 import { getWorkingReferralOverview } from '../api/workingReferralSystem';
 import { getIndividualStaffReferral } from '../api/individualStaffReferral';
-import { getAdminReferralAggregation } from '../api/adminReferralAggregator';
+import { getAdminReferralAggregation, payStaffCommissions } from '../api/adminReferralAggregator';
 import { format } from 'date-fns';
 
 const router = express.Router();
@@ -170,6 +170,30 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
 });
 
 // Rotte amministrative (solo per admin)
+
+/**
+ * Paga le commissioni di uno staff specifico
+ * POST /api/referral/staff/:staffId/pay-commissions
+ */
+router.post('/staff/:staffId/pay-commissions', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    // Verifica che sia un admin
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Solo gli admin possono pagare le commissioni'
+      });
+    }
+
+    await payStaffCommissions(req, res);
+  } catch (error) {
+    console.error('Errore nel pagamento commissioni:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel pagamento delle commissioni'
+    });
+  }
+});
 
 /**
  * Ottiene tutti i pagamenti di referral in sospeso
