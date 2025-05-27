@@ -4,50 +4,94 @@ import { ensureAuthenticated } from '../middleware/authMiddleware';
 
 const router = Router();
 
-// Ottieni le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
+// Ottieni TUTTE le impostazioni di stile CON SISTEMA CODICI UNIVOCI
 router.get('/company-settings-v2', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
-    console.log(`🎯 *** GET /api/company-name-settings CHIAMATO ***`);
+    console.log(`🎯 *** GET /api/company-settings-v2 CHIAMATO ***`);
     const userId = req.user!.id;
-    console.log(`🎯 GET company-name-settings per User ID: ${userId}`);
+    console.log(`🎯 GET company-settings-v2 per User ID: ${userId}`);
     
     const userDb = createUnifiedUserDatabase(userId);
-    const businessName = await userDb.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME);
+    
+    // Carica TUTTI i campi di stile dal database separato
+    const [businessName, fontSize, fontFamily, fontStyle, fontColor, fontEnabled] = await Promise.all([
+      userDb.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME),
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_SIZE),
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_FAMILY),
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_STYLE),
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_COLOR),
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_ENABLED)
+    ]);
     
     const settings = {
       businessName: businessName || `Attività ${userId}`,
+      fontSize: parseInt(fontSize) || 24,
+      fontFamily: fontFamily || 'Arial',
+      fontStyle: fontStyle || 'normal',
+      color: fontColor || '#000000',
+      enabled: fontEnabled !== 'false',
       userId: userId
     };
     
-    console.log(`✅ SETTINGS CARICATI per User ID ${userId}: ${JSON.stringify(settings)}`);
+    console.log(`✅ TUTTE LE IMPOSTAZIONI CARICATE per User ID ${userId}:`, settings);
     console.log(`🎯 *** RETURNING JSON: ${JSON.stringify(settings)} ***`);
     res.json(settings);
   } catch (error) {
-    console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
-    res.status(500).json({ message: 'Errore durante il recupero delle impostazioni del nome aziendale' });
+    console.error('Errore durante il recupero delle impostazioni complete:', error);
+    res.status(500).json({ message: 'Errore durante il recupero delle impostazioni complete' });
   }
 });
 
-// Aggiorna le impostazioni del nome aziendale CON SISTEMA CODICI UNIVOCI
+// Aggiorna TUTTE le impostazioni di stile CON SISTEMA CODICI UNIVOCI
 router.post('/company-settings-v2', ensureAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;
-    const { businessName } = req.body;
+    const { businessName, fontSize, fontFamily, fontStyle, color, enabled } = req.body;
     
-    console.log(`🎯 POST company-name-settings per User ID: ${userId}, Nome: "${businessName}"`);
+    console.log(`🎯 POST company-settings-v2 per User ID: ${userId}`);
+    console.log(`📝 Dati ricevuti:`, { businessName, fontSize, fontFamily, fontStyle, color, enabled });
     
     const userDb = createUnifiedUserDatabase(userId);
-    const success = await userDb.setField(UNIFIED_FIELD_CODES.BUSINESS_NAME, businessName);
     
-    if (success) {
-      console.log(`✅ NOME AZIENDALE SALVATO SEPARATAMENTE per User ID ${userId}: "${businessName}"`);
-      res.json({ message: 'Impostazioni salvate con successo', userId, businessName });
-    } else {
-      res.status(500).json({ message: 'Errore durante il salvataggio delle impostazioni' });
+    // Salva TUTTI i campi se sono presenti nella richiesta
+    const savePromises = [];
+    
+    if (businessName !== undefined) {
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.BUSINESS_NAME, businessName));
     }
+    if (fontSize !== undefined) {
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_SIZE, fontSize.toString()));
+    }
+    if (fontFamily !== undefined) {
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_FAMILY, fontFamily));
+    }
+    if (fontStyle !== undefined) {
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_STYLE, fontStyle));
+    }
+    if (color !== undefined) {
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_COLOR, color));
+    }
+    if (enabled !== undefined) {
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_ENABLED, enabled.toString()));
+    }
+    
+    const results = await Promise.allSettled(savePromises);
+    const successful = results.filter(result => result.status === 'fulfilled').length;
+    
+    console.log(`✅ CAMPI SALVATI per User ID ${userId}: ${successful}/${savePromises.length}`);
+    console.log(`📋 Dettagli: Nome="${businessName}", Font="${fontFamily}", Size=${fontSize}px, Colore="${color}"`);
+    
+    res.json({ 
+      message: 'Impostazioni salvate con successo', 
+      userId, 
+      savedFields: successful,
+      totalFields: savePromises.length,
+      details: { businessName, fontSize, fontFamily, fontStyle, color, enabled }
+    });
+    
   } catch (error) {
-    console.error('Errore durante il salvataggio delle impostazioni del nome aziendale:', error);
-    res.status(500).json({ message: 'Errore durante il salvataggio delle impostazioni del nome aziendale' });
+    console.error('Errore durante il salvataggio delle impostazioni complete:', error);
+    res.status(500).json({ message: 'Errore durante il salvataggio delle impostazioni complete' });
   }
 });
 
