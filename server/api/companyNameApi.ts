@@ -23,6 +23,23 @@ router.get('/company-settings-v2', ensureAuthenticated, async (req: Request, res
       userDb.getField(UNIFIED_FIELD_CODES.FONT_ENABLED)   // COD_075
     ]);
     
+    // Se i campi non esistono, li inizializzo con valori predefiniti
+    if (!fontSize) {
+      await userDb.setField(UNIFIED_FIELD_CODES.FONT_SIZE, '24');
+    }
+    if (!fontFamily) {
+      await userDb.setField(UNIFIED_FIELD_CODES.FONT_FAMILY, 'Arial');
+    }
+    if (!fontStyle) {
+      await userDb.setField(UNIFIED_FIELD_CODES.FONT_STYLE, 'normal');
+    }
+    if (!fontColor) {
+      await userDb.setField(UNIFIED_FIELD_CODES.FONT_COLOR, '#000000');
+    }
+    if (!fontEnabled) {
+      await userDb.setField(UNIFIED_FIELD_CODES.FONT_ENABLED, 'true');
+    }
+
     const settings = {
       businessName: businessName || `Attività ${userId}`,
       fontSize: parseInt(fontSize || '24') || 24,
