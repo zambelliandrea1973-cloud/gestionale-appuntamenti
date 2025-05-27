@@ -124,77 +124,67 @@ export default function ReferralCommissionsPage() {
             </div>
           </div>
 
-          {/* Sezione Codice Referral Personale */}
+          {/* Sezione Codice Referral Personale - Compatta */}
           {userStats && (
-            <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg border-0 mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <Share2 className="h-8 w-8" />
-                  Il Tuo Codice Referral
-                </CardTitle>
-                <CardDescription className="text-green-100">
-                  Condividi questo codice con i nuovi clienti durante la registrazione
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-white/20 backdrop-blur rounded-lg p-6 mb-4">
-                  <div className="text-center mb-4">
-                    <div className="text-6xl font-bold tracking-wider text-white mb-2">
-                      {userStats.myReferralCode || 'CARICAMENTO...'}
+            <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md border-0 mb-6">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Share2 className="h-5 w-5" />
+                    <div>
+                      <h3 className="font-semibold text-lg">Il Tuo Codice Referral</h3>
+                      <p className="text-green-100 text-sm">Condividi con i nuovi clienti</p>
                     </div>
-                    <p className="text-green-100">Il tuo codice personale</p>
                   </div>
                   
-                  <div className="flex gap-3 justify-center">
-                    <Button
-                      onClick={() => {
-                        navigator.clipboard.writeText(userStats.myReferralCode || '');
-                        toast({
-                          title: "Codice copiato!",
-                          description: "Il tuo codice referral è stato copiato negli appunti",
-                        });
-                      }}
-                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                      size="lg"
-                    >
-                      <Copy className="h-5 w-5 mr-2" />
-                      Copia Codice
-                    </Button>
-                    
-                    <Button
-                      onClick={() => {
-                        if (navigator.share) {
-                          navigator.share({
-                            title: 'Codice Referral',
-                            text: `Usa il mio codice referral: ${userStats.myReferralCode}`,
-                          });
-                        } else {
-                          navigator.clipboard.writeText(`Usa il mio codice referral: ${userStats.myReferralCode}`);
+                  <div className="text-right">
+                    <div className="text-3xl font-bold tracking-wider mb-1">
+                      {userStats.stats?.myReferralCode || userStats.myReferralCode || 'CARICAMENTO...'}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => {
+                          const code = userStats.stats?.myReferralCode || userStats.myReferralCode || '';
+                          navigator.clipboard.writeText(code);
                           toast({
-                            title: "Messaggio copiato!",
-                            description: "Il messaggio è stato copiato negli appunti",
+                            title: "Codice copiato!",
+                            description: `Codice ${code} copiato negli appunti`,
                           });
-                        }
-                      }}
-                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                      size="lg"
-                    >
-                      <Share2 className="h-5 w-5 mr-2" />
-                      Condividi
-                    </Button>
+                        }}
+                        size="sm"
+                        className="bg-white/20 hover:bg-white/30 text-white"
+                      >
+                        <Copy className="h-4 w-4 mr-1" />
+                        Copia
+                      </Button>
+                      
+                      <Button
+                        onClick={() => {
+                          const code = userStats.stats?.myReferralCode || userStats.myReferralCode || '';
+                          const message = `Usa il mio codice referral: ${code} per ottenere vantaggi speciali durante la registrazione!`;
+                          if (navigator.share) {
+                            navigator.share({ title: 'Codice Referral', text: message });
+                          } else {
+                            navigator.clipboard.writeText(message);
+                            toast({
+                              title: "Messaggio copiato!",
+                              description: "Il messaggio completo è stato copiato",
+                            });
+                          }
+                        }}
+                        size="sm"
+                        className="bg-white/20 hover:bg-white/30 text-white"
+                      >
+                        <Share2 className="h-4 w-4 mr-1" />
+                        Condividi
+                      </Button>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="bg-white/10 rounded-lg p-4 mb-4">
-                  <p className="text-green-100 text-sm font-semibold mb-2">📝 Messaggio da condividere:</p>
-                  <div className="bg-white/20 rounded p-3 text-white font-mono text-sm">
-                    "Usa il mio codice referral: {userStats.myReferralCode} per ottenere vantaggi speciali durante la registrazione!"
-                  </div>
-                </div>
-                
-                <div className="text-center text-green-100">
-                  <p className="text-sm">
-                    💡 <strong>Come usarlo:</strong> I nuovi clienti inseriscono questo codice nel campo "Codice Referral" durante la registrazione
+                <div className="mt-3 text-center">
+                  <p className="text-green-100 text-xs">
+                    📝 <strong>Messaggio:</strong> "Usa il mio codice referral: <span className="font-mono bg-white/20 px-1 rounded">{userStats.stats?.myReferralCode || userStats.myReferralCode || '...'}</span> per ottenere vantaggi speciali!"
                   </p>
                 </div>
               </CardContent>
