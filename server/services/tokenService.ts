@@ -255,6 +255,3 @@ export const tokenService = {
     }
   }
 };
-
-// Export default per compatibilità
-export default tokenService;

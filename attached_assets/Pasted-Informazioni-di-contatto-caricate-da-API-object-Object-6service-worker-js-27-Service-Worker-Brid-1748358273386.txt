@@ -1,0 +1,39 @@
+Informazioni di contatto caricate da API: [object Object]
+6service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+VM1951 dashboard:60 🎯 SISTEMA ANTI-OVERLAY ATTIVATO
+VM1952 dashboard:10 PWA check - standalone mode: false
+VM1952 dashboard:11 PWA check - iOS fullscreen: undefined
+48service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+cleanup-menu.js:1 Uncaught SyntaxError: Unexpected token '<'Understand this error
+88service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:80 Dettagli richiesta GET a /api/client-app-info: Object
+6service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+queryClient.ts:80 Dettagli richiesta GET a /api/client-app-info: Object
+service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+VM1952 dashboard:65 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+queryClient.ts:93 Risposta da /api/client-app-info: 200 OK ok: true
+service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license:1 
+            
+            
+           Failed to load resource: the server responded with a status of 401 (Unauthorized)Understand this error
+queryClient.ts:93 Risposta da /api/client-app-info: 200 OK ok: true
+service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license:1 
+            
+            
+           Failed to load resource: the server responded with a status of 401 (Unauthorized)Understand this error
+App.tsx:91 Stato autenticazione: Object
+App.tsx:95 Utente non autenticato su pagina protetta, reindirizzamento a /
+App.tsx:91 Stato autenticazione: Object
+5service-worker.js:27 [Service Worker Bridge] Richiesta intercettata, reindirizzamento
+stallwart.build.js:1 stallwart: failed ping 1
