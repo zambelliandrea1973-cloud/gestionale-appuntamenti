@@ -390,7 +390,7 @@ export function setupAuth(app: Express) {
             const tokenServiceModule = await import('./services/tokenService');
             const tokenService = tokenServiceModule.default;
             // Genera un token per questo cliente
-            token = await tokenService.createActivationToken(user.clientId);
+            token = await tokenService.generateActivationToken(user.clientId);
             console.log(`Token generato per accesso PWA: ${token} (client ${user.clientId})`);
           } catch (error) {
             console.error("Errore nella generazione token:", error);
