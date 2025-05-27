@@ -41,6 +41,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
+import ReferralCommissionsPage from "./pages/ReferralCommissionsPage";
 
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
@@ -245,6 +246,11 @@ function AppRoutes() {
       <Route path="/subscribe">
         <StaffPageWrapper>
           <SubscribePage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/referral">
+        <StaffPageWrapper>
+          <ReferralCommissionsPage />
         </StaffPageWrapper>
       </Route>
       
