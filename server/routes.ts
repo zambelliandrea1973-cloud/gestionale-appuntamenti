@@ -43,6 +43,7 @@ import licenseRoutes from './routes/licenseRoutes';
 import setupRegistrationRoutes from './routes/registrationRoutes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import setupStaffRoutes from './routes/staffRoutes';
+import referralRoutes from './routes/referralRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
 import { getStaffReferralStats, getReferralOverview, assignSponsorship, markCommissionPaid } from './api/referralApi';
 
