@@ -47,12 +47,36 @@ export async function getStaffReferralStats(req: Request, res: Response) {
       .orderBy(desc(staffCommissions.createdAt))
       .limit(10);
 
+    // Ottieni i dati dell'utente e il suo codice referral
+    const [userData] = await db
+      .select({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+        referralCode: users.referralCode
+      })
+      .from(users)
+      .where(eq(users.id, staffId));
+
     res.json({
-      sponsoredCount: sponsoredCount.count,
-      totalCommissions: totalCommissions.total,
-      paidCommissions: totalCommissions.paid,
-      pendingCommissions: totalCommissions.pending,
-      recentCommissions,
+      userData: userData || {
+        id: staffId,
+        username: "Staff User",
+        email: "",
+        referralCode: `BUS${staffId}`
+      },
+      commissions: recentCommissions || [],
+      stats: {
+        totalActiveCommissions: sponsoredCount.count || 0,
+        currentMonthAmount: totalCommissions.pending || 0,
+        lastMonthAmount: totalCommissions.paid || 0,
+        hasBankAccount: false
+      },
+      referralCode: userData?.referralCode || `BUS${staffId}`,
+      sponsoredCount: sponsoredCount.count || 0,
+      totalCommissions: totalCommissions.total || 0,
+      paidCommissions: totalCommissions.paid || 0,
+      pendingCommissions: totalCommissions.pending || 0,
       commissionRate: 100, // 1€ in centesimi
       minSponsorshipForCommission: 3 // Dal 3° abbonamento
     });
