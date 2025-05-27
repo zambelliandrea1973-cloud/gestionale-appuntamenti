@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Award, TrendingUp, Banknote, Clock, Users, Euro, CheckCircle, XCircle } from "lucide-react";
+import { Award, TrendingUp, Banknote, Clock, Users, Euro, CheckCircle, XCircle, Copy, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { format } from "date-fns";
