@@ -50,7 +50,7 @@ export default function CompanyNameEditor() {
     try {
       console.log('🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ');
       // USA L'API CHE FUNZIONA GIÀ PER I DATABASE SEPARATI - CON CACHE BUSTING
-      const response = await fetch(`/api/client-app-info?t=${Date.now()}`, {
+      const response = await fetch(`/api/company-settings-v2?t=${Date.now()}`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -60,37 +60,15 @@ export default function CompanyNameEditor() {
         const data = await response.json();
         console.log('🔍 DATI COMPLETI RICEVUTI:', JSON.stringify(data, null, 2));
         
-        // 🎯 CARICA ANCHE GLI STILI DAL DATABASE SEPARATO
-        const stylesResponse = await fetch(`/api/company-styles?t=${Date.now()}`, {
-          method: 'GET',
-          credentials: 'include'
-        });
-        
-        let styles = {
+        setSettings({
+          name: data.businessName || '',
           fontSize: 24,
           fontFamily: 'Arial',
           fontStyle: 'normal',
           color: '#000000',
           enabled: true
-        };
-        
-        if (stylesResponse.ok) {
-          const stylesData = await stylesResponse.json();
-          console.log('🎨 STILI CARICATI DAL DATABASE:', JSON.stringify(stylesData, null, 2));
-          styles = {
-            fontSize: parseInt(stylesData.fontSize) || 24,
-            fontFamily: stylesData.fontFamily || 'Arial',
-            fontStyle: stylesData.fontStyle || 'normal',
-            color: stylesData.color || '#000000',
-            enabled: stylesData.enabled !== 'false'
-          };
-        }
-        
-        setSettings({
-          name: data.appName || '',
-          ...styles
         });
-        console.log(`✅ TUTTO CARICATO: Nome="${data.appName}", Font="${styles.fontFamily}", Dimensione=${styles.fontSize}px`);
+        console.log(`✅ IMPOSTAZIONI CARICATE: businessName="${data.businessName}"`);
       } else {
         console.error('Errore nel caricamento delle impostazioni');
       }
@@ -107,20 +85,15 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // 🎯 SALVA TUTTI I CAMPI NEL DATABASE SEPARATO PER UTENTE
-      const response = await fetch('/api/company-settings-complete', {
+      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE
+      const response = await fetch('/api/company-settings-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify({
-          businessName: settings.name,
-          fontSize: settings.fontSize,
-          fontFamily: settings.fontFamily,
-          fontStyle: settings.fontStyle,
-          color: settings.color,
-          enabled: settings.enabled
+          businessName: settings.name
         })
       });
       
