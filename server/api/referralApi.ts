@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "../db";
-import { staffCommissions, licenses, users } from "@shared/schema";
+import { referralCommissions, licenses, users } from "@shared/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 
 // Ottieni le statistiche referral per uno staff specifico
@@ -18,36 +18,33 @@ export async function getStaffReferralStats(req: Request, res: Response) {
         eq(licenses.isActive, true)
       ));
 
-    // Commissioni totali - Query semplificata
+    // Commissioni totali - Query semplificata usando referralCommissions
     const allCommissions = await db
       .select()
-      .from(staffCommissions)
-      .where(eq(staffCommissions.staffId, staffId));
+      .from(referralCommissions)
+      .where(eq(referralCommissions.referrerId, staffId));
 
     const totalCommissions = {
-      total: allCommissions.reduce((sum, comm) => sum + comm.commissionAmount, 0) / 100, // Converti da centesimi a euro
-      paid: allCommissions.filter(comm => comm.isPaid).reduce((sum, comm) => sum + comm.commissionAmount, 0) / 100,
-      pending: allCommissions.filter(comm => !comm.isPaid).reduce((sum, comm) => sum + comm.commissionAmount, 0) / 100
+      total: allCommissions.reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100, // Converti da centesimi a euro
+      paid: allCommissions.filter(comm => comm.status === 'active').reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100,
+      pending: allCommissions.filter(comm => comm.status !== 'active').reduce((sum, comm) => sum + (comm.monthlyAmount || 0), 0) / 100
     };
 
-    // Lista commissioni recenti
+    // Lista commissioni recenti usando referralCommissions
     const recentCommissions = await db
       .select({
-        id: staffCommissions.id,
-        commissionAmount: staffCommissions.commissionAmount,
-        isPaid: staffCommissions.isPaid,
-        paidAt: staffCommissions.paidAt,
-        createdAt: staffCommissions.createdAt,
-        notes: staffCommissions.notes,
-        licenseCode: licenses.code,
-        licenseType: licenses.type,
-        customerEmail: users.email
+        id: referralCommissions.id,
+        commissionAmount: referralCommissions.monthlyAmount,
+        isPaid: referralCommissions.status,
+        paidAt: referralCommissions.lastPaidPeriod,
+        createdAt: referralCommissions.createdAt,
+        customerEmail: users.email,
+        status: referralCommissions.status
       })
-      .from(staffCommissions)
-      .innerJoin(licenses, eq(staffCommissions.licenseId, licenses.id))
-      .innerJoin(users, eq(licenses.userId, users.id))
-      .where(eq(staffCommissions.staffId, staffId))
-      .orderBy(desc(staffCommissions.createdAt))
+      .from(referralCommissions)
+      .innerJoin(users, eq(referralCommissions.referredId, users.id))
+      .where(eq(referralCommissions.referrerId, staffId))
+      .orderBy(desc(referralCommissions.createdAt))
       .limit(10);
 
     // Ottieni i dati dell'utente e il suo codice referral
