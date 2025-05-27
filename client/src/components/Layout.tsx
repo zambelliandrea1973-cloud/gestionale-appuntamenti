@@ -55,6 +55,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const isAdmin = userWithLicense?.type === 'admin';
   const isStaff = userWithLicense?.type === 'staff';
   
+  // Debug temporaneo
+  console.log('Layout Debug:', { 
+    userType: userWithLicense?.type, 
+    isStaff, 
+    isAdmin, 
+    userLoading: isUserLoading 
+  });
+  
   // Check active route
   const isActive = (path: string) => location === path;
   
@@ -289,11 +297,11 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
 
                     
                     {/* Commissioni Referral - visibile a staff e admin */}
-                    {(isStaff || isAdmin) && (
+                    {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
                       <Link href="/referral">
-                        <Button variant={isActive("/referral") ? "secondary" : "outline"} className="justify-start w-full border-primary-light/40 font-medium">
+                        <Button variant={isActive("/referral") ? "secondary" : "ghost"} className="justify-start w-full">
                           <CreditCard className="mr-2 h-4 w-4 text-blue-500" />
-                          <span className="font-medium">Commissioni Referral</span>
+                          Commissioni Referral
                         </Button>
                       </Link>
                     )}
