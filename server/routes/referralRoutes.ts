@@ -134,6 +134,8 @@ router.get('/staff', ensureAuthenticated, async (req: Request, res: Response) =>
       });
     }
 
+    console.log(`🚀 ROUTER REFERRAL: Richiesta staff referral per utente ID: ${req.user.id}, email: ${req.user.email}`);
+    
     // Chiama la funzione esistente passando l'ID dello staff come parametro
     req.params.staffId = req.user.id.toString();
     await getStaffReferralStats(req, res);
