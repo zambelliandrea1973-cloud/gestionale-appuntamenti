@@ -44,6 +44,7 @@ import setupRegistrationRoutes from './routes/registrationRoutes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import setupStaffRoutes from './routes/staffRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
+import { getStaffReferralStats, getReferralOverview, assignSponsorship, markCommissionPaid } from './api/referralApi';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -3118,6 +3119,20 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
       });
     }
   });
+
+  // === REFERRAL SYSTEM COMMISSIONI API ===
+  
+  // Statistiche referral per uno staff specifico
+  app.get('/api/referral/staff/:staffId/stats', isAuthenticated, getStaffReferralStats);
+  
+  // Panoramica generale referral (solo admin)
+  app.get('/api/referral/overview', isAuthenticated, getReferralOverview);
+  
+  // Assegna sponsorizzazione a una licenza
+  app.post('/api/referral/assign', isAuthenticated, assignSponsorship);
+  
+  // Segna commissione come pagata (solo admin)
+  app.patch('/api/referral/commission/:commissionId/paid', isAuthenticated, markCommissionPaid);
 
 
 
