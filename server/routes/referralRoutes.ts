@@ -3,6 +3,7 @@ import { simplifiedReferralService } from '../services/simplifiedReferralService
 import { isAuthenticated } from '../auth';
 import { getWorkingReferralOverview } from '../api/workingReferralSystem';
 import { getIndividualStaffReferral } from '../api/individualStaffReferral';
+import { getAdminReferralAggregation } from '../api/adminReferralAggregator';
 import { format } from 'date-fns';
 
 const router = express.Router();
@@ -242,6 +243,40 @@ router.put('/admin/payment/:id', isAuthenticated, async (req: Request, res: Resp
     res.status(500).json({
       success: false,
       message: 'Errore nell\'aggiornamento del pagamento'
+    });
+  }
+});
+
+/**
+ * Ottiene panoramica aggregata per admin (NUOVO!)
+ * GET /api/referral/overview
+ */
+router.get('/overview', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ 
+        success: false,
+        error: 'Accesso negato: solo admin' 
+      });
+    }
+    
+    console.log(`🎯 ROUTER OVERVIEW: Richiesta overview admin da: ${req.user.email}`);
+    console.log('🔄 USANDO NUOVO AGGREGATORE che raccoglie dati da tutti i sistemi staff individuali');
+    
+    // Usa il nuovo aggregatore che mantiene la funzionalità individuale
+    await getAdminReferralAggregation(req, res);
+  } catch (error) {
+    console.error('Errore nel recupero overview admin:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Errore nel recupero della panoramica referral'
     });
   }
 });
