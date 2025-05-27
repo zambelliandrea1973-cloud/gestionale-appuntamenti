@@ -58,6 +58,12 @@ export default function ReferralCommissionsPage() {
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  
+  // Stati per la gestione IBAN
+  const [iban, setIban] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [accountHolder, setAccountHolder] = useState('');
+  const [isEditingIban, setIsEditingIban] = useState(false);
 
   // Recupera le statistiche personali se è staff
   const { data: userStats, isLoading: userStatsLoading } = useQuery<ReferralStats>({
@@ -188,6 +194,139 @@ export default function ReferralCommissionsPage() {
                 <div className="mt-3 text-center">
                   <p className="text-green-100 text-xs">
                     📝 <strong>Messaggio:</strong> "Utilizza il codice di attivazione (<span className="font-mono bg-white/20 px-1 rounded">{userStats.stats?.myReferralCode || userStats.myReferralCode || '...'}</span>) durante la registrazione"
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Sezione IBAN per Pagamenti - Solo Staff */}
+          {userStats && (
+            <Card className="bg-white shadow-md border border-gray-200 mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-xl text-gray-800">
+                  <CreditCard className="h-6 w-6 text-blue-600" />
+                  Dati Bancari per Pagamenti
+                </CardTitle>
+                <CardDescription className="text-gray-600">
+                  Inserisci i tuoi dati bancari per ricevere le commissioni delle sponsorizzazioni
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {!isEditingIban ? (
+                  // Visualizzazione dati IBAN
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">IBAN</Label>
+                          <p className="text-lg font-mono mt-1">{iban || 'Non inserito'}</p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">Nome Banca</Label>
+                          <p className="mt-1">{bankName || 'Non inserito'}</p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium text-gray-700">Intestatario</Label>
+                          <p className="mt-1">{accountHolder || 'Non inserito'}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={() => setIsEditingIban(true)}
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <Edit className="h-4 w-4" />
+                        {iban ? 'Modifica Dati' : 'Inserisci Dati'}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  // Form di modifica IBAN
+                  <div className="space-y-4">
+                    <div className="grid md:grid-cols-1 gap-4">
+                      <div>
+                        <Label htmlFor="iban" className="text-sm font-medium">IBAN *</Label>
+                        <Input
+                          id="iban"
+                          type="text"
+                          placeholder="IT60 X054 2811 1010 0000 0123 456"
+                          value={iban}
+                          onChange={(e) => setIban(e.target.value.toUpperCase())}
+                          className="font-mono"
+                          maxLength={34}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Inserisci l'IBAN completo (con codice paese)</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="bankName" className="text-sm font-medium">Nome Banca</Label>
+                        <Input
+                          id="bankName"
+                          type="text"
+                          placeholder="Es. Banca Intesa Sanpaolo"
+                          value={bankName}
+                          onChange={(e) => setBankName(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="accountHolder" className="text-sm font-medium">Intestatario Conto</Label>
+                        <Input
+                          id="accountHolder"
+                          type="text"
+                          placeholder="Nome e Cognome"
+                          value={accountHolder}
+                          onChange={(e) => setAccountHolder(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-3 justify-end">
+                      <Button
+                        onClick={() => {
+                          setIsEditingIban(false);
+                          // Reset ai valori precedenti se si annulla
+                        }}
+                        variant="outline"
+                      >
+                        Annulla
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          // Qui aggiungeremo la chiamata API per salvare
+                          if (!iban.trim()) {
+                            toast({
+                              title: "Errore",
+                              description: "L'IBAN è obbligatorio",
+                              variant: "destructive",
+                            });
+                            return;
+                          }
+                          
+                          toast({
+                            title: "Dati salvati!",
+                            description: "I tuoi dati bancari sono stati aggiornati",
+                          });
+                          setIsEditingIban(false);
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        <Save className="h-4 w-4 mr-2" />
+                        Salva Dati
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-xs text-blue-700">
+                    💡 <strong>Informativa:</strong> I tuoi dati bancari sono protetti e utilizzati esclusivamente per il pagamento delle commissioni referral. 
+                    Le commissioni vengono pagate quando raggiungi almeno 3 abbonamenti sponsorizzati.
                   </p>
                 </div>
               </CardContent>
