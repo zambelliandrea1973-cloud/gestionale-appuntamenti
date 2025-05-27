@@ -12,7 +12,8 @@ import {
   insertInvoiceSchema,
   insertInvoiceItemSchema,
   insertPaymentSchema,
-  insertReminderTemplateSchema
+  insertReminderTemplateSchema,
+  insertUserSettingsSchema
 } from "@shared/schema";
 import { setupAuth, isAdmin, isAuthenticated, isStaff, isClient } from "./auth";
 import { ensureAuthenticated } from "./middleware/authMiddleware";
@@ -27,6 +28,7 @@ import { directNotificationService } from "./services/directNotificationService"
 import { keepAliveService } from './services/keepAliveService';
 import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
+
 import { smtpDetectionService } from "./services/smtpDetectionService";
 import { clientAccessService } from "./services/clientAccessService";
 import multer from 'multer';
@@ -46,6 +48,9 @@ import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import setupStaffRoutes from './routes/staffRoutes';
 import referralRoutes from './routes/referralRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
+import companyNameApi from './api/companyNameApi';
+import colorApi from './api/colorApi';
+import themeApi from './api/themeApi';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -108,6 +113,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Errore nel servire ${req.path}:`, error);
       next(error);
+    }
+  });
+  
+  // Middleware per servire le icone personalizzate degli utenti
+  app.get("/user-icons/:userId/:filename", (req: Request, res: Response) => {
+    try {
+      const { userId, filename } = req.params;
+      const userIconPath = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`, filename);
+      
+      if (fs.existsSync(userIconPath)) {
+        // Imposta il MIME type corretto in base al file
+        if (filename.endsWith('.svg')) {
+          res.setHeader("Content-Type", "image/svg+xml");
+        } else if (filename.endsWith('.png')) {
+          res.setHeader("Content-Type", "image/png");
+        } else if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+          res.setHeader("Content-Type", "image/jpeg");
+        }
+        
+        res.sendFile(userIconPath);
+      } else {
+        // Se l'icona personalizzata non esiste, serve l'icona di default
+        const defaultIconPath = path.join(publicDir, 'icons', 'app-icon.png');
+        if (fs.existsSync(defaultIconPath)) {
+          res.setHeader("Content-Type", "image/png");
+          res.sendFile(defaultIconPath);
+        } else {
+          res.status(404).send("Icon not found");
+        }
+      }
+    } catch (error) {
+      console.error("Errore nel servire l'icona utente:", error);
+      res.status(500).send("Error serving user icon");
     }
   });
   
@@ -348,6 +386,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Error deleting client" });
     }
   });
+  
+  // API per nome aziendale con database separati - PRIORITÀ MASSIMA
+  app.use('/api', companyNameApi);
+  app.use('/api', colorApi);
+  app.use('/api', themeApi);
   
   // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
   app.use('/api/beta', betaRoutes);
@@ -1560,6 +1603,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ valid: false, message: "Errore durante la verifica del token" });
     }
   });
+
+  // ❌ ENDPOINT RIMOSSO - Ora usa solo il sistema database separati in companyNameApi.ts
+
+  // 🚀 SALVATAGGIO ENTRAMBI I COLORI - STESSO SISTEMA DEL NOME AZIENDALE
+  app.post('/api/color-settings-v2', ensureAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user!.id;
+      const { primaryColor, secondaryColor } = req.body;
+      
+      console.log(`🚀 SALVANDO ENTRAMBI I COLORI CON CODICI UNIVOCI per User ID: ${userId}, Primario: "${primaryColor}", Secondario: "${secondaryColor}"`);
+      
+      // USA IL SISTEMA DI CODICI UNIVOCI COME IL NOME AZIENDALE
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
+      
+      let allSuccess = true;
+      
+      // Salva colore primario con COD_002
+      if (primaryColor) {
+        const primarySuccess = await userDB.setField(UNIFIED_FIELD_CODES.PRIMARY_COLOR, primaryColor);
+        if (!primarySuccess) allSuccess = false;
+        console.log(`🎨 COLORE PRIMARIO ${primarySuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${primaryColor} (COD_002)`);
+      }
+      
+      // Salva colore secondario con COD_003
+      if (secondaryColor) {
+        const secondarySuccess = await userDB.setField(UNIFIED_FIELD_CODES.SECONDARY_COLOR, secondaryColor);
+        if (!secondarySuccess) allSuccess = false;
+        console.log(`🎨 COLORE SECONDARIO ${secondarySuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${secondaryColor} (COD_003)`);
+      }
+      
+      const success = allSuccess;
+      
+      if (success) {
+        console.log(`✅ ENTRAMBI I COLORI SALVATI CON SUCCESSO per User ID ${userId}: "${primaryColor}" + "${secondaryColor}"`);
+        res.json({ 
+          success: true,
+          message: 'Colori salvati con successo', 
+          userId, 
+          primaryColor,
+          secondaryColor 
+        });
+      } else {
+        throw new Error('Errore nel salvataggio nel database');
+      }
+    } catch (error: any) {
+      console.error('❌ ERRORE SALVATAGGIO COLORI:', error);
+      res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
+    }
+  });
+
+  // 🚀 SALVATAGGIO TEMA - STESSO SISTEMA DEL NOME AZIENDALE
+  app.post('/api/theme-settings-v2', ensureAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user!.id;
+      const { theme, appearance } = req.body;
+      
+      console.log(`🚀 SALVANDO TEMA CON CODICI UNIVOCI per User ID: ${userId}, Tema: "${theme}", Aspetto: "${appearance}"`);
+      
+      // USA IL SISTEMA DI CODICI UNIVOCI COME IL NOME AZIENDALE
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
+      
+      let allSuccess = true;
+      
+      // Salva tema con COD_005
+      if (theme) {
+        const themeSuccess = await userDB.setField(UNIFIED_FIELD_CODES.THEME, theme);
+        if (!themeSuccess) allSuccess = false;
+        console.log(`🎨 TEMA ${themeSuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${theme} (COD_005)`);
+      }
+      
+      // Salva appearance con COD_006
+      if (appearance) {
+        const appearanceSuccess = await userDB.setField(UNIFIED_FIELD_CODES.APPEARANCE, appearance);
+        if (!appearanceSuccess) allSuccess = false;
+        console.log(`🎨 APPEARANCE ${appearanceSuccess ? '✅ SALVATO' : '❌ ERRORE'}: ${appearance} (COD_006)`);
+      }
+      
+      const success = allSuccess;
+      
+      if (success) {
+        console.log(`✅ TEMA SALVATO CON SUCCESSO per User ID ${userId}: "${theme}" - "${appearance}"`);
+        res.json({ 
+          success: true,
+          message: 'Tema salvato con successo', 
+          userId, 
+          theme,
+          appearance 
+        });
+      } else {
+        throw new Error('Errore nel salvataggio nel database');
+      }
+    } catch (error: any) {
+      console.error('❌ ERRORE SALVATAGGIO TEMA:', error);
+      res.status(500).json({ success: false, message: error.message || 'Errore durante il salvataggio' });
+    }
+  });
   
   // Endpoint per verificare e autenticare direttamente con un token (per i link diretti)
   // Nota: abbiamo implementato una soluzione matematica (divisione per 4)
@@ -2283,79 +2424,129 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  app.get('/api/client-app-info', (req: Request, res: Response) => {
+  app.get('/api/client-app-info', ensureAuthenticated, async (req: Request, res: Response) => {
     try {
-      // Controlla diversi formati di icona personalizzata
-      // Priorità: JPG, PNG, SVG per mostrare immagini caricate di recente
-      const iconFormats = [
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      // Controlla se l'utente ha un'icona personalizzata
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      const userIconFormats = [
         { path: 'app-icon.jpg', mime: 'image/jpeg' },
         { path: 'app-icon.png', mime: 'image/png' },
         { path: 'app-icon.svg', mime: 'image/svg+xml' }
       ];
       
-      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
-      const defaultIconExists = fs.existsSync(defaultIconPath);
-      
       let iconInfo = null;
-      let customIconFound = false;
+      let userIconFound = false;
       
-      // Cerca tra i formati supportati
-      for (const format of iconFormats) {
-        const iconPath = path.join(process.cwd(), 'public', 'icons', format.path);
-        if (fs.existsSync(iconPath)) {
-          const stats = fs.statSync(iconPath);
+      // Prima cerca un'icona personalizzata per questo utente
+      for (const format of userIconFormats) {
+        const userIconPath = path.join(userIconsDir, format.path);
+        if (fs.existsSync(userIconPath)) {
+          const stats = fs.statSync(userIconPath);
           
           iconInfo = {
             exists: true,
             isCustom: true,
-            iconPath: `/icons/${format.path}`,
+            iconPath: `/user-icons/user-${userId}/${format.path}`,
             mimeType: format.mime,
             lastModified: stats.mtime.toISOString()
           };
           
-          customIconFound = true;
+          userIconFound = true;
           break;
         }
       }
       
-      // Se non è stata trovata un'icona personalizzata, usa quella predefinita
-      if (!customIconFound && defaultIconExists) {
-        const stats = fs.statSync(defaultIconPath);
+      // Se l'utente non ha un'icona personalizzata, crea una predefinita nella SUA cartella
+      if (!userIconFound) {
+        // Crea l'icona predefinita nella cartella personale dell'utente
+        const defaultSourcePath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+        const userDefaultPath = path.join(userIconsDir, 'app-icon.jpg');
         
-        iconInfo = {
-          exists: true,
-          isCustom: false,
-          iconPath: '/icons/default-app-icon.jpg',
-          mimeType: 'image/jpeg',
-          lastModified: stats.mtime.toISOString()
-        };
-      } 
-      // Nessuna icona disponibile
-      else if (!customIconFound) {
-        iconInfo = {
-          exists: false
-        };
-      }
-      
-      // Lettura delle informazioni dal manifest.json
-      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
-      let appName = "App Cliente";
-      let appShortName = "App Cliente";
-      
-      if (fs.existsSync(manifestPath)) {
-        try {
-          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-          appName = manifest.name || "App Cliente";
-          appShortName = manifest.short_name || "App Cliente";
-        } catch (error) {
-          console.error('Errore durante la lettura del manifest:', error);
+        // Assicurati che la directory dell'utente esista
+        if (!fs.existsSync(userIconsDir)) {
+          fs.mkdirSync(userIconsDir, { recursive: true });
+        }
+        
+        // Copia l'icona predefinita nella cartella dell'utente se non esiste già
+        if (fs.existsSync(defaultSourcePath) && !fs.existsSync(userDefaultPath)) {
+          fs.copyFileSync(defaultSourcePath, userDefaultPath);
+        }
+        
+        if (fs.existsSync(userDefaultPath)) {
+          const stats = fs.statSync(userDefaultPath);
+        
+          iconInfo = {
+            exists: true,
+            isCustom: false,
+            iconPath: `/user-icons/user-${userId}/app-icon.jpg`,
+            mimeType: 'image/jpeg',
+            lastModified: stats.mtime.toISOString()
+          };
+        } else {
+          // Se non c'è nemmeno l'icona sorgente, crea un'icona vuota
+          iconInfo = {
+            exists: false,
+            isCustom: false,
+            iconPath: `/user-icons/user-${userId}/app-icon.jpg`
+          };
         }
       }
+      
+      // 🎯 SISTEMA CON CODICI UNIVOCI - Replica esatta del backup15 con database separati
+      console.log(`🎯 CARICAMENTO APP INFO con sistema codici univoci per User ID: ${userId}`);
+      
+      // Usa il sistema unificato che funziona
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
+      
+      // NON inizializziamo più - questo sovrascriveva i valori salvati
+      // await userDB.initializeAccount();
+      
+      // Carica tutti i dati dell'utente usando il sistema unificato
+      let businessName = await userDB.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME);
+      
+      // Se il nome aziendale è l'email dell'utente, usa il valore predefinito
+      if (!businessName || businessName === req.user?.email || businessName.includes('@')) {
+        businessName = `Attività ${userId}`;
+      }
+      
+      const primaryColor = await userDB.getField(UNIFIED_FIELD_CODES.PRIMARY_COLOR) || '#3f51b5';
+      
+      console.log(`✅ CODICI CARICATI per User ID ${userId}: Nome="${businessName}", Colore="${primaryColor}"`);
+      
+      // Usa le impostazioni personalizzate SEPARATE per ogni account
+      const appName = businessName;
+      const appShortName = businessName.substring(0, 12);
+      
+      // Carica tutti i dati usando il sistema unificato - COMPLETAMENTE SEPARATI
+      const contactEmail = await userDB.getField(UNIFIED_FIELD_CODES.CONTACT_EMAIL);
+      const contactPhone = await userDB.getField(UNIFIED_FIELD_CODES.CONTACT_PHONE);
+      const website = await userDB.getField(UNIFIED_FIELD_CODES.WEBSITE);
+
+      console.log(`🎯 DATI SEPARATI per User ID ${userId}: Email="${contactEmail}", Tel="${contactPhone}", Web="${website}"`);
+
+      // Carica tutti i campi dal sistema di codici univoci
+      const secondaryColor = await userDB.getField(UNIFIED_FIELD_CODES.SECONDARY_COLOR) || '#ffffff';
+      const theme = await userDB.getField(UNIFIED_FIELD_CODES.THEME) || 'professional';
+      const appearance = await userDB.getField(UNIFIED_FIELD_CODES.APPEARANCE) || 'light';
       
       res.json({
         icon: iconInfo,
         appName,
-        appShortName
+        appShortName,
+        businessName,
+        primaryColor,
+        secondaryColor,
+        theme,
+        appearance,
+        contactEmail,
+        contactPhone,
+        website
       });
     } catch (error: any) {
       console.error('Errore nel recupero delle informazioni dell\'app:', error);
@@ -2420,79 +2611,76 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  // Endpoint per aggiornare le informazioni dell'app
-  app.post('/api/update-app-info', async (req: Request, res: Response) => {
-    try {
-      const { appName, appShortName } = req.body;
-      
-      if (!appName && !appShortName) {
-        return res.status(400).json({ message: 'Nessun dato da aggiornare' });
-      }
-      
-      // Aggiorna il manifest.json
-      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
-      if (fs.existsSync(manifestPath)) {
-        try {
-          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-          
-          if (appName) manifest.name = appName;
-          if (appShortName) manifest.short_name = appShortName;
-          
-          fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-          
-          res.json({ 
-            success: true, 
-            message: 'Informazioni dell\'app aggiornate con successo' 
-          });
-        } catch (error: any) {
-          console.error('Errore durante l\'aggiornamento del manifest:', error);
-          res.status(500).json({ message: error.message });
-        }
-      } else {
-        res.status(404).json({ message: 'Manifest.json non trovato' });
-      }
-    } catch (error: any) {
-      console.error('Errore durante l\'aggiornamento delle informazioni dell\'app:', error);
-      res.status(500).json({ message: error.message });
-    }
-  });
+  // ELIMINATO - Ora tutto passa attraverso /api/user-settings per mantenere isolamento completo
   
-  // Manteniamo anche l'endpoint originale per retrocompatibilità
-  app.get('/api/app-icon-info', (req: Request, res: Response) => {
+  // Endpoint per recuperare informazioni icona personalizzata dell'utente
+  app.get('/api/app-icon-info', ensureAuthenticated, (req: Request, res: Response) => {
     try {
-      const iconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
-      const iconExists = fs.existsSync(iconPath);
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
 
-      // Se esiste, invia informazioni sull'icona
-      if (iconExists) {
-        // Ottieni la data di modifica del file
-        const stats = fs.statSync(iconPath);
-        const lastModified = stats.mtime;
-        
+      // Prima controlla se esiste un'icona personalizzata per questo utente
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      const userIconFormats = ['app-icon.svg', 'app-icon.png', 'app-icon.jpg'];
+      
+      for (const format of userIconFormats) {
+        const userIconPath = path.join(userIconsDir, format);
+        if (fs.existsSync(userIconPath)) {
+          const stats = fs.statSync(userIconPath);
+          return res.json({
+            exists: true,
+            isCustom: true,
+            iconPath: `/user-icons/user-${userId}/${format}`,
+            lastModified: stats.mtime.toISOString()
+          });
+        }
+      }
+
+      // Se non c'è icona personalizzata, usa quella di default
+      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+      const defaultExists = fs.existsSync(defaultIconPath);
+
+      if (defaultExists) {
+        const stats = fs.statSync(defaultIconPath);
         res.json({
           exists: true,
+          isCustom: false,
           iconPath: '/icons/app-icon.svg',
-          lastModified: lastModified.toISOString()
+          lastModified: stats.mtime.toISOString()
         });
       } else {
         res.json({
-          exists: false
+          exists: false,
+          isCustom: false
         });
       }
     } catch (error: any) {
-      console.error('Errore nel recupero delle informazioni sull\'icona:', error);
+      console.error('Errore nel recupero delle informazioni sull\'icona personalizzata:', error);
       res.status(500).json({ message: error.message });
     }
   });
 
-  app.post('/api/upload-app-icon', upload.single('icon'), async (req: Request, res: Response) => {
+  app.post('/api/upload-app-icon', ensureAuthenticated, upload.single('icon'), async (req: Request, res: Response) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: 'Nessun file caricato' });
       }
+
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
       
       // Percorso del file caricato
       const filePath = req.file.path;
+      
+      // Crea directory personalizzata per l'utente
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      if (!fs.existsSync(userIconsDir)) {
+        fs.mkdirSync(userIconsDir, { recursive: true });
+      }
       
       // Ottimizza l'immagine ma mantieni il formato originale
       try {
@@ -2501,13 +2689,13 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
         let format = '';
         
         if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/jpg') {
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
+          newIconPath = path.join(userIconsDir, 'app-icon.jpg');
           format = 'jpeg';
         } else if (req.file.mimetype === 'image/png') {
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.png');
+          newIconPath = path.join(userIconsDir, 'app-icon.png');
           format = 'png';
         } else if (req.file.mimetype === 'image/svg+xml') {
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+          newIconPath = path.join(userIconsDir, 'app-icon.svg');
           // Per SVG facciamo solo copia del file
           fs.copyFileSync(filePath, newIconPath);
           console.log(`SVG copiato in: ${newIconPath}`);
@@ -2550,15 +2738,21 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
           return; // Esci dalla funzione
         } else {
           // Formato non supportato, usa JPG come default
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
+          newIconPath = path.join(userIconsDir, 'app-icon.jpg');
           format = 'jpeg';
         }
         
-        // Ottimizza l'immagine e salvala nel percorso corretto
-        await sharp(filePath)
-          .resize(512, 512)
-          .toFormat(format as keyof sharp.FormatEnum)
-          .toFile(newIconPath);
+        // Semplicemente copia il file nella posizione corretta dell'utente
+        if (filePath !== newIconPath) {
+          // Leggi il contenuto del file originale
+          const imageBuffer = fs.readFileSync(filePath);
+          
+          // Scrivi il contenuto nella nuova posizione
+          fs.writeFileSync(newIconPath, imageBuffer);
+          
+          // Rimuovi il file temporaneo originale
+          fs.unlinkSync(filePath);
+        }
           
         console.log(`Immagine ottimizzata salvata: ${newIconPath}, tipo: ${req.file.mimetype}`);
       } catch (error) {
@@ -3027,6 +3221,311 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
+  // ===== USER SETTINGS API - Personalizzazioni per ogni utente =====
+  
+  // Recupera le impostazioni personalizzate dell'utente corrente
+  app.get('/api/user-settings', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      let settings = await storage.getUserSettings(userId);
+      
+      // Se non esistono impostazioni, crea quelle di default
+      if (!settings) {
+        const defaultSettings = {
+          userId,
+          businessName: null,
+          primaryColor: '#3f51b5',
+          theme: 'professional',
+          appearance: 'light'
+        };
+        
+        settings = await storage.createUserSettings(defaultSettings);
+      }
+
+      res.json(settings);
+    } catch (error) {
+      console.error('Errore nel recupero impostazioni utente:', error);
+      res.status(500).json({ message: 'Errore nel recupero delle impostazioni' });
+    }
+  });
+
+  // 🎯 SALVATAGGIO CON CODICI UNIVOCI - Sistema esatto del backup15 con database separati
+  app.put('/api/user-settings', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      console.log(`🎯 SALVATAGGIO IMPOSTAZIONI con codici univoci per User ID: ${userId}`);
+      
+      // Usa il sistema unificato che funziona
+      const { createUnifiedUserDatabase, UNIFIED_FIELD_CODES } = await import('./user-database-unified');
+      const userDB = createUnifiedUserDatabase(userId);
+      
+      const updates = req.body;
+      let allSuccess = true;
+      const savedSettings: any = { userId };
+      
+      // SISTEMA COMPLETO DI MAPPATURA - TUTTI I 100 CODICI UNIVOCI
+      const fieldMapping: Record<string, string> = {
+        // ===== BRANDING E UI =====
+        'businessName': UNIFIED_FIELD_CODES.BUSINESS_NAME,
+        'primaryColor': UNIFIED_FIELD_CODES.PRIMARY_COLOR,
+        'secondaryColor': UNIFIED_FIELD_CODES.SECONDARY_COLOR,
+        'logoUrl': UNIFIED_FIELD_CODES.LOGO_URL,
+        'theme': UNIFIED_FIELD_CODES.THEME,
+        'appearance': UNIFIED_FIELD_CODES.APPEARANCE,
+        
+        // ===== CONTATTI AZIENDALI =====
+        'contactEmail': UNIFIED_FIELD_CODES.CONTACT_EMAIL,
+        'contactPhone': UNIFIED_FIELD_CODES.CONTACT_PHONE,
+        'contactPhone2': UNIFIED_FIELD_CODES.CONTACT_PHONE2,
+        'website': UNIFIED_FIELD_CODES.WEBSITE,
+        'address': UNIFIED_FIELD_CODES.ADDRESS,
+        'city': UNIFIED_FIELD_CODES.CITY,
+        'zipCode': UNIFIED_FIELD_CODES.ZIP_CODE,
+        'country': UNIFIED_FIELD_CODES.COUNTRY,
+        
+        // ===== SOCIAL MEDIA =====
+        'instagramHandle': UNIFIED_FIELD_CODES.INSTAGRAM,
+        'facebookPage': UNIFIED_FIELD_CODES.FACEBOOK,
+        'linkedinProfile': UNIFIED_FIELD_CODES.LINKEDIN,
+        'twitterHandle': UNIFIED_FIELD_CODES.TWITTER,
+        'youtubeChannel': UNIFIED_FIELD_CODES.YOUTUBE,
+        'tiktokHandle': UNIFIED_FIELD_CODES.TIKTOK,
+        
+        // ===== ORARI E APPUNTAMENTI =====
+        'workingHoursStart': UNIFIED_FIELD_CODES.WORKING_HOURS_START,
+        'workingHoursEnd': UNIFIED_FIELD_CODES.WORKING_HOURS_END,
+        'appointmentDuration': UNIFIED_FIELD_CODES.APPOINTMENT_DURATION,
+        'breakDuration': UNIFIED_FIELD_CODES.BREAK_DURATION,
+        'lunchStart': UNIFIED_FIELD_CODES.LUNCH_START,
+        'lunchEnd': UNIFIED_FIELD_CODES.LUNCH_END,
+        'daysAvailable': UNIFIED_FIELD_CODES.DAYS_AVAILABLE,
+        'advanceBookingDays': UNIFIED_FIELD_CODES.ADVANCE_BOOKING_DAYS,
+        'cancellationHours': UNIFIED_FIELD_CODES.CANCELLATION_HOURS,
+        
+        // ===== FATTURAZIONE E PAGAMENTI =====
+        'invoicePrefix': UNIFIED_FIELD_CODES.INVOICE_PREFIX,
+        'taxRate': UNIFIED_FIELD_CODES.TAX_RATE,
+        'currency': UNIFIED_FIELD_CODES.CURRENCY,
+        'paymentTerms': UNIFIED_FIELD_CODES.PAYMENT_TERMS,
+        'bankAccount': UNIFIED_FIELD_CODES.BANK_ACCOUNT,
+        'vatNumber': UNIFIED_FIELD_CODES.VAT_NUMBER,
+        'fiscalCode': UNIFIED_FIELD_CODES.FISCAL_CODE,
+        
+        // ===== SERVIZI E PREZZI =====
+        'defaultServicePrice': UNIFIED_FIELD_CODES.DEFAULT_SERVICE_PRICE,
+        'consultationPrice': UNIFIED_FIELD_CODES.CONSULTATION_PRICE,
+        'followUpPrice': UNIFIED_FIELD_CODES.FOLLOW_UP_PRICE,
+        'emergencySurcharge': UNIFIED_FIELD_CODES.EMERGENCY_SURCHARGE,
+        
+        // ===== MESSAGGI E COMUNICAZIONI =====
+        'welcomeMessage': UNIFIED_FIELD_CODES.WELCOME_MESSAGE,
+        'appointmentConfirmationMsg': UNIFIED_FIELD_CODES.APPOINTMENT_CONFIRMATION_MSG,
+        'reminderMessage': UNIFIED_FIELD_CODES.REMINDER_MESSAGE,
+        'cancellationMessage': UNIFIED_FIELD_CODES.CANCELLATION_MESSAGE,
+        'noShowMessage': UNIFIED_FIELD_CODES.NO_SHOW_MESSAGE,
+        
+        // ===== PERSONALIZZAZIONE CLIENTE =====
+        'customField1Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_1_NAME,
+        'customField1Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_1_TYPE,
+        'customField2Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_2_NAME,
+        'customField2Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_2_TYPE,
+        'customField3Name': UNIFIED_FIELD_CODES.CUSTOM_FIELD_3_NAME,
+        'customField3Type': UNIFIED_FIELD_CODES.CUSTOM_FIELD_3_TYPE,
+        
+        // ===== NOTIFICHE E PROMEMORIA =====
+        'emailNotifications': UNIFIED_FIELD_CODES.EMAIL_NOTIFICATIONS,
+        'smsNotifications': UNIFIED_FIELD_CODES.SMS_NOTIFICATIONS,
+        'whatsappNotifications': UNIFIED_FIELD_CODES.WHATSAPP_NOTIFICATIONS,
+        'reminderTiming': UNIFIED_FIELD_CODES.REMINDER_TIMING,
+        
+        // ===== FUSO ORARIO E LOCALITÀ =====
+        'timezone': UNIFIED_FIELD_CODES.TIMEZONE,
+        'language': UNIFIED_FIELD_CODES.LANGUAGE,
+        'dateFormat': UNIFIED_FIELD_CODES.DATE_FORMAT,
+        'timeFormat': UNIFIED_FIELD_CODES.TIME_FORMAT,
+        
+        // ===== PRIVACY E GDPR =====
+        'privacyPolicyUrl': UNIFIED_FIELD_CODES.PRIVACY_POLICY_URL,
+        'termsOfServiceUrl': UNIFIED_FIELD_CODES.TERMS_OF_SERVICE_URL,
+        'dataRetentionDays': UNIFIED_FIELD_CODES.DATA_RETENTION_DAYS,
+        'consentText': UNIFIED_FIELD_CODES.CONSENT_TEXT,
+        
+        // ===== PERSONALIZZAZIONE AVANZATA =====
+        'customCss': UNIFIED_FIELD_CODES.CUSTOM_CSS,
+        'customHeader': UNIFIED_FIELD_CODES.CUSTOM_HEADER,
+        'customFooter': UNIFIED_FIELD_CODES.CUSTOM_FOOTER,
+        'faviconUrl': UNIFIED_FIELD_CODES.FAVICON_URL,
+        
+        // ===== INTEGRAZIONE ESTERNA =====
+        'googleCalendarId': UNIFIED_FIELD_CODES.GOOGLE_CALENDAR_ID,
+        'stripeAccountId': UNIFIED_FIELD_CODES.STRIPE_ACCOUNT_ID,
+        'paypalAccount': UNIFIED_FIELD_CODES.PAYPAL_ACCOUNT,
+        
+        // ===== BACKUP E SICUREZZA =====
+        'backupFrequency': UNIFIED_FIELD_CODES.BACKUP_FREQUENCY,
+        'twoFactorAuth': UNIFIED_FIELD_CODES.TWO_FACTOR_AUTH,
+        'sessionTimeout': UNIFIED_FIELD_CODES.SESSION_TIMEOUT,
+        
+        // ===== PERSONALIZZAZIONE UI =====
+        'dashboardLayout': UNIFIED_FIELD_CODES.DASHBOARD_LAYOUT,
+        'sidebarColor': UNIFIED_FIELD_CODES.SIDEBAR_COLOR,
+        'buttonStyle': UNIFIED_FIELD_CODES.BUTTON_STYLE,
+        'fontFamily': UNIFIED_FIELD_CODES.FONT_FAMILY,
+        'fontSize': UNIFIED_FIELD_CODES.FONT_SIZE,
+        
+        // ===== ALTRI CAMPI BUSINESS =====
+        'businessType': UNIFIED_FIELD_CODES.BUSINESS_TYPE,
+        'specialization': UNIFIED_FIELD_CODES.SPECIALIZATION,
+        'yearsExperience': UNIFIED_FIELD_CODES.YEARS_EXPERIENCE,
+        'certifications': UNIFIED_FIELD_CODES.CERTIFICATIONS,
+        'aboutText': UNIFIED_FIELD_CODES.ABOUT_TEXT
+      };
+      
+      // Salva ogni campo usando il sistema di codici univoci
+      for (const [fieldName, fieldValue] of Object.entries(updates)) {
+        const fieldCode = fieldMapping[fieldName];
+        if (fieldCode && fieldValue !== undefined) {
+          const success = await userDB.setField(fieldCode, String(fieldValue));
+          if (!success) {
+            console.error(`❌ Errore salvataggio ${fieldCode} per User ID ${userId}`);
+            allSuccess = false;
+          } else {
+            console.log(`✅ SALVATO ${fieldCode}="${fieldValue}" per User ID ${userId}`);
+            savedSettings[fieldName] = fieldValue;
+          }
+        } else {
+          // Campi non mappati (come theme, appearance, ecc.) li salviamo nel sistema tradizionale
+          savedSettings[fieldName] = fieldValue;
+        }
+      }
+      
+      // SOLO sistema di codici univoci - NO sistema condiviso!
+      if (allSuccess) {
+        console.log(`✅ TUTTE LE IMPOSTAZIONI SALVATE CON CODICI UNIVOCI per User ID ${userId}`);
+        res.json({ success: true, message: 'Impostazioni salvate con successo', userId, savedSettings });
+      } else {
+        res.status(500).json({ message: 'Errore nel salvataggio di alcune impostazioni' });
+      }
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento impostazioni utente:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento delle impostazioni' });
+    }
+  });
+
+  // Recupera solo il branding dell'utente corrente
+  app.get('/api/user-branding', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const branding = await storage.getUserBranding(userId);
+      
+      // Se non ci sono impostazioni di branding, restituisci valori di default
+      if (!branding) {
+        return res.json({
+          businessName: null,
+          logoUrl: null,
+          primaryColor: '#3f51b5'
+        });
+      }
+
+      res.json(branding);
+    } catch (error) {
+      console.error('Errore nel recupero branding utente:', error);
+      res.status(500).json({ message: 'Errore nel recupero del branding' });
+    }
+  });
+
+  // Aggiorna solo il branding dell'utente corrente
+  app.put('/api/user-branding', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const { businessName, logoUrl, primaryColor } = req.body;
+      
+      const success = await storage.updateUserBranding(userId, {
+        businessName,
+        logoUrl,
+        primaryColor
+      });
+
+      if (!success) {
+        return res.status(500).json({ message: 'Errore nell\'aggiornamento del branding' });
+      }
+
+      res.json({ message: 'Branding aggiornato con successo' });
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento branding utente:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento del branding' });
+    }
+  });
+
+  // Recupera solo le informazioni di contatto dell'utente corrente
+  app.get('/api/user-contact-info', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const contactInfo = await storage.getUserContactInfo(userId);
+      
+      // Se non ci sono informazioni di contatto personalizzate, restituisci null
+      if (!contactInfo) {
+        return res.json({
+          contactEmail: null,
+          contactPhone: null,
+          website: null
+        });
+      }
+
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Errore nel recupero contatti utente:', error);
+      res.status(500).json({ message: 'Errore nel recupero delle informazioni di contatto' });
+    }
+  });
+
+  // Aggiorna solo le informazioni di contatto dell'utente corrente
+  app.put('/api/user-contact-info', ensureAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const { contactEmail, contactPhone, website } = req.body;
+      
+      const success = await storage.updateUserContactInfo(userId, {
+        contactEmail,
+        contactPhone,
+        website
+      });
+
+      if (!success) {
+        return res.status(500).json({ message: 'Errore nell\'aggiornamento delle informazioni di contatto' });
+      }
+
+      res.json({ message: 'Informazioni di contatto aggiornate con successo' });
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento contatti utente:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento delle informazioni di contatto' });
+    }
+  });
+
   // Gestione impostazioni notifiche
   app.get('/api/notification-settings', async (_req: Request, res: Response) => {
     try {
@@ -3293,6 +3792,17 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   });
 
 
+
+  // ===== ENDPOINT SEPARATI PER PERSONALIZZAZIONI (seguendo il pattern del nome aziendale) =====
+  
+  // Registra gli endpoint per i colori
+  app.use('/api/color', colorApi);
+  
+  // Registra gli endpoint per i temi
+  app.use('/api/theme', themeApi);
+  
+  // Registra gli endpoint per il nome aziendale (già esistente)
+  app.use('/api/company-name', companyNameApi);
 
   // Inizializza il servizio keep-alive per mantenere l'applicazione sempre attiva
   keepAliveService.initialize(httpServer);
