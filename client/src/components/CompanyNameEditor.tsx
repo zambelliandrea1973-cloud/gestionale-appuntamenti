@@ -59,15 +59,38 @@ export default function CompanyNameEditor() {
       if (response.ok) {
         const data = await response.json();
         console.log('🔍 DATI COMPLETI RICEVUTI:', JSON.stringify(data, null, 2));
-        setSettings({
-          name: data.appName || '',
+        
+        // 🎯 CARICA ANCHE GLI STILI DAL DATABASE SEPARATO
+        const stylesResponse = await fetch(`/api/company-styles?t=${Date.now()}`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        let styles = {
           fontSize: 24,
           fontFamily: 'Arial',
           fontStyle: 'normal',
           color: '#000000',
           enabled: true
+        };
+        
+        if (stylesResponse.ok) {
+          const stylesData = await stylesResponse.json();
+          console.log('🎨 STILI CARICATI DAL DATABASE:', JSON.stringify(stylesData, null, 2));
+          styles = {
+            fontSize: parseInt(stylesData.fontSize) || 24,
+            fontFamily: stylesData.fontFamily || 'Arial',
+            fontStyle: stylesData.fontStyle || 'normal',
+            color: stylesData.color || '#000000',
+            enabled: stylesData.enabled !== 'false'
+          };
+        }
+        
+        setSettings({
+          name: data.appName || '',
+          ...styles
         });
-        console.log(`✅ IMPOSTAZIONI CARICATE: businessName="${data.businessName}", appName="${data.appName}"`);
+        console.log(`✅ TUTTO CARICATO: Nome="${data.appName}", Font="${styles.fontFamily}", Dimensione=${styles.fontSize}px`);
       } else {
         console.error('Errore nel caricamento delle impostazioni');
       }
