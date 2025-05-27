@@ -24,6 +24,7 @@ import {
   paymentMethods, type PaymentMethod, type InsertPaymentMethod,
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
   licenses, type License, type InsertLicense,
+  userSettings, type UserSettings, type InsertUserSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -248,6 +249,18 @@ export interface IStorage {
   getPaymentTransactionsByMethod(method: string): Promise<PaymentTransaction[]>;
   getAllPaymentTransactions(): Promise<PaymentTransaction[]>;
   updatePaymentTransaction(id: number, transaction: Partial<InsertPaymentTransaction>): Promise<PaymentTransaction | undefined>;
+  
+  // User Settings operations - Personalizzazioni per ogni utente
+  createUserSettings(settings: InsertUserSettings): Promise<UserSettings>;
+  getUserSettings(userId: number): Promise<UserSettings | undefined>;
+  updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined>;
+  deleteUserSettings(userId: number): Promise<boolean>;
+  
+  // Helper methods per impostazioni specifiche
+  getUserBranding(userId: number): Promise<{businessName?: string, logoUrl?: string, primaryColor?: string} | undefined>;
+  updateUserBranding(userId: number, branding: {businessName?: string, logoUrl?: string, primaryColor?: string}): Promise<boolean>;
+  getUserContactInfo(userId: number): Promise<{contactEmail?: string, contactPhone?: string, website?: string} | undefined>;
+  updateUserContactInfo(userId: number, contact: {contactEmail?: string, contactPhone?: string, website?: string}): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -3787,6 +3800,166 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error('Errore nella creazione della sottoscrizione:', error);
       throw error;
+    }
+  }
+
+  // ===== USER SETTINGS OPERATIONS - Personalizzazioni per ogni utente =====
+  
+  /**
+   * Crea le impostazioni personalizzate per un utente
+   */
+  async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
+    try {
+      const [newUserSettings] = await db
+        .insert(userSettings)
+        .values(settings)
+        .returning();
+      
+      console.log(`Impostazioni create per utente ${settings.userId}`);
+      return newUserSettings;
+    } catch (error) {
+      console.error('Errore nella creazione delle impostazioni utente:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Recupera le impostazioni personalizzate di un utente
+   */
+  async getUserSettings(userId: number): Promise<UserSettings | undefined> {
+    try {
+      const [settings] = await db
+        .select()
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId));
+      
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero impostazioni utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  /**
+   * Aggiorna le impostazioni personalizzate di un utente
+   */
+  async updateUserSettings(userId: number, settingsUpdate: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
+    try {
+      const [updatedSettings] = await db
+        .update(userSettings)
+        .set({
+          ...settingsUpdate,
+          updatedAt: new Date()
+        })
+        .where(eq(userSettings.userId, userId))
+        .returning();
+      
+      console.log(`Impostazioni aggiornate per utente ${userId}`);
+      return updatedSettings;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento impostazioni utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  /**
+   * Elimina le impostazioni personalizzate di un utente
+   */
+  async deleteUserSettings(userId: number): Promise<boolean> {
+    try {
+      await db
+        .delete(userSettings)
+        .where(eq(userSettings.userId, userId));
+      
+      console.log(`Impostazioni eliminate per utente ${userId}`);
+      return true;
+    } catch (error) {
+      console.error(`Errore nell'eliminazione impostazioni utente ${userId}:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Recupera solo le informazioni di branding di un utente
+   */
+  async getUserBranding(userId: number): Promise<{businessName?: string, logoUrl?: string, primaryColor?: string} | undefined> {
+    try {
+      const [settings] = await db
+        .select({
+          businessName: userSettings.businessName,
+          logoUrl: userSettings.logoUrl,
+          primaryColor: userSettings.primaryColor
+        })
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId));
+      
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero branding utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  /**
+   * Aggiorna solo le informazioni di branding di un utente
+   */
+  async updateUserBranding(userId: number, branding: {businessName?: string, logoUrl?: string, primaryColor?: string}): Promise<boolean> {
+    try {
+      await db
+        .update(userSettings)
+        .set({
+          ...branding,
+          updatedAt: new Date()
+        })
+        .where(eq(userSettings.userId, userId));
+      
+      console.log(`Branding aggiornato per utente ${userId}`);
+      return true;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento branding utente ${userId}:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Recupera solo le informazioni di contatto di un utente
+   */
+  async getUserContactInfo(userId: number): Promise<{contactEmail?: string, contactPhone?: string, website?: string} | undefined> {
+    try {
+      const [settings] = await db
+        .select({
+          contactEmail: userSettings.contactEmail,
+          contactPhone: userSettings.contactPhone,
+          website: userSettings.website
+        })
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId));
+      
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero contatti utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  /**
+   * Aggiorna solo le informazioni di contatto di un utente
+   */
+  async updateUserContactInfo(userId: number, contact: {contactEmail?: string, contactPhone?: string, website?: string}): Promise<boolean> {
+    try {
+      await db
+        .update(userSettings)
+        .set({
+          ...contact,
+          updatedAt: new Date()
+        })
+        .where(eq(userSettings.userId, userId));
+      
+      console.log(`Contatti aggiornati per utente ${userId}`);
+      return true;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento contatti utente ${userId}:`, error);
+      return false;
     }
   }
 }
