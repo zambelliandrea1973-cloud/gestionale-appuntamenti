@@ -821,6 +821,22 @@ export type License = typeof licenses.$inferSelect;
 export type InsertLicense = z.infer<typeof insertLicenseSchema>;
 
 // Staff Commissions table schema (Sistema Referral)
+// Tabella referral commissions (esistente nel database)
+export const referralCommissions = pgTable("referral_commissions", {
+  id: serial("id").primaryKey(),
+  referrerId: integer("referrer_id").notNull(), // Staff che ha fatto il referral
+  referredId: integer("referred_id").notNull(), // Utente sponsorizzato
+  subscriptionId: integer("subscription_id"), // ID sottoscrizione
+  monthlyAmount: integer("monthly_amount").default(100), // Commissione mensile in centesimi
+  status: text("status").default("active"), // active, inactive, cancelled
+  startDate: timestamp("start_date").defaultNow(),
+  endDate: timestamp("end_date"),
+  lastPaidPeriod: timestamp("last_paid_period"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Manteniamo anche la tabella staff_commissions per compatibilità
 export const staffCommissions = pgTable("staff_commissions", {
   id: serial("id").primaryKey(),
   staffId: integer("staff_id").notNull(), // ID dello staff che riceve la commissione
