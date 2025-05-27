@@ -23,7 +23,7 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         pendingCommissions: 0,
         totalEarned: 0 // in euro
       },
-      myCommissions: [], // Array delle mie commissioni
+      recentCommissions: [], // Array delle mie commissioni recenti
       referralGuide: {
         howItWorks: "Condividi il tuo codice con nuovi clienti durante la registrazione",
         commission: "1€ per ogni abbonamento a partire dal 3° cliente",
