@@ -77,6 +77,12 @@ export async function apiRequest(
       console.log("Browser Safari rilevato, aggiunti header specifici");
     }
     
+    // CORREZIONE: Aggiungi sempre x-device-type per garantire comportamento uniforme
+    if (!headers["x-device-type"]) {
+      headers["x-device-type"] = isMobile ? "mobile" : "desktop";
+      console.log(`Header x-device-type aggiunto: ${headers["x-device-type"]}`);
+    }
+    
     console.log(`Dettagli richiesta ${method} a ${url}:`, { 
       method, 
       headers,
