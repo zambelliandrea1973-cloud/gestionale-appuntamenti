@@ -13,14 +13,14 @@ router.get('/company-settings-v2', ensureAuthenticated, async (req: Request, res
     
     const userDb = createUnifiedUserDatabase(userId);
     
-    // Carica TUTTI i campi di stile dal database separato usando codici esistenti
+    // Carica TUTTI i campi di stile dal database separato usando codici CORRETTI
     const [businessName, fontSize, fontFamily, fontStyle, fontColor, fontEnabled] = await Promise.all([
       userDb.getField(UNIFIED_FIELD_CODES.BUSINESS_NAME),
-      userDb.getField('COD_078'), // FONT_SIZE esistente
-      userDb.getField('COD_077'), // FONT_FAMILY esistente
-      userDb.getField('COD_079'), // FONT_STYLE
-      userDb.getField('COD_080'), // FONT_COLOR
-      userDb.getField('COD_081')  // FONT_ENABLED
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_SIZE),     // COD_071
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_FAMILY),   // COD_072
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_STYLE),    // COD_073
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_COLOR),    // COD_074
+      userDb.getField(UNIFIED_FIELD_CODES.FONT_ENABLED)   // COD_075
     ]);
     
     const settings = {
@@ -60,19 +60,19 @@ router.post('/company-settings-v2', ensureAuthenticated, async (req: Request, re
       savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.BUSINESS_NAME, businessName));
     }
     if (fontSize !== undefined) {
-      savePromises.push(userDb.setField('COD_078', fontSize.toString())); // FONT_SIZE
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_SIZE, fontSize.toString())); // COD_071
     }
     if (fontFamily !== undefined) {
-      savePromises.push(userDb.setField('COD_077', fontFamily)); // FONT_FAMILY
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_FAMILY, fontFamily)); // COD_072
     }
     if (fontStyle !== undefined) {
-      savePromises.push(userDb.setField('COD_079', fontStyle)); // Uso codice libero
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_STYLE, fontStyle)); // COD_073
     }
     if (color !== undefined) {
-      savePromises.push(userDb.setField('COD_080', color)); // Uso codice libero
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_COLOR, color)); // COD_074
     }
     if (enabled !== undefined) {
-      savePromises.push(userDb.setField('COD_081', enabled.toString())); // Uso codice libero
+      savePromises.push(userDb.setField(UNIFIED_FIELD_CODES.FONT_ENABLED, enabled.toString())); // COD_075
     }
     
     const results = await Promise.allSettled(savePromises);
