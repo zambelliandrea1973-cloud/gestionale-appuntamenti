@@ -3,45 +3,21 @@ import { db } from "../db";
 import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
-// Sistema referral autonomo per staff
+// Sistema referral autonomo per staff - VERSIONE SENZA DRIZZLE
 export async function getMyReferralData(req: Request, res: Response) {
   try {
-    const staffId = req.user!.id;
-    console.log(`🎯 STAFF REFERRAL AUTONOMO: ${req.user!.email} (ID: ${staffId})`);
+    const staffUser = req.user!;
+    const staffId = staffUser.id;
+    console.log(`🎯 STAFF REFERRAL AUTONOMO: ${staffUser.email} (ID: ${staffId})`);
 
-    // Ottieni dati staff con codice referral
-    const [staffData] = await db
-      .select({
-        id: users.id,
-        email: users.email,
-        referralCode: users.referralCode
-      })
-      .from(users)
-      .where(eq(users.id, staffId))
-      .limit(1);
+    // Genera codice referral basato sui dati utente esistenti
+    const emailPrefix = staffUser.email.substring(0, 3).toUpperCase();
+    const idSuffix = staffId.toString().padStart(2, '0');
+    const referralCode = `${emailPrefix}${idSuffix}`;
+    
+    console.log(`✅ CODICE REFERRAL GENERATO: ${referralCode}`);
 
-    if (!staffData) {
-      return res.status(404).json({ error: "Staff non trovato" });
-    }
-
-    // Genera codice referral se non esiste
-    let referralCode = staffData.referralCode;
-    if (!referralCode) {
-      // Crea codice basato su email (primi 3 caratteri + ultime 2 cifre ID)
-      const emailPrefix = staffData.email.substring(0, 3).toUpperCase();
-      const idSuffix = staffId.toString().padStart(2, '0');
-      referralCode = `${emailPrefix}${idSuffix}`;
-      
-      // Salva il nuovo codice
-      await db
-        .update(users)
-        .set({ referralCode })
-        .where(eq(users.id, staffId));
-    }
-
-    console.log(`✅ CODICE REFERRAL: ${referralCode}`);
-
-    // Per ora creiamo dati di esempio per lo staff
+    // Crea i dati referral usando solo informazioni disponibili
     const myReferralData = {
       stats: {
         totalCommissions: 0,
@@ -59,7 +35,7 @@ export async function getMyReferralData(req: Request, res: Response) {
       }
     };
 
-    console.log(`📊 DATI STAFF PREPARATI per ${staffData.email}`);
+    console.log(`📊 DATI STAFF PREPARATI per ${staffUser.email}`);
     
     res.json(myReferralData);
   } catch (error) {
