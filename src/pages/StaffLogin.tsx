@@ -52,9 +52,19 @@ export default function StaffLogin() {
     onSuccess: (userData) => {
       console.log("Login riuscito, dati utente:", userData);
       
-      // Forza la ripultura della cache per ottenere i dati utente aggiornati
+      // INVALIDAZIONE COMPLETA CACHE - Risolve il problema del nome utente che non si aggiorna
       queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/current-user'] });
       queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
+      queryClient.removeQueries({ queryKey: ['/api/user-with-license'] });
+      queryClient.removeQueries({ queryKey: ['/api/current-user'] });
+      
+      // Salva il nome utente se richiesto
+      if (rememberMe) {
+        localStorage.setItem("staffUsername", username);
+      } else {
+        localStorage.removeItem("staffUsername");
+      }
       
       // Aggiungiamo un piccolo ritardo per permettere al browser di respirare
       setTimeout(() => {
