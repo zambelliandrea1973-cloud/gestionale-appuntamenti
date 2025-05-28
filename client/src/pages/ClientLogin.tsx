@@ -327,6 +327,16 @@ export default function ClientLogin() {
           console.log("Token salvato nel localStorage per utilizzi futuri");
         }
         
+        // INVALIDAZIONE COMPLETA CACHE - Risolve il problema del nome utente che non si aggiorna
+        import("@/lib/queryClient").then(({ queryClient }) => {
+          queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/current-user'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
+          queryClient.removeQueries({ queryKey: ['/api/user-with-license'] });
+          queryClient.removeQueries({ queryKey: ['/api/current-user'] });
+          console.log("✅ Cache utente invalidata per customer login");
+        });
+        
         toast({
           title: "Accesso effettuato",
           description: `Benvenuto, ${user.client?.firstName || username}!`,
