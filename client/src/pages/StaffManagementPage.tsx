@@ -66,7 +66,12 @@ export default function StaffManagementPage() {
   const { data: staffUsers = [], isLoading, error } = useQuery({
     queryKey: ['/api/staff/users'],
     queryFn: async () => {
-      const response = await fetch('/api/staff/users');
+      const response = await fetch('/api/staff/users', {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch staff users');
       }
