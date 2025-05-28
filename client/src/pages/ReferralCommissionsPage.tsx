@@ -607,7 +607,7 @@ export default function ReferralCommissionsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {(overview?.staffStats || overview?.staffData || []).map((staff) => (
+                    {(overview?.staffStats || overview?.staffData || overview?.commissionsData || []).map((staff) => (
                       <div key={staff.staffId} className="flex items-center justify-between p-4 border rounded-lg">
                         <div className="flex-1">
                           <h3 className="font-semibold">{staff.staffName}</h3>
