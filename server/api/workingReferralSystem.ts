@@ -7,38 +7,48 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
     console.log(`🚀 ADMIN REFERRAL: Panoramica richiesta da ${req.user!.username}`);
     console.log(`🎯 ADMIN REFERRAL: Panoramica per admin ${req.user!.username}`);
 
-    // Recupera TUTTI gli account reali dal database (8 totali: 6 staff + 2 admin)
+    // Recupera TUTTI gli account staff reali dal database
     const allUsers = await storage.getAllStaffUsers();
     console.log(`👥 TUTTI GLI ACCOUNT DAL DATABASE: ${allUsers.length} account totali`);
 
-    // Genera dati referral realistici per tutti gli account
-    const staffData = allUsers.map((user, index) => {
-      const sponsoredCounts = [5, 4, 2, 3, 1, 0, 2, 1]; // Dati realistici per tutti e 8
-      const sponsoredCount = sponsoredCounts[index] || 0;
+    // Per ogni staff, recupera il suo codice referral reale e le sponsorizzazioni autentiche
+    const staffData = await Promise.all(allUsers.map(async (user) => {
+      // Recupera il codice referral reale per questo staff
+      const referralCode = await storage.getReferralCodeForUser(user.id) || 
+                          (user.id === 14 ? "BUS14" : 
+                           user.id === 16 ? "FAV16" : 
+                           user.id === 8 ? "ZAM08" : 
+                           `REF${user.id}`);
+
+      // Recupera le sponsorizzazioni reali per questo staff
+      const sponsorships = await storage.getReferralsByStaffId(user.id) || [];
+      const sponsoredCount = sponsorships.length;
       const hasReachedMinimum = sponsoredCount >= 3;
+      
+      // Calcola commissioni basate sui dati reali
       const totalCommissions = hasReachedMinimum ? sponsoredCount * 100 : 0;
       const paidCommissions = hasReachedMinimum ? Math.floor(totalCommissions * 0.4) : 0;
       const pendingCommissions = totalCommissions - paidCommissions;
+
+      // Recupera informazioni bancarie reali
+      const bankingInfo = await storage.getBankingInfoForStaff(user.id) || {
+        hasIban: false,
+        bankName: null,
+        accountHolder: null
+      };
 
       return {
         staffId: user.id,
         staffName: user.username.includes('@') ? user.username.split('@')[0] : user.username,
         staffEmail: user.username,
-        referralCode: user.id === 14 ? "BUS14" : 
-                     user.id === 16 ? "FAV16" : 
-                     user.id === 8 ? "ZAM08" : 
-                     `REF${user.id}`,
+        referralCode,
         sponsoredCount,
         totalCommissions,
         paidCommissions,
         pendingCommissions,
-        bankingInfo: {
-          hasIban: hasReachedMinimum,
-          bankName: hasReachedMinimum ? "Banca Italiana" : null,
-          accountHolder: hasReachedMinimum ? user.username.split('@')[0] : null
-        }
+        bankingInfo
       };
-    });
+    }));
 
     // Calcola i totali reali
     const totalSponsored = staffData.reduce((sum, staff) => sum + staff.sponsoredCount, 0);
