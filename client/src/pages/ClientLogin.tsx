@@ -302,6 +302,14 @@ export default function ClientLogin() {
       
       console.log("Tentativo di login semplificato con username e password");
       
+      // PRIMA DEL LOGIN: forza logout per pulire eventuali sessioni precedenti
+      try {
+        await apiRequest('POST', '/api/logout');
+        console.log("✅ Logout forzato completato prima del nuovo login");
+      } catch (e) {
+        console.log("Logout preventivo fallito (normale se non c'era sessione attiva)");
+      }
+      
       const response = await apiRequest('POST', '/api/client/login', requestData);
       
       if (response.ok) {
