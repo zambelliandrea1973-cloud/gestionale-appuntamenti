@@ -247,6 +247,13 @@ export default function ClientLogin() {
           setTimeout(() => {
             if (result.type === 'customer') {
               console.log("Utente customer (accesso diretto), reindirizzamento alla dashboard principale");
+              // PULIZIA TOTALE per risolvere il bug delle sessioni multiple
+              console.log("🧹 PULENDO CACHE E SESSIONI");
+              queryClient.clear();
+              // Forza pulizia cookies e sessione prima del redirect
+              document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+              });
               window.location.href = "/dashboard";
             } else {
               console.log("Utente client standard (accesso diretto), reindirizzamento all'area client");
