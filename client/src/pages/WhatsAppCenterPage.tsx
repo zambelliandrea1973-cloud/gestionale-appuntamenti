@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { QRCodeSVG } from 'qrcode.react';
 import {
   Table,
   TableBody,
@@ -812,43 +813,61 @@ const WhatsAppCenterPage: React.FC = () => {
             <CardContent className="space-y-6 pt-6">
               {deviceStatus === DeviceStatus.DISCONNECTED && (
                 <div className="space-y-4">
-                  <Alert variant="default" className="bg-muted/50">
-                    <Smartphone className="h-4 w-4" />
-                    <AlertTitle>{t('Nessun dispositivo configurato')}</AlertTitle>
-                    <AlertDescription>
-                      {t('Inserisci il numero di telefono che userai per inviare messaggi WhatsApp')}
+                  <Alert variant="default" className="bg-green-50 border-green-200">
+                    <QrCode className="h-4 w-4 text-green-600" />
+                    <AlertTitle className="text-green-800">{t('Connetti WhatsApp con QR Code')}</AlertTitle>
+                    <AlertDescription className="text-green-700">
+                      {t('Il metodo più semplice e sicuro per collegare WhatsApp')}
                     </AlertDescription>
                   </Alert>
                   
-                  <div className="grid gap-3">
-                    <Label htmlFor="phone-number">{t('Numero di telefono WhatsApp')}</Label>
-                    <Input
-                      id="phone-number"
-                      type="tel"
-                      placeholder="+39 XXX XXXXXXX"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      disabled={isSubmitting}
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      {t('Inserisci il numero completo di prefisso internazionale (es. +39 per Italia)')}
-                    </p>
+                  <div className="bg-white border-2 border-dashed border-gray-200 rounded-lg p-6 text-center">
+                    <div className="space-y-4">
+                      <div className="mx-auto w-48 h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                        {qrCodeData ? (
+                          <QRCodeSVG 
+                            value={qrCodeData}
+                            size={192}
+                            bgColor="#ffffff"
+                            fgColor="#000000"
+                            level="M"
+                            includeMargin={true}
+                          />
+                        ) : (
+                          <div className="text-gray-400">
+                            <QrCode className="h-16 w-16 mx-auto mb-2" />
+                            <p className="text-sm">{t('Clicca per generare QR Code')}</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <h3 className="font-medium text-gray-900">{t('Come collegare WhatsApp:')}</h3>
+                        <ol className="text-sm text-gray-600 text-left max-w-md mx-auto space-y-1">
+                          <li>{t('1. Apri WhatsApp sul tuo telefono')}</li>
+                          <li>{t('2. Vai su Menu (⋮) > Dispositivi collegati')}</li>
+                          <li>{t('3. Tocca "Collega un dispositivo"')}</li>
+                          <li>{t('4. Scansiona questo QR code')}</li>
+                        </ol>
+                      </div>
+                    </div>
                   </div>
                   
-                  <div className="flex justify-end pt-2">
+                  <div className="flex justify-center pt-2">
                     <Button 
-                      onClick={handleRegisterPhone}
+                      onClick={handleGenerateQR}
                       disabled={isSubmitting}
+                      className="bg-green-600 hover:bg-green-700"
                     >
                       {isSubmitting ? (
                         <>
                           <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Registrazione in corso...')}
+                          {t('Generazione QR...')}
                         </>
                       ) : (
                         <>
-                          <Phone className="h-4 w-4 mr-2" />
-                          {t('Registra numero')}
+                          <QrCode className="h-4 w-4 mr-2" />
+                          {t('Genera QR Code')}
                         </>
                       )}
                     </Button>
