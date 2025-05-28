@@ -81,9 +81,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Configura l'autenticazione
   setupAuth(app);
   
-  // Configura le route di registrazione e gestione staff
-  setupRegistrationRoutes(app);
+  // IMPORTANTE: Configura le route staff PRIMA di altre routes per evitare conflitti
   setupStaffRoutes(app);
+  
+  // Configura le route di registrazione
+  setupRegistrationRoutes(app);
   
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
