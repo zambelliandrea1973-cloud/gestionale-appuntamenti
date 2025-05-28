@@ -66,7 +66,6 @@ function ActivationPageWrapper({ children }: { children: React.ReactNode }) {
  * Include anche il controllo per gli utenti beta
  */
 function StaffPageWrapper({ children }: { children: React.ReactNode }) {
-  console.log('🔥 STAFF PAGE WRAPPER: Wrapper caricato!');
   return (
     <Layout>
       {children}
@@ -97,7 +96,7 @@ function AppRoutes() {
         console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
       } else if (user && !publicPaths.includes(location)) {
-        console.log('🔥 UTENTE AUTENTICATO: Permettendo accesso a', location);
+
       }
       
       // Non facciamo altri reindirizzamenti automatici
@@ -105,8 +104,6 @@ function AppRoutes() {
     }
   }, [user, isLoading, location, setLocation]);
 
-  console.log('🔥 APP ROUTES: Rendering switch, current location:', location);
-  
   return (
     <Switch>
       {/* Pagina di attivazione senza layout */}
@@ -244,14 +241,9 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       <Route path="/staff-management">
-        {() => {
-          console.log('🔥 ROUTE MATCH: Route /staff-management matched!');
-          return (
-            <StaffPageWrapper>
-              <StaffManagementPage />
-            </StaffPageWrapper>
-          );
-        }}
+        <StaffPageWrapper>
+          <StaffManagementPage />
+        </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
         <StaffPageWrapper>
