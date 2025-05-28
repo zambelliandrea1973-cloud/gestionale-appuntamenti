@@ -103,6 +103,8 @@ function AppRoutes() {
     }
   }, [user, isLoading, location, setLocation]);
 
+  console.log('🔥 APP ROUTES: Rendering switch, current location:', location);
+  
   return (
     <Switch>
       {/* Pagina di attivazione senza layout */}
