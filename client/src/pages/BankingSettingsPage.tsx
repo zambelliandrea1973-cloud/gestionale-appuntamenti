@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { CreditCard, Banknote, Settings, Shield, AlertCircle, CheckCircle, Euro } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { triggerRefreshAfterSave } from "@/lib/autoRefresh";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
 interface BankingSettings {
@@ -45,6 +46,8 @@ export default function BankingSettingsPage() {
         description: "Le impostazioni bancarie sono state aggiornate con successo",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/banking-settings'] });
+      // Trigger refresh automatico per evitare problemi di cache
+      triggerRefreshAfterSave('banking');
     },
     onError: () => {
       toast({
