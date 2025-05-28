@@ -321,7 +321,7 @@ export function setupAuth(app: Express) {
               
               if (user && client) {
                 // Arricchisci l'oggetto utente con i dati del cliente
-                user.client = client;
+                user.clientId = client.id;
                 
                 // Login manuale
                 req.login(user, (err: any) => {
