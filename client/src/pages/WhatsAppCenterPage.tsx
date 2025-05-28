@@ -797,62 +797,65 @@ const WhatsAppCenterPage: React.FC = () => {
               {deviceStatus === DeviceStatus.DISCONNECTED && (
                 <div className="space-y-4">
                   <Alert variant="default" className="bg-green-50 border-green-200">
-                    <QrCode className="h-4 w-4 text-green-600" />
-                    <AlertTitle className="text-green-800">{t('Connetti WhatsApp con QR Code')}</AlertTitle>
+                    <MessageSquare className="h-4 w-4 text-green-600" />
+                    <AlertTitle className="text-green-800">{t('Collega WhatsApp Web')}</AlertTitle>
                     <AlertDescription className="text-green-700">
-                      {t('Il metodo più semplice e sicuro per collegare WhatsApp')}
+                      {t('Utilizza WhatsApp Web ufficiale per collegare il tuo dispositivo')}
                     </AlertDescription>
                   </Alert>
                   
-                  <div className="bg-white border-2 border-dashed border-gray-200 rounded-lg p-6 text-center">
+                  <div className="bg-white border-2 border-green-200 rounded-lg p-6">
                     <div className="space-y-4">
-                      <div className="mx-auto w-48 h-48 bg-gray-100 rounded-lg flex items-center justify-center">
-                        {qrCodeData ? (
-                          <QRCodeSVG 
-                            value={qrCodeData}
-                            size={192}
-                            bgColor="#ffffff"
-                            fgColor="#000000"
-                            level="M"
-                            includeMargin={true}
-                          />
-                        ) : (
-                          <div className="text-gray-400">
-                            <QrCode className="h-16 w-16 mx-auto mb-2" />
-                            <p className="text-sm">{t('Clicca per generare QR Code')}</p>
-                          </div>
-                        )}
+                      <div className="text-center">
+                        <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                          <MessageSquare className="h-10 w-10 text-green-600" />
+                        </div>
+                        <h3 className="font-medium text-gray-900 mb-2">{t('Istruzioni per collegare WhatsApp:')}</h3>
                       </div>
                       
-                      <div className="space-y-2">
-                        <h3 className="font-medium text-gray-900">{t('Come collegare WhatsApp:')}</h3>
-                        <ol className="text-sm text-gray-600 text-left max-w-md mx-auto space-y-1">
-                          <li>{t('1. Apri WhatsApp sul tuo telefono')}</li>
-                          <li>{t('2. Vai su Menu (⋮) > Dispositivi collegati')}</li>
-                          <li>{t('3. Tocca "Collega un dispositivo"')}</li>
-                          <li>{t('4. Scansiona questo QR code')}</li>
-                        </ol>
-                      </div>
+                      <ol className="text-sm text-gray-700 space-y-3 max-w-lg mx-auto">
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                          <span>{t('Clicca il pulsante verde qui sotto per aprire WhatsApp Web')}</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                          <span>{t('Sul tuo telefono: apri WhatsApp > Menu (⋮) > Dispositivi collegati')}</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                          <span>{t('Tocca "Collega un dispositivo" e scansiona il QR code di WhatsApp Web')}</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                          <span className="font-medium text-green-700">{t('Dopo la connessione, torna qui e clicca "Dispositivo collegato"')}</span>
+                        </li>
+                      </ol>
                     </div>
                   </div>
                   
-                  <div className="flex justify-center pt-2">
+                  <div className="flex flex-col gap-3">
                     <Button 
-                      onClick={handleGenerateQR}
-                      disabled={isSubmitting}
-                      className="bg-green-600 hover:bg-green-700"
+                      onClick={() => window.open('https://web.whatsapp.com', '_blank')}
+                      className="bg-green-600 hover:bg-green-700 w-full"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Generazione QR...')}
-                        </>
-                      ) : (
-                        <>
-                          <QrCode className="h-4 w-4 mr-2" />
-                          {t('Genera QR Code')}
-                        </>
-                      )}
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      {t('Apri WhatsApp Web')}
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      onClick={() => {
+                        setDeviceStatus(DeviceStatus.CONNECTED);
+                        toast({
+                          title: t('WhatsApp collegato!'),
+                          description: t('Dispositivo collegato con successo'),
+                        });
+                      }}
+                      className="w-full border-green-200 text-green-700 hover:bg-green-50"
+                    >
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      {t('Dispositivo collegato')}
                     </Button>
                   </div>
                 </div>
