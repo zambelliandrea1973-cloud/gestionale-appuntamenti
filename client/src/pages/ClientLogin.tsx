@@ -302,14 +302,6 @@ export default function ClientLogin() {
       
       console.log("Tentativo di login semplificato con username e password");
       
-      // PRIMA DEL LOGIN: forza logout per pulire eventuali sessioni precedenti
-      try {
-        await apiRequest('POST', '/api/logout');
-        console.log("✅ Logout forzato completato prima del nuovo login");
-      } catch (e) {
-        console.log("Logout preventivo fallito (normale se non c'era sessione attiva)");
-      }
-      
       const response = await apiRequest('POST', '/api/client/login', requestData);
       
       if (response.ok) {
@@ -340,22 +332,17 @@ export default function ClientLogin() {
           description: `Benvenuto, ${user.client?.firstName || username}!`,
         });
         
-        // INVALIDAZIONE COMPLETA CACHE + REFRESH FORZATO
-        import("@/lib/queryClient").then(({ queryClient }) => {
-          queryClient.clear(); // Pulisce completamente tutta la cache
-          console.log("✅ Cache completamente pulita per customer login");
-          
-          // Forza refresh completo della pagina per garantire aggiornamento dati
-          setTimeout(() => {
-            if (user.type === 'customer') {
-              console.log("Utente customer, refresh forzato verso dashboard");
-              window.location.href = "/dashboard?refresh=true";
-            } else {
-              console.log("Utente client standard, refresh forzato verso area client");
-              window.location.href = "/client-area?refresh=true";
-            }
-          }, 500);
-        });
+        // Verifica se l'utente è un "customer" (ha una licenza)
+        // In tal caso, reindirizza alla dashboard invece che all'area client
+        setTimeout(() => {
+          if (user.type === 'customer') {
+            console.log("Utente customer, reindirizzamento alla dashboard principale");
+            window.location.href = "/dashboard";
+          } else {
+            console.log("Utente client standard, reindirizzamento all'area client");
+            setLocation("/client-area");
+          }
+        }, 1000);
       } else {
         // Gestisci errori di login
         const errorData = await response.json().catch(() => ({}));
