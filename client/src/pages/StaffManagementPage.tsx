@@ -1,44 +1,17 @@
 import { useState, useEffect } from "react";
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Loader2, Search, UserPlus, X, Edit, Trash, CreditCard, Euro, History, Settings, Shield } from "lucide-react";
-import { 
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { 
-  Alert, 
-  AlertDescription, 
-  AlertTitle 
-} from "@/components/ui/alert";
-import { PasswordInput } from "@/components/ui/password-input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2, UserPlus, Search, Edit, Trash2, CreditCard, History, Eye, EyeOff, Settings, Shield } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 
-// Interfaccia per il tipo di utente staff
 interface StaffUser {
   id: number;
   username: string;
@@ -49,132 +22,84 @@ interface StaffUser {
 }
 
 export default function StaffManagementPage() {
-  const [staffUsers, setStaffUsers] = useState<StaffUser[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
-  const [userToDelete, setUserToDelete] = useState<StaffUser | null>(null);
-  const [userToEdit, setUserToEdit] = useState<StaffUser | null>(null);
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   
-  // Form per nuovo utente staff
-  const [newUsername, setNewUsername] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [newEmail, setNewEmail] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  // Stati per i dialog
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState(false);
+  const [isBankingDialogOpen, setIsBankingDialogOpen] = useState(false);
+  const [isAdminConfigDialogOpen, setIsAdminConfigDialogOpen] = useState(false);
   
-  // Form per modificare utente staff
-  const [editUsername, setEditUsername] = useState<string>("");
-  const [editPassword, setEditPassword] = useState<string>("");
-  const [editEmail, setEditEmail] = useState<string>("");
-  const [editFormError, setEditFormError] = useState<string | null>(null);
+  // Stati per i form
+  const [formError, setFormError] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSavingAdminConfig, setIsSavingAdminConfig] = useState(false);
   
-  // Dialog per gestione dati bancari
-  const [isBankingDialogOpen, setIsBankingDialogOpen] = useState<boolean>(false);
-  const [selectedStaffForBanking, setSelectedStaffForBanking] = useState<StaffUser | null>(null);
-  const [bankingData, setBankingData] = useState({
-    iban: "",
-    bankName: "",
-    accountHolder: "",
-    swift: ""
+  // Ricerca
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Utente selezionato
+  const [selectedUser, setSelectedUser] = useState<StaffUser | null>(null);
+  
+  // Form data
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "staff"
   });
-  const [isSavingBanking, setIsSavingBanking] = useState<boolean>(false);
   
-  // Dialog per storico pagamenti
-  const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState<boolean>(false);
-  const [selectedStaffForPayments, setSelectedStaffForPayments] = useState<StaffUser | null>(null);
-  const [paymentHistory, setPaymentHistory] = useState<any[]>([]);
-  const [isLoadingPayments, setIsLoadingPayments] = useState<boolean>(false);
-  
-  // Stati per configurazione admin
-  const [isAdminConfigDialogOpen, setIsAdminConfigDialogOpen] = useState<boolean>(false);
+  // Configurazione admin
   const [adminBankingConfig, setAdminBankingConfig] = useState({
     adminIban: "",
-    adminBankName: "",
+    adminBank: "",
     adminAccountHolder: "",
-    adminSwift: "",
     paymentApiKey: "",
-    maxDailyAmount: 1000,
-    autoPaymentEnabled: true
+    dailyLimit: 500,
+    autoPaymentsEnabled: false
   });
-  const [isSavingAdminConfig, setIsSavingAdminConfig] = useState<boolean>(false);
-  
-  const { toast } = useToast();
 
-  // Carica la lista degli utenti staff
-  useEffect(() => {
-    fetchStaffUsers();
-  }, []);
-
-  // Funzione per caricare gli utenti staff
-  const fetchStaffUsers = async () => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response = await apiRequest("GET", "/api/staff/list");
-      
-      if (response.ok) {
-        const data = await response.json();
-        setStaffUsers(data);
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante il caricamento degli utenti staff");
+  // Query per ottenere gli utenti staff
+  const { data: staffUsers = [], isLoading, error } = useQuery({
+    queryKey: ['/api/staff/users'],
+    queryFn: async () => {
+      const response = await fetch('/api/staff/users');
+      if (!response.ok) {
+        throw new Error('Failed to fetch staff users');
       }
-    } catch (err: any) {
-      setError(err.message || "Si è verificato un errore durante il caricamento degli utenti");
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: err.message || "Impossibile caricare gli utenti staff",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return response.json();
+    },
+  });
 
-  // Funzione per registrare un nuovo utente staff
-  const registerStaffUser = async () => {
-    setFormError(null);
-    setIsSubmitting(true);
-    
-    // Validazione di base
-    if (!newUsername || !newPassword) {
-      setFormError("Inserisci sia username che password");
-      setIsSubmitting(false);
+  // Funzione per aggiungere un nuovo utente
+  const handleAddUser = async () => {
+    if (!formData.username || !formData.email || !formData.password) {
+      setFormError("Tutti i campi sono obbligatori");
       return;
     }
-    
+
+    setIsCreating(true);
+    setFormError("");
+
     try {
-      const response = await apiRequest("POST", "/api/staff/register", {
-        username: newUsername,
-        password: newPassword,
-        email: newEmail || undefined,
-        role: "staff" // Default role è staff
+      const response = await fetch('/api/staff/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      
+
       if (response.ok) {
-        const newUser = await response.json();
-        
-        // Aggiorna la lista degli utenti
-        setStaffUsers(prev => [...prev, newUser]);
-        
-        // Reset form
-        setNewUsername("");
-        setNewPassword("");
-        setNewEmail("");
-        
-        // Chiudi dialog
+        await queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
+        setFormData({ username: "", email: "", password: "", role: "staff" });
         setIsAddDialogOpen(false);
-        
         toast({
-          title: "Utente creato",
-          description: `L'utente ${newUser.username} è stato creato con successo`,
+          title: "Successo",
+          description: "Utente staff creato con successo",
         });
       } else {
         const errorData = await response.json();
@@ -188,220 +113,101 @@ export default function StaffManagementPage() {
         description: err.message || "Impossibile creare l'utente staff",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsCreating(false);
     }
   };
 
-  // Funzione per eliminare un utente staff
-  const deleteStaffUser = async () => {
-    if (!userToDelete) return;
-    
-    setIsDeleting(true);
-    
+  // Funzione per salvare la configurazione admin
+  const saveAdminConfig = async () => {
+    if (!adminBankingConfig.adminIban) {
+      toast({
+        variant: "destructive",
+        title: "Errore",
+        description: "L'IBAN dell'amministratore è obbligatorio",
+      });
+      return;
+    }
+
+    setIsSavingAdminConfig(true);
+
     try {
-      const response = await apiRequest("DELETE", `/api/staff/${userToDelete.id}`);
-      
+      const response = await fetch('/api/admin/config', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminBankingConfig),
+      });
+
       if (response.ok) {
-        // Rimuovi l'utente dalla lista
-        setStaffUsers(prev => prev.filter(user => user.id !== userToDelete.id));
-        
+        setIsAdminConfigDialogOpen(false);
         toast({
-          title: "Utente eliminato",
-          description: `L'utente ${userToDelete.username} è stato eliminato con successo`,
+          title: "Successo",
+          description: "Configurazione admin salvata con successo",
         });
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'eliminazione dell'utente");
+        throw new Error(errorData.message || "Errore durante il salvataggio della configurazione");
       }
     } catch (err: any) {
       toast({
         variant: "destructive",
         title: "Errore",
-        description: err.message || "Impossibile eliminare l'utente staff",
-      });
-    } finally {
-      setIsDeleting(false);
-      setIsDeleteDialogOpen(false);
-      setUserToDelete(null);
-    }
-  };
-  
-  // Inizia il processo di eliminazione
-  const handleDeleteClick = (user: StaffUser) => {
-    setUserToDelete(user);
-    setIsDeleteDialogOpen(true);
-  };
-
-  // Gestione dati bancari
-  const handleBankingClick = (user: StaffUser) => {
-    setSelectedStaffForBanking(user);
-    setBankingData({
-      iban: "",
-      bankName: "",
-      accountHolder: user.username || "",
-      swift: ""
-    });
-    setIsBankingDialogOpen(true);
-  };
-
-  // Gestione storico pagamenti
-  const handlePaymentHistoryClick = async (user: StaffUser) => {
-    setSelectedStaffForPayments(user);
-    setIsPaymentHistoryDialogOpen(true);
-    setIsLoadingPayments(true);
-    
-    try {
-      const response = await apiRequest("GET", `/api/referral/staff/${user.id}/payments`);
-      if (response.ok) {
-        const data = await response.json();
-        setPaymentHistory(data.payments || []);
-      } else {
-        console.error("Errore nel caricamento storico pagamenti");
-        setPaymentHistory([]);
-      }
-    } catch (error) {
-      console.error("Errore nel caricamento storico pagamenti:", error);
-      setPaymentHistory([]);
-    } finally {
-      setIsLoadingPayments(false);
-    }
-  };
-
-  // Salva dati bancari
-  const saveBankingInfo = async () => {
-    if (!selectedStaffForBanking) return;
-    
-    setIsSavingBanking(true);
-    try {
-      const response = await apiRequest("POST", `/api/referral/staff/${selectedStaffForBanking.id}/banking`, bankingData);
-      
-      if (response.ok) {
-        toast({
-          title: "Dati bancari salvati",
-          description: `Informazioni bancarie salvate per ${selectedStaffForBanking.username}`,
-        });
-        setIsBankingDialogOpen(false);
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Errore nel salvataggio");
-      }
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: error.message || "Impossibile salvare le informazioni bancarie",
-      });
-    } finally {
-      setIsSavingBanking(false);
-    }
-  };
-
-  // Salva configurazione admin
-  const saveAdminConfig = async () => {
-    setIsSavingAdminConfig(true);
-    try {
-      const response = await apiRequest("POST", "/api/admin/banking-config", adminBankingConfig);
-      
-      if (response.ok) {
-        toast({
-          title: "Configurazione salvata",
-          description: "Le impostazioni bancarie admin sono state aggiornate con successo",
-        });
-        setIsAdminConfigDialogOpen(false);
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Errore nel salvataggio");
-      }
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: error.message || "Impossibile salvare la configurazione admin",
+        description: err.message || "Impossibile salvare la configurazione",
       });
     } finally {
       setIsSavingAdminConfig(false);
     }
   };
-  
-  // Inizia il processo di modifica
+
+  // Funzioni di gestione
+  const handleDeleteClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    // Qui andrà la logica per eliminare l'utente
+  };
+
   const handleEditClick = (user: StaffUser) => {
-    setUserToEdit(user);
-    setEditUsername(user.username);
-    setEditEmail(user.email || "");
-    setEditPassword(""); // Password vuota, la modificheremo solo se inserita
-    setEditFormError(null);
+    setSelectedUser(user);
     setIsEditDialogOpen(true);
   };
-  
-  // Funzione per aggiornare un utente staff
-  const updateStaffUser = async () => {
-    if (!userToEdit) return;
-    
-    setEditFormError(null);
-    setIsEditing(true);
-    
-    // Prepara i dati da inviare - includi solo i campi che sono stati modificati
-    const updateData: any = {};
-    
-    if (editUsername !== userToEdit.username) {
-      updateData.username = editUsername;
-    }
-    
-    if (editEmail !== (userToEdit.email || "")) {
-      updateData.email = editEmail || null; // Se vuoto, imposta null
-    }
-    
-    // Includi la password solo se è stata inserita
-    if (editPassword) {
-      updateData.password = editPassword;
-    }
-    
-    // Se non è stato modificato nulla, mostra un errore
-    if (Object.keys(updateData).length === 0) {
-      setEditFormError("Nessuna modifica apportata");
-      setIsEditing(false);
-      return;
-    }
-    
-    try {
-      const response = await apiRequest("PATCH", `/api/staff/${userToEdit.id}`, updateData);
-      
-      if (response.ok) {
-        const updatedUser = await response.json();
-        
-        // Aggiorna la lista degli utenti
-        setStaffUsers(prev => 
-          prev.map(user => user.id === userToEdit.id ? { ...user, ...updatedUser } : user)
-        );
-        
-        toast({
-          title: "Utente aggiornato",
-          description: `L'utente ${updatedUser.username} è stato aggiornato con successo`,
-        });
-        
-        // Chiudi dialog
-        setIsEditDialogOpen(false);
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'aggiornamento dell'utente");
-      }
-    } catch (err: any) {
-      setEditFormError(err.message || "Si è verificato un errore durante l'aggiornamento dell'utente");
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: err.message || "Impossibile aggiornare l'utente staff",
-      });
-    } finally {
-      setIsEditing(false);
-    }
+
+  const handleBankingClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    setIsBankingDialogOpen(true);
   };
-  
+
+  const handlePaymentHistoryClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    setIsPaymentHistoryDialogOpen(true);
+  };
+
   // Filtra gli utenti in base alla ricerca
-  const filteredUsers = staffUsers.filter(user => 
+  const filteredUsers = staffUsers.filter((user: StaffUser) => 
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto py-6">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Errore</AlertTitle>
+          <AlertDescription>
+            Impossibile caricare gli utenti staff. Riprova più tardi.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-6 space-y-6">
@@ -428,665 +234,148 @@ export default function StaffManagementPage() {
                 <span>Aggiungi Staff</span>
               </Button>
             </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Aggiungi nuovo utente staff</DialogTitle>
-              <DialogDescription>
-                Crea un nuovo account staff che potrà accedere al sistema.
-              </DialogDescription>
-            </DialogHeader>
-            
-            <div className="space-y-4 py-4">
-              {formError && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Errore</AlertTitle>
-                  <AlertDescription>{formError}</AlertDescription>
-                </Alert>
-              )}
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Aggiungi nuovo utente staff</DialogTitle>
+                <DialogDescription>
+                  Crea un nuovo account staff che potrà accedere al sistema.
+                </DialogDescription>
+              </DialogHeader>
               
-              <div className="space-y-2">
-                <Label htmlFor="username">Username *</Label>
-                <Input
-                  id="username"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  placeholder="Username per il login"
-                />
+              <div className="space-y-4 py-4">
+                {formError && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Errore</AlertTitle>
+                    <AlertDescription>{formError}</AlertDescription>
+                  </Alert>
+                )}
+                
+                <div className="space-y-2">
+                  <Label htmlFor="username">Username *</Label>
+                  <Input
+                    id="username"
+                    value={formData.username}
+                    onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                    placeholder="Inserisci username"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="Inserisci email"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password *</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                    placeholder="Inserisci password"
+                  />
+                </div>
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
-                <PasswordInput
-                  id="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Password sicura"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="email">Email (opzionale)</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  placeholder="Indirizzo email"
-                />
-              </div>
-            </div>
-            
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                Annulla
-              </Button>
-              <Button 
-                onClick={registerStaffUser} 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creazione in corso...
-                  </>
-                ) : "Crea utente"}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsAddDialogOpen(false)}
+                  disabled={isCreating}
+                >
+                  Annulla
+                </Button>
+                <Button
+                  onClick={handleAddUser}
+                  disabled={isCreating}
+                >
+                  {isCreating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creazione...
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      Crea Utente
+                    </>
+                  )}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
           </Dialog>
         </div>
-      
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex justify-between items-center">
-            <CardTitle>Utenti Staff</CardTitle>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Cerca utenti..."
-                className="pl-8 w-[250px]"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-2.5"
+      </div>
+
+      {/* Barra di ricerca */}
+      <div className="flex items-center space-x-2">
+        <Search className="h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Cerca staff per username o email..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="max-w-sm"
+        />
+      </div>
+
+      {/* Lista utenti staff */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {filteredUsers.map((user: StaffUser) => (
+          <Card key={user.id}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">{user.username}</CardTitle>
+                <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+                  {user.role}
+                </Badge>
+              </div>
+              <CardDescription>{user.email}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleEditClick(user)}
                 >
-                  <X className="h-4 w-4 text-muted-foreground" />
-                </button>
-              )}
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex justify-center items-center h-32">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : error ? (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Errore</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          ) : filteredUsers.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              {searchQuery 
-                ? "Nessun utente trovato con i criteri di ricerca" 
-                : "Nessun utente staff registrato"}
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Ruolo</TableHead>
-                  <TableHead>Codice Referral</TableHead>
-                  <TableHead>Creato il</TableHead>
-                  <TableHead className="text-right">Azioni</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredUsers.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.username}</TableCell>
-                    <TableCell>{user.email || "-"}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        user.role === "admin" 
-                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" 
-                          : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                      }`}>
-                        {user.role === "admin" ? "Amministratore" : "Staff"}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">
-                        {user.referralCode || `-`}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {user.createdAt 
-                        ? new Date(user.createdAt).toLocaleDateString() 
-                        : "-"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button 
-                          variant="outline" 
-                          size="icon" 
-                          className="h-8 w-8" 
-                          onClick={() => handleBankingClick(user)}
-                          title="Gestisci dati bancari"
-                        >
-                          <CreditCard className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="icon" 
-                          className="h-8 w-8" 
-                          onClick={() => handlePaymentHistoryClick(user)}
-                          title="Storico pagamenti"
-                        >
-                          <Euro className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="icon" 
-                          className="h-8 w-8" 
-                          onClick={() => handleEditClick(user)}
-                          title="Modifica utente"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="destructive" 
-                          size="icon" 
-                          className="h-8 w-8" 
-                          onClick={() => handleDeleteClick(user)}
-                          disabled={user.role === "admin" && user.username === "zambelli.andrea.1973@gmail.com"}
-                          title="Elimina utente"
-                        >
-                          <Trash className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                  <Edit className="h-4 w-4 mr-1" />
+                  Modifica
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBankingClick(user)}
+                >
+                  <CreditCard className="h-4 w-4 mr-1" />
+                  Dati Bancari
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePaymentHistoryClick(user)}
+                >
+                  <History className="h-4 w-4 mr-1" />
+                  Storico
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-      {/* Dialog di conferma eliminazione */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Conferma eliminazione</DialogTitle>
-            <DialogDescription>
-              Sei sicuro di voler eliminare l'utente {userToDelete?.username}?
-              Questa azione non può essere annullata.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <DialogFooter className="flex space-x-2 pt-4">
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                setIsDeleteDialogOpen(false);
-                setUserToDelete(null);
-              }}
-            >
-              Annulla
-            </Button>
-            <Button 
-              variant="destructive" 
-              onClick={deleteStaffUser}
-              disabled={isDeleting}
-            >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminazione in corso...
-                </>
-              ) : "Elimina"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Dialog di modifica utente */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Modifica utente</DialogTitle>
-            <DialogDescription>
-              Modifica le informazioni dell'utente {userToEdit?.username}.
-              Lascia vuota la password se non desideri modificarla.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4 py-4">
-            {editFormError && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Errore</AlertTitle>
-                <AlertDescription>{editFormError}</AlertDescription>
-              </Alert>
-            )}
-            
-            <div className="space-y-2">
-              <Label htmlFor="editUsername">Username</Label>
-              <Input
-                id="editUsername"
-                value={editUsername}
-                onChange={(e) => setEditUsername(e.target.value)}
-                placeholder="Username per il login"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="editPassword">
-                Password <span className="text-muted-foreground text-xs">(lascia vuoto per non modificare)</span>
-              </Label>
-              <PasswordInput
-                id="editPassword"
-                value={editPassword}
-                onChange={(e) => setEditPassword(e.target.value)}
-                placeholder="Nuova password"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="editEmail">Email (opzionale)</Label>
-              <Input
-                id="editEmail"
-                type="email"
-                value={editEmail}
-                onChange={(e) => setEditEmail(e.target.value)}
-                placeholder="Indirizzo email"
-              />
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                setIsEditDialogOpen(false);
-                setUserToEdit(null);
-              }}
-            >
-              Annulla
-            </Button>
-            <Button 
-              onClick={updateStaffUser} 
-              disabled={isEditing}
-            >
-              {isEditing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Aggiornamento in corso...
-                </>
-              ) : "Salva modifiche"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {filteredUsers.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Nessun utente staff trovato.</p>
+        </div>
+      )}
 
-      {/* Dialog per gestione dati bancari */}
-      <Dialog open={isBankingDialogOpen} onOpenChange={setIsBankingDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Gestione Dati Bancari</DialogTitle>
-            <DialogDescription>
-              Configura le informazioni bancarie per {selectedStaffForBanking?.username}
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="iban">IBAN *</Label>
-              <Input
-                id="iban"
-                value={bankingData.iban}
-                onChange={(e) => setBankingData(prev => ({ ...prev, iban: e.target.value }))}
-                placeholder="IT00 0000 0000 0000 0000 0000 000"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="bankName">Nome Banca</Label>
-              <Input
-                id="bankName"
-                value={bankingData.bankName}
-                onChange={(e) => setBankingData(prev => ({ ...prev, bankName: e.target.value }))}
-                placeholder="Es. Banca Intesa Sanpaolo"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="accountHolder">Intestatario Conto</Label>
-              <Input
-                id="accountHolder"
-                value={bankingData.accountHolder}
-                onChange={(e) => setBankingData(prev => ({ ...prev, accountHolder: e.target.value }))}
-                placeholder="Nome e Cognome"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="swift">Codice SWIFT (opzionale)</Label>
-              <Input
-                id="swift"
-                value={bankingData.swift}
-                onChange={(e) => setBankingData(prev => ({ ...prev, swift: e.target.value }))}
-                placeholder="BCITITMM"
-              />
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsBankingDialogOpen(false)}
-              disabled={isSavingBanking}
-            >
-              Annulla
-            </Button>
-            <Button
-              onClick={saveBankingInfo}
-              disabled={isSavingBanking || !bankingData.iban}
-            >
-              {isSavingBanking ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Salvataggio...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  Salva Dati Bancari
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog per storico pagamenti */}
-      <Dialog open={isPaymentHistoryDialogOpen} onOpenChange={setIsPaymentHistoryDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[80vh]">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Euro className="h-5 w-5" />
-              Storico Pagamenti - {selectedStaffForPayments?.username}
-            </DialogTitle>
-            <DialogDescription>
-              Visualizza tutti i pagamenti delle commissioni referral per questo staff
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="py-4">
-            {isLoadingPayments ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin" />
-                <span className="ml-2">Caricamento storico pagamenti...</span>
-              </div>
-            ) : paymentHistory.length === 0 ? (
-              <div className="text-center py-8">
-                <Euro className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-semibold mb-2">Nessun pagamento trovato</h3>
-                <p className="text-muted-foreground">
-                  Non ci sono ancora pagamenti registrati per questo staff.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {/* Statistiche rapide */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600">
-                          €{paymentHistory.filter(p => p.status === 'paid').reduce((sum, p) => sum + (p.amount || 0), 0).toFixed(2)}
-                        </div>
-                        <div className="text-sm text-muted-foreground">Totale Pagato</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-orange-600">
-                          €{paymentHistory.filter(p => p.status === 'pending').reduce((sum, p) => sum + (p.amount || 0), 0).toFixed(2)}
-                        </div>
-                        <div className="text-sm text-muted-foreground">In Attesa</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold">
-                          {paymentHistory.length}
-                        </div>
-                        <div className="text-sm text-muted-foreground">Transazioni Totali</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Tabella pagamenti */}
-                <div className="border rounded-lg overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Data</TableHead>
-                        <TableHead>Importo</TableHead>
-                        <TableHead>Stato</TableHead>
-                        <TableHead>ID Transazione</TableHead>
-                        <TableHead>Utente Sponsorizzato</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {paymentHistory.map((payment, index) => (
-                        <TableRow key={index}>
-                          <TableCell>
-                            {payment.dueDate ? new Date(payment.dueDate).toLocaleDateString() : "-"}
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-medium">
-                              €{((payment.amount || 0) / 100).toFixed(2)}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              payment.status === 'paid' 
-                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" 
-                                : payment.status === 'pending'
-                                ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
-                                : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                            }`}>
-                              {payment.status === 'paid' ? 'Pagato' : 
-                               payment.status === 'pending' ? 'In Attesa' : 'Fallito'}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-mono text-sm">
-                              {payment.transactionId || "-"}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            {payment.sponsoredUser || `ID: ${payment.sponsoredUserId || "-"}`}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsPaymentHistoryDialogOpen(false)}>
-              Chiudi
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog per configurazione admin */}
-      <Dialog open={isAdminConfigDialogOpen} onOpenChange={setIsAdminConfigDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-blue-600" />
-              Configurazione Amministratore
-            </DialogTitle>
-            <DialogDescription>
-              Configura i tuoi dati bancari per autorizzare i pagamenti automatici delle commissioni staff
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-6 py-4">
-            {/* Sezione dati bancari admin */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold border-b pb-2">Dati Bancari Admin</h3>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="adminIban">IBAN Conto Admin *</Label>
-                  <Input
-                    id="adminIban"
-                    value={adminBankingConfig.adminIban}
-                    onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, adminIban: e.target.value }))}
-                    placeholder="IT00 0000 0000 0000 0000 0000 000"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="adminBankName">Nome Banca</Label>
-                  <Input
-                    id="adminBankName"
-                    value={adminBankingConfig.adminBankName}
-                    onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, adminBankName: e.target.value }))}
-                    placeholder="Es. Banca Intesa Sanpaolo"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="adminAccountHolder">Intestatario Conto</Label>
-                  <Input
-                    id="adminAccountHolder"
-                    value={adminBankingConfig.adminAccountHolder}
-                    onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, adminAccountHolder: e.target.value }))}
-                    placeholder="Nome e Cognome"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="adminSwift">Codice SWIFT</Label>
-                  <Input
-                    id="adminSwift"
-                    value={adminBankingConfig.adminSwift}
-                    onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, adminSwift: e.target.value }))}
-                    placeholder="BCITITMM"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Sezione configurazione pagamenti automatici */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold border-b pb-2">Configurazione Pagamenti Automatici</h3>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="paymentApiKey">API Key Pagamenti</Label>
-                  <Input
-                    id="paymentApiKey"
-                    type="password"
-                    value={adminBankingConfig.paymentApiKey}
-                    onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, paymentApiKey: e.target.value }))}
-                    placeholder="API Key per bonifici automatici"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="maxDailyAmount">Limite Giornaliero (€)</Label>
-                  <Input
-                    id="maxDailyAmount"
-                    type="number"
-                    value={adminBankingConfig.maxDailyAmount}
-                    onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, maxDailyAmount: Number(e.target.value) }))}
-                    placeholder="1000"
-                  />
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="autoPaymentEnabled"
-                  checked={adminBankingConfig.autoPaymentEnabled}
-                  onChange={(e) => setAdminBankingConfig(prev => ({ ...prev, autoPaymentEnabled: e.target.checked }))}
-                  className="rounded"
-                />
-                <Label htmlFor="autoPaymentEnabled">
-                  Abilita pagamenti automatici dopo 30 giorni dall'abbonamento
-                </Label>
-              </div>
-            </div>
-            
-            {/* Informazioni sicurezza */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
-                <div className="text-sm">
-                  <p className="font-semibold text-blue-800 mb-1">Sicurezza e Privacy</p>
-                  <p className="text-blue-700">
-                    I dati bancari vengono crittografati e utilizzati solo per i pagamenti automatici delle commissioni staff. 
-                    L'API Key deve avere permessi limitati solo ai bonifici.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsAdminConfigDialogOpen(false)}
-              disabled={isSavingAdminConfig}
-            >
-              Annulla
-            </Button>
-            <Button
-              onClick={saveAdminConfig}
-              disabled={isSavingAdminConfig || !adminBankingConfig.adminIban}
-            >
-              {isSavingAdminConfig ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Salvataggio...
-                </>
-              ) : (
-                <>
-                  <Shield className="mr-2 h-4 w-4" />
-                  Salva Configurazione
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      
       {/* Dialog Configurazione Admin */}
       <Dialog open={isAdminConfigDialogOpen} onOpenChange={setIsAdminConfigDialogOpen}>
         <DialogContent className="max-w-2xl">
@@ -1101,7 +390,6 @@ export default function StaffManagementPage() {
           </DialogHeader>
           
           <div className="space-y-6 py-4">
-            {/* IBAN Admin */}
             <div className="space-y-2">
               <Label htmlFor="adminIban">IBAN Amministratore *</Label>
               <Input
@@ -1116,7 +404,6 @@ export default function StaffManagementPage() {
               />
             </div>
             
-            {/* Banca */}
             <div className="space-y-2">
               <Label htmlFor="adminBank">Banca</Label>
               <Input
@@ -1130,7 +417,6 @@ export default function StaffManagementPage() {
               />
             </div>
             
-            {/* Intestatario */}
             <div className="space-y-2">
               <Label htmlFor="adminAccountHolder">Intestatario Conto</Label>
               <Input
@@ -1144,7 +430,6 @@ export default function StaffManagementPage() {
               />
             </div>
             
-            {/* API Key */}
             <div className="space-y-2">
               <Label htmlFor="paymentApiKey">API Key Pagamenti</Label>
               <Input
@@ -1159,7 +444,6 @@ export default function StaffManagementPage() {
               />
             </div>
             
-            {/* Limite Giornaliero */}
             <div className="space-y-2">
               <Label htmlFor="dailyLimit">Limite Giornaliero (€)</Label>
               <Input
@@ -1174,7 +458,6 @@ export default function StaffManagementPage() {
               />
             </div>
             
-            {/* Abilitazione Pagamenti */}
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="autoPaymentsEnabled"
