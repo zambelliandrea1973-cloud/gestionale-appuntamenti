@@ -96,6 +96,8 @@ function AppRoutes() {
       if (!user && !publicPaths.includes(location)) {
         console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
+      } else if (user && !publicPaths.includes(location)) {
+        console.log('🔥 UTENTE AUTENTICATO: Permettendo accesso a', location);
       }
       
       // Non facciamo altri reindirizzamenti automatici
