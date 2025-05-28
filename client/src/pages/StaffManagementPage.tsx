@@ -412,6 +412,7 @@ export default function StaffManagementPage() {
                   <TableHead>Username</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Ruolo</TableHead>
+                  <TableHead>Codice Referral</TableHead>
                   <TableHead>Creato il</TableHead>
                   <TableHead className="text-right">Azioni</TableHead>
                 </TableRow>
@@ -428,6 +429,11 @@ export default function StaffManagementPage() {
                           : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
                       }`}>
                         {user.role === "admin" ? "Amministratore" : "Staff"}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">
+                        {(user as any).referralCode || `-`}
                       </span>
                     </TableCell>
                     <TableCell>
