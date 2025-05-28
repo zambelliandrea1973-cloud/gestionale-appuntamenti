@@ -41,8 +41,11 @@ export function UserLicenseProvider({ children }: { children: ReactNode }) {
   } = useQuery<UserWithLicense>({
     queryKey: ["/api/user-with-license"],
     retry: 1,
-    // Se c'è un errore 401, non mostriamo errori ma semplicemente restituiamo null
-    refetchOnWindowFocus: false,
+    // FORZA REFRESH - Risolve il problema del nome utente cached
+    staleTime: 0, // I dati sono sempre considerati stale
+    cacheTime: 0, // Non mantenere cache
+    refetchOnWindowFocus: true, // Ricarica quando la finestra diventa attiva
+    refetchOnMount: true, // Ricarica sempre al mount
   });
 
   // Funzione per ottenere il tipo di licenza formattato per il badge
