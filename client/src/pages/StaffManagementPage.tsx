@@ -66,24 +66,19 @@ export default function StaffManagementPage() {
   const { data: staffUsers = [], isLoading, error } = useQuery({
     queryKey: ['/api/staff/users'],
     queryFn: async () => {
-      console.log('🔥 FRONTEND: Chiamata a /api/staff/users');
       const response = await fetch('/api/staff/users', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      console.log('🔥 FRONTEND: Response status:', response.status);
-      console.log('🔥 FRONTEND: Response ok:', response.ok);
       
       if (!response.ok) {
         const errorText = await response.text();
-        console.log('🔥 FRONTEND: Error response:', errorText);
         throw new Error(`Failed to fetch staff users: ${response.status}`);
       }
       
       const data = await response.json();
-      console.log('🔥 FRONTEND: Data ricevuta:', data);
       return data;
     },
   });
