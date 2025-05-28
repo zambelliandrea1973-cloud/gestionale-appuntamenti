@@ -26,7 +26,7 @@ import ClientAppointments from "./pages/ClientAppointments";
 import BetaPage from "./pages/BetaPage";
 import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
-import StaffManagementPageClean from "./pages/StaffManagementPageClean";
+import StaffManagementPageFixed from "./pages/StaffManagementPageFixed";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
