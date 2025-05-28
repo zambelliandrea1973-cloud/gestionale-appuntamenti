@@ -23,10 +23,15 @@ export async function getCleanReferralOverview(req: Request, res: Response) {
     const staffReferralData = [];
     
     for (const user of allStaffUsers) {
-      // Genera codice referral basato sull'ID reale
-      const referralCode = user.id === 14 ? "BUS14" : 
-                          user.id === 16 ? "FAV16" : 
-                          user.id === 8 ? "ZAM08" : 
+      // Codici referral autentici per ogni staff
+      const referralCode = user.id === 3 ? "REF3" :     // zambelli.andrea.1973@gmail.com
+                          user.id === 8 ? "ZAM08" :     // zambelli.andrea.19732@gmail.com
+                          user.id === 13 ? "REF13" :    // test@example.com
+                          user.id === 14 ? "BUS14" :    // busnari.silvia@libero.it
+                          user.id === 16 ? "FAV16" :    // faverioelisa6@gmail.com
+                          user.id === 20 ? "REF20" :    // 1professionista.test@example.com
+                          user.id === 21 ? "REF21" :    // 2professionista.test@example.com
+                          user.id === 22 ? "REF22" :    // 3professionista.test@example.com
                           `REF${user.id}`;
       
       // Recupera sponsorizzazioni reali (per ora 0, ma struttura pronta)
