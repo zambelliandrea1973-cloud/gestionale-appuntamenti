@@ -1,0 +1,150 @@
+Sessione scaduta, pulizia solo del token
+ClientLogin.tsx:63 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+ClientLogin.tsx:67 Invio URL originale al service worker
+ClientLogin.tsx:83 Diagnostica completa localStorage: Object
+ClientLogin.tsx:103 Controllo credenziali salvate: Object
+ClientLogin.tsx:112 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+ClientLogin.tsx:143 App avviata - DuckDuckGo: false, PWA: false
+App.tsx:93 Stato autenticazione: Object
+ClientLogin.tsx:63 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+ClientLogin.tsx:67 Invio URL originale al service worker
+ClientLogin.tsx:83 Diagnostica completa localStorage: Object
+ClientLogin.tsx:103 Controllo credenziali salvate: Object
+ClientLogin.tsx:112 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+ClientLogin.tsx:143 App avviata - DuckDuckGo: false, PWA: false
+ClientLogin.tsx:63 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+ClientLogin.tsx:67 Invio URL originale al service worker
+ClientLogin.tsx:83 Diagnostica completa localStorage: Object
+ClientLogin.tsx:103 Controllo credenziali salvate: Object
+ClientLogin.tsx:112 Usando nome utente memorizzato: zambelli.andrea.1973A@gmail.com
+InstallAppPrompt.tsx:18 Service Worker registrato con successo: ServiceWorkerRegistration
+InstallAppPrompt.tsx:18 Service Worker registrato con successo: ServiceWorkerRegistration
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/current-user:1 
+            
+            
+           Failed to load resource: the server responded with a status of 401 (Unauthorized)Understand this error
+queryClient.ts:99 Risposta da /api/current-user: 401 Unauthorized ok: false
+queryClient.ts:103 Errore API (401): {"message":"Non autenticato"}
+apiRequest @ queryClient.ts:103Understand this error
+queryClient.ts:110 Eccezione durante la richiesta a /api/current-user: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (queryClient.ts:104:13)
+    at async fetchCurrentUser (ClientArea.tsx:114:24)
+apiRequest @ queryClient.ts:110Understand this error
+ClientArea.tsx:146 Errore nel caricamento dell'utente corrente: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (queryClient.ts:104:13)
+    at async fetchCurrentUser (ClientArea.tsx:114:24)
+fetchCurrentUser @ ClientArea.tsx:146Understand this error
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: Object
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: Object
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: Object
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: Object
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: Object
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: Object
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: Object
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: Object
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: Object
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: Object
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+FooterContactIcons.tsx:63 Verifica periodica delle informazioni di contatto...
+queryClient.ts:18 Esecuzione richiesta GET a /api/contact-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/contact-info: 200 OK ok: true
+FooterContactIcons.tsx:22 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}

@@ -164,10 +164,11 @@ export default function ClientLogin() {
           }
         }
         
-        // Auto-login in modalità PWA
-        // Se abbiamo nome utente, token e siamo in una PWA installata, tentiamo un login automatico
-        // Rimosso il controllo specifico per DuckDuckGo per supportare tutti i browser
-        if (isPWA && storedUsername && token && clientId) {
+        // 🚫 LOGIN AUTOMATICO DISABILITATO per risolvere bug nome utente cached
+        console.log("🚫 Login automatico disabilitato - forza login manuale per dati corretti");
+        
+        // CODICE DISABILITATO per evitare problemi di cache:
+        if (false && isPWA && storedUsername && token && clientId) {
           console.log("Tentativo di login automatico per app PWA installata");
           
           try {
@@ -217,6 +218,11 @@ export default function ClientLogin() {
           }
         }
         
+        // 🚫 VERIFICA TOKEN DISABILITATA per risolvere bug nome utente cached
+        console.log("🚫 Verifica token disabilitata - richiede login manuale per dati corretti");
+        return;
+        
+        // CODICE DISABILITATO:
         // Se non ci sono entrambi i parametri o se il processo auto-login è fallito, non fare nulla
         if (!token || !clientId) return;
         
