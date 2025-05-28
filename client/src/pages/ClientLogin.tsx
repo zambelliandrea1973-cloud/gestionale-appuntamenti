@@ -344,7 +344,20 @@ export default function ClientLogin() {
         setTimeout(() => {
           if (user.type === 'customer') {
             console.log("Utente customer, reindirizzamento alla dashboard principale");
-            window.location.href = "/dashboard";
+            // FORZA CARICAMENTO DATI UTENTE per risolvere il bug del nome cached
+            console.log("🔧 FORZANDO CARICAMENTO DATI UTENTE PRIMA DEL REDIRECT");
+            fetch('/api/user-with-license', { credentials: 'include' })
+              .then(res => res.json())
+              .then(userData => {
+                console.log("✅ DATI UTENTE CARICATI:", userData);
+                queryClient.clear(); // Pulisce cache
+                window.location.href = "/dashboard";
+              })
+              .catch(err => {
+                console.error("❌ Errore caricamento dati:", err);
+                queryClient.clear(); // Pulisce cache comunque
+                window.location.href = "/dashboard";
+              });
           } else {
             console.log("Utente client standard, reindirizzamento all'area client");
             setLocation("/client-area");

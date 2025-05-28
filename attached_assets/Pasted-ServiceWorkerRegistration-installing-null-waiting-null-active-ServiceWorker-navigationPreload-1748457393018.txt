@@ -1,0 +1,124 @@
+ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM5994 queryClient.ts:57 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/current-user 401 (Unauthorized)
+apiRequest @ VM5994 queryClient.ts:57
+fetchCurrentUser @ VM6013 ClientArea.tsx:93
+(anonymous) @ VM6013 ClientArea.tsx:50
+commitHookEffectListMount @ VM5991 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM5991 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM5991 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM5991 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM5991 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM5991 chunk-C43VWYGG.js:19415
+(anonymous) @ VM5991 chunk-C43VWYGG.js:19296
+workLoop @ VM5991 chunk-C43VWYGG.js:197
+flushWork @ VM5991 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM5991 chunk-C43VWYGG.js:384Understand this error
+VM5994 queryClient.ts:63 Risposta da /api/current-user: 401 Unauthorized ok: false
+VM5994 queryClient.ts:66 Errore API (401): {"message":"Non autenticato"}
+apiRequest @ VM5994 queryClient.ts:66
+await in apiRequest
+fetchCurrentUser @ VM6013 ClientArea.tsx:93
+(anonymous) @ VM6013 ClientArea.tsx:50
+commitHookEffectListMount @ VM5991 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM5991 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM5991 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM5991 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM5991 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM5991 chunk-C43VWYGG.js:19415
+(anonymous) @ VM5991 chunk-C43VWYGG.js:19296
+workLoop @ VM5991 chunk-C43VWYGG.js:197
+flushWork @ VM5991 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM5991 chunk-C43VWYGG.js:384Understand this error
+VM5994 queryClient.ts:71 Eccezione durante la richiesta a /api/current-user: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (VM5994 queryClient.ts:67:13)
+    at async fetchCurrentUser (VM6013 ClientArea.tsx:93:24)
+apiRequest @ VM5994 queryClient.ts:71
+await in apiRequest
+fetchCurrentUser @ VM6013 ClientArea.tsx:93
+(anonymous) @ VM6013 ClientArea.tsx:50
+commitHookEffectListMount @ VM5991 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM5991 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM5991 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM5991 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM5991 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM5991 chunk-C43VWYGG.js:19415
+(anonymous) @ VM5991 chunk-C43VWYGG.js:19296
+workLoop @ VM5991 chunk-C43VWYGG.js:197
+flushWork @ VM5991 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM5991 chunk-C43VWYGG.js:384Understand this error
+VM6013 ClientArea.tsx:115 Errore nel caricamento dell'utente corrente: Error: Errore 401: {"message":"Non autenticato"}
+    at apiRequest (VM5994 queryClient.ts:67:13)
+    at async fetchCurrentUser (VM6013 ClientArea.tsx:93:24)
+fetchCurrentUser @ VM6013 ClientArea.tsx:115
+await in fetchCurrentUser
+(anonymous) @ VM6013 ClientArea.tsx:50
+commitHookEffectListMount @ VM5991 chunk-C43VWYGG.js:16883
+invokePassiveEffectMountInDEV @ VM5991 chunk-C43VWYGG.js:18292
+invokeEffectsInDev @ VM5991 chunk-C43VWYGG.js:19669
+commitDoubleInvokeEffectsInDEV @ VM5991 chunk-C43VWYGG.js:19654
+flushPassiveEffectsImpl @ VM5991 chunk-C43VWYGG.js:19471
+flushPassiveEffects @ VM5991 chunk-C43VWYGG.js:19415
+(anonymous) @ VM5991 chunk-C43VWYGG.js:19296
+workLoop @ VM5991 chunk-C43VWYGG.js:197
+flushWork @ VM5991 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM5991 chunk-C43VWYGG.js:384Understand this error
+VM6057 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM5994 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM5994 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM5994 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM5994 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM6057 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM6057 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM5994 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM5994 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM5994 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM5994 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM6057 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM6057 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM5994 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM5994 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM5994 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM5994 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM6057 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM6010 ClientLogin.tsx:220 Tentativo di login semplificato con username e password
+VM5994 queryClient.ts:9 Esecuzione richiesta POST a /api/client/login {"username":"zambelli.andrea.1973A@gmail.com","password":"gironico"}
+VM5994 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM5994 queryClient.ts:52 Dettagli richiesta POST a /api/client/login: {method: 'POST', headers: {…}, body: '{"username":"zambelli.andrea.1973A@gmail.com","password":"gironico"}'}
+VM5994 queryClient.ts:63 Risposta da /api/client/login: 200 OK ok: true
+VM6010 ClientLogin.tsx:235 Token salvato nel localStorage per utilizzi futuri
+VM6010 ClientLogin.tsx:243 Utente customer, reindirizzamento alla dashboard principale
+dashboard:171 PWA check - standalone mode: false
+dashboard:172 PWA check - iOS fullscreen: undefined
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+dashboard:226 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+2queryClient.ts:99 Risposta da /api/client-app-info: 200 OK ok: true
+2TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+App.tsx:93 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=B5tFdMmIy2Vq' failed: 
+setupWebSocket @ client:536
+(anonymous) @ client:531Understand this error
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=B5tFdMmIy2Vq' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)
+setupWebSocket @ client:536
+fallback @ client:509
+(anonymous) @ client:555Understand this error
