@@ -50,7 +50,8 @@ import {
   Phone,
   ExternalLink,
   Mail,
-  Settings
+  Settings,
+  QrCode
 } from 'lucide-react';
 
 // Stati del dispositivo telefonico
@@ -126,6 +127,7 @@ const WhatsAppCenterPage: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [configuredEmail, setConfiguredEmail] = useState<string>('');
+  const [qrCodeData, setQrCodeData] = useState<string>('');
   
   // Stati per gli appuntamenti e le notifiche
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -225,49 +227,30 @@ const WhatsAppCenterPage: React.FC = () => {
     setLastUpdated(data.lastUpdated ? new Date(data.lastUpdated) : new Date());
   };
   
-  // Registra un nuovo numero di telefono
-  const handleRegisterPhone = async () => {
-    if (!phoneNumber.trim()) {
-      toast({
-        title: 'Errore',
-        description: 'Inserisci un numero di telefono valido',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
+  // Genera QR code per WhatsApp Web
+  const handleGenerateQR = async () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/direct-phone/register-direct', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ phoneNumber: phoneNumber.trim() }),
-      });
+      // Genera un ID sessione unico per questo QR code
+      const sessionId = `whatsapp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
-      const data = await response.json();
+      // Il QR code contiene l'URL per WhatsApp Web con parametri della nostra sessione
+      const qrData = `https://web.whatsapp.com/qr/${sessionId}`;
       
-      if (data.success) {
-        toast({
-          title: 'Numero registrato',
-          description: 'Ti abbiamo inviato un codice di verifica',
-        });
-        
-        // Aggiorniamo lo stato in attesa di verifica
-        setDeviceStatus(DeviceStatus.VERIFICATION_PENDING);
-        setSavedPhoneNumber(phoneNumber.trim());
-        setLastUpdated(new Date());
-      } else {
-        throw new Error(data.error || 'Errore sconosciuto durante la registrazione');
-      }
-    } catch (error) {
-      console.error('Errore nella registrazione del numero', error);
+      setQrCodeData(qrData);
+      setDeviceStatus(DeviceStatus.VERIFICATION_PENDING);
       
       toast({
+        title: 'QR Code generato',
+        description: 'Scansiona il codice con WhatsApp per collegare il dispositivo',
+      });
+      
+    } catch (error) {
+      console.error('Errore nella generazione QR:', error);
+      toast({
         title: 'Errore',
-        description: error instanceof Error ? error.message : 'Impossibile registrare il numero. Riprova.',
+        description: 'Impossibile generare il QR code. Riprova.',
         variant: 'destructive',
       });
     } finally {
