@@ -80,15 +80,15 @@ class DirectPhoneService {
       console.log(`Codice di verifica per ${phoneNumber}: ${verificationCode}`);
       
       try {
-        // Invio del codice via email invece che SMS
+        // Sistema email per invio codice di verifica
         const fs = await import('fs/promises');
         let emailSettings;
         try {
           const data = await fs.readFile('email_settings.json', 'utf8');
           emailSettings = JSON.parse(data);
         } catch (error) {
-          console.log('Impostazioni email non trovate, uso codice dai log');
-          return { success: true, message: 'Codice di verifica generato (controlla i log del server)', phoneNumber };
+          console.log('⚠️ Impostazioni email non trovate, codice solo nei log del server');
+          return { success: true, message: `Codice di verifica: ${verificationCode} (configurare email per invio automatico)`, phoneNumber };
         }
 
         if (emailSettings.emailEnabled && emailSettings.emailAddress && emailSettings.emailPassword) {
@@ -103,27 +103,38 @@ class DirectPhoneService {
 
           await transporter.sendMail({
             from: emailSettings.emailAddress,
-            to: emailSettings.emailAddress, // Invia a te stesso per ora
+            to: emailSettings.emailAddress,
             subject: '🔐 Codice di verifica WhatsApp',
             html: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #25d366;">📱 Codice di Verifica WhatsApp</h2>
-                <p>Il tuo codice di verifica per configurare WhatsApp è:</p>
-                <div style="background: #f0f0f0; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 2px; margin: 20px 0;">
-                  ${verificationCode}
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                  <h1 style="color: #25d366; margin: 0;">📱 WhatsApp</h1>
+                  <h2 style="color: #333; margin: 10px 0;">Codice di Verifica</h2>
                 </div>
-                <p><strong>Numero da verificare:</strong> ${phoneNumber}</p>
-                <p style="color: #666; font-size: 12px;">Questo codice è valido per 10 minuti.</p>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <p style="margin: 0 0 15px 0; color: #555;">Il tuo codice di verifica per configurare WhatsApp è:</p>
+                  <div style="background: #25d366; color: white; padding: 15px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; border-radius: 8px; margin: 15px 0;">
+                    ${verificationCode}
+                  </div>
+                  <p style="margin: 15px 0 0 0; color: #666; font-size: 14px;"><strong>Numero:</strong> ${phoneNumber}</p>
+                </div>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                  <p style="margin: 0; color: #856404; font-size: 14px;">⏰ Questo codice è valido per 10 minuti</p>
+                </div>
               </div>
             `
           });
-          console.log(`📧 Email di verifica inviata per ${phoneNumber}`);
+          console.log(`📧 Email di verifica inviata con successo per ${phoneNumber}`);
+          return { success: true, message: 'Codice di verifica inviato via email', phoneNumber };
         } else {
-          console.log('Email non configurata, codice di verifica solo nei log');
+          console.log('📧 Email non configurata correttamente');
+          return { success: true, message: `Codice nei log: ${verificationCode}`, phoneNumber };
         }
       } catch (emailError) {
-        console.error('Errore nell\'invio dell\'email di verifica:', emailError);
-        // Continuiamo comunque perché il codice è nei log
+        console.error('❌ Errore invio email di verifica:', emailError);
+        return { success: true, message: `Codice di backup: ${verificationCode}`, phoneNumber };
       }
       
       // Prima disattiviamo eventuali telefoni esistenti
