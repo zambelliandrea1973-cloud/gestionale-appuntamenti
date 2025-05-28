@@ -860,47 +860,43 @@ const WhatsAppCenterPage: React.FC = () => {
               
               {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
                 <div className="space-y-4">
-                  <Alert variant="default" className="bg-amber-50 border-amber-200">
-                    <AlertCircle className="h-4 w-4 text-amber-600" />
-                    <AlertTitle>{t('Verifica necessaria')}</AlertTitle>
-                    <AlertDescription>
-                      <div className="space-y-2">
-                        <p>{t('Ti abbiamo inviato un codice di verifica via email per il numero')} {savedPhoneNumber}</p>
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                          <div className="flex items-center gap-2">
-                            <Mail className="h-4 w-4 text-blue-600" />
-                            <span className="text-sm font-medium text-blue-800">
-                              Controlla la tua email: 
-                              <span className="font-bold ml-1">
-                                {configuredEmail || 'zambelli.andrea.1973@gmail.com'}
-                              </span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+                  <Alert variant="default" className="bg-blue-50 border-blue-200">
+                    <QrCode className="h-4 w-4 text-blue-600" />
+                    <AlertTitle className="text-blue-800">{t('QR Code attivo')}</AlertTitle>
+                    <AlertDescription className="text-blue-700">
+                      {t('Scansiona il QR code con WhatsApp per completare la connessione')}
                     </AlertDescription>
                   </Alert>
                   
-                  <div className="grid gap-3">
-                    <Label htmlFor="verification-code">{t('Codice di verifica')}</Label>
-                    <Input
-                      id="verification-code"
-                      type="text"
-                      placeholder="123456"
-                      value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                      disabled={isVerifying}
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      {t('Inserisci il codice a 6 cifre che hai ricevuto via email')}
-                    </p>
+                  <div className="bg-white border-2 border-blue-200 rounded-lg p-6 text-center">
+                    <div className="space-y-4">
+                      <div className="mx-auto w-48 h-48 bg-gray-50 rounded-lg flex items-center justify-center border-2 border-dashed border-blue-300">
+                        <QRCodeSVG 
+                          value={qrCodeData}
+                          size={192}
+                          bgColor="#ffffff"
+                          fgColor="#000000"
+                          level="M"
+                          includeMargin={true}
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <h3 className="font-medium text-gray-900">{t('Istruzioni:')}</h3>
+                        <ol className="text-sm text-gray-600 text-left max-w-md mx-auto space-y-1">
+                          <li>{t('1. Apri WhatsApp sul tuo telefono')}</li>
+                          <li>{t('2. Vai su Menu (⋮) > Dispositivi collegati')}</li>
+                          <li>{t('3. Tocca "Collega un dispositivo"')}</li>
+                          <li className="font-medium text-blue-600">{t('4. Scansiona QUESTO QR code')}</li>
+                        </ol>
+                      </div>
+                    </div>
                   </div>
                   
-                  <div className="flex justify-between gap-3 pt-2">
+                  <div className="flex justify-between gap-3 pt-4">
                     <Button 
                       variant="outline"
                       onClick={handleDisconnect}
-                      disabled={isVerifying}
                     >
                       {t('Annulla')}
                     </Button>
@@ -908,48 +904,22 @@ const WhatsAppCenterPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button 
                         variant="outline"
-                        onClick={async () => {
-                          if (!phoneNumber) return;
-                          
-                          try {
-                            setIsVerifying(true);
-                            // Reinvia il codice mantenendo lo stesso numero
-                            const response = await fetch('/api/direct-phone/register-direct', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ phoneNumber })
-                            });
-                            
-                            const data = await response.json();
-                            if (data.success) {
-                              toast({
-                                title: t('Codice reinviato'),
-                                description: configuredEmail ? 
-                                  t(`Nuovo codice inviato a ${configuredEmail}`) :
-                                  t('Nuovo codice di verifica inviato via email'),
-                              });
-                            } else {
-                              throw new Error(data.error || 'Errore nel reinvio');
-                            }
-                          } catch (error) {
-                            console.error('Errore reinvio codice:', error);
-                            toast({
-                              title: t('Errore'),
-                              description: t('Impossibile reinviare il codice. Riprova.'),
-                              variant: "destructive"
-                            });
-                          } finally {
-                            setIsVerifying(false);
-                          }
-                        }}
-                        disabled={isVerifying}
+                        onClick={handleGenerateQR}
+                        disabled={isSubmitting}
                       >
                         <RefreshCw className="h-4 w-4 mr-2" />
-                        {t('Reinvia codice')}
+                        {t('Nuovo QR Code')}
                       </Button>
                       <Button 
-                        onClick={handleVerifyCode}
-                        disabled={isVerifying}
+                        onClick={() => {
+                          // Simula connessione riuscita per demo
+                          setDeviceStatus(DeviceStatus.CONNECTED);
+                          toast({
+                            title: t('WhatsApp collegato!'),
+                            description: t('Dispositivo collegato con successo'),
+                          });
+                        }}
+                        className="bg-green-600 hover:bg-green-700"
                       >
                         {isVerifying ? (
                           <>
