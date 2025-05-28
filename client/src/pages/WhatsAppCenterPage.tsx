@@ -906,14 +906,39 @@ const WhatsAppCenterPage: React.FC = () => {
                     <div className="flex gap-2">
                       <Button 
                         variant="outline"
-                        onClick={() => {
-                          // Reinvia il codice riavviando la connessione
-                          setDeviceStatus(DeviceStatus.DISCONNECTED);
-                          setVerificationCode('');
-                          toast({
-                            title: t('Codice reinviato'),
-                            description: t('Un nuovo codice di verifica verrà inviato quando inserisci di nuovo il numero'),
-                          });
+                        onClick={async () => {
+                          if (!phoneNumber) return;
+                          
+                          try {
+                            setIsVerifying(true);
+                            // Reinvia il codice mantenendo lo stesso numero
+                            const response = await fetch('/api/direct-phone/register-direct', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ phoneNumber })
+                            });
+                            
+                            const data = await response.json();
+                            if (data.success) {
+                              toast({
+                                title: t('Codice reinviato'),
+                                description: configuredEmail ? 
+                                  t(`Nuovo codice inviato a ${configuredEmail}`) :
+                                  t('Nuovo codice di verifica inviato via email'),
+                              });
+                            } else {
+                              throw new Error(data.error || 'Errore nel reinvio');
+                            }
+                          } catch (error) {
+                            console.error('Errore reinvio codice:', error);
+                            toast({
+                              title: t('Errore'),
+                              description: t('Impossibile reinviare il codice. Riprova.'),
+                              variant: "destructive"
+                            });
+                          } finally {
+                            setIsVerifying(false);
+                          }
                         }}
                         disabled={isVerifying}
                       >
