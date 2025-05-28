@@ -327,32 +327,27 @@ export default function ClientLogin() {
           console.log("Token salvato nel localStorage per utilizzi futuri");
         }
         
-        // INVALIDAZIONE COMPLETA CACHE - Risolve il problema del nome utente che non si aggiorna
-        import("@/lib/queryClient").then(({ queryClient }) => {
-          queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
-          queryClient.invalidateQueries({ queryKey: ['/api/current-user'] });
-          queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
-          queryClient.removeQueries({ queryKey: ['/api/user-with-license'] });
-          queryClient.removeQueries({ queryKey: ['/api/current-user'] });
-          console.log("✅ Cache utente invalidata per customer login");
-        });
-        
         toast({
           title: "Accesso effettuato",
           description: `Benvenuto, ${user.client?.firstName || username}!`,
         });
         
-        // Verifica se l'utente è un "customer" (ha una licenza)
-        // In tal caso, reindirizza alla dashboard invece che all'area client
-        setTimeout(() => {
-          if (user.type === 'customer') {
-            console.log("Utente customer, reindirizzamento alla dashboard principale");
-            window.location.href = "/dashboard";
-          } else {
-            console.log("Utente client standard, reindirizzamento all'area client");
-            setLocation("/client-area");
-          }
-        }, 1000);
+        // INVALIDAZIONE COMPLETA CACHE + REFRESH FORZATO
+        import("@/lib/queryClient").then(({ queryClient }) => {
+          queryClient.clear(); // Pulisce completamente tutta la cache
+          console.log("✅ Cache completamente pulita per customer login");
+          
+          // Forza refresh completo della pagina per garantire aggiornamento dati
+          setTimeout(() => {
+            if (user.type === 'customer') {
+              console.log("Utente customer, refresh forzato verso dashboard");
+              window.location.href = "/dashboard?refresh=true";
+            } else {
+              console.log("Utente client standard, refresh forzato verso area client");
+              window.location.href = "/client-area?refresh=true";
+            }
+          }, 500);
+        });
       } else {
         // Gestisci errori di login
         const errorData = await response.json().catch(() => ({}));
