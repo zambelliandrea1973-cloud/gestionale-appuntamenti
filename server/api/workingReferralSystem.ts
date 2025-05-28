@@ -162,6 +162,7 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
     };
 
     console.log(`📊 DATI ADMIN PREPARATI: ${overviewData.statsData.totalStaff} staff totali`);
+    console.log(`📋 STAFF INCLUSI: ${overviewData.staffData.length} staff nel staffData`);
     
     res.json(overviewData);
   } catch (error) {
