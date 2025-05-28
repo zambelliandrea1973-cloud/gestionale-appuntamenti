@@ -40,6 +40,17 @@ export function UserLicenseProvider({ children }: { children: ReactNode }) {
     isLoading,
   } = useQuery<UserWithLicense>({
     queryKey: ["/api/user-with-license"],
+    queryFn: async () => {
+      console.log("🔍 QUERY USER-WITH-LICENSE CHIAMATA");
+      const response = await fetch("/api/user-with-license");
+      console.log("🔍 Risposta user-with-license:", response.status, response.ok);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("🔍 Dati utente ricevuti:", data);
+      return data;
+    },
     retry: 1,
     // FORZA REFRESH - Risolve il problema del nome utente cached
     staleTime: 0, // I dati sono sempre considerati stale
