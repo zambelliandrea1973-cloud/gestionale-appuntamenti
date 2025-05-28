@@ -242,7 +242,7 @@ function AppRoutes() {
       </Route>
       <Route path="/staff-management">
         <StaffPageWrapper>
-          <StaffManagementPageClean />
+          <StaffManagementPageFixed />
         </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
