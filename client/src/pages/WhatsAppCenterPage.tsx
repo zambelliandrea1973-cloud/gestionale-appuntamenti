@@ -866,7 +866,7 @@ const WhatsAppCenterPage: React.FC = () => {
                     </p>
                   </div>
                   
-                  <div className="flex justify-end gap-3 pt-2">
+                  <div className="flex justify-between gap-3 pt-2">
                     <Button 
                       variant="outline"
                       onClick={handleDisconnect}
@@ -874,22 +874,41 @@ const WhatsAppCenterPage: React.FC = () => {
                     >
                       {t('Annulla')}
                     </Button>
-                    <Button 
-                      onClick={handleVerifyCode}
-                      disabled={isVerifying}
-                    >
-                      {isVerifying ? (
-                        <>
-                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Verifica in corso...')}
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          {t('Verifica codice')}
-                        </>
-                      )}
-                    </Button>
+                    
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline"
+                        onClick={() => {
+                          // Reinvia il codice riavviando la connessione
+                          setDeviceStatus(DeviceStatus.DISCONNECTED);
+                          setVerificationCode('');
+                          toast({
+                            title: t('Codice reinviato'),
+                            description: t('Un nuovo codice di verifica verrà inviato quando inserisci di nuovo il numero'),
+                          });
+                        }}
+                        disabled={isVerifying}
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        {t('Reinvia codice')}
+                      </Button>
+                      <Button 
+                        onClick={handleVerifyCode}
+                        disabled={isVerifying}
+                      >
+                        {isVerifying ? (
+                          <>
+                            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                            {t('Verifica in corso...')}
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="h-4 w-4 mr-2" />
+                            {t('Verifica codice')}
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
