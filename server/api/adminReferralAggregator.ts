@@ -173,15 +173,9 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
 }
 
 /**
- * Funzione helper per ottenere tutti gli utenti staff
- * (Da implementare nel sistema di storage)
+ * Funzione helper per ottenere tutti gli utenti staff dal database reale
  */
 async function getAllStaffUsers() {
-  // Questa funzione dovrebbe essere implementata nel sistema di storage
-  // Per ora restituisco un array mock che include gli staff conosciuti
-  return [
-    { id: 14, email: 'busnari.silvia@libero.it', username: 'busnari.silvia@libero.it', role: 'staff' },
-    { id: 16, email: 'faverioelisa6@gmail.com', username: 'faverioelisa6@gmail.com', role: 'staff' },
-    // Altri staff verranno aggiunti automaticamente dal database
-  ];
+  // Usa la funzione del database storage per recuperare tutti gli account reali
+  return await storage.getAllStaffUsers();
 }
