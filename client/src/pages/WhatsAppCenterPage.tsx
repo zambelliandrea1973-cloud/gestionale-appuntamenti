@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { QRCodeSVG } from 'qrcode.react';
+
 import {
   Table,
   TableBody,
@@ -127,7 +127,7 @@ const WhatsAppCenterPage: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [configuredEmail, setConfiguredEmail] = useState<string>('');
-  const [qrCodeData, setQrCodeData] = useState<string>('');
+
   
   // Stati per gli appuntamenti e le notifiche
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -228,35 +228,7 @@ const WhatsAppCenterPage: React.FC = () => {
   };
   
   // Genera QR code per WhatsApp Web
-  const handleGenerateQR = async () => {
-    setIsSubmitting(true);
-    
-    try {
-      // Genera un ID sessione unico per questo QR code
-      const sessionId = `whatsapp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
-      // Il QR code contiene l'URL per WhatsApp Web con parametri della nostra sessione
-      const qrData = `https://web.whatsapp.com/qr/${sessionId}`;
-      
-      setQrCodeData(qrData);
-      setDeviceStatus(DeviceStatus.VERIFICATION_PENDING);
-      
-      toast({
-        title: 'QR Code generato',
-        description: 'Scansiona il codice con WhatsApp per collegare il dispositivo',
-      });
-      
-    } catch (error) {
-      console.error('Errore nella generazione QR:', error);
-      toast({
-        title: 'Errore',
-        description: 'Impossibile generare il QR code. Riprova.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+
   
   // Verifica il codice di verifica
   const handleVerifyCode = async () => {
@@ -861,85 +833,8 @@ const WhatsAppCenterPage: React.FC = () => {
                 </div>
               )}
               
-              {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
-                <div className="space-y-4">
-                  <Alert variant="default" className="bg-blue-50 border-blue-200">
-                    <QrCode className="h-4 w-4 text-blue-600" />
-                    <AlertTitle className="text-blue-800">{t('QR Code attivo')}</AlertTitle>
-                    <AlertDescription className="text-blue-700">
-                      {t('Scansiona il QR code con WhatsApp per completare la connessione')}
-                    </AlertDescription>
-                  </Alert>
-                  
-                  <div className="bg-white border-2 border-blue-200 rounded-lg p-6 text-center">
-                    <div className="space-y-4">
-                      <div className="mx-auto w-48 h-48 bg-gray-50 rounded-lg flex items-center justify-center border-2 border-dashed border-blue-300">
-                        <QRCodeSVG 
-                          value={qrCodeData}
-                          size={192}
-                          bgColor="#ffffff"
-                          fgColor="#000000"
-                          level="M"
-                          includeMargin={true}
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <h3 className="font-medium text-gray-900">{t('Istruzioni:')}</h3>
-                        <ol className="text-sm text-gray-600 text-left max-w-md mx-auto space-y-1">
-                          <li>{t('1. Apri WhatsApp sul tuo telefono')}</li>
-                          <li>{t('2. Vai su Menu (⋮) > Dispositivi collegati')}</li>
-                          <li>{t('3. Tocca "Collega un dispositivo"')}</li>
-                          <li className="font-medium text-blue-600">{t('4. Scansiona QUESTO QR code')}</li>
-                        </ol>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between gap-3 pt-4">
-                    <Button 
-                      variant="outline"
-                      onClick={handleDisconnect}
-                    >
-                      {t('Annulla')}
-                    </Button>
-                    
-                    <div className="flex gap-2">
-                      <Button 
-                        variant="outline"
-                        onClick={handleGenerateQR}
-                        disabled={isSubmitting}
-                      >
-                        <RefreshCw className="h-4 w-4 mr-2" />
-                        {t('Nuovo QR Code')}
-                      </Button>
-                      <Button 
-                        onClick={() => {
-                          // Simula connessione riuscita per demo
-                          setDeviceStatus(DeviceStatus.CONNECTED);
-                          toast({
-                            title: t('WhatsApp collegato!'),
-                            description: t('Dispositivo collegato con successo'),
-                          });
-                        }}
-                        className="bg-green-600 hover:bg-green-700"
-                      >
-                        {isVerifying ? (
-                          <>
-                            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                            {t('Verifica in corso...')}
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle className="h-4 w-4 mr-2" />
-                            {t('Verifica codice')}
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              )}
+
+
               
               {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
                 <div className="space-y-4">
