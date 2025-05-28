@@ -847,7 +847,7 @@ const WhatsAppCenterPage: React.FC = () => {
                     <AlertCircle className="h-4 w-4 text-amber-600" />
                     <AlertTitle>{t('Verifica necessaria')}</AlertTitle>
                     <AlertDescription>
-                      {t('Ti abbiamo inviato un codice di verifica tramite SMS al numero')} {savedPhoneNumber}.
+                      {t('Ti abbiamo inviato un codice di verifica via email per il numero')} {savedPhoneNumber}.
                     </AlertDescription>
                   </Alert>
                   
@@ -862,7 +862,7 @@ const WhatsAppCenterPage: React.FC = () => {
                       disabled={isVerifying}
                     />
                     <p className="text-sm text-muted-foreground">
-                      {t('Inserisci il codice a 6 cifre che hai ricevuto via SMS')}
+                      {t('Inserisci il codice a 6 cifre che hai ricevuto via email')}
                     </p>
                   </div>
                   
