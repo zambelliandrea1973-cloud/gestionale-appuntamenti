@@ -26,7 +26,7 @@ import ClientAppointments from "./pages/ClientAppointments";
 import BetaPage from "./pages/BetaPage";
 import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
-import StaffManagementPageSimple from "./pages/StaffManagementPageSimple";
+import StaffManagementPageClean from "./pages/StaffManagementPageClean";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
@@ -242,7 +242,7 @@ function AppRoutes() {
       </Route>
       <Route path="/staff-management">
         <StaffPageWrapper>
-          <StaffManagementPageSimple />
+          <StaffManagementPageClean />
         </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
