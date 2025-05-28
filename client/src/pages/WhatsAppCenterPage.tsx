@@ -165,10 +165,17 @@ const WhatsAppCenterPage: React.FC = () => {
         }
 
         // Carica anche l'email configurata
-        const emailResponse = await fetch('/api/email-calendar-settings');
-        const emailData = await emailResponse.json();
-        if (emailData.emailAddress) {
-          setConfiguredEmail(emailData.emailAddress);
+        try {
+          const emailResponse = await fetch('/api/email-calendar-settings');
+          const emailData = await emailResponse.json();
+          console.log('📧 Email configurata caricata:', emailData.emailAddress);
+          if (emailData.emailAddress) {
+            setConfiguredEmail(emailData.emailAddress);
+          }
+        } catch (emailError) {
+          console.error('Errore caricamento email configurata:', emailError);
+          // Fallback alla tua email principale
+          setConfiguredEmail('zambelli.andrea.1973@gmail.com');
         }
       } catch (error) {
         console.error('Errore nel caricamento dello stato del dispositivo', error);
