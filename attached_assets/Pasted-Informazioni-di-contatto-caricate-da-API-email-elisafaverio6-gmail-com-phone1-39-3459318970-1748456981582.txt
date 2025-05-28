@@ -1,0 +1,122 @@
+Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+_app-a8188b692eaeaf52.js:38 [LaunchDarkly] Exceeded event queue capacity. Increase capacity to avoid dropping events.
+(anonymous) @ _app-a8188b692eaeaf52.js:38
+(anonymous) @ _app-a8188b692eaeaf52.js:1
+(anonymous) @ _app-a8188b692eaeaf52.js:1
+l.<computed> @ _app-a8188b692eaeaf52.js:1
+S @ _app-a8188b692eaeaf52.js:1
+a.enqueue @ _app-a8188b692eaeaf52.js:1
+M @ _app-a8188b692eaeaf52.js:1
+B @ _app-a8188b692eaeaf52.js:1
+Z @ _app-a8188b692eaeaf52.js:1
+variation @ _app-a8188b692eaeaf52.js:1
+f @ _app-a8188b692eaeaf52.js:9
+p @ _app-a8188b692eaeaf52.js:9
+aY @ replEnvironmentDesktop-182ccce06d7ac574.js:1
+ld @ framework-13c777a801a7cf57.js:1
+od @ framework-13c777a801a7cf57.js:1
+i @ framework-13c777a801a7cf57.js:1
+uI @ framework-13c777a801a7cf57.js:1
+uM @ framework-13c777a801a7cf57.js:1
+uS @ framework-13c777a801a7cf57.js:1
+C @ framework-13c777a801a7cf57.js:1
+z @ framework-13c777a801a7cf57.js:1Understand this warning
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4761 ClientLogin.tsx:220 Tentativo di login semplificato con username e password
+VM4745 queryClient.ts:9 Esecuzione richiesta POST a /api/client/login {"username":"zambelli.andrea.1973A@gmail.com","password":"gironico"}
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta POST a /api/client/login: {method: 'POST', headers: {…}, body: '{"username":"zambelli.andrea.1973A@gmail.com","password":"gironico"}'}
+VM4745 queryClient.ts:63 Risposta da /api/client/login: 200 OK ok: true
+VM4761 ClientLogin.tsx:235 Token salvato nel localStorage per utilizzi futuri
+VM4808 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM4745 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM4745 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM4745 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM4745 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM4808 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM4761 ClientLogin.tsx:243 Utente customer, reindirizzamento alla dashboard principale
+dashboard:171 PWA check - standalone mode: false
+dashboard:172 PWA check - iOS fullscreen: undefined
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+dashboard:226 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+2queryClient.ts:99 Risposta da /api/client-app-info: 200 OK ok: true
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=B5tFdMmIy2Vq' failed: 
+setupWebSocket @ client:536
+(anonymous) @ client:531Understand this error
+2TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+App.tsx:93 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=B5tFdMmIy2Vq' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)
+setupWebSocket @ client:536
+fallback @ client:509
+(anonymous) @ client:555Understand this error
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
