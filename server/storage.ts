@@ -248,6 +248,10 @@ export interface IStorage {
   getPaymentTransactionsByMethod(method: string): Promise<PaymentTransaction[]>;
   getAllPaymentTransactions(): Promise<PaymentTransaction[]>;
   updatePaymentTransaction(id: number, transaction: Partial<InsertPaymentTransaction>): Promise<PaymentTransaction | undefined>;
+  
+  // Banking Settings operations
+  getBankingSettings(): Promise<any>;
+  saveBankingSettings(settings: any): Promise<void>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -3625,6 +3629,24 @@ export class DatabaseStorage implements IStorage {
       console.error('Errore nella creazione della sottoscrizione:', error);
       throw error;
     }
+  }
+
+  // Banking Settings operations
+  async getBankingSettings(): Promise<any> {
+    // Per ora implementazione semplice in memoria
+    // In futuro questo andrà nel database
+    const fs = require('fs').promises;
+    try {
+      const data = await fs.readFile('banking_settings.json', 'utf8');
+      return JSON.parse(data);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async saveBankingSettings(settings: any): Promise<void> {
+    const fs = require('fs').promises;
+    await fs.writeFile('banking_settings.json', JSON.stringify(settings, null, 2));
   }
 }
 
