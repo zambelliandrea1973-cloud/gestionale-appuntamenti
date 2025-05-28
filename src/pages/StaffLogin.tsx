@@ -42,6 +42,14 @@ export default function StaffLogin() {
   // Crea la mutazione per gestire il login
   const loginMutation = useMutation({
     mutationFn: async (credentials: { username: string; password: string }) => {
+      // PRIMA DEL LOGIN: forza logout per pulire eventuali sessioni precedenti
+      try {
+        await apiRequest('POST', '/api/logout');
+        console.log("✅ Logout forzato completato prima del nuovo login staff");
+      } catch (e) {
+        console.log("Logout preventivo fallito (normale se non c'era sessione attiva)");
+      }
+      
       const response = await apiRequest("POST", "/api/staff/login", credentials);
       if (!response.ok) {
         const errorData = await response.json();
