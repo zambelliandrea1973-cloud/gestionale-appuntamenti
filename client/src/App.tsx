@@ -66,6 +66,7 @@ function ActivationPageWrapper({ children }: { children: React.ReactNode }) {
  * Include anche il controllo per gli utenti beta
  */
 function StaffPageWrapper({ children }: { children: React.ReactNode }) {
+  console.log('🔥 STAFF PAGE WRAPPER: Wrapper caricato!');
   return (
     <Layout>
       {children}
