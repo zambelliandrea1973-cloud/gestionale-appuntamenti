@@ -13,12 +13,23 @@ export default function setupStaffRoutes(app: Express) {
       // Recupera tutti gli utenti staff dal database
       const staffUsers = await storage.getAllStaffUsers();
       
-      // Rimuovi le password dagli oggetti utente
+      // Rimuovi le password e aggiungi i codici referral
       const safeUsers = staffUsers.map(user => {
         const { password, ...userWithoutPassword } = user;
-        return userWithoutPassword;
+        
+        // Genera il codice referral per ogni staff
+        const referralCode = user.id === 14 ? "BUS14" : 
+                           user.id === 16 ? "FAV16" : 
+                           user.id === 8 ? "ZAM08" : 
+                           `REF${user.id}`;
+        
+        return {
+          ...userWithoutPassword,
+          referralCode: referralCode
+        };
       });
       
+      console.log(`📋 STAFF LIST CON CODICI REFERRAL: ${safeUsers.length} account preparati`);
       res.json(safeUsers);
     } catch (error) {
       console.error("Errore durante il recupero degli utenti staff:", error);
