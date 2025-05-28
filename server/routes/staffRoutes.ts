@@ -8,7 +8,7 @@ import { isAdmin } from "../auth";
  */
 export default function setupStaffRoutes(app: Express) {
   // Ottieni la lista di tutti gli utenti staff (solo per admin) - endpoint alternativo
-  app.get("/api/staff/users", async (req: Request, res: Response) => {
+  app.get("/api/staff/users", isAdmin, async (req: Request, res: Response) => {
     try {
       // Recupera tutti gli utenti staff dal database
       const staffUsers = await storage.getAllStaffUsers();
