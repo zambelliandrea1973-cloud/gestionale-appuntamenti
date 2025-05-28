@@ -240,9 +240,14 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       <Route path="/staff-management">
-        <StaffPageWrapper>
-          <StaffManagementPage />
-        </StaffPageWrapper>
+        {() => {
+          console.log('🔥 ROUTE MATCH: Route /staff-management matched!');
+          return (
+            <StaffPageWrapper>
+              <StaffManagementPage />
+            </StaffPageWrapper>
+          );
+        }}
       </Route>
       <Route path="/subscribe">
         <StaffPageWrapper>
