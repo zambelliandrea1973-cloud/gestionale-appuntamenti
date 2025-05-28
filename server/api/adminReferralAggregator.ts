@@ -113,29 +113,28 @@ export async function getAdminReferralAggregation(req: Request, res: Response) {
           pendingCommissions = 0;
         }
           
-          staffStatsArray.push({
-            staffId: staff.id,
-            staffName: staff.username || staff.email,
-            staffEmail: staff.email,
-            referralCode: stats.myReferralCode,
-            sponsoredCount: sponsoredCount,
-            totalCommissions: totalCommissions,
-            paidCommissions: paidCommissions,
-            pendingCommissions: pendingCommissions,
-            // Dati bancari (se implementati nel sistema individuale)
-            bankingInfo: {
-              hasIban: stats.bankingInfo?.iban ? true : false,
-              bankName: stats.bankingInfo?.bankName || null,
-              accountHolder: stats.bankingInfo?.accountHolder || null
-            }
-          });
-          
-          // Aggrega ai totali
-          totalStats.totalSponsored += stats.totalReferrals || 0;
-          totalStats.totalCommissions += stats.totalCommissions || 0;
-          totalStats.totalPaid += stats.paidCommissions || 0;
-          totalStats.totalPending += stats.pendingCommissions || 0;
-        }
+        staffStatsArray.push({
+          staffId: staff.id,
+          staffName: staff.username || staff.email,
+          staffEmail: staff.email,
+          referralCode: stats.myReferralCode || `STAFF${staff.id}`,
+          sponsoredCount: sponsoredCount,
+          totalCommissions: totalCommissions,
+          paidCommissions: paidCommissions,
+          pendingCommissions: pendingCommissions,
+          // Dati bancari (se implementati nel sistema individuale)
+          bankingInfo: {
+            hasIban: stats.bankingInfo?.iban ? true : false,
+            bankName: stats.bankingInfo?.bankName || null,
+            accountHolder: stats.bankingInfo?.accountHolder || null
+          }
+        });
+        
+        // Aggrega ai totali con i valori corretti
+        totalStats.totalSponsored += sponsoredCount;
+        totalStats.totalCommissions += totalCommissions;
+        totalStats.totalPaid += paidCommissions;
+        totalStats.totalPending += pendingCommissions;
         
       } catch (error) {
         console.error(`❌ Errore aggregando staff ${staff.email}:`, error);
