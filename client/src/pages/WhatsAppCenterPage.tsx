@@ -124,6 +124,7 @@ const WhatsAppCenterPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [configuredEmail, setConfiguredEmail] = useState<string>('');
   
   // Stati per gli appuntamenti e le notifiche
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -161,6 +162,13 @@ const WhatsAppCenterPage: React.FC = () => {
             });
             setActiveTab("device-setup");
           }
+        }
+
+        // Carica anche l'email configurata
+        const emailResponse = await fetch('/api/email-calendar-settings');
+        const emailData = await emailResponse.json();
+        if (emailData.emailAddress) {
+          setConfiguredEmail(emailData.emailAddress);
         }
       } catch (error) {
         console.error('Errore nel caricamento dello stato del dispositivo', error);
@@ -847,7 +855,12 @@ const WhatsAppCenterPage: React.FC = () => {
                     <AlertCircle className="h-4 w-4 text-amber-600" />
                     <AlertTitle>{t('Verifica necessaria')}</AlertTitle>
                     <AlertDescription>
-                      {t('Ti abbiamo inviato un codice di verifica via email per il numero')} {savedPhoneNumber}.
+                      {t('Ti abbiamo inviato un codice di verifica via email per il numero')} {savedPhoneNumber}
+                      {configuredEmail && (
+                        <div className="mt-2 text-sm font-medium text-amber-800">
+                          📧 Controlla la tua email: <span className="font-bold">{configuredEmail}</span>
+                        </div>
+                      )}
                     </AlertDescription>
                   </Alert>
                   
