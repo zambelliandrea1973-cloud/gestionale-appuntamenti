@@ -28,6 +28,28 @@ class AutoRefreshManager {
   }
 
   /**
+   * Forza l'aggiornamento immediato dei dati utente dopo il login
+   */
+  invalidateUserData() {
+    console.log('🔄 Invalidazione immediata cache dati utente');
+    
+    // Importa queryClient dinamicamente per evitare dipendenze circolari
+    import('./queryClient').then(({ queryClient }) => {
+      // Invalida tutte le query relative all'utente
+      queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/current-user'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      
+      // Rimuovi completamente i dati cached per forzare un refresh
+      queryClient.removeQueries({ queryKey: ['/api/user-with-license'] });
+      queryClient.removeQueries({ queryKey: ['/api/current-user'] });
+      queryClient.removeQueries({ queryKey: ['user'] });
+      
+      console.log('✅ Cache utente invalidata - dati aggiornati');
+    });
+  }
+
+  /**
    * Esegue il refresh automatico
    */
   private performAutoRefresh(changeType: string) {
