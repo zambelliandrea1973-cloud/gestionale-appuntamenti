@@ -256,6 +256,11 @@ function AppRoutes() {
           <ReferralCommissionsPage />
         </StaffPageWrapper>
       </Route>
+      <Route path="/banking-settings">
+        <StaffPageWrapper>
+          <BankingSettingsPage />
+        </StaffPageWrapper>
+      </Route>
       
       {/* Pagine per il risultato dei pagamenti */}
       <Route path="/payment/success">
