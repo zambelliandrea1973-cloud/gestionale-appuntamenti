@@ -45,6 +45,7 @@ interface StaffUser {
   email?: string;
   role: string;
   createdAt?: string;
+  referralCode?: string;
 }
 
 export default function StaffManagementPage() {
