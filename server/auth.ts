@@ -114,6 +114,7 @@ export function setupAuth(app: Express) {
       
       // Verifica se l'account è associato a un customer (utente con licenza)
       let userType = "client";
+      let userId = clientAccount.id;
       
       // Verifichiamo se l'email del client corrisponde a un account customer
       if (client.email) {
@@ -121,7 +122,8 @@ export function setupAuth(app: Express) {
           const customerAccount = await storage.getUserByUsername(client.email);
           if (customerAccount && customerAccount.type === 'customer') {
             userType = "customer";
-            console.log(`Cliente ${client.email} identificato come customer con licenza`);
+            userId = customerAccount.id; // Usa l'ID del customer, non del clientAccount
+            console.log(`Cliente ${client.email} identificato come customer con licenza, ID: ${userId}`);
           }
         } catch (err) {
           console.error("Errore durante la verifica customer:", err);
@@ -132,7 +134,8 @@ export function setupAuth(app: Express) {
       return done(null, { 
         ...clientAccount, 
         client, 
-        type: userType 
+        type: userType,
+        id: userId // Usa l'ID corretto in base al tipo
       });
     } catch (err) {
       return done(err);
