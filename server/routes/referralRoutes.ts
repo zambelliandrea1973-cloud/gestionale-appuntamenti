@@ -298,6 +298,11 @@ router.get('/overview', isAuthenticated, async (req: Request, res: Response) => 
     // Recupera TUTTI gli account staff reali dal database
     const allUsers = await storage.getAllStaffUsers();
     console.log(`👥 TUTTI GLI ACCOUNT DAL DATABASE: ${allUsers.length} account totali`);
+    
+    // Debug: Mostra tutti gli account recuperati
+    allUsers.forEach((user, index) => {
+      console.log(`📋 Account ${index + 1}: ID ${user.id}, username: ${user.username}, role: ${user.role}`);
+    });
 
     // Genera dati referral per tutti gli account reali
     const staffData = allUsers.map((user) => {
