@@ -22,7 +22,6 @@ interface StaffUser {
 }
 
 export default function StaffManagementPage() {
-  console.log('🔥 STAFF MANAGEMENT: Componente caricato!');
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
