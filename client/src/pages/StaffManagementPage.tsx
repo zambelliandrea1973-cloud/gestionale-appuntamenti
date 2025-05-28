@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Loader2, Search, UserPlus, X, Edit, Trash } from "lucide-react";
+import { AlertCircle, Loader2, Search, UserPlus, X, Edit, Trash, CreditCard, Euro, History } from "lucide-react";
 import { 
   Dialog,
   DialogContent,
@@ -73,6 +73,23 @@ export default function StaffManagementPage() {
   const [editPassword, setEditPassword] = useState<string>("");
   const [editEmail, setEditEmail] = useState<string>("");
   const [editFormError, setEditFormError] = useState<string | null>(null);
+  
+  // Dialog per gestione dati bancari
+  const [isBankingDialogOpen, setIsBankingDialogOpen] = useState<boolean>(false);
+  const [selectedStaffForBanking, setSelectedStaffForBanking] = useState<StaffUser | null>(null);
+  const [bankingData, setBankingData] = useState({
+    iban: "",
+    bankName: "",
+    accountHolder: "",
+    swift: ""
+  });
+  const [isSavingBanking, setIsSavingBanking] = useState<boolean>(false);
+  
+  // Dialog per storico pagamenti
+  const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState<boolean>(false);
+  const [selectedStaffForPayments, setSelectedStaffForPayments] = useState<StaffUser | null>(null);
+  const [paymentHistory, setPaymentHistory] = useState<any[]>([]);
+  const [isLoadingPayments, setIsLoadingPayments] = useState<boolean>(false);
   
   const { toast } = useToast();
 
@@ -200,6 +217,70 @@ export default function StaffManagementPage() {
   const handleDeleteClick = (user: StaffUser) => {
     setUserToDelete(user);
     setIsDeleteDialogOpen(true);
+  };
+
+  // Gestione dati bancari
+  const handleBankingClick = (user: StaffUser) => {
+    setSelectedStaffForBanking(user);
+    setBankingData({
+      iban: "",
+      bankName: "",
+      accountHolder: user.username || "",
+      swift: ""
+    });
+    setIsBankingDialogOpen(true);
+  };
+
+  // Gestione storico pagamenti
+  const handlePaymentHistoryClick = async (user: StaffUser) => {
+    setSelectedStaffForPayments(user);
+    setIsPaymentHistoryDialogOpen(true);
+    setIsLoadingPayments(true);
+    
+    try {
+      const response = await apiRequest("GET", `/api/referral/staff/${user.id}/payments`);
+      if (response.ok) {
+        const data = await response.json();
+        setPaymentHistory(data.payments || []);
+      } else {
+        console.error("Errore nel caricamento storico pagamenti");
+        setPaymentHistory([]);
+      }
+    } catch (error) {
+      console.error("Errore nel caricamento storico pagamenti:", error);
+      setPaymentHistory([]);
+    } finally {
+      setIsLoadingPayments(false);
+    }
+  };
+
+  // Salva dati bancari
+  const saveBankingInfo = async () => {
+    if (!selectedStaffForBanking) return;
+    
+    setIsSavingBanking(true);
+    try {
+      const response = await apiRequest("POST", `/api/referral/staff/${selectedStaffForBanking.id}/banking`, bankingData);
+      
+      if (response.ok) {
+        toast({
+          title: "Dati bancari salvati",
+          description: `Informazioni bancarie salvate per ${selectedStaffForBanking.username}`,
+        });
+        setIsBankingDialogOpen(false);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Errore nel salvataggio");
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Errore",
+        description: error.message || "Impossibile salvare le informazioni bancarie",
+      });
+    } finally {
+      setIsSavingBanking(false);
+    }
   };
   
   // Inizia il processo di modifica
@@ -434,7 +515,7 @@ export default function StaffManagementPage() {
                     </TableCell>
                     <TableCell>
                       <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">
-                        {(user as any).referralCode || `-`}
+                        {user.referralCode || `-`}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -443,12 +524,31 @@ export default function StaffManagementPage() {
                         : "-"}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
+                      <div className="flex justify-end gap-1">
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8" 
+                          onClick={() => handleBankingClick(user)}
+                          title="Gestisci dati bancari"
+                        >
+                          <CreditCard className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          className="h-8 w-8" 
+                          onClick={() => handlePaymentHistoryClick(user)}
+                          title="Storico pagamenti"
+                        >
+                          <Euro className="h-4 w-4" />
+                        </Button>
                         <Button 
                           variant="outline" 
                           size="icon" 
                           className="h-8 w-8" 
                           onClick={() => handleEditClick(user)}
+                          title="Modifica utente"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -458,6 +558,7 @@ export default function StaffManagementPage() {
                           className="h-8 w-8" 
                           onClick={() => handleDeleteClick(user)}
                           disabled={user.role === "admin" && user.username === "zambelli.andrea.1973@gmail.com"}
+                          title="Elimina utente"
                         >
                           <Trash className="h-4 w-4" />
                         </Button>
@@ -582,6 +683,209 @@ export default function StaffManagementPage() {
                   Aggiornamento in corso...
                 </>
               ) : "Salva modifiche"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per gestione dati bancari */}
+      <Dialog open={isBankingDialogOpen} onOpenChange={setIsBankingDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Gestione Dati Bancari</DialogTitle>
+            <DialogDescription>
+              Configura le informazioni bancarie per {selectedStaffForBanking?.username}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="iban">IBAN *</Label>
+              <Input
+                id="iban"
+                value={bankingData.iban}
+                onChange={(e) => setBankingData(prev => ({ ...prev, iban: e.target.value }))}
+                placeholder="IT00 0000 0000 0000 0000 0000 000"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="bankName">Nome Banca</Label>
+              <Input
+                id="bankName"
+                value={bankingData.bankName}
+                onChange={(e) => setBankingData(prev => ({ ...prev, bankName: e.target.value }))}
+                placeholder="Es. Banca Intesa Sanpaolo"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="accountHolder">Intestatario Conto</Label>
+              <Input
+                id="accountHolder"
+                value={bankingData.accountHolder}
+                onChange={(e) => setBankingData(prev => ({ ...prev, accountHolder: e.target.value }))}
+                placeholder="Nome e Cognome"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="swift">Codice SWIFT (opzionale)</Label>
+              <Input
+                id="swift"
+                value={bankingData.swift}
+                onChange={(e) => setBankingData(prev => ({ ...prev, swift: e.target.value }))}
+                placeholder="BCITITMM"
+              />
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsBankingDialogOpen(false)}
+              disabled={isSavingBanking}
+            >
+              Annulla
+            </Button>
+            <Button
+              onClick={saveBankingInfo}
+              disabled={isSavingBanking || !bankingData.iban}
+            >
+              {isSavingBanking ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Salvataggio...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Salva Dati Bancari
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per storico pagamenti */}
+      <Dialog open={isPaymentHistoryDialogOpen} onOpenChange={setIsPaymentHistoryDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Euro className="h-5 w-5" />
+              Storico Pagamenti - {selectedStaffForPayments?.username}
+            </DialogTitle>
+            <DialogDescription>
+              Visualizza tutti i pagamenti delle commissioni referral per questo staff
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-4">
+            {isLoadingPayments ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                <span className="ml-2">Caricamento storico pagamenti...</span>
+              </div>
+            ) : paymentHistory.length === 0 ? (
+              <div className="text-center py-8">
+                <Euro className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-lg font-semibold mb-2">Nessun pagamento trovato</h3>
+                <p className="text-muted-foreground">
+                  Non ci sono ancora pagamenti registrati per questo staff.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Statistiche rapide */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-600">
+                          €{paymentHistory.filter(p => p.status === 'paid').reduce((sum, p) => sum + (p.amount || 0), 0).toFixed(2)}
+                        </div>
+                        <div className="text-sm text-muted-foreground">Totale Pagato</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-orange-600">
+                          €{paymentHistory.filter(p => p.status === 'pending').reduce((sum, p) => sum + (p.amount || 0), 0).toFixed(2)}
+                        </div>
+                        <div className="text-sm text-muted-foreground">In Attesa</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold">
+                          {paymentHistory.length}
+                        </div>
+                        <div className="text-sm text-muted-foreground">Transazioni Totali</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Tabella pagamenti */}
+                <div className="border rounded-lg overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Data</TableHead>
+                        <TableHead>Importo</TableHead>
+                        <TableHead>Stato</TableHead>
+                        <TableHead>ID Transazione</TableHead>
+                        <TableHead>Utente Sponsorizzato</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {paymentHistory.map((payment, index) => (
+                        <TableRow key={index}>
+                          <TableCell>
+                            {payment.dueDate ? new Date(payment.dueDate).toLocaleDateString() : "-"}
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-medium">
+                              €{((payment.amount || 0) / 100).toFixed(2)}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <span className={`px-2 py-1 rounded-full text-xs ${
+                              payment.status === 'paid' 
+                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" 
+                                : payment.status === 'pending'
+                                ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+                                : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                            }`}>
+                              {payment.status === 'paid' ? 'Pagato' : 
+                               payment.status === 'pending' ? 'In Attesa' : 'Fallito'}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <span className="font-mono text-sm">
+                              {payment.transactionId || "-"}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            {payment.sponsoredUser || `ID: ${payment.sponsoredUserId || "-"}`}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsPaymentHistoryDialogOpen(false)}>
+              Chiudi
             </Button>
           </DialogFooter>
         </DialogContent>
