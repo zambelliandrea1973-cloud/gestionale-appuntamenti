@@ -28,6 +28,7 @@ import { testWhatsApp } from "./api/test-whatsapp";
 import { notificationSettingsService } from "./services/notificationSettingsService";
 import { smtpDetectionService } from "./services/smtpDetectionService";
 import { clientAccessService } from "./services/clientAccessService";
+import setupBankingRoutes from "./routes/bankingRoutes";
 import multer from 'multer';
 import sharp from 'sharp';
 import betaRoutes from './routes/betaRoutes';
@@ -3137,6 +3138,9 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   
   // Segna commissione come pagata (solo admin)
   app.patch('/api/referral/commission/:commissionId/paid', isAuthenticated, markCommissionPaid);
+
+  // === BANKING SETTINGS API ===
+  setupBankingRoutes(app);
 
 
 

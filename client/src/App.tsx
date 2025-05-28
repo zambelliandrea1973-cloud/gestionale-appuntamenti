@@ -42,6 +42,7 @@ import PaymentCancel from "./pages/PaymentCancel";
 import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
 import ReferralCommissionsPage from "./pages/ReferralCommissionsPage";
+import BankingSettingsPage from "./pages/BankingSettingsPage";
 
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
