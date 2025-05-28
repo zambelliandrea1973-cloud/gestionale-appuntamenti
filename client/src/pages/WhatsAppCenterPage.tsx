@@ -855,12 +855,20 @@ const WhatsAppCenterPage: React.FC = () => {
                     <AlertCircle className="h-4 w-4 text-amber-600" />
                     <AlertTitle>{t('Verifica necessaria')}</AlertTitle>
                     <AlertDescription>
-                      {t('Ti abbiamo inviato un codice di verifica via email per il numero')} {savedPhoneNumber}
-                      {configuredEmail && (
-                        <div className="mt-2 text-sm font-medium text-amber-800">
-                          📧 Controlla la tua email: <span className="font-bold">{configuredEmail}</span>
+                      <div className="space-y-2">
+                        <p>{t('Ti abbiamo inviato un codice di verifica via email per il numero')} {savedPhoneNumber}</p>
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-4 w-4 text-blue-600" />
+                            <span className="text-sm font-medium text-blue-800">
+                              Controlla la tua email: 
+                              <span className="font-bold ml-1">
+                                {configuredEmail || 'zambelli.andrea.1973@gmail.com'}
+                              </span>
+                            </span>
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </AlertDescription>
                   </Alert>
                   
