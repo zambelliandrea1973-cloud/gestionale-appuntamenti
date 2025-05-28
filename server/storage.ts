@@ -3640,7 +3640,19 @@ export class DatabaseStorage implements IStorage {
       const data = await fs.readFile('banking_settings.json', 'utf8');
       return JSON.parse(data);
     } catch (error) {
-      return null;
+      // Se il file non esiste, ritorna le impostazioni di default
+      return {
+        bankName: '',
+        accountHolder: '',
+        iban: '',
+        bic: '',
+        address: '',
+        autoPayEnabled: false,
+        paymentDelay: 30,
+        minimumAmount: 1.0,
+        description: 'Commissione referral sistema gestione appuntamenti',
+        isConfigured: false,
+      };
     }
   }
 
