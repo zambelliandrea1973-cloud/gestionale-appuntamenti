@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Users, Search, UserPlus, Eye, CreditCard } from "lucide-react";
+import { Users, Search, UserPlus, Eye, CreditCard, Banknote } from "lucide-react";
 import { useState } from "react";
+import { useLocation } from "wouter";
 
 interface StaffUser {
   id: number;
@@ -17,6 +18,7 @@ interface StaffUser {
 
 export default function StaffManagementPageFixed() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [, setLocation] = useLocation();
 
   const { data: staffUsers = [], isLoading, error } = useQuery({
     queryKey: ['/api/staff/users'],
@@ -56,9 +58,18 @@ export default function StaffManagementPageFixed() {
             Visualizza e gestisci i tuoi membri dello staff
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-blue-600" />
-          <span className="text-sm font-medium">{staffUsers.length} membri staff</span>
+        <div className="flex items-center gap-3">
+          <Button 
+            onClick={() => setLocation('/banking-settings')}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <Banknote className="h-4 w-4 mr-2" />
+            Configurazione Bancaria
+          </Button>
+          <div className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-blue-600" />
+            <span className="text-sm font-medium">{staffUsers.length} membri staff</span>
+          </div>
         </div>
       </div>
 
