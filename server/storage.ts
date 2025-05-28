@@ -3635,8 +3635,8 @@ export class DatabaseStorage implements IStorage {
   async getBankingSettings(): Promise<any> {
     // Per ora implementazione semplice in memoria
     // In futuro questo andrà nel database
-    const fs = require('fs').promises;
     try {
+      const fs = await import('fs/promises');
       const data = await fs.readFile('banking_settings.json', 'utf8');
       return JSON.parse(data);
     } catch (error) {
@@ -3645,8 +3645,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async saveBankingSettings(settings: any): Promise<void> {
-    const fs = require('fs').promises;
-    await fs.writeFile('banking_settings.json', JSON.stringify(settings, null, 2));
+    try {
+      const fs = await import('fs/promises');
+      await fs.writeFile('banking_settings.json', JSON.stringify(settings, null, 2));
+    } catch (error) {
+      console.error('Errore nel salvataggio delle impostazioni bancarie:', error);
+      throw error;
+    }
   }
 }
 
