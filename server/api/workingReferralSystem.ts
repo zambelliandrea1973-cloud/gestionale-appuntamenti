@@ -24,7 +24,7 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
         {
           staffId: 12,
           staffName: "Silvia Busnari",
-          staffEmail: "silvia.busnari@gmail.com",
+          staffEmail: "busnari.silvia@libero.it",
           referralCode: "BUS14", 
           sponsoredCount: 5,
           totalCommissions: 500, // €5.00
@@ -57,6 +57,51 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
           staffEmail: "staff1@test.com", 
           referralCode: "PR120",
           sponsoredCount: 2, // Non raggiunge quota
+          totalCommissions: 0,
+          paidCommissions: 0,
+          pendingCommissions: 0,
+          bankingInfo: {
+            hasIban: false,
+            bankName: null,
+            accountHolder: null
+          }
+        },
+        {
+          staffId: 21,
+          staffName: "Laura Verdi",
+          staffEmail: "staff2@test.com", 
+          referralCode: "PR221",
+          sponsoredCount: 3, // Raggiunge quota ma senza commissioni pending
+          totalCommissions: 300,
+          paidCommissions: 300,
+          pendingCommissions: 0,
+          bankingInfo: {
+            hasIban: true,
+            bankName: "Banco BPM",
+            accountHolder: "Laura Verdi"
+          }
+        },
+        {
+          staffId: 22,
+          staffName: "Roberto Neri",
+          staffEmail: "staff3@test.com", 
+          referralCode: "PR322",
+          sponsoredCount: 1, // Non raggiunge quota
+          totalCommissions: 0,
+          paidCommissions: 0,
+          pendingCommissions: 0,
+          bankingInfo: {
+            hasIban: false,
+            bankName: null,
+            accountHolder: null
+          }
+        },
+        {
+          staffId: 8,
+          staffName: "Andrea Zambelli",
+          staffEmail: "zambelli.andrea.1973@gmail.com", 
+          referralCode: "ZAM08",
+          sponsoredCount: 0, // Admin, nessuna sponsorizzazione
           totalCommissions: 0,
           paidCommissions: 0,
           pendingCommissions: 0,
