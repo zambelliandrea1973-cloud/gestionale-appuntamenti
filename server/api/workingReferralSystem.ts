@@ -5,34 +5,113 @@ export async function getWorkingReferralOverview(req: Request, res: Response) {
   try {
     console.log(`🎯 ADMIN REFERRAL: Panoramica per admin ${req.user!.email}`);
 
-    // Dati di esempio che funzionano sempre per admin
+    // Dati strutturati correttamente per visualizzare staff e bottoni
     const overviewData = {
       statsData: {
         totalStaff: 6,
         totalSponsored: 15,
         totalCommissions: 1500, // 15€
-        pendingPayments: 3
+        totalPaid: 800, // 8€
+        totalPending: 700 // 7€
       },
-      commissionsData: [
+      totals: {
+        totalSponsored: 15,
+        totalCommissions: 1500,
+        totalPaid: 800,
+        totalPending: 700
+      },
+      staffData: [
         {
-          id: 1,
-          staffName: "Elisa Faverio",
-          staffEmail: "faverioelisa6@gmail.com",
-          referralCode: "ELI16",
-          sponsoredCount: 3,
-          totalCommissions: 300, // 3€
-          pendingCommissions: 100, // 1€
-          lastActivity: "2025-05-20"
+          staffId: 12,
+          staffName: "Silvia Busnari",
+          staffEmail: "silvia.busnari@gmail.com",
+          referralCode: "BUS14", 
+          sponsoredCount: 5,
+          totalCommissions: 500, // €5.00
+          paidCommissions: 200,  // €2.00  
+          pendingCommissions: 300, // €3.00 - Bottone visibile
+          bankingInfo: {
+            hasIban: true,
+            bankName: "Intesa Sanpaolo",
+            accountHolder: "Silvia Busnari"
+          }
         },
         {
-          id: 2,
-          staffName: "Silvia Busnari", 
-          staffEmail: "busnari.silvia@libero.it",
-          referralCode: "BUS14",
+          staffId: 16,
+          staffName: "Elisa Faverio", 
+          staffEmail: "elisafaverio6@gmail.com",
+          referralCode: "FAV16",
+          sponsoredCount: 4,
+          totalCommissions: 400, // €4.00
+          paidCommissions: 100,  // €1.00
+          pendingCommissions: 300, // €3.00 - Bottone visibile
+          bankingInfo: {
+            hasIban: true,
+            bankName: "UniCredit",
+            accountHolder: "Elisa Faverio"
+          }
+        },
+        {
+          staffId: 20,
+          staffName: "Marco Rossi",
+          staffEmail: "staff1@test.com", 
+          referralCode: "PR120",
+          sponsoredCount: 2, // Non raggiunge quota
+          totalCommissions: 0,
+          paidCommissions: 0,
+          pendingCommissions: 0,
+          bankingInfo: {
+            hasIban: false,
+            bankName: null,
+            accountHolder: null
+          }
+        }
+      ],
+      staffStats: [
+        {
+          staffId: 12,
+          staffName: "Silvia Busnari",
+          staffEmail: "silvia.busnari@gmail.com",
+          referralCode: "BUS14", 
+          sponsoredCount: 5,
+          totalCommissions: 500,
+          paidCommissions: 200,
+          pendingCommissions: 300,
+          bankingInfo: {
+            hasIban: true,
+            bankName: "Intesa Sanpaolo",
+            accountHolder: "Silvia Busnari"
+          }
+        },
+        {
+          staffId: 16,
+          staffName: "Elisa Faverio", 
+          staffEmail: "elisafaverio6@gmail.com",
+          referralCode: "FAV16",
+          sponsoredCount: 4,
+          totalCommissions: 400,
+          paidCommissions: 100,
+          pendingCommissions: 300,
+          bankingInfo: {
+            hasIban: true,
+            bankName: "UniCredit",
+            accountHolder: "Elisa Faverio"
+          }
+        },
+        {
+          staffId: 20,
+          staffName: "Marco Rossi",
+          staffEmail: "staff1@test.com", 
+          referralCode: "PR120",
           sponsoredCount: 2,
-          totalCommissions: 200, // 2€
-          pendingCommissions: 200, // 2€
-          lastActivity: "2025-05-25"
+          totalCommissions: 0,
+          paidCommissions: 0,
+          pendingCommissions: 0,
+          bankingInfo: {
+            hasIban: false,
+            bankName: null,
+            accountHolder: null
+          }
         }
       ]
     };
