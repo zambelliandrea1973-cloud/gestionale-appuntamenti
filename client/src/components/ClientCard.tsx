@@ -73,24 +73,40 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
         description: t('notifications.clientDeletedSuccess'),
       });
       
-      // Invalidate queries to refresh data
-      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-      
-      // Force page reload per problemi cache persistente
-      window.location.reload();
-      
-      if (onUpdate) {
-        onUpdate();
-      }
+      // Aggiorna immediatamente l'interfaccia
+      await refreshClientList();
     },
-    onError: (error) => {
-      toast({
-        title: t('common.error'),
-        description: t('errors.genericError', { error: error.message }),
-        variant: "destructive",
-      });
+    onError: async (error: any) => {
+      // Se il cliente non esiste più (404), aggiorna comunque l'interfaccia
+      if (error.message?.includes("Client not found") || error.message?.includes("404")) {
+        toast({
+          title: t('notifications.clientDeleted'),
+          description: "Cliente già rimosso dal sistema",
+        });
+        await refreshClientList();
+      } else {
+        toast({
+          title: t('common.error'),
+          description: t('errors.genericError', { error: error.message }),
+          variant: "destructive",
+        });
+      }
     }
   });
+
+  // Funzione per aggiornare la lista clienti
+  const refreshClientList = async () => {
+    // Invalida completamente la cache
+    await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+    
+    // Forza il refetch dei dati
+    await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
+    
+    // Chiama il callback se presente
+    if (onUpdate) {
+      onUpdate();
+    }
+  };
   
   const handleDelete = () => {
     deleteMutation.mutate();
