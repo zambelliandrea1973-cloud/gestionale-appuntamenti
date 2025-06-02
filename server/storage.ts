@@ -85,6 +85,7 @@ export interface IStorage {
   // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined>;
   getAllStaffUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
@@ -2195,6 +2196,24 @@ export class DatabaseStorage implements IStorage {
       return user;
     } catch (error) {
       console.error("Error getting user by username:", error);
+      return undefined;
+    }
+  }
+
+  async getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined> {
+    try {
+      console.log(`🔍 Cercando utente con codice assegnazione: ${assignmentCode}`);
+      const [user] = await db.select().from(users).where(eq(users.assignmentCode, assignmentCode));
+      
+      if (user) {
+        console.log(`✅ Trovato utente ${user.username} per codice ${assignmentCode}`);
+      } else {
+        console.log(`❌ Nessun utente trovato per codice ${assignmentCode}`);
+      }
+      
+      return user;
+    } catch (error) {
+      console.error("Error getting user by assignment code:", error);
       return undefined;
     }
   }
