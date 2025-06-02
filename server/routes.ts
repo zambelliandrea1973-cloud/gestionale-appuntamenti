@@ -434,6 +434,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Inizializza il server WebSocket per la comunicazione con il dispositivo telefonico
   initializePhoneDeviceSocket(httpServer);
 
+  // Assignment code endpoint - recupera il codice di assegnazione dell'utente corrente
+  app.get("/api/assignment-code", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      // Recupera le informazioni complete dell'utente compreso il codice di assegnazione
+      const userWithCode = await storage.getUser(user.id);
+      if (!userWithCode) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({
+        assignmentCode: userWithCode.assignmentCode,
+        username: userWithCode.username,
+        email: userWithCode.email
+      });
+    } catch (error) {
+      console.error("Error fetching assignment code:", error);
+      res.status(500).json({ message: "Error fetching assignment code" });
+    }
+  });
+
   // Client routes
   app.get("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
     try {
