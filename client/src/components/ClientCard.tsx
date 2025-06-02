@@ -96,6 +96,8 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
 
   // Funzione per aggiornare la lista clienti
   const refreshClientList = async () => {
+    console.log(`🔄 Aggiornamento lista clienti dopo operazione su cliente ${client.id}`);
+    
     // Invalida completamente la cache
     await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
     
@@ -104,8 +106,10 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
     
     // Chiama il callback se presente
     if (onUpdate) {
-      onUpdate();
+      await onUpdate();
     }
+    
+    console.log(`✅ Lista clienti aggiornata`);
   };
   
   const handleDelete = () => {
