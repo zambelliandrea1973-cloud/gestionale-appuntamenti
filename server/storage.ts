@@ -41,6 +41,7 @@ export interface IStorage {
   // Client operations
   getClient(id: number): Promise<Client | undefined>;
   getClients(): Promise<Client[]>;
+  getVisibleClientsForUser(userId: number, role: string): Promise<Client[]>;
   createClient(client: InsertClient): Promise<Client>;
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
   deleteClient(id: number): Promise<boolean>;
@@ -421,6 +422,35 @@ export class MemStorage implements IStorage {
   
   async getClients(): Promise<Client[]> {
     return Array.from(this.clients.values());
+  }
+
+  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
+    try {
+      let allClients: Client[] = await this.getClients();
+      
+      // Admin vede tutti i clienti
+      if (role === 'admin') {
+        return allClients;
+      }
+      
+      // Per gli altri account (staff e customer)
+      let visibleClients: Client[] = [];
+      
+      for (const client of allClients) {
+        // Caso 1: I clienti di default (senza owner_id) sono visibili a tutti
+        // Caso 2: I clienti creati dall'utente (con owner_id = userId) sono visibili
+        let normallyVisible = client.ownerId === null || client.ownerId === userId;
+        
+        if (normallyVisible) {
+          visibleClients.push(client);
+        }
+      }
+      
+      return visibleClients;
+    } catch (error) {
+      console.error('Errore nel recupero dei clienti visibili:', error);
+      return []; // Restituisci lista vuota in caso di errore
+    }
   }
   
   async createClient(client: InsertClient): Promise<Client> {
@@ -1385,6 +1415,35 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting clients:", error);
       return [];
+    }
+  }
+
+  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
+    try {
+      let allClients: Client[] = await this.getClients();
+      
+      // Admin vede tutti i clienti
+      if (role === 'admin') {
+        return allClients;
+      }
+      
+      // Per gli altri account (staff e customer)
+      let visibleClients: Client[] = [];
+      
+      for (const client of allClients) {
+        // Caso 1: I clienti di default (senza owner_id) sono visibili a tutti
+        // Caso 2: I clienti creati dall'utente (con owner_id = userId) sono visibili
+        let normallyVisible = client.ownerId === null || client.ownerId === userId;
+        
+        if (normallyVisible) {
+          visibleClients.push(client);
+        }
+      }
+      
+      return visibleClients;
+    } catch (error) {
+      console.error('Errore nel recupero dei clienti visibili:', error);
+      return []; // Restituisci lista vuota in caso di errore
     }
   }
 

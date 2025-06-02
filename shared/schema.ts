@@ -18,6 +18,7 @@ export const clients = pgTable("clients", {
   allergies: text("allergies"),
   createdAt: timestamp("created_at").defaultNow(),
   hasConsent: boolean("has_consent").default(false),
+  ownerId: integer("owner_id"), // ID dell'utente che ha creato questo cliente
 });
 
 export const insertClientSchema = createInsertSchema(clients).omit({

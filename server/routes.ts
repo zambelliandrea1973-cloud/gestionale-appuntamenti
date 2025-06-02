@@ -437,34 +437,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Client routes
   app.get("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
     try {
-      console.log(`🔍 GET /api/clients chiamata da ${req.user?.username || 'unknown'}`);
-      
-      // Header anti-cache molto aggressivi
-      res.set({
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'Surrogate-Control': 'no-store',
-        'ETag': `"${Date.now()}"`,
-        'Last-Modified': new Date().toUTCString()
-      });
-      
-      const user = req.user!;
-      
-      // Solo admin vedono tutti i clienti - gli altri vedono solo i propri
-      if (user.type === 'admin') {
-        console.log(`Admin ${user.username} accede a tutti i clienti`);
-        const clients = await storage.getClients();
-        console.log(`📊 Restituiti ${clients.length} clienti per admin ${user.username}`);
-        res.json(clients);
-      } else {
-        console.log(`Utente ${user.username} (tipo: ${user.type}) accede solo ai propri clienti (ownerId: ${user.id})`);
-        const clients = await storage.getClients(user.id);
-        console.log(`📊 Restituiti ${clients.length} clienti per utente ${user.username}`);
-        res.json(clients);
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
       }
+
+      // Usa il sistema di visibilità dei clienti (versione funzionante dal backup15)
+      // questo restituirà solo i clienti che sono visibili per questo account
+      const clients = await storage.getVisibleClientsForUser(user.id, user.role);
+      
+      res.json(clients);
     } catch (error) {
-      console.error('Errore in GET /api/clients:', error);
+      console.error("Error fetching clients:", error);
       res.status(500).json({ message: "Error fetching clients" });
     }
   });

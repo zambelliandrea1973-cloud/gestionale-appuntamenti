@@ -1,0 +1,2240 @@
+🔍 Risposta user-with-license: 200 true
+VM3778 use-user-with-license.tsx:47 🔍 Dati utente ricevuti FRESCHI: {id: 12, username: 'zambelli.andrea.1973D@gmail.com', email: 'zambelli.andrea.1973D@gmail.com', type: 'customer', firstName: null, …}
+VM3760 App.tsx:103 Stato autenticazione: {user: true, location: '/', isLoading: false}
+VM3838 FooterContactIcons.tsx:70 Nessuna informazione di contatto disponibile
+VM3838 FooterContactIcons.tsx:70 Nessuna informazione di contatto disponibile
+VM3788 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM3788 ClientLogin.tsx:56 Invio URL originale al service worker
+VM3788 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973D@gmail.com', clientId: '28', …}
+VM3788 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM3788 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973D@gmail.com
+VM3788 ClientLogin.tsx:104 App avviata - DuckDuckGo: false, PWA: false
+VM3788 ClientLogin.tsx:117 Parametri recuperati da localStorage per supporto PWA in ClientLogin
+VM3788 ClientLogin.tsx:120 🚫 Login automatico disabilitato - forza login manuale per dati corretti
+VM3788 ClientLogin.tsx:160 🚫 Verifica token disabilitata - richiede login manuale per dati corretti
+VM3769 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM3769 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM3769 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM3760 App.tsx:103 Stato autenticazione: {user: true, location: '/client-login', isLoading: false}
+VM3788 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM3788 ClientLogin.tsx:56 Invio URL originale al service worker
+VM3788 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973D@gmail.com', clientId: '28', …}
+VM3788 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM3788 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973D@gmail.com
+VM3788 ClientLogin.tsx:104 App avviata - DuckDuckGo: false, PWA: false
+VM3788 ClientLogin.tsx:117 Parametri recuperati da localStorage per supporto PWA in ClientLogin
+VM3788 ClientLogin.tsx:120 🚫 Login automatico disabilitato - forza login manuale per dati corretti
+VM3788 ClientLogin.tsx:160 🚫 Verifica token disabilitata - richiede login manuale per dati corretti
+VM3769 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM3769 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM3769 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM3788 ClientLogin.tsx:54 URL originale salvato: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login
+VM3788 ClientLogin.tsx:56 Invio URL originale al service worker
+VM3788 ClientLogin.tsx:67 Diagnostica completa localStorage: {originalUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client-login', qrLink: null, qrData: null, clientUsername: 'zambelli.andrea.1973D@gmail.com', clientId: '28', …}
+VM3788 ClientLogin.tsx:79 Controllo credenziali salvate: {isPWA: false, hasStoredUsername: true, hasStoredPassword: false, pathName: '/client-login', browser: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36'}
+VM3788 ClientLogin.tsx:87 Usando nome utente memorizzato: zambelli.andrea.1973D@gmail.com
+VM3769 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM3873 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM3873 InstallAppPrompt.tsx:31 Service Worker registrato con successo: ServiceWorkerRegistration {installing: null, waiting: null, active: ServiceWorker, navigationPreload: NavigationPreloadManager, scope: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/', …}
+VM3769 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM3838 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM3838 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM3838 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM3769 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM3769 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM3769 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM3769 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM3838 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM3838 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM3769 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM3769 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM3769 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM3769 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM3838 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM3788 ClientLogin.tsx:232 Tentativo di login semplificato con username e password
+VM3769 queryClient.ts:9 Esecuzione richiesta POST a /api/client/login {"username":"zambelli.andrea.1973D@gmail.com","password":"gironico"}
+VM3769 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM3769 queryClient.ts:52 Dettagli richiesta POST a /api/client/login: {method: 'POST', headers: {…}, body: '{"username":"zambelli.andrea.1973D@gmail.com","password":"gironico"}'}
+VM3838 FooterContactIcons.tsx:64 Verifica periodica delle informazioni di contatto...
+VM3769 queryClient.ts:9 Esecuzione richiesta GET a /api/contact-info 
+VM3769 queryClient.ts:50 Header x-device-type aggiunto: desktop
+VM3769 queryClient.ts:52 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+VM3769 queryClient.ts:63 Risposta da /api/contact-info: 200 OK ok: true
+VM3838 FooterContactIcons.tsx:34 Informazioni di contatto caricate da API: {email: 'elisafaverio6@gmail.com', phone1: '+39 3459318970', website: 'biomedicinaintegrata.it', instagram: 'elisa_faverio', phone2: '+39 3471445767'}
+VM3769 queryClient.ts:63 Risposta da /api/client/login: 200 OK ok: true
+VM3788 ClientLogin.tsx:247 Token salvato nel localStorage per utilizzi futuri
+VM3788 ClientLogin.tsx:255 Utente customer, reindirizzamento alla dashboard principale
+VM3788 ClientLogin.tsx:256 🔧 FORZANDO CARICAMENTO DATI UTENTE PRIMA DEL REDIRECT
+VM3788 ClientLogin.tsx:258 ✅ DATI UTENTE CARICATI: {id: 9, username: 'zambelli.andrea.1973A@gmail.com', email: 'zambelli.andrea.1973A@gmail.com', type: 'customer', firstName: null, …}
+dashboard:171 PWA check - standalone mode: false
+dashboard:172 PWA check - iOS fullscreen: undefined
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=NoS9RfFRlavz' failed: 
+setupWebSocket @ client:536
+(anonymous) @ client:531Understand this error
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+use-user-with-license.tsx:44 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+2queryClient.ts:99 Risposta da /api/client-app-info: 200 OK ok: true
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=NoS9RfFRlavz' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)
+setupWebSocket @ client:536
+fallback @ client:509
+(anonymous) @ client:555Understand this error
+dashboard:226 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+2TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+use-user-with-license.tsx:55 🔍 Risposta user-with-license: 200 true
+use-user-with-license.tsx:60 🔍 Dati utente ricevuti FRESCHI: {id: 12, username: 'zambelli.andrea.1973D@gmail.com', email: 'zambelli.andrea.1973D@gmail.com', type: 'customer', firstName: null, …}
+Layout.tsx:59 Layout Debug: {userType: 'customer', isStaff: false, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'customer', isStaff: false, isAdmin: false, userLoading: false}
+App.tsx:93 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'customer', isStaff: false, isAdmin: false, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'customer', isStaff: false, isAdmin: false, userLoading: false}
+App.tsx:93 Stato autenticazione: {user: true, location: '/clients', isLoading: false}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/260/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/260/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/329/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/329/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/321/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/321/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/357/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/357/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/356/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/356/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/354/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/354/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/353/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/353/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/352/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/352/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/344/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/344/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/320/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/320/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/319/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/319/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/318/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/318/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/316/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/316/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/317/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/317/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/377/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/377/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/376/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/376/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/375/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/375/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/374/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/374/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/373/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/373/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/372/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/372/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/385/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/385/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/384/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/384/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/381/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/381/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/380/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/380/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/322/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/322/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/379/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/379/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/323/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/323/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/264/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/264/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/325/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/325/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/262/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/262/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/378/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/378/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/326/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/326/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/398/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/398/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/392/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/392/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/393/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/393/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/390/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/390/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/389/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/389/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/388/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/388/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/387/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/387/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/386/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/386/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/394/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/394/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/395/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/395/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/396/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/396/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/397/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/397/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/399/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/399/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/391/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/391/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/265/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/265/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/437/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/437/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/436/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/436/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/435/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/435/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/439/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/439/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/440/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/440/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/441/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/441/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/434/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/434/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/433/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/433/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/432/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/432/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/431/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/431/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/430/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/430/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/429/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/429/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/268/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/268/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/428/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/428/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/438/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/438/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/26/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/26/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/252/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/252/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/28/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/28/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/2/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/2/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/275/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/275/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/277/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/277/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/278/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/278/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/279/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/279/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/280/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/280/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/281/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/281/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/276/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/276/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/282/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/282/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/283/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/283/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/284/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/284/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/285/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/285/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/286/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/286/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/287/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/287/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/257/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/257/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/274/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/274/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/253/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/253/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/500/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/500/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/273/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/273/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/498/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/498/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/499/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/499/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/501/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/501/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/502/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/502/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/503/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/503/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/504/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/504/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/505/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/505/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/506/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/506/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/507/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/507/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/508/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/508/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/509/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/509/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/510/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/510/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/511/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/511/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/478/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/478/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/271/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/271/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/479/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/479/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/472/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/472/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/470/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/470/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/473/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/473/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/471/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/471/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/474/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/474/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/475/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/475/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/476/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/476/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/477/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/477/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/483/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/483/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/482/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/482/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/481/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/481/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/480/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/480/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/289/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/289/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/288/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/288/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/258/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/258/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/301/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/301/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/300/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/300/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/299/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/299/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/298/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/298/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/297/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/297/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/296/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/296/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/295/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/295/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/294/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/294/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/293/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/293/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/292/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/292/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/291/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/291/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/290/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/290/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/484/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/484/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/269/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/269/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/272/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/272/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/442/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/442/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/443/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/443/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/444/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/444/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/445/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/445/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/446/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/446/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/447/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/447/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/448/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/448/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/449/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/449/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/450/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/450/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/451/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/451/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/452/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/452/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/453/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/453/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/454/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/454/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/455/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/455/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/485/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/485/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/486/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/486/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/487/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/487/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/488/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/488/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/489/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/489/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/490/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/490/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/491/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/491/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/492/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/492/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/493/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/493/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/494/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/494/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/495/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/495/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/496/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/496/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/497/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/497/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/251/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/251/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/27/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/27/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/256/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/256/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/414/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/414/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/267/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/267/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/417/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/417/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/418/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/418/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/419/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/419/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/420/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/420/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/427/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/427/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/426/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/426/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/425/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/425/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/424/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/424/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/423/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/423/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/422/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/422/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/415/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/415/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/416/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/416/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/421/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/421/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/406/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/406/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/407/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/407/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/408/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/408/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/409/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/409/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/410/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/410/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/411/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/411/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/412/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/412/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/413/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/413/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/402/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/402/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/400/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/400/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/266/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/266/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/401/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/401/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/403/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/403/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/404/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/404/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/405/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/405/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/362/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/362/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/364/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/364/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/363/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/363/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/361/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/361/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/360/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/360/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/359/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/359/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/358/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/358/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/263/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/263/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/366/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/366/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/367/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/367/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/368/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/368/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/369/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/369/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/370/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/370/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/371/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/371/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/365/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/365/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/457/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/457/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/469/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/469/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/468/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/468/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/458/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/458/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/459/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/459/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/460/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/460/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/461/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/461/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/462/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/462/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/463/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/463/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/467/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/467/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/464/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/464/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/466/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/466/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/456/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/456/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/465/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/465/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/270/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/270/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/306/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/306/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/307/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/307/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/305/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/305/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/304/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/304/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/303/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/303/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/302/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/302/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/259/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/259/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/315/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/315/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/314/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/314/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/313/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/313/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/312/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/312/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/311/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/311/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/310/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/310/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/309/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/309/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/308/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/308/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/25/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/25/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/335/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/335/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/334/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/334/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/333/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/333/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/332/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/332/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/331/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/331/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/330/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/330/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/341/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/341/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/342/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/342/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/337/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/337/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/261/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/261/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/336/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/336/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/339/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/339/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/340/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/340/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/338/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/338/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/343/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/343/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/260/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/260/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/329/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/329/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/321/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/321/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/357/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/357/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/356/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/356/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/354/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/354/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/353/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/353/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/352/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/352/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/344/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/344/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/320/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/320/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/319/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/319/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/318/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/318/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/316/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/316/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/317/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/317/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/377/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/377/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/376/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/376/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/375/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/375/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/374/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/374/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/373/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/373/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/372/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/372/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/385/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/385/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/384/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/384/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/381/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/381/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/380/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/380/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/322/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/322/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/379/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/379/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/323/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/323/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/264/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/264/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/325/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/325/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/262/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/262/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/378/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/378/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/326/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/326/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/398/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/398/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/392/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/392/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/393/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/393/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/390/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/390/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/389/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/389/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/388/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/388/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/387/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/387/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/386/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/386/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/394/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/394/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/395/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/395/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/396/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/396/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/397/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/397/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/399/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/399/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/391/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/391/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/265/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/265/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/437/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/437/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/436/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/436/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/435/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/435/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/439/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/439/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/440/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/440/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/441/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/441/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/434/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/434/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/433/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/433/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/432/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/432/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/431/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/431/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/430/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/430/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/429/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/429/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/268/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/268/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/428/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/428/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/438/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/438/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/26/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/26/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/252/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/252/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/28/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/28/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/2/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/2/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/275/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/275/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/277/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/277/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/278/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/278/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/279/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/279/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/280/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/280/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/281/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/281/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/276/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/276/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/282/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/282/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/283/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/283/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/284/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/284/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/285/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/285/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/286/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/286/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/287/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/287/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/257/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/257/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/274/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/274/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/253/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/253/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/500/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/500/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/273/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/273/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/498/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/498/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/499/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/499/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/501/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/501/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/502/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/502/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/503/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/503/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/504/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/504/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/505/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/505/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/506/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/506/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/507/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/507/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/508/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/508/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/509/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/509/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/510/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/510/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/511/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/511/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/478/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/478/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/271/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/271/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/479/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/479/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/472/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/472/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/470/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/470/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/473/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/473/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/471/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/471/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/474/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/474/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/475/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/475/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/476/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/476/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/477/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/477/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/483/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/483/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/482/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/482/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/481/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/481/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/480/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/480/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/289/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/289/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/288/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/288/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/258/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/258/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/301/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/301/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/300/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/300/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/299/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/299/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/298/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/298/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/297/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/297/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/296/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/296/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/295/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/295/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/294/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/294/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/293/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/293/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/292/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/292/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/291/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/291/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/290/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/290/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/484/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/484/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/269/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/269/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/272/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/272/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/442/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/442/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/443/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/443/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/444/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/444/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/445/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/445/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/446/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/446/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/447/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/447/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/448/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/448/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/449/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/449/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/450/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/450/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/451/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/451/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/452/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/452/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/453/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/453/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/454/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/454/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/455/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/455/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/485/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/485/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/486/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/486/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/487/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/487/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/488/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/488/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/489/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/489/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/490/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/490/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/491/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/491/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/492/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/492/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/493/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/493/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/494/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/494/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/495/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/495/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/496/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/496/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/497/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/497/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/251/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/251/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/27/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/27/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/256/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/256/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/414/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/414/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/267/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/267/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/417/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/417/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/418/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/418/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/419/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/419/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/420/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/420/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/427/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/427/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/426/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/426/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/425/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/425/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/424/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/424/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/423/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/423/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/422/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/422/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/415/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/415/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/416/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/416/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/421/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/421/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/406/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/406/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/407/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/407/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/408/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/408/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/409/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/409/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/410/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/410/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/411/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/411/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/412/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/412/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/413/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/413/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/402/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/402/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/400/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/400/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/266/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/266/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/401/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/401/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/403/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/403/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/404/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/404/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/405/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/405/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/362/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/362/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/364/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/364/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/363/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/363/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/361/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/361/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/360/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/360/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/359/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/359/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/358/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/358/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/263/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/263/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/366/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/366/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/367/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/367/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/368/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/368/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/369/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/369/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/370/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/370/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/371/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/371/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/365/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/365/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/457/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/457/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/469/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/469/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/468/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/468/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/458/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/458/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/459/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/459/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/460/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/460/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/461/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/461/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/462/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/462/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/463/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/463/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/467/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/467/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/464/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/464/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/466/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/466/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/456/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/456/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/465/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/465/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/270/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/270/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/306/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/306/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/307/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/307/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/305/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/305/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/304/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/304/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/303/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/303/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/302/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/302/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/259/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/259/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/315/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/315/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/314/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/314/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/313/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/313/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/312/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/312/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/311/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/311/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/310/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/310/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/309/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/309/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/308/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/308/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/25/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/25/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/335/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/335/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/334/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/334/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/333/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/333/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/332/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/332/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/331/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/331/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/330/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/330/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/341/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/341/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/342/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/342/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/337/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/337/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/261/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/261/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/336/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/336/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/339/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/339/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/340/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/340/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/338/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/338/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/343/activation-token 
+queryClient.ts:83 Header x-device-type aggiunto: desktop
+queryClient.ts:86 Dettagli richiesta GET a /api/clients/343/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:99 Risposta da /api/clients/260/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/329/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/321/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/357/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/356/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/354/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/353/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/352/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/344/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/320/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/319/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/318/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/316/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/317/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/377/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/376/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/375/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/374/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/373/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/372/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/385/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/384/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/381/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/380/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/322/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/379/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/323/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/264/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/325/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/262/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/378/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/326/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/398/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/392/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/393/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/390/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/389/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/388/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/387/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/386/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/394/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/395/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/396/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/397/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/399/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/391/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/265/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/437/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/436/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/435/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/439/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/440/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/441/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/434/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/433/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/432/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/431/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/430/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/429/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/268/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/428/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/438/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/26/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/252/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/28/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/2/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/275/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/277/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/278/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/279/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/280/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/281/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/276/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/282/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/283/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/284/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/285/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/286/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/287/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/257/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/274/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/253/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/500/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/273/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/498/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/499/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/501/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/502/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/503/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/504/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/505/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/506/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/507/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/508/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/509/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/510/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/511/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/478/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/271/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/479/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/472/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/470/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/473/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/471/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/474/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/475/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/476/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/477/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/483/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/482/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/481/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/480/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/289/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/288/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/258/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/301/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/300/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/299/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/298/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/297/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/296/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/295/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/294/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/293/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/292/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/291/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/290/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/484/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/269/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/272/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/442/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/443/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/444/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/445/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/446/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/447/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/448/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/449/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/450/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/451/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/452/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/453/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/454/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/455/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/485/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/486/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/487/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/488/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/489/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/490/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/491/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/492/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/493/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/494/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/495/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/496/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/497/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/251/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/27/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/256/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/414/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/267/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/417/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/418/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/419/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/420/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/427/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/426/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/425/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/424/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/423/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/422/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/415/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/416/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/421/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/406/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/407/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/408/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/409/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/410/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/411/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/412/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/413/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/402/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/400/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/266/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/401/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/403/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/404/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/405/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/362/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/364/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/363/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/361/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/360/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/359/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/358/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/263/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/366/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/367/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/368/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/369/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/370/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/371/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/365/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/457/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/469/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/468/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/458/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/459/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/460/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/461/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/462/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/463/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/467/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/464/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/466/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/456/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/465/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/270/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/306/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/307/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/305/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/304/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/303/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/302/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/259/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/315/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/314/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/313/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/312/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/311/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/310/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/309/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/308/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/25/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/335/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/334/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/333/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/332/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/331/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/330/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/341/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/342/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/337/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/261/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/336/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/339/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/340/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/338/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/343/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/260/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/329/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/321/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/357/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/356/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/354/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/353/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/352/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/344/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/320/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/319/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/318/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/316/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/317/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/377/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/376/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/375/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/374/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/373/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/372/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/385/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/384/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/381/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/380/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/322/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/379/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/323/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/264/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/325/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/262/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/378/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/326/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/398/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/392/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/393/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/390/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/389/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/388/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/387/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/386/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/394/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/395/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/396/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/397/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/399/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/391/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/265/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/437/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/436/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/435/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/439/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/440/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/441/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/434/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/433/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/432/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/431/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/430/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/429/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/268/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/428/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/438/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/26/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/252/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/28/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/2/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/275/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/277/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/278/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/279/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/280/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/281/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/276/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/282/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/283/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/284/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/285/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/286/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/287/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/257/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/274/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/253/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/500/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/273/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/498/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/499/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/501/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/502/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/503/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/504/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/505/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/506/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/507/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/508/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/509/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/510/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/511/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/478/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/271/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/479/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/472/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/470/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/473/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/471/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/474/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/475/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/476/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/477/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/483/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/482/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/481/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/480/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/289/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/288/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/258/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/301/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/300/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/299/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/298/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/297/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/296/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/295/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/294/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/293/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/292/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/291/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/290/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/484/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/269/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/272/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/442/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/443/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/444/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/445/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/446/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/447/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/448/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/449/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/450/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/451/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/452/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/453/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/454/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/455/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/485/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/486/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/487/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/488/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/489/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/490/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/491/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/492/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/493/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/494/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/495/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/496/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/497/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/251/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/27/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/256/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/414/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/267/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/417/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/418/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/419/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/420/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/427/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/426/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/425/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/424/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/423/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/422/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/415/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/416/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/421/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/406/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/407/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/408/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/409/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/410/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/411/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/412/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/413/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/402/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/400/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/266/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/401/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/403/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/404/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/405/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/362/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/364/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/363/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/361/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/360/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/359/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/358/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/263/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/366/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/367/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/368/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/369/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/370/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/371/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/365/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/457/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/469/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/468/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/458/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/459/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/460/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/461/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/462/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/463/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/467/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/464/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/466/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/456/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/465/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/270/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/306/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/307/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/305/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/304/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/303/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/302/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/259/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/315/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/314/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/313/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/312/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/311/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/310/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/309/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/308/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/25/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/335/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/334/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/333/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/332/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/331/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/330/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/341/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/342/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/337/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/261/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/336/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/339/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/340/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/338/activation-token: 200 OK ok: true
+queryClient.ts:99 Risposta da /api/clients/343/activation-token: 200 OK ok: true
+chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `SlotClone`.
+    at Badge (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=a298f9ce:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=a298f9ce:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1987:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:416:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:40:23)
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx?t=1748458525542:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:77:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:87:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:291:17)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx?t=1748458525542:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a298f9ce:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:631:3)
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521
+error @ chunk-C43VWYGG.js?v=a298f9ce:505
+validateFunctionComponentInDev @ chunk-C43VWYGG.js?v=a298f9ce:14988
+mountIndeterminateComponent @ chunk-C43VWYGG.js?v=a298f9ce:14963
+beginWork @ chunk-C43VWYGG.js?v=a298f9ce:15882
+beginWork$1 @ chunk-C43VWYGG.js?v=a298f9ce:19721
+performUnitOfWork @ chunk-C43VWYGG.js?v=a298f9ce:19166
+workLoopSync @ chunk-C43VWYGG.js?v=a298f9ce:19105
+renderRootSync @ chunk-C43VWYGG.js?v=a298f9ce:19084
+performConcurrentWorkOnRoot @ chunk-C43VWYGG.js?v=a298f9ce:18646
+workLoop @ chunk-C43VWYGG.js?v=a298f9ce:197
+flushWork @ chunk-C43VWYGG.js?v=a298f9ce:176
+performWorkUntilDeadline @ chunk-C43VWYGG.js?v=a298f9ce:384Understand this error
+8chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521
+error @ chunk-C43VWYGG.js?v=a298f9ce:505
+checkForNestedUpdates @ chunk-C43VWYGG.js?v=a298f9ce:19633
+scheduleUpdateOnFiber @ chunk-C43VWYGG.js?v=a298f9ce:18501
+forceStoreRerender @ chunk-C43VWYGG.js?v=a298f9ce:12602
+handleStoreChange @ chunk-C43VWYGG.js?v=a298f9ce:12584
+(anonymous) @ @tanstack_react-query.js?v=a298f9ce:598
+notifyFn @ @tanstack_react-query.js?v=a298f9ce:550
+(anonymous) @ @tanstack_react-query.js?v=a298f9ce:572
+(anonymous) @ @tanstack_react-query.js?v=a298f9ce:571
+batchNotifyFn @ @tanstack_react-query.js?v=a298f9ce:553
+(anonymous) @ @tanstack_react-query.js?v=a298f9ce:570
+setTimeout
+scheduleFn @ @tanstack_react-query.js?v=a298f9ce:555
+flush @ @tanstack_react-query.js?v=a298f9ce:569
+batch @ @tanstack_react-query.js?v=a298f9ce:587
+dispatch_fn @ @tanstack_react-query.js?v=a298f9ce:996
+setData @ @tanstack_react-query.js?v=a298f9ce:696
+onSuccess @ @tanstack_react-query.js?v=a298f9ce:897
+resolve @ @tanstack_react-query.js?v=a298f9ce:456Understand this error
+chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GCT6QPCO.js?v=a298f9ce:24:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:473:64
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/tooltip.tsx:24:11)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:40:23)
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx?t=1748458525542:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:77:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:87:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:291:17)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx?t=1748458525542:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a298f9ce:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?t=1748458804232&v=CGamgGsG-JdQqmRYtWx0s:631:3)
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521
+error @ chunk-C43VWYGG.js?v=a298f9ce:505
+checkForNestedUpdates @ chunk-C43VWYGG.js?v=a298f9ce:19633
+scheduleUpdateOnFiber @ chunk-C43VWYGG.js?v=a298f9ce:18501
+dispatchReducerAction @ chunk-C43VWYGG.js?v=a298f9ce:12954
+(anonymous) @ chunk-GCT6QPCO.js?v=a298f9ce:112
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=a298f9ce:16883
+commitLayoutEffectOnFiber @ chunk-C43VWYGG.js?v=a298f9ce:16970
+commitLayoutMountEffects_complete @ chunk-C43VWYGG.js?v=a298f9ce:17948
+commitLayoutEffects_begin @ chunk-C43VWYGG.js?v=a298f9ce:17937
+commitLayoutEffects @ chunk-C43VWYGG.js?v=a298f9ce:17888
+commitRootImpl @ chunk-C43VWYGG.js?v=a298f9ce:19321
+commitRoot @ chunk-C43VWYGG.js?v=a298f9ce:19245
+finishConcurrentRender @ chunk-C43VWYGG.js?v=a298f9ce:18773
+performConcurrentWorkOnRoot @ chunk-C43VWYGG.js?v=a298f9ce:18686
+workLoop @ chunk-C43VWYGG.js?v=a298f9ce:197
+flushWork @ chunk-C43VWYGG.js?v=a298f9ce:176
+performWorkUntilDeadline @ chunk-C43VWYGG.js?v=a298f9ce:384Understand this error
