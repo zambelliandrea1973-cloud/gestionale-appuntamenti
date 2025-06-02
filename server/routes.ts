@@ -444,7 +444,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Usa il sistema di visibilità dei clienti (versione funzionante dal backup15)
       // questo restituirà solo i clienti che sono visibili per questo account
-      const clients = await storage.getVisibleClientsForUser(user.id, user.role);
+      const clients = await storage.getVisibleClientsForUser(user.id, user.role || user.type || 'customer');
       
       res.json(clients);
     } catch (error) {
