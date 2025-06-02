@@ -109,6 +109,7 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   };
   
   const handleDelete = () => {
+    console.log(`🗑️ ELIMINAZIONE CLIENTE ${client.id} - ${client.firstName} ${client.lastName}`);
     deleteMutation.mutate();
   };
   
