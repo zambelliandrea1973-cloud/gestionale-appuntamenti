@@ -76,6 +76,9 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
       // Invalidate queries to refresh data
       await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       
+      // Force page reload per problemi cache persistente
+      window.location.reload();
+      
       if (onUpdate) {
         onUpdate();
       }
