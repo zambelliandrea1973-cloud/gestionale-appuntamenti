@@ -518,8 +518,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`📝 Dati cliente validati: ${validationResult.data.firstName} ${validationResult.data.lastName}`);
       
-      const client = await storage.createClient(validationResult.data);
-      console.log(`✅ Cliente creato con successo - ID: ${client.id}, OwnerID: ${client.ownerId}`);
+      // Se presente un codice di assegnazione, trova l'owner corrispondente
+      let finalOwnerID = user?.id; // Default: l'utente corrente
+      
+      if (validationResult.data.assignmentCode) {
+        console.log(`🔍 Codice assegnazione ricevuto: ${validationResult.data.assignmentCode}`);
+        
+        // Cerca l'utente con questo codice di assegnazione
+        const ownerUser = await storage.getUserByAssignmentCode(validationResult.data.assignmentCode);
+        if (ownerUser) {
+          finalOwnerID = ownerUser.id;
+          console.log(`✅ Cliente assegnato automaticamente a: ${ownerUser.username} (ID: ${ownerUser.id})`);
+        } else {
+          console.log(`❌ Codice assegnazione non valido: ${validationResult.data.assignmentCode}`);
+          return res.status(400).json({
+            message: "Codice di assegnazione non valido"
+          });
+        }
+      }
+      
+      // Crea i dati del cliente con l'ownerId corretto
+      const clientData = {
+        ...validationResult.data,
+        ownerId: finalOwnerID,
+        assignmentCode: validationResult.data.assignmentCode // Salva il codice usato per la tracciabilità
+      };
+      
+      const client = await storage.createClient(clientData);
+      console.log(`✅ Cliente creato con successo - ID: ${client.id}, OwnerID: ${client.ownerId}, Codice: ${client.assignmentCode}`);
       
       res.status(201).json(client);
     } catch (error) {
