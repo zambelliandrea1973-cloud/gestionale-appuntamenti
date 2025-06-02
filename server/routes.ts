@@ -79,6 +79,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     global.currentRequest = req;
     next();
   });
+
+  // Middleware anti-cache globale per tutte le API
+  app.use('/api', (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Last-Modified', new Date().toUTCString());
+    next();
+  });
   // Configura l'autenticazione
   setupAuth(app);
   

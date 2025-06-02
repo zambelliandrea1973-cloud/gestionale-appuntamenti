@@ -83,6 +83,14 @@ export async function apiRequest(
       console.log(`Header x-device-type aggiunto: ${headers["x-device-type"]}`);
     }
     
+    // HEADER ANTI-CACHE AGGRESSIVI per prevenire problemi di dati obsoleti
+    headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0";
+    headers["Pragma"] = "no-cache";
+    headers["Expires"] = "0";
+    headers["If-Modified-Since"] = "Mon, 26 Jul 1997 05:00:00 GMT";
+    headers["If-None-Match"] = "*";
+    console.log("Header anti-cache aggiunti per garantire dati sempre freschi");
+    
     console.log(`Dettagli richiesta ${method} a ${url}:`, { 
       method, 
       headers,
