@@ -467,9 +467,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "User not authenticated" });
       }
 
+      console.log(`🔍 RECUPERO CLIENTI per utente: ${user.username} (ID: ${user.id}, Tipo: ${user.type}, Ruolo: ${user.role})`);
+
       // Usa il sistema di visibilità dei clienti (versione funzionante dal backup15)
       // questo restituirà solo i clienti che sono visibili per questo account
       const clients = await storage.getVisibleClientsForUser(user.id, user.role || user.type || 'customer');
+      
+      console.log(`📊 Clienti trovati per ${user.username}: ${clients.length} clienti visibili`);
+      if (clients.length > 0) {
+        console.log(`🔸 Primi 5 clienti: ${clients.slice(0, 5).map(c => `${c.firstName} ${c.lastName} (ID:${c.id}, Owner:${c.ownerId})`).join(', ')}`);
+      }
       
       res.json(clients);
     } catch (error) {
@@ -498,6 +505,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/clients", async (req: Request, res: Response) => {
     try {
+      const user = req.user;
+      console.log(`🆕 CREAZIONE CLIENTE da utente: ${user?.username} (ID: ${user?.id}, Tipo: ${user?.type})`);
+      
       const validationResult = insertClientSchema.safeParse(req.body);
       if (!validationResult.success) {
         return res.status(400).json({
@@ -506,9 +516,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      console.log(`📝 Dati cliente validati: ${validationResult.data.firstName} ${validationResult.data.lastName}`);
+      
       const client = await storage.createClient(validationResult.data);
+      console.log(`✅ Cliente creato con successo - ID: ${client.id}, OwnerID: ${client.ownerId}`);
+      
       res.status(201).json(client);
     } catch (error) {
+      console.error("❌ Errore nella creazione cliente:", error);
       res.status(500).json({ message: "Error creating client" });
     }
   });
