@@ -225,6 +225,15 @@ export default function Clients() {
               {t('common.refresh')}
             </Button>
             
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8"
+              onClick={() => window.location.reload()}
+            >
+              Forza Refresh
+            </Button>
+            
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
