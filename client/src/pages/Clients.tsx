@@ -38,7 +38,9 @@ export default function Clients() {
     isLoading,
     refetch: refetchClients
   } = useQuery({
-    queryKey: ["/api/clients"]
+    queryKey: ["/api/clients"],
+    staleTime: 0, // Forza sempre dati freschi
+    cacheTime: 0  // Non salvare in cache
   });
   
   // Imposta un intervallo per aggiornare i dati ogni 5 minuti 

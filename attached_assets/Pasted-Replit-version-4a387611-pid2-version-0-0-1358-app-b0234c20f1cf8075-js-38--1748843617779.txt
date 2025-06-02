@@ -1,0 +1,222 @@
+Replit version 4a387611, pid2 version 0.0.1358
+_app-b0234c20f1cf8075.js:38 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-b0234c20f1cf8075.js:38 [LaunchDarkly] LaunchDarkly client initialized
+framework-bfed75ff30a22f4a.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this error
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'battery'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+framework-bfed75ff30a22f4a.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this warning
+workspace_iframe.html:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.Understand this error
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'battery'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.Understand this warning
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.Understand this warning
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.Understand this warning
+(index):171 PWA check - standalone mode: false
+(index):172 PWA check - iOS fullscreen: undefined
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+use-user-with-license.tsx:44 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+TimezoneDetector.tsx:34 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+client:536 WebSocket connection to 'wss://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/?token=NoS9RfFRlavz' failed: 
+setupWebSocket @ client:536
+(anonymous) @ client:531Understand this error
+(index):226 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=NoS9RfFRlavz' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)
+setupWebSocket @ client:536
+fallback @ client:509
+(anonymous) @ client:555Understand this error
+2TimezoneDetector.tsx:66 Fuso orario già correttamente impostato
+use-user-with-license.tsx:55 🔍 Risposta user-with-license: 200 true
+use-user-with-license.tsx:60 🔍 Dati utente ricevuti FRESCHI: {id: 10, username: 'zambelli.andrea.1973B@gmail.com', email: 'zambelli.andrea.1973B@gmail.com', type: 'customer', firstName: null, …}
+App.tsx:93 Stato autenticazione: {user: true, location: '/', isLoading: false}
+_app-b0234c20f1cf8075.js:38 Adding extension: AI Playground {extensionArgs: {…}, local: false, logLevel: 'info'}
+_app-b0234c20f1cf8075.js:38 Adding extension: API Request Tester {extensionArgs: {…}, local: false, logLevel: 'info'}
+_app-b0234c20f1cf8075.js:38 Adding extension: Javascript Commands {extensionArgs: {…}, local: false, logLevel: 'info'}
+framework-bfed75ff30a22f4a.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-bfed75ff30a22f4a.js:1
+(anonymous) @ framework-bfed75ff30a22f4a.js:1
+uD @ framework-bfed75ff30a22f4a.js:1
+uI @ framework-bfed75ff30a22f4a.js:1
+uM @ framework-bfed75ff30a22f4a.js:1
+uS @ framework-bfed75ff30a22f4a.js:1
+C @ framework-bfed75ff30a22f4a.js:1
+z @ framework-bfed75ff30a22f4a.js:1Understand this error
+_app-b0234c20f1cf8075.js:38 Command: javascript-root-command has unrecognized contributions: commandbar. Valid contributions are commandbar,filetree-context-menu,sidebar-search,editor-context-menu {logLevel: 'warn'}
+(anonymous) @ _app-b0234c20f1cf8075.js:38
+a @ 2446-be55f3608c2ca747.js:1
+warn @ 2446-be55f3608c2ca747.js:1
+(anonymous) @ replEnvironmentDesktop-2ced9d55471677cc.js:1
+(anonymous) @ main-f1062b15d0aeed02.js:1
+n @ main-f1062b15d0aeed02.js:1
+u @ main-f1062b15d0aeed02.js:1
+(anonymous) @ main-f1062b15d0aeed02.js:1
+(anonymous) @ main-f1062b15d0aeed02.js:1
+commands.registerCreateCommand @ replEnvironmentDesktop-2ced9d55471677cc.js:1
+r @ replEnvironmentDesktop-2ced9d55471677cc.js:1
+r @ _app-b0234c20f1cf8075.js:38Understand this warning
+WifeScheduler:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
