@@ -43,6 +43,37 @@ export default function Clients() {
     refetchOnMount: true,
     refetchOnWindowFocus: true
   });
+
+  // Funzione per forzare il caricamento dal server bypassando completamente la cache
+  const forceRefreshFromServer = async () => {
+    console.log("🔄 FORZA REFRESH DAL SERVER - BYPASS CACHE COMPLETO");
+    try {
+      const response = await fetch(`/api/clients?_t=${Date.now()}`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
+      if (response.ok) {
+        const freshData = await response.json();
+        console.log("📊 DATI FRESCHI DAL SERVER:", freshData);
+        // Invalida e aggiorna la cache
+        queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+        refetchClients();
+        toast({
+          title: "Dati aggiornati",
+          description: `Caricati ${freshData.length} clienti dal server`,
+        });
+      } else {
+        console.error("❌ Errore nella chiamata al server:", response.status);
+      }
+    } catch (error) {
+      console.error("❌ Errore nel fetch:", error);
+    }
+  };
   
   // Imposta un intervallo per aggiornare i dati ogni 5 minuti 
   // e un aggiornamento programmato a mezzanotte
@@ -229,9 +260,9 @@ export default function Clients() {
               variant="outline" 
               size="sm" 
               className="h-8"
-              onClick={() => window.location.reload()}
+              onClick={forceRefreshFromServer}
             >
-              Forza Refresh
+              Test Server
             </Button>
             
             <TooltipProvider>
