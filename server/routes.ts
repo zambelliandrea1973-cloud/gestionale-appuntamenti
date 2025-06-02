@@ -515,13 +515,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/clients/:id", async (req: Request, res: Response) => {
+  app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
         return res.status(400).json({ message: "Invalid client ID" });
       }
 
+      const user = req.user!;
+      
+      // Verifica che il client esista e appartenga all'utente (eccetto admin)
+      const client = await storage.getClient(id);
+      if (!client) {
+        return res.status(404).json({ message: "Client not found" });
+      }
+      
+      // Solo admin possono eliminare qualsiasi cliente, altri solo i propri
+      if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
+        console.log(`Utente ${user.username} (ID: ${user.id}) non autorizzato a eliminare cliente ${id} (owner: ${client.ownerId})`);
+        return res.status(403).json({ message: "Not authorized to delete this client" });
+      }
+
+      console.log(`Eliminazione cliente ${id} richiesta da ${user.username} (tipo: ${user.type})`);
       const success = await storage.deleteClient(id);
       if (!success) {
         return res.status(404).json({ message: "Client not found" });
