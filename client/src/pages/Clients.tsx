@@ -164,18 +164,42 @@ export default function Clients() {
   const queryClient = useQueryClient();
   
   // Handle client form submission and refresh data
-  const handleClientCreated = () => {
-    console.log("Cliente creato/aggiornato, refreshing data...");
+  const handleClientCreated = async () => {
+    console.log("✅ Cliente creato/aggiornato, refreshing data...");
     
-    // Invalidare tutte le query relative ai clienti
-    queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+    try {
+      // Invalidare tutte le query relative ai clienti
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      
+      // Invalidare anche tutte le query relative agli appuntamenti
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      
+      // Forza il refetch immediato
+      await refetchClients();
+      
+      console.log("✅ Dati aggiornati con successo");
+    } catch (error) {
+      console.error("❌ Errore nell'aggiornamento dati:", error);
+    }
     
-    // Invalidare anche tutte le query relative agli appuntamenti
-    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-    
-    // Refresh locale
-    refetchClients();
     setIsClientDialogOpen(false);
+  };
+
+  // Handle client deletion and refresh data
+  const handleClientDeleted = async () => {
+    console.log("🗑️ Cliente eliminato, refreshing data...");
+    
+    try {
+      // Invalidare tutte le query relative ai clienti
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      
+      // Forza il refetch immediato
+      await refetchClients();
+      
+      console.log("✅ Dati aggiornati dopo eliminazione");
+    } catch (error) {
+      console.error("❌ Errore nell'aggiornamento dopo eliminazione:", error);
+    }
   };
   
   // Funzione per aggiornare i prefissi telefonici di tutti i clienti
@@ -362,7 +386,7 @@ export default function Clients() {
             <ClientCard 
               key={client.id} 
               client={client} 
-              onUpdate={() => refetchClients()}
+              onUpdate={handleClientDeleted}
             />
           ))}
         </div>
