@@ -38,7 +38,7 @@ export default function Clients() {
     isLoading,
     refetch: refetchClients
   } = useQuery({
-    queryKey: ["/api/clients", Date.now()], // Timestamp univoco per bypassare cache
+    queryKey: ["/api/clients"],
     staleTime: 0, // Forza sempre dati freschi
     refetchOnMount: true,
     refetchOnWindowFocus: true
