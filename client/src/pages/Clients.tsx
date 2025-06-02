@@ -40,7 +40,6 @@ export default function Clients() {
   } = useQuery({
     queryKey: ["/api/clients", Date.now()], // Timestamp univoco per bypassare cache
     staleTime: 0, // Forza sempre dati freschi
-    cacheTime: 0, // Non salvare in cache
     refetchOnMount: true,
     refetchOnWindowFocus: true
   });
