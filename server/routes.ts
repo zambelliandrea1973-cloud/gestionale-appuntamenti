@@ -1,6 +1,8 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { db } from "./db";
+import { googleCalendarEvents } from "@shared/schema";
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
@@ -142,7 +144,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         res.sendFile(filePath);
       } else {
-        console.error(`Icona non trovata: ${filePath}`);
+        // Se il file richiesto è app-icon.jpg e non esiste, prova con l'icona predefinita
+        if (fileName === 'app-icon.jpg') {
+          const defaultIconPath = path.join(publicDir, "icons", "default-app-icon.jpg");
+          if (fs.existsSync(defaultIconPath)) {
+            console.log(`✅ Usando icona predefinita per ${fileName}`);
+            res.setHeader("Content-Type", "image/jpeg");
+            res.sendFile(defaultIconPath);
+            return;
+          }
+        }
+        
+        console.log(`❌ Icona non trovata: ${filePath}`);
         res.status(404).send("Icon not found");
       }
     } catch (error) {
@@ -1819,7 +1832,8 @@ Per utilizzare WhatsApp con Twilio, devi:
   // Endpoint per recuperare tutti gli eventi sincronizzati
   app.get('/api/google-calendar/events', async (req: Request, res: Response) => {
     try {
-      const events = await storage.getGoogleCalendarEvents();
+      // Get all events from the database
+      const events = await db.select().from(googleCalendarEvents);
       res.json(events);
     } catch (error) {
       console.error("Errore durante il recupero degli eventi Google Calendar:", error);
@@ -1894,9 +1908,11 @@ Per utilizzare WhatsApp con Twilio, devi:
           mimeType: 'image/jpeg',
           lastModified: stats.mtime.toISOString()
         };
+        console.log('✅ Icona predefinita usata in client-app-info');
       } 
       // Nessuna icona disponibile
       else if (!customIconFound) {
+        console.log('❌ Nessuna icona disponibile in client-app-info');
         iconInfo = {
           exists: false
         };
@@ -2022,33 +2038,7 @@ Per utilizzare WhatsApp con Twilio, devi:
     }
   });
   
-  // Manteniamo anche l'endpoint originale per retrocompatibilità
-  app.get('/api/app-icon-info', (req: Request, res: Response) => {
-    try {
-      const iconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
-      const iconExists = fs.existsSync(iconPath);
 
-      // Se esiste, invia informazioni sull'icona
-      if (iconExists) {
-        // Ottieni la data di modifica del file
-        const stats = fs.statSync(iconPath);
-        const lastModified = stats.mtime;
-        
-        res.json({
-          exists: true,
-          iconPath: '/icons/app-icon.svg',
-          lastModified: lastModified.toISOString()
-        });
-      } else {
-        res.json({
-          exists: false
-        });
-      }
-    } catch (error: any) {
-      console.error('Errore nel recupero delle informazioni sull\'icona:', error);
-      res.status(500).json({ message: error.message });
-    }
-  });
 
   app.post('/api/upload-app-icon', upload.single('icon'), async (req: Request, res: Response) => {
     try {
