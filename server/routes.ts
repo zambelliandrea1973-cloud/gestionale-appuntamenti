@@ -487,6 +487,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log(`🔸 Primi 5 clienti: ${clients.slice(0, 5).map(c => `${c.firstName} ${c.lastName} (ID:${c.id}, Owner:${c.ownerId})`).join(', ')}`);
       }
       
+      // Headers anti-cache per forzare aggiornamento frontend
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'X-Cache-Reset': 'true'
+      });
+      
       res.json(clients);
     } catch (error) {
       console.error("Error fetching clients:", error);
