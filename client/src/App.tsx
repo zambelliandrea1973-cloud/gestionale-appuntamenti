@@ -44,6 +44,7 @@ import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
 import ReferralCommissionsPage from "./pages/ReferralCommissionsPage";
 import BankingSettingsPage from "./pages/BankingSettingsPage";
+import OnboardingWizard from "./pages/OnboardingWizard";
 
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
@@ -183,6 +184,13 @@ function AppRoutes() {
       {/* Pagina iniziale (Welcome) con layout specifico della pagina */}
       <Route path="/">
         <WelcomePage />
+      </Route>
+      
+      {/* Interactive AI-Powered Onboarding Wizard */}
+      <Route path="/onboarding">
+        <StaffPageWrapper>
+          <OnboardingWizard />
+        </StaffPageWrapper>
       </Route>
       
       {/* Dashboard principale (spostata da root a /dashboard) */}

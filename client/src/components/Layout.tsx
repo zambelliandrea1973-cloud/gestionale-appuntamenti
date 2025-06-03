@@ -27,7 +27,8 @@ import {
   Book,
   Clipboard,
   FileQuestion,
-  CreditCard
+  CreditCard,
+  Brain
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -152,6 +153,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               
               {/* Seconda riga di navigazione - con spacing distribuito per bilanciamento 50/50 */}
               <div className="flex justify-center gap-x-3 w-full">
+                <Link href="/onboarding">
+                  <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[100px]">
+                    <Brain className="h-4 w-4 mr-1 text-purple-400" />
+                    <span>Setup AI</span>
+                  </Button>
+                </Link>
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
