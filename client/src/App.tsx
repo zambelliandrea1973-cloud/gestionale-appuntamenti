@@ -30,6 +30,7 @@ import StaffManagementPageFixed from "./pages/StaffManagementPageFixed";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
+import CustomerLogin from "./pages/CustomerLogin";
 import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
@@ -84,7 +85,7 @@ function AppRoutes() {
     // Percorsi che sono sempre accessibili anche senza autenticazione
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', '/client-login', 
-      '/login', '/staff-login', '/register', '/client-area', 
+      '/login', '/staff-login', '/customer-login', '/register', '/client-area', 
       '/consent', '/'
     ];
     
