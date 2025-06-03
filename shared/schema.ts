@@ -20,6 +20,7 @@ export const clients = pgTable("clients", {
   hasConsent: boolean("has_consent").default(false),
   ownerId: integer("owner_id"), // ID dell'utente che ha creato questo cliente
   assignmentCode: text("assignment_code"), // Codice usato per assegnare il cliente all'account
+  uniqueCode: text("unique_code"), // Codice univoco per identificare il cliente
 });
 
 export const insertClientSchema = createInsertSchema(clients).omit({
