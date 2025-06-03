@@ -443,79 +443,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/admin-license', adminLicenseRoutes);
 
   // Interactive AI-Powered Onboarding Wizard Routes
-  app.get('/api/onboarding/progress', isAuthenticated, async (req: Request, res: Response) => {
+  app.get('/api/onboarding/progress', async (req: Request, res: Response) => {
     try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Accesso non autorizzato" });
       }
 
-      const [progress] = await db
-        .select()
-        .from(onboardingProgress)
-        .where(eq(onboardingProgress.userId, user.id));
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "Utente non autenticato" });
+      }
+
+      console.log(`🟢 Onboarding progress richiesto per utente: ${user.username} (ID: ${user.id})`);
+
+      const progress = await storage.getOnboardingProgress(user.id);
 
       if (!progress) {
         // Create initial onboarding progress
-        const [newProgress] = await db
-          .insert(onboardingProgress)
-          .values({
-            userId: user.id,
-            currentStep: 0,
-            completedSteps: [],
-            isCompleted: false
-          })
-          .returning();
+        const newProgress = await storage.createOnboardingProgress({
+          userId: user.id,
+          currentStep: 0,
+          completedSteps: [],
+          isCompleted: false
+        });
         
+        console.log(`🟢 Creato nuovo progresso onboarding per utente ${user.id}`);
         return res.json(newProgress);
       }
 
+      console.log(`🟢 Trovato progresso onboarding esistente per utente ${user.id}`);
       res.json(progress);
     } catch (error) {
       console.error("Error fetching onboarding progress:", error);
-      res.status(500).json({ message: "Error fetching onboarding progress" });
+      res.status(500).json({ message: "Errore nel recupero del progresso onboarding" });
     }
   });
 
-  app.post('/api/onboarding/analyze', isAuthenticated, async (req: Request, res: Response) => {
+  app.post('/api/onboarding/analyze', async (req: Request, res: Response) => {
     try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Accesso non autorizzato" });
+      }
+
       const user = req.user;
       if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
+        return res.status(401).json({ message: "Utente non autenticato" });
       }
 
       const businessData = req.body;
-      console.log(`🤖 AI Analysis requested for user: ${user.username}`);
+      console.log(`🤖 AI Analysis richiesto per utente: ${user.username}`);
 
       const analysis = await analyzeBusinessNeeds(businessData);
       
       // Save AI recommendations to onboarding progress
-      const [existing] = await db
-        .select()
-        .from(onboardingProgress)
-        .where(eq(onboardingProgress.userId, user.id));
+      const existing = await storage.getOnboardingProgress(user.id);
 
       if (existing) {
-        await db
-          .update(onboardingProgress)
-          .set({
-            businessType: analysis.suggestedBusinessType,
-            businessName: businessData.businessName,
-            primaryServices: analysis.recommendedServices,
-            workingHours: analysis.workingHoursRecommendation,
-            clientManagementNeeds: analysis.clientManagementNeeds,
-            communicationPreferences: analysis.communicationPreferences,
-            integrationGoals: analysis.integrationGoals,
-            aiRecommendations: JSON.stringify(analysis),
-            updatedAt: new Date()
-          })
-          .where(eq(onboardingProgress.userId, user.id));
+        await storage.updateOnboardingProgress(user.id, {
+          businessType: analysis.suggestedBusinessType,
+          businessName: businessData.businessName,
+          primaryServices: analysis.recommendedServices,
+          workingHours: analysis.workingHoursRecommendation,
+          clientManagementNeeds: analysis.clientManagementNeeds,
+          communicationPreferences: analysis.communicationPreferences,
+          integrationGoals: analysis.integrationGoals,
+          aiRecommendations: JSON.stringify(analysis)
+        });
       }
 
+      console.log(`🤖 Analisi AI completata per utente ${user.username}`);
       res.json(analysis);
     } catch (error) {
       console.error("Error analyzing business needs:", error);
-      res.status(500).json({ message: "Error analyzing business needs" });
+      res.status(500).json({ message: "Errore nell'analisi delle esigenze business" });
     }
   });
 
