@@ -32,8 +32,8 @@ export async function apiRequest(
       headers["Content-Type"] = "application/json";
     }
     
-    // Headers anti-cache per operazioni DELETE
-    if (method === "DELETE") {
+    // Headers anti-cache per operazioni DELETE e per /api/clients
+    if (method === "DELETE" || url.includes("/api/clients")) {
       headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
       headers["Pragma"] = "no-cache";
       headers["Expires"] = "0";
