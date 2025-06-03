@@ -54,7 +54,28 @@ export default function Clients() {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
-      return response.json();
+      const data = await response.json();
+      console.log(`📊 Dati clienti ricevuti dal server: ${data.length} clienti`);
+      
+      // DEBUG: Analizza tutti i clienti ricevuti
+      console.log('🔍 ANALISI DETTAGLIATA CLIENTI RICEVUTI:');
+      data.forEach((client, index) => {
+        const hasFirstName = !!client.firstName && client.firstName.trim() !== '';
+        const hasLastName = !!client.lastName && client.lastName.trim() !== '';
+        const isValid = hasFirstName && hasLastName;
+        
+        if (!isValid) {
+          console.warn(`❌ Cliente ${client.id} PROBLEMATICO:`, {
+            firstName: client.firstName,
+            lastName: client.lastName,
+            hasFirstName,
+            hasLastName,
+            fullClient: client
+          });
+        }
+      });
+      
+      return data;
     },
     staleTime: 0,
     refetchOnMount: true,
@@ -161,7 +182,27 @@ export default function Clients() {
   
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
-    .filter(client => {
+    .filter((client, index) => {
+      // DEBUG: log ogni cliente per identificare problemi
+      if (index < 5) {
+        console.log(`🔍 DEBUG Client ${index}:`, {
+          id: client.id,
+          name: `${client.firstName} ${client.lastName}`,
+          firstName: client.firstName,
+          lastName: client.lastName,
+          hasFirstName: !!client.firstName,
+          hasLastName: !!client.lastName,
+          isFrequent: client.isFrequent,
+          hasConsent: client.hasConsent
+        });
+      }
+      
+      // Verifica che il cliente abbia i campi essenziali
+      if (!client.firstName || !client.lastName) {
+        console.warn(`⚠️ Cliente ${client.id} ha campi mancanti:`, client);
+        return false;
+      }
+      
       // Apply search filter
       const matchesSearch = searchQuery.trim().length < 2 || 
         `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
