@@ -62,28 +62,43 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
     checkExistingQrCode();
   }, [client.id]);
   
-  // Delete mutation
+  // Delete mutation con prevenzione totale del caching
   const deleteMutation = useMutation({
     mutationFn: async () => {
+      console.log(`🚀 Eliminazione definitiva cliente ${client.id}`);
       return apiRequest("DELETE", `/api/clients/${client.id}`);
     },
-    onSuccess: async () => {
-      console.log(`✅ Cliente ${client.id} eliminato con successo dal server`);
+    onMutate: async () => {
+      // Prevenzione caching PRIMA della richiesta
+      console.log(`🚫 Rimozione preventiva cliente ${client.id} dalla cache`);
       
-      // Rimuovi immediatamente il cliente dalla cache locale
+      // Cancella TUTTI i tipi di cache correlati
+      await queryClient.cancelQueries({ queryKey: ['/api/clients'] });
+      await queryClient.cancelQueries({ queryKey: ['/api/clients', client.id] });
+      
+      // Rimuovi immediatamente dalla cache
+      queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
+      
+      // Aggiorna la lista principale rimuovendo il cliente
       queryClient.setQueryData(['/api/clients'], (oldData: any) => {
-        if (!oldData) return oldData;
-        console.log(`🔄 Rimozione cliente ${client.id} dalla cache locale`);
-        return oldData.filter((c: any) => c.id !== client.id);
+        if (!oldData) return [];
+        const newData = oldData.filter((c: any) => c.id !== client.id);
+        console.log(`Cache aggiornata: ${oldData.length} -> ${newData.length} clienti`);
+        return newData;
       });
+    },
+    onSuccess: async () => {
+      console.log(`✅ Cliente ${client.id} eliminato definitivamente`);
+      
+      // Rimozione aggressiva da TUTTE le cache
+      queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
       
       toast({
         title: t('notifications.clientDeleted'),
         description: `${client.firstName} ${client.lastName} eliminato`,
       });
-      
-      // Forza il refresh della cache
-      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
       
       if (onUpdate) {
         onUpdate();
@@ -92,28 +107,26 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
     onError: async (error: any) => {
       console.error(`❌ Errore eliminazione cliente ${client.id}:`, error);
       
-      // Se il cliente non esiste più (404), rimuovilo comunque dalla cache
+      // Anche in caso di errore, rimuovi dalla cache se è 404
       if (error.message?.includes("Client not found") || error.message?.includes("404")) {
-        console.log(`🔄 Cliente ${client.id} già eliminato dal server, aggiorno cache locale`);
+        console.log(`🗑️ Cliente ${client.id} non esistente sul server, pulizia cache`);
         
-        // Rimuovi dalla cache locale
-        queryClient.setQueryData(['/api/clients'], (oldData: any) => {
-          if (!oldData) return oldData;
-          return oldData.filter((c: any) => c.id !== client.id);
-        });
+        // Rimozione completa dalla cache
+        queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
+        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
         
         toast({
           title: t('notifications.clientDeleted'),
           description: "Cliente rimosso dal sistema",
         });
         
-        // Forza il refresh della cache
-        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-        
         if (onUpdate) {
           onUpdate();
         }
       } else {
+        // Ripristina lo stato precedente solo per errori reali
+        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+        
         toast({
           title: t('common.error'),
           description: t('errors.genericError', { error: error.message }),
