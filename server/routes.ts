@@ -34,7 +34,8 @@ function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
   const userType = (req.user as any).type;
   const isOwnResource = req.params.clientId && userType === "client" && (req.user as any).clientId === parseInt(req.params.clientId);
   
-  if (userType === "staff" || isOwnResource) {
+  // Admin, staff e client (per le proprie risorse) hanno accesso
+  if (userType === "admin" || userType === "staff" || isOwnResource) {
     return next();
   }
   
