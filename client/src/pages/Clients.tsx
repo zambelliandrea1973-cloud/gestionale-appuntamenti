@@ -165,14 +165,14 @@ export default function Clients() {
       // Apply search filter
       const matchesSearch = searchQuery.trim().length < 2 || 
         `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client.phone.includes(searchQuery) || 
+        client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      // Apply tab filter
+      // Apply tab filter - Fix: considera che alcuni clienti potrebbero non avere le proprietà isFrequent/hasConsent
       const matchesTab = 
         activeTab === "all" || 
-        (activeTab === "frequent" && client.isFrequent) ||
-        (activeTab === "no-consent" && !client.hasConsent);
+        (activeTab === "frequent" && (client.isFrequent === true)) ||
+        (activeTab === "no-consent" && (client.hasConsent === false));
       
       return matchesSearch && matchesTab;
     })
