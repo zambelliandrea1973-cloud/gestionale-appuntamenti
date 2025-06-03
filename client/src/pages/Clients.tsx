@@ -32,8 +32,7 @@ export default function Clients() {
   const autoRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
   
-  // Fetch all clients
-  console.log("🚀 INIZIALIZZO QUERY CLIENTI - queryKey: ['/api/clients']");
+  // Fetch all clients with explicit queryFn
   const {
     data: clients = [],
     isLoading,
@@ -41,25 +40,27 @@ export default function Clients() {
     refetch: refetchClients
   } = useQuery({
     queryKey: ["/api/clients"],
-    staleTime: 0, // Forza sempre dati freschi
+    queryFn: async () => {
+      const response = await fetch("/api/clients", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Cache-Control": "no-cache",
+          "Pragma": "no-cache"
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      return response.json();
+    },
+    staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: true, // Assicura che la query sia sempre abilitata
-    retry: 3,
-    onSuccess: (data) => {
-      console.log("🎯 QUERY SUCCESS - Clienti ricevuti dalla query:", data?.length || 0, data);
-    },
-    onError: (error) => {
-      console.error("❌ QUERY ERROR - Errore nel caricamento clienti:", error);
-    }
-  });
-
-  // DEBUG: Stato della query
-  console.log("🔍 STATO QUERY CLIENTI:", {
-    isLoading,
-    error: error?.message,
-    dataLength: clients?.length || 0,
-    rawData: clients
+    enabled: true,
+    retry: 3
   });
 
   // Funzione per forzare il caricamento dal server bypassando completamente la cache
@@ -158,14 +159,6 @@ export default function Clients() {
     refetchClients();
   };
   
-  // DEBUG: Log dei dati ricevuti
-  console.log("🔍 DEBUG FRONTEND - Dati clienti ricevuti:", {
-    totalClients: clients.length,
-    clientsArray: clients,
-    searchQuery,
-    activeTab
-  });
-
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
     .filter(client => {
@@ -181,29 +174,10 @@ export default function Clients() {
         (activeTab === "frequent" && client.isFrequent) ||
         (activeTab === "no-consent" && !client.hasConsent);
       
-      const passes = matchesSearch && matchesTab;
-      
-      // DEBUG: Log per ogni cliente filtrato
-      if (!passes) {
-        console.log(`❌ Cliente ${client.firstName} ${client.lastName} filtrato:`, {
-          matchesSearch,
-          matchesTab,
-          searchQuery: searchQuery.trim(),
-          activeTab,
-          client
-        });
-      }
-      
-      return passes;
+      return matchesSearch && matchesTab;
     })
     // Ordina alfabeticamente per cognome
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
-  
-  console.log("📊 DEBUG FRONTEND - Risultato filtro:", {
-    totalReceived: clients.length,
-    afterFilter: filteredClients.length,
-    filteredClients: filteredClients.map(c => `${c.firstName} ${c.lastName} (${c.uniqueCode || 'NO CODE'})`)
-  });
   
   // Otteniamo l'istanza del queryClient
   const queryClient = useQueryClient();
