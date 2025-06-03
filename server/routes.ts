@@ -482,7 +482,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let clients: Client[];
       
       if (user.type === 'admin' || user.role === 'admin') {
-        // Gli admin vedono tutti i clienti
+        // Gli admin vedono tutti i clienti (chiamata senza parametri)
         clients = await storage.getClients();
         console.log(`👑 Admin: mostra tutti i ${clients.length} clienti`);
       } else {
