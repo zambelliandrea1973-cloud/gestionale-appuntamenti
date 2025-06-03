@@ -140,6 +140,14 @@ export default function Clients() {
     refetchClients();
   };
   
+  // DEBUG: Log dei dati ricevuti
+  console.log("🔍 DEBUG FRONTEND - Dati clienti ricevuti:", {
+    totalClients: clients.length,
+    clientsArray: clients,
+    searchQuery,
+    activeTab
+  });
+
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
     .filter(client => {
@@ -155,10 +163,29 @@ export default function Clients() {
         (activeTab === "frequent" && client.isFrequent) ||
         (activeTab === "no-consent" && !client.hasConsent);
       
-      return matchesSearch && matchesTab;
+      const passes = matchesSearch && matchesTab;
+      
+      // DEBUG: Log per ogni cliente filtrato
+      if (!passes) {
+        console.log(`❌ Cliente ${client.firstName} ${client.lastName} filtrato:`, {
+          matchesSearch,
+          matchesTab,
+          searchQuery: searchQuery.trim(),
+          activeTab,
+          client
+        });
+      }
+      
+      return passes;
     })
     // Ordina alfabeticamente per cognome
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
+  
+  console.log("📊 DEBUG FRONTEND - Risultato filtro:", {
+    totalReceived: clients.length,
+    afterFilter: filteredClients.length,
+    filteredClients: filteredClients.map(c => `${c.firstName} ${c.lastName} (${c.uniqueCode || 'NO CODE'})`)
+  });
   
   // Otteniamo l'istanza del queryClient
   const queryClient = useQueryClient();
