@@ -520,7 +520,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/clients", async (req: Request, res: Response) => {
+  app.post("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user;
       console.log(`🆕 CREAZIONE CLIENTE da utente: ${user?.username} (ID: ${user?.id}, Tipo: ${user?.type})`);
@@ -534,6 +534,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       console.log(`📝 Dati cliente validati: ${validationResult.data.firstName} ${validationResult.data.lastName}`);
+      
+      // Controllo anti-duplicazione: verifica se esiste già un cliente con gli stessi dati
+      const existingClients = await storage.getClients();
+      const duplicateClient = existingClients.find(client => 
+        client.firstName.toLowerCase() === validationResult.data.firstName.toLowerCase() &&
+        client.lastName.toLowerCase() === validationResult.data.lastName.toLowerCase() &&
+        client.email === validationResult.data.email
+      );
+      
+      if (duplicateClient) {
+        console.log(`🚫 DUPLICAZIONE BLOCCATA: Cliente già esistente - ${duplicateClient.firstName} ${duplicateClient.lastName} (ID: ${duplicateClient.id})`);
+        return res.status(409).json({
+          message: "Cliente già esistente con questi dati",
+          existingClientId: duplicateClient.id
+        });
+      }
       
       // Se presente un codice di assegnazione, trova l'owner corrispondente
       let finalOwnerID = user?.id; // Default: l'utente corrente

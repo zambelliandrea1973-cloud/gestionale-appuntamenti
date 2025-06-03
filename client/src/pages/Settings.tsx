@@ -15,13 +15,13 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, QrCode } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
 import EmailSettings from '@/components/EmailSettings';
-import AssignmentCodeDisplay from '@/components/AssignmentCodeDisplay';
+
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
@@ -80,7 +80,7 @@ export default function Settings() {
         setActiveTab(value);
         localStorage.setItem('settings_active_tab', value);
       }}>
-        <TabsList className="grid grid-cols-5 mb-6">
+        <TabsList className="grid grid-cols-4 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -88,10 +88,6 @@ export default function Settings() {
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
             <span>{t('settings.contacts', 'Contatti')}</span>
-          </TabsTrigger>
-          <TabsTrigger value="codes" className="flex items-center whitespace-nowrap">
-            <QrCode className="mr-2 h-4 w-4" />
-            <span>Codici</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Mail className="mr-2 h-4 w-4" />
@@ -188,10 +184,7 @@ export default function Settings() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="codes">
-          <AssignmentCodeDisplay />
-        </TabsContent>
-        
+
         <TabsContent value="integrations">
           <Card>
             <CardHeader>
