@@ -431,7 +431,13 @@ export class MemStorage implements IStorage {
   
   // Client operations
   async getClient(id: number): Promise<Client | undefined> {
-    return this.clients.get(id);
+    try {
+      const [client] = await db.select().from(clients).where(eq(clients.id, id));
+      return client;
+    } catch (error) {
+      console.error("Error getting client:", error);
+      return undefined;
+    }
   }
   
   async getClients(ownerId?: number): Promise<Client[]> {
@@ -488,27 +494,37 @@ export class MemStorage implements IStorage {
   }
   
   async createClient(client: InsertClient): Promise<Client> {
-    const id = this.clientIdCounter++;
-    const newClient: Client = { ...client, id, createdAt: new Date() };
-    this.clients.set(id, newClient);
-    this.saveToStorage();
-    return newClient;
+    try {
+      const [newClient] = await db.insert(clients).values(client).returning();
+      return newClient;
+    } catch (error) {
+      console.error("Error creating client:", error);
+      throw error;
+    }
   }
   
   async updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined> {
-    const existingClient = this.clients.get(id);
-    if (!existingClient) return undefined;
-    
-    const updatedClient: Client = { ...existingClient, ...client };
-    this.clients.set(id, updatedClient);
-    this.saveToStorage();
-    return updatedClient;
+    try {
+      const [updatedClient] = await db
+        .update(clients)
+        .set(client)
+        .where(eq(clients.id, id))
+        .returning();
+      return updatedClient;
+    } catch (error) {
+      console.error("Error updating client:", error);
+      return undefined;
+    }
   }
   
   async deleteClient(id: number): Promise<boolean> {
-    const result = this.clients.delete(id);
-    this.saveToStorage();
-    return result;
+    try {
+      await db.delete(clients).where(eq(clients.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting client:", error);
+      return false;
+    }
   }
   
   // Service operations

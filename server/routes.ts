@@ -176,6 +176,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log(`Recupero clienti per utente ${user.id} (tipo: ${user.type}), filtro ownerId: ${ownerId}`);
       
       const clients = await storage.getClients(ownerId);
+      
+      console.log(`✅ Restituiti ${clients.length} clienti per utente ${user.id} (${user.type})`);
+      console.log(`📋 Primi 3 clienti:`, clients.slice(0, 3).map(c => ({ id: c.id, name: `${c.firstName} ${c.lastName}`, ownerId: c.ownerId })));
+      
       res.json(clients);
     } catch (error) {
       console.error('Errore recupero clienti:', error);
