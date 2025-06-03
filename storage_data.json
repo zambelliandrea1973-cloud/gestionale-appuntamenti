@@ -605,10 +605,10 @@
   "invoiceItems": [],
   "payments": [],
   "clientIdCounter": 515,
-  "serviceIdCounter": 5,
-  "appointmentIdCounter": 3,
-  "consentIdCounter": 1,
-  "invoiceIdCounter": 1,
+  "serviceIdCounter": 10,
+  "appointmentIdCounter": 10,
+  "consentIdCounter": 10,
+  "invoiceIdCounter": 10,
   "invoiceItemIdCounter": 1,
   "paymentIdCounter": 1
 }
