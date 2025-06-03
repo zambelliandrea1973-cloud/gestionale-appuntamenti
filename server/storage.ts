@@ -367,6 +367,7 @@ export class MemStorage implements IStorage {
       this.payments = new Map();
       this.betaInvitations = new Map();
       this.betaFeedback = new Map();
+      this.onboardingProgressMap = new Map();
       
       this.clientIdCounter = 1;
       this.serviceIdCounter = 1;
@@ -396,6 +397,7 @@ export class MemStorage implements IStorage {
         payments: Array.from(this.payments.entries()),
         betaInvitations: Array.from(this.betaInvitations.entries()),
         betaFeedback: Array.from(this.betaFeedback.entries()),
+        onboardingProgressMap: Array.from(this.onboardingProgressMap.entries()),
         clientIdCounter: this.clientIdCounter,
         serviceIdCounter: this.serviceIdCounter,
         appointmentIdCounter: this.appointmentIdCounter,
