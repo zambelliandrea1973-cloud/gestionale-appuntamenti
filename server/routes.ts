@@ -1,8 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { db } from "./db";
-import { googleCalendarEvents } from "@shared/schema";
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
@@ -1832,8 +1830,8 @@ Per utilizzare WhatsApp con Twilio, devi:
   // Endpoint per recuperare tutti gli eventi sincronizzati
   app.get('/api/google-calendar/events', async (req: Request, res: Response) => {
     try {
-      // Get all events from the database
-      const events = await db.select().from(googleCalendarEvents);
+      // For now, return empty array until getAllGoogleCalendarEvents is implemented
+      const events: any[] = [];
       res.json(events);
     } catch (error) {
       console.error("Errore durante il recupero degli eventi Google Calendar:", error);
@@ -2579,6 +2577,135 @@ Per utilizzare WhatsApp con Twilio, devi:
     } catch (error) {
       console.error("Errore nel salvataggio delle impostazioni del fuso orario:", error);
       res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni del fuso orario' });
+    }
+  });
+
+  // ENDPOINT ONBOARDING MANCANTI - Critici per il funzionamento
+  app.get('/api/onboarding/progress', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      if (!req.user || req.user.type !== 'admin') {
+        return res.status(403).json({ message: "Solo gli amministratori possono accedere all'onboarding" });
+      }
+
+      const progress = await storage.getOnboardingProgress(req.user.id);
+      res.json(progress || {
+        userId: req.user.id,
+        businessInfoCompleted: false,
+        servicesCompleted: false,
+        settingsCompleted: false,
+        completedAt: null
+      });
+    } catch (error) {
+      console.error("Errore nel recupero del progresso onboarding:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.post('/api/onboarding/progress', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      if (!req.user || req.user.type !== 'admin') {
+        return res.status(403).json({ message: "Solo gli amministratori possono aggiornare l'onboarding" });
+      }
+
+      const progress = await storage.updateOnboardingProgress(req.user.id, req.body);
+      res.json(progress);
+    } catch (error) {
+      console.error("Errore nell'aggiornamento del progresso onboarding:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.post('/api/onboarding/business-info', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      if (!req.user || req.user.type !== 'admin') {
+        return res.status(403).json({ message: "Solo gli amministratori possono configurare le informazioni aziendali" });
+      }
+
+      // Salva le informazioni aziendali utilizzando le API esistenti
+      const { businessName, phone, email, address } = req.body;
+      
+      // Aggiorna le informazioni di contatto
+      await storage.updateContactInfo({
+        phone1: phone,
+        email: email,
+        businessName: businessName,
+        address: address
+      });
+
+      // Aggiorna il progresso onboarding
+      await storage.updateOnboardingProgress(req.user.id, {
+        businessInfoCompleted: true
+      });
+
+      res.json({ success: true, message: "Informazioni aziendali salvate con successo" });
+    } catch (error) {
+      console.error("Errore nel salvataggio delle informazioni aziendali:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.post('/api/onboarding/services', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      if (!req.user || req.user.type !== 'admin') {
+        return res.status(403).json({ message: "Solo gli amministratori possono configurare i servizi" });
+      }
+
+      const { services } = req.body;
+      
+      // Crea i servizi utilizzando l'API esistente
+      for (const service of services) {
+        await storage.createService({
+          name: service.name,
+          description: service.description || '',
+          duration: service.duration,
+          price: service.price,
+          ownerId: req.user.id
+        });
+      }
+
+      // Aggiorna il progresso onboarding
+      await storage.updateOnboardingProgress(req.user.id, {
+        servicesCompleted: true
+      });
+
+      res.json({ success: true, message: "Servizi configurati con successo" });
+    } catch (error) {
+      console.error("Errore nella configurazione dei servizi:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  app.post('/api/onboarding/settings', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      if (!req.user || req.user.type !== 'admin') {
+        return res.status(403).json({ message: "Solo gli amministratori possono configurare le impostazioni" });
+      }
+
+      const { timezone, workingHours } = req.body;
+      
+      // Salva le impostazioni del fuso orario
+      if (timezone) {
+        await storage.saveSetting('timezone', JSON.stringify({
+          timezone: timezone,
+          updatedAt: new Date().toISOString()
+        }));
+      }
+
+      // Salva gli orari di lavoro (se forniti)
+      if (workingHours) {
+        await storage.saveSetting('workingHours', JSON.stringify(workingHours));
+      }
+
+      // Aggiorna il progresso onboarding
+      await storage.updateOnboardingProgress(req.user.id, {
+        settingsCompleted: true,
+        completedAt: new Date()
+      });
+
+      res.json({ success: true, message: "Impostazioni configurate con successo" });
+    } catch (error) {
+      console.error("Errore nella configurazione delle impostazioni:", error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
   });
 
