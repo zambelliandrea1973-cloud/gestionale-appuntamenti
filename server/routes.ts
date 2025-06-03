@@ -3254,6 +3254,60 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   });
 
   // Endpoint per inviare/processare i promemoria manualmente
+  // Endpoint di test per login account professionali
+  app.post('/api/test-professional-login', async (req: Request, res: Response) => {
+    try {
+      const { username, password } = req.body;
+      
+      console.log(`Test login professionale per: ${username}`);
+      
+      // Trova l'utente nella tabella users (non client_accounts)
+      const user = await storage.getUserByUsername(username);
+      if (!user) {
+        console.log(`❌ Utente non trovato: ${username}`);
+        return res.status(401).json({ message: "Utente non trovato" });
+      }
+      
+      console.log(`✓ Utente trovato: ${user.username}, tipo: ${user.type}, role: ${user.role}`);
+      
+      // Verifica password (temporaneamente usando password semplice)
+      if (password === "test123") {
+        console.log(`✓ Password corretta per ${username}`);
+        
+        // Verifica che sia un account professionale, non un cliente finale
+        if (user.type === 'customer' || user.type === 'staff' || user.type === 'admin') {
+          console.log(`✓ Account professionale confermato: ${user.type}`);
+          
+          // Conta i clienti assegnati a questo professionista
+          const clients = await storage.getClients(user.id);
+          console.log(`✓ Clienti assegnati: ${clients.length}`);
+          
+          res.json({
+            success: true,
+            user: {
+              id: user.id,
+              username: user.username,
+              type: user.type,
+              role: user.role
+            },
+            clientCount: clients.length,
+            message: `Login professionale riuscito per ${user.type}`
+          });
+        } else {
+          console.log(`❌ Tipo account non valido: ${user.type}`);
+          res.status(401).json({ message: "Tipo account non autorizzato" });
+        }
+      } else {
+        console.log(`❌ Password errata per ${username}`);
+        res.status(401).json({ message: "Password errata" });
+      }
+      
+    } catch (error) {
+      console.error('Errore test login:', error);
+      res.status(500).json({ message: "Errore interno" });
+    }
+  });
+
   app.post('/api/process-reminders', async (req: Request, res: Response) => {
     try {
       const remindersSent = await directNotificationService.processReminders();
