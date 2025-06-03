@@ -434,8 +434,28 @@ export class MemStorage implements IStorage {
     return this.clients.get(id);
   }
   
-  async getClients(): Promise<Client[]> {
-    return Array.from(this.clients.values());
+  async getClients(ownerId?: number): Promise<Client[]> {
+    try {
+      console.log(`🔍 getClients chiamato con ownerId: ${ownerId}`);
+      
+      let rawClients;
+      if (ownerId !== undefined) {
+        rawClients = await db.select().from(clients)
+          .where(eq(clients.ownerId, ownerId))
+          .orderBy(clients.lastName);
+        
+        console.log(`✅ Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
+      } else {
+        // Se non specificato ownerId, restituisci tutti (solo per admin)
+        rawClients = await db.select().from(clients).orderBy(clients.lastName);
+        console.log(`✅ Trovati ${rawClients.length} clienti totali (query senza filtro)`);
+      }
+      
+      return rawClients;
+    } catch (error) {
+      console.error("Error getting clients:", error);
+      return [];
+    }
   }
 
   async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
@@ -1518,30 +1538,7 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getClients(ownerId?: number): Promise<Client[]> {
-    try {
-      console.log(`🔍 getClients chiamato con ownerId: ${ownerId}`);
-      
-      let rawClients;
-      if (ownerId !== undefined) {
-        rawClients = await db.select().from(clients)
-          .where(eq(clients.ownerId, ownerId))
-          .orderBy(clients.lastName);
-        
-        console.log(`✅ Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
-      } else {
-        // Se non specificato ownerId, restituisci tutti (solo per admin)
-        rawClients = await db.select().from(clients).orderBy(clients.lastName);
-        console.log(`✅ Trovati ${rawClients.length} clienti totali (query senza filtro)`);
-      }
-      
-      // Le colonne sono ora uniformate in camelCase, nessun mapping necessario
-      return rawClients;
-    } catch (error) {
-      console.error("Error getting clients:", error);
-      return [];
-    }
-  }
+
 
   async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
     try {
