@@ -275,6 +275,7 @@ export class MemStorage implements IStorage {
   private payments: Map<number, Payment>;
   private betaInvitations: Map<number, BetaInvitation>;
   private betaFeedback: Map<number, BetaFeedback>;
+  private onboardingProgressMap: Map<number, OnboardingProgress>;
   
   private clientIdCounter: number;
   private serviceIdCounter: number;
@@ -313,6 +314,7 @@ export class MemStorage implements IStorage {
         // Restore beta related maps if they exist
         this.betaInvitations = data.betaInvitations ? new Map(data.betaInvitations) : new Map();
         this.betaFeedback = data.betaFeedback ? new Map(data.betaFeedback) : new Map();
+        this.onboardingProgressMap = data.onboardingProgressMap ? new Map(data.onboardingProgressMap) : new Map();
         
         // Restore counters
         this.clientIdCounter = data.clientIdCounter;
@@ -338,6 +340,7 @@ export class MemStorage implements IStorage {
         this.payments = new Map();
         this.betaInvitations = new Map();
         this.betaFeedback = new Map();
+        this.onboardingProgressMap = new Map();
         
         this.clientIdCounter = 1;
         this.serviceIdCounter = 1;
@@ -1407,6 +1410,101 @@ export class DatabaseStorage implements IStorage {
       return false;
     }
   }
+  // ONBOARDING PROGRESS OPERATIONS
+  async getOnboardingProgress(userId: number): Promise<OnboardingProgress | undefined> {
+    try {
+      return this.onboardingProgressMap.get(userId);
+    } catch (error) {
+      console.error("Error getting onboarding progress:", error);
+      return undefined;
+    }
+  }
+
+  async createOnboardingProgress(progress: InsertOnboardingProgress): Promise<OnboardingProgress> {
+    try {
+      const newProgress: OnboardingProgress = {
+        id: Date.now(), // Simple ID generation for in-memory storage
+        userId: progress.userId,
+        currentStep: progress.currentStep || 0,
+        completedSteps: progress.completedSteps || [],
+        isCompleted: progress.isCompleted || false,
+        businessName: progress.businessName || null,
+        businessType: progress.businessType || null,
+        primaryServices: progress.primaryServices || null,
+        workingHours: progress.workingHours || null,
+        appointmentDuration: progress.appointmentDuration || null,
+        clientManagementNeeds: progress.clientManagementNeeds || null,
+        communicationPreferences: progress.communicationPreferences || null,
+        integrationGoals: progress.integrationGoals || null,
+        aiRecommendations: progress.aiRecommendations || null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        completedAt: progress.completedAt || null
+      };
+
+      this.onboardingProgressMap.set(progress.userId, newProgress);
+      this.saveData();
+      return newProgress;
+    } catch (error) {
+      console.error("Error creating onboarding progress:", error);
+      throw error;
+    }
+  }
+
+  async updateOnboardingProgress(userId: number, progress: Partial<InsertOnboardingProgress>): Promise<OnboardingProgress | undefined> {
+    try {
+      const existing = this.onboardingProgressMap.get(userId);
+      if (!existing) return undefined;
+
+      const updated: OnboardingProgress = {
+        ...existing,
+        ...progress,
+        updatedAt: new Date()
+      };
+
+      this.onboardingProgressMap.set(userId, updated);
+      this.saveData();
+      return updated;
+    } catch (error) {
+      console.error("Error updating onboarding progress:", error);
+      return undefined;
+    }
+  }
+
+  async deleteOnboardingProgress(userId: number): Promise<boolean> {
+    try {
+      const deleted = this.onboardingProgressMap.delete(userId);
+      if (deleted) {
+        this.saveData();
+      }
+      return deleted;
+    } catch (error) {
+      console.error("Error deleting onboarding progress:", error);
+      return false;
+    }
+  }
+
+  async markOnboardingCompleted(userId: number): Promise<OnboardingProgress | undefined> {
+    try {
+      const existing = this.onboardingProgressMap.get(userId);
+      if (!existing) return undefined;
+
+      const completed: OnboardingProgress = {
+        ...existing,
+        isCompleted: true,
+        completedAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      this.onboardingProgressMap.set(userId, completed);
+      this.saveData();
+      return completed;
+    } catch (error) {
+      console.error("Error marking onboarding as completed:", error);
+      return undefined;
+    }
+  }
+
   // CLIENT OPERATIONS
   async getClient(id: number): Promise<Client | undefined> {
     try {
