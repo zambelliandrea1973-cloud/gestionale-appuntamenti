@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { UserPlus, LogIn } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
 /**
  * WelcomePage - Pagina iniziale dell'applicazione
@@ -11,12 +12,22 @@ import { Toaster } from "@/components/ui/toaster";
  */
 export default function WelcomePage() {
   const [, setLocation] = useLocation();
+  const { user, isLoading } = useUserWithLicense();
 
   // Controlliamo se siamo in versione PWA per impostare comportamenti specifici
   const isPWA = 
     window.matchMedia('(display-mode: standalone)').matches || 
     (window.navigator as any).standalone || 
     document.referrer.includes('android-app://');
+
+  // Reindirizza utenti autenticati alla dashboard
+  useEffect(() => {
+    if (!isLoading && user) {
+      console.log('✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard');
+      setLocation('/dashboard');
+      return;
+    }
+  }, [user, isLoading, setLocation]);
 
   // Verifica la presenza di credenziali salvate per potenziale accesso rapido
   useEffect(() => {
@@ -33,6 +44,15 @@ export default function WelcomePage() {
       });
     }
   }, [isPWA]);
+
+  // Mostra loading mentre verifichiamo l'autenticazione
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
