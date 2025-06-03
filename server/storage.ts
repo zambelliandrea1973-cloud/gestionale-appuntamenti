@@ -40,7 +40,7 @@ import { eq, desc, and, gte, lte, like, or, sql, ne, asc } from 'drizzle-orm';
 export interface IStorage {
   // Client operations
   getClient(id: number): Promise<Client | undefined>;
-  getClients(): Promise<Client[]>;
+  getClients(ownerId?: number): Promise<Client[]>;
   getVisibleClientsForUser(userId: number, role: string): Promise<Client[]>;
   createClient(client: InsertClient): Promise<Client>;
   updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined>;
@@ -1410,9 +1410,23 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getClients(): Promise<Client[]> {
+  async getClients(ownerId?: number): Promise<Client[]> {
     try {
-      return await db.select().from(clients).orderBy(clients.lastName);
+      console.log(`🔍 getClients chiamato con ownerId: ${ownerId}`);
+      
+      if (ownerId !== undefined) {
+        const clientsList = await db.select().from(clients)
+          .where(eq(clients.ownerId, ownerId))
+          .orderBy(clients.lastName);
+        
+        console.log(`✅ Trovati ${clientsList.length} clienti per ownerId ${ownerId}`);
+        return clientsList;
+      }
+      
+      // Se non specificato ownerId, restituisci tutti (solo per admin)
+      const allClients = await db.select().from(clients).orderBy(clients.lastName);
+      console.log(`✅ Trovati ${allClients.length} clienti totali (query senza filtro)`);
+      return allClients;
     } catch (error) {
       console.error("Error getting clients:", error);
       return [];

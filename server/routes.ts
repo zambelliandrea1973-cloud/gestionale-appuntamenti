@@ -469,9 +469,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`🔍 RECUPERO CLIENTI per utente: ${user.username} (ID: ${user.id}, Tipo: ${user.type}, Ruolo: ${user.role})`);
 
-      // Usa il sistema di visibilità dei clienti (versione funzionante dal backup15)
-      // questo restituirà solo i clienti che sono visibili per questo account
-      const clients = await storage.getVisibleClientsForUser(user.id, user.role || user.type || 'customer');
+      // Implementazione separazione clienti per ownerId
+      let clients: Client[];
+      
+      if (user.type === 'admin' || user.role === 'admin') {
+        // Gli admin vedono tutti i clienti
+        clients = await storage.getClients();
+        console.log(`👑 Admin: mostra tutti i ${clients.length} clienti`);
+      } else {
+        // I professionisti vedono solo i propri clienti (filtrati per ownerId)
+        clients = await storage.getClients(user.id);
+        console.log(`🔒 Professionista: mostra solo clienti con ownerId=${user.id} (${clients.length} trovati)`);
+      }
       
       console.log(`📊 Clienti trovati per ${user.username}: ${clients.length} clienti visibili`);
       if (clients.length > 0) {
@@ -540,9 +549,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Crea i dati del cliente con l'ownerId corretto
       const clientData = {
         ...validationResult.data,
-        ownerId: finalOwnerID,
+        ownerId: finalOwnerID || user?.id, // Assegna sempre un ownerId
         assignmentCode: validationResult.data.assignmentCode // Salva il codice usato per la tracciabilità
       };
+      
+      // Rimuovi il campo assignmentCode dai dati se vuoto per evitare problemi col database
+      if (!clientData.assignmentCode) {
+        delete clientData.assignmentCode;
+      }
       
       const client = await storage.createClient(clientData);
       console.log(`✅ Cliente creato con successo - ID: ${client.id}, OwnerID: ${client.ownerId}, Codice: ${client.assignmentCode}`);
