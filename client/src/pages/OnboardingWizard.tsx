@@ -292,7 +292,7 @@ const ServicesStep = ({ onNext, onPrevious, data, isFirst, isLast, recommendatio
   const toggleService = (service: string) => {
     setSelectedServices(prev => 
       prev.includes(service) 
-        ? prev.filter(s => s !== service)
+        ? prev.filter((s: string) => s !== service)
         : [...prev, service]
     );
   };
