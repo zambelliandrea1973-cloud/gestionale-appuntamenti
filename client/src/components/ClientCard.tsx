@@ -68,22 +68,51 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
       return apiRequest("DELETE", `/api/clients/${client.id}`);
     },
     onSuccess: async () => {
-      toast({
-        title: t('notifications.clientDeleted'),
-        description: t('notifications.clientDeletedSuccess'),
+      console.log(`✅ Cliente ${client.id} eliminato con successo dal server`);
+      
+      // Rimuovi immediatamente il cliente dalla cache locale
+      queryClient.setQueryData(['/api/clients'], (oldData: any) => {
+        if (!oldData) return oldData;
+        console.log(`🔄 Rimozione cliente ${client.id} dalla cache locale`);
+        return oldData.filter((c: any) => c.id !== client.id);
       });
       
-      // Aggiorna immediatamente l'interfaccia
-      await refreshClientList();
+      toast({
+        title: t('notifications.clientDeleted'),
+        description: `${client.firstName} ${client.lastName} eliminato`,
+      });
+      
+      // Forza il refresh della cache
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      
+      if (onUpdate) {
+        onUpdate();
+      }
     },
     onError: async (error: any) => {
-      // Se il cliente non esiste più (404), aggiorna comunque l'interfaccia
+      console.error(`❌ Errore eliminazione cliente ${client.id}:`, error);
+      
+      // Se il cliente non esiste più (404), rimuovilo comunque dalla cache
       if (error.message?.includes("Client not found") || error.message?.includes("404")) {
+        console.log(`🔄 Cliente ${client.id} già eliminato dal server, aggiorno cache locale`);
+        
+        // Rimuovi dalla cache locale
+        queryClient.setQueryData(['/api/clients'], (oldData: any) => {
+          if (!oldData) return oldData;
+          return oldData.filter((c: any) => c.id !== client.id);
+        });
+        
         toast({
           title: t('notifications.clientDeleted'),
-          description: "Cliente già rimosso dal sistema",
+          description: "Cliente rimosso dal sistema",
         });
-        await refreshClientList();
+        
+        // Forza il refresh della cache
+        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+        
+        if (onUpdate) {
+          onUpdate();
+        }
       } else {
         toast({
           title: t('common.error'),
