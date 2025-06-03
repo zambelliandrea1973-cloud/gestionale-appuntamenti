@@ -500,6 +500,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log(`📊 Clienti trovati per ${user.username}: ${clients.length} clienti visibili`);
       if (clients.length > 0) {
         console.log(`🔸 Primi 5 clienti: ${clients.slice(0, 5).map(c => `${c.firstName} ${c.lastName} (ID:${c.id}, Owner:${c.ownerId})`).join(', ')}`);
+        
+        // DEBUG: Verifica i campi dei primi 3 clienti
+        clients.slice(0, 3).forEach((client, index) => {
+          console.log(`🔬 DEBUG Cliente ${index + 1} (ID:${client.id}):`, {
+            firstName: client.firstName,
+            lastName: client.lastName,
+            isFrequent: client.isFrequent,
+            hasConsent: client.hasConsent,
+            uniqueCode: client.uniqueCode,
+            allKeys: Object.keys(client)
+          });
+        });
       }
       
       // Headers anti-cache per forzare aggiornamento frontend
