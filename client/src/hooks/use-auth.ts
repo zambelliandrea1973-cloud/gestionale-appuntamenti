@@ -4,11 +4,18 @@ import { apiRequest } from '@/lib/queryClient';
 interface User {
   id: number;
   username: string;
-  email: string;
-  role: string;
+  email: string | null;
+  type: 'user' | 'staff' | 'admin' | 'customer' | 'client';
+  firstName: string | null;
+  lastName: string | null;
+  licenseInfo: {
+    type: string;
+    expiresAt: string | null;
+    isActive: boolean;
+    daysLeft: number | null;
+  };
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
-  // Aggiungi altri campi utente se necessario
 }
 
 /**
@@ -16,25 +23,39 @@ interface User {
  * Utilizza React Query per ottenere i dati dell'utente corrente.
  */
 export function useAuth() {
-  const { data: user, isLoading, error } = useQuery<User | null>({
-    queryKey: ['/api/current-user'],
+  const { data: user, isLoading, error } = useQuery({
+    queryKey: ['/api/user-with-license'],
     queryFn: async () => {
       try {
-        const res = await apiRequest('GET', '/api/current-user');
-        // Se la risposta è ok, restituisci l'utente
-        if (res.ok) {
-          return await res.json();
+        console.log('🔐 useAuth chiamando /api/user-with-license');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`/api/user-with-license?t=${timestamp}`, {
+          credentials: 'include',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        });
+        console.log('🔐 useAuth risposta:', response.status, response.ok);
+        
+        if (!response.ok) {
+          console.log('❌ useAuth - utente non autenticato');
+          return null;
         }
-        // Altrimenti restituisci null (utente non autenticato)
-        return null;
+        
+        const data = await response.json();
+        console.log('✅ useAuth - dati utente:', data);
+        return data;
       } catch (error) {
-        console.error('Errore nel recupero dell\'utente:', error);
+        console.error('❌ Errore useAuth:', error);
         return null;
       }
     },
     retry: false,
     refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000, // 5 minuti
+    staleTime: 0, // Dati sempre freschi
+    gcTime: 0, // No cache (TanStack Query v5)
   });
 
   return {
@@ -42,7 +63,7 @@ export function useAuth() {
     isLoading,
     error,
     isAuthenticated: !!user,
-    isStaff: user?.role === 'staff',
-    isAdmin: user?.role === 'admin',
+    isStaff: user?.type === 'staff',
+    isAdmin: user?.type === 'admin',
   };
 }

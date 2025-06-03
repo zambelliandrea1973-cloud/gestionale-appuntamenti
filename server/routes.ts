@@ -551,12 +551,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Endpoint per ottenere l'utente corrente con i dettagli del cliente se è di tipo client
   app.get("/api/current-user", async (req: Request, res: Response) => {
+    console.log(`🔐 /api/current-user chiamato - isAuthenticated: ${req.isAuthenticated()}, user: ${req.user?.username || 'undefined'}`);
+    
     if (!req.isAuthenticated()) {
+      console.log('❌ /api/current-user - utente non autenticato');
       return res.status(401).json({ message: "Non autenticato" });
     }
     
     try {
       const user = req.user as any;
+      console.log(`✅ /api/current-user - utente autenticato: ${user.username}, tipo: ${user.type}`);
       
       // Se l'utente è un cliente, carica anche i dati del cliente
       if (user.type === "client" && user.clientId) {
@@ -573,6 +577,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Altrimenti restituisci solo i dati dell'utente
       res.json(user);
     } catch (error: any) {
+      console.error('❌ Errore in /api/current-user:', error);
       res.status(500).json({ message: error.message });
     }
   });
