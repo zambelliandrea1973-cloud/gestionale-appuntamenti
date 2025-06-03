@@ -490,6 +490,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Gli admin vedono tutti i clienti (chiamata senza parametri)
         clients = await storage.getClients();
         console.log(`👑 Admin: mostra tutti i ${clients.length} clienti`);
+        console.log(`🔬 DEBUG Admin - Lista clienti:`, clients.map(c => `${c.id}:${c.firstName} ${c.lastName}(Owner:${c.ownerId})`).join(', '));
       } else {
         // I professionisti vedono solo i propri clienti (filtrati per ownerId)
         clients = await storage.getClients(user.id);
