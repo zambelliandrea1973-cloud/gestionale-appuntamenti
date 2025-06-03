@@ -54,28 +54,7 @@ export default function Clients() {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
-      const data = await response.json();
-      console.log(`📊 Dati clienti ricevuti dal server: ${data.length} clienti`);
-      
-      // DEBUG: Analizza tutti i clienti ricevuti
-      console.log('🔍 ANALISI DETTAGLIATA CLIENTI RICEVUTI:');
-      data.forEach((client, index) => {
-        const hasFirstName = !!client.firstName && client.firstName.trim() !== '';
-        const hasLastName = !!client.lastName && client.lastName.trim() !== '';
-        const isValid = hasFirstName && hasLastName;
-        
-        if (!isValid) {
-          console.warn(`❌ Cliente ${client.id} PROBLEMATICO:`, {
-            firstName: client.firstName,
-            lastName: client.lastName,
-            hasFirstName,
-            hasLastName,
-            fullClient: client
-          });
-        }
-      });
-      
-      return data;
+      return response.json();
     },
     staleTime: 0,
     refetchOnMount: true,
@@ -182,14 +161,6 @@ export default function Clients() {
   
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
-    .map(client => ({
-      ...client,
-      // Aggiungi valori di default per campi mancanti invece di escludere il cliente
-      firstName: client.firstName || 'Nome',
-      lastName: client.lastName || 'Sconosciuto',
-      isFrequent: client.isFrequent ?? false,
-      hasConsent: client.hasConsent ?? false
-    }))
     .filter(client => {
       // Apply search filter
       const matchesSearch = searchQuery.trim().length < 2 || 
@@ -197,7 +168,7 @@ export default function Clients() {
         client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      // Apply tab filter - Mostra tutti i clienti per il tab "all"
+      // Apply tab filter
       const matchesTab = 
         activeTab === "all" || 
         (activeTab === "frequent" && client.isFrequent === true) ||

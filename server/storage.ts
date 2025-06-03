@@ -1427,19 +1427,8 @@ export class DatabaseStorage implements IStorage {
         console.log(`✅ Trovati ${rawClients.length} clienti totali (query senza filtro)`);
       }
       
-      // Assicura che tutti i campi siano mappati correttamente
-      const mappedClients = rawClients.map(client => ({
-        ...client,
-        // Forza il mapping corretto dei campi essenziali
-        firstName: client.firstName || client.first_name || 'Nome',
-        lastName: client.lastName || client.last_name || 'Sconosciuto', 
-        isFrequent: client.isFrequent ?? client.is_frequent ?? false,
-        hasConsent: client.hasConsent ?? client.has_consent ?? false,
-        uniqueCode: client.uniqueCode || client.unique_code || null,
-        ownerId: client.ownerId ?? client.owner_id ?? null
-      }));
-      
-      return mappedClients;
+      // Le colonne sono ora uniformate in camelCase, nessun mapping necessario
+      return rawClients;
     } catch (error) {
       console.error("Error getting clients:", error);
       return [];
