@@ -150,6 +150,13 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
+      {/* Pagina di login customer (professionisti abbonati) */}
+      <Route path="/customer-login">
+        <ClientPageWrapper>
+          <CustomerLogin />
+        </ClientPageWrapper>
+      </Route>
+      
       {/* Pagina di registrazione nuovo account */}
       <Route path="/register">
         <ClientPageWrapper>
