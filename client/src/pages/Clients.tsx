@@ -199,8 +199,7 @@ export default function Clients() {
     // Ordina alfabeticamente per cognome
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
   
-  // Otteniamo l'istanza del queryClient
-  const queryClient = useQueryClient();
+
   
   // Handle client form submission and refresh data
   const handleClientCreated = async () => {
