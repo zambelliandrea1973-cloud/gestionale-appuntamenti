@@ -24,6 +24,7 @@ import {
   paymentMethods, type PaymentMethod, type InsertPaymentMethod,
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
   licenses, type License, type InsertLicense,
+  onboardingProgress, type OnboardingProgress, type InsertOnboardingProgress,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -254,6 +255,13 @@ export interface IStorage {
   // Banking Settings operations
   getBankingSettings(): Promise<any>;
   saveBankingSettings(settings: any): Promise<void>;
+  
+  // Onboarding Progress operations
+  getOnboardingProgress(userId: number): Promise<OnboardingProgress | undefined>;
+  createOnboardingProgress(progress: InsertOnboardingProgress): Promise<OnboardingProgress>;
+  updateOnboardingProgress(userId: number, progress: Partial<InsertOnboardingProgress>): Promise<OnboardingProgress | undefined>;
+  deleteOnboardingProgress(userId: number): Promise<boolean>;
+  markOnboardingCompleted(userId: number): Promise<OnboardingProgress | undefined>;
 }
 
 // In-memory implementation of the storage interface with file persistence

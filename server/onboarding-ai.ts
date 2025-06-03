@@ -109,7 +109,9 @@ Provide recommendations as a JSON array of strings, each recommendation should b
       max_tokens: 800,
     });
 
-    const result = JSON.parse(response.choices[0].message.content);
+    const content = response.choices[0].message.content;
+    if (!content) throw new Error("No response from OpenAI");
+    const result = JSON.parse(content);
     return result.recommendations || [];
   } catch (error) {
     console.error("Error generating recommendations:", error);

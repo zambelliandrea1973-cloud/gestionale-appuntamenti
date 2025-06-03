@@ -47,6 +47,10 @@ import setupStaffRoutes from './routes/staffRoutes';
 import referralRoutes from './routes/referralRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
 import { getStaffReferralStats, getReferralOverview, assignSponsorship, markCommissionPaid } from './api/referralApi';
+import { analyzeBusinessNeeds, generateCustomizedRecommendations, generateWelcomeMessage } from './onboarding-ai';
+import { db } from './db';
+import { onboardingProgress, insertOnboardingProgressSchema } from '@shared/schema';
+import { eq } from 'drizzle-orm';
 
 // Funzione per generare codici univoci per clienti finali
 function generateClientUniqueCode(firstName: string, lastName: string, id: number): string {
@@ -437,6 +441,214 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/email-calendar-settings', emailCalendarRoutes);
   app.use('/api/license', licenseRoutes);
   app.use('/api/admin-license', adminLicenseRoutes);
+
+  // Interactive AI-Powered Onboarding Wizard Routes
+  app.get('/api/onboarding/progress', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const [progress] = await db
+        .select()
+        .from(onboardingProgress)
+        .where(eq(onboardingProgress.userId, user.id));
+
+      if (!progress) {
+        // Create initial onboarding progress
+        const [newProgress] = await db
+          .insert(onboardingProgress)
+          .values({
+            userId: user.id,
+            currentStep: 0,
+            completedSteps: [],
+            isCompleted: false
+          })
+          .returning();
+        
+        return res.json(newProgress);
+      }
+
+      res.json(progress);
+    } catch (error) {
+      console.error("Error fetching onboarding progress:", error);
+      res.status(500).json({ message: "Error fetching onboarding progress" });
+    }
+  });
+
+  app.post('/api/onboarding/analyze', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const businessData = req.body;
+      console.log(`🤖 AI Analysis requested for user: ${user.username}`);
+
+      const analysis = await analyzeBusinessNeeds(businessData);
+      
+      // Save AI recommendations to onboarding progress
+      const [existing] = await db
+        .select()
+        .from(onboardingProgress)
+        .where(eq(onboardingProgress.userId, user.id));
+
+      if (existing) {
+        await db
+          .update(onboardingProgress)
+          .set({
+            businessType: analysis.suggestedBusinessType,
+            businessName: businessData.businessName,
+            primaryServices: analysis.recommendedServices,
+            workingHours: analysis.workingHoursRecommendation,
+            clientManagementNeeds: analysis.clientManagementNeeds,
+            communicationPreferences: analysis.communicationPreferences,
+            integrationGoals: analysis.integrationGoals,
+            aiRecommendations: JSON.stringify(analysis),
+            updatedAt: new Date()
+          })
+          .where(eq(onboardingProgress.userId, user.id));
+      }
+
+      res.json(analysis);
+    } catch (error) {
+      console.error("Error analyzing business needs:", error);
+      res.status(500).json({ message: "Error analyzing business needs" });
+    }
+  });
+
+  app.post('/api/onboarding/update-step', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const { currentStep, stepData, completedSteps } = req.body;
+
+      const [existing] = await db
+        .select()
+        .from(onboardingProgress)
+        .where(eq(onboardingProgress.userId, user.id));
+
+      if (!existing) {
+        return res.status(404).json({ message: "Onboarding progress not found" });
+      }
+
+      const updateData: any = {
+        currentStep,
+        completedSteps: completedSteps || existing.completedSteps,
+        updatedAt: new Date()
+      };
+
+      // Update specific fields based on step data
+      if (stepData.businessName) updateData.businessName = stepData.businessName;
+      if (stepData.businessType) updateData.businessType = stepData.businessType;
+      if (stepData.primaryServices) updateData.primaryServices = stepData.primaryServices;
+      if (stepData.workingHours) updateData.workingHours = stepData.workingHours;
+      if (stepData.appointmentDuration) updateData.appointmentDuration = stepData.appointmentDuration;
+      if (stepData.clientManagementNeeds) updateData.clientManagementNeeds = stepData.clientManagementNeeds;
+      if (stepData.communicationPreferences) updateData.communicationPreferences = stepData.communicationPreferences;
+      if (stepData.integrationGoals) updateData.integrationGoals = stepData.integrationGoals;
+
+      await db
+        .update(onboardingProgress)
+        .set(updateData)
+        .where(eq(onboardingProgress.userId, user.id));
+
+      // Generate personalized recommendations for current step
+      const recommendations = await generateCustomizedRecommendations(
+        updateData.businessType || existing.businessType || 'consulting',
+        currentStep,
+        stepData
+      );
+
+      res.json({ 
+        success: true, 
+        recommendations,
+        message: "Onboarding step updated successfully" 
+      });
+    } catch (error) {
+      console.error("Error updating onboarding step:", error);
+      res.status(500).json({ message: "Error updating onboarding step" });
+    }
+  });
+
+  app.post('/api/onboarding/complete', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      await db
+        .update(onboardingProgress)
+        .set({
+          isCompleted: true,
+          completedAt: new Date(),
+          updatedAt: new Date()
+        })
+        .where(eq(onboardingProgress.userId, user.id));
+
+      // Generate welcome message
+      const [progress] = await db
+        .select()
+        .from(onboardingProgress)
+        .where(eq(onboardingProgress.userId, user.id));
+
+      const welcomeMessage = await generateWelcomeMessage(
+        progress?.businessName || 'your business',
+        progress?.businessType || 'consulting'
+      );
+
+      res.json({ 
+        success: true, 
+        welcomeMessage,
+        message: "Onboarding completed successfully!" 
+      });
+    } catch (error) {
+      console.error("Error completing onboarding:", error);
+      res.status(500).json({ message: "Error completing onboarding" });
+    }
+  });
+
+  app.get('/api/onboarding/recommendations/:step', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user) {
+        return res.status(401).json({ message: "User not authenticated" });
+      }
+
+      const step = parseInt(req.params.step);
+      
+      const [progress] = await db
+        .select()
+        .from(onboardingProgress)
+        .where(eq(onboardingProgress.userId, user.id));
+
+      if (!progress) {
+        return res.status(404).json({ message: "Onboarding progress not found" });
+      }
+
+      const recommendations = await generateCustomizedRecommendations(
+        progress.businessType || 'consulting',
+        step,
+        {
+          businessName: progress.businessName,
+          businessType: progress.businessType,
+          primaryServices: progress.primaryServices,
+          currentStep: step
+        }
+      );
+
+      res.json({ recommendations });
+    } catch (error) {
+      console.error("Error generating recommendations:", error);
+      res.status(500).json({ message: "Error generating recommendations" });
+    }
+  });
 
   const httpServer = createServer(app);
   
