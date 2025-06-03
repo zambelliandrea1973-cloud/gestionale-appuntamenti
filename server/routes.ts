@@ -582,6 +582,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Endpoint per ottenere l'utente con informazioni sulla licenza
+  app.get("/api/user-with-license", async (req: Request, res: Response) => {
+    console.log(`🔐 /api/user-with-license chiamato - isAuthenticated: ${req.isAuthenticated()}, user: ${req.user?.username || 'undefined'}`);
+    
+    if (!req.isAuthenticated()) {
+      console.log('❌ /api/user-with-license - utente non autenticato');
+      return res.status(401).json({ message: "Non autenticato" });
+    }
+    
+    try {
+      const user = req.user as any;
+      console.log(`✅ /api/user-with-license - utente autenticato: ${user.username}, tipo: ${user.type}`);
+      
+      // Costruisci la risposta con informazioni di licenza
+      const userWithLicense = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        type: user.type,
+        firstName: user.firstName || null,
+        lastName: user.lastName || null,
+        licenseInfo: {
+          type: user.type === 'admin' ? 'passepartout' : 
+                user.type === 'staff' ? 'staff_free' : 'trial',
+          expiresAt: null,
+          isActive: true,
+          daysLeft: null
+        }
+      };
+      
+      // Se l'utente è un cliente, carica anche i dati del cliente
+      if (user.type === "client" && user.clientId) {
+        const client = await storage.getClient(user.clientId);
+        if (client) {
+          userWithLicense.firstName = client.firstName;
+          userWithLicense.lastName = client.lastName;
+        }
+      }
+      
+      res.json(userWithLicense);
+    } catch (error: any) {
+      console.error('❌ Errore in /api/user-with-license:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Client with appointments route
   app.get("/api/clients/:id/with-appointments", async (req: Request, res: Response) => {
     try {
