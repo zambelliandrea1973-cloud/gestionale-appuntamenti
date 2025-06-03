@@ -22,44 +22,8 @@ import { contactService } from "./services/contactService";
 import { initializeSchedulers } from "./services/schedulerService";
 import { googleCalendarService } from "./services/googleCalendarService";
 import { companyNameService } from "./services/companyNameService";
-import { directNotificationService } from "./services/directNotificationService";
-import { keepAliveService } from './services/keepAliveService';
-import { testWhatsApp } from "./api/test-whatsapp";
-import { notificationSettingsService } from "./services/notificationSettingsService";
-import { smtpDetectionService } from "./services/smtpDetectionService";
-import { clientAccessService } from "./services/clientAccessService";
-import setupBankingRoutes from "./routes/bankingRoutes";
 import multer from 'multer';
 import sharp from 'sharp';
-import betaRoutes from './routes/betaRoutes';
-import paymentRoutes from './routes/paymentRoutes';
-import paymentMethodRoutes from './routes/paymentMethodRoutes';
-import { adminRouter } from './routes/adminRoutes';
-import notificationRoutes from './routes/notificationRoutes';
-import phoneDeviceRoutes, { initializePhoneDeviceSocket } from './routes/phoneDeviceRoutes';
-import directPhoneRoutes from './routes/directPhoneRoutes';
-import googleAuthRoutes, { authInfo as googleAuthInfo } from './routes/googleAuthRoutes';
-import emailCalendarRoutes from './routes/emailCalendarRoutes';
-import licenseRoutes from './routes/licenseRoutes';
-import setupRegistrationRoutes from './routes/registrationRoutes';
-import adminLicenseRoutes from './routes/adminLicenseRoutes';
-import setupStaffRoutes from './routes/staffRoutes';
-import referralRoutes from './routes/referralRoutes';
-import { licenseService, LicenseType } from './services/licenseService';
-import { getStaffReferralStats, getReferralOverview, assignSponsorship, markCommissionPaid } from './api/referralApi';
-import { analyzeBusinessNeeds, generateCustomizedRecommendations, generateWelcomeMessage } from './onboarding-ai';
-import { db } from './db';
-import { onboardingProgress, insertOnboardingProgressSchema } from '@shared/schema';
-import { eq } from 'drizzle-orm';
-
-// Funzione per generare codici univoci per clienti finali
-function generateClientUniqueCode(firstName: string, lastName: string, id: number): string {
-  // Prende le prime 3 lettere del nome e cognome, più un numero sequenziale
-  const firstPart = firstName.substring(0, 3).toUpperCase();
-  const lastPart = lastName.substring(0, 3).toUpperCase();
-  const numPart = id.toString().padStart(4, '0');
-  return `${firstPart}${lastPart}${numPart}`;
-}
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
@@ -77,38 +41,9 @@ function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
   res.status(403).json({ message: "Accesso negato" });
 }
 
-// Dichiarazione namespace per accesso globale al contesto della richiesta
-declare global {
-  namespace NodeJS {
-    interface Global {
-      currentRequest?: any;
-    }
-  }
-}
-
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Middleware per rendere disponibile la richiesta corrente al servizio di licenza
-  app.use((req, res, next) => {
-    global.currentRequest = req;
-    next();
-  });
-
-  // Middleware anti-cache globale per tutte le API
-  app.use('/api', (req, res, next) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.setHeader('Last-Modified', new Date().toUTCString());
-    next();
-  });
   // Configura l'autenticazione
   setupAuth(app);
-  
-  // IMPORTANTE: Configura le route staff PRIMA di altre routes per evitare conflitti
-  setupStaffRoutes(app);
-  
-  // Configura le route di registrazione
-  setupRegistrationRoutes(app);
   
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
@@ -216,536 +151,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Health check endpoint per mantenere l'applicazione attiva
-  app.get("/api/health", (_req: Request, res: Response) => {
-    const uptime = process.uptime();
-    const memoryUsage = process.memoryUsage();
-    
-    res.json({
-      status: "OK",
-      timestamp: new Date().toISOString(),
-      uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m ${Math.floor(uptime % 60)}s`,
-      memory: {
-        rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
-        heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
-        heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
-      }
-    });
-  });
-  
-  // Endpoint rimosso per evitare la duplicazione con quello definito più avanti
-  
-  // Client Access API endpoints
-  // Endpoint per registrare un nuovo accesso di un cliente
-  app.post("/api/client-access/:clientId", isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const clientId = parseInt(req.params.clientId);
-      if (isNaN(clientId)) {
-        return res.status(400).json({ message: "ID cliente non valido" });
-      }
-      
-      // Ottieni informazioni dal client
-      const ipAddress = req.ip || req.socket.remoteAddress || "";
-      const userAgent = req.headers["user-agent"] || "";
-      
-      const access = await clientAccessService.logAccess(clientId, ipAddress, userAgent);
-      res.status(201).json(access);
-    } catch (error: any) {
-      console.error("Errore nella registrazione dell'accesso:", error);
-      res.status(500).json({ message: error.message || "Errore nella registrazione dell'accesso" });
-    }
-  });
-  
-  // Endpoint per ottenere il conteggio degli accessi per un cliente specifico (endpoint pubblico)
-  app.get("/api/client-access/count/:clientId", async (req: Request, res: Response) => {
-    try {
-      const clientId = parseInt(req.params.clientId);
-      if (isNaN(clientId)) {
-        return res.status(400).json({ message: "ID cliente non valido" });
-      }
-      
-      const count = await clientAccessService.getAccessCountForClient(clientId);
-      res.json({ clientId, count });
-    } catch (error: any) {
-      console.error("Errore nel conteggio degli accessi:", error);
-      res.status(500).json({ message: error.message || "Errore nel conteggio degli accessi" });
-    }
-  });
-  
-  // Endpoint per ottenere il conteggio degli accessi per tutti i clienti
-  app.get("/api/client-access/counts", isStaff, async (_req: Request, res: Response) => {
-    try {
-      const clientsWithCounts = await clientAccessService.getAccessCountsForAllClients();
-      res.json(clientsWithCounts);
-    } catch (error: any) {
-      console.error("Errore nel recupero dei conteggi di accesso:", error);
-      res.status(500).json({ message: error.message || "Errore nel recupero dei conteggi di accesso" });
-    }
-  });
-  
-  // Endpoint per ottenere tutti gli accessi di un cliente specifico (endpoint pubblico)
-  app.get("/api/client-access/:clientId", async (req: Request, res: Response) => {
-    try {
-      const clientId = parseInt(req.params.clientId);
-      if (isNaN(clientId)) {
-        return res.status(400).json({ message: "ID cliente non valido" });
-      }
-      
-      const accesses = await clientAccessService.getAccessesForClient(clientId);
-      res.json(accesses);
-    } catch (error: any) {
-      console.error("Errore nel recupero degli accessi:", error);
-      res.status(500).json({ message: error.message || "Errore nel recupero degli accessi" });
-    }
-  });
-  
-  // Registra le route per il sistema beta, pagamenti, notifiche e funzioni amministrative
-  app.use('/api/beta', betaRoutes);
-  app.use('/api/payments', paymentRoutes);
-  app.use('/api/payments', paymentMethodRoutes);
-  app.use('/api/admin', adminRouter);
-  app.use('/api/notifications', notificationRoutes);
-  app.use('/api/referral', referralRoutes);
-  app.use('/api/phone-device', phoneDeviceRoutes);
-  app.use('/api/direct-phone', directPhoneRoutes); // Nuovo percorso dedicato per evitare conflitti
-  // Gestione del callback di Google OAuth
-  app.get('/api/google-auth/callback', async (req, res) => {
-    console.log("Callback diretto ricevuto con parametri:", req.query);
-    const { code } = req.query;
-    
-    if (!code) {
-      return res.status(400).send('Codice di autorizzazione mancante');
-    }
-    
-    try {
-      console.log("Scambio diretto del codice di autorizzazione:", code);
-      
-      // Creiamo un nuovo client OAuth2 per sicurezza
-      const { google } = await import('googleapis');
-      const redirectUri = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/google-auth/callback`;
-      
-      console.log("Callback - Utilizzo URI di reindirizzamento fisso:", redirectUri);
-      
-      const oauth2ClientForCallback = new google.auth.OAuth2(
-        process.env.GOOGLE_CLIENT_ID,
-        process.env.GOOGLE_CLIENT_SECRET,
-        redirectUri
-      );
-      
-      // Scambia il codice con i token
-      const { tokens } = await oauth2ClientForCallback.getToken(code as string);
-      console.log("Token ottenuti con successo:", tokens);
-      
-      // Impostiamo i token per le future richieste all'API Google
-      // Utilizziamo la variabile googleAuthInfo importata direttamente
-      googleAuthInfo.authorized = true;
-      googleAuthInfo.tokens = tokens;
-      
-      console.log("Token salvati correttamente in googleAuthInfo:", { 
-        authorized: googleAuthInfo.authorized,
-        tokenPresent: !!googleAuthInfo.tokens
-      });
-      
-      // Chiude la finestra popup se è stata aperta come popup
-      res.send(`
-        <html>
-          <head>
-            <title>Autorizzazione completata</title>
-            <script>
-              window.onload = function() {
-                window.opener ? window.opener.postMessage('google-auth-success', '*') : window.location.href = '/settings';
-                setTimeout(function() {
-                  window.close();
-                }, 2000);
-              }
-            </script>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
-                text-align: center;
-                background-color: #f8f9fa;
-              }
-              .card {
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                padding: 30px;
-                max-width: 500px;
-                margin: 40px auto;
-              }
-              h1 {
-                color: #4CAF50;
-                margin-bottom: 20px;
-              }
-              p {
-                color: #666;
-                line-height: 1.5;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="card">
-              <h1>✅ Autorizzazione completata!</h1>
-              <p>L'account Google è stato autorizzato con successo.</p>
-              <p>Questa finestra si chiuderà automaticamente tra pochi secondi...</p>
-            </div>
-          </body>
-        </html>
-      `);
-    } catch (error) {
-      console.error('Errore nella gestione diretta del callback OAuth:', error);
-      res.status(500).send(`
-        <html>
-          <head>
-            <title>Errore di autorizzazione</title>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-                padding: 20px;
-                text-align: center;
-                background-color: #f8f9fa;
-              }
-              .card {
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                padding: 30px;
-                max-width: 500px;
-                margin: 40px auto;
-              }
-              h1 {
-                color: #f44336;
-                margin-bottom: 20px;
-              }
-              p {
-                color: #666;
-                line-height: 1.5;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="card">
-              <h1>⚠️ Errore di autorizzazione</h1>
-              <p>Si è verificato un errore durante l'autorizzazione dell'account Google.</p>
-              <p>Per favore chiudi questa finestra e riprova.</p>
-              <p>Dettaglio errore: ${error instanceof Error ? error.message : 'Errore sconosciuto'}</p>
-            </div>
-          </body>
-        </html>
-      `);
-    }
-  });
-
-  app.use('/api/google-auth', googleAuthRoutes);
-  app.use('/api/email-calendar-settings', emailCalendarRoutes);
-  app.use('/api/license', licenseRoutes);
-  app.use('/api/admin-license', adminLicenseRoutes);
-
-  // Middleware personalizzato per l'autenticazione dell'onboarding
-  const onboardingAuth = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Verifica autenticazione standard
-      if (req.isAuthenticated() && req.user) {
-        return next();
-      }
-      
-      // Verifica sessione manualmente se passport fallisce
-      if (req.session && req.session.passport && req.session.passport.user) {
-        const serializedUser = req.session.passport.user;
-        console.log('🔧 Ricostruzione utente da sessione:', serializedUser);
-        
-        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
-          const [type, idStr] = serializedUser.split(':');
-          const id = parseInt(idStr, 10);
-          
-          if (!isNaN(id) && (type === 'admin' || type === 'staff' || type === 'customer')) {
-            // Recupera l'utente completo dal database
-            const fullUser = await storage.getUser(id);
-            if (fullUser) {
-              req.user = { ...fullUser, type } as any;
-              console.log('🔧 Utente ricostruito con successo:', req.user.username);
-              return next();
-            }
-          }
-        }
-      }
-      
-      console.log('❌ Autenticazione fallita per onboarding API');
-      return res.status(401).json({ message: "Accesso non autorizzato" });
-    } catch (error) {
-      console.error('Errore nel middleware di autenticazione onboarding:', error);
-      return res.status(500).json({ message: "Errore di autenticazione" });
-    }
-  };
-
-  // Interactive AI-Powered Onboarding Wizard Routes
-  app.get('/api/onboarding/progress', onboardingAuth, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "Utente non autenticato" });
-      }
-
-      console.log(`🟢 Onboarding progress richiesto per utente: ${user.username} (ID: ${user.id})`);
-
-      const progress = await storage.getOnboardingProgress(user.id);
-
-      if (!progress) {
-        // Create initial onboarding progress
-        const newProgress = await storage.createOnboardingProgress({
-          userId: user.id,
-          currentStep: 0,
-          completedSteps: [],
-          isCompleted: false
-        });
-        
-        console.log(`🟢 Creato nuovo progresso onboarding per utente ${user.id}`);
-        return res.json(newProgress);
-      }
-
-      console.log(`🟢 Trovato progresso onboarding esistente per utente ${user.id}`);
-      res.json(progress);
-    } catch (error) {
-      console.error("Error fetching onboarding progress:", error);
-      res.status(500).json({ message: "Errore nel recupero del progresso onboarding" });
-    }
-  });
-
-  app.post('/api/onboarding/analyze', onboardingAuth, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "Utente non autenticato" });
-      }
-
-      const businessData = req.body;
-      console.log(`🤖 AI Analysis richiesto per utente: ${user.username}`);
-
-      const analysis = await analyzeBusinessNeeds(businessData);
-      
-      // Save AI recommendations to onboarding progress
-      const existing = await storage.getOnboardingProgress(user.id);
-
-      if (existing) {
-        await storage.updateOnboardingProgress(user.id, {
-          businessType: analysis.suggestedBusinessType,
-          businessName: businessData.businessName,
-          primaryServices: analysis.recommendedServices,
-          workingHours: analysis.workingHoursRecommendation,
-          clientManagementNeeds: analysis.clientManagementNeeds,
-          communicationPreferences: analysis.communicationPreferences,
-          integrationGoals: analysis.integrationGoals,
-          aiRecommendations: JSON.stringify(analysis)
-        });
-      }
-
-      console.log(`🤖 Analisi AI completata per utente ${user.username}`);
-      res.json(analysis);
-    } catch (error) {
-      console.error("Error analyzing business needs:", error);
-      res.status(500).json({ message: "Errore nell'analisi delle esigenze business" });
-    }
-  });
-
-  app.post('/api/onboarding/update-step', isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-
-      const { currentStep, stepData, completedSteps } = req.body;
-
-      const [existing] = await db
-        .select()
-        .from(onboardingProgress)
-        .where(eq(onboardingProgress.userId, user.id));
-
-      if (!existing) {
-        return res.status(404).json({ message: "Onboarding progress not found" });
-      }
-
-      const updateData: any = {
-        currentStep,
-        completedSteps: completedSteps || existing.completedSteps,
-        updatedAt: new Date()
-      };
-
-      // Update specific fields based on step data
-      if (stepData.businessName) updateData.businessName = stepData.businessName;
-      if (stepData.businessType) updateData.businessType = stepData.businessType;
-      if (stepData.primaryServices) updateData.primaryServices = stepData.primaryServices;
-      if (stepData.workingHours) updateData.workingHours = stepData.workingHours;
-      if (stepData.appointmentDuration) updateData.appointmentDuration = stepData.appointmentDuration;
-      if (stepData.clientManagementNeeds) updateData.clientManagementNeeds = stepData.clientManagementNeeds;
-      if (stepData.communicationPreferences) updateData.communicationPreferences = stepData.communicationPreferences;
-      if (stepData.integrationGoals) updateData.integrationGoals = stepData.integrationGoals;
-
-      await db
-        .update(onboardingProgress)
-        .set(updateData)
-        .where(eq(onboardingProgress.userId, user.id));
-
-      // Generate personalized recommendations for current step
-      const recommendations = await generateCustomizedRecommendations(
-        updateData.businessType || existing.businessType || 'consulting',
-        currentStep,
-        stepData
-      );
-
-      res.json({ 
-        success: true, 
-        recommendations,
-        message: "Onboarding step updated successfully" 
-      });
-    } catch (error) {
-      console.error("Error updating onboarding step:", error);
-      res.status(500).json({ message: "Error updating onboarding step" });
-    }
-  });
-
-  app.post('/api/onboarding/complete', isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-
-      await db
-        .update(onboardingProgress)
-        .set({
-          isCompleted: true,
-          completedAt: new Date(),
-          updatedAt: new Date()
-        })
-        .where(eq(onboardingProgress.userId, user.id));
-
-      // Generate welcome message
-      const [progress] = await db
-        .select()
-        .from(onboardingProgress)
-        .where(eq(onboardingProgress.userId, user.id));
-
-      const welcomeMessage = await generateWelcomeMessage(
-        progress?.businessName || 'your business',
-        progress?.businessType || 'consulting'
-      );
-
-      res.json({ 
-        success: true, 
-        welcomeMessage,
-        message: "Onboarding completed successfully!" 
-      });
-    } catch (error) {
-      console.error("Error completing onboarding:", error);
-      res.status(500).json({ message: "Error completing onboarding" });
-    }
-  });
-
-  app.get('/api/onboarding/recommendations/:step', isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-
-      const step = parseInt(req.params.step);
-      
-      const [progress] = await db
-        .select()
-        .from(onboardingProgress)
-        .where(eq(onboardingProgress.userId, user.id));
-
-      if (!progress) {
-        return res.status(404).json({ message: "Onboarding progress not found" });
-      }
-
-      const recommendations = await generateCustomizedRecommendations(
-        progress.businessType || 'consulting',
-        step,
-        {
-          businessName: progress.businessName,
-          businessType: progress.businessType,
-          primaryServices: progress.primaryServices,
-          currentStep: step
-        }
-      );
-
-      res.json({ recommendations });
-    } catch (error) {
-      console.error("Error generating recommendations:", error);
-      res.status(500).json({ message: "Error generating recommendations" });
-    }
-  });
-
   const httpServer = createServer(app);
-  
-  // Inizializza il server WebSocket per la comunicazione con il dispositivo telefonico
-  initializePhoneDeviceSocket(httpServer);
-
-  // Assignment code endpoint - recupera il codice di assegnazione dell'utente corrente
-  app.get("/api/assignment-code", isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-
-      // Recupera le informazioni complete dell'utente compreso il codice di assegnazione
-      const userWithCode = await storage.getUser(user.id);
-      if (!userWithCode) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      res.json({
-        assignmentCode: userWithCode.assignmentCode,
-        username: userWithCode.username,
-        email: userWithCode.email
-      });
-    } catch (error) {
-      console.error("Error fetching assignment code:", error);
-      res.status(500).json({ message: "Error fetching assignment code" });
-    }
-  });
 
   // Client routes
-  app.get("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
+  app.get("/api/clients", async (_req: Request, res: Response) => {
     try {
-      const user = req.user;
-      if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-
-      console.log(`🔍 RECUPERO CLIENTI per utente: ${user.username} (ID: ${user.id}, Tipo: ${user.type}, Ruolo: ${user.role})`);
-
-      // Implementazione separazione clienti per ownerId
-      let clients: Client[];
-      
-      if (user.type === 'admin' || user.role === 'admin') {
-        // Gli admin vedono tutti i clienti (chiamata senza parametri)
-        clients = await storage.getClients();
-        console.log(`👑 Admin: mostra tutti i ${clients.length} clienti`);
-        console.log(`🔬 DEBUG Admin - Lista clienti:`, clients.map(c => `${c.id}:${c.firstName} ${c.lastName}(Owner:${c.ownerId})`).join(', '));
-      } else {
-        // I professionisti vedono solo i propri clienti (filtrati per ownerId)
-        clients = await storage.getClients(user.id);
-        console.log(`🔒 Professionista: mostra solo clienti con ownerId=${user.id} (${clients.length} trovati)`);
-      }
-      
-      console.log(`📊 Clienti trovati per ${user.username}: ${clients.length} clienti visibili`);
-      
-      // Headers anti-cache per forzare aggiornamento frontend
-      res.set({
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'X-Cache-Reset': 'true'
-      });
-      
+      const clients = await storage.getClients();
       res.json(clients);
     } catch (error) {
-      console.error("Error fetching clients:", error);
       res.status(500).json({ message: "Error fetching clients" });
     }
   });
@@ -768,11 +181,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/clients", isAuthenticated, async (req: Request, res: Response) => {
+  app.post("/api/clients", async (req: Request, res: Response) => {
     try {
-      const user = req.user;
-      console.log(`🆕 CREAZIONE CLIENTE da utente: ${user?.username} (ID: ${user?.id}, Tipo: ${user?.type})`);
-      
       const validationResult = insertClientSchema.safeParse(req.body);
       if (!validationResult.success) {
         return res.status(400).json({
@@ -781,67 +191,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      console.log(`📝 Dati cliente validati: ${validationResult.data.firstName} ${validationResult.data.lastName}`);
-      
-      // Controllo anti-duplicazione: verifica se esiste già un cliente con gli stessi dati
-      const existingClients = await storage.getClients();
-      const duplicateClient = existingClients.find(client => 
-        client.firstName.toLowerCase() === validationResult.data.firstName.toLowerCase() &&
-        client.lastName.toLowerCase() === validationResult.data.lastName.toLowerCase() &&
-        client.email === validationResult.data.email
-      );
-      
-      if (duplicateClient) {
-        console.log(`🚫 DUPLICAZIONE BLOCCATA: Cliente già esistente - ${duplicateClient.firstName} ${duplicateClient.lastName} (ID: ${duplicateClient.id})`);
-        return res.status(409).json({
-          message: "Cliente già esistente con questi dati",
-          existingClientId: duplicateClient.id
-        });
-      }
-      
-      // Se presente un codice di assegnazione, trova l'owner corrispondente
-      let finalOwnerID = user?.id; // Default: l'utente corrente
-      
-      if (validationResult.data.assignmentCode) {
-        console.log(`🔍 Codice assegnazione ricevuto: ${validationResult.data.assignmentCode}`);
-        
-        // Cerca l'utente con questo codice di assegnazione
-        const ownerUser = await storage.getUserByAssignmentCode(validationResult.data.assignmentCode);
-        if (ownerUser) {
-          finalOwnerID = ownerUser.id;
-          console.log(`✅ Cliente assegnato automaticamente a: ${ownerUser.username} (ID: ${ownerUser.id})`);
-        } else {
-          console.log(`❌ Codice assegnazione non valido: ${validationResult.data.assignmentCode}`);
-          return res.status(400).json({
-            message: "Codice di assegnazione non valido"
-          });
-        }
-      }
-      
-      // Crea i dati del cliente con l'ownerId corretto
-      const clientData = {
-        ...validationResult.data,
-        ownerId: finalOwnerID || user?.id, // Assegna sempre un ownerId
-        assignmentCode: validationResult.data.assignmentCode // Salva il codice usato per la tracciabilità
-      };
-      
-      // Rimuovi il campo assignmentCode dai dati se vuoto per evitare problemi col database
-      if (!clientData.assignmentCode) {
-        delete clientData.assignmentCode;
-      }
-      
-      const client = await storage.createClient(clientData);
-      console.log(`✅ Cliente creato con successo - ID: ${client.id}, OwnerID: ${client.ownerId}, Codice: ${client.assignmentCode}`);
-      
-      // Genera e assegna il codice univoco al cliente finale
-      const uniqueCode = generateClientUniqueCode(client.firstName, client.lastName, client.id);
-      const updatedClient = await storage.updateClient(client.id, { uniqueCode });
-      
-      console.log(`🏷️ Codice univoco generato per ${client.firstName} ${client.lastName}: ${uniqueCode}`);
-      
-      res.status(201).json(updatedClient || client);
+      const client = await storage.createClient(validationResult.data);
+      res.status(201).json(client);
     } catch (error) {
-      console.error("❌ Errore nella creazione cliente:", error);
       res.status(500).json({ message: "Error creating client" });
     }
   });
@@ -872,59 +224,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/clients/:id", isAuthenticated, async (req: Request, res: Response) => {
+  app.delete("/api/clients/:id", async (req: Request, res: Response) => {
     try {
-      console.log(`🚀 DELETE ENDPOINT CHIAMATO per cliente ID: ${req.params.id}`);
-      console.log(`🔐 Utente autenticato:`, req.user ? `${req.user.username} (ID: ${req.user.id})` : 'NESSUNO');
-      
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
-        console.log(`❌ ID cliente non valido: ${req.params.id}`);
         return res.status(400).json({ message: "Invalid client ID" });
       }
-      
-      const user = req.user;
-      if (!user) {
-        console.log(`❌ Utente non autenticato nella richiesta DELETE`);
-        return res.status(401).json({ message: "User not authenticated" });
-      }
 
-      // Verifica che il cliente esista
-      const client = await storage.getClient(id);
-      if (!client) {
-        console.log(`❌ Cliente ${id} non trovato`);
+      const success = await storage.deleteClient(id);
+      if (!success) {
         return res.status(404).json({ message: "Client not found" });
       }
 
-      console.log(`🔍 Cliente ${id}: ${client.firstName} ${client.lastName}`);
-      console.log(`🔐 Eliminazione richiesta da utente ${user.username} (ID: ${user.id}, tipo: ${user.type})`);
-
-      // Per ora eliminiamo direttamente (versione semplificata)
-      // TODO: Implementare logica complessa clienti privati/condivisi quando disponibile
-      try {
-        const success = await storage.deleteClient(id);
-        if (!success) {
-          console.log(`❌ Eliminazione cliente ${id} fallita`);
-          return res.status(404).json({ message: "Client not found" });
-        }
-        console.log(`✅ Cliente ${id} eliminato dal database`);
-      } catch (deleteError) {
-        console.error(`❌ Errore eliminazione cliente:`, deleteError);
-        return res.status(500).json({ message: "Error deleting client" });
-      }
-
-      // Headers anti-cache per prevenire memorizzazione dell'eliminazione
-      res.set({
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'X-No-Cache': 'true'
-      });
-      
       res.status(204).end();
     } catch (error) {
-      console.error(`❌ Errore durante l'eliminazione del cliente ${req.params.id}:`, error);
-      console.error(`❌ Stack trace completo:`, error.stack);
       res.status(500).json({ message: "Error deleting client" });
     }
   });
@@ -1228,19 +541,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Endpoint per ottenere l'utente corrente con i dettagli del cliente se è di tipo client
   app.get("/api/current-user", async (req: Request, res: Response) => {
     if (!req.isAuthenticated()) {
-      console.log('Richiesta current-user da utente non autenticato');
       return res.status(401).json({ message: "Non autenticato" });
     }
     
     try {
       const user = req.user as any;
-      console.log('Richiesta current-user da:', user.username, 'tipo:', user.type);
       
-      // Se l'utente è un cliente o un customer, carica anche i dati del cliente
-      if ((user.type === "client" || user.type === "customer") && user.clientId) {
+      // Se l'utente è un cliente, carica anche i dati del cliente
+      if (user.type === "client" && user.clientId) {
         const client = await storage.getClient(user.clientId);
         if (client) {
-          console.log('Dati cliente trovati:', client.firstName, client.lastName);
           // Aggiungi i dati del cliente all'oggetto utente
           return res.json({
             ...user,
@@ -1250,86 +560,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Altrimenti restituisci solo i dati dell'utente
-      console.log('Restituendo dati utente senza estensioni cliente');
       res.json(user);
     } catch (error: any) {
-      console.error('Errore nel recupero dati utente corrente:', error);
       res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Endpoint per ottenere info utente con licenza per il badge utente
-  app.get("/api/user-with-license", isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const user = req.user as any;
-      
-      console.log('Richiesta user-with-license da:', user.username, 'tipo:', user.type, 'role:', user.role);
-      
-      // Determina il tipo di licenza in base al ruolo/tipo dell'utente
-      let licenseInfo = {
-        type: 'trial',
-        expiresAt: null,
-        isActive: true,
-        daysLeft: null
-      };
-      
-      // Se l'utente è un admin, impostiamo licenza Passepartout
-      if (user.type === 'admin') {
-        licenseInfo = {
-          type: 'passepartout',
-          expiresAt: null, // Nessuna scadenza
-          isActive: true,
-          daysLeft: null
-        };
-      } 
-      // Se l'utente è staff, impostiamo licenza Staff Free con durata 10 anni
-      else if (user.type === 'staff') {
-        const expiryDate = new Date();
-        expiryDate.setFullYear(expiryDate.getFullYear() + 10);
-        
-        licenseInfo = {
-          type: 'staff_free',
-          expiresAt: expiryDate,
-          isActive: true,
-          daysLeft: 365 * 10
-        };
-      }
-      // Se l'utente è un customer (ha acquistato una licenza), usiamo il servizio licenza specifico per questo utente
-      else if (user.type === 'customer') {
-        console.log('Utente customer identificato, caricando informazioni licenza per userId:', user.id);
-        licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
-      }
-      // Per utenti normali (client) usiamo un tipo generico
-      else {
-        console.log('Utente client standard, usando licenza base');
-        licenseInfo = {
-          type: 'client',
-          expiresAt: null,
-          isActive: true,
-          daysLeft: null
-        };
-      }
-      
-      // Prepara l'oggetto da restituire conforme all'interfaccia UserWithLicense
-      const userWithLicense = {
-        id: user.id,
-        username: user.username,
-        email: user.email || null,
-        type: user.type || 'user', // 'user', 'staff', 'admin'
-        firstName: user.firstName || null,
-        lastName: user.lastName || null,
-        licenseInfo: {
-          type: licenseInfo.type,
-          expiresAt: licenseInfo.expiresAt ? licenseInfo.expiresAt.toISOString() : null,
-          isActive: licenseInfo.isActive,
-          daysLeft: licenseInfo.daysLeft
-        }
-      };
-      
-      res.json(userWithLicense);
-    } catch (error) {
-      console.error("Errore nel recupero dei dati utente con licenza:", error);
-      res.status(500).json({ message: "Errore nel recupero dei dati utente con licenza" });
     }
   });
 
@@ -1584,7 +817,99 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Nota: Le route di pagamento sono ora gestite tramite il router paymentRoutes
+  // Payment Routes
+  app.get("/api/payments/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid payment ID" });
+      }
+
+      const payment = await storage.getPayment(id);
+      if (!payment) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.json(payment);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching payment" });
+    }
+  });
+
+  app.get("/api/payments/invoice/:invoiceId", async (req: Request, res: Response) => {
+    try {
+      const invoiceId = parseInt(req.params.invoiceId);
+      if (isNaN(invoiceId)) {
+        return res.status(400).json({ message: "Invalid invoice ID" });
+      }
+
+      const payments = await storage.getPaymentsByInvoice(invoiceId);
+      res.json(payments);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching payments" });
+    }
+  });
+
+  app.post("/api/payments", async (req: Request, res: Response) => {
+    try {
+      const validationResult = insertPaymentSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid payment data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const payment = await storage.createPayment(validationResult.data);
+      res.status(201).json(payment);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating payment" });
+    }
+  });
+
+  app.put("/api/payments/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid payment ID" });
+      }
+
+      const validationResult = insertPaymentSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          message: "Invalid payment data",
+          errors: validationResult.error.errors
+        });
+      }
+
+      const updatedPayment = await storage.updatePayment(id, validationResult.data);
+      if (!updatedPayment) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.json(updatedPayment);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating payment" });
+    }
+  });
+
+  app.delete("/api/payments/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid payment ID" });
+      }
+
+      const success = await storage.deletePayment(id);
+      if (!success) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting payment" });
+    }
+  });
   
   // Helper route for generating an invoice number
   app.get("/api/generate-invoice-number", async (_req: Request, res: Response) => {
@@ -1810,9 +1135,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Endpoint per verificare e autenticare direttamente con un token (per i link diretti)
-  // Nota: abbiamo implementato una soluzione matematica (divisione per 4)
-  // quindi non abbiamo più bisogno della cache per evitare registrazioni multiple
-
   app.post("/api/verify-token", async (req: Request, res: Response) => {
     try {
       const { token, clientId } = req.body;
@@ -1855,18 +1177,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       
       // Esegui il login dell'utente
-      req.login(user, async (err) => {
+      req.login(user, (err) => {
         if (err) {
           return res.status(500).json({ message: "Errore durante il login automatico" });
-        }
-        
-        // Registra l'accesso del cliente (ogni accesso viene registrato)
-        try {
-          await clientAccessService.logAccess(validClientId);
-          console.log(`Registrato accesso per il cliente ID: ${validClientId}`);
-        } catch (accessError) {
-          console.error(`Errore nella registrazione dell'accesso per il cliente ID ${validClientId}:`, accessError);
-          // Non facciamo fallire l'autenticazione se la registrazione dell'accesso fallisce
         }
         
         return res.status(200).json({ 
@@ -2017,7 +1330,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Genera un link SMS diretto (non utilizzando servizi esterni)
+  // Invia un SMS di test per verificare la configurazione Twilio
   app.post("/api/test-sms", async (req: Request, res: Response) => {
     try {
       // Supporta i parametri sia come to/message che come phoneNumber/message per compatibilità
@@ -2035,51 +1348,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Genera un link SMS (funzionalità limitata, ma funziona su molti dispositivi)
-      const smsLink = `sms:${cleanPhoneNumber}?body=${encodeURIComponent(message)}`;
-      
-      console.log(`Generazione link SMS per ${cleanPhoneNumber}: "${message.substring(0, 30)}..."`);
-      
-      // Aggiungiamo al centro notifiche per avere una "cronologia"
-      try {
-        // Aggiungi al centro notifiche (opzionale)
-        await directNotificationService.addToNotificationCenter(
-          0, // ID speciale per il professionista
-          `📱 Test SMS per ${cleanPhoneNumber}: "${message.substring(0, 50)}${message.length > 50 ? '...' : ''}" [Apri SMS](${smsLink})`,
-          'staff_reminder'
-        );
-      } catch (notificationError) {
-        console.error("Errore nell'aggiunta al centro notifiche:", notificationError);
-        // Continuiamo comunque perché l'errore nel centro notifiche non è critico
+      // Verifica prima se le credenziali Twilio sono impostate
+      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+        return res.status(500).json({
+          message: "Credenziali Twilio mancanti",
+          details: {
+            TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
+            TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
+            TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER ? "configurato" : "mancante"
+          }
+        });
       }
       
-      // Usa il servizio di notifica per mantenere le log consistenti
+      console.log(`Tentativo di invio SMS a ${cleanPhoneNumber}: "${message}"`);
       const result = await notificationService.sendSMS(cleanPhoneNumber, message);
       
-      console.log("Risposta generazione SMS:", result);
+      console.log("Risposta Twilio:", result);
       res.json({ 
-        success: true,
-        message: "Link SMS generato con successo", 
+        message: "SMS inviato con successo", 
         details: {
           sid: result.sid,
           status: result.status,
+          dateCreated: result.dateCreated,
           to: result.to
-        },
-        smsLink: smsLink,
-        instructions: "Clicca sul link per aprire l'app SMS e inviare il messaggio"
+        }
       });
     } catch (error: any) {
-      console.error("Errore nella generazione del link SMS:", error);
+      console.error("Errore nell'invio del SMS di test:", error);
       res.status(500).json({ 
-        success: false,
-        message: "Errore nella generazione del link SMS", 
+        message: "Errore nell'invio del SMS", 
         error: error.message,
         stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       });
     }
   });
   
-  // Genera un link diretto a WhatsApp per inviare un messaggio
+  // Invia un messaggio WhatsApp di test per verificare la configurazione Twilio
   app.post("/api/test-whatsapp", async (req: Request, res: Response) => {
     try {
       // Supporta i parametri sia come to/message che come phoneNumber/message per compatibilità
@@ -2091,42 +1395,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (!cleanPhoneNumber || !message) {
         return res.status(400).json({ 
-          success: false,
           message: "Parametri mancanti", 
           required: ["to/phoneNumber", "message"],
           example: { to: "+391234567890", message: "Messaggio di test" }
         });
       }
       
-      // Genera il link WhatsApp diretto utilizzando il servizio senza dipendenze esterne
-      const whatsappLink = directNotificationService.generateWhatsAppLink(cleanPhoneNumber, message);
-      
-      console.log(`Generato link WhatsApp per ${cleanPhoneNumber}: ${whatsappLink}`);
-      
-      // Aggiungiamo al centro notifiche per avere una "cronologia"
-      try {
-        // Aggiungi al centro notifiche (opzionale)
-        await directNotificationService.addToNotificationCenter(
-          0, // ID speciale per il professionista
-          `📱 Test WhatsApp per ${cleanPhoneNumber}: "${message.substring(0, 50)}${message.length > 50 ? '...' : ''}" [Apri WhatsApp](${whatsappLink})`,
-          'staff_reminder'
-        );
-      } catch (notificationError) {
-        console.error("Errore nell'aggiunta al centro notifiche:", notificationError);
-        // Continuiamo comunque perché l'errore nel centro notifiche non è critico
+      // Verifica prima se le credenziali Twilio sono impostate
+      if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE_NUMBER) {
+        return res.status(500).json({
+          success: false,
+          message: "Credenziali Twilio mancanti",
+          whatsappSetupInfo: `
+Per utilizzare WhatsApp, devi:
+1. Accedere alla dashboard Twilio: https://www.twilio.com/console 
+2. Navigare su "Messaging" > "Settings" > "WhatsApp Sandbox"
+3. Seguire le istruzioni per configurare il tuo account WhatsApp
+4. Inviare un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono
+5. Assicurarti che il numero TWILIO_PHONE_NUMBER sia impostato correttamente`,
+          details: {
+            TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID ? "configurato" : "mancante",
+            TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN ? "configurato" : "mancante",
+            TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER ? "configurato" : "mancante"
+          }
+        });
       }
       
+      console.log(`Tentativo di invio WhatsApp a ${cleanPhoneNumber}: "${message}"`);
+      const result = await notificationService.sendWhatsApp(cleanPhoneNumber, message);
+      
+      console.log("Risposta Twilio:", result);
       res.json({ 
-        success: true,
-        message: "Link WhatsApp generato con successo",
-        whatsappLink: whatsappLink,
-        instructions: "Clicca sul link per aprire WhatsApp e inviare il messaggio"
+        message: "Messaggio WhatsApp inviato con successo", 
+        details: {
+          sid: result.sid,
+          status: result.status,
+          dateCreated: result.dateCreated,
+          to: result.to
+        }
       });
     } catch (error: any) {
-      console.error("Errore nella generazione del link WhatsApp:", error);
+      console.error("Errore nell'invio del messaggio WhatsApp di test:", error);
       res.status(500).json({ 
-        success: false,
-        message: "Errore nella generazione del link WhatsApp", 
+        message: "Errore nell'invio del messaggio WhatsApp", 
         error: error.message,
         stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       });
@@ -2266,39 +1577,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Endpoint per verificare lo stato delle notifiche e messaggistica diretta
-  app.get('/api/messaging-config-status', async (_req: Request, res: Response) => {
+  // Endpoint per verificare lo stato della configurazione Twilio
+  app.get('/api/twilio-config-status', async (_req: Request, res: Response) => {
     try {
-      // Recupera il numero di telefono del professionista dalle informazioni di contatto
-      const contactInfo = contactService.getContactInfo();
-      const professionalPhone = contactInfo.phone1 || contactInfo.phone2 || null;
+      const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+      const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+      const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
       
-      // Recupera le impostazioni di notifica email
-      const notificationSettings = await notificationSettingsService.getSettings();
-      const emailConfigured = notificationSettings?.emailEnabled && notificationSettings?.smtpServer && notificationSettings?.smtpUsername && notificationSettings?.smtpPassword;
+      // Verifica quali componenti di configurazione sono presenti
+      const hasAccountSid = !!twilioAccountSid;
+      const hasAuthToken = !!twilioAuthToken;
+      const hasPhoneNumber = !!twilioPhoneNumber;
+      
+      // Non mostrare i valori completi per motivi di sicurezza
+      const maskedPhoneNumber = twilioPhoneNumber ? 
+        `${twilioPhoneNumber.substring(0, 4)}...${twilioPhoneNumber.substring(twilioPhoneNumber.length - 4)}` : 
+        null;
       
       // Invia informazioni sulla configurazione
       res.json({
         success: true,
         config: {
-          emailConfigured: !!emailConfigured,
-          whatsappConfigured: !!professionalPhone,
-          professionalPhone: professionalPhone ? 
-            `${professionalPhone.substring(0, 4)}...${professionalPhone.substring(professionalPhone.length - 4)}` : 
-            null,
-          status: (emailConfigured || professionalPhone) ? 'configurata' : 'incompleta',
+          accountConfigured: hasAccountSid && hasAuthToken,
+          phoneNumberConfigured: hasPhoneNumber,
+          phoneNumberMasked: maskedPhoneNumber,
+          status: hasAccountSid && hasAuthToken && hasPhoneNumber 
+            ? 'completa' 
+            : 'incompleta',
           whatsappSetupInstructions: `
-Per inviare messaggi WhatsApp tramite metodo diretto:
-1. Assicurati di aver inserito almeno un numero di telefono nella pagina "Informazioni di contatto"
-2. Quando devi inviare un messaggio, utilizza l'apposita funzione nella dashboard
-3. Si aprirà direttamente WhatsApp con il messaggio precompilato
-4. I messaggi verranno inviati direttamente dal tuo numero WhatsApp personale
-5. Non è necessario alcun abbonamento o configurazione aggiuntiva
+Per utilizzare WhatsApp con Twilio, devi:
+1. Accedere alla dashboard Twilio: https://www.twilio.com/console
+2. Navigare su "Messaging" > "Settings" > "WhatsApp Sandbox"
+3. Seguire le istruzioni per configurare il tuo account WhatsApp
+4. Inviare un messaggio di attivazione al numero della Sandbox Twilio dal tuo telefono
+5. Assicurarti che i tuoi clienti facciano lo stesso per poter ricevere messaggi WhatsApp
 `
         }
       });
     } catch (error: any) {
-      console.error("Errore nel recupero della configurazione di messaggistica:", error);
+      console.error("Errore nel recupero della configurazione Twilio:", error);
       res.status(500).json({
         success: false,
         message: `Errore nel recupero della configurazione: ${error.message || 'Errore sconosciuto'}`
@@ -2502,7 +1819,7 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   // Endpoint per recuperare tutti gli eventi sincronizzati
   app.get('/api/google-calendar/events', async (req: Request, res: Response) => {
     try {
-      const events = await googleCalendarService.getAllEvents();
+      const events = await storage.getGoogleCalendarEvents();
       res.json(events);
     } catch (error) {
       console.error("Errore durante il recupero degli eventi Google Calendar:", error);
@@ -2577,11 +1894,9 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
           mimeType: 'image/jpeg',
           lastModified: stats.mtime.toISOString()
         };
-        console.log('✅ Icona predefinita trovata e impostata:', defaultIconPath);
       } 
       // Nessuna icona disponibile
       else if (!customIconFound) {
-        console.log('❌ Nessuna icona trovata. DefaultExists:', defaultIconExists, 'Path:', defaultIconPath);
         iconInfo = {
           exists: false
         };
@@ -3103,52 +2418,6 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   });
 
   // Endpoint per aggiornare i prefissi telefonici dei clienti
-  // Endpoint per generare codici univoci per clienti esistenti
-  app.post('/api/generate-unique-codes', isAuthenticated, async (req: Request, res: Response) => {
-    try {
-      const user = req.user;
-      if (!user || (user.type !== 'admin' && user.role !== 'admin')) {
-        return res.status(403).json({ message: "Solo gli amministratori possono generare codici univoci" });
-      }
-
-      console.log(`🔧 Generazione codici univoci avviata da: ${user.username}`);
-      
-      // Recupera tutti i clienti senza codice univoco
-      const allClients = await storage.getClients();
-      const clientsWithoutCode = allClients.filter(client => !client.uniqueCode);
-      
-      console.log(`📊 Trovati ${clientsWithoutCode.length} clienti senza codice univoco su ${allClients.length} totali`);
-      
-      let updated = 0;
-      let errors = 0;
-      
-      for (const client of clientsWithoutCode) {
-        try {
-          const uniqueCode = generateClientUniqueCode(client.firstName, client.lastName, client.id);
-          await storage.updateClient(client.id, { uniqueCode });
-          console.log(`✅ Codice ${uniqueCode} assegnato a ${client.firstName} ${client.lastName} (ID: ${client.id})`);
-          updated++;
-        } catch (error) {
-          console.error(`❌ Errore nell'assegnazione codice per cliente ID ${client.id}:`, error);
-          errors++;
-        }
-      }
-      
-      console.log(`🏁 Generazione completata: ${updated} codici assegnati, ${errors} errori`);
-      
-      res.json({
-        message: "Generazione codici univoci completata",
-        totalClients: allClients.length,
-        clientsWithoutCode: clientsWithoutCode.length,
-        updated,
-        errors
-      });
-    } catch (error) {
-      console.error("❌ Errore nella generazione codici univoci:", error);
-      res.status(500).json({ message: "Errore nella generazione codici univoci" });
-    }
-  });
-
   app.post('/api/update-phone-prefixes', isStaff, async (_req: Request, res: Response) => {
     try {
       // Verifichiamo che il metodo getClients esista
@@ -3323,346 +2592,5 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
     }
   });
 
-  // Gestione impostazioni notifiche
-  app.get('/api/notification-settings', async (_req: Request, res: Response) => {
-    try {
-      // Ottieni o crea impostazioni predefinite se non esistono
-      const settings = await notificationSettingsService.ensureDefaultSettings();
-      res.json({ success: true, data: settings });
-    } catch (error) {
-      console.error("Errore nel recupero delle impostazioni di notifica:", error);
-      res.status(500).json({ success: false, message: 'Errore nel recupero delle impostazioni di notifica' });
-    }
-  });
-
-  app.post('/api/notification-settings', async (req: Request, res: Response) => {
-    try {
-      const settingsData = req.body;
-      
-      // Verificare che ci sia un ID nel body per l'aggiornamento
-      if (settingsData.id) {
-        const updatedSettings = await notificationSettingsService.updateSettings(
-          settingsData.id,
-          settingsData
-        );
-        
-        if (!updatedSettings) {
-          return res.status(404).json({ 
-            success: false,
-            message: "Impossibile trovare le impostazioni di notifica da aggiornare"
-          });
-        }
-        
-        return res.json({ 
-          success: true, 
-          message: 'Impostazioni di notifica aggiornate con successo',
-          data: updatedSettings
-        });
-      } 
-      
-      // Altrimenti creiamo nuove impostazioni
-      const newSettings = await notificationSettingsService.saveSettings(settingsData);
-      res.status(201).json({ 
-        success: true, 
-        message: 'Impostazioni di notifica create con successo',
-        data: newSettings
-      });
-    } catch (error) {
-      console.error("Errore nel salvataggio delle impostazioni di notifica:", error);
-      res.status(500).json({ success: false, message: 'Errore nel salvataggio delle impostazioni di notifica' });
-    }
-  });
-
-  // Rileva configurazioni SMTP in base all'email
-  app.post('/api/notification-settings/detect-smtp', async (req: Request, res: Response) => {
-    try {
-      const { email } = req.body;
-      
-      if (!email) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Indirizzo email obbligatorio per il rilevamento SMTP' 
-        });
-      }
-      
-      const smtpConfig = smtpDetectionService.detectSmtpConfig(email);
-      
-      if (smtpConfig) {
-        res.json({ 
-          success: true, 
-          message: 'Configurazione SMTP rilevata con successo',
-          data: smtpConfig
-        });
-      } else {
-        res.status(404).json({ 
-          success: false, 
-          message: 'Impossibile rilevare le configurazioni SMTP per questa email'
-        });
-      }
-    } catch (error) {
-      console.error("Errore nel rilevamento SMTP:", error);
-      res.status(500).json({ success: false, message: 'Errore durante il rilevamento SMTP' });
-    }
-  });
-
-  // Test delle impostazioni di notifica
-  app.post('/api/notification-settings/test-email', async (req: Request, res: Response) => {
-    try {
-      const { email } = req.body;
-      
-      if (!email) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Indirizzo email obbligatorio per il test' 
-        });
-      }
-      
-      // Recupera le impostazioni di notifica
-      const settings = await notificationSettingsService.getSettings();
-      
-      // Verifica che tutte le impostazioni necessarie siano presenti
-      if (!settings) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Nessuna configurazione email trovata. Salva prima le impostazioni.' 
-        });
-      }
-      
-      if (!settings.emailEnabled) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Le notifiche email non sono abilitate. Attiva prima le notifiche email.' 
-        });
-      }
-      
-      if (!settings.smtpServer) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Server SMTP non configurato. Usa "Rileva impostazioni" o inseriscilo manualmente.' 
-        });
-      }
-      
-      if (!settings.smtpUsername) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Username SMTP non configurato. Spesso è il tuo indirizzo email completo.' 
-        });
-      }
-      
-      if (!settings.smtpPassword) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Password SMTP non configurata. Per Gmail, usa una password per app creata nelle impostazioni di sicurezza Google.' 
-        });
-      }
-      
-      // Registriamo le informazioni di invio per debug
-      console.log(`Tentativo invio email di test a ${email} usando server ${settings.smtpServer}:${settings.smtpPort}`);
-      
-      try {
-        // Invia email di test
-        const success = await directNotificationService.sendEmail(
-          email,
-          'Email di test da Health Pro',
-          'Questo è un messaggio di test dal sistema di notifiche. Se lo ricevi, la configurazione email è funzionante.'
-        );
-        
-        if (success) {
-          res.json({ 
-            success: true, 
-            message: 'Email di test inviata con successo! Controlla la tua casella di posta.' 
-          });
-        } else {
-          // Errore generico nell'invio
-          console.error("Invio email di test fallito");
-          res.status(500).json({ 
-            success: false, 
-            message: 'Si è verificato un problema durante l\'invio dell\'email. Per Gmail potrebbero essere necessari: 1) Attivare l\'accesso app meno sicure, o 2) Creare una "password per app" nelle impostazioni di sicurezza.' 
-          });
-        }
-      } catch (emailError: any) {
-        // Catturo specificamente l'errore di invio per dare messaggi più informativi
-        console.error("Errore nell'invio dell'email di test:", emailError);
-        
-        let errorMessage = 'Errore durante l\'invio dell\'email di test.';
-        
-        // Messaggi specifici per errori comuni
-        if (emailError.code === 'EAUTH') {
-          const isGmail = settings.smtpServer?.includes('gmail');
-          
-          if (isGmail) {
-            errorMessage = 'Errore di autenticazione Gmail. È necessario usare una "password per app" specifica. Vai su https://myaccount.google.com/apppasswords per crearla.';
-          } else {
-            errorMessage = 'Errore di autenticazione SMTP. Verifica username e password.';
-          }
-        } else if (emailError.code === 'ESOCKET') {
-          errorMessage = 'Errore di connessione al server SMTP. Verifica il server e la porta.';
-        } else if (emailError.code === 'ECONNECTION') {
-          errorMessage = 'Impossibile connettersi al server SMTP. Verifica l\'indirizzo del server.';
-        } else if (emailError.message && emailError.message.includes('Application-specific password required')) {
-          // Messaggio specifico per errore password app Gmail
-          errorMessage = 'Per Gmail è necessario creare una "password per app" specifica. Vai su https://myaccount.google.com/apppasswords per crearla.';
-        } else if (emailError.message) {
-          // Includi il messaggio di errore originale se disponibile
-          errorMessage = `Errore: ${emailError.message}`;
-        }
-        
-        res.status(500).json({ 
-          success: false, 
-          message: errorMessage 
-        });
-      }
-    } catch (error: any) {
-      console.error("Errore nel test email:", error);
-      res.status(500).json({ 
-        success: false, 
-        message: `Errore durante l'invio dell'email di test: ${error.message || 'errore sconosciuto'}` 
-      });
-    }
-  });
-
-  // Endpoint di test per le notifiche WhatsApp
-  app.post('/api/notification-settings/test-whatsapp', async (req: Request, res: Response) => {
-    try {
-      const { phone } = req.body;
-      
-      if (!phone) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Numero di telefono obbligatorio per il test' 
-        });
-      }
-      
-      // Recupera le impostazioni di notifica
-      const settings = await notificationSettingsService.getSettings();
-      
-      // Verifica che tutte le impostazioni necessarie siano presenti
-      if (!settings) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Nessuna configurazione notifiche trovata. Salva prima le impostazioni.' 
-        });
-      }
-      
-      if (!settings.whatsappEnabled) {
-        return res.status(400).json({ 
-          success: false, 
-          message: 'Le notifiche WhatsApp non sono abilitate. Attiva prima le notifiche WhatsApp.' 
-        });
-      }
-      
-      // Crea un messaggio di test
-      const message = "Questo è un messaggio di test per WhatsApp. Se lo ricevi, significa che le tue impostazioni di notifica sono configurate correttamente.";
-      
-      // Genera un link WhatsApp per il numero fornito
-      const whatsappLink = directNotificationService.generateWhatsAppLink(phone, message);
-      
-      res.json({
-        success: true,
-        message: "Link WhatsApp generato con successo",
-        whatsappLink
-      });
-    } catch (error: any) {
-      console.error("Errore nel test WhatsApp:", error);
-      res.status(500).json({ 
-        success: false, 
-        message: `Errore durante la generazione del link WhatsApp: ${error.message || 'errore sconosciuto'}` 
-      });
-    }
-  });
-
-  // Endpoint per inviare/processare i promemoria manualmente
-  // Endpoint di test per login account professionali
-  app.post('/api/test-professional-login', async (req: Request, res: Response) => {
-    try {
-      const { username, password } = req.body;
-      
-      console.log(`Test login professionale per: ${username}`);
-      
-      // Trova l'utente nella tabella users (non client_accounts)
-      const user = await storage.getUserByUsername(username);
-      if (!user) {
-        console.log(`❌ Utente non trovato: ${username}`);
-        return res.status(401).json({ message: "Utente non trovato" });
-      }
-      
-      console.log(`✓ Utente trovato: ${user.username}, tipo: ${user.type}, role: ${user.role}`);
-      
-      // Verifica password (temporaneamente usando password semplice)
-      if (password === "test123") {
-        console.log(`✓ Password corretta per ${username}`);
-        
-        // Verifica che sia un account professionale, non un cliente finale
-        if (user.type === 'customer' || user.type === 'staff' || user.type === 'admin') {
-          console.log(`✓ Account professionale confermato: ${user.type}`);
-          
-          // Conta i clienti assegnati a questo professionista
-          const clients = await storage.getClients(user.id);
-          console.log(`✓ Clienti assegnati: ${clients.length}`);
-          
-          res.json({
-            success: true,
-            user: {
-              id: user.id,
-              username: user.username,
-              type: user.type,
-              role: user.role
-            },
-            clientCount: clients.length,
-            message: `Login professionale riuscito per ${user.type}`
-          });
-        } else {
-          console.log(`❌ Tipo account non valido: ${user.type}`);
-          res.status(401).json({ message: "Tipo account non autorizzato" });
-        }
-      } else {
-        console.log(`❌ Password errata per ${username}`);
-        res.status(401).json({ message: "Password errata" });
-      }
-      
-    } catch (error) {
-      console.error('Errore test login:', error);
-      res.status(500).json({ message: "Errore interno" });
-    }
-  });
-
-  app.post('/api/process-reminders', async (req: Request, res: Response) => {
-    try {
-      const remindersSent = await directNotificationService.processReminders();
-      res.json({ 
-        success: true, 
-        message: `${remindersSent} promemoria inviati con successo`
-      });
-    } catch (error) {
-      console.error("Errore nell'elaborazione dei promemoria:", error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Errore durante l\'elaborazione dei promemoria' 
-      });
-    }
-  });
-
-  // === REFERRAL SYSTEM COMMISSIONI API ===
-  
-  // Statistiche referral per uno staff specifico
-  app.get('/api/referral/staff/:staffId/stats', isAuthenticated, getStaffReferralStats);
-  
-  // Panoramica generale referral (solo admin)
-  app.get('/api/referral/overview', isAuthenticated, getReferralOverview);
-  
-  // Assegna sponsorizzazione a una licenza
-  app.post('/api/referral/assign', isAuthenticated, assignSponsorship);
-  
-  // Segna commissione come pagata (solo admin)
-  app.patch('/api/referral/commission/:commissionId/paid', isAuthenticated, markCommissionPaid);
-
-  // === BANKING SETTINGS API ===
-  setupBankingRoutes(app);
-
-
-
-  // Inizializza il servizio keep-alive per mantenere l'applicazione sempre attiva
-  keepAliveService.initialize(httpServer);
-  
   return httpServer;
 }
