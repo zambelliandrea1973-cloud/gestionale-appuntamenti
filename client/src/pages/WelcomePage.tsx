@@ -92,16 +92,6 @@ export default function WelcomePage() {
                 Accesso Staff/Admin
               </Button>
               
-              <Button 
-                className="h-12 text-base"
-                size="lg" 
-                variant="outline"
-                onClick={() => setLocation("/client-login")}
-              >
-                <LogIn className="mr-2 h-4 w-4" />
-                Accesso Cliente
-              </Button>
-              
               <div className="text-center text-sm text-muted-foreground">
                 Scegli il tipo di accesso appropriato
               </div>
