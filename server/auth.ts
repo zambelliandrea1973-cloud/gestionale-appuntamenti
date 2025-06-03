@@ -265,41 +265,6 @@ export function setupAuth(app: Express) {
     });
   });
 
-  // Rotte di autenticazione per account customer (professionisti abbonati)
-  app.post("/api/customer/login", (req, res, next) => {
-    console.log('Login customer richiesto per:', req.body.username);
-    
-    // PULIZIA FORZATA SESSIONE per evitare sovrapposizioni
-    req.logout((logoutErr) => {
-      if (logoutErr) console.log('Errore durante logout preventivo:', logoutErr);
-      
-      passport.authenticate("local-staff", (err, user, info) => {
-        if (err) {
-          console.error('Errore durante autenticazione customer:', err);
-          return next(err);
-        }
-        if (!user) {
-          console.log('Login customer fallito per:', req.body.username);
-          return res.status(401).json(info || { message: "Credenziali non valide" });
-        }
-        
-        // Verifica che sia effettivamente un account customer
-        if (user.type !== 'customer') {
-          console.log('Tentativo di accesso customer con account non-customer:', user.type);
-          return res.status(401).json({ message: "Account non autorizzato per l'accesso customer" });
-        }
-        
-        req.login(user, (err) => {
-          if (err) {
-            console.error('Errore durante login customer:', err);
-            return next(err);
-          }
-          console.log('Login customer completato con successo per:', user.username, 'tipo:', user.type);
-          return res.status(200).json(user);
-        });
-      })(req, res, next);
-    });
-  });
 
   // Rotte di autenticazione per clienti finali
   app.post("/api/client/login", async (req, res, next) => {

@@ -32,7 +32,7 @@ export default function CustomerLogin() {
   // Crea la mutazione per gestire il login
   const loginMutation = useMutation({
     mutationFn: async (credentials: { username: string; password: string }) => {
-      const response = await apiRequest("POST", "/api/customer/login", credentials);
+      const response = await apiRequest("POST", "/api/staff/login", credentials);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Errore durante l'accesso");
