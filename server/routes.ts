@@ -2624,17 +2624,24 @@ Per utilizzare WhatsApp con Twilio, devi:
       // Salva le informazioni aziendali utilizzando le API esistenti
       const { businessName, phone, email, address } = req.body;
       
-      // Aggiorna le informazioni di contatto
-      await storage.updateContactInfo({
-        phone1: phone,
-        email: email,
-        businessName: businessName,
-        address: address
-      });
+      // Salva le informazioni di contatto usando le impostazioni
+      if (businessName) {
+        await storage.saveSetting('businessName', businessName);
+      }
+      if (phone) {
+        await storage.saveSetting('phone1', phone);
+      }
+      if (email) {
+        await storage.saveSetting('email', email);
+      }
+      if (address) {
+        await storage.saveSetting('address', address);
+      }
 
       // Aggiorna il progresso onboarding
       await storage.updateOnboardingProgress(req.user.id, {
-        businessInfoCompleted: true
+        currentStep: 2,
+        completedSteps: ['business-info']
       });
 
       res.json({ success: true, message: "Informazioni aziendali salvate con successo" });
@@ -2656,16 +2663,15 @@ Per utilizzare WhatsApp con Twilio, devi:
       for (const service of services) {
         await storage.createService({
           name: service.name,
-          description: service.description || '',
           duration: service.duration,
-          price: service.price,
-          ownerId: req.user.id
+          price: service.price || 0
         });
       }
 
       // Aggiorna il progresso onboarding
       await storage.updateOnboardingProgress(req.user.id, {
-        servicesCompleted: true
+        currentStep: 3,
+        completedSteps: ['business-info', 'services']
       });
 
       res.json({ success: true, message: "Servizi configurati con successo" });
@@ -2698,7 +2704,8 @@ Per utilizzare WhatsApp con Twilio, devi:
 
       // Aggiorna il progresso onboarding
       await storage.updateOnboardingProgress(req.user.id, {
-        settingsCompleted: true,
+        currentStep: 4,
+        completedSteps: ['business-info', 'services', 'settings'],
         completedAt: new Date()
       });
 
