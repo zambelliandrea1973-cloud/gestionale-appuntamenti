@@ -182,34 +182,22 @@ export default function Clients() {
   
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
-    .filter((client, index) => {
-      // DEBUG: log ogni cliente per identificare problemi
-      if (index < 5) {
-        console.log(`🔍 DEBUG Client ${index}:`, {
-          id: client.id,
-          name: `${client.firstName} ${client.lastName}`,
-          firstName: client.firstName,
-          lastName: client.lastName,
-          hasFirstName: !!client.firstName,
-          hasLastName: !!client.lastName,
-          isFrequent: client.isFrequent,
-          hasConsent: client.hasConsent
-        });
-      }
-      
-      // Verifica che il cliente abbia i campi essenziali
-      if (!client.firstName || !client.lastName) {
-        console.warn(`⚠️ Cliente ${client.id} ha campi mancanti:`, client);
-        return false;
-      }
-      
+    .map(client => ({
+      ...client,
+      // Aggiungi valori di default per campi mancanti invece di escludere il cliente
+      firstName: client.firstName || 'Nome',
+      lastName: client.lastName || 'Sconosciuto',
+      isFrequent: client.isFrequent ?? false,
+      hasConsent: client.hasConsent ?? false
+    }))
+    .filter(client => {
       // Apply search filter
       const matchesSearch = searchQuery.trim().length < 2 || 
         `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
         client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      // Apply tab filter - Fix: per "all" mostra tutti i clienti
+      // Apply tab filter - Mostra tutti i clienti per il tab "all"
       const matchesTab = 
         activeTab === "all" || 
         (activeTab === "frequent" && client.isFrequent === true) ||
