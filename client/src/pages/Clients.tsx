@@ -32,7 +32,13 @@ export default function Clients() {
   const autoRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
   
-  // Fetch all clients with explicit queryFn
+  // Fetch all clients with explicit queryFn and cache busting
+  const queryClient = useQueryClient();
+  
+  // Force cache invalidation on mount
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+  }, [queryClient]);
   const {
     data: clients = [],
     isLoading,
@@ -40,14 +46,17 @@ export default function Clients() {
     refetch: refetchClients
   } = useQuery({
     queryKey: ["/api/clients"],
+    staleTime: 0,
+    gcTime: 0,
     queryFn: async () => {
-      const response = await fetch("/api/clients", {
+      const response = await fetch(`/api/clients?_t=${Date.now()}`, {
         method: "GET",
         credentials: "include",
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           "Pragma": "no-cache",
-          "Expires": "0"
+          "Expires": "0",
+          "X-Requested-With": "XMLHttpRequest"
         }
       });
       
