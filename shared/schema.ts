@@ -3,24 +3,24 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-// Clients table schema
+// Clients table schema - Aggiornato per riflettere i nomi colonne camelCase
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
+  firstName: text("firstName").notNull(),
+  lastName: text("lastName").notNull(),
   phone: text("phone").notNull(),
   email: text("email"),
   address: text("address"),
   birthday: text("birthday"),
   notes: text("notes"),
-  isFrequent: boolean("is_frequent").default(false),
-  medicalNotes: text("medical_notes"),
+  isFrequent: boolean("isFrequent").default(false),
+  medicalNotes: text("medicalNotes"),
   allergies: text("allergies"),
-  createdAt: timestamp("created_at").defaultNow(),
-  hasConsent: boolean("has_consent").default(false),
-  ownerId: integer("owner_id"), // ID dell'utente che ha creato questo cliente
-  assignmentCode: text("assignment_code"), // Codice usato per assegnare il cliente all'account
-  uniqueCode: text("unique_code"), // Codice univoco per identificare il cliente
+  createdAt: timestamp("createdAt").defaultNow(),
+  hasConsent: boolean("hasConsent").default(false),
+  ownerId: integer("ownerId"), // ID dell'utente che ha creato questo cliente
+  assignmentCode: text("assignmentCode"), // Codice usato per assegnare il cliente all'account
+  uniqueCode: text("uniqueCode"), // Codice univoco per identificare il cliente
 });
 
 export const insertClientSchema = createInsertSchema(clients).omit({
