@@ -1414,19 +1414,32 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log(`🔍 getClients chiamato con ownerId: ${ownerId}`);
       
+      let rawClients;
       if (ownerId !== undefined) {
-        const clientsList = await db.select().from(clients)
+        rawClients = await db.select().from(clients)
           .where(eq(clients.ownerId, ownerId))
           .orderBy(clients.lastName);
         
-        console.log(`✅ Trovati ${clientsList.length} clienti per ownerId ${ownerId}`);
-        return clientsList;
+        console.log(`✅ Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
+      } else {
+        // Se non specificato ownerId, restituisci tutti (solo per admin)
+        rawClients = await db.select().from(clients).orderBy(clients.lastName);
+        console.log(`✅ Trovati ${rawClients.length} clienti totali (query senza filtro)`);
       }
       
-      // Se non specificato ownerId, restituisci tutti (solo per admin)
-      const allClients = await db.select().from(clients).orderBy(clients.lastName);
-      console.log(`✅ Trovati ${allClients.length} clienti totali (query senza filtro)`);
-      return allClients;
+      // Assicura che tutti i campi siano mappati correttamente
+      const mappedClients = rawClients.map(client => ({
+        ...client,
+        // Forza il mapping corretto dei campi essenziali
+        firstName: client.firstName || client.first_name || 'Nome',
+        lastName: client.lastName || client.last_name || 'Sconosciuto', 
+        isFrequent: client.isFrequent ?? client.is_frequent ?? false,
+        hasConsent: client.hasConsent ?? client.has_consent ?? false,
+        uniqueCode: client.uniqueCode || client.unique_code || null,
+        ownerId: client.ownerId ?? client.owner_id ?? null
+      }));
+      
+      return mappedClients;
     } catch (error) {
       console.error("Error getting clients:", error);
       return [];
