@@ -28,6 +28,8 @@ export const insertClientSchema = createInsertSchema(clients).omit({
   createdAt: true,
 });
 
+export type Client = typeof clients.$inferSelect;
+
 // Services table schema
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
