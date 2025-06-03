@@ -36,12 +36,27 @@ export default function Clients() {
   const {
     data: clients = [],
     isLoading,
+    error,
     refetch: refetchClients
   } = useQuery({
     queryKey: ["/api/clients"],
     staleTime: 0, // Forza sempre dati freschi
     refetchOnMount: true,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
+    onSuccess: (data) => {
+      console.log("🎯 QUERY SUCCESS - Clienti ricevuti dalla query:", data?.length || 0, data);
+    },
+    onError: (error) => {
+      console.error("❌ QUERY ERROR - Errore nel caricamento clienti:", error);
+    }
+  });
+
+  // DEBUG: Stato della query
+  console.log("🔍 STATO QUERY CLIENTI:", {
+    isLoading,
+    error: error?.message,
+    dataLength: clients?.length || 0,
+    rawData: clients
   });
 
   // Funzione per forzare il caricamento dal server bypassando completamente la cache
