@@ -35,9 +35,17 @@ export default function Clients() {
   // Fetch all clients with explicit queryFn and cache busting
   const queryClient = useQueryClient();
   
-  // Force cache invalidation on mount
+  // Force cache invalidation on mount and auto-refresh
   useEffect(() => {
+    // Invalida immediatamente la cache
     queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+    
+    // Auto-refresh ogni 30 secondi per mantenere dati sincronizzati
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, [queryClient]);
   const {
     data: clients = [],
