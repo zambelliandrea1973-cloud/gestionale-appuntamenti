@@ -28,8 +28,6 @@ export const insertClientSchema = createInsertSchema(clients).omit({
   createdAt: true,
 });
 
-export type Client = typeof clients.$inferSelect;
-
 // Services table schema
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
@@ -863,6 +861,36 @@ export const insertStaffCommissionSchema = createInsertSchema(staffCommissions).
 export type StaffCommission = typeof staffCommissions.$inferSelect;
 export type InsertStaffCommission = z.infer<typeof insertStaffCommissionSchema>;
 
+// Onboarding Progress table schema
+export const onboardingProgress = pgTable("onboarding_progress", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").references(() => users.id).notNull(),
+  currentStep: integer("currentStep").default(0).notNull(),
+  completedSteps: text("completedSteps").array().default([]),
+  businessType: text("businessType"), // e.g., "medical", "beauty", "consulting"
+  businessName: text("businessName"),
+  primaryServices: text("primaryServices").array().default([]),
+  workingHours: text("workingHours"), // JSON string for complex schedule
+  appointmentDuration: integer("appointmentDuration").default(60), // minutes
+  clientManagementNeeds: text("clientManagementNeeds").array().default([]),
+  communicationPreferences: text("communicationPreferences").array().default([]),
+  integrationGoals: text("integrationGoals").array().default([]),
+  aiRecommendations: text("aiRecommendations"), // JSON string of AI suggestions
+  isCompleted: boolean("isCompleted").default(false),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+});
+
+export const insertOnboardingProgressSchema = createInsertSchema(onboardingProgress).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type OnboardingProgress = typeof onboardingProgress.$inferSelect;
+export type InsertOnboardingProgress = z.infer<typeof insertOnboardingProgressSchema>;
+
 // Relazione tra licenses e users
 export const licensesRelations = relations(licenses, ({ one, many }) => ({
   user: one(users, {
@@ -891,5 +919,13 @@ export const staffCommissionsRelations = relations(staffCommissions, ({ one }) =
     fields: [staffCommissions.licenseId],
     references: [licenses.id],
     relationName: "license_commissions",
+  }),
+}));
+
+// Onboarding Progress Relations
+export const onboardingProgressRelations = relations(onboardingProgress, ({ one }) => ({
+  user: one(users, {
+    fields: [onboardingProgress.userId],
+    references: [users.id],
   }),
 }));
