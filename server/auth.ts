@@ -279,6 +279,33 @@ export function setupAuth(app: Express) {
     console.log(`Login client - UserAgent: ${userAgent}`);
     console.log(`Login client - PWA: ${isMobileApp}, DuckDuckGo: ${isDuckDuckGo}`);
     
+    // PRIMA PRIORITA': Account customer (1973A,B,C,D) come nei backup 14-15
+    if (username && password) {
+      console.log('Autenticazione standard con username/password');
+      
+      try {
+        const user = await storage.getUserByUsername(username);
+        if (user && user.type === 'customer' && (await comparePasswords(password, user.password))) {
+          console.log(`Login customer completato con successo per: ${user.username} tipo: ${user.type}`);
+          
+          req.login(user, (err) => {
+            if (err) {
+              console.error('Errore durante login customer:', err);
+              return next(err);
+            }
+            return res.status(200).json(user);
+          });
+          return;
+        }
+      } catch (error) {
+        console.error('Errore durante verifica account customer:', error);
+      }
+      
+      // Se non è un account customer, continua con la logica normale
+      console.log(`Login fallito per: ${username} password: ${password ? 'fornita' : 'mancante'}`);
+      return res.status(401).json({ message: "Username o password non validi" });
+    }
+    
     // Gestione per DuckDuckGo
     if (isDuckDuckGo) {
       console.log('Client sta utilizzando DuckDuckGo browser, modalità speciale attivata');
