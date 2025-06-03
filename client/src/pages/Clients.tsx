@@ -168,11 +168,11 @@ export default function Clients() {
         client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      // Apply tab filter - Fix: considera che alcuni clienti potrebbero non avere le proprietà isFrequent/hasConsent
+      // Apply tab filter - Fix: per "all" mostra tutti i clienti
       const matchesTab = 
         activeTab === "all" || 
-        (activeTab === "frequent" && (client.isFrequent === true)) ||
-        (activeTab === "no-consent" && (client.hasConsent === false));
+        (activeTab === "frequent" && client.isFrequent === true) ||
+        (activeTab === "no-consent" && client.hasConsent !== true);
       
       return matchesSearch && matchesTab;
     })
