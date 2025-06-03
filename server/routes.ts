@@ -2577,9 +2577,11 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
           mimeType: 'image/jpeg',
           lastModified: stats.mtime.toISOString()
         };
+        console.log('✅ Icona predefinita trovata e impostata:', defaultIconPath);
       } 
       // Nessuna icona disponibile
       else if (!customIconFound) {
+        console.log('❌ Nessuna icona trovata. DefaultExists:', defaultIconExists, 'Path:', defaultIconPath);
         iconInfo = {
           exists: false
         };
