@@ -206,8 +206,9 @@ export const queryClient = new QueryClient({
         withBetaAdminToken: false
       }),
       refetchInterval: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      refetchOnWindowFocus: true,
+      staleTime: 0, // Forza sempre richieste fresche
+      gcTime: 0, // Rimuovi cache immediatamente
       retry: false,
     },
     mutations: {
