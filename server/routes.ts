@@ -48,6 +48,15 @@ import referralRoutes from './routes/referralRoutes';
 import { licenseService, LicenseType } from './services/licenseService';
 import { getStaffReferralStats, getReferralOverview, assignSponsorship, markCommissionPaid } from './api/referralApi';
 
+// Funzione per generare codici univoci per clienti finali
+function generateClientUniqueCode(firstName: string, lastName: string, id: number): string {
+  // Prende le prime 3 lettere del nome e cognome, più un numero sequenziale
+  const firstPart = firstName.substring(0, 3).toUpperCase();
+  const lastPart = lastName.substring(0, 3).toUpperCase();
+  const numPart = id.toString().padStart(4, '0');
+  return `${firstPart}${lastPart}${numPart}`;
+}
+
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
   if (!req.isAuthenticated()) {
@@ -585,7 +594,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const client = await storage.createClient(clientData);
       console.log(`✅ Cliente creato con successo - ID: ${client.id}, OwnerID: ${client.ownerId}, Codice: ${client.assignmentCode}`);
       
-      res.status(201).json(client);
+      // Genera e assegna il codice univoco al cliente finale
+      const uniqueCode = generateClientUniqueCode(client.firstName, client.lastName, client.id);
+      const updatedClient = await storage.updateClient(client.id, { uniqueCode });
+      
+      console.log(`🏷️ Codice univoco generato per ${client.firstName} ${client.lastName}: ${uniqueCode}`);
+      
+      res.status(201).json(updatedClient || client);
     } catch (error) {
       console.error("❌ Errore nella creazione cliente:", error);
       res.status(500).json({ message: "Error creating client" });
@@ -2847,6 +2862,52 @@ Per inviare messaggi WhatsApp tramite metodo diretto:
   });
 
   // Endpoint per aggiornare i prefissi telefonici dei clienti
+  // Endpoint per generare codici univoci per clienti esistenti
+  app.post('/api/generate-unique-codes', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user;
+      if (!user || (user.type !== 'admin' && user.role !== 'admin')) {
+        return res.status(403).json({ message: "Solo gli amministratori possono generare codici univoci" });
+      }
+
+      console.log(`🔧 Generazione codici univoci avviata da: ${user.username}`);
+      
+      // Recupera tutti i clienti senza codice univoco
+      const allClients = await storage.getClients();
+      const clientsWithoutCode = allClients.filter(client => !client.uniqueCode);
+      
+      console.log(`📊 Trovati ${clientsWithoutCode.length} clienti senza codice univoco su ${allClients.length} totali`);
+      
+      let updated = 0;
+      let errors = 0;
+      
+      for (const client of clientsWithoutCode) {
+        try {
+          const uniqueCode = generateClientUniqueCode(client.firstName, client.lastName, client.id);
+          await storage.updateClient(client.id, { uniqueCode });
+          console.log(`✅ Codice ${uniqueCode} assegnato a ${client.firstName} ${client.lastName} (ID: ${client.id})`);
+          updated++;
+        } catch (error) {
+          console.error(`❌ Errore nell'assegnazione codice per cliente ID ${client.id}:`, error);
+          errors++;
+        }
+      }
+      
+      console.log(`🏁 Generazione completata: ${updated} codici assegnati, ${errors} errori`);
+      
+      res.json({
+        message: "Generazione codici univoci completata",
+        totalClients: allClients.length,
+        clientsWithoutCode: clientsWithoutCode.length,
+        updated,
+        errors
+      });
+    } catch (error) {
+      console.error("❌ Errore nella generazione codici univoci:", error);
+      res.status(500).json({ message: "Errore nella generazione codici univoci" });
+    }
+  });
+
   app.post('/api/update-phone-prefixes', isStaff, async (_req: Request, res: Response) => {
     try {
       // Verifichiamo che il metodo getClients esista
