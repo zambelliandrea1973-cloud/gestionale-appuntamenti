@@ -33,6 +33,7 @@ export default function Clients() {
   const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
   
   // Fetch all clients
+  console.log("🚀 INIZIALIZZO QUERY CLIENTI - queryKey: ['/api/clients']");
   const {
     data: clients = [],
     isLoading,
@@ -43,6 +44,8 @@ export default function Clients() {
     staleTime: 0, // Forza sempre dati freschi
     refetchOnMount: true,
     refetchOnWindowFocus: true,
+    enabled: true, // Assicura che la query sia sempre abilitata
+    retry: 3,
     onSuccess: (data) => {
       console.log("🎯 QUERY SUCCESS - Clienti ricevuti dalla query:", data?.length || 0, data);
     },
