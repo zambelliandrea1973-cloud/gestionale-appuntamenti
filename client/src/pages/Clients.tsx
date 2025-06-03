@@ -45,8 +45,9 @@ export default function Clients() {
         method: "GET",
         credentials: "include",
         headers: {
-          "Cache-Control": "no-cache",
-          "Pragma": "no-cache"
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
         }
       });
       
@@ -59,6 +60,8 @@ export default function Clients() {
     staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
+    refetchInterval: 3000, // Aggiornamento automatico ogni 3 secondi
+    refetchIntervalInBackground: true,
     enabled: true,
     retry: 3
   });
