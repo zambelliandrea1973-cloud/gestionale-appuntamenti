@@ -73,17 +73,37 @@ export default function WelcomePage() {
             
             <div className="flex flex-col gap-3">
               <Button 
-                className="h-16 text-lg"
+                className="h-12 text-base"
+                size="lg" 
+                variant="outline"
+                onClick={() => setLocation("/customer-login")}
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Accesso Professionista
+              </Button>
+              
+              <Button 
+                className="h-12 text-base"
+                size="lg" 
+                variant="outline"
+                onClick={() => setLocation("/staff-login")}
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Accesso Staff/Admin
+              </Button>
+              
+              <Button 
+                className="h-12 text-base"
                 size="lg" 
                 variant="outline"
                 onClick={() => setLocation("/client-login")}
               >
-                <LogIn className="mr-2 h-5 w-5" />
-                Accedi
+                <LogIn className="mr-2 h-4 w-4" />
+                Accesso Cliente
               </Button>
               
               <div className="text-center text-sm text-muted-foreground">
-                Accesso per clienti e operatori
+                Scegli il tipo di accesso appropriato
               </div>
             </div>
           </CardContent>
