@@ -621,6 +621,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(500).json({ message: "Error deleting client" });
       }
 
+      // Headers anti-cache per prevenire memorizzazione dell'eliminazione
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'X-No-Cache': 'true'
+      });
+      
       res.status(204).end();
     } catch (error) {
       console.error(`❌ Errore durante l'eliminazione del cliente ${req.params.id}:`, error);

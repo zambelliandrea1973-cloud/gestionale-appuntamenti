@@ -32,6 +32,14 @@ export async function apiRequest(
       headers["Content-Type"] = "application/json";
     }
     
+    // Headers anti-cache per operazioni DELETE
+    if (method === "DELETE") {
+      headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+      headers["Pragma"] = "no-cache";
+      headers["Expires"] = "0";
+      headers["X-No-Cache"] = "true";
+    }
+    
     // Aggiungi l'header x-pwa-app se siamo in una PWA
     if (isPWA) {
       headers["x-pwa-app"] = "true";
