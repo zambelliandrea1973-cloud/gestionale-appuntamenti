@@ -28,6 +28,506 @@
         "id": 2,
         "createdAt": "2025-04-02T16:43:36.683Z"
       }
+    ],
+    [
+      25,
+      {
+        "firstName": "Cliente",
+        "lastName": "Trial",
+        "phone": "+39 123456789",
+        "email": "zambelli.andrea.1973A@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 9,
+        "uniqueCode": "CT25",
+        "id": 25,
+        "createdAt": "2025-06-03T13:34:58.643Z"
+      }
+    ],
+    [
+      27,
+      {
+        "firstName": "Cliente",
+        "lastName": "Pro",
+        "phone": "+39 123456789",
+        "email": "zambelli.andrea.1973C@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 11,
+        "uniqueCode": "CP27",
+        "id": 27,
+        "createdAt": "2025-06-03T13:34:58.644Z"
+      }
+    ],
+    [
+      28,
+      {
+        "firstName": "Cliente",
+        "lastName": "Business",
+        "phone": "+39 123456789",
+        "email": "zambelli.andrea.1973D@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 12,
+        "uniqueCode": "CB28",
+        "id": 28,
+        "createdAt": "2025-06-03T13:34:58.644Z"
+      }
+    ],
+    [
+      251,
+      {
+        "firstName": "Bruna",
+        "lastName": "Pizzolato",
+        "phone": "+393401234567",
+        "email": "brunapizzolato77@gmail.com",
+        "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+        "birthday": "1987-03-14",
+        "notes": "Cliente storica, preferisce appuntamenti mattutini",
+        "isFrequent": true,
+        "medicalNotes": "Lieve ipertensione, sotto controllo medico",
+        "allergies": "Nichel",
+        "hasConsent": true,
+        "ownerId": 16,
+        "uniqueCode": "BP251",
+        "id": 251,
+        "createdAt": "2025-06-03T13:34:58.644Z"
+      }
+    ],
+    [
+      252,
+      {
+        "firstName": "Marco",
+        "lastName": "Berto",
+        "phone": "+393407654321",
+        "email": "marco_berto@msn.com",
+        "address": "Via Monte Rosa 4b, 22070 Appiano Gentile",
+        "birthday": "1978-07-20",
+        "notes": "Preferisce essere contattato via email",
+        "isFrequent": true,
+        "medicalNotes": "Nessun problema di salute noto",
+        "allergies": "Nessuna allergia dichiarata",
+        "hasConsent": true,
+        "ownerId": 16,
+        "uniqueCode": "MB252",
+        "id": 252,
+        "createdAt": "2025-06-03T13:34:58.644Z"
+      }
+    ],
+    [
+      256,
+      {
+        "firstName": "pippo",
+        "lastName": "quattro",
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "address": "Via Cavallotti",
+        "birthday": "2025-05-29",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "pq256",
+        "id": 256,
+        "createdAt": "2025-06-03T13:34:58.644Z"
+      }
+    ],
+    [
+      257,
+      {
+        "firstName": "Valentina",
+        "lastName": "Cotrino",
+        "phone": "+393801808350",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": true,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "VC257",
+        "id": 257,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      258,
+      {
+        "firstName": "Cinzia",
+        "lastName": "Munaretto",
+        "phone": "+393333637578",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "CM258",
+        "id": 258,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      259,
+      {
+        "firstName": "Eleonora",
+        "lastName": "Tentori",
+        "phone": "+393420241919",
+        "email": "",
+        "address": "",
+        "birthday": "1999-10-06",
+        "notes": "",
+        "isFrequent": true,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "ET259",
+        "id": 259,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      261,
+      {
+        "firstName": "Cristina",
+        "lastName": "Valetti",
+        "phone": "+393337124083",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": true,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "CV261",
+        "id": 261,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      262,
+      {
+        "firstName": "Pro",
+        "lastName": "Account",
+        "phone": "1234567890",
+        "email": "zambelli.andrea.1973C@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 11,
+        "uniqueCode": "PA262",
+        "id": 262,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      263,
+      {
+        "firstName": "Matteo",
+        "lastName": "Somaschini",
+        "phone": "+393920820219",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "MS263",
+        "id": 263,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      264,
+      {
+        "firstName": "Business",
+        "lastName": "Account",
+        "phone": "1234567890",
+        "email": "zambelli.andrea.1973D@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 12,
+        "uniqueCode": "BA264",
+        "id": 264,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      265,
+      {
+        "firstName": "Zambelli",
+        "lastName": "Andrea",
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "address": "Via Cavallotti, 6",
+        "birthday": "2022-03-26",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "ZA265",
+        "id": 265,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      266,
+      {
+        "firstName": "giovanni",
+        "lastName": "rizzo",
+        "phone": "+392550110",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "address": "Via Cavallotti 9",
+        "birthday": "2000-07-13",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 3,
+        "uniqueCode": "gr266",
+        "id": 266,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      267,
+      {
+        "firstName": "giovanni",
+        "lastName": "ribbio",
+        "phone": "+392550110",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "address": "Via Cavallotti 9",
+        "birthday": "2006-10-11",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 3,
+        "uniqueCode": "gr267",
+        "id": 267,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      268,
+      {
+        "firstName": "Leila",
+        "lastName": "Baldovin",
+        "phone": "+393312936414",
+        "email": "leila.baldovin22@gmail.com",
+        "address": "",
+        "birthday": "1999-07-10",
+        "notes": "Allergia mandorle + graminacee",
+        "isFrequent": true,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "LB268",
+        "id": 268,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      269,
+      {
+        "firstName": "Rosa",
+        "lastName": "Nappi",
+        "phone": "+393479687939",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "RN269",
+        "id": 269,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      270,
+      {
+        "firstName": "Giovanna",
+        "lastName": "Spano",
+        "phone": "+393666249288",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "GS270",
+        "id": 270,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      271,
+      {
+        "firstName": "Alan",
+        "lastName": "Marconi",
+        "phone": "+393337960111",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "AM271",
+        "id": 271,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      272,
+      {
+        "firstName": "Dino",
+        "lastName": "Nappi",
+        "phone": "+393385893919",
+        "email": "",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "DN272",
+        "id": 272,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      273,
+      {
+        "firstName": "Matteo",
+        "lastName": "Libera",
+        "phone": "+393494195547",
+        "email": "",
+        "address": "",
+        "birthday": "2004-11-13",
+        "notes": "",
+        "isFrequent": true,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "ML273",
+        "id": 273,
+        "createdAt": "2025-06-03T13:34:58.646Z"
+      }
+    ],
+    [
+      316,
+      {
+        "firstName": "Trial",
+        "lastName": "Account",
+        "phone": "1234567890",
+        "email": "zambelli.andrea.1973A@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 9,
+        "uniqueCode": "TA316",
+        "id": 316,
+        "createdAt": "2025-06-03T13:34:58.647Z"
+      }
+    ],
+    [
+      513,
+      {
+        "firstName": "provaci ancora",
+        "lastName": "due",
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "address": "Via Cavallotti",
+        "birthday": "2013-07-19",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "pd513",
+        "id": 513,
+        "createdAt": "2025-06-03T13:34:58.647Z"
+      }
+    ],
+    [
+      514,
+      {
+        "firstName": "maaa",
+        "lastName": "vaaa",
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "address": "Via Cavallotti",
+        "birthday": "2014-11-30",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 16,
+        "uniqueCode": "mv514",
+        "id": 514,
+        "createdAt": "2025-06-03T13:34:58.647Z"
+      }
     ]
   ],
   "services": [
