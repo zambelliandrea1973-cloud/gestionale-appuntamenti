@@ -165,11 +165,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
 
   // Client routes
-  app.get("/api/clients", async (_req: Request, res: Response) => {
+  app.get("/api/clients", isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      const clients = await storage.getClients();
+      const user = req.user as any;
+      
+      // Solo admin può vedere tutti i clienti, gli altri vedono solo i propri
+      const ownerId = user.type === 'admin' ? undefined : user.id;
+      
+      console.log(`Recupero clienti per utente ${user.id} (tipo: ${user.type}), filtro ownerId: ${ownerId}`);
+      
+      const clients = await storage.getClients(ownerId);
       res.json(clients);
     } catch (error) {
+      console.error('Errore recupero clienti:', error);
       res.status(500).json({ message: "Error fetching clients" });
     }
   });
@@ -192,7 +200,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/clients", async (req: Request, res: Response) => {
+  app.post("/api/clients", isClientOrStaff, async (req: Request, res: Response) => {
     try {
       const validationResult = insertClientSchema.safeParse(req.body);
       if (!validationResult.success) {
@@ -202,9 +210,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const client = await storage.createClient(validationResult.data);
+      const user = req.user as any;
+      
+      // Genera codice univoco per il cliente
+      const uniqueCode = `${validationResult.data.firstName.charAt(0)}${validationResult.data.lastName.charAt(0)}${Date.now().toString().slice(-4)}`;
+      
+      const clientData = {
+        ...validationResult.data,
+        ownerId: user.id, // Assegna automaticamente l'owner
+        uniqueCode: uniqueCode
+      };
+
+      console.log(`Creazione cliente per owner ${user.id}: ${clientData.firstName} ${clientData.lastName} (${uniqueCode})`);
+      
+      const client = await storage.createClient(clientData);
       res.status(201).json(client);
     } catch (error) {
+      console.error('Errore creazione cliente:', error);
       res.status(500).json({ message: "Error creating client" });
     }
   });
@@ -235,13 +257,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/clients/:id", async (req: Request, res: Response) => {
+  app.delete("/api/clients/:id", isClientOrStaff, async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
         return res.status(400).json({ message: "Invalid client ID" });
       }
 
+      const user = req.user as any;
+      
+      // Verifica che il cliente esista e appartenga all'utente
+      const client = await storage.getClient(id);
+      if (!client) {
+        return res.status(404).json({ message: "Client not found" });
+      }
+      
+      // Solo admin può cancellare clienti di altri, gli altri solo i propri
+      if (user.type !== 'admin' && client.ownerId !== user.id) {
+        console.log(`Tentativo non autorizzato di cancellare cliente ${id} da parte di utente ${user.id}`);
+        return res.status(403).json({ message: "Unauthorized: cannot delete client" });
+      }
+
+      console.log(`Cancellazione cliente ${id} autorizzata per utente ${user.id} (tipo: ${user.type})`);
+      
       const success = await storage.deleteClient(id);
       if (!success) {
         return res.status(404).json({ message: "Client not found" });
@@ -249,6 +287,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.status(204).end();
     } catch (error) {
+      console.error('Errore cancellazione cliente:', error);
       res.status(500).json({ message: "Error deleting client" });
     }
   });
