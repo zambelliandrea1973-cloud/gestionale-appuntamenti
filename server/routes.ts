@@ -442,13 +442,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/license', licenseRoutes);
   app.use('/api/admin-license', adminLicenseRoutes);
 
-  // Interactive AI-Powered Onboarding Wizard Routes
-  app.get('/api/onboarding/progress', async (req: Request, res: Response) => {
+  // Middleware personalizzato per l'autenticazione dell'onboarding
+  const onboardingAuth = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ message: "Accesso non autorizzato" });
+      // Verifica autenticazione standard
+      if (req.isAuthenticated() && req.user) {
+        return next();
       }
+      
+      // Verifica sessione manualmente se passport fallisce
+      if (req.session && req.session.passport && req.session.passport.user) {
+        const serializedUser = req.session.passport.user;
+        console.log('🔧 Ricostruzione utente da sessione:', serializedUser);
+        
+        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
+          const [type, idStr] = serializedUser.split(':');
+          const id = parseInt(idStr, 10);
+          
+          if (!isNaN(id) && (type === 'admin' || type === 'staff' || type === 'customer')) {
+            // Recupera l'utente completo dal database
+            const fullUser = await storage.getUser(id);
+            if (fullUser) {
+              req.user = { ...fullUser, type } as any;
+              console.log('🔧 Utente ricostruito con successo:', req.user.username);
+              return next();
+            }
+          }
+        }
+      }
+      
+      console.log('❌ Autenticazione fallita per onboarding API');
+      return res.status(401).json({ message: "Accesso non autorizzato" });
+    } catch (error) {
+      console.error('Errore nel middleware di autenticazione onboarding:', error);
+      return res.status(500).json({ message: "Errore di autenticazione" });
+    }
+  };
 
+  // Interactive AI-Powered Onboarding Wizard Routes
+  app.get('/api/onboarding/progress', onboardingAuth, async (req: Request, res: Response) => {
+    try {
       const user = req.user;
       if (!user) {
         return res.status(401).json({ message: "Utente non autenticato" });
@@ -479,12 +512,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/onboarding/analyze', async (req: Request, res: Response) => {
+  app.post('/api/onboarding/analyze', onboardingAuth, async (req: Request, res: Response) => {
     try {
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ message: "Accesso non autorizzato" });
-      }
-
       const user = req.user;
       if (!user) {
         return res.status(401).json({ message: "Utente non autenticato" });
