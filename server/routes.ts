@@ -478,6 +478,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`🔍 RECUPERO CLIENTI per utente: ${user.username} (ID: ${user.id}, Tipo: ${user.type}, Ruolo: ${user.role})`);
 
+      // DEBUG: test della logica admin
+      if (user.type === 'admin' || user.role === 'admin') {
+        console.log(`🧪 DEBUG ADMIN: Utente identificato come admin, dovrebbe vedere tutti i clienti`);
+      }
+
       // Implementazione separazione clienti per ownerId
       let clients: Client[];
       
