@@ -460,32 +460,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/appointments/range/:startDate/:endDate", async (req: Request, res: Response) => {
+  app.get("/api/appointments/range/:startDate/:endDate", isClientOrStaff, async (req: Request, res: Response) => {
     try {
       const { startDate, endDate } = req.params;
+      const user = req.user as any;
+      
       // Simple validation for date format (YYYY-MM-DD)
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
         return res.status(400).json({ message: "Invalid date format. Use YYYY-MM-DD" });
       }
 
+      console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per range ${startDate}-${endDate} - utente ${user.id} (${user.type})`);
+      
+      // Per ora uso la funzione per data singola in loop - da ottimizzare se necessario
       const appointments = await storage.getAppointmentsByDateRange(startDate, endDate);
-      res.json(appointments);
+      
+      // Filtro manualmente per utente (da migliorare con query dedicata se necessario)
+      const visibleClients = await storage.getVisibleClientsForUser(user.id, user.type);
+      const visibleClientIds = visibleClients.map(client => client.id);
+      const filteredAppointments = appointments.filter(apt => visibleClientIds.includes(apt.clientId));
+      
+      console.log(`✅ Sistema multi-tenant: ${filteredAppointments.length} appuntamenti per utente ${user.id} nel range ${startDate}-${endDate}`);
+      res.json(filteredAppointments);
     } catch (error) {
+      console.error("Errore recupero appuntamenti per range:", error);
       res.status(500).json({ message: "Error fetching appointments" });
     }
   });
 
-  app.get("/api/appointments/client/:clientId", async (req: Request, res: Response) => {
+  app.get("/api/appointments/client/:clientId", isClientOrStaff, async (req: Request, res: Response) => {
     try {
       const clientId = parseInt(req.params.clientId);
+      const user = req.user as any;
+      
       if (isNaN(clientId)) {
         return res.status(400).json({ message: "Invalid client ID" });
       }
 
+      console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per cliente ${clientId} - utente ${user.id} (${user.type})`);
+      
+      // Verifica che il cliente sia visibile per questo utente
+      const visibleClients = await storage.getVisibleClientsForUser(user.id, user.type);
+      const isClientVisible = visibleClients.some(client => client.id === clientId);
+      
+      if (!isClientVisible) {
+        console.log(`❌ Cliente ${clientId} non visibile per utente ${user.id}`);
+        return res.status(403).json({ message: "Access denied to this client" });
+      }
+
       const appointments = await storage.getAppointmentsByClient(clientId);
+      console.log(`✅ Sistema multi-tenant: ${appointments.length} appuntamenti per cliente ${clientId}`);
       res.json(appointments);
     } catch (error) {
+      console.error("Errore recupero appuntamenti per cliente:", error);
       res.status(500).json({ message: "Error fetching appointments" });
     }
   });
