@@ -402,11 +402,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Appointment routes
-  app.get("/api/appointments", async (_req: Request, res: Response) => {
+  app.get("/api/appointments", isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      const appointments = await storage.getAppointments();
+      const user = req.user as any;
+      console.log(`🔍 CHIAMATA /api/appointments ricevuta per utente ${user.id} (tipo: ${user.type})`);
+      
+      // Sistema multi-tenant: ogni professionista vede solo i suoi appuntamenti
+      const appointments = await storage.getAppointmentsForUser(user.id, user.type);
+      
+      console.log(`✅ Sistema multi-tenant: ${appointments.length} appuntamenti per utente ${user.id} (${user.type})`);
       res.json(appointments);
     } catch (error) {
+      console.error('Errore recupero appuntamenti:', error);
       res.status(500).json({ message: "Error fetching appointments" });
     }
   });
@@ -429,10 +436,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/appointments/date/:date", async (req: Request, res: Response) => {
+  app.get("/api/appointments/date/:date", isClientOrStaff, async (req: Request, res: Response) => {
     try {
       const { date } = req.params;
-      console.log(`Ricerca appuntamenti per la data: ${date}`);
+      const user = req.user as any;
+      console.log(`Ricerca appuntamenti per la data: ${date} - utente ${user.id} (${user.type})`);
       
       // Simple validation for date format (YYYY-MM-DD)
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -441,8 +449,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid date format. Use YYYY-MM-DD" });
       }
 
-      const appointments = await storage.getAppointmentsByDate(date);
-      console.log(`Trovati ${appointments.length} appuntamenti per la data ${date}:`, appointments);
+      // Sistema multi-tenant: filtra per utente e data
+      const appointments = await storage.getAppointmentsByDateForUser(date, user.id, user.type);
+      console.log(`✅ Sistema multi-tenant: ${appointments.length} appuntamenti per utente ${user.id} (${user.type}) nella data ${date}`);
       
       res.json(appointments);
     } catch (error) {
