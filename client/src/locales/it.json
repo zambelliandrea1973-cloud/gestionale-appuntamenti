@@ -137,6 +137,15 @@
       "frequent": "Clienti frequenti",
       "noConsent": "Senza consenso"
     },
+    "loading": "Caricamento clienti...",
+    "loadingAccessStatus": "Verifica accesso cliente...",
+    "showDetails": "Dettagli",
+    "showAppointments": "Appuntamenti",
+    "clientAccess": "Accesso Cliente",
+    "qrGenerated": "QR generato",
+    "qrNotGenerated": "QR non generato",
+    "generateQR": "Genera QR",
+    "manageClient": "Gestisci Cliente",
     "table": {
       "name": "Nome",
       "surname": "Cognome",
