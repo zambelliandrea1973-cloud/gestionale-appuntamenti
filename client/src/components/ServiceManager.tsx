@@ -60,55 +60,48 @@ export default function ServiceManager() {
 
   console.log("🔧 FRONTEND: ServiceManager state initialized");
 
-  // Ottiene la lista dei servizi - CORRETTO per sistema multi-tenant
-  const {
-    data: services,
-    isLoading,
-    error,
-    refetch: refetchServices,
-  } = useQuery({
-    queryKey: ["/api/services"],
-    queryFn: async () => {
-      console.log("🔍 FRONTEND: Iniziando recupero servizi...");
-      try {
-        const response = await apiRequest("GET", "/api/services");
-        console.log("📡 FRONTEND: Risposta API ricevuta:", response.status, response.statusText);
-        
-        if (!response.ok) {
-          console.error("❌ FRONTEND: Errore API servizi:", response.status, response.statusText);
-          throw new Error(`Errore ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        console.log("✅ FRONTEND: Servizi ricevuti:", data.length, "servizi");
-        console.log("📋 FRONTEND: Dettagli servizi:", data);
-        return data;
-      } catch (error) {
-        console.error("❌ FRONTEND: Errore nel recupero servizi:", error);
-        throw error;
-      }
-    },
-    staleTime: 0,
-    cacheTime: 0,
-    refetchOnMount: 'always',
-    refetchOnWindowFocus: 'always',
-    refetchInterval: 2000, // Aggiorna ogni 2 secondi
-    refetchIntervalInBackground: true,
-  });
+  // Stato locale per servizi senza cache
+  const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  // Forza il refetch quando il componente viene montato e ad intervalli regolari
+  // Funzione per caricare servizi senza cache
+  const loadServices = async () => {
+    try {
+      console.log("🔍 FRONTEND: Caricamento servizi senza cache...");
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await apiRequest("GET", `/api/services?_t=${Date.now()}`);
+      
+      if (!response.ok) {
+        throw new Error(`Errore ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log("✅ FRONTEND: Servizi caricati:", data.length, "servizi");
+      setServices(data);
+    } catch (err) {
+      console.error("❌ FRONTEND: Errore caricamento servizi:", err);
+      setError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Carica servizi al mount e imposta aggiornamento automatico
   useEffect(() => {
-    console.log("🔧 FRONTEND: ServiceManager useEffect triggered, forcing refetch");
-    refetchServices();
+    console.log("🔧 FRONTEND: ServiceManager mounted, loading services");
+    loadServices();
     
-    // Configura un intervallo per aggiornare la lista ogni 5 secondi
+    // Aggiorna ogni 3 secondi per mantenere dati freschi
     const interval = setInterval(() => {
       console.log("🔄 FRONTEND: Aggiornamento automatico servizi...");
-      refetchServices();
-    }, 5000);
+      loadServices();
+    }, 3000);
     
     return () => clearInterval(interval);
-  }, [refetchServices]);
+  }, []);
 
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
@@ -123,13 +116,8 @@ export default function ServiceManager() {
     onSuccess: async () => {
       console.log("✅ FRONTEND: Servizio creato con successo, aggiornando lista...");
       
-      // Strategia aggressiva per forzare l'aggiornamento
-      queryClient.removeQueries({ queryKey: ["/api/services"] });
-      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      
-      // Forza refetch multipli per garantire aggiornamento
-      setTimeout(() => refetchServices(), 100);
-      setTimeout(() => refetchServices(), 500);
+      // Ricarica immediatamente i servizi senza cache
+      await loadServices();
       
       resetForm();
       setIsDialogOpen(false);
@@ -157,10 +145,9 @@ export default function ServiceManager() {
       }
       return response.json();
     },
-    onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["/api/services"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      refetchServices();
+    onSuccess: async () => {
+      console.log("✅ FRONTEND: Servizio aggiornato, ricaricando lista...");
+      await loadServices();
       
       resetForm();
       setIsDialogOpen(false);
@@ -188,10 +175,9 @@ export default function ServiceManager() {
       }
       return true;
     },
-    onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["/api/services"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      refetchServices();
+    onSuccess: async () => {
+      console.log("✅ FRONTEND: Servizio eliminato, ricaricando lista...");
+      await loadServices();
       
       toast({
         title: "Servizio eliminato",
