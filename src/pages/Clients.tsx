@@ -33,14 +33,52 @@ export default function Clients() {
   const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
   const [deletedClients, setDeletedClients] = useState<any[]>([]);
   
-  // Fetch all clients
-  const {
-    data: clients = [],
-    isLoading,
-    refetch: refetchClients
-  } = useQuery({
-    queryKey: ["/api/clients"]
-  });
+  // Force direct API call with multi-tenant filtering
+  const [clientsData, setClientsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const fetchClientsDirectly = async () => {
+    try {
+      console.log("🔍 FRONTEND: FORZO chiamata diretta a /api/clients");
+      setIsLoading(true);
+      
+      const response = await fetch(`/api/clients?_force=${Date.now()}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
+        }
+      });
+      
+      console.log("🔍 FRONTEND: Response status:", response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log("🔍 FRONTEND: Ricevuti clienti:", data.length);
+      setClientsData(data);
+      return data;
+    } catch (error) {
+      console.error("🔍 FRONTEND: Errore chiamata clienti:", error);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const refetchClients = () => {
+    fetchClientsDirectly();
+  };
+  
+  useEffect(() => {
+    fetchClientsDirectly();
+  }, []);
+  
+  const clients = clientsData;
   
   // Funzione per cercare i clienti eliminati (nascosti)
   const fetchDeletedClients = async () => {
