@@ -184,6 +184,14 @@ export interface IStorage {
   saveSetting(key: string, value: string, description?: string, category?: string): Promise<AppSettings>;
   updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined>;
   deleteSetting(id: number): Promise<boolean>;
+
+  // User Settings operations - Architettura separata per utente
+  getUserSettings(userId: number): Promise<UserSettings | undefined>;
+  createUserSettings(settings: InsertUserSettings): Promise<UserSettings>;
+  updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined>;
+  deleteUserSettings(userId: number): Promise<boolean>;
+  getUserIconPath(userId: number): Promise<string | undefined>;
+  updateUserIconPath(userId: number, iconPath: string): Promise<UserSettings | undefined>;
   
   // Notification Settings operations
   getNotificationSettings(): Promise<NotificationSettings | undefined>;

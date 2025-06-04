@@ -2190,84 +2190,75 @@ Per utilizzare WhatsApp con Twilio, devi:
 
   app.post('/api/upload-app-icon', upload.single('icon'), async (req: Request, res: Response) => {
     try {
+      if (!req.isAuthenticated() || !req.user?.id) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
       if (!req.file) {
         return res.status(400).json({ message: 'Nessun file caricato' });
       }
       
-      // Percorso del file caricato
+      const userId = req.user.id;
       const filePath = req.file.path;
+      
+      // Crea directory specifica per l'utente
+      const userIconsDir = path.join(process.cwd(), 'public', 'user-icons', `user-${userId}`);
+      if (!fs.existsSync(userIconsDir)) {
+        fs.mkdirSync(userIconsDir, { recursive: true });
+      }
       
       // Ottimizza l'immagine ma mantieni il formato originale
       try {
-        // Determina il nuovo percorso dell'icona in base al tipo di file
+        // Determina il nuovo percorso dell'icona in base al tipo di file NELLA CARTELLA UTENTE
         let newIconPath = '';
         let format = '';
+        let iconSrc = '';
         
         if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/jpg') {
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
+          newIconPath = path.join(userIconsDir, 'app-icon.jpg');
+          iconSrc = `/user-icons/user-${userId}/app-icon.jpg`;
           format = 'jpeg';
         } else if (req.file.mimetype === 'image/png') {
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.png');
+          newIconPath = path.join(userIconsDir, 'app-icon.png');
+          iconSrc = `/user-icons/user-${userId}/app-icon.png`;
           format = 'png';
         } else if (req.file.mimetype === 'image/svg+xml') {
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.svg');
+          newIconPath = path.join(userIconsDir, 'app-icon.svg');
+          iconSrc = `/user-icons/user-${userId}/app-icon.svg`;
           // Per SVG facciamo solo copia del file
           fs.copyFileSync(filePath, newIconPath);
-          console.log(`SVG copiato in: ${newIconPath}`);
+          console.log(`SVG copiato per utente ${userId}: ${newIconPath}`);
           
-          // Aggiorna il manifest.json se esiste
-          const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
-          if (fs.existsSync(manifestPath)) {
-            try {
-              const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-              
-              // Imposta l'icona SVG
-              const iconSrc = '/icons/app-icon.svg';
-              manifest.icons = [{
-                src: iconSrc,
-                sizes: 'any',
-                type: 'image/svg+xml',
-                purpose: 'any'
-              }];
-              
-              fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-              
-              // Restituisci il percorso dell'icona usato
-              res.json({ 
-                success: true, 
-                message: 'Icona SVG caricata con successo',
-                iconPath: iconSrc
-              });
-            } catch (error) {
-              console.error('Errore durante l\'aggiornamento del manifest:', error);
-              res.status(500).json({ message: 'Errore durante l\'aggiornamento del manifest' });
-            }
-          } else {
-            res.json({ 
-              success: true, 
-              message: 'Icona SVG caricata con successo, ma manifest.json non trovato',
-              iconPath: '/icons/app-icon.svg'
-            });
+          // Salva il percorso nelle impostazioni dell'utente
+          try {
+            await storage.saveSetting(
+              `app_icon_path_user_${userId}`, 
+              iconSrc, 
+              `Percorso icona personalizzata SVG per utente ${userId}`,
+              'appearance'
+            );
+            console.log(`Percorso icona SVG salvato nelle impostazioni per utente ${userId}: ${iconSrc}`);
+          } catch (error) {
+            console.error('Errore nel salvataggio percorso icona SVG nelle impostazioni:', error);
           }
           
-          return; // Esci dalla funzione
+          return res.json({ 
+            success: true, 
+            message: 'Icona SVG caricata con successo',
+            iconPath: iconSrc
+          });
         } else {
           // Formato non supportato, usa JPG come default
-          newIconPath = path.join(process.cwd(), 'public', 'icons', 'app-icon.jpg');
+          newIconPath = path.join(userIconsDir, 'app-icon.jpg');
+          iconSrc = `/user-icons/user-${userId}/app-icon.jpg`;
           format = 'jpeg';
         }
         
-        // Assicurati che la directory esista
-        const iconsDir = path.join(process.cwd(), 'public', 'icons');
-        if (!fs.existsSync(iconsDir)) {
-          fs.mkdirSync(iconsDir, { recursive: true });
-        }
-        
-        // Ottimizza l'immagine e salvala nel percorso corretto
+        // Ottimizza l'immagine e salvala nel percorso corretto dell'utente
         // Prima controlla se il file di input è diverso dal file di output
         if (path.resolve(filePath) === path.resolve(newIconPath)) {
           // Se sono lo stesso file, crea un file temporaneo
-          const tempPath = path.join(process.cwd(), 'public', 'icons', `temp-${Date.now()}-icon.${format === 'jpeg' ? 'jpg' : format}`);
+          const tempPath = path.join(userIconsDir, `temp-${Date.now()}-icon.${format === 'jpeg' ? 'jpg' : format}`);
           
           await sharp(filePath)
             .resize(512, 512)
@@ -2288,7 +2279,7 @@ Per utilizzare WhatsApp con Twilio, devi:
           }
         }
           
-        console.log(`Immagine ottimizzata salvata: ${newIconPath}, tipo: ${req.file.mimetype}`);
+        console.log(`Immagine ottimizzata salvata per utente ${userId}: ${newIconPath}, tipo: ${req.file.mimetype}`);
       } catch (error) {
         console.error('Errore durante l\'ottimizzazione dell\'immagine:', error);
         // Continua comunque, useremo l'immagine originale
