@@ -2034,16 +2034,16 @@ Per utilizzare WhatsApp con Twilio, devi:
       let iconInfo = null;
       let customIconFound = false;
       
-      // Se l'utente è autenticato, controlla prima nelle impostazioni salvate
+      // NUOVA ARCHITETTURA: Controlla l'icona dalla tabella user_settings per questo utente
       if (req.isAuthenticated() && req.user?.id) {
         try {
-          const savedIconSetting = await storage.getSetting(`app_icon_path_user_${req.user.id}`);
-          if (savedIconSetting && savedIconSetting.value) {
+          const userSettings = await storage.getUserSettings(req.user.id);
+          if (userSettings && userSettings.appIconPath) {
             // Verifica che il file esista ancora
-            const savedIconPath = path.join(process.cwd(), 'public', savedIconSetting.value.replace(/^\//, ''));
+            const savedIconPath = path.join(process.cwd(), 'public', userSettings.appIconPath.replace(/^\//, ''));
             if (fs.existsSync(savedIconPath)) {
               const stats = fs.statSync(savedIconPath);
-              const extension = path.extname(savedIconSetting.value).toLowerCase();
+              const extension = path.extname(userSettings.appIconPath).toLowerCase();
               let mimeType = 'image/jpeg';
               
               if (extension === '.png') mimeType = 'image/png';
@@ -2052,19 +2052,21 @@ Per utilizzare WhatsApp con Twilio, devi:
               iconInfo = {
                 exists: true,
                 isCustom: true,
-                iconPath: savedIconSetting.value,
+                iconPath: userSettings.appIconPath,
                 mimeType: mimeType,
                 lastModified: stats.mtime.toISOString()
               };
               
               customIconFound = true;
-              console.log(`✅ Icona personalizzata recuperata dalle impostazioni per utente ${req.user.id}: ${savedIconSetting.value}`);
+              console.log(`✅ NUOVA ARCHITETTURA: Icona personalizzata per utente ${req.user.id}: ${userSettings.appIconPath}`);
             } else {
-              console.log(`⚠️ Icona salvata nelle impostazioni non esiste più: ${savedIconSetting.value}`);
+              console.log(`⚠️ Icona in user_settings non esiste più: ${userSettings.appIconPath}`);
             }
+          } else {
+            console.log(`📋 Nessuna icona personalizzata in user_settings per utente ${req.user.id}`);
           }
         } catch (error) {
-          console.error('Errore nel recupero impostazioni icona:', error);
+          console.error('Errore nel recupero user_settings icona:', error);
         }
       }
       
