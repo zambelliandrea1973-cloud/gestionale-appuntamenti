@@ -35,7 +35,7 @@ import {
 import connectPg from "connect-pg-simple";
 import session from "express-session";
 import { db } from "./db";
-import { eq, desc, and, gte, lte, like, or, sql, ne, asc } from 'drizzle-orm';
+import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray } from 'drizzle-orm';
 
 // Interface defining all storage operations
 export interface IStorage {
@@ -600,6 +600,70 @@ export class MemStorage implements IStorage {
       }
     }
     
+    return result;
+  }
+
+  // Multi-tenant appointment operations - Sistema separazione per utente
+  async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
+    console.log(`🔍 MemStorage multi-tenant: recupero appuntamenti per utente ${userId} (${userType})`);
+    
+    // Ottieni solo i clienti visibili per questo utente
+    const visibleClients = await this.getVisibleClientsForUser(userId, userType);
+    const visibleClientIds = visibleClients.map(client => client.id);
+    
+    if (visibleClientIds.length === 0) {
+      console.log(`⚠️ Nessun cliente visibile per utente ${userId}, ritorno array vuoto`);
+      return [];
+    }
+    
+    const appointments = Array.from(this.appointments.values())
+      .filter(appointment => visibleClientIds.includes(appointment.clientId));
+    
+    const result: AppointmentWithDetails[] = [];
+    
+    for (const appointment of appointments) {
+      const client = await this.getClient(appointment.clientId);
+      const service = await this.getService(appointment.serviceId);
+      
+      if (client && service) {
+        result.push({ ...appointment, client, service });
+      }
+    }
+    
+    console.log(`✅ MemStorage multi-tenant: ${result.length} appuntamenti per utente ${userId} (${userType})`);
+    return result;
+  }
+
+  async getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]> {
+    console.log(`🔍 MemStorage multi-tenant: recupero appuntamenti per data ${date} - utente ${userId} (${userType})`);
+    
+    // Ottieni solo i clienti visibili per questo utente
+    const visibleClients = await this.getVisibleClientsForUser(userId, userType);
+    const visibleClientIds = visibleClients.map(client => client.id);
+    
+    if (visibleClientIds.length === 0) {
+      console.log(`⚠️ Nessun cliente visibile per utente ${userId}, ritorno array vuoto`);
+      return [];
+    }
+    
+    const appointments = Array.from(this.appointments.values())
+      .filter(appointment => 
+        appointment.date === date && 
+        visibleClientIds.includes(appointment.clientId)
+      );
+    
+    const result: AppointmentWithDetails[] = [];
+    
+    for (const appointment of appointments) {
+      const client = await this.getClient(appointment.clientId);
+      const service = await this.getService(appointment.serviceId);
+      
+      if (client && service) {
+        result.push({ ...appointment, client, service });
+      }
+    }
+    
+    console.log(`✅ MemStorage multi-tenant: ${result.length} appuntamenti per utente ${userId} (${userType}) nella data ${date}`);
     return result;
   }
   
