@@ -58,7 +58,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
   if (isError) {
     return (
       <div className="flex items-center">
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.error', 'Errore')}</span>
+        <span className="text-xs text-muted-foreground">{t('clients.accesses.error')}</span>
       </div>
     );
   }
