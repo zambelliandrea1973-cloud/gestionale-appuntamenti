@@ -56,7 +56,7 @@ export default function ServiceManager() {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
-  // Ottiene la lista dei servizi
+  // Ottiene la lista dei servizi - CORRETTO per sistema multi-tenant
   const {
     data: services,
     isLoading,
@@ -64,7 +64,7 @@ export default function ServiceManager() {
   } = useQuery({
     queryKey: ["/api/services"],
     queryFn: async () => {
-      const response = await fetch("/api/services");
+      const response = await apiRequest("GET", "/api/services");
       if (!response.ok) {
         throw new Error("Errore durante il recupero dei servizi");
       }
