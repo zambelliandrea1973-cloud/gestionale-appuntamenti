@@ -31,6 +31,30 @@ export default function AppointmentModal({
   const [isSaving, setIsSaving] = useState(false);
   const [calculatedEndTime, setCalculatedEndTime] = useState<string | null>(null);
   
+  // Callback per gestire il salvataggio appuntamento
+  const handleAppointmentSaved = () => {
+    console.log("AppointmentModal: Appuntamento salvato - aggiornamento vista...");
+    
+    // Forza invalidazione e refetch immediato
+    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+    
+    const dateString = formatDateForApi(defaultDate);
+    queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+    
+    // Chiama callback parent se fornito
+    if (onSave) {
+      onSave();
+    }
+    
+    // Chiudi modal
+    onClose();
+    
+    toast({
+      title: "Successo",
+      description: "Appuntamento salvato e calendario aggiornato",
+    });
+  };
+  
   // Calcola l'ora di fine in base agli slot selezionati
   useEffect(() => {
     if (selectedSlots && selectedSlots.length > 1) {
@@ -105,10 +129,7 @@ export default function AppointmentModal({
       >
         <AppointmentForm 
           onClose={onClose}
-          onAppointmentSaved={() => {
-            if (onSave) onSave();
-            onClose();
-          }}
+          onAppointmentSaved={handleAppointmentSaved}
           defaultDate={defaultDate}
           defaultTime={defaultTime}
           appointmentId={appointment?.id}
