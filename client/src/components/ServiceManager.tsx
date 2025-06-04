@@ -64,11 +64,24 @@ export default function ServiceManager() {
   } = useQuery({
     queryKey: ["/api/services"],
     queryFn: async () => {
-      const response = await apiRequest("GET", "/api/services");
-      if (!response.ok) {
-        throw new Error("Errore durante il recupero dei servizi");
+      console.log("🔍 FRONTEND: Iniziando recupero servizi...");
+      try {
+        const response = await apiRequest("GET", "/api/services");
+        console.log("📡 FRONTEND: Risposta API ricevuta:", response.status, response.statusText);
+        
+        if (!response.ok) {
+          console.error("❌ FRONTEND: Errore API servizi:", response.status, response.statusText);
+          throw new Error(`Errore ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log("✅ FRONTEND: Servizi ricevuti:", data.length, "servizi");
+        console.log("📋 FRONTEND: Dettagli servizi:", data);
+        return data;
+      } catch (error) {
+        console.error("❌ FRONTEND: Errore nel recupero servizi:", error);
+        throw error;
       }
-      return response.json();
     },
   });
 
