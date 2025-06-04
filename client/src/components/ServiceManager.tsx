@@ -92,13 +92,22 @@ export default function ServiceManager() {
     cacheTime: 0,
     refetchOnMount: 'always',
     refetchOnWindowFocus: 'always',
-    refetchInterval: false,
+    refetchInterval: 2000, // Aggiorna ogni 2 secondi
+    refetchIntervalInBackground: true,
   });
 
-  // Forza il refetch quando il componente viene montato
+  // Forza il refetch quando il componente viene montato e ad intervalli regolari
   useEffect(() => {
     console.log("🔧 FRONTEND: ServiceManager useEffect triggered, forcing refetch");
     refetchServices();
+    
+    // Configura un intervallo per aggiornare la lista ogni 5 secondi
+    const interval = setInterval(() => {
+      console.log("🔄 FRONTEND: Aggiornamento automatico servizi...");
+      refetchServices();
+    }, 5000);
+    
+    return () => clearInterval(interval);
   }, [refetchServices]);
 
   // Mutation per creare un nuovo servizio
@@ -111,11 +120,16 @@ export default function ServiceManager() {
       }
       return response.json();
     },
-    onSuccess: () => {
-      // Rimuovi completamente i dati dalla cache e forza il refetch
+    onSuccess: async () => {
+      console.log("✅ FRONTEND: Servizio creato con successo, aggiornando lista...");
+      
+      // Strategia aggressiva per forzare l'aggiornamento
       queryClient.removeQueries({ queryKey: ["/api/services"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      refetchServices();
+      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      
+      // Forza refetch multipli per garantire aggiornamento
+      setTimeout(() => refetchServices(), 100);
+      setTimeout(() => refetchServices(), 500);
       
       resetForm();
       setIsDialogOpen(false);
