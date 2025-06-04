@@ -178,7 +178,16 @@
       "notes": "Note",
       "save": "Salvare",
       "cancel": "Anulare"
-    }
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente"
   },
   "invoices": {
     "title": "Facturi",
@@ -323,7 +332,17 @@
         "date": "Data",
         "message": "Mesaj",
         "actions": "Acțiuni",
-        "reopen": "Redeschide"
+        "reopen": "Redeschide",
+        "client": "[NEEDS TRANSLATION] Cliente",
+        "status": "[NEEDS TRANSLATION] Stato"
+      },
+      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
       }
     },
     "appointmentList": {
@@ -418,10 +437,17 @@
     "selectTimeSlots": "Selectați ora pentru programarea nouă",
     "confirmAndAssociateClient": "Confirmați și asociați clientul",
     "selected": "Selectat",
-    "selectSlots": "Selectați intervalele orare"
+    "selectSlots": "Selectați intervalele orare",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
   },
   "sidebar": {
     "clients": "Clienți",
@@ -429,5 +455,10 @@
     "invoices": "Facturi",
     "reports": "Rapoarte",
     "settings": "Setări"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   }
 }

@@ -9,11 +9,16 @@
     "confirmAndAssociateClient": "Confirm and associate client",
     "selected": "Selected",
     "selectSlots": "Select time slots",
-    "confirmDelete": "Are you sure you want to delete this appointment?",
-    "confirmDeleteTitle": "Delete appointment"
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "notifications": "Notifications",
+    "referral": "Referral",
+    "aiSetup": "AI Setup",
+    "staff": "Staff",
+    "payments": "Payments"
   },
   "sidebar": {
     "clients": "Clients",
@@ -451,10 +456,9 @@
   "contacts": {
     "accessOurContacts": "Access our contacts"
   },
-  "appointment": {
-    "selectTimeSlots": "Select time for new appointment",
-    "confirmAndAssociateClient": "Confirm and associate client",
-    "selected": "Selected",
-    "selectSlots": "Select time slots"
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   }
 }

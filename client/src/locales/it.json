@@ -13,7 +13,12 @@
     "confirmDeleteTitle": "Elimina appuntamento"
   },
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "notifications": "Notifiche",
+    "referral": "Referral",
+    "aiSetup": "Setup AI",
+    "staff": "Staff",
+    "payments": "Pagamenti"
   },
   "sidebar": {
     "clients": "Clienti",
@@ -33,6 +38,11 @@
     "no": "Norvegese",
     "ro": "Rumeno",
     "select": "Seleziona lingua"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   },
   "home": {
     "calendar": {
