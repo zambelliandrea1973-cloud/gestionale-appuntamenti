@@ -41,10 +41,9 @@ export const insertServiceSchema = createInsertSchema(services).omit({
   id: true,
 });
 
-// Appointments table schema - RISTRUTTURATO PER MULTI-TENANT
+// Appointments table schema
 export const appointments = pgTable("appointments", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   clientId: integer("client_id").notNull(),
   serviceId: integer("service_id").notNull(),
   date: text("date").notNull(), // YYYY-MM-DD format
