@@ -418,15 +418,25 @@ export default function DayViewWithTimeSlots({
       {/* Informazioni sulla selezione degli slot */}
       <div className="mb-4 flex flex-wrap gap-2">
         {isSelectionMode && (
-          <div className="w-full text-sm text-green-600 font-semibold text-center">
-            {selectedSlots.length > 0 ? (
-              <span>
-                {t("calendar.selected")}: {selectedSlots[0]} - 
-                {calculateEndTime(selectedSlots[selectedSlots.length - 1], 15)}
-              </span>
-            ) : (
-              <span>{t("calendar.select")}</span>
-            )}
+          <div className="w-full bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <div className="text-sm text-blue-800 font-semibold text-center">
+              {selectedSlots.length > 0 ? (
+                <div className="space-y-1">
+                  <div className="text-lg">
+                    📅 {t("calendar.selected")}: {selectedSlots[0]} - 
+                    {calculateEndTime(selectedSlots[selectedSlots.length - 1], 15)}
+                  </div>
+                  <div className="text-xs text-blue-600">
+                    {selectedSlots.length} slot selezionati
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="text-blue-800">👆 {t("calendar.select")}</div>
+                  <div className="text-xs text-blue-600 mt-1">Clicca sugli slot per selezionarli</div>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -452,7 +462,8 @@ export default function DayViewWithTimeSlots({
                 className={`
                   flex items-center h-10 border-t border-gray-200 px-2 py-1 
                   ${occupied ? 'opacity-70' : ''} cursor-pointer hover:bg-gray-50
-                  ${selected ? 'bg-gray-300' : ''}
+                  ${selected ? 'bg-blue-100 border-blue-300' : ''}
+                  ${isSelectionMode ? 'hover:bg-blue-50' : ''}
                 `}
                 data-slot-time={slotTime}
                 onClick={() => handleSlotClick(slotTime)}
@@ -461,9 +472,18 @@ export default function DayViewWithTimeSlots({
                   {showFullTime ? slotTime : <span className="text-xs text-gray-500">{slotTime.substring(3)}</span>}
                 </div>
                 
-                <div className="flex-grow">
+                <div className="flex-grow relative">
+                  {selected && (
+                    <div className="absolute inset-0 bg-blue-200 border-2 border-blue-400 rounded-md flex items-center justify-center">
+                      <span className="text-blue-800 font-semibold text-xs">SELEZIONATO</span>
+                    </div>
+                  )}
                   {!selected && isSelectionMode && (
-                    <div className={`h-full w-full ${occupied ? 'bg-orange-50/50' : 'bg-gray-50'} hover:bg-gray-100 rounded border border-dashed ${occupied ? 'border-orange-300' : 'border-gray-300'}`}></div>
+                    <div className={`h-full w-full ${occupied ? 'bg-orange-50/50' : 'bg-gray-50'} hover:bg-blue-50 rounded border border-dashed ${occupied ? 'border-orange-300' : 'border-gray-300'}`}>
+                      <div className="flex items-center justify-center h-full">
+                        <span className="text-gray-400 text-xs">Clicca per selezionare</span>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
