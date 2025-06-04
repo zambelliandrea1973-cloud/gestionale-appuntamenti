@@ -1699,38 +1699,58 @@ Per utilizzare WhatsApp, devi:
   // Endpoint per caricare l'icona dell'app
   // Endpoint per ottenere le informazioni dell'app
   
-  // Endpoint per ottenere le informazioni di contatto
-  app.get('/api/contact-info', (_req: Request, res: Response) => {
+  // Endpoint per ottenere le informazioni di contatto - NUOVO Sistema multi-tenant
+  app.get('/api/contact-info', isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      // Ottiene i dati dal servizio dedicato
-      const contactInfo = contactService.getContactInfo();
-      console.log('Informazioni di contatto recuperate:', contactInfo);
-      res.json(contactInfo);
+      const user = req.user as any;
+      console.log(`🔍 NUOVO Sistema multi-tenant: recupero informazioni contatto per utente ${user.id} (${user.type})`);
+      
+      // NUOVA ARCHITETTURA: Utilizza database storage con separazione per utente
+      const contactInfo = await storage.getContactInfo(user.id);
+      
+      if (!contactInfo) {
+        // Se non ci sono informazioni specifiche per l'utente, usa quelle predefinite
+        const defaultContactInfo = contactService.getContactInfo();
+        console.log(`✅ NUOVO Sistema: informazioni contatto predefinite per utente ${user.id}`);
+        res.json(defaultContactInfo);
+      } else {
+        console.log(`✅ NUOVO Sistema: informazioni contatto personalizzate per utente ${user.id} - SEPARAZIONE COMPLETA`);
+        res.json(contactInfo);
+      }
     } catch (error) {
       console.error('Errore nel recupero delle informazioni di contatto:', error);
       res.status(500).json({ error: 'Errore nel recupero delle informazioni di contatto' });
     }
   });
   
-  // API per salvare le informazioni di contatto
-  app.post('/api/contact-info', (req: Request, res: Response) => {
+  // API per salvare le informazioni di contatto - NUOVO Sistema multi-tenant
+  app.post('/api/contact-info', isClientOrStaff, async (req: Request, res: Response) => {
     try {
+      const user = req.user as any;
       const contactInfo = req.body;
+      console.log(`🔍 NUOVO Sistema multi-tenant: salvataggio informazioni contatto per utente ${user.id} (${user.type})`);
       
       // Verifica che sia un oggetto valido
       if (!contactInfo || typeof contactInfo !== 'object') {
         return res.status(400).json({ error: 'Dati di contatto non validi' });
       }
       
-      // Salva i dati usando il servizio
-      const success = contactService.saveContactInfo(contactInfo);
+      // NUOVA ARCHITETTURA: Salva nel database con separazione per utente
+      await storage.saveSetting("contactEmail", contactInfo.email || "", "Email di contatto", "contact", user.id);
+      await storage.saveSetting("contactPhone1", contactInfo.phone1 || "", "Telefono principale", "contact", user.id);
+      await storage.saveSetting("contactWebsite", contactInfo.website || "", "Sito web", "contact", user.id);
+      await storage.saveSetting("contactInstagram", contactInfo.instagram || "", "Instagram", "contact", user.id);
+      await storage.saveSetting("contactPhone2", contactInfo.phone2 || "", "Telefono secondario", "contact", user.id);
       
-      if (success) {
-        console.log('Informazioni di contatto salvate con successo:', contactInfo);
-        res.json({ success: true, message: 'Informazioni di contatto salvate con successo' });
-      } else {
-        res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });
+      if (contactInfo.businessName) {
+        await storage.saveSetting("businessName", contactInfo.businessName, "Nome azienda", "business", user.id);
       }
+      if (contactInfo.address) {
+        await storage.saveSetting("businessAddress", contactInfo.address, "Indirizzo azienda", "business", user.id);
+      }
+      
+      console.log(`✅ NUOVO Sistema: informazioni contatto salvate per utente ${user.id} - SEPARAZIONE COMPLETA`);
+      res.json({ success: true, message: 'Informazioni di contatto salvate con successo' });
     } catch (error) {
       console.error('Errore nel salvataggio delle informazioni di contatto:', error);
       res.status(500).json({ error: 'Errore nel salvataggio delle informazioni di contatto' });

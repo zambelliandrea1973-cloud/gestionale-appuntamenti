@@ -3028,11 +3028,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Timezone settings operations
-  async getTimezoneSettings(): Promise<{ timezone: string; offset: number; name: string; } | undefined> {
+  async getTimezoneSettings(userId?: number): Promise<{ timezone: string; offset: number; name: string; } | undefined> {
     try {
-      const timezoneSetting = await this.getSetting("timezone");
-      const offsetSetting = await this.getSetting("timezoneOffset");
-      const nameSetting = await this.getSetting("timezoneName");
+      const timezoneSetting = await this.getSetting("timezone", userId);
+      const offsetSetting = await this.getSetting("timezoneOffset", userId);
+      const nameSetting = await this.getSetting("timezoneName", userId);
       
       if (!timezoneSetting) {
         return {
@@ -3071,15 +3071,15 @@ export class DatabaseStorage implements IStorage {
   }
   
   // Contact Info operations
-  async getContactInfo(): Promise<{ email: string; phone1: string; website: string; instagram: string; phone2: string; businessName?: string; address?: string; } | undefined> {
+  async getContactInfo(userId?: number): Promise<{ email: string; phone1: string; website: string; instagram: string; phone2: string; businessName?: string; address?: string; } | undefined> {
     try {
-      const email = await this.getSetting("contactEmail");
-      const phone1 = await this.getSetting("contactPhone1");
-      const website = await this.getSetting("contactWebsite");
-      const instagram = await this.getSetting("contactInstagram");
-      const phone2 = await this.getSetting("contactPhone2");
-      const businessName = await this.getSetting("businessName");
-      const address = await this.getSetting("businessAddress");
+      const email = await this.getSetting("contactEmail", userId);
+      const phone1 = await this.getSetting("contactPhone1", userId);
+      const website = await this.getSetting("contactWebsite", userId);
+      const instagram = await this.getSetting("contactInstagram", userId);
+      const phone2 = await this.getSetting("contactPhone2", userId);
+      const businessName = await this.getSetting("businessName", userId);
+      const address = await this.getSetting("businessAddress", userId);
       
       if (!email && !phone1) {
         // Se non ci sono informazioni di contatto, restituisci undefined
@@ -3362,11 +3362,12 @@ export class DatabaseStorage implements IStorage {
     key: string, 
     value: string, 
     description?: string, 
-    category: string = 'general'
+    category: string = 'general',
+    userId: number = 1
   ): Promise<AppSettings> {
     try {
-      // Verifica se l'impostazione esiste già
-      const existingSetting = await this.getSetting(key);
+      // Verifica se l'impostazione esiste già per questo utente
+      const existingSetting = await this.getSetting(key, userId);
       
       if (existingSetting) {
         // Aggiorna l'impostazione esistente
@@ -3383,11 +3384,12 @@ export class DatabaseStorage implements IStorage {
         
         return updatedSetting;
       } else {
-        // Crea una nuova impostazione
+        // Crea una nuova impostazione per l'utente
         const [newSetting] = await db
           .insert(appSettings)
           .values({
             key,
+            userId,
             value,
             description: description || `Impostazione per ${key}`,
             category
