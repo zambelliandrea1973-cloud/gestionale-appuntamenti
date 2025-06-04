@@ -445,6 +445,89 @@ export const insertPaymentTransactionSchema = createInsertSchema(paymentTransact
   updatedAt: true,
 });
 
+// User Settings table - Impostazioni personalizzate per ogni utente
+export const userSettings = pgTable("user_settings", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(), // Un record per utente
+  
+  // Informazioni Business
+  businessName: text("business_name"),
+  description: text("description"),
+  website: text("website"),
+  address: text("address"),
+  
+  // Contatti
+  contactEmail: text("contact_email"),
+  contactPhone: text("contact_phone"),
+  contactPhone2: text("contact_phone2"),
+  
+  // Social Media
+  instagramHandle: text("instagram_handle"),
+  facebookPage: text("facebook_page"),
+  linkedinProfile: text("linkedin_profile"),
+  
+  // Personalizzazione Aspetto
+  logoUrl: text("logo_url"), // URL del logo personalizzato
+  appIconPath: text("app_icon_path"), // Percorso icona app personalizzata
+  primaryColor: text("primary_color").default("#3f51b5"),
+  secondaryColor: text("secondary_color").default("#ffffff"),
+  theme: text("theme").default("professional"), // professional, vibrant, tint
+  appearance: text("appearance").default("light"), // light, dark, system
+  
+  // Configurazioni Email
+  emailProvider: text("email_provider"), // sendgrid, gmail, outlook, etc.
+  emailApiKey: text("email_api_key"),
+  emailFromName: text("email_from_name"),
+  emailFromAddress: text("email_from_address"),
+  emailSignature: text("email_signature"),
+  
+  // Configurazioni SMS/WhatsApp
+  smsEnabled: boolean("sms_enabled").default(false),
+  whatsappEnabled: boolean("whatsapp_enabled").default(false),
+  whatsappNumber: text("whatsapp_number"),
+  whatsappApiKey: text("whatsapp_api_key"),
+  whatsappTemplate: text("whatsapp_template"),
+  
+  // Impostazioni Appuntamenti
+  workingHoursStart: time("working_hours_start").default("09:00"),
+  workingHoursEnd: time("working_hours_end").default("18:00"),
+  workingDays: json("working_days").$type<string[]>().default(["monday", "tuesday", "wednesday", "thursday", "friday"]),
+  timeSlotDuration: integer("time_slot_duration").default(30), // minuti
+  
+  // Impostazioni Notifiche
+  reminderEnabled: boolean("reminder_enabled").default(true),
+  reminderHoursBefore: integer("reminder_hours_before").default(24),
+  emailNotificationsEnabled: boolean("email_notifications_enabled").default(true),
+  smsNotificationsEnabled: boolean("sms_notifications_enabled").default(false),
+  
+  // Impostazioni Calendario
+  calendarIntegrationEnabled: boolean("calendar_integration_enabled").default(false),
+  defaultCalendarId: text("default_calendar_id"),
+  timezoneSettings: text("timezone_settings").default("Europe/Rome"),
+  
+  // Impostazioni Fatturazione
+  invoicePrefix: text("invoice_prefix").default("INV"),
+  invoiceCounter: integer("invoice_counter").default(1),
+  taxRate: decimal("tax_rate").default("22.00"), // IVA predefinita
+  paymentTerms: text("payment_terms").default("30 giorni"),
+  
+  // Impostazioni Privacy
+  gdprCompliant: boolean("gdpr_compliant").default(true),
+  consentRequired: boolean("consent_required").default(true),
+  dataRetentionMonths: integer("data_retention_months").default(24),
+  
+  // Metadata e Timestamps
+  preferences: json("preferences"), // Preferenze aggiuntive in formato JSON
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertUserSettingsSchema = createInsertSchema(userSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Define types
 export type Client = typeof clients.$inferSelect;
 export type InsertClient = z.infer<typeof insertClientSchema>;
@@ -511,6 +594,9 @@ export type InsertPaymentMethod = z.infer<typeof insertPaymentMethodSchema>;
 
 export type PaymentTransaction = typeof paymentTransactions.$inferSelect;
 export type InsertPaymentTransaction = z.infer<typeof insertPaymentTransactionSchema>;
+
+export type UserSettings = typeof userSettings.$inferSelect;
+export type InsertUserSettings = z.infer<typeof insertUserSettingsSchema>;
 
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
@@ -643,9 +729,20 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     fields: [users.id],
     references: [subscriptions.userId],
   }),
+  settings: one(userSettings, {
+    fields: [users.id],
+    references: [userSettings.userId],
+  }),
   paymentMethods: many(paymentMethods),
   paymentTransactions: many(paymentTransactions),
   betaFeedback: many(betaFeedback),
+}));
+
+export const userSettingsRelations = relations(userSettings, ({ one }) => ({
+  user: one(users, {
+    fields: [userSettings.userId],
+    references: [users.id],
+  }),
 }));
 
 export const subscriptionPlansRelations = relations(subscriptionPlans, ({ many }) => ({
