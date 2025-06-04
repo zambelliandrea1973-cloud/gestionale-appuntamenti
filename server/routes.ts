@@ -2207,11 +2207,36 @@ Per utilizzare WhatsApp con Twilio, devi:
           format = 'jpeg';
         }
         
+        // Assicurati che la directory esista
+        const iconsDir = path.join(process.cwd(), 'public', 'icons');
+        if (!fs.existsSync(iconsDir)) {
+          fs.mkdirSync(iconsDir, { recursive: true });
+        }
+        
         // Ottimizza l'immagine e salvala nel percorso corretto
-        await sharp(filePath)
-          .resize(512, 512)
-          .toFormat(format as keyof sharp.FormatEnum)
-          .toFile(newIconPath);
+        // Prima controlla se il file di input è diverso dal file di output
+        if (path.resolve(filePath) === path.resolve(newIconPath)) {
+          // Se sono lo stesso file, crea un file temporaneo
+          const tempPath = path.join(process.cwd(), 'public', 'icons', `temp-${Date.now()}-icon.${format === 'jpeg' ? 'jpg' : format}`);
+          
+          await sharp(filePath)
+            .resize(512, 512)
+            .toFormat(format as keyof sharp.FormatEnum)
+            .toFile(tempPath);
+            
+          // Sostituisci il file originale con quello ottimizzato
+          fs.renameSync(tempPath, newIconPath);
+        } else {
+          await sharp(filePath)
+            .resize(512, 512)
+            .toFormat(format as keyof sharp.FormatEnum)
+            .toFile(newIconPath);
+            
+          // Rimuovi il file temporaneo originale se è diverso
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+          }
+        }
           
         console.log(`Immagine ottimizzata salvata: ${newIconPath}, tipo: ${req.file.mimetype}`);
       } catch (error) {
