@@ -79,7 +79,6 @@ export default function Clients() {
       console.log("🔍 FRONTEND: Ricevuti clienti:", data.length);
       return data;
     },
-    staleTime: 0,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
     refetchInterval: 3000, // Aggiornamento automatico ogni 3 secondi
