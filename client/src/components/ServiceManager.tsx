@@ -45,6 +45,8 @@ interface ServiceFormData {
 }
 
 export default function ServiceManager() {
+  console.log("🔧 FRONTEND: ServiceManager component rendered");
+  
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState<ServiceFormData>({
     name: "",
