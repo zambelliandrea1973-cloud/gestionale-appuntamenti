@@ -473,13 +473,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per range ${startDate}-${endDate} - utente ${user.id} (${user.type})`);
       
-      // Per ora uso la funzione per data singola in loop - da ottimizzare se necessario
-      const appointments = await storage.getAppointmentsByDateRange(startDate, endDate);
+      // Usa il sistema multi-tenant per recuperare appuntamenti per range di date
+      const appointments = await storage.getAppointmentsForUser(user.id, user.type);
       
-      // Filtro manualmente per utente (da migliorare con query dedicata se necessario)
-      const visibleClients = await storage.getVisibleClientsForUser(user.id, user.type);
-      const visibleClientIds = visibleClients.map(client => client.id);
-      const filteredAppointments = appointments.filter(apt => visibleClientIds.includes(apt.clientId));
+      // Filtra per range di date
+      const filteredAppointments = appointments.filter((apt) => 
+        apt.date >= startDate && apt.date <= endDate
+      );
       
       console.log(`✅ Sistema multi-tenant: ${filteredAppointments.length} appuntamenti per utente ${user.id} nel range ${startDate}-${endDate}`);
       res.json(filteredAppointments);

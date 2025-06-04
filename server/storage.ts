@@ -63,11 +63,8 @@ export interface IStorage {
   updateService(id: number, service: Partial<InsertService>): Promise<Service | undefined>;
   deleteService(id: number): Promise<boolean>;
   
-  // Appointment operations
+  // Appointment operations - Multi-tenant system
   getAppointment(id: number): Promise<AppointmentWithDetails | undefined>;
-  getAppointments(): Promise<AppointmentWithDetails[]>;
-  getAppointmentsByDate(date: string): Promise<AppointmentWithDetails[]>;
-  getAppointmentsByDateRange(startDate: string, endDate: string): Promise<AppointmentWithDetails[]>;
   getAppointmentsByClient(clientId: number): Promise<AppointmentWithDetails[]>;
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   updateAppointment(id: number, appointment: Partial<InsertAppointment>): Promise<Appointment | undefined>;
@@ -1822,28 +1819,8 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getAppointments(): Promise<AppointmentWithDetails[]> {
-    try {
-      const result: AppointmentWithDetails[] = [];
-      const appointmentsList = await db.select().from(appointments).orderBy(appointments.date, appointments.startTime);
-
-      for (const appointment of appointmentsList) {
-        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
-        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
-        
-        result.push({
-          ...appointment,
-          client,
-          service
-        });
-      }
-
-      return result;
-    } catch (error) {
-      console.error("Error getting appointments:", error);
-      return [];
-    }
-  }
+  // OBSOLETA: Rimossa per architettura multi-tenant
+  // Usare getAppointmentsForUser() invece
 
   async getAppointmentsByDate(date: string): Promise<AppointmentWithDetails[]> {
     try {
@@ -1958,37 +1935,8 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getAppointmentsByDateRange(startDate: string, endDate: string): Promise<AppointmentWithDetails[]> {
-    try {
-      const result: AppointmentWithDetails[] = [];
-      const appointmentsList = await db
-        .select()
-        .from(appointments)
-        .where(
-          and(
-            gte(appointments.date, startDate),
-            lte(appointments.date, endDate)
-          )
-        )
-        .orderBy(appointments.date, appointments.startTime);
-
-      for (const appointment of appointmentsList) {
-        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
-        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
-        
-        result.push({
-          ...appointment,
-          client,
-          service
-        });
-      }
-
-      return result;
-    } catch (error) {
-      console.error("Error getting appointments by date range:", error);
-      return [];
-    }
-  }
+  // OBSOLETA: Rimossa per architettura multi-tenant
+  // Sistema ora filtra automaticamente per utente
 
   async getAppointmentsByClient(clientId: number): Promise<AppointmentWithDetails[]> {
     try {
