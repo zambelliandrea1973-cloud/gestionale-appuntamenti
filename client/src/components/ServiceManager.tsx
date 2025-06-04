@@ -58,6 +58,8 @@ export default function ServiceManager() {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
+  console.log("🔧 FRONTEND: ServiceManager state initialized");
+
   // Ottiene la lista dei servizi - CORRETTO per sistema multi-tenant
   const {
     data: services,
