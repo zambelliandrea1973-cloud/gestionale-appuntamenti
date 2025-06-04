@@ -60,14 +60,14 @@ export default function ServiceManager() {
 
   console.log("🔧 FRONTEND: ServiceManager state initialized");
 
-  // Query servizi con React Query - configurazione anti-cache
+  // Query servizi con React Query - configurazione stabile
   const {
     data: services = [],
     isLoading,
     error,
     refetch: refetchServices,
   } = useQuery({
-    queryKey: ["/api/services", Date.now()], // Chiave dinamica per evitare cache
+    queryKey: ["/api/services"], // Chiave stabile
     queryFn: async () => {
       console.log("🔍 FRONTEND: Recupero servizi con timestamp:", Date.now());
       const response = await apiRequest("GET", `/api/services?_t=${Date.now()}`);
@@ -85,8 +85,10 @@ export default function ServiceManager() {
     gcTime: 0,
     refetchOnMount: 'always',
     refetchOnWindowFocus: 'always',
-    refetchInterval: 2000,
+    refetchInterval: 3000,
     refetchIntervalInBackground: true,
+    retry: 3,
+    retryDelay: 1000,
   });
 
   // Forza refetch ogni volta che il componente viene montato
@@ -292,13 +294,14 @@ export default function ServiceManager() {
     );
   }
 
-  if (error) {
+  if (error && !isLoading && services.length === 0) {
+    console.log("❌ FRONTEND: Errore critico nel caricamento servizi:", error);
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Errore</AlertTitle>
         <AlertDescription>
-          Si è verificato un errore durante il caricamento dei servizi. Riprova più tardi.
+          Errore durante il caricamento dei servizi: {error.message}
         </AlertDescription>
       </Alert>
     );
