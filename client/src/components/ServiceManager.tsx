@@ -63,6 +63,7 @@ export default function ServiceManager() {
     data: services,
     isLoading,
     error,
+    refetch: refetchServices,
   } = useQuery({
     queryKey: ["/api/services"],
     queryFn: async () => {
@@ -85,7 +86,16 @@ export default function ServiceManager() {
         throw error;
       }
     },
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
+
+  // Forza il refetch quando il componente viene montato
+  useEffect(() => {
+    console.log("🔧 FRONTEND: ServiceManager useEffect triggered, forcing refetch");
+    refetchServices();
+  }, [refetchServices]);
 
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
