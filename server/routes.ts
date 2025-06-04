@@ -171,16 +171,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const user = req.user as any;
       
-      // Solo admin può vedere tutti i clienti, gli altri vedono solo i propri
-      const ownerId = user.type === 'admin' ? undefined : user.id;
+      console.log(`🔍 Recupero clienti per utente ${user.id} (tipo: ${user.type}) con sistema multi-tenant`);
       
-      console.log(`🔍 Recupero clienti per utente ${user.id} (tipo: ${user.type})`);
-      
-      // Usa il nuovo sistema basato su prefisso codice univoco
+      // Sistema multi-tenant basato su prefisso nei codici univoci
       const clients = await storage.getVisibleClientsForUser(user.id, user.type);
       
-      console.log(`✅ Restituiti ${clients.length} clienti per utente ${user.id} (${user.type})`);
-      console.log(`📋 Primi 3 clienti:`, clients.slice(0, 3).map((c: any) => ({ id: c.id, name: `${c.firstName} ${c.lastName}`, uniqueCode: c.uniqueCode, ownerId: c.ownerId })));
+      console.log(`✅ Sistema multi-tenant: ${clients.length} clienti per utente ${user.id} (${user.type})`);
+      console.log(`📋 Primi 3 clienti:`, clients.slice(0, 3).map((c: any) => ({ 
+        id: c.id, 
+        name: `${c.firstName} ${c.lastName}`, 
+        uniqueCode: c.uniqueCode 
+      })));
       
       res.json(clients);
     } catch (error) {
