@@ -1818,25 +1818,18 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Multi-tenant appointment operations - Sistema separazione per utente
+  // Multi-tenant appointment operations - Sistema separazione per utente RISTRUTTURATO
   async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per utente ${userId} (${userType})`);
-      
-      // Ottieni solo i clienti visibili per questo utente
-      const visibleClients = await this.getVisibleClientsForUser(userId, userType);
-      const visibleClientIds = visibleClients.map(client => client.id);
-      
-      if (visibleClientIds.length === 0) {
-        console.log(`⚠️ Nessun cliente visibile per utente ${userId}, ritorno array vuoto`);
-        return [];
-      }
+      console.log(`🔍 NUOVO Sistema multi-tenant: recupero appuntamenti per utente ${userId} (${userType}) - FILTRO DIRETTO`);
       
       const result: AppointmentWithDetails[] = [];
+      
+      // NUOVA ARCHITETTURA: Filtro diretto per userId nella tabella appointments
       const appointmentsList = await db
         .select()
         .from(appointments)
-        .where(inArray(appointments.clientId, visibleClientIds))
+        .where(eq(appointments.userId, userId))
         .orderBy(appointments.date, appointments.startTime);
 
       for (const appointment of appointmentsList) {
@@ -1852,7 +1845,7 @@ export class DatabaseStorage implements IStorage {
         }
       }
 
-      console.log(`✅ Sistema multi-tenant: ${result.length} appuntamenti per utente ${userId} (${userType})`);
+      console.log(`✅ NUOVO Sistema multi-tenant: ${result.length} appuntamenti per utente ${userId} - SEPARAZIONE COMPLETA`);
       return result;
     } catch (error) {
       console.error("Error getting appointments for user:", error);
@@ -1864,22 +1857,15 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per data ${date} - utente ${userId} (${userType})`);
       
-      // Ottieni solo i clienti visibili per questo utente
-      const visibleClients = await this.getVisibleClientsForUser(userId, userType);
-      const visibleClientIds = visibleClients.map(client => client.id);
-      
-      if (visibleClientIds.length === 0) {
-        console.log(`⚠️ Nessun cliente visibile per utente ${userId}, ritorno array vuoto`);
-        return [];
-      }
-      
       const result: AppointmentWithDetails[] = [];
+      
+      // NUOVA ARCHITETTURA: Filtro diretto per userId e data
       const appointmentsList = await db
         .select()
         .from(appointments)
         .where(and(
           eq(appointments.date, date),
-          inArray(appointments.clientId, visibleClientIds)
+          eq(appointments.userId, userId)
         ))
         .orderBy(appointments.startTime);
 
@@ -1896,7 +1882,7 @@ export class DatabaseStorage implements IStorage {
         }
       }
 
-      console.log(`✅ Sistema multi-tenant: ${result.length} appuntamenti per utente ${userId} (${userType}) nella data ${date}`);
+      console.log(`✅ NUOVO Sistema multi-tenant: ${result.length} appuntamenti per data ${date} - utente ${userId} - SEPARAZIONE COMPLETA`);
       return result;
     } catch (error) {
       console.error("Error getting appointments by date for user:", error);
