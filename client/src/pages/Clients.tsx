@@ -47,25 +47,22 @@ export default function Clients() {
     
     return () => clearInterval(interval);
   }, [queryClient]);
-  const {
-    data: clients = [],
-    isLoading,
-    error,
-    refetch: refetchClients
-  } = useQuery({
-    queryKey: ["/api/clients"],
-    staleTime: 0,
-    gcTime: 0,
-    queryFn: async () => {
-      console.log("🔍 FRONTEND: Chiamata fetch a /api/clients");
-      const response = await fetch(`/api/clients?_t=${Date.now()}`, {
+  // Force direct API call bypassing all cache
+  const [clientsData, setClientsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const fetchClientsDirectly = async () => {
+    try {
+      console.log("🔍 FRONTEND: FORZO chiamata diretta a /api/clients");
+      setIsLoading(true);
+      
+      const response = await fetch(`/api/clients?_force=${Date.now()}`, {
         method: "GET",
         credentials: "include",
         headers: {
           "Cache-Control": "no-cache, no-store, must-revalidate",
           "Pragma": "no-cache",
-          "Expires": "0",
-          "X-Requested-With": "XMLHttpRequest"
+          "Expires": "0"
         }
       });
       
@@ -77,15 +74,21 @@ export default function Clients() {
       
       const data = await response.json();
       console.log("🔍 FRONTEND: Ricevuti clienti:", data.length);
+      setClientsData(data);
       return data;
-    },
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
-    refetchInterval: 3000, // Aggiornamento automatico ogni 3 secondi
-    refetchIntervalInBackground: true,
-    enabled: true,
-    retry: 3
-  });
+    } catch (error) {
+      console.error("🔍 FRONTEND: Errore chiamata clienti:", error);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchClientsDirectly();
+  }, []);
+  
+  const clients = clientsData;
 
   // Funzione per forzare il caricamento dal server bypassando completamente la cache
   const forceRefreshFromServer = async () => {

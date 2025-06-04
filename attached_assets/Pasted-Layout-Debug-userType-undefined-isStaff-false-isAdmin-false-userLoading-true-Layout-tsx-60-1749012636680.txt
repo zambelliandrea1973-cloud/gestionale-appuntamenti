@@ -1,0 +1,326 @@
+Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:60 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:60 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:60 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+use-user-with-license.tsx:55 🔍 Risposta user-with-license: 200 true
+use-user-with-license.tsx:60 🔍 Dati utente ricevuti FRESCHI: {id: 3, username: 'zambelli.andrea.1973@gmail.com', email: 'zambelli.andrea.1973@gmail.com', type: 'admin', firstName: null, …}
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+App.tsx:95 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+App.tsx:95 Stato autenticazione: {user: true, location: '/clients', isLoading: false}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/19/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/19/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/3/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/3/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/16/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/16/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/21/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/21/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/12/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/12/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/13/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/13/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/5/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/5/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/18/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/18/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/20/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/20/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/26/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/26/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/14/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/14/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/1/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/1/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/4/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/4/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/9/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/9/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/17/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/17/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/2/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/2/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/6/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/6/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/25/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/25/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/22/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/22/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/23/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/23/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/15/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/15/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/11/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/11/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/10/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/10/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/7/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/7/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/24/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/24/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/8/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/8/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/19/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/19/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/3/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/3/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/16/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/16/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/21/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/21/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/12/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/12/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/13/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/13/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/5/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/5/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/18/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/18/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/20/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/20/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/26/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/26/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/14/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/14/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/1/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/1/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/4/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/4/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/9/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/9/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/17/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/17/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/2/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/2/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/6/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/6/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/25/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/25/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/22/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/22/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/23/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/23/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/15/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/15/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/11/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/11/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/10/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/10/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/7/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/7/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/24/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/24/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/8/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/8/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:115 Risposta da /api/clients/19/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/3/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/16/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/21/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/12/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/13/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/5/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/18/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/20/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/26/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/14/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/1/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/4/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/9/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/17/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/2/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/6/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/25/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/22/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/23/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/15/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/11/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/10/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/7/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/24/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/8/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/19/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/3/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/16/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/21/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/12/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/13/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/5/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/18/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/20/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/26/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/14/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/1/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/4/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/9/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/17/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/2/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/6/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/25/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/22/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/23/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/15/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/11/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/10/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/7/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/24/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/8/activation-token: 200 OK ok: true
+chunk-C43VWYGG.js?v=cd093048:521 Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `SlotClone`.
+    at Badge (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=cd093048:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=cd093048:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=cd093048:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=cd093048:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=cd093048:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=cd093048:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OLOWCXZJ.js?v=cd093048:1987:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=cd093048:416:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=cd093048:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OLOWCXZJ.js?v=cd093048:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OLOWCXZJ.js?v=cd093048:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=cd093048:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=cd093048:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=cd093048:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:40:23)
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx:42:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=aKGCiY2F2gIuc0C_TIMho:79:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=cd093048:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=cd093048:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=aKGCiY2F2gIuc0C_TIMho:89:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=cd093048:291:17)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=cd093048:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=aKGCiY2F2gIuc0C_TIMho:660:3)
+printWarning @ chunk-C43VWYGG.js?v=cd093048:521
+error @ chunk-C43VWYGG.js?v=cd093048:505
+validateFunctionComponentInDev @ chunk-C43VWYGG.js?v=cd093048:14988
+mountIndeterminateComponent @ chunk-C43VWYGG.js?v=cd093048:14963
+beginWork @ chunk-C43VWYGG.js?v=cd093048:15882
+beginWork$1 @ chunk-C43VWYGG.js?v=cd093048:19721
+performUnitOfWork @ chunk-C43VWYGG.js?v=cd093048:19166
+workLoopSync @ chunk-C43VWYGG.js?v=cd093048:19105
+renderRootSync @ chunk-C43VWYGG.js?v=cd093048:19084
+performConcurrentWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18646
+workLoop @ chunk-C43VWYGG.js?v=cd093048:197
+flushWork @ chunk-C43VWYGG.js?v=cd093048:176
+performWorkUntilDeadline @ chunk-C43VWYGG.js?v=cd093048:384Understand this error
