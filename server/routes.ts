@@ -34,8 +34,8 @@ function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
   const userType = (req.user as any).type;
   const isOwnResource = req.params.clientId && userType === "client" && (req.user as any).clientId === parseInt(req.params.clientId);
   
-  // Admin, staff e client (per le proprie risorse) hanno accesso
-  if (userType === "admin" || userType === "staff" || isOwnResource) {
+  // NUOVA ARCHITETTURA MULTI-TENANT: Admin, staff, customer e client (per le proprie risorse) hanno accesso
+  if (userType === "admin" || userType === "staff" || userType === "customer" || isOwnResource) {
     return next();
   }
   
@@ -345,9 +345,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/services", async (req: Request, res: Response) => {
+  app.post("/api/services", isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      const validationResult = insertServiceSchema.safeParse(req.body);
+      const user = req.user as any;
+      
+      // SISTEMA MULTI-TENANT: Aggiungi automaticamente userId dell'utente autenticato
+      const serviceDataWithUserId = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const validationResult = insertServiceSchema.safeParse(serviceDataWithUserId);
       if (!validationResult.success) {
         return res.status(400).json({
           message: "Invalid service data",
@@ -356,8 +364,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const service = await storage.createService(validationResult.data);
+      console.log(`✅ Servizio creato per utente ${user.id}: ${service.name}`);
       res.status(201).json(service);
     } catch (error) {
+      console.error("Errore creazione servizio:", error);
       res.status(500).json({ message: "Error creating service" });
     }
   });
