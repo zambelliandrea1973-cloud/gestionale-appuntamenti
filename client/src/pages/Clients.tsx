@@ -57,6 +57,7 @@ export default function Clients() {
     staleTime: 0,
     gcTime: 0,
     queryFn: async () => {
+      console.log("🔍 FRONTEND: Chiamata fetch a /api/clients");
       const response = await fetch(`/api/clients?_t=${Date.now()}`, {
         method: "GET",
         credentials: "include",
@@ -68,11 +69,15 @@ export default function Clients() {
         }
       });
       
+      console.log("🔍 FRONTEND: Response status:", response.status);
+      
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
-      return response.json();
+      const data = await response.json();
+      console.log("🔍 FRONTEND: Ricevuti clienti:", data.length);
+      return data;
     },
     staleTime: 0,
     refetchOnMount: true,

@@ -167,13 +167,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Client routes
   app.get("/api/clients", isClientOrStaff, async (req: Request, res: Response) => {
+    console.log(`🔍 CHIAMATA /api/clients ricevuta`);
     try {
       const user = req.user as any;
       
       // Solo admin può vedere tutti i clienti, gli altri vedono solo i propri
       const ownerId = user.type === 'admin' ? undefined : user.id;
       
-      console.log(`Recupero clienti per utente ${user.id} (tipo: ${user.type}), filtro ownerId: ${ownerId}`);
+      console.log(`🔍 Recupero clienti per utente ${user.id} (tipo: ${user.type}), filtro ownerId: ${ownerId}`);
       
       const clients = await storage.getClients(ownerId);
       
