@@ -23,7 +23,6 @@ import ClientCard from "@/components/ClientCard";
 import { useTranslation } from "react-i18next";
 
 export default function Clients() {
-  console.log("🔥 COMPONENTE CLIENTS CARICATO - VERSIONE AGGIORNATA");
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,8 +47,8 @@ export default function Clients() {
     
     return () => clearInterval(interval);
   }, [queryClient]);
-  // Force direct API call bypassing all cache
-  const [clientsData, setClientsData] = useState([]);
+  // Direct API call for clients data
+  const [clientsData, setClientsData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   const fetchClientsDirectly = async () => {
@@ -92,6 +91,10 @@ export default function Clients() {
   const clients = clientsData;
 
   // Funzione per forzare il caricamento dal server bypassando completamente la cache
+  const refetchClients = async () => {
+    return await fetchClientsDirectly();
+  };
+  
   const forceRefreshFromServer = async () => {
     console.log("🔄 FORZA REFRESH DAL SERVER - BYPASS CACHE COMPLETO");
     try {
@@ -189,7 +192,7 @@ export default function Clients() {
   
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
-    .filter(client => {
+    .filter((client: any) => {
       // Apply search filter
       const matchesSearch = searchQuery.trim().length < 2 || 
         `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
