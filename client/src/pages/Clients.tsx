@@ -205,10 +205,20 @@ export default function Clients() {
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
-      return matchesSearch && matchesTab;
+      const passesFilter = matchesSearch && matchesTab;
+      
+      // Debug per identificare clienti filtrati
+      if (!passesFilter) {
+        console.log(`❌ Cliente filtrato: ${client.firstName} ${client.lastName} - search: ${matchesSearch}, tab: ${matchesTab}, activeTab: ${activeTab}`);
+      }
+      
+      return passesFilter;
     })
     // Ordina alfabeticamente per cognome
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
+
+  // Debug conteggio finale
+  console.log(`📊 CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
   
 
   
