@@ -73,6 +73,10 @@ export interface IStorage {
   updateAppointment(id: number, appointment: Partial<InsertAppointment>): Promise<Appointment | undefined>;
   deleteAppointment(id: number): Promise<boolean>;
   
+  // Multi-tenant appointment operations - Sistema separazione per utente
+  getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]>;
+  getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]>;
+  
   // Consent operations
   getConsent(id: number): Promise<Consent | undefined>;
   getConsentByClient(clientId: number): Promise<Consent | undefined>;
@@ -1800,6 +1804,92 @@ export class DatabaseStorage implements IStorage {
       return result;
     } catch (error) {
       console.error("Error getting appointments by date:", error);
+      return [];
+    }
+  }
+
+  // Multi-tenant appointment operations - Sistema separazione per utente
+  async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
+    try {
+      console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per utente ${userId} (${userType})`);
+      
+      // Ottieni solo i clienti visibili per questo utente
+      const visibleClients = await this.getVisibleClientsForUser(userId, userType);
+      const visibleClientIds = visibleClients.map(client => client.id);
+      
+      if (visibleClientIds.length === 0) {
+        console.log(`⚠️ Nessun cliente visibile per utente ${userId}, ritorno array vuoto`);
+        return [];
+      }
+      
+      const result: AppointmentWithDetails[] = [];
+      const appointmentsList = await db
+        .select()
+        .from(appointments)
+        .where(inArray(appointments.clientId, visibleClientIds))
+        .orderBy(appointments.date, appointments.startTime);
+
+      for (const appointment of appointmentsList) {
+        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
+        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
+        
+        if (client && service) {
+          result.push({
+            ...appointment,
+            client,
+            service
+          });
+        }
+      }
+
+      console.log(`✅ Sistema multi-tenant: ${result.length} appuntamenti per utente ${userId} (${userType})`);
+      return result;
+    } catch (error) {
+      console.error("Error getting appointments for user:", error);
+      return [];
+    }
+  }
+
+  async getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]> {
+    try {
+      console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per data ${date} - utente ${userId} (${userType})`);
+      
+      // Ottieni solo i clienti visibili per questo utente
+      const visibleClients = await this.getVisibleClientsForUser(userId, userType);
+      const visibleClientIds = visibleClients.map(client => client.id);
+      
+      if (visibleClientIds.length === 0) {
+        console.log(`⚠️ Nessun cliente visibile per utente ${userId}, ritorno array vuoto`);
+        return [];
+      }
+      
+      const result: AppointmentWithDetails[] = [];
+      const appointmentsList = await db
+        .select()
+        .from(appointments)
+        .where(and(
+          eq(appointments.date, date),
+          inArray(appointments.clientId, visibleClientIds)
+        ))
+        .orderBy(appointments.startTime);
+
+      for (const appointment of appointmentsList) {
+        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
+        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
+        
+        if (client && service) {
+          result.push({
+            ...appointment,
+            client,
+            service
+          });
+        }
+      }
+
+      console.log(`✅ Sistema multi-tenant: ${result.length} appuntamenti per utente ${userId} (${userType}) nella data ${date}`);
+      return result;
+    } catch (error) {
+      console.error("Error getting appointments by date for user:", error);
       return [];
     }
   }
