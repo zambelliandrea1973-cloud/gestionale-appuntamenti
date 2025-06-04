@@ -32,12 +32,18 @@ export async function apiRequest(
       headers["Content-Type"] = "application/json";
     }
     
-    // Headers anti-cache per operazioni DELETE e per /api/clients
-    if (method === "DELETE" || url.includes("/api/clients")) {
-      headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    // Headers anti-cache per operazioni che modificano dati e per tutte le API multi-tenant
+    const isMultiTenantApi = url.includes("/api/services") || 
+                           url.includes("/api/clients") || 
+                           url.includes("/api/appointments") ||
+                           url.includes("/api/user-with-license");
+                           
+    if (method === "DELETE" || method === "POST" || method === "PUT" || isMultiTenantApi) {
+      headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0";
       headers["Pragma"] = "no-cache";
       headers["Expires"] = "0";
-      headers["X-No-Cache"] = "true";
+      headers["If-Modified-Since"] = "Mon, 26 Jul 1997 05:00:00 GMT";
+      headers["If-None-Match"] = "*";
     }
     
     // Aggiungi l'header x-pwa-app se siamo in una PWA

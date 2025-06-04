@@ -89,8 +89,10 @@ export default function ServiceManager() {
       }
     },
     staleTime: 0,
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    cacheTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchInterval: false,
   });
 
   // Forza il refetch quando il componente viene montato
@@ -110,7 +112,11 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: () => {
+      // Rimuovi completamente i dati dalla cache e forza il refetch
+      queryClient.removeQueries({ queryKey: ["/api/services"] });
       queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      refetchServices();
+      
       resetForm();
       setIsDialogOpen(false);
       toast({
@@ -138,7 +144,10 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["/api/services"] });
       queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      refetchServices();
+      
       resetForm();
       setIsDialogOpen(false);
       toast({
@@ -166,7 +175,10 @@ export default function ServiceManager() {
       return true;
     },
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["/api/services"] });
       queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      refetchServices();
+      
       toast({
         title: "Servizio eliminato",
         description: "Il servizio è stato eliminato con successo",
