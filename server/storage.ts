@@ -429,102 +429,48 @@ export class MemStorage implements IStorage {
     });
   }
   
-  // Client operations
+  // Client operations - basic implementations for interface compatibility
   async getClient(id: number): Promise<Client | undefined> {
-    try {
-      const [client] = await db.select().from(clients).where(eq(clients.id, id));
-      return client;
-    } catch (error) {
-      console.error("Error getting client:", error);
-      return undefined;
-    }
+    return this.clients.get(id);
   }
-  
+
   async getClients(ownerId?: number): Promise<Client[]> {
-    try {
-      console.log(`🔍 getClients chiamato con ownerId: ${ownerId}`);
-      
-      let rawClients;
-      if (ownerId !== undefined) {
-        rawClients = await db.select().from(clients)
-          .where(eq(clients.ownerId, ownerId))
-          .orderBy(clients.lastName);
-        
-        console.log(`✅ Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
-      } else {
-        // Se non specificato ownerId, restituisci tutti (solo per admin)
-        rawClients = await db.select().from(clients).orderBy(clients.lastName);
-        console.log(`✅ Trovati ${rawClients.length} clienti totali (query senza filtro)`);
-      }
-      
-      return rawClients;
-    } catch (error) {
-      console.error("Error getting clients:", error);
-      return [];
+    const allClients = Array.from(this.clients.values());
+    if (ownerId !== undefined) {
+      return allClients.filter(client => client.ownerId === ownerId);
     }
+    return allClients;
   }
 
   async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
-    try {
-      let allClients: Client[] = await this.getClients();
-      
-      // Admin vede tutti i clienti
-      if (role === 'admin') {
-        return allClients;
-      }
-      
-      // Per gli altri account (staff e customer)
-      let visibleClients: Client[] = [];
-      
-      for (const client of allClients) {
-        // Caso 1: I clienti di default (senza owner_id) sono visibili a tutti
-        // Caso 2: I clienti creati dall'utente (con owner_id = userId) sono visibili
-        let normallyVisible = client.ownerId === null || client.ownerId === userId;
-        
-        if (normallyVisible) {
-          visibleClients.push(client);
-        }
-      }
-      
-      return visibleClients;
-    } catch (error) {
-      console.error('Errore nel recupero dei clienti visibili:', error);
-      return []; // Restituisci lista vuota in caso di errore
+    const allClients = Array.from(this.clients.values());
+    if (role === 'admin') {
+      return allClients;
     }
+    return allClients.filter(client => client.ownerId === null || client.ownerId === userId);
   }
-  
+
   async createClient(client: InsertClient): Promise<Client> {
-    try {
-      const [newClient] = await db.insert(clients).values(client).returning();
-      return newClient;
-    } catch (error) {
-      console.error("Error creating client:", error);
-      throw error;
-    }
+    const id = this.clientIdCounter++;
+    const newClient: Client = { ...client, id };
+    this.clients.set(id, newClient);
+    this.saveToStorage();
+    return newClient;
   }
-  
+
   async updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined> {
-    try {
-      const [updatedClient] = await db
-        .update(clients)
-        .set(client)
-        .where(eq(clients.id, id))
-        .returning();
-      return updatedClient;
-    } catch (error) {
-      console.error("Error updating client:", error);
-      return undefined;
-    }
+    const existingClient = this.clients.get(id);
+    if (!existingClient) return undefined;
+    const updatedClient = { ...existingClient, ...client };
+    this.clients.set(id, updatedClient);
+    this.saveToStorage();
+    return updatedClient;
   }
-  
+
   async deleteClient(id: number): Promise<boolean> {
-    try {
-      await db.delete(clients).where(eq(clients.id, id));
-      return true;
-    } catch (error) {
-      console.error("Error deleting client:", error);
-      return false;
-    }
+    const deleted = this.clients.delete(id);
+    if (deleted) this.saveToStorage();
+    return deleted;
   }
   
   // Service operations
@@ -1237,6 +1183,96 @@ export class DatabaseStorage implements IStorage {
       },
       createTableIfMissing: true
     });
+  }
+
+  // Client operations
+  async getClient(id: number): Promise<Client | undefined> {
+    try {
+      const [client] = await db.select().from(clients).where(eq(clients.id, id));
+      return client;
+    } catch (error) {
+      console.error("Error getting client:", error);
+      return undefined;
+    }
+  }
+
+  async getClients(ownerId?: number): Promise<Client[]> {
+    try {
+      console.log(`🔍 DatabaseStorage.getClients chiamato con ownerId: ${ownerId}`);
+      
+      let rawClients;
+      if (ownerId !== undefined) {
+        rawClients = await db.select().from(clients)
+          .where(eq(clients.ownerId, ownerId))
+          .orderBy(clients.lastName);
+        
+        console.log(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti per ownerId ${ownerId}`);
+      } else {
+        rawClients = await db.select().from(clients)
+          .orderBy(clients.lastName);
+        
+        console.log(`✅ DatabaseStorage: Trovati ${rawClients.length} clienti totali`);
+      }
+      
+      return rawClients;
+    } catch (error) {
+      console.error("Error getting clients:", error);
+      return [];
+    }
+  }
+
+  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
+    try {
+      console.log(`🔍 DatabaseStorage.getVisibleClientsForUser per userId: ${userId}, role: ${role}`);
+      
+      if (role === 'admin') {
+        const allClients = await db.select().from(clients).orderBy(clients.lastName);
+        console.log(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali`);
+        return allClients;
+      } else {
+        const userClients = await db.select().from(clients)
+          .where(eq(clients.ownerId, userId))
+          .orderBy(clients.lastName);
+        console.log(`✅ DatabaseStorage: User ${userId} vede ${userClients.length} clienti propri`);
+        return userClients;
+      }
+    } catch (error) {
+      console.error("Error getting visible clients:", error);
+      return [];
+    }
+  }
+
+  async createClient(client: InsertClient): Promise<Client> {
+    try {
+      const [newClient] = await db.insert(clients).values(client).returning();
+      return newClient;
+    } catch (error) {
+      console.error("Error creating client:", error);
+      throw error;
+    }
+  }
+
+  async updateClient(id: number, client: Partial<InsertClient>): Promise<Client | undefined> {
+    try {
+      const [updatedClient] = await db.update(clients)
+        .set(client)
+        .where(eq(clients.id, id))
+        .returning();
+      return updatedClient;
+    } catch (error) {
+      console.error("Error updating client:", error);
+      return undefined;
+    }
+  }
+
+  async deleteClient(id: number): Promise<boolean> {
+    try {
+      const result = await db.delete(clients).where(eq(clients.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting client:", error);
+      return false;
+    }
   }
   
   // Beta Invitation operations
