@@ -23,6 +23,7 @@ import ClientCard from "@/components/ClientCard";
 import { useTranslation } from "react-i18next";
 
 export default function Clients() {
+  console.log("🔥 COMPONENTE CLIENTS CARICATO - VERSIONE AGGIORNATA");
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
