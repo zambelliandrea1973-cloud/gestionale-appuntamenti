@@ -56,11 +56,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
   }
 
   if (isError) {
-    return (
-      <div className="flex items-center">
-        <span className="text-xs text-muted-foreground">{t('clients.accesses.error')}</span>
-      </div>
-    );
+    return null; // Non mostrare nulla in caso di errore
   }
 
   if (!hasLoaded) {

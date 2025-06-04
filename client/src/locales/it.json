@@ -121,6 +121,12 @@
   },
   "clients": {
     "title": "Clienti",
+    "subtitle": "Gestisci tutti i tuoi clienti",
+    "total": "clienti",
+    "searchPlaceholder": "Cerca clienti per nome, telefono o email...",
+    "allClients": "Tutti i clienti",
+    "frequentClients": "Clienti frequenti",
+    "noConsent": "Senza consenso",
     "description": "Gestisci l'anagrafica dei clienti",
     "subDescription": "Aggiungi, modifica e visualizza i dati dei clienti, compresi i dati anagrafici e medici",
     "goTo": "Gestisci Clienti",
