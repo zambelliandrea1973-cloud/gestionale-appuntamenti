@@ -2900,5 +2900,142 @@ Per utilizzare WhatsApp con Twilio, devi:
     }
   });
 
+  // Endpoint per le impostazioni personalizzate dell'utente - Architettura separata
+  app.get('/api/user-settings', async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user?.id) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const userId = req.user.id;
+      console.log(`Recupero impostazioni per utente ${userId}`);
+      
+      const userSettings = await storage.getUserSettings(userId);
+      
+      if (!userSettings) {
+        const defaultSettings = {
+          userId,
+          businessName: 'Il Mio Business',
+          primaryColor: '#3f51b5',
+          theme: 'professional',
+          appearance: 'light',
+          timezoneSettings: 'Europe/Rome'
+        };
+        console.log(`Nessuna impostazione trovata per utente ${userId}, restituisco valori predefiniti`);
+        return res.json(defaultSettings);
+      }
+      
+      console.log(`Impostazioni recuperate per utente ${userId}`);
+      res.json(userSettings);
+    } catch (error) {
+      console.error('Errore nel recupero delle impostazioni utente:', error);
+      res.status(500).json({ error: 'Errore nel recupero delle impostazioni' });
+    }
+  });
+
+  app.post('/api/user-settings', async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user?.id) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const userId = req.user.id;
+      const settingsData = req.body;
+      
+      console.log(`Salvataggio impostazioni per utente ${userId}:`, settingsData);
+      
+      const updatedSettings = await storage.updateUserSettings(userId, {
+        ...settingsData,
+        userId
+      });
+      
+      if (!updatedSettings) {
+        return res.status(500).json({ error: 'Errore nel salvataggio delle impostazioni' });
+      }
+      
+      console.log(`Impostazioni salvate con successo per utente ${userId}`);
+      res.json(updatedSettings);
+    } catch (error) {
+      console.error('Errore nel salvataggio delle impostazioni utente:', error);
+      res.status(500).json({ error: 'Errore nel salvataggio delle impostazioni' });
+    }
+  });
+
+  app.put('/api/user-settings', async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user?.id) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const userId = req.user.id;
+      const settingsData = req.body;
+      
+      console.log(`Aggiornamento impostazioni per utente ${userId}:`, settingsData);
+      
+      const updatedSettings = await storage.updateUserSettings(userId, settingsData);
+      
+      if (!updatedSettings) {
+        return res.status(500).json({ error: 'Errore nell\'aggiornamento delle impostazioni' });
+      }
+      
+      console.log(`Impostazioni aggiornate con successo per utente ${userId}`);
+      res.json(updatedSettings);
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento delle impostazioni utente:', error);
+      res.status(500).json({ error: 'Errore nell\'aggiornamento delle impostazioni' });
+    }
+  });
+
+  app.get('/api/user-app-info', async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user?.id) {
+        return res.status(401).json({ message: 'Utente non autenticato' });
+      }
+
+      const userId = req.user.id;
+      console.log(`Recupero informazioni app personalizzate per utente ${userId}`);
+      
+      const userSettings = await storage.getUserSettings(userId);
+      
+      const response = {
+        appName: userSettings?.businessName || 'Gestore Appuntamenti',
+        appIcon: userSettings?.appIconPath || '/icons/app-icon.jpg',
+        primaryColor: userSettings?.primaryColor || '#3f51b5',
+        secondaryColor: userSettings?.secondaryColor || '#ffffff',
+        theme: userSettings?.theme || 'professional',
+        appearance: userSettings?.appearance || 'light',
+        businessInfo: {
+          name: userSettings?.businessName,
+          description: userSettings?.description,
+          website: userSettings?.website,
+          address: userSettings?.address
+        },
+        contactInfo: {
+          email: userSettings?.contactEmail,
+          phone: userSettings?.contactPhone,
+          phone2: userSettings?.contactPhone2
+        },
+        socialMedia: {
+          instagram: userSettings?.instagramHandle,
+          facebook: userSettings?.facebookPage,
+          linkedin: userSettings?.linkedinProfile
+        }
+      };
+      
+      console.log(`Informazioni app personalizzate per utente ${userId} recuperate`);
+      res.json(response);
+    } catch (error) {
+      console.error('Errore nel recupero delle informazioni app personalizzate:', error);
+      res.status(500).json({ 
+        error: 'Errore nel recupero delle informazioni',
+        appName: 'Gestore Appuntamenti',
+        appIcon: '/icons/app-icon.jpg',
+        primaryColor: '#3f51b5',
+        theme: 'professional',
+        appearance: 'light'
+      });
+    }
+  });
+
   return httpServer;
 }
