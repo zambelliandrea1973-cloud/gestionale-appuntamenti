@@ -2229,17 +2229,12 @@ Per utilizzare WhatsApp con Twilio, devi:
           fs.copyFileSync(filePath, newIconPath);
           console.log(`SVG copiato per utente ${userId}: ${newIconPath}`);
           
-          // Salva il percorso nelle impostazioni dell'utente
+          // Salva il percorso nelle impostazioni personalizzate dell'utente
           try {
-            await storage.saveSetting(
-              `app_icon_path_user_${userId}`, 
-              iconSrc, 
-              `Percorso icona personalizzata SVG per utente ${userId}`,
-              'appearance'
-            );
-            console.log(`Percorso icona SVG salvato nelle impostazioni per utente ${userId}: ${iconSrc}`);
+            await storage.updateUserIconPath(userId, iconSrc);
+            console.log(`Percorso icona SVG salvato nelle impostazioni utente ${userId}: ${iconSrc}`);
           } catch (error) {
-            console.error('Errore nel salvataggio percorso icona SVG nelle impostazioni:', error);
+            console.error('Errore nel salvataggio percorso icona SVG nelle impostazioni utente:', error);
           }
           
           return res.json({ 
@@ -2280,6 +2275,14 @@ Per utilizzare WhatsApp con Twilio, devi:
         }
           
         console.log(`Immagine ottimizzata salvata per utente ${userId}: ${newIconPath}, tipo: ${req.file.mimetype}`);
+        
+        // Salva il percorso nelle impostazioni personalizzate dell'utente
+        try {
+          await storage.updateUserIconPath(userId, iconSrc);
+          console.log(`Percorso icona salvato nelle impostazioni utente ${userId}: ${iconSrc}`);
+        } catch (error) {
+          console.error('Errore nel salvataggio percorso icona nelle impostazioni utente:', error);
+        }
       } catch (error) {
         console.error('Errore durante l\'ottimizzazione dell\'immagine:', error);
         // Continua comunque, useremo l'immagine originale

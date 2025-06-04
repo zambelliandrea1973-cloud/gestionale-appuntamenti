@@ -3941,6 +3941,125 @@ export class DatabaseStorage implements IStorage {
       throw error;
     }
   }
+
+  // User Settings operations - Architettura completamente separata per utente
+  async getUserSettings(userId: number): Promise<UserSettings | undefined> {
+    try {
+      console.log(`Recupero impostazioni per utente ${userId}`);
+      const [settings] = await db
+        .select()
+        .from(userSettings)
+        .where(eq(userSettings.userId, userId))
+        .limit(1);
+      
+      console.log(`Impostazioni trovate per utente ${userId}:`, settings ? 'SI' : 'NO');
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero delle impostazioni per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
+    try {
+      console.log(`Creazione impostazioni per utente ${settings.userId}`);
+      const [createdSettings] = await db
+        .insert(userSettings)
+        .values({
+          ...settings,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+      
+      console.log(`Impostazioni create per utente ${settings.userId} con ID ${createdSettings.id}`);
+      return createdSettings;
+    } catch (error) {
+      console.error(`Errore nella creazione delle impostazioni per utente ${settings.userId}:`, error);
+      throw error;
+    }
+  }
+
+  async updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
+    try {
+      console.log(`Aggiornamento impostazioni per utente ${userId}`);
+      
+      // Prima verifica se esistono impostazioni per questo utente
+      const existing = await this.getUserSettings(userId);
+      
+      if (!existing) {
+        // Se non esistono, crea nuove impostazioni
+        console.log(`Nessuna impostazione esistente per utente ${userId}, creazione automatica`);
+        return this.createUserSettings({
+          userId,
+          ...settings
+        });
+      }
+      
+      // Aggiorna le impostazioni esistenti
+      const [updatedSettings] = await db
+        .update(userSettings)
+        .set({
+          ...settings,
+          updatedAt: new Date()
+        })
+        .where(eq(userSettings.userId, userId))
+        .returning();
+      
+      console.log(`Impostazioni aggiornate per utente ${userId}`);
+      return updatedSettings;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento delle impostazioni per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  async deleteUserSettings(userId: number): Promise<boolean> {
+    try {
+      console.log(`Eliminazione impostazioni per utente ${userId}`);
+      const result = await db
+        .delete(userSettings)
+        .where(eq(userSettings.userId, userId));
+      
+      const deleted = result.count > 0;
+      console.log(`Impostazioni eliminate per utente ${userId}:`, deleted ? 'SI' : 'NO');
+      return deleted;
+    } catch (error) {
+      console.error(`Errore nell'eliminazione delle impostazioni per utente ${userId}:`, error);
+      return false;
+    }
+  }
+
+  async getUserIconPath(userId: number): Promise<string | undefined> {
+    try {
+      console.log(`Recupero percorso icona per utente ${userId}`);
+      const settings = await this.getUserSettings(userId);
+      
+      if (settings?.appIconPath) {
+        console.log(`Percorso icona trovato per utente ${userId}: ${settings.appIconPath}`);
+        return settings.appIconPath;
+      }
+      
+      console.log(`Nessun percorso icona personalizzato per utente ${userId}`);
+      return undefined;
+    } catch (error) {
+      console.error(`Errore nel recupero del percorso icona per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  async updateUserIconPath(userId: number, iconPath: string): Promise<UserSettings | undefined> {
+    try {
+      console.log(`Aggiornamento percorso icona per utente ${userId}: ${iconPath}`);
+      
+      return this.updateUserSettings(userId, {
+        appIconPath: iconPath
+      });
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento del percorso icona per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
