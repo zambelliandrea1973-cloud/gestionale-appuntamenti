@@ -316,13 +316,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/services", isClientOrStaff, async (req: Request, res: Response) => {
     try {
       const user = req.user as any;
-      console.log(`🔍 NUOVO Sistema multi-tenant: recupero servizi per utente ${user.id} (${user.type})`);
+      console.log(`🔍 SERVIZI API: recupero per utente ${user.id} (${user.username}, tipo: ${user.type})`);
       
       const services = await storage.getServicesForUser(user.id);
-      console.log(`✅ NUOVO Sistema: ${services.length} servizi per utente ${user.id} - SEPARAZIONE COMPLETA`);
+      console.log(`✅ SERVIZI API: trovati ${services.length} servizi per utente ${user.id}`);
+      console.log(`📋 SERVIZI API: dettagli servizi:`, services.map(s => ({ id: s.id, name: s.name, userId: s.userId })));
+      
       res.json(services);
     } catch (error) {
-      console.error("Error fetching services for user:", error);
+      console.error("❌ SERVIZI API: errore durante recupero servizi:", error);
       res.status(500).json({ message: "Error fetching services" });
     }
   });
