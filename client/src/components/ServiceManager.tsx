@@ -60,16 +60,15 @@ export default function ServiceManager() {
 
   console.log("🔧 FRONTEND: ServiceManager state initialized");
 
-  // Query servizi con React Query - configurazione stabile
+  // Query servizi con React Query - configurazione efficiente
   const {
     data: services = [],
     isLoading,
     error,
     refetch: refetchServices,
   } = useQuery({
-    queryKey: ["/api/services"], // Chiave stabile
+    queryKey: ["/api/services"], 
     queryFn: async () => {
-      console.log("🔍 FRONTEND: Recupero servizi con timestamp:", Date.now());
       const response = await apiRequest("GET", `/api/services?_t=${Date.now()}`);
       
       if (!response.ok) {
@@ -77,25 +76,15 @@ export default function ServiceManager() {
       }
       
       const data = await response.json();
-      console.log("✅ FRONTEND: Servizi ricevuti:", data.length, "servizi");
-      console.log("📋 FRONTEND: Lista servizi:", data.map(s => s.name).join(", "));
       return data;
     },
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnMount: 'always',
-    refetchOnWindowFocus: 'always',
-    refetchInterval: 3000,
-    refetchIntervalInBackground: true,
-    retry: 3,
+    staleTime: 5 * 60 * 1000, // 5 minuti - dati freschi
+    gcTime: 10 * 60 * 1000, // 10 minuti in cache
+    refetchOnMount: false, // No refetch automatico al mount
+    refetchOnWindowFocus: false, // No refetch quando si torna alla finestra
+    retry: 1,
     retryDelay: 1000,
   });
-
-  // Forza refetch ogni volta che il componente viene montato
-  useEffect(() => {
-    console.log("🔧 FRONTEND: ServiceManager mounted, forcing fresh data");
-    refetchServices();
-  }, [refetchServices]);
 
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
