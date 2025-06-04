@@ -60,18 +60,16 @@ export default function ServiceManager() {
 
   console.log("🔧 FRONTEND: ServiceManager state initialized");
 
-  // Stato locale per servizi senza cache
-  const [services, setServices] = useState<Service[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  // Funzione per caricare servizi senza cache
-  const loadServices = async () => {
-    try {
-      console.log("🔍 FRONTEND: Caricamento servizi senza cache...");
-      setIsLoading(true);
-      setError(null);
-      
+  // Query servizi con React Query - configurazione anti-cache
+  const {
+    data: services = [],
+    isLoading,
+    error,
+    refetch: refetchServices,
+  } = useQuery({
+    queryKey: ["/api/services", Date.now()], // Chiave dinamica per evitare cache
+    queryFn: async () => {
+      console.log("🔍 FRONTEND: Recupero servizi con timestamp:", Date.now());
       const response = await apiRequest("GET", `/api/services?_t=${Date.now()}`);
       
       if (!response.ok) {
@@ -79,29 +77,23 @@ export default function ServiceManager() {
       }
       
       const data = await response.json();
-      console.log("✅ FRONTEND: Servizi caricati:", data.length, "servizi");
-      setServices(data);
-    } catch (err) {
-      console.error("❌ FRONTEND: Errore caricamento servizi:", err);
-      setError(err as Error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      console.log("✅ FRONTEND: Servizi ricevuti:", data.length, "servizi");
+      console.log("📋 FRONTEND: Lista servizi:", data.map(s => s.name).join(", "));
+      return data;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+  });
 
-  // Carica servizi al mount e imposta aggiornamento automatico
+  // Forza refetch ogni volta che il componente viene montato
   useEffect(() => {
-    console.log("🔧 FRONTEND: ServiceManager mounted, loading services");
-    loadServices();
-    
-    // Aggiorna ogni 3 secondi per mantenere dati freschi
-    const interval = setInterval(() => {
-      console.log("🔄 FRONTEND: Aggiornamento automatico servizi...");
-      loadServices();
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, []);
+    console.log("🔧 FRONTEND: ServiceManager mounted, forcing fresh data");
+    refetchServices();
+  }, [refetchServices]);
 
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
@@ -116,8 +108,8 @@ export default function ServiceManager() {
     onSuccess: async () => {
       console.log("✅ FRONTEND: Servizio creato con successo, aggiornando lista...");
       
-      // Ricarica immediatamente i servizi senza cache
-      await loadServices();
+      // Forza refetch immediato con nuovi dati
+      await refetchServices();
       
       resetForm();
       setIsDialogOpen(false);
@@ -147,7 +139,7 @@ export default function ServiceManager() {
     },
     onSuccess: async () => {
       console.log("✅ FRONTEND: Servizio aggiornato, ricaricando lista...");
-      await loadServices();
+      await refetchServices();
       
       resetForm();
       setIsDialogOpen(false);
@@ -177,7 +169,7 @@ export default function ServiceManager() {
     },
     onSuccess: async () => {
       console.log("✅ FRONTEND: Servizio eliminato, ricaricando lista...");
-      await loadServices();
+      await refetchServices();
       
       toast({
         title: "Servizio eliminato",
