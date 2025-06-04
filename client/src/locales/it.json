@@ -156,6 +156,12 @@
     "qrNotGenerated": "QR non generato",
     "generateQR": "Genera QR",
     "manageClient": "Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
     "table": {
       "name": "Nome",
       "surname": "Cognome",

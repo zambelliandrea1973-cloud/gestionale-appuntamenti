@@ -210,6 +210,12 @@
       "notes": "Notes",
       "save": "Save",
       "cancel": "Cancel"
+    },
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     }
   },
   "invoices": {

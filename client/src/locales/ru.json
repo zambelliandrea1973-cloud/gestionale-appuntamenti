@@ -202,7 +202,13 @@
     "qrGenerated": "[NEEDS TRANSLATION] QR generato",
     "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
     "generateQR": "[NEEDS TRANSLATION] Genera QR",
-    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente"
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    }
   },
   "invoices": {
     "title": "Счета",
