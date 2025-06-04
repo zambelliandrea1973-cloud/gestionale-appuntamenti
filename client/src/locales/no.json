@@ -178,7 +178,16 @@
       "notes": "Notater",
       "save": "Lagre",
       "cancel": "Avbryt"
-    }
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente"
   },
   "invoices": {
     "title": "Fakturaer",
@@ -323,7 +332,17 @@
         "date": "Dato",
         "message": "Melding",
         "actions": "Handlinger",
-        "reopen": "Åpne på nytt"
+        "reopen": "Åpne på nytt",
+        "client": "[NEEDS TRANSLATION] Cliente",
+        "status": "[NEEDS TRANSLATION] Stato"
+      },
+      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
       }
     },
     "appointmentList": {
@@ -418,10 +437,17 @@
     "selectTimeSlots": "Velg tid for ny timeavtale",
     "confirmAndAssociateClient": "Bekreft og knytt til kunde",
     "selected": "Valgt",
-    "selectSlots": "Velg tidsluker"
+    "selectSlots": "Velg tidsluker",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
   },
   "sidebar": {
     "clients": "Kunder",
@@ -429,5 +455,10 @@
     "invoices": "Fakturaer",
     "reports": "Rapporter",
     "settings": "Innstillinger"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   }
 }

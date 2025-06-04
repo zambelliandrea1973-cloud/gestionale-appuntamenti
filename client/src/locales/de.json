@@ -5,7 +5,12 @@
     "description": "Verwalten Sie einfach Termine, Kunden und Rechnungen"
   },
   "navigation": {
-    "home": "Startseite"
+    "home": "Startseite",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
   },
   "sidebar": {
     "clients": "Kunden",
@@ -188,7 +193,16 @@
       "notes": "Notizen",
       "save": "Speichern",
       "cancel": "Abbrechen"
-    }
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente"
   },
   "invoices": {
     "title": "Rechnungen",
@@ -328,7 +342,40 @@
     "success": {
       "remindersSent": "Erinnerungen erfolgreich generiert"
     },
-    "whatsappLink": "WhatsApp öffnen"
+    "whatsappLink": "WhatsApp öffnen",
+    "table": {
+      "client": "Cliente",
+      "service": "Servizio",
+      "time": "Orario",
+      "actions": "Azioni",
+      "send": "Invia",
+      "selectAll": "Seleziona tutti"
+    },
+    "buttons": {
+      "generating": "Generazione in corso...",
+      "generateWhatsApp": "Genera notifiche WhatsApp"
+    },
+    "history": {
+      "title": "Cronologia notifiche inviate",
+      "description": "Ultimi promemoria inviati tramite WhatsApp",
+      "noNotifications": "Nessuna notifica inviata recentemente",
+      "noSmsNotifications": "Nessun SMS inviato finora",
+      "table": {
+        "date": "Data",
+        "message": "Messaggio",
+        "actions": "Azioni",
+        "reopen": "Riapri",
+        "client": "Cliente",
+        "status": "Stato"
+      },
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    }
   },
   "notificationSettings": {
     "title": "Benachrichtigungseinstellungen",
@@ -405,6 +452,13 @@
     "selectTimeSlots": "Zeitslot für neuen Termin auswählen",
     "confirmAndAssociateClient": "Bestätigen und Kunden zuordnen",
     "selected": "Ausgewählt",
-    "selectSlots": "Zeitslots auswählen"
+    "selectSlots": "Zeitslots auswählen",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   }
 }

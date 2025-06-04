@@ -97,8 +97,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         <Clock className="h-3 w-3" />
                         <span>
                           {new Date(licenseInfo.expiresAt) > new Date() 
-                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
-                            : 'Scaduto'}
+                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} ${t('trial.days')}` 
+                            : t('trial.expired')}
                         </span>
                       </div>
                       <div className="text-xs text-amber-200 flex items-center whitespace-nowrap">
@@ -174,13 +174,13 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <Link href="/staff-management">
                       <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] bg-transparent border-0 text-white">
                         <UserCog className="h-4 w-4 mr-1" />
-                        <span className="text-white">Staff</span>
+                        <span className="text-white">{t('navigation.staff')}</span>
                       </Button>
                     </Link>
                     <Link href="/payment-admin">
                       <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[110px] bg-transparent border-0 text-white">
                         <CreditCard className="h-4 w-4 mr-1 text-green-400" />
-                        <span className="text-white">Pagamenti</span>
+                        <span className="text-white">{t('navigation.payments')}</span>
                       </Button>
                     </Link>
                   </>
