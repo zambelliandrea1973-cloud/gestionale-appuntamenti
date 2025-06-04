@@ -1230,10 +1230,27 @@ export class DatabaseStorage implements IStorage {
         console.log(`✅ DatabaseStorage: Admin vede ${allClients.length} clienti totali`);
         return allClients;
       } else {
+        // Recupera il codice di assegnazione dell'utente
+        const [user] = await db.select().from(users).where(eq(users.id, userId));
+        if (!user || !user.assignmentCode) {
+          console.log(`❌ DatabaseStorage: User ${userId} senza assignmentCode`);
+          return [];
+        }
+        
+        const userPrefix = user.assignmentCode.substring(0, 3);
+        console.log(`🔍 DatabaseStorage: Cerco clienti con prefisso ${userPrefix} per user ${userId}`);
+        
+        // Filtra clienti sia per ownerId che per prefisso nel uniqueCode
         const userClients = await db.select().from(clients)
-          .where(eq(clients.ownerId, userId))
+          .where(
+            or(
+              eq(clients.ownerId, userId),
+              like(clients.uniqueCode, `${userPrefix}-%`)
+            )
+          )
           .orderBy(clients.lastName);
-        console.log(`✅ DatabaseStorage: User ${userId} vede ${userClients.length} clienti propri`);
+        
+        console.log(`✅ DatabaseStorage: User ${userId} (${userPrefix}) vede ${userClients.length} clienti`);
         return userClients;
       }
     } catch (error) {

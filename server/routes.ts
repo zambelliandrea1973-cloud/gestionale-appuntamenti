@@ -174,12 +174,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Solo admin può vedere tutti i clienti, gli altri vedono solo i propri
       const ownerId = user.type === 'admin' ? undefined : user.id;
       
-      console.log(`🔍 Recupero clienti per utente ${user.id} (tipo: ${user.type}), filtro ownerId: ${ownerId}`);
+      console.log(`🔍 Recupero clienti per utente ${user.id} (tipo: ${user.type})`);
       
-      const clients = await storage.getClients(ownerId);
+      // Usa il nuovo sistema basato su prefisso codice univoco
+      const clients = await storage.getVisibleClientsForUser(user.id, user.type);
       
       console.log(`✅ Restituiti ${clients.length} clienti per utente ${user.id} (${user.type})`);
-      console.log(`📋 Primi 3 clienti:`, clients.slice(0, 3).map((c: any) => ({ id: c.id, name: `${c.firstName} ${c.lastName}`, ownerId: c.ownerId })));
+      console.log(`📋 Primi 3 clienti:`, clients.slice(0, 3).map((c: any) => ({ id: c.id, name: `${c.firstName} ${c.lastName}`, uniqueCode: c.uniqueCode, ownerId: c.ownerId })));
       
       res.json(clients);
     } catch (error) {
@@ -218,8 +219,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const user = req.user as any;
       
-      // Genera codice univoco per il cliente
-      const uniqueCode = `${validationResult.data.firstName.charAt(0)}${validationResult.data.lastName.charAt(0)}${Date.now().toString().slice(-4)}`;
+      // Genera codice univoco per il cliente con prefisso account
+      const baseCode = `${validationResult.data.firstName.charAt(0).toUpperCase()}${validationResult.data.lastName.charAt(0).toUpperCase()}${Date.now().toString().slice(-4)}`;
+      const userPrefix = user.assignmentCode ? user.assignmentCode.substring(0, 3) : 'DEF';
+      const uniqueCode = `${userPrefix}-${baseCode}`;
       
       const clientData = {
         ...validationResult.data,
@@ -227,7 +230,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         uniqueCode: uniqueCode
       };
 
-      console.log(`Creazione cliente per owner ${user.id}: ${clientData.firstName} ${clientData.lastName} (${uniqueCode})`);
+      console.log(`Creazione cliente per owner ${user.id} (${userPrefix}): ${clientData.firstName} ${clientData.lastName} (${uniqueCode})`);
       
       const client = await storage.createClient(clientData);
       res.status(201).json(client);
