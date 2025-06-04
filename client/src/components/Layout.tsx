@@ -119,7 +119,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/dashboard">
                   <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
-                    <span>Home</span>
+                    <span>{t('navigation.home')}</span>
                   </Button>
                 </Link>
                 <Link href="/calendar">
@@ -137,7 +137,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/whatsapp-center">
                   <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <MessageSquare className="h-4 w-4 mr-1" />
-                    <span>Notifiche</span>
+                    <span>{t('navigation.notifications')}</span>
                   </Button>
                 </Link>
                 {/* Link Referral sulla prima riga per staff e admin */}
@@ -145,7 +145,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <Link href="/referral">
                     <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                       <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
-                      <span>Referral</span>
+                      <span>{t('navigation.referral')}</span>
                     </Button>
                   </Link>
                 )}
@@ -156,7 +156,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/onboarding">
                   <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[100px]">
                     <Brain className="h-4 w-4 mr-1 text-purple-400" />
-                    <span>Setup AI</span>
+                    <span>{t('navigation.aiSetup')}</span>
                   </Button>
                 </Link>
                 <Link href="/pro">
