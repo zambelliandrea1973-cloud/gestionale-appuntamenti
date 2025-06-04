@@ -1,195 +1,115 @@
 import { useState, useEffect, useRef } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Plus, 
   Search, 
-  UserPlus, 
-  Star, 
-  AlertCircle,
-  Loader2,
-  Clock,
-  Phone,
-  AlertTriangle
+  Users, 
+  UserCheck, 
+  UserX, 
+  RefreshCw,
+  Server,
+  Phone
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ClientForm from "@/components/ClientForm";
 import ClientCard from "@/components/ClientCard";
 import { useTranslation } from "react-i18next";
 
 export default function Clients() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isClientDialogOpen, setIsClientDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
-  const [lastRefreshTime, setLastRefreshTime] = useState<Date>(new Date());
-  const autoRefreshIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [isUpdatingPrefixes, setIsUpdatingPrefixes] = useState(false);
   
-  // Fetch all clients with explicit queryFn and cache busting
+  // Clean React Query implementation for multi-tenant system
   const queryClient = useQueryClient();
   
-  // Force cache invalidation on mount and auto-refresh
-  useEffect(() => {
-    // Invalida immediatamente la cache
-    queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
-    
-    // Auto-refresh ogni 30 secondi per mantenere dati sincronizzati
-    const interval = setInterval(() => {
-      queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
-    }, 30000);
-    
-    return () => clearInterval(interval);
-  }, [queryClient]);
-  // Direct API call for clients data
-  const [clientsData, setClientsData] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  const fetchClientsDirectly = async () => {
-    try {
-      console.log("🔍 FRONTEND: FORZO chiamata diretta a /api/clients");
-      setIsLoading(true);
-      
-      const response = await fetch(`/api/clients?_force=${Date.now()}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          "Pragma": "no-cache",
-          "Expires": "0"
-        }
+  const {
+    data: clients = [],
+    isLoading,
+    error,
+    refetch: refetchClients
+  } = useQuery({
+    queryKey: ['/api/clients'],
+    queryFn: async () => {
+      console.log("Chiamata /api/clients con nuovo sistema multi-tenant");
+      const response = await fetch('/api/clients', {
+        credentials: 'include'
       });
-      
-      console.log("🔍 FRONTEND: Response status:", response.status);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
       const data = await response.json();
-      console.log("🔍 FRONTEND: Ricevuti clienti:", data.length);
-      setClientsData(data);
+      console.log(`Ricevuti ${data.length} clienti dal nuovo sistema multi-tenant`);
       return data;
-    } catch (error) {
-      console.error("🔍 FRONTEND: Errore chiamata clienti:", error);
-      return [];
-    } finally {
-      setIsLoading(false);
     }
-  };
-  
-  useEffect(() => {
-    fetchClientsDirectly();
-  }, []);
-  
-  const clients = clientsData;
-
-  // Funzione per forzare il caricamento dal server bypassando completamente la cache
-  const refetchClients = async () => {
-    return await fetchClientsDirectly();
-  };
+  });
   
   const forceRefreshFromServer = async () => {
-    console.log("🔄 FORZA REFRESH DAL SERVER - BYPASS CACHE COMPLETO");
+    console.log("Refresh con nuovo sistema multi-tenant");
     try {
-      const response = await fetch(`/api/clients?_t=${Date.now()}`, {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
-      });
+      const result = await refetchClients();
+      const clientCount = result.data?.length || 0;
       
-      if (response.ok) {
-        const freshData = await response.json();
-        console.log("📊 DATI FRESCHI DAL SERVER:", freshData);
-        // Invalida e aggiorna la cache
-        queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-        refetchClients();
-        toast({
-          title: "Dati aggiornati",
-          description: `Caricati ${freshData.length} clienti dal server`,
-        });
-      } else {
-        console.error("❌ Errore nella chiamata al server:", response.status);
-      }
-    } catch (error) {
-      console.error("❌ Errore nel fetch:", error);
-    }
-  };
-  
-  // Imposta un intervallo per aggiornare i dati ogni 5 minuti 
-  // e un aggiornamento programmato a mezzanotte
-  useEffect(() => {
-    // Funzione per aggiornare i dati
-    const refreshData = () => {
-      console.log("Esecuzione aggiornamento automatico dati clienti");
-      refetchClients().then(() => {
-        setLastRefreshTime(new Date());
-      });
-    };
-    
-    // Imposta un intervallo per l'aggiornamento (ogni ora)
-    autoRefreshIntervalRef.current = setInterval(refreshData, 60 * 60 * 1000);
-    
-    // Imposta un timer per l'aggiornamento di mezzanotte
-    const setupMidnightRefresh = () => {
-      const now = new Date();
-      const midnight = new Date(now);
-      midnight.setHours(23, 59, 0, 0); // Imposta alle 23:59
-      
-      // Calcola i millisecondi fino alla mezzanotte
-      let delay = midnight.getTime() - now.getTime();
-      if (delay < 0) {
-        // Se è già passata la mezzanotte, imposta per la mezzanotte successiva
-        delay += 24 * 60 * 60 * 1000;
-      }
-      
-      // Pianifica l'aggiornamento
-      const midnightTimer = setTimeout(() => {
-        console.log("Esecuzione aggiornamento programmato di mezzanotte");
-        refreshData();
-        // Reimposta il timer per la notte successiva
-        setupMidnightRefresh();
-      }, delay);
-      
-      return midnightTimer;
-    };
-    
-    // Avvia il timer per l'aggiornamento di mezzanotte
-    const midnightTimer = setupMidnightRefresh();
-    
-    // Pulizia degli intervalli quando il componente viene smontato
-    return () => {
-      if (autoRefreshIntervalRef.current) {
-        clearInterval(autoRefreshIntervalRef.current);
-      }
-      clearTimeout(midnightTimer);
-    };
-  }, []);
-  
-  // Client search
-  const handleSearch = async () => {
-    if (searchQuery.trim().length < 2) {
       toast({
-        title: t('notifications.warning'),
-        description: t('clients.search.minLength'),
-        variant: "destructive"
+        title: "Aggiornamento completato",
+        description: `Caricati ${clientCount} clienti dal server`,
       });
-      return;
+    } catch (error) {
+      console.error("Errore durante refresh:", error);
+      toast({
+        title: "Errore",
+        description: "Impossibile aggiornare dal server",
+        variant: "destructive",
+      });
     }
-    
-    // Just refetch all clients, as we're filtering them client-side
-    refetchClients();
   };
-  
+
+  // Handle client form submission and refresh data
+  const handleClientCreated = async () => {
+    console.log("Cliente creato/aggiornato, refreshing data...");
+    
+    try {
+      await queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+      await refetchClients();
+      
+      setIsClientDialogOpen(false);
+      
+      toast({
+        title: t("clients.clientCreatedTitle"),
+        description: t("clients.clientCreatedDescription"),
+      });
+    } catch (error) {
+      console.error("Errore durante il refresh dopo creazione cliente:", error);
+      toast({
+        title: "Errore",
+        description: "Errore durante l'aggiornamento dei dati",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle client update
+  const handleClientUpdated = async () => {
+    console.log("Cliente aggiornato, refreshing data...");
+    await refetchClients();
+  };
+
+  // Handle client deletion
+  const handleClientDeleted = async () => {
+    console.log("Cliente eliminato, refreshing data...");
+    await refetchClients();
+  };
+
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
     .filter((client: any) => {
@@ -205,281 +125,142 @@ export default function Clients() {
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
-      const passesFilter = matchesSearch && matchesTab;
-      
-      // Debug per identificare clienti filtrati
-      if (!passesFilter) {
-        console.log(`❌ Cliente filtrato: ${client.firstName} ${client.lastName} - search: ${matchesSearch}, tab: ${matchesTab}, activeTab: ${activeTab}`);
-      }
-      
-      return passesFilter;
+      return matchesSearch && matchesTab;
     })
-    // Ordina alfabeticamente per cognome
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
 
-  // Debug conteggio finale
-  console.log(`📊 CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
-  
+  console.log(`CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
 
-  
-  // Handle client form submission and refresh data
-  const handleClientCreated = async () => {
-    console.log("✅ Cliente creato/aggiornato, refreshing data...");
-    
-    try {
-      // Invalidare tutte le query relative ai clienti
-      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-      
-      // Invalidare anche tutte le query relative agli appuntamenti
-      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      
-      // Forza il refetch immediato
-      await refetchClients();
-      
-      console.log("✅ Dati aggiornati con successo");
-    } catch (error) {
-      console.error("❌ Errore nell'aggiornamento dati:", error);
-    }
-    
-    setIsClientDialogOpen(false);
-  };
-
-  // Handle client deletion and refresh data
-  const handleClientDeleted = async () => {
-    console.log("🗑️ Cliente eliminato, refreshing data...");
-    
-    try {
-      // Invalidare tutte le query relative ai clienti
-      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-      
-      // Forza il refetch immediato
-      await refetchClients();
-      
-      console.log("✅ Dati aggiornati dopo eliminazione");
-    } catch (error) {
-      console.error("❌ Errore nell'aggiornamento dopo eliminazione:", error);
-    }
-  };
-  
-  // Funzione per aggiornare i prefissi telefonici di tutti i clienti
-  const handleUpdatePhonePrefixes = async () => {
-    if (isUpdatingPrefixes) return;
-    
-    try {
-      setIsUpdatingPrefixes(true);
-      
-      // Chiedi conferma all'utente prima di procedere
-      if (!window.confirm(t('clients.confirmUpdatePrefixes', 'Sei sicuro di voler aggiornare i prefissi di tutti i numeri di telefono? Questa operazione aggiungerà il prefisso +39 a tutti i numeri italiani che non hanno già un prefisso internazionale.'))) {
-        setIsUpdatingPrefixes(false);
-        return;
-      }
-      
-      const response = await fetch('/api/update-phone-prefixes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Errore durante l'aggiornamento dei prefissi: ${response.statusText}`);
-      }
-      
-      const result = await response.json();
-      
-      console.log('Risultato aggiornamento prefissi:', result);
-      
-      // Mostra un toast con un riepilogo dell'operazione
-      toast({
-        title: t('notifications.success'),
-        description: t('clients.prefixesUpdated', {
-          total: result.summary.total,
-          updated: result.summary.updated,
-          skipped: result.summary.skipped,
-          empty: result.summary.empty
-        }, 'Aggiornamento completato: {{updated}} numeri aggiornati, {{skipped}} già con prefisso, {{empty}} senza numero'),
-      });
-      
-      // Aggiorna la lista dei clienti
-      refetchClients();
-      
-    } catch (error) {
-      console.error('Errore durante l\'aggiornamento dei prefissi:', error);
-      
-      toast({
-        title: t('notifications.error'),
-        description: error instanceof Error ? error.message : "Errore durante l'aggiornamento dei prefissi",
-        variant: "destructive"
-      });
-    } finally {
-      setIsUpdatingPrefixes(false);
-    }
-  };
-  
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-        <div className="flex items-center gap-3">
-          <h2 className="text-2xl font-medium">{t('sidebar.clients')}</h2>
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="h-8"
-              onClick={() => {
-                refetchClients();
-                setLastRefreshTime(new Date());
-                toast({
-                  title: t('notifications.success'),
-                  description: t('clients.refreshSuccess'),
-                });
-              }}
-            >
-              <Loader2 className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-              {t('common.refresh')}
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="h-8"
-              onClick={forceRefreshFromServer}
-            >
-              Test Server
-            </Button>
-            
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="flex items-center text-xs text-muted-foreground">
-                    <Clock className="h-3 w-3 mr-1" />
-                    {lastRefreshTime.toLocaleTimeString(i18n.language)}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{t('clients.lastUpdate')}: {lastRefreshTime.toLocaleString(i18n.language)}</p>
-                  <p className="text-xs mt-1">{t('clients.autoUpdate')}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4" />
+            <p>Caricamento clienti...</p>
           </div>
         </div>
-        
-        <div className="flex space-x-2">
-          {/* Il pulsante "Aggiorna prefissi" è stato rimosso dall'interfaccia utente
-              ma l'API /api/update-phone-prefixes rimane disponibile per usi avanzati
-              o per essere richiamata tramite script interni */}
-          
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <p className="text-red-600">Errore nel caricamento dei clienti: {error.message}</p>
+          <Button onClick={() => refetchClients()} className="mt-4">
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Riprova
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{t("clients.title")}</h1>
+          <p className="text-muted-foreground mt-2">
+            {t("clients.subtitle")} ({filteredClients.length} {t("clients.total")})
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            onClick={forceRefreshFromServer}
+            variant="outline"
+            size="sm"
+          >
+            <Server className="h-4 w-4 mr-2" />
+            Test Server
+          </Button>
           <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <UserPlus className="mr-2 h-4 w-4" />
-                {t('clients.newClient')}
+                <Plus className="h-4 w-4 mr-2" />
+                {t("clients.addClient")}
               </Button>
             </DialogTrigger>
-            <ClientForm onClose={() => setIsClientDialogOpen(false)} onClientCreated={handleClientCreated} />
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{t("clients.addNewClient")}</DialogTitle>
+              </DialogHeader>
+              <ClientForm onSuccess={handleClientCreated} />
+            </DialogContent>
           </Dialog>
         </div>
       </div>
-      
-      {/* Search and filters */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="relative flex-grow">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Search className="h-4 w-4 text-gray-500" />
-          </div>
+
+      {/* Search and Tabs */}
+      <div className="mb-6">
+        <div className="relative mb-4">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            type="text"
-            placeholder={t('clients.search.placeholder')}
-            className="pl-10"
+            placeholder={t("clients.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
-            }}
+            className="pl-10"
           />
         </div>
-        
-        <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
-          <TabsList className="grid grid-cols-3 w-full md:w-[400px]">
-            <TabsTrigger value="all">{t('clients.filter.all')}</TabsTrigger>
-            <TabsTrigger value="frequent" className="flex items-center">
-              <Star className="mr-1 h-3.5 w-3.5 text-pink-500" />
-              {t('clients.filter.frequent')}
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="all" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              {t("clients.allClients")} ({clients.filter(() => true).length})
             </TabsTrigger>
-            <TabsTrigger value="no-consent" className="flex items-center">
-              <AlertCircle className="mr-1 h-3.5 w-3.5 text-amber-500" />
-              {t('clients.filter.noConsent')}
+            <TabsTrigger value="frequent" className="flex items-center gap-2">
+              <UserCheck className="h-4 w-4" />
+              {t("clients.frequentClients")} ({clients.filter((c: any) => c.isFrequent === true).length})
+            </TabsTrigger>
+            <TabsTrigger value="no-consent" className="flex items-center gap-2">
+              <UserX className="h-4 w-4" />
+              {t("clients.noConsent")} ({clients.filter((c: any) => c.hasConsent !== true).length})
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value={activeTab} className="mt-6">
+            {filteredClients.length === 0 ? (
+              <Card>
+                <CardContent className="flex flex-col items-center justify-center py-16">
+                  <Users className="h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">
+                    {searchQuery.length >= 2 ? t("clients.noSearchResults") : t("clients.noClients")}
+                  </h3>
+                  <p className="text-muted-foreground text-center mb-6">
+                    {searchQuery.length >= 2 
+                      ? t("clients.noSearchResultsDescription")
+                      : t("clients.noClientsDescription")
+                    }
+                  </p>
+                  {searchQuery.length < 2 && (
+                    <Button onClick={() => setIsClientDialogOpen(true)}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      {t("clients.addFirstClient")}
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {filteredClients.map((client: any) => (
+                  <ClientCard
+                    key={client.id}
+                    client={client}
+                    onUpdate={handleClientUpdated}
+                    onDelete={handleClientDeleted}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
         </Tabs>
       </div>
-      
-      {/* Client list */}
-      {isLoading ? (
-        <div className="flex justify-center p-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      ) : filteredClients.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-          <h3 className="text-lg font-medium text-gray-900 mb-1">{t('clients.noClientsFound')}</h3>
-          <p className="text-gray-500 mb-4">
-            {searchQuery 
-              ? t('clients.noResultsMatch', { query: searchQuery })
-              : t('clients.noClientsInSystem')
-            }
-          </p>
-          <Button 
-            onClick={() => setIsClientDialogOpen(true)}
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            {t('clients.addFirstClient')}
-          </Button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredClients.map(client => (
-            <ClientCard 
-              key={client.id} 
-              client={client} 
-              onUpdate={handleClientDeleted}
-            />
-          ))}
-        </div>
-      )}
-      
-      {/* Stats */}
-      {clients.length > 0 && (
-        <div className="flex flex-wrap gap-4 mt-8">
-          <div className="bg-white rounded-lg shadow-sm p-4 flex-grow">
-            <div className="text-lg font-medium">{t('clients.stats.total')}</div>
-            <div className="text-3xl font-bold mt-2">{clients.length}</div>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-sm p-4 flex-grow">
-            <div className="text-lg font-medium flex items-center">
-              <Star className="mr-2 h-4 w-4 text-pink-500" />
-              {t('clients.stats.frequent')}
-            </div>
-            <div className="text-3xl font-bold mt-2">
-              {clients.filter(c => c.isFrequent).length}
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-sm p-4 flex-grow">
-            <div className="text-lg font-medium flex items-center">
-              <AlertCircle className="mr-2 h-4 w-4 text-amber-500" />
-              {t('clients.stats.noConsent')}
-            </div>
-            <div className="text-3xl font-bold mt-2">
-              {clients.filter(c => !c.hasConsent).length}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
