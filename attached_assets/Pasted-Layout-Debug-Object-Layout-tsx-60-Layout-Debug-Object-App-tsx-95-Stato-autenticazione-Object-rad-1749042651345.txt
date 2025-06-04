@@ -1,0 +1,37 @@
+Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+App.tsx:95 Stato autenticazione: Object
+@radix-ui_react-dialog.js?v=cd093048:1873 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+(anonymous) @ @radix-ui_react-dialog.js?v=cd093048:1873
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=cd093048:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=cd093048:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=cd093048:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=cd093048:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=cd093048:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=cd093048:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=cd093048:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=cd093048:19384
+commitRoot @ chunk-C43VWYGG.js?v=cd093048:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=cd093048:9119
+(anonymous) @ chunk-C43VWYGG.js?v=cd093048:18595Understand this warning
+@radix-ui_react-dialog.js?v=cd093048:1873 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+(anonymous) @ @radix-ui_react-dialog.js?v=cd093048:1873
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=cd093048:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=cd093048:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=cd093048:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=cd093048:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=cd093048:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=cd093048:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=cd093048:19384
+commitRoot @ chunk-C43VWYGG.js?v=cd093048:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=cd093048:9119
+(anonymous) @ chunk-C43VWYGG.js?v=cd093048:18595Understand this warning
+queryClient.ts:18 Esecuzione richiesta POST a /api/services {"name":"test","duration":60,"price":0,"color":"#3b82f6","description":""}
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta POST a /api/services: {method: 'POST', headers: {…}, body: '{"name":"test","duration":60,"price":0,"color":"#3b82f6","description":""}'}
+queryClient.ts:115 Risposta da /api/services: 201 Created ok: true
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'staff', isStaff: true, isAdmin: false, userLoading: false}
