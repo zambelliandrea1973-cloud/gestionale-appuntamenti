@@ -3,9 +3,10 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-// Clients table schema - Aggiornato per riflettere i nomi colonne camelCase
+// Clients table schema - RISTRUTTURATO PER MULTI-TENANT
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   firstName: text("firstName").notNull(),
   lastName: text("lastName").notNull(),
   phone: text("phone").notNull(),
@@ -67,9 +68,10 @@ export const insertAppointmentSchema = createInsertSchema(appointments).omit({
   createdAt: true,
 });
 
-// Consent documents table schema
+// Consent documents table schema - RISTRUTTURATO PER MULTI-TENANT
 export const consents = pgTable("consents", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   clientId: integer("client_id").notNull(),
   consentText: text("consent_text"),
   consentProvided: boolean("consent_provided").default(true),
@@ -85,9 +87,10 @@ export const insertConsentSchema = createInsertSchema(consents).omit({
   consentDate: z.string().optional(),
 });
 
-// Invoices table schema
+// Invoices table schema - RISTRUTTURATO PER MULTI-TENANT
 export const invoices = pgTable("invoices", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   invoiceNumber: text("invoice_number").notNull(),
   clientId: integer("client_id").notNull(),
   totalAmount: integer("total_amount").notNull(), // in cents
@@ -104,9 +107,10 @@ export const insertInvoiceSchema = createInsertSchema(invoices).omit({
   createdAt: true,
 });
 
-// Invoice items table schema
+// Invoice items table schema - RISTRUTTURATO PER MULTI-TENANT
 export const invoiceItems = pgTable("invoice_items", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   invoiceId: integer("invoice_id").notNull(),
   description: text("description").notNull(),
   quantity: integer("quantity").notNull().default(1),
@@ -119,9 +123,10 @@ export const insertInvoiceItemSchema = createInsertSchema(invoiceItems).omit({
   id: true,
 });
 
-// Payments table schema
+// Payments table schema - RISTRUTTURATO PER MULTI-TENANT
 export const payments = pgTable("payments", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   invoiceId: integer("invoice_id").notNull(),
   amount: integer("amount").notNull(), // in cents
   paymentDate: text("payment_date").notNull(), // YYYY-MM-DD format
