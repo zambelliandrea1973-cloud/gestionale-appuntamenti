@@ -18,6 +18,7 @@ import {
   reminderTemplates, type ReminderTemplate, type InsertReminderTemplate,
   appSettings, type AppSettings, type InsertAppSettings,
   betaInvitations, type BetaInvitation, type InsertBetaInvitation,
+  userSettings, type UserSettings, type InsertUserSettings,
   betaFeedback, type BetaFeedback, type InsertBetaFeedback,
   subscriptionPlans, type SubscriptionPlan, type InsertSubscriptionPlan,
   subscriptions, type Subscription, type InsertSubscription,
