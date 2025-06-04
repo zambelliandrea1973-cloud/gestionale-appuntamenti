@@ -312,12 +312,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Service routes
-  app.get("/api/services", async (_req: Request, res: Response) => {
+  // Service routes - NUOVO Sistema multi-tenant
+  app.get("/api/services", isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      const services = await storage.getServices();
+      const user = req.user as any;
+      console.log(`🔍 NUOVO Sistema multi-tenant: recupero servizi per utente ${user.id} (${user.type})`);
+      
+      const services = await storage.getServicesForUser(user.id);
+      console.log(`✅ NUOVO Sistema: ${services.length} servizi per utente ${user.id} - SEPARAZIONE COMPLETA`);
       res.json(services);
     } catch (error) {
+      console.error("Error fetching services for user:", error);
       res.status(500).json({ message: "Error fetching services" });
     }
   });
@@ -518,11 +523,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/appointments", async (req: Request, res: Response) => {
+  app.post("/api/appointments", isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      console.log("Tentativo di creazione appuntamento con dati:", req.body);
+      const user = req.user as any;
+      console.log(`NUOVO Sistema multi-tenant: creazione appuntamento per utente ${user.id} (${user.type})`);
       
-      const validationResult = insertAppointmentSchema.safeParse(req.body);
+      // NUOVA ARCHITETTURA: Aggiungi automaticamente userId ai dati dell'appuntamento
+      const appointmentDataWithUser = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const validationResult = insertAppointmentSchema.safeParse(appointmentDataWithUser);
       if (!validationResult.success) {
         console.error("Errore validazione:", validationResult.error.errors);
         return res.status(400).json({
@@ -531,9 +543,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      console.log("Dati validati correttamente, creazione appuntamento...");
+      console.log("NUOVO Sistema: creazione appuntamento con separazione completa...");
       const appointment = await storage.createAppointment(validationResult.data);
-      console.log("Appuntamento creato con successo:", appointment);
+      console.log(`✅ NUOVO Sistema: appuntamento creato per utente ${user.id} - SEPARAZIONE COMPLETA`);
       
       res.status(201).json(appointment);
     } catch (error) {
