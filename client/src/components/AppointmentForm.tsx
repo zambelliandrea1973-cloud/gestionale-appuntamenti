@@ -240,14 +240,20 @@ export default function AppointmentForm({
       });
       
       // Invalidate all related queries
-      console.log("Invalidazione cache appuntamenti...");
+      console.log("🔄 Sistema multi-tenant: invalidazione cache appuntamenti...");
       
       // Invalidate general appointments list
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
       
-      // Invalidate date-specific queries for all dates in the next 30 days
-      const today = new Date();
-      for (let i = 0; i < 30; i++) {
+      // Invalidate the specific date for this appointment
+      const appointmentDate = formatDateForApi(data.date);
+      await queryClient.invalidateQueries({ 
+        queryKey: [`/api/appointments/date/${appointmentDate}`] 
+      });
+      
+      // Invalidate surrounding dates to ensure calendar updates
+      const today = new Date(data.date);
+      for (let i = -2; i <= 2; i++) {
         const date = new Date(today);
         date.setDate(date.getDate() + i);
         const formattedDate = formatDateForApi(date);
@@ -263,12 +269,13 @@ export default function AppointmentForm({
         });
       }
       
-      // Invalidate date range queries
-      await queryClient.invalidateQueries({ 
-        queryKey: ['/api/appointments/range'] 
+      // Force refresh of all appointment-related queries
+      await queryClient.refetchQueries({ 
+        queryKey: ['/api/appointments'],
+        type: 'all'
       });
       
-      console.log("Cache invalidata con successo");
+      console.log("✅ Sistema multi-tenant: cache invalidata con successo");
       
       // Notifica che l'appuntamento è stato salvato
       if (onAppointmentSaved) {
