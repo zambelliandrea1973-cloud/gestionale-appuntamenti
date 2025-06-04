@@ -59,6 +59,7 @@ export interface IStorage {
   // Service operations
   getService(id: number): Promise<Service | undefined>;
   getServices(): Promise<Service[]>;
+  getServicesForUser(userId: number): Promise<Service[]>;
   createService(service: InsertService): Promise<Service>;
   updateService(id: number, service: Partial<InsertService>): Promise<Service | undefined>;
   deleteService(id: number): Promise<boolean>;
@@ -484,6 +485,11 @@ export class MemStorage implements IStorage {
   
   async getServices(): Promise<Service[]> {
     return Array.from(this.services.values());
+  }
+
+  async getServicesForUser(userId: number): Promise<Service[]> {
+    // MemStorage implementation - filter by userId
+    return Array.from(this.services.values()).filter(service => (service as any).userId === userId);
   }
   
   async createService(service: InsertService): Promise<Service> {
@@ -1730,6 +1736,24 @@ export class DatabaseStorage implements IStorage {
       return await db.select().from(services).orderBy(services.name);
     } catch (error) {
       console.error("Error getting services:", error);
+      return [];
+    }
+  }
+
+  // NUOVO Sistema multi-tenant: Servizi separati per utente
+  async getServicesForUser(userId: number): Promise<Service[]> {
+    try {
+      console.log(`🔍 NUOVO Sistema multi-tenant: recupero servizi per utente ${userId} - FILTRO DIRETTO`);
+      const userServices = await db
+        .select()
+        .from(services)
+        .where(eq(services.userId, userId))
+        .orderBy(services.name);
+      
+      console.log(`✅ NUOVO Sistema: ${userServices.length} servizi per utente ${userId} - SEPARAZIONE COMPLETA`);
+      return userServices;
+    } catch (error) {
+      console.error("Error getting services for user:", error);
       return [];
     }
   }
