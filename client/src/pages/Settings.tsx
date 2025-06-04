@@ -35,10 +35,17 @@ export default function Settings() {
   // Recupera la tab selezionata da localStorage quando il componente viene montato
   useEffect(() => {
     const savedTab = localStorage.getItem('settings_active_tab');
+    console.log("🔧 SETTINGS: Tab salvata in localStorage:", savedTab);
     if (savedTab) {
       setActiveTab(savedTab);
     }
+    console.log("🔧 SETTINGS: Tab attiva impostata a:", savedTab || "app");
   }, []);
+
+  // Debug del tab attivo
+  useEffect(() => {
+    console.log("🔧 SETTINGS: Tab attualmente attiva:", activeTab);
+  }, [activeTab]);
 
   // Verifico se l'utente è un amministratore
   const isAdmin = user?.type === 'admin';
@@ -108,6 +115,7 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
+              {console.log("🔧 SETTINGS: Rendering ServiceManager nel tab app")}
               <ServiceManager />
               
               <div className="pt-6 mt-6 border-t">
