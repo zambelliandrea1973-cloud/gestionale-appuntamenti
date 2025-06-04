@@ -1960,60 +1960,95 @@ Per utilizzare WhatsApp con Twilio, devi:
     }
   });
 
-  app.get('/api/client-app-info', (req: Request, res: Response) => {
+  app.get('/api/client-app-info', async (req: Request, res: Response) => {
     try {
-      // Controlla diversi formati di icona personalizzata
-      // Priorità: JPG, PNG, SVG per mostrare immagini caricate di recente
-      const iconFormats = [
-        { path: 'app-icon.jpg', mime: 'image/jpeg' },
-        { path: 'app-icon.png', mime: 'image/png' },
-        { path: 'app-icon.svg', mime: 'image/svg+xml' }
-      ];
-      
-      const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
-      const defaultIconExists = fs.existsSync(defaultIconPath);
-      
       let iconInfo = null;
       let customIconFound = false;
       
-      // Cerca tra i formati supportati
-      for (const format of iconFormats) {
-        const iconPath = path.join(process.cwd(), 'public', 'icons', format.path);
-        if (fs.existsSync(iconPath)) {
-          const stats = fs.statSync(iconPath);
-          
-          iconInfo = {
-            exists: true,
-            isCustom: true,
-            iconPath: `/icons/${format.path}`,
-            mimeType: format.mime,
-            lastModified: stats.mtime.toISOString()
-          };
-          
-          customIconFound = true;
-          break;
+      // Se l'utente è autenticato, controlla prima nelle impostazioni salvate
+      if (req.isAuthenticated() && req.user?.id) {
+        try {
+          const savedIconSetting = await storage.getSetting(`app_icon_path_user_${req.user.id}`);
+          if (savedIconSetting && savedIconSetting.value) {
+            // Verifica che il file esista ancora
+            const savedIconPath = path.join(process.cwd(), 'public', savedIconSetting.value.replace(/^\//, ''));
+            if (fs.existsSync(savedIconPath)) {
+              const stats = fs.statSync(savedIconPath);
+              const extension = path.extname(savedIconSetting.value).toLowerCase();
+              let mimeType = 'image/jpeg';
+              
+              if (extension === '.png') mimeType = 'image/png';
+              else if (extension === '.svg') mimeType = 'image/svg+xml';
+              
+              iconInfo = {
+                exists: true,
+                isCustom: true,
+                iconPath: savedIconSetting.value,
+                mimeType: mimeType,
+                lastModified: stats.mtime.toISOString()
+              };
+              
+              customIconFound = true;
+              console.log(`✅ Icona personalizzata recuperata dalle impostazioni per utente ${req.user.id}: ${savedIconSetting.value}`);
+            } else {
+              console.log(`⚠️ Icona salvata nelle impostazioni non esiste più: ${savedIconSetting.value}`);
+            }
+          }
+        } catch (error) {
+          console.error('Errore nel recupero impostazioni icona:', error);
+        }
+      }
+      
+      // Se non è stata trovata un'icona nelle impostazioni, cerca nel filesystem
+      if (!customIconFound) {
+        const iconFormats = [
+          { path: 'app-icon.jpg', mime: 'image/jpeg' },
+          { path: 'app-icon.png', mime: 'image/png' },
+          { path: 'app-icon.svg', mime: 'image/svg+xml' }
+        ];
+        
+        // Cerca tra i formati supportati
+        for (const format of iconFormats) {
+          const iconPath = path.join(process.cwd(), 'public', 'icons', format.path);
+          if (fs.existsSync(iconPath)) {
+            const stats = fs.statSync(iconPath);
+            
+            iconInfo = {
+              exists: true,
+              isCustom: true,
+              iconPath: `/icons/${format.path}`,
+              mimeType: format.mime,
+              lastModified: stats.mtime.toISOString()
+            };
+            
+            customIconFound = true;
+            break;
+          }
         }
       }
       
       // Se non è stata trovata un'icona personalizzata, usa quella predefinita
-      if (!customIconFound && defaultIconExists) {
-        const stats = fs.statSync(defaultIconPath);
+      if (!customIconFound) {
+        const defaultIconPath = path.join(process.cwd(), 'public', 'icons', 'default-app-icon.jpg');
+        const defaultIconExists = fs.existsSync(defaultIconPath);
         
-        iconInfo = {
-          exists: true,
-          isCustom: false,
-          iconPath: '/icons/default-app-icon.jpg',
-          mimeType: 'image/jpeg',
-          lastModified: stats.mtime.toISOString()
-        };
-        console.log('✅ Icona predefinita usata in client-app-info');
-      } 
-      // Nessuna icona disponibile
-      else if (!customIconFound) {
-        console.log('❌ Nessuna icona disponibile in client-app-info');
-        iconInfo = {
-          exists: false
-        };
+        if (defaultIconExists) {
+          const stats = fs.statSync(defaultIconPath);
+          
+          iconInfo = {
+            exists: true,
+            isCustom: false,
+            iconPath: '/icons/default-app-icon.jpg',
+            mimeType: 'image/jpeg',
+            lastModified: stats.mtime.toISOString()
+          };
+          console.log('✅ Icona predefinita usata in client-app-info');
+        } else {
+          console.log('❌ Nessuna icona disponibile in client-app-info');
+          iconInfo = {
+            exists: false
+          };
+        }
       }
       
       // Lettura delle informazioni dal manifest.json
@@ -2080,6 +2115,21 @@ Per utilizzare WhatsApp con Twilio, devi:
           }];
           
           fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+          
+          // Salva il percorso dell'icona predefinita nelle impostazioni
+          if (req.isAuthenticated() && req.user?.id) {
+            try {
+              await storage.saveSetting(
+                `app_icon_path_user_${req.user.id}`, 
+                '/icons/default-app-icon.jpg', 
+                `Percorso icona predefinita per utente ${req.user.id}`,
+                'appearance'
+              );
+              console.log(`Percorso icona predefinita salvato nelle impostazioni per utente ${req.user.id}`);
+            } catch (error) {
+              console.error('Errore nel salvataggio percorso icona predefinita nelle impostazioni:', error);
+            }
+          }
           
           res.json({ 
             success: true, 
@@ -2276,6 +2326,21 @@ Per utilizzare WhatsApp con Twilio, devi:
           }];
           
           fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+          
+          // Salva il percorso dell'icona nelle impostazioni
+          if (req.isAuthenticated() && req.user?.id) {
+            try {
+              await storage.saveSetting(
+                `app_icon_path_user_${req.user.id}`, 
+                iconSrc, 
+                `Percorso icona personalizzata per utente ${req.user.id}`,
+                'appearance'
+              );
+              console.log(`Percorso icona salvato nelle impostazioni per utente ${req.user.id}: ${iconSrc}`);
+            } catch (error) {
+              console.error('Errore nel salvataggio percorso icona nelle impostazioni:', error);
+            }
+          }
           
           // Restituisci il percorso dell'icona usato
           res.json({ 
