@@ -451,13 +451,8 @@ export class MemStorage implements IStorage {
     return allClients;
   }
 
-  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
-    const allClients = Array.from(this.clients.values());
-    if (role === 'admin') {
-      return allClients;
-    }
-    return allClients.filter(client => client.ownerId === null || client.ownerId === userId);
-  }
+  // RIMOSSA: Versione obsoleta che non implementa correttamente multi-tenant
+  // DatabaseStorage ha l'implementazione corretta con sistema di prefix assignmentCode
 
   async createClient(client: InsertClient): Promise<Client> {
     const id = this.clientIdCounter++;
@@ -1682,34 +1677,8 @@ export class DatabaseStorage implements IStorage {
 
 
 
-  async getVisibleClientsForUser(userId: number, role: string): Promise<Client[]> {
-    try {
-      let allClients: Client[] = await this.getClients();
-      
-      // Admin vede tutti i clienti
-      if (role === 'admin') {
-        return allClients;
-      }
-      
-      // Per gli altri account (staff e customer)
-      let visibleClients: Client[] = [];
-      
-      for (const client of allClients) {
-        // Caso 1: I clienti di default (senza owner_id) sono visibili a tutti
-        // Caso 2: I clienti creati dall'utente (con owner_id = userId) sono visibili
-        let normallyVisible = client.ownerId === null || client.ownerId === userId;
-        
-        if (normallyVisible) {
-          visibleClients.push(client);
-        }
-      }
-      
-      return visibleClients;
-    } catch (error) {
-      console.error('Errore nel recupero dei clienti visibili:', error);
-      return []; // Restituisci lista vuota in caso di errore
-    }
-  }
+  // RIMOSSA: Versione duplicata obsoleta che non implementa sistema multi-tenant con prefissi
+  // La versione corretta è implementata sopra con filtro per assignmentCode
 
   async createClient(client: InsertClient): Promise<Client> {
     try {
