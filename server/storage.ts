@@ -180,10 +180,10 @@ export interface IStorage {
   deleteGoogleCalendarEvent(appointmentId: number): Promise<boolean>;
   
   // App Settings operations
-  getSetting(key: string): Promise<AppSettings | undefined>;
+  getSetting(key: string, userId?: number): Promise<AppSettings | undefined>;
   getAllSettings(): Promise<AppSettings[]>;
   getSettingsByCategory(category: string): Promise<AppSettings[]>;
-  saveSetting(key: string, value: string, description?: string, category?: string): Promise<AppSettings>;
+  saveSetting(key: string, value: string, description?: string, category?: string, userId?: number): Promise<AppSettings>;
   updateSetting(id: number, setting: Partial<InsertAppSettings>): Promise<AppSettings | undefined>;
   deleteSetting(id: number): Promise<boolean>;
 
@@ -3314,12 +3314,16 @@ export class DatabaseStorage implements IStorage {
   }
   
   // Implementazione dei metodi per gestire le impostazioni dell'applicazione
-  async getSetting(key: string): Promise<AppSettings | undefined> {
+  async getSetting(key: string, userId?: number): Promise<AppSettings | undefined> {
     try {
+      const whereConditions = userId 
+        ? and(eq(appSettings.key, key), eq(appSettings.userId, userId))
+        : eq(appSettings.key, key);
+        
       const [setting] = await db
         .select()
         .from(appSettings)
-        .where(eq(appSettings.key, key));
+        .where(whereConditions);
       return setting;
     } catch (error) {
       console.error(`Errore nel recupero dell'impostazione '${key}':`, error);
