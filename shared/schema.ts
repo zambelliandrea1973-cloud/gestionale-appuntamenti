@@ -28,9 +28,10 @@ export const insertClientSchema = createInsertSchema(clients).omit({
   createdAt: true,
 });
 
-// Services table schema
+// Services table schema - RISTRUTTURATO PER MULTI-TENANT
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   name: text("name").notNull(),
   duration: integer("duration").notNull(), // in minutes
   color: text("color").default("#3f51b5"),
@@ -855,10 +856,11 @@ export const insertReminderTemplateSchema = createInsertSchema(reminderTemplates
 export type ReminderTemplate = typeof reminderTemplates.$inferSelect;
 export type InsertReminderTemplate = z.infer<typeof insertReminderTemplateSchema>;
 
-// Impostazioni generali dell'applicazione
+// Impostazioni generali dell'applicazione - RISTRUTTURATO PER MULTI-TENANT
 export const appSettings = pgTable("app_settings", {
   id: serial("id").primaryKey(),
-  key: text("key").notNull().unique(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  key: text("key").notNull(),
   value: text("value").notNull(),
   description: text("description"),
   category: text("category").default("general"),
