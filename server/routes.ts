@@ -2194,7 +2194,8 @@ Per utilizzare WhatsApp con Twilio, devi:
                 `app_icon_path_user_${req.user.id}`, 
                 '/icons/default-app-icon.jpg', 
                 `Percorso icona predefinita per utente ${req.user.id}`,
-                'appearance'
+                'appearance',
+                req.user.id
               );
               console.log(`Percorso icona predefinita salvato nelle impostazioni per utente ${req.user.id}`);
             } catch (error) {
@@ -2399,7 +2400,8 @@ Per utilizzare WhatsApp con Twilio, devi:
                 `app_icon_path_user_${req.user.id}`, 
                 iconSrc, 
                 `Percorso icona personalizzata per utente ${req.user.id}`,
-                'appearance'
+                'appearance',
+                req.user.id
               );
               console.log(`Percorso icona salvato nelle impostazioni per utente ${req.user.id}: ${iconSrc}`);
             } catch (error) {
@@ -2879,18 +2881,19 @@ Per utilizzare WhatsApp con Twilio, devi:
       // Salva le informazioni aziendali utilizzando le API esistenti
       const { businessName, phone, email, address } = req.body;
       
-      // Salva le informazioni di contatto usando le impostazioni
+      // NUOVA ARCHITETTURA: Salva le informazioni di contatto con separazione per utente
+      const user = req.user as any;
       if (businessName) {
-        await storage.saveSetting('businessName', businessName);
+        await storage.saveSetting('businessName', businessName, 'Nome azienda', 'business', user.id);
       }
       if (phone) {
-        await storage.saveSetting('phone1', phone);
+        await storage.saveSetting('contactPhone1', phone, 'Telefono principale', 'contact', user.id);
       }
       if (email) {
-        await storage.saveSetting('email', email);
+        await storage.saveSetting('contactEmail', email, 'Email di contatto', 'contact', user.id);
       }
       if (address) {
-        await storage.saveSetting('address', address);
+        await storage.saveSetting('businessAddress', address, 'Indirizzo azienda', 'business', user.id);
       }
 
       // Aggiorna il progresso onboarding
