@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
 // Componente per l'icona dell'app
 function AppIcon() {
@@ -76,6 +77,7 @@ function AppIcon() {
 
 // Componente per il nome aziendale
 function CompanyName() {
+  const { user } = useUserWithLicense();
   const [settings, setSettings] = useState<{
     name: string;
     fontSize: number;
@@ -88,22 +90,32 @@ function CompanyName() {
   
   useEffect(() => {
     const fetchCompanyNameSettings = async () => {
+      if (!user?.id) {
+        setLoading(false);
+        return;
+      }
+      
       try {
         setLoading(true);
+        console.log(`🏢 FRONTEND: Caricamento impostazioni nome aziendale per utente ${user.id}`);
         const response = await apiRequest("GET", "/api/company-name-settings");
         if (response.ok) {
           const data = await response.json();
+          console.log(`✅ FRONTEND: Impostazioni nome aziendale caricate:`, data);
           setSettings(data);
+        } else if (response.status === 404) {
+          console.log(`ℹ️ FRONTEND: Nessuna impostazione nome aziendale trovata per utente ${user.id}`);
+          setSettings(null);
         }
       } catch (error) {
-        console.error("Errore nel caricamento delle impostazioni nome aziendale:", error);
+        console.error("❌ FRONTEND: Errore nel caricamento delle impostazioni nome aziendale:", error);
       } finally {
         setLoading(false);
       }
     };
     
     fetchCompanyNameSettings();
-  }, []);
+  }, [user?.id]);
   
   if (!settings || !settings.enabled || !settings.name) {
     return null; // Non mostrare nulla se non c'è un nome aziendale o se è disabilitato
