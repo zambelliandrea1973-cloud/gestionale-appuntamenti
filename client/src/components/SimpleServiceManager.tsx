@@ -90,33 +90,31 @@ export default function SimpleServiceManager() {
     createServiceMutation.mutate(serviceData);
   };
 
+  // Mutation per eliminare servizio con React Query
+  const deleteServiceMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await apiRequest("DELETE", `/api/services/${id}`);
+      return response;
+    },
+    onSuccess: (_, deletedId) => {
+      console.log(`🗑️ REACT QUERY: Servizio eliminato per utente ${user?.id}:`, deletedId);
+      
+      // Invalida e ricarica automaticamente la cache dei servizi
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      setLastUpdate(new Date());
+      
+      toast({ title: "Servizio eliminato!" });
+    },
+    onError: (error: any) => {
+      console.error('Errore eliminazione:', error);
+      toast({ title: "Errore nell'eliminazione", variant: "destructive" });
+    }
+  });
+
   // Elimina servizio
   const deleteService = async (id: number) => {
-    try {
-      const response = await fetch(`/api/services/${id}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        // Rimuovi immediatamente dalla lista
-        setServices(prev => prev.filter(s => s.id !== id));
-        setLastUpdate(new Date()); // Aggiorna timestamp quando elimini un servizio
-        toast({ title: "Servizio eliminato!" });
-        console.log(`🗑️ SIMPLE: Servizio eliminato per utente ${user?.id}:`, id);
-      } else {
-        toast({ title: "Errore nell'eliminazione", variant: "destructive" });
-      }
-    } catch (error) {
-      console.error('Errore eliminazione:', error);
-      toast({ title: "Errore di rete", variant: "destructive" });
-    }
+    deleteServiceMutation.mutate(id);
   };
-
-  // Carica servizi all'avvio
-  useEffect(() => {
-    loadServices();
-  }, []);
 
   return (
     <div className="space-y-6">
