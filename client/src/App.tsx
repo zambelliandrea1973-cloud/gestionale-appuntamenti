@@ -6,6 +6,7 @@ import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
 import { BetaStatusChecker } from "./components/BetaStatusChecker";
 import { UserLicenseProvider, useUserWithLicense } from "./hooks/use-user-with-license";
+import { TenantContextProvider } from "./hooks/use-tenant-context";
 import { useEffect } from "react";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
@@ -453,11 +454,14 @@ function App() {
       <TimezoneDetector />
       {/* UserLicenseProvider fornisce le informazioni sulla licenza e l'utente corrente */}
       <UserLicenseProvider>
-        {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
-        <BetaStatusChecker />
-        <WouterRouter>
-          <AppRoutes />
-        </WouterRouter>
+        {/* TenantContextProvider fornisce isolamento completo dei dati per ogni utente */}
+        <TenantContextProvider>
+          {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
+          <BetaStatusChecker />
+          <WouterRouter>
+            <AppRoutes />
+          </WouterRouter>
+        </TenantContextProvider>
       </UserLicenseProvider>
     </QueryClientProvider>
   );
