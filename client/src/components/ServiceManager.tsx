@@ -25,6 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
 interface Service {
   id: number;
@@ -47,6 +48,7 @@ interface ServiceFormData {
 export default function ServiceManager() {
   console.log("🔧 FRONTEND: ServiceManager component rendered");
   
+  const { user } = useUserWithLicense();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState<ServiceFormData>({
     name: "",
@@ -58,19 +60,28 @@ export default function ServiceManager() {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
-  console.log("🔧 FRONTEND: ServiceManager state initialized");
+  console.log("🔧 FRONTEND: ServiceManager state initialized for user:", user?.id);
 
   // Query servizi - COMPLETAMENTE SINCRONA per garantire aggiornamenti immediati
   const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // Funzione per caricare servizi direttamente
+  // Funzione per caricare servizi direttamente con separazione per utente
   const loadServices = useCallback(async () => {
+    if (!user?.id) {
+      console.log("🔄 FRONTEND: Nessun utente attivo, skip caricamento servizi");
+      return;
+    }
+    
     try {
-      console.log("🔄 FRONTEND: Caricamento servizi diretto dal backend");
+      console.log(`🔄 FRONTEND: Caricamento servizi per utente ${user.id}`);
       setIsLoading(true);
       setError(null);
+      
+      // Pulisci cache locale per questo utente
+      const localStorageKey = `services_cache_user_${user.id}`;
+      localStorage.removeItem(localStorageKey);
       
       const response = await apiRequest("GET", "/api/services");
       
@@ -79,21 +90,46 @@ export default function ServiceManager() {
       }
       
       const data = await response.json();
-      console.log("📋 FRONTEND: Servizi caricati:", data);
+      console.log(`📋 FRONTEND: Servizi caricati per utente ${user.id}:`, data);
       setServices(data);
+      
+      // Salva in cache locale specifica per utente
+      localStorage.setItem(localStorageKey, JSON.stringify({
+        timestamp: Date.now(),
+        data: data,
+        userId: user.id
+      }));
+      
     } catch (err) {
       console.error("❌ FRONTEND: Errore caricamento servizi:", err);
       setError(err instanceof Error ? err : new Error('Errore sconosciuto'));
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [user?.id]);
 
-  // Carica servizi al mount del componente
+  // Carica servizi al mount del componente e al cambio utente
   useEffect(() => {
     console.log("🔄 FRONTEND: useEffect chiamato - caricamento iniziale servizi");
-    loadServices();
-  }, []); // Dipendenze vuote per evitare re-render infiniti
+    
+    // Pulisci tutti i dati di cache esistenti quando cambia utente
+    if (user?.id) {
+      // Rimuovi cache di altri utenti per evitare contaminazione
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (key.startsWith('services_cache_user_') && !key.includes(`user_${user.id}`)) {
+          localStorage.removeItem(key);
+          console.log(`🧹 FRONTEND: Rimossa cache di altro utente: ${key}`);
+        }
+      });
+      
+      // Invalida completamente React Query cache
+      queryClient.clear();
+      console.log("🧹 FRONTEND: Cache React Query completamente invalidata");
+      
+      loadServices();
+    }
+  }, [user?.id, loadServices]);
 
   // Alias per compatibilità con il codice esistente
   const refetchServices = loadServices;
