@@ -19,7 +19,7 @@ import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock,
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
-import ServiceManager from '@/components/ServiceManager';
+import SimpleServiceManager from '@/components/SimpleServiceManager';
 import EmailSettings from '@/components/EmailSettings';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
@@ -115,8 +115,7 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              {console.log("🔧 SETTINGS: Rendering ServiceManager nel tab app")}
-              <ServiceManager />
+              <SimpleServiceManager />
               
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
