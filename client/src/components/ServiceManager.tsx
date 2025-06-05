@@ -60,7 +60,7 @@ export default function ServiceManager() {
 
   console.log("🔧 FRONTEND: ServiceManager state initialized");
 
-  // Query servizi con React Query - configurazione efficiente
+  // Query servizi con React Query - configurazione stabile
   const {
     data: services = [],
     isLoading,
@@ -69,7 +69,7 @@ export default function ServiceManager() {
   } = useQuery({
     queryKey: ["/api/services"], 
     queryFn: async () => {
-      const response = await apiRequest("GET", `/api/services?_t=${Date.now()}`);
+      const response = await apiRequest("GET", "/api/services");
       
       if (!response.ok) {
         throw new Error(`Errore ${response.status}: ${response.statusText}`);
@@ -78,10 +78,10 @@ export default function ServiceManager() {
       const data = await response.json();
       return data;
     },
-    staleTime: 5 * 60 * 1000, // 5 minuti - dati freschi
-    gcTime: 10 * 60 * 1000, // 10 minuti in cache
-    refetchOnMount: false, // No refetch automatico al mount
-    refetchOnWindowFocus: false, // No refetch quando si torna alla finestra
+    staleTime: 60000, // 1 minuto - bilanciamento tra freschezza e performance
+    gcTime: 300000, // 5 minuti in cache
+    refetchOnMount: true, // Refetch solo al mount iniziale
+    refetchOnWindowFocus: false, // Evita refetch quando si torna alla finestra
     retry: 1,
     retryDelay: 1000,
   });
@@ -97,10 +97,8 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async () => {
-      console.log("✅ FRONTEND: Servizio creato con successo, aggiornando lista...");
-      
-      // Forza refetch immediato con nuovi dati
-      await refetchServices();
+      // Invalida la cache e forza refetch immediato
+      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
       
       resetForm();
       setIsDialogOpen(false);
@@ -129,8 +127,8 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async () => {
-      console.log("✅ FRONTEND: Servizio aggiornato, ricaricando lista...");
-      await refetchServices();
+      // Invalida la cache per forzare refetch
+      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
       
       resetForm();
       setIsDialogOpen(false);
@@ -159,8 +157,8 @@ export default function ServiceManager() {
       return true;
     },
     onSuccess: async () => {
-      console.log("✅ FRONTEND: Servizio eliminato, ricaricando lista...");
-      await refetchServices();
+      // Invalida la cache per forzare refetch
+      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
       
       toast({
         title: "Servizio eliminato",
