@@ -99,10 +99,21 @@ export default function ServiceManager() {
       }
       return response.json();
     },
-    onSuccess: async () => {
-      // Reset completo della cache e refetch diretto
+    onSuccess: async (newService) => {
+      console.log("✅ FRONTEND: Servizio creato con successo:", newService);
+      
+      // Strategia multipla per garantire aggiornamento
       queryClient.removeQueries({ queryKey: ["/api/services"] });
-      await refetchServices();
+      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      
+      // Refetch con retry per garantire dati freschi
+      try {
+        await refetchServices();
+        console.log("✅ FRONTEND: Refetch completato dopo creazione");
+      } catch (error) {
+        console.error("❌ FRONTEND: Errore nel refetch, retry...");
+        setTimeout(() => refetchServices(), 500);
+      }
       
       resetForm();
       setIsDialogOpen(false);
@@ -130,10 +141,21 @@ export default function ServiceManager() {
       }
       return response.json();
     },
-    onSuccess: async () => {
-      // Reset completo della cache e refetch diretto
+    onSuccess: async (updatedService) => {
+      console.log("✅ FRONTEND: Servizio aggiornato con successo:", updatedService);
+      
+      // Strategia multipla per garantire aggiornamento
       queryClient.removeQueries({ queryKey: ["/api/services"] });
-      await refetchServices();
+      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      
+      // Refetch con retry per garantire dati freschi
+      try {
+        await refetchServices();
+        console.log("✅ FRONTEND: Refetch completato dopo aggiornamento");
+      } catch (error) {
+        console.error("❌ FRONTEND: Errore nel refetch, retry...");
+        setTimeout(() => refetchServices(), 500);
+      }
       
       resetForm();
       setIsDialogOpen(false);
@@ -162,9 +184,20 @@ export default function ServiceManager() {
       return true;
     },
     onSuccess: async () => {
-      // Reset completo della cache e refetch diretto
+      console.log("✅ FRONTEND: Servizio eliminato con successo");
+      
+      // Strategia multipla per garantire aggiornamento
       queryClient.removeQueries({ queryKey: ["/api/services"] });
-      await refetchServices();
+      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      
+      // Refetch con retry per garantire dati freschi
+      try {
+        await refetchServices();
+        console.log("✅ FRONTEND: Refetch completato dopo eliminazione");
+      } catch (error) {
+        console.error("❌ FRONTEND: Errore nel refetch, retry...");
+        setTimeout(() => refetchServices(), 500);
+      }
       
       toast({
         title: "Servizio eliminato",
