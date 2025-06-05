@@ -45,14 +45,14 @@ export function TenantContextProvider({ children }: { children: ReactNode }) {
     data: context,
     error,
     isLoading,
-  } = useQuery<TenantContext | null>({
+  } = useQuery<TenantContext>({
     queryKey: ["/api/tenant-context"],
     queryFn: async () => {
       try {
         const response = await apiRequest("GET", "/api/tenant-context");
         if (!response.ok) {
           if (response.status === 401) {
-            return null; // Utente non autenticato
+            throw new Error("UNAUTHENTICATED"); // Forza skip se non autenticato
           }
           throw new Error(`HTTP ${response.status}`);
         }
@@ -60,8 +60,11 @@ export function TenantContextProvider({ children }: { children: ReactNode }) {
         console.log(`🏢 FRONTEND: Contesto tenant caricato per ${data.username} (${data.userType})`);
         return data;
       } catch (error) {
+        if (error.message === "UNAUTHENTICATED") {
+          throw error; // Propaga errore di autenticazione
+        }
         console.error("Errore caricamento contesto tenant:", error);
-        return null;
+        throw error;
       }
     },
     retry: (failureCount, error) => {
@@ -94,7 +97,7 @@ export function TenantContextProvider({ children }: { children: ReactNode }) {
   return (
     <TenantContextContext.Provider
       value={{
-        context,
+        context: context || null,
         isLoading,
         error,
         hasFeature,
