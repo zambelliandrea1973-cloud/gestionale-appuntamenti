@@ -26,6 +26,7 @@ import {
   paymentTransactions, type PaymentTransaction, type InsertPaymentTransaction,
   licenses, type License, type InsertLicense,
   onboardingProgress, type OnboardingProgress, type InsertOnboardingProgress,
+  companyNameSettings, type CompanyNameSettings, type InsertCompanyNameSettings,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -199,6 +200,7 @@ export interface IStorage {
   // Company Name Settings operations - Multi-tenant separation
   getCompanyNameSettings(userId: number): Promise<any | undefined>;
   saveCompanyNameSettings(userId: number, settings: any): Promise<any>;
+  updateCompanyNameSettings(userId: number, settings: any): Promise<any | undefined>;
   
   // Notification Settings operations
   getNotificationSettings(): Promise<NotificationSettings | undefined>;
