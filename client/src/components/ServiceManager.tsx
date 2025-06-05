@@ -60,7 +60,7 @@ export default function ServiceManager() {
 
   console.log("🔧 FRONTEND: ServiceManager state initialized");
 
-  // Query servizi con React Query - configurazione stabile
+  // Query servizi con React Query - CACHE DISABILITATA per garantire separazione dati
   const {
     data: services = [],
     isLoading,
@@ -69,6 +69,7 @@ export default function ServiceManager() {
   } = useQuery({
     queryKey: ["/api/services"], 
     queryFn: async () => {
+      console.log("🔄 FRONTEND: Fetching servizi - cache disabilitata");
       const response = await apiRequest("GET", "/api/services");
       
       if (!response.ok) {
@@ -76,12 +77,14 @@ export default function ServiceManager() {
       }
       
       const data = await response.json();
+      console.log("📋 FRONTEND: Servizi ricevuti dal backend:", data);
       return data;
     },
-    staleTime: 60000, // 1 minuto - bilanciamento tra freschezza e performance
-    gcTime: 300000, // 5 minuti in cache
-    refetchOnMount: true, // Refetch solo al mount iniziale
-    refetchOnWindowFocus: false, // Evita refetch quando si torna alla finestra
+    staleTime: 0, // CACHE COMPLETAMENTE DISABILITATA
+    gcTime: 0, // Nessuna garbage collection
+    refetchOnMount: "always", // Refetch sempre al mount
+    refetchOnWindowFocus: true, // Refetch quando si torna alla finestra
+    refetchInterval: false, // Nessun polling automatico
     retry: 1,
     retryDelay: 1000,
   });
@@ -97,12 +100,9 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async () => {
-      // Invalida la cache e forza refetch immediato con multiple strategie
-      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      await queryClient.refetchQueries({ queryKey: ["/api/services"] });
-      
-      // Forza anche un reset completo della cache per questo endpoint
+      // Reset completo della cache e refetch diretto
       queryClient.removeQueries({ queryKey: ["/api/services"] });
+      await refetchServices();
       
       resetForm();
       setIsDialogOpen(false);
@@ -131,12 +131,9 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async () => {
-      // Invalida la cache e forza refetch immediato con multiple strategie
-      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      await queryClient.refetchQueries({ queryKey: ["/api/services"] });
-      
-      // Forza anche un reset completo della cache per questo endpoint
+      // Reset completo della cache e refetch diretto
       queryClient.removeQueries({ queryKey: ["/api/services"] });
+      await refetchServices();
       
       resetForm();
       setIsDialogOpen(false);
@@ -165,12 +162,9 @@ export default function ServiceManager() {
       return true;
     },
     onSuccess: async () => {
-      // Invalida la cache e forza refetch immediato con multiple strategie
-      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
-      await queryClient.refetchQueries({ queryKey: ["/api/services"] });
-      
-      // Forza anche un reset completo della cache per questo endpoint
+      // Reset completo della cache e refetch diretto
       queryClient.removeQueries({ queryKey: ["/api/services"] });
+      await refetchServices();
       
       toast({
         title: "Servizio eliminato",
