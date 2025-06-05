@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, date } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, date, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -1024,6 +1024,33 @@ export const staffCommissionsRelations = relations(staffCommissions, ({ one }) =
     fields: [staffCommissions.licenseId],
     references: [licenses.id],
     relationName: "license_commissions",
+  }),
+}));
+
+// Company Name Settings - Isolamento completo per utente
+export const companyNameSettings = pgTable("company_name_settings", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  name: text("name").notNull().default(""),
+  fontSize: integer("font_size").notNull().default(24),
+  fontFamily: text("font_family").notNull().default("Arial"),
+  fontWeight: text("font_weight").notNull().default("normal"),
+  fontStyle: text("font_style").notNull().default("normal"),
+  textDecoration: text("text_decoration").notNull().default("none"),
+  color: text("color").notNull().default("#000000"),
+  enabled: boolean("enabled").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type CompanyNameSettings = typeof companyNameSettings.$inferSelect;
+export type InsertCompanyNameSettings = typeof companyNameSettings.$inferInsert;
+
+// Company Name Settings Relations
+export const companyNameSettingsRelations = relations(companyNameSettings, ({ one }) => ({
+  user: one(users, {
+    fields: [companyNameSettings.userId],
+    references: [users.id],
   }),
 }));
 
