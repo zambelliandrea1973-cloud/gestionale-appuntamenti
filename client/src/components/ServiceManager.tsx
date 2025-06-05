@@ -97,8 +97,12 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async () => {
-      // Invalida la cache e forza refetch immediato
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      // Invalida la cache e forza refetch immediato con multiple strategie
+      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      await queryClient.refetchQueries({ queryKey: ["/api/services"] });
+      
+      // Forza anche un reset completo della cache per questo endpoint
+      queryClient.removeQueries({ queryKey: ["/api/services"] });
       
       resetForm();
       setIsDialogOpen(false);
@@ -127,8 +131,12 @@ export default function ServiceManager() {
       return response.json();
     },
     onSuccess: async () => {
-      // Invalida la cache per forzare refetch
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      // Invalida la cache e forza refetch immediato con multiple strategie
+      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      await queryClient.refetchQueries({ queryKey: ["/api/services"] });
+      
+      // Forza anche un reset completo della cache per questo endpoint
+      queryClient.removeQueries({ queryKey: ["/api/services"] });
       
       resetForm();
       setIsDialogOpen(false);
@@ -157,8 +165,12 @@ export default function ServiceManager() {
       return true;
     },
     onSuccess: async () => {
-      // Invalida la cache per forzare refetch
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      // Invalida la cache e forza refetch immediato con multiple strategie
+      await queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      await queryClient.refetchQueries({ queryKey: ["/api/services"] });
+      
+      // Forza anche un reset completo della cache per questo endpoint
+      queryClient.removeQueries({ queryKey: ["/api/services"] });
       
       toast({
         title: "Servizio eliminato",
