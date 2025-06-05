@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { useUserWithLicense } from '@/hooks/use-user-with-license';
 import { 
   isBetaTester, 
   getBetaCode, 
@@ -14,16 +15,19 @@ export function BetaStatusChecker() {
   const [isChecking, setIsChecking] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
+  const { user } = useUserWithLicense();
 
   useEffect(() => {
     const checkBetaStatus = async () => {
+      if (!user?.id) return;
+      
       try {
-        // Verifica se l'utente ha un badge beta valido in localStorage
-        if (isBetaTester()) {
-          const betaCode = getBetaCode();
+        // Verifica se l'utente ha un badge beta valido in localStorage con separazione utente
+        if (isBetaTester(user.id)) {
+          const betaCode = getBetaCode(user.id);
           
           // Verifica se il codice è stato utilizzato
-          if (!isBetaCodeUsed() && betaCode) {
+          if (!isBetaCodeUsed(user.id) && betaCode) {
             setIsChecking(true);
             
             // Verifica il codice beta sul server
@@ -32,7 +36,7 @@ export function BetaStatusChecker() {
             
             if (data.valid) {
               // Codice valido, segnala che questo è un beta tester
-              markBetaCodeAsUsed();
+              markBetaCodeAsUsed(user.id);
               
               // Mostra un toast di benvenuto per il beta tester
               toast({
@@ -43,7 +47,7 @@ export function BetaStatusChecker() {
               });
             } else {
               // Codice non valido o già usato, rimuovilo dal localStorage
-              clearBetaInvite();
+              clearBetaInvite(user.id);
               
               toast({
                 title: 'Codice beta non valido',
@@ -61,7 +65,7 @@ export function BetaStatusChecker() {
     };
     
     checkBetaStatus();
-  }, [toast]);
+  }, [user?.id, toast]);
   
   return null; // Questo componente non visualizza nulla, gestisce solo la logica
 }
