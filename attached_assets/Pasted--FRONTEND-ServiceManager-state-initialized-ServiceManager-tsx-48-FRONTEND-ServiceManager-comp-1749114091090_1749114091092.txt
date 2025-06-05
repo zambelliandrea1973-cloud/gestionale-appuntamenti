@@ -1,0 +1,112 @@
+🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+@radix-ui_react-dialog.js?v=cd093048:1873 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+(anonymous) @ @radix-ui_react-dialog.js?v=cd093048:1873
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=cd093048:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=cd093048:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=cd093048:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=cd093048:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=cd093048:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=cd093048:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=cd093048:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=cd093048:19384
+commitRoot @ chunk-C43VWYGG.js?v=cd093048:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=cd093048:9119
+(anonymous) @ chunk-C43VWYGG.js?v=cd093048:18595Understand this warning
+@radix-ui_react-dialog.js?v=cd093048:1873 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+(anonymous) @ @radix-ui_react-dialog.js?v=cd093048:1873
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=cd093048:16883
+invokePassiveEffectMountInDEV @ chunk-C43VWYGG.js?v=cd093048:18292
+invokeEffectsInDev @ chunk-C43VWYGG.js?v=cd093048:19669
+commitDoubleInvokeEffectsInDEV @ chunk-C43VWYGG.js?v=cd093048:19654
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=cd093048:19471
+flushPassiveEffects @ chunk-C43VWYGG.js?v=cd093048:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=cd093048:19384
+commitRoot @ chunk-C43VWYGG.js?v=cd093048:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=cd093048:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=cd093048:9119
+(anonymous) @ chunk-C43VWYGG.js?v=cd093048:18595Understand this warning
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+queryClient.ts:18 Esecuzione richiesta POST a /api/services {"name":"servizio5","duration":60,"price":0,"color":"#3b82f6","description":""}
+queryClient.ts:97 Header x-device-type aggiunto: desktop
+queryClient.ts:106 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:108 Dettagli richiesta POST a /api/services: {method: 'POST', headers: {…}, body: '{"name":"servizio5","duration":60,"price":0,"color":"#3b82f6","description":""}'}
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+queryClient.ts:121 Risposta da /api/services: 201 Created ok: true
+queryClient.ts:18 Esecuzione richiesta GET a /api/services 
+queryClient.ts:97 Header x-device-type aggiunto: desktop
+queryClient.ts:106 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:108 Dettagli richiesta GET a /api/services: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:121 Risposta da /api/services: 200 OK ok: true
+queryClient.ts:18 Esecuzione richiesta GET a /api/services 
+queryClient.ts:97 Header x-device-type aggiunto: desktop
+queryClient.ts:106 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:108 Dettagli richiesta GET a /api/services: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:121 Risposta da /api/services: 200 OK ok: true
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Settings.tsx:118 🔧 SETTINGS: Rendering ServiceManager nel tab app
+Settings.tsx:118 🔧 SETTINGS: Rendering ServiceManager nel tab app
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+queryClient.ts:18 Esecuzione richiesta GET a /api/services 
+queryClient.ts:97 Header x-device-type aggiunto: desktop
+queryClient.ts:106 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:108 Dettagli richiesta GET a /api/services: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:121 Risposta da /api/services: 200 OK ok: true
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Layout.tsx:60 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Settings.tsx:118 🔧 SETTINGS: Rendering ServiceManager nel tab app
+Settings.tsx:118 🔧 SETTINGS: Rendering ServiceManager nel tab app
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
+ServiceManager.tsx:48 🔧 FRONTEND: ServiceManager component rendered
+ServiceManager.tsx:61 🔧 FRONTEND: ServiceManager state initialized
