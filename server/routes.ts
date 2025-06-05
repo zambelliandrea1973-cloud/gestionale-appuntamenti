@@ -3176,22 +3176,27 @@ Per utilizzare WhatsApp con Twilio, devi:
     }
   });
 
-  app.post("/api/company-name-settings", isAuthenticated, async (req: Request, res: Response) => {
+  app.post("/api/company-name-settings", isAuthenticated, enforceDataIsolation, async (req: Request, res: Response) => {
     try {
       const user = req.user as any;
-      console.log(`🏢 Salvataggio impostazioni nome aziendale per utente ${user.id}:`, req.body);
+      console.log(`🏢 API POST: Salvataggio impostazioni nome aziendale per utente ${user.id}:`, req.body);
       
-      const settingsData = {
-        ...req.body,
-        userId: user.id
-      };
+      // Verifica se esistono già impostazioni per questo utente
+      const existingSettings = await storage.getCompanyNameSettings(user.id);
       
-      const settings = await storage.saveCompanyNameSettings(user.id, settingsData);
-      console.log(`✅ Impostazioni nome aziendale salvate per utente ${user.id}`);
+      let savedSettings;
+      if (existingSettings) {
+        // Aggiorna le impostazioni esistenti
+        savedSettings = await storage.updateCompanyNameSettings(user.id, req.body);
+      } else {
+        // Crea nuove impostazioni
+        savedSettings = await storage.saveCompanyNameSettings(user.id, req.body);
+      }
       
-      res.json(settings);
+      console.log(`✅ API POST: Impostazioni nome aziendale salvate per utente ${user.id}:`, savedSettings);
+      res.status(201).json(savedSettings);
     } catch (error) {
-      console.error('Errore salvataggio impostazioni nome aziendale:', error);
+      console.error('❌ API POST: Errore salvataggio impostazioni nome aziendale:', error);
       res.status(500).json({ message: "Error saving company name settings" });
     }
   });
