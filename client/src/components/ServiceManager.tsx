@@ -149,28 +149,28 @@ export default function ServiceManager() {
       
       const newService = await response.json();
       console.log("📦 FRONTEND: Dati servizio dal backend:", newService);
+      
+      // AGGIORNAMENTO IMMEDIATO QUI - NON ASPETTARE onSuccess
+      setServices(prev => {
+        const updated = [...prev, newService];
+        console.log("📝 FRONTEND: AGGIORNAMENTO DIRETTO nella mutationFn:", updated);
+        return updated;
+      });
+      
       return newService;
     },
     onSuccess: (newService) => {
       console.log(`🎉 FRONTEND: onSuccess chiamato per utente ${user?.id}:`, newService);
       
-      // Aggiornamento sincrono immediato specifico per utente
+      // FORZA aggiornamento immediato - BYPASS di qualsiasi cache
       setServices(currentServices => {
         const updatedServices = [...currentServices, newService];
-        console.log(`📝 FRONTEND: Lista aggiornata per utente ${user?.id}:`, updatedServices);
-        
-        // Aggiorna anche cache locale specifica per utente
-        if (user?.id) {
-          const localStorageKey = `services_cache_user_${user.id}`;
-          localStorage.setItem(localStorageKey, JSON.stringify({
-            timestamp: Date.now(),
-            data: updatedServices,
-            userId: user.id
-          }));
-        }
-        
+        console.log(`📝 FRONTEND: AGGIORNAMENTO FORZATO per utente ${user?.id}:`, updatedServices);
         return updatedServices;
       });
+      
+      // Forza re-render del componente
+      setIsLoading(false);
       
       resetForm();
       setIsDialogOpen(false);
@@ -179,8 +179,11 @@ export default function ServiceManager() {
         description: "Il servizio è stato creato con successo",
       });
       
-      // Ricarica dal backend in background per conferma
-      loadServices().catch(err => console.error("Errore ricarica background:", err));
+      // Ricarica IMMEDIATA dal backend
+      setTimeout(() => {
+        console.log("🔄 FRONTEND: Ricarica forzata dal backend");
+        loadServices();
+      }, 50);
     },
     onError: (error: Error) => {
       toast({
@@ -230,11 +233,22 @@ export default function ServiceManager() {
   // Mutation per eliminare un servizio
   const deleteServiceMutation = useMutation({
     mutationFn: async (id: number) => {
+      console.log("🗑️ FRONTEND: Inizio eliminazione servizio ID:", id);
       const response = await apiRequest("DELETE", `/api/services/${id}`);
+      console.log("📡 FRONTEND: Risposta eliminazione:", response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Errore durante l'eliminazione del servizio");
       }
+      
+      // AGGIORNAMENTO IMMEDIATO QUI - NON ASPETTARE onSuccess
+      setServices(prev => {
+        const updated = prev.filter(s => s.id !== id);
+        console.log("📝 FRONTEND: ELIMINAZIONE DIRETTA nella mutationFn:", updated);
+        return updated;
+      });
+      
       return true;
     },
     onSuccess: async (_, deletedId) => {
