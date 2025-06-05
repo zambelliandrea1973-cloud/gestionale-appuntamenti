@@ -3127,19 +3127,19 @@ Per utilizzare WhatsApp con Twilio, devi:
   app.get("/api/company-name-settings", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as any;
-      console.log(`🏢 Recupero impostazioni nome aziendale per utente ${user.id}`);
+      console.log(`🏢 API GET: Recupero impostazioni nome aziendale per utente ${user.id}`);
       
       const settings = await storage.getCompanyNameSettings(user.id);
       
       if (settings) {
-        console.log(`✅ Impostazioni nome aziendale trovate per utente ${user.id}:`, settings);
+        console.log(`✅ API GET: Impostazioni nome aziendale trovate per utente ${user.id}:`, settings);
         res.json(settings);
       } else {
-        console.log(`ℹ️ Nessuna impostazione nome aziendale per utente ${user.id}, restituisco 404`);
+        console.log(`ℹ️ API GET: Nessuna impostazione nome aziendale per utente ${user.id}, restituisco 404`);
         res.status(404).json({ message: "No company name settings found" });
       }
     } catch (error) {
-      console.error('Errore recupero impostazioni nome aziendale:', error);
+      console.error('❌ API GET: Errore recupero impostazioni nome aziendale:', error);
       res.status(500).json({ message: "Error fetching company name settings" });
     }
   });

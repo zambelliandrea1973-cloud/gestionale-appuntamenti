@@ -91,24 +91,29 @@ function CompanyName() {
   useEffect(() => {
     const fetchCompanyNameSettings = async () => {
       if (!user?.id) {
+        console.log("⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento");
         setLoading(false);
         return;
       }
       
       try {
         setLoading(true);
-        console.log(`🏢 FRONTEND: Caricamento impostazioni nome aziendale per utente ${user.id}`);
+        console.log(`🏢 FRONTEND CompanyName: Caricamento impostazioni per utente ${user.id}`);
         const response = await apiRequest("GET", "/api/company-name-settings");
+        console.log(`🏢 FRONTEND CompanyName: Risposta API status: ${response.status}`);
+        
         if (response.ok) {
           const data = await response.json();
-          console.log(`✅ FRONTEND: Impostazioni nome aziendale caricate:`, data);
+          console.log(`✅ FRONTEND CompanyName: Impostazioni caricate:`, data);
           setSettings(data);
         } else if (response.status === 404) {
-          console.log(`ℹ️ FRONTEND: Nessuna impostazione nome aziendale trovata per utente ${user.id}`);
+          console.log(`ℹ️ FRONTEND CompanyName: Nessuna impostazione trovata per utente ${user.id}`);
           setSettings(null);
+        } else {
+          console.log(`❌ FRONTEND CompanyName: Errore API status ${response.status}`);
         }
       } catch (error) {
-        console.error("❌ FRONTEND: Errore nel caricamento delle impostazioni nome aziendale:", error);
+        console.error("❌ FRONTEND CompanyName: Errore nel caricamento:", error);
       } finally {
         setLoading(false);
       }
