@@ -706,6 +706,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = req.user as any;
       console.log(`✅ /api/user-with-license - utente autenticato: ${user.username}, tipo: ${user.type}`);
       
+      // Determina il tipo di licenza in base al ruolo/tipo dell'utente
+      let licenseInfo = {
+        type: 'trial',
+        expiresAt: null,
+        isActive: true,
+        daysLeft: null
+      };
+      
+      // Se l'utente è un admin, impostiamo licenza Passepartout
+      if (user.type === 'admin') {
+        licenseInfo = {
+          type: 'passepartout',
+          expiresAt: null, // Nessuna scadenza
+          isActive: true,
+          daysLeft: null
+        };
+      } 
+      // Se l'utente è staff, impostiamo licenza Staff Free con durata 10 anni
+      else if (user.type === 'staff') {
+        const expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() + 10);
+        
+        licenseInfo = {
+          type: 'staff_free',
+          expiresAt: expiryDate,
+          isActive: true,
+          daysLeft: 365 * 10
+        };
+      }
+      // Se l'utente è un customer (ha acquistato una licenza), carica le informazioni di licenza specifiche
+      else if (user.type === 'customer') {
+        console.log('Utente customer identificato, caricando informazioni licenza per userId:', user.id);
+        
+        try {
+          // Cerca una licenza attiva per questo utente
+          const userLicenses = await storage.getLicensesByUserId(user.id);
+          const userLicense = userLicenses.find(license => license.isActive);
+          
+          if (userLicense && userLicense.isActive) {
+            console.log('Licenza trovata per customer:', userLicense);
+            
+            // Calcola i giorni rimanenti se c'è una data di scadenza
+            let daysLeft = null;
+            if (userLicense.expiresAt) {
+              const now = new Date();
+              const expiry = new Date(userLicense.expiresAt);
+              const diffTime = expiry.getTime() - now.getTime();
+              daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+              
+              // Se è scaduta, marca come inattiva
+              if (daysLeft <= 0) {
+                licenseInfo.isActive = false;
+                daysLeft = 0;
+              }
+            }
+            
+            licenseInfo = {
+              type: userLicense.type,
+              expiresAt: userLicense.expiresAt,
+              isActive: userLicense.isActive && (daysLeft === null || daysLeft > 0),
+              daysLeft: daysLeft
+            };
+          } else {
+            console.log('Nessuna licenza attiva trovata per customer, usando trial');
+            licenseInfo.type = 'trial';
+          }
+        } catch (error) {
+          console.error('Errore nel caricamento della licenza per customer:', error);
+          // In caso di errore, usa trial come fallback
+          licenseInfo.type = 'trial';
+        }
+      }
+
       // Costruisci la risposta con informazioni di licenza
       const userWithLicense = {
         id: user.id,
@@ -714,13 +787,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: user.type,
         firstName: user.firstName || null,
         lastName: user.lastName || null,
-        licenseInfo: {
-          type: user.type === 'admin' ? 'passepartout' : 
-                user.type === 'staff' ? 'staff_free' : 'trial',
-          expiresAt: null,
-          isActive: true,
-          daysLeft: null
-        }
+        licenseInfo: licenseInfo
       };
       
       // Se l'utente è un cliente, carica anche i dati del cliente

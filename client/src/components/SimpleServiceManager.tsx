@@ -218,7 +218,7 @@ export default function SimpleServiceManager() {
 
           {/* Info debug */}
           <div className="mt-4 p-2 bg-muted/30 rounded text-xs text-muted-foreground">
-            Servizi caricati: {services.length} | Ultimo aggiornamento: {new Date().toLocaleTimeString()}
+            Servizi caricati: {services.length} | Ultimo aggiornamento: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Mai'}
           </div>
         </CardContent>
       </Card>
