@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Admin Automatico</title>
+</head>
+<body>
+    <h2>Login Admin Automatico</h2>
+    <div id="status">Effettuando login...</div>
+    
+    <script>
+        async function loginAdmin() {
+            try {
+                const response = await fetch('/api/login-staff', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: 'zambelli.andrea.1973@gmail.com',
+                        password: 'gironiCO73%'
+                    }),
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    document.getElementById('status').innerHTML = 'Login completato! Reindirizzamento...';
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    const error = await response.text();
+                    document.getElementById('status').innerHTML = 'Errore: ' + error;
+                }
+            } catch (error) {
+                document.getElementById('status').innerHTML = 'Errore di rete: ' + error.message;
+            }
+        }
+        
+        // Avvia login automaticamente
+        loginAdmin();
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -66,7 +66,7 @@ export default function ServiceManager() {
   const [error, setError] = useState<Error | null>(null);
 
   // Funzione per caricare servizi direttamente
-  const loadServices = async () => {
+  const loadServices = useCallback(async () => {
     try {
       console.log("🔄 FRONTEND: Caricamento servizi diretto dal backend");
       setIsLoading(true);
@@ -87,12 +87,13 @@ export default function ServiceManager() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   // Carica servizi al mount del componente
   useEffect(() => {
+    console.log("🔄 FRONTEND: useEffect chiamato - caricamento iniziale servizi");
     loadServices();
-  }, []);
+  }, []); // Dipendenze vuote per evitare re-render infiniti
 
   // Alias per compatibilità con il codice esistente
   const refetchServices = loadServices;
@@ -114,22 +115,15 @@ export default function ServiceManager() {
       console.log("📦 FRONTEND: Dati servizio dal backend:", newService);
       return newService;
     },
-    onSuccess: async (newService) => {
+    onSuccess: (newService) => {
       console.log("🎉 FRONTEND: onSuccess chiamato con servizio:", newService);
-      console.log("📊 FRONTEND: Servizi attuali prima dell'aggiornamento:", services);
       
-      // Aggiornamento diretto dello state - IMMEDIATO
-      setServices(prev => {
-        const updated = [...prev, newService];
-        console.log("📝 FRONTEND: Lista servizi aggiornata a:", updated);
-        return updated;
+      // Aggiornamento sincrono immediato
+      setServices(currentServices => {
+        const updatedServices = [...currentServices, newService];
+        console.log("📝 FRONTEND: Lista aggiornata immediatamente:", updatedServices);
+        return updatedServices;
       });
-      
-      // Ricarica anche dal backend per sicurezza dopo un breve delay
-      setTimeout(async () => {
-        console.log("🔄 FRONTEND: Ricaricando servizi dal backend...");
-        await loadServices();
-      }, 100);
       
       resetForm();
       setIsDialogOpen(false);
@@ -137,6 +131,9 @@ export default function ServiceManager() {
         title: "Servizio creato",
         description: "Il servizio è stato creato con successo",
       });
+      
+      // Ricarica dal backend in background senza interferire con lo stato
+      loadServices().catch(err => console.error("Errore ricarica background:", err));
     },
     onError: (error: Error) => {
       toast({
