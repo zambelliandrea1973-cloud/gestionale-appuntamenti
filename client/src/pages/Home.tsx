@@ -84,14 +84,25 @@ function CompanyName() {
     color: string;
     enabled: boolean;
   } | null>(null);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // Carica le impostazioni dal localStorage
-    const storedSettings = localStorage.getItem('companyNameSettings');
-    if (storedSettings) {
-      const data = JSON.parse(storedSettings);
-      setSettings(data);
-    }
+    const fetchCompanyNameSettings = async () => {
+      try {
+        setLoading(true);
+        const response = await apiRequest("GET", "/api/company-name-settings");
+        if (response.ok) {
+          const data = await response.json();
+          setSettings(data);
+        }
+      } catch (error) {
+        console.error("Errore nel caricamento delle impostazioni nome aziendale:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchCompanyNameSettings();
   }, []);
   
   if (!settings || !settings.enabled || !settings.name) {
