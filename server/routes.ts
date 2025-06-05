@@ -3123,5 +3123,46 @@ Per utilizzare WhatsApp con Twilio, devi:
     }
   });
 
+  // Company name settings routes - Multi-tenant separation
+  app.get("/api/company-name-settings", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user as any;
+      console.log(`🏢 Recupero impostazioni nome aziendale per utente ${user.id}`);
+      
+      const settings = await storage.getCompanyNameSettings(user.id);
+      
+      if (settings) {
+        console.log(`✅ Impostazioni nome aziendale trovate per utente ${user.id}:`, settings);
+        res.json(settings);
+      } else {
+        console.log(`ℹ️ Nessuna impostazione nome aziendale per utente ${user.id}, restituisco 404`);
+        res.status(404).json({ message: "No company name settings found" });
+      }
+    } catch (error) {
+      console.error('Errore recupero impostazioni nome aziendale:', error);
+      res.status(500).json({ message: "Error fetching company name settings" });
+    }
+  });
+
+  app.post("/api/company-name-settings", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = req.user as any;
+      console.log(`🏢 Salvataggio impostazioni nome aziendale per utente ${user.id}:`, req.body);
+      
+      const settingsData = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const settings = await storage.saveCompanyNameSettings(user.id, settingsData);
+      console.log(`✅ Impostazioni nome aziendale salvate per utente ${user.id}`);
+      
+      res.json(settings);
+    } catch (error) {
+      console.error('Errore salvataggio impostazioni nome aziendale:', error);
+      res.status(500).json({ message: "Error saving company name settings" });
+    }
+  });
+
   return httpServer;
 }
