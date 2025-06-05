@@ -451,10 +451,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
       <TimezoneDetector />
-      {/* BetaStatusChecker verifica se l'utente è un beta tester */}
-      <BetaStatusChecker />
       {/* UserLicenseProvider fornisce le informazioni sulla licenza e l'utente corrente */}
       <UserLicenseProvider>
+        {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
+        <BetaStatusChecker />
         <WouterRouter>
           <AppRoutes />
         </WouterRouter>
