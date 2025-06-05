@@ -122,7 +122,12 @@ function CompanyName() {
     fetchCompanyNameSettings();
   }, [user?.id]);
   
+  if (loading) {
+    return <div className="text-center text-xs text-muted-foreground mt-2">Caricamento nome...</div>;
+  }
+  
   if (!settings || !settings.enabled || !settings.name) {
+    console.log("🏢 FRONTEND CompanyName: Non mostro nome - settings:", settings);
     return null; // Non mostrare nulla se non c'è un nome aziendale o se è disabilitato
   }
   
