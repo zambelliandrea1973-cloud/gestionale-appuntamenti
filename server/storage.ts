@@ -3442,6 +3442,88 @@ export class DatabaseStorage implements IStorage {
     }
   }
   
+  // Company Name Settings operations - Multi-tenant isolation
+  async getCompanyNameSettings(userId: number): Promise<CompanyNameSettings | undefined> {
+    try {
+      console.log(`🏢 Recupero impostazioni nome aziendale per utente ${userId}`);
+      
+      const [settings] = await db
+        .select()
+        .from(companyNameSettings)
+        .where(eq(companyNameSettings.userId, userId));
+      
+      if (!settings) {
+        console.log(`ℹ️ Nessuna impostazione nome aziendale per utente ${userId}`);
+        return undefined;
+      }
+      
+      console.log(`✅ Impostazioni nome aziendale per utente ${userId}:`, settings);
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero delle impostazioni per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  async saveCompanyNameSettings(userId: number, settings: any): Promise<CompanyNameSettings> {
+    try {
+      console.log(`🏢 Salvataggio impostazioni nome aziendale per utente ${userId}:`, settings);
+      
+      const dataToSave = {
+        userId,
+        name: settings.name || "",
+        fontSize: settings.fontSize || 24,
+        fontFamily: settings.fontFamily || "Arial",
+        fontWeight: settings.fontWeight || "normal",
+        fontStyle: settings.fontStyle || "normal",
+        textDecoration: settings.textDecoration || "none",
+        color: settings.color || "#000000",
+        enabled: settings.enabled !== undefined ? settings.enabled : true
+      };
+      
+      const [saved] = await db
+        .insert(companyNameSettings)
+        .values(dataToSave)
+        .returning();
+      
+      console.log(`✅ Impostazioni nome aziendale salvate per utente ${userId}`);
+      return saved;
+    } catch (error) {
+      console.error(`Errore nel salvataggio delle impostazioni per utente ${userId}:`, error);
+      throw error;
+    }
+  }
+
+  async updateCompanyNameSettings(userId: number, settings: any): Promise<CompanyNameSettings | undefined> {
+    try {
+      console.log(`🏢 Aggiornamento impostazioni nome aziendale per utente ${userId}:`, settings);
+      
+      const dataToUpdate = {
+        name: settings.name || "",
+        fontSize: settings.fontSize || 24,
+        fontFamily: settings.fontFamily || "Arial",
+        fontWeight: settings.fontWeight || "normal",
+        fontStyle: settings.fontStyle || "normal",
+        textDecoration: settings.textDecoration || "none",
+        color: settings.color || "#000000",
+        enabled: settings.enabled !== undefined ? settings.enabled : true,
+        updatedAt: new Date()
+      };
+      
+      const [updated] = await db
+        .update(companyNameSettings)
+        .set(dataToUpdate)
+        .where(eq(companyNameSettings.userId, userId))
+        .returning();
+      
+      console.log(`✅ Impostazioni nome aziendale aggiornate per utente ${userId}`);
+      return updated;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento delle impostazioni per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
   // Payment Transaction operations
   async getPaymentTransactionsByWiseId(transactionId: string): Promise<PaymentTransaction[]> {
     try {
