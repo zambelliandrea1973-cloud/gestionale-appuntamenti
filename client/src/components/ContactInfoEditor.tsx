@@ -24,9 +24,32 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
 
   // Carica le informazioni dei contatti al mount
   useEffect(() => {
-    const savedInfo = loadContactInfo();
-    setContactInfo(savedInfo);
+    fetchContactInfo();
   }, []);
+
+  const fetchContactInfo = async () => {
+    try {
+      const response = await fetch('/api/contact-info', {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'x-device-type': 'desktop'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('📞 Informazioni contatto caricate:', data);
+        setContactInfo(data);
+      } else {
+        console.log('Nessuna informazione contatto trovata, uso predefinite');
+        setContactInfo({});
+      }
+    } catch (error) {
+      console.error('Errore durante il recupero delle informazioni di contatto:', error);
+      setContactInfo({});
+    }
+  };
 
   const handleInputChange = (field: keyof ContactInfo) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -78,29 +101,23 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     setSaveError(null);
     
     try {
-      // Salva le informazioni di contatto in localStorage per un aggiornamento immediato dell'UI
-      saveContactInfo(contactInfo);
+      console.log('📞 Salvataggio informazioni contatto:', contactInfo);
       
-      // Salva le informazioni anche tramite API per persistenza tra sessioni e dispositivi
-      const apiResult = await saveContactInfoToAPI(contactInfo);
-      
-      if (!apiResult) {
-        console.warn("Salvataggio API fallito, ma i dati sono stati salvati localmente");
+      const response = await fetch('/api/contact-info', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        body: JSON.stringify(contactInfo)
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore durante il salvataggio delle informazioni di contatto');
       }
       
-      // Emetti un evento personalizzato per notificare che i contatti sono stati aggiornati
-      const event = new CustomEvent('contactInfoUpdated', { 
-        detail: { contactInfo } 
-      });
-      window.dispatchEvent(event);
-      
-      // Forza un aggiornamento del localStorage per attivare l'evento 'storage'
-      const storageKey = 'healthcare_app_contact_info';
-      const tempValue = JSON.stringify(contactInfo) + '_temp';
-      localStorage.setItem(storageKey + '_temp', tempValue);
-      localStorage.removeItem(storageKey + '_temp');
-      
-      console.log("Informazioni di contatto salvate:", contactInfo);
+      const result = await response.json();
+      console.log('📞 Informazioni contatto salvate:', result);
       
       setSaveSuccess(true);
       toast({
