@@ -196,6 +196,10 @@ export interface IStorage {
   getUserIconPath(userId: number): Promise<string | undefined>;
   updateUserIconPath(userId: number, iconPath: string): Promise<UserSettings | undefined>;
   
+  // Company Name Settings operations - Multi-tenant separation
+  getCompanyNameSettings(userId: number): Promise<any | undefined>;
+  saveCompanyNameSettings(userId: number, settings: any): Promise<any>;
+  
   // Notification Settings operations
   getNotificationSettings(): Promise<NotificationSettings | undefined>;
   saveNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
@@ -4146,6 +4150,46 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error(`Errore nell'aggiornamento del percorso icona per utente ${userId}:`, error);
       return undefined;
+    }
+  }
+
+  // Company Name Settings operations - Multi-tenant separation
+  async getCompanyNameSettings(userId: number): Promise<any | undefined> {
+    try {
+      console.log(`🏢 Recupero impostazioni nome aziendale per utente ${userId}`);
+      
+      const setting = await this.getSetting('companyNameSettings', userId);
+      if (setting && setting.value) {
+        const parsed = JSON.parse(setting.value);
+        console.log(`✅ Impostazioni nome aziendale trovate per utente ${userId}`);
+        return parsed;
+      }
+      
+      console.log(`ℹ️ Nessuna impostazione nome aziendale per utente ${userId}`);
+      return undefined;
+    } catch (error) {
+      console.error(`Errore nel recupero impostazioni nome aziendale per utente ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  async saveCompanyNameSettings(userId: number, settings: any): Promise<any> {
+    try {
+      console.log(`🏢 Salvataggio impostazioni nome aziendale per utente ${userId}:`, settings);
+      
+      const savedSetting = await this.saveSetting(
+        'companyNameSettings',
+        JSON.stringify(settings),
+        'Company name display settings',
+        'appearance',
+        userId
+      );
+      
+      console.log(`✅ Impostazioni nome aziendale salvate per utente ${userId}`);
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel salvataggio impostazioni nome aziendale per utente ${userId}:`, error);
+      throw error;
     }
   }
 }
