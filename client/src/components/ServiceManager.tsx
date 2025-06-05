@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useReducer } from "react";
 import {
   Dialog,
   DialogContent,
@@ -66,6 +66,7 @@ export default function ServiceManager() {
   const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [forceRender, forceUpdate] = useReducer(x => x + 1, 0);
 
   // Funzione per caricare servizi direttamente con separazione per utente
   const loadServices = useCallback(async () => {
@@ -150,12 +151,15 @@ export default function ServiceManager() {
       const newService = await response.json();
       console.log("📦 FRONTEND: Dati servizio dal backend:", newService);
       
-      // AGGIORNAMENTO IMMEDIATO QUI - NON ASPETTARE onSuccess
+      // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
       setServices(prev => {
         const updated = [...prev, newService];
         console.log("📝 FRONTEND: AGGIORNAMENTO DIRETTO nella mutationFn:", updated);
         return updated;
       });
+      
+      // Forza re-render immediato
+      forceUpdate();
       
       return newService;
     },
@@ -242,12 +246,15 @@ export default function ServiceManager() {
         throw new Error(errorData.message || "Errore durante l'eliminazione del servizio");
       }
       
-      // AGGIORNAMENTO IMMEDIATO QUI - NON ASPETTARE onSuccess
+      // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
       setServices(prev => {
         const updated = prev.filter(s => s.id !== id);
         console.log("📝 FRONTEND: ELIMINAZIONE DIRETTA nella mutationFn:", updated);
         return updated;
       });
+      
+      // Forza re-render immediato
+      forceUpdate();
       
       return true;
     },
