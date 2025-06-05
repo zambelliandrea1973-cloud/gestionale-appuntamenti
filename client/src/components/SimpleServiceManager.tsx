@@ -19,6 +19,7 @@ export default function SimpleServiceManager() {
   const { user } = useUserWithLicense();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [newServiceName, setNewServiceName] = useState("");
   const [newServiceDuration, setNewServiceDuration] = useState("60");
   const [newServicePrice, setNewServicePrice] = useState("");
@@ -38,6 +39,7 @@ export default function SimpleServiceManager() {
       if (response.ok) {
         const data = await response.json();
         setServices(data);
+        setLastUpdate(new Date()); // Aggiorna timestamp quando carichi i servizi
         console.log('Servizi caricati:', data);
       } else {
         console.error('Errore caricamento:', response.status);
@@ -77,6 +79,7 @@ export default function SimpleServiceManager() {
         
         // Aggiorna immediatamente la lista
         setServices(prev => [...prev, newService]);
+        setLastUpdate(new Date()); // Aggiorna timestamp quando crei un servizio
         
         setNewServiceName("");
         setNewServiceDuration("60");
@@ -104,6 +107,7 @@ export default function SimpleServiceManager() {
       if (response.ok) {
         // Rimuovi immediatamente dalla lista
         setServices(prev => prev.filter(s => s.id !== id));
+        setLastUpdate(new Date()); // Aggiorna timestamp quando elimini un servizio
         toast({ title: "Servizio eliminato!" });
         console.log(`🗑️ SIMPLE: Servizio eliminato per utente ${user?.id}:`, id);
       } else {
