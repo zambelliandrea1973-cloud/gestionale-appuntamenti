@@ -152,12 +152,23 @@ export default function ServiceManager() {
       return newService;
     },
     onSuccess: (newService) => {
-      console.log("🎉 FRONTEND: onSuccess chiamato con servizio:", newService);
+      console.log(`🎉 FRONTEND: onSuccess chiamato per utente ${user?.id}:`, newService);
       
-      // Aggiornamento sincrono immediato
+      // Aggiornamento sincrono immediato specifico per utente
       setServices(currentServices => {
         const updatedServices = [...currentServices, newService];
-        console.log("📝 FRONTEND: Lista aggiornata immediatamente:", updatedServices);
+        console.log(`📝 FRONTEND: Lista aggiornata per utente ${user?.id}:`, updatedServices);
+        
+        // Aggiorna anche cache locale specifica per utente
+        if (user?.id) {
+          const localStorageKey = `services_cache_user_${user.id}`;
+          localStorage.setItem(localStorageKey, JSON.stringify({
+            timestamp: Date.now(),
+            data: updatedServices,
+            userId: user.id
+          }));
+        }
+        
         return updatedServices;
       });
       
@@ -168,7 +179,7 @@ export default function ServiceManager() {
         description: "Il servizio è stato creato con successo",
       });
       
-      // Ricarica dal backend in background senza interferire con lo stato
+      // Ricarica dal backend in background per conferma
       loadServices().catch(err => console.error("Errore ricarica background:", err));
     },
     onError: (error: Error) => {
