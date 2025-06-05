@@ -15,6 +15,7 @@ import {
   insertReminderTemplateSchema
 } from "@shared/schema";
 import { setupAuth, isAdmin, isAuthenticated, isStaff, isClient } from "./auth";
+import { enforceDataIsolation, enforceClientAccess, requireAdmin } from "./middleware/tenant-isolation";
 import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";
 import { notificationService } from "./services/notificationService";
@@ -22,6 +23,7 @@ import { contactService } from "./services/contactService";
 import { initializeSchedulers } from "./services/schedulerService";
 import { googleCalendarService } from "./services/googleCalendarService";
 import { companyNameService } from "./services/companyNameService";
+import { tenantService } from "./services/tenantService";
 import multer from 'multer';
 import sharp from 'sharp';
 
@@ -313,14 +315,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Service routes - NUOVO Sistema multi-tenant
-  app.get("/api/services", isClientOrStaff, async (req: Request, res: Response) => {
+  app.get("/api/services", isClientOrStaff, enforceDataIsolation, async (req: Request, res: Response) => {
     try {
       const user = req.user as any;
-      console.log(`🔍 SERVIZI API: recupero per utente ${user.id} (${user.username}, tipo: ${user.type})`);
+      console.log(`🔍 TENANT ISOLATED SERVICES: recupero per utente ${user.id} (${user.username}, tipo: ${user.type})`);
       
       const services = await storage.getServicesForUser(user.id);
-      console.log(`✅ SERVIZI API: trovati ${services.length} servizi per utente ${user.id}`);
-      console.log(`📋 SERVIZI API: dettagli servizi:`, services.map(s => ({ id: s.id, name: s.name, userId: s.userId })));
+      console.log(`✅ TENANT ISOLATED SERVICES: ${services.length} servizi isolati per utente ${user.id}`);
       
       res.json(services);
     } catch (error) {
@@ -3125,8 +3126,37 @@ Per utilizzare WhatsApp con Twilio, devi:
     }
   });
 
+  // Tenant context API - fornisce configurazione specifica per ogni tipo di utente
+  app.get("/api/tenant-context", isAuthenticated, enforceDataIsolation, async (req: Request, res: Response) => {
+    try {
+      const user = req.user as any;
+      const context = tenantService.createTenantContext(user);
+      const layout = tenantService.getTenantLayout(context);
+      const features = tenantService.getAvailableFeatures(context);
+      
+      console.log(`🏢 TENANT CONTEXT: utente ${user.id} (${user.type}) - funzionalità isolate`);
+      
+      res.json({
+        userId: context.userId,
+        userType: context.userType,
+        username: context.username,
+        isIsolated: context.isIsolated,
+        availableFeatures: features,
+        layout: layout,
+        permissions: {
+          canAccessGlobalData: tenantService.canAccessGlobalData(context),
+          canManagePayments: tenantService.canManagePayments(context),
+          canManageClients: tenantService.canManageClients(context)
+        }
+      });
+    } catch (error) {
+      console.error('Errore recupero contesto tenant:', error);
+      res.status(500).json({ message: "Error fetching tenant context" });
+    }
+  });
+
   // Company name settings routes - Multi-tenant separation
-  app.get("/api/company-name-settings", isAuthenticated, async (req: Request, res: Response) => {
+  app.get("/api/company-name-settings", isAuthenticated, enforceDataIsolation, async (req: Request, res: Response) => {
     try {
       const user = req.user as any;
       console.log(`🏢 API GET: Recupero impostazioni nome aziendale per utente ${user.id}`);
