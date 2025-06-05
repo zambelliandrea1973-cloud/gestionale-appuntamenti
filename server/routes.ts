@@ -2929,9 +2929,11 @@ Per utilizzare WhatsApp con Twilio, devi:
 
       const { services } = req.body;
       
-      // Crea i servizi utilizzando l'API esistente
+      // Crea i servizi utilizzando l'API esistente con userId per multi-tenant
+      const user = req.user as any;
       for (const service of services) {
         await storage.createService({
+          userId: user.id,
           name: service.name,
           duration: service.duration,
           price: service.price || 0

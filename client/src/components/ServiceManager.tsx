@@ -68,42 +68,39 @@ export default function ServiceManager() {
   const [error, setError] = useState<Error | null>(null);
   const [forceRender, forceUpdate] = useReducer(x => x + 1, 0);
 
-  // Funzione per caricare servizi direttamente con separazione per utente
+  // Funzione per caricare servizi con sistema multi-tenant robusto
   const loadServices = useCallback(async () => {
     if (!user?.id) {
-      console.log("🔄 FRONTEND: Nessun utente attivo, skip caricamento servizi");
+      console.log("🔄 FRONTEND ServiceManager: Nessun utente autenticato, skip caricamento servizi");
+      setServices([]);
+      setIsLoading(false);
       return;
     }
     
     try {
-      console.log(`🔄 FRONTEND: Caricamento servizi per utente ${user.id}`);
+      console.log(`🔄 FRONTEND ServiceManager: Caricamento servizi per utente ${user.id}`);
       setIsLoading(true);
       setError(null);
-      
-      // Pulisci cache locale per questo utente
-      const localStorageKey = `services_cache_user_${user.id}`;
-      localStorage.removeItem(localStorageKey);
       
       const response = await apiRequest("GET", "/api/services");
       
       if (!response.ok) {
+        if (response.status === 401) {
+          console.log("🔄 FRONTEND ServiceManager: Utente non autenticato, servizi vuoti");
+          setServices([]);
+          return;
+        }
         throw new Error(`Errore ${response.status}: ${response.statusText}`);
       }
       
       const data = await response.json();
-      console.log(`📋 FRONTEND: Servizi caricati per utente ${user.id}:`, data);
+      console.log(`✅ FRONTEND ServiceManager: ${data.length} servizi caricati per utente ${user.id}`);
       setServices(data);
       
-      // Salva in cache locale specifica per utente
-      localStorage.setItem(localStorageKey, JSON.stringify({
-        timestamp: Date.now(),
-        data: data,
-        userId: user.id
-      }));
-      
     } catch (err) {
-      console.error("❌ FRONTEND: Errore caricamento servizi:", err);
+      console.error("❌ FRONTEND ServiceManager: Errore caricamento servizi:", err);
       setError(err instanceof Error ? err : new Error('Errore sconosciuto'));
+      setServices([]);
     } finally {
       setIsLoading(false);
     }

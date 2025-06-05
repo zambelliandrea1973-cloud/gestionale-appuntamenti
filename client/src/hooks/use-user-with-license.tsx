@@ -38,7 +38,7 @@ export function UserLicenseProvider({ children }: { children: ReactNode }) {
     data: user,
     error,
     isLoading,
-  } = useQuery<UserWithLicense>({
+  } = useQuery<UserWithLicense | null>({
     queryKey: ["/api/user-with-license"],
     queryFn: async () => {
       console.log("🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI");
@@ -54,16 +54,27 @@ export function UserLicenseProvider({ children }: { children: ReactNode }) {
       });
       console.log("🔍 Risposta user-with-license:", response.status, response.ok);
       if (!response.ok) {
+        // Se l'utente non è autenticato, ritorna null invece di lanciare errore
+        if (response.status === 401) {
+          console.log("🔍 Utente non autenticato, ritorno null");
+          return null;
+        }
         throw new Error(`HTTP ${response.status}`);
       }
       const data = await response.json();
       console.log("🔍 Dati utente ricevuti FRESCHI:", data);
       return data;
     },
-    retry: 1,
+    retry: (failureCount, error) => {
+      // Non ripetere se è un 401 (non autenticato)
+      if (error?.message?.includes('401')) {
+        return false;
+      }
+      return failureCount < 1;
+    },
     // FORZA REFRESH - Risolve il problema del nome utente cached
     staleTime: 0, // I dati sono sempre considerati stale
-    cacheTime: 0, // Non mantenere cache
+    gcTime: 0, // Non mantenere cache (TanStack Query v5)
     refetchOnWindowFocus: true, // Ricarica quando la finestra diventa attiva
     refetchOnMount: true, // Ricarica sempre al mount
   });
