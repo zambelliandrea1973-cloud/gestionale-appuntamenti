@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2, Plus } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
 interface Service {
   id: number;
@@ -14,11 +16,16 @@ interface Service {
 }
 
 export default function SimpleServiceManager() {
+  const { user } = useUserWithLicense();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(false);
   const [newServiceName, setNewServiceName] = useState("");
+  const [newServiceDuration, setNewServiceDuration] = useState("60");
   const [newServicePrice, setNewServicePrice] = useState("");
+  const [newServiceColor, setNewServiceColor] = useState("#3b82f6");
   const { toast } = useToast();
+
+  console.log(`🔧 SIMPLE: ServiceManager per utente ${user?.id}`);
 
   // Carica servizi dal server
   const loadServices = async () => {
@@ -52,8 +59,10 @@ export default function SimpleServiceManager() {
     try {
       const serviceData = {
         name: newServiceName.trim(),
-        duration: 60,
-        price: parseFloat(newServicePrice) || 0
+        duration: parseInt(newServiceDuration) || 60,
+        price: parseFloat(newServicePrice) || 0,
+        color: newServiceColor,
+        description: ""
       };
 
       const response = await fetch('/api/services', {
@@ -70,9 +79,11 @@ export default function SimpleServiceManager() {
         setServices(prev => [...prev, newService]);
         
         setNewServiceName("");
+        setNewServiceDuration("60");
         setNewServicePrice("");
+        setNewServiceColor("#3b82f6");
         toast({ title: "Servizio creato!" });
-        console.log('Servizio creato:', newService);
+        console.log(`✅ SIMPLE: Servizio creato per utente ${user?.id}:`, newService);
       } else {
         toast({ title: "Errore nella creazione", variant: "destructive" });
       }
@@ -94,7 +105,7 @@ export default function SimpleServiceManager() {
         // Rimuovi immediatamente dalla lista
         setServices(prev => prev.filter(s => s.id !== id));
         toast({ title: "Servizio eliminato!" });
-        console.log('Servizio eliminato:', id);
+        console.log(`🗑️ SIMPLE: Servizio eliminato per utente ${user?.id}:`, id);
       } else {
         toast({ title: "Errore nell'eliminazione", variant: "destructive" });
       }
@@ -112,12 +123,21 @@ export default function SimpleServiceManager() {
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader>
-          <CardTitle>Gestione Servizi</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
+          <div className="space-y-1">
+            <CardTitle>Gestione Servizi</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Gestisci i servizi offerti dalla tua attività. Utente: {user?.id}
+            </p>
+          </div>
+          <Button onClick={createService} disabled={loading}>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Nuovo Servizio
+          </Button>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
           {/* Form per nuovo servizio */}
-          <div className="flex gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 border rounded-lg bg-muted/50">
             <Input
               placeholder="Nome servizio"
               value={newServiceName}
@@ -125,57 +145,76 @@ export default function SimpleServiceManager() {
               onKeyDown={(e) => e.key === 'Enter' && createService()}
             />
             <Input
+              placeholder="Durata (min)"
+              type="number"
+              value={newServiceDuration}
+              onChange={(e) => setNewServiceDuration(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && createService()}
+            />
+            <Input
               placeholder="Prezzo (€)"
               type="number"
+              step="0.01"
               value={newServicePrice}
               onChange={(e) => setNewServicePrice(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && createService()}
             />
-            <Button onClick={createService} disabled={loading}>
-              <Plus className="w-4 h-4 mr-1" />
-              Aggiungi
-            </Button>
+            <Input
+              type="color"
+              value={newServiceColor}
+              onChange={(e) => setNewServiceColor(e.target.value)}
+            />
           </div>
 
-          {/* Lista servizi */}
-          <div className="space-y-2">
-            {loading && services.length === 0 && (
-              <div className="text-center py-4">Caricamento...</div>
-            )}
-            
-            {services.length === 0 && !loading && (
-              <div className="text-center py-4 text-gray-500">
-                Nessun servizio presente. Creane uno!
-              </div>
-            )}
+          {/* Tabella servizi */}
+          {loading && services.length === 0 ? (
+            <div className="text-center py-8">Caricamento servizi...</div>
+          ) : services.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              Nessun servizio presente. Crea il primo servizio!
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nome</TableHead>
+                  <TableHead>Durata</TableHead>
+                  <TableHead>Prezzo</TableHead>
+                  <TableHead>Colore</TableHead>
+                  <TableHead className="text-right">Azioni</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {services.map((service) => (
+                  <TableRow key={service.id}>
+                    <TableCell className="font-medium">{service.name}</TableCell>
+                    <TableCell>{service.duration} min</TableCell>
+                    <TableCell>€{service.price.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <div 
+                        className="w-6 h-6 rounded border"
+                        style={{ backgroundColor: service.color || '#3b82f6' }}
+                      />
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => deleteService(service.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
 
-            {services.map((service) => (
-              <div
-                key={service.id}
-                className="flex items-center justify-between p-3 border rounded-lg"
-              >
-                <div className="flex-1">
-                  <div className="font-medium">{service.name}</div>
-                  <div className="text-sm text-gray-500">
-                    €{service.price} - {service.duration} min
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => deleteService(service.id)}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
-
-          {/* Debug info */}
-          <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
-            Servizi in memoria: {services.length} | 
-            Ultimo aggiornamento: {new Date().toLocaleTimeString()}
+          {/* Info debug */}
+          <div className="mt-4 p-2 bg-muted/30 rounded text-xs text-muted-foreground">
+            Servizi caricati: {services.length} | Ultimo aggiornamento: {new Date().toLocaleTimeString()}
           </div>
         </CardContent>
       </Card>
