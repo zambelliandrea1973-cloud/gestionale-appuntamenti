@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useUserWithLicense } from "./use-user-with-license";
 
 export interface TenantPermissions {
   canAccessGlobalData: boolean;
@@ -41,6 +42,8 @@ interface TenantContextType {
 const TenantContextContext = createContext<TenantContextType | null>(null);
 
 export function TenantContextProvider({ children }: { children: ReactNode }) {
+  const { user, isLoading: userLoading } = useUserWithLicense();
+  
   const {
     data: context,
     error,
@@ -59,14 +62,15 @@ export function TenantContextProvider({ children }: { children: ReactNode }) {
         const data = await response.json();
         console.log(`🏢 FRONTEND: Contesto tenant caricato per ${data.username} (${data.userType})`);
         return data;
-      } catch (error) {
-        if (error.message === "UNAUTHENTICATED") {
+      } catch (error: any) {
+        if (error?.message === "UNAUTHENTICATED") {
           throw error; // Propaga errore di autenticazione
         }
         console.error("Errore caricamento contesto tenant:", error);
         throw error;
       }
     },
+    enabled: !!user && !userLoading, // Carica solo se l'utente è autenticato
     retry: (failureCount, error) => {
       if (error?.message?.includes('401')) {
         return false;
