@@ -100,22 +100,36 @@ export default function ServiceManager() {
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
     mutationFn: async (data: ServiceFormData) => {
+      console.log("🚀 FRONTEND: Inizio creazione servizio:", data);
       const response = await apiRequest("POST", "/api/services", data);
+      console.log("📡 FRONTEND: Risposta backend ricevuta:", response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("❌ FRONTEND: Errore dal backend:", errorData);
         throw new Error(errorData.message || "Errore durante la creazione del servizio");
       }
-      return response.json();
+      
+      const newService = await response.json();
+      console.log("📦 FRONTEND: Dati servizio dal backend:", newService);
+      return newService;
     },
     onSuccess: async (newService) => {
-      console.log("✅ FRONTEND: Servizio creato con successo:", newService);
+      console.log("🎉 FRONTEND: onSuccess chiamato con servizio:", newService);
+      console.log("📊 FRONTEND: Servizi attuali prima dell'aggiornamento:", services);
       
       // Aggiornamento diretto dello state - IMMEDIATO
-      setServices(prev => [...prev, newService]);
+      setServices(prev => {
+        const updated = [...prev, newService];
+        console.log("📝 FRONTEND: Lista servizi aggiornata a:", updated);
+        return updated;
+      });
       
-      // Ricarica anche dal backend per sicurezza
-      await loadServices();
-      console.log("✅ FRONTEND: Lista servizi aggiornata dopo creazione");
+      // Ricarica anche dal backend per sicurezza dopo un breve delay
+      setTimeout(async () => {
+        console.log("🔄 FRONTEND: Ricaricando servizi dal backend...");
+        await loadServices();
+      }, 100);
       
       resetForm();
       setIsDialogOpen(false);
