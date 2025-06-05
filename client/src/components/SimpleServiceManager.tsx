@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 interface Service {
   id: number;
@@ -17,8 +19,7 @@ interface Service {
 
 export default function SimpleServiceManager() {
   const { user } = useUserWithLicense();
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [newServiceName, setNewServiceName] = useState("");
   const [newServiceDuration, setNewServiceDuration] = useState("60");
@@ -28,28 +29,48 @@ export default function SimpleServiceManager() {
 
   console.log(`🔧 SIMPLE: ServiceManager per utente ${user?.id}`);
 
-  // Carica servizi dal server
-  const loadServices = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/services', {
-        credentials: 'include'
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setServices(data);
-        setLastUpdate(new Date()); // Aggiorna timestamp quando carichi i servizi
-        console.log('Servizi caricati:', data);
-      } else {
-        console.error('Errore caricamento:', response.status);
-      }
-    } catch (error) {
-      console.error('Errore:', error);
-    } finally {
-      setLoading(false);
+  // Query per caricare i servizi con React Query (persistenza automatica)
+  const { data: services = [], isLoading: loading, error } = useQuery({
+    queryKey: ['/api/services'],
+    enabled: !!user?.id,
+    staleTime: 1000 * 60 * 5, // 5 minuti
+    refetchOnWindowFocus: false
+  });
+
+  // Effetto per aggiornare il timestamp quando i servizi vengono caricati
+  useEffect(() => {
+    if (services.length > 0) {
+      setLastUpdate(new Date());
+      console.log('🔧 REACT QUERY: Servizi caricati e persistiti:', services);
     }
-  };
+  }, [services]);
+
+  // Mutation per creare nuovo servizio con React Query
+  const createServiceMutation = useMutation({
+    mutationFn: async (serviceData: { name: string; duration: number; price: number; color: string; description: string }) => {
+      const response = await apiRequest("POST", "/api/services", serviceData);
+      return await response.json();
+    },
+    onSuccess: (newService) => {
+      console.log(`✅ REACT QUERY: Servizio creato per utente ${user?.id}:`, newService);
+      
+      // Invalida e ricarica automaticamente la cache dei servizi
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      setLastUpdate(new Date());
+      
+      // Reset form
+      setNewServiceName("");
+      setNewServiceDuration("60");
+      setNewServicePrice("");
+      setNewServiceColor("#3b82f6");
+      
+      toast({ title: "Servizio creato!" });
+    },
+    onError: (error: any) => {
+      console.error('Errore creazione:', error);
+      toast({ title: "Errore nella creazione", variant: "destructive" });
+    }
+  });
 
   // Crea nuovo servizio
   const createService = async () => {
@@ -58,42 +79,15 @@ export default function SimpleServiceManager() {
       return;
     }
 
-    try {
-      const serviceData = {
-        name: newServiceName.trim(),
-        duration: parseInt(newServiceDuration) || 60,
-        price: parseFloat(newServicePrice) || 0,
-        color: newServiceColor,
-        description: ""
-      };
+    const serviceData = {
+      name: newServiceName.trim(),
+      duration: parseInt(newServiceDuration) || 60,
+      price: parseFloat(newServicePrice) || 0,
+      color: newServiceColor,
+      description: ""
+    };
 
-      const response = await fetch('/api/services', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(serviceData),
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        const newService = await response.json();
-        
-        // Aggiorna immediatamente la lista
-        setServices(prev => [...prev, newService]);
-        setLastUpdate(new Date()); // Aggiorna timestamp quando crei un servizio
-        
-        setNewServiceName("");
-        setNewServiceDuration("60");
-        setNewServicePrice("");
-        setNewServiceColor("#3b82f6");
-        toast({ title: "Servizio creato!" });
-        console.log(`✅ SIMPLE: Servizio creato per utente ${user?.id}:`, newService);
-      } else {
-        toast({ title: "Errore nella creazione", variant: "destructive" });
-      }
-    } catch (error) {
-      console.error('Errore creazione:', error);
-      toast({ title: "Errore di rete", variant: "destructive" });
-    }
+    createServiceMutation.mutate(serviceData);
   };
 
   // Elimina servizio
