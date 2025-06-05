@@ -48,15 +48,20 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      // Temporaneamente, utilizziamo localStorage per simulare l'API
-      const storedSettings = localStorage.getItem('companyNameSettings');
+      const response = await fetch('/api/company-name-settings', {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'x-device-type': 'desktop'
+        }
+      });
       
-      if (storedSettings) {
-        const data = JSON.parse(storedSettings);
-        setSettings(data);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('🏢 Impostazioni nome aziendale caricate:', data);
+        setSettings(prev => ({ ...prev, ...data }));
       } else {
-        // Salva le impostazioni predefinite se non ce ne sono di salvate
-        localStorage.setItem('companyNameSettings', JSON.stringify(settings));
+        console.log('Nessuna impostazione nome aziendale trovata, uso predefinite');
       }
     } catch (error) {
       console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
@@ -71,8 +76,23 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // Temporaneamente, utilizziamo localStorage per simulare l'API
-      localStorage.setItem('companyNameSettings', JSON.stringify(settings));
+      console.log('🏢 Salvataggio impostazioni nome aziendale:', settings);
+      
+      const response = await fetch('/api/company-name-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        body: JSON.stringify(settings)
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore durante il salvataggio delle impostazioni');
+      }
+      
+      const result = await response.json();
+      console.log('🏢 Impostazioni nome aziendale salvate:', result);
       
       setSaveSuccess(true);
       toast({
@@ -81,6 +101,7 @@ export default function CompanyNameEditor() {
         variant: "default",
       });
     } catch (error: any) {
+      console.error('Errore nel salvataggio impostazioni nome aziendale:', error);
       setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
       toast({
         title: "Errore",
