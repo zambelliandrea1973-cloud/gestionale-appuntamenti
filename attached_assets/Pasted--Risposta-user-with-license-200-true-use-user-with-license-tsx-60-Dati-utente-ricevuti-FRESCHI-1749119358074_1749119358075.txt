@@ -1,0 +1,39 @@
+🔍 Risposta user-with-license: 200 true
+use-user-with-license.tsx:60 🔍 Dati utente ricevuti FRESCHI: Object
+WelcomePage.tsx:26 ✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard
+App.tsx:95 Stato autenticazione: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:97 Header x-device-type aggiunto: desktop
+queryClient.ts:106 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:108 Dettagli richiesta GET a /api/client-app-info: Object
+App.tsx:95 Stato autenticazione: Object
+queryClient.ts:18 Esecuzione richiesta GET a /api/client-app-info 
+queryClient.ts:97 Header x-device-type aggiunto: desktop
+queryClient.ts:106 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:108 Dettagli richiesta GET a /api/client-app-info: Object
+2queryClient.ts:121 Risposta da /api/client-app-info: 200 OK ok: true
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+2SimpleServiceManager.tsx:28 🔧 SIMPLE: ServiceManager per utente 10
+Settings.tsx:38 🔧 SETTINGS: Tab salvata in localStorage: appearance
+Settings.tsx:42 🔧 SETTINGS: Tab attiva impostata a: appearance
+Settings.tsx:47 🔧 SETTINGS: Tab attualmente attiva: app
+App.tsx:95 Stato autenticazione: Object
+Settings.tsx:38 🔧 SETTINGS: Tab salvata in localStorage: appearance
+Settings.tsx:42 🔧 SETTINGS: Tab attiva impostata a: appearance
+Settings.tsx:47 🔧 SETTINGS: Tab attualmente attiva: app
+2SimpleServiceManager.tsx:28 🔧 SIMPLE: ServiceManager per utente 10
+Settings.tsx:47 🔧 SETTINGS: Tab attualmente attiva: appearance
+SimpleServiceManager.tsx:41 Servizi caricati: Array(5)
+SimpleServiceManager.tsx:41 Servizi caricati: Array(5)
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+Layout.tsx:60 Layout Debug: Object
+stallwart.build.js:1 stallwart: failed ping 1
