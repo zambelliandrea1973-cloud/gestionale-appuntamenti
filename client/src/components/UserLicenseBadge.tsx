@@ -8,7 +8,33 @@ interface UserLicenseBadgeProps {
 }
 
 export default function UserLicenseBadge({ size = 'md', className }: UserLicenseBadgeProps) {
-  const { user, isLoading, getLicenseBadgeType, getUserType, getFullName } = useUserWithLicense();
+  const { user, isLoading } = useUserWithLicense();
+  
+  // Funzioni helper locali per compatibilità
+  const getLicenseBadgeType = (type: string) => {
+    switch(type) {
+      case 'business': return 'Business';
+      case 'pro': return 'PRO';
+      case 'base': return 'Base';
+      case 'staff_free': return 'Staff';
+      case 'trial': return 'Prova';
+      default: return 'Base';
+    }
+  };
+  
+  const getUserType = (type: string) => {
+    switch(type) {
+      case 'customer': return 'Cliente';
+      case 'staff': return 'Staff';
+      case 'admin': return 'Admin';
+      default: return 'Utente';
+    }
+  };
+  
+  const getFullName = () => {
+    if (!user) return '';
+    return user.username || user.email || 'Utente';
+  };
 
   // Se stiamo caricando, mostriamo un indicatore di caricamento
   if (isLoading) {
