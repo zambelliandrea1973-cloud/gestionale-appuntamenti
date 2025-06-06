@@ -1,85 +1,82 @@
-import { useUserWithLicense } from '@/hooks/use-user-with-license';
-import { Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
-interface UserLicenseBadgeProps {
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-}
+// Sistema semplificato - UserLicenseBadge
+export default function UserLicenseBadge() {
+  const { data: user, isLoading } = useUserWithLicense();
 
-export default function UserLicenseBadge({ size = 'md', className }: UserLicenseBadgeProps) {
-  const { user, isLoading, getLicenseBadgeType, getUserType, getFullName } = useUserWithLicense();
-
-  // Se stiamo caricando, mostriamo un indicatore di caricamento
-  if (isLoading) {
-    return (
-      <span className={cn("ml-2 flex items-center", className)}>
-        <Loader2 className={cn(
-          size === 'sm' && "h-2 w-2",
-          size === 'md' && "h-3 w-3",
-          size === 'lg' && "h-4 w-4",
-          "animate-spin mr-1"
-        )} />
-      </span>
-    );
-  }
-
-  // Se non c'è un utente autenticato, non mostriamo nulla
-  if (!user) {
+  if (isLoading || !user) {
     return null;
   }
 
-  // Ottieni il tipo di licenza formattato - Sistema semplificato
-  const licenseType = getLicenseBadgeType(user.licenseType || 'business');
-  // Ottieni il tipo di account formattato
-  const userType = getUserType(user.type);
-  // Ottieni il nome utente completo
-  const fullName = getFullName();
-
-  // Determina il colore di sfondo in base al tipo di licenza
+  // Determina il colore in base al tipo di licenza
   const getBadgeColor = () => {
-    const licenseRawType = user.licenseInfo.type;
-    if (licenseRawType === 'pro') {
-      return 'bg-amber-500 text-white';
-    } else if (licenseRawType === 'base') {
-      return 'bg-blue-500 text-white';
-    } else if (licenseRawType === 'business') {
-      return 'bg-purple-500 text-white';
-    } else if (licenseRawType === 'staff_free') {
-      return 'bg-green-500 text-white';
-    } else if (licenseRawType === 'passepartout') {
-      return 'bg-red-500 text-white font-bold';
-    } else if (licenseRawType === 'trial') {
-      return 'bg-white/20';
-    } else {
-      return 'bg-white/20';
+    const licenseType = user.licenseType || 'business';
+    switch (licenseType) {
+      case 'pro':
+        return 'bg-amber-500 text-white';
+      case 'base':
+        return 'bg-blue-500 text-white';
+      case 'business':
+        return 'bg-purple-500 text-white';
+      case 'staff_free':
+        return 'bg-green-500 text-white';
+      case 'passepartout':
+        return 'bg-red-500 text-white font-bold';
+      case 'trial':
+        return 'bg-white/20';
+      default:
+        return 'bg-gray-500 text-white';
     }
   };
 
-  // Configura le dimensioni del badge in base alla prop size
-  const getFontSize = () => {
-    if (size === 'sm') return 'text-xs';
-    if (size === 'lg') return 'text-sm';
-    return 'text-xs'; // default (md)
+  // Formatta il tipo di licenza per la visualizzazione
+  const formatLicenseType = (type: string) => {
+    switch (type) {
+      case 'business':
+        return 'Business';
+      case 'pro':
+        return 'Pro';
+      case 'base':
+        return 'Base';
+      case 'staff_free':
+        return 'Staff';
+      case 'passepartout':
+        return 'Passepartout';
+      case 'trial':
+        return 'Trial';
+      default:
+        return 'Standard';
+    }
   };
 
+  // Formatta il tipo di utente
+  const formatUserType = (type: string) => {
+    switch (type) {
+      case 'customer':
+        return 'Cliente';
+      case 'staff':
+        return 'Staff';
+      case 'admin':
+        return 'Admin';
+      default:
+        return 'Utente';
+    }
+  };
+
+  const licenseDisplay = formatLicenseType(user.licenseType || 'business');
+  const userTypeDisplay = formatUserType(user.type);
+
   return (
-    <div className={cn("flex items-center", className)}>
-      {size !== 'sm' && (
-        <span className={cn(
-          size === 'md' && "text-sm",
-          size === 'lg' && "text-base",
-          "font-medium mr-2"
-        )}>
-          {fullName}
-        </span>
-      )}
-      <span className={cn(
-        `ml-1 px-2 py-0.5 rounded-full font-medium ${getBadgeColor()}`,
-        getFontSize()
-      )}>
-        {userType} • {licenseType}
-      </span>
+    <div className="flex items-center space-x-2">
+      <div className={`px-3 py-1 rounded-full text-xs font-medium ${getBadgeColor()}`}>
+        {licenseDisplay}
+      </div>
+      <div className="text-sm text-gray-600">
+        {userTypeDisplay}
+      </div>
+      <div className="text-sm font-medium">
+        {user.username}
+      </div>
     </div>
   );
 }
