@@ -210,10 +210,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const user = req.user as any;
       
-      // DEBUG: Verifica se l'utente è popolato correttamente
-      console.log('🔍 DEBUG POST /api/clients - req.user:', user);
-      console.log('🔍 DEBUG POST /api/clients - req.body:', req.body);
-      
       if (!user || !user.id) {
         return res.status(401).json({ message: "Utente non autenticato o ID mancante" });
       }
@@ -223,8 +219,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...req.body,
         userId: user.id
       };
-      
-      console.log('🔍 DEBUG POST /api/clients - clientDataWithUserId:', clientDataWithUserId);
       
       const validationResult = insertClientSchema.safeParse(clientDataWithUserId);
       if (!validationResult.success) {
