@@ -239,31 +239,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  // Endpoint per servizi (risolve l'errore 500)
-  app.get("/api/services", requireAuth, async (req: Request, res: Response) => {
+  // Endpoint per servizi (architettura lineare semplificata)
+  app.get("/api/services", async (req: Request, res: Response) => {
     try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ message: "Non autenticato" });
+      }
+
       const user = req.user as any;
-      // Servizi predefiniti dal backup15
-      const defaultServices = [
-        {
-          id: 1,
-          name: "Visita Generale",
-          duration: 30,
-          price: 80,
-          description: "Visita medica generale",
-          userId: user.id
-        },
-        {
-          id: 2,
-          name: "Controllo",
-          duration: 15,
-          price: 40,
-          description: "Controllo di routine",
-          userId: user.id
-        }
-      ];
+      const servicesData = await storage.getServices(user.id);
       
-      res.json(defaultServices);
+      console.log(`Servizi caricati per utente ${user.id}: ${servicesData.length} trovati`);
+      res.json(servicesData);
     } catch (error) {
       console.error("Errore recupero servizi:", error);
       res.status(500).json({ message: "Error fetching services" });
