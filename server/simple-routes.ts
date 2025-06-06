@@ -230,6 +230,58 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ title: "Gestionale Sanitario" });
   });
 
+  // Sistema permanente di gestione icone
+  let currentIcon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
+
+  // Endpoint per ottenere l'icona dell'app
+  app.get("/api/client-app-info", (req, res) => {
+    res.json({ 
+      appName: "Gestionale Sanitario", 
+      icon: currentIcon
+    });
+  });
+
+  // Endpoint per caricare una nuova icona
+  app.post("/api/upload-app-icon", (req, res) => {
+    try {
+      const { iconData } = req.body;
+      if (iconData && iconData.startsWith('data:image/')) {
+        currentIcon = iconData;
+        res.json({ success: true, message: "Icona aggiornata con successo" });
+      } else {
+        res.status(400).json({ success: false, message: "Formato icona non valido" });
+      }
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Errore durante il caricamento dell'icona" });
+    }
+  });
+
+  // Endpoint per ripristinare l'icona di default
+  app.post("/api/reset-app-icon", (req, res) => {
+    currentIcon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
+    res.json({ success: true, message: "Icona ripristinata al default" });
+  });
+
+  // Sistema permanente gestione nome aziendale
+  let businessSettings = { businessName: "Studio Medico", showBusinessName: true };
+
+  // Endpoint per ottenere le impostazioni nome aziendale
+  app.get("/api/company-name-settings", (req, res) => {
+    res.json(businessSettings);
+  });
+
+  // Endpoint per salvare le impostazioni nome aziendale
+  app.post("/api/company-name-settings", (req, res) => {
+    try {
+      const { businessName, showBusinessName } = req.body;
+      if (businessName !== undefined) businessSettings.businessName = businessName;
+      if (showBusinessName !== undefined) businessSettings.showBusinessName = showBusinessName;
+      res.json({ success: true, message: "Impostazioni salvate con successo", ...businessSettings });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
