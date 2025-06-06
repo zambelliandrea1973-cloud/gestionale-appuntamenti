@@ -169,28 +169,41 @@ export default function Calendar() {
   };
 
   // Callback specifico per quando viene salvato un appuntamento
-  const handleAppointmentSaved = () => {
+  const handleAppointmentSaved = async () => {
     console.log("Appuntamento salvato - aggiornamento calendario...");
     
-    // Invalidate e refetch immediato per tutti i dati rilevanti
-    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-    refetchAppointments();
-    
-    if (view === "day") {
-      const dateString = formatDateForApi(selectedDate);
-      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-      refetchDayAppointments();
+    try {
+      // Invalidate e refetch immediato per tutti i dati rilevanti
+      await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      await refetchAppointments();
+      
+      if (view === "day") {
+        const dateString = formatDateForApi(selectedDate);
+        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+        await refetchDayAppointments();
+      }
+      
+      // Forza anche l'aggiornamento per le date vicine (per sicurezza)
+      const promises = [];
+      for (let i = -7; i <= 7; i++) {
+        const date = new Date(selectedDate);
+        date.setDate(date.getDate() + i);
+        const dateString = formatDateForApi(date);
+        promises.push(queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] }));
+      }
+      await Promise.all(promises);
+      
+      // Forza il refetch finale
+      await queryClient.refetchQueries({ queryKey: ['/api/appointments'] });
+      if (view === "day") {
+        const dateString = formatDateForApi(selectedDate);
+        await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+      }
+      
+      console.log("Calendario aggiornato dopo salvataggio appuntamento");
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento del calendario:", error);
     }
-    
-    // Forza anche l'aggiornamento per le date vicine (per sicurezza)
-    for (let i = -1; i <= 1; i++) {
-      const date = new Date(selectedDate);
-      date.setDate(date.getDate() + i);
-      const dateString = formatDateForApi(date);
-      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-    }
-    
-    console.log("Calendario aggiornato dopo salvataggio appuntamento");
   };
   
   return (
