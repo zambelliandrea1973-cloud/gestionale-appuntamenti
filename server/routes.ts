@@ -29,18 +29,28 @@ import sharp from 'sharp';
 
 // Middleware per verificare che l'utente sia un cliente o un membro dello staff
 function isClientOrStaff(req: Request, res: Response, next: NextFunction) {
+  console.log(`🔐 MIDDLEWARE isClientOrStaff chiamato per ${req.method} ${req.path}`);
+  console.log(`🔐 req.isAuthenticated(): ${req.isAuthenticated()}`);
+  console.log(`🔐 req.user:`, req.user);
+  console.log(`🔐 Session ID:`, req.sessionID);
+  console.log(`🔐 Cookies:`, req.headers.cookie);
+
   if (!req.isAuthenticated()) {
+    console.log(`❌ Tentativo di accesso non autorizzato, nessuna sessione valida`);
     return res.status(401).json({ message: "Non autenticato" });
   }
 
   const userType = (req.user as any).type;
   const isOwnResource = req.params.clientId && userType === "client" && (req.user as any).clientId === parseInt(req.params.clientId);
   
+  console.log(`✅ Utente autenticato: ${(req.user as any).username}, tipo: ${userType}`);
+  
   // NUOVA ARCHITETTURA MULTI-TENANT: Admin, staff, customer e client (per le proprie risorse) hanno accesso
   if (userType === "admin" || userType === "staff" || userType === "customer" || isOwnResource) {
     return next();
   }
   
+  console.log(`❌ Accesso negato per utente tipo: ${userType}`);
   res.status(403).json({ message: "Accesso negato" });
 }
 
