@@ -47,15 +47,12 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       const iconData = data.icon;
       setIconInfo(iconData);
 
-      // Se esiste un'icona, imposta l'URL di anteprima dalla cartella personalizzata dell'utente
+      // Se esiste un'icona, imposta l'URL di anteprima
       if (iconData.exists && iconData.iconPath) {
-        // Usa sempre il percorso personalizzato dell'utente con timestamp per evitare la cache
-        setPreviewUrl(`${iconData.iconPath}?t=${new Date().getTime()}`);
-      } else if (iconData.iconPath) {
-        // Anche se exists=false, se c'è un iconPath, prova a mostrarlo
+        // Aggiungi timestamp per evitare la cache del browser
         setPreviewUrl(`${iconData.iconPath}?t=${new Date().getTime()}`);
       } else {
-        // Se non c'è un'icona, mostra l'icona predefinita
+        // Imposta l'icona predefinita se non c'è nessuna icona
         setPreviewUrl('/icons/default-app-icon.jpg');
       }
     } catch (error) {
@@ -177,11 +174,6 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       }
 
       setUploadSuccess(true);
-      
-      // Aggiorna l'anteprima con l'immagine caricata (con timestamp per forzare refresh)
-      const timestamp = new Date().getTime();
-      const iconPath = data.iconPath || '/user-icons/user-12/app-icon.jpg';
-      setPreviewUrl(`${iconPath}?t=${timestamp}`);
       
       // Ricarica le informazioni sull'icona per aggiornare la data di modifica
       await fetchIconInfo();

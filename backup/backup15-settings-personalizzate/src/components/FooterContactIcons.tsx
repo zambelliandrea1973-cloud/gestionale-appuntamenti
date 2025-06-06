@@ -5,57 +5,68 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useTranslation } from 'react-i18next';
 import { ContactInfo, loadContactInfo, loadContactInfoFromAPI, formatContactInfo } from '@/lib/contactInfo';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { useUserWithLicense } from '@/hooks/use-user-with-license';
 
 export default function FooterContactIcons() {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
   const { t } = useTranslation();
+  const { user } = useUserWithLicense();
 
-  // Funzione per caricare le informazioni di contatto
+  // Funzione per caricare le informazioni di contatto con separazione utente
   const loadContactData = async () => {
+    if (!user?.id) return;
+    
     // Prima carica dal localStorage (per un caricamento veloce)
-    const savedInfo = loadContactInfo();
+    const savedInfo = loadContactInfo(user.id);
     setContactInfo(savedInfo);
     
     // Poi tenta di caricare dall'API (per aggiornamenti)
     try {
-      const apiInfo = await loadContactInfoFromAPI();
-      console.log("Informazioni di contatto caricate da API:", apiInfo);
+      const apiInfo = await loadContactInfoFromAPI(user.id);
+      console.log(`Informazioni di contatto caricate da API per utente ${user.id}:`, apiInfo);
       setContactInfo(apiInfo);
     } catch (error) {
       console.error("Errore durante il caricamento delle informazioni di contatto dall'API:", error);
     }
   };
 
-  // Carica le informazioni all'avvio
+  // Carica le informazioni all'avvio e quando cambia l'utente
   useEffect(() => {
-    loadContactData();
+    if (user?.id) {
+      loadContactData();
+    }
     
     // Aggiungi un event listener per aggiornare i contatti quando vengono salvati
+    const handleStorageChange = (e: StorageEvent) => {
+      // Ricarica solo se è cambiato il localStorage per questo utente specifico
+      if (e.key && e.key.includes(`healthcare_app_contact_info_user_${user?.id}`)) {
+        loadContactData();
+      }
+    };
+    
     window.addEventListener('storage', handleStorageChange);
     
     // Ascolta l'evento personalizzato dall'editor di contatti
-    window.addEventListener('contactInfoUpdated', (e: any) => {
+    const handleContactInfoUpdated = (e: any) => {
       console.log("Evento contactInfoUpdated ricevuto:", e.detail);
-      if (e.detail && e.detail.contactInfo) {
-        setContactInfo(e.detail.contactInfo);
-      } else {
-        loadContactData();
+      // Verifica che l'evento sia per l'utente corrente
+      if (e.detail && e.detail.userId === user?.id) {
+        if (e.detail.contactInfo) {
+          setContactInfo(e.detail.contactInfo);
+        } else {
+          loadContactData();
+        }
       }
-    });
+    };
+    
+    window.addEventListener('contactInfoUpdated', handleContactInfoUpdated);
     
     // Cleanup
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('contactInfoUpdated', (e: any) => {});
+      window.removeEventListener('contactInfoUpdated', handleContactInfoUpdated);
     };
-  }, []);
-  
-  // Gestisce i cambiamenti nel localStorage
-  const handleStorageChange = (event: StorageEvent) => {
-    if (event.key === 'healthcare_app_contact_info') {
-      loadContactData();
-    }
-  };
+  }, [user?.id]);
 
   // Verifica ogni 5 secondi se ci sono nuovi dati (fallback)
   useEffect(() => {

@@ -10,37 +10,55 @@ export interface ContactInfo {
   instagram?: string;
 }
 
-// Chiave utilizzata per salvare i dati nel localStorage
-const CONTACT_INFO_KEY = 'healthcare_app_contact_info';
+// Funzione per ottenere la chiave localStorage specifica per utente
+function getContactInfoKey(userId?: number): string {
+  if (userId) {
+    return `healthcare_app_contact_info_user_${userId}`;
+  }
+  return 'healthcare_app_contact_info'; // Fallback per compatibilità
+}
 
 /**
  * Carica le informazioni di contatto dall'API
  */
-export async function loadContactInfoFromAPI(): Promise<ContactInfo> {
+export async function loadContactInfoFromAPI(userId?: number): Promise<ContactInfo> {
   try {
     const response = await apiRequest('GET', '/api/contact-info');
     const data = await response.json();
     
-    // Se abbiamo ricevuto dati validi, li salviamo anche in localStorage
+    // Se abbiamo ricevuto dati validi, li salviamo anche in localStorage con separazione utente
     if (data && typeof data === 'object') {
-      localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(data));
+      const storageKey = getContactInfoKey(userId);
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      
+      // Pulisci cache di altri utenti per evitare contaminazione
+      if (userId) {
+        const allKeys = Object.keys(localStorage);
+        allKeys.forEach(key => {
+          if (key.startsWith('healthcare_app_contact_info_user_') && key !== storageKey) {
+            localStorage.removeItem(key);
+          }
+        });
+      }
+      
       return data;
     }
     
     // Se non abbiamo ricevuto dati validi, usiamo quelli in localStorage
-    return loadContactInfo();
+    return loadContactInfo(userId);
   } catch (error) {
     console.error('Errore durante il recupero delle informazioni di contatto dall\'API:', error);
     // Fallback al localStorage in caso di errore
-    return loadContactInfo();
+    return loadContactInfo(userId);
   }
 }
 
 /**
  * Carica le informazioni di contatto salvate da localStorage
  */
-export function loadContactInfo(): ContactInfo {
-  const savedInfo = localStorage.getItem(CONTACT_INFO_KEY);
+export function loadContactInfo(userId?: number): ContactInfo {
+  const storageKey = getContactInfoKey(userId);
+  const savedInfo = localStorage.getItem(storageKey);
   if (!savedInfo) {
     return {};
   }
@@ -56,17 +74,30 @@ export function loadContactInfo(): ContactInfo {
 /**
  * Salva le informazioni di contatto in localStorage e sull'API
  */
-export async function saveContactInfoToAPI(contactInfo: ContactInfo): Promise<boolean> {
+export async function saveContactInfoToAPI(contactInfo: ContactInfo, userId?: number): Promise<boolean> {
   try {
-    // Salva nel localStorage
-    localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(contactInfo));
+    // Salva nel localStorage con separazione utente
+    const storageKey = getContactInfoKey(userId);
+    localStorage.setItem(storageKey, JSON.stringify(contactInfo));
+    
+    // Pulisci cache di altri utenti per evitare contaminazione
+    if (userId) {
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (key.startsWith('healthcare_app_contact_info_user_') && key !== storageKey) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
     
     // Salva tramite API
     const response = await apiRequest('POST', '/api/contact-info', contactInfo);
     const result = await response.json();
     
     // Invia un evento personalizzato per notificare che i dati sono cambiati
-    window.dispatchEvent(new CustomEvent('contactInfoUpdated'));
+    window.dispatchEvent(new CustomEvent('contactInfoUpdated', { 
+      detail: { contactInfo, userId } 
+    }));
     
     return result.success;
   } catch (error) {
@@ -78,13 +109,24 @@ export async function saveContactInfoToAPI(contactInfo: ContactInfo): Promise<bo
 /**
  * Salva le informazioni di contatto in localStorage e tenta di salvarle sull'API
  */
-export function saveContactInfo(contactInfo: ContactInfo): void {
+export function saveContactInfo(contactInfo: ContactInfo, userId?: number): void {
   try {
-    // Salva nel localStorage
-    localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(contactInfo));
+    // Salva nel localStorage con separazione utente
+    const storageKey = getContactInfoKey(userId);
+    localStorage.setItem(storageKey, JSON.stringify(contactInfo));
+    
+    // Pulisci cache di altri utenti per evitare contaminazione
+    if (userId) {
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (key.startsWith('healthcare_app_contact_info_user_') && key !== storageKey) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
     
     // Tenta anche di salvare tramite API in background
-    saveContactInfoToAPI(contactInfo).catch(error => {
+    saveContactInfoToAPI(contactInfo, userId).catch(error => {
       console.error('Errore durante il salvataggio delle informazioni di contatto in background:', error);
     });
     

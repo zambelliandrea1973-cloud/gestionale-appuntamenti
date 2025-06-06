@@ -6,7 +6,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "@/hooks/use-auth";
 import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -38,7 +37,6 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [_, setLocation] = useLocation();
-  const { isAdmin } = useAuth();
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
@@ -64,38 +62,100 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
     checkExistingQrCode();
   }, [client.id]);
   
-  // Delete mutation
+  // Delete mutation con prevenzione totale del caching
   const deleteMutation = useMutation({
     mutationFn: async () => {
+      console.log(`🚀 Eliminazione definitiva cliente ${client.id}`);
       return apiRequest("DELETE", `/api/clients/${client.id}`);
     },
+    onMutate: async () => {
+      // Prevenzione caching PRIMA della richiesta
+      console.log(`🚫 Rimozione preventiva cliente ${client.id} dalla cache`);
+      
+      // Cancella TUTTI i tipi di cache correlati
+      await queryClient.cancelQueries({ queryKey: ['/api/clients'] });
+      await queryClient.cancelQueries({ queryKey: ['/api/clients', client.id] });
+      
+      // Rimuovi immediatamente dalla cache
+      queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
+      
+      // Aggiorna la lista principale rimuovendo il cliente
+      queryClient.setQueryData(['/api/clients'], (oldData: any) => {
+        if (!oldData) return [];
+        const newData = oldData.filter((c: any) => c.id !== client.id);
+        console.log(`Cache aggiornata: ${oldData.length} -> ${newData.length} clienti`);
+        return newData;
+      });
+    },
     onSuccess: async () => {
+      console.log(`✅ Cliente ${client.id} eliminato definitivamente`);
+      
+      // Rimozione aggressiva da TUTTE le cache
+      queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
+      
       toast({
         title: t('notifications.clientDeleted'),
-        description: t('notifications.clientDeletedSuccess'),
+        description: `${client.firstName} ${client.lastName} eliminato`,
       });
-      
-      // Invalidate all client-related queries to refresh data
-      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
-      await queryClient.invalidateQueries({ queryKey: ['/api/client-access'] });
-      
-      // Force refetch of client list
-      await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
       
       if (onUpdate) {
         onUpdate();
       }
     },
-    onError: (error) => {
-      toast({
-        title: t('common.error'),
-        description: t('errors.genericError', { error: error.message }),
-        variant: "destructive",
-      });
+    onError: async (error: any) => {
+      console.error(`❌ Errore eliminazione cliente ${client.id}:`, error);
+      
+      // Anche in caso di errore, rimuovi dalla cache se è 404
+      if (error.message?.includes("Client not found") || error.message?.includes("404")) {
+        console.log(`🗑️ Cliente ${client.id} non esistente sul server, pulizia cache`);
+        
+        // Rimozione completa dalla cache
+        queryClient.removeQueries({ queryKey: ['/api/clients', client.id] });
+        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+        
+        toast({
+          title: t('notifications.clientDeleted'),
+          description: "Cliente rimosso dal sistema",
+        });
+        
+        if (onUpdate) {
+          onUpdate();
+        }
+      } else {
+        // Ripristina lo stato precedente solo per errori reali
+        await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+        
+        toast({
+          title: t('common.error'),
+          description: t('errors.genericError', { error: error.message }),
+          variant: "destructive",
+        });
+      }
     }
   });
+
+  // Funzione per aggiornare la lista clienti
+  const refreshClientList = async () => {
+    console.log(`🔄 Aggiornamento lista clienti dopo operazione su cliente ${client.id}`);
+    
+    // Invalida completamente la cache
+    await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+    
+    // Forza il refetch dei dati
+    await queryClient.refetchQueries({ queryKey: ['/api/clients'] });
+    
+    // Chiama il callback se presente
+    if (onUpdate) {
+      await onUpdate();
+    }
+    
+    console.log(`✅ Lista clienti aggiornata`);
+  };
   
   const handleDelete = () => {
+    console.log(`🗑️ ELIMINAZIONE CLIENTE ${client.id} - ${client.firstName} ${client.lastName}`);
     deleteMutation.mutate();
   };
   
@@ -106,11 +166,6 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
           <div>
             <h3 className="text-lg font-medium flex items-center">
               {client.firstName} {client.lastName}
-              {isAdmin && (
-                <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-mono">
-                  ID: {client.id}
-                </span>
-              )}
               {client.isFrequent && (
                 <Star className="h-4 w-4 ml-1.5 text-pink-500" />
               )}
@@ -124,6 +179,14 @@ export default function ClientCard({ client, onUpdate }: ClientCardProps) {
               <div className="flex items-center text-sm text-gray-500 mt-1">
                 <Mail className="h-3.5 w-3.5 mr-1.5" />
                 {client.email}
+              </div>
+            )}
+            
+            {client.uniqueCode && (
+              <div className="flex items-center text-xs text-blue-600 mt-1 font-mono">
+                <span className="bg-blue-50 px-2 py-1 rounded border">
+                  {client.uniqueCode}
+                </span>
               </div>
             )}
           </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useReducer } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
 interface Service {
   id: number;
@@ -45,6 +46,9 @@ interface ServiceFormData {
 }
 
 export default function ServiceManager() {
+  console.log("🔧 FRONTEND: ServiceManager component rendered");
+  
+  const { user } = useUserWithLicense();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState<ServiceFormData>({
     name: "",
@@ -56,40 +60,131 @@ export default function ServiceManager() {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
-  // Ottiene la lista dei servizi
-  const {
-    data: services,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["/api/services"],
-    queryFn: async () => {
-      const response = await fetch("/api/services");
+  console.log("🔧 FRONTEND: ServiceManager state initialized for user:", user?.id);
+
+  // Query servizi - COMPLETAMENTE SINCRONA per garantire aggiornamenti immediati
+  const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [forceRender, forceUpdate] = useReducer(x => x + 1, 0);
+
+  // Funzione per caricare servizi con sistema multi-tenant robusto
+  const loadServices = useCallback(async () => {
+    if (!user?.id) {
+      console.log("🔄 FRONTEND ServiceManager: Nessun utente autenticato, skip caricamento servizi");
+      setServices([]);
+      setIsLoading(false);
+      return;
+    }
+    
+    try {
+      console.log(`🔄 FRONTEND ServiceManager: Caricamento servizi per utente ${user.id}`);
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await apiRequest("GET", "/api/services");
+      
       if (!response.ok) {
-        throw new Error("Errore durante il recupero dei servizi");
+        if (response.status === 401) {
+          console.log("🔄 FRONTEND ServiceManager: Utente non autenticato, servizi vuoti");
+          setServices([]);
+          return;
+        }
+        throw new Error(`Errore ${response.status}: ${response.statusText}`);
       }
-      return response.json();
-    },
-  });
+      
+      const data = await response.json();
+      console.log(`✅ FRONTEND ServiceManager: ${data.length} servizi caricati per utente ${user.id}`);
+      setServices(data);
+      
+    } catch (err) {
+      console.error("❌ FRONTEND ServiceManager: Errore caricamento servizi:", err);
+      setError(err instanceof Error ? err : new Error('Errore sconosciuto'));
+      setServices([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user?.id]);
+
+  // Carica servizi al mount del componente e al cambio utente
+  useEffect(() => {
+    console.log("🔄 FRONTEND: useEffect chiamato - caricamento iniziale servizi");
+    
+    // Pulisci tutti i dati di cache esistenti quando cambia utente
+    if (user?.id) {
+      // Rimuovi cache di altri utenti per evitare contaminazione
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (key.startsWith('services_cache_user_') && !key.includes(`user_${user.id}`)) {
+          localStorage.removeItem(key);
+          console.log(`🧹 FRONTEND: Rimossa cache di altro utente: ${key}`);
+        }
+      });
+      
+      // Invalida completamente React Query cache
+      queryClient.clear();
+      console.log("🧹 FRONTEND: Cache React Query completamente invalidata");
+      
+      loadServices();
+    }
+  }, [user?.id, loadServices]);
+
+  // Alias per compatibilità con il codice esistente
+  const refetchServices = loadServices;
 
   // Mutation per creare un nuovo servizio
   const createServiceMutation = useMutation({
     mutationFn: async (data: ServiceFormData) => {
+      console.log("🚀 FRONTEND: Inizio creazione servizio:", data);
       const response = await apiRequest("POST", "/api/services", data);
+      console.log("📡 FRONTEND: Risposta backend ricevuta:", response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("❌ FRONTEND: Errore dal backend:", errorData);
         throw new Error(errorData.message || "Errore durante la creazione del servizio");
       }
-      return response.json();
+      
+      const newService = await response.json();
+      console.log("📦 FRONTEND: Dati servizio dal backend:", newService);
+      
+      // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
+      setServices(prev => {
+        const updated = [...prev, newService];
+        console.log("📝 FRONTEND: AGGIORNAMENTO DIRETTO nella mutationFn:", updated);
+        return updated;
+      });
+      
+      // Forza re-render immediato
+      forceUpdate();
+      
+      return newService;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+    onSuccess: (newService) => {
+      console.log(`🎉 FRONTEND: onSuccess chiamato per utente ${user?.id}:`, newService);
+      
+      // FORZA aggiornamento immediato - BYPASS di qualsiasi cache
+      setServices(currentServices => {
+        const updatedServices = [...currentServices, newService];
+        console.log(`📝 FRONTEND: AGGIORNAMENTO FORZATO per utente ${user?.id}:`, updatedServices);
+        return updatedServices;
+      });
+      
+      // Forza re-render del componente
+      setIsLoading(false);
+      
       resetForm();
       setIsDialogOpen(false);
       toast({
         title: "Servizio creato",
         description: "Il servizio è stato creato con successo",
       });
+      
+      // Ricarica IMMEDIATA dal backend
+      setTimeout(() => {
+        console.log("🔄 FRONTEND: Ricarica forzata dal backend");
+        loadServices();
+      }, 50);
     },
     onError: (error: Error) => {
       toast({
@@ -110,8 +205,16 @@ export default function ServiceManager() {
       }
       return response.json();
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+    onSuccess: async (updatedService) => {
+      console.log("✅ FRONTEND: Servizio aggiornato con successo:", updatedService);
+      
+      // Aggiornamento diretto dello state - IMMEDIATO
+      setServices(prev => prev.map(s => s.id === updatedService.id ? updatedService : s));
+      
+      // Ricarica anche dal backend per sicurezza
+      await loadServices();
+      console.log("✅ FRONTEND: Lista servizi aggiornata dopo modifica");
+      
       resetForm();
       setIsDialogOpen(false);
       toast({
@@ -131,15 +234,37 @@ export default function ServiceManager() {
   // Mutation per eliminare un servizio
   const deleteServiceMutation = useMutation({
     mutationFn: async (id: number) => {
+      console.log("🗑️ FRONTEND: Inizio eliminazione servizio ID:", id);
       const response = await apiRequest("DELETE", `/api/services/${id}`);
+      console.log("📡 FRONTEND: Risposta eliminazione:", response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Errore durante l'eliminazione del servizio");
       }
+      
+      // AGGIORNAMENTO IMMEDIATO FORZATO - BYPASS di qualsiasi problema di re-render
+      setServices(prev => {
+        const updated = prev.filter(s => s.id !== id);
+        console.log("📝 FRONTEND: ELIMINAZIONE DIRETTA nella mutationFn:", updated);
+        return updated;
+      });
+      
+      // Forza re-render immediato
+      forceUpdate();
+      
       return true;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+    onSuccess: async (_, deletedId) => {
+      console.log("✅ FRONTEND: Servizio eliminato con successo, ID:", deletedId);
+      
+      // Aggiornamento diretto dello state - IMMEDIATO
+      setServices(prev => prev.filter(s => s.id !== deletedId));
+      
+      // Ricarica anche dal backend per sicurezza
+      await loadServices();
+      console.log("✅ FRONTEND: Lista servizi aggiornata dopo eliminazione");
+      
       toast({
         title: "Servizio eliminato",
         description: "Il servizio è stato eliminato con successo",
@@ -261,13 +386,14 @@ export default function ServiceManager() {
     );
   }
 
-  if (error) {
+  if (error && !isLoading && services.length === 0) {
+    console.log("❌ FRONTEND: Errore critico nel caricamento servizi:", error);
     return (
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Errore</AlertTitle>
         <AlertDescription>
-          Si è verificato un errore durante il caricamento dei servizi. Riprova più tardi.
+          Errore durante il caricamento dei servizi: {error.message}
         </AlertDescription>
       </Alert>
     );

@@ -9,11 +9,16 @@
     "confirmAndAssociateClient": "Confirm and associate client",
     "selected": "Selected",
     "selectSlots": "Select time slots",
-    "confirmDelete": "Are you sure you want to delete this appointment?",
-    "confirmDeleteTitle": "Delete appointment"
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "notifications": "Notifications",
+    "referral": "Referral",
+    "aiSetup": "AI Setup",
+    "staff": "Staff",
+    "payments": "Payments"
   },
   "sidebar": {
     "clients": "Clients",
@@ -111,6 +116,12 @@
   },
   "clients": {
     "title": "Clients",
+    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
+    "total": "[NEEDS TRANSLATION] clienti",
+    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
+    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
+    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
+    "noConsent": "[NEEDS TRANSLATION] Senza consenso",
     "description": "Manage client information",
     "subDescription": "Add, edit and view client data, including personal and medical information",
     "goTo": "Manage Clients",
@@ -137,6 +148,15 @@
       "frequent": "Frequent clients",
       "noConsent": "Without consent"
     },
+    "loading": "Loading clients...",
+    "loadingAccessStatus": "Checking client access...",
+    "showDetails": "Details",
+    "showAppointments": "Appointments",
+    "clientAccess": "Client Access",
+    "qrGenerated": "QR generated",
+    "qrNotGenerated": "QR not generated",
+    "generateQR": "Generate QR",
+    "manageClient": "Manage Client",
     "table": {
       "name": "Name",
       "surname": "Surname",
@@ -196,6 +216,12 @@
       "notes": "Notes",
       "save": "Save",
       "cancel": "Cancel"
+    },
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     }
   },
   "invoices": {
@@ -442,10 +468,9 @@
   "contacts": {
     "accessOurContacts": "Access our contacts"
   },
-  "appointment": {
-    "selectTimeSlots": "Select time for new appointment",
-    "confirmAndAssociateClient": "Confirm and associate client",
-    "selected": "Selected",
-    "selectSlots": "Select time slots"
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   }
 }

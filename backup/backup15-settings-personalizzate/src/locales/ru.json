@@ -5,7 +5,12 @@
     "description": "Легко управляйте записями, клиентами и счетами"
   },
   "navigation": {
-    "home": "Главная"
+    "home": "Главная",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
   },
   "sidebar": {
     "clients": "Клиенты",
@@ -188,7 +193,28 @@
       "notes": "Заметки",
       "save": "Сохранить",
       "cancel": "Отмена"
-    }
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
+    "total": "[NEEDS TRANSLATION] clienti",
+    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
+    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
+    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
+    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
   },
   "invoices": {
     "title": "Счета",
@@ -333,7 +359,17 @@
         "date": "Дата",
         "message": "Сообщение",
         "actions": "Действия",
-        "reopen": "Повторно открыть"
+        "reopen": "Повторно открыть",
+        "client": "[NEEDS TRANSLATION] Cliente",
+        "status": "[NEEDS TRANSLATION] Stato"
+      },
+      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
       }
     },
     "appointmentList": {
@@ -428,6 +464,13 @@
     "selectTimeSlots": "Выберите время для новой записи",
     "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
     "selected": "Выбрано",
-    "selectSlots": "Выберите временные интервалы"
+    "selectSlots": "Выберите временные интервалы",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   }
 }

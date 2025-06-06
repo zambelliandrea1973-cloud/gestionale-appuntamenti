@@ -27,7 +27,8 @@ import {
   Book,
   Clipboard,
   FileQuestion,
-  CreditCard
+  CreditCard,
+  Brain
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -54,6 +55,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
   const isAdmin = userWithLicense?.type === 'admin';
   const isStaff = userWithLicense?.type === 'staff';
+  
+  // Debug temporaneo
+  console.log('Layout Debug:', { 
+    userType: userWithLicense?.type, 
+    isStaff, 
+    isAdmin, 
+    userLoading: isUserLoading 
+  });
   
   // Check active route
   const isActive = (path: string) => location === path;
@@ -88,8 +97,8 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                         <Clock className="h-3 w-3" />
                         <span>
                           {new Date(licenseInfo.expiresAt) > new Date() 
-                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} giorni` 
-                            : 'Scaduto'}
+                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} ${t('trial.days')}` 
+                            : t('trial.expired')}
                         </span>
                       </div>
                       <div className="text-xs text-amber-200 flex items-center whitespace-nowrap">
@@ -110,7 +119,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/dashboard">
                   <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px]">
                     <Home className="h-4 w-4 mr-1" />
-                    <span>Home</span>
+                    <span>{t('navigation.home')}</span>
                   </Button>
                 </Link>
                 <Link href="/calendar">
@@ -128,13 +137,28 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/whatsapp-center">
                   <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                     <MessageSquare className="h-4 w-4 mr-1" />
-                    <span>Notifiche</span>
+                    <span>{t('navigation.notifications')}</span>
                   </Button>
                 </Link>
+                {/* Link Referral sulla prima riga per staff e admin */}
+                {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
+                  <Link href="/referral">
+                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
+                      <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
+                      <span>{t('navigation.referral')}</span>
+                    </Button>
+                  </Link>
+                )}
               </div>
               
               {/* Seconda riga di navigazione - con spacing distribuito per bilanciamento 50/50 */}
               <div className="flex justify-center gap-x-3 w-full">
+                <Link href="/onboarding">
+                  <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[100px]">
+                    <Brain className="h-4 w-4 mr-1 text-purple-400" />
+                    <span>{t('navigation.aiSetup')}</span>
+                  </Button>
+                </Link>
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
@@ -142,15 +166,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   </Button>
                 </Link>
                 
-                {/* Pulsante referral - visibile solo per staff, admin e utenti con licenza business */}
-                {(isStaff || isAdmin || userWithLicense?.licenseInfo?.type === 'business') && (
-                  <Link href="/referral">
-                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
-                      <Users className="h-4 w-4 mr-1 text-blue-400" />
-                      <span>Referral</span>
-                    </Button>
-                  </Link>
-                )}
+
                 
                 {/* Pulsanti admin - esattamente uguali agli altri pulsanti */}
                 {isAdmin && (
@@ -158,13 +174,13 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <Link href="/staff-management">
                       <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[80px] bg-transparent border-0 text-white">
                         <UserCog className="h-4 w-4 mr-1" />
-                        <span className="text-white">Staff</span>
+                        <span className="text-white">{t('navigation.staff')}</span>
                       </Button>
                     </Link>
                     <Link href="/payment-admin">
                       <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[110px] bg-transparent border-0 text-white">
                         <CreditCard className="h-4 w-4 mr-1 text-green-400" />
-                        <span className="text-white">Pagamenti</span>
+                        <span className="text-white">{t('navigation.payments')}</span>
                       </Button>
                     </Link>
                   </>
@@ -285,16 +301,18 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                       </Button>
                     </Link>
                     
-                    {/* Referral - solo per staff, admin e utenti business */}
-                    {(isStaff || isAdmin || userWithLicense?.licenseInfo?.type === 'business') && (
+
+                    
+                    {/* Commissioni Referral - visibile a staff e admin */}
+                    {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
                       <Link href="/referral">
                         <Button variant={isActive("/referral") ? "secondary" : "ghost"} className="justify-start w-full">
-                          <Users className="mr-2 h-4 w-4 text-blue-400" />
-                          Programma Referral
+                          <CreditCard className="mr-2 h-4 w-4 text-blue-500" />
+                          Commissioni Referral
                         </Button>
                       </Link>
                     )}
-                    
+
                     {/* Mostra il collegamento per la gestione staff solo agli amministratori */}
                     {isAdmin && (
                       <>

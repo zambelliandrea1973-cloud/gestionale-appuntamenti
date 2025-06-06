@@ -19,8 +19,9 @@ import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock,
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
-import ServiceManager from '@/components/ServiceManager';
+import SimpleServiceManager from '@/components/SimpleServiceManager';
 import EmailSettings from '@/components/EmailSettings';
+
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
@@ -34,10 +35,17 @@ export default function Settings() {
   // Recupera la tab selezionata da localStorage quando il componente viene montato
   useEffect(() => {
     const savedTab = localStorage.getItem('settings_active_tab');
+    console.log("🔧 SETTINGS: Tab salvata in localStorage:", savedTab);
     if (savedTab) {
       setActiveTab(savedTab);
     }
+    console.log("🔧 SETTINGS: Tab attiva impostata a:", savedTab || "app");
   }, []);
+
+  // Debug del tab attivo
+  useEffect(() => {
+    console.log("🔧 SETTINGS: Tab attualmente attiva:", activeTab);
+  }, [activeTab]);
 
   // Verifico se l'utente è un amministratore
   const isAdmin = user?.type === 'admin';
@@ -107,7 +115,7 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              <ServiceManager />
+              <SimpleServiceManager />
               
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
@@ -183,6 +191,7 @@ export default function Settings() {
           </Card>
         </TabsContent>
         
+
         <TabsContent value="integrations">
           <Card>
             <CardHeader>

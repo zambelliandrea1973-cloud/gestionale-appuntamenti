@@ -32,6 +32,20 @@ export async function apiRequest(
       headers["Content-Type"] = "application/json";
     }
     
+    // Headers anti-cache per operazioni che modificano dati e per tutte le API multi-tenant
+    const isMultiTenantApi = url.includes("/api/services") || 
+                           url.includes("/api/clients") || 
+                           url.includes("/api/appointments") ||
+                           url.includes("/api/user-with-license");
+                           
+    if (method === "DELETE" || method === "POST" || method === "PUT" || isMultiTenantApi) {
+      headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0";
+      headers["Pragma"] = "no-cache";
+      headers["Expires"] = "0";
+      headers["If-Modified-Since"] = "Mon, 26 Jul 1997 05:00:00 GMT";
+      headers["If-None-Match"] = "*";
+    }
+    
     // Aggiungi l'header x-pwa-app se siamo in una PWA
     if (isPWA) {
       headers["x-pwa-app"] = "true";
@@ -76,6 +90,20 @@ export async function apiRequest(
       headers["x-browser"] = "safari";
       console.log("Browser Safari rilevato, aggiunti header specifici");
     }
+    
+    // CORREZIONE: Aggiungi sempre x-device-type per garantire comportamento uniforme
+    if (!headers["x-device-type"]) {
+      headers["x-device-type"] = isMobile ? "mobile" : "desktop";
+      console.log(`Header x-device-type aggiunto: ${headers["x-device-type"]}`);
+    }
+    
+    // HEADER ANTI-CACHE AGGRESSIVI per prevenire problemi di dati obsoleti
+    headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0";
+    headers["Pragma"] = "no-cache";
+    headers["Expires"] = "0";
+    headers["If-Modified-Since"] = "Mon, 26 Jul 1997 05:00:00 GMT";
+    headers["If-None-Match"] = "*";
+    console.log("Header anti-cache aggiunti per garantire dati sempre freschi");
     
     console.log(`Dettagli richiesta ${method} a ${url}:`, { 
       method, 
@@ -184,8 +212,9 @@ export const queryClient = new QueryClient({
         withBetaAdminToken: false
       }),
       refetchInterval: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      refetchOnWindowFocus: true,
+      staleTime: 0, // Forza sempre richieste fresche
+      gcTime: 0, // Rimuovi cache immediatamente
       retry: false,
     },
     mutations: {
