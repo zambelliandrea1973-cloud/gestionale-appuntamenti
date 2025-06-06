@@ -52,7 +52,26 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Configura l'autenticazione PRIMA delle route API
   setupAuth(app);
+
+  // Endpoint per informazioni utente con licenza (necessario per useUserWithLicense)
+  app.get("/api/user-with-license", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const user = req.user as any;
+      const userWithLicense = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        type: user.type,
+        hasActiveLicense: true,
+        licenseType: user.type === 'staff' ? 'lifetime' : user.type === 'admin' ? 'admin' : 'business'
+      };
+      res.json(userWithLicense);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching user info" });
+    }
+  });
 
   // Endpoint piani abbonamento
   app.get("/api/subscription-plans", (req: Request, res: Response) => {
