@@ -208,15 +208,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/clients", isClientOrStaff, async (req: Request, res: Response) => {
     try {
-      const validationResult = insertClientSchema.safeParse(req.body);
+      const user = req.user as any;
+      
+      // DEBUG: Verifica se l'utente è popolato correttamente
+      console.log('🔍 DEBUG POST /api/clients - req.user:', user);
+      console.log('🔍 DEBUG POST /api/clients - req.body:', req.body);
+      
+      if (!user || !user.id) {
+        return res.status(401).json({ message: "Utente non autenticato o ID mancante" });
+      }
+      
+      // Aggiungi automaticamente l'userId dall'utente autenticato
+      const clientDataWithUserId = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      console.log('🔍 DEBUG POST /api/clients - clientDataWithUserId:', clientDataWithUserId);
+      
+      const validationResult = insertClientSchema.safeParse(clientDataWithUserId);
       if (!validationResult.success) {
         return res.status(400).json({
           message: "Invalid client data",
           errors: validationResult.error.errors
         });
       }
-
-      const user = req.user as any;
       
       // Genera codice univoco per il cliente con prefisso account
       const baseCode = `${validationResult.data.firstName.charAt(0).toUpperCase()}${validationResult.data.lastName.charAt(0).toUpperCase()}${Date.now().toString().slice(-4)}`;
