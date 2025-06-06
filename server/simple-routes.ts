@@ -41,14 +41,18 @@ const userData = {
       { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4" }
     ],
     clients: [
-      { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3331234567", email: "mario.rossi@email.com" },
-      { id: 2, firstName: "Anna", lastName: "Verdi", phone: "3339876543", email: "anna.verdi@email.com" },
-      { id: 3, firstName: "Giuseppe", lastName: "Bianchi", phone: "3335551234", email: "giuseppe.bianchi@email.com" },
-      { id: 4, firstName: "Maria", lastName: "Neri", phone: "3336667890", email: "maria.neri@email.com" },
-      { id: 5, firstName: "Luca", lastName: "Ferrari", phone: "3337778901", email: "luca.ferrari@email.com" },
-      { id: 6, firstName: "Sara", lastName: "Romano", phone: "3338889012", email: "sara.romano@email.com" },
-      { id: 7, firstName: "Andrea", lastName: "Moretti", phone: "3339990123", email: "andrea.moretti@email.com" },
-      { id: 8, firstName: "Elena", lastName: "Ricci", phone: "3330001234", email: "elena.ricci@email.com" }
+      { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3201234567", email: "mario.rossi@esempio.it" },
+      { id: 2, firstName: "Zambelli", lastName: "Andrea", phone: "3472550110", email: "zambelli.andrea.1973@gmail.com" },
+      { id: 3, firstName: "Bruna", lastName: "Pizzolato", phone: "+393401234567", email: "brunapizzolato77@gmail.com" },
+      { id: 4, firstName: "Cristina", lastName: "Valetti", phone: "+393337124083", email: "" },
+      { id: 5, firstName: "Matteo", lastName: "Somaschini", phone: "+393920820219", email: "" },
+      { id: 6, firstName: "Leila", lastName: "Baldovin", phone: "+393312936414", email: "leila.baldovin22@gmail.com" },
+      { id: 7, firstName: "Rosa", lastName: "Nappi", phone: "+393479687939", email: "" },
+      { id: 8, firstName: "Giovanna", lastName: "Spano", phone: "+393666249288", email: "" },
+      { id: 9, firstName: "Giulio", lastName: "Carimati", phone: "+393396253936", email: "" },
+      { id: 10, firstName: "Daniela", lastName: "Biglione", phone: "+393392327893", email: "" },
+      { id: 11, firstName: "Roberto", lastName: "Mascheroni", phone: "+393357004464", email: "" },
+      { id: 12, firstName: "Valeria", lastName: "Benvenuto", phone: "+393348006444", email: "" }
     ],
     appointments: [
       { id: 1, clientId: 1, serviceId: 1, date: "2025-01-15", startTime: "09:00", endTime: "09:30", status: "confermato" },
