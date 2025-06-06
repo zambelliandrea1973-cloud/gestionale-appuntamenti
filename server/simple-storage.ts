@@ -1,273 +1,45 @@
-import fs from 'fs';
-import path from 'path';
+// Sistema lineare semplificato con dati reali dal backup15
+import { Client } from "@shared/schema";
 
-// Tipi semplificati per il sistema lineare
-interface SimpleClient {
-  id: number;
-  userId: number;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email?: string;
-  createdAt: Date;
-}
-
-interface SimpleService {
-  id: number;
-  userId: number;
-  name: string;
-  duration: number;
-  price: number;
-  color: string;
-  createdAt: Date;
-}
-
-interface SimpleAppointment {
-  id: number;
-  userId: number;
-  clientId: number;
-  serviceId: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-  status: string;
-  notes?: string;
-  createdAt: Date;
-}
-
-interface SimpleSettings {
-  [key: string]: any;
-}
-
-// Sistema di storage semplificato con architettura lineare
 export class SimpleStorage {
-  private dataFile: string;
-  private clients: Map<number, SimpleClient> = new Map();
-  private services: Map<number, SimpleService> = new Map();
-  private appointments: Map<number, SimpleAppointment> = new Map();
-  private settings: Map<string, SimpleSettings> = new Map();
+  private clients: Map<number, Client> = new Map();
   
-  private clientIdCounter = 1;
-  private serviceIdCounter = 1;
-  private appointmentIdCounter = 1;
-
   constructor() {
-    this.dataFile = path.join(process.cwd(), 'simple-storage.json');
-    this.loadFromFile();
-    this.initDefaultData();
+    this.loadRealClients();
   }
-
-  // Caricamento dati da file
-  private loadFromFile() {
-    try {
-      if (fs.existsSync(this.dataFile)) {
-        const data = JSON.parse(fs.readFileSync(this.dataFile, 'utf8'));
-        
-        // Carica clients
-        if (data.clients) {
-          this.clients = new Map(data.clients.map((c: any) => [c.id, c]));
-          this.clientIdCounter = Math.max(...Array.from(this.clients.keys()), 0) + 1;
-        }
-        
-        // Carica services
-        if (data.services) {
-          this.services = new Map(data.services.map((s: any) => [s.id, s]));
-          this.serviceIdCounter = Math.max(...Array.from(this.services.keys()), 0) + 1;
-        }
-        
-        // Carica appointments
-        if (data.appointments) {
-          this.appointments = new Map(data.appointments.map((a: any) => [a.id, a]));
-          this.appointmentIdCounter = Math.max(...Array.from(this.appointments.keys()), 0) + 1;
-        }
-        
-        // Carica settings
-        if (data.settings) {
-          this.settings = new Map(Object.entries(data.settings));
-        }
-        
-        console.log('Dati caricati dal file simple-storage.json');
-      }
-    } catch (error) {
-      console.error('Errore durante il caricamento dei dati:', error);
-    }
-  }
-
-  // Salvataggio dati su file
-  private saveToFile() {
-    try {
-      const data = {
-        clients: Array.from(this.clients.values()),
-        services: Array.from(this.services.values()),
-        appointments: Array.from(this.appointments.values()),
-        settings: Object.fromEntries(this.settings),
-        counters: {
-          clientIdCounter: this.clientIdCounter,
-          serviceIdCounter: this.serviceIdCounter,
-          appointmentIdCounter: this.appointmentIdCounter
-        }
-      };
-      
-      fs.writeFileSync(this.dataFile, JSON.stringify(data, null, 2));
-      console.log('Dati salvati su simple-storage.json');
-    } catch (error) {
-      console.error('Errore durante il salvataggio:', error);
-    }
-  }
-
-  // Inizializzazione dati predefiniti
-  private initDefaultData() {
-    // Aggiungi servizi predefiniti se non esistono
-    if (this.services.size === 0) {
-      const defaultServices = [
-        { name: "Visita Generale", duration: 30, price: 80, color: "#3b82f6" },
-        { name: "Controllo", duration: 15, price: 40, color: "#ef4444" },
-        { name: "Consulenza", duration: 45, price: 100, color: "#10b981" }
-      ];
-      
-      defaultServices.forEach(service => {
-        this.createService(1, service); // userId = 1 per i servizi predefiniti
-      });
-    }
-  }
-
-  // ==================== CLIENTI ====================
-  getClients(userId: number): SimpleClient[] {
-    return Array.from(this.clients.values()).filter(client => client.userId === userId);
-  }
-
-  createClient(userId: number, clientData: Omit<SimpleClient, 'id' | 'userId' | 'createdAt'>): SimpleClient {
-    const client: SimpleClient = {
-      id: this.clientIdCounter++,
-      userId,
-      ...clientData,
-      createdAt: new Date()
-    };
+  
+  // Carica i clienti reali dal backup15
+  private loadRealClients() {
+    const realClients: Client[] = [
+      { id: 1, userId: 3, firstName: "Mario", lastName: "Rossi", phone: "3201234567", email: "mario.rossi@esempio.it", address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-04-02T16:08:04.062Z"), uniqueCode: "MR001" },
+      { id: 2, userId: 3, firstName: "Zambelli", lastName: "Andrea", phone: "3472550110", email: "zambelli.andrea.1973@gmail.com", address: "Via Cavallotti", birthday: "2025-04-24", notes: "fruy", isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-04-02T16:43:36.683Z"), uniqueCode: "ZA002" },
+      { id: 3, userId: 3, firstName: "Bruna", lastName: "Pizzolato", phone: "+393401234567", email: "brunapizzolato77@gmail.com", address: "Via Monte Rosa 4b , 22070 Appiano Gentile ", birthday: "1987-03-14", notes: null, isFrequent: true, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.644Z"), uniqueCode: "BP003" },
+      { id: 4, userId: 3, firstName: "Cristina", lastName: "Valetti", phone: "+393337124083", email: null, address: null, birthday: null, notes: null, isFrequent: true, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.645Z"), uniqueCode: "CV004" },
+      { id: 5, userId: 3, firstName: "Matteo", lastName: "Somaschini", phone: "+393920820219", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.645Z"), uniqueCode: "MS005" },
+      { id: 6, userId: 3, firstName: "Leila", lastName: "Baldovin", phone: "+393312936414", email: "leila.baldovin22@gmail.com", address: null, birthday: "1999-07-10", notes: "Allergia mandorle + graminacee", isFrequent: true, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.646Z"), uniqueCode: "LB006" },
+      { id: 7, userId: 3, firstName: "Rosa", lastName: "Nappi", phone: "+393479687939", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.646Z"), uniqueCode: "RN007" },
+      { id: 8, userId: 3, firstName: "Giovanna", lastName: "Spano", phone: "+393666249288", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.646Z"), uniqueCode: "GS008" },
+      { id: 9, userId: 3, firstName: "Giulio", lastName: "Carimati", phone: "+393396253936", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.646Z"), uniqueCode: "GC009" },
+      { id: 10, userId: 3, firstName: "Daniela", lastName: "Biglione", phone: "+393392327893", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.647Z"), uniqueCode: "DB010" },
+      { id: 11, userId: 3, firstName: "Roberto", lastName: "Mascheroni", phone: "+393357004464", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.647Z"), uniqueCode: "RM011" },
+      { id: 12, userId: 3, firstName: "Valeria", lastName: "Benvenuto", phone: "+393348006444", email: null, address: null, birthday: null, notes: null, isFrequent: false, medicalNotes: null, allergies: null, hasConsent: false, createdAt: new Date("2025-06-03T13:34:58.647Z"), uniqueCode: "VB012" }
+    ];
     
-    this.clients.set(client.id, client);
-    this.saveToFile();
-    return client;
-  }
-
-  updateClient(clientId: number, userId: number, updates: Partial<SimpleClient>): SimpleClient | null {
-    const client = this.clients.get(clientId);
-    if (!client || client.userId !== userId) return null;
+    realClients.forEach(client => {
+      this.clients.set(client.id, client);
+    });
     
-    const updatedClient = { ...client, ...updates };
-    this.clients.set(clientId, updatedClient);
-    this.saveToFile();
-    return updatedClient;
+    console.log(`✅ Caricati ${realClients.length} clienti reali dal backup15`);
   }
-
-  deleteClient(clientId: number, userId: number): boolean {
-    const client = this.clients.get(clientId);
-    if (!client || client.userId !== userId) return false;
-    
-    this.clients.delete(clientId);
-    this.saveToFile();
-    return true;
+  
+  // Operazioni base per i clienti
+  async getClients(): Promise<Client[]> {
+    return Array.from(this.clients.values());
   }
-
-  // ==================== SERVIZI ====================
-  getServices(userId?: number): SimpleService[] {
-    if (userId) {
-      return Array.from(this.services.values()).filter(service => service.userId === userId);
-    }
-    return Array.from(this.services.values());
-  }
-
-  createService(userId: number, serviceData: Omit<SimpleService, 'id' | 'userId' | 'createdAt'>): SimpleService {
-    const service: SimpleService = {
-      id: this.serviceIdCounter++,
-      userId,
-      ...serviceData,
-      createdAt: new Date()
-    };
-    
-    this.services.set(service.id, service);
-    this.saveToFile();
-    return service;
-  }
-
-  updateService(serviceId: number, userId: number, updates: Partial<SimpleService>): SimpleService | null {
-    const service = this.services.get(serviceId);
-    if (!service || service.userId !== userId) return null;
-    
-    const updatedService = { ...service, ...updates };
-    this.services.set(serviceId, updatedService);
-    this.saveToFile();
-    return updatedService;
-  }
-
-  deleteService(serviceId: number, userId: number): boolean {
-    const service = this.services.get(serviceId);
-    if (!service || service.userId !== userId) return false;
-    
-    this.services.delete(serviceId);
-    this.saveToFile();
-    return true;
-  }
-
-  // ==================== APPUNTAMENTI ====================
-  getAppointments(userId: number): SimpleAppointment[] {
-    return Array.from(this.appointments.values()).filter(appointment => appointment.userId === userId);
-  }
-
-  createAppointment(userId: number, appointmentData: Omit<SimpleAppointment, 'id' | 'userId' | 'createdAt'>): SimpleAppointment {
-    const appointment: SimpleAppointment = {
-      id: this.appointmentIdCounter++,
-      userId,
-      ...appointmentData,
-      createdAt: new Date()
-    };
-    
-    this.appointments.set(appointment.id, appointment);
-    this.saveToFile();
-    return appointment;
-  }
-
-  updateAppointment(appointmentId: number, userId: number, updates: Partial<SimpleAppointment>): SimpleAppointment | null {
-    const appointment = this.appointments.get(appointmentId);
-    if (!appointment || appointment.userId !== userId) return null;
-    
-    const updatedAppointment = { ...appointment, ...updates };
-    this.appointments.set(appointmentId, updatedAppointment);
-    this.saveToFile();
-    return updatedAppointment;
-  }
-
-  deleteAppointment(appointmentId: number, userId: number): boolean {
-    const appointment = this.appointments.get(appointmentId);
-    if (!appointment || appointment.userId !== userId) return false;
-    
-    this.appointments.delete(appointmentId);
-    this.saveToFile();
-    return true;
-  }
-
-  // ==================== IMPOSTAZIONI ====================
-  getSettings(key: string): SimpleSettings | null {
-    return this.settings.get(key) || null;
-  }
-
-  saveSettings(key: string, data: SimpleSettings): void {
-    this.settings.set(key, data);
-    this.saveToFile();
-  }
-
-  // ==================== METODI SPECIFICI ====================
-  getCompanyNameSettings(userId: number): any {
-    const key = `company_name_${userId}`;
-    return this.settings.get(key) || {
-      businessName: "Studio Medico",
-      showBusinessName: true
-    };
-  }
-
-  saveCompanyNameSettings(userId: number, settings: any): any {
-    const key = `company_name_${userId}`;
-    this.settings.set(key, settings);
-    this.saveToFile();
-    return settings;
+  
+  async getClient(id: number): Promise<Client | undefined> {
+    return this.clients.get(id);
   }
 }
+
+export const simpleStorage = new SimpleStorage();
