@@ -1,8 +1,15 @@
-import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { useQuery } from "@tanstack/react-query";
 
 // Sistema semplificato - UserLicenseBadge
 export default function UserLicenseBadge() {
-  const { data: user, isLoading } = useUserWithLicense();
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["/api/user-with-license"],
+    queryFn: async () => {
+      const response = await fetch("/api/user-with-license");
+      if (!response.ok) throw new Error("Errore nel caricamento utente");
+      return response.json();
+    }
+  });
 
   if (isLoading || !user) {
     return null;
