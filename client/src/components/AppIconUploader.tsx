@@ -74,8 +74,10 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     setUploadSuccess(false);
 
     try {
-      const response = await fetch('/api/use-default-icon', {
+      // STESSA LOGICA NOME AZIENDALE - usa endpoint di reset
+      const response = await fetch('/api/reset-app-icon', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
       });
 
       const data = await response.json();
@@ -86,18 +88,13 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
       setUploadSuccess(true);
       
-      // Imposta l'URL dell'anteprima direttamente sull'icona predefinita
-      setPreviewUrl(`/icons/default-app-icon.jpg?t=${new Date().getTime()}`);
-      
-      // Ricarica le informazioni sull'icona per aggiornare la data di modifica
-      await fetchIconInfo();
-      
-      // Notifica il Service Worker dell'aggiornamento dell'icona
-      notifyServiceWorkerIconUpdate('/icons/default-app-icon.jpg');
+      // Aggiorna immediatamente con l'icona predefinita
+      const defaultIcon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
+      setPreviewUrl(defaultIcon);
       
       toast({
         title: "Icona predefinita impostata",
-        description: "L'icona predefinita è stata impostata con successo e sarà utilizzata per entrambe le app.",
+        description: "L'icona predefinita è stata impostata con successo.",
         variant: "default",
       });
 
