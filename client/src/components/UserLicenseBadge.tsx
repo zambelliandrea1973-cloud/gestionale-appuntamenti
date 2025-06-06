@@ -30,7 +30,7 @@ export default function UserLicenseBadge({ size = 'md', className }: UserLicense
   }
 
   // Ottieni il tipo di licenza formattato
-  const licenseType = getLicenseBadgeType(user.licenseInfo.type);
+  const licenseType = getLicenseBadgeType(user.licenseType || 'trial');
   // Ottieni il tipo di account formattato
   const userType = getUserType(user.type);
   // Ottieni il nome utente completo
@@ -38,7 +38,7 @@ export default function UserLicenseBadge({ size = 'md', className }: UserLicense
 
   // Determina il colore di sfondo in base al tipo di licenza
   const getBadgeColor = () => {
-    const licenseRawType = user.licenseInfo.type;
+    const licenseRawType = user.licenseType || 'trial';
     if (licenseRawType === 'pro') {
       return 'bg-amber-500 text-white';
     } else if (licenseRawType === 'base') {
