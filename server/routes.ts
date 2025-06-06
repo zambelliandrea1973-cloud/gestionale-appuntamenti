@@ -47,6 +47,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
   
+  // Endpoint per gestire i piani di abbonamento (architettura lineare)
+  app.get("/api/subscription-plans", (req: Request, res: Response) => {
+    try {
+      const plansPath = path.join(process.cwd(), 'subscription-plans.json');
+      if (fs.existsSync(plansPath)) {
+        const plans = JSON.parse(fs.readFileSync(plansPath, 'utf8'));
+        res.json(plans);
+      } else {
+        // Piani di default se il file non esiste
+        const defaultPlans = {
+          trial: { name: 'Prova', price: 0, duration: '40 giorni', features: ['Gestione appuntamenti', 'Gestione clienti', 'Notifiche ai clienti'] },
+          base: { name: 'Base', price: 3.99, duration: 'monthly', features: ['Gestione appuntamenti', 'Gestione clienti', 'Notifiche ai clienti'] },
+          pro: { name: 'PRO', price: 6.99, duration: 'monthly', features: ['Gestione appuntamenti', 'Gestione clienti', 'Notifiche ai clienti', 'Integrazione Google Calendar', 'Gestione fatture', 'Report dettagliati'] },
+          business: { name: 'Business', price: 9.99, duration: 'monthly', features: ['Gestione appuntamenti', 'Gestione clienti', 'Notifiche ai clienti', 'Integrazione Google Calendar', 'Gestione fatture', 'Report dettagliati', 'Supporto per più operatori'] },
+          staff: { name: 'Staff', price: 0, duration: 'lifetime', features: ['Piano completo gratuito', 'Possibilità referral', 'Tutte le funzionalità'] }
+        };
+        res.json(defaultPlans);
+      }
+    } catch (error) {
+      console.error('Errore caricamento piani abbonamento:', error);
+      res.status(500).json({ message: "Errore caricamento piani" });
+    }
+  });
+
+  // Endpoint per ottenere le credenziali account (solo per testing)
+  app.get("/api/test-accounts", (req: Request, res: Response) => {
+    try {
+      const credentialsPath = path.join(process.cwd(), 'accounts-credentials.json');
+      if (fs.existsSync(credentialsPath)) {
+        const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
+        // Rimuovi le password per sicurezza
+        const sanitizedCredentials = JSON.parse(JSON.stringify(credentials));
+        if (sanitizedCredentials.admin) delete sanitizedCredentials.admin.password;
+        if (sanitizedCredentials.staff) {
+          sanitizedCredentials.staff.forEach((staff: any) => delete staff.password);
+        }
+        if (sanitizedCredentials.customers) {
+          sanitizedCredentials.customers.forEach((customer: any) => delete customer.password);
+        }
+        res.json(sanitizedCredentials);
+      } else {
+        res.status(404).json({ message: "Credenziali test non trovate" });
+      }
+    } catch (error) {
+      console.error('Errore caricamento credenziali test:', error);
+      res.status(500).json({ message: "Errore caricamento credenziali" });
+    }
+  });
+
   // Middleware per servire i file statici dalla cartella public
   // Nota: Non utilizziamo app.use(express.static()) qui perché è già gestito da server/vite.ts
   const rootDir = process.cwd();
