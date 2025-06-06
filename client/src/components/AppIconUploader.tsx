@@ -45,7 +45,12 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       
       // STESSA LOGICA NOME AZIENDALE - accesso diretto ai dati
       const iconUrl = data.icon;
-      setIconInfo({ exists: true, isCustom: iconUrl !== "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" });
+      const isDefaultFleurDeVie = iconUrl === "/attached_assets/Fleur de Vie multicolore.jpg";
+      setIconInfo({ 
+        exists: true, 
+        isCustom: !isDefaultFleurDeVie,
+        iconPath: iconUrl
+      });
 
       // Mostra sempre l'icona ricevuta dai dati
       setPreviewUrl(iconUrl);
