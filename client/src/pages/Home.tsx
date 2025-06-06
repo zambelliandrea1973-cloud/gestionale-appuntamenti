@@ -19,6 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import SocialIcons from "@/components/SocialIcons";
 
 // Componente per l'icona dell'app
 function AppIcon() {
@@ -350,6 +351,19 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Sezione icone social */}
+      <div className="mt-8 border-t pt-6">
+        <div className="text-center mb-4">
+          <h3 className="text-lg font-semibold text-muted-foreground">
+            {t('social.title', 'Seguici e Contattaci')}
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            {t('social.description', 'Rimani aggiornato e in contatto con noi')}
+          </p>
+        </div>
+        <SocialIcons />
       </div>
     </div>
   );
