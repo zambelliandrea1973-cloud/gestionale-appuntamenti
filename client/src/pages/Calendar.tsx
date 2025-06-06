@@ -173,31 +173,41 @@ export default function Calendar() {
     console.log("Appuntamento salvato - aggiornamento calendario...");
     
     try {
-      // Invalidate e refetch immediato per tutti i dati rilevanti
+      // Invalida tutto il cache degli appuntamenti
       await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
-      await refetchAppointments();
       
-      if (view === "day") {
-        const dateString = formatDateForApi(selectedDate);
-        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
-        await refetchDayAppointments();
-      }
+      // Invalida specificamente la data corrente
+      const dateString = formatDateForApi(selectedDate);
+      await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
       
-      // Forza anche l'aggiornamento per le date vicine (per sicurezza)
-      const promises = [];
-      for (let i = -7; i <= 7; i++) {
+      // Invalida tutte le date vicine per sicurezza
+      for (let i = -3; i <= 3; i++) {
         const date = new Date(selectedDate);
         date.setDate(date.getDate() + i);
-        const dateString = formatDateForApi(date);
-        promises.push(queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] }));
+        const ds = formatDateForApi(date);
+        await queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${ds}`] });
       }
-      await Promise.all(promises);
       
-      // Forza il refetch finale
-      await queryClient.refetchQueries({ queryKey: ['/api/appointments'] });
+      // Aspetta un momento per assicurarsi che le invalidazioni siano complete
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Forza il refetch di tutti i dati
+      await queryClient.refetchQueries({ 
+        queryKey: ['/api/appointments'],
+        type: 'active'
+      });
+      
       if (view === "day") {
-        const dateString = formatDateForApi(selectedDate);
-        await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+        await queryClient.refetchQueries({ 
+          queryKey: [`/api/appointments/date/${dateString}`],
+          type: 'active'
+        });
+      }
+      
+      // Trigger manuale del refetch delle funzioni hook
+      await refetchAppointments();
+      if (view === "day") {
+        await refetchDayAppointments();
       }
       
       console.log("Calendario aggiornato dopo salvataggio appuntamento");
