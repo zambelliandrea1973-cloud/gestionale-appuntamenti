@@ -43,22 +43,16 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
       const data = await response.json();
       
-      // Estrai le informazioni sull'icona
-      const iconData = data.icon;
-      setIconInfo(iconData);
+      // STESSA LOGICA NOME AZIENDALE - accesso diretto ai dati
+      const iconUrl = data.icon;
+      setIconInfo({ exists: true, isCustom: iconUrl !== "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" });
 
-      // Se esiste un'icona, imposta l'URL di anteprima
-      if (iconData.exists && iconData.iconPath) {
-        // Aggiungi timestamp per evitare la cache del browser
-        setPreviewUrl(`${iconData.iconPath}?t=${new Date().getTime()}`);
-      } else {
-        // Imposta l'icona predefinita se non c'è nessuna icona
-        setPreviewUrl('/icons/default-app-icon.jpg');
-      }
+      // Mostra sempre l'icona ricevuta dai dati
+      setPreviewUrl(iconUrl);
     } catch (error) {
-      console.error('Errore nel recupero delle informazioni sull\'icona:', error);
-      // In caso di errore, mostra comunque l'icona predefinita
-      setPreviewUrl('/icons/default-app-icon.jpg');
+      console.error('Errore durante il caricamento dell\'icona:', error);
+      // Icona predefinita di fallback
+      setPreviewUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+");
     } finally {
       setIsLoadingInfo(false);
     }
@@ -159,44 +153,42 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     setUploadSuccess(false);
 
     try {
-      const formData = new FormData();
-      formData.append('icon', file);
+      // STESSA LOGICA NOME AZIENDALE - converti file in base64
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const iconData = e.target?.result as string;
+        
+        const response = await fetch('/api/upload-app-icon', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ iconData }),
+        });
 
-      const response = await fetch('/api/upload-app-icon', {
-        method: 'POST',
-        body: formData,
-      });
+        const data = await response.json();
 
-      const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Errore durante il caricamento dell\'icona');
+        }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Errore durante il caricamento dell\'icona');
-      }
+        setUploadSuccess(true);
+        
+        // Aggiorna immediatamente l'anteprima con l'icona caricata
+        setPreviewUrl(iconData);
+        
+        toast({
+          title: "Icona caricata con successo",
+          description: "L'icona dell'app cliente è stata aggiornata.",
+          variant: "default",
+        });
 
-      setUploadSuccess(true);
+        if (onSuccess) {
+          onSuccess();
+        }
+
+        setIsUploading(false);
+      };
       
-      // Ricarica le informazioni sull'icona per aggiornare la data di modifica
-      await fetchIconInfo();
-      
-      // Notifica il Service Worker dell'aggiornamento dell'icona
-      // Utilizziamo l'iconPath restituito dal server che contiene l'estensione corretta
-      if (data.iconPath) {
-        notifyServiceWorkerIconUpdate(data.iconPath);
-      } else {
-        // Fallback nel caso in cui il server non restituisca il percorso
-        notifyServiceWorkerIconUpdate('/icons/app-icon.jpg');
-      }
-      
-      toast({
-        title: "Icona caricata con successo",
-        description: "L'icona dell'app cliente è stata aggiornata.",
-        variant: "default",
-      });
-
-      if (onSuccess) {
-        onSuccess();
-      }
-
+      reader.readAsDataURL(file);
     } catch (error: any) {
       console.error('Errore durante il caricamento dell\'icona:', error);
       setUploadError(error.message || 'Si è verificato un errore durante il caricamento dell\'icona.');
