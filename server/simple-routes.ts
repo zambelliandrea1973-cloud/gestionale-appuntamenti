@@ -245,13 +245,23 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post("/api/upload-app-icon", (req, res) => {
     try {
       const { iconData } = req.body;
-      if (iconData && iconData.startsWith('data:image/')) {
+      console.log("Ricevuto caricamento icona:", iconData ? iconData.substring(0, 50) + "..." : "nessun dato");
+      
+      if (iconData && (
+        iconData.startsWith('data:image/') || 
+        iconData.startsWith('http://') || 
+        iconData.startsWith('https://') ||
+        iconData.length > 10 // Accetta anche stringhe base64 senza prefix
+      )) {
         currentIcon = iconData;
+        console.log("Icona salvata con successo");
         res.json({ success: true, message: "Icona aggiornata con successo" });
       } else {
+        console.log("Formato icona rifiutato:", iconData ? typeof iconData : "undefined");
         res.status(400).json({ success: false, message: "Formato icona non valido" });
       }
     } catch (error) {
+      console.error("Errore caricamento icona:", error);
       res.status(500).json({ success: false, message: "Errore durante il caricamento dell'icona" });
     }
   });
