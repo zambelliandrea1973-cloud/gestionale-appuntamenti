@@ -3,31 +3,6 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-// Subscription Plans - Sistema abbonamenti semplificato
-export const subscriptionPlans = pgTable("subscription_plans", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(), // "trial", "base", "pro", "business", "staff"
-  displayName: text("display_name").notNull(),
-  price: decimal("price", { precision: 10, scale: 2 }), // €3.99, €6.99, €9.99
-  duration: text("duration").default("monthly"), // "trial", "monthly", "yearly", "lifetime"
-  features: json("features").$type<string[]>().default([]),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-// User Subscriptions - Collegamento utenti ai piani
-export const userSubscriptions = pgTable("user_subscriptions", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  planId: integer("plan_id").notNull(),
-  status: text("status").notNull(), // "active", "expired", "cancelled", "trial"
-  startDate: timestamp("start_date").defaultNow(),
-  endDate: timestamp("end_date"),
-  referralCode: text("referral_code"), // Codice referral per staff
-  sponsoredBy: integer("sponsored_by"), // ID utente che ha invitato (per referral)
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
 // Clients table schema - RISTRUTTURATO PER MULTI-TENANT
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
@@ -391,7 +366,26 @@ export const insertBetaFeedbackSchema = createInsertSchema(betaFeedback).omit({
   updatedAt: true,
 });
 
-// Payment System Tables - REMOVED DUPLICATE, USING MAIN DEFINITION ABOVE
+// Payment System Tables
+export const subscriptionPlans = pgTable("subscription_plans", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  price: integer("price").notNull(), // in cents
+  interval: text("interval").notNull().default("month"), // month, year
+  features: json("features"), // JSON array of features included in this plan
+  clientLimit: integer("client_limit"), // Maximum number of clients
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertSubscriptionPlanSchema = createInsertSchema(subscriptionPlans).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 
 export const subscriptions = pgTable("subscriptions", {
   id: serial("id").primaryKey(),
