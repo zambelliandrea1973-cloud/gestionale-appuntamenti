@@ -1,6 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { SimpleStorage } from "./simple-storage";
 import { z } from "zod";
 import {
   insertClientSchema,
@@ -262,6 +262,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/services", async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ message: "Non autenticato" });
+      }
+
+      const user = req.user as any;
+      const serviceData = { ...req.body, userId: user.id };
+      
+      const newService = await storage.createService(serviceData);
+      console.log(`Servizio creato per utente ${user.id}:`, newService);
+      
+      res.status(201).json(newService);
+    } catch (error) {
+      console.error("Errore creazione servizio:", error);
+      res.status(500).json({ message: "Errore durante la creazione del servizio" });
+    }
+  });
+
   // Endpoint per clienti (architettura lineare semplificata)
   app.get("/api/clients", async (req: Request, res: Response) => {
     try {
@@ -282,6 +301,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Errore recupero clienti:", error);
       res.json([]);
+    }
+  });
+
+  app.post("/api/clients", async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ message: "Non autenticato" });
+      }
+
+      const user = req.user as any;
+      const clientData = { ...req.body, ownerId: user.id };
+      
+      const newClient = await storage.createClient(clientData);
+      console.log(`Cliente creato per utente ${user.id}:`, newClient);
+      
+      res.status(201).json(newClient);
+    } catch (error) {
+      console.error("Errore creazione cliente:", error);
+      res.status(500).json({ message: "Errore durante la creazione del cliente" });
     }
   });
 

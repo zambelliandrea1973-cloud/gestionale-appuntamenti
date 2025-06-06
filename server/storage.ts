@@ -490,8 +490,13 @@ export class MemStorage implements IStorage {
     return this.services.get(id);
   }
   
-  async getServices(): Promise<Service[]> {
-    return Array.from(this.services.values());
+  async getServices(userId?: number): Promise<Service[]> {
+    const allServices = Array.from(this.services.values());
+    if (userId !== undefined) {
+      // Filtra per userId se specificato
+      return allServices.filter(service => (service as any).userId === userId);
+    }
+    return allServices;
   }
 
   async getServicesForUser(userId: number): Promise<Service[]> {
