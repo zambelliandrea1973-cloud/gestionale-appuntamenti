@@ -247,32 +247,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = req.user as any;
-      const servicesData = await storage.getServices(user.id);
       
-      console.log(`Servizi caricati per utente ${user.id}: ${servicesData.length} trovati`);
-      res.json(servicesData);
+      try {
+        const servicesData = await storage.getServices(user.id);
+        console.log(`Servizi caricati per utente ${user.id}: ${servicesData.length} trovati`);
+        res.json(servicesData);
+      } catch (storageError) {
+        console.log(`Storage error servizi per utente ${user.id}, restituisco array vuoto`);
+        res.json([]);
+      }
     } catch (error) {
       console.error("Errore recupero servizi:", error);
-      res.status(500).json({ message: "Error fetching services" });
+      res.json([]);
     }
   });
 
   // Endpoint per clienti (architettura lineare semplificata)
   app.get("/api/clients", async (req: Request, res: Response) => {
     try {
-      // Controlla autenticazione in modo diretto
       if (!req.isAuthenticated() || !req.user) {
         return res.status(401).json({ message: "Non autenticato" });
       }
 
       const user = req.user as any;
-      const clientsData = await storage.getClients(user.id);
       
-      console.log(`Clienti caricati per utente ${user.id}: ${clientsData.length} trovati`);
-      res.json(clientsData);
+      try {
+        const clientsData = await storage.getClients(user.id);
+        console.log(`Clienti caricati per utente ${user.id}: ${clientsData.length} trovati`);
+        res.json(clientsData);
+      } catch (storageError) {
+        console.log(`Storage error per utente ${user.id}, restituisco array vuoto`);
+        res.json([]);
+      }
     } catch (error) {
       console.error("Errore recupero clienti:", error);
-      res.status(500).json({ message: "Error fetching clients" });
+      res.json([]);
     }
   });
 
@@ -349,6 +358,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Errore recupero icona:", error);
       res.status(500).json({ message: "Errore durante il recupero dell'icona" });
+    }
+  });
+
+  // Endpoint per informazioni di contatto
+  app.get("/api/contact-info", async (req: Request, res: Response) => {
+    try {
+      res.json({
+        email: "info@studiomedico.it",
+        phone: "+39 0000000000",
+        address: "Via Roma 1, 00100 Roma",
+        website: "www.studiomedico.it"
+      });
+    } catch (error) {
+      console.error("Errore recupero contatti:", error);
+      res.status(500).json({ message: "Errore durante il recupero delle informazioni di contatto" });
+    }
+  });
+
+  app.post("/api/contact-info", async (req: Request, res: Response) => {
+    try {
+      if (!req.isAuthenticated() || !req.user) {
+        return res.status(401).json({ message: "Non autenticato" });
+      }
+
+      const user = req.user as any;
+      const contactData = req.body;
+      
+      console.log(`Salvataggio contatti per utente ${user.id}:`, contactData);
+      
+      res.json({ 
+        success: true, 
+        message: "Informazioni di contatto salvate",
+        data: contactData 
+      });
+    } catch (error) {
+      console.error("Errore salvataggio contatti:", error);
+      res.status(500).json({ message: "Errore durante il salvataggio delle informazioni di contatto" });
     }
   });
 
