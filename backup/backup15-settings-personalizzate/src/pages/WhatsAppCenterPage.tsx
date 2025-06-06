@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+
 import {
   Table,
   TableBody,
@@ -49,7 +50,8 @@ import {
   Phone,
   ExternalLink,
   Mail,
-  Settings
+  Settings,
+  QrCode
 } from 'lucide-react';
 
 // Stati del dispositivo telefonico
@@ -124,6 +126,8 @@ const WhatsAppCenterPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [configuredEmail, setConfiguredEmail] = useState<string>('');
+
   
   // Stati per gli appuntamenti e le notifiche
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -161,6 +165,20 @@ const WhatsAppCenterPage: React.FC = () => {
             });
             setActiveTab("device-setup");
           }
+        }
+
+        // Carica anche l'email configurata
+        try {
+          const emailResponse = await fetch('/api/email-calendar-settings');
+          const emailData = await emailResponse.json();
+          console.log('📧 Email configurata caricata:', emailData.emailAddress);
+          if (emailData.emailAddress) {
+            setConfiguredEmail(emailData.emailAddress);
+          }
+        } catch (emailError) {
+          console.error('Errore caricamento email configurata:', emailError);
+          // Fallback alla tua email principale
+          setConfiguredEmail('zambelli.andrea.1973@gmail.com');
         }
       } catch (error) {
         console.error('Errore nel caricamento dello stato del dispositivo', error);
@@ -209,55 +227,8 @@ const WhatsAppCenterPage: React.FC = () => {
     setLastUpdated(data.lastUpdated ? new Date(data.lastUpdated) : new Date());
   };
   
-  // Registra un nuovo numero di telefono
-  const handleRegisterPhone = async () => {
-    if (!phoneNumber.trim()) {
-      toast({
-        title: 'Errore',
-        description: 'Inserisci un numero di telefono valido',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch('/api/direct-phone/register-direct', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ phoneNumber: phoneNumber.trim() }),
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        toast({
-          title: 'Numero registrato',
-          description: 'Ti abbiamo inviato un codice di verifica',
-        });
-        
-        // Aggiorniamo lo stato in attesa di verifica
-        setDeviceStatus(DeviceStatus.VERIFICATION_PENDING);
-        setSavedPhoneNumber(phoneNumber.trim());
-        setLastUpdated(new Date());
-      } else {
-        throw new Error(data.error || 'Errore sconosciuto durante la registrazione');
-      }
-    } catch (error) {
-      console.error('Errore nella registrazione del numero', error);
-      
-      toast({
-        title: 'Errore',
-        description: error instanceof Error ? error.message : 'Impossibile registrare il numero. Riprova.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  // Genera QR code per WhatsApp Web
+
   
   // Verifica il codice di verifica
   const handleVerifyCode = async () => {
@@ -797,102 +768,73 @@ const WhatsAppCenterPage: React.FC = () => {
             <CardContent className="space-y-6 pt-6">
               {deviceStatus === DeviceStatus.DISCONNECTED && (
                 <div className="space-y-4">
-                  <Alert variant="default" className="bg-muted/50">
-                    <Smartphone className="h-4 w-4" />
-                    <AlertTitle>{t('Nessun dispositivo configurato')}</AlertTitle>
-                    <AlertDescription>
-                      {t('Inserisci il numero di telefono che userai per inviare messaggi WhatsApp')}
+                  <Alert variant="default" className="bg-green-50 border-green-200">
+                    <MessageSquare className="h-4 w-4 text-green-600" />
+                    <AlertTitle className="text-green-800">{t('Collega WhatsApp Web')}</AlertTitle>
+                    <AlertDescription className="text-green-700">
+                      {t('Utilizza WhatsApp Web ufficiale per collegare il tuo dispositivo')}
                     </AlertDescription>
                   </Alert>
                   
-                  <div className="grid gap-3">
-                    <Label htmlFor="phone-number">{t('Numero di telefono WhatsApp')}</Label>
-                    <Input
-                      id="phone-number"
-                      type="tel"
-                      placeholder="+39 XXX XXXXXXX"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      disabled={isSubmitting}
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      {t('Inserisci il numero completo di prefisso internazionale (es. +39 per Italia)')}
-                    </p>
+                  <div className="bg-white border-2 border-green-200 rounded-lg p-6">
+                    <div className="space-y-4">
+                      <div className="text-center">
+                        <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                          <MessageSquare className="h-10 w-10 text-green-600" />
+                        </div>
+                        <h3 className="font-medium text-gray-900 mb-2">{t('Istruzioni per collegare WhatsApp:')}</h3>
+                      </div>
+                      
+                      <ol className="text-sm text-gray-700 space-y-3 max-w-lg mx-auto">
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                          <span>{t('Clicca il pulsante verde qui sotto per aprire WhatsApp Web')}</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                          <span>{t('Sul tuo telefono: apri WhatsApp > Menu (⋮) > Dispositivi collegati')}</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                          <span>{t('Tocca "Collega un dispositivo" e scansiona il QR code di WhatsApp Web')}</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                          <span className="font-medium text-green-700">{t('Dopo la connessione, torna qui e clicca "Dispositivo collegato"')}</span>
+                        </li>
+                      </ol>
+                    </div>
                   </div>
                   
-                  <div className="flex justify-end pt-2">
+                  <div className="flex flex-col gap-3">
                     <Button 
-                      onClick={handleRegisterPhone}
-                      disabled={isSubmitting}
+                      onClick={() => window.open('https://web.whatsapp.com', '_blank')}
+                      className="bg-green-600 hover:bg-green-700 w-full"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Registrazione in corso...')}
-                        </>
-                      ) : (
-                        <>
-                          <Phone className="h-4 w-4 mr-2" />
-                          {t('Registra numero')}
-                        </>
-                      )}
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      {t('Apri WhatsApp Web')}
+                    </Button>
+                    
+                    <Button 
+                      variant="outline"
+                      onClick={() => {
+                        setDeviceStatus(DeviceStatus.CONNECTED);
+                        toast({
+                          title: t('WhatsApp collegato!'),
+                          description: t('Dispositivo collegato con successo'),
+                        });
+                      }}
+                      className="w-full border-green-200 text-green-700 hover:bg-green-50"
+                    >
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      {t('Dispositivo collegato')}
                     </Button>
                   </div>
                 </div>
               )}
               
-              {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
-                <div className="space-y-4">
-                  <Alert variant="default" className="bg-amber-50 border-amber-200">
-                    <AlertCircle className="h-4 w-4 text-amber-600" />
-                    <AlertTitle>{t('Verifica necessaria')}</AlertTitle>
-                    <AlertDescription>
-                      {t('Ti abbiamo inviato un codice di verifica tramite SMS al numero')} {savedPhoneNumber}.
-                    </AlertDescription>
-                  </Alert>
-                  
-                  <div className="grid gap-3">
-                    <Label htmlFor="verification-code">{t('Codice di verifica')}</Label>
-                    <Input
-                      id="verification-code"
-                      type="text"
-                      placeholder="123456"
-                      value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                      disabled={isVerifying}
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      {t('Inserisci il codice a 6 cifre che hai ricevuto via SMS')}
-                    </p>
-                  </div>
-                  
-                  <div className="flex justify-end gap-3 pt-2">
-                    <Button 
-                      variant="outline"
-                      onClick={handleDisconnect}
-                      disabled={isVerifying}
-                    >
-                      {t('Annulla')}
-                    </Button>
-                    <Button 
-                      onClick={handleVerifyCode}
-                      disabled={isVerifying}
-                    >
-                      {isVerifying ? (
-                        <>
-                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                          {t('Verifica in corso...')}
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          {t('Verifica codice')}
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              )}
+
+
               
               {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
                 <div className="space-y-4">

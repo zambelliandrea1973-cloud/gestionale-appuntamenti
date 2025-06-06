@@ -1,24 +1,27 @@
-import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, date } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, time, decimal, varchar, json, date, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-// Clients table schema
+// Clients table schema - RISTRUTTURATO PER MULTI-TENANT
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  firstName: text("firstName").notNull(),
+  lastName: text("lastName").notNull(),
   phone: text("phone").notNull(),
   email: text("email"),
   address: text("address"),
   birthday: text("birthday"),
   notes: text("notes"),
-  isFrequent: boolean("is_frequent").default(false),
-  medicalNotes: text("medical_notes"),
+  isFrequent: boolean("isFrequent").default(false),
+  medicalNotes: text("medicalNotes"),
   allergies: text("allergies"),
-  ownerId: integer("owner_id"), // ID dell'account professionale che ha registrato questo cliente
-  createdAt: timestamp("created_at").defaultNow(),
-  hasConsent: boolean("has_consent").default(false),
+  createdAt: timestamp("createdAt").defaultNow(),
+  hasConsent: boolean("hasConsent").default(false),
+  ownerId: integer("ownerId"), // ID dell'utente che ha creato questo cliente
+  assignmentCode: text("assignmentCode"), // Codice usato per assegnare il cliente all'account
+  uniqueCode: text("uniqueCode"), // Codice univoco per identificare il cliente
 });
 
 export const insertClientSchema = createInsertSchema(clients).omit({
@@ -26,9 +29,10 @@ export const insertClientSchema = createInsertSchema(clients).omit({
   createdAt: true,
 });
 
-// Services table schema
+// Services table schema - RISTRUTTURATO PER MULTI-TENANT
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   name: text("name").notNull(),
   duration: integer("duration").notNull(), // in minutes
   color: text("color").default("#3f51b5"),
@@ -39,9 +43,10 @@ export const insertServiceSchema = createInsertSchema(services).omit({
   id: true,
 });
 
-// Appointments table schema
+// Appointments table schema - RISTRUTTURATO PER MULTI-TENANT
 export const appointments = pgTable("appointments", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   clientId: integer("client_id").notNull(),
   serviceId: integer("service_id").notNull(),
   date: text("date").notNull(), // YYYY-MM-DD format
@@ -63,9 +68,10 @@ export const insertAppointmentSchema = createInsertSchema(appointments).omit({
   createdAt: true,
 });
 
-// Consent documents table schema
+// Consent documents table schema - RISTRUTTURATO PER MULTI-TENANT
 export const consents = pgTable("consents", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   clientId: integer("client_id").notNull(),
   consentText: text("consent_text"),
   consentProvided: boolean("consent_provided").default(true),
@@ -81,9 +87,10 @@ export const insertConsentSchema = createInsertSchema(consents).omit({
   consentDate: z.string().optional(),
 });
 
-// Invoices table schema
+// Invoices table schema - RISTRUTTURATO PER MULTI-TENANT
 export const invoices = pgTable("invoices", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   invoiceNumber: text("invoice_number").notNull(),
   clientId: integer("client_id").notNull(),
   totalAmount: integer("total_amount").notNull(), // in cents
@@ -100,9 +107,10 @@ export const insertInvoiceSchema = createInsertSchema(invoices).omit({
   createdAt: true,
 });
 
-// Invoice items table schema
+// Invoice items table schema - RISTRUTTURATO PER MULTI-TENANT
 export const invoiceItems = pgTable("invoice_items", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   invoiceId: integer("invoice_id").notNull(),
   description: text("description").notNull(),
   quantity: integer("quantity").notNull().default(1),
@@ -115,9 +123,10 @@ export const insertInvoiceItemSchema = createInsertSchema(invoiceItems).omit({
   id: true,
 });
 
-// Payments table schema
+// Payments table schema - RISTRUTTURATO PER MULTI-TENANT
 export const payments = pgTable("payments", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   invoiceId: integer("invoice_id").notNull(),
   amount: integer("amount").notNull(), // in cents
   paymentDate: text("payment_date").notNull(), // YYYY-MM-DD format
@@ -141,8 +150,8 @@ export const users = pgTable("users", {
   role: text("role").default("staff").notNull(), // admin, staff, client
   clientId: integer("client_id"), // Solo per utenti di tipo client
   type: text("type").default("staff").notNull(), // staff, client
-  referralCode: text("referral_code").unique(), // Codice univoco per invitare nuovi utenti
-  referredBy: integer("referred_by"), // ID dell'utente che ha invitato questo utente
+  assignmentCode: text("assignment_code"), // Codice per assegnare clienti a questo account
+  referralCode: text("referral_code"), // Codice referral per commissioni tra professionisti
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -443,18 +452,34 @@ export const insertPaymentTransactionSchema = createInsertSchema(paymentTransact
   updatedAt: true,
 });
 
-// User Settings table - SOLO per campi non migrati ai database separati
+// User Settings table - Impostazioni personalizzate per ogni utente
 export const userSettings = pgTable("user_settings", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().unique(), // Un record per utente
   
-  // SOLO campi che NON sono stati migrati ai database separati
-  logoUrl: text("logo_url"), // URL del logo personalizzato
+  // Informazioni Business
+  businessName: text("business_name"),
+  description: text("description"),
+  website: text("website"),
+  address: text("address"),
+  
+  // Contatti
+  contactEmail: text("contact_email"),
+  contactPhone: text("contact_phone"),
+  contactPhone2: text("contact_phone2"),
   
   // Social Media
   instagramHandle: text("instagram_handle"),
   facebookPage: text("facebook_page"),
   linkedinProfile: text("linkedin_profile"),
+  
+  // Personalizzazione Aspetto
+  logoUrl: text("logo_url"), // URL del logo personalizzato
+  appIconPath: text("app_icon_path"), // Percorso icona app personalizzata
+  primaryColor: text("primary_color").default("#3f51b5"),
+  secondaryColor: text("secondary_color").default("#ffffff"),
+  theme: text("theme").default("professional"), // professional, vibrant, tint
+  appearance: text("appearance").default("light"), // light, dark, system
   
   // Configurazioni Email
   emailProvider: text("email_provider"), // sendgrid, gmail, outlook, etc.
@@ -463,33 +488,43 @@ export const userSettings = pgTable("user_settings", {
   emailFromAddress: text("email_from_address"),
   emailSignature: text("email_signature"),
   
-  // Configurazioni WhatsApp
+  // Configurazioni SMS/WhatsApp
+  smsEnabled: boolean("sms_enabled").default(false),
   whatsappEnabled: boolean("whatsapp_enabled").default(false),
   whatsappNumber: text("whatsapp_number"),
   whatsappApiKey: text("whatsapp_api_key"),
   whatsappTemplate: text("whatsapp_template"),
   
-  // Impostazioni appuntamenti
+  // Impostazioni Appuntamenti
   workingHoursStart: time("working_hours_start").default("09:00"),
   workingHoursEnd: time("working_hours_end").default("18:00"),
-  workingDays: json("working_days").default(["monday", "tuesday", "wednesday", "thursday", "friday"]),
+  workingDays: json("working_days").$type<string[]>().default(["monday", "tuesday", "wednesday", "thursday", "friday"]),
   timeSlotDuration: integer("time_slot_duration").default(30), // minuti
   
-  // Impostazioni notifiche
+  // Impostazioni Notifiche
   reminderEnabled: boolean("reminder_enabled").default(true),
   reminderHoursBefore: integer("reminder_hours_before").default(24),
-  confirmationEnabled: boolean("confirmation_enabled").default(true),
+  emailNotificationsEnabled: boolean("email_notifications_enabled").default(true),
+  smsNotificationsEnabled: boolean("sms_notifications_enabled").default(false),
   
-  // Impostazioni fatturazione
+  // Impostazioni Calendario
+  calendarIntegrationEnabled: boolean("calendar_integration_enabled").default(false),
+  defaultCalendarId: text("default_calendar_id"),
+  timezoneSettings: text("timezone_settings").default("Europe/Rome"),
+  
+  // Impostazioni Fatturazione
   invoicePrefix: text("invoice_prefix").default("INV"),
-  taxRate: decimal("tax_rate", { precision: 5, scale: 2 }).default("22.00"), // IVA Italia default
-  currency: text("currency").default("EUR"),
+  invoiceCounter: integer("invoice_counter").default(1),
+  taxRate: decimal("tax_rate").default("22.00"), // IVA predefinita
+  paymentTerms: text("payment_terms").default("30 giorni"),
   
-  // Metadata personalizzate
-  customFields: json("custom_fields"),
-  preferences: json("preferences"),
+  // Impostazioni Privacy
+  gdprCompliant: boolean("gdpr_compliant").default(true),
+  consentRequired: boolean("consent_required").default(true),
+  dataRetentionMonths: integer("data_retention_months").default(24),
   
-  // Timestamps
+  // Metadata e Timestamps
+  preferences: json("preferences"), // Preferenze aggiuntive in formato JSON
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -826,10 +861,11 @@ export const insertReminderTemplateSchema = createInsertSchema(reminderTemplates
 export type ReminderTemplate = typeof reminderTemplates.$inferSelect;
 export type InsertReminderTemplate = z.infer<typeof insertReminderTemplateSchema>;
 
-// Impostazioni generali dell'applicazione
+// Impostazioni generali dell'applicazione - RISTRUTTURATO PER MULTI-TENANT
 export const appSettings = pgTable("app_settings", {
   id: serial("id").primaryKey(),
-  key: text("key").notNull().unique(),
+  userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
+  key: text("key").notNull(),
   value: text("value").notNull(),
   description: text("description"),
   category: text("category").default("general"),
@@ -883,6 +919,7 @@ export const licenses = pgTable("licenses", {
   activatedAt: timestamp("activated_at"),
   expiresAt: timestamp("expires_at"),
   userId: integer("user_id"), // Collegamento con l'utente proprietario della licenza
+  sponsoredBy: integer("sponsored_by"), // ID dello staff che ha sponsorizzato questa licenza
 });
 
 export const insertLicenseSchema = createInsertSchema(licenses).omit({
@@ -893,114 +930,134 @@ export const insertLicenseSchema = createInsertSchema(licenses).omit({
 export type License = typeof licenses.$inferSelect;
 export type InsertLicense = z.infer<typeof insertLicenseSchema>;
 
+// Staff Commissions table schema (Sistema Referral)
+// Tabella referral commissions (esistente nel database)
+export const referralCommissions = pgTable("referral_commissions", {
+  id: serial("id").primaryKey(),
+  referrerId: integer("referrer_id").notNull(), // Staff che ha fatto il referral
+  referredId: integer("referred_id").notNull(), // Utente sponsorizzato
+  subscriptionId: integer("subscription_id"), // ID sottoscrizione
+  monthlyAmount: integer("monthly_amount").default(100), // Commissione mensile in centesimi
+  status: text("status").default("active"), // active, inactive, cancelled
+  startDate: timestamp("start_date").defaultNow(),
+  endDate: timestamp("end_date"),
+  lastPaidPeriod: timestamp("last_paid_period"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Manteniamo anche la tabella staff_commissions per compatibilità
+export const staffCommissions = pgTable("staff_commissions", {
+  id: serial("id").primaryKey(),
+  staffId: integer("staff_id").notNull(), // ID dello staff che riceve la commissione
+  licenseId: integer("license_id").notNull(), // ID della licenza sponsorizzata
+  commissionAmount: integer("commission_amount").default(100), // Commissione in centesimi (1€ = 100)
+  isPaid: boolean("is_paid").default(false),
+  paidAt: timestamp("paid_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  notes: text("notes"), // Note per il pagamento
+});
+
+export const insertStaffCommissionSchema = createInsertSchema(staffCommissions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type StaffCommission = typeof staffCommissions.$inferSelect;
+export type InsertStaffCommission = z.infer<typeof insertStaffCommissionSchema>;
+
+// Onboarding Progress table schema
+export const onboardingProgress = pgTable("onboarding_progress", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").references(() => users.id).notNull(),
+  currentStep: integer("currentStep").default(0).notNull(),
+  completedSteps: text("completedSteps").array().default([]),
+  businessType: text("businessType"), // e.g., "medical", "beauty", "consulting"
+  businessName: text("businessName"),
+  primaryServices: text("primaryServices").array().default([]),
+  workingHours: text("workingHours"), // JSON string for complex schedule
+  appointmentDuration: integer("appointmentDuration").default(60), // minutes
+  clientManagementNeeds: text("clientManagementNeeds").array().default([]),
+  communicationPreferences: text("communicationPreferences").array().default([]),
+  integrationGoals: text("integrationGoals").array().default([]),
+  aiRecommendations: text("aiRecommendations"), // JSON string of AI suggestions
+  isCompleted: boolean("isCompleted").default(false),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+});
+
+export const insertOnboardingProgressSchema = createInsertSchema(onboardingProgress).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type OnboardingProgress = typeof onboardingProgress.$inferSelect;
+export type InsertOnboardingProgress = z.infer<typeof insertOnboardingProgressSchema>;
+
 // Relazione tra licenses e users
-export const licensesRelations = relations(licenses, ({ one }) => ({
+export const licensesRelations = relations(licenses, ({ one, many }) => ({
   user: one(users, {
     fields: [licenses.userId],
     references: [users.id],
     relationName: "user_licenses",
   }),
+  sponsoredByStaff: one(users, {
+    fields: [licenses.sponsoredBy],
+    references: [users.id],
+    relationName: "sponsored_licenses",
+  }),
+  commissions: many(staffCommissions, {
+    relationName: "license_commissions",
+  }),
 }));
 
-// Tabella per i pagamenti di referral agli utenti staff
-export const referralPayments = pgTable("referral_payments", {
+// Relazioni per Staff Commissions
+export const staffCommissionsRelations = relations(staffCommissions, ({ one }) => ({
+  staff: one(users, {
+    fields: [staffCommissions.staffId],
+    references: [users.id],
+    relationName: "staff_commissions",
+  }),
+  license: one(licenses, {
+    fields: [staffCommissions.licenseId],
+    references: [licenses.id],
+    relationName: "license_commissions",
+  }),
+}));
+
+// Company Name Settings - Isolamento completo per utente
+export const companyNameSettings = pgTable("company_name_settings", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(), // L'utente staff che riceve il pagamento
-  amount: integer("amount").notNull(), // Importo in centesimi
-  status: text("status").default("pending").notNull(), // pending, processed, failed
-  paymentDate: timestamp("payment_date"), // Data in cui è stato effettuato il pagamento
-  processingNote: text("processing_note"), // Note sul pagamento/errori
-  period: text("period").notNull(), // Periodo per cui si effettua il pagamento (es: "2025-05")
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  name: text("name").notNull().default(""),
+  fontSize: integer("font_size").notNull().default(24),
+  fontFamily: text("font_family").notNull().default("Arial"),
+  fontWeight: text("font_weight").notNull().default("normal"),
+  fontStyle: text("font_style").notNull().default("normal"),
+  textDecoration: text("text_decoration").notNull().default("none"),
+  color: text("color").notNull().default("#000000"),
+  enabled: boolean("enabled").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const insertReferralPaymentSchema = createInsertSchema(referralPayments).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export type CompanyNameSettings = typeof companyNameSettings.$inferSelect;
+export type InsertCompanyNameSettings = typeof companyNameSettings.$inferInsert;
 
-export type ReferralPayment = typeof referralPayments.$inferSelect;
-export type InsertReferralPayment = z.infer<typeof insertReferralPaymentSchema>;
-
-// Tabella per i dati bancari degli utenti
-export const bankAccounts = pgTable("bank_accounts", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().unique(), // L'utente a cui appartiene il conto
-  bankName: text("bank_name").notNull(), // Nome della banca
-  accountHolder: text("account_holder").notNull(), // Intestatario del conto
-  iban: text("iban").notNull(), // IBAN
-  swift: text("swift"), // Codice SWIFT/BIC
-  isDefault: boolean("is_default").default(true), // Se è il conto predefinito
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertBankAccountSchema = createInsertSchema(bankAccounts).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type BankAccount = typeof bankAccounts.$inferSelect;
-export type InsertBankAccount = z.infer<typeof insertBankAccountSchema>;
-
-// Tabella per tracciare le commissioni maturate sui referral
-export const referralCommissions = pgTable("referral_commissions", {
-  id: serial("id").primaryKey(),
-  referrerId: integer("referrer_id").notNull(), // ID dell'utente che ha fatto il referral
-  referredId: integer("referred_id").notNull(), // ID dell'utente invitato
-  subscriptionId: integer("subscription_id").notNull(), // ID dell'abbonamento associato
-  monthlyAmount: integer("monthly_amount").notNull(), // Importo mensile della commissione in centesimi
-  status: text("status").default("active").notNull(), // active o inactive
-  startDate: timestamp("start_date").defaultNow().notNull(), // Da quando inizia a maturare la commissione
-  endDate: timestamp("end_date"), // Quando è terminata (null se ancora attiva)
-  lastPaidPeriod: text("last_paid_period"), // Ultimo periodo pagato (es: "2025-05")
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertReferralCommissionSchema = createInsertSchema(referralCommissions).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type ReferralCommission = typeof referralCommissions.$inferSelect;
-export type InsertReferralCommission = z.infer<typeof insertReferralCommissionSchema>;
-
-// Relazioni per le nuove tabelle
-export const bankAccountsRelations = relations(bankAccounts, ({ one }) => ({
+// Company Name Settings Relations
+export const companyNameSettingsRelations = relations(companyNameSettings, ({ one }) => ({
   user: one(users, {
-    fields: [bankAccounts.userId],
+    fields: [companyNameSettings.userId],
     references: [users.id],
-    relationName: "user_bank_accounts",
   }),
 }));
 
-export const referralPaymentsRelations = relations(referralPayments, ({ one }) => ({
+// Onboarding Progress Relations
+export const onboardingProgressRelations = relations(onboardingProgress, ({ one }) => ({
   user: one(users, {
-    fields: [referralPayments.userId],
+    fields: [onboardingProgress.userId],
     references: [users.id],
-    relationName: "user_referral_payments",
-  }),
-}));
-
-export const referralCommissionsRelations = relations(referralCommissions, ({ one }) => ({
-  referrer: one(users, {
-    fields: [referralCommissions.referrerId],
-    references: [users.id],
-    relationName: "referrer_commissions",
-  }),
-  referred: one(users, {
-    fields: [referralCommissions.referredId],
-    references: [users.id],
-    relationName: "referred_commissions",
-  }),
-  subscription: one(subscriptions, {
-    fields: [referralCommissions.subscriptionId],
-    references: [subscriptions.id],
-    relationName: "subscription_commissions",
   }),
 }));

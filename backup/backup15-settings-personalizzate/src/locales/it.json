@@ -13,7 +13,12 @@
     "confirmDeleteTitle": "Elimina appuntamento"
   },
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "notifications": "Notifiche",
+    "referral": "Referral",
+    "aiSetup": "Setup AI",
+    "staff": "Staff",
+    "payments": "Pagamenti"
   },
   "sidebar": {
     "clients": "Clienti",
@@ -33,6 +38,11 @@
     "no": "Norvegese",
     "ro": "Rumeno",
     "select": "Seleziona lingua"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
   },
   "home": {
     "calendar": {
@@ -111,6 +121,12 @@
   },
   "clients": {
     "title": "Clienti",
+    "subtitle": "Gestisci tutti i tuoi clienti",
+    "total": "clienti",
+    "searchPlaceholder": "Cerca clienti per nome, telefono o email...",
+    "allClients": "Tutti i clienti",
+    "frequentClients": "Clienti frequenti",
+    "noConsent": "Senza consenso",
     "description": "Gestisci l'anagrafica dei clienti",
     "subDescription": "Aggiungi, modifica e visualizza i dati dei clienti, compresi i dati anagrafici e medici",
     "goTo": "Gestisci Clienti",
@@ -136,6 +152,21 @@
       "total": "Totale clienti",
       "frequent": "Clienti frequenti",
       "noConsent": "Senza consenso"
+    },
+    "loading": "Caricamento clienti...",
+    "loadingAccessStatus": "Verifica accesso cliente...",
+    "showDetails": "Dettagli",
+    "showAppointments": "Appuntamenti",
+    "clientAccess": "Accesso Cliente",
+    "qrGenerated": "QR generato",
+    "qrNotGenerated": "QR non generato",
+    "generateQR": "Genera QR",
+    "manageClient": "Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
     "table": {
       "name": "Nome",

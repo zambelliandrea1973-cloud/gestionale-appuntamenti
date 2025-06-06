@@ -7,18 +7,59 @@ import { isAdmin } from "../auth";
  * Configura le route per la gestione degli utenti staff
  */
 export default function setupStaffRoutes(app: Express) {
+  // Ottieni la lista di tutti gli utenti staff (solo per admin) - endpoint alternativo
+  app.get("/api/staff/users", isAdmin, async (req: Request, res: Response) => {
+    try {
+      // Recupera tutti gli utenti staff dal database
+      const staffUsers = await storage.getAllStaffUsers();
+      
+      // Rimuovi le password e aggiungi i codici referral
+      const safeUsers = staffUsers.map(user => {
+        const { password, ...userWithoutPassword } = user;
+        
+        // Genera il codice referral per ogni staff
+        const referralCode = user.id === 14 ? "BUS14" : 
+                           user.id === 16 ? "FAV16" : 
+                           user.id === 8 ? "ZAM08" : 
+                           `REF${user.id}`;
+        
+        return {
+          ...userWithoutPassword,
+          referralCode: referralCode
+        };
+      });
+      
+      console.log(`📋 STAFF USERS CON CODICI REFERRAL: ${safeUsers.length} account preparati`);
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("Errore durante il recupero degli utenti staff:", error);
+      res.status(500).json({ message: "Si è verificato un errore durante il recupero degli utenti staff" });
+    }
+  });
+
   // Ottieni la lista di tutti gli utenti staff (solo per admin)
   app.get("/api/staff/list", isAdmin, async (req: Request, res: Response) => {
     try {
       // Recupera tutti gli utenti staff dal database
       const staffUsers = await storage.getAllStaffUsers();
       
-      // Rimuovi le password dagli oggetti utente
+      // Rimuovi le password e aggiungi i codici referral
       const safeUsers = staffUsers.map(user => {
         const { password, ...userWithoutPassword } = user;
-        return userWithoutPassword;
+        
+        // Genera il codice referral per ogni staff
+        const referralCode = user.id === 14 ? "BUS14" : 
+                           user.id === 16 ? "FAV16" : 
+                           user.id === 8 ? "ZAM08" : 
+                           `REF${user.id}`;
+        
+        return {
+          ...userWithoutPassword,
+          referralCode: referralCode
+        };
       });
       
+      console.log(`📋 STAFF LIST CON CODICI REFERRAL: ${safeUsers.length} account preparati`);
       res.json(safeUsers);
     } catch (error) {
       console.error("Errore durante il recupero degli utenti staff:", error);

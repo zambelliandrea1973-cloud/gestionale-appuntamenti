@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
 // Componente per l'icona dell'app
 function AppIcon() {
@@ -76,6 +77,7 @@ function AppIcon() {
 
 // Componente per il nome aziendale
 function CompanyName() {
+  const { user } = useUserWithLicense();
   const [settings, setSettings] = useState<{
     name: string;
     fontSize: number;
@@ -84,34 +86,48 @@ function CompanyName() {
     color: string;
     enabled: boolean;
   } | null>(null);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // 🚀 USA IL NUOVO SISTEMA DATABASE SEPARATI (STESSO DI IMPOSTAZIONI)
-    const fetchCompanyName = async () => {
+    const fetchCompanyNameSettings = async () => {
+      if (!user?.id) {
+        console.log("⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento");
+        setLoading(false);
+        return;
+      }
+      
       try {
-        const response = await apiRequest("GET", "/api/client-app-info");
-        const data = await response.json();
+        setLoading(true);
+        console.log(`🏢 FRONTEND CompanyName: Caricamento impostazioni per utente ${user.id}`);
+        const response = await apiRequest("GET", "/api/company-name-settings");
+        console.log(`🏢 FRONTEND CompanyName: Risposta API status: ${response.status}`);
         
-        if (data.appName) {
-          setSettings({
-            name: data.appName,
-            fontSize: 24,
-            fontFamily: 'Arial',
-            fontStyle: 'normal',
-            color: '#000000',
-            enabled: true
-          });
-          console.log(`✅ HOME: Nome aziendale caricato dal database separato: "${data.appName}"`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(`✅ FRONTEND CompanyName: Impostazioni caricate:`, data);
+          setSettings(data);
+        } else if (response.status === 404) {
+          console.log(`ℹ️ FRONTEND CompanyName: Nessuna impostazione trovata per utente ${user.id}`);
+          setSettings(null);
+        } else {
+          console.log(`❌ FRONTEND CompanyName: Errore API status ${response.status}`);
         }
       } catch (error) {
-        console.error('Errore nel caricamento del nome aziendale:', error);
+        console.error("❌ FRONTEND CompanyName: Errore nel caricamento:", error);
+      } finally {
+        setLoading(false);
       }
     };
     
-    fetchCompanyName();
-  }, []);
+    fetchCompanyNameSettings();
+  }, [user?.id]);
+  
+  if (loading) {
+    return <div className="text-center text-xs text-muted-foreground mt-2">Caricamento nome...</div>;
+  }
   
   if (!settings || !settings.enabled || !settings.name) {
+    console.log("🏢 FRONTEND CompanyName: Non mostro nome - settings:", settings);
     return null; // Non mostrare nulla se non c'è un nome aziendale o se è disabilitato
   }
   

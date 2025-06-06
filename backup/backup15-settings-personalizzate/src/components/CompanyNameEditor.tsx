@@ -48,29 +48,20 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      console.log('🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ');
-      // USA L'API CHE FUNZIONA GIÀ PER I DATABASE SEPARATI - CON CACHE BUSTING
-      const response = await fetch(`/api/company-settings-v2?t=${Date.now()}`, {
+      const response = await fetch('/api/company-name-settings', {
         method: 'GET',
-        credentials: 'include'
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'x-device-type': 'desktop'
+        }
       });
-      console.log('🎯 FRONTEND: Response status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
-        console.log('🔍 DATI COMPLETI RICEVUTI:', JSON.stringify(data, null, 2));
-        
-        setSettings({
-          name: data.businessName || '',
-          fontSize: data.fontSize || 24,
-          fontFamily: data.fontFamily || 'Arial',
-          fontStyle: data.fontStyle || 'normal',
-          color: data.color || '#000000',
-          enabled: data.enabled !== false
-        });
-        console.log(`✅ TUTTE LE IMPOSTAZIONI CARICATE:`, data);
+        console.log('🏢 Impostazioni nome aziendale caricate:', data);
+        setSettings(prev => ({ ...prev, ...data }));
       } else {
-        console.error('Errore nel caricamento delle impostazioni');
+        console.log('Nessuna impostazione nome aziendale trovata, uso predefinite');
       }
     } catch (error) {
       console.error('Errore durante il recupero delle impostazioni del nome aziendale:', error);
@@ -85,53 +76,32 @@ export default function CompanyNameEditor() {
     setSaveError(null);
     
     try {
-      // STRATEGIA IBRIDA: Nome nel database + Stili nel localStorage
-      console.log(`🔥 SALVATAGGIO IBRIDO INIZIATO!`);
+      console.log('🏢 Salvataggio impostazioni nome aziendale:', settings);
       
-      // 1. Nome aziendale nel database (funziona perfettamente)
-      const nameResponse = await fetch('/api/company-settings-v2', {
+      const response = await fetch('/api/company-name-settings', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ businessName: settings.name })
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        body: JSON.stringify(settings)
       });
-      console.log(`✅ 1/2 Nome salvato nel database`);
-      
-      // 2. Stili nel localStorage (sempre funziona)
-      const styleSettings = {
-        fontSize: settings.fontSize,
-        fontFamily: settings.fontFamily,
-        fontStyle: settings.fontStyle,
-        color: settings.color,
-        enabled: settings.enabled,
-        userId: settings.userId
-      };
-      localStorage.setItem(`userStyles_${settings.userId}`, JSON.stringify(styleSettings));
-      console.log(`✅ 2/2 Stili salvati nel localStorage - TUTTO COMPLETATO!`);
-      
-      const response = nameResponse; // Uso la risposta del database per i controlli
-      
-      if (response.ok) {
-        const result = await response.json();
-        console.log(`✅ NOME SALVATO SEPARATAMENTE: "${settings.name}" per utente ${result.userId}`);
-        setSaveSuccess(true);
-        
-        // 🔄 REFRESH DELLA HOME PAGE per mostrare immediatamente il nuovo nome
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        
-        toast({
-          title: "Impostazioni salvate",
-          description: "Le impostazioni del nome aziendale sono state salvate con successo.",
-          variant: "default",
-        });
-      } else {
-        const errorText = await response.text();
-        console.error('Errore risposta server:', errorText);
-        throw new Error(`Errore nel salvataggio: ${response.status}`);
+
+      if (!response.ok) {
+        throw new Error('Errore durante il salvataggio delle impostazioni');
       }
+      
+      const result = await response.json();
+      console.log('🏢 Impostazioni nome aziendale salvate:', result);
+      
+      setSaveSuccess(true);
+      toast({
+        title: "Impostazioni salvate",
+        description: "Le impostazioni del nome aziendale sono state salvate con successo.",
+        variant: "default",
+      });
     } catch (error: any) {
+      console.error('Errore nel salvataggio impostazioni nome aziendale:', error);
       setSaveError(error.message || 'Si è verificato un errore durante il salvataggio');
       toast({
         title: "Errore",
@@ -362,49 +332,9 @@ export default function CompanyNameEditor() {
               </div>
             </div>
 
-            <div className="pt-4 space-y-3">
-              <Button onClick={saveSettings} className="w-full bg-green-600 hover:bg-green-700" disabled={!settings.enabled}>
-                🔥 PULSANTE VERDE
-              </Button>
-              
-              <Button 
-                onClick={async () => {
-                  try {
-                    console.log("🎯 SUPER-SALVATAGGIO INIZIATO!");
-                    
-                    // 1. SALVA TUTTE LE IMPOSTAZIONI
-                    await saveSettings();
-                    console.log("✅ Nome aziendale salvato!");
-                    
-                    // 2. RICARICA I DATI AGGIORNATI CON CACHE BUSTING
-                    await fetchSettings();
-                    console.log("✅ Dati ricaricati!");
-                    
-                    // 3. FORZA AGGIORNAMENTO INTERFACCIA
-                    window.location.reload();
-                    
-                    // 3. MOSTRA CONFERMA DETTAGLIATA
-                    toast({
-                      title: "🎉 SUPER-SALVATAGGIO COMPLETATO!",
-                      description: `✅ Nome: "${settings.name}"\n✅ Font: ${settings.fontFamily}\n✅ Dimensione: ${settings.fontSize}px\n✅ Colore: ${settings.color}\n✅ Tutti i dati aggiornati!`,
-                      duration: 5000
-                    });
-                    
-                    alert(`🎉 SUPER-SALVATAGGIO COMPLETATO!\n\n✅ Nome: "${settings.name}"\n✅ Font: ${settings.fontFamily}\n✅ Dimensione: ${settings.fontSize}px\n✅ Colore: ${settings.color}\n✅ Tutti i dati aggiornati!`);
-                    
-                  } catch (error) {
-                    console.error("❌ ERRORE:", error);
-                    toast({
-                      title: "❌ Errore nel super-salvataggio",
-                      description: error.message,
-                      variant: "destructive"
-                    });
-                  }
-                }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
-                disabled={!settings.enabled}
-              >
-                🎉 SUPER-SALVA TUTTO E AGGIORNA
+            <div className="pt-4">
+              <Button onClick={saveSettings} className="w-full" disabled={!settings.enabled}>
+                Salva impostazioni
               </Button>
             </div>
           </div>

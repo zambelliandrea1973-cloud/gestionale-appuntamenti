@@ -6,6 +6,7 @@ import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
 import { BetaStatusChecker } from "./components/BetaStatusChecker";
 import { UserLicenseProvider, useUserWithLicense } from "./hooks/use-user-with-license";
+import { TenantContextProvider } from "./hooks/use-tenant-context";
 import { useEffect } from "react";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
@@ -13,7 +14,6 @@ import Clients from "./pages/Clients";
 import Reports from "./pages/Reports";
 import Invoices from "./pages/Invoices";
 import Settings from "./pages/Settings";
-import UserSettings from "./pages/UserSettings";
 import EmailSettings from "./pages/EmailSettings";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";
@@ -27,10 +27,11 @@ import ClientAppointments from "./pages/ClientAppointments";
 import BetaPage from "./pages/BetaPage";
 import BetaAdmin from "./pages/BetaAdmin";
 import PaymentAdmin from "./pages/PaymentAdmin";
-import StaffManagementPage from "./pages/StaffManagementPage";
+import StaffManagementPageFixed from "./pages/StaffManagementPageFixed";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
+import CustomerLogin from "./pages/CustomerLogin";
 import NotificationsPage from "./pages/NotificationsPage";
 import PhoneDeviceSetupPage from "./pages/PhoneDeviceSetupPage";
 import SimplePhoneSetup from "./pages/SimplePhoneSetup";
@@ -42,7 +43,9 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
-import ReferralPage from "./pages/ReferralPage";
+import ReferralCommissionsPage from "./pages/ReferralCommissionsPage";
+import BankingSettingsPage from "./pages/BankingSettingsPage";
+import OnboardingWizard from "./pages/OnboardingWizard";
 
 import NotFound from "./pages/not-found";
 import TimezoneDetector from "./components/TimezoneDetector";
@@ -84,7 +87,7 @@ function AppRoutes() {
     // Percorsi che sono sempre accessibili anche senza autenticazione
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', '/client-login', 
-      '/login', '/staff-login', '/register', '/client-area', 
+      '/login', '/staff-login', '/customer-login', '/register', '/client-area', 
       '/consent', '/'
     ];
     
@@ -96,6 +99,8 @@ function AppRoutes() {
       if (!user && !publicPaths.includes(location)) {
         console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
+      } else if (user && !publicPaths.includes(location)) {
+
       }
       
       // Non facciamo altri reindirizzamenti automatici
@@ -147,6 +152,13 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
+      {/* Pagina di login customer (professionisti abbonati) */}
+      <Route path="/customer-login">
+        <ClientPageWrapper>
+          <CustomerLogin />
+        </ClientPageWrapper>
+      </Route>
+      
       {/* Pagina di registrazione nuovo account */}
       <Route path="/register">
         <ClientPageWrapper>
@@ -173,6 +185,13 @@ function AppRoutes() {
       {/* Pagina iniziale (Welcome) con layout specifico della pagina */}
       <Route path="/">
         <WelcomePage />
+      </Route>
+      
+      {/* Interactive AI-Powered Onboarding Wizard */}
+      <Route path="/onboarding">
+        <StaffPageWrapper>
+          <OnboardingWizard />
+        </StaffPageWrapper>
       </Route>
       
       {/* Dashboard principale (spostata da root a /dashboard) */}
@@ -204,11 +223,6 @@ function AppRoutes() {
       <Route path="/settings">
         <StaffPageWrapper>
           <Settings />
-        </StaffPageWrapper>
-      </Route>
-      <Route path="/user-settings">
-        <StaffPageWrapper>
-          <UserSettings />
         </StaffPageWrapper>
       </Route>
       <Route path="/client-medical-details">
@@ -246,7 +260,7 @@ function AppRoutes() {
       </Route>
       <Route path="/staff-management">
         <StaffPageWrapper>
-          <StaffManagementPage />
+          <StaffManagementPageFixed />
         </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
@@ -254,14 +268,17 @@ function AppRoutes() {
           <SubscribePage />
         </StaffPageWrapper>
       </Route>
-      
-      {/* Pagina del programma di referral */}
       <Route path="/referral">
         <StaffPageWrapper>
-          <ReferralPage />
+          <ReferralCommissionsPage />
         </StaffPageWrapper>
       </Route>
-
+      <Route path="/banking-settings">
+        <StaffPageWrapper>
+          <BankingSettingsPage />
+        </StaffPageWrapper>
+      </Route>
+      
       {/* Pagine per il risultato dei pagamenti */}
       <Route path="/payment/success">
         <StaffPageWrapper>
@@ -435,13 +452,16 @@ function App() {
     <QueryClientProvider client={queryClient}>
       {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
       <TimezoneDetector />
-      {/* BetaStatusChecker verifica se l'utente è un beta tester */}
-      <BetaStatusChecker />
       {/* UserLicenseProvider fornisce le informazioni sulla licenza e l'utente corrente */}
       <UserLicenseProvider>
-        <WouterRouter>
-          <AppRoutes />
-        </WouterRouter>
+        {/* TenantContextProvider fornisce isolamento completo dei dati per ogni utente */}
+        <TenantContextProvider>
+          {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
+          <BetaStatusChecker />
+          <WouterRouter>
+            <AppRoutes />
+          </WouterRouter>
+        </TenantContextProvider>
       </UserLicenseProvider>
     </QueryClientProvider>
   );

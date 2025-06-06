@@ -1,149 +1,114 @@
 import { useState, useEffect } from "react";
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Loader2, Search, UserPlus, X, Edit, Trash } from "lucide-react";
-import { 
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { 
-  Alert, 
-  AlertDescription, 
-  AlertTitle 
-} from "@/components/ui/alert";
-import { PasswordInput } from "@/components/ui/password-input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2, UserPlus, Search, Edit, Trash2, CreditCard, History, Eye, EyeOff, Settings, Shield } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 
-// Interfaccia per il tipo di utente staff
 interface StaffUser {
   id: number;
   username: string;
   email?: string;
   role: string;
   createdAt?: string;
+  referralCode?: string;
 }
 
 export default function StaffManagementPage() {
-  const [staffUsers, setStaffUsers] = useState<StaffUser[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
-  const [userToDelete, setUserToDelete] = useState<StaffUser | null>(null);
-  const [userToEdit, setUserToEdit] = useState<StaffUser | null>(null);
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  
-  // Form per nuovo utente staff
-  const [newUsername, setNewUsername] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [newEmail, setNewEmail] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  
-  // Form per modificare utente staff
-  const [editUsername, setEditUsername] = useState<string>("");
-  const [editPassword, setEditPassword] = useState<string>("");
-  const [editEmail, setEditEmail] = useState<string>("");
-  const [editFormError, setEditFormError] = useState<string | null>(null);
-  
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  // Stati per i dialog
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState(false);
+  const [isBankingDialogOpen, setIsBankingDialogOpen] = useState(false);
+  const [isAdminConfigDialogOpen, setIsAdminConfigDialogOpen] = useState(false);
+  
+  // Stati per i form
+  const [formError, setFormError] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSavingAdminConfig, setIsSavingAdminConfig] = useState(false);
+  
+  // Ricerca
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  // Utente selezionato
+  const [selectedUser, setSelectedUser] = useState<StaffUser | null>(null);
+  
+  // Form data
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "staff"
+  });
+  
+  // Configurazione admin
+  const [adminBankingConfig, setAdminBankingConfig] = useState({
+    adminIban: "",
+    adminBank: "",
+    adminAccountHolder: "",
+    paymentApiKey: "",
+    dailyLimit: 500,
+    autoPaymentsEnabled: false
+  });
 
-  // Carica la lista degli utenti staff
-  useEffect(() => {
-    fetchStaffUsers();
-  }, []);
-
-  // Funzione per caricare gli utenti staff
-  const fetchStaffUsers = async () => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response = await apiRequest("GET", "/api/staff/list");
-      
-      if (response.ok) {
-        const data = await response.json();
-        setStaffUsers(data);
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante il caricamento degli utenti staff");
-      }
-    } catch (err: any) {
-      setError(err.message || "Si è verificato un errore durante il caricamento degli utenti");
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: err.message || "Impossibile caricare gli utenti staff",
+  // Query per ottenere gli utenti staff
+  const { data: staffUsers = [], isLoading, error } = useQuery({
+    queryKey: ['/api/staff/users'],
+    queryFn: async () => {
+      const response = await fetch('/api/staff/users', {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to fetch staff users: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    },
+  });
 
-  // Funzione per registrare un nuovo utente staff
-  const registerStaffUser = async () => {
-    setFormError(null);
-    setIsSubmitting(true);
-    
-    // Validazione di base
-    if (!newUsername || !newPassword) {
-      setFormError("Inserisci sia username che password");
-      setIsSubmitting(false);
+  // Funzione per aggiungere un nuovo utente
+  const handleAddUser = async () => {
+    if (!formData.username || !formData.email || !formData.password) {
+      setFormError("Tutti i campi sono obbligatori");
       return;
     }
-    
+
+    setIsCreating(true);
+    setFormError("");
+
     try {
-      const response = await apiRequest("POST", "/api/staff/register", {
-        username: newUsername,
-        password: newPassword,
-        email: newEmail || undefined,
-        role: "staff" // Default role è staff
+      const response = await fetch('/api/staff/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      
+
       if (response.ok) {
-        const newUser = await response.json();
-        
-        // Aggiorna la lista degli utenti
-        setStaffUsers(prev => [...prev, newUser]);
-        
-        // Reset form
-        setNewUsername("");
-        setNewPassword("");
-        setNewEmail("");
-        
-        // Chiudi dialog
+        await queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
+        setFormData({ username: "", email: "", password: "", role: "staff" });
         setIsAddDialogOpen(false);
-        
         toast({
-          title: "Utente creato",
-          description: `L'utente ${newUser.username} è stato creato con successo`,
+          title: "Successo",
+          description: "Utente staff creato con successo",
         });
       } else {
         const errorData = await response.json();
@@ -157,129 +122,101 @@ export default function StaffManagementPage() {
         description: err.message || "Impossibile creare l'utente staff",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsCreating(false);
     }
   };
 
-  // Funzione per eliminare un utente staff
-  const deleteStaffUser = async () => {
-    if (!userToDelete) return;
-    
-    setIsDeleting(true);
-    
-    try {
-      const response = await apiRequest("DELETE", `/api/staff/${userToDelete.id}`);
-      
-      if (response.ok) {
-        // Rimuovi l'utente dalla lista
-        setStaffUsers(prev => prev.filter(user => user.id !== userToDelete.id));
-        
-        toast({
-          title: "Utente eliminato",
-          description: `L'utente ${userToDelete.username} è stato eliminato con successo`,
-        });
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'eliminazione dell'utente");
-      }
-    } catch (err: any) {
+  // Funzione per salvare la configurazione admin
+  const saveAdminConfig = async () => {
+    if (!adminBankingConfig.adminIban) {
       toast({
         variant: "destructive",
         title: "Errore",
-        description: err.message || "Impossibile eliminare l'utente staff",
+        description: "L'IBAN dell'amministratore è obbligatorio",
       });
-    } finally {
-      setIsDeleting(false);
-      setIsDeleteDialogOpen(false);
-      setUserToDelete(null);
-    }
-  };
-  
-  // Inizia il processo di eliminazione
-  const handleDeleteClick = (user: StaffUser) => {
-    setUserToDelete(user);
-    setIsDeleteDialogOpen(true);
-  };
-  
-  // Inizia il processo di modifica
-  const handleEditClick = (user: StaffUser) => {
-    setUserToEdit(user);
-    setEditUsername(user.username);
-    setEditEmail(user.email || "");
-    setEditPassword(""); // Password vuota, la modificheremo solo se inserita
-    setEditFormError(null);
-    setIsEditDialogOpen(true);
-  };
-  
-  // Funzione per aggiornare un utente staff
-  const updateStaffUser = async () => {
-    if (!userToEdit) return;
-    
-    setEditFormError(null);
-    setIsEditing(true);
-    
-    // Prepara i dati da inviare - includi solo i campi che sono stati modificati
-    const updateData: any = {};
-    
-    if (editUsername !== userToEdit.username) {
-      updateData.username = editUsername;
-    }
-    
-    if (editEmail !== (userToEdit.email || "")) {
-      updateData.email = editEmail || null; // Se vuoto, imposta null
-    }
-    
-    // Includi la password solo se è stata inserita
-    if (editPassword) {
-      updateData.password = editPassword;
-    }
-    
-    // Se non è stato modificato nulla, mostra un errore
-    if (Object.keys(updateData).length === 0) {
-      setEditFormError("Nessuna modifica apportata");
-      setIsEditing(false);
       return;
     }
-    
+
+    setIsSavingAdminConfig(true);
+
     try {
-      const response = await apiRequest("PATCH", `/api/staff/${userToEdit.id}`, updateData);
-      
+      const response = await fetch('/api/admin/config', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminBankingConfig),
+      });
+
       if (response.ok) {
-        const updatedUser = await response.json();
-        
-        // Aggiorna la lista degli utenti
-        setStaffUsers(prev => 
-          prev.map(user => user.id === userToEdit.id ? { ...user, ...updatedUser } : user)
-        );
-        
+        setIsAdminConfigDialogOpen(false);
         toast({
-          title: "Utente aggiornato",
-          description: `L'utente ${updatedUser.username} è stato aggiornato con successo`,
+          title: "Successo",
+          description: "Configurazione admin salvata con successo",
         });
-        
-        // Chiudi dialog
-        setIsEditDialogOpen(false);
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante l'aggiornamento dell'utente");
+        throw new Error(errorData.message || "Errore durante il salvataggio della configurazione");
       }
     } catch (err: any) {
-      setEditFormError(err.message || "Si è verificato un errore durante l'aggiornamento dell'utente");
       toast({
         variant: "destructive",
         title: "Errore",
-        description: err.message || "Impossibile aggiornare l'utente staff",
+        description: err.message || "Impossibile salvare la configurazione",
       });
     } finally {
-      setIsEditing(false);
+      setIsSavingAdminConfig(false);
     }
   };
-  
+
+  // Funzioni di gestione
+  const handleDeleteClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    // Qui andrà la logica per eliminare l'utente
+  };
+
+  const handleEditClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleBankingClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    setIsBankingDialogOpen(true);
+  };
+
+  const handlePaymentHistoryClick = (user: StaffUser) => {
+    setSelectedUser(user);
+    setIsPaymentHistoryDialogOpen(true);
+  };
+
   // Filtra gli utenti in base alla ricerca
-  const filteredUsers = staffUsers.filter(user => 
+  const filteredUsers = staffUsers.filter((user: StaffUser) => 
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto py-6">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Errore</AlertTitle>
+          <AlertDescription>
+            Impossibile caricare gli utenti staff. Riprova più tardi.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-6 space-y-6">
@@ -289,292 +226,285 @@ export default function StaffManagementPage() {
           <p className="text-muted-foreground">Gestisci gli utenti staff del tuo sistema</p>
         </div>
         
-        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
-              <UserPlus className="h-4 w-4" />
-              <span>Aggiungi Staff</span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Aggiungi nuovo utente staff</DialogTitle>
-              <DialogDescription>
-                Crea un nuovo account staff che potrà accedere al sistema.
-              </DialogDescription>
-            </DialogHeader>
-            
-            <div className="space-y-4 py-4">
-              {formError && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Errore</AlertTitle>
-                  <AlertDescription>{formError}</AlertDescription>
-                </Alert>
-              )}
-              
-              <div className="space-y-2">
-                <Label htmlFor="username">Username *</Label>
-                <Input
-                  id="username"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  placeholder="Username per il login"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
-                <PasswordInput
-                  id="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Password sicura"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="email">Email (opzionale)</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  placeholder="Indirizzo email"
-                />
-              </div>
-            </div>
-            
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                Annulla
+        <div className="flex gap-3">
+          <Button 
+            variant="outline" 
+            onClick={() => setIsAdminConfigDialogOpen(true)}
+            className="border-blue-200 text-blue-700 hover:bg-blue-50"
+          >
+            <Settings className="mr-2 h-4 w-4" />
+            Configurazione Admin
+          </Button>
+          
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="flex items-center gap-2">
+                <UserPlus className="h-4 w-4" />
+                <span>Aggiungi Staff</span>
               </Button>
-              <Button 
-                onClick={registerStaffUser} 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creazione in corso...
-                  </>
-                ) : "Crea utente"}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
-      
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex justify-between items-center">
-            <CardTitle>Utenti Staff</CardTitle>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Cerca utenti..."
-                className="pl-8 w-[250px]"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-2.5"
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Aggiungi nuovo utente staff</DialogTitle>
+                <DialogDescription>
+                  Crea un nuovo account staff che potrà accedere al sistema.
+                </DialogDescription>
+              </DialogHeader>
+              
+              <div className="space-y-4 py-4">
+                {formError && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Errore</AlertTitle>
+                    <AlertDescription>{formError}</AlertDescription>
+                  </Alert>
+                )}
+                
+                <div className="space-y-2">
+                  <Label htmlFor="username">Username *</Label>
+                  <Input
+                    id="username"
+                    value={formData.username}
+                    onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                    placeholder="Inserisci username"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="Inserisci email"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password *</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                    placeholder="Inserisci password"
+                  />
+                </div>
+              </div>
+              
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsAddDialogOpen(false)}
+                  disabled={isCreating}
                 >
-                  <X className="h-4 w-4 text-muted-foreground" />
-                </button>
-              )}
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex justify-center items-center h-32">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : error ? (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Errore</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          ) : filteredUsers.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              {searchQuery 
-                ? "Nessun utente trovato con i criteri di ricerca" 
-                : "Nessun utente staff registrato"}
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Ruolo</TableHead>
-                  <TableHead>Creato il</TableHead>
-                  <TableHead className="text-right">Azioni</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredUsers.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.username}</TableCell>
-                    <TableCell>{user.email || "-"}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        user.role === "admin" 
-                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" 
-                          : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                      }`}>
-                        {user.role === "admin" ? "Amministratore" : "Staff"}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {user.createdAt 
-                        ? new Date(user.createdAt).toLocaleDateString() 
-                        : "-"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="outline" 
-                          size="icon" 
-                          className="h-8 w-8" 
-                          onClick={() => handleEditClick(user)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="destructive" 
-                          size="icon" 
-                          className="h-8 w-8" 
-                          onClick={() => handleDeleteClick(user)}
-                          disabled={user.role === "admin" && user.username === "zambelli.andrea.1973@gmail.com"}
-                        >
-                          <Trash className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                  Annulla
+                </Button>
+                <Button
+                  onClick={handleAddUser}
+                  disabled={isCreating}
+                >
+                  {isCreating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creazione...
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      Crea Utente
+                    </>
+                  )}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
 
-      {/* Dialog di conferma eliminazione */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
+      {/* Barra di ricerca */}
+      <div className="flex items-center space-x-2">
+        <Search className="h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Cerca staff per username o email..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="max-w-sm"
+        />
+      </div>
+
+      {/* Lista utenti staff */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {filteredUsers.map((user: StaffUser) => (
+          <Card key={user.id}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">{user.username}</CardTitle>
+                <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+                  {user.role}
+                </Badge>
+              </div>
+              <CardDescription>{user.email}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleEditClick(user)}
+                >
+                  <Edit className="h-4 w-4 mr-1" />
+                  Modifica
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBankingClick(user)}
+                >
+                  <CreditCard className="h-4 w-4 mr-1" />
+                  Dati Bancari
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePaymentHistoryClick(user)}
+                >
+                  <History className="h-4 w-4 mr-1" />
+                  Storico
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {filteredUsers.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Nessun utente staff trovato.</p>
+        </div>
+      )}
+
+      {/* Dialog Configurazione Admin */}
+      <Dialog open={isAdminConfigDialogOpen} onOpenChange={setIsAdminConfigDialogOpen}>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Conferma eliminazione</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-blue-600" />
+              Configurazione Admin
+            </DialogTitle>
             <DialogDescription>
-              Sei sicuro di voler eliminare l'utente {userToDelete?.username}?
-              Questa azione non può essere annullata.
+              Configura i tuoi dati bancari per autorizzare i pagamenti automatici agli staff
             </DialogDescription>
           </DialogHeader>
           
-          <DialogFooter className="flex space-x-2 pt-4">
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                setIsDeleteDialogOpen(false);
-                setUserToDelete(null);
-              }}
-            >
-              Annulla
-            </Button>
-            <Button 
-              variant="destructive" 
-              onClick={deleteStaffUser}
-              disabled={isDeleting}
-            >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminazione in corso...
-                </>
-              ) : "Elimina"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Dialog di modifica utente */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Modifica utente</DialogTitle>
-            <DialogDescription>
-              Modifica le informazioni dell'utente {userToEdit?.username}.
-              Lascia vuota la password se non desideri modificarla.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4 py-4">
-            {editFormError && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Errore</AlertTitle>
-                <AlertDescription>{editFormError}</AlertDescription>
-              </Alert>
-            )}
-            
+          <div className="space-y-6 py-4">
             <div className="space-y-2">
-              <Label htmlFor="editUsername">Username</Label>
+              <Label htmlFor="adminIban">IBAN Amministratore *</Label>
               <Input
-                id="editUsername"
-                value={editUsername}
-                onChange={(e) => setEditUsername(e.target.value)}
-                placeholder="Username per il login"
+                id="adminIban"
+                value={adminBankingConfig.adminIban}
+                onChange={(e) => setAdminBankingConfig(prev => ({
+                  ...prev,
+                  adminIban: e.target.value
+                }))}
+                placeholder="IT60 X054 2811 1010 0000 0123 456"
+                className="font-mono"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="editPassword">
-                Password <span className="text-muted-foreground text-xs">(lascia vuoto per non modificare)</span>
+              <Label htmlFor="adminBank">Banca</Label>
+              <Input
+                id="adminBank"
+                value={adminBankingConfig.adminBank}
+                onChange={(e) => setAdminBankingConfig(prev => ({
+                  ...prev,
+                  adminBank: e.target.value
+                }))}
+                placeholder="Nome della banca"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="adminAccountHolder">Intestatario Conto</Label>
+              <Input
+                id="adminAccountHolder"
+                value={adminBankingConfig.adminAccountHolder}
+                onChange={(e) => setAdminBankingConfig(prev => ({
+                  ...prev,
+                  adminAccountHolder: e.target.value
+                }))}
+                placeholder="Nome completo intestatario"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="paymentApiKey">API Key Pagamenti</Label>
+              <Input
+                id="paymentApiKey"
+                type="password"
+                value={adminBankingConfig.paymentApiKey}
+                onChange={(e) => setAdminBankingConfig(prev => ({
+                  ...prev,
+                  paymentApiKey: e.target.value
+                }))}
+                placeholder="API key per servizio bonifici"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="dailyLimit">Limite Giornaliero (€)</Label>
+              <Input
+                id="dailyLimit"
+                type="number"
+                value={adminBankingConfig.dailyLimit}
+                onChange={(e) => setAdminBankingConfig(prev => ({
+                  ...prev,
+                  dailyLimit: parseFloat(e.target.value) || 0
+                }))}
+                placeholder="500"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="autoPaymentsEnabled"
+                checked={adminBankingConfig.autoPaymentsEnabled}
+                onCheckedChange={(checked) => setAdminBankingConfig(prev => ({
+                  ...prev,
+                  autoPaymentsEnabled: checked as boolean
+                }))}
+              />
+              <Label htmlFor="autoPaymentsEnabled">
+                Abilita pagamenti automatici
               </Label>
-              <PasswordInput
-                id="editPassword"
-                value={editPassword}
-                onChange={(e) => setEditPassword(e.target.value)}
-                placeholder="Nuova password"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="editEmail">Email (opzionale)</Label>
-              <Input
-                id="editEmail"
-                type="email"
-                value={editEmail}
-                onChange={(e) => setEditEmail(e.target.value)}
-                placeholder="Indirizzo email"
-              />
             </div>
           </div>
           
           <DialogFooter>
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                setIsEditDialogOpen(false);
-                setUserToEdit(null);
-              }}
+            <Button
+              variant="outline"
+              onClick={() => setIsAdminConfigDialogOpen(false)}
+              disabled={isSavingAdminConfig}
             >
               Annulla
             </Button>
-            <Button 
-              onClick={updateStaffUser} 
-              disabled={isEditing}
+            <Button
+              onClick={saveAdminConfig}
+              disabled={isSavingAdminConfig || !adminBankingConfig.adminIban}
             >
-              {isEditing ? (
+              {isSavingAdminConfig ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Aggiornamento in corso...
+                  Salvataggio...
                 </>
-              ) : "Salva modifiche"}
+              ) : (
+                <>
+                  <Shield className="mr-2 h-4 w-4" />
+                  Salva Configurazione
+                </>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

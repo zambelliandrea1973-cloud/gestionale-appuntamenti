@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import InstallAppPrompt from "@/components/InstallAppPrompt";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -164,10 +164,11 @@ export default function ClientLogin() {
           }
         }
         
-        // Auto-login in modalità PWA
-        // Se abbiamo nome utente, token e siamo in una PWA installata, tentiamo un login automatico
-        // Rimosso il controllo specifico per DuckDuckGo per supportare tutti i browser
-        if (isPWA && storedUsername && token && clientId) {
+        // 🚫 LOGIN AUTOMATICO DISABILITATO per risolvere bug nome utente cached
+        console.log("🚫 Login automatico disabilitato - forza login manuale per dati corretti");
+        
+        // CODICE DISABILITATO per evitare problemi di cache:
+        if (false && isPWA && storedUsername && token && clientId) {
           console.log("Tentativo di login automatico per app PWA installata");
           
           try {
@@ -217,6 +218,11 @@ export default function ClientLogin() {
           }
         }
         
+        // 🚫 VERIFICA TOKEN DISABILITATA per risolvere bug nome utente cached
+        console.log("🚫 Verifica token disabilitata - richiede login manuale per dati corretti");
+        return;
+        
+        // CODICE DISABILITATO:
         // Se non ci sono entrambi i parametri o se il processo auto-login è fallito, non fare nulla
         if (!token || !clientId) return;
         
@@ -247,7 +253,20 @@ export default function ClientLogin() {
           setTimeout(() => {
             if (result.type === 'customer') {
               console.log("Utente customer (accesso diretto), reindirizzamento alla dashboard principale");
-              window.location.href = "/dashboard";
+              // FORZA CARICAMENTO DATI UTENTE per risolvere il bug del nome cached - ANCHE PER TOKEN
+              console.log("🔧 FORZANDO CARICAMENTO DATI UTENTE PRIMA DEL REDIRECT (TOKEN)");
+              fetch('/api/user-with-license', { credentials: 'include' })
+                .then(res => res.json())
+                .then(userData => {
+                  console.log("✅ DATI UTENTE CARICATI (TOKEN):", userData);
+                  queryClient.clear(); // Pulisce cache
+                  window.location.href = "/dashboard";
+                })
+                .catch(err => {
+                  console.error("❌ Errore caricamento dati (TOKEN):", err);
+                  queryClient.clear(); // Pulisce cache comunque
+                  window.location.href = "/dashboard";
+                });
             } else {
               console.log("Utente client standard (accesso diretto), reindirizzamento all'area client");
               // Aggiungi il token all'URL della pagina client per poterlo riutilizzare
@@ -337,7 +356,20 @@ export default function ClientLogin() {
         setTimeout(() => {
           if (user.type === 'customer') {
             console.log("Utente customer, reindirizzamento alla dashboard principale");
-            window.location.href = "/dashboard";
+            // FORZA CARICAMENTO DATI UTENTE per risolvere il bug del nome cached
+            console.log("🔧 FORZANDO CARICAMENTO DATI UTENTE PRIMA DEL REDIRECT");
+            fetch('/api/user-with-license', { credentials: 'include' })
+              .then(res => res.json())
+              .then(userData => {
+                console.log("✅ DATI UTENTE CARICATI:", userData);
+                queryClient.clear(); // Pulisce cache
+                window.location.href = "/dashboard";
+              })
+              .catch(err => {
+                console.error("❌ Errore caricamento dati:", err);
+                queryClient.clear(); // Pulisce cache comunque
+                window.location.href = "/dashboard";
+              });
           } else {
             console.log("Utente client standard, reindirizzamento all'area client");
             setLocation("/client-area");

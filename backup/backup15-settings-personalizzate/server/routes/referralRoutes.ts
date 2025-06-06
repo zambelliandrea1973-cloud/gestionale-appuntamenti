@@ -1,7 +1,11 @@
 import express, { Request, Response } from 'express';
 import { simplifiedReferralService } from '../services/simplifiedReferralService';
-import { ensureAuthenticated, isStaff, isAdmin } from '../middleware/authMiddleware';
+import { isAuthenticated } from '../auth';
+import { getWorkingReferralOverview } from '../api/workingReferralSystem';
+import { getIndividualStaffReferral } from '../api/individualStaffReferral';
+import { getAdminReferralAggregation, payStaffCommissions } from '../api/adminReferralAggregator';
 import { format } from 'date-fns';
+import { storage } from '../storage';
 
 const router = express.Router();
 
@@ -9,7 +13,7 @@ const router = express.Router();
  * Ottiene statistiche e dettagli sui referral dell'utente corrente
  * GET /api/referral/stats
  */
-router.get('/stats', ensureAuthenticated, async (req: Request, res: Response) => {
+router.get('/stats', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -34,7 +38,7 @@ router.get('/stats', ensureAuthenticated, async (req: Request, res: Response) =>
  * Genera un nuovo codice referral per l'utente
  * POST /api/referral/generate-code
  */
-router.post('/generate-code', ensureAuthenticated, async (req: Request, res: Response) => {
+router.post('/generate-code', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -62,7 +66,7 @@ router.post('/generate-code', ensureAuthenticated, async (req: Request, res: Res
  * Salva il conto bancario dell'utente
  * POST /api/referral/bank-account
  */
-router.post('/bank-account', ensureAuthenticated, async (req: Request, res: Response) => {
+router.post('/bank-account', isAuthenticated, async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -120,13 +124,83 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * Ottiene statistiche referral per lo staff corrente
+ * GET /api/referral/staff
+ */
+router.get('/staff', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+
+    console.log(`🚀 ROUTER REFERRAL: Richiesta staff referral per utente ID: ${req.user.id}, email: ${req.user.email}`);
+    
+    // Chiama la funzione esistente passando l'ID dello staff come parametro
+    req.params.staffId = req.user.id.toString();
+    await getIndividualStaffReferral(req, res);
+  } catch (error) {
+    console.error('Errore nel recupero statistiche staff:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel recupero delle statistiche staff'
+    });
+  }
+});
+
 // Rotte amministrative (solo per admin)
+
+/**
+ * Ottiene la panoramica referral per admin
+ * GET /api/referral/overview
+ */
+router.get('/overview', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    console.log(`🚀 ADMIN REFERRAL: Panoramica richiesta da ${req.user!.email}`);
+    await getWorkingReferralOverview(req, res);
+  } catch (error) {
+    console.error('Errore nella panoramica admin:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel caricamento panoramica referral'
+    });
+  }
+});
+
+// Rotte amministrative (solo per admin)
+
+/**
+ * Paga le commissioni di uno staff specifico
+ * POST /api/referral/staff/:staffId/pay-commissions
+ */
+router.post('/staff/:staffId/pay-commissions', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    // Verifica che sia un admin
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Solo gli admin possono pagare le commissioni'
+      });
+    }
+
+    await payStaffCommissions(req, res);
+  } catch (error) {
+    console.error('Errore nel pagamento commissioni:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Errore nel pagamento delle commissioni'
+    });
+  }
+});
 
 /**
  * Ottiene tutti i pagamenti di referral in sospeso
  * GET /api/referral/admin/pending-payments
  */
-router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.get('/admin/pending-payments', isAuthenticated, async (req: Request, res: Response) => {
   try {
     // Ottieni i pagamenti in sospeso dal database
     const pendingPayments = await simplifiedReferralService.getPendingPayments();
@@ -148,7 +222,7 @@ router.get('/admin/pending-payments', ensureAuthenticated, isAdmin, async (req: 
  * Genera pagamenti per tutti gli utenti per il periodo corrente
  * POST /api/referral/admin/generate-payments
  */
-router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.post('/admin/generate-payments', isAuthenticated, async (req: Request, res: Response) => {
   try {
     const period = req.body.period || format(new Date(), 'yyyy-MM');
     const result = await simplifiedReferralService.generatePaymentsForAllUsers(period);
@@ -171,7 +245,7 @@ router.post('/admin/generate-payments', ensureAuthenticated, isAdmin, async (req
  * Aggiorna lo stato di un pagamento
  * PUT /api/referral/admin/payment/:id
  */
-router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req: Request, res: Response) => {
+router.put('/admin/payment/:id', isAuthenticated, async (req: Request, res: Response) => {
   try {
     const paymentId = parseInt(req.params.id);
     const { status, processingNote } = req.body;
@@ -194,6 +268,38 @@ router.put('/admin/payment/:id', ensureAuthenticated, isAdmin, async (req: Reque
     res.status(500).json({
       success: false,
       message: 'Errore nell\'aggiornamento del pagamento'
+    });
+  }
+});
+
+/**
+ * Ottiene panoramica aggregata per admin (NUOVO!)
+ * GET /api/referral/overview
+ */
+router.get('/overview', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ 
+        success: false,
+        error: 'Accesso negato: solo admin' 
+      });
+    }
+    
+    // SISTEMA PULITO - collegamento diretto al database autentico
+    const { getCleanReferralOverview } = await import("../api/cleanReferralSystem");
+    return getCleanReferralOverview(req, res);
+  } catch (error) {
+    console.error('Errore nel recupero overview admin:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Errore nel recupero della panoramica referral'
     });
   }
 });

@@ -79,21 +79,56 @@ class DirectPhoneService {
       // In questa versione demo, lo simuliamo semplicemente
       console.log(`Codice di verifica per ${phoneNumber}: ${verificationCode}`);
       
+      // Invio immediato del codice via email usando il sistema configurato
+      console.log(`📧 Tentativo invio email codice di verifica per ${phoneNumber}: ${verificationCode}`);
+      
       try {
-        // Invio effettivo dell'SMS con Twilio
-        if (twilioClient) {
-          await twilioClient.messages.create({
-            body: `Il tuo codice di verifica è: ${verificationCode}`,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: phoneNumber
-          });
-          console.log(`SMS di verifica inviato a ${phoneNumber}`);
-        } else {
-          console.log('Twilio non configurato, codice di verifica solo nei log');
-        }
-      } catch (twilioError) {
-        console.error('Errore nell\'invio dell\'SMS di verifica:', twilioError);
-        // Continuiamo comunque perché in sviluppo possiamo usare il codice dai log
+        const nodemailer = await import('nodemailer');
+        const fs = await import('fs/promises');
+        
+        // Leggiamo direttamente dalle impostazioni email configurate
+        const data = await fs.readFile('email_settings.json', 'utf8');
+        const emailSettings = JSON.parse(data);
+        
+        const transporter = nodemailer.default.createTransporter({
+          service: 'gmail',
+          auth: {
+            user: emailSettings.emailAddress,
+            pass: emailSettings.emailPassword
+          }
+        });
+
+        await transporter.sendMail({
+          from: emailSettings.emailAddress,
+          to: emailSettings.emailAddress,
+          subject: '🔐 Codice di verifica WhatsApp',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="color: #25d366; margin: 0;">📱 WhatsApp</h1>
+                <h2 style="color: #333; margin: 10px 0;">Codice di Verifica</h2>
+              </div>
+              
+              <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 0 0 15px 0; color: #555;">Il tuo codice di verifica per configurare WhatsApp è:</p>
+                <div style="background: #25d366; color: white; padding: 15px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 3px; border-radius: 8px; margin: 15px 0;">
+                  ${verificationCode}
+                </div>
+                <p style="margin: 15px 0 0 0; color: #666; font-size: 14px;"><strong>Numero:</strong> ${phoneNumber}</p>
+              </div>
+              
+              <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 0; color: #856404; font-size: 14px;">⏰ Questo codice è valido per 10 minuti</p>
+              </div>
+            </div>
+          `
+        });
+        
+        console.log(`📧 Email di verifica WhatsApp inviata con successo per ${phoneNumber}`);
+        
+      } catch (emailError) {
+        console.error('❌ Errore invio email di verifica WhatsApp:', emailError);
+        console.log(`⚠️ Codice di backup disponibile nei log: ${verificationCode}`);
       }
       
       // Prima disattiviamo eventuali telefoni esistenti

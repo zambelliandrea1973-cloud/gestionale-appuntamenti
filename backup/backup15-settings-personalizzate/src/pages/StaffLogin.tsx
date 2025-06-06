@@ -172,17 +172,13 @@ export default function StaffLogin() {
             <div>Non hai un account? <a href="/register" className="text-primary hover:underline">Registrati</a></div>
             <div className="pt-2 border-t">
               <span className="text-muted-foreground">
-                Sei un cliente? {" "}
-                <a 
-                  href="/client-login" 
+                Sei un professionista? {" "}
+                <button
+                  onClick={() => navigate("/customer-login")}
                   className="text-primary hover:underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/client-login");
-                  }}
                 >
-                  Accedi all'area clienti
-                </a>
+                  Accedi come Professionista
+                </button>
               </span>
             </div>
           </CardFooter>

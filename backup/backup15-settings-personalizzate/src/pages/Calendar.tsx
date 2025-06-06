@@ -69,9 +69,12 @@ export default function Calendar() {
   });
   
   // Per la vista giornaliera - appuntamenti di un giorno specifico
-  const { data: dayAppointments = [], isLoading: isLoadingAppointments } = useQuery({
+  const { data: dayAppointments = [], isLoading: isLoadingAppointments, refetch: refetchDayAppointments } = useQuery({
     queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`],
     enabled: view === "day",
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    staleTime: 0, // Forza sempre il refetch per i dati più aggiornati
   });
   
   // Servizi per colorare gli appuntamenti
@@ -150,6 +153,7 @@ export default function Calendar() {
       // Solo giorno corrente
       const dateString = formatDateForApi(selectedDate);
       queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+      refetchDayAppointments(); // Forza il refetch immediato
     } else if (view === "week") {
       // Intera settimana
       for (let i = 0; i < 7; i++) {
@@ -162,6 +166,31 @@ export default function Calendar() {
     
     // Refresh also ranges
     queryClient.invalidateQueries({ queryKey: ['/api/appointments/range'] });
+  };
+
+  // Callback specifico per quando viene salvato un appuntamento
+  const handleAppointmentSaved = () => {
+    console.log("Appuntamento salvato - aggiornamento calendario...");
+    
+    // Invalidate e refetch immediato per tutti i dati rilevanti
+    queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+    refetchAppointments();
+    
+    if (view === "day") {
+      const dateString = formatDateForApi(selectedDate);
+      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+      refetchDayAppointments();
+    }
+    
+    // Forza anche l'aggiornamento per le date vicine (per sicurezza)
+    for (let i = -1; i <= 1; i++) {
+      const date = new Date(selectedDate);
+      date.setDate(date.getDate() + i);
+      const dateString = formatDateForApi(date);
+      queryClient.invalidateQueries({ queryKey: [`/api/appointments/date/${dateString}`] });
+    }
+    
+    console.log("Calendario aggiornato dopo salvataggio appuntamento");
   };
   
   return (
@@ -353,14 +382,14 @@ export default function Calendar() {
               isLoading={isLoadingAppointments || isLoadingServices}
               appointments={dayAppointments as any[]}
               services={services as any[]}
-              onAppointmentUpdated={handleRefresh}
+              onAppointmentUpdated={handleAppointmentSaved}
               onAppointmentDeleted={(id) => {
                 // Invalidate queries after deletion
                 queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
                 queryClient.invalidateQueries({ 
                   queryKey: [`/api/appointments/date/${formatDateForApi(selectedDate)}`] 
                 });
-                handleRefresh();
+                handleAppointmentSaved();
               }}
             />
           )}
