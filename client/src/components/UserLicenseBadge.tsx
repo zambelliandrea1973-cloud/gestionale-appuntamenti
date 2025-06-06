@@ -29,8 +29,8 @@ export default function UserLicenseBadge({ size = 'md', className }: UserLicense
     return null;
   }
 
-  // Ottieni il tipo di licenza formattato
-  const licenseType = getLicenseBadgeType(user.licenseInfo.type);
+  // Ottieni il tipo di licenza formattato - Sistema semplificato
+  const licenseType = getLicenseBadgeType(user.licenseType || 'business');
   // Ottieni il tipo di account formattato
   const userType = getUserType(user.type);
   // Ottieni il nome utente completo
