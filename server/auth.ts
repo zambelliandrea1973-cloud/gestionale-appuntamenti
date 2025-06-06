@@ -38,17 +38,17 @@ export async function comparePasswords(supplied: string, stored: string) {
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "secret-placeholder-change-in-production",
-    resave: true, // Forza il salvataggio della sessione
-    saveUninitialized: true, // Salva anche sessioni non inizializzate
+    resave: false,
+    saveUninitialized: false,
     store: storage.sessionStore,
-    rolling: true, // Rinnova automaticamente la sessione ad ogni richiesta
+    rolling: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 giorni
       httpOnly: true,
-      secure: false, // Disabilita per sviluppo
-      sameSite: 'lax' // consentire autenticazione cross-site
+      secure: false,
+      sameSite: 'lax'
     },
-    name: 'session-id', // nome specifico per evitare conflitti
+    name: 'session-id',
   };
 
   app.set("trust proxy", 1);
