@@ -403,8 +403,9 @@ export default function AppointmentForm({
         console.log("Invalidazione diretta delle query");
         await queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
         
+        // Invalida anche le query per data specifica per i prossimi 30 giorni
         const today = new Date();
-        for (let i = 0; i < 30; i++) {
+        for (let i = -7; i < 30; i++) {
           const date = new Date(today);
           date.setDate(date.getDate() + i);
           const formattedDate = formatDateForApi(date);
@@ -412,6 +413,10 @@ export default function AppointmentForm({
             queryKey: [`/api/appointments/date/${formattedDate}`] 
           });
         }
+        
+        // Forza il refetch immediato delle query principali
+        await queryClient.refetchQueries({ queryKey: ['/api/appointments'] });
+        await queryClient.refetchQueries({ queryKey: [`/api/appointments/date/${formatDateForApi(data.date)}`] });
         
         // Notifica successo
         toast({
