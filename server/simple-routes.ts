@@ -230,46 +230,32 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ title: "Gestionale Sanitario" });
   });
 
-  // Sistema permanente di gestione icone
-  let currentIcon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
+  // Sistema permanente icone - STESSA LOGICA NOME AZIENDALE
+  let iconSettings = { 
+    appName: "Gestionale Sanitario", 
+    icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+"
+  };
 
-  // Endpoint per ottenere l'icona dell'app
+  // Endpoint per ottenere l'icona dell'app - STESSA LOGICA NOME AZIENDALE
   app.get("/api/client-app-info", (req, res) => {
-    res.json({ 
-      appName: "Gestionale Sanitario", 
-      icon: currentIcon
-    });
+    res.json(iconSettings);
   });
 
-  // Endpoint per caricare una nuova icona
+  // Endpoint per caricare una nuova icona - STESSA LOGICA NOME AZIENDALE
   app.post("/api/upload-app-icon", (req, res) => {
     try {
       const { iconData } = req.body;
-      console.log("Ricevuto caricamento icona:", iconData ? iconData.substring(0, 50) + "..." : "nessun dato");
-      
-      if (iconData && (
-        iconData.startsWith('data:image/') || 
-        iconData.startsWith('http://') || 
-        iconData.startsWith('https://') ||
-        iconData.length > 10 // Accetta anche stringhe base64 senza prefix
-      )) {
-        currentIcon = iconData;
-        console.log("Icona salvata con successo");
-        res.json({ success: true, message: "Icona aggiornata con successo" });
-      } else {
-        console.log("Formato icona rifiutato:", iconData ? typeof iconData : "undefined");
-        res.status(400).json({ success: false, message: "Formato icona non valido" });
-      }
+      if (iconData !== undefined) iconSettings.icon = iconData;
+      res.json({ success: true, message: "Icona aggiornata con successo", ...iconSettings });
     } catch (error) {
-      console.error("Errore caricamento icona:", error);
       res.status(500).json({ success: false, message: "Errore durante il caricamento dell'icona" });
     }
   });
 
-  // Endpoint per ripristinare l'icona di default
+  // Endpoint per ripristinare l'icona di default - STESSA LOGICA NOME AZIENDALE
   app.post("/api/reset-app-icon", (req, res) => {
-    currentIcon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
-    res.json({ success: true, message: "Icona ripristinata al default" });
+    iconSettings.icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
+    res.json({ success: true, message: "Icona ripristinata al default", ...iconSettings });
   });
 
   // Sistema permanente gestione nome aziendale
@@ -289,6 +275,37 @@ export function registerSimpleRoutes(app: Express): Server {
       res.json({ success: true, message: "Impostazioni salvate con successo", ...businessSettings });
     } catch (error) {
       res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
+    }
+  });
+
+  // Sistema permanente appuntamenti - STESSA LOGICA NOME AZIENDALE
+  let appointmentsData = [];
+  let appointmentCounter = 1;
+
+  // Endpoint per ottenere tutti gli appuntamenti - STESSA LOGICA NOME AZIENDALE
+  app.get("/api/appointments", (req, res) => {
+    res.json(appointmentsData);
+  });
+
+  // Endpoint per ottenere appuntamenti per data - STESSA LOGICA NOME AZIENDALE
+  app.get("/api/appointments/date/:date", (req, res) => {
+    const { date } = req.params;
+    const dayAppointments = appointmentsData.filter(apt => apt.date === date);
+    res.json(dayAppointments);
+  });
+
+  // Endpoint per creare appuntamento - STESSA LOGICA NOME AZIENDALE
+  app.post("/api/appointments", (req, res) => {
+    try {
+      const newAppointment = {
+        id: Date.now(), // ID temporaneo basato su timestamp
+        ...req.body,
+        createdAt: new Date()
+      };
+      appointmentsData.push(newAppointment);
+      res.status(201).json(newAppointment);
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Errore durante la creazione dell'appuntamento" });
     }
   });
 
