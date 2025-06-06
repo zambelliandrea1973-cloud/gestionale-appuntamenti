@@ -25,6 +25,45 @@ const userData = {
       businessName: "Studio Medico",
       showBusinessName: true
     }
+  },
+  // Dati per utente admin (ID 3) - copia completa backup15
+  3: {
+    id: 3,
+    username: "zambelli.andrea.1973@gmail.com",
+    email: "zambelli.andrea.1973@gmail.com",
+    type: "admin",
+    services: [
+      { id: 1, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6" },
+      { id: 2, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981" },
+      { id: 3, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B" },
+      { id: 4, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444" },
+      { id: 5, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6" },
+      { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4" }
+    ],
+    clients: [
+      { id: 1, firstName: "Mario", lastName: "Rossi", phone: "3331234567", email: "mario.rossi@email.com" },
+      { id: 2, firstName: "Anna", lastName: "Verdi", phone: "3339876543", email: "anna.verdi@email.com" },
+      { id: 3, firstName: "Giuseppe", lastName: "Bianchi", phone: "3335551234", email: "giuseppe.bianchi@email.com" },
+      { id: 4, firstName: "Maria", lastName: "Neri", phone: "3336667890", email: "maria.neri@email.com" },
+      { id: 5, firstName: "Luca", lastName: "Ferrari", phone: "3337778901", email: "luca.ferrari@email.com" },
+      { id: 6, firstName: "Sara", lastName: "Romano", phone: "3338889012", email: "sara.romano@email.com" },
+      { id: 7, firstName: "Andrea", lastName: "Moretti", phone: "3339990123", email: "andrea.moretti@email.com" },
+      { id: 8, firstName: "Elena", lastName: "Ricci", phone: "3330001234", email: "elena.ricci@email.com" }
+    ],
+    appointments: [
+      { id: 1, clientId: 1, serviceId: 1, date: "2025-01-15", startTime: "09:00", endTime: "09:30", status: "confermato" },
+      { id: 2, clientId: 2, serviceId: 2, date: "2025-01-15", startTime: "10:00", endTime: "10:45", status: "confermato" },
+      { id: 3, clientId: 3, serviceId: 3, date: "2025-01-16", startTime: "14:00", endTime: "14:20", status: "in attesa" },
+      { id: 4, clientId: 4, serviceId: 4, date: "2025-01-16", startTime: "16:00", endTime: "17:00", status: "confermato" },
+      { id: 5, clientId: 5, serviceId: 5, date: "2025-01-17", startTime: "11:00", endTime: "11:40", status: "confermato" },
+      { id: 6, clientId: 6, serviceId: 6, date: "2025-01-17", startTime: "15:30", endTime: "16:20", status: "in attesa" },
+      { id: 7, clientId: 7, serviceId: 1, date: "2025-01-18", startTime: "08:30", endTime: "09:00", status: "confermato" },
+      { id: 8, clientId: 8, serviceId: 2, date: "2025-01-18", startTime: "13:15", endTime: "14:00", status: "confermato" }
+    ],
+    settings: {
+      businessName: "Studio Medico",
+      showBusinessName: true
+    }
   }
 };
 
