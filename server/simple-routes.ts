@@ -310,6 +310,17 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Servire file statici da attached_assets per icone
+  app.use('/attached_assets', (req, res, next) => {
+    const filePath = path.join(process.cwd(), 'attached_assets', req.path);
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        console.error('Error serving static file:', err);
+        res.status(404).send('File not found');
+      }
+    });
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
