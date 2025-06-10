@@ -45,7 +45,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       
       // STESSA LOGICA NOME AZIENDALE - accesso diretto ai dati
       const iconUrl = data.icon;
-      const isDefaultFleurDeVie = iconUrl === "/attached_assets/Fleur de Vie multicolore.jpg";
+      const isDefaultFleurDeVie = iconUrl.startsWith("data:image/jpeg;base64,") && iconUrl.length > 50000;
       setIconInfo({ 
         exists: true, 
         isCustom: !isDefaultFleurDeVie,
