@@ -477,7 +477,7 @@ export default function DayViewWithTimeSlots({
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => {/* TODO: Aprire selezione servizio */}}
+                            onClick={() => setShowServiceSelector(true)}
                             className="h-6 text-xs"
                           >
                             {selectedService ? "Cambia" : "Seleziona"}
@@ -796,6 +796,85 @@ export default function DayViewWithTimeSlots({
           </div>
         </div>
       )}
+
+      {/* Modal di selezione cliente */}
+      <Dialog open={showClientSelector} onOpenChange={setShowClientSelector}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Seleziona Cliente</DialogTitle>
+          </DialogHeader>
+          <div className="max-h-64 overflow-y-auto">
+            {clients.length > 0 ? (
+              <div className="space-y-2">
+                {clients.map(client => (
+                  <Button
+                    key={client.id}
+                    variant="outline"
+                    className="w-full justify-start h-auto p-3"
+                    onClick={() => {
+                      setSelectedClient({
+                        id: client.id,
+                        name: `${client.firstName} ${client.lastName}`
+                      });
+                      setShowClientSelector(false);
+                    }}
+                  >
+                    <div className="text-left">
+                      <div className="font-semibold">{client.firstName} {client.lastName}</div>
+                      <div className="text-sm text-gray-500">{client.phone}</div>
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4 text-gray-500">
+                Nessun cliente disponibile
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal di selezione servizio */}
+      <Dialog open={showServiceSelector} onOpenChange={setShowServiceSelector}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Seleziona Servizio</DialogTitle>
+          </DialogHeader>
+          <div className="max-h-64 overflow-y-auto">
+            {services.length > 0 ? (
+              <div className="space-y-2">
+                {services.map(service => (
+                  <Button
+                    key={service.id}
+                    variant="outline"
+                    className="w-full justify-start h-auto p-3"
+                    onClick={() => {
+                      setSelectedService({
+                        id: service.id,
+                        name: service.name,
+                        duration: service.duration
+                      });
+                      setShowServiceSelector(false);
+                    }}
+                  >
+                    <div className="text-left">
+                      <div className="font-semibold">{service.name}</div>
+                      <div className="text-sm text-gray-500">
+                        {service.duration} minuti - €{service.price}
+                      </div>
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4 text-gray-500">
+                Nessun servizio disponibile
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }
