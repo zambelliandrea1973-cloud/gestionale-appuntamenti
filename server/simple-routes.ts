@@ -232,9 +232,58 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Sistema permanente icone - STESSA LOGICA NOME AZIENDALE  
+  // Icona Fleur de Vie SVG ottimizzata come predefinita
+  const fleurDeVieSvg = `<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Fleur de Vie pattern multicolore -->
+    <defs>
+      <style>
+        .petal { stroke-width: 2; fill-opacity: 0.7; }
+        .circle1 { fill: #ff6b6b; stroke: #ff5252; }
+        .circle2 { fill: #4ecdc4; stroke: #26a69a; }
+        .circle3 { fill: #45b7d1; stroke: #2196f3; }
+        .circle4 { fill: #96ceb4; stroke: #4caf50; }
+        .circle5 { fill: #ffeaa7; stroke: #ffeb3b; }
+        .circle6 { fill: #dda0dd; stroke: #9c27b0; }
+        .circle7 { fill: #ffa726; stroke: #ff9800; }
+      </style>
+    </defs>
+    
+    <!-- Background circle -->
+    <circle cx="100" cy="100" r="95" fill="white" stroke="#ddd" stroke-width="2"/>
+    
+    <!-- Central circle -->
+    <circle cx="100" cy="100" r="30" class="petal circle1"/>
+    
+    <!-- First ring of 6 circles -->
+    <circle cx="100" cy="70" r="30" class="petal circle2"/>
+    <circle cx="126" cy="85" r="30" class="petal circle3"/>
+    <circle cx="126" cy="115" r="30" class="petal circle4"/>
+    <circle cx="100" cy="130" r="30" class="petal circle5"/>
+    <circle cx="74" cy="115" r="30" class="petal circle6"/>
+    <circle cx="74" cy="85" r="30" class="petal circle7"/>
+    
+    <!-- Second ring of 12 circles -->
+    <circle cx="100" cy="40" r="30" class="petal circle2"/>
+    <circle cx="141" cy="55" r="30" class="petal circle3"/>
+    <circle cx="156" cy="100" r="30" class="petal circle4"/>
+    <circle cx="141" cy="145" r="30" class="petal circle5"/>
+    <circle cx="100" cy="160" r="30" class="petal circle6"/>
+    <circle cx="59" cy="145" r="30" class="petal circle7"/>
+    <circle cx="44" cy="100" r="30" class="petal circle1"/>
+    <circle cx="59" cy="55" r="30" class="petal circle2"/>
+    <circle cx="85" cy="45" r="30" class="petal circle3"/>
+    <circle cx="115" cy="45" r="30" class="petal circle4"/>
+    <circle cx="130" cy="70" r="30" class="petal circle5"/>
+    <circle cx="130" cy="130" r="30" class="petal circle6"/>
+    <circle cx="115" cy="155" r="30" class="petal circle7"/>
+    <circle cx="85" cy="155" r="30" class="petal circle1"/>
+    <circle cx="70" cy="130" r="30" class="petal circle2"/>
+    <circle cx="70" cy="70" r="30" class="petal circle3"/>
+  </svg>`;
+
   let iconSettings = { 
     appName: "Gestionale Sanitario", 
-    icon: "/attached_assets/Fleur de Vie multicolore.jpg"
+    icon: `data:image/svg+xml;base64,${Buffer.from(fleurDeVieSvg).toString('base64')}`
   };
 
   // Endpoint per ottenere l'icona dell'app - STESSA LOGICA NOME AZIENDALE
