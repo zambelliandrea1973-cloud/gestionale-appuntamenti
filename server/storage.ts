@@ -2609,6 +2609,19 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async updateUserPassword(id: number, hashedPassword: string): Promise<boolean> {
+    try {
+      await db
+        .update(users)
+        .set({ password: hashedPassword })
+        .where(eq(users.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error updating user password:", error);
+      return false;
+    }
+  }
+
   async deleteUser(id: number): Promise<boolean> {
     try {
       await db.delete(users).where(eq(users.id, id));
