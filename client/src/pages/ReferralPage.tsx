@@ -13,6 +13,7 @@ import { Copy, AlertCircle, Euro, Clipboard, Building, Share2 } from 'lucide-rea
 import { useToast } from '@/hooks/use-toast';
 import { useLocation } from 'wouter';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
+import AuthorizedRoute from '@/components/AuthorizedRoute';
 
 interface Commission {
   id: number;
@@ -269,10 +270,15 @@ export default function ReferralPage() {
   const isStaff = userWithLicense?.type === 'staff';
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">
-        {isStaff ? 'Il Mio Programma Referral' : 'Gestione Programma Referral'}
-      </h1>
+    <AuthorizedRoute 
+      requiredLicense="business"
+      featureName="Programma Referral"
+      description="Il sistema referral è disponibile solo per utenti con licenza Business e membri dello staff"
+    >
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold mb-6">
+          {isStaff ? 'Il Mio Programma Referral' : 'Gestione Programma Referral'}
+        </h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
         {/* Sezione codice referral */}
@@ -511,6 +517,7 @@ export default function ReferralPage() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </AuthorizedRoute>
   );
 }
