@@ -66,9 +66,9 @@ router.get('/has-pro-access', async (req, res) => {
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       
-      // Admin e staff hanno sempre accesso PRO
+      // Admin e staff hanno sempre accesso PRO (accesso completo automatico)
       if (user.type === 'admin' || user.type === 'staff') {
-        return res.json({ hasProAccess: true });
+        return res.json(true);
       }
       
       // Customer con licenza Pro o Business hanno accesso PRO
@@ -79,20 +79,16 @@ router.get('/has-pro-access', async (req, res) => {
             licenseInfo.type === LicenseType.BUSINESS || 
             licenseInfo.type === LicenseType.PASSEPARTOUT
         )) {
-          return res.json({ hasProAccess: true });
+          return res.json(true);
         }
       }
     }
     
-    // Per casi standard, usiamo la logica del servizio licenza
-    const hasProAccess = await licenseService.hasProAccess();
-    res.json({ hasProAccess });
+    // Per casi standard, restituiamo false per utenti non autorizzati
+    res.json(false);
   } catch (error) {
     console.error('Errore nella verifica dell\'accesso PRO:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Errore nella verifica dell\'accesso PRO'
-    });
+    res.status(500).json(false);
   }
 });
 
@@ -103,9 +99,9 @@ router.get('/has-business-access', async (req, res) => {
     if (req.isAuthenticated && req.isAuthenticated()) {
       const user = req.user as any;
       
-      // Amministratore ha sempre accesso Business
-      if (user.type === 'admin') {
-        return res.json({ hasBusinessAccess: true });
+      // Admin e staff hanno sempre accesso Business (accesso completo automatico)
+      if (user.type === 'admin' || user.type === 'staff') {
+        return res.json(true);
       }
       
       // Customer con licenza Business o Passepartout hanno accesso Business
@@ -115,20 +111,16 @@ router.get('/has-business-access', async (req, res) => {
             licenseInfo.type === LicenseType.BUSINESS || 
             licenseInfo.type === LicenseType.PASSEPARTOUT
         )) {
-          return res.json({ hasBusinessAccess: true });
+          return res.json(true);
         }
       }
     }
     
-    // Per casi standard, usiamo la logica del servizio licenza
-    const hasBusinessAccess = await licenseService.hasBusinessAccess();
-    res.json({ hasBusinessAccess });
+    // Per casi standard, restituiamo false per utenti non autorizzati
+    res.json(false);
   } catch (error) {
     console.error('Errore nella verifica dell\'accesso BUSINESS:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Errore nella verifica dell\'accesso BUSINESS'
-    });
+    res.status(500).json(false);
   }
 });
 
