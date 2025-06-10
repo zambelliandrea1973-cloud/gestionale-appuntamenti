@@ -26,7 +26,7 @@ export default function StaffManagementPageFixed() {
   });
 
   // Filtra gli utenti in base alla ricerca
-  const filteredUsers = (staffUsers as StaffUser[]).filter((user: StaffUser) => 
+  const filteredUsers = (Array.isArray(staffUsers) ? staffUsers as StaffUser[] : []).filter((user: StaffUser) => 
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
   );
@@ -56,95 +56,98 @@ export default function StaffManagementPageFixed() {
       description="Solo gli amministratori possono gestire il personale e visualizzare i codici referral"
     >
       <div className="container mx-auto py-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gestione Staff</h1>
-          <p className="text-muted-foreground mt-1">
-            Visualizza e gestisci i tuoi membri dello staff
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button 
-            onClick={() => setLocation('/banking-settings')}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            <Banknote className="h-4 w-4 mr-2" />
-            Configurazione Bancaria
-          </Button>
-          <div className="flex items-center gap-2">
-            <Users className="h-5 w-5 text-blue-600" />
-            <span className="text-sm font-medium">{staffUsers.length} membri staff</span>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Gestione Staff</h1>
+            <p className="text-muted-foreground mt-1">
+              Visualizza e gestisci i tuoi membri dello staff
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button 
+              onClick={() => setLocation('/banking-settings')}
+              className="bg-green-600 hover:bg-green-700 text-white"
+            >
+              <Banknote className="h-4 w-4 mr-2" />
+              Configurazione Bancaria
+            </Button>
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-blue-600" />
+              <span className="text-sm font-medium">
+                {Array.isArray(staffUsers) ? staffUsers.length : 0} membri staff
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Barra di ricerca */}
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="Cerca per nome utente o email..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
+        {/* Barra di ricerca */}
+        <div className="flex items-center space-x-4">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Cerca per nome utente o email..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Lista Staff */}
-      <div className="grid gap-4">
-        {filteredUsers.map((user: StaffUser) => (
-          <Card key={user.id} className="hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                    {user.username.charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg">{user.username}</h3>
-                    <p className="text-muted-foreground">{user.email}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Badge 
-                        variant={user.role === 'admin' ? 'default' : 'secondary'}
-                        className="text-xs"
-                      >
-                        {user.role === 'admin' ? 'Amministratore' : 'Staff'}
-                      </Badge>
-                      {user.referralCode && (
-                        <Badge variant="outline" className="text-xs">
-                          Codice: {user.referralCode}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
+        {/* Griglia utenti staff */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredUsers.map((user: StaffUser) => (
+            <Card key={user.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{user.username}</CardTitle>
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+                    Staff
+                  </Badge>
                 </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {user.email && (
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    {user.email}
+                  </div>
+                )}
                 
-                <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm">
-                    <Eye className="h-4 w-4 mr-2" />
+                {user.createdAt && (
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Registrato: {new Date(user.createdAt).toLocaleDateString('it-IT')}
+                  </div>
+                )}
+                
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-xs text-muted-foreground">
+                    ID: {user.id}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setLocation(`/staff/${user.id}`)}
+                  >
+                    <Eye className="h-4 w-4 mr-1" />
                     Dettagli
                   </Button>
-                  <Button variant="outline" size="sm">
-                    <CreditCard className="h-4 w-4 mr-2" />
-                    Commissioni
-                  </Button>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {filteredUsers.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">
-            {searchQuery ? 'Nessun risultato trovato.' : 'Nessun utente staff trovato.'}
-          </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      )}
-    </div>
+
+        {/* Messaggio quando non ci sono risultati */}
+        {filteredUsers.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">
+              {searchQuery ? 'Nessun risultato trovato.' : 'Nessun utente staff trovato.'}
+            </p>
+          </div>
+        )}
+      </div>
     </AuthorizedRoute>
   );
 }
