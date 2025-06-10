@@ -39,9 +39,19 @@ export default function Clients() {
   } = useQuery({
     queryKey: ['/api/clients'],
     queryFn: async () => {
-      console.log("Chiamata /api/clients con nuovo sistema multi-tenant");
+      const deviceType = window.innerWidth < 768 ? 'mobile' : 'desktop';
+      console.log(`[${deviceType}] Chiamata /api/clients con nuovo sistema multi-tenant`);
+      
       const response = await fetch('/api/clients', {
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'X-Device-Type': deviceType,
+          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'If-Modified-Since': 'Mon, 26 Jul 1997 05:00:00 GMT',
+          'If-None-Match': '*'
+        }
       });
       
       if (!response.ok) {
@@ -49,7 +59,13 @@ export default function Clients() {
       }
       
       const data = await response.json();
-      console.log(`Ricevuti ${data.length} clienti dal nuovo sistema multi-tenant`);
+      console.log(`[${deviceType}] Ricevuti ${data.length} clienti dal nuovo sistema multi-tenant`);
+      console.log(`[${deviceType}] Sample clienti:`, data.slice(0, 3).map(c => ({
+        id: c.id, 
+        firstName: c.firstName, 
+        lastName: c.lastName, 
+        uniqueCode: c.uniqueCode 
+      })));
       return data;
     }
   });
@@ -178,6 +194,19 @@ export default function Clients() {
           >
             <Server className="h-4 w-4 mr-2" />
             Test Server
+          </Button>
+          <Button
+            onClick={async () => {
+              const deviceType = window.innerWidth < 768 ? 'mobile' : 'desktop';
+              console.log(`🚀 [${deviceType}] DEBUG: Forzando refresh completo`);
+              await queryClient.clear();
+              await refetchClients();
+            }}
+            variant="destructive"
+            size="sm"
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Debug Cache
           </Button>
           <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
             <DialogTrigger asChild>

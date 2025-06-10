@@ -126,34 +126,39 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/clients", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
+    const deviceType = req.headers['x-device-type'] || 'unknown';
     
-    console.log(`[/api/clients] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
+    console.log(`🔍 [/api/clients] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
     
     // Carica dati reali dal file storage_data.json
     const allClients = loadStorageData().clients || [];
-    console.log(`[/api/clients] Caricati ${allClients.length} clienti totali dal storage`);
+    console.log(`📦 [/api/clients] [${deviceType}] Caricati ${allClients.length} clienti totali dal storage`);
     
     // Per admin, mostra tutti i clienti, per altri utenti solo i propri
     let userClients;
     if (user.type === 'admin') {
       userClients = allClients.map(([id, client]) => client);
-      console.log(`[/api/clients] Admin - Restituendo tutti i ${userClients.length} clienti`);
+      console.log(`👑 [/api/clients] [${deviceType}] Admin - Restituendo tutti i ${userClients.length} clienti`);
     } else {
       userClients = allClients
         .filter(([id, client]) => client.ownerId === user.id)
         .map(([id, client]) => client);
-      console.log(`[/api/clients] User ${user.id} - Restituendo ${userClients.length} clienti propri`);
+      console.log(`👤 [/api/clients] [${deviceType}] User ${user.id} - Restituendo ${userClients.length} clienti propri`);
     }
     
-    // Log dettagliato dei primi 3 clienti per debugging
-    const sampleClients = userClients.slice(0, 3).map(c => ({
+    // Log dettagliato dei primi 5 clienti per debugging completo
+    const sampleClients = userClients.slice(0, 5).map(c => ({
       id: c.id,
       firstName: c.firstName,
       lastName: c.lastName,
       uniqueCode: c.uniqueCode,
       ownerId: c.ownerId
     }));
-    console.log(`[/api/clients] Sample clienti:`, JSON.stringify(sampleClients, null, 2));
+    console.log(`🔍 [/api/clients] [${deviceType}] Sample primi 5 clienti:`, JSON.stringify(sampleClients, null, 2));
+    
+    // Log totale con uniqueCode per identificare il problema
+    const clientsWithCodes = userClients.filter(c => c.uniqueCode);
+    console.log(`🏷️ [/api/clients] [${deviceType}] Clienti con uniqueCode: ${clientsWithCodes.length}/${userClients.length}`);
     
     res.json(userClients);
   });
