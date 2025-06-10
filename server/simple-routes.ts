@@ -243,8 +243,6 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Sistema permanente icone PER UTENTE con persistenza
-  const fs = require('fs');
-  const path = require('path');
   const storageFile = path.join(__dirname, '../storage_data.json');
   
   function loadStorageData() {
