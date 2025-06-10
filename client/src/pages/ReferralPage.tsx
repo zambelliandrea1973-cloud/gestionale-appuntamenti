@@ -271,9 +271,9 @@ export default function ReferralPage() {
 
   return (
     <AuthorizedRoute 
-      requiredLicense="business"
-      featureName="Programma Referral"
-      description="Il sistema referral è disponibile solo per utenti con licenza Business e membri dello staff"
+      requiredRole="admin"
+      featureName="Gestione Referral"
+      description="Solo gli amministratori possono gestire i referral, coordinare e verificare gli abbonamenti sponsorizzati dallo staff per procedere ai pagamenti"
     >
       <div className="container mx-auto py-8 px-4">
         <h1 className="text-3xl font-bold mb-6">
