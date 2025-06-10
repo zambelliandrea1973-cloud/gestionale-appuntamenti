@@ -242,8 +242,41 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ title: "Gestionale Sanitario" });
   });
 
-  // Sistema permanente icone PER UTENTE - STESSA LOGICA NOME AZIENDALE  
-  const userIcons = new Map();
+  // Sistema permanente icone PER UTENTE con persistenza
+  const fs = require('fs');
+  const path = require('path');
+  const storageFile = path.join(__dirname, '../storage_data.json');
+  
+  function loadStorageData() {
+    try {
+      if (fs.existsSync(storageFile)) {
+        const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+        if (!data.userIcons) data.userIcons = {};
+        if (!data.userBusinessSettings) data.userBusinessSettings = {};
+        if (!data.userServices) data.userServices = {};
+        return data;
+      }
+    } catch (error) {
+      console.error('Errore caricamento storage:', error);
+    }
+    return { userIcons: {}, userBusinessSettings: {}, userServices: {} };
+  }
+  
+  function saveStorageData(updatedData) {
+    try {
+      const currentData = fs.existsSync(storageFile) 
+        ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
+        : {};
+      
+      const mergedData = { ...currentData, ...updatedData };
+      fs.writeFileSync(storageFile, JSON.stringify(mergedData, null, 2));
+      console.log('💾 Dati salvati persistentemente');
+    } catch (error) {
+      console.error('Errore salvataggio storage:', error);
+    }
+  }
+  
+  let storageData = loadStorageData();
 
   // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
   app.get("/api/client-app-info", (req, res) => {
@@ -255,7 +288,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     const userId = req.user.id;
-    const userIcon = userIcons.get(userId) || defaultIconBase64;
+    const userIcon = storageData.userIcons[userId] || defaultIconBase64;
     
     res.json({ 
       appName: "Gestionale Sanitario", 
@@ -274,8 +307,9 @@ export function registerSimpleRoutes(app: Express): Server {
       const userId = req.user.id;
       
       if (iconData !== undefined) {
-        userIcons.set(userId, iconData);
-        console.log(`🖼️ Icona personalizzata salvata per utente ${userId} (${iconData.length} bytes)`);
+        storageData.userIcons[userId] = iconData;
+        saveStorageData(storageData);
+        console.log(`🖼️ Icona personalizzata salvata persistentemente per utente ${userId} (${iconData.length} bytes)`);
       }
       
       res.json({ 
@@ -296,8 +330,9 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     const userId = req.user.id;
-    userIcons.set(userId, defaultIconBase64);
-    console.log(`🔄 Reset icona a Fleur de Vie per utente ${userId}`);
+    storageData.userIcons[userId] = defaultIconBase64;
+    saveStorageData(storageData);
+    console.log(`🔄 Reset icona a Fleur de Vie persistente per utente ${userId}`);
     
     res.json({ 
       success: true, 
@@ -307,9 +342,6 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Sistema permanente gestione nome aziendale PER UTENTE
-  const userBusinessSettings = new Map();
-
   // Endpoint per ottenere le impostazioni nome aziendale - SEPARAZIONE PER UTENTE
   app.get("/api/company-name-settings", (req, res) => {
     if (!req.isAuthenticated()) {
@@ -317,7 +349,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     const userId = req.user.id;
-    const userSettings = userBusinessSettings.get(userId) || { businessName: "Studio Medico", showBusinessName: true };
+    const userSettings = storageData.userBusinessSettings[userId] || { businessName: "Studio Medico", showBusinessName: true };
     
     res.json(userSettings);
   });
@@ -332,13 +364,14 @@ export function registerSimpleRoutes(app: Express): Server {
       const { businessName, showBusinessName } = req.body;
       const userId = req.user.id;
       
-      const currentSettings = userBusinessSettings.get(userId) || { businessName: "Studio Medico", showBusinessName: true };
+      const currentSettings = storageData.userBusinessSettings[userId] || { businessName: "Studio Medico", showBusinessName: true };
       
       if (businessName !== undefined) currentSettings.businessName = businessName;
       if (showBusinessName !== undefined) currentSettings.showBusinessName = showBusinessName;
       
-      userBusinessSettings.set(userId, currentSettings);
-      console.log(`🏢 Impostazioni nome aziendale aggiornate per utente ${userId}:`, currentSettings);
+      storageData.userBusinessSettings[userId] = currentSettings;
+      saveStorageData(storageData);
+      console.log(`🏢 Impostazioni nome aziendale aggiornate persistentemente per utente ${userId}:`, currentSettings);
       
       res.json({ success: true, message: "Impostazioni salvate con successo", ...currentSettings });
     } catch (error) {
