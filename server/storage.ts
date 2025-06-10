@@ -94,6 +94,7 @@ export interface IStorage {
   getAllStaffUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
+  updateUserPassword(id: number, hashedPassword: string): Promise<boolean>;
   deleteUser(id: number): Promise<boolean>;
   
   // Client Account operations
