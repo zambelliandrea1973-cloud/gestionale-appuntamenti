@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import path from "path";
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 // Dati semplici in memoria - recuperati dal backup15
 const userData = {
@@ -232,9 +234,28 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Sistema permanente icone - STESSA LOGICA NOME AZIENDALE  
+  // Carico l'icona Fleur de Vie dal backup15 e la converto in base64 in memoria
+  import fs from 'fs';
+  import path from 'path';
+  import { fileURLToPath } from 'url';
+  
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  
+  let defaultIconBase64 = '';
+  try {
+    const iconPath = path.join(__dirname, '../attached_assets/Fleur de Vie multicolore.jpg');
+    const iconBuffer = fs.readFileSync(iconPath);
+    defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
+    console.log('✅ Icona Fleur de Vie caricata dal backup15:', iconBuffer.length, 'bytes');
+  } catch (error) {
+    console.log('⚠️ Icona Fleur de Vie non trovata, uso fallback');
+    defaultIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+';
+  }
+
   let iconSettings = { 
     appName: "Gestionale Sanitario", 
-    icon: "/attached_assets/Fleur de Vie multicolore.jpg"
+    icon: defaultIconBase64
   };
 
   // Endpoint per ottenere l'icona dell'app - STESSA LOGICA NOME AZIENDALE
