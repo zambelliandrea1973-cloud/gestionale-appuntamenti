@@ -546,6 +546,151 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(userCodes);
   });
 
+  // Endpoint Referral Overview - Solo per admin
+  app.get("/api/referral-overview", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alla panoramica referral" });
+    }
+    
+    try {
+      const storageData = loadStorageData();
+      const allUsers = storageData.users || [];
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Trova tutti gli staff con referral attivi
+      const staffMembers = allUsers
+        .filter(([id, userData]) => userData.type === 'staff')
+        .map(([id, userData]) => ({
+          staffId: userData.id,
+          staffName: userData.username,
+          staffEmail: userData.email || userData.username
+        }));
+      
+      // Calcola statistiche per ogni staff
+      const staffStats = staffMembers.map(staff => {
+        const staffCommissions = referralCommissions.filter(commission => 
+          commission.referrerId === staff.staffId
+        );
+        
+        const sponsoredCount = staffCommissions.length;
+        const totalCommissions = staffCommissions.reduce((sum, commission) => 
+          sum + (commission.monthlyAmount || 0), 0
+        );
+        const paidCommissions = staffCommissions
+          .filter(commission => commission.isPaid)
+          .reduce((sum, commission) => sum + (commission.monthlyAmount || 0), 0);
+        const pendingCommissions = totalCommissions - paidCommissions;
+        
+        return {
+          ...staff,
+          sponsoredCount,
+          totalCommissions,
+          paidCommissions,
+          pendingCommissions
+        };
+      }).filter(staff => staff.sponsoredCount > 0); // Solo staff con referral attivi
+      
+      // Calcola totali generali
+      const totals = {
+        totalSponsored: staffStats.reduce((sum, staff) => sum + staff.sponsoredCount, 0),
+        totalCommissions: staffStats.reduce((sum, staff) => sum + staff.totalCommissions, 0),
+        totalPaid: staffStats.reduce((sum, staff) => sum + staff.paidCommissions, 0),
+        totalPending: staffStats.reduce((sum, staff) => sum + staff.pendingCommissions, 0)
+      };
+      
+      const response = {
+        staffStats,
+        totals,
+        commissionRate: 10, // 10% commissione standard
+        minSponsorshipForCommission: 3 // Dal terzo abbonamento sponsorizzato
+      };
+      
+      res.json(response);
+    } catch (error) {
+      console.error('Errore nel caricamento panoramica referral:', error);
+      res.status(500).json({ message: "Errore nel caricamento dei dati referral" });
+    }
+  });
+
+  // Endpoint Commissioni Staff - Solo per admin
+  app.get("/api/staff-commissions/:staffId", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alle commissioni staff" });
+    }
+    
+    try {
+      const staffId = parseInt(req.params.staffId);
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Trova commissioni per lo staff specifico
+      const staffCommissions = referralCommissions
+        .filter(commission => commission.referrerId === staffId)
+        .map(commission => ({
+          id: commission.id,
+          commissionAmount: commission.monthlyAmount || 0,
+          isPaid: commission.isPaid || false,
+          paidAt: commission.paidAt || null,
+          createdAt: commission.createdAt || new Date().toISOString(),
+          notes: commission.notes || null,
+          licenseCode: commission.licenseCode || `REF-${commission.id}`,
+          licenseType: commission.licenseType || 'business',
+          customerEmail: commission.customerEmail || 'cliente@email.com'
+        }));
+      
+      res.json(staffCommissions);
+    } catch (error) {
+      console.error('Errore nel caricamento commissioni staff:', error);
+      res.status(500).json({ message: "Errore nel caricamento delle commissioni" });
+    }
+  });
+
+  // Endpoint per segnare commissione come pagata - Solo per admin
+  app.post("/api/staff-commissions/:commissionId/mark-paid", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può aggiornare le commissioni" });
+    }
+    
+    try {
+      const commissionId = parseInt(req.params.commissionId);
+      const { notes } = req.body;
+      
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Trova e aggiorna la commissione
+      const commissionIndex = referralCommissions.findIndex(c => c.id === commissionId);
+      if (commissionIndex === -1) {
+        return res.status(404).json({ message: "Commissione non trovata" });
+      }
+      
+      referralCommissions[commissionIndex] = {
+        ...referralCommissions[commissionIndex],
+        isPaid: true,
+        paidAt: new Date().toISOString(),
+        notes: notes || referralCommissions[commissionIndex].notes
+      };
+      
+      // Salva i dati aggiornati
+      storageData.referralCommissions = referralCommissions;
+      saveStorageData(storageData);
+      
+      res.json({ success: true, message: "Commissione segnata come pagata" });
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento commissione:', error);
+      res.status(500).json({ message: "Errore nell'aggiornamento della commissione" });
+    }
+  });
+
   // Servire file statici da attached_assets per icone
   app.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
