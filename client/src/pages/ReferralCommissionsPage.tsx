@@ -11,6 +11,7 @@ import { it } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import AuthorizedRoute from "@/components/AuthorizedRoute";
 
 interface StaffCommission {
   id: number;
@@ -144,12 +145,15 @@ export default function ReferralCommissionsPage() {
     }
   };
 
-  if (!user) {
-    return <div className="text-center p-8">Devi essere autenticato per vedere questa pagina.</div>;
-  }
-
-  if (user.role === 'staff') {
-    return (
+  return (
+    <AuthorizedRoute 
+      requiredRole="admin"
+      featureName="Gestione Commissioni Referral"
+      description="Solo gli amministratori possono gestire le commissioni referral, coordinare e verificare gli abbonamenti sponsorizzati dallo staff per procedere ai pagamenti"
+    >
+      {!user ? (
+        <div className="text-center p-8">Devi essere autenticato per vedere questa pagina.</div>
+      ) : user.role === 'admin' ? (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
         <div className="max-w-6xl mx-auto">
           {/* Header con gradiente blu */}
@@ -655,9 +659,12 @@ export default function ReferralCommissionsPage() {
     );
   }
 
-  return (
-    <div className="text-center p-8">
-      <p>Questa sezione è disponibile solo per admin e staff.</p>
-    </div>
+        return (
+          <div className="text-center p-8">
+            <p>Questa sezione è disponibile solo per admin e staff.</p>
+          </div>
+        );
+      })()}
+    </AuthorizedRoute>
   );
 }
