@@ -1,0 +1,67 @@
+Stato autenticazione: {user: true, location: '/calendar', isLoading: false}
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 08:00
+Console.js:61 AppointmentModal - selectedSlots: []
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 08:00
+Console.js:61 AppointmentModal - selectedSlots: []
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 08:00
+Console.js:61 AppointmentModal - selectedSlots: []
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 08:00
+Console.js:61 AppointmentModal - selectedSlots: []
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 08:00
+Console.js:61 AppointmentModal - selectedSlots: []
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 09:00
+Console.js:61 AppointmentModal - selectedSlots: ['09:00']
+Console.js:61 Slots selezionati: (2) ['09:00', '09:15']
+Console.js:61 Ora di fine calcolata: 09:30
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 09:00
+Console.js:61 AppointmentModal - selectedSlots: (2) ['09:00', '09:15']
+Console.js:61 Slots selezionati: (3) ['09:00', '09:15', '09:30']
+Console.js:61 Ora di fine calcolata: 09:45
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 09:00
+Console.js:61 AppointmentModal - selectedSlots: (3) ['09:00', '09:15', '09:30']
+Console.js:61 Slots selezionati: (4) ['09:00', '09:15', '09:30', '09:45']
+Console.js:61 Ora di fine calcolata: 10:00
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 09:00
+Console.js:61 AppointmentModal - selectedSlots: (4) ['09:00', '09:15', '09:30', '09:45']
+Console.js:61 AppointmentModal - isOpen: true
+Console.js:61 AppointmentModal - defaultTime: 09:00
+Console.js:61 AppointmentModal - selectedSlots: (4) ['09:00', '09:15', '09:30', '09:45']
+Console.js:61 Esecuzione richiesta GET a /api/services 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/services: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 Risposta da /api/services: 200 OK ok: true
+Console.js:61 Servizio selezionato con durata: 45
+Console.js:61 Servizio selezionato con durata: 60
+Console.js:61 Pulsante Salva cliccato
+Console.js:61 Tentativo di attivare il salvataggio diretto
+Console.js:61 VALORI FORM ESTRATTI: {clientId: 4, serviceId: 4, date: Wed Jun 11 2025 18:05:51 GMT+0200 (Ora legale dell’Europa centrale), startTime: '09:00', notes: '', …}
+Console.js:61 Attivazione pulsante di salvataggio diretto
+Console.js:61 === [DIRECT-BUTTON] INIZIO SALVATAGGIO DIRETTO APPUNTAMENTO ===
+Console.js:61 [DIRECT-BUTTON] Dati del form: {clientId: 4, serviceId: 4, date: Wed Jun 11 2025 18:05:51 GMT+0200 (Ora legale dell’Europa centrale), startTime: '09:00', notes: '', …}
+Console.js:61 [DIRECT-BUTTON] Dati formattati per API: {clientId: 4, serviceId: 4, date: '2025-06-11', startTime: '09:00', endTime: '10:00:00', …}
+Console.js:61 Esecuzione richiesta POST a /api/appointments {"clientId":4,"serviceId":4,"date":"2025-06-11","startTime":"09:00","endTime":"10:00:00","notes":"","status":"scheduled"}
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta POST a /api/appointments: {method: 'POST', headers: {…}, body: '{"clientId":4,"serviceId":4,"date":"2025-06-11","s…Time":"10:00:00","notes":"","status":"scheduled"}'}
+Console.js:61 Risposta da /api/appointments: 201 Created ok: true
+Console.js:61 [DIRECT-BUTTON] Risposta ricevuta: {id: 1749571575288, clientId: 4, serviceId: 4, date: '2025-06-11', startTime: '09:00', …}
+Console.js:61 Appuntamento salvato con successo!
+Console.js:61 Appuntamento salvato - aggiornamento calendario...
+Console.js:61 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Console.js:61 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Console.js:61 AppointmentModal - isOpen: false
+Console.js:61 AppointmentModal - defaultTime: 08:00
+Console.js:61 AppointmentModal - selectedSlots: []
+Console.js:61 Calendario aggiornato dopo salvataggio appuntamento
+Console.js:61 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Console.js:61 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
