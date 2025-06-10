@@ -612,41 +612,56 @@
   "invoiceItemIdCounter": 1,
   "paymentIdCounter": 1,
   "users": [
-    [3, {
-      "id": 3,
-      "username": "zambelli.andrea.1973@gmail.com", 
-      "email": "zambelli.andrea.1973@gmail.com",
-      "type": "admin",
-      "createdAt": "2025-01-01T00:00:00.000Z"
-    }],
-    [9, {
-      "id": 9,
-      "username": "elisafaverio6@gmail.com",
-      "email": "elisafaverio6@gmail.com", 
-      "type": "business",
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    }],
-    [11, {
-      "id": 11,
-      "username": "busnari.test@gmail.com",
-      "email": "busnari.test@gmail.com",
-      "type": "staff", 
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    }],
-    [12, {
-      "id": 12,
-      "username": "business.user@gmail.com",
-      "email": "business.user@gmail.com",
-      "type": "business",
-      "createdAt": "2025-06-03T13:34:58.643Z" 
-    }],
-    [16, {
-      "id": 16,
-      "username": "gironico.test@gmail.com",
-      "email": "gironico.test@gmail.com",
-      "type": "business",
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    }]
+    [
+      3,
+      {
+        "id": 3,
+        "username": "zambelli.andrea.1973@gmail.com",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "type": "admin",
+        "createdAt": "2025-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      9,
+      {
+        "id": 9,
+        "username": "elisafaverio6@gmail.com",
+        "email": "elisafaverio6@gmail.com",
+        "type": "business",
+        "createdAt": "2025-06-03T13:34:58.643Z"
+      }
+    ],
+    [
+      11,
+      {
+        "id": 11,
+        "username": "busnari.silvia@libero.it",
+        "email": "busnari.silvia@libero.it",
+        "type": "staff",
+        "createdAt": "2025-06-03T13:34:58.643Z"
+      }
+    ],
+    [
+      12,
+      {
+        "id": 12,
+        "username": "business.user@gmail.com",
+        "email": "business.user@gmail.com",
+        "type": "business",
+        "createdAt": "2025-06-03T13:34:58.643Z"
+      }
+    ],
+    [
+      16,
+      {
+        "id": 16,
+        "username": "staff.faverio@studio.com",
+        "email": "staff.faverio@studio.com",
+        "type": "staff",
+        "createdAt": "2025-06-01T10:00:00.000Z"
+      }
+    ]
   ],
   "referralCodes": [
     {
@@ -659,11 +674,11 @@
       "createdAt": "2025-06-03T13:34:58.643Z"
     },
     {
-      "id": "REF002", 
+      "id": "REF002",
       "code": "BUSNARI2025",
       "ownerId": 11,
       "createdBy": 3,
-      "description": "Codice referral Busnari Staff",
+      "description": "Codice referral Busnari Silvia Staff",
       "isActive": true,
       "createdAt": "2025-06-03T13:34:58.643Z"
     }
@@ -679,43 +694,6 @@
   },
   "userBusinessSettings": {},
   "userServices": {},
-  "users": [
-    [3, {
-      "id": 3,
-      "username": "zambelli.andrea.1973@gmail.com", 
-      "email": "zambelli.andrea.1973@gmail.com",
-      "type": "admin",
-      "createdAt": "2025-01-01T00:00:00.000Z"
-    }],
-    [9, {
-      "id": 9,
-      "username": "elisafaverio6@gmail.com",
-      "email": "elisafaverio6@gmail.com", 
-      "type": "business",
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    }],
-    [11, {
-      "id": 11,
-      "username": "busnari.test@gmail.com",
-      "email": "busnari.test@gmail.com",
-      "type": "staff", 
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    }],
-    [12, {
-      "id": 12,
-      "username": "business.user@gmail.com",
-      "email": "business.user@gmail.com",
-      "type": "business",
-      "createdAt": "2025-06-03T13:34:58.643Z" 
-    }],
-    [16, {
-      "id": 16,
-      "username": "staff.faverio@studio.com",
-      "email": "staff.faverio@studio.com",
-      "type": "staff",
-      "createdAt": "2025-06-01T10:00:00.000Z"
-    }]
-  ],
   "referralCommissions": [
     {
       "id": 1,
@@ -729,7 +707,7 @@
       "licenseCode": "REF-BUSNARI-001",
       "licenseType": "business",
       "customerEmail": "elisafaverio6@gmail.com",
-      "notes": "Prima commissione da Busnari per sponsorizzazione Faverio"
+      "notes": "Prima commissione da Busnari Silvia per sponsorizzazione Faverio"
     },
     {
       "id": 2,
