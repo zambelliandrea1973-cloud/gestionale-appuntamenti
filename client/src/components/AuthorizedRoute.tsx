@@ -104,7 +104,7 @@ export default function AuthorizedRoute({
 
   // Verifica licenza
   if (requiredLicense) {
-    const hasRequiredLicense = checkLicenseAccess(requiredLicense, hasProAccess, hasBusinessAccess);
+    const hasRequiredLicense = checkLicenseAccess(requiredLicense, hasProAccess, hasBusinessAccess, user.type);
     
     if (!hasRequiredLicense) {
       return (
@@ -177,8 +177,14 @@ function checkUserRole(userType: string, requiredRole: string): boolean {
 
 /**
  * Verifica se l'utente ha la licenza richiesta
+ * NOTA: Gli staff hanno accesso gratuito per 10 anni a tutte le funzionalità business
  */
-function checkLicenseAccess(requiredLicense: string, hasProAccess: boolean, hasBusinessAccess: boolean): boolean {
+function checkLicenseAccess(requiredLicense: string, hasProAccess: boolean, hasBusinessAccess: boolean, userType?: string): boolean {
+  // Staff ha accesso gratuito per 10 anni a tutte le funzionalità business
+  if (userType === 'staff') {
+    return true; // Staff ha accesso completo come se avesse licenza business
+  }
+  
   switch (requiredLicense) {
     case 'pro':
       return hasProAccess || hasBusinessAccess; // Business include PRO
