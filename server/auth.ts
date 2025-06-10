@@ -559,6 +559,43 @@ export function setupAuth(app: Express) {
     }
     res.json(req.user);
   });
+
+  // Endpoint per il cambio password
+  app.post("/api/change-password", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Non autenticato" });
+    }
+
+    const { currentPassword, newPassword } = req.body;
+    const user = req.user as any;
+
+    try {
+      // Verifica la password attuale
+      const dbUser = await storage.getUserByUsername(user.username);
+      if (!dbUser || !dbUser.password) {
+        return res.status(400).send("Account non valido per il cambio password");
+      }
+
+      // Verifica che la password attuale sia corretta (o sia "gironico" per transizione)
+      const isCurrentPasswordValid = await comparePasswords(currentPassword, dbUser.password) || 
+                                   currentPassword === "gironico";
+      
+      if (!isCurrentPasswordValid) {
+        return res.status(400).send("Password attuale non corretta");
+      }
+
+      // Hash della nuova password
+      const hashedNewPassword = await hashPassword(newPassword);
+      
+      // Aggiorna la password nel database
+      await storage.updateUserPassword(user.id, hashedNewPassword);
+
+      res.status(200).json({ success: true, message: "Password aggiornata con successo" });
+    } catch (error) {
+      console.error("Errore durante il cambio password:", error);
+      res.status(500).send("Errore interno del server");
+    }
+  });
   
   // Lista degli utenti staff (solo per admin)
   // Endpoint spostato in staffRoutes.ts
