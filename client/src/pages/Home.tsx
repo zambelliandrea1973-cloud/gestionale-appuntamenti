@@ -20,16 +20,9 @@ import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 
-// Componente per l'icona dell'app
+// Componente per l'icona dell'app - STESSA LOGICA NOME AZIENDALE
 function AppIcon() {
-  const [iconInfo, setIconInfo] = useState<{
-    exists: boolean;
-    isCustom?: boolean;
-    iconPath?: string;
-    mimeType?: string;
-    lastModified?: string;
-  }>({ exists: false });
-  
+  const [iconUrl, setIconUrl] = useState<string>("");
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
@@ -38,8 +31,14 @@ function AppIcon() {
         setLoading(true);
         const response = await apiRequest("GET", "/api/client-app-info");
         const data = await response.json();
+        console.log('🏠 HOME: Icona ricevuta dal server:', { 
+          url: data.icon?.substring(0, 50) + '...',
+          length: data.icon?.length 
+        });
+        
+        // STESSA LOGICA NOME AZIENDALE - usa direttamente l'icona dal server
         if (data.icon) {
-          setIconInfo(data.icon);
+          setIconUrl(data.icon);
         }
       } catch (error) {
         console.error("Errore nel recuperare le informazioni dell'icona:", error);
@@ -55,22 +54,19 @@ function AppIcon() {
     return <div className="w-full h-full flex items-center justify-center"><Clock className="w-8 h-8 animate-spin text-primary/50" /></div>;
   }
   
-  if (!iconInfo.exists) {
+  if (!iconUrl) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-muted">
-        <ImageIcon className="w-12 h-12 text-muted-foreground" />
+        <Flower className="w-12 h-12 text-primary" />
       </div>
     );
   }
   
-  // Aggiungi un timestamp per evitare la cache del browser
-  const iconSrc = `${iconInfo.iconPath}?t=${new Date().getTime()}`;
-  
   return (
     <img 
-      src={iconSrc}
-      alt="Logo" 
-      className="w-full h-full object-cover"
+      src={iconUrl}
+      alt="Fleur de Vie" 
+      className="w-full h-full object-cover rounded-lg"
     />
   );
 }
