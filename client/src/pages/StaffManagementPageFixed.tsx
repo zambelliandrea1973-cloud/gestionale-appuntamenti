@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Users, Search, UserPlus, Eye, CreditCard, Banknote } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
+import AuthorizedRoute from "@/components/AuthorizedRoute";
 
 interface StaffUser {
   id: number;
@@ -49,7 +50,12 @@ export default function StaffManagementPageFixed() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <AuthorizedRoute 
+      requiredRole="admin" 
+      featureName="Gestione Staff"
+      description="Solo gli amministratori possono gestire il personale e visualizzare i codici referral"
+    >
+      <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -139,5 +145,6 @@ export default function StaffManagementPageFixed() {
         </div>
       )}
     </div>
+    </AuthorizedRoute>
   );
 }
