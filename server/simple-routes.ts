@@ -427,12 +427,19 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "ID cliente non valido" });
     }
     
-    // Verifica che il cliente appartenga all'utente loggato
-    const userClients = userData[user.id]?.clients || [];
-    const client = userClients.find(c => c.id === clientId);
+    // Carica dati reali dal file storage_data.json
+    const allClients = loadStorageData().clients || [];
+    const clientData = allClients.find(([id, client]) => id === clientId);
     
-    if (!client) {
-      return res.status(404).json({ message: "Cliente non trovato" });
+    if (!clientData) {
+      return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    }
+    
+    const client = clientData[1];
+    
+    // Verifica proprietà - solo admin o proprietario del cliente
+    if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
+      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
     // Genera token di attivazione semplice
@@ -459,12 +466,19 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const clientId = parseInt(req.params.clientId);
     
-    // Verifica che il cliente appartenga all'utente loggato
-    const userClients = userData[user.id]?.clients || [];
-    const client = userClients.find(c => c.id === clientId);
+    // Carica dati reali dal file storage_data.json
+    const allClients = loadStorageData().clients || [];
+    const clientData = allClients.find(([id, client]) => id === clientId);
     
-    if (!client) {
-      return res.status(404).json({ message: "Cliente non trovato" });
+    if (!clientData) {
+      return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    }
+    
+    const client = clientData[1];
+    
+    // Verifica proprietà - solo admin o proprietario del cliente
+    if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
+      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
     // Conteggio accessi semplice (simulato)
