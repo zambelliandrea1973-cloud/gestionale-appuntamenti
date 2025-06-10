@@ -294,6 +294,15 @@ class LicenseService {
    * Verifica se l'utente ha accesso alle funzionalità BUSINESS
    */
   async hasBusinessAccess(): Promise<boolean> {
+    // Ottieni l'utente corrente dalla richiesta (se disponibile)
+    if (global.currentRequest && global.currentRequest.user) {
+      // Se l'utente è di tipo staff o admin, ha automaticamente accesso BUSINESS
+      if (global.currentRequest.user.type === 'staff' || global.currentRequest.user.type === 'admin') {
+        return true;
+      }
+    }
+    
+    // Se non è staff o admin, verifichiamo il tipo di licenza
     const licenseInfo = await this.getCurrentLicenseInfo();
     
     // Verificiamo che la licenza sia attiva e non scaduta

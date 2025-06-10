@@ -113,8 +113,8 @@ export function useLicense() {
   return {
     licenseInfo: licenseQuery.data as LicenseInfo,
     isLoading: licenseQuery.isLoading || proAccessQuery.isLoading || businessAccessQuery.isLoading || titleQuery.isLoading,
-    hasProAccess: proAccessQuery.data?.hasProAccess || false,
-    hasBusinessAccess: businessAccessQuery.data?.hasBusinessAccess || false,
+    hasProAccess: proAccessQuery.data === true,
+    hasBusinessAccess: businessAccessQuery.data === true,
     appTitle,
     activateLicense: activateLicenseMutation.mutate,
     generateCode: generateCodeMutation.mutate,
