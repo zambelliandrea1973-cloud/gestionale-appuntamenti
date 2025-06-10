@@ -347,68 +347,43 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Sistema permanente appuntamenti PER UTENTE
-  const userAppointments = new Map();
-  const userAppointmentCounters = new Map();
-
-  // Endpoint per ottenere tutti gli appuntamenti - SEPARAZIONE PER UTENTE
+  // Sistema lineare semplice - Appuntamenti (UNIFICATO CON SISTEMA ESISTENTE)
   app.get("/api/appointments", (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.json([]);
-    }
-
-    const userId = req.user.id;
-    const userAppointmentData = userAppointments.get(userId) || [];
-    
-    res.json(userAppointmentData);
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const appointments = userData[user.id]?.appointments || [];
+    res.json(appointments);
   });
 
-  // Endpoint per ottenere appuntamenti per data - SEPARAZIONE PER UTENTE
   app.get("/api/appointments/date/:date", (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.json([]);
-    }
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
     const { date } = req.params;
-    const userId = req.user.id;
-    const userAppointmentData = userAppointments.get(userId) || [];
+    const appointments = userData[user.id]?.appointments || [];
     
-    console.log(`📅 DEBUG - Utente ${userId} cerca appuntamenti per data ${date}`);
-    console.log(`📅 DEBUG - Appuntamenti totali utente: ${userAppointmentData.length}`);
-    userAppointmentData.forEach(apt => console.log(`📅 DEBUG - Appuntamento: ${apt.id}, data: ${apt.date}`));
+    console.log(`📅 DEBUG - Utente ${user.id} cerca appuntamenti per data ${date}`);
+    console.log(`📅 DEBUG - Appuntamenti totali utente: ${appointments.length}`);
+    appointments.forEach(apt => console.log(`📅 DEBUG - Appuntamento: ${apt.id}, data: ${apt.date}`));
     
-    const dayAppointments = userAppointmentData.filter(apt => apt.date === date);
+    const dayAppointments = appointments.filter(apt => apt.date === date);
     console.log(`📅 DEBUG - Appuntamenti trovati per ${date}: ${dayAppointments.length}`);
     
     res.json(dayAppointments);
   });
 
-  // Endpoint per creare appuntamento - SEPARAZIONE PER UTENTE
   app.post("/api/appointments", (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ success: false, message: "Non autenticato" });
-    }
-
-    try {
-      const userId = req.user.id;
-      let userCounter = userAppointmentCounters.get(userId) || 1;
-      
-      const newAppointment = {
-        id: userCounter++,
-        ...req.body,
-        createdAt: new Date()
-      };
-      
-      userAppointmentCounters.set(userId, userCounter);
-      
-      const userAppointmentData = userAppointments.get(userId) || [];
-      userAppointmentData.push(newAppointment);
-      userAppointments.set(userId, userAppointmentData);
-      
-      console.log(`📅 Appuntamento creato per utente ${userId}:`, newAppointment.id);
-      res.status(201).json(newAppointment);
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Errore durante la creazione dell'appuntamento" });
-    }
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
+    
+    const newAppointment = {
+      id: Date.now(),
+      ...req.body,
+      createdAt: new Date()
+    };
+    userData[user.id].appointments.push(newAppointment);
+    console.log(`📅 Appuntamento creato per utente ${user.id}:`, newAppointment.id);
+    res.status(201).json(newAppointment);
   });
 
   // Servire file statici da attached_assets per icone
