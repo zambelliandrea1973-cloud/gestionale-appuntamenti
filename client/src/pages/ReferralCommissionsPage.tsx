@@ -1,16 +1,15 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Award, TrendingUp, Banknote, Clock, Users, Euro, CheckCircle, XCircle, Copy, Share2, CreditCard, Save, Edit } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/use-auth";
+import { queryClient } from "@/lib/queryClient";
+import { Users, TrendingUp, Award, Euro, CheckCircle, Clock, Eye } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import AuthorizedRoute from "@/components/AuthorizedRoute";
 
 interface StaffCommission {
@@ -23,16 +22,6 @@ interface StaffCommission {
   licenseCode: string;
   licenseType: string;
   customerEmail: string;
-}
-
-interface ReferralStats {
-  sponsoredCount: number;
-  totalCommissions: number;
-  paidCommissions: number;
-  pendingCommissions: number;
-  recentCommissions: StaffCommission[];
-  commissionRate: number;
-  minSponsorshipForCommission: number;
 }
 
 interface ReferralOverview {
@@ -56,93 +45,59 @@ interface ReferralOverview {
 }
 
 export default function ReferralCommissionsPage() {
-  const { user } = useAuth();
+  const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  
-  // Stati per la gestione IBAN
-  const [iban, setIban] = useState('');
-  const [bankName, setBankName] = useState('');
-  const [accountHolder, setAccountHolder] = useState('');
-  const [isEditingIban, setIsEditingIban] = useState(false);
+  const { user } = useUserWithLicense();
 
-  // Recupera le statistiche personali se è staff
-  const { data: userStats, isLoading: userStatsLoading } = useQuery<ReferralStats>({
-    queryKey: ['/api/referral/staff', user?.id, 'stats'],
-    enabled: !!user && user.role === 'staff',
+  // Query per panoramica referral (solo admin)
+  const { 
+    data: referralOverview, 
+    isLoading: overviewLoading, 
+    error: overviewError 
+  } = useQuery<ReferralOverview>({
+    queryKey: ['/api/referral-overview'],
+    enabled: user?.type === 'admin'
   });
 
-  // Recupera la panoramica generale se è admin
-  const { data: overview, isLoading: overviewLoading } = useQuery<ReferralOverview>({
-    queryKey: ['/api/referral/overview'],
-    enabled: !!user && user.role === 'admin',
+  // Query per commissioni dettagliate di uno staff specifico
+  const { 
+    data: staffCommissions, 
+    isLoading: commissionsLoading 
+  } = useQuery<StaffCommission[]>({
+    queryKey: ['/api/staff-commissions', selectedStaffId],
+    enabled: !!selectedStaffId && user?.type === 'admin'
   });
 
-  const markAsPaidMutation = useMutation({
+  // Mutation per segnare commissione come pagata
+  const markCommissionPaidMutation = useMutation({
     mutationFn: async ({ commissionId, notes }: { commissionId: number; notes?: string }) => {
-      const response = await fetch(`/api/referral/commission/${commissionId}/paid`, {
-        method: 'PATCH',
+      const response = await fetch(`/api/staff-commissions/${commissionId}/mark-paid`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ notes }),
+        body: JSON.stringify({ notes })
       });
-      if (!response.ok) throw new Error('Errore nel segnare come pagata');
+      if (!response.ok) throw new Error('Errore nel segnare la commissione come pagata');
       return response.json();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/referral-overview'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/staff-commissions'] });
       toast({
-        title: "Commissione segnata come pagata",
-        description: "La commissione è stata aggiornata con successo",
+        title: "Commissione aggiornata",
+        description: "La commissione è stata segnata come pagata.",
       });
-      queryClient.invalidateQueries({ queryKey: ['/api/referral'] });
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
         title: "Errore",
-        description: "Impossibile aggiornare la commissione",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const formatCurrency = (cents: number) => {
-    return new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(cents / 100);
-  };
-
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), 'dd/MM/yyyy HH:mm', { locale: it });
-  };
-
-  // Funzione per pagare le commissioni di uno staff
-  const handlePayCommission = async (staffId: number, amount: number) => {
-    try {
-      const response = await fetch(`/api/referral/staff/${staffId}/pay-commissions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Errore nel pagamento commissioni');
-      }
-
-      toast({
-        title: "Commissioni Pagate!",
-        description: `Pagato €${(amount/100).toFixed(2)} allo staff`,
-        variant: "default",
-      });
-
-      // Ricarica i dati
-      queryClient.invalidateQueries({ queryKey: ['/api/referral/overview'] });
-    } catch (error) {
-      toast({
-        title: "Errore Pagamento",
-        description: "Impossibile completare il pagamento",
+        description: error.message,
         variant: "destructive",
       });
     }
+  });
+
+  const handleMarkAsPaid = (commissionId: number, notes?: string) => {
+    markCommissionPaidMutation.mutate({ commissionId, notes });
   };
 
   return (
@@ -151,382 +106,6 @@ export default function ReferralCommissionsPage() {
       featureName="Gestione Commissioni Referral"
       description="Solo gli amministratori possono gestire le commissioni referral, coordinare e verificare gli abbonamenti sponsorizzati dallo staff per procedere ai pagamenti"
     >
-      {!user ? (
-        <div className="text-center p-8">Devi essere autenticato per vedere questa pagina.</div>
-      ) : user.role === 'admin' ? (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Header con gradiente blu */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg p-8 mb-8 shadow-lg">
-            <div className="flex items-center gap-4 mb-4">
-              <Award className="h-10 w-10" />
-              <div>
-                <h1 className="text-3xl font-bold">Programma Referral</h1>
-                <p className="text-blue-100">Le tue commissioni e statistiche</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Sezione Codice Referral Personale - Compatta */}
-          {userStats && (
-            <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md border-0 mb-6">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Share2 className="h-5 w-5" />
-                    <div>
-                      <h3 className="font-semibold text-lg">Il Tuo Codice Referral</h3>
-                      <p className="text-green-100 text-sm">Condividi con i nuovi clienti</p>
-                    </div>
-                  </div>
-                  
-                  <div className="text-right">
-                    <div className="text-3xl font-bold tracking-wider mb-1">
-                      {userStats.stats?.myReferralCode || userStats.myReferralCode || 'CARICAMENTO...'}
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => {
-                          const code = userStats.stats?.myReferralCode || userStats.myReferralCode || '';
-                          navigator.clipboard.writeText(code);
-                          toast({
-                            title: "Codice copiato!",
-                            description: `Codice ${code} copiato negli appunti`,
-                          });
-                        }}
-                        size="sm"
-                        className="bg-white/20 hover:bg-white/30 text-white"
-                      >
-                        <Copy className="h-4 w-4 mr-1" />
-                        Copia
-                      </Button>
-                      
-                      <Button
-                        onClick={() => {
-                          const code = userStats.stats?.myReferralCode || userStats.myReferralCode || '';
-                          const message = `Utilizza il codice di attivazione (${code}) durante la registrazione`;
-                          if (navigator.share) {
-                            navigator.share({ title: 'Codice di Attivazione', text: message });
-                          } else {
-                            navigator.clipboard.writeText(message);
-                            toast({
-                              title: "Messaggio copiato!",
-                              description: "Il messaggio completo è stato copiato",
-                            });
-                          }
-                        }}
-                        size="sm"
-                        className="bg-white/20 hover:bg-white/30 text-white"
-                      >
-                        <Share2 className="h-4 w-4 mr-1" />
-                        Condividi
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-3 text-center">
-                  <p className="text-green-100 text-xs">
-                    📝 <strong>Messaggio:</strong> "Utilizza il codice di attivazione (<span className="font-mono bg-white/20 px-1 rounded">{userStats.stats?.myReferralCode || userStats.myReferralCode || '...'}</span>) durante la registrazione"
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Sezione IBAN per Pagamenti - Solo Staff */}
-          {userStats && (
-            <Card className="bg-white shadow-md border border-gray-200 mb-6">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-xl text-gray-800">
-                  <CreditCard className="h-6 w-6 text-blue-600" />
-                  Dati Bancari per Pagamenti
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  Inserisci i tuoi dati bancari per ricevere le commissioni delle sponsorizzazioni
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {!isEditingIban ? (
-                  // Visualizzazione dati IBAN
-                  <div className="space-y-4">
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <div className="grid md:grid-cols-3 gap-4">
-                        <div>
-                          <Label className="text-sm font-medium text-gray-700">IBAN</Label>
-                          <p className="text-lg font-mono mt-1">{iban || 'Non inserito'}</p>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium text-gray-700">Nome Banca</Label>
-                          <p className="mt-1">{bankName || 'Non inserito'}</p>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium text-gray-700">Intestatario</Label>
-                          <p className="mt-1">{accountHolder || 'Non inserito'}</p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-end">
-                      <Button
-                        onClick={() => setIsEditingIban(true)}
-                        variant="outline"
-                        className="flex items-center gap-2"
-                      >
-                        <Edit className="h-4 w-4" />
-                        {iban ? 'Modifica Dati' : 'Inserisci Dati'}
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  // Form di modifica IBAN
-                  <div className="space-y-4">
-                    <div className="grid md:grid-cols-1 gap-4">
-                      <div>
-                        <Label htmlFor="iban" className="text-sm font-medium">IBAN *</Label>
-                        <Input
-                          id="iban"
-                          type="text"
-                          placeholder="IT60 X054 2811 1010 0000 0123 456"
-                          value={iban}
-                          onChange={(e) => setIban(e.target.value.toUpperCase())}
-                          className="font-mono"
-                          maxLength={34}
-                        />
-                        <p className="text-xs text-gray-500 mt-1">Inserisci l'IBAN completo (con codice paese)</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="bankName" className="text-sm font-medium">Nome Banca</Label>
-                        <Input
-                          id="bankName"
-                          type="text"
-                          placeholder="Es. Banca Intesa Sanpaolo"
-                          value={bankName}
-                          onChange={(e) => setBankName(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="accountHolder" className="text-sm font-medium">Intestatario Conto</Label>
-                        <Input
-                          id="accountHolder"
-                          type="text"
-                          placeholder="Nome e Cognome"
-                          value={accountHolder}
-                          onChange={(e) => setAccountHolder(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-3 justify-end">
-                      <Button
-                        onClick={() => {
-                          setIsEditingIban(false);
-                          // Reset ai valori precedenti se si annulla
-                        }}
-                        variant="outline"
-                      >
-                        Annulla
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          // Qui aggiungeremo la chiamata API per salvare
-                          if (!iban.trim()) {
-                            toast({
-                              title: "Errore",
-                              description: "L'IBAN è obbligatorio",
-                              variant: "destructive",
-                            });
-                            return;
-                          }
-                          
-                          toast({
-                            title: "Dati salvati!",
-                            description: "I tuoi dati bancari sono stati aggiornati",
-                          });
-                          setIsEditingIban(false);
-                        }}
-                        className="bg-blue-600 hover:bg-blue-700"
-                      >
-                        <Save className="h-4 w-4 mr-2" />
-                        Salva Dati
-                      </Button>
-                    </div>
-                  </div>
-                )}
-                
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                  <p className="text-xs text-blue-700">
-                    💡 <strong>Informativa:</strong> I tuoi dati bancari sono protetti e utilizzati esclusivamente per il pagamento delle commissioni referral. 
-                    Le commissioni vengono pagate quando raggiungi almeno 3 abbonamenti sponsorizzati.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {userStatsLoading ? (
-            <div className="text-center">Caricamento statistiche...</div>
-          ) : userStats ? (
-            <>
-              {/* Statistiche principali */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <Card className="bg-white shadow-lg border-l-4 border-l-blue-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-blue-700">
-                      <Users className="h-5 w-5" />
-                      Abbonamenti Sponsorizzati
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-blue-600">{userStats.sponsoredCount}</div>
-                    <p className="text-sm text-gray-600">
-                      {userStats.sponsoredCount >= 3 ? 'Commissioni attive!' : `${3 - userStats.sponsoredCount} per iniziare`}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white shadow-lg border-l-4 border-l-green-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-green-700">
-                      <Euro className="h-5 w-5" />
-                      Commissioni Totali
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-green-600">
-                      {formatCurrency(userStats.totalCommissions)}
-                    </div>
-                    <p className="text-sm text-gray-600">Guadagno totale</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white shadow-lg border-l-4 border-l-emerald-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-emerald-700">
-                      <CheckCircle className="h-5 w-5" />
-                      Commissioni Pagate
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-emerald-600">
-                      {formatCurrency(userStats.paidCommissions)}
-                    </div>
-                    <p className="text-sm text-gray-600">Già ricevute</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white shadow-lg border-l-4 border-l-orange-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-orange-700">
-                      <Clock className="h-5 w-5" />
-                      In Attesa
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-orange-600">
-                      {formatCurrency(userStats.pendingCommissions)}
-                    </div>
-                    <p className="text-sm text-gray-600">Da ricevere</p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Come funziona */}
-              <Card className="bg-white shadow-lg mb-8 border-t-4 border-t-blue-500">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-blue-700">
-                    <TrendingUp className="h-5 w-5" />
-                    Come Funziona il Sistema Referral
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center">
-                      <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                        <Users className="h-8 w-8 text-blue-600" />
-                      </div>
-                      <h3 className="font-semibold mb-2">1. Sponsorizza Clienti</h3>
-                      <p className="text-sm text-gray-600">Aiuta i clienti a sottoscrivere abbonamenti</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                        <Award className="h-8 w-8 text-green-600" />
-                      </div>
-                      <h3 className="font-semibold mb-2">2. Raggiungi 3 Abbonamenti</h3>
-                      <p className="text-sm text-gray-600">Le commissioni iniziano dal terzo abbonamento sponsorizzato</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                        <Banknote className="h-8 w-8 text-yellow-600" />
-                      </div>
-                      <h3 className="font-semibold mb-2">3. Ricevi €1 per Abbonamento</h3>
-                      <p className="text-sm text-gray-600">Commissione fissa di €1 per ogni abbonamento attivo</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Commissioni recenti */}
-              {userStats.recentCommissions.length > 0 && (
-                <Card className="bg-white shadow-lg border-t-4 border-t-indigo-500">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-indigo-700">
-                      <Banknote className="h-5 w-5" />
-                      Commissioni Recenti
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {userStats.recentCommissions.map((commission) => (
-                        <div key={commission.id} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Badge variant={commission.licenseType === 'trial' ? 'secondary' : 'default'}>
-                                {commission.licenseType.toUpperCase()}
-                              </Badge>
-                              <span className="text-sm text-gray-600">{commission.licenseCode}</span>
-                            </div>
-                            <p className="text-sm text-gray-700">{commission.customerEmail}</p>
-                            <p className="text-xs text-gray-500">Creata: {formatDate(commission.createdAt)}</p>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-lg font-semibold text-green-600">
-                              {formatCurrency(commission.commissionAmount)}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {commission.isPaid ? (
-                                <>
-                                  <CheckCircle className="h-4 w-4 text-green-500" />
-                                  <span className="text-sm text-green-600">Pagata</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Clock className="h-4 w-4 text-orange-500" />
-                                  <span className="text-sm text-orange-600">In attesa</span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </>
-          ) : (
-            <div className="text-center p-8">Errore nel caricamento delle statistiche</div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  if (user.role === 'admin') {
-    return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header Admin */}
@@ -538,133 +117,197 @@ export default function ReferralCommissionsPage() {
                 <p className="text-blue-100">Panoramica completa delle commissioni staff</p>
               </div>
             </div>
+            
+            {referralOverview && (
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                <div className="bg-white/10 rounded-lg p-4">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-5 w-5" />
+                    <span className="text-sm font-medium">Staff Totali</span>
+                  </div>
+                  <p className="text-2xl font-bold mt-1">{referralOverview.staffStats.length}</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5" />
+                    <span className="text-sm font-medium">Clienti Sponsorizzati</span>
+                  </div>
+                  <p className="text-2xl font-bold mt-1">{referralOverview.totals.totalSponsored}</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <div className="flex items-center gap-2">
+                    <Euro className="h-5 w-5" />
+                    <span className="text-sm font-medium">Commissioni Totali</span>
+                  </div>
+                  <p className="text-2xl font-bold mt-1">€{(referralOverview.totals.totalCommissions / 100).toFixed(2)}</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5" />
+                    <span className="text-sm font-medium">Commissioni Pagate</span>
+                  </div>
+                  <p className="text-2xl font-bold mt-1">€{(referralOverview.totals.totalPaid / 100).toFixed(2)}</p>
+                </div>
+              </div>
+            )}
           </div>
 
-          {overviewLoading ? (
-            <div className="text-center">Caricamento panoramica...</div>
-          ) : overview ? (
-            <>
-              {/* Totali generali */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <Card className="bg-white shadow-lg border-l-4 border-l-blue-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-blue-700">
-                      <Users className="h-5 w-5" />
-                      Totale Sponsorizzati
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-blue-600">{overview?.totals?.totalSponsored || overview?.statsData?.totalSponsored || 0}</div>
-                  </CardContent>
-                </Card>
+          <Tabs defaultValue="overview" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="overview">Panoramica Staff</TabsTrigger>
+              <TabsTrigger value="commissions">Commissioni Dettagliate</TabsTrigger>
+            </TabsList>
 
-                <Card className="bg-white shadow-lg border-l-4 border-l-green-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-green-700">
-                      <Euro className="h-5 w-5" />
-                      Commissioni Totali
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-green-600">
-                      {formatCurrency(overview?.totals?.totalCommissions || overview?.statsData?.totalCommissions || 0)}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white shadow-lg border-l-4 border-l-emerald-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-emerald-700">
-                      <CheckCircle className="h-5 w-5" />
-                      Già Pagate
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-emerald-600">
-                      {formatCurrency(overview?.totals?.totalPaid || overview?.statsData?.totalPaid || 0)}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-white shadow-lg border-l-4 border-l-orange-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-orange-700">
-                      <Clock className="h-5 w-5" />
-                      Da Pagare
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-orange-600">
-                      {formatCurrency(overview?.totals?.totalPending || overview?.statsData?.totalPending || 0)}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Statistiche per staff */}
-              <Card className="bg-white shadow-lg border-t-4 border-t-blue-500">
+            <TabsContent value="overview">
+              <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-blue-700">
+                  <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5" />
-                    Statistiche per Staff
+                    Staff con Referral Attivi
                   </CardTitle>
+                  <CardDescription>
+                    Panoramica delle performance di referral per ogni membro dello staff
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {(overview?.staffStats || overview?.staffData || overview?.commissionsData || []).map((staff) => (
-                      <div key={staff.staffId} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex-1">
-                          <h3 className="font-semibold">{staff.staffName}</h3>
-                          <p className="text-sm text-gray-600">{staff.staffEmail}</p>
-                          <p className="text-sm text-blue-600">{staff.sponsoredCount} abbonamenti sponsorizzati</p>
+                  {overviewLoading ? (
+                    <div className="text-center p-8">Caricamento...</div>
+                  ) : overviewError ? (
+                    <div className="text-center p-8 text-red-600">Errore nel caricamento dei dati</div>
+                  ) : referralOverview?.staffStats && referralOverview.staffStats.length > 0 ? (
+                    <div className="space-y-4">
+                      {referralOverview.staffStats.map((staff) => (
+                        <div key={staff.staffId} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="font-semibold text-lg">{staff.staffName}</h3>
+                              <p className="text-gray-600">{staff.staffEmail}</p>
+                            </div>
+                            <div className="text-right">
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div>
+                                  <p className="text-gray-500">Sponsorizzati</p>
+                                  <p className="font-bold text-blue-600">{staff.sponsoredCount}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-500">Tot. Commissioni</p>
+                                  <p className="font-bold">€{(staff.totalCommissions / 100).toFixed(2)}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-500">Pagate</p>
+                                  <p className="font-bold text-green-600">€{(staff.paidCommissions / 100).toFixed(2)}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-500">In Attesa</p>
+                                  <p className="font-bold text-orange-600">€{(staff.pendingCommissions / 100).toFixed(2)}</p>
+                                </div>
+                              </div>
+                              <Button 
+                                onClick={() => setSelectedStaffId(staff.staffId)}
+                                size="sm"
+                                className="mt-2"
+                              >
+                                <Eye className="h-4 w-4 mr-1" />
+                                Dettagli
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right space-y-2">
-                          <div className="text-lg font-semibold text-green-600">
-                            {formatCurrency(staff.totalCommissions)}
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center p-8">Nessuno staff con referral attivi al momento</div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="commissions">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Euro className="h-5 w-5" />
+                    Commissioni Dettagliate
+                  </CardTitle>
+                  <CardDescription>
+                    {selectedStaffId 
+                      ? `Commissioni per lo staff selezionato` 
+                      : "Seleziona uno staff dalla panoramica per vedere le commissioni dettagliate"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {!selectedStaffId ? (
+                    <div className="text-center p-8 text-gray-500">
+                      Seleziona uno staff dalla scheda "Panoramica Staff" per vedere le commissioni dettagliate
+                    </div>
+                  ) : commissionsLoading ? (
+                    <div className="text-center p-8">Caricamento commissioni...</div>
+                  ) : staffCommissions && staffCommissions.length > 0 ? (
+                    <div className="space-y-4">
+                      {staffCommissions.map((commission) => (
+                        <div key={commission.id} className="border rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge variant={commission.licenseType === 'pro' ? 'default' : 'secondary'}>
+                                  {commission.licenseType.toUpperCase()}
+                                </Badge>
+                                <span className="text-sm text-gray-600">
+                                  Codice: {commission.licenseCode}
+                                </span>
+                              </div>
+                              <p className="font-medium">{commission.customerEmail}</p>
+                              <p className="text-sm text-gray-600">
+                                Creata: {format(new Date(commission.createdAt), 'dd MMMM yyyy', { locale: it })}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-xl font-bold">
+                                €{(commission.commissionAmount / 100).toFixed(2)}
+                              </p>
+                              <div className="mt-2">
+                                {commission.isPaid ? (
+                                  <div className="flex items-center gap-1 text-green-600">
+                                    <CheckCircle className="h-4 w-4" />
+                                    <span className="text-sm">
+                                      Pagata {commission.paidAt && format(new Date(commission.paidAt), 'dd/MM/yyyy', { locale: it })}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="space-y-2">
+                                    <div className="flex items-center gap-1 text-orange-600">
+                                      <Clock className="h-4 w-4" />
+                                      <span className="text-sm">In attesa di pagamento</span>
+                                    </div>
+                                    <Button
+                                      onClick={() => handleMarkAsPaid(commission.id)}
+                                      size="sm"
+                                      disabled={markCommissionPaidMutation.isPending}
+                                    >
+                                      Segna come Pagata
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex gap-4 text-sm">
-                            <span className="text-emerald-600">
-                              Pagate: {formatCurrency(staff.paidCommissions)}
-                            </span>
-                            <span className="text-orange-600">
-                              Pending: {formatCurrency(staff.pendingCommissions)}
-                            </span>
-                          </div>
-                          {staff.pendingCommissions > 0 && staff.sponsoredCount >= 3 && (
-                            <Button
-                              onClick={() => handlePayCommission(staff.staffId, staff.pendingCommissions)}
-                              className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1"
-                              size="sm"
-                            >
-                              💰 Paga €{staff.pendingCommissions}
-                            </Button>
-                          )}
-                          {staff.sponsoredCount < 3 && (
-                            <div className="text-xs text-gray-500">
-                              Quota minima: {staff.sponsoredCount}/3
+                          {commission.notes && (
+                            <div className="mt-3 p-2 bg-gray-50 rounded text-sm">
+                              <strong>Note:</strong> {commission.notes}
                             </div>
                           )}
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center p-8">Nessuna commissione trovata per questo staff</div>
+                  )}
                 </CardContent>
               </Card>
-            </>
-          ) : (
-            <div className="text-center p-8">Errore nel caricamento della panoramica</div>
-          )}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
-    );
-  }
-
-        return (
-          <div className="text-center p-8">
-            <p>Questa sezione è disponibile solo per admin e staff.</p>
-          </div>
-        );
-      })()}
     </AuthorizedRoute>
   );
 }
