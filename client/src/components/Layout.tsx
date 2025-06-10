@@ -205,27 +205,133 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
             </div>
           </div>
           
-          {/* Layout mobile ottimizzato */}
-          <div className="flex md:hidden items-center justify-between py-2">
-            <div className="flex items-center space-x-2 overflow-hidden">
-              <Link href="/dashboard">
-                <div className="flex items-center space-x-2 cursor-pointer">
-                  <CalendarDays className="h-5 w-5 flex-shrink-0" />
-                  <h1 className="text-lg font-medium truncate max-w-[200px]">
+          {/* Layout mobile identico al desktop */}
+          <div className="flex md:hidden flex-col items-center w-full">
+            {/* Prima riga mobile: informazioni utente - identica al desktop */}
+            <div className="w-full mb-2">
+              <div className="border border-white/30 rounded-md p-2 bg-primary-dark/20 flex items-center space-x-2">
+                <CalendarDays className="h-6 w-6 flex-shrink-0" />
+                <div className="w-full">
+                  <h1 className="text-xl font-medium">
                     {appTitle || t('app.title')}
                   </h1>
+                  <div className="text-sm flex items-center gap-1">
+                    <UserLicenseBadge />
+                  </div>
+                  {userWithLicense?.licenseInfo?.type === 'trial' && licenseInfo?.expiresAt && (
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <div className="text-xs text-amber-300 flex items-center gap-1 whitespace-nowrap">
+                        <Clock className="h-3 w-3" />
+                        <span>
+                          {new Date(licenseInfo.expiresAt) > new Date() 
+                            ? `${Math.ceil((new Date(licenseInfo.expiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} ${t('trial.days')}` 
+                            : t('trial.expired')}
+                        </span>
+                      </div>
+                      <div className="text-xs text-amber-200 flex items-center whitespace-nowrap">
+                        <Link href="/pro" className="hover:text-amber-100 underline transition-colors">
+                          {t('trial.upgradeMessage', 'Scopri i piani premium')} →
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </Link>
+              </div>
             </div>
-            
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col gap-4 py-4">
+
+            {/* Menu di navigazione mobile - identico al desktop ma su colonne */}
+            <div className="flex flex-col w-full items-center">
+              {/* Prima riga di navigazione mobile */}
+              <div className="flex justify-center gap-x-1 mb-1 w-full flex-wrap">
+                <Link href="/dashboard">
+                  <Button variant={isActive("/dashboard") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                    <Home className="h-3 w-3 mr-1" />
+                    <span>{t('navigation.home')}</span>
+                  </Button>
+                </Link>
+                <Link href="/calendar">
+                  <Button variant={isActive("/calendar") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                    <CalendarDays className="h-3 w-3 mr-1" />
+                    <span>{t('calendar.title')}</span>
+                  </Button>
+                </Link>
+                <Link href="/clients">
+                  <Button variant={isActive("/clients") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                    <Users className="h-3 w-3 mr-1" />
+                    <span>{t('clients.title')}</span>
+                  </Button>
+                </Link>
+                <Link href="/whatsapp-center">
+                  <Button variant={isActive("/whatsapp-center") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                    <MessageSquare className="h-3 w-3 mr-1" />
+                    <span>{t('navigation.notifications')}</span>
+                  </Button>
+                </Link>
+              </div>
+              
+              {/* Seconda riga di navigazione mobile */}
+              <div className="flex justify-center gap-x-1 mb-1 w-full flex-wrap">
+                {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
+                  <Link href="/referral">
+                    <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                      <CreditCard className="h-3 w-3 mr-1 text-blue-400" />
+                      <span>{t('navigation.referral')}</span>
+                    </Button>
+                  </Link>
+                )}
+                <Link href="/onboarding">
+                  <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                    <Brain className="h-3 w-3 mr-1 text-purple-400" />
+                    <span>{t('navigation.aiSetup')}</span>
+                  </Button>
+                </Link>
+                <Link href="/pro">
+                  <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[60px] text-xs">
+                    <Crown className="h-3 w-3 mr-1 text-amber-400" />
+                    <span>PRO</span>
+                  </Button>
+                </Link>
+                
+                {/* Pulsanti admin mobile */}
+                {isAdmin && (
+                  <>
+                    <Link href="/staff-management">
+                      <Button variant={isActive("/staff-management") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
+                        <UserCog className="h-3 w-3 mr-1" />
+                        <span>{t('navigation.staff')}</span>
+                      </Button>
+                    </Link>
+                    <Link href="/payment-admin">
+                      <Button variant={isActive("/payment-admin") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                        <CreditCard className="h-3 w-3 mr-1 text-green-400" />
+                        <span>{t('navigation.payments')}</span>
+                      </Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+
+              {/* Terza riga mobile: impostazioni, lingua e logout */}
+              <div className="flex justify-center gap-x-1 w-full flex-wrap">
+                <Link href="/settings">
+                  <Button variant={isActive("/settings") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
+                    <SettingsIcon className="h-3 w-3 mr-1" />
+                    <span>{t('settings.title')}</span>
+                  </Button>
+                </Link>
+                <LanguageSelector />
+                <LogoutButton variant="secondary" className="text-xs h-8 px-2" iconPosition="right" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Menu mobile rimosso - ora tutto è nel header come desktop */}
+      {/* Contenuto principale */}
+      <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 py-6">
+        <div className="bg-background text-foreground min-h-full">
+          <div className="flex flex-col gap-4 py-4" style={{ display: 'none' }}>
                   <div className="border border-gray-200 rounded-md p-3 bg-gray-50">
                     <div className="flex flex-col space-y-2">
                       <div className="flex items-center">
