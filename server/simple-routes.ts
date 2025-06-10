@@ -499,6 +499,53 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ count: accessCount });
   });
 
+  // Endpoint Staff Management - Solo per admin
+  app.get("/api/staff/users", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alla gestione staff" });
+    }
+    
+    // Carica tutti gli utenti tranne admin
+    const allUsers = loadStorageData().users || [];
+    const staffUsers = allUsers
+      .filter(([id, userData]) => userData.type !== 'admin')
+      .map(([id, userData]) => ({
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
+        type: userData.type,
+        createdAt: userData.createdAt || new Date().toISOString()
+      }));
+    
+    res.json(staffUsers);
+  });
+
+  // Endpoint Referral System - Per admin e business
+  app.get("/api/referral/codes", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin' && user.type !== 'business') {
+      return res.status(403).json({ message: "Solo admin e business possono accedere ai referral" });
+    }
+    
+    // Carica codici referral dal storage
+    const referralCodes = loadStorageData().referralCodes || [];
+    
+    // Per business users, mostra solo i propri codici
+    let userCodes;
+    if (user.type === 'admin') {
+      userCodes = referralCodes;
+    } else {
+      userCodes = referralCodes.filter(code => code.ownerId === user.id);
+    }
+    
+    res.json(userCodes);
+  });
+
   // Servire file statici da attached_assets per icone
   app.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
