@@ -691,6 +691,28 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Endpoint per le fatture
+  app.get('/api/invoices', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const userId = req.user.id;
+      const userData = usersData[userId];
+      
+      if (!userData) {
+        return res.status(404).json({ message: 'User data not found' });
+      }
+
+      // Restituisco un array vuoto per ora, dato che nel sistema semplificato non ci sono fatture
+      res.json([]);
+    } catch (error) {
+      console.error('Error fetching invoices:', error);
+      res.status(500).json({ message: 'Error fetching invoices' });
+    }
+  });
+
   // Servire file statici da attached_assets per icone
   app.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
