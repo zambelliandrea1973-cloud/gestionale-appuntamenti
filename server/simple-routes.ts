@@ -307,51 +307,104 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Sistema permanente gestione nome aziendale
-  let businessSettings = { businessName: "Studio Medico", showBusinessName: true };
+  // Sistema permanente gestione nome aziendale PER UTENTE
+  const userBusinessSettings = new Map();
 
-  // Endpoint per ottenere le impostazioni nome aziendale
+  // Endpoint per ottenere le impostazioni nome aziendale - SEPARAZIONE PER UTENTE
   app.get("/api/company-name-settings", (req, res) => {
-    res.json(businessSettings);
+    if (!req.isAuthenticated()) {
+      return res.json({ businessName: "Studio Medico", showBusinessName: true });
+    }
+
+    const userId = req.user.id;
+    const userSettings = userBusinessSettings.get(userId) || { businessName: "Studio Medico", showBusinessName: true };
+    
+    res.json(userSettings);
   });
 
-  // Endpoint per salvare le impostazioni nome aziendale
+  // Endpoint per salvare le impostazioni nome aziendale - SEPARAZIONE PER UTENTE
   app.post("/api/company-name-settings", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Non autenticato" });
+    }
+
     try {
       const { businessName, showBusinessName } = req.body;
-      if (businessName !== undefined) businessSettings.businessName = businessName;
-      if (showBusinessName !== undefined) businessSettings.showBusinessName = showBusinessName;
-      res.json({ success: true, message: "Impostazioni salvate con successo", ...businessSettings });
+      const userId = req.user.id;
+      
+      const currentSettings = userBusinessSettings.get(userId) || { businessName: "Studio Medico", showBusinessName: true };
+      
+      if (businessName !== undefined) currentSettings.businessName = businessName;
+      if (showBusinessName !== undefined) currentSettings.showBusinessName = showBusinessName;
+      
+      userBusinessSettings.set(userId, currentSettings);
+      console.log(`🏢 Impostazioni nome aziendale aggiornate per utente ${userId}:`, currentSettings);
+      
+      res.json({ success: true, message: "Impostazioni salvate con successo", ...currentSettings });
     } catch (error) {
+      console.error('Errore aggiornamento nome aziendale:', error);
       res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
     }
   });
 
-  // Sistema permanente appuntamenti - STESSA LOGICA NOME AZIENDALE
-  let appointmentsData = [];
-  let appointmentCounter = 1;
+  // Sistema permanente appuntamenti PER UTENTE
+  const userAppointments = new Map();
+  const userAppointmentCounters = new Map();
 
-  // Endpoint per ottenere tutti gli appuntamenti - STESSA LOGICA NOME AZIENDALE
+  // Endpoint per ottenere tutti gli appuntamenti - SEPARAZIONE PER UTENTE
   app.get("/api/appointments", (req, res) => {
-    res.json(appointmentsData);
+    if (!req.isAuthenticated()) {
+      return res.json([]);
+    }
+
+    const userId = req.user.id;
+    const userAppointmentData = userAppointments.get(userId) || [];
+    
+    res.json(userAppointmentData);
   });
 
-  // Endpoint per ottenere appuntamenti per data - STESSA LOGICA NOME AZIENDALE
+  // Endpoint per ottenere appuntamenti per data - SEPARAZIONE PER UTENTE
   app.get("/api/appointments/date/:date", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.json([]);
+    }
     const { date } = req.params;
-    const dayAppointments = appointmentsData.filter(apt => apt.date === date);
+    const userId = req.user.id;
+    const userAppointmentData = userAppointments.get(userId) || [];
+    
+    console.log(`📅 DEBUG - Utente ${userId} cerca appuntamenti per data ${date}`);
+    console.log(`📅 DEBUG - Appuntamenti totali utente: ${userAppointmentData.length}`);
+    userAppointmentData.forEach(apt => console.log(`📅 DEBUG - Appuntamento: ${apt.id}, data: ${apt.date}`));
+    
+    const dayAppointments = userAppointmentData.filter(apt => apt.date === date);
+    console.log(`📅 DEBUG - Appuntamenti trovati per ${date}: ${dayAppointments.length}`);
+    
     res.json(dayAppointments);
   });
 
-  // Endpoint per creare appuntamento - STESSA LOGICA NOME AZIENDALE
+  // Endpoint per creare appuntamento - SEPARAZIONE PER UTENTE
   app.post("/api/appointments", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
     try {
+      const userId = req.user.id;
+      let userCounter = userAppointmentCounters.get(userId) || 1;
+      
       const newAppointment = {
-        id: Date.now(), // ID temporaneo basato su timestamp
+        id: userCounter++,
         ...req.body,
         createdAt: new Date()
       };
-      appointmentsData.push(newAppointment);
+      
+      userAppointmentCounters.set(userId, userCounter);
+      
+      const userAppointmentData = userAppointments.get(userId) || [];
+      userAppointmentData.push(newAppointment);
+      userAppointments.set(userId, userAppointmentData);
+      
+      console.log(`📅 Appuntamento creato per utente ${userId}:`, newAppointment.id);
       res.status(201).json(newAppointment);
     } catch (error) {
       res.status(500).json({ success: false, message: "Errore durante la creazione dell'appuntamento" });
