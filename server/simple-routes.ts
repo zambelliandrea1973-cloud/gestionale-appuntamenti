@@ -126,8 +126,21 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/clients", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const clients = userData[user.id]?.clients || [];
-    res.json(clients);
+    
+    // Carica dati reali dal file storage_data.json
+    const allClients = loadStorageData().clients || [];
+    
+    // Per admin, mostra tutti i clienti, per altri utenti solo i propri
+    let userClients;
+    if (user.type === 'admin') {
+      userClients = allClients.map(([id, client]) => client);
+    } else {
+      userClients = allClients
+        .filter(([id, client]) => client.ownerId === user.id)
+        .map(([id, client]) => client);
+    }
+    
+    res.json(userClients);
   });
 
   app.post("/api/clients", (req, res) => {
