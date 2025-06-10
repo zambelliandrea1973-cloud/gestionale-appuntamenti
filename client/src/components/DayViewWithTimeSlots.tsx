@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2, Trash2, Edit, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import AppointmentModal from "./AppointmentModal";
 import { FloatingActionButton } from "./FloatingActionButton";
-import { AppointmentWithDetails, Service } from "../types/api";
+import { AppointmentWithDetails, Service, Client } from "../types/api";
 import { formatDateForApi, formatTime, calculateEndTime, addMinutes } from "@/lib/utils/date";
 
 interface DayViewWithTimeSlotsProps {
@@ -35,10 +36,20 @@ export default function DayViewWithTimeSlots({
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [expandedAppointment, setExpandedAppointment] = useState<number | null>(null);
+  const [selectedClient, setSelectedClient] = useState<{id: number, name: string} | null>(null);
+  const [selectedService, setSelectedService] = useState<{id: number, name: string, duration: number} | null>(null);
+  const [showClientSelector, setShowClientSelector] = useState(false);
+  const [showServiceSelector, setShowServiceSelector] = useState(false);
   const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null); // Aggiungiamo un ref per il timer
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Rileva se siamo su mobile
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [appointmentToDelete, setAppointmentToDelete] = useState<number | null>(null);
+  
+  // Query per ottenere clienti e servizi
+  const { data: clients = [] } = useQuery<Client[]>({
+    queryKey: ["/api/clients"],
+    enabled: showClientSelector
+  });
   
   // Gestione del cambio di dimensione della finestra
   useEffect(() => {
@@ -421,13 +432,68 @@ export default function DayViewWithTimeSlots({
           <div className="w-full bg-blue-50 border border-blue-200 rounded-lg p-3">
             <div className="text-sm text-blue-800 font-semibold text-center">
               {selectedSlots.length > 0 ? (
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <div className="text-lg">
                     📅 {t("calendar.selected")}: {selectedSlots[0]} - 
                     {calculateEndTime(selectedSlots[selectedSlots.length - 1], 15)}
                   </div>
+                  
+                  {/* Informazioni Cliente e Servizio */}
+                  <div className="bg-white rounded-md p-2 border border-blue-300">
+                    <div className="grid grid-cols-1 gap-3 text-sm">
+                      {/* Selezione Cliente */}
+                      <div className="text-left">
+                        <span className="font-semibold text-blue-900">Cliente:</span>
+                        <div className="flex items-center gap-2 mt-1">
+                          {selectedClient ? (
+                            <span className="text-blue-700 bg-blue-100 px-2 py-1 rounded">
+                              {selectedClient.name}
+                            </span>
+                          ) : (
+                            <span className="text-orange-600">⚠️ Non selezionato</span>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setShowClientSelector(true)}
+                            className="h-6 text-xs"
+                          >
+                            {selectedClient ? "Cambia" : "Seleziona"}
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      {/* Selezione Servizio */}
+                      <div className="text-left">
+                        <span className="font-semibold text-blue-900">Servizio:</span>
+                        <div className="flex items-center gap-2 mt-1">
+                          {selectedService ? (
+                            <span className="text-blue-700 bg-blue-100 px-2 py-1 rounded">
+                              {selectedService.name} ({selectedService.duration} min)
+                            </span>
+                          ) : (
+                            <span className="text-orange-600">⚠️ Non selezionato</span>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {/* TODO: Aprire selezione servizio */}}
+                            className="h-6 text-xs"
+                          >
+                            {selectedService ? "Cambia" : "Seleziona"}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="text-xs text-blue-600">
                     {selectedSlots.length} slot selezionati
+                    {(!selectedClient || !selectedService) && (
+                      <div className="text-orange-600 mt-1">
+                        ⚠️ Seleziona cliente e servizio prima di confermare
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
