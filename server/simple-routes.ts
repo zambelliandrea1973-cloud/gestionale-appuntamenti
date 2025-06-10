@@ -189,13 +189,7 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Info applicazione
-  app.get("/api/client-app-info", (req, res) => {
-    res.json({
-      appName: "Gestionale Sanitario",
-      icon: "/app-icon.jpg"
-    });
-  });
+  // Info applicazione rimossa - usa l'endpoint unificato sopra
 
   // Contesto tenant
   app.get("/api/tenant-context", (req, res) => {
@@ -272,7 +266,8 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Endpoint per ripristinare l'icona di default - STESSA LOGICA NOME AZIENDALE
   app.post("/api/reset-app-icon", (req, res) => {
-    iconSettings.icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
+    iconSettings.icon = defaultIconBase64; // Usa l'icona Fleur de Vie dal backup15
+    console.log('🔄 Reset icona a Fleur de Vie dal backup15');
     res.json({ success: true, message: "Icona ripristinata al default", ...iconSettings });
   });
 

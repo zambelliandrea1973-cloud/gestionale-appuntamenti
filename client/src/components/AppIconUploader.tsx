@@ -46,6 +46,13 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       // STESSA LOGICA NOME AZIENDALE - accesso diretto ai dati
       const iconUrl = data.icon;
       const isDefaultFleurDeVie = iconUrl.startsWith("data:image/jpeg;base64,") && iconUrl.length > 50000;
+      console.log('🖼️ ICONA DEBUG:', {
+        url: iconUrl.substring(0, 50) + '...',
+        length: iconUrl.length,
+        isFleurDeVie: isDefaultFleurDeVie,
+        type: iconUrl.split(';')[0]
+      });
+      
       setIconInfo({ 
         exists: true, 
         isCustom: !isDefaultFleurDeVie,
@@ -93,9 +100,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
       setUploadSuccess(true);
       
-      // Aggiorna immediatamente con l'icona predefinita
-      const defaultIcon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+";
-      setPreviewUrl(defaultIcon);
+      // Ricarica l'icona dal server per ottenere la Fleur de Vie
+      window.location.reload();
       
       toast({
         title: "Icona predefinita impostata",
