@@ -610,5 +610,8 @@
   "consentIdCounter": 10,
   "invoiceIdCounter": 10,
   "invoiceItemIdCounter": 1,
-  "paymentIdCounter": 1
+  "paymentIdCounter": 1,
+  "userIcons": {},
+  "userBusinessSettings": {},
+  "userServices": {}
 }
