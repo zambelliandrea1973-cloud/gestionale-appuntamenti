@@ -1,0 +1,1398 @@
+6047-d2ecbab8f0c36a4f.js:1 Replit version e026c8b3, pid2 version 0.0.1391
+_app-85323991547d4538.js:38 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-85323991547d4538.js:38 [LaunchDarkly] LaunchDarkly client initialized
+WifeScheduler:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+_app-85323991547d4538.js:38 Adding extension: AI Playground {extensionArgs: {…}, local: false, logLevel: 'info'}
+framework-a1b50436839f9071.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'battery'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+framework-a1b50436839f9071.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+workspace_iframe.html:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html:32 Unrecognized feature: 'battery'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+_app-85323991547d4538.js:38 Adding extension: API Request Tester {extensionArgs: {…}, local: false, logLevel: 'info'}
+_app-85323991547d4538.js:38 Adding extension: Javascript Commands {extensionArgs: {…}, local: false, logLevel: 'info'}
+eruda.js:2 PWA check - standalone mode: false
+eruda.js:2 PWA check - iOS fullscreen: undefined
+framework-a1b50436839f9071.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+_app-85323991547d4538.js:38 Command: javascript-root-command has unrecognized contributions: commandbar. Valid contributions are commandbar,filetree-context-menu,sidebar-search,editor-context-menu {logLevel: 'warn'}
+(anonymous) @ _app-85323991547d4538.js:38
+a @ 2564-e60a4cd940792ddf.js:1
+warn @ 2564-e60a4cd940792ddf.js:1
+(anonymous) @ replEnvironmentDesktop-f44cfd5ff53ba375.js:2
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+commands.registerCreateCommand @ replEnvironmentDesktop-f44cfd5ff53ba375.js:2
+r @ replEnvironmentDesktop-f44cfd5ff53ba375.js:2
+r @ _app-85323991547d4538.js:38
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license?t=1749555637773 401 (Unauthorized)
+window.fetch @ VM8 eruda.js:2
+queryFn @ VM50 use-user-with-license.tsx:34
+fetchFn @ VM44 @tanstack_react-query.js:840
+run @ VM44 @tanstack_react-query.js:494
+start @ VM44 @tanstack_react-query.js:536
+fetch @ VM44 @tanstack_react-query.js:926
+executeFetch_fn @ VM44 @tanstack_react-query.js:2211
+onSubscribe @ VM44 @tanstack_react-query.js:1898
+subscribe @ VM44 @tanstack_react-query.js:24
+(anonymous) @ VM44 @tanstack_react-query.js:3022
+subscribeToStore @ VM88 chunk-C43VWYGG.js:12587
+commitHookEffectListMount @ VM88 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM88 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM88 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM88 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM88 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM88 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM88 chunk-C43VWYGG.js:19415
+performSyncWorkOnRoot @ VM88 chunk-C43VWYGG.js:18836
+flushSyncCallbacks @ VM88 chunk-C43VWYGG.js:9119
+commitRootImpl @ VM88 chunk-C43VWYGG.js:19400
+commitRoot @ VM88 chunk-C43VWYGG.js:19245
+finishConcurrentRender @ VM88 chunk-C43VWYGG.js:18773
+performConcurrentWorkOnRoot @ VM88 chunk-C43VWYGG.js:18686
+workLoop @ VM88 chunk-C43VWYGG.js:197
+flushWork @ VM88 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM88 chunk-C43VWYGG.js:384
+eruda.js:2 🔍 Risposta user-with-license: 401 false
+eruda.js:2 🔍 Utente non autenticato, ritorno null
+eruda.js:2 Stato autenticazione: {user: false, location: '/', isLoading: false}
+The script has an unsupported MIME type ('text/html').
+eruda.js:2 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ VM8 eruda.js:2
+(anonymous) @ VM31:91
+Promise.catch
+(anonymous) @ VM31:90
+eruda.js:2 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ VM8 eruda.js:2
+(anonymous) @ VM31:95
+Promise.catch
+(anonymous) @ VM31:90
+eruda.js:2 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+eruda.js:2 Location protocol: https:
+eruda.js:2 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Nessuna informazione di contatto disponibile
+eruda.js:2 Nessuna informazione di contatto disponibile
+eruda.js:2 Stato autenticazione: {user: false, location: '/staff-login', isLoading: false}
+eruda.js:2 Esecuzione richiesta POST a /api/staff/login {"username":"zambelli.andrea.1973@gmail.com","password":"gironiCO73%"}
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta POST a /api/staff/login: {method: 'POST', headers: {…}, body: '{"username":"zambelli.andrea.1973@gmail.com","password":"gironiCO73%"}'}
+eruda.js:2 Verifica periodica delle informazioni di contatto...
+eruda.js:2 Risposta da /api/staff/login: 200 OK ok: true
+eruda.js:2 Login riuscito, dati utente: {id: 3, username: 'zambelli.andrea.1973@gmail.com', password: 'd4499b80f9a17bcac30cb350aa61bad5b711cc02f10b0c4aa9…fa304ea67c9e2bf0.9e22154eb7cf018a1b7d6d349ef07d47', email: 'zambelli.andrea.1973@gmail.com', role: 'admin', …}
+eruda.js:2 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+eruda.js:2 Utente admin, reindirizzamento alla dashboard
+eruda.js:2 PWA check - standalone mode: false
+eruda.js:2 PWA check - iOS fullscreen: undefined
+eruda.js:2 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+eruda.js:2 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 Esecuzione richiesta GET a /api/client-app-info 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 Esecuzione richiesta GET a /api/client-app-info 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+eruda.js:2 Risposta da /api/client-app-info: 200 OK ok: true
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+eruda.js:2 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+eruda.js:2 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+eruda.js:2 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+eruda.js:2 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+eruda.js:2 Esecuzione richiesta GET a /api/company-name-settings 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+eruda.js:2 Esecuzione richiesta GET a /api/tenant-context 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+The script has an unsupported MIME type ('text/html').
+eruda.js:2 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ dashboard:258
+Promise.catch
+(anonymous) @ dashboard:257
+eruda.js:2 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ dashboard:262
+Promise.catch
+(anonymous) @ dashboard:257
+eruda.js:2 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+eruda.js:2 Location protocol: https:
+eruda.js:2 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 Risposta da /api/client-app-info: 200 OK ok: true
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Risposta da /api/company-name-settings: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND CompanyName: Risposta API status: 200
+eruda.js:2 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Risposta da /api/tenant-context: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SETTINGS: Tab salvata in localStorage: null
+eruda.js:2 🔧 SETTINGS: Tab attiva impostata a: app
+eruda.js:2 🔧 SETTINGS: Tab attualmente attiva: app
+eruda.js:2 Stato autenticazione: {user: true, location: '/settings', isLoading: false}
+eruda.js:2 🔧 SETTINGS: Tab salvata in localStorage: null
+eruda.js:2 🔧 SETTINGS: Tab attiva impostata a: app
+eruda.js:2 🔧 SETTINGS: Tab attualmente attiva: app
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 REACT QUERY: Servizi caricati e persistiti: (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SIMPLE: ServiceManager per utente 3
+eruda.js:2 🔧 SETTINGS: Tab attualmente attiva: appearance
+eruda.js:2 🏢 Impostazioni nome aziendale caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 Impostazioni nome aziendale caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 🖼️ ICONA DEBUG: {url: '/app-icon.jpg...', length: 13, isFleurDeVie: false, type: '/app-icon.jpg'}
+eruda.js:2 🖼️ ICONA DEBUG: {url: '/app-icon.jpg...', length: 13, isFleurDeVie: false, type: '/app-icon.jpg'}
+eruda.js:2 [vite] server connection lost. Polling for restart...
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:602 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/AppIconUploader.tsx?t=1749555859787 net::ERR_ABORTED 502 (Bad Gateway)
+importUpdatedModule @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:602
+fetchUpdate @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:211
+queueUpdate @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:186
+(anonymous) @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:642
+handleMessage @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:640
+(anonymous) @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:550
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2 [hmr] Failed to reload /src/components/AppIconUploader.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+Mt.forEach.n.<computed> @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2
+warnFailedUpdate @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:176
+fetchUpdate @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:213
+await in fetchUpdate
+queueUpdate @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:186
+(anonymous) @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:642
+handleMessage @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:640
+(anonymous) @ d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@vite/client:550
+framework-a1b50436839f9071.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar182%3A:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar182%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar182%3A:32 Unrecognized feature: 'battery'.
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar182%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+eruda.js:2 PWA check - standalone mode: false
+eruda.js:2 PWA check - iOS fullscreen: undefined
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 🔍 Risposta user-with-license: 200 true
+eruda.js:2 🔍 Dati utente ricevuti FRESCHI: {id: 3, username: 'zambelli.andrea.1973@gmail.com', email: 'zambelli.andrea.1973@gmail.com', type: 'admin', hasActiveLicense: true, …}
+eruda.js:2 ✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard
+eruda.js:2 Stato autenticazione: {user: true, location: '/', isLoading: false}
+eruda.js:2 Esecuzione richiesta GET a /api/tenant-context 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+The script has an unsupported MIME type ('text/html').
+eruda.js:2 Esecuzione richiesta GET a /api/client-app-info 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+eruda.js:2 Esecuzione richiesta GET a /api/company-name-settings 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+eruda.js:2 Esecuzione richiesta GET a /api/client-app-info 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+eruda.js:2 Esecuzione richiesta GET a /api/company-name-settings 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ (index):258
+Promise.catch
+(anonymous) @ (index):257
+eruda.js:2 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ (index):262
+Promise.catch
+(anonymous) @ (index):257
+eruda.js:2 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+eruda.js:2 Location protocol: https:
+eruda.js:2 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Risposta da /api/tenant-context: 200 OK ok: true
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+eruda.js:2 Risposta da /api/client-app-info: 200 OK ok: true
+eruda.js:2 Risposta da /api/company-name-settings: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND CompanyName: Risposta API status: 200
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Risposta da /api/client-app-info: 200 OK ok: true
+eruda.js:2 Risposta da /api/company-name-settings: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND CompanyName: Risposta API status: 200
+eruda.js:2 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+framework-a1b50436839f9071.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uD @ framework-a1b50436839f9071.js:1
+uI @ framework-a1b50436839f9071.js:1
+uM @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+workspace_iframe.html:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html:32 Unrecognized feature: 'battery'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+eruda.js:2 PWA check - standalone mode: false
+eruda.js:2 PWA check - iOS fullscreen: undefined
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+eruda.js:2 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+eruda.js:2 🔍 Risposta user-with-license: 200 true
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 🔍 Dati utente ricevuti FRESCHI: {id: 3, username: 'zambelli.andrea.1973@gmail.com', email: 'zambelli.andrea.1973@gmail.com', type: 'admin', hasActiveLicense: true, …}
+eruda.js:2 ✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard
+eruda.js:2 Stato autenticazione: {user: true, location: '/', isLoading: false}
+eruda.js:2 Esecuzione richiesta GET a /api/tenant-context 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Esecuzione richiesta GET a /api/client-app-info 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+eruda.js:2 Esecuzione richiesta GET a /api/company-name-settings 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+eruda.js:2 Esecuzione richiesta GET a /api/client-app-info 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+eruda.js:2 Esecuzione richiesta GET a /api/company-name-settings 
+eruda.js:2 Header x-device-type aggiunto: desktop
+eruda.js:2 Header anti-cache aggiunti per garantire dati sempre freschi
+eruda.js:2 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+The script has an unsupported MIME type ('text/html').
+eruda.js:2 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ (index):258
+Promise.catch
+(anonymous) @ (index):257
+eruda.js:2 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ (index):262
+Promise.catch
+(anonymous) @ (index):257
+eruda.js:2 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+eruda.js:2 Location protocol: https:
+eruda.js:2 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+eruda.js:2 Fuso orario diverso da quello salvato, aggiornamento...
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 Risposta da /api/tenant-context: 200 OK ok: true
+eruda.js:2 Risposta da /api/client-app-info: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+eruda.js:2 Risposta da /api/company-name-settings: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND CompanyName: Risposta API status: 200
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Risposta da /api/client-app-info: 200 OK ok: true
+eruda.js:2 Risposta da /api/company-name-settings: 200 OK ok: true
+eruda.js:2 🏢 FRONTEND CompanyName: Risposta API status: 200
+eruda.js:2 Fuso orario aggiornato con successo
+eruda.js:2 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 🏢 FRONTEND CompanyName: Non mostro nome - settings: {businessName: 'Studio Medico', showBusinessName: true}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+eruda.js:2 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+3329-8ea39fee43dcf1da.js:1 WebSocket is already in CLOSING or CLOSED state.
+send @ 3329-8ea39fee43dcf1da.js:1
+A @ 3329-8ea39fee43dcf1da.js:1
+send @ 3329-8ea39fee43dcf1da.js:1
+(anonymous) @ 3329-8ea39fee43dcf1da.js:1
+w @ 3329-8ea39fee43dcf1da.js:1
+r @ _app-85323991547d4538.js:38
+(anonymous) @ 307-0f1f9969d7c1cdcf.js:1
+oM @ framework-a1b50436839f9071.js:1
+oD @ framework-a1b50436839f9071.js:1
+uB @ framework-a1b50436839f9071.js:1
+u_ @ framework-a1b50436839f9071.js:1
+r6 @ framework-a1b50436839f9071.js:1
+(anonymous) @ framework-a1b50436839f9071.js:1
+uO @ framework-a1b50436839f9071.js:1
+uS @ framework-a1b50436839f9071.js:1
+C @ framework-a1b50436839f9071.js:1
+z @ framework-a1b50436839f9071.js:1
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/graphql net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+e.start @ _app-85323991547d4538.js:25
+t.request @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+e.execute @ _app-85323991547d4538.js:14
+e.getObservableFromLink @ _app-85323991547d4538.js:11
+e.getResultsFromLink @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchQueryByPolicy @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchConcastWithInfo @ _app-85323991547d4538.js:11
+t.fetch @ _app-85323991547d4538.js:14
+t.reobserveAsConcast @ _app-85323991547d4538.js:14
+e.executeQuery @ _app-85323991547d4538.js:26
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:40
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:25 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ _app-85323991547d4538.js:25
+_app-85323991547d4538.js:25 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ _app-85323991547d4538.js:25
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/data/repls/d6546abb-db52-44bc-b646-7127baec287e/get_connection_metadata net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:6
+y @ _app-85323991547d4538.js:6
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+v @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+x @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+Promise.then
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+Promise.then
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+createNewOutgoingConnection @ 3329-8ea39fee43dcf1da.js:1
+(anonymous) @ 3329-8ea39fee43dcf1da.js:1
+e.with @ _app-85323991547d4538.js:11
+e.with @ _app-85323991547d4538.js:11
+e.startActiveSpan @ _app-85323991547d4538.js:14
+e.startActiveSpan @ _app-85323991547d4538.js:14
+onBackoffFinished @ 3329-8ea39fee43dcf1da.js:1
+onBackoffFinished @ 3329-8ea39fee43dcf1da.js:1
+(anonymous) @ 3329-8ea39fee43dcf1da.js:1
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+L @ 3329-8ea39fee43dcf1da.js:1
+NoConnectionToBackingOff @ 3329-8ea39fee43dcf1da.js:1
+connect @ 3329-8ea39fee43dcf1da.js:1
+tryReconnecting @ 3329-8ea39fee43dcf1da.js:1
+onConnClosed @ 3329-8ea39fee43dcf1da.js:1
+onConnectionClosed @ 3329-8ea39fee43dcf1da.js:1
+onClose @ 3329-8ea39fee43dcf1da.js:1
+ws.onclose @ 3329-8ea39fee43dcf1da.js:1
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/graphql net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleRetry @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:11
+a @ _app-85323991547d4538.js:11
+Promise.then
+l @ _app-85323991547d4538.js:11
+(anonymous) @ _app-85323991547d4538.js:11
+s @ _app-85323991547d4538.js:11
+onError @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+error @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+c @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+Promise.catch
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+e.start @ _app-85323991547d4538.js:25
+t.request @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+e.execute @ _app-85323991547d4538.js:14
+e.getObservableFromLink @ _app-85323991547d4538.js:11
+e.getResultsFromLink @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchQueryByPolicy @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchConcastWithInfo @ _app-85323991547d4538.js:11
+t.fetch @ _app-85323991547d4538.js:14
+t.reobserveAsConcast @ _app-85323991547d4538.js:14
+e.executeQuery @ _app-85323991547d4538.js:26
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:40
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:25 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ _app-85323991547d4538.js:25
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/graphql net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleRetry @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:11
+a @ _app-85323991547d4538.js:11
+Promise.then
+l @ _app-85323991547d4538.js:11
+(anonymous) @ _app-85323991547d4538.js:11
+s @ _app-85323991547d4538.js:11
+onError @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+error @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+c @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+Promise.catch
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleRetry @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:11
+a @ _app-85323991547d4538.js:11
+Promise.then
+l @ _app-85323991547d4538.js:11
+(anonymous) @ _app-85323991547d4538.js:11
+s @ _app-85323991547d4538.js:11
+onError @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+error @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+c @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+Promise.catch
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+e.start @ _app-85323991547d4538.js:25
+t.request @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+e.execute @ _app-85323991547d4538.js:14
+e.getObservableFromLink @ _app-85323991547d4538.js:11
+e.getResultsFromLink @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchQueryByPolicy @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchConcastWithInfo @ _app-85323991547d4538.js:11
+t.fetch @ _app-85323991547d4538.js:14
+t.reobserveAsConcast @ _app-85323991547d4538.js:14
+e.executeQuery @ _app-85323991547d4538.js:26
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:40
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:25 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ _app-85323991547d4538.js:25
+_app-85323991547d4538.js:38 
+            
+            
+           GET https://api.sorryapp.com/v1/pages/27c7b5fc net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+i @ 6047-d2ecbab8f0c36a4f.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:38 
+            
+            
+           GET https://api.sorryapp.com/v1/pages/27c7b5fc net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ 6047-d2ecbab8f0c36a4f.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+i @ 6047-d2ecbab8f0c36a4f.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:25 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ _app-85323991547d4538.js:25
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820 net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:38
+promise @ _app-85323991547d4538.js:6
+(anonymous) @ _app-85323991547d4538.js:6
+n.httpRequest @ _app-85323991547d4538.js:6
+t @ _app-85323991547d4538.js:6
+a.sendChunk @ _app-85323991547d4538.js:6
+a.sendEvents @ _app-85323991547d4538.js:6
+a.flush @ _app-85323991547d4538.js:6
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:25 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ _app-85323991547d4538.js:25
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/graphql net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+e.start @ _app-85323991547d4538.js:25
+t.request @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+e.execute @ _app-85323991547d4538.js:14
+e.getObservableFromLink @ _app-85323991547d4538.js:11
+e.getResultsFromLink @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchQueryByPolicy @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchConcastWithInfo @ _app-85323991547d4538.js:11
+t.fetch @ _app-85323991547d4538.js:14
+t.reobserveAsConcast @ _app-85323991547d4538.js:14
+e.executeQuery @ _app-85323991547d4538.js:26
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:40
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820 net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:38
+promise @ _app-85323991547d4538.js:6
+(anonymous) @ _app-85323991547d4538.js:6
+n.httpRequest @ _app-85323991547d4538.js:6
+t @ _app-85323991547d4538.js:6
+(anonymous) @ _app-85323991547d4538.js:6
+Promise.catch
+t @ _app-85323991547d4538.js:6
+a.sendChunk @ _app-85323991547d4538.js:6
+a.sendEvents @ _app-85323991547d4538.js:6
+a.flush @ _app-85323991547d4538.js:6
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e @ _app-85323991547d4538.js:6
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/graphql net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleRetry @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:11
+a @ _app-85323991547d4538.js:11
+Promise.then
+l @ _app-85323991547d4538.js:11
+(anonymous) @ _app-85323991547d4538.js:11
+s @ _app-85323991547d4538.js:11
+onError @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+error @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+c @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+Promise.catch
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+e.start @ _app-85323991547d4538.js:25
+t.request @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+e.execute @ _app-85323991547d4538.js:14
+e.getObservableFromLink @ _app-85323991547d4538.js:11
+e.getResultsFromLink @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchQueryByPolicy @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchConcastWithInfo @ _app-85323991547d4538.js:11
+t.fetch @ _app-85323991547d4538.js:14
+t.reobserveAsConcast @ _app-85323991547d4538.js:14
+e.executeQuery @ _app-85323991547d4538.js:26
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:40
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+r @ _app-85323991547d4538.js:38
+_app-85323991547d4538.js:38 
+            
+            
+           POST https://replit.com/graphql net::ERR_NAME_NOT_RESOLVED
+(anonymous) @ _app-85323991547d4538.js:38
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleRetry @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:11
+a @ _app-85323991547d4538.js:11
+Promise.then
+l @ _app-85323991547d4538.js:11
+(anonymous) @ _app-85323991547d4538.js:11
+s @ _app-85323991547d4538.js:11
+onError @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+error @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+c @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+Promise.catch
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleRetry @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:11
+a @ _app-85323991547d4538.js:11
+Promise.then
+l @ _app-85323991547d4538.js:11
+(anonymous) @ _app-85323991547d4538.js:11
+s @ _app-85323991547d4538.js:11
+onError @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+error @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+c @ _app-85323991547d4538.js:25
+b @ _app-85323991547d4538.js:14
+y @ _app-85323991547d4538.js:14
+t.error @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+Promise.catch
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.consumeQueue @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+r @ _app-85323991547d4538.js:38
+setTimeout
+(anonymous) @ _app-85323991547d4538.js:38
+e.scheduleQueueConsumption @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+e @ _app-85323991547d4538.js:14
+t.subscribe @ _app-85323991547d4538.js:14
+e.try @ _app-85323991547d4538.js:25
+e.start @ _app-85323991547d4538.js:25
+t.request @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:25
+(anonymous) @ _app-85323991547d4538.js:14
+e.execute @ _app-85323991547d4538.js:14
+e.getObservableFromLink @ _app-85323991547d4538.js:11
+e.getResultsFromLink @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchQueryByPolicy @ _app-85323991547d4538.js:11
+b @ _app-85323991547d4538.js:11
+e.fetchConcastWithInfo @ _app-85323991547d4538.js:11
+t.fetch @ _app-85323991547d4538.js:14
+t.reobserveAsConcast @ _app-85323991547d4538.js:14
+e.executeQuery @ _app-85323991547d4538.js:26
+(anonymous) @ _app-85323991547d4538.js:14
+(anonymous) @ _app-85323991547d4538.js:40
+(anonymous) @ main-69808b3ae174dd6a.js:1
+n @ main-69808b3ae174dd6a.js:1
+u @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+(anonymous) @ main-69808b3ae174dd6a.js:1
+r @ _app-85323991547d4538.js:38
