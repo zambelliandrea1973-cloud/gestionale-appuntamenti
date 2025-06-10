@@ -242,33 +242,69 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ title: "Gestionale Sanitario" });
   });
 
-  // Sistema permanente icone - STESSA LOGICA NOME AZIENDALE  
-  let iconSettings = { 
-    appName: "Gestionale Sanitario", 
-    icon: defaultIconBase64
-  };
+  // Sistema permanente icone PER UTENTE - STESSA LOGICA NOME AZIENDALE  
+  const userIcons = new Map();
 
-  // Endpoint per ottenere l'icona dell'app - STESSA LOGICA NOME AZIENDALE
+  // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
   app.get("/api/client-app-info", (req, res) => {
-    res.json(iconSettings);
+    if (!req.isAuthenticated()) {
+      return res.json({ 
+        appName: "Gestionale Sanitario", 
+        icon: defaultIconBase64 
+      });
+    }
+
+    const userId = req.user.id;
+    const userIcon = userIcons.get(userId) || defaultIconBase64;
+    
+    res.json({ 
+      appName: "Gestionale Sanitario", 
+      icon: userIcon 
+    });
   });
 
-  // Endpoint per caricare una nuova icona - STESSA LOGICA NOME AZIENDALE
+  // Endpoint per caricare una nuova icona - SEPARAZIONE PER UTENTE
   app.post("/api/upload-app-icon", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
     try {
       const { iconData } = req.body;
-      if (iconData !== undefined) iconSettings.icon = iconData;
-      res.json({ success: true, message: "Icona aggiornata con successo", ...iconSettings });
+      const userId = req.user.id;
+      
+      if (iconData !== undefined) {
+        userIcons.set(userId, iconData);
+        console.log(`🖼️ Icona personalizzata salvata per utente ${userId} (${iconData.length} bytes)`);
+      }
+      
+      res.json({ 
+        success: true, 
+        message: "Icona aggiornata con successo", 
+        appName: "Gestionale Sanitario", 
+        icon: iconData 
+      });
     } catch (error) {
       res.status(500).json({ success: false, message: "Errore durante il caricamento dell'icona" });
     }
   });
 
-  // Endpoint per ripristinare l'icona di default - STESSA LOGICA NOME AZIENDALE
+  // Endpoint per ripristinare l'icona di default - SEPARAZIONE PER UTENTE
   app.post("/api/reset-app-icon", (req, res) => {
-    iconSettings.icon = defaultIconBase64; // Usa l'icona Fleur de Vie dal backup15
-    console.log('🔄 Reset icona a Fleur de Vie dal backup15');
-    res.json({ success: true, message: "Icona ripristinata al default", ...iconSettings });
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
+    const userId = req.user.id;
+    userIcons.set(userId, defaultIconBase64);
+    console.log(`🔄 Reset icona a Fleur de Vie per utente ${userId}`);
+    
+    res.json({ 
+      success: true, 
+      message: "Icona ripristinata al default", 
+      appName: "Gestionale Sanitario", 
+      icon: defaultIconBase64 
+    });
   });
 
   // Sistema permanente gestione nome aziendale
