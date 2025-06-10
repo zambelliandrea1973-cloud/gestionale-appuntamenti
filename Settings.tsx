@@ -20,6 +20,7 @@ import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import ServiceManager from '@/components/ServiceManager';
 import EmailSettings from '@/components/EmailSettings';
+import PasswordChangeSection from '@/components/PasswordChangeSection';
 import { RestartAppButton } from '@/components/RestartAppButton';
 
 export default function Settings() {
@@ -78,7 +79,7 @@ export default function Settings() {
       </header>
 
       <Tabs defaultValue="app" className="w-full">
-        <TabsList className="grid grid-cols-4 mb-6">
+        <TabsList className="grid grid-cols-5 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -86,6 +87,10 @@ export default function Settings() {
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
             <span>{t('settings.contacts', 'Contatti')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="security" className="flex items-center whitespace-nowrap">
+            <Shield className="mr-2 h-4 w-4" />
+            <span>{t('settings.security', 'Sicurezza')}</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Mail className="mr-2 h-4 w-4" />
@@ -180,6 +185,10 @@ export default function Settings() {
               <ContactInfoEditor />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="security">
+          <PasswordChangeSection />
         </TabsContent>
         
         <TabsContent value="integrations">
