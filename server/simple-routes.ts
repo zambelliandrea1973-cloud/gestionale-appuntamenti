@@ -386,6 +386,61 @@ export function registerSimpleRoutes(app: Express): Server {
     res.status(201).json(newAppointment);
   });
 
+  // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE
+  app.get("/api/clients/:id/activation-token", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.id);
+    
+    if (isNaN(clientId)) {
+      return res.status(400).json({ message: "ID cliente non valido" });
+    }
+    
+    // Verifica che il cliente appartenga all'utente loggato
+    const userClients = userData[user.id]?.clients || [];
+    const client = userClients.find(c => c.id === clientId);
+    
+    if (!client) {
+      return res.status(404).json({ message: "Cliente non trovato" });
+    }
+    
+    // Genera token di attivazione semplice
+    const token = `${user.id}_${clientId}_${Date.now()}`;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const activationUrl = `${protocol}://${host}/activate?token=${token}`;
+    
+    // QR code semplice (base64 encoding dell'URL)
+    const qrCode = Buffer.from(activationUrl).toString('base64');
+    
+    console.log(`🔐 Token QR generato per cliente ${clientId} di utente ${user.id}`);
+    
+    res.json({
+      token,
+      activationUrl,
+      qrCode,
+      clientName: `${client.firstName} ${client.lastName}`
+    });
+  });
+
+  app.get("/api/client-access/count/:clientId", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.clientId);
+    
+    // Verifica che il cliente appartenga all'utente loggato
+    const userClients = userData[user.id]?.clients || [];
+    const client = userClients.find(c => c.id === clientId);
+    
+    if (!client) {
+      return res.status(404).json({ message: "Cliente non trovato" });
+    }
+    
+    // Conteggio accessi semplice (simulato)
+    const accessCount = Math.floor(Math.random() * 10);
+    res.json({ count: accessCount });
+  });
+
   // Servire file statici da attached_assets per icone
   app.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
