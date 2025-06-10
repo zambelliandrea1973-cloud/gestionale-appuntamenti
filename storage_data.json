@@ -680,104 +680,106 @@
   "userBusinessSettings": {},
   "userServices": {},
   "users": [
-    [10, {
-      "id": 10,
-      "username": "staff.marco@studio.com",
-      "email": "staff.marco@studio.com",
-      "type": "staff",
-      "createdAt": "2025-06-01T10:00:00.000Z"
+    [3, {
+      "id": 3,
+      "username": "zambelli.andrea.1973@gmail.com", 
+      "email": "zambelli.andrea.1973@gmail.com",
+      "type": "admin",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    }],
+    [9, {
+      "id": 9,
+      "username": "elisafaverio6@gmail.com",
+      "email": "elisafaverio6@gmail.com", 
+      "type": "business",
+      "createdAt": "2025-06-03T13:34:58.643Z"
     }],
     [11, {
       "id": 11,
-      "username": "staff.lucia@studio.com", 
-      "email": "staff.lucia@studio.com",
-      "type": "staff",
-      "createdAt": "2025-06-02T11:00:00.000Z"
+      "username": "busnari.test@gmail.com",
+      "email": "busnari.test@gmail.com",
+      "type": "staff", 
+      "createdAt": "2025-06-03T13:34:58.643Z"
     }],
     [12, {
       "id": 12,
-      "username": "staff.giovanni@studio.com",
-      "email": "staff.giovanni@studio.com", 
+      "username": "business.user@gmail.com",
+      "email": "business.user@gmail.com",
+      "type": "business",
+      "createdAt": "2025-06-03T13:34:58.643Z" 
+    }],
+    [16, {
+      "id": 16,
+      "username": "staff.faverio@studio.com",
+      "email": "staff.faverio@studio.com",
       "type": "staff",
-      "createdAt": "2025-06-03T09:00:00.000Z"
+      "createdAt": "2025-06-01T10:00:00.000Z"
     }]
   ],
   "referralCommissions": [
     {
       "id": 1,
-      "referrerId": 10,
-      "referredId": 100,
+      "referrerId": 11,
+      "referredId": 9,
       "subscriptionId": 1001,
       "monthlyAmount": 1500,
       "isPaid": true,
       "paidAt": "2025-06-05T14:30:00.000Z",
       "createdAt": "2025-06-01T12:00:00.000Z",
-      "licenseCode": "REF-MARCO-001",
+      "licenseCode": "REF-BUSNARI-001",
       "licenseType": "business",
-      "customerEmail": "cliente1@email.com",
-      "notes": "Prima commissione pagata"
+      "customerEmail": "elisafaverio6@gmail.com",
+      "notes": "Prima commissione da Busnari per sponsorizzazione Faverio"
     },
     {
       "id": 2,
-      "referrerId": 10,
-      "referredId": 101,
+      "referrerId": 11,
+      "referredId": 12,
       "subscriptionId": 1002,
       "monthlyAmount": 2000,
       "isPaid": false,
       "createdAt": "2025-06-02T15:00:00.000Z",
-      "licenseCode": "REF-MARCO-002",
+      "licenseCode": "REF-BUSNARI-002",
       "licenseType": "business",
-      "customerEmail": "cliente2@email.com"
+      "customerEmail": "business.user@gmail.com"
     },
     {
       "id": 3,
-      "referrerId": 10,
-      "referredId": 102,
+      "referrerId": 16,
+      "referredId": 27,
       "subscriptionId": 1003,
       "monthlyAmount": 1800,
       "isPaid": false,
       "createdAt": "2025-06-03T16:00:00.000Z",
-      "licenseCode": "REF-MARCO-003",
-      "licenseType": "business",
-      "customerEmail": "cliente3@email.com"
+      "licenseCode": "REF-FAVERIO-001",
+      "licenseType": "pro",
+      "customerEmail": "zambelli.andrea.1973C@gmail.com"
     },
     {
       "id": 4,
-      "referrerId": 11,
-      "referredId": 103,
+      "referrerId": 16,
+      "referredId": 28,
       "subscriptionId": 1004,
       "monthlyAmount": 2200,
       "isPaid": true,
       "paidAt": "2025-06-04T10:15:00.000Z",
       "createdAt": "2025-06-02T13:00:00.000Z",
-      "licenseCode": "REF-LUCIA-001",
+      "licenseCode": "REF-FAVERIO-002",
       "licenseType": "business",
-      "customerEmail": "cliente4@email.com",
-      "notes": "Commissione verificata e pagata"
+      "customerEmail": "zambelli.andrea.1973D@gmail.com",
+      "notes": "Commissione Faverio verificata e pagata"
     },
     {
       "id": 5,
-      "referrerId": 11,
-      "referredId": 104,
+      "referrerId": 16,
+      "referredId": 25,
       "subscriptionId": 1005,
       "monthlyAmount": 1700,
       "isPaid": false,
       "createdAt": "2025-06-04T17:30:00.000Z",
-      "licenseCode": "REF-LUCIA-002",
-      "licenseType": "business",
-      "customerEmail": "cliente5@email.com"
-    },
-    {
-      "id": 6,
-      "referrerId": 12,
-      "referredId": 105,
-      "subscriptionId": 1006,
-      "monthlyAmount": 1900,
-      "isPaid": false,
-      "createdAt": "2025-06-05T11:45:00.000Z",
-      "licenseCode": "REF-GIOVANNI-001",
-      "licenseType": "business",
-      "customerEmail": "cliente6@email.com"
+      "licenseCode": "REF-FAVERIO-003",
+      "licenseType": "trial",
+      "customerEmail": "zambelli.andrea.1973A@gmail.com"
     }
   ]
 }
