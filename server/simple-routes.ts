@@ -572,7 +572,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
     // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
-    const allAppointments = storageData.userAppointments?.[user.id] || [];
+    const allAppointments = (storageData.appointments || []).map(([id, appointment]) => appointment);
     
     console.log(`📅 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
     
