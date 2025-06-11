@@ -175,6 +175,21 @@ export default function Clients() {
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
 
   console.log(`CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
+  
+  // Debug ownership per admin - FORZATO
+  if (currentUser?.type === 'admin' && clients.length > 0) {
+    const ownershipStats = {};
+    clients.forEach(client => {
+      const owner = client.ownerId || 'undefined';
+      ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
+    });
+    console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per ownerId:`, ownershipStats);
+    console.log(`👑 [CLIENT-DEBUG] FORCED - Admin ID corrente: ${currentUser.id}`);
+    
+    const ownClients = clients.filter(c => c.ownerId === currentUser.id).length;
+    const otherClients = clients.filter(c => c.ownerId !== currentUser.id).length;
+    console.log(`👑 [CLIENT-DEBUG] FORCED - Frontend - Clienti propri: ${ownClients}, Altri: ${otherClients}`);
+  }
 
   // Loading state
   if (isLoading) {

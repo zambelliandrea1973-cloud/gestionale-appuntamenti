@@ -302,6 +302,21 @@ export function registerSimpleRoutes(app: Express): Server {
     if (user.type === 'admin') {
       userClients = allClients.map(([id, client]) => client);
       console.log(`👑 [/api/clients] [${deviceType}] Admin - Restituendo tutti i ${userClients.length} clienti`);
+    
+    // FORZA DEBUG OWNERSHIP OGNI VOLTA
+    const ownershipStats = {};
+    userClients.forEach(client => {
+      const owner = client.ownerId || 'undefined';
+      ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
+    });
+    console.log(`👑 [ADMIN-DEBUG] FORCED - Distribuzione clienti per ownerId:`, ownershipStats);
+    console.log(`👑 [ADMIN-DEBUG] FORCED - Admin ID corrente: ${user.id}`);
+    
+    // Conta clienti propri vs altri
+    const ownClients = userClients.filter(c => c.ownerId === user.id).length;
+    const otherClients = userClients.filter(c => c.ownerId !== user.id).length;
+    console.log(`👑 [ADMIN-DEBUG] FORCED - Clienti propri (ownerId ${user.id}): ${ownClients}`);
+    console.log(`👑 [ADMIN-DEBUG] FORCED - Clienti altri account: ${otherClients}`);
     } else {
       userClients = allClients
         .filter(([id, client]) => client.ownerId === user.id)
