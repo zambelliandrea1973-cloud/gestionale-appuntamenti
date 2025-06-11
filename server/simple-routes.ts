@@ -549,6 +549,40 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     return { userIcons: {}, userBusinessSettings: {}, userServices: {} };
   }
+
+  function generateDefaultClientsForUser(userId, userEmail) {
+    const baseId = userId * 1000; // Evita conflitti ID usando range per utente
+    const userPrefix = userEmail.split('@')[0].substring(0, 2).toUpperCase();
+    
+    return [
+      {
+        id: baseId + 1,
+        firstName: "Cliente",
+        lastName: "Trial",
+        email: `cliente.trial.${userId}@example.com`,
+        phone: "+39 123 456 7890",
+        birthDate: "1990-01-15",
+        fiscalCode: `CLNTTL90A15${userPrefix}1X`,
+        uniqueCode: `CT${baseId + 1}`,
+        ownerId: userId,
+        createdAt: new Date().toISOString(),
+        notes: "Cliente di prova generato automaticamente"
+      },
+      {
+        id: baseId + 2,
+        firstName: "Trial",
+        lastName: "Account", 
+        email: `trial.account.${userId}@example.com`,
+        phone: "+39 098 765 4321",
+        birthDate: "1985-06-20",
+        fiscalCode: `TRLCNT85H20${userPrefix}2Y`,
+        uniqueCode: `TA${baseId + 2}`,
+        ownerId: userId,
+        createdAt: new Date().toISOString(),
+        notes: "Account di test generato automaticamente"
+      }
+    ];
+  }
   
   function cleanOldBackups() {
     try {
@@ -1167,7 +1201,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE
-  app.get("/api/clients/:id/activation-token", (req, res) => {
+  app.get("/api/clients/:id/activation-token", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const clientId = parseInt(req.params.id);
@@ -1197,17 +1231,32 @@ export function registerSimpleRoutes(app: Express): Server {
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const activationUrl = `${protocol}://${host}/activate?token=${token}`;
     
-    // QR code semplice (base64 encoding dell'URL)
-    const qrCode = Buffer.from(activationUrl).toString('base64');
-    
-    console.log(`🔐 Token QR generato per cliente ${clientId} di utente ${user.id}`);
-    
-    res.json({
-      token,
-      activationUrl,
-      qrCode,
-      clientName: `${client.firstName} ${client.lastName}`
-    });
+    try {
+      // Genera QR code vero usando la libreria qrcode
+      const QRCode = require('qrcode');
+      const qrCode = await QRCode.toDataURL(activationUrl, {
+        errorCorrectionLevel: 'M',
+        type: 'image/png',
+        quality: 0.92,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      });
+      
+      console.log(`🔐 Token QR generato per cliente ${clientId} di utente ${user.id}`);
+      
+      res.json({
+        token,
+        activationUrl,
+        qrCode,
+        clientName: `${client.firstName} ${client.lastName}`
+      });
+    } catch (error) {
+      console.error('Errore generazione QR:', error);
+      res.status(500).json({ message: "Errore nella generazione del QR code" });
+    }
   });
 
   app.get("/api/client-access/count/:clientId", (req, res) => {
