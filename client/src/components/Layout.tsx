@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useLicense } from "@/hooks/use-license";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import { useMobileSync } from "@/hooks/use-mobile-sync";
 import { LanguageSelector } from "./ui/language-selector";
 import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
@@ -34,6 +35,9 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
   const isAdmin = userWithLicense?.type === 'admin';
   const isStaff = userWithLicense?.type === 'staff';
+  
+  // Attiva sincronizzazione automatica per dispositivi mobili
+  const { isMobile } = useMobileSync();
   
   const isActive = (path: string) => location === path;
 
