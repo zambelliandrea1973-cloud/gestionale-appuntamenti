@@ -467,7 +467,10 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/appointments", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
+    const deviceType = req.headers['x-device-type'] || 'unknown';
     const appointments = userData[user.id]?.appointments || [];
+    
+    console.log(`📅 [/api/appointments] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}`);
     
     // Carica clienti e servizi da storage persistente per sincronizzazione ID
     const storageData = loadStorageData();
@@ -478,12 +481,27 @@ export function registerSimpleRoutes(app: Express): Server {
     let availableClients;
     if (user.type === 'admin') {
       availableClients = allClients.map(([id, client]) => client);
+      console.log(`👑 [/api/appointments] [${deviceType}] Admin - Accesso a tutti i clienti`);
     } else {
       availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
+      console.log(`👤 [/api/appointments] [${deviceType}] User ${user.id} - Solo clienti propri (${availableClients.length})`);
+    }
+    
+    // Filtra appuntamenti per separazione utente
+    let userAppointments;
+    if (user.type === 'admin') {
+      // Admin vede tutti gli appuntamenti di tutti gli utenti
+      userAppointments = appointments;
+      console.log(`👑 [/api/appointments] [${deviceType}] Admin - Tutti gli appuntamenti (${userAppointments.length})`);
+    } else {
+      // Staff/customer vedono solo appuntamenti con i loro clienti
+      const userClientIds = availableClients.map(c => c.id);
+      userAppointments = appointments.filter(apt => userClientIds.includes(apt.clientId));
+      console.log(`👤 [/api/appointments] [${deviceType}] User ${user.id} - Solo appuntamenti con clienti propri (${userAppointments.length})`);
     }
     
     // Popola le relazioni con client e service usando dati persistenti
-    const appointmentsWithDetails = appointments.map(appointment => {
+    const appointmentsWithDetails = userAppointments.map(appointment => {
       const client = availableClients.find(c => c.id === appointment.clientId);
       const service = userServices.find(s => s.id === appointment.serviceId);
       return { 
@@ -500,7 +518,10 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const { date } = req.params;
+    const deviceType = req.headers['x-device-type'] || 'unknown';
     const appointments = userData[user.id]?.appointments || [];
+    
+    console.log(`📅 [/api/appointments/date] [${deviceType}] Utente ${user.id} cerca appuntamenti per data ${date}`);
     
     // Carica clienti e servizi da storage persistente per sincronizzazione ID
     const storageData = loadStorageData();
@@ -515,27 +536,36 @@ export function registerSimpleRoutes(app: Express): Server {
       availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
     }
     
-    console.log(`📅 DEBUG - Utente ${user.id} cerca appuntamenti per data ${date}`);
-    console.log(`📅 DEBUG - Appuntamenti totali utente: ${appointments.length}`);
-    appointments.forEach(apt => console.log(`📅 DEBUG - Appuntamento: ${apt.id}, data: ${apt.date}`));
+    console.log(`📅 [${deviceType}] Appuntamenti totali utente: ${appointments.length}`);
     
+    // Filtra per data
     const dayAppointments = appointments.filter(apt => apt.date === date);
-    console.log(`📅 DEBUG - Appuntamenti trovati per ${date}: ${dayAppointments.length}`);
+    
+    // Filtra per separazione utente
+    let userDayAppointments;
+    if (user.type === 'admin') {
+      userDayAppointments = dayAppointments;
+      console.log(`👑 [${deviceType}] Admin - Tutti gli appuntamenti del ${date}: ${userDayAppointments.length}`);
+    } else {
+      const userClientIds = availableClients.map(c => c.id);
+      userDayAppointments = dayAppointments.filter(apt => userClientIds.includes(apt.clientId));
+      console.log(`👤 [${deviceType}] User ${user.id} - Solo appuntamenti con clienti propri del ${date}: ${userDayAppointments.length}`);
+    }
     
     // Popola le relazioni con client e service usando dati persistenti
-    const dayAppointmentsWithDetails = dayAppointments.map(appointment => {
+    const dayAppointmentsWithDetails = userDayAppointments.map(appointment => {
       const client = availableClients.find(c => c.id === appointment.clientId);
       const service = userServices.find(s => s.id === appointment.serviceId);
       
       // Debug per identificare dati mancanti
-      console.log(`🔍 DEBUG - Processing appointment ${appointment.id}, clientId: ${appointment.clientId}, serviceId: ${appointment.serviceId}`);
+      console.log(`🔍 [${deviceType}] Processing appointment ${appointment.id}, clientId: ${appointment.clientId}, serviceId: ${appointment.serviceId}`);
       if (!client) {
-        console.log(`⚠️ DEBUG - Client non trovato per appuntamento ${appointment.id}, clientId: ${appointment.clientId}`);
-        console.log(`⚠️ DEBUG - Clienti disponibili:`, availableClients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
+        console.log(`⚠️ [${deviceType}] Client non trovato per appuntamento ${appointment.id}, clientId: ${appointment.clientId}`);
+        console.log(`⚠️ [${deviceType}] Clienti disponibili:`, availableClients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
       }
       if (!service) {
-        console.log(`⚠️ DEBUG - Service non trovato per appuntamento ${appointment.id}, serviceId: ${appointment.serviceId}`);
-        console.log(`⚠️ DEBUG - Servizi disponibili:`, userServices.map(s => ({id: s.id, name: s.name})));
+        console.log(`⚠️ [${deviceType}] Service non trovato per appuntamento ${appointment.id}, serviceId: ${appointment.serviceId}`);
+        console.log(`⚠️ [${deviceType}] Servizi disponibili:`, userServices.map(s => ({id: s.id, name: s.name})));
       }
       
       return { 
