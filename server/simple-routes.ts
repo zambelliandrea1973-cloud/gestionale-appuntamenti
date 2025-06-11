@@ -468,13 +468,24 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const appointments = userData[user.id]?.appointments || [];
-    const clients = userData[user.id]?.clients || [];
-    const services = userData[user.id]?.services || [];
     
-    // Popola le relazioni con client e service
+    // Carica clienti e servizi da storage persistente per sincronizzazione ID
+    const storageData = loadStorageData();
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[user.id] || [];
+    
+    // Per admin, usa tutti i clienti; per altri solo i propri
+    let availableClients;
+    if (user.type === 'admin') {
+      availableClients = allClients.map(([id, client]) => client);
+    } else {
+      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
+    }
+    
+    // Popola le relazioni con client e service usando dati persistenti
     const appointmentsWithDetails = appointments.map(appointment => {
-      const client = clients.find(c => c.id === appointment.clientId);
-      const service = services.find(s => s.id === appointment.serviceId);
+      const client = availableClients.find(c => c.id === appointment.clientId);
+      const service = userServices.find(s => s.id === appointment.serviceId);
       return { 
         ...appointment, 
         client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
@@ -490,8 +501,19 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const { date } = req.params;
     const appointments = userData[user.id]?.appointments || [];
-    const clients = userData[user.id]?.clients || [];
-    const services = userData[user.id]?.services || [];
+    
+    // Carica clienti e servizi da storage persistente per sincronizzazione ID
+    const storageData = loadStorageData();
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[user.id] || [];
+    
+    // Per admin, usa tutti i clienti; per altri solo i propri
+    let availableClients;
+    if (user.type === 'admin') {
+      availableClients = allClients.map(([id, client]) => client);
+    } else {
+      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
+    }
     
     console.log(`📅 DEBUG - Utente ${user.id} cerca appuntamenti per data ${date}`);
     console.log(`📅 DEBUG - Appuntamenti totali utente: ${appointments.length}`);
@@ -500,32 +522,20 @@ export function registerSimpleRoutes(app: Express): Server {
     const dayAppointments = appointments.filter(apt => apt.date === date);
     console.log(`📅 DEBUG - Appuntamenti trovati per ${date}: ${dayAppointments.length}`);
     
-    // Correggi ID errati negli appuntamenti esistenti
-    dayAppointments.forEach(appointment => {
-      if (appointment.clientId === 251) {
-        console.log(`🔧 Correzione runtime ID cliente da 251 a 3 per appuntamento ${appointment.id}`);
-        appointment.clientId = 3;
-      }
-      if (appointment.serviceId === 7) {
-        console.log(`🔧 Correzione runtime ID servizio da 7 a 1 per appuntamento ${appointment.id}`);
-        appointment.serviceId = 1;
-      }
-    });
-    
-    // Popola le relazioni con client e service
+    // Popola le relazioni con client e service usando dati persistenti
     const dayAppointmentsWithDetails = dayAppointments.map(appointment => {
-      const client = clients.find(c => c.id === appointment.clientId);
-      const service = services.find(s => s.id === appointment.serviceId);
+      const client = availableClients.find(c => c.id === appointment.clientId);
+      const service = userServices.find(s => s.id === appointment.serviceId);
       
       // Debug per identificare dati mancanti
       console.log(`🔍 DEBUG - Processing appointment ${appointment.id}, clientId: ${appointment.clientId}, serviceId: ${appointment.serviceId}`);
       if (!client) {
         console.log(`⚠️ DEBUG - Client non trovato per appuntamento ${appointment.id}, clientId: ${appointment.clientId}`);
-        console.log(`⚠️ DEBUG - Clienti disponibili:`, clients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
+        console.log(`⚠️ DEBUG - Clienti disponibili:`, availableClients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
       }
       if (!service) {
         console.log(`⚠️ DEBUG - Service non trovato per appuntamento ${appointment.id}, serviceId: ${appointment.serviceId}`);
-        console.log(`⚠️ DEBUG - Servizi disponibili:`, services.map(s => ({id: s.id, name: s.name})));
+        console.log(`⚠️ DEBUG - Servizi disponibili:`, userServices.map(s => ({id: s.id, name: s.name})));
       }
       
       return { 
@@ -543,32 +553,48 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
     
+    // Valida gli ID con dati persistenti
+    const storageData = loadStorageData();
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[user.id] || [];
+    
+    // Per admin, usa tutti i clienti; per altri solo i propri
+    let availableClients;
+    if (user.type === 'admin') {
+      availableClients = allClients.map(([id, client]) => client);
+    } else {
+      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
+    }
+    
+    // Valida che clientId e serviceId esistano
+    const clientExists = availableClients.find(c => c.id === req.body.clientId);
+    const serviceExists = userServices.find(s => s.id === req.body.serviceId);
+    
+    if (!clientExists) {
+      console.log(`❌ Cliente ID ${req.body.clientId} non trovato`);
+      return res.status(400).json({ message: "Cliente non valido" });
+    }
+    
+    if (!serviceExists) {
+      console.log(`❌ Servizio ID ${req.body.serviceId} non trovato`);
+      return res.status(400).json({ message: "Servizio non valido" });
+    }
+    
     const newAppointment = {
       id: Date.now(),
       ...req.body,
       createdAt: new Date()
     };
     
-    // Correggi specificamente l'appuntamento di Bruna se ha ID riferimenti errati
-    if (newAppointment.clientId === 251) {
-      console.log(`🔧 Correzione ID cliente da 251 a 3 per Bruna Pizzolato`);
-      newAppointment.clientId = 3;
-    }
-    if (newAppointment.serviceId === 7) {
-      console.log(`🔧 Correzione ID servizio da 7 a 1 per servizio non esistente`);
-      newAppointment.serviceId = 1; // Usa "Consulenza Generale" come fallback
-    }
-    
     userData[user.id].appointments.push(newAppointment);
     console.log(`📅 Appuntamento creato per utente ${user.id}:`, newAppointment.id);
     
     // Popola le relazioni con client e service prima di restituire
-    const clients = userData[user.id]?.clients || [];
-    const services = userData[user.id]?.services || [];
-    
-    const client = clients.find(c => c.id === newAppointment.clientId);
-    const service = services.find(s => s.id === newAppointment.serviceId);
-    const appointmentWithDetails = { ...newAppointment, client, service };
+    const appointmentWithDetails = {
+      ...newAppointment,
+      client: clientExists,
+      service: serviceExists
+    };
     
     res.status(201).json(appointmentWithDetails);
   });
