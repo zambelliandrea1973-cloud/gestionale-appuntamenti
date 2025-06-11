@@ -381,9 +381,15 @@ export function registerSimpleRoutes(app: Express): Server {
         ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
         : {};
       
-      const mergedData = { ...currentData, ...updatedData };
+      // Merge più specifico per preservare gli array di appuntamenti
+      const mergedData = {
+        ...currentData,
+        ...updatedData,
+        appointments: updatedData.appointments || currentData.appointments || []
+      };
+      
       fs.writeFileSync(storageFile, JSON.stringify(mergedData, null, 2));
-      console.log('💾 Dati salvati persistentemente');
+      console.log(`💾 Dati salvati persistentemente - ${mergedData.appointments?.length || 0} appuntamenti totali`);
     } catch (error) {
       console.error('Errore salvataggio storage:', error);
     }
