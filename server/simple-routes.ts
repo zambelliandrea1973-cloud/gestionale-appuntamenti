@@ -250,14 +250,21 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const serviceId = parseInt(req.params.id);
     
+    console.log(`🗑️ [DELETE] Tentativo eliminazione servizio ID ${serviceId} per utente ${user.id}`);
+    
     // Carica e aggiorna servizi nel file storage_data.json
     const storageData = loadStorageData();
     if (!storageData.userServices || !storageData.userServices[user.id]) {
+      console.log(`❌ [DELETE] Nessun servizio trovato per utente ${user.id}`);
       return res.status(404).json({ message: "Servizio non trovato" });
     }
     
+    console.log(`🔍 [DELETE] Servizi disponibili per utente ${user.id}:`, 
+      storageData.userServices[user.id].map(s => ({ id: s.id, name: s.name })));
+    
     const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
     if (serviceIndex === -1) {
+      console.log(`❌ [DELETE] Servizio con ID ${serviceId} non trovato tra i servizi dell'utente ${user.id}`);
       return res.status(404).json({ message: "Servizio non trovato" });
     }
     
@@ -265,7 +272,7 @@ export function registerSimpleRoutes(app: Express): Server {
     storageData.userServices[user.id].splice(serviceIndex, 1);
     saveStorageData(storageData);
     
-    console.log(`🔧 [/api/services] Servizio ID ${serviceId} "${deletedService.name}" eliminato per utente ${user.id}`);
+    console.log(`✅ [DELETE] Servizio ID ${serviceId} "${deletedService.name}" eliminato per utente ${user.id}`);
     res.json({ success: true, message: "Servizio eliminato con successo" });
   });
 

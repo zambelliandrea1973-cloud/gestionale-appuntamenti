@@ -694,7 +694,7 @@
   },
   "userBusinessSettings": {
     "3": {
-      "businessName": "Studio Medico Andrea Zambelli", 
+      "businessName": "Studio Medico Andrea Zambelli",
       "showBusinessName": true,
       "name": "Andrea Zambelli",
       "fontSize": 42,
@@ -716,7 +716,7 @@
       },
       {
         "id": 2,
-        "name": "Visita Specialistica Cardiologica", 
+        "name": "Visita Specialistica Cardiologica",
         "duration": 45,
         "price": 100,
         "color": "#10B981",
@@ -761,6 +761,24 @@
         "price": 85,
         "color": "#9333EA",
         "ownerId": 3
+      },
+      {
+        "id": 1749649847765,
+        "ownerId": 3,
+        "name": "detox",
+        "duration": 30,
+        "price": 30,
+        "color": "#f7de3b",
+        "description": ""
+      },
+      {
+        "id": 1749649848429,
+        "ownerId": 3,
+        "name": "detox",
+        "duration": 30,
+        "price": 30,
+        "color": "#f7de3b",
+        "description": ""
       }
     ]
   },

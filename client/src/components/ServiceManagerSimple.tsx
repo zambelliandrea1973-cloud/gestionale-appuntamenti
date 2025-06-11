@@ -160,6 +160,8 @@ export default function ServiceManagerSimple() {
   };
 
   const handleDeleteService = (id: number) => {
+    console.log("🗑️ FRONTEND: Tentativo eliminazione servizio con ID:", id);
+    console.log("🗑️ FRONTEND: Tipo ID:", typeof id);
     if (window.confirm("Sei sicuro di voler eliminare questo servizio?")) {
       deleteServiceMutation.mutate(id);
     }
