@@ -162,7 +162,12 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
   };
   
   return (
-    <Card className="h-full">
+    <Card className={`h-full ${isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''}`}>
+      {isOtherAccount && (
+        <div className="bg-orange-100 px-3 py-1 text-xs text-orange-800 font-medium border-b border-orange-200">
+          👥 Cliente di altro account (sola visualizzazione)
+        </div>
+      )}
       <CardContent className="pt-6">
         <div className="flex justify-between items-start">
           <div>
@@ -194,45 +199,53 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
           </div>
           
           <div className="flex">
-            <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
-              <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Pencil className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <ClientForm 
-                clientId={client.id}
-                onClose={() => {
-                  setIsClientFormOpen(false);
-                  if (onUpdate) onUpdate();
-                }}
-              />
-            </Dialog>
-            
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-500">
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('clients.details.deleteClient')}</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t('clients.details.deleteClientConfirmation')}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction 
-                    onClick={handleDelete}
-                    className="bg-red-600 hover:bg-red-700"
-                  >
-                    {t('common.delete')}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            {!isOtherAccount ? (
+              <>
+                <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                  <ClientForm 
+                    clientId={client.id}
+                    onClose={() => {
+                      setIsClientFormOpen(false);
+                      if (onUpdate) onUpdate();
+                    }}
+                  />
+                </Dialog>
+                
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-500">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>{t('clients.details.deleteClient')}</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t('clients.details.deleteClientConfirmation')}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={handleDelete}
+                        className="bg-red-600 hover:bg-red-700"
+                      >
+                        {t('common.delete')}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            ) : (
+              <Badge variant="outline" className="text-xs text-orange-600 border-orange-300">
+                Solo visualizzazione
+              </Badge>
+            )}
           </div>
         </div>
         
