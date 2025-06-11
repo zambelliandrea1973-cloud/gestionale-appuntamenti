@@ -105,12 +105,27 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/services", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
+    
+    // FORZA ANTI-CACHE PER MOBILE
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-services-${Date.now()}`,
+        'Last-Modified': new Date().toUTCString()
+      });
+      console.log(`🔄 [${deviceType}] Anti-cache applicato per servizi mobile`);
+    }
     
     // Carica solo i servizi dell'utente dal file storage_data.json
     const storageData = loadStorageData();
     const userServices = storageData.userServices?.[user.id] || [];
     
-    console.log(`🔧 [/api/services] Caricati ${userServices.length} servizi per utente ${user.id}`);
+    console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi per utente ${user.id}`);
     res.json(userServices);
   });
 
@@ -207,8 +222,22 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
     
     console.log(`🔍 [/api/clients] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
+    
+    // FORZA ANTI-CACHE PER MOBILE
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-clients-${Date.now()}`,
+        'Last-Modified': new Date().toUTCString()
+      });
+      console.log(`🔄 [${deviceType}] Anti-cache applicato per clienti mobile`);
+    }
     
     // Carica dati reali dal file storage_data.json
     const allClients = loadStorageData().clients || [];
@@ -582,8 +611,23 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
     
-    console.log(`📅 [/api/appointments] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}`);
+    console.log(`📅 [/api/appointments] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.username}`);
+    console.log(`📱 [/api/appointments] [${deviceType}] Mobile: ${isMobile}, UserAgent: ${userAgent.substring(0, 50)}...`);
+    
+    // FORZA ANTI-CACHE PER MOBILE - intestazioni aggressive per sincronizzazione
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-${Date.now()}`,
+        'Last-Modified': new Date().toUTCString()
+      });
+      console.log(`🔄 [${deviceType}] Intestazioni anti-cache applicate per mobile`);
+    }
     
     // UNIFICA TUTTI I DATI - stesso identico accesso per mobile e desktop
     const storageData = loadStorageData();
