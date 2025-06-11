@@ -638,26 +638,6 @@
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.879Z"
       }
-    ],
-    [
-      1749667437314,
-      {
-        "id": 1749667437314,
-        "ownerId": 3,
-        "uniqueCode": "ADM7314",
-        "createdAt": "2025-06-11T18:43:57.314Z",
-        "firstName": "Silvia",
-        "lastName": "Bus",
-        "phone": "+393472550110",
-        "email": "busnari.silvia@libero.it",
-        "address": "Via Cavallotti, 6",
-        "birthday": "2025-06-07",
-        "notes": "",
-        "isFrequent": false,
-        "medicalNotes": "",
-        "allergies": "",
-        "hasConsent": false
-      }
     ]
   ],
   "services": [
