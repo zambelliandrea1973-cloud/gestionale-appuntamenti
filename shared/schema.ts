@@ -27,6 +27,10 @@ export const clients = pgTable("clients", {
 export const insertClientSchema = createInsertSchema(clients).omit({
   id: true,
   createdAt: true,
+  userId: true,
+  ownerId: true,
+  assignmentCode: true,
+  uniqueCode: true,
 });
 
 // Services table schema - RISTRUTTURATO PER MULTI-TENANT
