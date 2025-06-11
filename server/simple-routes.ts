@@ -518,7 +518,12 @@ export function registerSimpleRoutes(app: Express): Server {
     const userServices = storageData.userServices?.[user.id] || [];
     
     // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
-    const allAppointments = (storageData.appointments || []).map(([id, appointment]) => appointment);
+    const allAppointments = (storageData.appointments || []).map(item => {
+      if (Array.isArray(item)) {
+        return item[1]; // Formato [id, appointment]
+      }
+      return item; // Formato diretto
+    });
     
     // Per admin: accesso completo identico desktop/mobile
     // Per staff/customer: solo i propri dati
@@ -578,7 +583,12 @@ export function registerSimpleRoutes(app: Express): Server {
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
     // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
-    const allAppointments = (storageData.appointments || []).map(([id, appointment]) => appointment);
+    const allAppointments = (storageData.appointments || []).map(item => {
+      if (Array.isArray(item)) {
+        return item[1]; // Formato [id, appointment]
+      }
+      return item; // Formato diretto
+    });
     
     console.log(`📅 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
     
@@ -660,11 +670,20 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Carica dati persistenti
     const storageData = loadStorageData();
-    const allAppointments = (storageData.appointments || []).map(([id, appointment]) => appointment);
+    console.log(`🔍 [${deviceType}] DEBUG Storage appointments raw:`, storageData.appointments?.length || 0, storageData.appointments?.slice(0, 3));
+    
+    // Gestisce sia formato array che oggetto diretto
+    const allAppointments = (storageData.appointments || []).map(item => {
+      if (Array.isArray(item)) {
+        return item[1]; // Formato [id, appointment]
+      }
+      return item; // Formato diretto
+    });
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
     
-    console.log(`📊 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
+    console.log(`📊 [${deviceType}] Appuntamenti totali processati: ${allAppointments.length}`);
+    console.log(`🔍 [${deviceType}] DEBUG primi 3 appuntamenti:`, allAppointments.slice(0, 3).map(a => ({id: a?.id, date: a?.date})));
     
     // Filtra appuntamenti per range di date
     let userRangeAppointments;
