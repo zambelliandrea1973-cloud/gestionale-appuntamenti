@@ -120,17 +120,27 @@ export function registerSimpleRoutes(app: Express): Server {
     const storageData = loadStorageData();
     const userServices = storageData.userServices?.[user.id] || [];
     
-    // Aggiusta ID dei servizi personalizzati per evitare conflitti
-    const adjustedUserServices = userServices.map(service => ({
+    // Separa override di servizi default da servizi completamente personalizzati
+    const defaultOverrides = userServices.filter(service => service.originalDefaultId);
+    const pureCustomServices = userServices.filter(service => !service.originalDefaultId);
+    
+    // Crea lista servizi default con eventuali override
+    const finalDefaultServices = defaultServices.map(defaultService => {
+      const override = defaultOverrides.find(override => override.originalDefaultId === defaultService.id);
+      return override || { ...defaultService, isDefault: true };
+    });
+    
+    // Aggiusta ID dei servizi completamente personalizzati per evitare conflitti
+    const adjustedCustomServices = pureCustomServices.map(service => ({
       ...service,
       id: service.id + 1000, // Offset per evitare conflitti con servizi default
       isDefault: false
     }));
     
-    // Combina servizi di default + personalizzati
-    const allServices = [...defaultServices, ...adjustedUserServices];
+    // Combina servizi default (con override) + personalizzati puri
+    const allServices = [...finalDefaultServices, ...adjustedCustomServices];
     
-    console.log(`🔧 [/api/services] Caricati ${defaultServices.length} servizi default + ${userServices.length} personalizzati per utente ${user.id}`);
+    console.log(`🔧 [/api/services] Caricati ${finalDefaultServices.length} servizi default (${defaultOverrides.length} con override) + ${pureCustomServices.length} personalizzati per utente ${user.id}`);
     res.json(allServices);
   });
 
@@ -161,8 +171,57 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const serviceId = parseInt(req.params.id);
     
-    // Carica e aggiorna servizi nel file storage_data.json
+    console.log(`🔧 [/api/services] PUT richiesta per servizio ID ${serviceId} da utente ${user.id}`);
+    
+    // Carica dati storage
     const storageData = loadStorageData();
+    
+    // Controlla se è un servizio default (ID < 1000)
+    if (serviceId < 1000) {
+      console.log(`🔧 [/api/services] Servizio ${serviceId} è un servizio DEFAULT - creazione override personalizzato`);
+      
+      // Per servizi default, creiamo un override personalizzato
+      if (!storageData.userServices) storageData.userServices = {};
+      if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
+      
+      // Trova il servizio default originale
+      const systemDefaultServices = [
+        { id: 1, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6", isDefault: true },
+        { id: 2, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981", isDefault: true },
+        { id: 3, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B", isDefault: true },
+        { id: 4, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444", isDefault: true },
+        { id: 5, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6", isDefault: true },
+        { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4", isDefault: true }
+      ];
+      const defaultService = systemDefaultServices.find(s => s.id === serviceId);
+      if (!defaultService) {
+        return res.status(404).json({ message: "Servizio default non trovato" });
+      }
+      
+      // Crea override personalizzato basato su servizio default
+      const customizedService = {
+        ...defaultService,
+        ...req.body,
+        id: serviceId, // Mantieni l'ID originale
+        ownerId: user.id,
+        isDefault: false, // Ora è personalizzato
+        originalDefaultId: serviceId // Traccia l'ID default originale
+      };
+      
+      // Rimuovi eventuale override esistente per questo servizio
+      storageData.userServices[user.id] = storageData.userServices[user.id].filter(s => 
+        s.originalDefaultId !== serviceId && s.id !== serviceId
+      );
+      
+      // Aggiungi il nuovo override
+      storageData.userServices[user.id].push(customizedService);
+      saveStorageData(storageData);
+      
+      console.log(`🔧 [/api/services] Override servizio default "${customizedService.name}" creato per utente ${user.id}`);
+      return res.json(customizedService);
+    }
+    
+    // Per servizi personalizzati (ID >= 1000), logica esistente
     if (!storageData.userServices || !storageData.userServices[user.id]) {
       return res.status(404).json({ message: "Servizio non trovato" });
     }
