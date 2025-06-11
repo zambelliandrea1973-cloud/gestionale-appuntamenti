@@ -753,6 +753,14 @@
         "price": 90,
         "color": "#06B6D4",
         "ownerId": 3
+      },
+      {
+        "id": 7,
+        "name": "Bicom",
+        "duration": 40,
+        "price": 85,
+        "color": "#9333EA",
+        "ownerId": 3
       }
     ]
   },

@@ -105,20 +105,34 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/services", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const services = userData[user.id]?.services || [];
-    res.json(services);
+    
+    // Carica servizi dal file storage_data.json
+    const storageData = loadStorageData();
+    const userServices = storageData.userServices?.[user.id] || [];
+    
+    console.log(`🔧 [/api/services] Caricati ${userServices.length} servizi per utente ${user.id}`);
+    res.json(userServices);
   });
 
   app.post("/api/services", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
+    
+    // Carica e aggiorna servizi nel file storage_data.json
+    const storageData = loadStorageData();
+    if (!storageData.userServices) storageData.userServices = {};
+    if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
     
     const newService = {
       id: Date.now(),
+      ownerId: user.id,
       ...req.body
     };
-    userData[user.id].services.push(newService);
+    
+    storageData.userServices[user.id].push(newService);
+    saveStorageData(storageData);
+    
+    console.log(`🔧 [/api/services] Servizio "${newService.name}" aggiunto per utente ${user.id}`);
     res.status(201).json(newService);
   });
 
