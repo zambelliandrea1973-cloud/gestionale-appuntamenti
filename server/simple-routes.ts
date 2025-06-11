@@ -338,6 +338,17 @@ export function registerSimpleRoutes(app: Express): Server {
     }));
     console.log(`🔍 [/api/clients] [${deviceType}] Sample primi 5 clienti:`, JSON.stringify(sampleClients, null, 2));
     
+    // Debug per admin: mostra distribuzione ownership
+    if (user.type === 'admin') {
+      const ownershipStats = {};
+      userClients.forEach(client => {
+        const owner = client.ownerId || 'undefined';
+        ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
+      });
+      console.log(`👑 [ADMIN-DEBUG] Distribuzione clienti per ownerId:`, ownershipStats);
+      console.log(`👑 [ADMIN-DEBUG] Admin ID corrente: ${user.id}`);
+    }
+    
     // Log totale con uniqueCode per identificare il problema
     const clientsWithCodes = userClients.filter(c => c.uniqueCode);
     console.log(`🏷️ [/api/clients] [${deviceType}] Clienti con uniqueCode: ${clientsWithCodes.length}/${userClients.length}`);
