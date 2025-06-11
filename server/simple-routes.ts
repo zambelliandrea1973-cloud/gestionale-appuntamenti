@@ -486,7 +486,17 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const appointments = userData[user.id]?.appointments || [];
-    res.json(appointments);
+    const clients = userData[user.id]?.clients || [];
+    const services = userData[user.id]?.services || [];
+    
+    // Popola le relazioni con client e service
+    const appointmentsWithDetails = appointments.map(appointment => {
+      const client = clients.find(c => c.id === appointment.clientId);
+      const service = services.find(s => s.id === appointment.serviceId);
+      return { ...appointment, client, service };
+    });
+    
+    res.json(appointmentsWithDetails);
   });
 
   app.get("/api/appointments/date/:date", (req, res) => {
@@ -494,6 +504,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const { date } = req.params;
     const appointments = userData[user.id]?.appointments || [];
+    const clients = userData[user.id]?.clients || [];
+    const services = userData[user.id]?.services || [];
     
     console.log(`📅 DEBUG - Utente ${user.id} cerca appuntamenti per data ${date}`);
     console.log(`📅 DEBUG - Appuntamenti totali utente: ${appointments.length}`);
@@ -502,7 +514,14 @@ export function registerSimpleRoutes(app: Express): Server {
     const dayAppointments = appointments.filter(apt => apt.date === date);
     console.log(`📅 DEBUG - Appuntamenti trovati per ${date}: ${dayAppointments.length}`);
     
-    res.json(dayAppointments);
+    // Popola le relazioni con client e service
+    const dayAppointmentsWithDetails = dayAppointments.map(appointment => {
+      const client = clients.find(c => c.id === appointment.clientId);
+      const service = services.find(s => s.id === appointment.serviceId);
+      return { ...appointment, client, service };
+    });
+    
+    res.json(dayAppointmentsWithDetails);
   });
 
   app.post("/api/appointments", (req, res) => {
