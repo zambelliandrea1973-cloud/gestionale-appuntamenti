@@ -536,8 +536,20 @@ export function registerSimpleRoutes(app: Express): Server {
     const appointmentsWithDetails = userAppointments.map(appointment => {
       const client = availableClients.find(c => c.id === appointment.clientId);
       const service = userServices.find(s => s.id === appointment.serviceId);
+      // Genera startTime e endTime se mancanti per compatibilità frontend
+      const startTime = appointment.startTime || appointment.time || "09:00";
+      const duration = appointment.duration || 60;
+      const endTime = appointment.endTime || (() => {
+        const [hours, minutes] = startTime.split(':').map(Number);
+        const endDate = new Date();
+        endDate.setHours(hours, minutes + duration, 0, 0);
+        return endDate.toTimeString().substring(0, 5);
+      })();
+
       return { 
         ...appointment, 
+        startTime,
+        endTime,
         client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
         service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666" }
       };
@@ -602,8 +614,20 @@ export function registerSimpleRoutes(app: Express): Server {
         console.log(`⚠️ [${deviceType}] Servizi disponibili:`, userServices.map(s => ({id: s.id, name: s.name})));
       }
       
+      // Genera startTime e endTime se mancanti per compatibilità frontend
+      const startTime = appointment.startTime || appointment.time || "09:00";
+      const duration = appointment.duration || 60;
+      const endTime = appointment.endTime || (() => {
+        const [hours, minutes] = startTime.split(':').map(Number);
+        const endDate = new Date();
+        endDate.setHours(hours, minutes + duration, 0, 0);
+        return endDate.toTimeString().substring(0, 5);
+      })();
+
       return { 
         ...appointment, 
+        startTime,
+        endTime,
         client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
         service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666" }
       };

@@ -137,6 +137,11 @@ export default function DayViewWithTimeSlots({
   // Controlla se uno slot è occupato da un appuntamento
   const isSlotOccupied = (slotTime: string): AppointmentWithDetails | undefined => {
     return appointments.find(appointment => {
+      // Protezione per dati incompleti
+      if (!appointment.startTime || !appointment.endTime) {
+        console.warn('Appuntamento senza startTime/endTime:', appointment);
+        return false;
+      }
       const appointmentStart = appointment.startTime.substring(0, 5);
       const appointmentEnd = appointment.endTime.substring(0, 5);
       

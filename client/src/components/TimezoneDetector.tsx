@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
 
 /**
  * Componente per il rilevamento automatico del fuso orario dell'utente
  * e la sincronizzazione con il server
  */
 export const TimezoneDetector = () => {
-  const { toast } = useToast();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -68,19 +66,15 @@ export const TimezoneDetector = () => {
       } catch (error) {
         console.error('Errore nel rilevamento del fuso orario:', error);
         
-        // Notifica solo se c'è un errore
-        toast({
-          title: "Errore fuso orario",
-          description: "Non è stato possibile rilevare o salvare il fuso orario. L'applicazione utilizzerà il fuso orario predefinito (Europa/Roma).",
-          variant: "destructive"
-        });
+        // Log errore invece di toast per evitare crash mobile
+        console.error("Non è stato possibile rilevare o salvare il fuso orario. L'applicazione utilizzerà il fuso orario predefinito (Europa/Roma).");
       } finally {
         setInitialized(true);
       }
     };
     
     detectAndSaveTimezone();
-  }, [initialized, toast]);
+  }, [initialized]);
   
   // Questo componente non ha un rendering visibile
   return null;
