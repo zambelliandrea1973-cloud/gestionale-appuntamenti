@@ -375,11 +375,43 @@ export function registerSimpleRoutes(app: Express): Server {
     return { userIcons: {}, userBusinessSettings: {}, userServices: {} };
   }
   
+  function cleanOldBackups() {
+    try {
+      const files = fs.readdirSync('.');
+      const backupFiles = files.filter(f => f.startsWith('storage_data_backup_'));
+      
+      if (backupFiles.length > 10) {
+        // Mantieni solo gli ultimi 10 backup
+        const sortedBackups = backupFiles
+          .map(f => ({ name: f, time: parseInt(f.split('_')[3].split('.')[0]) }))
+          .sort((a, b) => b.time - a.time);
+        
+        const toDelete = sortedBackups.slice(10);
+        toDelete.forEach(backup => {
+          fs.unlinkSync(backup.name);
+          console.log(`🗑️ Backup vecchio rimosso: ${backup.name}`);
+        });
+      }
+    } catch (error) {
+      console.error('Errore pulizia backup:', error);
+    }
+  }
+
   function saveStorageData(updatedData) {
     try {
       const currentData = fs.existsSync(storageFile) 
         ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
         : {};
+      
+      // Backup del file esistente prima di salvare
+      if (fs.existsSync(storageFile)) {
+        const backupName = `storage_data_backup_${Date.now()}.json`;
+        fs.copyFileSync(storageFile, backupName);
+        console.log(`🔒 Backup automatico creato: ${backupName}`);
+        
+        // Pulizia backup vecchi
+        cleanOldBackups();
+      }
       
       // Merge più specifico per preservare gli array di appuntamenti
       const mergedData = {
@@ -388,14 +420,55 @@ export function registerSimpleRoutes(app: Express): Server {
         appointments: updatedData.appointments || currentData.appointments || []
       };
       
-      fs.writeFileSync(storageFile, JSON.stringify(mergedData, null, 2));
+      // Salvataggio atomico: prima in un file temporaneo, poi rinomina
+      const tempFile = 'storage_data_temp.json';
+      fs.writeFileSync(tempFile, JSON.stringify(mergedData, null, 2));
+      fs.renameSync(tempFile, storageFile);
+      
       console.log(`💾 Dati salvati persistentemente - ${mergedData.appointments?.length || 0} appuntamenti totali`);
+      
+      // Verifica immediata del salvataggio
+      const verified = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+      if (verified.appointments?.length !== mergedData.appointments?.length) {
+        console.error('⚠️ ERRORE CRITICO: Verifica salvataggio fallita!');
+        throw new Error('Salvataggio non verificato');
+      }
+      console.log(`✅ Salvataggio verificato correttamente`);
+      
     } catch (error) {
-      console.error('Errore salvataggio storage:', error);
+      console.error('❌ Errore critico salvataggio storage:', error);
+      throw error; // Rilancia l'errore per far fallire l'operazione
     }
   }
   
-  let storageData = loadStorageData();
+  // Controllo integrità all'avvio
+  function verifyDataIntegrity() {
+    try {
+      const data = loadStorageData();
+      const appointmentsCount = data.appointments?.length || 0;
+      const clientsCount = data.clients?.length || 0;
+      
+      console.log(`🔍 Controllo integrità all'avvio:`);
+      console.log(`   📅 Appuntamenti caricati: ${appointmentsCount}`);
+      console.log(`   👥 Clienti caricati: ${clientsCount}`);
+      
+      if (appointmentsCount > 0) {
+        const recentAppointments = data.appointments.slice(0, 3);
+        console.log(`   🔍 Primi 3 appuntamenti:`, recentAppointments.map(item => {
+          const apt = Array.isArray(item) ? item[1] : item;
+          return { id: apt?.id, date: apt?.date, client: apt?.clientId };
+        }));
+      }
+      
+      console.log(`✅ Controllo integrità completato`);
+      return data;
+    } catch (error) {
+      console.error(`❌ ERRORE INTEGRITÀ DATI:`, error);
+      return { appointments: [], clients: [], userServices: {} };
+    }
+  }
+
+  let storageData = verifyDataIntegrity();
 
   // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
   app.get("/api/client-app-info", (req, res) => {
