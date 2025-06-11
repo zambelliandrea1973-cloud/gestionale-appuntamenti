@@ -217,6 +217,48 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ success: true, message: "Servizio eliminato con successo" });
   });
 
+  // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA
+  app.get("/api/mobile-sync", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    console.log(`📱 [MOBILE-SYNC] Sincronizzazione forzata per utente ID:${user.id}, tipo:${user.type}`);
+    
+    // FORZA RELOAD COMPLETO DEL STORAGE
+    const freshData = loadStorageData();
+    
+    // PREPARA DATI COMPLETI COME PC
+    const allClients = freshData.clients || [];
+    const userSettings = freshData.userBusinessSettings?.[user.id] || { businessName: "Studio Medico", showBusinessName: true };
+    const userServices = freshData.userServices?.[user.id] || [];
+    
+    const syncData = {
+      clients: allClients,
+      clientsCount: allClients.length,
+      companySettings: userSettings,
+      services: userServices,
+      userType: user.type,
+      timestamp: Date.now(),
+      syncedAt: new Date().toISOString()
+    };
+    
+    // INTESTAZIONI ANTI-CACHE MASSIME
+    res.set({
+      'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'ETag': `mobile-sync-${Date.now()}-${Math.random()}`,
+      'Last-Modified': new Date().toUTCString(),
+      'Vary': 'User-Agent, x-device-type, x-sync-request',
+      'X-Accel-Expires': '0',
+      'Surrogate-Control': 'no-store',
+      'X-Sync-Type': 'mobile-force'
+    });
+    
+    console.log(`📱 [MOBILE-SYNC] Dati sincronizzati: ${allClients.length} clienti, settings: ${JSON.stringify(userSettings)}`);
+    res.json(syncData);
+  });
+
   // Sistema lineare semplice - Clienti
   app.get("/api/clients", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
@@ -227,16 +269,19 @@ export function registerSimpleRoutes(app: Express): Server {
     
     console.log(`🔍 [/api/clients] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
     
-    // FORZA ANTI-CACHE PER MOBILE
+    // FORZA ANTI-CACHE AGGRESSIVO PER MOBILE
     if (isMobile) {
       res.set({
-        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0',
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
         'Pragma': 'no-cache',
         'Expires': '0',
-        'ETag': `mobile-clients-${Date.now()}`,
-        'Last-Modified': new Date().toUTCString()
+        'ETag': `mobile-clients-${Date.now()}-${Math.random()}`,
+        'Last-Modified': new Date().toUTCString(),
+        'Vary': 'User-Agent, x-device-type',
+        'X-Accel-Expires': '0',
+        'Surrogate-Control': 'no-store'
       });
-      console.log(`🔄 [${deviceType}] Anti-cache applicato per clienti mobile`);
+      console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per clienti mobile - timestamp: ${Date.now()}`);
     }
     
     // Carica dati reali dal file storage_data.json
@@ -570,13 +615,32 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     const userId = req.user.id;
-    console.log(`🏢 [/api/company-name-settings] GET per utente ${userId}`);
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
+    
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET per utente ${userId}`);
+    
+    // FORZA ANTI-CACHE AGGRESSIVO PER MOBILE
+    if (isMobile) {
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-company-${Date.now()}-${Math.random()}`,
+        'Last-Modified': new Date().toUTCString(),
+        'Vary': 'User-Agent, x-device-type',
+        'X-Accel-Expires': '0',
+        'Surrogate-Control': 'no-store'
+      });
+      console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per impostazioni aziendali mobile`);
+    }
     
     // Carica dati freschi dal storage_data.json
     const currentStorageData = loadStorageData();
     const userSettings = currentStorageData.userBusinessSettings?.[userId] || { businessName: "Studio Medico", showBusinessName: true };
     
-    console.log(`🏢 [/api/company-name-settings] Settings per utente ${userId}:`, userSettings);
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId}:`, userSettings);
     res.json(userSettings);
   });
 
