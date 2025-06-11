@@ -17,6 +17,7 @@ import {
 import { useLicense } from "@/hooks/use-license";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useMobileSync } from "@/hooks/use-mobile-sync";
+import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
 import { LanguageSelector } from "./ui/language-selector";
 import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
@@ -38,6 +39,14 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   
   // Attiva sincronizzazione automatica per dispositivi mobili
   const { isMobile } = useMobileSync();
+  
+  // Sistema di sincronizzazione forzata per mobile - stesso percorso del PC
+  const { syncData, isForcesynced, clientsCount } = useMobileForcedSync();
+  
+  // Debug per verificare sincronizzazione
+  if (isMobile && syncData) {
+    console.log(`📱 [LAYOUT] Mobile sincronizzato: ${clientsCount} clienti, settings:`, syncData.companySettings);
+  }
   
   const isActive = (path: string) => location === path;
 

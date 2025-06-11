@@ -654,20 +654,6 @@
         "status": "scheduled",
         "createdAt": "2025-06-11T17:31:26.941Z"
       }
-    ],
-    [
-      1749663116621,
-      {
-        "id": 1749663116621,
-        "clientId": 251,
-        "serviceId": 6,
-        "date": "2025-06-12",
-        "startTime": "08:45:00",
-        "endTime": "09:45:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:31:56.621Z"
-      }
     ]
   ],
   "consents": [],
