@@ -59,10 +59,7 @@ export default function ServiceManager() {
   });
   const [isEditing, setIsEditing] = useState(false);
   
-  // Inline editing state
-  const [editingService, setEditingService] = useState<number | null>(null);
-  const [editingField, setEditingField] = useState<string | null>(null);
-  const [editValue, setEditValue] = useState<string>("");
+
   
   const { toast } = useToast();
 
@@ -348,55 +345,7 @@ export default function ServiceManager() {
     }
   };
 
-  // Inline editing functions
-  const startInlineEdit = (serviceId: number, field: string, currentValue: string | number) => {
-    console.log(`🔧 INLINE EDIT: Inizio editing servizio ${serviceId}, campo ${field}, valore ${currentValue}`);
-    setEditingService(serviceId);
-    setEditingField(field);
-    setEditValue(String(currentValue));
-  };
 
-  const cancelInlineEdit = () => {
-    setEditingService(null);
-    setEditingField(null);
-    setEditValue("");
-  };
-
-  const saveInlineEdit = async () => {
-    if (!editingService || !editingField) return;
-
-    const service = services.find(s => s.id === editingService);
-    if (!service) return;
-
-    let processedValue: string | number = editValue;
-    
-    // Process value based on field type
-    if (editingField === 'duration') {
-      processedValue = parseInt(editValue) || 0;
-    } else if (editingField === 'price') {
-      processedValue = parseFloat(editValue) || 0;
-    }
-
-    const updatedData = {
-      ...service,
-      [editingField]: processedValue
-    };
-
-    try {
-      await updateServiceMutation.mutateAsync(updatedData);
-      cancelInlineEdit();
-    } catch (error) {
-      // Error handling is managed by the mutation
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      saveInlineEdit();
-    } else if (e.key === 'Escape') {
-      cancelInlineEdit();
-    }
-  };
 
   const resetForm = () => {
     setFormData({
