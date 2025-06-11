@@ -1,0 +1,34 @@
+🔄 Form submit - Dati inviati: {firstName: 'Andrea', lastName: 'Zambelli', phone: '+393472550110', email: 'zambelli.andrea@libero.it', address: 'Via Cavallotti', …}
+Console.js:61 📝 Form errors: {userId: {…}}
+Console.js:61 🚀 Mutation inizio - Dati da inviare: {firstName: 'Andrea', lastName: 'Zambelli', phone: '+393472550110', email: 'zambelli.andrea@libero.it', address: 'Via Cavallotti', …}
+Console.js:61 ➕ Creazione nuovo cliente
+Console.js:61 Esecuzione richiesta POST a /api/clients {"firstName":"Andrea","lastName":"Zambelli","phone":"+393472550110","email":"zambelli.andrea@libero.it","address":"Via Cavallotti","birthday":"2025-06-11","notes":"","isFrequent":false,"medicalNotes":"","allergies":"","hasConsent":false}
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta POST a /api/clients: {method: 'POST', headers: {…}, body: '{"firstName":"Andrea","lastName":"Zambelli","phone…dicalNotes":"","allergies":"","hasConsent":false}'}
+Console.js:61 Risposta da /api/clients: 201 Created ok: true
+Console.js:61 📡 Risposta server ricevuta: 201
+Console.js:61 Response data: {id: 1749666196976, ownerId: 9, uniqueCode: 'CUS6976', createdAt: '2025-06-11T18:23:16.976Z', firstName: 'Andrea', …}
+Console.js:61 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 2, Filtrati: 0, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 2, Filtrati: 0, Tab attivo: all
+Console.js:61 [desktop] Ricevuti 3 clienti dal nuovo sistema multi-tenant
+Console.js:61 [desktop] Sample clienti: (3) [{…}, {…}, {…}]
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 1, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 1, Tab attivo: all
+Console.js:61 Esecuzione richiesta GET a /api/clients/1749666196976/activation-token 
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/clients/1749666196976/activation-token: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 Esecuzione richiesta GET a /api/clients/1749666196976/activation-token 
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/clients/1749666196976/activation-token: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 1, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 1, Tab attivo: all
+2Console.js:61 Risposta da /api/clients/1749666196976/activation-token: 200 OK ok: true
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 1, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 1, Tab attivo: all

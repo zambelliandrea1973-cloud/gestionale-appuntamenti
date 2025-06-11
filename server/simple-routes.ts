@@ -363,7 +363,7 @@ export function registerSimpleRoutes(app: Express): Server {
         admin: 'unlimited',
         staff: 'unlimited', 
         customer: 1000,
-        basic: 50
+        basic: 100
       };
       
       const userLimit = limits[user.type] || limits.basic;
