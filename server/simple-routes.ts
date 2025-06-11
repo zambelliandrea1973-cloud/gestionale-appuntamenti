@@ -512,7 +512,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const userServices = storageData.userServices?.[user.id] || [];
     
     // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
-    const allAppointments = storageData.userAppointments?.[user.id] || [];
+    const allAppointments = (storageData.appointments || []).map(([id, appointment]) => appointment);
     
     // Per admin: accesso completo identico desktop/mobile
     // Per staff/customer: solo i propri dati
@@ -654,7 +654,7 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Carica dati persistenti
     const storageData = loadStorageData();
-    const allAppointments = storageData.appointments || [];
+    const allAppointments = (storageData.appointments || []).map(([id, appointment]) => appointment);
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
     
@@ -749,13 +749,13 @@ export function registerSimpleRoutes(app: Express): Server {
       createdAt: new Date()
     };
     
-    // SALVA NEL STORAGE PERSISTENTE invece che in memoria
-    if (!storageData.userAppointments) storageData.userAppointments = {};
-    if (!storageData.userAppointments[user.id]) storageData.userAppointments[user.id] = [];
+    // SALVA NEL STORAGE PERSISTENTE nella struttura appointments
+    if (!storageData.appointments) storageData.appointments = [];
     
-    storageData.userAppointments[user.id].push(newAppointment);
+    // Aggiungi alla lista principale degli appuntamenti
+    storageData.appointments.push([newAppointment.id, newAppointment]);
     saveStorageData(storageData);
-    console.log(`💾 Appuntamento ${newAppointment.id} salvato permanentemente per utente ${user.id}`);
+    console.log(`💾 Appuntamento ${newAppointment.id} salvato permanentemente nel storage globale`);
     
     // Popola le relazioni con client e service prima di restituire
     const appointmentWithDetails = {
