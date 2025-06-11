@@ -350,6 +350,7 @@ export default function ServiceManager() {
 
   // Inline editing functions
   const startInlineEdit = (serviceId: number, field: string, currentValue: string | number) => {
+    console.log(`🔧 INLINE EDIT: Inizio editing servizio ${serviceId}, campo ${field}, valore ${currentValue}`);
     setEditingService(serviceId);
     setEditingField(field);
     setEditValue(String(currentValue));
@@ -617,11 +618,12 @@ export default function ServiceManager() {
                         </div>
                       ) : (
                         <div 
-                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'name', service.name)}
+                          title="Clicca per modificare il nome"
                         >
-                          <span>{service.name}</span>
-                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                          <span className="group-hover:text-blue-700">{service.name}</span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
                         </div>
                       )}
                     </TableCell>
@@ -650,11 +652,12 @@ export default function ServiceManager() {
                         </div>
                       ) : (
                         <div 
-                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'duration', service.duration)}
+                          title="Clicca per modificare la durata"
                         >
-                          <span>{formatDuration(service.duration)}</span>
-                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                          <span className="group-hover:text-blue-700">{formatDuration(service.duration)}</span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
                         </div>
                       )}
                     </TableCell>
@@ -683,11 +686,12 @@ export default function ServiceManager() {
                         </div>
                       ) : (
                         <div 
-                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'price', service.price)}
+                          title="Clicca per modificare il prezzo"
                         >
-                          <span>{formatPrice(service.price)}</span>
-                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                          <span className="group-hover:text-blue-700">{formatPrice(service.price)}</span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
                         </div>
                       )}
                     </TableCell>
@@ -720,17 +724,18 @@ export default function ServiceManager() {
                         </div>
                       ) : (
                         <div 
-                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 hover:border hover:border-blue-200 rounded px-2 py-1 -mx-2 group transition-all"
                           onClick={() => startInlineEdit(service.id, 'color', service.color || '#3b82f6')}
+                          title="Clicca per modificare il colore"
                         >
                           <div
                             className="w-4 h-4 rounded-full"
                             style={{ backgroundColor: service.color || "#3b82f6" }}
                           ></div>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-muted-foreground group-hover:text-blue-700">
                             {service.color || "#3b82f6"}
                           </span>
-                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-100 text-blue-600 transition-opacity" />
                         </div>
                       )}
                     </TableCell>
