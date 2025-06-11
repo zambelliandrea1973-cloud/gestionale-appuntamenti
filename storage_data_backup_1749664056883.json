@@ -773,10 +773,6 @@
       "fontStyle": "bold",
       "color": "#1a365d",
       "enabled": true
-    },
-    "10": {
-      "businessName": "Studio Medico",
-      "showBusinessName": true
     }
   },
   "userServices": {
