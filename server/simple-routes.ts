@@ -463,41 +463,38 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Sistema lineare semplice - Appuntamenti (UNIFICATO CON SISTEMA ESISTENTE)
+  // Sistema lineare semplice - Appuntamenti (COMPLETAMENTE UNIFICATO MOBILE/DESKTOP)
   app.get("/api/appointments", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const deviceType = req.headers['x-device-type'] || 'unknown';
-    const appointments = userData[user.id]?.appointments || [];
     
     console.log(`📅 [/api/appointments] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}`);
     
-    // Carica clienti e servizi da storage persistente per sincronizzazione ID
+    // UNIFICA TUTTI I DATI - stesso identico accesso per mobile e desktop
     const storageData = loadStorageData();
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
     
-    // Per admin, usa tutti i clienti; per altri solo i propri
-    let availableClients;
-    if (user.type === 'admin') {
-      availableClients = allClients.map(([id, client]) => client);
-      console.log(`👑 [/api/appointments] [${deviceType}] Admin - Accesso a tutti i clienti`);
-    } else {
-      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
-      console.log(`👤 [/api/appointments] [${deviceType}] User ${user.id} - Solo clienti propri (${availableClients.length})`);
-    }
+    // Carica appuntamenti dalla memoria temporanea (admin vede tutti)
+    const allAppointments = userData[user.id]?.appointments || [];
     
-    // Filtra appuntamenti per separazione utente
+    // Per admin: accesso completo identico desktop/mobile
+    // Per staff/customer: solo i propri dati
+    let availableClients;
     let userAppointments;
+    
     if (user.type === 'admin') {
-      // Admin vede tutti gli appuntamenti di tutti gli utenti
-      userAppointments = appointments;
-      console.log(`👑 [/api/appointments] [${deviceType}] Admin - Tutti gli appuntamenti (${userAppointments.length})`);
+      // ADMIN: accesso identico desktop/mobile - tutti i dati
+      availableClients = allClients.map(([id, client]) => client);
+      userAppointments = allAppointments;
+      console.log(`👑 [/api/appointments] [${deviceType}] Admin - Accesso completo: ${allClients.length} clienti, ${userAppointments.length} appuntamenti`);
     } else {
-      // Staff/customer vedono solo appuntamenti con i loro clienti
+      // STAFF/CUSTOMER: solo dati propri - identico desktop/mobile
+      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
       const userClientIds = availableClients.map(c => c.id);
-      userAppointments = appointments.filter(apt => userClientIds.includes(apt.clientId));
-      console.log(`👤 [/api/appointments] [${deviceType}] User ${user.id} - Solo appuntamenti con clienti propri (${userAppointments.length})`);
+      userAppointments = allAppointments.filter(apt => userClientIds.includes(apt.clientId));
+      console.log(`👤 [/api/appointments] [${deviceType}] User ${user.id} - Dati propri: ${availableClients.length} clienti, ${userAppointments.length} appuntamenti`);
     }
     
     // Popola le relazioni con client e service usando dati persistenti
@@ -511,6 +508,7 @@ export function registerSimpleRoutes(app: Express): Server {
       };
     });
     
+    console.log(`📱💻 [${deviceType}] Sincronizzazione completa: restituiti ${appointmentsWithDetails.length} appuntamenti`);
     res.json(appointmentsWithDetails);
   });
 
@@ -519,38 +517,38 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const { date } = req.params;
     const deviceType = req.headers['x-device-type'] || 'unknown';
-    const appointments = userData[user.id]?.appointments || [];
     
     console.log(`📅 [/api/appointments/date] [${deviceType}] Utente ${user.id} cerca appuntamenti per data ${date}`);
     
-    // Carica clienti e servizi da storage persistente per sincronizzazione ID
+    // UNIFICA TUTTI I DATI - stesso identico accesso per mobile e desktop
     const storageData = loadStorageData();
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
+    const allAppointments = userData[user.id]?.appointments || [];
     
-    // Per admin, usa tutti i clienti; per altri solo i propri
+    console.log(`📅 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
+    
+    // Per admin: accesso completo identico desktop/mobile
+    // Per staff/customer: solo i propri dati
     let availableClients;
+    let userAppointments;
+    
     if (user.type === 'admin') {
+      // ADMIN: accesso identico desktop/mobile - tutti i dati
       availableClients = allClients.map(([id, client]) => client);
+      userAppointments = allAppointments;
+      console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti`);
     } else {
+      // STAFF/CUSTOMER: solo dati propri - identico desktop/mobile  
       availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
-    }
-    
-    console.log(`📅 [${deviceType}] Appuntamenti totali utente: ${appointments.length}`);
-    
-    // Filtra per data
-    const dayAppointments = appointments.filter(apt => apt.date === date);
-    
-    // Filtra per separazione utente
-    let userDayAppointments;
-    if (user.type === 'admin') {
-      userDayAppointments = dayAppointments;
-      console.log(`👑 [${deviceType}] Admin - Tutti gli appuntamenti del ${date}: ${userDayAppointments.length}`);
-    } else {
       const userClientIds = availableClients.map(c => c.id);
-      userDayAppointments = dayAppointments.filter(apt => userClientIds.includes(apt.clientId));
-      console.log(`👤 [${deviceType}] User ${user.id} - Solo appuntamenti con clienti propri del ${date}: ${userDayAppointments.length}`);
+      userAppointments = allAppointments.filter(apt => userClientIds.includes(apt.clientId));
+      console.log(`👤 [${deviceType}] User ${user.id} - Solo appuntamenti con clienti propri`);
     }
+    
+    // Filtra per data specifica
+    const userDayAppointments = userAppointments.filter(apt => apt.date === date);
+    console.log(`📱💻 [${deviceType}] Appuntamenti sincronizzati per ${date}: ${userDayAppointments.length}`)
     
     // Popola le relazioni con client e service usando dati persistenti
     const dayAppointmentsWithDetails = userDayAppointments.map(appointment => {
