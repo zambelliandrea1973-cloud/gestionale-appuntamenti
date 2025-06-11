@@ -97,19 +97,24 @@ function ReportsContent() {
     queryKey: ['/api/services'],
   });
   
-  // Helper function to safely calculate revenue
+  // Helper function to safely calculate revenue (converts from cents to euros)
   const calculateRevenue = (appointments) => {
     return appointments.reduce((sum, a) => {
+      let priceInCents = 0;
+      
       // Try to get price from service object first
       if (a.service && typeof a.service.price === 'number') {
-        return sum + a.service.price;
+        priceInCents = a.service.price;
+      } else {
+        // If service price is not available, use the service directly from services array
+        const serviceData = services.find(s => s.id === a.serviceId);
+        if (serviceData && typeof serviceData.price === 'number') {
+          priceInCents = serviceData.price;
+        }
       }
-      // If service price is not available, use the service directly from services array
-      const serviceData = services.find(s => s.id === a.serviceId);
-      if (serviceData && typeof serviceData.price === 'number') {
-        return sum + serviceData.price;
-      }
-      return sum;
+      
+      // Convert from cents to euros
+      return sum + (priceInCents / 100);
     }, 0);
   };
 
@@ -182,7 +187,7 @@ function ReportsContent() {
       return {
         name: service.name,
         count: serviceAppointments.length,
-        revenue: serviceAppointments.length * (service.price || 0),
+        revenue: serviceAppointments.length * ((service.price || 0) / 100), // Convert cents to euros
         color: service.color || "#3f51b5"
       };
     }).filter(s => s.count > 0);
