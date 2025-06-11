@@ -47,6 +47,7 @@ export default function ServiceManagerSimple() {
   });
 
   console.log("🔧 SIMPLE: ServiceManager per utente", user?.id);
+  console.log("🔧 USER STATE:", { user, hasId: !!user?.id });
 
   // Fetch services
   const { data: services = [], isLoading, error } = useQuery<Service[]>({
