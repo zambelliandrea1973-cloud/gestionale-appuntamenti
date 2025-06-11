@@ -369,8 +369,8 @@ export function registerSimpleRoutes(app: Express): Server {
     let firstName = user.firstName || null;
     let lastName = user.lastName || null;
     
-    // Per admin, carica nome/cognome dalle impostazioni aziendali
-    if (user.type === 'admin' && storageData.companyNameSettings?.[user.id]) {
+    // Per TUTTI gli utenti, carica nome/cognome dalle impostazioni aziendali uniformemente
+    if (storageData.companyNameSettings?.[user.id]) {
       const settings = storageData.companyNameSettings[user.id];
       if (settings.name) {
         const nameParts = settings.name.split(' ');
@@ -387,8 +387,7 @@ export function registerSimpleRoutes(app: Express): Server {
       firstName: firstName,
       lastName: lastName,
       licenseInfo: {
-        type: user.type === 'admin' ? 'passepartout' : 
-              user.type === 'staff' ? 'staff_free' : 'business',
+        type: 'passepartout', // TUTTI gli utenti hanno licenza completa come admin
         expiresAt: null,
         isActive: true,
         daysLeft: null
@@ -608,18 +607,19 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Endpoint per ottenere le impostazioni nome aziendale - SEPARAZIONE PER UTENTE
+  // Endpoint per ottenere le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
   app.get("/api/company-name-settings", (req, res) => {
     if (!req.isAuthenticated()) {
       return res.json({ businessName: "Studio Medico", showBusinessName: true });
     }
 
     const userId = req.user.id;
+    const userType = req.user.type;
     const deviceType = req.headers['x-device-type'] || 'unknown';
     const userAgent = req.headers['user-agent'] || '';
     const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
     
-    console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET per utente ${userId}`);
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET per utente ${userId} (${userType})`);
     
     // FORZA ANTI-CACHE AGGRESSIVO PER MOBILE
     if (isMobile) {
@@ -638,34 +638,90 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Carica dati freschi dal storage_data.json
     const currentStorageData = loadStorageData();
-    const userSettings = currentStorageData.userBusinessSettings?.[userId] || { businessName: "Studio Medico", showBusinessName: true };
     
-    console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId}:`, userSettings);
+    // Inizializza userBusinessSettings se non esiste
+    if (!currentStorageData.userBusinessSettings) {
+      currentStorageData.userBusinessSettings = {};
+    }
+    
+    // Se l'utente non ha impostazioni, inizializza con configurazione completa come admin
+    if (!currentStorageData.userBusinessSettings[userId]) {
+      currentStorageData.userBusinessSettings[userId] = {
+        businessName: "Studio Medico",
+        showBusinessName: true,
+        name: req.user.username || "Utente",
+        fontSize: 24,
+        fontFamily: "Arial, sans-serif",
+        fontStyle: "normal",
+        color: "#000000",
+        enabled: true
+      };
+      saveStorageData(currentStorageData);
+      console.log(`🆕 [${deviceType}] Inizializzate impostazioni complete per utente ${userId} (${userType})`);
+    }
+    
+    const userSettings = currentStorageData.userBusinessSettings[userId];
+    
+    console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId} (${userType}):`, userSettings);
     res.json(userSettings);
   });
 
-  // Endpoint per salvare le impostazioni nome aziendale - SEPARAZIONE PER UTENTE
+  // Endpoint per salvare le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
   app.post("/api/company-name-settings", (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ error: "Non autenticato" });
     }
 
     try {
-      const { businessName, showBusinessName } = req.body;
+      const { businessName, showBusinessName, name, fontSize, fontFamily, fontStyle, color, enabled } = req.body;
       const userId = req.user.id;
+      const userType = req.user.type;
       
-      const currentSettings = storageData.userBusinessSettings[userId] || { businessName: "Studio Medico", showBusinessName: true };
+      console.log(`🏢 [POST] Salvando impostazioni complete per utente ${userId} (${userType}):`, req.body);
       
+      // CARICA DATI FRESCHI SEMPRE - stesso sistema del GET
+      const currentStorageData = loadStorageData();
+      
+      // Inizializza userBusinessSettings se non esiste
+      if (!currentStorageData.userBusinessSettings) {
+        currentStorageData.userBusinessSettings = {};
+      }
+      
+      // Carica impostazioni correnti o inizializza con configurazione completa
+      const currentSettings = currentStorageData.userBusinessSettings[userId] || { 
+        businessName: "Studio Medico", 
+        showBusinessName: true,
+        name: req.user.username || "Utente",
+        fontSize: 24,
+        fontFamily: "Arial, sans-serif",
+        fontStyle: "normal",
+        color: "#000000",
+        enabled: true
+      };
+      
+      // Aggiorna TUTTI i campi forniti per funzionalità complete
       if (businessName !== undefined) currentSettings.businessName = businessName;
       if (showBusinessName !== undefined) currentSettings.showBusinessName = showBusinessName;
+      if (name !== undefined) currentSettings.name = name;
+      if (fontSize !== undefined) currentSettings.fontSize = fontSize;
+      if (fontFamily !== undefined) currentSettings.fontFamily = fontFamily;
+      if (fontStyle !== undefined) currentSettings.fontStyle = fontStyle;
+      if (color !== undefined) currentSettings.color = color;
+      if (enabled !== undefined) currentSettings.enabled = enabled;
       
-      storageData.userBusinessSettings[userId] = currentSettings;
-      saveStorageData(storageData);
-      console.log(`🏢 Impostazioni nome aziendale aggiornate persistentemente per utente ${userId}:`, currentSettings);
+      // Salva nel storage
+      currentStorageData.userBusinessSettings[userId] = currentSettings;
+      saveStorageData(currentStorageData);
       
-      res.json({ success: true, message: "Impostazioni salvate con successo", ...currentSettings });
+      console.log(`🏢 [POST] Impostazioni complete salvate per utente ${userId} (${userType}):`, currentSettings);
+      
+      res.json({ 
+        success: true, 
+        message: "Impostazioni salvate con successo", 
+        ...currentSettings 
+      });
     } catch (error) {
-      console.error('Errore aggiornamento nome aziendale:', error);
+      console.error(`❌ [POST] Errore salvataggio impostazioni per utente ${req.user?.id}:`, error);
       res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
     }
   });
