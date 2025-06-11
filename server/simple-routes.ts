@@ -156,6 +156,60 @@ export function registerSimpleRoutes(app: Express): Server {
     res.status(201).json(newService);
   });
 
+  app.put("/api/services/:id", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const serviceId = parseInt(req.params.id);
+    
+    // Carica e aggiorna servizi nel file storage_data.json
+    const storageData = loadStorageData();
+    if (!storageData.userServices || !storageData.userServices[user.id]) {
+      return res.status(404).json({ message: "Servizio non trovato" });
+    }
+    
+    const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
+    if (serviceIndex === -1) {
+      return res.status(404).json({ message: "Servizio non trovato" });
+    }
+    
+    const updatedService = {
+      ...storageData.userServices[user.id][serviceIndex],
+      ...req.body,
+      id: serviceId,
+      ownerId: user.id
+    };
+    
+    storageData.userServices[user.id][serviceIndex] = updatedService;
+    saveStorageData(storageData);
+    
+    console.log(`🔧 [/api/services] Servizio ID ${serviceId} aggiornato per utente ${user.id}`);
+    res.json(updatedService);
+  });
+
+  app.delete("/api/services/:id", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const serviceId = parseInt(req.params.id);
+    
+    // Carica e aggiorna servizi nel file storage_data.json
+    const storageData = loadStorageData();
+    if (!storageData.userServices || !storageData.userServices[user.id]) {
+      return res.status(404).json({ message: "Servizio non trovato" });
+    }
+    
+    const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
+    if (serviceIndex === -1) {
+      return res.status(404).json({ message: "Servizio non trovato" });
+    }
+    
+    const deletedService = storageData.userServices[user.id][serviceIndex];
+    storageData.userServices[user.id].splice(serviceIndex, 1);
+    saveStorageData(storageData);
+    
+    console.log(`🔧 [/api/services] Servizio ID ${serviceId} "${deletedService.name}" eliminato per utente ${user.id}`);
+    res.json({ success: true, message: "Servizio eliminato con successo" });
+  });
+
   // Sistema lineare semplice - Clienti
   app.get("/api/clients", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });

@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, Pencil, Trash2, AlertCircle } from "lucide-react";
+import { PlusCircle, Pencil, Trash2, AlertCircle, Check, X, Edit3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -58,6 +58,12 @@ export default function ServiceManager() {
     description: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  
+  // Inline editing state
+  const [editingService, setEditingService] = useState<number | null>(null);
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState<string>("");
+  
   const { toast } = useToast();
 
   console.log("🔧 FRONTEND: ServiceManager state initialized for user:", user?.id);
@@ -342,6 +348,55 @@ export default function ServiceManager() {
     }
   };
 
+  // Inline editing functions
+  const startInlineEdit = (serviceId: number, field: string, currentValue: string | number) => {
+    setEditingService(serviceId);
+    setEditingField(field);
+    setEditValue(String(currentValue));
+  };
+
+  const cancelInlineEdit = () => {
+    setEditingService(null);
+    setEditingField(null);
+    setEditValue("");
+  };
+
+  const saveInlineEdit = async () => {
+    if (!editingService || !editingField) return;
+
+    const service = services.find(s => s.id === editingService);
+    if (!service) return;
+
+    let processedValue: string | number = editValue;
+    
+    // Process value based on field type
+    if (editingField === 'duration') {
+      processedValue = parseInt(editValue) || 0;
+    } else if (editingField === 'price') {
+      processedValue = parseFloat(editValue) || 0;
+    }
+
+    const updatedData = {
+      ...service,
+      [editingField]: processedValue
+    };
+
+    try {
+      await updateServiceMutation.mutateAsync(updatedData);
+      cancelInlineEdit();
+    } catch (error) {
+      // Error handling is managed by the mutation
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      saveInlineEdit();
+    } else if (e.key === 'Escape') {
+      cancelInlineEdit();
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       name: "",
@@ -516,9 +571,15 @@ export default function ServiceManager() {
         </Dialog>
       </div>
 
-      <p className="text-sm text-muted-foreground">
-        Gestisci i trattamenti e i servizi offerti, inclusi durata e prezzo. Questi dati saranno utilizzati nei report e nelle fatture.
-      </p>
+      <div className="space-y-2">
+        <p className="text-sm text-muted-foreground">
+          Gestisci i trattamenti e i servizi offerti, inclusi durata e prezzo. Questi dati saranno utilizzati nei report e nelle fatture.
+        </p>
+        <div className="flex items-center gap-2 text-xs text-blue-600 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
+          <Edit3 className="h-3 w-3" />
+          <span>Modifica rapida: clicca su qualsiasi campo (nome, durata, prezzo, colore) per modificarlo direttamente</span>
+        </div>
+      </div>
 
       <Card>
         <CardContent className="p-0">
@@ -536,26 +597,151 @@ export default function ServiceManager() {
               {services && services.length > 0 ? (
                 services.map((service: Service) => (
                   <TableRow key={service.id}>
-                    <TableCell className="font-medium">{service.name}</TableCell>
-                    <TableCell>{formatDuration(service.duration)}</TableCell>
-                    <TableCell>{formatPrice(service.price)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-4 h-4 rounded-full"
-                          style={{ backgroundColor: service.color || "#3b82f6" }}
-                        ></div>
-                        <span className="text-xs text-muted-foreground">
-                          {service.color || "#3b82f6"}
-                        </span>
-                      </div>
+                    {/* Nome servizio - editabile inline */}
+                    <TableCell className="font-medium">
+                      {editingService === service.id && editingField === 'name' ? (
+                        <div className="flex items-center gap-2">
+                          <Input
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={handleKeyPress}
+                            className="h-8"
+                            autoFocus
+                          />
+                          <Button size="sm" variant="ghost" onClick={saveInlineEdit}>
+                            <Check className="h-3 w-3" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={cancelInlineEdit}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div 
+                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          onClick={() => startInlineEdit(service.id, 'name', service.name)}
+                        >
+                          <span>{service.name}</span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                        </div>
+                      )}
                     </TableCell>
+
+                    {/* Durata - editabile inline */}
+                    <TableCell>
+                      {editingService === service.id && editingField === 'duration' ? (
+                        <div className="flex items-center gap-2">
+                          <Input
+                            type="number"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={handleKeyPress}
+                            className="h-8 w-20"
+                            min="15"
+                            step="15"
+                            autoFocus
+                          />
+                          <span className="text-xs text-muted-foreground">min</span>
+                          <Button size="sm" variant="ghost" onClick={saveInlineEdit}>
+                            <Check className="h-3 w-3" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={cancelInlineEdit}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div 
+                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          onClick={() => startInlineEdit(service.id, 'duration', service.duration)}
+                        >
+                          <span>{formatDuration(service.duration)}</span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                        </div>
+                      )}
+                    </TableCell>
+
+                    {/* Prezzo - editabile inline */}
+                    <TableCell>
+                      {editingService === service.id && editingField === 'price' ? (
+                        <div className="flex items-center gap-2">
+                          <Input
+                            type="number"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={handleKeyPress}
+                            className="h-8 w-20"
+                            min="0"
+                            step="0.01"
+                            autoFocus
+                          />
+                          <span className="text-xs text-muted-foreground">€</span>
+                          <Button size="sm" variant="ghost" onClick={saveInlineEdit}>
+                            <Check className="h-3 w-3" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={cancelInlineEdit}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div 
+                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          onClick={() => startInlineEdit(service.id, 'price', service.price)}
+                        >
+                          <span>{formatPrice(service.price)}</span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                        </div>
+                      )}
+                    </TableCell>
+
+                    {/* Colore - editabile inline */}
+                    <TableCell>
+                      {editingService === service.id && editingField === 'color' ? (
+                        <div className="flex items-center gap-2">
+                          <Input
+                            type="color"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={handleKeyPress}
+                            className="h-8 w-12 p-1"
+                            autoFocus
+                          />
+                          <Input
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onKeyDown={handleKeyPress}
+                            className="h-8 w-20 text-xs"
+                            placeholder="#000000"
+                          />
+                          <Button size="sm" variant="ghost" onClick={saveInlineEdit}>
+                            <Check className="h-3 w-3" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={cancelInlineEdit}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div 
+                          className="flex items-center gap-2 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 group"
+                          onClick={() => startInlineEdit(service.id, 'color', service.color || '#3b82f6')}
+                        >
+                          <div
+                            className="w-4 h-4 rounded-full"
+                            style={{ backgroundColor: service.color || "#3b82f6" }}
+                          ></div>
+                          <span className="text-xs text-muted-foreground">
+                            {service.color || "#3b82f6"}
+                          </span>
+                          <Edit3 className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+                        </div>
+                      )}
+                    </TableCell>
+
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button
                           variant="outline"
                           size="icon"
                           onClick={() => handleEditService(service)}
+                          title="Modifica completo"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -563,6 +749,7 @@ export default function ServiceManager() {
                           variant="outline"
                           size="icon"
                           onClick={() => handleDeleteService(service.id)}
+                          title="Elimina servizio"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
