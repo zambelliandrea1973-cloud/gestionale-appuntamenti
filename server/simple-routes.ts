@@ -349,47 +349,68 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    // Verifica limiti basati sul piano di abbonamento
-    const storageData = loadStorageData();
-    const currentClients = (storageData.clients || []).filter(([id, client]) => 
-      user.type === 'admin' || client.ownerId === user.id || !client.ownerId
-    ).length;
+    console.log(`🔄 [POST /api/clients] Richiesta da utente ${user.id} (${user.type})`);
+    console.log(`📝 [POST /api/clients] Dati ricevuti:`, req.body);
     
-    const limits = {
-      admin: 'unlimited',
-      staff: 'unlimited', 
-      customer: 1000,
-      basic: 50
-    };
-    
-    const userLimit = limits[user.type] || limits.basic;
-    
-    if (userLimit !== 'unlimited' && currentClients >= userLimit) {
-      return res.status(403).json({ 
-        message: `Limite clienti raggiunto per piano ${user.type}`,
-        limit: userLimit,
-        current: currentClients,
-        upgradeRequired: true
-      });
+    try {
+      // Verifica limiti basati sul piano di abbonamento
+      const storageData = loadStorageData();
+      const currentClients = (storageData.clients || []).filter(([id, client]) => 
+        user.type === 'admin' || client.ownerId === user.id || !client.ownerId
+      ).length;
+      
+      const limits = {
+        admin: 'unlimited',
+        staff: 'unlimited', 
+        customer: 1000,
+        basic: 50
+      };
+      
+      const userLimit = limits[user.type] || limits.basic;
+      
+      console.log(`📊 [POST /api/clients] Limite ${userLimit}, Correnti: ${currentClients}`);
+      
+      if (userLimit !== 'unlimited' && currentClients >= userLimit) {
+        console.log(`❌ [POST /api/clients] Limite raggiunto per utente ${user.id}`);
+        return res.status(403).json({ 
+          message: `Limite clienti raggiunto per piano ${user.type}`,
+          limit: userLimit,
+          current: currentClients,
+          upgradeRequired: true
+        });
+      }
+      
+      // Crea nuovo cliente con ownership
+      const newClient = {
+        id: Date.now(),
+        ownerId: user.id,
+        uniqueCode: `${user.type.substring(0,3).toUpperCase()}${Date.now().toString().slice(-4)}`,
+        createdAt: new Date().toISOString(),
+        ...req.body
+      };
+      
+      console.log(`✅ [POST /api/clients] Nuovo cliente creato:`, newClient);
+      
+      // Aggiungi al storage persistente
+      if (!storageData.clients) storageData.clients = [];
+      storageData.clients.push([newClient.id, newClient]);
+      
+      // Salva con backup
+      try {
+        saveStorageData(storageData);
+        console.log(`💾 [POST /api/clients] Cliente salvato nel storage persistente`);
+      } catch (saveError) {
+        console.error(`❌ [POST /api/clients] Errore salvataggio storage:`, saveError);
+        return res.status(500).json({ message: "Errore durante il salvataggio" });
+      }
+      
+      console.log(`👤 [POST /api/clients] Cliente creato da utente ${user.id} (${user.type}): ${newClient.firstName} ${newClient.lastName} - Limite: ${userLimit}, Correnti: ${currentClients + 1}`);
+      
+      res.status(201).json(newClient);
+    } catch (error) {
+      console.error(`❌ [POST /api/clients] Errore generale:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    // Crea nuovo cliente con ownership
-    const newClient = {
-      id: Date.now(),
-      ownerId: user.id,
-      uniqueCode: `${user.type.substring(0,3).toUpperCase()}${Date.now().toString().slice(-4)}`,
-      createdAt: new Date().toISOString(),
-      ...req.body
-    };
-    
-    // Aggiungi al storage persistente
-    if (!storageData.clients) storageData.clients = [];
-    storageData.clients.push([newClient.id, newClient]);
-    saveStorageData(storageData);
-    
-    console.log(`👤 [POST] Cliente creato da utente ${user.id} (${user.type}): ${newClient.firstName} ${newClient.lastName} - Limite: ${userLimit}, Correnti: ${currentClients + 1}`);
-    
-    res.status(201).json(newClient);
   });
 
   // Sistema lineare semplice - Appuntamenti
