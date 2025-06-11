@@ -367,7 +367,7 @@ export default function ServiceManagerSimple() {
             </TableHeader>
             <TableBody>
               {services.map((service: Service) => (
-                <TableRow key={service.id}>
+                <TableRow key={`service-${service.id}`}>
                   <TableCell className="font-medium">{service.name}</TableCell>
                   <TableCell>{formatDuration(service.duration)}</TableCell>
                   <TableCell>{formatPrice(service.price)}</TableCell>
@@ -384,22 +384,31 @@ export default function ServiceManagerSimple() {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => editService(service)}
-                        title="Modifica servizio"
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleDeleteService(service.id)}
-                        title="Elimina servizio"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      {!service.isDefault && (
+                        <>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => editService(service)}
+                            title="Modifica servizio"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleDeleteService(service.id)}
+                            title="Elimina servizio"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
+                      {service.isDefault && (
+                        <span className="text-xs text-muted-foreground px-2 py-1">
+                          Servizio predefinito
+                        </span>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>
