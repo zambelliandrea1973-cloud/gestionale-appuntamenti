@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Trash2, Pencil, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/use-auth";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { apiRequest } from "@/lib/queryClient";
 
 interface Service {
@@ -32,7 +32,7 @@ interface ServiceFormData {
 }
 
 export default function ServiceManagerSimple() {
-  const { user } = useAuth();
+  const { user } = useUserWithLicense();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
@@ -55,6 +55,8 @@ export default function ServiceManagerSimple() {
   });
 
   console.log("🔧 REACT QUERY: Servizi caricati e persistiti:", services);
+  console.log("🔧 TABELLA: Rendering tabella con", services.length, "servizi");
+  console.log("🔧 LOADING STATE:", { isLoading, hasUser: !!user?.id, userEnabled: !!user?.id });
 
   // Create service mutation
   const createServiceMutation = useMutation({
@@ -221,8 +223,11 @@ export default function ServiceManagerSimple() {
   };
 
   if (isLoading) {
+    console.log("🔧 LOADING: Componente in stato di caricamento");
     return <div>Caricamento servizi...</div>;
   }
+
+  console.log("🔧 RENDER: ServiceManagerSimple sta renderizzando la tabella");
 
   return (
     <div className="space-y-6">
