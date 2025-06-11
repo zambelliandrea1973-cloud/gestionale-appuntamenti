@@ -528,145 +528,230 @@
         "id": 514,
         "createdAt": "2025-06-03T13:34:58.647Z"
       }
+    ],
+    [
+      1749666196976,
+      {
+        "id": 1749666196976,
+        "ownerId": 9,
+        "uniqueCode": "CUS6976",
+        "createdAt": "2025-06-11T18:23:16.976Z",
+        "firstName": "Andrea",
+        "lastName": "Zambelli",
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "address": "Via Cavallotti",
+        "birthday": "2025-06-11",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false
+      }
+    ],
+    [
+      1749666196977,
+      {
+        "id": 1749666196977,
+        "firstName": "Marco",
+        "lastName": "Bianchi",
+        "phone": "3331111111",
+        "email": "marco.bianchi@staff.com",
+        "ownerId": 101,
+        "uniqueCode": "5NX2FI2W",
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.878Z"
+      }
+    ],
+    [
+      1749666196978,
+      {
+        "id": 1749666196978,
+        "firstName": "Sara",
+        "lastName": "Neri",
+        "phone": "3332222222",
+        "email": "sara.neri@staff.com",
+        "ownerId": 101,
+        "uniqueCode": "SG4UP5H2",
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.878Z"
+      }
+    ],
+    [
+      1749666196979,
+      {
+        "id": 1749666196979,
+        "firstName": "Luigi",
+        "lastName": "Verdi",
+        "phone": "3333333333",
+        "email": "luigi.verdi@customer.com",
+        "ownerId": 102,
+        "uniqueCode": "JAX6S8FQ",
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749666196980,
+      {
+        "id": 1749666196980,
+        "firstName": "Anna",
+        "lastName": "Blu",
+        "phone": "3334444444",
+        "email": "anna.blu@customer.com",
+        "ownerId": 102,
+        "uniqueCode": "Y2UYPJOG",
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749666196981,
+      {
+        "id": 1749666196981,
+        "firstName": "Paolo",
+        "lastName": "Rosso",
+        "phone": "3335555555",
+        "email": "paolo.rosso@customer.com",
+        "ownerId": 102,
+        "uniqueCode": "S02O30NX",
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749666196982,
+      {
+        "id": 1749666196982,
+        "firstName": "Elena",
+        "lastName": "Giallo",
+        "phone": "3336666666",
+        "email": "elena.giallo@basic.com",
+        "ownerId": 103,
+        "uniqueCode": "MQH54IEX",
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749667437314,
+      {
+        "id": 1749667437314,
+        "ownerId": 3,
+        "uniqueCode": "ADM7314",
+        "createdAt": "2025-06-11T18:43:57.314Z",
+        "firstName": "Silvia",
+        "lastName": "Bus",
+        "phone": "+393472550110",
+        "email": "busnari.silvia@libero.it",
+        "address": "Via Cavallotti, 6",
+        "birthday": "2025-06-07",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false
+      }
+    ],
+    [
+      "1749667437315",
+      {
+        "id": 1749667437315,
+        "userId": 3,
+        "ownerId": 3,
+        "originalOwnerId": 1,
+        "firstName": "Mario",
+        "lastName": "Rossi",
+        "phone": "3331234567",
+        "email": "mario.rossi@email.com",
+        "address": "Via Roma 123",
+        "birthday": "1980-05-15",
+        "notes": "Cliente importato da account staff",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": true,
+        "assignmentCode": null,
+        "uniqueCode": "IMPORT-1749667838110-1",
+        "createdAt": "2025-06-11T18:50:38.110Z"
+      }
+    ],
+    [
+      "1749667437316",
+      {
+        "id": 1749667437316,
+        "userId": 3,
+        "ownerId": 3,
+        "originalOwnerId": 2,
+        "firstName": "Giulia",
+        "lastName": "Verdi",
+        "phone": "3337654321",
+        "email": "giulia.verdi@email.com",
+        "address": "Via Milano 45",
+        "birthday": "1975-09-22",
+        "notes": "Cliente importato da account customer",
+        "isFrequent": true,
+        "medicalNotes": "Pressione alta",
+        "allergies": "Penicillina",
+        "hasConsent": true,
+        "assignmentCode": null,
+        "uniqueCode": "IMPORT-1749667838111-2",
+        "createdAt": "2025-06-11T18:50:38.111Z"
+      }
+    ],
+    [
+      "1749667437317",
+      {
+        "id": 1749667437317,
+        "userId": 3,
+        "ownerId": 3,
+        "originalOwnerId": 4,
+        "firstName": "Franco",
+        "lastName": "Bianchi",
+        "phone": "3339876543",
+        "email": "franco.bianchi@email.com",
+        "address": "Via Napoli 67",
+        "birthday": "1990-12-03",
+        "notes": "Cliente importato da account basic",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "Lattosio",
+        "hasConsent": true,
+        "assignmentCode": null,
+        "uniqueCode": "IMPORT-1749667838111-3",
+        "createdAt": "2025-06-11T18:50:38.111Z"
+      }
+    ],
+    [
+      "1749667437318",
+      {
+        "id": 1749667437318,
+        "userId": 3,
+        "ownerId": 3,
+        "originalOwnerId": null,
+        "firstName": "Anna",
+        "lastName": "Neri",
+        "phone": "3334567890",
+        "email": "anna.neri@email.com",
+        "address": "Via Torino 89",
+        "birthday": "1985-03-18",
+        "notes": "Cliente proprio dell'admin",
+        "isFrequent": true,
+        "medicalNotes": "Diabete tipo 2",
+        "allergies": "",
+        "hasConsent": true,
+        "assignmentCode": null,
+        "uniqueCode": "OWN-1749667838111-4",
+        "createdAt": "2025-06-11T18:50:38.111Z"
+      }
     ]
   ],
-  "services": [
-    [
-      1,
-      {
-        "name": "Test Diacom",
-        "duration": 60,
-        "color": "#3f51b5",
-        "price": 6000,
-        "id": 1
-      }
-    ],
-    [
-      2,
-      {
-        "name": "Terapia Bicom",
-        "duration": 90,
-        "color": "#f44336",
-        "price": 8000,
-        "id": 2
-      }
-    ],
-    [
-      3,
-      {
-        "name": "Terapia luce Zapter",
-        "duration": 60,
-        "color": "#ff9800",
-        "price": 7000,
-        "id": 3
-      }
-    ],
-    [
-      4,
-      {
-        "name": "Detox",
-        "duration": 75,
-        "color": "#4caf50",
-        "price": 5500,
-        "id": 4
-      }
-    ]
-  ],
-  "appointments": [
-    [
-      1,
-      {
-        "clientId": 1,
-        "serviceId": 1,
-        "date": "2025-04-10",
-        "startTime": "10:00",
-        "endTime": "11:00",
-        "notes": "Prima visita",
-        "id": 1,
-        "createdAt": "2025-04-02T16:08:13.694Z"
-      }
-    ],
-    [
-      2,
-      {
-        "clientId": 1,
-        "serviceId": 2,
-        "date": "2025-04-15",
-        "startTime": "14:30",
-        "endTime": "16:00",
-        "notes": "Sessione bicom",
-        "id": 2,
-        "createdAt": "2025-04-02T16:08:24.114Z"
-      }
-    ],
-    [
-      1749662092448,
-      {
-        "id": 1749662092448,
-        "clientId": 1,
-        "serviceId": 4,
-        "date": "2025-06-10",
-        "startTime": "08:00",
-        "endTime": "09:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:14:52.448Z"
-      }
-    ],
-    [
-      1749662115743,
-      {
-        "id": 1749662115743,
-        "clientId": 2,
-        "serviceId": 1,
-        "date": "2025-06-10",
-        "startTime": "08:00",
-        "endTime": "08:30:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:15:15.743Z"
-      }
-    ],
-    [
-      1749662133338,
-      {
-        "id": 1749662133338,
-        "clientId": 27,
-        "serviceId": 2,
-        "date": "2025-06-10",
-        "startTime": "09:15:00",
-        "endTime": "10:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:15:33.338Z"
-      }
-    ],
-    [
-      1749663086941,
-      {
-        "id": 1749663086941,
-        "clientId": 252,
-        "serviceId": 7,
-        "date": "2025-06-12",
-        "startTime": "08:00",
-        "endTime": "09:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:31:26.941Z"
-      }
-    ]
-  ],
-  "consents": [],
-  "invoices": [],
-  "invoiceItems": [],
-  "payments": [],
-  "clientIdCounter": 515,
-  "serviceIdCounter": 10,
-  "appointmentIdCounter": 10,
-  "consentIdCounter": 10,
-  "invoiceIdCounter": 10,
-  "invoiceItemIdCounter": 1,
-  "paymentIdCounter": 1,
   "users": [
     [
       3,
@@ -718,252 +803,5 @@
         "createdAt": "2025-06-01T10:00:00.000Z"
       }
     ]
-  ],
-  "referralCodes": [
-    {
-      "id": "REF001",
-      "code": "ELISA2025",
-      "ownerId": 9,
-      "createdBy": 3,
-      "description": "Codice referral Elisa Faverio",
-      "isActive": true,
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    },
-    {
-      "id": "REF002",
-      "code": "BUSNARI2025",
-      "ownerId": 11,
-      "createdBy": 3,
-      "description": "Codice referral Busnari Silvia Staff",
-      "isActive": true,
-      "createdAt": "2025-06-03T13:34:58.643Z"
-    }
-  ],
-  "userLocalClientCounters": {
-    "9": 3,
-    "11": 2,
-    "12": 1,
-    "16": 0
-  },
-  "userIcons": {
-    "3": "data:image/jpeg;base64,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"
-  },
-  "userBusinessSettings": {
-    "3": {
-      "businessName": "Studio Medico Andrea Zambelli",
-      "showBusinessName": true,
-      "name": "Andrea Zambelli",
-      "fontSize": 42,
-      "fontFamily": "Arial, sans-serif",
-      "fontStyle": "bold",
-      "color": "#1a365d",
-      "enabled": true
-    }
-  },
-  "userServices": {
-    "3": [
-      {
-        "id": 1,
-        "name": "Visita Generale",
-        "duration": 30,
-        "price": 60,
-        "color": "#3B82F6",
-        "ownerId": 3
-      },
-      {
-        "id": 2,
-        "name": "Visita Specialistica Cardiologica",
-        "duration": 45,
-        "price": 100,
-        "color": "#10B981",
-        "ownerId": 3
-      },
-      {
-        "id": 3,
-        "name": "Controllo Post-Operatorio",
-        "duration": 25,
-        "price": 45,
-        "color": "#F59E0B",
-        "ownerId": 3
-      },
-      {
-        "id": 4,
-        "name": "Consulenza Nutrizionale",
-        "duration": 60,
-        "price": 80,
-        "color": "#EF4444",
-        "ownerId": 3
-      },
-      {
-        "id": 5,
-        "name": "Terapia Fisioterapica",
-        "duration": 50,
-        "price": 70,
-        "color": "#8B5CF6",
-        "ownerId": 3
-      },
-      {
-        "id": 6,
-        "name": "Ecografia Diagnostica",
-        "duration": 60,
-        "price": 90,
-        "color": "#06B6D4",
-        "ownerId": 3
-      },
-      {
-        "id": 1749649847765,
-        "ownerId": 3,
-        "name": "detox",
-        "duration": 30,
-        "price": 30,
-        "color": "#f7de3b",
-        "description": ""
-      },
-      {
-        "id": 7,
-        "name": "Bicom",
-        "duration": 60,
-        "price": 70,
-        "color": "#9333EA",
-        "isDefault": false,
-        "ownerId": 3,
-        "originalDefaultId": 7
-      }
-    ]
-  },
-  "referralCommissions": [
-    {
-      "id": 1,
-      "referrerId": 11,
-      "referredId": 9,
-      "subscriptionId": 1001,
-      "monthlyAmount": 1500,
-      "isPaid": true,
-      "paidAt": "2025-06-05T14:30:00.000Z",
-      "createdAt": "2025-06-01T12:00:00.000Z",
-      "licenseCode": "REF-BUSNARI-001",
-      "licenseType": "business",
-      "customerEmail": "elisafaverio6@gmail.com",
-      "notes": "Prima commissione da Busnari Silvia per sponsorizzazione Faverio"
-    },
-    {
-      "id": 2,
-      "referrerId": 11,
-      "referredId": 12,
-      "subscriptionId": 1002,
-      "monthlyAmount": 2000,
-      "isPaid": false,
-      "createdAt": "2025-06-02T15:00:00.000Z",
-      "licenseCode": "REF-BUSNARI-002",
-      "licenseType": "business",
-      "customerEmail": "business.user@gmail.com"
-    },
-    {
-      "id": 3,
-      "referrerId": 16,
-      "referredId": 27,
-      "subscriptionId": 1003,
-      "monthlyAmount": 1800,
-      "isPaid": false,
-      "createdAt": "2025-06-03T16:00:00.000Z",
-      "licenseCode": "REF-FAVERIO-001",
-      "licenseType": "pro",
-      "customerEmail": "zambelli.andrea.1973C@gmail.com"
-    },
-    {
-      "id": 4,
-      "referrerId": 16,
-      "referredId": 28,
-      "subscriptionId": 1004,
-      "monthlyAmount": 2200,
-      "isPaid": true,
-      "paidAt": "2025-06-04T10:15:00.000Z",
-      "createdAt": "2025-06-02T13:00:00.000Z",
-      "licenseCode": "REF-FAVERIO-002",
-      "licenseType": "business",
-      "customerEmail": "zambelli.andrea.1973D@gmail.com",
-      "notes": "Commissione Faverio verificata e pagata"
-    },
-    {
-      "id": 5,
-      "referrerId": 16,
-      "referredId": 25,
-      "subscriptionId": 1005,
-      "monthlyAmount": 1700,
-      "isPaid": false,
-      "createdAt": "2025-06-04T17:30:00.000Z",
-      "licenseCode": "REF-FAVERIO-003",
-      "licenseType": "trial",
-      "customerEmail": "zambelli.andrea.1973A@gmail.com"
-    }
-  ],
-  "userAppointments": {
-    "3": [
-      {
-        "id": 999,
-        "clientId": 1,
-        "serviceId": 1,
-        "date": "2025-06-11",
-        "time": "10:00",
-        "duration": 60,
-        "notes": "Test persistenza - riavvio server",
-        "createdAt": "2025-06-11T16:51:46.417Z"
-      },
-      {
-        "id": 1749661008132,
-        "clientId": 251,
-        "serviceId": 4,
-        "date": "2025-06-11",
-        "startTime": "10:00",
-        "endTime": "11:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T16:56:48.133Z"
-      },
-      {
-        "id": 1749661103417,
-        "clientId": 1,
-        "serviceId": 4,
-        "date": "2025-06-09",
-        "startTime": "08:00",
-        "endTime": "09:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T16:58:23.417Z"
-      },
-      {
-        "id": 1749661123706,
-        "clientId": 2,
-        "serviceId": 6,
-        "date": "2025-06-09",
-        "startTime": "09:00",
-        "endTime": "10:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T16:58:43.706Z"
-      },
-      {
-        "id": 1749661513377,
-        "clientId": 25,
-        "serviceId": 4,
-        "date": "2025-06-10",
-        "startTime": "08:00",
-        "endTime": "09:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:05:13.377Z"
-      },
-      {
-        "id": 1749661530634,
-        "clientId": 27,
-        "serviceId": 6,
-        "date": "2025-06-10",
-        "startTime": "08:00",
-        "endTime": "09:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-11T17:05:30.634Z"
-      }
-    ]
-  }
+  ]
 }

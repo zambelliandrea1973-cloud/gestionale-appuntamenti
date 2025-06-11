@@ -45,10 +45,10 @@ async function createTestImportedClients() {
   
   // Converti array in Map se necessario
   if (Array.isArray(storage.clients)) {
-    storage.clients = new Map(storage.clients);
+    storage.clients = new Map(storage.clients.filter(entry => entry && entry.length === 2));
   }
   if (Array.isArray(storage.users)) {
-    storage.users = new Map(storage.users);
+    storage.users = new Map(storage.users.filter(entry => entry && entry.length === 2));
   }
   
   // Trova l'ID admin (tipo admin)
