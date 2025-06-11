@@ -511,8 +511,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
     
-    // Carica appuntamenti dalla memoria temporanea (admin vede tutti)
-    const allAppointments = userData[user.id]?.appointments || [];
+    // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
+    const allAppointments = storageData.userAppointments?.[user.id] || [];
     
     // Per admin: accesso completo identico desktop/mobile
     // Per staff/customer: solo i propri dati
@@ -559,7 +559,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const storageData = loadStorageData();
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
-    const allAppointments = userData[user.id]?.appointments || [];
+    // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
+    const allAppointments = storageData.userAppointments?.[user.id] || [];
     
     console.log(`📅 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
     
@@ -649,8 +650,13 @@ export function registerSimpleRoutes(app: Express): Server {
       createdAt: new Date()
     };
     
-    userData[user.id].appointments.push(newAppointment);
-    console.log(`📅 Appuntamento creato per utente ${user.id}:`, newAppointment.id);
+    // SALVA NEL STORAGE PERSISTENTE invece che in memoria
+    if (!storageData.userAppointments) storageData.userAppointments = {};
+    if (!storageData.userAppointments[user.id]) storageData.userAppointments[user.id] = [];
+    
+    storageData.userAppointments[user.id].push(newAppointment);
+    saveStorageData(storageData);
+    console.log(`💾 Appuntamento ${newAppointment.id} salvato permanentemente per utente ${user.id}`);
     
     // Popola le relazioni con client e service prima di restituire
     const appointmentWithDetails = {
@@ -671,16 +677,20 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "ID appuntamento non valido" });
     }
     
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
+    // ELIMINA DAL STORAGE PERSISTENTE
+    const storageData = loadStorageData();
+    if (!storageData.userAppointments) storageData.userAppointments = {};
+    if (!storageData.userAppointments[user.id]) storageData.userAppointments[user.id] = [];
     
-    const appointmentIndex = userData[user.id].appointments.findIndex(app => app.id === appointmentId);
+    const appointmentIndex = storageData.userAppointments[user.id].findIndex(app => app.id === appointmentId);
     
     if (appointmentIndex === -1) {
       return res.status(404).json({ message: "Appuntamento non trovato" });
     }
     
-    userData[user.id].appointments.splice(appointmentIndex, 1);
-    console.log(`🗑️ Appuntamento ${appointmentId} eliminato per utente ${user.id}`);
+    storageData.userAppointments[user.id].splice(appointmentIndex, 1);
+    saveStorageData(storageData);
+    console.log(`💾🗑️ Appuntamento ${appointmentId} eliminato permanentemente per utente ${user.id}`);
     res.status(200).json({ message: "Appuntamento eliminato con successo" });
   });
 
