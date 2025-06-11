@@ -20,6 +20,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ClientForm from "@/components/ClientForm";
 import ClientCard from "@/components/ClientCard";
 import { useTranslation } from "react-i18next";
+import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
 
 export default function Clients() {
   const { t } = useTranslation();
@@ -31,9 +32,15 @@ export default function Clients() {
   // Clean React Query implementation for multi-tenant system
   const queryClient = useQueryClient();
   
+  // Sistema di sincronizzazione forzata per mobile - stesso percorso del PC
+  const { syncData, isMobile, clientsCount, isForcesynced } = useMobileForcedSync();
+  
+  // Se mobile usa dati sincronizzati, altrimenti usa query normale
+  const effectiveClients = isMobile && syncData ? syncData.clients : undefined;
+  
   const {
-    data: clients = [],
-    isLoading,
+    data: queryClients = [],
+    isLoading: queryLoading,
     error,
     refetch: refetchClients
   } = useQuery({
@@ -67,8 +74,18 @@ export default function Clients() {
         uniqueCode: c.uniqueCode 
       })));
       return data;
-    }
+    },
+    enabled: !isMobile || !effectiveClients // Disabilita query se mobile ha dati sincronizzati
   });
+
+  // Utilizza dati sincronizzati per mobile o query normale per desktop
+  const clients = effectiveClients || queryClients;
+  const isLoading = isMobile ? !isForcesynced : queryLoading;
+  
+  // Debug per mobile
+  if (isMobile && effectiveClients) {
+    console.log(`📱 [CLIENTS] Mobile usando dati sincronizzati: ${effectiveClients.length} clienti`);
+  }
   
   const forceRefreshFromServer = async () => {
     console.log("Refresh con nuovo sistema multi-tenant");
@@ -187,6 +204,22 @@ export default function Clients() {
           </p>
         </div>
         <div className="flex gap-2">
+          {isMobile && (
+            <Button
+              onClick={async () => {
+                console.log(`📱 [MOBILE-SYNC-TEST] Forzando sincronizzazione mobile`);
+                await queryClient.invalidateQueries({ queryKey: ['/api/mobile-sync'] });
+                toast({
+                  title: "Sincronizzazione Mobile",
+                  description: `Test sync: ${clientsCount} clienti disponibili`,
+                });
+              }}
+              variant="secondary"
+              size="sm"
+            >
+              📱 Sync Mobile ({clientsCount})
+            </Button>
+          )}
           <Button
             onClick={forceRefreshFromServer}
             variant="outline"
