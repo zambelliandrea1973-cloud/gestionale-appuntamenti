@@ -475,7 +475,11 @@ export function registerSimpleRoutes(app: Express): Server {
     const appointmentsWithDetails = appointments.map(appointment => {
       const client = clients.find(c => c.id === appointment.clientId);
       const service = services.find(s => s.id === appointment.serviceId);
-      return { ...appointment, client, service };
+      return { 
+        ...appointment, 
+        client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
+        service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666" }
+      };
     });
     
     res.json(appointmentsWithDetails);
@@ -500,7 +504,22 @@ export function registerSimpleRoutes(app: Express): Server {
     const dayAppointmentsWithDetails = dayAppointments.map(appointment => {
       const client = clients.find(c => c.id === appointment.clientId);
       const service = services.find(s => s.id === appointment.serviceId);
-      return { ...appointment, client, service };
+      
+      // Debug per identificare dati mancanti
+      if (!client) {
+        console.log(`⚠️ DEBUG - Client non trovato per appuntamento ${appointment.id}, clientId: ${appointment.clientId}`);
+        console.log(`⚠️ DEBUG - Clienti disponibili:`, clients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
+      }
+      if (!service) {
+        console.log(`⚠️ DEBUG - Service non trovato per appuntamento ${appointment.id}, serviceId: ${appointment.serviceId}`);
+        console.log(`⚠️ DEBUG - Servizi disponibili:`, services.map(s => ({id: s.id, name: s.name})));
+      }
+      
+      return { 
+        ...appointment, 
+        client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
+        service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666" }
+      };
     });
     
     res.json(dayAppointmentsWithDetails);
