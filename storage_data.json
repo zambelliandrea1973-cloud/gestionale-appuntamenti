@@ -749,7 +749,7 @@
       {
         "id": 6,
         "name": "Ecografia Diagnostica",
-        "duration": 30,
+        "duration": 60,
         "price": 90,
         "color": "#06B6D4",
         "ownerId": 3
