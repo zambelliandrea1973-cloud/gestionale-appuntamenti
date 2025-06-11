@@ -106,14 +106,14 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    // Servizi di default del sistema
+    // Servizi di default del sistema - uso ID alti per evitare conflitti
     const defaultServices = [
-      { id: 1, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6", isDefault: true },
-      { id: 2, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981", isDefault: true },
-      { id: 3, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B", isDefault: true },
-      { id: 4, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444", isDefault: true },
-      { id: 5, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6", isDefault: true },
-      { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4", isDefault: true }
+      { id: 9001, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6", isDefault: true },
+      { id: 9002, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981", isDefault: true },
+      { id: 9003, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B", isDefault: true },
+      { id: 9004, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444", isDefault: true },
+      { id: 9005, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6", isDefault: true },
+      { id: 9006, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4", isDefault: true }
     ];
     
     // Carica servizi personalizzati dal file storage_data.json
