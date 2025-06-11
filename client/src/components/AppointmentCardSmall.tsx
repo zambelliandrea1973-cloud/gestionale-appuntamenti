@@ -110,11 +110,13 @@ export default function AppointmentCardSmall({
           <>
             <div className="truncate">{appointment.client.firstName} {appointment.client.lastName}</div>
             <div className="text-xs opacity-75">{appointment.startTime.substring(0, 5)}</div>
+            <div className="text-xs opacity-60 truncate">{appointment.service.name}</div>
           </>
         ) : (
-          // Nella vista mensile mostriamo solo il nome e l'orario
+          // Nella vista mensile mostriamo nome cliente, orario e servizio
           <>
-            {appointment.startTime.substring(0, 5)} {appointment.client.firstName}
+            <div className="truncate">{appointment.startTime.substring(0, 5)} {appointment.client.firstName}</div>
+            <div className="text-xs opacity-60 truncate">{appointment.service.name}</div>
           </>
         )}
       </div>
