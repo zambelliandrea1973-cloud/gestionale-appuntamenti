@@ -49,14 +49,20 @@ export default function ServiceManagerSimple() {
   console.log("🔧 SIMPLE: ServiceManager per utente", user?.id);
 
   // Fetch services
-  const { data: services = [], isLoading } = useQuery<Service[]>({
+  const { data: services = [], isLoading, error } = useQuery<Service[]>({
     queryKey: ["/api/services"],
     enabled: !!user?.id,
   });
 
   console.log("🔧 REACT QUERY: Servizi caricati e persistiti:", services);
   console.log("🔧 TABELLA: Rendering tabella con", services.length, "servizi");
-  console.log("🔧 LOADING STATE:", { isLoading, hasUser: !!user?.id, userEnabled: !!user?.id });
+  console.log("🔧 LOADING STATE:", { 
+    isLoading, 
+    hasUser: !!user?.id, 
+    userEnabled: !!user?.id,
+    servicesLength: services.length,
+    error: error?.message
+  });
 
   // Create service mutation
   const createServiceMutation = useMutation({
@@ -222,7 +228,7 @@ export default function ServiceManagerSimple() {
     }).format(price);
   };
 
-  if (isLoading) {
+  if (isLoading && services.length === 0) {
     console.log("🔧 LOADING: Componente in stato di caricamento");
     return <div>Caricamento servizi...</div>;
   }
