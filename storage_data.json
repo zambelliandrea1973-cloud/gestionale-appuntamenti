@@ -852,6 +852,39 @@
         "duration": 60,
         "notes": "Test persistenza - riavvio server",
         "createdAt": "2025-06-11T16:51:46.417Z"
+      },
+      {
+        "id": 1749661008132,
+        "clientId": 251,
+        "serviceId": 4,
+        "date": "2025-06-11",
+        "startTime": "10:00",
+        "endTime": "11:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-11T16:56:48.133Z"
+      },
+      {
+        "id": 1749661103417,
+        "clientId": 1,
+        "serviceId": 4,
+        "date": "2025-06-09",
+        "startTime": "08:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-11T16:58:23.417Z"
+      },
+      {
+        "id": 1749661123706,
+        "clientId": 2,
+        "serviceId": 6,
+        "date": "2025-06-09",
+        "startTime": "09:00",
+        "endTime": "10:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-11T16:58:43.706Z"
       }
     ]
   }

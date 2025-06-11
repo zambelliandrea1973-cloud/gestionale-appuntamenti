@@ -636,6 +636,81 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(dayAppointmentsWithDetails);
   });
 
+  // Endpoint per range di appuntamenti (necessario per i report)
+  app.get("/api/appointments/range/:startDate/:endDate", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    
+    const { startDate, endDate } = req.params;
+    const user = req.user as any;
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    
+    console.log(`📊 [/api/appointments/range] [${deviceType}] Utente ${user.id} cerca appuntamenti per range ${startDate}-${endDate}`);
+    
+    // Validazione formato data
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
+      return res.status(400).json({ message: "Formato data non valido. Usa YYYY-MM-DD" });
+    }
+    
+    // Carica dati persistenti
+    const storageData = loadStorageData();
+    const allAppointments = storageData.appointments || [];
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[user.id] || [];
+    
+    console.log(`📊 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
+    
+    // Filtra appuntamenti per range di date
+    let userRangeAppointments;
+    if (user.type === 'admin') {
+      console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti per report`);
+      userRangeAppointments = allAppointments.filter(apt => 
+        apt.date >= startDate && apt.date <= endDate
+      );
+    } else if (user.type === 'staff') {
+      console.log(`👩‍⚕️ [${deviceType}] Staff - Accesso ai propri appuntamenti per report`);
+      userRangeAppointments = allAppointments.filter(apt => 
+        apt.date >= startDate && apt.date <= endDate && apt.staffId === user.id
+      );
+    } else {
+      console.log(`👤 [${deviceType}] Cliente - Accesso limitato ai propri appuntamenti per report`);
+      userRangeAppointments = allAppointments.filter(apt => 
+        apt.date >= startDate && apt.date <= endDate && apt.clientId === user.clientId
+      );
+    }
+    
+    console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length}`);
+    
+    // Per admin, usa tutti i clienti; per altri solo i propri
+    let availableClients;
+    if (user.type === 'admin') {
+      availableClients = allClients.map(([id, clientData]) => ({ id, ...clientData }));
+    } else if (user.type === 'staff') {
+      availableClients = allClients
+        .filter(([id, clientData]) => clientData.ownerId === user.id)
+        .map(([id, clientData]) => ({ id, ...clientData }));
+    } else {
+      availableClients = allClients
+        .filter(([id, clientData]) => id === user.clientId)
+        .map(([id, clientData]) => ({ id, ...clientData }));
+    }
+    
+    // Popola le relazioni con client e service con i prezzi per i report
+    const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => {
+      const client = availableClients.find(c => c.id === appointment.clientId);
+      const service = userServices.find(s => s.id === appointment.serviceId);
+      
+      return { 
+        ...appointment, 
+        client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
+        service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666", price: 0 }
+      };
+    });
+    
+    console.log(`💰 [${deviceType}] Report: calcolato ricavi per ${rangeAppointmentsWithDetails.length} appuntamenti`);
+    res.json(rangeAppointmentsWithDetails);
+  });
+
   app.post("/api/appointments", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
