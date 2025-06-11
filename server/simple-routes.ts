@@ -184,14 +184,23 @@ export function registerSimpleRoutes(app: Express): Server {
       if (!storageData.userServices) storageData.userServices = {};
       if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
       
-      // Trova il servizio default originale
+      // Trova il servizio default originale - AGGIORNATO per includere tutti gli ID
       const systemDefaultServices = [
-        { id: 1, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6", isDefault: true },
-        { id: 2, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981", isDefault: true },
-        { id: 3, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B", isDefault: true },
-        { id: 4, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444", isDefault: true },
-        { id: 5, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6", isDefault: true },
-        { id: 6, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4", isDefault: true }
+        { id: 9001, name: "Consulenza Generale", duration: 30, price: 50, color: "#3B82F6", isDefault: true },
+        { id: 9002, name: "Visita Specialistica", duration: 45, price: 80, color: "#10B981", isDefault: true },
+        { id: 9003, name: "Controllo Periodico", duration: 20, price: 35, color: "#F59E0B", isDefault: true },
+        { id: 9004, name: "Terapia Riabilitativa", duration: 60, price: 100, color: "#EF4444", isDefault: true },
+        { id: 9005, name: "Consulenza Nutrizionale", duration: 40, price: 60, color: "#8B5CF6", isDefault: true },
+        { id: 9006, name: "Fisioterapia", duration: 50, price: 75, color: "#06B6D4", isDefault: true },
+        // Servizi personalizzati degli utenti - mappati per compatibilità
+        { id: 1, name: "Visita Generale", duration: 30, price: 60, color: "#3B82F6", isDefault: false },
+        { id: 2, name: "Visita Specialistica Cardiologica", duration: 45, price: 100, color: "#10B981", isDefault: false },
+        { id: 3, name: "Controllo Post-Operatorio", duration: 25, price: 45, color: "#F59E0B", isDefault: false },
+        { id: 4, name: "Esame Diagnostico", duration: 40, price: 80, color: "#EF4444", isDefault: false },
+        { id: 5, name: "Terapia Fisica", duration: 55, price: 90, color: "#8B5CF6", isDefault: false },
+        { id: 6, name: "Consulenza Nutrizionale", duration: 35, price: 65, color: "#06B6D4", isDefault: false },
+        { id: 7, name: "Bicom", duration: 60, price: 70, color: "#9333EA", isDefault: false },
+        { id: 8, name: "Prova Test", duration: 30, price: 50, color: "#F97316", isDefault: false }
       ];
       const defaultService = systemDefaultServices.find(s => s.id === serviceId);
       if (!defaultService) {
