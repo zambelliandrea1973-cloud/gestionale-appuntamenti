@@ -320,13 +320,47 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post("/api/clients", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
     
+    // Verifica limiti basati sul piano di abbonamento
+    const storageData = loadStorageData();
+    const currentClients = (storageData.clients || []).filter(([id, client]) => 
+      user.type === 'admin' || client.ownerId === user.id || !client.ownerId
+    ).length;
+    
+    const limits = {
+      admin: 'unlimited',
+      staff: 'unlimited', 
+      customer: 1000,
+      basic: 50
+    };
+    
+    const userLimit = limits[user.type] || limits.basic;
+    
+    if (userLimit !== 'unlimited' && currentClients >= userLimit) {
+      return res.status(403).json({ 
+        message: `Limite clienti raggiunto per piano ${user.type}`,
+        limit: userLimit,
+        current: currentClients,
+        upgradeRequired: true
+      });
+    }
+    
+    // Crea nuovo cliente con ownership
     const newClient = {
       id: Date.now(),
+      ownerId: user.id,
+      uniqueCode: `${user.type.substring(0,3).toUpperCase()}${Date.now().toString().slice(-4)}`,
+      createdAt: new Date().toISOString(),
       ...req.body
     };
-    userData[user.id].clients.push(newClient);
+    
+    // Aggiungi al storage persistente
+    if (!storageData.clients) storageData.clients = [];
+    storageData.clients.push([newClient.id, newClient]);
+    saveStorageData(storageData);
+    
+    console.log(`👤 [POST] Cliente creato da utente ${user.id} (${user.type}): ${newClient.firstName} ${newClient.lastName} - Limite: ${userLimit}, Correnti: ${currentClients + 1}`);
+    
     res.status(201).json(newClient);
   });
 
@@ -387,10 +421,26 @@ export function registerSimpleRoutes(app: Express): Server {
       firstName: firstName,
       lastName: lastName,
       licenseInfo: {
-        type: 'passepartout', // TUTTI gli utenti hanno licenza completa come admin
-        expiresAt: null,
+        type: user.type === 'admin' ? 'passepartout' : 
+              user.type === 'staff' ? 'staff_free_10years' : 
+              user.type === 'customer' ? 'business_pro' : 'basic',
+        expiresAt: user.type === 'staff' ? new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000) : null, // 10 anni per staff
         isActive: true,
-        daysLeft: null
+        daysLeft: user.type === 'staff' ? 3650 : null, // 10 anni in giorni
+        features: {
+          maxClients: user.type === 'admin' ? 'unlimited' : 
+                     user.type === 'staff' ? 'unlimited' : 
+                     user.type === 'customer' ? 1000 : 50,
+          maxAppointments: user.type === 'admin' ? 'unlimited' : 
+                          user.type === 'staff' ? 'unlimited' : 
+                          user.type === 'customer' ? 'unlimited' : 100,
+          advancedReports: user.type !== 'basic',
+          emailNotifications: true,
+          mobileSync: true,
+          customBranding: user.type === 'admin' || user.type === 'staff',
+          multiTenant: user.type === 'admin',
+          staffReferrals: user.type === 'staff'
+        }
       }
     };
     
@@ -415,15 +465,39 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Licenze
   app.get("/api/license/license-info", (req, res) => {
-    res.json({ hasLicense: true, type: "business" });
+    if (!req.isAuthenticated()) return res.json({ hasLicense: false, type: "none" });
+    
+    const user = req.user as any;
+    const licenseTypes = {
+      admin: "passepartout",
+      staff: "staff_free_10years", 
+      customer: "business_pro",
+      basic: "basic"
+    };
+    
+    res.json({ 
+      hasLicense: true, 
+      type: licenseTypes[user.type] || "basic",
+      userType: user.type,
+      features: {
+        maxClients: user.type === 'admin' || user.type === 'staff' ? 'unlimited' : 
+                   user.type === 'customer' ? 1000 : 50,
+        advancedReports: user.type !== 'basic',
+        customBranding: user.type === 'admin' || user.type === 'staff'
+      }
+    });
   });
 
   app.get("/api/license/has-pro-access", (req, res) => {
-    res.json(true);
+    if (!req.isAuthenticated()) return res.json(false);
+    const user = req.user as any;
+    res.json(user.type === 'admin' || user.type === 'staff' || user.type === 'customer');
   });
 
   app.get("/api/license/has-business-access", (req, res) => {
-    res.json(true);
+    if (!req.isAuthenticated()) return res.json(false);
+    const user = req.user as any;
+    res.json(user.type !== 'basic');
   });
 
   app.get("/api/license/application-title", (req, res) => {
@@ -725,6 +799,8 @@ export function registerSimpleRoutes(app: Express): Server {
       res.status(500).json({ success: false, message: "Errore durante il salvataggio" });
     }
   });
+
+
 
   // Sistema lineare semplice - Appuntamenti (COMPLETAMENTE UNIFICATO MOBILE/DESKTOP)
   app.get("/api/appointments", (req, res) => {
