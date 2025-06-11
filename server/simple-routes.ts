@@ -262,9 +262,23 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`🔍 [DELETE] Servizi disponibili per utente ${user.id}:`, 
       storageData.userServices[user.id].map(s => ({ id: s.id, name: s.name })));
     
-    const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
+    // Il frontend riceve ID modificati (+1000 per servizi personalizzati)
+    // Dobbiamo convertire l'ID ricevuto all'ID originale se necessario
+    let actualServiceId = serviceId;
+    if (serviceId > 1000) {
+      // Prova prima con l'ID originale (senza +1000)
+      actualServiceId = serviceId - 1000;
+      console.log(`🔄 [DELETE] ID ricevuto ${serviceId} convertito a ${actualServiceId} per ricerca`);
+    }
+    
+    // Cerca prima con l'ID originale, poi con quello ricevuto
+    let serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === actualServiceId);
     if (serviceIndex === -1) {
-      console.log(`❌ [DELETE] Servizio con ID ${serviceId} non trovato tra i servizi dell'utente ${user.id}`);
+      serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
+    }
+    
+    if (serviceIndex === -1) {
+      console.log(`❌ [DELETE] Servizio con ID ${serviceId}/${actualServiceId} non trovato tra i servizi dell'utente ${user.id}`);
       return res.status(404).json({ message: "Servizio non trovato" });
     }
     
@@ -272,7 +286,7 @@ export function registerSimpleRoutes(app: Express): Server {
     storageData.userServices[user.id].splice(serviceIndex, 1);
     saveStorageData(storageData);
     
-    console.log(`✅ [DELETE] Servizio ID ${serviceId} "${deletedService.name}" eliminato per utente ${user.id}`);
+    console.log(`✅ [DELETE] Servizio ID ${deletedService.id} "${deletedService.name}" eliminato per utente ${user.id}`);
     res.json({ success: true, message: "Servizio eliminato con successo" });
   });
 
