@@ -193,14 +193,29 @@ export default function SimpleServiceManager() {
                       />
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => deleteService(service.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            // TODO: Implementare funzione di modifica
+                            toast({ title: "Modifica servizio - In sviluppo" });
+                          }}
+                          className="text-blue-600 hover:text-blue-700"
+                          title="Modifica servizio"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => deleteService(service.id)}
+                          className="text-red-600 hover:text-red-700"
+                          title="Elimina servizio"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
