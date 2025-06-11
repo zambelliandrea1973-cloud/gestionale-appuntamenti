@@ -774,25 +774,9 @@
       "color": "#1a365d",
       "enabled": true
     },
-    "9": {
-      "businessName": "Studio Medico",
-      "showBusinessName": true,
-      "name": "elisa A",
-      "fontSize": 43,
-      "fontFamily": "Arial, sans-serif",
-      "fontStyle": "normal",
-      "color": "#FFA500",
-      "enabled": true
-    },
     "10": {
       "businessName": "Studio Medico",
-      "showBusinessName": true,
-      "name": "elisa B",
-      "fontSize": 41,
-      "fontFamily": "Arial",
-      "fontStyle": "normal",
-      "color": "#FF1493",
-      "enabled": true
+      "showBusinessName": true
     }
   },
   "userServices": {
