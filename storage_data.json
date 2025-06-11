@@ -755,14 +755,6 @@
         "ownerId": 3
       },
       {
-        "id": 7,
-        "name": "Bicom",
-        "duration": 40,
-        "price": 85,
-        "color": "#9333EA",
-        "ownerId": 3
-      },
-      {
         "id": 1749649847765,
         "ownerId": 3,
         "name": "detox",
@@ -770,6 +762,16 @@
         "price": 30,
         "color": "#f7de3b",
         "description": ""
+      },
+      {
+        "id": 7,
+        "name": "Bicom",
+        "duration": 60,
+        "price": 70,
+        "color": "#9333EA",
+        "isDefault": false,
+        "ownerId": 3,
+        "originalDefaultId": 7
       }
     ]
   },
