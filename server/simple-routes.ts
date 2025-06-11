@@ -5,6 +5,14 @@ import path from "path";
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
+// Middleware di autenticazione
+function requireAuth(req: any, res: any, next: any) {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "Non autenticato" });
+  }
+  next();
+}
+
 // Carico l'icona Fleur de Vie dal backup15 all'avvio del modulo
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1571,6 +1579,130 @@ export function registerSimpleRoutes(app: Express): Server {
     } catch (error) {
       console.error('Error fetching invoices:', error);
       res.status(500).json({ message: 'Error fetching invoices' });
+    }
+  });
+
+  // API per sbloccare la cancellazione di clienti importati eliminati alla fonte
+  app.post('/api/unlock-client-deletion/:clientId', requireAuth, async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const user = req.user!;
+      
+      console.log(`🔓 [/api/unlock-client-deletion] Admin ${user.id} richiede sblocco per cliente ${clientId}`);
+      
+      // Solo admin possono sbloccare cancellazioni
+      if (user.type !== 'admin') {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Solo gli amministratori possono sbloccare le cancellazioni' 
+        });
+      }
+      
+      const storageData = loadStorageData();
+      const clientEntry = storageData.clients?.find(([id]) => id.toString() === clientId);
+      
+      if (!clientEntry) {
+        return res.status(404).json({ 
+          success: false, 
+          message: 'Cliente non trovato' 
+        });
+      }
+      
+      const [id, client] = clientEntry;
+      
+      // Verifica che sia un cliente importato
+      if (!client.originalOwnerId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Solo i clienti importati possono essere sbloccati' 
+        });
+      }
+      
+      // Sblocca la cancellazione
+      client.deletionUnlocked = true;
+      saveStorageData(storageData);
+      
+      console.log(`✅ [SBLOCCO] Cliente ${client.firstName} ${client.lastName} (${clientId}) sbloccato per cancellazione dall'admin ${user.id}`);
+      
+      res.json({
+        success: true,
+        message: 'Cancellazione sbloccata con successo',
+        client: {
+          id: client.id,
+          firstName: client.firstName,
+          lastName: client.lastName,
+          deletionUnlocked: true
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE SBLOCCO]:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Errore durante lo sblocco della cancellazione' 
+      });
+    }
+  });
+
+  // API per simulare eliminazione dal sistema originale (per test)
+  app.post('/api/mark-client-deleted-at-source/:clientId', requireAuth, async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const user = req.user!;
+      
+      console.log(`⚠️ [/api/mark-client-deleted-at-source] Admin ${user.id} marca cliente ${clientId} come eliminato alla fonte`);
+      
+      // Solo admin possono simulare eliminazioni
+      if (user.type !== 'admin') {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Solo gli amministratori possono simulare eliminazioni' 
+        });
+      }
+      
+      const storageData = loadStorageData();
+      const clientEntry = storageData.clients?.find(([id]) => id.toString() === clientId);
+      
+      if (!clientEntry) {
+        return res.status(404).json({ 
+          success: false, 
+          message: 'Cliente non trovato' 
+        });
+      }
+      
+      const [id, client] = clientEntry;
+      
+      // Verifica che sia un cliente importato
+      if (!client.originalOwnerId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Solo i clienti importati possono essere marcati come eliminati alla fonte' 
+        });
+      }
+      
+      // Marca come eliminato alla fonte
+      client.deletedAtSource = true;
+      saveStorageData(storageData);
+      
+      console.log(`🚨 [NOTIFICA ELIMINAZIONE] Cliente ${client.firstName} ${client.lastName} (${clientId}) eliminato alla fonte - notifica admin`);
+      
+      res.json({
+        success: true,
+        message: 'Cliente marcato come eliminato alla fonte',
+        client: {
+          id: client.id,
+          firstName: client.firstName,
+          lastName: client.lastName,
+          deletedAtSource: true
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE NOTIFICA ELIMINAZIONE]:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Errore durante la notifica di eliminazione' 
+      });
     }
   });
 
