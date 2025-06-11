@@ -165,8 +165,8 @@ export default function Clients() {
       // Apply tab filter
       const matchesTab = 
         activeTab === "all" || 
-        (activeTab === "my-clients" && currentUser && client.ownerId === currentUser.id) ||
-        (activeTab === "other-clients" && currentUser && client.ownerId !== currentUser.id) ||
+        (activeTab === "my-clients" && currentUser && (!client.originalOwnerId || client.originalOwnerId === currentUser.id)) ||
+        (activeTab === "other-clients" && currentUser && client.originalOwnerId && client.originalOwnerId !== currentUser.id) ||
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
@@ -179,15 +179,21 @@ export default function Clients() {
   // Debug ownership per admin - FORZATO
   if (currentUser?.type === 'admin' && clients.length > 0) {
     const ownershipStats = {};
+    const originalOwnershipStats = {};
+    
     clients.forEach(client => {
       const owner = client.ownerId || 'undefined';
+      const originalOwner = client.originalOwnerId || 'undefined';
       ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
+      originalOwnershipStats[originalOwner] = (originalOwnershipStats[originalOwner] || 0) + 1;
     });
+    
     console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per ownerId:`, ownershipStats);
+    console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per originalOwnerId:`, originalOwnershipStats);
     console.log(`👑 [CLIENT-DEBUG] FORCED - Admin ID corrente: ${currentUser.id}`);
     
-    const ownClients = clients.filter(c => c.ownerId === currentUser.id).length;
-    const otherClients = clients.filter(c => c.ownerId !== currentUser.id).length;
+    const ownClients = clients.filter(c => !c.originalOwnerId || c.originalOwnerId === currentUser.id).length;
+    const otherClients = clients.filter(c => c.originalOwnerId && c.originalOwnerId !== currentUser.id).length;
     console.log(`👑 [CLIENT-DEBUG] FORCED - Frontend - Clienti propri: ${ownClients}, Altri: ${otherClients}`);
   }
 
@@ -355,7 +361,7 @@ export default function Clients() {
                     client={client}
                     onUpdate={handleClientUpdated}
                     onDelete={handleClientDeleted}
-                    isOtherAccount={currentUser?.type === 'admin' && client.ownerId !== currentUser.id}
+                    isOtherAccount={currentUser?.type === 'admin' && client.originalOwnerId && client.originalOwnerId !== currentUser.id}
                   />
                 ))}
               </div>
