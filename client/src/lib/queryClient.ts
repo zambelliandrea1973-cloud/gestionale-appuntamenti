@@ -24,6 +24,8 @@ export async function apiRequest(
       (window.navigator as any).standalone || // Proprietà disponibile solo su Safari iOS
       document.referrer.includes('android-app://');
     
+    // Rileva dispositivo mobile per sincronizzazione forzata (rimosso, usa quello più avanti)
+    
     // Crea gli headers di base
     const headers: Record<string, string> = {};
     
@@ -36,7 +38,9 @@ export async function apiRequest(
     const isMultiTenantApi = url.includes("/api/services") || 
                            url.includes("/api/clients") || 
                            url.includes("/api/appointments") ||
-                           url.includes("/api/user-with-license");
+                           url.includes("/api/user-with-license") ||
+                           url.includes("/api/reports") ||
+                           url.includes("/api/settings");
                            
     if (method === "DELETE" || method === "POST" || method === "PUT" || isMultiTenantApi) {
       headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0";
@@ -44,6 +48,7 @@ export async function apiRequest(
       headers["Expires"] = "0";
       headers["If-Modified-Since"] = "Mon, 26 Jul 1997 05:00:00 GMT";
       headers["If-None-Match"] = "*";
+      console.log(`Header anti-cache aggiunti per garantire dati sempre freschi`);
     }
     
     // Aggiungi l'header x-pwa-app se siamo in una PWA
