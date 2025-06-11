@@ -227,14 +227,23 @@ export function registerSimpleRoutes(app: Express): Server {
     // FORZA RELOAD COMPLETO DEL STORAGE
     const freshData = loadStorageData();
     
-    // PREPARA DATI COMPLETI COME PC
-    const allClients = freshData.clients || [];
+    // PREPARA DATI FILTRATI PER UTENTE SPECIFICO (stesso sistema di /api/clients)
+    const allClientsRaw = freshData.clients || [];
+    
+    // Gestisce sia formato [id, client] che client diretto + filtra per utente
+    const userClients = allClientsRaw
+      .map(item => Array.isArray(item) ? item[1] : item)
+      .filter(client => {
+        if (user.type === 'admin') return true; // Admin vede tutti
+        return client.ownerId === user.id || !client.ownerId; // Altri vedono solo i propri
+      });
+    
     const userSettings = freshData.userBusinessSettings?.[user.id] || { businessName: "Studio Medico", showBusinessName: true };
     const userServices = freshData.userServices?.[user.id] || [];
     
     const syncData = {
-      clients: allClients,
-      clientsCount: allClients.length,
+      clients: userClients,
+      clientsCount: userClients.length,
       companySettings: userSettings,
       services: userServices,
       userType: user.type,
@@ -255,7 +264,7 @@ export function registerSimpleRoutes(app: Express): Server {
       'X-Sync-Type': 'mobile-force'
     });
     
-    console.log(`📱 [MOBILE-SYNC] Dati sincronizzati: ${allClients.length} clienti, settings: ${JSON.stringify(userSettings)}`);
+    console.log(`📱 [MOBILE-SYNC] Dati sincronizzati per utente ${user.id} (${user.type}): ${userClients.length} clienti filtrati, settings: ${JSON.stringify(userSettings)}`);
     res.json(syncData);
   });
 
