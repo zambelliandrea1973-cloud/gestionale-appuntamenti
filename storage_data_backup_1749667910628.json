@@ -750,72 +750,6 @@
         "uniqueCode": "OWN-1749667838111-4",
         "createdAt": "2025-06-11T18:50:38.111Z"
       }
-    ],
-    [
-      1749667437319,
-      {
-        "firstName": "Mario",
-        "lastName": "Rossi",
-        "phone": "3331234567",
-        "email": "mario.rossi@test.com",
-        "address": "Via Roma 123",
-        "birthday": "1980-05-15",
-        "notes": "Cliente importato da staff",
-        "isFrequent": false,
-        "medicalNotes": "",
-        "allergies": "",
-        "hasConsent": true,
-        "userId": 3,
-        "ownerId": 3,
-        "originalOwnerId": 1,
-        "uniqueCode": "IMPORT-1749668061929-1",
-        "id": 1749667437319,
-        "createdAt": "2025-06-11T18:54:21.929Z"
-      }
-    ],
-    [
-      1749667437320,
-      {
-        "firstName": "Giulia",
-        "lastName": "Verdi",
-        "phone": "3337654321",
-        "email": "giulia.verdi@test.com",
-        "address": "Via Milano 45",
-        "birthday": "1975-09-22",
-        "notes": "Cliente importata da customer",
-        "isFrequent": true,
-        "medicalNotes": "Pressione alta",
-        "allergies": "Penicillina",
-        "hasConsent": true,
-        "userId": 3,
-        "ownerId": 3,
-        "originalOwnerId": 2,
-        "uniqueCode": "IMPORT-1749668061930-2",
-        "id": 1749667437320,
-        "createdAt": "2025-06-11T18:54:21.930Z"
-      }
-    ],
-    [
-      1749667437321,
-      {
-        "firstName": "Franco",
-        "lastName": "Bianchi",
-        "phone": "3339876543",
-        "email": "franco.bianchi@test.com",
-        "address": "Via Napoli 67",
-        "birthday": "1990-12-03",
-        "notes": "Cliente importato da basic",
-        "isFrequent": false,
-        "medicalNotes": "",
-        "allergies": "Lattosio",
-        "hasConsent": true,
-        "userId": 3,
-        "ownerId": 3,
-        "originalOwnerId": 4,
-        "uniqueCode": "IMPORT-1749668061930-3",
-        "id": 1749667437321,
-        "createdAt": "2025-06-11T18:54:21.930Z"
-      }
     ]
   ],
   "users": [
@@ -873,18 +807,7 @@
   "userIcons": {
     "3": "data:image/jpeg;base64,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"
   },
-  "userBusinessSettings": {
-    "3": {
-      "businessName": "Studio Medico",
-      "showBusinessName": true,
-      "name": "zambelli andrea",
-      "fontSize": 41,
-      "fontFamily": "Arial, sans-serif",
-      "fontStyle": "normal",
-      "color": "#FF1493",
-      "enabled": true
-    }
-  },
+  "userBusinessSettings": {},
   "userServices": {},
   "appointments": []
 }
