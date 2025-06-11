@@ -366,8 +366,8 @@ export default function ServiceManagerSimple() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {services.map((service: Service) => (
-                <TableRow key={`service-${service.id}`}>
+              {services.map((service: Service, index: number) => (
+                <TableRow key={`service-${service.id}-${index}`}>
                   <TableCell className="font-medium">{service.name}</TableCell>
                   <TableCell>{formatDuration(service.duration)}</TableCell>
                   <TableCell>{formatPrice(service.price)}</TableCell>
@@ -382,33 +382,26 @@ export default function ServiceManagerSimple() {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      {!service.isDefault && (
-                        <>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => editService(service)}
-                            title="Modifica servizio"
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handleDeleteService(service.id)}
-                            title="Elimina servizio"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </>
-                      )}
-                      {service.isDefault && (
-                        <span className="text-xs text-muted-foreground px-2 py-1">
-                          Servizio predefinito
-                        </span>
-                      )}
+                  <TableCell className="text-right min-w-[120px]">
+                    <div className="flex justify-end gap-1 items-center">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => editService(service)}
+                        title="Modifica servizio"
+                        className="h-8 w-8 p-0"
+                      >
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteService(service.id)}
+                        title="Elimina servizio"
+                        className="h-8 w-8 p-0"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
