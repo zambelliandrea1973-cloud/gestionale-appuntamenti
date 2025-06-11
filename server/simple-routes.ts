@@ -130,10 +130,9 @@ export function registerSimpleRoutes(app: Express): Server {
       return override || { ...defaultService, isDefault: true };
     });
     
-    // Aggiusta ID dei servizi completamente personalizzati per evitare conflitti
+    // Mantieni gli ID originali dei servizi personalizzati
     const adjustedCustomServices = pureCustomServices.map(service => ({
       ...service,
-      id: service.id + 1000, // Offset per evitare conflitti con servizi default
       isDefault: false
     }));
     
@@ -262,23 +261,11 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`🔍 [DELETE] Servizi disponibili per utente ${user.id}:`, 
       storageData.userServices[user.id].map(s => ({ id: s.id, name: s.name })));
     
-    // Il frontend riceve ID modificati (+1000 per servizi personalizzati)
-    // Dobbiamo convertire l'ID ricevuto all'ID originale se necessario
-    let actualServiceId = serviceId;
-    if (serviceId > 1000) {
-      // Prova prima con l'ID originale (senza +1000)
-      actualServiceId = serviceId - 1000;
-      console.log(`🔄 [DELETE] ID ricevuto ${serviceId} convertito a ${actualServiceId} per ricerca`);
-    }
-    
-    // Cerca prima con l'ID originale, poi con quello ricevuto
-    let serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === actualServiceId);
-    if (serviceIndex === -1) {
-      serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
-    }
+    // Cerca il servizio con l'ID ricevuto (ora gli ID coincidono)
+    const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
     
     if (serviceIndex === -1) {
-      console.log(`❌ [DELETE] Servizio con ID ${serviceId}/${actualServiceId} non trovato tra i servizi dell'utente ${user.id}`);
+      console.log(`❌ [DELETE] Servizio con ID ${serviceId} non trovato tra i servizi dell'utente ${user.id}`);
       return res.status(404).json({ message: "Servizio non trovato" });
     }
     
