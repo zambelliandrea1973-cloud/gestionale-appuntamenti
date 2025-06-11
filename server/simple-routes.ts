@@ -130,9 +130,10 @@ export function registerSimpleRoutes(app: Express): Server {
       return override || { ...defaultService, isDefault: true };
     });
     
-    // Mantieni gli ID originali dei servizi personalizzati
-    const adjustedCustomServices = pureCustomServices.map(service => ({
+    // Assegna ID univoci ai servizi personalizzati per evitare conflitti
+    const adjustedCustomServices = pureCustomServices.map((service, index) => ({
       ...service,
+      id: service.id || (1000 + index), // Assegna ID starting from 1000 se non presente
       isDefault: false
     }));
     
