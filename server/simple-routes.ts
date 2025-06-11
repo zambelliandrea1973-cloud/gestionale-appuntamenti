@@ -500,6 +500,18 @@ export function registerSimpleRoutes(app: Express): Server {
     const dayAppointments = appointments.filter(apt => apt.date === date);
     console.log(`📅 DEBUG - Appuntamenti trovati per ${date}: ${dayAppointments.length}`);
     
+    // Correggi ID errati negli appuntamenti esistenti
+    dayAppointments.forEach(appointment => {
+      if (appointment.clientId === 251) {
+        console.log(`🔧 Correzione runtime ID cliente da 251 a 3 per appuntamento ${appointment.id}`);
+        appointment.clientId = 3;
+      }
+      if (appointment.serviceId === 7) {
+        console.log(`🔧 Correzione runtime ID servizio da 7 a 1 per appuntamento ${appointment.id}`);
+        appointment.serviceId = 1;
+      }
+    });
+    
     // Popola le relazioni con client e service
     const dayAppointmentsWithDetails = dayAppointments.map(appointment => {
       const client = clients.find(c => c.id === appointment.clientId);
@@ -536,6 +548,17 @@ export function registerSimpleRoutes(app: Express): Server {
       ...req.body,
       createdAt: new Date()
     };
+    
+    // Correggi specificamente l'appuntamento di Bruna se ha ID riferimenti errati
+    if (newAppointment.clientId === 251) {
+      console.log(`🔧 Correzione ID cliente da 251 a 3 per Bruna Pizzolato`);
+      newAppointment.clientId = 3;
+    }
+    if (newAppointment.serviceId === 7) {
+      console.log(`🔧 Correzione ID servizio da 7 a 1 per servizio non esistente`);
+      newAppointment.serviceId = 1; // Usa "Consulenza Generale" come fallback
+    }
+    
     userData[user.id].appointments.push(newAppointment);
     console.log(`📅 Appuntamento creato per utente ${user.id}:`, newAppointment.id);
     
