@@ -222,7 +222,9 @@ export default function ClientForm({
           </TabsList>
           
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit, (errors) => {
+              console.log("❌ Form validation errors:", errors);
+            })}>
               <TabsContent value="personal" className="space-y-4 py-4">
                 {/* Personal information fields */}
                 <div className="grid grid-cols-2 gap-4">
@@ -503,7 +505,11 @@ export default function ClientForm({
                 >
                   Annulla
                 </Button>
-                <Button type="submit" disabled={mutation.isPending}>
+                <Button 
+                  type="submit" 
+                  disabled={mutation.isPending}
+                  onClick={() => console.log("🔘 Submit button clicked")}
+                >
                   {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {clientId ? "Aggiorna" : "Salva"}
                 </Button>
