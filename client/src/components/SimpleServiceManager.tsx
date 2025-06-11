@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
@@ -25,6 +27,16 @@ export default function SimpleServiceManager() {
   const [newServiceDuration, setNewServiceDuration] = useState("60");
   const [newServicePrice, setNewServicePrice] = useState("");
   const [newServiceColor, setNewServiceColor] = useState("#3b82f6");
+
+  // Stati per la modifica servizi
+  const [editingService, setEditingService] = useState<Service | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    duration: "",
+    price: "",
+    color: "#3b82f6"
+  });
   const { toast } = useToast();
 
   console.log(`🔧 SIMPLE: ServiceManager per utente ${user?.id}`);
@@ -111,9 +123,79 @@ export default function SimpleServiceManager() {
     }
   });
 
+  // Mutation per aggiornare servizio con React Query
+  const updateServiceMutation = useMutation({
+    mutationFn: async (serviceData: { id: number; name: string; duration: number; price: number; color: string }) => {
+      const response = await apiRequest("PUT", `/api/services/${serviceData.id}`, {
+        name: serviceData.name,
+        duration: serviceData.duration,
+        price: serviceData.price,
+        color: serviceData.color
+      });
+      return response;
+    },
+    onSuccess: (_, updatedService) => {
+      console.log(`✏️ REACT QUERY: Servizio aggiornato per utente ${user?.id}:`, updatedService);
+      
+      // Invalida e ricarica automaticamente la cache dei servizi
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      setLastUpdate(new Date());
+      setIsEditDialogOpen(false);
+      setEditingService(null);
+      
+      toast({ title: "Servizio aggiornato!" });
+    },
+    onError: (error: any) => {
+      console.error('Errore aggiornamento:', error);
+      toast({ title: "Errore nell'aggiornamento", variant: "destructive" });
+    }
+  });
+
   // Elimina servizio
   const deleteService = async (id: number) => {
     deleteServiceMutation.mutate(id);
+  };
+
+  // Apre il dialog di modifica servizio
+  const openEditDialog = (service: any) => {
+    setEditingService(service);
+    setEditForm({
+      name: service.name,
+      duration: service.duration.toString(),
+      price: service.price.toString(),
+      color: service.color || "#3b82f6"
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  // Salva le modifiche al servizio
+  const saveEditedService = () => {
+    if (!editingService || !editForm.name.trim()) {
+      toast({ title: "Inserisci un nome per il servizio", variant: "destructive" });
+      return;
+    }
+
+    const serviceData = {
+      id: editingService.id,
+      name: editForm.name.trim(),
+      duration: parseInt(editForm.duration) || 60,
+      price: parseFloat(editForm.price) || 0,
+      color: editForm.color
+    };
+
+    updateServiceMutation.mutate(serviceData);
+  };
+
+  // Chiude il dialog di modifica
+  const closeEditDialog = () => {
+    setIsEditDialogOpen(false);
+    setEditingService(null);
+    setEditForm({
+      name: "",
+      duration: "",
+      price: "",
+      color: "#3b82f6"
+    });
   };
 
   return (
@@ -197,9 +279,7 @@ export default function SimpleServiceManager() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => {
-                            toast({ title: "Modifica servizio - Funzione in sviluppo" });
-                          }}
+                          onClick={() => openEditDialog(service)}
                           className="text-blue-600 hover:text-blue-700"
                           title="Modifica servizio"
                         >
@@ -228,6 +308,88 @@ export default function SimpleServiceManager() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Dialog di modifica servizio */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Modifica Servizio</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-name" className="text-right">
+                Nome
+              </Label>
+              <Input
+                id="edit-name"
+                value={editForm.name}
+                onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                className="col-span-3"
+                placeholder="Nome del servizio"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-duration" className="text-right">
+                Durata (min)
+              </Label>
+              <Input
+                id="edit-duration"
+                type="number"
+                value={editForm.duration}
+                onChange={(e) => setEditForm(prev => ({ ...prev, duration: e.target.value }))}
+                className="col-span-3"
+                placeholder="60"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-price" className="text-right">
+                Prezzo (€)
+              </Label>
+              <Input
+                id="edit-price"
+                type="number"
+                step="0.01"
+                value={editForm.price}
+                onChange={(e) => setEditForm(prev => ({ ...prev, price: e.target.value }))}
+                className="col-span-3"
+                placeholder="0.00"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-color" className="text-right">
+                Colore
+              </Label>
+              <div className="col-span-3 flex gap-2 items-center">
+                <Input
+                  id="edit-color"
+                  type="color"
+                  value={editForm.color}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, color: e.target.value }))}
+                  className="w-16 h-10"
+                />
+                <Input
+                  type="text"
+                  value={editForm.color}
+                  onChange={(e) => setEditForm(prev => ({ ...prev, color: e.target.value }))}
+                  className="flex-1"
+                  placeholder="#3b82f6"
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={closeEditDialog}>
+              Annulla
+            </Button>
+            <Button 
+              onClick={saveEditedService}
+              disabled={updateServiceMutation.isPending}
+            >
+              {updateServiceMutation.isPending ? "Salvando..." : "Salva"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
