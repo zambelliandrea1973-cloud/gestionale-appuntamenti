@@ -297,6 +297,14 @@ export function registerSimpleRoutes(app: Express): Server {
     const allClients = loadStorageData().clients || [];
     console.log(`📦 [/api/clients] [${deviceType}] Caricati ${allClients.length} clienti totali dal storage`);
     
+    // FORZA DEBUG - verifica clienti con originalOwnerId
+    console.log(`🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...`);
+    allClients.forEach(([id, client]) => {
+      if (client.originalOwnerId !== undefined) {
+        console.log(`🎯 [DEBUG] Cliente ${client.firstName} ${client.lastName}: originalOwnerId=${client.originalOwnerId}`);
+      }
+    });
+    
     // Per admin, mostra tutti i clienti, per altri utenti solo i propri
     let userClients;
     if (user.type === 'admin') {
@@ -317,6 +325,12 @@ export function registerSimpleRoutes(app: Express): Server {
     const otherClients = userClients.filter(c => c.ownerId !== user.id).length;
     console.log(`👑 [ADMIN-DEBUG] FORCED - Clienti propri (ownerId ${user.id}): ${ownClients}`);
     console.log(`👑 [ADMIN-DEBUG] FORCED - Clienti altri account: ${otherClients}`);
+    
+    // SAMPLE LOG ALCUNI CLIENTI CON ORIGINALOWNERID
+    const sampleClients = userClients.slice(0, 5);
+    sampleClients.forEach(client => {
+      console.log(`📋 [SAMPLE] Cliente ${client.firstName} ${client.lastName}: ownerId=${client.ownerId}, originalOwnerId=${client.originalOwnerId}`);
+    });
     } else {
       userClients = allClients
         .filter(([id, client]) => client.ownerId === user.id)
