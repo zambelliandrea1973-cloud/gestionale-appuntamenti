@@ -506,6 +506,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const service = services.find(s => s.id === appointment.serviceId);
       
       // Debug per identificare dati mancanti
+      console.log(`🔍 DEBUG - Processing appointment ${appointment.id}, clientId: ${appointment.clientId}, serviceId: ${appointment.serviceId}`);
       if (!client) {
         console.log(`⚠️ DEBUG - Client non trovato per appuntamento ${appointment.id}, clientId: ${appointment.clientId}`);
         console.log(`⚠️ DEBUG - Clienti disponibili:`, clients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
