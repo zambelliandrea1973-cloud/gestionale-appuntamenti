@@ -107,7 +107,10 @@ export default function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
-              <ServiceManagerSimple />
+              <div className="border-2 border-blue-200 p-4 rounded">
+                <h3 className="text-lg font-bold mb-2">🔧 DEBUG: ServiceManagerSimple Container</h3>
+                <ServiceManagerSimple />
+              </div>
               
               <div className="pt-6 mt-6 border-t">
                 <div className="flex items-center mb-4">
