@@ -840,5 +840,19 @@
       "licenseType": "trial",
       "customerEmail": "zambelli.andrea.1973A@gmail.com"
     }
-  ]
+  ],
+  "userAppointments": {
+    "3": [
+      {
+        "id": 999,
+        "clientId": 1,
+        "serviceId": 1,
+        "date": "2025-06-11",
+        "time": "10:00",
+        "duration": 60,
+        "notes": "Test persistenza - riavvio server",
+        "createdAt": "2025-06-11T16:51:46.417Z"
+      }
+    ]
+  }
 }
