@@ -285,22 +285,7 @@ export function registerSimpleRoutes(app: Express): Server {
     res.status(201).json(newAppointment);
   });
 
-  // Impostazioni azienda - Sistema semplice
-  app.get("/api/company-name-settings", (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
-    const user = req.user as any;
-    const settings = userData[user.id]?.settings || { businessName: "Studio Medico", showBusinessName: true };
-    res.json(settings);
-  });
-
-  app.post("/api/company-name-settings", (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
-    const user = req.user as any;
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
-    
-    userData[user.id].settings = { ...userData[user.id].settings, ...req.body };
-    res.json(userData[user.id].settings);
-  });
+  // Impostazioni azienda - RIMOSSO DUPLICATO ERRATO (ora gestito da storage_data.json)
 
   // Informazioni di contatto
   app.get("/api/contact-info", (req, res) => {
@@ -468,8 +453,13 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     const userId = req.user.id;
-    const userSettings = storageData.userBusinessSettings[userId] || { businessName: "Studio Medico", showBusinessName: true };
+    console.log(`🏢 [/api/company-name-settings] GET per utente ${userId}`);
     
+    // Carica dati freschi dal storage_data.json
+    const currentStorageData = loadStorageData();
+    const userSettings = currentStorageData.userBusinessSettings?.[userId] || { businessName: "Studio Medico", showBusinessName: true };
+    
+    console.log(`🏢 [/api/company-name-settings] Settings per utente ${userId}:`, userSettings);
     res.json(userSettings);
   });
 
