@@ -770,15 +770,6 @@
         "price": 30,
         "color": "#f7de3b",
         "description": ""
-      },
-      {
-        "id": 1749649848429,
-        "ownerId": 3,
-        "name": "detox",
-        "duration": 30,
-        "price": 30,
-        "color": "#f7de3b",
-        "description": ""
       }
     ]
   },

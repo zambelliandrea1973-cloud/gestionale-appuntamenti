@@ -178,6 +178,19 @@ export default function ServiceManagerSimple() {
     setIsEditing(false);
   };
 
+  const editService = (service: Service) => {
+    setFormData({
+      id: service.id,
+      name: service.name,
+      duration: service.duration,
+      price: service.price,
+      color: service.color || "#3b82f6",
+      description: service.description || "",
+    });
+    setIsEditing(true);
+    setIsDialogOpen(true);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -374,7 +387,7 @@ export default function ServiceManagerSimple() {
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => handleEditService(service)}
+                        onClick={() => editService(service)}
                         title="Modifica servizio"
                       >
                         <Pencil className="h-4 w-4" />
