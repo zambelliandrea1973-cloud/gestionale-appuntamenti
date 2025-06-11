@@ -257,25 +257,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Sistema lineare semplice - Appuntamenti
-  app.get("/api/appointments", (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
-    const user = req.user as any;
-    const appointments = userData[user.id]?.appointments || [];
-    res.json(appointments);
-  });
-
-  app.post("/api/appointments", (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
-    const user = req.user as any;
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
-    
-    const newAppointment = {
-      id: Date.now(),
-      ...req.body
-    };
-    userData[user.id].appointments.push(newAppointment);
-    res.status(201).json(newAppointment);
-  });
+  // Endpoint rimossi - duplicati degli endpoint attivi alle linee 485+
 
   // Impostazioni azienda - RIMOSSO DUPLICATO ERRATO (ora gestito da storage_data.json)
 
@@ -536,7 +518,16 @@ export function registerSimpleRoutes(app: Express): Server {
     };
     userData[user.id].appointments.push(newAppointment);
     console.log(`📅 Appuntamento creato per utente ${user.id}:`, newAppointment.id);
-    res.status(201).json(newAppointment);
+    
+    // Popola le relazioni con client e service prima di restituire
+    const clients = userData[user.id]?.clients || [];
+    const services = userData[user.id]?.services || [];
+    
+    const client = clients.find(c => c.id === newAppointment.clientId);
+    const service = services.find(s => s.id === newAppointment.serviceId);
+    const appointmentWithDetails = { ...newAppointment, client, service };
+    
+    res.status(201).json(appointmentWithDetails);
   });
 
   // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE
