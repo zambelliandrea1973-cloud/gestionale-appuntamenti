@@ -367,7 +367,7 @@ export default function ServiceManagerSimple() {
             </TableHeader>
             <TableBody>
               {services.map((service: Service, index: number) => (
-                <TableRow key={`service-${service.id}-${index}`}>
+                <TableRow key={`${service.isDefault ? 'default' : 'custom'}-${service.id}-${index}`}>
                   <TableCell className="font-medium">{service.name}</TableCell>
                   <TableCell>{formatDuration(service.duration)}</TableCell>
                   <TableCell>{formatPrice(service.price)}</TableCell>
