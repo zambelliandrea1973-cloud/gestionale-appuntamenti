@@ -528,26 +528,6 @@
         "id": 514,
         "createdAt": "2025-06-03T13:34:58.647Z"
       }
-    ],
-    [
-      1749666196976,
-      {
-        "id": 1749666196976,
-        "ownerId": 9,
-        "uniqueCode": "CUS6976",
-        "createdAt": "2025-06-11T18:23:16.976Z",
-        "firstName": "Andrea",
-        "lastName": "Zambelli",
-        "phone": "+393472550110",
-        "email": "zambelli.andrea@libero.it",
-        "address": "Via Cavallotti",
-        "birthday": "2025-06-11",
-        "notes": "",
-        "isFrequent": false,
-        "medicalNotes": "",
-        "allergies": "",
-        "hasConsent": false
-      }
     ]
   ],
   "services": [
