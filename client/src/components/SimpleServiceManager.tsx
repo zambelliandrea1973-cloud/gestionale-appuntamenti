@@ -198,8 +198,7 @@ export default function SimpleServiceManager() {
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            // TODO: Implementare funzione di modifica
-                            toast({ title: "Modifica servizio - In sviluppo" });
+                            toast({ title: "Modifica servizio - Funzione in sviluppo" });
                           }}
                           className="text-blue-600 hover:text-blue-700"
                           title="Modifica servizio"

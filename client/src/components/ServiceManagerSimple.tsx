@@ -382,25 +382,15 @@ export default function ServiceManagerSimple() {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-right min-w-[140px]">
-                    <div className="flex justify-end gap-2 items-center">
-                      <button
-                        onClick={() => editService(service)}
-                        title="Modifica servizio"
-                        className="inline-flex items-center justify-center h-9 w-9 p-0 border-2 border-gray-300 rounded-md bg-white hover:bg-gray-50 transition-colors"
-                        style={{ minWidth: '36px', minHeight: '36px' }}
-                      >
-                        ✏️
-                      </button>
-                      <button
-                        onClick={() => handleDeleteService(service.id)}
-                        title="Elimina servizio"
-                        className="inline-flex items-center justify-center h-9 w-9 p-0 border-2 border-red-300 rounded-md bg-white hover:bg-red-50 transition-colors"
-                        style={{ minWidth: '36px', minHeight: '36px' }}
-                      >
-                        🗑️
-                      </button>
-                    </div>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteService(service.id)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
