@@ -306,6 +306,25 @@ export function registerSimpleRoutes(app: Express): Server {
       userClients = allClients
         .filter(([id, client]) => client.ownerId === user.id)
         .map(([id, client]) => client);
+      
+      // Se l'utente non ha clienti, genera clienti di default
+      if (userClients.length === 0) {
+        console.log(`🔄 [/api/clients] Generando clienti di default per utente ${user.id} (${user.type})`);
+        const defaultClients = generateDefaultClientsForUser(user.id, user.username);
+        
+        // Salva i nuovi clienti nel storage
+        const storageData = loadStorageData();
+        if (!storageData.clients) storageData.clients = [];
+        
+        defaultClients.forEach(client => {
+          storageData.clients.push([client.id, client]);
+        });
+        
+        saveStorageData(storageData);
+        userClients = defaultClients;
+        console.log(`✅ [/api/clients] Generati ${defaultClients.length} clienti di default per utente ${user.id}`);
+      }
+      
       console.log(`👤 [/api/clients] [${deviceType}] User ${user.id} - Restituendo ${userClients.length} clienti propri`);
     }
     
