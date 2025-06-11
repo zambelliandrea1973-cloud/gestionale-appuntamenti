@@ -31,9 +31,11 @@ import ClientAccessesDialog from "./ClientAccessesDialog";
 interface ClientCardProps {
   client: Client;
   onUpdate?: () => void;
+  onDelete?: () => void;
+  isOtherAccount?: boolean;
 }
 
-export default function ClientCard({ client, onUpdate }: ClientCardProps) {
+export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount }: ClientCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [_, setLocation] = useLocation();

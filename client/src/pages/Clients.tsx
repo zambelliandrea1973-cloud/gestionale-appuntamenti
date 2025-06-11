@@ -32,6 +32,16 @@ export default function Clients() {
   // Clean React Query implementation for multi-tenant system
   const queryClient = useQueryClient();
   
+  // Query per ottenere l'ID dell'utente corrente
+  const { data: currentUser } = useQuery({
+    queryKey: ['/api/user'],
+    queryFn: async () => {
+      const response = await fetch('/api/user', { credentials: 'include' });
+      if (!response.ok) throw new Error('Failed to fetch user');
+      return response.json();
+    }
+  });
+  
   // Sistema di sincronizzazione forzata per mobile - stesso percorso del PC
   const { syncData, isMobile, clientsCount, isForcesynced } = useMobileForcedSync();
   
@@ -155,6 +165,8 @@ export default function Clients() {
       // Apply tab filter
       const matchesTab = 
         activeTab === "all" || 
+        (activeTab === "my-clients" && currentUser && client.ownerId === currentUser.id) ||
+        (activeTab === "other-clients" && currentUser && client.ownerId !== currentUser.id) ||
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
@@ -271,11 +283,23 @@ export default function Clients() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className={`grid w-full ${currentUser?.type === 'admin' ? 'grid-cols-5' : 'grid-cols-3'}`}>
             <TabsTrigger value="all" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               {t("clients.allClients")} ({clients.filter(() => true).length})
             </TabsTrigger>
+            {currentUser?.type === 'admin' && (
+              <>
+                <TabsTrigger value="my-clients" className="flex items-center gap-2 bg-green-50 border-green-200 text-green-700 data-[state=active]:bg-green-100">
+                  <Users className="h-4 w-4" />
+                  Miei Clienti ({clients.filter((c: any) => c.ownerId === currentUser.id).length})
+                </TabsTrigger>
+                <TabsTrigger value="other-clients" className="flex items-center gap-2 bg-orange-50 border-orange-200 text-orange-700 data-[state=active]:bg-orange-100">
+                  <Users className="h-4 w-4" />
+                  Altri Account ({clients.filter((c: any) => c.ownerId !== currentUser.id).length})
+                </TabsTrigger>
+              </>
+            )}
             <TabsTrigger value="frequent" className="flex items-center gap-2">
               <UserCheck className="h-4 w-4" />
               {t("clients.frequentClients")} ({clients.filter((c: any) => c.isFrequent === true).length})
@@ -316,6 +340,7 @@ export default function Clients() {
                     client={client}
                     onUpdate={handleClientUpdated}
                     onDelete={handleClientDeleted}
+                    isOtherAccount={currentUser?.type === 'admin' && client.ownerId !== currentUser.id}
                   />
                 ))}
               </div>
