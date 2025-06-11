@@ -598,6 +598,48 @@
         "id": 2,
         "createdAt": "2025-04-02T16:08:24.114Z"
       }
+    ],
+    [
+      1749662092448,
+      {
+        "id": 1749662092448,
+        "clientId": 1,
+        "serviceId": 4,
+        "date": "2025-06-10",
+        "startTime": "08:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-11T17:14:52.448Z"
+      }
+    ],
+    [
+      1749662115743,
+      {
+        "id": 1749662115743,
+        "clientId": 2,
+        "serviceId": 1,
+        "date": "2025-06-10",
+        "startTime": "08:00",
+        "endTime": "08:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-11T17:15:15.743Z"
+      }
+    ],
+    [
+      1749662133338,
+      {
+        "id": 1749662133338,
+        "clientId": 27,
+        "serviceId": 2,
+        "date": "2025-06-10",
+        "startTime": "09:15:00",
+        "endTime": "10:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-11T17:15:33.338Z"
+      }
     ]
   ],
   "consents": [],
