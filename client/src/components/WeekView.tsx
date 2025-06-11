@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
   getWeekDays, 
   formatDate, 
@@ -10,7 +11,7 @@ import {
   getWeekStart, 
   getWeekEnd 
 } from "@/lib/utils/date";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentCardSmall from "./AppointmentCardSmall";
@@ -25,6 +26,7 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
   const [weekDays] = useState(() => getWeekDays(selectedDate));
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
+  const [expandedDays, setExpandedDays] = useState<Record<string, boolean>>({});
   
   // Utilizziamo un metodo alternativo per formattare le date, per evitare problemi di fuso orario
   const weekStart = getWeekStart(selectedDate);
@@ -63,6 +65,23 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
     const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
     return appointments.filter(appointment => appointment.date === dateStr);
   };
+
+  // Toggle day expansion
+  const toggleDayExpansion = (dayStr: string) => {
+    setExpandedDays(prev => ({
+      ...prev,
+      [dayStr]: !prev[dayStr]
+    }));
+  };
+
+  // Get limited appointments for collapsed view
+  const getLimitedAppointments = (dayAppointments: any[], dayStr: string, maxVisible = 2) => {
+    const isExpanded = expandedDays[dayStr];
+    if (isExpanded || dayAppointments.length <= maxVisible) {
+      return dayAppointments;
+    }
+    return dayAppointments.slice(0, maxVisible);
+  };
   
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
@@ -94,6 +113,10 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
       <div className="grid grid-cols-7 divide-x h-[calc(100vh-350px)] min-h-[400px] overflow-y-auto">
         {weekDays.map((day, index) => {
           const dayAppointments = getAppointmentsForDay(day);
+          const dayStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+          const isExpanded = expandedDays[dayStr];
+          const limitedAppointments = getLimitedAppointments(dayAppointments, dayStr);
+          const hasMoreAppointments = dayAppointments.length > 2;
           
           return (
             <div 
@@ -108,19 +131,61 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
                   <Skeleton className="h-16 w-full" />
                 </div>
               ) : dayAppointments.length > 0 ? (
-                // Show appointments for this day
-                dayAppointments.map((appointment) => (
-                  <div className="text-xs" key={appointment.id}>
-                    <div className="text-gray-500 mb-1">
-                      {appointment.startTime.substring(0, 5)}
+                // Show appointments for this day with collapsible functionality
+                <div>
+                  {limitedAppointments.map((appointment) => (
+                    <div className="text-xs mb-2" key={appointment.id}>
+                      <div className="text-gray-500 mb-1">
+                        {appointment.startTime.substring(0, 5)}
+                      </div>
+                      <AppointmentCardSmall 
+                        appointment={appointment}
+                        onUpdate={handleAppointmentUpdated}
+                        view="week"
+                      />
                     </div>
-                    <AppointmentCardSmall 
-                      appointment={appointment}
-                      onUpdate={handleAppointmentUpdated}
-                      view="week"
-                    />
-                  </div>
-                ))
+                  ))}
+                  
+                  {hasMoreAppointments && (
+                    <Collapsible open={isExpanded} onOpenChange={() => toggleDayExpansion(dayStr)}>
+                      <CollapsibleTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="w-full h-6 text-xs text-gray-500 hover:text-primary p-1"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {isExpanded ? (
+                            <>
+                              <ChevronDown className="h-3 w-3 mr-1" />
+                              Mostra meno
+                            </>
+                          ) : (
+                            <>
+                              <MoreHorizontal className="h-3 w-3 mr-1" />
+                              +{dayAppointments.length - 2} altri
+                            </>
+                          )}
+                        </Button>
+                      </CollapsibleTrigger>
+                      
+                      <CollapsibleContent>
+                        {dayAppointments.slice(2).map((appointment) => (
+                          <div className="text-xs mb-2" key={appointment.id}>
+                            <div className="text-gray-500 mb-1">
+                              {appointment.startTime.substring(0, 5)}
+                            </div>
+                            <AppointmentCardSmall 
+                              appointment={appointment}
+                              onUpdate={handleAppointmentUpdated}
+                              view="week"
+                            />
+                          </div>
+                        ))}
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
+                </div>
               ) : (
                 // Empty day - add appointment button
                 <div className="flex h-full items-center justify-center">
