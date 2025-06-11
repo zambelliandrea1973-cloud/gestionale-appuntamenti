@@ -202,7 +202,7 @@ export default function DayViewWithTimeSlots({
     // Implementazione PRECISA: 
     // Ottieni la posizione misurata dall'inizio del calendario
     let top = 0;
-    let height = numSlots * slotHeight;
+    let height = (numSlots * slotHeight) / 2; // Ridotta della metà per facilitare selezioni multiple
     
     // Ottieni l'elemento DOM corrispondente allo slot orario di inizio
     const slotElement = document.querySelector(`[data-slot-time="${startTime}"]`);
@@ -244,7 +244,7 @@ export default function DayViewWithTimeSlots({
     
     // Imposta l'offset e la larghezza in base alla presenza di sovrapposizioni
     let leftPosition = 70; // Inizia dopo i numeri degli orari (~ 70px)
-    let widthValue = 'calc(100% - 76px)'; // Larghezza predefinita
+    let widthValue = 'calc(50% - 38px)'; // Larghezza ridotta della metà per facilitare selezioni multiple
     
     // Versione migliorata: usiamo offset e larghezza fissa in pixel
     if (totalSameTime > 1) {
