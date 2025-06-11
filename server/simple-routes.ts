@@ -530,6 +530,28 @@ export function registerSimpleRoutes(app: Express): Server {
     res.status(201).json(appointmentWithDetails);
   });
 
+  app.delete("/api/appointments/:id", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const appointmentId = parseInt(req.params.id);
+    
+    if (isNaN(appointmentId)) {
+      return res.status(400).json({ message: "ID appuntamento non valido" });
+    }
+    
+    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
+    
+    const appointmentIndex = userData[user.id].appointments.findIndex(app => app.id === appointmentId);
+    
+    if (appointmentIndex === -1) {
+      return res.status(404).json({ message: "Appuntamento non trovato" });
+    }
+    
+    userData[user.id].appointments.splice(appointmentIndex, 1);
+    console.log(`🗑️ Appuntamento ${appointmentId} eliminato per utente ${user.id}`);
+    res.status(200).json({ message: "Appuntamento eliminato con successo" });
+  });
+
   // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE
   app.get("/api/clients/:id/activation-token", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
