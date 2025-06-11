@@ -202,7 +202,7 @@ export default function DayViewWithTimeSlots({
     // Implementazione PRECISA: 
     // Ottieni la posizione misurata dall'inizio del calendario
     let top = 0;
-    let height = (numSlots * slotHeight) / 2; // Ridotta della metà per facilitare selezioni multiple
+    let height = numSlots * slotHeight; // Altezza normale basata sui slot effettivi
     
     // Ottieni l'elemento DOM corrispondente allo slot orario di inizio
     const slotElement = document.querySelector(`[data-slot-time="${startTime}"]`);
