@@ -119,10 +119,16 @@ export default function ClientForm({
   // Create or update client mutation
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
+      console.log("🚀 Mutation inizio - Dati da inviare:", data);
+      
       if (clientId) {
+        console.log("✏️ Aggiornamento cliente esistente:", clientId);
         return apiRequest("PUT", `/api/clients/${clientId}`, data);
       } else {
-        return apiRequest("POST", "/api/clients", data);
+        console.log("➕ Creazione nuovo cliente");
+        const response = await apiRequest("POST", "/api/clients", data);
+        console.log("📡 Risposta server ricevuta:", response.status);
+        return response;
       }
     },
     onSuccess: async (response) => {
@@ -180,6 +186,15 @@ export default function ClientForm({
   });
   
   const onSubmit = (data: FormData) => {
+    console.log("🔄 Form submit - Dati inviati:", data);
+    console.log("📝 Form errors:", form.formState.errors);
+    
+    // Combina prefisso e numero di telefono se necessario
+    if (data.phone && !data.phone.startsWith('+')) {
+      data.phone = `${prefix}${data.phone}`;
+      console.log("📞 Telefono combinato:", data.phone);
+    }
+    
     mutation.mutate(data);
   };
   
