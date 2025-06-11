@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Client } from "@shared/schema";
 import { useTranslation } from "react-i18next";
-import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -65,6 +65,57 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
   }, [client.id]);
   
   // Delete mutation con prevenzione totale del caching
+  // Mutazione per sbloccare la cancellazione di clienti importati eliminati alla fonte
+  const unlockDeletionMutation = useMutation({
+    mutationFn: async () => {
+      console.log(`🔓 Sblocco cancellazione cliente importato ${client.id}`);
+      return apiRequest("POST", `/api/unlock-client-deletion/${client.id}`);
+    },
+    onSuccess: async () => {
+      console.log(`✅ Cancellazione sbloccata per cliente ${client.id}`);
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      toast({
+        title: "Cancellazione sbloccata",
+        description: `${client.firstName} ${client.lastName} può ora essere eliminato`,
+      });
+      if (onUpdate) onUpdate();
+    },
+    onError: (error: any) => {
+      console.error(`❌ Errore sblocco cancellazione:`, error);
+      toast({
+        title: "Errore",
+        description: error.message || "Impossibile sbloccare la cancellazione",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Mutazione per simulare eliminazione alla fonte (solo per test)
+  const markDeletedAtSourceMutation = useMutation({
+    mutationFn: async () => {
+      console.log(`⚠️ Simulazione eliminazione alla fonte per cliente ${client.id}`);
+      return apiRequest("POST", `/api/mark-client-deleted-at-source/${client.id}`);
+    },
+    onSuccess: async () => {
+      console.log(`🚨 Cliente ${client.id} marcato come eliminato alla fonte`);
+      await queryClient.invalidateQueries({ queryKey: ['/api/clients'] });
+      toast({
+        title: "Notifica eliminazione",
+        description: `${client.firstName} ${client.lastName} eliminato dall'account originale`,
+        variant: "destructive",
+      });
+      if (onUpdate) onUpdate();
+    },
+    onError: (error: any) => {
+      console.error(`❌ Errore simulazione eliminazione:`, error);
+      toast({
+        title: "Errore",
+        description: error.message || "Impossibile simulare eliminazione",
+        variant: "destructive",
+      });
+    },
+  });
+
   const deleteMutation = useMutation({
     mutationFn: async () => {
       console.log(`🚀 Eliminazione definitiva cliente ${client.id}`);
@@ -161,9 +212,46 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
     deleteMutation.mutate();
   };
   
+  // Determina se il cliente è importato
+  const isImported = client.originalOwnerId !== undefined;
+  
+  // Determina se il cliente è stato eliminato alla fonte
+  const isDeletedAtSource = client.deletedAtSource === true;
+  
+  // Determina se la cancellazione è stata sbloccata
+  const isDeletionUnlocked = client.deletionUnlocked === true;
+
   return (
-    <Card className={`h-full ${isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''}`}>
-      {isOtherAccount && (
+    <Card className={`h-full ${isOtherAccount ? 'border-orange-200 bg-orange-50/30' : ''} ${isDeletedAtSource ? 'border-red-300 bg-red-50/50' : ''}`}>
+      {/* Notifica cliente eliminato alla fonte */}
+      {isDeletedAtSource && (
+        <div className="bg-red-100 px-3 py-2 text-xs text-red-800 font-medium border-b border-red-200 flex items-center justify-between">
+          <div className="flex items-center">
+            <AlertTriangle className="h-4 w-4 mr-2" />
+            <span>⚠️ Cliente eliminato dall'account originale</span>
+          </div>
+          {!isDeletionUnlocked && (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => unlockDeletionMutation.mutate()}
+              disabled={unlockDeletionMutation.isPending}
+              className="ml-2 h-6 px-2 text-xs bg-white hover:bg-red-50 border-red-300"
+            >
+              <Unlock className="h-3 w-3 mr-1" />
+              Sblocca eliminazione
+            </Button>
+          )}
+          {isDeletionUnlocked && (
+            <Badge variant="secondary" className="ml-2 text-xs bg-green-100 text-green-800">
+              Eliminazione sbloccata
+            </Badge>
+          )}
+        </div>
+      )}
+      
+      {/* Notifica altro account (solo se non eliminato alla fonte) */}
+      {isOtherAccount && !isDeletedAtSource && (
         <div className="bg-orange-100 px-3 py-1 text-xs text-orange-800 font-medium border-b border-orange-200">
           👥 Cliente di altro account (sola visualizzazione)
         </div>
