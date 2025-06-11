@@ -282,18 +282,53 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Utente con licenza
+  // Utente con licenza - SINCRONIZZAZIONE COMPLETA MOBILE/DESKTOP
   app.get("/api/user-with-license", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    res.json({
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    
+    console.log(`🔐 [${deviceType}] /api/user-with-license per utente ${user.id} (${user.username})`);
+    
+    // Carica dati completi dal storage per nome/cognome aggiornati
+    const storageData = loadStorageData();
+    let firstName = user.firstName || null;
+    let lastName = user.lastName || null;
+    
+    // Per admin, carica nome/cognome dalle impostazioni aziendali
+    if (user.type === 'admin' && storageData.companyNameSettings?.[user.id]) {
+      const settings = storageData.companyNameSettings[user.id];
+      if (settings.name) {
+        const nameParts = settings.name.split(' ');
+        firstName = nameParts[0] || null;
+        lastName = nameParts.slice(1).join(' ') || null;
+      }
+    }
+    
+    const response = {
       id: user.id,
       username: user.username,
       email: user.email,
       type: user.type,
-      hasActiveLicense: true,
-      licenseType: "business"
+      firstName: firstName,
+      lastName: lastName,
+      licenseInfo: {
+        type: user.type === 'admin' ? 'passepartout' : 
+              user.type === 'staff' ? 'staff_free' : 'business',
+        expiresAt: null,
+        isActive: true,
+        daysLeft: null
+      }
+    };
+    
+    console.log(`📱💻 [${deviceType}] Dati utente unificati:`, { 
+      id: response.id, 
+      username: response.username, 
+      firstName: response.firstName, 
+      lastName: response.lastName 
     });
+    
+    res.json(response);
   });
 
   // Fuso orario
