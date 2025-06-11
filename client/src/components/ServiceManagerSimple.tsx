@@ -229,10 +229,11 @@ export default function ServiceManagerSimple() {
     }).format(price);
   };
 
-  if (isLoading && services.length === 0) {
-    console.log("🔧 LOADING: Componente in stato di caricamento");
-    return <div>Caricamento servizi...</div>;
-  }
+  // Rimuovo la condizione di loading per forzare il rendering
+  // if (isLoading && services.length === 0) {
+  //   console.log("🔧 LOADING: Componente in stato di caricamento");
+  //   return <div>Caricamento servizi...</div>;
+  // }
 
   console.log("🔧 RENDER: ServiceManagerSimple sta renderizzando la tabella");
 
