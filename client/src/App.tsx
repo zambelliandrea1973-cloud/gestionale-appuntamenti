@@ -450,10 +450,10 @@ function App() {
   
   return (
     <QueryClientProvider client={queryClient}>
-      {/* TimezoneDetector rileva il fuso orario del browser e lo sincronizza con il server */}
-      <TimezoneDetector />
       {/* UserLicenseProvider fornisce le informazioni sulla licenza e l'utente corrente */}
       <UserLicenseProvider>
+        {/* TimezoneDetector DEVE essere dentro i provider React per evitare errori hooks */}
+        <TimezoneDetector />
         {/* TenantContextProvider fornisce isolamento completo dei dati per ogni utente */}
         <TenantContextProvider>
           {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
