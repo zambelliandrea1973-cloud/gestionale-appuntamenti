@@ -48,7 +48,7 @@ import BankingSettingsPage from "./pages/BankingSettingsPage";
 import OnboardingWizard from "./pages/OnboardingWizard";
 
 import NotFound from "./pages/not-found";
-import TimezoneDetector from "./components/TimezoneDetector";
+import { TimezoneDetector } from "./components/TimezoneDetector";
 
 /**
  * Wrapper per le pagine client (con layout cliente)
