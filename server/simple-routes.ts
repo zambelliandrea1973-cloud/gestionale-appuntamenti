@@ -798,6 +798,13 @@ export function registerSimpleRoutes(app: Express): Server {
       const client = availableClients.find(c => c.id === appointment.clientId);
       const service = userServices.find(s => s.id === appointment.serviceId);
       
+      // Log dettagliato per debug fatturato
+      if (service) {
+        console.log(`💰 Appuntamento ${appointment.id}: Servizio ${service.name}, Prezzo: ${service.price} centesimi (${(service.price || 0) / 100}€)`);
+      } else {
+        console.log(`⚠️ Appuntamento ${appointment.id}: Servizio non trovato per serviceId ${appointment.serviceId}`);
+      }
+      
       return { 
         ...appointment, 
         client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
