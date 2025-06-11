@@ -1232,8 +1232,16 @@ export function registerSimpleRoutes(app: Express): Server {
     const activationUrl = `${protocol}://${host}/activate?token=${token}`;
     
     try {
-      // Genera QR code vero usando la libreria qrcode
-      const QRCode = require('qrcode');
+      // Genera QR code vero usando la libreria qrcode con import dinamico sicuro
+      let QRCode;
+      try {
+        const qrModule = await import('qrcode');
+        QRCode = qrModule.default || qrModule;
+      } catch (importError) {
+        console.error('Errore import QRCode:', importError);
+        throw new Error('Libreria QR code non disponibile');
+      }
+      
       const qrCode = await QRCode.toDataURL(activationUrl, {
         errorCorrectionLevel: 'M',
         type: 'image/png',
