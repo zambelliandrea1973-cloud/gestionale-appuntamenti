@@ -347,6 +347,12 @@ export function registerSimpleRoutes(app: Express): Server {
       });
       console.log(`👑 [ADMIN-DEBUG] Distribuzione clienti per ownerId:`, ownershipStats);
       console.log(`👑 [ADMIN-DEBUG] Admin ID corrente: ${user.id}`);
+      
+      // Conta clienti propri vs altri
+      const ownClients = userClients.filter(c => c.ownerId === user.id).length;
+      const otherClients = userClients.filter(c => c.ownerId !== user.id).length;
+      console.log(`👑 [ADMIN-DEBUG] Clienti propri (ownerId ${user.id}): ${ownClients}`);
+      console.log(`👑 [ADMIN-DEBUG] Clienti altri account: ${otherClients}`);
     }
     
     // Log totale con uniqueCode per identificare il problema
