@@ -779,7 +779,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
-  app.get("/api/client-app-info", (req, res) => {
+  app.get("/api/client-app-info", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.json({ 
         appName: "Gestionale Sanitario", 
@@ -791,7 +791,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const userIcon = storageData.userIcons[userId] || defaultIconBase64;
     
     // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
-    updatePWAIconsFromCompanyLogo(userId, userIcon);
+    await updatePWAIconsFromCompanyLogo(userId, userIcon);
     
     res.json({ 
       appName: "Gestionale Sanitario", 
@@ -800,7 +800,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per caricare una nuova icona - SEPARAZIONE PER UTENTE
-  app.post("/api/upload-app-icon", (req, res) => {
+  app.post("/api/upload-app-icon", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ success: false, message: "Non autenticato" });
     }
@@ -815,7 +815,7 @@ export function registerSimpleRoutes(app: Express): Server {
         console.log(`🖼️ Icona personalizzata salvata persistentemente per utente ${userId} (${iconData.length} bytes)`);
         
         // Sincronizza automaticamente le icone PWA
-        updatePWAIconsFromCompanyLogo(userId, iconData);
+        await updatePWAIconsFromCompanyLogo(userId, iconData);
       }
       
       res.json({ 
@@ -830,7 +830,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per ripristinare l'icona di default - SEPARAZIONE PER UTENTE
-  app.post("/api/reset-app-icon", (req, res) => {
+  app.post("/api/reset-app-icon", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ success: false, message: "Non autenticato" });
     }
