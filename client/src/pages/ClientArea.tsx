@@ -46,14 +46,22 @@ export default function ClientArea() {
   const [showAllAppointments, setShowAllAppointments] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
+  const [accessTracked, setAccessTracked] = useState<boolean>(false); // Flag per evitare tracking duplicato
 
   // Funzione per registrare l'accesso del cliente
   const trackClientAccess = async (clientId: string) => {
+    // Evita tracking duplicato nella stessa sessione
+    if (accessTracked) {
+      console.log(`📱 [PWA ACCESS] Cliente ${clientId} - Accesso già tracciato in questa sessione`);
+      return;
+    }
+    
     try {
       const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
       if (response.ok) {
         const result = await response.json();
         console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount}`);
+        setAccessTracked(true); // Segna come tracciato
       }
     } catch (error) {
       console.error('Errore nel tracking accesso PWA:', error);
