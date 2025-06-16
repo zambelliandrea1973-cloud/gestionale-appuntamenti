@@ -55,30 +55,11 @@ export default function ClientArea() {
         if (response.ok) {
           const userData = await response.json();
           
-          // Se è admin/staff, usa l'autenticazione tradizionale
+          // Se è admin/staff, reindirizza alla dashboard - non dovrebbero accedere all'area cliente
           if (userData.type === "admin" || userData.type === "staff") {
-            console.log("🔐 Admin/Staff autenticato - Accesso diretto ai dati cliente");
-            
-            // Recupera il clientId dalla query string per sapere quale cliente visualizzare
-            const urlParams = new URLSearchParams(window.location.search);
-            const clientIdFromQuery = urlParams.get('clientId');
-            
-            if (clientIdFromQuery) {
-              // Carica i dati del cliente specifico per l'admin
-              try {
-                const clientResponse = await apiRequest('GET', `/api/clients/${clientIdFromQuery}`);
-                if (clientResponse.ok) {
-                  const clientData = await clientResponse.json();
-                  userData.client = clientData;
-                  console.log(`📋 Dati cliente ${clientData.firstName} ${clientData.lastName} caricati per admin`);
-                }
-              } catch (error) {
-                console.error("Errore caricamento dati cliente per admin:", error);
-              }
-            }
-            
-            setUser(userData);
-            setLoading(false);
+            console.log("🚫 Admin/Staff rilevato - Reindirizzamento a dashboard");
+            console.log("L'area cliente è riservata ai clienti che accedono tramite QR code");
+            setLocation("/dashboard");
             return true;
           }
         }
@@ -344,13 +325,8 @@ export default function ClientArea() {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   
   const handleLogout = () => {
-    // Se è admin/staff, reindirizza alla home page
-    if (user?.type === "admin" || user?.type === "staff") {
-      setLocation("/");
-    } else {
-      // Se è cliente QR, mostra il dialogo di chiusura PWA
-      setShowLogoutDialog(true);
-    }
+    // Solo i clienti QR dovrebbero essere qui, mostra il dialogo di chiusura PWA
+    setShowLogoutDialog(true);
   };
 
   const formatDate = (dateString: string) => {
@@ -377,8 +353,8 @@ export default function ClientArea() {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
-      {/* Componente per avviso token in scadenza solo per clienti QR code */}
-      {token && !user?.type && user?.client?.id && <TokenExpiryAlert token={token} clientId={user.client.id} />}
+      {/* Componente per avviso token in scadenza per clienti QR code */}
+      {token && user?.client?.id && <TokenExpiryAlert token={token} clientId={user.client.id} />}
       
       {/* Dialog di chiusura sessione */}
       <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
@@ -714,8 +690,8 @@ export default function ClientArea() {
         </DialogContent>
       </Dialog>
       
-      {/* Componente PWA solo per clienti via QR code, non per admin/staff */}
-      {token && !user?.type && <PwaInstallButton />}
+      {/* Componente PWA per clienti via QR code */}
+      <PwaInstallButton />
     </div>
   );
 }
