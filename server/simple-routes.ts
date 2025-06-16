@@ -5,6 +5,7 @@ import path from "path";
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { initializeSchedulers } from "./services/schedulerService";
+import { dataProtectionService } from "./services/dataProtectionService";
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
@@ -691,14 +692,13 @@ export function registerSimpleRoutes(app: Express): Server {
         ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
         : {};
       
-      // Backup del file esistente prima di salvare
-      if (fs.existsSync(storageFile)) {
-        const backupName = `storage_data_backup_${Date.now()}.json`;
-        fs.copyFileSync(storageFile, backupName);
-        console.log(`🔒 Backup automatico creato: ${backupName}`);
-        
-        // Pulizia backup vecchi
-        cleanOldBackups();
+      // Sistema di protezione dati avanzato
+      dataProtectionService.createAutoBackup('before_critical_save');
+      
+      // Verifica integrità prima di procedere
+      if (!dataProtectionService.verifyDataIntegrity()) {
+        console.error('❌ Integrità dati compromessa, operazione bloccata');
+        throw new Error('Dati corrotti rilevati, salvataggio annullato per sicurezza');
       }
       
       // Merge più specifico per preservare gli array di appuntamenti
