@@ -148,6 +148,26 @@ export default function ClientLogin() {
         let clientId = urlParams.get('clientId');
         
         // Se i parametri esistono nell'URL, salviamoli nel localStorage per usi futuri
+        
+        // Tracking automatico accesso PWA
+        if (clientId && token) {
+          console.log(`📱 [PWA TRACKING] Registrando accesso per cliente ${clientId}`);
+          try {
+            const trackingResponse = await fetch(`/api/client-access/track/${clientId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            });
+            
+            if (trackingResponse.ok) {
+              const trackingResult = await trackingResponse.json();
+              console.log(`📊 [PWA TRACKING] Accesso registrato - conteggio: ${trackingResult.accessCount}`);
+            }
+          } catch (trackingError) {
+            console.log('⚠️ [PWA TRACKING] Errore nel tracking:', trackingError);
+          }
+        }
         if (token && clientId) {
           localStorage.setItem('clientAccessToken', token);
           localStorage.setItem('clientId', clientId);

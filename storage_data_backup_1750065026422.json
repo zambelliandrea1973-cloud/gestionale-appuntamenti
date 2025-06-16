@@ -984,48 +984,6 @@
         "status": "scheduled",
         "createdAt": "2025-06-16T09:09:59.602Z"
       }
-    ],
-    [
-      1750065026422,
-      {
-        "id": 1750065026422,
-        "clientId": 1,
-        "serviceId": 4,
-        "date": "2025-06-19",
-        "startTime": "12:45:00",
-        "endTime": "13:45:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-16T09:10:26.422Z"
-      }
-    ],
-    [
-      1750065053499,
-      {
-        "id": 1750065053499,
-        "clientId": 25,
-        "serviceId": 1,
-        "date": "2025-06-19",
-        "startTime": "13:00",
-        "endTime": "13:30:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-16T09:10:53.499Z"
-      }
-    ],
-    [
-      1750065090713,
-      {
-        "id": 1750065090713,
-        "clientId": 1749666196976,
-        "serviceId": 2,
-        "date": "2025-06-20",
-        "startTime": "11:00",
-        "endTime": "11:45:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-16T09:11:30.713Z"
-      }
     ]
   ]
 }
