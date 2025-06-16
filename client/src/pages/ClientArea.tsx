@@ -46,6 +46,20 @@ export default function ClientArea() {
   const [showAllAppointments, setShowAllAppointments] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
+
+  // Funzione per registrare l'accesso del cliente
+  const trackClientAccess = async (clientId: string) => {
+    try {
+      const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
+      if (response.ok) {
+        const result = await response.json();
+        console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount}`);
+      }
+    } catch (error) {
+      console.error('Errore nel tracking accesso PWA:', error);
+      // Non blocchiamo l'accesso per errori di tracking
+    }
+  };
   
   useEffect(() => {
     // Prima verifica se l'utente è già autenticato come admin/staff
@@ -196,6 +210,10 @@ export default function ClientArea() {
           if (tokenResponse.ok) {
             const tokenResult = await tokenResponse.json();
             setUser(tokenResult);
+            
+            // Registra l'accesso PWA per il tracking
+            trackClientAccess(storedClientId);
+            
             setLoading(false);
             return;
           }

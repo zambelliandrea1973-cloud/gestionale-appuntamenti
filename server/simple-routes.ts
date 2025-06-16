@@ -1395,6 +1395,14 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Conta accessi reali dal campo accessCount del cliente
     const accessCount = client.accessCount || 0;
+    
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${accessCount}`);
+    
+    // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    
     res.json({ count: accessCount });
   });
 
@@ -2220,6 +2228,11 @@ Studio Professionale`,
       saveStorageData(storageData);
       
       console.log(`📱 [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) ha acceduto all'app - conteggio: ${client.accessCount}`);
+      
+      // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
+      res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
       
       res.json({
         success: true,
