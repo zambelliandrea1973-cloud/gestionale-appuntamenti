@@ -8,9 +8,7 @@
         "phone": "3201234567",
         "email": "mario.rossi@esempio.it",
         "id": 1,
-        "createdAt": "2025-04-02T16:08:04.062Z",
-        "accessCount": 1,
-        "lastAccess": "2025-06-16T09:17:08.035Z"
+        "createdAt": "2025-04-02T16:08:04.062Z"
       }
     ],
     [
@@ -129,8 +127,8 @@
         "uniqueCode": "MB252",
         "id": 252,
         "createdAt": "2025-06-03T13:34:58.644Z",
-        "accessCount": 2,
-        "lastAccess": "2025-06-16T09:17:02.308Z"
+        "accessCount": 1,
+        "lastAccess": "2025-06-16T09:16:48.414Z"
       }
     ],
     [
