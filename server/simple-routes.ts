@@ -790,6 +790,9 @@ export function registerSimpleRoutes(app: Express): Server {
     const userId = req.user.id;
     const userIcon = storageData.userIcons[userId] || defaultIconBase64;
     
+    // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
+    updatePWAIconsFromCompanyLogo(userId, userIcon);
+    
     res.json({ 
       appName: "Gestionale Sanitario", 
       icon: userIcon 
@@ -810,6 +813,9 @@ export function registerSimpleRoutes(app: Express): Server {
         storageData.userIcons[userId] = iconData;
         saveStorageData(storageData);
         console.log(`🖼️ Icona personalizzata salvata persistentemente per utente ${userId} (${iconData.length} bytes)`);
+        
+        // Sincronizza automaticamente le icone PWA
+        updatePWAIconsFromCompanyLogo(userId, iconData);
       }
       
       res.json({ 
@@ -834,11 +840,72 @@ export function registerSimpleRoutes(app: Express): Server {
     saveStorageData(storageData);
     console.log(`🔄 Reset icona a Fleur de Vie persistente per utente ${userId}`);
     
+    // Aggiorna anche le icone PWA
+    updatePWAIconsFromCompanyLogo(userId, defaultIconBase64);
+    
     res.json({ 
       success: true, 
       message: "Icona ripristinata al default", 
       appName: "Gestionale Sanitario", 
       icon: defaultIconBase64 
+    });
+  });
+
+  // Funzione per aggiornare le icone PWA dal logo aziendale
+  async function updatePWAIconsFromCompanyLogo(userId, iconBase64) {
+    try {
+      if (!iconBase64 || !iconBase64.startsWith('data:image/')) {
+        console.log(`⚠️ Icona non valida per utente ${userId}, uso fallback`);
+        iconBase64 = defaultIconBase64;
+      }
+
+      const sharp = require('sharp');
+      
+      // Rimuovi il prefisso data:image
+      const base64Data = iconBase64.split(',')[1];
+      const imageBuffer = Buffer.from(base64Data, 'base64');
+      
+      // Genera le diverse dimensioni per PWA
+      const sizes = [
+        { size: 96, name: 'icon-96x96.png' },
+        { size: 192, name: 'icon-192x192.png' },
+        { size: 512, name: 'icon-512x512.png' }
+      ];
+      
+      for (const { size, name } of sizes) {
+        const resizedBuffer = await sharp(imageBuffer)
+          .resize(size, size, { 
+            fit: 'cover',
+            background: { r: 255, g: 255, b: 255, alpha: 1 }
+          })
+          .png()
+          .toBuffer();
+        
+        const iconPath = path.join(__dirname, '../public/icons', name);
+        fs.writeFileSync(iconPath, resizedBuffer);
+      }
+      
+      console.log(`✅ Icone PWA aggiornate per utente ${userId} con logo aziendale`);
+      
+    } catch (error) {
+      console.error(`❌ Errore aggiornamento icone PWA per utente ${userId}:`, error);
+    }
+  }
+
+  // Endpoint per sincronizzare icone PWA con logo aziendale
+  app.post("/api/sync-pwa-icons", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: "Non autenticato" });
+    }
+
+    const userId = req.user.id;
+    const userIcon = storageData.userIcons[userId] || defaultIconBase64;
+    
+    updatePWAIconsFromCompanyLogo(userId, userIcon);
+    
+    res.json({ 
+      success: true, 
+      message: "Icone PWA sincronizzate con logo aziendale" 
     });
   });
 
