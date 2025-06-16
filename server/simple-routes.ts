@@ -21,13 +21,21 @@ const __dirname = path.dirname(__filename);
 
 let defaultIconBase64 = '';
 try {
-  const iconPath = path.join(__dirname, '../attached_assets/Fleur de Vie multicolore.jpg');
+  const iconPath = path.join(__dirname, '../public/fleur-de-vie.jpg');
   const iconBuffer = fs.readFileSync(iconPath);
   defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
-  console.log('✅ Icona Fleur de Vie caricata dal backup15:', iconBuffer.length, 'bytes');
+  console.log('✅ Icona Fleur de Vie caricata:', iconBuffer.length, 'bytes');
 } catch (error) {
-  console.log('⚠️ Icona Fleur de Vie non trovata, uso fallback');
-  defaultIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+';
+  console.log('⚠️ Icona Fleur de Vie non trovata nel percorso principale, provo percorso alternativo');
+  try {
+    const iconPathAlt = path.join(__dirname, '../public/images/Fleur de Vie multicolore.jpg');
+    const iconBuffer = fs.readFileSync(iconPathAlt);
+    defaultIconBase64 = `data:image/jpeg;base64,${iconBuffer.toString('base64')}`;
+    console.log('✅ Icona Fleur de Vie caricata da percorso alternativo:', iconBuffer.length, 'bytes');
+  } catch (error2) {
+    console.log('⚠️ Icona Fleur de Vie non trovata, uso fallback');
+    defaultIconBase64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+';
+  }
 }
 
 // Dati semplici in memoria - recuperati dal backup15
