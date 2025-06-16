@@ -1777,26 +1777,33 @@ Studio Professionale`,
       const user = req.user!;
       const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject, calendarEnabled, calendarId } = req.body;
       
-      console.log(`📧 [POST EMAIL SETTINGS] Aggiornamento impostazioni email da utente ${user.id}`);
+      console.log(`📧 [POST EMAIL SETTINGS] Aggiornamento impostazioni email da utente ${user.id}`, {
+        emailEnabled,
+        emailAddress,
+        hasPassword: !!emailPassword,
+        passwordMasked: emailPassword === '••••••••••'
+      });
       
       // Carica le impostazioni esistenti
       const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
-      let currentSettings = {};
+      let currentSettings: any = {};
       
       try {
         if (fs.existsSync(emailConfigPath)) {
           currentSettings = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+          console.log(`📧 [EMAIL SETTINGS] Settings esistenti caricati`);
         }
       } catch (error) {
         console.log(`⚠️ [EMAIL SETTINGS] Errore caricamento settings esistenti:`, error);
       }
       
       // Aggiorna solo i campi forniti
-      const updatedSettings = { ...currentSettings };
+      const updatedSettings: any = { ...currentSettings };
       if (emailEnabled !== undefined) updatedSettings.emailEnabled = emailEnabled;
       if (emailAddress !== undefined) updatedSettings.emailAddress = emailAddress;
       if (emailPassword !== undefined && emailPassword !== '••••••••••') {
         updatedSettings.emailPassword = emailPassword;
+        console.log(`📧 [EMAIL SETTINGS] Password aggiornata`);
       }
       if (emailTemplate !== undefined) updatedSettings.emailTemplate = emailTemplate;
       if (emailSubject !== undefined) updatedSettings.emailSubject = emailSubject;
@@ -1809,18 +1816,24 @@ Studio Professionale`,
         console.log(`✅ [EMAIL SETTINGS] Impostazioni salvate per utente ${user.id}`);
       } catch (saveError) {
         console.error(`❌ [EMAIL SETTINGS] Errore salvataggio:`, saveError);
-        throw new Error('Errore durante il salvataggio delle impostazioni');
+        return res.status(500).json({ 
+          success: false, 
+          error: 'Errore durante il salvataggio delle impostazioni' 
+        });
       }
       
+      console.log(`📧 [EMAIL SETTINGS] Invio risposta JSON di successo`);
+      res.setHeader('Content-Type', 'application/json');
       res.json({
         success: true,
         message: 'Impostazioni email aggiornate con successo'
       });
     } catch (error) {
       console.error('❌ [ERRORE SAVE EMAIL SETTINGS]:', error);
+      res.setHeader('Content-Type', 'application/json');
       res.status(500).json({ 
         success: false, 
-        error: 'Errore durante il salvataggio delle impostazioni email' 
+        error: error instanceof Error ? error.message : 'Errore durante il salvataggio delle impostazioni email' 
       });
     }
   });
@@ -1894,7 +1907,7 @@ Studio Professionale`,
       // Implementazione reale dell'invio email usando nodemailer
       const nodemailer = await import('nodemailer');
       
-      const transporter = nodemailer.createTransporter({
+      const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: emailConfig.emailAddress,
@@ -1927,9 +1940,10 @@ Studio Professionale`,
       
     } catch (error) {
       console.error('❌ [ERRORE TEST EMAIL]:', error);
+      res.setHeader('Content-Type', 'application/json');
       res.status(500).json({ 
         success: false, 
-        error: error.message || 'Errore durante l\'invio dell\'email di test' 
+        error: error instanceof Error ? error.message : 'Errore durante l\'invio dell\'email di test' 
       });
     }
   });
