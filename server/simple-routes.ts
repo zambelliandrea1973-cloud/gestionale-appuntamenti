@@ -1858,7 +1858,8 @@ Studio Professionale`,
       }
       
       res.json({
-        password: actualPassword,
+        success: true,
+        emailPassword: actualPassword,
         hasSavedPassword: !!actualPassword
       });
     } catch (error) {
