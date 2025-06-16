@@ -1712,12 +1712,17 @@ export function registerSimpleRoutes(app: Express): Server {
       const user = req.user!;
       console.log(`📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente ${user.id}`);
       
-      // Impostazioni predefinite (per ora semplici, possono essere espanse)
-      const emailSettings = {
-        emailEnabled: false,
-        emailAddress: '',
-        emailPassword: '', // Non restituire password reali
-        emailTemplate: `Gentile {{nome}} {{cognome}},
+      // Carica le impostazioni email dal backup15
+      let emailSettings;
+      try {
+        const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+        if (fs.existsSync(emailConfigPath)) {
+          const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+          emailSettings = {
+            emailEnabled: emailConfig.emailEnabled || false,
+            emailAddress: emailConfig.emailAddress || '',
+            emailPassword: emailConfig.emailPassword ? '••••••••••' : '', // Mascherata per sicurezza
+            emailTemplate: emailConfig.emailTemplate || `Gentile {{nome}} {{cognome}},
 
 Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
 
@@ -1725,14 +1730,37 @@ Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
 
 Cordiali saluti,
 Studio Professionale`,
-        emailSubject: "Promemoria appuntamento del {{data}}",
-        hasPasswordSaved: false,
-        calendarEnabled: false,
-        calendarId: '',
-        googleAuthStatus: {
-          authorized: false
+            emailSubject: emailConfig.emailSubject || "Promemoria appuntamento del {{data}}",
+            hasPasswordSaved: !!emailConfig.emailPassword,
+            calendarEnabled: emailConfig.calendarEnabled || false,
+            calendarId: emailConfig.calendarId || '',
+            googleAuthStatus: emailConfig.googleAuthStatus || { authorized: false }
+          };
+          console.log(`📧 [EMAIL SETTINGS] Caricate dal backup15 per utente ${user.id}`);
+        } else {
+          throw new Error('File email_settings.json non trovato');
         }
-      };
+      } catch (error) {
+        console.log(`⚠️ [EMAIL SETTINGS] Uso impostazioni predefinite per utente ${user.id}:`, error);
+        emailSettings = {
+          emailEnabled: false,
+          emailAddress: '',
+          emailPassword: '',
+          emailTemplate: `Gentile {{nome}} {{cognome}},
+
+Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
+
+Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
+
+Cordiali saluti,
+Studio Professionale`,
+          emailSubject: "Promemoria appuntamento del {{data}}",
+          hasPasswordSaved: false,
+          calendarEnabled: false,
+          calendarId: '',
+          googleAuthStatus: { authorized: false }
+        };
+      }
       
       res.json(emailSettings);
     } catch (error) {
@@ -1747,12 +1775,42 @@ Studio Professionale`,
   app.post('/api/email-calendar-settings', requireAuth, (req, res) => {
     try {
       const user = req.user!;
-      const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject } = req.body;
+      const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject, calendarEnabled, calendarId } = req.body;
       
       console.log(`📧 [POST EMAIL SETTINGS] Aggiornamento impostazioni email da utente ${user.id}`);
       
-      // In un'implementazione reale, qui salveresti le impostazioni nel database
-      // Per ora confermiamo solo che la richiesta è stata ricevuta
+      // Carica le impostazioni esistenti
+      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+      let currentSettings = {};
+      
+      try {
+        if (fs.existsSync(emailConfigPath)) {
+          currentSettings = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+        }
+      } catch (error) {
+        console.log(`⚠️ [EMAIL SETTINGS] Errore caricamento settings esistenti:`, error);
+      }
+      
+      // Aggiorna solo i campi forniti
+      const updatedSettings = { ...currentSettings };
+      if (emailEnabled !== undefined) updatedSettings.emailEnabled = emailEnabled;
+      if (emailAddress !== undefined) updatedSettings.emailAddress = emailAddress;
+      if (emailPassword !== undefined && emailPassword !== '••••••••••') {
+        updatedSettings.emailPassword = emailPassword;
+      }
+      if (emailTemplate !== undefined) updatedSettings.emailTemplate = emailTemplate;
+      if (emailSubject !== undefined) updatedSettings.emailSubject = emailSubject;
+      if (calendarEnabled !== undefined) updatedSettings.calendarEnabled = calendarEnabled;
+      if (calendarId !== undefined) updatedSettings.calendarId = calendarId;
+      
+      // Salva le impostazioni aggiornate
+      try {
+        fs.writeFileSync(emailConfigPath, JSON.stringify(updatedSettings, null, 2));
+        console.log(`✅ [EMAIL SETTINGS] Impostazioni salvate per utente ${user.id}`);
+      } catch (saveError) {
+        console.error(`❌ [EMAIL SETTINGS] Errore salvataggio:`, saveError);
+        throw new Error('Errore durante il salvataggio delle impostazioni');
+      }
       
       res.json({
         success: true,
@@ -1763,6 +1821,38 @@ Studio Professionale`,
       res.status(500).json({ 
         success: false, 
         error: 'Errore durante il salvataggio delle impostazioni email' 
+      });
+    }
+  });
+
+  // API per mostrare la password salvata
+  app.get('/api/email-calendar-settings/show-password', requireAuth, (req, res) => {
+    try {
+      const user = req.user!;
+      console.log(`📧 [SHOW PASSWORD] Richiesta password salvata da utente ${user.id}`);
+      
+      // Carica la password reale dal backup15
+      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+      let actualPassword = '';
+      
+      try {
+        if (fs.existsSync(emailConfigPath)) {
+          const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+          actualPassword = emailConfig.emailPassword || '';
+        }
+      } catch (error) {
+        console.log(`⚠️ [SHOW PASSWORD] Errore caricamento password:`, error);
+      }
+      
+      res.json({
+        password: actualPassword,
+        hasSavedPassword: !!actualPassword
+      });
+    } catch (error) {
+      console.error('❌ [ERRORE SHOW PASSWORD]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante il recupero della password' 
       });
     }
   });
@@ -1782,8 +1872,52 @@ Studio Professionale`,
         });
       }
       
-      // Simulazione invio email (in un'app reale, qui useresti un servizio come SendGrid o Nodemailer)
-      console.log(`✅ [TEST EMAIL] Email di test simulata inviata a ${email}`);
+      // Carica le credenziali email reali dal backup15
+      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+      let emailConfig = null;
+      
+      try {
+        if (fs.existsSync(emailConfigPath)) {
+          emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+        }
+      } catch (error) {
+        console.log(`⚠️ [TEST EMAIL] Errore caricamento credenziali:`, error);
+        throw new Error('Configurazione email non trovata');
+      }
+      
+      if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+        throw new Error('Credenziali email non configurate');
+      }
+      
+      console.log(`📧 [TEST EMAIL] Usando credenziali: ${emailConfig.emailAddress}`);
+      
+      // Implementazione reale dell'invio email usando nodemailer
+      const nodemailer = await import('nodemailer');
+      
+      const transporter = nodemailer.createTransporter({
+        service: 'gmail',
+        auth: {
+          user: emailConfig.emailAddress,
+          pass: emailConfig.emailPassword
+        }
+      });
+      
+      const mailOptions = {
+        from: emailConfig.emailAddress,
+        to: email,
+        subject: 'Test Email - Sistema Gestione Appuntamenti',
+        html: `
+          <h2>Test Email Configurazione</h2>
+          <p>Questa è un'email di test dal sistema di gestione appuntamenti.</p>
+          <p><strong>Data invio:</strong> ${new Date().toLocaleString('it-IT')}</p>
+          <p><strong>Da:</strong> ${emailConfig.emailAddress}</p>
+          <p>Se ricevi questa email, la configurazione è corretta!</p>
+        `
+      };
+      
+      await transporter.sendMail(mailOptions);
+      
+      console.log(`✅ [TEST EMAIL] Email di test inviata con successo a ${email}`);
       
       res.json({
         success: true,
@@ -1795,7 +1929,7 @@ Studio Professionale`,
       console.error('❌ [ERRORE TEST EMAIL]:', error);
       res.status(500).json({ 
         success: false, 
-        error: 'Errore durante l\'invio dell\'email di test' 
+        error: error.message || 'Errore durante l\'invio dell\'email di test' 
       });
     }
   });
