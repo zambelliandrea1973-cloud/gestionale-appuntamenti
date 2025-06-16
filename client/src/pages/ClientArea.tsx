@@ -50,14 +50,12 @@ export default function ClientArea() {
 
   // Funzione per registrare l'accesso del cliente
   const trackClientAccess = async (clientId: string) => {
-    // Crea una chiave unica per questa sessione di accesso
-    const sessionKey = `access_${clientId}_${Date.now()}`;
-    const lastTrackedKey = `lastTracked_${clientId}`;
-    const lastTracked = localStorage.getItem(lastTrackedKey);
+    const sessionKey = `pwa_session_${clientId}`;
+    const currentSession = sessionStorage.getItem(sessionKey);
     
-    // Evita tracking duplicato entro 5 secondi
-    if (lastTracked && Date.now() - parseInt(lastTracked) < 5000) {
-      console.log(`📱 [PWA ACCESS] Cliente ${clientId} - Accesso già tracciato di recente`);
+    // Evita tracking duplicato nella stessa sessione browser
+    if (currentSession) {
+      console.log(`📱 [PWA ACCESS] Cliente ${clientId} - Già tracciato in questa sessione`);
       return;
     }
     
@@ -67,8 +65,8 @@ export default function ClientArea() {
         const result = await response.json();
         console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount}`);
         
-        // Salva il timestamp dell'ultimo tracking
-        localStorage.setItem(lastTrackedKey, Date.now().toString());
+        // Segna questa sessione come tracciata (si cancella quando si chiude il browser)
+        sessionStorage.setItem(sessionKey, Date.now().toString());
         setAccessTracked(true);
       }
     } catch (error) {
