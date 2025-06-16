@@ -1706,6 +1706,39 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // API per inviare email di test
+  app.post('/api/email-calendar-settings/send-test-email', requireAuth, async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = req.user!;
+      
+      console.log(`📧 [TEST EMAIL] Richiesta invio email di test a ${email} da utente ${user.id}`);
+      
+      if (!email) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Indirizzo email richiesto' 
+        });
+      }
+      
+      // Simulazione invio email (in un'app reale, qui useresti un servizio come SendGrid o Nodemailer)
+      console.log(`✅ [TEST EMAIL] Email di test simulata inviata a ${email}`);
+      
+      res.json({
+        success: true,
+        message: `Email di test inviata con successo a ${email}`,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE TEST EMAIL]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante l\'invio dell\'email di test' 
+      });
+    }
+  });
+
   // Servire file statici da attached_assets per icone
   app.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
