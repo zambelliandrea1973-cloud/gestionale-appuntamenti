@@ -8,7 +8,9 @@
         "phone": "3201234567",
         "email": "mario.rossi@esempio.it",
         "id": 1,
-        "createdAt": "2025-04-02T16:08:04.062Z"
+        "createdAt": "2025-04-02T16:08:04.062Z",
+        "accessCount": 1,
+        "lastAccess": "2025-06-16T09:17:08.035Z"
       }
     ],
     [
@@ -106,7 +108,9 @@
         "ownerId": 16,
         "uniqueCode": "BP251",
         "id": 251,
-        "createdAt": "2025-06-03T13:34:58.644Z"
+        "createdAt": "2025-06-03T13:34:58.644Z",
+        "accessCount": 13,
+        "lastAccess": "2025-06-16T10:34:51.495Z"
       }
     ],
     [
@@ -126,7 +130,9 @@
         "ownerId": 16,
         "uniqueCode": "MB252",
         "id": 252,
-        "createdAt": "2025-06-03T13:34:58.644Z"
+        "createdAt": "2025-06-03T13:34:58.644Z",
+        "accessCount": 8,
+        "lastAccess": "2025-06-16T10:29:42.750Z"
       }
     ],
     [
@@ -956,5 +962,76 @@
       }
     ]
   },
-  "appointments": []
+  "appointments": [
+    [
+      1750059544768,
+      {
+        "id": 1750059544768,
+        "clientId": 252,
+        "serviceId": 7,
+        "date": "2025-06-17",
+        "startTime": "18:00",
+        "endTime": "19:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-16T07:39:04.768Z"
+      }
+    ],
+    [
+      1750064999602,
+      {
+        "id": 1750064999602,
+        "clientId": 251,
+        "serviceId": 7,
+        "date": "2025-06-19",
+        "startTime": "11:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-16T09:09:59.602Z"
+      }
+    ],
+    [
+      1750065026422,
+      {
+        "id": 1750065026422,
+        "clientId": 1,
+        "serviceId": 4,
+        "date": "2025-06-19",
+        "startTime": "12:45:00",
+        "endTime": "13:45:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-16T09:10:26.422Z"
+      }
+    ],
+    [
+      1750065053499,
+      {
+        "id": 1750065053499,
+        "clientId": 25,
+        "serviceId": 1,
+        "date": "2025-06-19",
+        "startTime": "13:00",
+        "endTime": "13:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-16T09:10:53.499Z"
+      }
+    ],
+    [
+      1750065090713,
+      {
+        "id": 1750065090713,
+        "clientId": 1749666196976,
+        "serviceId": 2,
+        "date": "2025-06-20",
+        "startTime": "11:00",
+        "endTime": "11:45:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-16T09:11:30.713Z"
+      }
+    ]
+  ]
 }

@@ -120,14 +120,6 @@ export default function ClientArea() {
       const clientData = await response.json();
       console.log(`✅ Token QR valido - Cliente autenticato: ${clientData.client.firstName} ${clientData.client.lastName}`);
       
-      // Registra l'accesso per il tracking
-      try {
-        await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
-        console.log(`📊 Accesso registrato per cliente ${clientId}`);
-      } catch (trackError) {
-        console.warn("Errore registrazione accesso:", trackError);
-      }
-      
       // Imposta i dati utente direttamente
       setUser({
         id: parseInt(userId, 10),
