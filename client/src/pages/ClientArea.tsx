@@ -344,8 +344,13 @@ export default function ClientArea() {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   
   const handleLogout = () => {
-    // Mostra il dialogo di chiusura invece di reindirizzare
-    setShowLogoutDialog(true);
+    // Se è admin/staff, reindirizza alla home page
+    if (user?.type === "admin" || user?.type === "staff") {
+      setLocation("/");
+    } else {
+      // Se è cliente QR, mostra il dialogo di chiusura PWA
+      setShowLogoutDialog(true);
+    }
   };
 
   const formatDate = (dateString: string) => {
