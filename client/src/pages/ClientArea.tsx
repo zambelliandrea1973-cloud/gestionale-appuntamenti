@@ -187,7 +187,8 @@ export default function ClientArea() {
         client: clientData.client
       });
       
-      // Il tracking degli accessi PWA è gestito da fetchCurrentUser()
+      // Registra l'accesso per il tracking
+      trackClientAccess(clientId);
       
       setLoading(false);
       
