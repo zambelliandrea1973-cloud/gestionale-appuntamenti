@@ -1434,6 +1434,53 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
+  // Endpoint per recuperare dati di un singolo cliente (per admin/staff)
+  app.get("/api/clients/:id", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Non autenticato" });
+    }
+
+    const { id } = req.params;
+    const user = req.user;
+    
+    // Solo admin e staff possono accedere
+    if (user.type !== 'admin' && user.type !== 'staff') {
+      return res.status(403).json({ message: "Accesso negato" });
+    }
+
+    const storageData = loadStorageData();
+    const clients = storageData.clients || [];
+    
+    // Cerca il cliente
+    let clientFound = null;
+    for (const [clientId, clientData] of clients) {
+      if (parseInt(clientId.toString(), 10) === parseInt(id, 10)) {
+        clientFound = clientData;
+        break;
+      }
+    }
+
+    if (!clientFound) {
+      return res.status(404).json({ message: "Cliente non trovato" });
+    }
+
+    // Verifica proprietà - solo admin o proprietario del cliente
+    if (user.type !== 'admin' && clientFound.ownerId && clientFound.ownerId !== user.id) {
+      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    }
+
+    res.json({
+      id: parseInt(id, 10),
+      firstName: clientFound.firstName || '',
+      lastName: clientFound.lastName || '',
+      phone: clientFound.phone || '',
+      email: clientFound.email || '',
+      address: clientFound.address || '',
+      birthday: clientFound.birthday || '',
+      hasConsent: clientFound.hasConsent || false
+    });
+  });
+
   // Endpoint per caricare appuntamenti del cliente via token QR
   app.get("/api/appointments/client/:clientId", (req, res) => {
     const { clientId } = req.params;
