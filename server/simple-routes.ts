@@ -767,6 +767,15 @@ export function registerSimpleRoutes(app: Express): Server {
   let storageData = verifyDataIntegrity();
 
 
+  // Endpoint per ottenere sempre l'icona predefinita (per anteprima)
+  app.get("/api/default-app-icon", (req, res) => {
+    res.json({ 
+      appName: "Gestionale Sanitario", 
+      icon: defaultIconBase64,
+      name: "Fleur de Vie multicolore"
+    });
+  });
+
   // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
   app.get("/api/client-app-info", (req, res) => {
     if (!req.isAuthenticated()) {

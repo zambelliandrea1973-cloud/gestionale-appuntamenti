@@ -17,6 +17,11 @@ interface IconInfo {
   lastModified?: string;
 }
 
+interface DefaultIconInfo {
+  url: string;
+  name: string;
+}
+
 export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [isUsingDefault, setIsUsingDefault] = useState(false);
@@ -24,6 +29,7 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [iconInfo, setIconInfo] = useState<IconInfo | null>(null);
+  const [defaultIconInfo, setDefaultIconInfo] = useState<DefaultIconInfo | null>(null);
   const [isLoadingInfo, setIsLoadingInfo] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -59,6 +65,9 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         iconPath: iconUrl
       });
 
+      // Carica anche le informazioni sull'icona predefinita per la sezione informativa
+      await fetchDefaultIconInfo();
+
       // Mostra sempre l'icona ricevuta dai dati
       setPreviewUrl(iconUrl);
     } catch (error) {
@@ -67,6 +76,30 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       setPreviewUrl("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+");
     } finally {
       setIsLoadingInfo(false);
+    }
+  };
+
+  const fetchDefaultIconInfo = async () => {
+    try {
+      // Usa l'endpoint dedicato per l'icona predefinita
+      const response = await fetch('/api/default-app-icon');
+      if (!response.ok) {
+        throw new Error('Errore nel recupero dell\'icona predefinita');
+      }
+
+      const data = await response.json();
+      
+      setDefaultIconInfo({
+        url: data.icon,
+        name: data.name || "Fleur de Vie multicolore"
+      });
+    } catch (error) {
+      console.error('Errore durante il caricamento dell\'icona predefinita:', error);
+      // Fallback minimale
+      setDefaultIconInfo({
+        url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+",
+        name: "Fleur de Vie multicolore"
+      });
     }
   };
 
@@ -407,13 +440,21 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       {/* Informazioni sull'icona predefinita */}
       <div className="mt-6 p-4 bg-muted/20 rounded-lg">
         <div className="flex items-center gap-3">
-          <img 
-            src="/icons/default-app-icon.jpg" 
-            alt="Icona predefinita" 
-            className="w-12 h-12 rounded-md object-cover border"
-          />
+          {defaultIconInfo ? (
+            <img 
+              src={defaultIconInfo.url} 
+              alt="Icona predefinita" 
+              className="w-12 h-12 rounded-md object-cover border"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-md border flex items-center justify-center bg-muted">
+              <ImageIcon className="h-6 w-6 text-muted-foreground" />
+            </div>
+          )}
           <div>
-            <h4 className="text-sm font-medium">Icona predefinita: Fleur de Vie multicolore</h4>
+            <h4 className="text-sm font-medium">
+              Icona predefinita: {defaultIconInfo?.name || "Fleur de Vie multicolore"}
+            </h4>
             <p className="text-xs text-muted-foreground">
               Puoi ripristinare questa icona predefinita in qualsiasi momento.
             </p>
