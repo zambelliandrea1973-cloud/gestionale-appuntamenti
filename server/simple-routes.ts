@@ -841,7 +841,7 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`🔄 Reset icona a Fleur de Vie persistente per utente ${userId}`);
     
     // Aggiorna anche le icone PWA
-    updatePWAIconsFromCompanyLogo(userId, defaultIconBase64);
+    await updatePWAIconsFromCompanyLogo(userId, defaultIconBase64);
     
     res.json({ 
       success: true, 
@@ -859,7 +859,7 @@ export function registerSimpleRoutes(app: Express): Server {
         iconBase64 = defaultIconBase64;
       }
 
-      const sharp = require('sharp');
+      const sharp = await import('sharp').then(m => m.default);
       
       // Rimuovi il prefisso data:image
       const base64Data = iconBase64.split(',')[1];

@@ -18,19 +18,19 @@
   "id": "gestione-appuntamenti-client-v4",
   "icons": [
     {
-      "src": "/icons/icon-96x96.png",
+      "src": "/icons/custom-icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/icons/custom-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/icons/custom-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -52,7 +52,7 @@
       "description": "Accedi alla tua area personale",
       "icons": [
         {
-          "src": "/icons/icon-96x96.png",
+          "src": "/icons/custom-icon-96x96.png",
           "sizes": "96x96",
           "type": "image/png"
         }

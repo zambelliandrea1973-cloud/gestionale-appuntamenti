@@ -21,7 +21,6 @@ import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import SimpleServiceManager from '@/components/SimpleServiceManager';
 import EmailSettings from '@/components/EmailSettings';
-import IconUpload from '@/components/IconUpload';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
@@ -227,7 +226,7 @@ export default function Settings() {
             </CardHeader>
             <CardContent className="space-y-8">
               <div>
-                <IconUpload onIconUpdated={() => {
+                <AppIconUploader onIconUpdated={() => {
                   toast({
                     title: "Icona Aggiornata",
                     description: "L'icona PWA è stata personalizzata con successo. I clienti vedranno il tuo logo quando installeranno l'app.",
