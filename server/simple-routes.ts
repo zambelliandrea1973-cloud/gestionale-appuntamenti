@@ -881,7 +881,7 @@ export function registerSimpleRoutes(app: Express): Server {
           .png()
           .toBuffer();
         
-        const iconPath = path.join(__dirname, '../public/icons', name);
+        const iconPath = path.join(process.cwd(), 'public', 'icons', name);
         fs.writeFileSync(iconPath, resizedBuffer);
       }
       
