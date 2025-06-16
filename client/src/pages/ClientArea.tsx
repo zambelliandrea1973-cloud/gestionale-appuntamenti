@@ -50,9 +50,14 @@ export default function ClientArea() {
 
   // Funzione per registrare l'accesso del cliente
   const trackClientAccess = async (clientId: string) => {
-    // Evita tracking duplicato nella stessa sessione
-    if (accessTracked) {
-      console.log(`📱 [PWA ACCESS] Cliente ${clientId} - Accesso già tracciato in questa sessione`);
+    // Crea una chiave unica per questa sessione di accesso
+    const sessionKey = `access_${clientId}_${Date.now()}`;
+    const lastTrackedKey = `lastTracked_${clientId}`;
+    const lastTracked = localStorage.getItem(lastTrackedKey);
+    
+    // Evita tracking duplicato entro 5 secondi
+    if (lastTracked && Date.now() - parseInt(lastTracked) < 5000) {
+      console.log(`📱 [PWA ACCESS] Cliente ${clientId} - Accesso già tracciato di recente`);
       return;
     }
     
@@ -61,7 +66,10 @@ export default function ClientArea() {
       if (response.ok) {
         const result = await response.json();
         console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount}`);
-        setAccessTracked(true); // Segna come tracciato
+        
+        // Salva il timestamp dell'ultimo tracking
+        localStorage.setItem(lastTrackedKey, Date.now().toString());
+        setAccessTracked(true);
       }
     } catch (error) {
       console.error('Errore nel tracking accesso PWA:', error);
@@ -218,10 +226,8 @@ export default function ClientArea() {
             const tokenResult = await tokenResponse.json();
             setUser(tokenResult);
             
-            // Registra l'accesso PWA per il tracking (solo se non già tracciato)
-            if (!accessTracked) {
-              trackClientAccess(storedClientId);
-            }
+            // Registra l'accesso PWA per il tracking
+            trackClientAccess(storedClientId);
             
             setLoading(false);
             return;
