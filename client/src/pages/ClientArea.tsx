@@ -156,6 +156,9 @@ export default function ClientArea() {
         client: clientData.client
       });
       
+      // Registra l'accesso PWA per il tracking
+      trackClientAccess(clientId);
+      
       setLoading(false);
       
     } catch (error) {
