@@ -178,8 +178,7 @@ export default function ClientArea() {
         client: clientData.client
       });
       
-      // Registra l'accesso PWA per il tracking
-      trackClientAccess(clientId);
+      // Il tracking degli accessi PWA è gestito da fetchCurrentUser()
       
       setLoading(false);
       
@@ -219,8 +218,10 @@ export default function ClientArea() {
             const tokenResult = await tokenResponse.json();
             setUser(tokenResult);
             
-            // Registra l'accesso PWA per il tracking
-            trackClientAccess(storedClientId);
+            // Registra l'accesso PWA per il tracking (solo se non già tracciato)
+            if (!accessTracked) {
+              trackClientAccess(storedClientId);
+            }
             
             setLoading(false);
             return;
