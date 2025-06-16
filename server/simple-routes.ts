@@ -4,6 +4,7 @@ import { setupAuth } from "./auth";
 import path from "path";
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { initializeSchedulers } from "./services/schedulerService";
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
@@ -108,6 +109,9 @@ const userData = {
 
 export function registerSimpleRoutes(app: Express): Server {
   setupAuth(app);
+  
+  // Inizializza gli scheduler per i promemoria automatici
+  initializeSchedulers();
 
   // Sistema lineare semplice - Servizi dell'utente
   app.get("/api/services", (req, res) => {
