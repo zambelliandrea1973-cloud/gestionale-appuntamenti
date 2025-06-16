@@ -1352,12 +1352,18 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/client-access/count/:clientId", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const clientId = parseInt(req.params.clientId);
+    const clientIdParam = req.params.clientId;
     
     // Carica dati reali dal file storage_data.json
     const storageData = loadStorageData();
     const allClients = storageData.clients || [];
-    const clientData = allClients.find(([id, client]) => id === clientId);
+    
+    // Cerca il cliente confrontando sia come stringa che come numero
+    const clientData = allClients.find(([id, client]) => {
+      return id.toString() === clientIdParam || 
+             (typeof id === 'number' && id.toString() === clientIdParam) ||
+             (parseInt(clientIdParam).toString() === id.toString());
+    });
     
     if (!clientData) {
       return res.status(404).json({ message: "Cliente non trovato nel sistema" });
