@@ -1409,21 +1409,24 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    // Verifica che il cliente esista
+    // Verifica che il cliente esista nel sistema storage reale
     const storageData = loadStorageData();
     let clientFound = null;
-    let ownerData = null;
     
-    // Cerca il cliente nei dati di tutti gli utenti
-    for (const [userIdKey, userData] of Object.entries(storageData.users || {})) {
-      if (userData.clients) {
-        const client = userData.clients.find(c => c.id.toString() === clientId);
-        if (client) {
-          clientFound = client;
-          ownerData = userData;
-          break;
-        }
+    // Cerca il cliente nei dati storage reali
+    const clients = storageData.clients || [];
+    console.log(`🔍 [ACTIVATE] Ricerca cliente ID ${clientId} tra ${clients.length} clienti`);
+    
+    for (const [id, clientData] of clients) {
+      if (id.toString() === clientId) {
+        clientFound = clientData;
+        console.log(`✅ [ACTIVATE] Cliente trovato: ${clientData.firstName} ${clientData.lastName}`);
+        break;
       }
+    }
+    
+    if (!clientFound) {
+      console.log(`❌ [ACTIVATE] Cliente ID ${clientId} non trovato nei dati storage`);
     }
     
     if (!clientFound) {
