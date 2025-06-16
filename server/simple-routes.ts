@@ -1353,7 +1353,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const clientId = parseInt(req.params.clientId);
     
     // Carica dati reali dal file storage_data.json
-    const allClients = loadStorageData().clients || [];
+    const storageData = loadStorageData();
+    const allClients = storageData.clients || [];
     const clientData = allClients.find(([id, client]) => id === clientId);
     
     if (!clientData) {
@@ -1367,8 +1368,8 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
-    // Conteggio accessi semplice (simulato)
-    const accessCount = Math.floor(Math.random() * 10);
+    // Conta accessi reali dal campo accessCount del cliente
+    const accessCount = client.accessCount || 0;
     res.json({ count: accessCount });
   });
 
@@ -1962,6 +1963,40 @@ Studio Professionale`,
         res.status(404).send('File not found');
       }
     });
+  });
+
+  // Endpoint per registrare accesso PWA del cliente (senza autenticazione)
+  app.post('/api/client-access/track/:clientId', (req, res) => {
+    try {
+      const clientId = parseInt(req.params.clientId);
+      const storageData = loadStorageData();
+      
+      // Trova il cliente
+      const clientIndex = storageData.clients?.findIndex(([id, client]) => id === clientId);
+      if (clientIndex === -1) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Incrementa il contatore di accessi
+      const [id, client] = storageData.clients[clientIndex];
+      client.accessCount = (client.accessCount || 0) + 1;
+      client.lastAccess = new Date().toISOString();
+      
+      // Salva i dati aggiornati
+      saveStorageData(storageData);
+      
+      console.log(`📱 [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) ha acceduto all'app - conteggio: ${client.accessCount}`);
+      
+      res.json({
+        success: true,
+        accessCount: client.accessCount,
+        message: 'Accesso registrato'
+      });
+      
+    } catch (error) {
+      console.error('Errore nel tracking accesso PWA:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
   });
 
   // Endpoint per testare e aggiornare lo stato dei promemoria

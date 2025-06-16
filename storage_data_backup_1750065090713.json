@@ -1012,20 +1012,6 @@
         "status": "scheduled",
         "createdAt": "2025-06-16T09:10:53.499Z"
       }
-    ],
-    [
-      1750065090713,
-      {
-        "id": 1750065090713,
-        "clientId": 1749666196976,
-        "serviceId": 2,
-        "date": "2025-06-20",
-        "startTime": "11:00",
-        "endTime": "11:45:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-16T09:11:30.713Z"
-      }
     ]
   ]
 }
