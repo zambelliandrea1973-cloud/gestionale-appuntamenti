@@ -48,30 +48,39 @@ export default function ClientArea() {
   const [token, setToken] = useState<string>("");
   
   useEffect(() => {
-    // Verifica autenticazione
-    fetchCurrentUser();
+    // Recupera i parametri dalla query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromQuery = urlParams.get('token');
+    const clientIdFromQuery = urlParams.get('clientId');
     
-    // Recupera il token dalla query string o da localStorage per supporto PWA
-    const tokenFromQuery = new URLSearchParams(window.location.search).get('token');
-    let tokenToUse = tokenFromQuery;
-    
-    // Se c'è un token nell'URL, salvalo nel localStorage per il supporto PWA
-    if (tokenFromQuery) {
+    // ACCESSO DIRETTO VIA QR CODE - PRIORITÀ MASSIMA
+    if (tokenFromQuery && clientIdFromQuery) {
+      console.log("🔐 QR Code Token rilevato - Accesso diretto senza autenticazione");
+      
+      // Salva nel localStorage per supporto PWA
       localStorage.setItem('clientAccessToken', tokenFromQuery);
-    } 
-    // Se non c'è un token nell'URL ma c'è nel localStorage, usalo
-    else if (!tokenFromQuery) {
-      const storedToken = localStorage.getItem('clientAccessToken');
-      if (storedToken) {
-        tokenToUse = storedToken;
-        console.log("Token recuperato da localStorage per supporto PWA");
-      }
+      localStorage.setItem('clientId', clientIdFromQuery);
+      
+      // Imposta il token e verifica immediatamente
+      setToken(tokenFromQuery);
+      verifyQRToken(tokenFromQuery, clientIdFromQuery);
+      return;
     }
     
-    // Imposta il token
-    if (tokenToUse) {
-      setToken(tokenToUse);
+    // Se non c'è token QR ma abbiamo dati salvati per PWA
+    const storedToken = localStorage.getItem('clientAccessToken');
+    const storedClientId = localStorage.getItem('clientId');
+    
+    if (storedToken && storedClientId) {
+      console.log("📱 PWA Token salvato rilevato - Tentativo accesso diretto");
+      setToken(storedToken);
+      verifyQRToken(storedToken, storedClientId);
+      return;
     }
+    
+    // Fallback: verifica autenticazione tradizionale solo se non ci sono token QR
+    console.log("🔍 Nessun token QR - Verifica autenticazione tradizionale");
+    fetchCurrentUser();
   }, []);
 
   useEffect(() => {
@@ -79,6 +88,70 @@ export default function ClientArea() {
       fetchClientAppointments(user.client.id);
     }
   }, [user]);
+
+  const verifyQRToken = async (token: string, clientId: string) => {
+    console.log(`🔐 Verifica token QR per cliente ${clientId}`);
+    setLoading(true);
+    
+    try {
+      // Verifica formato token: userId_clientId_timestamp
+      const tokenParts = token.split('_');
+      if (tokenParts.length !== 3) {
+        throw new Error("Formato token non valido");
+      }
+      
+      const [userId, tokenClientId, timestamp] = tokenParts;
+      
+      // Verifica che il clientId nel token corrisponda a quello nell'URL
+      if (tokenClientId !== clientId) {
+        throw new Error("Token non corrisponde al cliente");
+      }
+      
+      // Carica i dati del cliente direttamente tramite API dedicata
+      const response = await apiRequest('POST', '/api/client-access/verify-token', {
+        token: token,
+        clientId: parseInt(clientId, 10)
+      });
+      
+      if (!response.ok) {
+        throw new Error("Token non valido o scaduto");
+      }
+      
+      const clientData = await response.json();
+      console.log(`✅ Token QR valido - Cliente autenticato: ${clientData.client.firstName} ${clientData.client.lastName}`);
+      
+      // Registra l'accesso per il tracking
+      try {
+        await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
+        console.log(`📊 Accesso registrato per cliente ${clientId}`);
+      } catch (trackError) {
+        console.warn("Errore registrazione accesso:", trackError);
+      }
+      
+      // Imposta i dati utente direttamente
+      setUser({
+        id: parseInt(userId, 10),
+        username: `client_${clientId}`,
+        type: "client",
+        client: clientData.client
+      });
+      
+      setLoading(false);
+      
+    } catch (error) {
+      console.error("Errore verifica token QR:", error);
+      toast({
+        title: "Token non valido",
+        description: "Il QR code è scaduto o non valido. Richiedi un nuovo codice.",
+        variant: "destructive",
+      });
+      
+      // Pulisci localStorage e reindirizza al login
+      localStorage.removeItem('clientAccessToken');
+      localStorage.removeItem('clientId');
+      setLocation("/client-login?expired=true");
+    }
+  };
 
   const fetchCurrentUser = async () => {
     try {
