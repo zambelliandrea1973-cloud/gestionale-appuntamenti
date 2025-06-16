@@ -84,10 +84,17 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       // Usa l'endpoint dedicato per l'icona predefinita
       const response = await fetch('/api/default-app-icon');
       if (!response.ok) {
-        throw new Error('Errore nel recupero dell\'icona predefinita');
+        throw new Error(`Errore HTTP ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
+      
+      console.log('🖼️ ICONA PREDEFINITA RICEVUTA:', {
+        url: data.icon?.substring(0, 50) + '...',
+        length: data.icon?.length,
+        isFleurDeVie: data.icon?.startsWith("data:image/jpeg;base64,") && data.icon?.length > 50000,
+        name: data.name
+      });
       
       setDefaultIconInfo({
         url: data.icon,
@@ -95,11 +102,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       });
     } catch (error) {
       console.error('Errore durante il caricamento dell\'icona predefinita:', error);
-      // Fallback minimale
-      setDefaultIconInfo({
-        url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzQjgyRjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAySDE0VjRIMTJWMlpNMTIgMThIMTRWMjBIMTJWMThaTTIwIDEwSDE4VjEySDIwVjEwWk02IDEwSDRWMTJINlYxMFpNMTggMTBWMTJIMTZWMTBIMThaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+",
-        name: "Fleur de Vie multicolore"
-      });
+      // Non usare fallback - mantieni vuoto per vedere il vero problema
+      setDefaultIconInfo(null);
     }
   };
 
