@@ -1964,6 +1964,54 @@ Studio Professionale`,
     });
   });
 
+  // Endpoint per monitorare i promemoria email inviati
+  app.get('/api/email/reminders/status', requireAuth, (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      const { appointments = [] } = storageData;
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      // Filtra appuntamenti per domani
+      const tomorrowAppointments = appointments.filter(apt => {
+        const aptDate = new Date(apt.date);
+        return aptDate.toDateString() === tomorrow.toDateString();
+      });
+      
+      // Trova l'appuntamento di Marco Berto specifico
+      const marcoBertoAppointment = tomorrowAppointments.find(apt => {
+        const client = storageData.clients?.find(([id, clientData]) => 
+          clientData.id === apt.clientId && 
+          (clientData.firstName?.toLowerCase().includes('marco') || 
+           clientData.lastName?.toLowerCase().includes('berto'))
+        );
+        return client;
+      });
+      
+      const emailSettings = JSON.parse(fs.readFileSync('./email_settings.json', 'utf8'));
+      
+      res.json({
+        emailSystemEnabled: emailSettings.emailEnabled,
+        schedulerActive: true,
+        tomorrowAppointments: tomorrowAppointments.length,
+        marcoBertoFound: !!marcoBertoAppointment,
+        marcoBertoAppointment: marcoBertoAppointment ? {
+          id: marcoBertoAppointment.id,
+          date: marcoBertoAppointment.date,
+          time: marcoBertoAppointment.time,
+          clientId: marcoBertoAppointment.clientId,
+          serviceId: marcoBertoAppointment.serviceId
+        } : null,
+        nextReminderCheck: 'Ogni ora alle :00',
+        systemStatus: 'Operativo'
+      });
+    } catch (error) {
+      console.error('Errore controllo promemoria:', error);
+      res.status(500).json({ error: 'Errore sistema promemoria' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

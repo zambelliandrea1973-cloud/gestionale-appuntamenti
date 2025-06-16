@@ -956,20 +956,5 @@
       }
     ]
   },
-  "appointments": [
-    [
-      1750059544768,
-      {
-        "id": 1750059544768,
-        "clientId": 252,
-        "serviceId": 7,
-        "date": "2025-06-17",
-        "startTime": "18:00",
-        "endTime": "19:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-06-16T07:39:04.768Z"
-      }
-    ]
-  ]
+  "appointments": []
 }
