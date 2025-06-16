@@ -1964,6 +1964,35 @@ Studio Professionale`,
     });
   });
 
+  // Endpoint per testare e aggiornare lo stato dei promemoria
+  app.post('/api/test-reminder-flags', requireAuth, (req, res) => {
+    try {
+      const { appointmentId, reminderStatus } = req.body;
+      const storageData = loadStorageData();
+      
+      // Trova l'appuntamento e aggiorna lo stato
+      const appointmentIndex = storageData.appointments?.findIndex(apt => apt.id === appointmentId);
+      if (appointmentIndex !== -1) {
+        storageData.appointments[appointmentIndex].reminderStatus = reminderStatus;
+        storageData.appointments[appointmentIndex].reminderType = 'email'; // Assicura che abbia un tipo
+        
+        // Salva i dati aggiornati
+        saveStorageData(storageData);
+        
+        res.json({
+          success: true,
+          message: `Stato promemoria aggiornato a: ${reminderStatus}`,
+          appointment: storageData.appointments[appointmentIndex]
+        });
+      } else {
+        res.status(404).json({ error: 'Appuntamento non trovato' });
+      }
+    } catch (error) {
+      console.error('Errore nell\'aggiornamento dello stato promemoria:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
   // Endpoint per monitorare i promemoria email inviati
   app.get('/api/email/reminders/status', requireAuth, (req, res) => {
     try {

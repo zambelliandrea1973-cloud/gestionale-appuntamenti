@@ -4,7 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatTime } from "@/lib/utils/date";
-import { Pencil, Trash2, Star, Info, Phone, ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { Pencil, Trash2, Star, Info, Phone, ChevronDown, ChevronUp, Plus, Mail, MessageCircle, CheckCircle2 } from "lucide-react";
 import { AppointmentWithDetails } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -91,6 +91,57 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
   // Controlla se siamo su mobile
   const isMobile = window.innerWidth < 768;
 
+  // Funzione per renderizzare i flag di stato promemoria
+  const renderReminderFlags = () => {
+    if (!appointment.reminderType) return null;
+    
+    const flags = [];
+    
+    // Flag per Email
+    if (appointment.reminderType.includes('email')) {
+      if (appointment.reminderStatus === 'sent') {
+        flags.push(
+          <div key="email" className="flex items-center gap-1 text-green-600" title="Email promemoria inviata">
+            <Mail className="h-3 w-3" />
+            <CheckCircle2 className="h-3 w-3" />
+          </div>
+        );
+      } else if (appointment.reminderStatus === 'failed') {
+        flags.push(
+          <div key="email" className="flex items-center gap-1 text-red-500" title="Invio email fallito">
+            <Mail className="h-3 w-3" />
+            <span className="text-xs">✗</span>
+          </div>
+        );
+      }
+    }
+    
+    // Flag per WhatsApp
+    if (appointment.reminderType.includes('whatsapp')) {
+      if (appointment.reminderStatus === 'sent') {
+        flags.push(
+          <div key="whatsapp" className="flex items-center gap-1 text-green-600" title="WhatsApp promemoria inviato">
+            <MessageCircle className="h-3 w-3" />
+            <CheckCircle2 className="h-3 w-3" />
+          </div>
+        );
+      } else if (appointment.reminderStatus === 'failed') {
+        flags.push(
+          <div key="whatsapp" className="flex items-center gap-1 text-red-500" title="Invio WhatsApp fallito">
+            <MessageCircle className="h-3 w-3" />
+            <span className="text-xs">✗</span>
+          </div>
+        );
+      }
+    }
+    
+    return flags.length > 0 ? (
+      <div className="flex gap-2 mt-1">
+        {flags}
+      </div>
+    ) : null;
+  };
+
   // Versione compatta per i mini-slot da 15 minuti
   if (compact) {
     // Formatta gli orari di inizio e fine
@@ -116,6 +167,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
             <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-600 truncate mt-0.5`}>
               {startTime} - {endTime}
             </div>
+            {renderReminderFlags()}
           </div>
           
           <div className="flex gap-2">
@@ -213,6 +265,7 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
             <Phone className="h-3.5 w-3.5 mr-1 text-gray-500" />
             <span className="text-gray-600">{appointment.client.phone}</span>
           </div>
+          {renderReminderFlags()}
         </div>
 
         {isMobile ? (
