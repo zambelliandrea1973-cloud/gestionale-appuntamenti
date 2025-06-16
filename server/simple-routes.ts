@@ -6,6 +6,8 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { initializeSchedulers } from "./services/schedulerService";
 import { dataProtectionService } from "./services/dataProtectionService";
+import { iconConversionService } from "./services/iconConversionService";
+import multer from 'multer';
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
@@ -2320,6 +2322,132 @@ Studio Professionale`,
     } catch (error) {
       console.error('Errore controllo promemoria:', error);
       res.status(500).json({ error: 'Errore sistema promemoria' });
+    }
+  });
+
+  // Configurazione multer per upload immagini
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 10 * 1024 * 1024 // 10MB limite
+    },
+    fileFilter: (req, file, cb) => {
+      // Accetta solo immagini
+      if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+      } else {
+        cb(new Error('Solo file immagine sono accettati'), false);
+      }
+    }
+  });
+
+  // API per caricare icona personalizzata PWA
+  app.post('/api/upload-custom-icon', requireAuth, upload.single('icon'), async (req: any, res: any) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'Nessun file caricato' });
+      }
+
+      console.log(`🎨 [ICON UPLOAD] Utente ${req.user?.username} sta caricando icona personalizzata`);
+      console.log(`📎 File ricevuto: ${req.file.originalname}, size: ${req.file.size} bytes`);
+
+      // Converti l'immagine caricata in icone PWA
+      const iconPaths = await iconConversionService.processCustomIcon(
+        req.file.buffer,
+        'custom-icon'
+      );
+
+      console.log(`✅ [ICON UPLOAD] Icone PWA generate:`, iconPaths);
+
+      res.json({
+        success: true,
+        message: 'Icona personalizzata caricata e convertita con successo',
+        iconPaths: iconPaths
+      });
+    } catch (error) {
+      console.error('❌ [ICON UPLOAD] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante la conversione dell\'icona',
+        details: error.message 
+      });
+    }
+  });
+
+  // API per caricare icona via base64
+  app.post('/api/upload-icon-base64', requireAuth, async (req: any, res: any) => {
+    try {
+      const { imageData, iconName } = req.body;
+
+      if (!imageData) {
+        return res.status(400).json({ error: 'Dati immagine mancanti' });
+      }
+
+      console.log(`🎨 [ICON BASE64] Utente ${req.user?.username} sta caricando icona via base64`);
+
+      // Converti l'immagine base64 in icone PWA
+      const iconPaths = await iconConversionService.processCustomIcon(
+        imageData,
+        iconName || 'custom-icon'
+      );
+
+      console.log(`✅ [ICON BASE64] Icone PWA generate:`, iconPaths);
+
+      res.json({
+        success: true,
+        message: 'Icona caricata e convertita con successo',
+        iconPaths: iconPaths
+      });
+    } catch (error) {
+      console.error('❌ [ICON BASE64] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante la conversione dell\'icona',
+        details: error.message 
+      });
+    }
+  });
+
+  // API per ripristinare icona predefinita
+  app.post('/api/restore-default-icon', requireAuth, async (req: any, res: any) => {
+    try {
+      console.log(`🔄 [ICON RESTORE] Utente ${req.user?.username} sta ripristinando icona predefinita`);
+
+      // Ripristina le icone predefinite (Fleur de Vie)
+      const iconPaths = await iconConversionService.restoreDefaultIcons();
+
+      console.log(`✅ [ICON RESTORE] Icone predefinite ripristinate:`, iconPaths);
+
+      res.json({
+        success: true,
+        message: 'Icona predefinita ripristinata con successo',
+        iconPaths: iconPaths
+      });
+    } catch (error) {
+      console.error('❌ [ICON RESTORE] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante il ripristino dell\'icona predefinita',
+        details: error.message 
+      });
+    }
+  });
+
+  // API per ottenere info sulle icone attuali
+  app.get('/api/current-icon-info', requireAuth, async (req: any, res: any) => {
+    try {
+      const manifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      const manifestContent = fs.readFileSync(manifestPath, 'utf8');
+      const manifest = JSON.parse(manifestContent);
+
+      res.json({
+        success: true,
+        currentIcons: manifest.icons,
+        manifestPath: '/manifest.json'
+      });
+    } catch (error) {
+      console.error('❌ [ICON INFO] Errore:', error);
+      res.status(500).json({ 
+        error: 'Errore durante la lettura delle informazioni icone',
+        details: error.message 
+      });
     }
   });
 
