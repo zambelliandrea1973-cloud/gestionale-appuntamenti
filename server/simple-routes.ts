@@ -1434,6 +1434,37 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
+  // Endpoint per caricare appuntamenti del cliente via token QR
+  app.get("/api/appointments/client/:clientId", (req, res) => {
+    const { clientId } = req.params;
+    
+    if (!clientId) {
+      return res.status(400).json({ message: "ClientId richiesto" });
+    }
+    
+    const storageData = loadStorageData();
+    const appointments = storageData.appointments || [];
+    
+    // Filtra appuntamenti per questo cliente
+    const clientAppointments = [];
+    for (const [id, appointment] of appointments) {
+      if (appointment.clientId && appointment.clientId.toString() === clientId.toString()) {
+        clientAppointments.push({
+          id: parseInt(id.toString(), 10),
+          date: appointment.date,
+          startTime: appointment.startTime,
+          endTime: appointment.endTime,
+          notes: appointment.notes || '',
+          reminderSent: appointment.reminderSent || false,
+          reminderConfirmed: appointment.reminderConfirmed || false,
+          clientId: appointment.clientId
+        });
+      }
+    }
+    
+    res.json(clientAppointments);
+  });
+
   // Endpoint di validazione token QR code per attivazione app PWA cliente
   app.get("/activate", (req, res) => {
     const { token } = req.query;
