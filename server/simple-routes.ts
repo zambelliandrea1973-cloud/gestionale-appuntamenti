@@ -1381,6 +1381,59 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ count: accessCount });
   });
 
+  // Endpoint per verificare token QR e restituire dati cliente
+  app.post("/api/client-access/verify-token", (req, res) => {
+    const { token, clientId } = req.body;
+    
+    if (!token || !clientId) {
+      return res.status(400).json({ message: "Token e clientId richiesti" });
+    }
+    
+    // Verifica formato token: userId_clientId_timestamp
+    const tokenParts = token.split('_');
+    if (tokenParts.length !== 3) {
+      return res.status(400).json({ message: "Formato token non valido" });
+    }
+    
+    const [userId, tokenClientId, timestamp] = tokenParts;
+    
+    // Verifica che il clientId nel token corrisponda a quello fornito
+    if (parseInt(tokenClientId, 10) !== parseInt(clientId, 10)) {
+      return res.status(400).json({ message: "Token non corrisponde al cliente" });
+    }
+    
+    // Verifica che il cliente esista nel sistema storage reale
+    const storageData = loadStorageData();
+    let clientFound = null;
+    
+    const clients = storageData.clients || [];
+    for (const [id, clientData] of clients) {
+      if (parseInt(id.toString(), 10) === parseInt(clientId, 10)) {
+        clientFound = clientData;
+        break;
+      }
+    }
+    
+    if (!clientFound) {
+      return res.status(404).json({ message: "Cliente non trovato" });
+    }
+    
+    // Token valido - restituisci i dati del cliente
+    res.json({
+      valid: true,
+      client: {
+        id: parseInt(clientId, 10),
+        firstName: clientFound.firstName || '',
+        lastName: clientFound.lastName || '',
+        phone: clientFound.phone || '',
+        email: clientFound.email || '',
+        address: clientFound.address || '',
+        birthday: clientFound.birthday || '',
+        hasConsent: clientFound.hasConsent || false
+      }
+    });
+  });
+
   // Endpoint di validazione token QR code per attivazione app PWA cliente
   app.get("/activate", (req, res) => {
     const { token } = req.query;
