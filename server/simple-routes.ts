@@ -1465,10 +1465,15 @@ export function registerSimpleRoutes(app: Express): Server {
     // Conta accessi reali dal campo accessCount del cliente
     const rawAccessCount = client.accessCount || 0;
     
-    // CORREZIONE: Il sistema precedente conteggiava 4 volte, dividiamo per 4
-    const accessCount = Math.floor(rawAccessCount / 4);
-    
-    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - rawAccessCount: ${rawAccessCount}, corrected: ${accessCount}`);
+    // NUOVO SISTEMA INTELLIGENTE: Se il cliente non è ancora migrato, dividi per 4
+    let accessCount;
+    if (!client.accessCountMigrated && rawAccessCount > 0) {
+      accessCount = Math.floor(rawAccessCount / 4);
+      console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - rawAccessCount: ${rawAccessCount}, corrected (non migrato): ${accessCount}`);
+    } else {
+      accessCount = rawAccessCount;
+      console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount (migrato): ${accessCount}`);
+    }
     
     // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -2293,8 +2298,18 @@ Studio Professionale`,
       
       // Incrementa il contatore di accessi
       const [id, client] = storageData.clients[clientIndex];
+      
+      // NUOVO SISTEMA: Se il cliente non ha il flag di migrazione, dividi il conteggio esistente per 4
+      if (!client.accessCountMigrated && client.accessCount && client.accessCount > 0) {
+        client.accessCount = Math.floor(client.accessCount / 4);
+        client.accessCountMigrated = true;
+        console.log(`🔧 [MIGRATION] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Conteggio migrato: ${client.accessCount}`);
+      }
+      
+      // Incrementa normalmente (senza divisioni future)
       client.accessCount = (client.accessCount || 0) + 1;
       client.lastAccess = new Date().toISOString();
+      client.accessCountMigrated = true;
       
       // Salva i dati aggiornati
       saveStorageData(storageData);
