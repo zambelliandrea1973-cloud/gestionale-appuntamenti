@@ -1463,9 +1463,12 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     // Conta accessi reali dal campo accessCount del cliente
-    const accessCount = client.accessCount || 0;
+    const rawAccessCount = client.accessCount || 0;
     
-    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${accessCount}`);
+    // CORREZIONE: Il sistema precedente conteggiava 4 volte, dividiamo per 4
+    const accessCount = Math.floor(rawAccessCount / 4);
+    
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - rawAccessCount: ${rawAccessCount}, corrected: ${accessCount}`);
     
     // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
