@@ -1462,18 +1462,10 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
-    // Conta accessi reali dal campo accessCount del cliente
-    const rawAccessCount = client.accessCount || 0;
+    // SISTEMA SEMPLIFICATO: 1 accesso = 1 conteggio
+    const accessCount = client.accessCount || 0;
     
-    // NUOVO SISTEMA INTELLIGENTE: Se il cliente non è ancora migrato, dividi per 4
-    let accessCount;
-    if (!client.accessCountMigrated && rawAccessCount > 0) {
-      accessCount = Math.floor(rawAccessCount / 4);
-      console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - rawAccessCount: ${rawAccessCount}, corrected (non migrato): ${accessCount}`);
-    } else {
-      accessCount = rawAccessCount;
-      console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount (migrato): ${accessCount}`);
-    }
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${accessCount}`);
     
     // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -2296,20 +2288,10 @@ Studio Professionale`,
         return res.status(404).json({ message: "Cliente non trovato" });
       }
       
-      // Incrementa il contatore di accessi
+      // SISTEMA SEMPLIFICATO: Incrementa il contatore di accessi
       const [id, client] = storageData.clients[clientIndex];
-      
-      // NUOVO SISTEMA: Se il cliente non ha il flag di migrazione, dividi il conteggio esistente per 4
-      if (!client.accessCountMigrated && client.accessCount && client.accessCount > 0) {
-        client.accessCount = Math.floor(client.accessCount / 4);
-        client.accessCountMigrated = true;
-        console.log(`🔧 [MIGRATION] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Conteggio migrato: ${client.accessCount}`);
-      }
-      
-      // Incrementa normalmente (senza divisioni future)
       client.accessCount = (client.accessCount || 0) + 1;
       client.lastAccess = new Date().toISOString();
-      client.accessCountMigrated = true;
       
       // Salva i dati aggiornati
       saveStorageData(storageData);
