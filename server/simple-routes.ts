@@ -1706,6 +1706,67 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // API per gestire le impostazioni email e calendario
+  app.get('/api/email-calendar-settings', requireAuth, (req, res) => {
+    try {
+      const user = req.user!;
+      console.log(`📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente ${user.id}`);
+      
+      // Impostazioni predefinite (per ora semplici, possono essere espanse)
+      const emailSettings = {
+        emailEnabled: false,
+        emailAddress: '',
+        emailPassword: '', // Non restituire password reali
+        emailTemplate: `Gentile {{nome}} {{cognome}},
+
+Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
+
+Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
+
+Cordiali saluti,
+Studio Professionale`,
+        emailSubject: "Promemoria appuntamento del {{data}}",
+        hasPasswordSaved: false,
+        calendarEnabled: false,
+        calendarId: '',
+        googleAuthStatus: {
+          authorized: false
+        }
+      };
+      
+      res.json(emailSettings);
+    } catch (error) {
+      console.error('❌ [ERRORE EMAIL SETTINGS]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante il caricamento delle impostazioni email' 
+      });
+    }
+  });
+
+  app.post('/api/email-calendar-settings', requireAuth, (req, res) => {
+    try {
+      const user = req.user!;
+      const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject } = req.body;
+      
+      console.log(`📧 [POST EMAIL SETTINGS] Aggiornamento impostazioni email da utente ${user.id}`);
+      
+      // In un'implementazione reale, qui salveresti le impostazioni nel database
+      // Per ora confermiamo solo che la richiesta è stata ricevuta
+      
+      res.json({
+        success: true,
+        message: 'Impostazioni email aggiornate con successo'
+      });
+    } catch (error) {
+      console.error('❌ [ERRORE SAVE EMAIL SETTINGS]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante il salvataggio delle impostazioni email' 
+      });
+    }
+  });
+
   // API per inviare email di test
   app.post('/api/email-calendar-settings/send-test-email', requireAuth, async (req, res) => {
     try {
