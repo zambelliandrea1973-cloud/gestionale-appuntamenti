@@ -1484,8 +1484,11 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
-    // Genera token di attivazione semplice
-    const token = `${user.id}_${clientId}_${Date.now()}`;
+    // Genera token di attivazione permanente per cliente
+    // Usa un hash stabile basato su userId + clientId per evitare cambio token
+    const crypto = require('crypto');
+    const stableHash = crypto.createHash('md5').update(`${user.id}_${clientId}_permanent`).digest('hex').substring(0, 8);
+    const token = `${user.id}_${clientId}_${stableHash}`;
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const activationUrl = `${protocol}://${host}/activate?token=${token}`;
@@ -2539,37 +2542,51 @@ Studio Professionale`,
     }
   });
 
-  // Endpoint per servire icone PWA dinamiche basate sull'icona del professionista attualmente loggato
+  // Endpoint per servire icone PWA dinamiche basate sul proprietario del cliente (da token QR)
   app.get('/icons/custom-icon-:size.png', (req, res) => {
     try {
       const size = req.params.size; // es: 96x96, 192x192, 512x512
       const storageData = loadStorageData();
       
-      // Trova l'utente admin/staff attualmente attivo (usa l'ultimo accesso)
-      let currentUserId = null;
+      // Controlla se c'è un token QR negli headers o referer per identificare il proprietario
+      let ownerUserId = null;
       
-      // Se c'è una sessione attiva, usa quell'utente
-      if (req.session && req.session.passport && req.session.passport.user) {
-        const serializedUser = req.session.passport.user;
-        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
-          currentUserId = parseInt(serializedUser.split(':')[1]);
+      // Controlla il referer per token QR
+      const referer = req.get('referer') || '';
+      const tokenMatch = referer.match(/token=([^&]+)/);
+      
+      if (tokenMatch) {
+        const token = tokenMatch[1];
+        const tokenParts = token.split('_');
+        if (tokenParts.length === 3) {
+          ownerUserId = parseInt(tokenParts[0]); // Prima parte = userId proprietario
+          console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da token QR`);
         }
       }
       
-      // Se non c'è sessione, cerca l'ultimo utente admin attivo
-      if (!currentUserId) {
-        // Fallback: usa il primo utente admin trovato
+      // Se non trovato da token QR, usa sessione attiva (admin)
+      if (!ownerUserId && req.session && req.session.passport && req.session.passport.user) {
+        const serializedUser = req.session.passport.user;
+        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
+          ownerUserId = parseInt(serializedUser.split(':')[1]);
+          console.log(`🔍 PWA ICON: Usando utente sessione attiva ${ownerUserId}`);
+        }
+      }
+      
+      // Fallback: usa il primo utente admin trovato
+      if (!ownerUserId) {
         const adminUsers = Object.keys(storageData.userIcons || {});
         if (adminUsers.length > 0) {
-          currentUserId = parseInt(adminUsers[0]);
+          ownerUserId = parseInt(adminUsers[0]);
+          console.log(`🔍 PWA ICON: Fallback a primo admin ${ownerUserId}`);
         }
       }
       
       // Recupera l'icona del professionista dalla struttura userIcons
-      const userIcon = currentUserId ? storageData.userIcons[currentUserId] : null;
+      const userIcon = ownerUserId ? storageData.userIcons[ownerUserId] : null;
       
       if (!userIcon) {
-        console.log(`🔄 Nessuna icona personalizzata trovata per utente ${currentUserId}, uso default`);
+        console.log(`🔄 Nessuna icona personalizzata trovata per utente ${ownerUserId}, uso default`);
         return res.redirect('/icons/icon-' + size + '.png');
       }
       
@@ -2589,7 +2606,7 @@ Studio Professionale`,
           'Content-Length': buffer.length
         });
         
-        console.log(`📱 Servendo icona PWA personalizzata ${size} per utente ${currentUserId}`);
+        console.log(`📱 Servendo icona PWA personalizzata ${size} per utente ${ownerUserId}`);
         return res.send(buffer);
       }
       
