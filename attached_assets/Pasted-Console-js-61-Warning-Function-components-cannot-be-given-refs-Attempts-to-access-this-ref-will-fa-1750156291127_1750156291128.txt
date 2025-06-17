@@ -1,0 +1,63 @@
+Console.js:61 Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `SlotClone`.
+    at Badge (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=3572cf0e:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=3572cf0e:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=3572cf0e:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=3572cf0e:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…ner/workspace/node_modules/.vite/deps/chunk-PCJTLU7N.js?v=3572cf0e:1987:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…space/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=3572cf0e:416:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…ner/workspace/node_modules/.vite/deps/chunk-PCJTLU7N.js?v=3572cf0e:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…ner/workspace/node_modules/.vite/deps/chunk-PCJTLU7N.js?v=3572cf0e:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=3572cf0e:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…kspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=3572cf0e:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at Presence (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-RDMGRIFY.js?v=3572cf0e:24:11)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…orkspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=3572cf0e:450:13
+    at _c5 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/tabs.tsx:72:12)
+    at div
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=3572cf0e:41:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…unner/workspace/node_modules/.vite/deps/chunk-BLXRHSE4.js?v=3572cf0e:38:15)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=3572cf0e:328:7
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:41:17)
+    at div
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=NV2KkkHIvLE-h42ZV6LfQ:80:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3572cf0e:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3572cf0e:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=NV2KkkHIvLE-h42ZV6LfQ:90:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3572cf0e:291:17)
+    at TenantContextProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-tenant-context.tsx:23:41)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.de…rkspace/node_modules/.vite/deps/@tanstack_react-query.js?v=3572cf0e:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=NV2KkkHIvLE-h42ZV6LfQ:661:3)
+Console.js:61 Risposta da /api/clients/1750153393298/activation-token: 200 OK ok: true
+Console.js:61 Risposta da /api/clients/14001/activation-token: 200 OK ok: true
+Console.js:61 Risposta da /api/clients/14002/activation-token: 200 OK ok: true
+Console.js:61 Risposta da /api/clients/1750153393298/activation-token: 200 OK ok: true
+Console.js:61 Risposta da /api/tenant-context: 200 OK ok: true
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+Console.js:61 Risposta da /api/clients/14001/activation-token: 200 OK ok: true
+Console.js:61 Fuso orario aggiornato con successo
+﻿
+
