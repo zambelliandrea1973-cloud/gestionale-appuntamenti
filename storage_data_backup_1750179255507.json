@@ -53,6 +53,25 @@
       }
     ],
     [
+      27,
+      {
+        "firstName": "Cliente",
+        "lastName": "Pro",
+        "phone": "+39 123456789",
+        "email": "zambelli.andrea.1973C@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 11,
+        "id": 27,
+        "createdAt": "2025-06-03T13:34:58.644Z"
+      }
+    ],
+    [
       28,
       {
         "firstName": "Cliente",
@@ -205,6 +224,25 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 261,
+        "createdAt": "2025-06-03T13:34:58.645Z"
+      }
+    ],
+    [
+      262,
+      {
+        "firstName": "Pro",
+        "lastName": "Account",
+        "phone": "1234567890",
+        "email": "zambelli.andrea.1973C@gmail.com",
+        "address": "",
+        "birthday": "",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "hasConsent": false,
+        "ownerId": 11,
+        "id": 262,
         "createdAt": "2025-06-03T13:34:58.645Z"
       }
     ],
@@ -494,6 +532,90 @@
       }
     ],
     [
+      1749666196977,
+      {
+        "id": 1749666196977,
+        "firstName": "Marco",
+        "lastName": "Bianchi",
+        "phone": "3331111111",
+        "email": "marco.bianchi@staff.com",
+        "ownerId": 101,
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.878Z"
+      }
+    ],
+    [
+      1749666196978,
+      {
+        "id": 1749666196978,
+        "firstName": "Sara",
+        "lastName": "Neri",
+        "phone": "3332222222",
+        "email": "sara.neri@staff.com",
+        "ownerId": 101,
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.878Z"
+      }
+    ],
+    [
+      1749666196979,
+      {
+        "id": 1749666196979,
+        "firstName": "Luigi",
+        "lastName": "Verdi",
+        "phone": "3333333333",
+        "email": "luigi.verdi@customer.com",
+        "ownerId": 102,
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749666196980,
+      {
+        "id": 1749666196980,
+        "firstName": "Anna",
+        "lastName": "Blu",
+        "phone": "3334444444",
+        "email": "anna.blu@customer.com",
+        "ownerId": 102,
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749666196981,
+      {
+        "id": 1749666196981,
+        "firstName": "Paolo",
+        "lastName": "Rosso",
+        "phone": "3335555555",
+        "email": "paolo.rosso@customer.com",
+        "ownerId": 102,
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
+      1749666196982,
+      {
+        "id": 1749666196982,
+        "firstName": "Elena",
+        "lastName": "Giallo",
+        "phone": "3336666666",
+        "email": "elena.giallo@basic.com",
+        "ownerId": 103,
+        "address": "",
+        "notes": "",
+        "createdAt": "2025-06-11T18:43:55.879Z"
+      }
+    ],
+    [
       1749667437314,
       {
         "id": 1749667437314,
@@ -762,6 +884,16 @@
       }
     ],
     [
+      11,
+      {
+        "id": 11,
+        "username": "busnari.silvia@libero.it",
+        "email": "busnari.silvia@libero.it",
+        "type": "staff",
+        "createdAt": "2025-06-03T13:34:58.643Z"
+      }
+    ],
+    [
       12,
       {
         "id": 12,
@@ -779,16 +911,6 @@
         "email": "staff.faverio@studio.com",
         "type": "staff",
         "createdAt": "2025-06-01T10:00:00.000Z"
-      }
-    ],
-    [
-      14,
-      {
-        "id": 14,
-        "username": "busnari.silvia@libero.it",
-        "email": "busnari.silvia@libero.it",
-        "type": "staff",
-        "createdAt": "2025-06-17T16:54:15.512Z"
       }
     ]
   ],
