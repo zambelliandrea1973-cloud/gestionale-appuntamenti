@@ -105,8 +105,7 @@ export default function ClientForm({
       notes: "",
       isFrequent: false,
       medicalNotes: "",
-      allergies: "",
-      hasConsent: false
+      allergies: ""
     }
   });
   
@@ -165,8 +164,7 @@ export default function ClientForm({
           notes: "",
           isFrequent: false,
           medicalNotes: "",
-          allergies: "",
-          hasConsent: false
+          allergies: ""
         });
         
         if (onClientCreated && responseData) {
@@ -513,7 +511,7 @@ export default function ClientForm({
                     onClick={() => console.log("🔘 Submit button clicked")}
                   >
                     {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {clientId ? "Aggiorna" : "Salva"}
+                    {clientId ? "Aggiorna Dati" : "Salva"}
                   </Button>
                 )}
               </DialogFooter>

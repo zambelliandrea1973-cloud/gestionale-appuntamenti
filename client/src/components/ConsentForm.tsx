@@ -97,24 +97,15 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
       });
       return response.json();
     },
-    onSuccess: async () => {
+    onSuccess: () => {
       toast({
         title: "Consenso registrato",
         description: "Il consenso al trattamento dei dati è stato registrato con successo.",
       });
       
-      // Update client's hasConsent status to true
-      if (client) {
-        await apiRequest("PUT", `/api/clients/${clientId}`, {
-          ...client,
-          hasConsent: true
-        });
-      }
-      
-      // Refresh all relevant data
-      queryClient.invalidateQueries({ queryKey: ["/api/consents/client", clientId] });
+      // Refresh only consent data - the server handles the client update
+      queryClient.invalidateQueries({ queryKey: ["/api/consents/client"] });
       queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
     },
     onError: (error: any) => {
       toast({
