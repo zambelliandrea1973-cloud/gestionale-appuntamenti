@@ -1518,13 +1518,13 @@ export function registerSimpleRoutes(app: Express): Server {
     res.status(200).json({ message: "Appuntamento eliminato con successo" });
   });
 
-  // Endpoint DELETE per eliminare clienti
+  // Endpoint DELETE per eliminare clienti - Il proprietario può sempre eliminare i propri clienti
   app.delete("/api/clients/:id", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const clientId = parseInt(req.params.id);
     
-    console.log(`🗑️ [DELETE] Tentativo eliminazione cliente ID ${clientId} per utente ${user.id}`);
+    console.log(`🗑️ [DELETE] Richiesta eliminazione cliente ID ${clientId} da utente ${user.id} (${user.email})`);
     
     if (isNaN(clientId)) {
       return res.status(400).json({ message: "ID cliente non valido" });
@@ -1536,45 +1536,64 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(404).json({ message: "Nessun cliente trovato" });
     }
     
-    // Trova l'indice del cliente da eliminare
-    const clientIndex = storageData.clients.findIndex(([id, client]) => {
-      return id === clientId && (user.type === 'admin' || client.ownerId === user.id);
-    });
+    // Trova il cliente da eliminare
+    const clientIndex = storageData.clients.findIndex(([id]) => id === clientId);
     
     if (clientIndex === -1) {
-      console.log(`❌ [DELETE] Cliente con ID ${clientId} non trovato o non autorizzato per utente ${user.id}`);
-      return res.status(404).json({ message: "Cliente non trovato o non autorizzato" });
+      console.log(`❌ [DELETE] Cliente con ID ${clientId} non trovato nel sistema`);
+      return res.status(404).json({ message: "Cliente non trovato" });
     }
     
-    // Ottieni i dettagli del cliente prima di eliminarlo
     const [id, clientData] = storageData.clients[clientIndex];
+    
+    // Verifica permessi: solo il proprietario o admin possono eliminare
+    if (user.type !== 'admin' && clientData.ownerId !== user.id) {
+      console.log(`❌ [DELETE] Accesso negato - utente ${user.id} non è proprietario del cliente ${clientId} (proprietario: ${clientData.ownerId})`);
+      return res.status(403).json({ message: "Non sei autorizzato a eliminare questo cliente" });
+    }
+    
+    // Il proprietario può sempre eliminare i propri clienti
+    console.log(`🗑️ [DELETE] Eliminazione autorizzata - utente ${user.id} è ${user.type === 'admin' ? 'admin' : 'proprietario'} del cliente ${clientId}`);
     
     // Elimina il cliente dall'array
     storageData.clients.splice(clientIndex, 1);
     
-    // Elimina anche eventuali appuntamenti associati al cliente
-    if (storageData.userAppointments && storageData.userAppointments[user.id]) {
-      const initialCount = storageData.userAppointments[user.id].length;
-      storageData.userAppointments[user.id] = storageData.userAppointments[user.id].filter(
-        app => app.client !== clientId
-      );
-      const finalCount = storageData.userAppointments[user.id].length;
-      if (initialCount !== finalCount) {
-        console.log(`🗑️ [DELETE] Eliminati ${initialCount - finalCount} appuntamenti associati al cliente ${clientId}`);
+    // Elimina anche eventuali appuntamenti associati al cliente per tutti gli utenti
+    let totalDeletedAppointments = 0;
+    if (storageData.userAppointments) {
+      Object.keys(storageData.userAppointments).forEach(userId => {
+        const initialCount = storageData.userAppointments[userId].length;
+        storageData.userAppointments[userId] = storageData.userAppointments[userId].filter(
+          app => app.client !== clientId
+        );
+        const deletedCount = initialCount - storageData.userAppointments[userId].length;
+        totalDeletedAppointments += deletedCount;
+      });
+      
+      if (totalDeletedAppointments > 0) {
+        console.log(`🗑️ [DELETE] Eliminati ${totalDeletedAppointments} appuntamenti associati al cliente ${clientId}`);
       }
     }
     
     // Salva le modifiche
     saveStorageData(storageData);
     
-    console.log(`✅ [DELETE] Cliente ID ${clientId} "${clientData.firstName} ${clientData.lastName}" eliminato definitivamente per utente ${user.id}`);
+    // Log di notifica per gli admin
+    const isOwnerNotAdmin = user.type !== 'admin';
+    if (isOwnerNotAdmin) {
+      console.log(`📧 [ADMIN-NOTIFICATION] L'utente ${user.id} (${user.email}) ha eliminato il cliente ${clientId} "${clientData.firstName} ${clientData.lastName}" dal database`);
+    }
+    
+    console.log(`✅ [DELETE] Cliente ID ${clientId} "${clientData.firstName} ${clientData.lastName}" eliminato definitivamente da utente ${user.id}`);
+    
     res.status(200).json({ 
       message: "Cliente eliminato con successo",
       deletedClient: {
         id: clientId,
         firstName: clientData.firstName,
         lastName: clientData.lastName
-      }
+      },
+      deletedAppointments: totalDeletedAppointments
     });
   });
 
