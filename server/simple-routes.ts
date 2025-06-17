@@ -2329,6 +2329,169 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint per servire icone PWA dinamiche basate sull'icona del professionista attualmente loggato
+  app.get('/icons/custom-icon-:size.png', (req, res) => {
+    try {
+      const size = req.params.size; // es: 96x96, 192x192, 512x512
+      const storageData = loadStorageData();
+      
+      // Trova l'utente admin/staff attualmente attivo (usa l'ultimo accesso)
+      let currentUserId = null;
+      
+      // Se c'è una sessione attiva, usa quell'utente
+      if (req.session && req.session.passport && req.session.passport.user) {
+        const serializedUser = req.session.passport.user;
+        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
+          currentUserId = parseInt(serializedUser.split(':')[1]);
+        }
+      }
+      
+      // Se non c'è sessione, cerca l'ultimo utente admin attivo
+      if (!currentUserId) {
+        // Fallback: usa il primo utente admin trovato
+        const adminUsers = Object.keys(storageData.userIcons || {});
+        if (adminUsers.length > 0) {
+          currentUserId = parseInt(adminUsers[0]);
+        }
+      }
+      
+      // Recupera l'icona del professionista dalla struttura userIcons
+      const userIcon = currentUserId ? storageData.userIcons[currentUserId] : null;
+      
+      if (!userIcon) {
+        console.log(`🔄 Nessuna icona personalizzata trovata per utente ${currentUserId}, uso default`);
+        return res.redirect('/icons/icon-' + size + '.png');
+      }
+      
+      // Se l'icona è in formato base64, convertila e servila
+      if (userIcon.startsWith('data:image/')) {
+        const base64Data = userIcon.split(',')[1];
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Determina il tipo di immagine dal data URL
+        let contentType = 'image/png';
+        if (userIcon.includes('data:image/jpeg')) contentType = 'image/jpeg';
+        else if (userIcon.includes('data:image/jpg')) contentType = 'image/jpeg';
+        
+        res.set({
+          'Content-Type': contentType,
+          'Cache-Control': 'public, max-age=3600', // Cache per 1 ora
+          'Content-Length': buffer.length
+        });
+        
+        console.log(`📱 Servendo icona PWA personalizzata ${size} per utente ${currentUserId}`);
+        return res.send(buffer);
+      }
+      
+      // Se è un percorso file, serve quello
+      console.log(`📁 Reindirizzando a icona file: ${userIcon}`);
+      res.redirect(userIcon);
+      
+    } catch (error) {
+      console.error('Errore nel servire icona PWA personalizzata:', error);
+      // Fallback all'icona predefinita
+      res.redirect('/icons/icon-' + req.params.size + '.png');
+    }
+  });
+
+  // Endpoint per servire manifest.json dinamico con icone personalizzate
+  app.get('/manifest.json', (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      
+      // Trova l'utente corrente o il primo admin
+      let currentUserId = null;
+      if (req.session && req.session.passport && req.session.passport.user) {
+        const serializedUser = req.session.passport.user;
+        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
+          currentUserId = parseInt(serializedUser.split(':')[1]);
+        }
+      }
+      
+      if (!currentUserId) {
+        const adminUsers = Object.keys(storageData.userIcons || {});
+        if (adminUsers.length > 0) {
+          currentUserId = parseInt(adminUsers[0]);
+        }
+      }
+      
+      // Configurazione manifest dinamica
+      const manifest = {
+        "name": "Gestione Appuntamenti v4",
+        "short_name": "App Cliente",
+        "description": "Gestione consensi e servizi medici",
+        "start_url": "/pwa",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#4f46e5",
+        "orientation": "any",
+        "categories": ["healthcare", "business"],
+        "lang": "it-IT",
+        "dir": "ltr",
+        "prefer_related_applications": false,
+        "scope": "/",
+        "id": "gestione-appuntamenti-client-v4",
+        "icons": [
+          {
+            "src": "/icons/custom-icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any"
+          },
+          {
+            "src": "/icons/custom-icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+          },
+          {
+            "src": "/icons/custom-icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+          }
+        ],
+        "screenshots": [
+          {
+            "src": "/icons/custom-icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "platform": "wide",
+            "label": "Home page dell'applicazione"
+          }
+        ],
+        "shortcuts": [
+          {
+            "name": "Area Cliente",
+            "url": "/client-area",
+            "description": "Accedi alla tua area personale",
+            "icons": [
+              {
+                "src": "/icons/custom-icon-96x96.png",
+                "sizes": "96x96",
+                "type": "image/png"
+              }
+            ]
+          }
+        ],
+        "related_applications": []
+      };
+      
+      res.set({
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=3600'
+      });
+      
+      console.log(`📱 Servendo manifest.json dinamico per utente ${currentUserId}`);
+      res.json(manifest);
+      
+    } catch (error) {
+      console.error('Errore nel servire manifest.json dinamico:', error);
+      // Fallback al manifest statico
+      res.redirect('/public/manifest.json');
+    }
+  });
+
   // Endpoint per recuperare dettagli accessi di un cliente (richiesto da ClientAccessesDetails)
   app.get('/api/client-access/:clientId', requireAuth, (req, res) => {
     try {
