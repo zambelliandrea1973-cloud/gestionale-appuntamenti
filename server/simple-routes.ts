@@ -2888,6 +2888,60 @@ Studio Professionale`,
     });
   });
 
+  // Endpoint per recuperare l'ultimo accesso valido di un proprietario
+  app.get('/api/client-access/last-access/:ownerId', async (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      const storageData = loadStorageData();
+      
+      console.log(`📱 PWA RECOVERY: Ricerca ultimo accesso per proprietario ${ownerId}`);
+      
+      // Trova l'ultimo cliente con accesso valido per questo proprietario
+      const ownerClients = Object.values(storageData.clients).filter(client => 
+        client.originalOwnerId === ownerId
+      );
+      
+      if (ownerClients.length === 0) {
+        return res.status(404).json({ error: 'Nessun cliente trovato per questo proprietario' });
+      }
+      
+      // Trova il cliente con l'accesso più recente
+      let lastAccessClient = null;
+      let lastAccessTime = 0;
+      
+      for (const client of ownerClients) {
+        const accessCount = storageData.clientAccessCounts[client.id] || 0;
+        if (accessCount > 0) {
+          // Per ora usiamo l'ID più alto come proxy per l'accesso più recente
+          if (client.id > lastAccessTime) {
+            lastAccessTime = client.id;
+            lastAccessClient = client;
+          }
+        }
+      }
+      
+      if (!lastAccessClient) {
+        return res.status(404).json({ error: 'Nessun accesso recente trovato' });
+      }
+      
+      // Genera un nuovo token per questo cliente
+      const newToken = await generateClientCode(ownerId, lastAccessClient.id);
+      
+      console.log(`📱 PWA RECOVERY: Token generato per cliente ${lastAccessClient.id}`);
+      
+      res.json({
+        clientId: lastAccessClient.id,
+        token: newToken,
+        isValid: true,
+        clientName: `${lastAccessClient.firstName} ${lastAccessClient.lastName}`
+      });
+      
+    } catch (error) {
+      console.error('Errore nel recupero ultimo accesso:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
   // Endpoint per registrare accesso PWA del cliente (senza autenticazione)
   app.post('/api/client-access/track/:clientId', (req, res) => {
     try {
