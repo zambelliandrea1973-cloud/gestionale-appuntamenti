@@ -50,9 +50,11 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
   useEffect(() => {
     const checkExistingQrCode = async () => {
       try {
+        console.log(`🔍 [FRONTEND] Richiesta QR per cliente: ${client.firstName} ${client.lastName} (ID: ${client.id})`);
         const response = await apiRequest("GET", `/api/clients/${client.id}/activation-token`);
         if (response.ok) {
           const data = await response.json();
+          console.log(`✅ [FRONTEND] QR ricevuto per cliente: ${data.clientName || 'Nome non disponibile'}`);
           if (data && data.qrCode) {
             setClientQrCode(data.qrCode);
           }
