@@ -990,7 +990,9 @@
         "notes": "Test promemoria automatico",
         "status": "scheduled",
         "createdAt": "2025-06-17T08:28:00.000Z",
-        "reminderType": "email"
+        "reminderType": "email",
+        "reminderStatus": "sent",
+        "reminderSentAt": "2025-06-17T08:34:05.513Z"
       }
     ],
     [
