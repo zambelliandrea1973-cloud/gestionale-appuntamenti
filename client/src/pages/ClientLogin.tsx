@@ -477,6 +477,20 @@ export default function ClientLogin() {
     }
   };
 
+  // AUTENTICAZIONE SILENZIOSA: Nessuna interfaccia mostrata durante il processo automatico
+  if (silentAuthInProgress) {
+    return (
+      <div className="container mx-auto p-4 flex flex-col items-center justify-center min-h-screen">
+        <div className="w-full max-w-md p-6">
+          <div className="flex flex-col items-center justify-center gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <h2 className="text-xl font-medium">Accesso in corso...</h2>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Se stiamo caricando attraverso un link diretto, mostra un feedback
   if (directLinkLoading) {
     return (
