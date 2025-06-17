@@ -48,6 +48,7 @@ export default function ClientArea() {
   const [token, setToken] = useState<string>("");
   const [accessTracked, setAccessTracked] = useState<boolean>(false); // Flag per evitare tracking duplicato
   const [pwaAccessMessage, setPwaAccessMessage] = useState<boolean>(false); // Flag per messaggio PWA
+  const [recoveryLoading, setRecoveryLoading] = useState<boolean>(false); // Flag per caricamento recupero
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
@@ -62,6 +63,29 @@ export default function ClientArea() {
       console.error('Errore nel tracking accesso PWA:', error);
       // Non blocchiamo l'accesso per errori di tracking
     }
+  };
+
+  // Funzione per tentare il recupero dell'ultimo accesso PWA
+  const tryRecoverLastAccess = async (ownerId: string) => {
+    setRecoveryLoading(true);
+    try {
+      const response = await apiRequest('GET', `/api/client-access/last-access/${ownerId}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.clientId && data.isValid) {
+          console.log(`📱 PWA: Recuperato ultimo accesso valido per cliente ${data.clientId}`);
+          localStorage.setItem('clientAccessToken', data.token);
+          localStorage.setItem('clientId', data.clientId.toString());
+          setToken(data.token);
+          verifyQRToken(data.token, data.clientId.toString());
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Errore nel recupero ultimo accesso:', error);
+    }
+    setRecoveryLoading(false);
+    setPwaAccessMessage(true);
   };
   
   useEffect(() => {
@@ -95,6 +119,14 @@ export default function ClientArea() {
       console.log("📱 PWA Token salvato rilevato - Tentativo accesso cliente");
       setToken(storedToken);
       verifyQRToken(storedToken, storedClientId);
+      return;
+    }
+    
+    // Verifica se c'è un owner ID salvato per recuperare l'ultimo accesso
+    const storedOwnerId = localStorage.getItem('ownerId');
+    if (storedOwnerId) {
+      console.log(`📱 PWA: Tentativo recupero ultimo accesso per proprietario ${storedOwnerId}`);
+      tryRecoverLastAccess(storedOwnerId);
       return;
     }
     
@@ -399,10 +431,15 @@ export default function ClientArea() {
     return timeString.substring(0, 5);
   };
   
-  if (loading) {
+  if (loading || recoveryLoading) {
     return (
       <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          {recoveryLoading && (
+            <p className="text-sm text-gray-600">Recupero ultimo accesso...</p>
+          )}
+        </div>
       </div>
     );
   }
@@ -429,7 +466,9 @@ export default function ClientArea() {
             </div>
             <Button 
               onClick={() => {
-                localStorage.clear();
+                // Pulisci solo i dati client, mantieni ownerId per future installazioni
+                localStorage.removeItem('clientAccessToken');
+                localStorage.removeItem('clientId');
                 window.location.reload();
               }}
               variant="outline" 
