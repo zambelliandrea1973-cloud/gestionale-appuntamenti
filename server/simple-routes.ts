@@ -1802,12 +1802,12 @@ export function registerSimpleRoutes(app: Express): Server {
     const providedHash = token.substring(lastUnderscoreIndex + 1);
     
     // Verifica che il codice cliente sia formato gerarchico valido
-    if (!clientCode.match(/^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
+    if (!clientCode.match(/^PROF_\d{2,3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
       return res.status(400).json({ message: "Codice cliente non valido" });
     }
     
-    // Estrae owner ID dal codice cliente
-    const ownerMatch = clientCode.match(/^PROF_(\d{3})_/);
+    // Estrae owner ID dal codice cliente (supporta 2-3 cifre)
+    const ownerMatch = clientCode.match(/^PROF_(\d{2,3})_/);
     if (!ownerMatch) {
       return res.status(400).json({ message: "Impossibile identificare proprietario dal codice" });
     }
@@ -2085,10 +2085,10 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`🔍 [ACTIVATE] Codice cliente: ${clientCode}, Hash: ${providedHash}`);
     
     // Verifica che il codice cliente sia formato gerarchico valido
-    // Formato: PROF_014_D84F_CLIENT_1750153393298_7BCE
-    if (!clientCode.match(/^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
+    // Formato: PROF_014_9C1F_CLIENT_1750177330362_816C (supporta anche PROF_XXX_)
+    if (!clientCode.match(/^PROF_\d{2,3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
       console.log(`❌ [ACTIVATE] Codice cliente non gerarchico: ${clientCode}`);
-      console.log(`❌ [ACTIVATE] Pattern atteso: PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
+      console.log(`❌ [ACTIVATE] Pattern atteso: PROF_XX_XXXX_CLIENT_NNNNN_XXXX o PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
       return res.status(400).send(`
         <html>
           <head>
@@ -2104,8 +2104,8 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    // Estrae owner ID dal codice cliente
-    const ownerMatch = clientCode.match(/^PROF_(\d{3})_/);
+    // Estrae owner ID dal codice cliente (supporta 2-3 cifre)
+    const ownerMatch = clientCode.match(/^PROF_(\d{2,3})_/);
     if (!ownerMatch) {
       console.log(`❌ [ACTIVATE] Impossibile estrarre proprietario da: ${clientCode}`);
       return res.status(400).send(`
