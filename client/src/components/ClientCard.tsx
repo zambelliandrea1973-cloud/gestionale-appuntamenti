@@ -51,13 +51,18 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
     const checkExistingQrCode = async () => {
       try {
         const response = await apiRequest("GET", `/api/clients/${client.id}/activation-token`);
-        const data = await response.json();
-        
-        if (data && data.qrCode) {
-          setClientQrCode(data.qrCode);
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.qrCode) {
+            setClientQrCode(data.qrCode);
+          }
         }
+        // Ignora silenziosamente gli errori 404 per clienti inesistenti
       } catch (error) {
-        console.error(t('errors.qrCodeFetchError'), error);
+        // Solo log degli errori non-404
+        if (!error.message?.includes('404')) {
+          console.error(t('errors.qrCodeFetchError'), error);
+        }
       }
     };
     
