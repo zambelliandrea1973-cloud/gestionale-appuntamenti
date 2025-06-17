@@ -41,6 +41,15 @@ export default function ClientLogin() {
       console.log("🚀 ClientLogin: Token URL rilevato, redirect a client-area");
       localStorage.setItem('clientAccessToken', tokenFromURL);
       localStorage.setItem('clientId', clientIdFromURL);
+      
+      // Estrai proprietario dal token per PWA
+      const tokenParts = tokenFromURL.split('_');
+      if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
+        const ownerId = tokenParts[1];
+        localStorage.setItem('ownerId', ownerId);
+        console.log(`📱 ClientLogin: Salvato proprietario ${ownerId} per PWA`);
+      }
+      
       window.location.href = `/client-area?token=${tokenFromURL}&clientId=${clientIdFromURL}&autoLogin=true`;
       return;
     }

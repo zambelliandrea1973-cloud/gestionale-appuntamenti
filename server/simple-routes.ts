@@ -2956,13 +2956,22 @@ Studio Professionale`,
       if (tokenMatch) {
         const token = tokenMatch[1];
         const tokenParts = token.split('_');
-        if (tokenParts.length === 3) {
-          ownerUserId = parseInt(tokenParts[0]); // Prima parte = userId proprietario
+        if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
+          ownerUserId = parseInt(tokenParts[1]); // Seconda parte = userId proprietario
           console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da token QR`);
         }
       }
       
-      // Se non trovato da token QR, usa sessione attiva (admin)
+      // Se non trovato da token QR, controlla header custom per ownerId dalla PWA
+      if (!ownerUserId) {
+        const ownerIdHeader = req.get('x-owner-id');
+        if (ownerIdHeader) {
+          ownerUserId = parseInt(ownerIdHeader);
+          console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da header PWA`);
+        }
+      }
+      
+      // Se non trovato, usa sessione attiva (admin)
       if (!ownerUserId && req.session && req.session.passport && req.session.passport.user) {
         const serializedUser = req.session.passport.user;
         if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
@@ -3055,7 +3064,7 @@ Studio Professionale`,
         "name": "Gestione Appuntamenti v4",
         "short_name": "App Cliente",
         "description": "Gestione consensi e servizi medici",
-        "start_url": "/pwa",
+        "start_url": "/client-login",
         "display": "standalone",
         "background_color": "#ffffff",
         "theme_color": "#4f46e5",
