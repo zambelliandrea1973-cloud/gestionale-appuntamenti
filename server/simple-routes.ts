@@ -499,14 +499,19 @@ export function registerSimpleRoutes(app: Express): Server {
 
       const storageData = loadStorageData();
       
+      // Il storage usa un Map convertito in array di tuple [id, data]
       // Trova il cliente esistente
-      const existingClientIndex = storageData.clients.findIndex((c: any) => c.id === clientId);
+      const existingClientIndex = storageData.clients.findIndex((entry: any) => {
+        return Array.isArray(entry) ? entry[0] === clientId : entry.id === clientId;
+      });
+      
       if (existingClientIndex === -1) {
         console.log(`❌ [PUT /api/clients/${clientId}] Cliente non trovato`);
         return res.status(404).json({ message: "Cliente non trovato" });
       }
 
-      const existingClient = storageData.clients[existingClientIndex];
+      const existingClientEntry = storageData.clients[existingClientIndex];
+      const existingClient = Array.isArray(existingClientEntry) ? existingClientEntry[1] : existingClientEntry;
       
       // Verifica ownership per utenti non-staff
       if (user.type !== 'staff' && existingClient.ownerId !== user.id) {
@@ -523,8 +528,12 @@ export function registerSimpleRoutes(app: Express): Server {
         updatedAt: new Date().toISOString()
       };
 
-      // Sostituisci il cliente nell'array
-      storageData.clients[existingClientIndex] = updatedClient;
+      // Sostituisci il cliente nell'array (mantieni il formato tuple se necessario)
+      if (Array.isArray(existingClientEntry)) {
+        storageData.clients[existingClientIndex] = [clientId, updatedClient];
+      } else {
+        storageData.clients[existingClientIndex] = updatedClient;
+      }
       
       // Salva nel file
       saveStorageData(storageData);
