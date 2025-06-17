@@ -61,11 +61,11 @@ export default function AutoLogin() {
           return;
         }
         
-        // Se abbiamo un token e un cliente ID, prima tenta la verifica del token
+        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR
         if (token && clientId) {
           try {
-            console.log("Tentativo di verifica token");
-            const tokenResponse = await apiRequest('POST', '/api/verify-token', { 
+            console.log("Tentativo di verifica token QR:", { token: token.substring(0, 10) + '...', clientId });
+            const tokenResponse = await apiRequest('POST', '/api/client-access/verify-token', { 
               token, 
               clientId: parseInt(clientId, 10) 
             });
@@ -76,6 +76,13 @@ export default function AutoLogin() {
               setMessage("Accesso effettuato");
               setClientName(result.client?.firstName || 'Utente');
               
+              // Salva le informazioni del cliente per accessi futuri
+              localStorage.setItem('clientId', clientId);
+              localStorage.setItem('clientAccessToken', token);
+              if (result.client?.firstName) {
+                localStorage.setItem('clientUsername', result.client.firstName);
+              }
+              
               toast({
                 title: "Accesso automatico effettuato",
                 description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
@@ -83,15 +90,15 @@ export default function AutoLogin() {
               
               // Redirezione alla client area
               setTimeout(() => {
-                setLocation(`/client-area?token=${token}`);
+                setLocation(`/client-area?token=${token}&clientId=${clientId}`);
               }, 1500);
               
               return;
             } else {
-              console.log("Verifica token fallita, tentativo con credenziali");
+              console.log("Verifica token QR fallita, tentativo con credenziali salvate");
             }
           } catch (error) {
-            console.error("Errore durante verifica token:", error);
+            console.error("Errore durante verifica token QR:", error);
           }
         }
         
