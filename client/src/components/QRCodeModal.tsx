@@ -34,8 +34,8 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
   const generateTokenMutation = useMutation({
     mutationFn: async () => {
       setIsGenerating(true);
-      console.log("Iniziando generazione QR code...");
-      const response = await apiRequest("POST", `/api/clients/${clientId}/generate-activation`, {});
+      console.log("🔍 [FRONTEND] Richiesta QR per cliente:", clientName, `(ID: ${clientId})`);
+      const response = await apiRequest("GET", `/api/clients/${clientId}/activation-token`);
       return response.json();
     },
     onSuccess: (data) => {
@@ -159,23 +159,7 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
                   <img src={qrCode} alt="QR code di attivazione" className="w-64 h-64" />
                 </div>
                 
-                {/* VERIFICA TOKEN - Mostra il token contenuto nel QR */}
-                <div className="mt-3 p-3 bg-red-100 border-2 border-red-300 rounded-md">
-                  <p className="text-sm font-bold text-red-800 text-center">
-                    🔍 VERIFICA QR - MARCO BERTO
-                  </p>
-                  <p className="text-xs font-mono text-red-700 text-center mt-1 break-all">
-                    TOKEN ATTESO: PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03
-                  </p>
-                  <p className="text-xs text-red-600 text-center mt-2">
-                    ⚠️ FOTOQR E CONTROLLA CHE CONTENGA QUESTO TOKEN
-                  </p>
-                  {activationUrl && (
-                    <p className="text-xs font-mono text-gray-600 text-center mt-1 break-all">
-                      MOSTRATO: {activationUrl.split('token=')[1]?.split('&')[0] || 'N/A'}
-                    </p>
-                  )}
-                </div>
+
                 
                 <div className="flex space-x-2 mt-4">
                   <Button variant="outline" size="sm" onClick={downloadQrCode}>
