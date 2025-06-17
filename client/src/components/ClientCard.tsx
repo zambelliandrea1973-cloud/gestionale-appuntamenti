@@ -44,6 +44,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const [qrCodeModalTab, setQrCodeModalTab] = useState<"qrcode" | "link">("qrcode");
   const [clientQrCode, setClientQrCode] = useState<string | null>(null);
+  const [clientToken, setClientToken] = useState<string | null>(null);
   const [isAccessesDialogOpen, setIsAccessesDialogOpen] = useState(false);
   
   // Verifica se esiste già un token per questo cliente
@@ -57,6 +58,9 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
           console.log(`✅ [FRONTEND] QR ricevuto per cliente: ${data.clientName || 'Nome non disponibile'}`);
           if (data && data.qrCode) {
             setClientQrCode(data.qrCode);
+          }
+          if (data && data.token) {
+            setClientToken(data.token);
           }
         } else if (response.status === 404) {
           // Cliente non esiste nel sistema - ignora silenziosamente
@@ -293,6 +297,15 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
               <div className="flex items-center text-xs text-blue-600 mt-1 font-mono">
                 <span className="bg-blue-50 px-2 py-1 rounded border">
                   {client.uniqueCode}
+                </span>
+              </div>
+            )}
+            
+            {/* VERIFICA TOKEN QR - Mostra il token associato */}
+            {clientToken && (
+              <div className="flex items-center text-xs text-orange-600 mt-2 font-mono">
+                <span className="bg-orange-50 px-2 py-1 rounded border border-orange-200">
+                  TOKEN: {clientToken.substring(0, 20)}...{clientToken.substring(-8)}
                 </span>
               </div>
             )}
