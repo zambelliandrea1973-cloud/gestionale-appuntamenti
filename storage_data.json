@@ -974,7 +974,8 @@
         "endTime": "19:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-16T07:39:04.768Z"
+        "createdAt": "2025-06-16T07:39:04.768Z",
+        "reminderType": "email"
       }
     ],
     [
