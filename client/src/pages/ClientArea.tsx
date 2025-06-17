@@ -197,31 +197,51 @@ export default function ClientArea() {
       const storedToken = localStorage.getItem('clientAccessToken');
       const storedClientId = localStorage.getItem('clientId');
 
-      // Se siamo in una PWA installata e abbiamo token/clientId salvati nel localStorage,
-      // usiamoli per tentare l'autenticazione tramite API specifica
-      if (window.matchMedia('(display-mode: standalone)').matches && 
-          storedToken && storedClientId) {
-        console.log("PWA in modalità standalone, tentativo di auto-login con token salvato");
+      // Se abbiamo token/clientId salvati nel localStorage, usiamoli per PWA
+      if (storedToken && storedClientId) {
+        console.log("📱 PWA: Tentativo auto-login con token localStorage");
+        console.log(`Token salvato: ${storedToken}`);
+        console.log(`Client ID salvato: ${storedClientId}`);
+        
         try {
-          const tokenResponse = await apiRequest('POST', '/api/verify-token', { 
+          const tokenResponse = await apiRequest('POST', '/api/client-access/verify-token', { 
             token: storedToken, 
             clientId: parseInt(storedClientId, 10) 
           });
           
           if (tokenResponse.ok) {
-            const tokenResult = await tokenResponse.json();
-            setUser(tokenResult);
+            const clientData = await tokenResponse.json();
+            console.log("✅ PWA Auto-login riuscito con token localStorage");
+            
+            // Estrai owner ID dal token per user ID  
+            const ownerMatch = storedToken.match(/^PROF_(\d{2,3})_/);
+            const ownerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(storedClientId, 10);
+            
+            setUser({
+              id: ownerId,
+              username: `client_${storedClientId}`,
+              type: "client", 
+              client: clientData.client
+            });
             
             // Registra l'accesso PWA per il tracking
-            trackClientAccess(storedClientId);
+            if (!accessTracked) {
+              trackClientAccess(storedClientId);
+            }
             
             setLoading(false);
             return;
+          } else {
+            console.log("❌ PWA Auto-login fallito - token localStorage non valido");
+            // Pulisci localStorage e procedi con autenticazione normale
+            localStorage.removeItem('clientAccessToken');
+            localStorage.removeItem('clientId');
           }
-          // Se il token non è valido, continua con il metodo normale (sessione)
-          console.log("Auto-login con token fallito, prova con sessione standard");
         } catch (tokenError) {
-          console.error("Errore durante l'auto-login con token:", tokenError);
+          console.error("Errore durante PWA auto-login:", tokenError);
+          // Pulisci localStorage in caso di errore
+          localStorage.removeItem('clientAccessToken');
+          localStorage.removeItem('clientId');
         }
       }
 
