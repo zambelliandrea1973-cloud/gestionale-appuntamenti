@@ -91,16 +91,25 @@ function AppRoutes() {
       '/consent', '/'
     ];
     
+    // Percorsi dedicati ai clienti finali (pazienti) - NON devono essere gestiti dal sistema staff
+    const clientOnlyPaths = [
+      '/client-area', '/auto-login', '/pwa', '/consent'
+    ];
+    
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
+      
+      // Se siamo su un percorso dedicato ai clienti, NON applicare la logica di autenticazione staff
+      if (clientOnlyPaths.includes(location)) {
+        console.log('Percorso cliente rilevato, salto controlli autenticazione staff');
+        return;
+      }
       
       // SOLO se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
       if (!user && !publicPaths.includes(location)) {
         console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
-      } else if (user && !publicPaths.includes(location)) {
-
       }
       
       // Non facciamo altri reindirizzamenti automatici

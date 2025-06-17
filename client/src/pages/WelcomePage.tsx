@@ -22,10 +22,19 @@ export default function WelcomePage() {
 
   // Reindirizza utenti autenticati alla dashboard
   useEffect(() => {
-    if (!isLoading && user) {
+    // Controlla se stiamo arrivando da un flusso cliente (QR scan)
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasClientToken = urlParams.get('token') && urlParams.get('clientId');
+    
+    if (!isLoading && user && !hasClientToken) {
       console.log('✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard');
       setLocation('/dashboard');
       return;
+    }
+    
+    // Se abbiamo un token cliente, lascia che l'utente scelga dove andare
+    if (hasClientToken) {
+      console.log('Token cliente rilevato, rimango su WelcomePage per scelta utente');
     }
   }, [user, isLoading, setLocation]);
 
