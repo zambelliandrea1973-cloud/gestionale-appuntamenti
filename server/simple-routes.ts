@@ -2741,6 +2741,34 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint di test per forzare l'esecuzione del sistema di promemoria
+  app.post("/api/test-reminder-system", requireAuth, async (req, res) => {
+    try {
+      console.log('🔧 Test manuale del sistema di promemoria richiesto');
+      
+      // Importa e esegue il servizio di promemoria
+      const { notificationService } = await import('./services/notificationService');
+      
+      console.log('📨 Avvio test del processore di promemoria...');
+      const remindersSent = await notificationService.processReminders();
+      
+      res.json({
+        success: true,
+        message: `Test completato: ${remindersSent} promemoria elaborati`,
+        remindersSent,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error: any) {
+      console.error('❌ Errore nel test del sistema di promemoria:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
