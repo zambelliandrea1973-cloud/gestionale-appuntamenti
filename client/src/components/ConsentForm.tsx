@@ -96,14 +96,24 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
       });
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         title: "Consenso registrato",
         description: "Il consenso al trattamento dei dati è stato registrato con successo.",
       });
-      queryClient.invalidateQueries({
-        queryKey: ["/api/consents/client", clientId]
-      });
+      
+      // Update client's hasConsent status to true
+      if (client) {
+        await apiRequest("PUT", `/api/clients/${clientId}`, {
+          ...client,
+          hasConsent: true
+        });
+      }
+      
+      // Refresh all relevant data
+      queryClient.invalidateQueries({ queryKey: ["/api/consents/client", clientId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
     },
     onError: (error: any) => {
       toast({
@@ -168,8 +178,21 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
     );
   }
 
-  // If consent already exists, show existing consent
+  // If consent already exists, show existing consent and ensure client status is updated
   if (existingConsent) {
+    // Ensure client hasConsent is set to true if we have an existing consent
+    React.useEffect(() => {
+      if (client && !client.hasConsent) {
+        apiRequest("PUT", `/api/clients/${clientId}`, {
+          ...client,
+          hasConsent: true
+        }).then(() => {
+          queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+          queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
+        });
+      }
+    }, [client, clientId]);
+
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
