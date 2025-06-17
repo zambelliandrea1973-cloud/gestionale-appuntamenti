@@ -29,35 +29,29 @@ export default function ClientLogin() {
   const [showSessionExpiredMessage, setShowSessionExpiredMessage] = useState<boolean>(false);
   const [silentAuthInProgress, setSilentAuthInProgress] = useState<boolean>(false);
 
-  // AUTENTICAZIONE COMPLETAMENTE TRASPARENTE - Nessuna interfaccia mostrata all'utente
+  // REDIRECT AUTOMATICO COME QR CODE - Stesso percorso identico
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     
-    // TOKEN DA URL: Autenticazione automatica immediata
+    // TOKEN DA URL: Redirect immediato a client-area come QR code
     const tokenFromURL = urlParams.get('token');
     const clientIdFromURL = urlParams.get('clientId');
     
     if (tokenFromURL && clientIdFromURL) {
-      console.log("🔧 AUTENTICAZIONE TRASPARENTE: Token e clientId rilevati, accesso automatico");
-      
-      // Salva per PWA
+      console.log("🚀 ClientLogin: Token URL rilevato, redirect a client-area");
       localStorage.setItem('clientAccessToken', tokenFromURL);
       localStorage.setItem('clientId', clientIdFromURL);
-      
-      // ACCESSO AUTOMATICO SENZA INTERFACCIA
-      performSilentAuthentication(tokenFromURL, clientIdFromURL);
+      window.location.href = `/client-area?token=${tokenFromURL}&clientId=${clientIdFromURL}&autoLogin=true`;
       return;
     }
     
-    // TOKEN DA LOCALSTORAGE: Autenticazione PWA automatica
+    // TOKEN DA LOCALSTORAGE: Redirect PWA a client-area come QR code
     const storedToken = localStorage.getItem('clientAccessToken');
     const storedClientId = localStorage.getItem('clientId');
     
     if (storedToken && storedClientId) {
-      console.log("📱 PWA AUTENTICAZIONE TRASPARENTE: Token localStorage rilevato, accesso automatico");
-      
-      // ACCESSO AUTOMATICO SENZA INTERFACCIA
-      performSilentAuthentication(storedToken, storedClientId);
+      console.log("📱 ClientLogin: Token PWA rilevato, redirect a client-area");
+      window.location.href = `/client-area?token=${storedToken}&clientId=${storedClientId}&autoLogin=true`;
       return;
     }
     
