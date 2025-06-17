@@ -47,6 +47,7 @@ export default function ClientArea() {
   const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
   const [accessTracked, setAccessTracked] = useState<boolean>(false); // Flag per evitare tracking duplicato
+  const [pwaAccessMessage, setPwaAccessMessage] = useState<boolean>(false); // Flag per messaggio PWA
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
@@ -94,6 +95,19 @@ export default function ClientArea() {
       console.log("📱 PWA Token salvato rilevato - Tentativo accesso cliente");
       setToken(storedToken);
       verifyQRToken(storedToken, storedClientId);
+      return;
+    }
+    
+    // Controllo PWA standalone - se siamo in PWA, NON fare controlli staff
+    const isPWA = 
+      window.matchMedia('(display-mode: standalone)').matches || 
+      (window.navigator as any).standalone || 
+      document.referrer.includes('android-app://');
+    
+    if (isPWA) {
+      console.log("📱 PWA rilevata - Skip controlli staff, mostra messaggio informativo");
+      setLoading(false);
+      setPwaAccessMessage(true);
       return;
     }
     
@@ -389,6 +403,42 @@ export default function ClientArea() {
     return (
       <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Messaggio informativo per PWA senza dati di accesso
+  if (pwaAccessMessage) {
+    return (
+      <div className="container mx-auto p-4 max-w-md">
+        <Card className="border-[#4a6c33] border-2">
+          <CardHeader className="text-center pb-4">
+            <div className="w-16 h-16 bg-[#4a6c33] rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Smartphone className="h-8 w-8 text-white" />
+            </div>
+            <CardTitle className="text-lg text-slate-900">App Installata Correttamente</CardTitle>
+            <CardDescription>
+              Per accedere alla tua area personale, scansiona il codice QR fornito dal tuo professionista
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="text-sm text-blue-800">
+                L'app è ora installata sul tuo dispositivo. Per il primo accesso, utilizza il codice QR che ti è stato fornito.
+              </p>
+            </div>
+            <Button 
+              onClick={() => {
+                localStorage.clear();
+                window.location.reload();
+              }}
+              variant="outline" 
+              className="w-full"
+            >
+              Riprova
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
