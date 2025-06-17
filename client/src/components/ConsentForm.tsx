@@ -242,7 +242,7 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-6">
             <FormField
               control={form.control}
               name="fullName"
@@ -325,7 +325,7 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
                 )}
               </Button>
             </div>
-          </form>
+          </div>
         </Form>
       </CardContent>
     </Card>

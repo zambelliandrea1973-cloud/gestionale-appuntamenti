@@ -487,7 +487,7 @@ export default function ClientForm({
               <TabsContent value="consent" className="py-4">
                 {/* Consent form */}
                 {clientId ? (
-                  <ConsentForm clientId={clientId} />
+                  <ConsentForm clientId={clientId.toString()} />
                 ) : (
                   <div className="bg-muted p-4 rounded-md">
                     <p className="text-sm">È possibile raccogliere il consenso al trattamento dei dati dopo aver creato il cliente.</p>
