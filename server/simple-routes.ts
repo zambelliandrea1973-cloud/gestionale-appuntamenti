@@ -1578,10 +1578,35 @@ export function registerSimpleRoutes(app: Express): Server {
     // Salva le modifiche
     saveStorageData(storageData);
     
-    // Log di notifica per gli admin
+    // Salva notifica per gli admin
     const isOwnerNotAdmin = user.type !== 'admin';
     if (isOwnerNotAdmin) {
       console.log(`📧 [ADMIN-NOTIFICATION] L'utente ${user.id} (${user.email}) ha eliminato il cliente ${clientId} "${clientData.firstName} ${clientData.lastName}" dal database`);
+      
+      // Salva la notifica nel storage per gli admin
+      if (!storageData.adminNotifications) {
+        storageData.adminNotifications = [];
+      }
+      
+      storageData.adminNotifications.push({
+        id: Date.now(),
+        type: 'client_deleted',
+        message: `L'utente ${user.email} ha eliminato il cliente "${clientData.firstName} ${clientData.lastName}" dal database`,
+        userId: user.id,
+        userEmail: user.email,
+        clientId: clientId,
+        clientName: `${clientData.firstName} ${clientData.lastName}`,
+        timestamp: new Date().toISOString(),
+        read: false
+      });
+      
+      // Mantieni solo le ultime 100 notifiche
+      if (storageData.adminNotifications.length > 100) {
+        storageData.adminNotifications = storageData.adminNotifications.slice(-100);
+      }
+      
+      // Salva nuovamente per includere le notifiche
+      saveStorageData(storageData);
     }
     
     console.log(`✅ [DELETE] Cliente ID ${clientId} "${clientData.firstName} ${clientData.lastName}" eliminato definitivamente da utente ${user.id}`);
@@ -1595,6 +1620,53 @@ export function registerSimpleRoutes(app: Express): Server {
       },
       deletedAppointments: totalDeletedAppointments
     });
+  });
+
+  // Endpoint per recuperare notifiche admin
+  app.get("/api/admin/notifications", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    // Solo admin possono vedere le notifiche
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Accesso negato" });
+    }
+    
+    const storageData = loadStorageData();
+    const notifications = storageData.adminNotifications || [];
+    
+    // Ordina per timestamp decrescente (più recenti prima)
+    const sortedNotifications = notifications.sort((a, b) => 
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+    
+    res.json(sortedNotifications);
+  });
+
+  // Endpoint per marcare notifiche come lette
+  app.post("/api/admin/notifications/:id/read", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Accesso negato" });
+    }
+    
+    const notificationId = parseInt(req.params.id);
+    const storageData = loadStorageData();
+    
+    if (storageData.adminNotifications) {
+      const notification = storageData.adminNotifications.find(n => n.id === notificationId);
+      if (notification) {
+        notification.read = true;
+        saveStorageData(storageData);
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ message: "Notifica non trovata" });
+      }
+    } else {
+      res.status(404).json({ message: "Notifica non trovata" });
+    }
   });
 
   // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE

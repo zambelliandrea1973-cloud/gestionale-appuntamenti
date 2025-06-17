@@ -21,6 +21,7 @@ import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
 import SimpleServiceManager from '@/components/SimpleServiceManager';
 import EmailSettings from '@/components/EmailSettings';
+import AdminNotifications from '@/components/AdminNotifications';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
@@ -141,6 +142,13 @@ export default function Settings() {
                       className="border-dashed"
                     />
                   </div>
+                  
+                  {/* Notifiche Admin - Solo per amministratori */}
+                  {user && user.type === 'admin' && (
+                    <div className="mt-6">
+                      <AdminNotifications />
+                    </div>
+                  )}
                 </div>
               </div>
               
