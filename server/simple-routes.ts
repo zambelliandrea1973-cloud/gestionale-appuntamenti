@@ -449,11 +449,15 @@ export function registerSimpleRoutes(app: Express): Server {
         });
       }
       
-      // Crea nuovo cliente con ownership
+      // Crea nuovo cliente con ownership e codice gerarchico
+      const clientId = Date.now();
+      const hierarchicalCode = generateClientCode(user.id, clientId);
+      
       const newClient = {
-        id: Date.now(),
+        id: clientId,
         ownerId: user.id,
-        uniqueCode: `${user.type.substring(0,3).toUpperCase()}${Date.now().toString().slice(-4)}`,
+        uniqueCode: hierarchicalCode,
+        professionistCode: getProfessionistCode(user.id),
         createdAt: new Date().toISOString(),
         ...req.body
       };
@@ -697,12 +701,67 @@ export function registerSimpleRoutes(app: Express): Server {
         if (!data.userIcons) data.userIcons = {};
         if (!data.userBusinessSettings) data.userBusinessSettings = {};
         if (!data.userServices) data.userServices = {};
+        if (!data.professionistCodes) data.professionistCodes = {};
+        if (!data.clientCodes) data.clientCodes = {};
         return data;
       }
     } catch (error) {
       console.error('Errore caricamento storage:', error);
     }
-    return { userIcons: {}, userBusinessSettings: {}, userServices: {} };
+    return { userIcons: {}, userBusinessSettings: {}, userServices: {}, professionistCodes: {}, clientCodes: {} };
+  }
+
+  // Genera codice professionista univoco basato su licenza
+  function generateProfessionistCode(userId: number): string {
+    const crypto = require('crypto');
+    const timestamp = Date.now();
+    const hash = crypto.createHash('md5').update(`PROF_${userId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
+    return `PROF_${userId.toString().padStart(3, '0')}_${hash}`;
+  }
+
+  // Recupera o genera il codice professionista
+  function getProfessionistCode(userId: number): string {
+    const storageData = loadStorageData();
+    
+    // Cerca se l'utente ha già un codice professionista
+    if (storageData.professionistCodes && storageData.professionistCodes[userId]) {
+      return storageData.professionistCodes[userId];
+    }
+    
+    // Genera nuovo codice e lo salva
+    const newCode = generateProfessionistCode(userId);
+    
+    if (!storageData.professionistCodes) {
+      storageData.professionistCodes = {};
+    }
+    
+    storageData.professionistCodes[userId] = newCode;
+    saveStorageData(storageData);
+    
+    console.log(`✅ Nuovo codice professionista generato per utente ${userId}: ${newCode}`);
+    return newCode;
+  }
+
+  // Genera codice cliente che include codice professionista
+  function generateClientCode(ownerId: number, clientId: number): string {
+    const crypto = require('crypto');
+    const profCode = getProfessionistCode(ownerId);
+    const timestamp = Date.now();
+    const hash = crypto.createHash('md5').update(`${profCode}_CLIENT_${clientId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
+    return `${profCode}_CLIENT_${clientId.toString().padStart(3, '0')}_${hash}`;
+  }
+
+  // Valida ownership attraverso codice gerarchico
+  function validateClientOwnership(clientCode: string, expectedOwnerId: number): boolean {
+    if (!clientCode) return false;
+    const profCode = getProfessionistCode(expectedOwnerId);
+    return clientCode.startsWith(profCode);
+  }
+
+  // Estrae owner ID da codice cliente
+  function extractOwnerFromClientCode(clientCode: string): number | null {
+    const match = clientCode.match(/^PROF_(\d{3})_/);
+    return match ? parseInt(match[1], 10) : null;
   }
 
   function generateDefaultClientsForUser(userId, userEmail) {
@@ -1484,12 +1543,29 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
-    // Genera token di attivazione permanente per cliente
-    // CORREZIONE CRITICA: Usa ownerId del cliente invece di user.id corrente per garantire consistenza icone PWA
-    const ownerUserId = client.ownerId || user.id; // Fallback a user.id solo se ownerId non esiste
+    // Genera token di attivazione permanente basato su codici gerarchici
+    const ownerUserId = client.ownerId || user.id;
+    
+    // SISTEMA CODICI GERARCHICI: Verifica e genera codici se mancanti
+    let clientCode = client.uniqueCode;
+    if (!clientCode || !validateClientOwnership(clientCode, ownerUserId)) {
+      console.log(`🔧 Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
+      clientCode = generateClientCode(ownerUserId, clientId);
+      
+      // Aggiorna il cliente con il nuovo codice
+      const storageData = loadStorageData();
+      const clientIndex = storageData.clients.findIndex(([id]) => id === clientId);
+      if (clientIndex !== -1) {
+        storageData.clients[clientIndex][1].uniqueCode = clientCode;
+        storageData.clients[clientIndex][1].professionistCode = getProfessionistCode(ownerUserId);
+        saveStorageData(storageData);
+      }
+    }
+    
     const crypto = await import('crypto');
-    const stableHash = crypto.createHash('md5').update(`${ownerUserId}_${clientId}_permanent`).digest('hex').substring(0, 8);
-    const token = `${ownerUserId}_${clientId}_${stableHash}`;
+    const tokenData = `${clientCode}_SECURE_${ownerUserId}`;
+    const stableHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+    const token = `${clientCode}_${stableHash}`;
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const activationUrl = `${protocol}://${host}/activate?token=${token}`;
