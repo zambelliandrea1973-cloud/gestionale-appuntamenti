@@ -64,66 +64,66 @@ export default function ClientArea() {
   };
   
   useEffect(() => {
-    // Prima verifica se l'utente è già autenticato come admin/staff
+    // PRIORITÀ AI PARAMETRI QR - Controlla sempre prima i parametri URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromQuery = urlParams.get('token');
+    const clientIdFromQuery = urlParams.get('clientId');
+    const autoLoginFromQuery = urlParams.get('autoLogin');
+    
+    // ACCESSO DIRETTO VIA QR CODE - Priorità massima
+    if (tokenFromQuery && clientIdFromQuery && autoLoginFromQuery === 'true') {
+      console.log("🔐 QR Code Token rilevato - Accesso cliente diretto (priorità)");
+      console.log(`Token: ${tokenFromQuery}`);
+      console.log(`Client ID: ${clientIdFromQuery}`);
+      
+      // Salva nel localStorage per supporto PWA
+      localStorage.setItem('clientAccessToken', tokenFromQuery);
+      localStorage.setItem('clientId', clientIdFromQuery);
+      
+      // Imposta il token e verifica immediatamente
+      setToken(tokenFromQuery);
+      verifyQRToken(tokenFromQuery, clientIdFromQuery);
+      return;
+    }
+    
+    // Se non c'è token QR negli URL, verifica localStorage per PWA
+    const storedToken = localStorage.getItem('clientAccessToken');
+    const storedClientId = localStorage.getItem('clientId');
+    
+    if (storedToken && storedClientId) {
+      console.log("📱 PWA Token salvato rilevato - Tentativo accesso cliente");
+      setToken(storedToken);
+      verifyQRToken(storedToken, storedClientId);
+      return;
+    }
+    
+    // Solo ora verifica se l'utente è già autenticato come admin/staff
     const checkAdminAccess = async () => {
       try {
         const response = await apiRequest('GET', '/api/current-user');
         if (response.ok) {
           const userData = await response.json();
           
-          // Se è admin/staff, reindirizza alla dashboard - non dovrebbero accedere all'area cliente
+          // Se è admin/staff, reindirizza alla dashboard
           if (userData.type === "admin" || userData.type === "staff") {
             console.log("🚫 Admin/Staff rilevato - Reindirizzamento a dashboard");
-            console.log("L'area cliente è riservata ai clienti che accedono tramite QR code");
             setLocation("/dashboard");
             return true;
           }
         }
       } catch (error) {
-        console.log("Verifica admin fallita, procedo con QR code");
+        console.log("Verifica admin fallita, procedo con autenticazione tradizionale");
       }
       return false;
     };
     
-    // Verifica accesso admin prima di tutto
+    // Verifica accesso admin solo se non ci sono token QR
     checkAdminAccess().then((isAdminAuthenticated) => {
-      if (isAdminAuthenticated) {
-        return; // Admin autenticato, non serve verificare QR code
+      if (!isAdminAuthenticated) {
+        // Fallback: verifica autenticazione tradizionale
+        console.log("🔍 Nessun token QR - Verifica autenticazione tradizionale");
+        fetchCurrentUser();
       }
-      
-      // Solo se non è admin, verifica i parametri QR code
-      const urlParams = new URLSearchParams(window.location.search);
-      const tokenFromQuery = urlParams.get('token');
-      const clientIdFromQuery = urlParams.get('clientId');
-      
-      // ACCESSO DIRETTO VIA QR CODE per clienti
-      if (tokenFromQuery && clientIdFromQuery) {
-        console.log("🔐 QR Code Token rilevato - Accesso cliente diretto");
-        
-        // Salva nel localStorage per supporto PWA
-        localStorage.setItem('clientAccessToken', tokenFromQuery);
-        localStorage.setItem('clientId', clientIdFromQuery);
-        
-        // Imposta il token e verifica immediatamente
-        setToken(tokenFromQuery);
-        verifyQRToken(tokenFromQuery, clientIdFromQuery);
-        return;
-      }
-      
-      // Se non c'è token QR ma abbiamo dati salvati per PWA
-      const storedToken = localStorage.getItem('clientAccessToken');
-      const storedClientId = localStorage.getItem('clientId');
-      
-      if (storedToken && storedClientId) {
-        console.log("📱 PWA Token salvato rilevato - Tentativo accesso cliente");
-        setToken(storedToken);
-        verifyQRToken(storedToken, storedClientId);
-        return;
-      }
-      
-      // Fallback: verifica autenticazione tradizionale
-      console.log("🔍 Nessun token QR - Verifica autenticazione tradizionale");
-      fetchCurrentUser();
     });
   }, []);
 
@@ -135,21 +135,12 @@ export default function ClientArea() {
 
   const verifyQRToken = async (token: string, clientId: string) => {
     console.log(`🔐 Verifica token QR per cliente ${clientId}`);
+    console.log(`🔐 Token ricevuto: ${token}`);
     setLoading(true);
     
     try {
-      // Verifica formato token: userId_clientId_timestamp
-      const tokenParts = token.split('_');
-      if (tokenParts.length !== 3) {
-        throw new Error("Formato token non valido");
-      }
-      
-      const [userId, tokenClientId, timestamp] = tokenParts;
-      
-      // Verifica che il clientId nel token corrisponda a quello nell'URL
-      if (tokenClientId !== clientId) {
-        throw new Error("Token non corrisponde al cliente");
-      }
+      // NUOVO FORMATO GERARCHICO: PROF_XXX_XXXX_CLIENT_ID_HASH
+      // Non verifichiamo più il formato locale, lasciamo che il server validi
       
       // Carica i dati del cliente direttamente tramite API dedicata
       const response = await apiRequest('POST', '/api/client-access/verify-token', {
@@ -158,22 +149,30 @@ export default function ClientArea() {
       });
       
       if (!response.ok) {
+        const errorData = await response.text();
+        console.error(`❌ Errore verifica token: ${response.status} - ${errorData}`);
         throw new Error("Token non valido o scaduto");
       }
       
       const clientData = await response.json();
       console.log(`✅ Token QR valido - Cliente autenticato: ${clientData.client.firstName} ${clientData.client.lastName}`);
       
+      // Estrai owner ID dal token gerarchico per user ID
+      const ownerMatch = token.match(/^PROF_(\d{2,3})_/);
+      const ownerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(clientId, 10);
+      
       // Imposta i dati utente direttamente
       setUser({
-        id: parseInt(userId, 10),
+        id: ownerId,
         username: `client_${clientId}`,
         type: "client",
         client: clientData.client
       });
       
       // Registra l'accesso per il tracking
-      trackClientAccess(clientId);
+      if (!accessTracked) {
+        trackClientAccess(clientId);
+      }
       
       setLoading(false);
       
