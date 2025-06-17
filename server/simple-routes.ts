@@ -1518,6 +1518,66 @@ export function registerSimpleRoutes(app: Express): Server {
     res.status(200).json({ message: "Appuntamento eliminato con successo" });
   });
 
+  // Endpoint DELETE per eliminare clienti
+  app.delete("/api/clients/:id", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.id);
+    
+    console.log(`🗑️ [DELETE] Tentativo eliminazione cliente ID ${clientId} per utente ${user.id}`);
+    
+    if (isNaN(clientId)) {
+      return res.status(400).json({ message: "ID cliente non valido" });
+    }
+    
+    // Carica i dati dal storage
+    const storageData = loadStorageData();
+    if (!storageData.clients) {
+      return res.status(404).json({ message: "Nessun cliente trovato" });
+    }
+    
+    // Trova l'indice del cliente da eliminare
+    const clientIndex = storageData.clients.findIndex(([id, client]) => {
+      return id === clientId && (user.type === 'admin' || client.ownerId === user.id);
+    });
+    
+    if (clientIndex === -1) {
+      console.log(`❌ [DELETE] Cliente con ID ${clientId} non trovato o non autorizzato per utente ${user.id}`);
+      return res.status(404).json({ message: "Cliente non trovato o non autorizzato" });
+    }
+    
+    // Ottieni i dettagli del cliente prima di eliminarlo
+    const [id, clientData] = storageData.clients[clientIndex];
+    
+    // Elimina il cliente dall'array
+    storageData.clients.splice(clientIndex, 1);
+    
+    // Elimina anche eventuali appuntamenti associati al cliente
+    if (storageData.userAppointments && storageData.userAppointments[user.id]) {
+      const initialCount = storageData.userAppointments[user.id].length;
+      storageData.userAppointments[user.id] = storageData.userAppointments[user.id].filter(
+        app => app.client !== clientId
+      );
+      const finalCount = storageData.userAppointments[user.id].length;
+      if (initialCount !== finalCount) {
+        console.log(`🗑️ [DELETE] Eliminati ${initialCount - finalCount} appuntamenti associati al cliente ${clientId}`);
+      }
+    }
+    
+    // Salva le modifiche
+    saveStorageData(storageData);
+    
+    console.log(`✅ [DELETE] Cliente ID ${clientId} "${clientData.firstName} ${clientData.lastName}" eliminato definitivamente per utente ${user.id}`);
+    res.status(200).json({ 
+      message: "Cliente eliminato con successo",
+      deletedClient: {
+        id: clientId,
+        firstName: clientData.firstName,
+        lastName: clientData.lastName
+      }
+    });
+  });
+
   // Sistema QR Code per accesso clienti - SEPARAZIONE PER UTENTE
   app.get("/api/clients/:id/activation-token", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
