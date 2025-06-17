@@ -127,7 +127,13 @@ export async function apiRequest(
     
     if (!res.ok) {
       const errorText = await res.text();
-      console.error(`Errore API (${res.status}):`, errorText);
+      
+      // Ignora silenziosamente gli errori 404 per i token di attivazione clienti inesistenti
+      const isClientTokenError = url.includes('/activation-token') && res.status === 404;
+      if (!isClientTokenError) {
+        console.error(`Errore API (${res.status}):`, errorText);
+      }
+      
       throw new Error(`Errore ${res.status}: ${errorText || res.statusText}`);
     }
     

@@ -56,13 +56,18 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
           if (data && data.qrCode) {
             setClientQrCode(data.qrCode);
           }
+        } else if (response.status === 404) {
+          // Cliente non esiste nel sistema - ignora silenziosamente
+          return;
         }
-        // Ignora silenziosamente gli errori 404 per clienti inesistenti
       } catch (error) {
-        // Solo log degli errori non-404
-        if (!error.message?.includes('404')) {
-          console.error(t('errors.qrCodeFetchError'), error);
+        // Ignora completamente gli errori 404 per evitare spam nei log
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        if (errorMessage.includes('404') || errorMessage.includes('Cliente non trovato')) {
+          return;
         }
+        // Log solo per errori reali (non 404)
+        console.error(t('errors.qrCodeFetchError'), error);
       }
     };
     
