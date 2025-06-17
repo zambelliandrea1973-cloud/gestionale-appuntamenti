@@ -3081,16 +3081,13 @@ Studio Professionale`,
         }
       }
       
-      // NESSUN FALLBACK GENERICO - Mantieni gerarchia client-owner
-      if (!currentUserId) {
-        console.log(`❌ MANIFEST: Nessun proprietario identificato - manifest generico`);
-        currentUserId = null; // Usa manifest di default senza icone personalizzate
-      }
+      // Costruisci URL icone specifiche per il proprietario
+      const iconPath = currentUserId ? `/icons/owner-${currentUserId}-icon-` : '/icons/custom-icon-';
+      console.log(`📱 MANIFEST: Path icone per utente ${currentUserId}: ${iconPath}`);
       
-      // Configurazione manifest dinamica
       const manifest = {
         "name": "Gestione Appuntamenti v4",
-        "short_name": "App Cliente",
+        "short_name": "App Cliente", 
         "description": "Gestione consensi e servizi medici",
         "start_url": "/client-area",
         "display": "standalone",
@@ -3105,31 +3102,22 @@ Studio Professionale`,
         "id": "gestione-appuntamenti-client-v4",
         "icons": [
           {
-            "src": "/icons/custom-icon-96x96.png",
+            "src": iconPath + "96x96.png",
             "sizes": "96x96",
             "type": "image/png",
             "purpose": "any"
           },
           {
-            "src": "/icons/custom-icon-192x192.png",
+            "src": iconPath + "192x192.png", 
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
           },
           {
-            "src": "/icons/custom-icon-512x512.png",
-            "sizes": "512x512",
+            "src": iconPath + "512x512.png",
+            "sizes": "512x512", 
             "type": "image/png",
             "purpose": "any maskable"
-          }
-        ],
-        "screenshots": [
-          {
-            "src": "/icons/custom-icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "platform": "wide",
-            "label": "Home page dell'applicazione"
           }
         ],
         "shortcuts": [
@@ -3139,14 +3127,13 @@ Studio Professionale`,
             "description": "Accedi alla tua area personale",
             "icons": [
               {
-                "src": "/icons/custom-icon-96x96.png",
+                "src": iconPath + "96x96.png",
                 "sizes": "96x96",
                 "type": "image/png"
               }
             ]
           }
-        ],
-        "related_applications": []
+        ]
       };
       
       res.set({
