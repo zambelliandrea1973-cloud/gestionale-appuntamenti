@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -26,6 +26,9 @@ export default function ClientAccessesDialog({
           <DialogTitle className="text-xl">
             {t('clients.accesses.detailsTitle', 'Accessi di {{name}}', { name: clientName })}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            {t('clients.accesses.dialogDescription', 'Visualizza i dettagli degli accessi effettuati dal cliente all\'applicazione')}
+          </DialogDescription>
           <Button
             variant="ghost"
             size="icon"
