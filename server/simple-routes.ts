@@ -2940,6 +2940,34 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint per icone specifiche del proprietario
+  app.get('/icons/owner-:ownerId-icon-:size.png', (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      const size = req.params.size;
+      const storageData = loadStorageData();
+      
+      console.log(`🔍 PWA ICON OWNER: Richiesta icona per proprietario ${ownerId}, dimensione ${size}`);
+      
+      // Recupera l'icona del professionista specifico
+      const userIcon = storageData.userIcons[ownerId];
+      
+      if (userIcon) {
+        console.log(`✅ PWA ICON OWNER: Trovata icona per proprietario ${ownerId}`);
+        const buffer = Buffer.from(userIcon, 'base64');
+        res.set('Content-Type', 'image/png');
+        res.set('Cache-Control', 'public, max-age=3600');
+        return res.send(buffer);
+      } else {
+        console.log(`❌ PWA ICON OWNER: Nessuna icona trovata per proprietario ${ownerId}`);
+        return res.redirect('/icons/icon-' + size + '.png');
+      }
+    } catch (error) {
+      console.error('Errore nel servire icona proprietario:', error);
+      return res.redirect('/icons/icon-' + req.params.size + '.png');
+    }
+  });
+
   // Endpoint per servire icone PWA dinamiche basate sul proprietario del cliente (da token QR)
   app.get('/icons/custom-icon-:size.png', (req, res) => {
     try {
@@ -3064,7 +3092,7 @@ Studio Professionale`,
         "name": "Gestione Appuntamenti v4",
         "short_name": "App Cliente",
         "description": "Gestione consensi e servizi medici",
-        "start_url": "/client-login",
+        "start_url": "/client-area",
         "display": "standalone",
         "background_color": "#ffffff",
         "theme_color": "#4f46e5",
