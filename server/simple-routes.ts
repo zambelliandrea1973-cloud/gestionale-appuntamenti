@@ -2971,19 +2971,10 @@ Studio Professionale`,
         }
       }
       
-      // Fallback controllato: usa utente 14 (Silvia Busnari) per consistenza
+      // NESSUN FALLBACK - Mantieni gerarchia client-proprietario
       if (!ownerUserId) {
-        const targetUser = 14;
-        if (storageData.userIcons && storageData.userIcons[targetUser]) {
-          ownerUserId = targetUser;
-          console.log(`🔍 PWA ICON: Fallback controllato a utente ${ownerUserId}`);
-        } else {
-          const adminUsers = Object.keys(storageData.userIcons || {});
-          if (adminUsers.length > 0) {
-            ownerUserId = parseInt(adminUsers[0]);
-            console.log(`🔍 PWA ICON: Fallback finale a primo admin ${ownerUserId}`);
-          }
-        }
+        console.log(`❌ PWA ICON: Nessun proprietario identificato - uso icona default`);
+        return res.redirect('/icons/icon-' + size + '.png');
       }
       
       // Recupera l'icona del professionista dalla struttura userIcons
@@ -3053,19 +3044,10 @@ Studio Professionale`,
         }
       }
       
-      // PRIORITA' 3: Fallback controllato a utente 14 (Silvia Busnari) per consistenza
+      // NESSUN FALLBACK GENERICO - Mantieni gerarchia client-owner
       if (!currentUserId) {
-        const targetUser = 14;
-        if (storageData.userIcons && storageData.userIcons[targetUser]) {
-          currentUserId = targetUser;
-          console.log(`📱 MANIFEST: Fallback controllato a utente ${currentUserId}`);
-        } else {
-          const adminUsers = Object.keys(storageData.userIcons || {});
-          if (adminUsers.length > 0) {
-            currentUserId = parseInt(adminUsers[0]);
-            console.log(`📱 MANIFEST: Fallback finale a primo admin ${currentUserId}`);
-          }
-        }
+        console.log(`❌ MANIFEST: Nessun proprietario identificato - manifest generico`);
+        currentUserId = null; // Usa manifest di default senza icone personalizzate
       }
       
       // Configurazione manifest dinamica
