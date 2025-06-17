@@ -84,6 +84,7 @@ export default function ClientForm({
 }: ClientFormProps) {
   const { toast } = useToast();
   const [prefix, setPrefix] = useState("+39"); // Default a prefisso italiano
+  const [activeTab, setActiveTab] = useState("personal");
   
   // Fetch client if editing
   const { data: client, isLoading: isLoadingClient } = useQuery({
@@ -214,7 +215,7 @@ export default function ClientForm({
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       ) : (
-        <Tabs defaultValue="personal">
+        <Tabs defaultValue="personal" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3 sticky top-0 bg-background z-10">
             <TabsTrigger value="personal">Dati Personali</TabsTrigger>
             <TabsTrigger value="medical">Dati Medici</TabsTrigger>
@@ -505,14 +506,16 @@ export default function ClientForm({
                 >
                   Annulla
                 </Button>
-                <Button 
-                  type="submit" 
-                  disabled={mutation.isPending}
-                  onClick={() => console.log("🔘 Submit button clicked")}
-                >
-                  {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {clientId ? "Aggiorna" : "Salva"}
-                </Button>
+                {activeTab !== "consent" && (
+                  <Button 
+                    type="submit" 
+                    disabled={mutation.isPending}
+                    onClick={() => console.log("🔘 Submit button clicked")}
+                  >
+                    {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {clientId ? "Aggiorna" : "Salva"}
+                  </Button>
+                )}
               </DialogFooter>
             </form>
           </Form>
