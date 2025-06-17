@@ -845,18 +845,46 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Endpoint per ottenere l'icona dell'app - SEPARAZIONE PER UTENTE
   app.get("/api/client-app-info", async (req, res) => {
-    if (!req.isAuthenticated()) {
+    let targetUserId = null;
+    
+    // Se autenticato, usa l'utente corrente
+    if (req.isAuthenticated()) {
+      targetUserId = req.user.id;
+    } else {
+      // Se non autenticato, controlla se c'è un token di attivazione per determinare il tenant
+      const { token, clientId } = req.query;
+      
+      if (token && typeof token === 'string') {
+        const tokenParts = token.split('_');
+        if (tokenParts.length === 3) {
+          const [userId] = tokenParts;
+          targetUserId = parseInt(userId);
+        }
+      } else if (clientId) {
+        // Cerca il proprietario del cliente dal clientId
+        const storageData = loadStorageData();
+        const clients = storageData.clients || [];
+        const clientData = clients.find(([id]) => id.toString() === clientId.toString());
+        if (clientData && clientData[1].ownerId) {
+          targetUserId = clientData[1].ownerId;
+        }
+      }
+    }
+
+    // Se non riusciamo a determinare l'utente, usa l'icona predefinita
+    if (!targetUserId) {
       return res.json({ 
         appName: "Gestionale Sanitario", 
         icon: defaultIconBase64 
       });
     }
 
-    const userId = req.user.id;
-    const userIcon = storageData.userIcons[userId] || defaultIconBase64;
+    const userIcon = storageData.userIcons[targetUserId] || defaultIconBase64;
     
     // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
-    await updatePWAIconsFromCompanyLogo(userId, userIcon);
+    await updatePWAIconsFromCompanyLogo(targetUserId, userIcon);
+    
+    console.log(`✅ Icone PWA aggiornate per utente ${targetUserId} con logo aziendale`);
     
     res.json({ 
       appName: "Gestionale Sanitario", 
@@ -1499,6 +1527,55 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
 
+
+  // Endpoint per verificare token QR e autenticare cliente
+  app.post("/api/client-access/verify-token", (req, res) => {
+    const { token, clientId } = req.body;
+    
+    if (!token || !clientId) {
+      return res.status(400).json({ message: "Token e clientId richiesti" });
+    }
+    
+    // Verifica formato token: userId_clientId_timestamp
+    const tokenParts = token.split('_');
+    if (tokenParts.length !== 3) {
+      return res.status(400).json({ message: "Formato token non valido" });
+    }
+    
+    const [userId, tokenClientId, timestamp] = tokenParts;
+    
+    // Verifica che il clientId nel token corrisponda a quello nell'URL
+    if (tokenClientId !== clientId.toString()) {
+      return res.status(400).json({ message: "Token non corrisponde al cliente" });
+    }
+    
+    // Carica dati reali dal file storage_data.json
+    const storageData = loadStorageData();
+    const allClients = storageData.clients || [];
+    
+    // Cerca il cliente nei dati storage reali
+    const clientData = allClients.find(([id]) => id.toString() === clientId.toString());
+    
+    if (!clientData) {
+      return res.status(404).json({ message: "Cliente non trovato nel sistema" });
+    }
+    
+    const client = clientData[1];
+    
+    console.log(`✅ Token QR verificato con successo per cliente ${clientId}: ${client.firstName} ${client.lastName}`);
+    
+    // Restituisci i dati del cliente autenticato
+    res.json({
+      client: {
+        id: clientId,
+        firstName: client.firstName,
+        lastName: client.lastName,
+        phone: client.phone,
+        email: client.email,
+        ownerId: client.ownerId
+      }
+    });
+  });
 
   app.get("/api/client-access/count/:clientId", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
