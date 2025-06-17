@@ -748,7 +748,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const profCode = await getProfessionistCode(ownerId);
     const timestamp = Date.now();
     const hash = crypto.createHash('md5').update(`${profCode}_CLIENT_${clientId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
-    return `${profCode}_CLIENT_${clientId.toString().padStart(3, '0')}_${hash}`;
+    return `${profCode}_CLIENT_${clientId}_${hash}`;
   }
 
   // Valida ownership attraverso codice gerarchico
@@ -1639,7 +1639,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const providedHash = token.substring(lastUnderscoreIndex + 1);
     
     // Verifica che il codice cliente sia formato gerarchico valido
-    if (!clientCode.match(/^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d{3}_[A-Z0-9]{4}$/)) {
+    if (!clientCode.match(/^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
       return res.status(400).json({ message: "Codice cliente non valido" });
     }
     
