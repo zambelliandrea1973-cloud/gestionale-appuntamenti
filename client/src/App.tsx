@@ -17,7 +17,7 @@ import Settings from "./pages/Settings";
 import EmailSettings from "./pages/EmailSettings";
 import ClientMedicalDetails from "./pages/ClientMedicalDetails";
 import ActivateAccount from "./pages/ActivateAccount";
-import ClientLogin from "./pages/ClientLogin";
+
 import AutoLogin from "./pages/AutoLogin";
 import PwaLauncher from "./pages/PwaLauncher";
 import ClientArea from "./pages/ClientArea";
@@ -86,8 +86,8 @@ function AppRoutes() {
   useEffect(() => {
     // Percorsi che sono sempre accessibili anche senza autenticazione
     const publicPaths = [
-      '/activate', '/pwa', '/auto-login', '/client-login', 
-      '/login', '/staff-login', '/customer-login', '/register', '/client-area', 
+      '/activate', '/pwa', '/auto-login', 
+      '/staff-login', '/customer-login', '/register', '/client-area', 
       '/consent', '/'
     ];
     
@@ -140,19 +140,7 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* Pagina di login client con layout cliente */}
-      <Route path="/client-login">
-        <ClientPageWrapper>
-          <ClientLogin />
-        </ClientPageWrapper>
-      </Route>
-      
-      {/* Alias per client-login (più intuitivo) */}
-      <Route path="/login">
-        <ClientPageWrapper>
-          <ClientLogin />
-        </ClientPageWrapper>
-      </Route>
+
       
       {/* Pagina di login staff */}
       <Route path="/staff-login">
