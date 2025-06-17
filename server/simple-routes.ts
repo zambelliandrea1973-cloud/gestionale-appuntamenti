@@ -2331,6 +2331,74 @@ Studio Professionale`,
     }
   });
 
+  // Consent endpoints
+  app.get("/api/consents/client", (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      const consents = storageData.consents || [];
+      
+      console.log(`📋 [GET CONSENTS] Richiesta lista consensi - trovati ${consents.length} consensi`);
+      
+      res.json(consents);
+    } catch (error) {
+      console.error('❌ [ERRORE GET CONSENTS]:', error);
+      res.status(500).json({ error: 'Errore durante il caricamento dei consensi' });
+    }
+  });
+
+  app.post("/api/consents", (req, res) => {
+    try {
+      const { clientId, consentText, signature } = req.body;
+      
+      console.log(`📋 [POST CONSENT] Registrazione consenso per cliente ${clientId}`);
+      
+      if (!clientId || !consentText) {
+        return res.status(400).json({ error: 'ClientId e consentText sono richiesti' });
+      }
+      
+      const storageData = loadStorageData();
+      
+      // Crea il nuovo consenso
+      const consent = {
+        id: Date.now(),
+        clientId: parseInt(clientId),
+        consentText,
+        signature: signature || `Consenso digitale - ${new Date().toLocaleString()}`,
+        createdAt: new Date().toISOString(),
+        isActive: true
+      };
+      
+      // Salva il consenso
+      if (!storageData.consents) storageData.consents = [];
+      storageData.consents.push(consent);
+      
+      // AGGIORNA AUTOMATICAMENTE IL CLIENTE CON hasConsent: true
+      const clientIndex = storageData.clients?.findIndex(([id, client]) => id === parseInt(clientId));
+      if (clientIndex !== -1) {
+        const [id, client] = storageData.clients[clientIndex];
+        client.hasConsent = true;
+        console.log(`✅ [AUTO UPDATE] Cliente ${client.firstName} ${client.lastName} aggiornato con hasConsent: true`);
+      } else {
+        console.warn(`⚠️ [CONSENT WARNING] Cliente ${clientId} non trovato per aggiornamento hasConsent`);
+      }
+      
+      // Salva tutti i dati
+      saveStorageData(storageData);
+      
+      console.log(`✅ [CONSENT SUCCESS] Consenso registrato per cliente ${clientId} e flag hasConsent aggiornato`);
+      
+      res.json({ 
+        success: true, 
+        message: 'Consenso registrato con successo',
+        consent 
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE POST CONSENT]:', error);
+      res.status(500).json({ error: 'Errore durante la registrazione del consenso' });
+    }
+  });
+
   // Servire file statici da attached_assets per icone
   app.use('/attached_assets', (req, res, next) => {
     const filePath = path.join(process.cwd(), 'attached_assets', req.path);
