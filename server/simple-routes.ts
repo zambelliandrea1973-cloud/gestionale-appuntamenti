@@ -1818,13 +1818,13 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    // Reindirizza direttamente all'app PWA del cliente (non alla pagina di login)
+    // Reindirizza alla pagina di auto-login dedicata
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const clientAppUrl = `${protocol}://${host}/client-area?clientId=${clientId}&token=${token}`;
+    const autoLoginUrl = `${protocol}://${host}/auto-login?clientId=${clientId}&token=${token}`;
     
-    // Reindirizza direttamente all'app cliente
-    res.redirect(clientAppUrl);
+    // Reindirizza alla pagina di auto-login
+    res.redirect(autoLoginUrl);
   });
 
   // Endpoint Staff Management - Solo per admin
