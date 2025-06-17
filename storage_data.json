@@ -914,10 +914,11 @@
           "phone": "+39 123 456 7890",
           "birthDate": "1990-01-15",
           "fiscalCode": "CLNTTL90A15BU1X",
-          "uniqueCode": "CT14001",
+          "uniqueCode": "PROF_014_D84F_CLIENT_14001_C43C",
           "ownerId": 14,
           "createdAt": "2025-06-17T09:33:32.557Z",
-          "notes": "Cliente di prova generato automaticamente"
+          "notes": "Cliente di prova generato automaticamente",
+          "professionistCode": "PROF_014_D84F"
         },
         "1": {
           "id": 14002,
@@ -927,10 +928,11 @@
           "phone": "+39 098 765 4321",
           "birthDate": "1985-06-20",
           "fiscalCode": "TRLCNT85H20BU2Y",
-          "uniqueCode": "TA14002",
+          "uniqueCode": "PROF_014_D84F_CLIENT_14002_7E89",
           "ownerId": 14,
           "createdAt": "2025-06-17T09:33:32.557Z",
-          "notes": "Account di test generato automaticamente"
+          "notes": "Account di test generato automaticamente",
+          "professionistCode": "PROF_014_D84F"
         },
         "2": {
           "0": {
@@ -941,10 +943,11 @@
             "phone": "+39 123 456 7890",
             "birthDate": "1990-01-15",
             "fiscalCode": "CLNTTL90A15BU1X",
-            "uniqueCode": "CT14001",
+            "uniqueCode": "PROF_014_D84F_CLIENT_14001_C43C",
             "ownerId": 14,
             "createdAt": "2025-06-17T09:33:32.557Z",
-            "notes": "Cliente di prova generato automaticamente"
+            "notes": "Cliente di prova generato automaticamente",
+            "professionistCode": "PROF_014_D84F"
           },
           "1": {
             "id": 14002,
@@ -954,10 +957,11 @@
             "phone": "+39 098 765 4321",
             "birthDate": "1985-06-20",
             "fiscalCode": "TRLCNT85H20BU2Y",
-            "uniqueCode": "TA14002",
+            "uniqueCode": "PROF_014_D84F_CLIENT_14002_7E89",
             "ownerId": 14,
             "createdAt": "2025-06-17T09:33:32.557Z",
-            "notes": "Account di test generato automaticamente"
+            "notes": "Account di test generato automaticamente",
+            "professionistCode": "PROF_014_D84F"
           },
           "2": {
             "0": {
@@ -968,10 +972,11 @@
               "phone": "+39 123 456 7890",
               "birthDate": "1990-01-15",
               "fiscalCode": "CLNTTL90A15BU1X",
-              "uniqueCode": "CT14001",
+              "uniqueCode": "PROF_014_D84F_CLIENT_14001_C43C",
               "ownerId": 14,
               "createdAt": "2025-06-17T09:33:32.557Z",
-              "notes": "Cliente di prova generato automaticamente"
+              "notes": "Cliente di prova generato automaticamente",
+              "professionistCode": "PROF_014_D84F"
             },
             "1": {
               "id": 14002,
@@ -981,10 +986,11 @@
               "phone": "+39 098 765 4321",
               "birthDate": "1985-06-20",
               "fiscalCode": "TRLCNT85H20BU2Y",
-              "uniqueCode": "TA14002",
+              "uniqueCode": "PROF_014_D84F_CLIENT_14002_7E89",
               "ownerId": 14,
               "createdAt": "2025-06-17T09:33:32.557Z",
-              "notes": "Account di test generato automaticamente"
+              "notes": "Account di test generato automaticamente",
+              "professionistCode": "PROF_014_D84F"
             },
             "2": {
               "0": {
@@ -1446,6 +1452,138 @@
                                                 "notes": "Account di test generato automaticamente"
                                               },
                                               "2": {
+                                                "0": {
+                                                  "id": 14001,
+                                                  "firstName": "Cliente",
+                                                  "lastName": "Trial",
+                                                  "email": "cliente.trial.14@example.com",
+                                                  "phone": "+39 123 456 7890",
+                                                  "birthDate": "1990-01-15",
+                                                  "fiscalCode": "CLNTTL90A15BU1X",
+                                                  "uniqueCode": "CT14001",
+                                                  "ownerId": 14,
+                                                  "createdAt": "2025-06-17T09:33:32.557Z",
+                                                  "notes": "Cliente di prova generato automaticamente"
+                                                },
+                                                "1": {
+                                                  "id": 14002,
+                                                  "firstName": "Trial",
+                                                  "lastName": "Account",
+                                                  "email": "trial.account.14@example.com",
+                                                  "phone": "+39 098 765 4321",
+                                                  "birthDate": "1985-06-20",
+                                                  "fiscalCode": "TRLCNT85H20BU2Y",
+                                                  "uniqueCode": "TA14002",
+                                                  "ownerId": 14,
+                                                  "createdAt": "2025-06-17T09:33:32.557Z",
+                                                  "notes": "Account di test generato automaticamente"
+                                                },
+                                                "2": {
+                                                  "0": {
+                                                    "id": 14001,
+                                                    "firstName": "Cliente",
+                                                    "lastName": "Trial",
+                                                    "email": "cliente.trial.14@example.com",
+                                                    "phone": "+39 123 456 7890",
+                                                    "birthDate": "1990-01-15",
+                                                    "fiscalCode": "CLNTTL90A15BU1X",
+                                                    "uniqueCode": "CT14001",
+                                                    "ownerId": 14,
+                                                    "createdAt": "2025-06-17T09:33:32.557Z",
+                                                    "notes": "Cliente di prova generato automaticamente"
+                                                  },
+                                                  "1": {
+                                                    "id": 14002,
+                                                    "firstName": "Trial",
+                                                    "lastName": "Account",
+                                                    "email": "trial.account.14@example.com",
+                                                    "phone": "+39 098 765 4321",
+                                                    "birthDate": "1985-06-20",
+                                                    "fiscalCode": "TRLCNT85H20BU2Y",
+                                                    "uniqueCode": "TA14002",
+                                                    "ownerId": 14,
+                                                    "createdAt": "2025-06-17T09:33:32.557Z",
+                                                    "notes": "Account di test generato automaticamente"
+                                                  },
+                                                  "2": {
+                                                    "0": {
+                                                      "id": 14001,
+                                                      "firstName": "Cliente",
+                                                      "lastName": "Trial",
+                                                      "email": "cliente.trial.14@example.com",
+                                                      "phone": "+39 123 456 7890",
+                                                      "birthDate": "1990-01-15",
+                                                      "fiscalCode": "CLNTTL90A15BU1X",
+                                                      "uniqueCode": "CT14001",
+                                                      "ownerId": 14,
+                                                      "createdAt": "2025-06-17T09:33:32.557Z",
+                                                      "notes": "Cliente di prova generato automaticamente"
+                                                    },
+                                                    "1": {
+                                                      "id": 14002,
+                                                      "firstName": "Trial",
+                                                      "lastName": "Account",
+                                                      "email": "trial.account.14@example.com",
+                                                      "phone": "+39 098 765 4321",
+                                                      "birthDate": "1985-06-20",
+                                                      "fiscalCode": "TRLCNT85H20BU2Y",
+                                                      "uniqueCode": "TA14002",
+                                                      "ownerId": 14,
+                                                      "createdAt": "2025-06-17T09:33:32.557Z",
+                                                      "notes": "Account di test generato automaticamente"
+                                                    },
+                                                    "2": {
+                                                      "id": 1750153393298,
+                                                      "ownerId": 14,
+                                                      "uniqueCode": "STA3298",
+                                                      "createdAt": "2025-06-17T09:43:13.298Z",
+                                                      "firstName": "Marco",
+                                                      "lastName": "Berto",
+                                                      "phone": "+41794374849",
+                                                      "email": "marco_berto@msn.com",
+                                                      "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+                                                      "birthday": "1978-07-20",
+                                                      "notes": "",
+                                                      "isFrequent": false,
+                                                      "medicalNotes": "",
+                                                      "allergies": "",
+                                                      "hasConsent": true,
+                                                      "updatedAt": "2025-06-17T10:35:40.966Z"
+                                                    },
+                                                    "id": 1750153393298,
+                                                    "ownerId": 14,
+                                                    "uniqueCode": "STA3298",
+                                                    "createdAt": "2025-06-17T09:43:13.298Z",
+                                                    "firstName": "Marco",
+                                                    "lastName": "Berto",
+                                                    "phone": "+41794374849",
+                                                    "email": "marco_berto@msn.com",
+                                                    "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+                                                    "birthday": "1978-07-20",
+                                                    "notes": "",
+                                                    "isFrequent": false,
+                                                    "medicalNotes": "",
+                                                    "allergies": "",
+                                                    "hasConsent": true,
+                                                    "updatedAt": "2025-06-17T10:39:21.650Z"
+                                                  },
+                                                  "id": 1750153393298,
+                                                  "ownerId": 14,
+                                                  "uniqueCode": "STA3298",
+                                                  "createdAt": "2025-06-17T09:43:13.298Z",
+                                                  "firstName": "Marco",
+                                                  "lastName": "Berto",
+                                                  "phone": "+41794374849",
+                                                  "email": "marco_berto@msn.com",
+                                                  "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+                                                  "birthday": "1978-07-20",
+                                                  "notes": "",
+                                                  "isFrequent": false,
+                                                  "medicalNotes": "",
+                                                  "allergies": "",
+                                                  "hasConsent": true,
+                                                  "updatedAt": "2025-06-17T10:39:22.547Z"
+                                                },
                                                 "id": 1750153393298,
                                                 "ownerId": 14,
                                                 "uniqueCode": "STA3298",
@@ -1461,7 +1599,7 @@
                                                 "medicalNotes": "",
                                                 "allergies": "",
                                                 "hasConsent": true,
-                                                "updatedAt": "2025-06-17T10:35:40.966Z"
+                                                "updatedAt": "2025-06-17T10:39:23.476Z"
                                               },
                                               "id": 1750153393298,
                                               "ownerId": 14,
@@ -1478,7 +1616,7 @@
                                               "medicalNotes": "",
                                               "allergies": "",
                                               "hasConsent": true,
-                                              "updatedAt": "2025-06-17T10:39:21.650Z"
+                                              "updatedAt": "2025-06-17T10:39:24.378Z"
                                             },
                                             "id": 1750153393298,
                                             "ownerId": 14,
@@ -1495,7 +1633,7 @@
                                             "medicalNotes": "",
                                             "allergies": "",
                                             "hasConsent": true,
-                                            "updatedAt": "2025-06-17T10:39:22.547Z"
+                                            "updatedAt": "2025-06-17T10:39:25.291Z"
                                           },
                                           "id": 1750153393298,
                                           "ownerId": 14,
@@ -1512,7 +1650,7 @@
                                           "medicalNotes": "",
                                           "allergies": "",
                                           "hasConsent": true,
-                                          "updatedAt": "2025-06-17T10:39:23.476Z"
+                                          "updatedAt": "2025-06-17T10:39:26.238Z"
                                         },
                                         "id": 1750153393298,
                                         "ownerId": 14,
@@ -1529,7 +1667,7 @@
                                         "medicalNotes": "",
                                         "allergies": "",
                                         "hasConsent": true,
-                                        "updatedAt": "2025-06-17T10:39:24.378Z"
+                                        "updatedAt": "2025-06-17T10:39:27.092Z"
                                       },
                                       "id": 1750153393298,
                                       "ownerId": 14,
@@ -1546,7 +1684,7 @@
                                       "medicalNotes": "",
                                       "allergies": "",
                                       "hasConsent": true,
-                                      "updatedAt": "2025-06-17T10:39:25.291Z"
+                                      "updatedAt": "2025-06-17T10:39:28.247Z"
                                     },
                                     "id": 1750153393298,
                                     "ownerId": 14,
@@ -1563,7 +1701,7 @@
                                     "medicalNotes": "",
                                     "allergies": "",
                                     "hasConsent": true,
-                                    "updatedAt": "2025-06-17T10:39:26.238Z"
+                                    "updatedAt": "2025-06-17T10:39:29.096Z"
                                   },
                                   "id": 1750153393298,
                                   "ownerId": 14,
@@ -1580,7 +1718,7 @@
                                   "medicalNotes": "",
                                   "allergies": "",
                                   "hasConsent": true,
-                                  "updatedAt": "2025-06-17T10:39:27.092Z"
+                                  "updatedAt": "2025-06-17T10:39:29.927Z"
                                 },
                                 "id": 1750153393298,
                                 "ownerId": 14,
@@ -1597,7 +1735,7 @@
                                 "medicalNotes": "",
                                 "allergies": "",
                                 "hasConsent": true,
-                                "updatedAt": "2025-06-17T10:39:28.247Z"
+                                "updatedAt": "2025-06-17T10:39:30.780Z"
                               },
                               "id": 1750153393298,
                               "ownerId": 14,
@@ -1614,7 +1752,7 @@
                               "medicalNotes": "",
                               "allergies": "",
                               "hasConsent": true,
-                              "updatedAt": "2025-06-17T10:39:29.096Z"
+                              "updatedAt": "2025-06-17T10:39:31.638Z"
                             },
                             "id": 1750153393298,
                             "ownerId": 14,
@@ -1631,7 +1769,7 @@
                             "medicalNotes": "",
                             "allergies": "",
                             "hasConsent": true,
-                            "updatedAt": "2025-06-17T10:39:29.927Z"
+                            "updatedAt": "2025-06-17T10:39:32.946Z"
                           },
                           "id": 1750153393298,
                           "ownerId": 14,
@@ -1648,7 +1786,7 @@
                           "medicalNotes": "",
                           "allergies": "",
                           "hasConsent": true,
-                          "updatedAt": "2025-06-17T10:39:30.780Z"
+                          "updatedAt": "2025-06-17T10:39:33.686Z"
                         },
                         "id": 1750153393298,
                         "ownerId": 14,
@@ -1665,7 +1803,7 @@
                         "medicalNotes": "",
                         "allergies": "",
                         "hasConsent": true,
-                        "updatedAt": "2025-06-17T10:39:31.638Z"
+                        "updatedAt": "2025-06-17T10:39:41.645Z"
                       },
                       "id": 1750153393298,
                       "ownerId": 14,
@@ -1682,7 +1820,7 @@
                       "medicalNotes": "",
                       "allergies": "",
                       "hasConsent": true,
-                      "updatedAt": "2025-06-17T10:39:32.946Z"
+                      "updatedAt": "2025-06-17T10:39:42.489Z"
                     },
                     "id": 1750153393298,
                     "ownerId": 14,
@@ -1699,7 +1837,7 @@
                     "medicalNotes": "",
                     "allergies": "",
                     "hasConsent": true,
-                    "updatedAt": "2025-06-17T10:39:33.686Z"
+                    "updatedAt": "2025-06-17T10:39:43.431Z"
                   },
                   "id": 1750153393298,
                   "ownerId": 14,
@@ -1716,7 +1854,7 @@
                   "medicalNotes": "",
                   "allergies": "",
                   "hasConsent": true,
-                  "updatedAt": "2025-06-17T10:39:41.645Z"
+                  "updatedAt": "2025-06-17T10:39:44.302Z"
                 },
                 "id": 1750153393298,
                 "ownerId": 14,
@@ -1733,11 +1871,11 @@
                 "medicalNotes": "",
                 "allergies": "",
                 "hasConsent": true,
-                "updatedAt": "2025-06-17T10:39:42.489Z"
+                "updatedAt": "2025-06-17T10:39:45.162Z"
               },
               "id": 1750153393298,
               "ownerId": 14,
-              "uniqueCode": "STA3298",
+              "uniqueCode": "PROF_014_D84F_CLIENT_1750153393298_7BCE",
               "createdAt": "2025-06-17T09:43:13.298Z",
               "firstName": "Marco",
               "lastName": "Berto",
@@ -1750,11 +1888,33 @@
               "medicalNotes": "",
               "allergies": "",
               "hasConsent": true,
-              "updatedAt": "2025-06-17T10:39:43.431Z"
+              "updatedAt": "2025-06-17T10:39:46.013Z",
+              "accessCount": 4,
+              "lastAccess": "2025-06-17T12:21:25.968Z",
+              "professionistCode": "PROF_014_D84F"
+            },
+            "3": {
+              "id": 1750163505034,
+              "ownerId": 14,
+              "uniqueCode": "PROF_014_D84F_CLIENT_1750163505034_3EFC",
+              "createdAt": "2025-06-17T12:31:45.034Z",
+              "firstName": "Bruna ",
+              "lastName": "Pizzolato",
+              "phone": "+393270881677",
+              "email": "brunapizzolato77@gmail.com",
+              "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+              "birthday": "1987-07-20",
+              "notes": "",
+              "isFrequent": false,
+              "medicalNotes": "",
+              "allergies": "",
+              "accessCount": 5,
+              "lastAccess": "2025-06-17T12:45:01.682Z",
+              "professionistCode": "PROF_014_D84F"
             },
             "id": 1750153393298,
             "ownerId": 14,
-            "uniqueCode": "STA3298",
+            "uniqueCode": "PROF_014_D84F_CLIENT_1750153393298_7BCE",
             "createdAt": "2025-06-17T09:43:13.298Z",
             "firstName": "Marco",
             "lastName": "Berto",
@@ -1767,11 +1927,33 @@
             "medicalNotes": "",
             "allergies": "",
             "hasConsent": true,
-            "updatedAt": "2025-06-17T10:39:44.302Z"
+            "updatedAt": "2025-06-17T16:07:03.160Z",
+            "accessCount": 4,
+            "lastAccess": "2025-06-17T12:21:25.968Z",
+            "professionistCode": "PROF_014_D84F"
+          },
+          "3": {
+            "id": 1750163505034,
+            "ownerId": 14,
+            "uniqueCode": "PROF_014_D84F_CLIENT_1750163505034_3EFC",
+            "createdAt": "2025-06-17T12:31:45.034Z",
+            "firstName": "Bruna ",
+            "lastName": "Pizzolato",
+            "phone": "+393270881677",
+            "email": "brunapizzolato77@gmail.com",
+            "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+            "birthday": "1987-07-20",
+            "notes": "",
+            "isFrequent": false,
+            "medicalNotes": "",
+            "allergies": "",
+            "accessCount": 5,
+            "lastAccess": "2025-06-17T12:45:01.682Z",
+            "professionistCode": "PROF_014_D84F"
           },
           "id": 1750153393298,
           "ownerId": 14,
-          "uniqueCode": "STA3298",
+          "uniqueCode": "PROF_014_D84F_CLIENT_1750153393298_7BCE",
           "createdAt": "2025-06-17T09:43:13.298Z",
           "firstName": "Marco",
           "lastName": "Berto",
@@ -1784,7 +1966,29 @@
           "medicalNotes": "",
           "allergies": "",
           "hasConsent": true,
-          "updatedAt": "2025-06-17T10:39:45.162Z"
+          "updatedAt": "2025-06-17T16:07:05.147Z",
+          "accessCount": 4,
+          "lastAccess": "2025-06-17T12:21:25.968Z",
+          "professionistCode": "PROF_014_D84F"
+        },
+        "3": {
+          "id": 1750163505034,
+          "ownerId": 14,
+          "uniqueCode": "PROF_014_D84F_CLIENT_1750163505034_3EFC",
+          "createdAt": "2025-06-17T12:31:45.034Z",
+          "firstName": "Bruna ",
+          "lastName": "Pizzolato",
+          "phone": "+393270881677",
+          "email": "brunapizzolato77@gmail.com",
+          "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+          "birthday": "1987-07-20",
+          "notes": "",
+          "isFrequent": false,
+          "medicalNotes": "",
+          "allergies": "",
+          "accessCount": 5,
+          "lastAccess": "2025-06-17T12:45:01.682Z",
+          "professionistCode": "PROF_014_D84F"
         },
         "id": 1750153393298,
         "ownerId": 14,
@@ -1801,7 +2005,7 @@
         "medicalNotes": "",
         "allergies": "",
         "hasConsent": true,
-        "updatedAt": "2025-06-17T10:39:46.013Z",
+        "updatedAt": "2025-06-17T16:07:05.958Z",
         "accessCount": 4,
         "lastAccess": "2025-06-17T12:21:25.968Z",
         "professionistCode": "PROF_014_D84F"
