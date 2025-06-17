@@ -159,6 +159,18 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
                   <img src={qrCode} alt="QR code di attivazione" className="w-64 h-64" />
                 </div>
                 
+                {/* VERIFICA TOKEN - Mostra il token contenuto nel QR */}
+                {activationUrl && (
+                  <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded-md">
+                    <p className="text-xs font-medium text-yellow-800 text-center">
+                      VERIFICA TOKEN: {activationUrl.split('token=')[1]?.split('&')[0] || 'N/A'}
+                    </p>
+                    <p className="text-xs text-yellow-700 text-center mt-1">
+                      Cliente: {clientName} (ID: {clientId})
+                    </p>
+                  </div>
+                )}
+                
                 <div className="flex space-x-2 mt-4">
                   <Button variant="outline" size="sm" onClick={downloadQrCode}>
                     <Download className="mr-2 h-4 w-4" />
