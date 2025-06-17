@@ -2217,15 +2217,15 @@ export function registerSimpleRoutes(app: Express): Server {
     
     console.log(`✅ [ACTIVATE] Token valido per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
     
-    // Reindirizza alla pagina di auto-login dedicata
+    // REDIRECT FISSO: Reindirizza direttamente alla client area con autocompilazione token
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
-    const autoLoginUrl = `${protocol}://${host}/auto-login?clientId=${clientId}&token=${token}`;
+    const clientAreaUrl = `${protocol}://${host}/client-area?token=${token}&clientId=${clientId}&autoLogin=true`;
     
-    console.log(`🔄 [ACTIVATE] Reindirizzamento a: ${autoLoginUrl}`);
+    console.log(`🔄 [ACTIVATE] Reindirizzamento diretto alla client area: ${clientAreaUrl}`);
     
-    // Reindirizza alla pagina di auto-login
-    res.redirect(autoLoginUrl);
+    // Redirect diretto alla client area - RISOLVE problema "Token Mancante"
+    res.redirect(clientAreaUrl);
   });
 
   // Endpoint Staff Management - Solo per admin
