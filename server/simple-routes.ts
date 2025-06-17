@@ -1892,9 +1892,15 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    // Verifica formato token: userId_clientId_hash (permanente)
-    const tokenParts = token.split('_');
-    if (tokenParts.length !== 3) {
+    console.log(`🔍 [ACTIVATE] Tentativo di attivazione con token: ${token}`);
+    
+    // NUOVA LOGICA: Supporta token gerarchici formato PROF_XXX_XXXX_CLIENT_XXX_XXXX_hash
+    const crypto = await import('crypto');
+    
+    // Estrae codice cliente e hash dal token
+    const lastUnderscoreIndex = token.lastIndexOf('_');
+    if (lastUnderscoreIndex === -1) {
+      console.log(`❌ [ACTIVATE] Token senza hash: ${token}`);
       return res.status(400).send(`
         <html>
           <head>
@@ -1910,13 +1916,60 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    const [userId, clientId, hash] = tokenParts;
+    const clientCode = token.substring(0, lastUnderscoreIndex);
+    const providedHash = token.substring(lastUnderscoreIndex + 1);
     
-    // Verifica validità del token confrontando l'hash
-    const crypto = await import('crypto');
-    const expectedHash = crypto.createHash('md5').update(`${userId}_${clientId}_permanent`).digest('hex').substring(0, 8);
+    console.log(`🔍 [ACTIVATE] Codice cliente: ${clientCode}, Hash: ${providedHash}`);
     
-    if (hash !== expectedHash) {
+    // Verifica che il codice cliente sia formato gerarchico valido
+    // Formato: PROF_014_D84F_CLIENT_1750153393298_7BCE
+    if (!clientCode.match(/^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/)) {
+      console.log(`❌ [ACTIVATE] Codice cliente non gerarchico: ${clientCode}`);
+      console.log(`❌ [ACTIVATE] Pattern atteso: PROF_XXX_XXXX_CLIENT_NNNNN_XXXX`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Formato token non valido. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    // Estrae owner ID dal codice cliente
+    const ownerMatch = clientCode.match(/^PROF_(\d{3})_/);
+    if (!ownerMatch) {
+      console.log(`❌ [ACTIVATE] Impossibile estrarre proprietario da: ${clientCode}`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Impossibile identificare proprietario dal codice. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    const ownerId = parseInt(ownerMatch[1], 10);
+    
+    // Verifica hash del token
+    const tokenData = `${clientCode}_SECURE_${ownerId}`;
+    const expectedHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+    
+    console.log(`🔍 [ACTIVATE] Owner ID: ${ownerId}, Token data: ${tokenData}, Expected hash: ${expectedHash}`);
+    
+    if (providedHash !== expectedHash) {
+      console.log(`❌ [ACTIVATE] Hash mismatch. Provided: ${providedHash}, Expected: ${expectedHash}`);
       return res.status(401).send(`
         <html>
           <head>
@@ -1932,20 +1985,35 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    // Verifica che il cliente esista nel sistema storage reale
-    const storageData = loadStorageData();
-    let clientFound = null;
-    
-    // Cerca il cliente nei dati storage reali
-    const clients = storageData.clients || [];
-    for (const [id, clientData] of clients) {
-      if (id.toString() === clientId) {
-        clientFound = clientData;
-        break;
-      }
+    // Estrae client ID dal codice gerarchico
+    const clientMatch = clientCode.match(/CLIENT_(\d+)_/);
+    if (!clientMatch) {
+      console.log(`❌ [ACTIVATE] Impossibile estrarre client ID da: ${clientCode}`);
+      return res.status(400).send(`
+        <html>
+          <head>
+            <title>Errore Attivazione</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">❌ Token Non Valido</h1>
+            <p>Impossibile identificare cliente dal codice. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
     }
     
-    if (!clientFound) {
+    const clientId = parseInt(clientMatch[1], 10);
+    console.log(`🔍 [ACTIVATE] Client ID estratto: ${clientId}`);
+    
+    // Verifica che il cliente esista nel sistema storage reale
+    const storageData = loadStorageData();
+    const clients = storageData.clients || [];
+    const clientData = clients.find(([id]) => id === clientId);
+    
+    if (!clientData) {
+      console.log(`❌ [ACTIVATE] Cliente ${clientId} non trovato nel sistema`);
       return res.status(404).send(`
         <html>
           <head>
@@ -1961,10 +2029,35 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
+    const client = clientData[1];
+    
+    // VALIDAZIONE CRITICA: Verifica che il cliente appartenga al proprietario del codice gerarchico
+    const clientOwnerId = client.ownerId;
+    if (!clientOwnerId || clientOwnerId !== ownerId) {
+      console.error(`🚨 [ACTIVATE] VIOLAZIONE SICUREZZA: Cliente ${clientId} appartiene a ${clientOwnerId} ma token per proprietario ${ownerId}`);
+      return res.status(403).send(`
+        <html>
+          <head>
+            <title>Accesso Negato</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">🔒 Accesso Negato</h1>
+            <p>Non sei autorizzato ad accedere a questo cliente. Contatta il tuo professionista.</p>
+          </body>
+        </html>
+      `);
+    }
+    
+    console.log(`✅ [ACTIVATE] Token valido per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
+    
     // Reindirizza alla pagina di auto-login dedicata
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const autoLoginUrl = `${protocol}://${host}/auto-login?clientId=${clientId}&token=${token}`;
+    
+    console.log(`🔄 [ACTIVATE] Reindirizzamento a: ${autoLoginUrl}`);
     
     // Reindirizza alla pagina di auto-login
     res.redirect(autoLoginUrl);
