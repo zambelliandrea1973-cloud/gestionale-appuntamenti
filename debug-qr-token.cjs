@@ -1,128 +1,138 @@
 /**
- * Debug del token QR specifico di Marco Berto (ID 1750153393298)
- * Simula esattamente il processo di validazione del server
+ * Script per testare il flusso QR di Marco e identificare dove si rompe
  */
 
 const fs = require('fs');
-const crypto = require('crypto');
 
 function loadStorageData() {
-  return JSON.parse(fs.readFileSync('storage_data.json', 'utf8'));
+  try {
+    const data = fs.readFileSync('storage_data.json', 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('❌ Errore caricamento dati:', error);
+    return {};
+  }
 }
 
-// Replica esatta della funzione di validazione del server
-function validateQRToken(token) {
-  console.log('🔍 VALIDAZIONE TOKEN SERVER:', token);
+async function debugMarcoQR() {
+  console.log('🔍 DEBUG QR TOKEN PER MARCO BERTO\n');
   
   const storageData = loadStorageData();
+  const marcoId = 1750177330362;
   
-  if (!token) {
-    return { valid: false, reason: "Token mancante" };
+  // Trova Marco nei dati
+  const clientData = storageData.clients.find(([id]) => id === marcoId);
+  
+  if (!clientData) {
+    console.log('❌ Marco non trovato nei dati');
+    return;
   }
-
-  // Estrae codice cliente e hash dal token
+  
+  const marco = clientData[1];
+  console.log('📊 DATI MARCO:');
+  console.log(`   ID: ${marco.id}`);
+  console.log(`   Nome: ${marco.firstName} ${marco.lastName}`);
+  console.log(`   Owner ID: ${marco.ownerId}`);
+  console.log(`   Unique Code: ${marco.uniqueCode}`);
+  console.log(`   Professionista Code: ${marco.professionistCode}`);
+  
+  // Simula la generazione del token come fa il server
+  const crypto = require('crypto');
+  const ownerUserId = marco.ownerId || 14;
+  const clientCode = marco.uniqueCode;
+  
+  console.log('\n🔧 GENERAZIONE TOKEN:');
+  console.log(`   Owner User ID: ${ownerUserId}`);
+  console.log(`   Client Code: ${clientCode}`);
+  
+  if (!clientCode) {
+    console.log('❌ Cliente senza codice gerarchico');
+    return;
+  }
+  
+  // Genera token come fa il server
+  const tokenData = `${clientCode}_SECURE_${ownerUserId}`;
+  const stableHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+  const token = `${clientCode}_${stableHash}`;
+  
+  console.log(`   Token Data: ${tokenData}`);
+  console.log(`   Hash: ${stableHash}`);
+  console.log(`   Token Finale: ${token}`);
+  
+  // Simula l'URL di attivazione
+  const activationUrl = `https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=${token}`;
+  console.log(`   URL Attivazione: ${activationUrl}`);
+  
+  // Testa la validazione del token (come fa /activate)
+  console.log('\n🧪 TEST VALIDAZIONE TOKEN:');
+  
   const lastUnderscoreIndex = token.lastIndexOf('_');
   if (lastUnderscoreIndex === -1) {
-    return { valid: false, reason: "Formato token non valido" };
+    console.log('❌ Formato token non valido - nessun underscore finale');
+    return;
   }
   
-  const clientCode = token.substring(0, lastUnderscoreIndex);
+  const clientCodeFromToken = token.substring(0, lastUnderscoreIndex);
   const providedHash = token.substring(lastUnderscoreIndex + 1);
   
-  console.log('  clientCode:', clientCode);
-  console.log('  providedHash:', providedHash);
+  console.log(`   Client Code estratto: ${clientCodeFromToken}`);
+  console.log(`   Hash estratto: ${providedHash}`);
   
   // Verifica formato gerarchico
-  const hierarchicalPattern = /^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/;
-  if (!hierarchicalPattern.test(clientCode)) {
-    return { valid: false, reason: "Codice cliente non in formato gerarchico" };
+  const hierarchicalRegex = /^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d+_[A-Z0-9]{4}$/;
+  const isValidFormat = hierarchicalRegex.test(clientCodeFromToken);
+  console.log(`   Formato gerarchico valido: ${isValidFormat}`);
+  
+  if (!isValidFormat) {
+    console.log('❌ Formato codice gerarchico non valido');
+    return;
   }
   
-  // Estrae owner ID dal codice cliente
-  const ownerMatch = clientCode.match(/^PROF_(\d{3})_/);
+  // Estrae owner ID dal codice
+  const ownerMatch = clientCodeFromToken.match(/^PROF_(\d{3})_/);
   if (!ownerMatch) {
-    return { valid: false, reason: "Impossibile identificare proprietario dal codice" };
+    console.log('❌ Impossibile estrarre owner ID dal codice');
+    return;
   }
   
-  const ownerId = parseInt(ownerMatch[1], 10);
-  console.log('  ownerId estratto:', ownerId);
+  const ownerIdFromToken = parseInt(ownerMatch[1], 10);
+  console.log(`   Owner ID estratto: ${ownerIdFromToken}`);
   
-  // Verifica hash del token
-  const tokenData = `${clientCode}_SECURE_${ownerId}`;
-  const expectedHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+  // Verifica hash
+  const expectedTokenData = `${clientCodeFromToken}_SECURE_${ownerIdFromToken}`;
+  const expectedHash = crypto.createHash('md5').update(expectedTokenData).digest('hex').substring(0, 8);
   
-  console.log('  tokenData per hash:', tokenData);
-  console.log('  expectedHash:', expectedHash);
-  console.log('  providedHash:', providedHash);
+  console.log(`   Token Data atteso: ${expectedTokenData}`);
+  console.log(`   Hash atteso: ${expectedHash}`);
+  console.log(`   Hash match: ${providedHash === expectedHash}`);
   
-  if (providedHash !== expectedHash) {
-    return { valid: false, reason: "Token non autorizzato" };
+  // Estrae client ID dal codice
+  const clientMatch = clientCodeFromToken.match(/CLIENT_(\d+)_/);
+  if (!clientMatch) {
+    console.log('❌ Impossibile estrarre client ID dal codice');
+    return;
   }
   
-  // Cerca il cliente nel storage
-  let foundClient = null;
-  for (const [clientId, client] of storageData.clients) {
-    if (client.uniqueCode === clientCode && client.ownerId === ownerId) {
-      foundClient = { id: clientId, ...client };
-      break;
-    }
-  }
+  const clientIdFromToken = parseInt(clientMatch[1], 10);
+  console.log(`   Client ID estratto: ${clientIdFromToken}`);
+  console.log(`   Client ID match: ${clientIdFromToken === marcoId}`);
   
-  if (!foundClient) {
-    return { valid: false, reason: "Cliente non trovato" };
-  }
-  
-  console.log('  Cliente trovato:', foundClient.firstName, foundClient.lastName);
-  
-  return { 
-    valid: true, 
-    client: foundClient,
-    ownerId 
-  };
-}
-
-function testMarcoToken() {
-  console.log('🧪 TEST DEBUG TOKEN MARCO BERTO');
-  console.log('');
-  
-  // Token generato dalla mia analisi precedente
-  const token = 'PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03';
-  
-  console.log('Token da testare:', token);
-  console.log('');
-  
-  const result = validateQRToken(token);
-  
-  console.log('📊 RISULTATO VALIDAZIONE:');
-  console.log('  Valid:', result.valid);
-  if (result.valid) {
-    console.log('  Cliente:', result.client.firstName, result.client.lastName);
-    console.log('  Owner ID:', result.ownerId);
-    console.log('  ✅ TOKEN VALIDO - Il problema deve essere altrove');
+  // Test finale
+  console.log('\n✅ RISULTATO FINALE:');
+  if (providedHash === expectedHash && clientIdFromToken === marcoId && ownerIdFromToken === marco.ownerId) {
+    console.log('🎉 Token valido - QR code dovrebbe funzionare');
+    
+    // Simula URL auto-login finale
+    const autoLoginUrl = `https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/auto-login?clientId=${clientIdFromToken}&token=${token}`;
+    console.log(`🔄 URL Auto-Login: ${autoLoginUrl}`);
   } else {
-    console.log('  Errore:', result.reason);
-    console.log('  ❌ TOKEN INVALIDO - Ecco il problema');
-  }
-  
-  // Verifica anche se il cliente è effettivamente nel database
-  console.log('');
-  console.log('🔍 VERIFICA PRESENZA CLIENTE NEL DATABASE:');
-  const storageData = loadStorageData();
-  
-  const clientExists = storageData.clients.find(([id, client]) => 
-    id === 1750153393298 && client.firstName === 'Marco' && client.lastName === 'Berto'
-  );
-  
-  if (clientExists) {
-    const [id, client] = clientExists;
-    console.log('  ✅ Cliente trovato nel database');
-    console.log('  ID:', id);
-    console.log('  Nome:', client.firstName, client.lastName);
-    console.log('  ownerId:', client.ownerId);
-    console.log('  uniqueCode:', client.uniqueCode);
-  } else {
-    console.log('  ❌ Cliente NON trovato nel database');
+    console.log('❌ Token non valido - problema nel flusso');
   }
 }
 
-testMarcoToken();
+// Esegui il debug
+if (require.main === module) {
+  debugMarcoQR();
+}
+
+module.exports = { debugMarcoQR };
