@@ -23,30 +23,45 @@ export default function ClientLogin() {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [autoLoginAttempted, setAutoLoginAttempted] = useState<boolean>(false);
   const [directLinkLoading, setDirectLinkLoading] = useState<boolean>(false);
+  const [tokenAutoFilled, setTokenAutoFilled] = useState<string>("");
 
   // Stato per controllare se mostrare il messaggio di sessione scaduta
   const [showSessionExpiredMessage, setShowSessionExpiredMessage] = useState<boolean>(false);
 
-  // Verifica se ci sono parametri nell'URL che indicano una sessione scaduta
+  // AUTOCOMPILAZIONE TOKEN + Gestione parametri URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // AUTOCOMPILAZIONE TOKEN dai parametri URL
+    const tokenFromURL = urlParams.get('token');
+    if (tokenFromURL) {
+      console.log("🔧 Token rilevato nell'URL - Autocompilazione campo");
+      setTokenAutoFilled(tokenFromURL);
+      setUsername(tokenFromURL); // Precompila il campo username con il token
+      
+      // Pulisci l'URL dai parametri per sicurezza
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+    
+    // AUTOCOMPILAZIONE TOKEN dal localStorage (PWA)
+    const storedToken = localStorage.getItem('clientAccessToken');
+    if (storedToken && !tokenFromURL) {
+      console.log("📱 Token rilevato in localStorage - Autocompilazione campo");
+      setTokenAutoFilled(storedToken);
+      setUsername(storedToken); // Precompila il campo username con il token
+    }
     
     // Se c'è il parametro 'expired=true', mostra il messaggio di sessione scaduta
     if (urlParams.get('expired') === 'true') {
       setShowSessionExpiredMessage(true);
       
-      // Rimuovi il parametro dall'URL per evitare che rimanga nella cronologia
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
-      
       // Solo se è scaduta la sessione, pulisci il token
-      console.log("Sessione scaduta, pulizia solo del token");
+      console.log("Sessione scaduta, pulizia token");
       localStorage.removeItem('clientAccessToken');
+      setTokenAutoFilled(""); // Pulisci anche l'autocompilazione
+      setUsername(""); // Pulisci il campo
     }
-    
-    // Non rimuoviamo più il clientAccessToken qui in modo generale
-    // perché questo causava la perdita del token anche durante i normali
-    // accessi all'app, portando al problema del "Token Mancante" al terzo tentativo
   }, []);
   
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
@@ -458,15 +473,26 @@ export default function ClientLogin() {
                 Non è stato possibile accedere con il link diretto. Esegui l'accesso con le tue credenziali.
               </div>
             )}
+            
+            {/* Indicatore autocompilazione token */}
+            {tokenAutoFilled && (
+              <div className="p-3 rounded-md bg-green-50 border border-green-200 text-green-800 text-sm mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold">Token rilevato automaticamente</span>
+                </div>
+                <p className="text-xs mt-1">Il campo nome utente è stato precompilato con il tuo token di accesso.</p>
+              </div>
+            )}
           
             <div className="space-y-2">
-              <Label htmlFor="username">Nome utente</Label>
+              <Label htmlFor="username">Nome utente {tokenAutoFilled && "(Token)"}</Label>
               <Input
                 id="username"
-                placeholder="Inserisci il tuo nome utente"
+                placeholder={tokenAutoFilled ? "Token precompilato automaticamente" : "Inserisci il tuo nome utente"}
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                className={tokenAutoFilled ? "bg-green-50 border-green-200" : ""}
               />
             </div>
             <div className="space-y-2">
