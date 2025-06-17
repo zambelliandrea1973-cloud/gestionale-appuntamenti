@@ -872,7 +872,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "hasConsent": false
+        "hasConsent": true,
+        "updatedAt": "2025-06-17T10:35:40.966Z"
       }
     ]
   ],
@@ -1114,5 +1115,15 @@
         "createdAt": "2025-06-16T09:11:30.713Z"
       }
     ]
+  ],
+  "consents": [
+    {
+      "id": 1750156575033,
+      "clientId": 1750153393298,
+      "consentText": "Test consenso GDPR automatico per Marco Berto",
+      "signature": "Consenso digitale - 6/17/2025, 10:36:15 AM",
+      "createdAt": "2025-06-17T10:36:15.034Z",
+      "isActive": true
+    }
   ]
 }

@@ -1,0 +1,35 @@
+Console.js:61 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Console.js:61 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Console.js:61 🔄 Form submit - Dati inviati: 
+{firstName: 'Marco', lastName: 'Berto', phone: '+41794374849', email: 'marco_berto@msn.com', address: 'Via Monte Rosa 4b , 22070 Appiano Gentile ', …}
+Console.js:61 📝 Form errors: 
+{}
+Console.js:61 🚀 Mutation inizio - Dati da inviare: 
+{firstName: 'Marco', lastName: 'Berto', phone: '+41794374849', email: 'marco_berto@msn.com', address: 'Via Monte Rosa 4b , 22070 Appiano Gentile ', …}
+Console.js:61 ✏️ Aggiornamento cliente esistente: 1750153393298
+Console.js:61 Esecuzione richiesta PUT a /api/clients/1750153393298 {"firstName":"Marco","lastName":"Berto","phone":"+41794374849","email":"marco_berto@msn.com","address":"Via Monte Rosa 4b , 22070 Appiano Gentile ","birthday":"1978-07-20","hasConsent":false}
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta PUT a /api/clients/1750153393298: 
+{method: 'PUT', headers: {…}, body: '{"firstName":"Marco","lastName":"Berto","phone":"+…ile ","birthday":"1978-07-20","hasConsent":false}'}
+Console.js:61 Risposta da /api/clients/1750153393298: 200 OK ok: true
+Console.js:61 Response data: 
+{id: 1750153393298, ownerId: 14, uniqueCode: 'STA3298', createdAt: '2025-06-17T09:43:13.298Z', firstName: 'Marco', …}
+Console.js:61 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 [desktop] Ricevuti 3 clienti dal nuovo sistema multi-tenant
+Console.js:61 [desktop] Sample clienti: 
+(3) [{…}, {…}, {…}]
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 Cliente aggiornato, refreshing data...
+Console.js:61 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+Console.js:61 [desktop] Ricevuti 3 clienti dal nuovo sistema multi-tenant
+Console.js:61 [desktop] Sample clienti: 
+(3) [{…}, {…}, {…}]
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+﻿
+

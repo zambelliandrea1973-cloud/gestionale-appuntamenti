@@ -311,7 +311,12 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
 
             <div className="flex justify-end gap-3">
               <Button
-                type="submit"
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  form.handleSubmit(onSubmit)();
+                }}
                 disabled={createConsentMutation.isPending}
                 className="bg-green-600 hover:bg-green-700"
               >
