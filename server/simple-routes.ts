@@ -2971,12 +2971,18 @@ Studio Professionale`,
         }
       }
       
-      // Fallback: usa il primo utente admin trovato
+      // Fallback controllato: usa utente 14 (Silvia Busnari) per consistenza
       if (!ownerUserId) {
-        const adminUsers = Object.keys(storageData.userIcons || {});
-        if (adminUsers.length > 0) {
-          ownerUserId = parseInt(adminUsers[0]);
-          console.log(`🔍 PWA ICON: Fallback a primo admin ${ownerUserId}`);
+        const targetUser = 14;
+        if (storageData.userIcons && storageData.userIcons[targetUser]) {
+          ownerUserId = targetUser;
+          console.log(`🔍 PWA ICON: Fallback controllato a utente ${ownerUserId}`);
+        } else {
+          const adminUsers = Object.keys(storageData.userIcons || {});
+          if (adminUsers.length > 0) {
+            ownerUserId = parseInt(adminUsers[0]);
+            console.log(`🔍 PWA ICON: Fallback finale a primo admin ${ownerUserId}`);
+          }
         }
       }
       
@@ -3024,19 +3030,41 @@ Studio Professionale`,
     try {
       const storageData = loadStorageData();
       
-      // Trova l'utente corrente o il primo admin
+      // PRIORITA' 1: Identifica proprietario da token QR nel referer
       let currentUserId = null;
-      if (req.session && req.session.passport && req.session.passport.user) {
-        const serializedUser = req.session.passport.user;
-        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
-          currentUserId = parseInt(serializedUser.split(':')[1]);
+      const referer = req.get('referer') || '';
+      const tokenMatch = referer.match(/token=([^&]+)/);
+      
+      if (tokenMatch) {
+        const token = tokenMatch[1];
+        const tokenParts = token.split('_');
+        if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
+          currentUserId = parseInt(tokenParts[1]);
+          console.log(`📱 MANIFEST: Identificato proprietario ${currentUserId} da token QR`);
         }
       }
       
+      // PRIORITA' 2: Usa sessione utente autenticato
+      if (!currentUserId && req.session && req.session.passport && req.session.passport.user) {
+        const serializedUser = req.session.passport.user;
+        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
+          currentUserId = parseInt(serializedUser.split(':')[1]);
+          console.log(`📱 MANIFEST: Usando utente sessione ${currentUserId}`);
+        }
+      }
+      
+      // PRIORITA' 3: Fallback controllato a utente 14 (Silvia Busnari) per consistenza
       if (!currentUserId) {
-        const adminUsers = Object.keys(storageData.userIcons || {});
-        if (adminUsers.length > 0) {
-          currentUserId = parseInt(adminUsers[0]);
+        const targetUser = 14;
+        if (storageData.userIcons && storageData.userIcons[targetUser]) {
+          currentUserId = targetUser;
+          console.log(`📱 MANIFEST: Fallback controllato a utente ${currentUserId}`);
+        } else {
+          const adminUsers = Object.keys(storageData.userIcons || {});
+          if (adminUsers.length > 0) {
+            currentUserId = parseInt(adminUsers[0]);
+            console.log(`📱 MANIFEST: Fallback finale a primo admin ${currentUserId}`);
+          }
         }
       }
       
