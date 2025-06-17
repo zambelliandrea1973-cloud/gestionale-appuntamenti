@@ -25,6 +25,11 @@ export default function AutoLogin() {
       try {
         console.log("Tentativo di auto-login dalla pagina AutoLogin");
         
+        // Recupera parametri URL (per attivazione QR)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get('token');
+        const urlClientId = urlParams.get('clientId');
+        
         // Rileva se siamo in una PWA installata
         const isPWA = 
           window.matchMedia('(display-mode: standalone)').matches || 
@@ -36,8 +41,8 @@ export default function AutoLogin() {
         // Recupera le credenziali salvate
         const username = localStorage.getItem('clientUsername');
         const password = localStorage.getItem('clientPassword');
-        const token = localStorage.getItem('clientAccessToken');
-        const clientId = localStorage.getItem('clientId');
+        const token = urlToken || localStorage.getItem('clientAccessToken');
+        const clientId = urlClientId || localStorage.getItem('clientId');
         
         // Log dei dati che abbiamo (senza mostrare la password)
         console.log(`Auto-login - Dati disponibili: 
