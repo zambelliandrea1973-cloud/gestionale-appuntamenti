@@ -28,24 +28,39 @@ export default function ActivateAccount() {
   const [verifying, setVerifying] = useState<boolean>(true);
 
   useEffect(() => {
-    // Estrai il token o i dati dalla query string
+    // AUTOCOMPILAZIONE SILENZIOSA: Preleva token e reindirizza automaticamente
     const params = new URLSearchParams(window.location.search);
     const tokenFromUrl = params.get("token");
+    const clientIdFromUrl = params.get("clientId");
+    
+    if (tokenFromUrl) {
+      console.log("🔧 AUTOCOMPILAZIONE SILENZIOSA: Token rilevato, reindirizzamento automatico");
+      
+      // Salva token e clientId per la PWA
+      localStorage.setItem('clientAccessToken', tokenFromUrl);
+      if (clientIdFromUrl) {
+        localStorage.setItem('clientId', clientIdFromUrl);
+      }
+      
+      // REDIRECT IMMEDIATO SENZA INTERFACCIA: Va direttamente alla client area
+      const redirectUrl = `/client-area?token=${tokenFromUrl}&clientId=${clientIdFromUrl || ''}&autoLogin=true`;
+      console.log("🚀 REDIRECT AUTOMATICO A:", redirectUrl);
+      
+      // Redirect immediato senza mostrare nulla all'utente
+      window.location.href = redirectUrl;
+      return;
+    }
+    
+    // Se non c'è token nell'URL, controlla se c'è nei dati codificati (retrocompatibilità)
     const dataFromUrl = params.get("data");
     
-    // Salva i dati QR per la PWA
+    // Salva i dati QR per la PWA (solo se non c'è redirect diretto)
     const saveDataForPwa = (data: string) => {
-      // Salva i dati nel localStorage
       localStorage.setItem('qrData', data);
-      
-      // Salva anche l'URL corrente come URL originale
       const currentUrl = window.location.href;
       localStorage.setItem('originalUrl', currentUrl);
-      console.log("URL originale salvato:", currentUrl);
       
-      // Se siamo in un contesto di service worker, invia i dati anche al service worker
       if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-        console.log("Invio dati QR al service worker");
         navigator.serviceWorker.controller.postMessage({
           type: 'SAVE_QR_DATA',
           qrData: data

@@ -27,29 +27,38 @@ export default function ClientLogin() {
 
   // Stato per controllare se mostrare il messaggio di sessione scaduta
   const [showSessionExpiredMessage, setShowSessionExpiredMessage] = useState<boolean>(false);
+  const [silentAuthInProgress, setSilentAuthInProgress] = useState<boolean>(false);
 
-  // AUTOCOMPILAZIONE TOKEN + Gestione parametri URL
+  // AUTENTICAZIONE COMPLETAMENTE TRASPARENTE - Nessuna interfaccia mostrata all'utente
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     
-    // AUTOCOMPILAZIONE TOKEN dai parametri URL
+    // TOKEN DA URL: Autenticazione automatica immediata
     const tokenFromURL = urlParams.get('token');
-    if (tokenFromURL) {
-      console.log("🔧 Token rilevato nell'URL - Autocompilazione campo");
-      setTokenAutoFilled(tokenFromURL);
-      setUsername(tokenFromURL); // Precompila il campo username con il token
+    const clientIdFromURL = urlParams.get('clientId');
+    
+    if (tokenFromURL && clientIdFromURL) {
+      console.log("🔧 AUTENTICAZIONE TRASPARENTE: Token e clientId rilevati, accesso automatico");
       
-      // Pulisci l'URL dai parametri per sicurezza
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
+      // Salva per PWA
+      localStorage.setItem('clientAccessToken', tokenFromURL);
+      localStorage.setItem('clientId', clientIdFromURL);
+      
+      // ACCESSO AUTOMATICO SENZA INTERFACCIA
+      performSilentAuthentication(tokenFromURL, clientIdFromURL);
+      return;
     }
     
-    // AUTOCOMPILAZIONE TOKEN dal localStorage (PWA)
+    // TOKEN DA LOCALSTORAGE: Autenticazione PWA automatica
     const storedToken = localStorage.getItem('clientAccessToken');
-    if (storedToken && !tokenFromURL) {
-      console.log("📱 Token rilevato in localStorage - Autocompilazione campo");
-      setTokenAutoFilled(storedToken);
-      setUsername(storedToken); // Precompila il campo username con il token
+    const storedClientId = localStorage.getItem('clientId');
+    
+    if (storedToken && storedClientId) {
+      console.log("📱 PWA AUTENTICAZIONE TRASPARENTE: Token localStorage rilevato, accesso automatico");
+      
+      // ACCESSO AUTOMATICO SENZA INTERFACCIA
+      performSilentAuthentication(storedToken, storedClientId);
+      return;
     }
     
     // Se c'è il parametro 'expired=true', mostra il messaggio di sessione scaduta
@@ -63,6 +72,42 @@ export default function ClientLogin() {
       setUsername(""); // Pulisci il campo
     }
   }, []);
+
+  // FUNZIONE AUTENTICAZIONE SILENZIOSA - Nessuna interfaccia mostrata
+  const performSilentAuthentication = async (token: string, clientId: string) => {
+    try {
+      setSilentAuthInProgress(true);
+      console.log("🔐 AUTENTICAZIONE SILENZIOSA: Inizio processo automatico");
+      
+      // Verifica token con il backend
+      const response = await apiRequest('POST', '/api/client-access/verify-token', {
+        token: token,
+        clientId: parseInt(clientId, 10)
+      });
+      
+      if (!response.ok) {
+        throw new Error("Token non valido");
+      }
+      
+      const clientData = await response.json();
+      console.log("✅ AUTENTICAZIONE SILENZIOSA: Token valido, redirect automatico");
+      
+      // REDIRECT IMMEDIATO SENZA TOAST O INTERFACCIA
+      window.location.href = `/client-area?authenticated=true`;
+      
+    } catch (error) {
+      console.error("❌ AUTENTICAZIONE SILENZIOSA: Fallita, pulizia localStorage");
+      
+      // Pulisci localStorage se il token non è valido
+      localStorage.removeItem('clientAccessToken');
+      localStorage.removeItem('clientId');
+      
+      setSilentAuthInProgress(false);
+      
+      // Mostra interfaccia di login solo se l'autenticazione automatica fallisce
+      setShowSessionExpiredMessage(true);
+    }
+  };
   
   // Verifica se ci sono parametri di token e clientId nell'URL o localStorage per accesso diretto
   useEffect(() => {
