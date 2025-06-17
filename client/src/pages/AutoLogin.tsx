@@ -53,10 +53,10 @@ export default function AutoLogin() {
           token: ${token ? 'sì' : 'no'}, 
           clientId: ${clientId ? 'sì' : 'no'}`);
         
-        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR (priorità massima)
+        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR (completamente automatico)
         if (token && clientId) {
           try {
-            console.log("Tentativo di verifica token QR:", { token: token.substring(0, 10) + '...', clientId });
+            console.log("Tentativo di verifica token QR automatico:", { token: token.substring(0, 10) + '...', clientId });
             const tokenResponse = await apiRequest('POST', '/api/client-access/verify-token', { 
               token, 
               clientId: parseInt(clientId, 10) 
@@ -65,7 +65,7 @@ export default function AutoLogin() {
             if (tokenResponse.ok) {
               const result = await tokenResponse.json();
               setStatus("success");
-              setMessage("Accesso effettuato");
+              setMessage("Accesso effettuato automaticamente");
               setClientName(result.client?.firstName || 'Utente');
               
               // Salva le informazioni del cliente per accessi futuri
@@ -76,107 +76,36 @@ export default function AutoLogin() {
               }
               
               toast({
-                title: "Accesso automatico effettuato",
+                title: "Accesso automatico tramite QR",
                 description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
               });
               
-              // Redirezione alla client area
+              // Redirezione immediata alla client area
               setTimeout(() => {
                 setLocation(`/client-area?token=${token}&clientId=${clientId}`);
-              }, 1500);
+              }, 1000);
               
               return;
             } else {
-              console.log("Verifica token QR fallita, tentativo con credenziali salvate");
+              // Se il token QR fallisce, mostra errore specifico
+              setStatus("error");
+              setMessage("QR Code non valido");
+              setError("Il codice QR potrebbe essere scaduto o non valido. Richiedi un nuovo codice.");
+              return;
             }
           } catch (error) {
             console.error("Errore durante verifica token QR:", error);
+            setStatus("error");
+            setMessage("Errore di connessione");
+            setError("Impossibile verificare il codice QR. Controlla la connessione internet.");
+            return;
           }
         }
         
-        // Se la verifica del token fallisce o non abbiamo token, tenta con le credenziali
-        if (username && password) {
-          try {
-            console.log("Tentativo di login con credenziali");
-            
-            const requestData: any = {
-              username,
-              password,
-            };
-            
-            // Aggiungi token e clientId se disponibili
-            if (token && clientId) {
-              requestData.token = token;
-              requestData.clientId = parseInt(clientId, 10);
-              
-              // Aggiungi flag di bypass per DuckDuckGo
-              if (isDuckDuckGo && isPWA) {
-                requestData.bypassAuth = true;
-                requestData.duckduckgo = true;
-                console.log("Modalità bypass per DuckDuckGo PWA attivata");
-              }
-            }
-            
-            const response = await apiRequest('POST', '/api/client/login', requestData);
-            
-            if (response.ok) {
-              const result = await response.json();
-              
-              // Aggiorna credenziali salvate
-              if (result.client?.id) {
-                localStorage.setItem('clientId', result.client.id.toString());
-              }
-              
-              if (result.token) {
-                localStorage.setItem('clientAccessToken', result.token);
-              }
-              
-              // Aggiorna stato
-              setStatus("success");
-              setMessage("Accesso effettuato");
-              setClientName(result.client?.firstName || 'Utente');
-              
-              toast({
-                title: "Accesso automatico effettuato",
-                description: `Benvenuto, ${result.client?.firstName || 'Utente'}!`,
-              });
-              
-              // Redirezione alla client area
-              setTimeout(() => {
-                if (result.token) {
-                  setLocation(`/client-area?token=${result.token}`);
-                } else if (token) {
-                  setLocation(`/client-area?token=${token}`);
-                } else {
-                  setLocation("/client-area");
-                }
-              }, 1500);
-              
-            } else {
-              const errorData = await response.json().catch(() => ({}));
-              setStatus("error");
-              setMessage("Accesso automatico fallito");
-              setError(errorData.message || "Credenziali non valide o scadute");
-              
-              console.error("Auto-login fallito:", errorData);
-            }
-          } catch (error) {
-            console.error("Errore durante auto-login con credenziali:", error);
-            setStatus("error");
-            setMessage("Errore durante l'accesso automatico");
-            setError("Si è verificato un errore durante il tentativo di accesso automatico.");
-          }
-        } else if (!token || !clientId) {
-          // Solo se non abbiamo neanche un token QR mostra errore
-          setStatus("error");
-          setMessage("Accesso automatico fallito");
-          setError("Nessun nome utente salvato. Effettua il login manualmente.");
-        } else {
-          // Se abbiamo token QR ma la verifica è già fallita sopra
-          setStatus("error");
-          setMessage("Token QR non valido");
-          setError("Il codice QR potrebbe essere scaduto. Richiedi un nuovo codice.");
-        }
+        // Se non abbiamo token QR, significa che non possiamo effettuare login automatico
+        setStatus("error");
+        setMessage("Accesso automatico non disponibile");
+        setError("Nessun codice QR valido trovato. Scansiona un QR code per accedere automaticamente.");
       } catch (error) {
         console.error("Errore durante auto-login:", error);
         setStatus("error");
