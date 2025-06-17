@@ -53,15 +53,7 @@ export default function AutoLogin() {
           token: ${token ? 'sì' : 'no'}, 
           clientId: ${clientId ? 'sì' : 'no'}`);
         
-        // Se non abbiamo dati sufficienti per tentare il login, interrompi
-        if (!username) {
-          setStatus("error");
-          setMessage("Accesso automatico fallito");
-          setError("Nessun nome utente salvato. Effettua il login manualmente.");
-          return;
-        }
-        
-        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR
+        // Se abbiamo un token e un cliente ID dalla URL, tenta la verifica del token QR (priorità massima)
         if (token && clientId) {
           try {
             console.log("Tentativo di verifica token QR:", { token: token.substring(0, 10) + '...', clientId });
@@ -174,10 +166,16 @@ export default function AutoLogin() {
             setMessage("Errore durante l'accesso automatico");
             setError("Si è verificato un errore durante il tentativo di accesso automatico.");
           }
-        } else {
+        } else if (!token || !clientId) {
+          // Solo se non abbiamo neanche un token QR mostra errore
           setStatus("error");
           setMessage("Accesso automatico fallito");
-          setError("Credenziali incomplete. Effettua il login manualmente.");
+          setError("Nessun nome utente salvato. Effettua il login manualmente.");
+        } else {
+          // Se abbiamo token QR ma la verifica è già fallita sopra
+          setStatus("error");
+          setMessage("Token QR non valido");
+          setError("Il codice QR potrebbe essere scaduto. Richiedi un nuovo codice.");
         }
       } catch (error) {
         console.error("Errore durante auto-login:", error);
