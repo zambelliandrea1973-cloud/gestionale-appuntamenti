@@ -329,10 +329,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_265_8851",
+        "uniqueCode": "PROF_016_0A55_CLIENT_265_F800",
         "id": 265,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -879,11 +879,11 @@
         "phone": "+39 123 456 7890",
         "birthDate": "1990-01-15",
         "fiscalCode": "CLNTTL90A15BU1X",
-        "uniqueCode": "PROF_014_C88F_CLIENT_14001_61FD",
+        "uniqueCode": "PROF_014_D84F_CLIENT_14001_C43C",
         "ownerId": 14,
         "createdAt": "2025-06-17T09:33:32.557Z",
         "notes": "Cliente di prova generato automaticamente",
-        "professionistCode": "PROF_014_C88F"
+        "professionistCode": "PROF_014_D84F"
       }
     ],
     [
@@ -896,11 +896,11 @@
         "phone": "+39 098 765 4321",
         "birthDate": "1985-06-20",
         "fiscalCode": "TRLCNT85H20BU2Y",
-        "uniqueCode": "PROF_014_C88F_CLIENT_14002_3E73",
+        "uniqueCode": "PROF_014_D84F_CLIENT_14002_7E89",
         "ownerId": 14,
         "createdAt": "2025-06-17T09:33:32.557Z",
         "notes": "Account di test generato automaticamente",
-        "professionistCode": "PROF_014_C88F"
+        "professionistCode": "PROF_014_D84F"
       }
     ],
     [
@@ -1788,7 +1788,7 @@
         },
         "id": 1750153393298,
         "ownerId": 14,
-        "uniqueCode": "PROF_014_C88F_CLIENT_1750153393298_E630",
+        "uniqueCode": "PROF_014_D84F_CLIENT_1750153393298_7BCE",
         "createdAt": "2025-06-17T09:43:13.298Z",
         "firstName": "Marco",
         "lastName": "Berto",
@@ -1804,7 +1804,7 @@
         "updatedAt": "2025-06-17T10:39:46.013Z",
         "accessCount": 4,
         "lastAccess": "2025-06-17T12:21:25.968Z",
-        "professionistCode": "PROF_014_C88F"
+        "professionistCode": "PROF_014_D84F"
       }
     ],
     [
@@ -1812,7 +1812,7 @@
       {
         "id": 1750163505034,
         "ownerId": 14,
-        "uniqueCode": "PROF_014_C88F_CLIENT_1750163505034_D513",
+        "uniqueCode": "PROF_014_D84F_CLIENT_1750163505034_3EFC",
         "createdAt": "2025-06-17T12:31:45.034Z",
         "firstName": "Bruna ",
         "lastName": "Pizzolato",
@@ -1826,7 +1826,7 @@
         "allergies": "",
         "accessCount": 5,
         "lastAccess": "2025-06-17T12:45:01.682Z",
-        "professionistCode": "PROF_014_C88F"
+        "professionistCode": "PROF_014_D84F"
       }
     ]
   ],
@@ -1900,7 +1900,17 @@
     "14": {
       "businessName": "Studio Medico",
       "showBusinessName": true,
-      "name": "busnari.silvia@libero.it",
+      "name": "Silvia Busnari",
+      "fontSize": 45,
+      "fontFamily": "Lucida Sans Unicode",
+      "fontStyle": "italic",
+      "color": "#006400",
+      "enabled": true
+    },
+    "16": {
+      "businessName": "Studio Medico",
+      "showBusinessName": true,
+      "name": "faverioelisa6@gmail.com",
       "fontSize": 24,
       "fontFamily": "Arial, sans-serif",
       "fontStyle": "normal",
@@ -2080,6 +2090,9 @@
     }
   ],
   "professionistCodes": {
-    "3": "PROF_003_7402"
-  }
+    "3": "PROF_003_7402",
+    "14": "PROF_014_D84F",
+    "16": "PROF_016_0A55"
+  },
+  "clientCodes": {}
 }

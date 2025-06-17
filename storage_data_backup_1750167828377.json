@@ -138,12 +138,12 @@
         "allergies": "Nessuna allergia dichiarata",
         "hasConsent": true,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_252_5B31",
+        "uniqueCode": "PROF_016_0A55_CLIENT_252_0B88",
         "id": 252,
         "createdAt": "2025-06-03T13:34:58.644Z",
         "accessCount": 14,
         "lastAccess": "2025-06-17T07:47:49.607Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -182,10 +182,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_257_4B73",
+        "uniqueCode": "PROF_016_0A55_CLIENT_257_DA65",
         "id": 257,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -203,10 +203,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_258_4BC4",
+        "uniqueCode": "PROF_016_0A55_CLIENT_258_A0AF",
         "id": 258,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -329,10 +329,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_265_8851",
+        "uniqueCode": "PROF_016_0A55_CLIENT_265_F800",
         "id": 265,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -392,10 +392,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_268_618F",
+        "uniqueCode": "PROF_016_0A55_CLIENT_268_A94D",
         "id": 268,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -413,10 +413,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_269_DD31",
+        "uniqueCode": "PROF_016_0A55_CLIENT_269_76DC",
         "id": 269,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -455,10 +455,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_271_A20F",
+        "uniqueCode": "PROF_016_0A55_CLIENT_271_471A",
         "id": 271,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -497,10 +497,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_273_4F32",
+        "uniqueCode": "PROF_016_0A55_CLIENT_273_D8DC",
         "id": 273,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -539,10 +539,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 16,
-        "uniqueCode": "PROF_016_EAC3_CLIENT_513_FD83",
+        "uniqueCode": "PROF_016_0A55_CLIENT_513_7DE8",
         "id": 513,
         "createdAt": "2025-06-03T13:34:58.647Z",
-        "professionistCode": "PROF_016_EAC3"
+        "professionistCode": "PROF_016_0A55"
       }
     ],
     [
@@ -879,11 +879,11 @@
         "phone": "+39 123 456 7890",
         "birthDate": "1990-01-15",
         "fiscalCode": "CLNTTL90A15BU1X",
-        "uniqueCode": "PROF_014_C88F_CLIENT_14001_61FD",
+        "uniqueCode": "PROF_014_D84F_CLIENT_14001_C43C",
         "ownerId": 14,
         "createdAt": "2025-06-17T09:33:32.557Z",
         "notes": "Cliente di prova generato automaticamente",
-        "professionistCode": "PROF_014_C88F"
+        "professionistCode": "PROF_014_D84F"
       }
     ],
     [
@@ -1812,7 +1812,7 @@
       {
         "id": 1750163505034,
         "ownerId": 14,
-        "uniqueCode": "PROF_014_C88F_CLIENT_1750163505034_D513",
+        "uniqueCode": "PROF_014_D84F_CLIENT_1750163505034_3EFC",
         "createdAt": "2025-06-17T12:31:45.034Z",
         "firstName": "Bruna ",
         "lastName": "Pizzolato",
@@ -1826,7 +1826,7 @@
         "allergies": "",
         "accessCount": 5,
         "lastAccess": "2025-06-17T12:45:01.682Z",
-        "professionistCode": "PROF_014_C88F"
+        "professionistCode": "PROF_014_D84F"
       }
     ]
   ],
@@ -1905,6 +1905,16 @@
       "fontFamily": "Lucida Sans Unicode",
       "fontStyle": "italic",
       "color": "#006400",
+      "enabled": true
+    },
+    "16": {
+      "businessName": "Studio Medico",
+      "showBusinessName": true,
+      "name": "faverioelisa6@gmail.com",
+      "fontSize": 24,
+      "fontFamily": "Arial, sans-serif",
+      "fontStyle": "normal",
+      "color": "#000000",
       "enabled": true
     }
   },
@@ -2081,7 +2091,8 @@
   ],
   "professionistCodes": {
     "3": "PROF_003_7402",
-    "14": "PROF_014_D84F"
+    "14": "PROF_014_D84F",
+    "16": "PROF_016_0A55"
   },
   "clientCodes": {}
 }
