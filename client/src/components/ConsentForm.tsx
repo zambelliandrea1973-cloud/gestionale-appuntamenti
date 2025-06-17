@@ -170,21 +170,21 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
     );
   }
 
-  // If consent already exists, show existing consent and ensure client status is updated
-  if (existingConsent) {
-    // Ensure client hasConsent is set to true if we have an existing consent
-    React.useEffect(() => {
-      if (client && !client.hasConsent) {
-        apiRequest("PUT", `/api/clients/${clientId}`, {
-          ...client,
-          hasConsent: true
-        }).then(() => {
-          queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
-          queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
-        });
-      }
-    }, [client, clientId]);
+  // Ensure client hasConsent is set to true if we have an existing consent
+  React.useEffect(() => {
+    if (existingConsent && client && !client.hasConsent) {
+      apiRequest("PUT", `/api/clients/${clientId}`, {
+        ...client,
+        hasConsent: true
+      }).then(() => {
+        queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+        queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
+      });
+    }
+  }, [existingConsent, client, clientId]);
 
+  // If consent already exists, show existing consent
+  if (existingConsent) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
