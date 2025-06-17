@@ -218,5 +218,36 @@
         }
       });
     </script>
+    
+    <!-- Script per gestire errori globali e prevenire popup -->
+    <script>
+      // Gestione globale degli errori per prevenire popup
+      window.addEventListener('error', function(event) {
+        // Cattura errori di funzioni non definite come CatchJS
+        if (event.error && event.error.message && 
+            (event.error.message.includes('CatchJS is not a function') ||
+             event.error.message.includes('is not a function'))) {
+          console.warn('Errore script esterno ignorato:', event.error.message);
+          event.preventDefault();
+          return true;
+        }
+      });
+      
+      // Gestione errori non catturati
+      window.addEventListener('unhandledrejection', function(event) {
+        if (event.reason && event.reason.message && 
+            event.reason.message.includes('is not a function')) {
+          console.warn('Promise rejection ignorata:', event.reason.message);
+          event.preventDefault();
+        }
+      });
+      
+      // Definizione di funzioni stub per script esterni che potrebbero mancare
+      if (typeof window.CatchJS === 'undefined') {
+        window.CatchJS = function() {
+          console.warn('CatchJS chiamata ignorata - funzione non disponibile');
+        };
+      }
+    </script>
   </body>
 </html>
