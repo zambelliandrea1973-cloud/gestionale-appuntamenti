@@ -1462,17 +1462,18 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
-    // SISTEMA SEMPLIFICATO: 1 accesso = 1 conteggio
-    const accessCount = client.accessCount || 0;
+    // SISTEMA SEMPLIFICATO: 1 accesso = 1 conteggio - DIMEZZATO PER COMPENSARE DOPPIO INCREMENTO
+    const actualAccessCount = client.accessCount || 0;
+    const displayCount = Math.floor(actualAccessCount / 2);
     
-    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${accessCount}`);
+    console.log(`[DEBUG COUNT] Cliente ${clientIdParam} (${client.firstName} ${client.lastName}) - accessCount: ${actualAccessCount} → display: ${displayCount}`);
     
     // Previeni cache per assicurarsi che i conteggi siano sempre aggiornati
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     
-    res.json({ count: accessCount });
+    res.json({ count: displayCount });
   });
 
   // Endpoint per verificare token QR e restituire dati cliente
