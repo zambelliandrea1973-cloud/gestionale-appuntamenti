@@ -1524,6 +1524,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const clientId = parseInt(req.params.id);
     
+    console.log(`🔍 [QR-INTERFACE] Richiesta QR per cliente ID: ${clientId} da utente: ${user.id} (${user.email})`);
+    
     if (isNaN(clientId)) {
       return res.status(400).json({ message: "ID cliente non valido" });
     }
@@ -1533,13 +1535,16 @@ export function registerSimpleRoutes(app: Express): Server {
     const clientData = allClients.find(([id, client]) => id === clientId);
     
     if (!clientData) {
+      console.log(`❌ [QR-INTERFACE] Cliente ${clientId} NON TROVATO nel sistema`);
       return res.status(404).json({ message: "Cliente non trovato nel sistema" });
     }
     
     const client = clientData[1];
+    console.log(`🔍 [QR-INTERFACE] Cliente trovato: ${client.firstName} ${client.lastName} (ID: ${clientId}, Owner: ${client.ownerId})`);
     
     // Verifica proprietà - solo admin o proprietario del cliente
     if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
+      console.log(`❌ [QR-INTERFACE] Accesso negato - utente ${user.id} non autorizzato per cliente del proprietario ${client.ownerId}`);
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
     
@@ -1604,12 +1609,19 @@ export function registerSimpleRoutes(app: Express): Server {
         console.error(`❌ [QR-PWA-SYNC] Errore sincronizzazione icone PWA:`, syncError);
       }
       
-      res.json({
+      const responseData = {
         token,
         activationUrl,
         qrCode,
         clientName: `${client.firstName} ${client.lastName}`
-      });
+      };
+      
+      console.log(`✅ [QR-INTERFACE] Risposta inviata al frontend:`);
+      console.log(`   - Cliente: ${responseData.clientName}`);
+      console.log(`   - Token: ${responseData.token}`);
+      console.log(`   - URL: ${responseData.activationUrl}`);
+      
+      res.json(responseData);
     } catch (error) {
       console.error('Errore generazione QR:', error);
       res.status(500).json({ message: "Errore nella generazione del QR code" });
