@@ -52,10 +52,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 9,
-        "uniqueCode": "PROF_009_87A1_CLIENT_025_5EA5",
+        "uniqueCode": "PROF_009_AE0F_CLIENT_025_26F1",
         "id": 25,
         "createdAt": "2025-06-03T13:34:58.643Z",
-        "professionistCode": "PROF_009_87A1"
+        "professionistCode": "PROF_009_AE0F"
       }
     ],
     [
@@ -73,10 +73,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 11,
-        "uniqueCode": "PROF_011_1D12_CLIENT_027_3EE3",
+        "uniqueCode": "PROF_011_C59C_CLIENT_027_7441",
         "id": 27,
         "createdAt": "2025-06-03T13:34:58.644Z",
-        "professionistCode": "PROF_011_1D12"
+        "professionistCode": "PROF_011_C59C"
       }
     ],
     [
@@ -94,10 +94,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 12,
-        "uniqueCode": "PROF_012_4CEF_CLIENT_028_B0EF",
+        "uniqueCode": "PROF_012_9859_CLIENT_028_07DF",
         "id": 28,
         "createdAt": "2025-06-03T13:34:58.644Z",
-        "professionistCode": "PROF_012_4CEF"
+        "professionistCode": "PROF_012_9859"
       }
     ],
     [
@@ -266,10 +266,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 11,
-        "uniqueCode": "PROF_011_1D12_CLIENT_262_C86A",
+        "uniqueCode": "PROF_011_C59C_CLIENT_262_3C3A",
         "id": 262,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "professionistCode": "PROF_011_1D12"
+        "professionistCode": "PROF_011_C59C"
       }
     ],
     [
@@ -308,10 +308,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 12,
-        "uniqueCode": "PROF_012_4CEF_CLIENT_264_1E11",
+        "uniqueCode": "PROF_012_9859_CLIENT_264_CEC1",
         "id": 264,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "professionistCode": "PROF_012_4CEF"
+        "professionistCode": "PROF_012_9859"
       }
     ],
     [
@@ -350,10 +350,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 3,
-        "uniqueCode": "PROF_003_6AA8_CLIENT_266_924F",
+        "uniqueCode": "PROF_003_7402_CLIENT_266_4342",
         "id": 266,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "professionistCode": "PROF_003_6AA8"
+        "professionistCode": "PROF_003_7402"
       }
     ],
     [
@@ -371,10 +371,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 3,
-        "uniqueCode": "PROF_003_6AA8_CLIENT_267_CF81",
+        "uniqueCode": "PROF_003_7402_CLIENT_267_AC7F",
         "id": 267,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "professionistCode": "PROF_003_6AA8"
+        "professionistCode": "PROF_003_7402"
       }
     ],
     [
@@ -518,10 +518,10 @@
         "allergies": "",
         "hasConsent": false,
         "ownerId": 9,
-        "uniqueCode": "PROF_009_87A1_CLIENT_316_1985",
+        "uniqueCode": "PROF_009_AE0F_CLIENT_316_BD29",
         "id": 316,
         "createdAt": "2025-06-03T13:34:58.647Z",
-        "professionistCode": "PROF_009_87A1"
+        "professionistCode": "PROF_009_AE0F"
       }
     ],
     [
@@ -571,7 +571,7 @@
       {
         "id": 1749666196976,
         "ownerId": 9,
-        "uniqueCode": "PROF_009_87A1_CLIENT_1749666196976_FE34",
+        "uniqueCode": "PROF_009_AE0F_CLIENT_1749666196976_7747",
         "createdAt": "2025-06-11T18:23:16.976Z",
         "firstName": "Andrea",
         "lastName": "Zambelli",
@@ -584,7 +584,7 @@
         "medicalNotes": "",
         "allergies": "",
         "hasConsent": false,
-        "professionistCode": "PROF_009_87A1"
+        "professionistCode": "PROF_009_AE0F"
       }
     ],
     [
@@ -596,11 +596,11 @@
         "phone": "3331111111",
         "email": "marco.bianchi@staff.com",
         "ownerId": 101,
-        "uniqueCode": "PROF_101_A09D_CLIENT_1749666196977_C9A0",
+        "uniqueCode": "PROF_101_8C12_CLIENT_1749666196977_0A62",
         "address": "",
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.878Z",
-        "professionistCode": "PROF_101_A09D"
+        "professionistCode": "PROF_101_8C12"
       }
     ],
     [
@@ -612,11 +612,11 @@
         "phone": "3332222222",
         "email": "sara.neri@staff.com",
         "ownerId": 101,
-        "uniqueCode": "PROF_101_A09D_CLIENT_1749666196978_AC85",
+        "uniqueCode": "PROF_101_8C12_CLIENT_1749666196978_66CD",
         "address": "",
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.878Z",
-        "professionistCode": "PROF_101_A09D"
+        "professionistCode": "PROF_101_8C12"
       }
     ],
     [
@@ -628,11 +628,11 @@
         "phone": "3333333333",
         "email": "luigi.verdi@customer.com",
         "ownerId": 102,
-        "uniqueCode": "PROF_102_8939_CLIENT_1749666196979_7543",
+        "uniqueCode": "PROF_102_307F_CLIENT_1749666196979_99F6",
         "address": "",
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.879Z",
-        "professionistCode": "PROF_102_8939"
+        "professionistCode": "PROF_102_307F"
       }
     ],
     [
@@ -644,11 +644,11 @@
         "phone": "3334444444",
         "email": "anna.blu@customer.com",
         "ownerId": 102,
-        "uniqueCode": "PROF_102_8939_CLIENT_1749666196980_8562",
+        "uniqueCode": "PROF_102_307F_CLIENT_1749666196980_F263",
         "address": "",
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.879Z",
-        "professionistCode": "PROF_102_8939"
+        "professionistCode": "PROF_102_307F"
       }
     ],
     [
@@ -660,11 +660,11 @@
         "phone": "3335555555",
         "email": "paolo.rosso@customer.com",
         "ownerId": 102,
-        "uniqueCode": "PROF_102_8939_CLIENT_1749666196981_4F67",
+        "uniqueCode": "PROF_102_307F_CLIENT_1749666196981_EA1D",
         "address": "",
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.879Z",
-        "professionistCode": "PROF_102_8939"
+        "professionistCode": "PROF_102_307F"
       }
     ],
     [
@@ -676,11 +676,11 @@
         "phone": "3336666666",
         "email": "elena.giallo@basic.com",
         "ownerId": 103,
-        "uniqueCode": "PROF_103_A61F_CLIENT_1749666196982_205E",
+        "uniqueCode": "PROF_103_EA73_CLIENT_1749666196982_2604",
         "address": "",
         "notes": "",
         "createdAt": "2025-06-11T18:43:55.879Z",
-        "professionistCode": "PROF_103_A61F"
+        "professionistCode": "PROF_103_EA73"
       }
     ],
     [
@@ -688,7 +688,7 @@
       {
         "id": 1749667437314,
         "ownerId": 3,
-        "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437314_D162",
+        "uniqueCode": "PROF_003_7402_CLIENT_1749667437314_19F7",
         "createdAt": "2025-06-11T18:43:57.314Z",
         "firstName": "Silvia",
         "lastName": "Bus",
@@ -701,7 +701,7 @@
         "medicalNotes": "",
         "allergies": "",
         "hasConsent": false,
-        "professionistCode": "PROF_003_6AA8"
+        "professionistCode": "PROF_003_7402"
       }
     ],
     [
@@ -817,10 +817,10 @@
         "userId": 3,
         "ownerId": 3,
         "originalOwnerId": 1,
-        "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437319_46A6",
+        "uniqueCode": "PROF_003_7402_CLIENT_1749667437319_BD53",
         "id": 1749667437319,
         "createdAt": "2025-06-11T18:54:21.929Z",
-        "professionistCode": "PROF_003_6AA8"
+        "professionistCode": "PROF_003_7402"
       }
     ],
     [
@@ -840,10 +840,10 @@
         "userId": 3,
         "ownerId": 3,
         "originalOwnerId": 2,
-        "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437320_8DB9",
+        "uniqueCode": "PROF_003_7402_CLIENT_1749667437320_F607",
         "id": 1749667437320,
         "createdAt": "2025-06-11T18:54:21.930Z",
-        "professionistCode": "PROF_003_6AA8"
+        "professionistCode": "PROF_003_7402"
       }
     ],
     [
@@ -863,10 +863,10 @@
         "userId": 3,
         "ownerId": 3,
         "originalOwnerId": 4,
-        "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437321_86C8",
+        "uniqueCode": "PROF_003_7402_CLIENT_1749667437321_6727",
         "id": 1749667437321,
         "createdAt": "2025-06-11T18:54:21.930Z",
-        "professionistCode": "PROF_003_6AA8"
+        "professionistCode": "PROF_003_7402"
       }
     ],
     [
@@ -2091,8 +2091,14 @@
   ],
   "professionistCodes": {
     "3": "PROF_003_7402",
+    "9": "PROF_009_AE0F",
+    "11": "PROF_011_C59C",
+    "12": "PROF_012_9859",
     "14": "PROF_014_D84F",
-    "16": "PROF_016_0A55"
+    "16": "PROF_016_0A55",
+    "101": "PROF_101_8C12",
+    "102": "PROF_102_307F",
+    "103": "PROF_103_EA73"
   },
   "clientCodes": {}
 }
