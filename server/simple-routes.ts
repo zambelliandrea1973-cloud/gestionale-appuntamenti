@@ -1626,25 +1626,37 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "Token e clientId richiesti" });
     }
     
-    // Verifica formato token: userId_clientId_hash (permanente)
-    const tokenParts = token.split('_');
-    if (tokenParts.length !== 3) {
+    // NUOVO FORMATO: Verifica token basato su codici gerarchici PROF_XXX_XXXX_CLIENT_XXX_XXXX_hash
+    const crypto = await import('crypto');
+    
+    // Estrae codice cliente e hash dal token
+    const lastUnderscoreIndex = token.lastIndexOf('_');
+    if (lastUnderscoreIndex === -1) {
       return res.status(400).json({ message: "Formato token non valido" });
     }
     
-    const [userId, tokenClientId, hash] = tokenParts;
+    const clientCode = token.substring(0, lastUnderscoreIndex);
+    const providedHash = token.substring(lastUnderscoreIndex + 1);
     
-    // Verifica validità del token confrontando l'hash
-    const crypto = await import('crypto');
-    const expectedHash = crypto.createHash('md5').update(`${userId}_${tokenClientId}_permanent`).digest('hex').substring(0, 8);
-    
-    if (hash !== expectedHash) {
-      return res.status(401).json({ message: "Token non autorizzato" });
+    // Verifica che il codice cliente sia formato gerarchico valido
+    if (!clientCode.match(/^PROF_\d{3}_[A-Z0-9]{4}_CLIENT_\d{3}_[A-Z0-9]{4}$/)) {
+      return res.status(400).json({ message: "Codice cliente non valido" });
     }
     
-    // Verifica che il clientId nel token corrisponda a quello fornito
-    if (tokenClientId !== clientId.toString()) {
-      return res.status(400).json({ message: "Token non corrisponde al cliente" });
+    // Estrae owner ID dal codice cliente
+    const ownerMatch = clientCode.match(/^PROF_(\d{3})_/);
+    if (!ownerMatch) {
+      return res.status(400).json({ message: "Impossibile identificare proprietario dal codice" });
+    }
+    
+    const ownerId = parseInt(ownerMatch[1], 10);
+    
+    // Verifica hash del token
+    const tokenData = `${clientCode}_SECURE_${ownerId}`;
+    const expectedHash = crypto.createHash('md5').update(tokenData).digest('hex').substring(0, 8);
+    
+    if (providedHash !== expectedHash) {
+      return res.status(401).json({ message: "Token non autorizzato" });
     }
     
     // Carica dati reali dal file storage_data.json
@@ -1660,7 +1672,20 @@ export function registerSimpleRoutes(app: Express): Server {
     
     const client = clientData[1];
     
-    console.log(`✅ Token QR verificato con successo per cliente ${clientId}: ${client.firstName} ${client.lastName}`);
+    // VALIDAZIONE CRITICA: Verifica che il cliente appartenga al proprietario del codice gerarchico
+    const clientOwnerId = client.ownerId;
+    if (!clientOwnerId || clientOwnerId !== ownerId) {
+      console.error(`🚨 VIOLAZIONE SICUREZZA: Cliente ${clientId} appartiene a ${clientOwnerId} ma token per proprietario ${ownerId}`);
+      return res.status(403).json({ message: "Token non autorizzato per questo cliente" });
+    }
+    
+    // Verifica che il codice cliente corrisponda al formato gerarchico
+    if (client.uniqueCode && !validateClientOwnership(client.uniqueCode, ownerId)) {
+      console.error(`🚨 VIOLAZIONE SICUREZZA: Codice cliente ${client.uniqueCode} non valido per proprietario ${ownerId}`);
+      return res.status(403).json({ message: "Codice cliente non valido per questo proprietario" });
+    }
+    
+    console.log(`✅ Token QR verificato con successo per cliente ${clientId} (${client.firstName} ${client.lastName}) del proprietario ${ownerId}`);
     
     // Restituisci i dati del cliente autenticato
     res.json({
