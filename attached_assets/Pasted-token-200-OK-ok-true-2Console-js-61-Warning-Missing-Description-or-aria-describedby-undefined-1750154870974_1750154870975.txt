@@ -1,0 +1,32 @@
+token: 200 OK ok: true
+2Console.js:61 Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Mt.forEach.n.<computed> @ Console.js:61Understand this warning
+Console.js:61 Esecuzione richiesta POST a /api/consents {"clientId":1750153393298,"consentText":"\nINFORMATIVA SUL TRATTAMENTO DEI DATI PERSONALI E CONSENSO\n\nAi sensi dell'art. 13 del Regolamento UE 2016/679 (GDPR), La informiamo che i dati personali e le categorie particolari di dati (come i dati relativi alla salute) da Lei forniti saranno trattati nel rispetto della normativa citata.\n\nI dati saranno utilizzati per:\n- Gestione degli appuntamenti e dei trattamenti\n- Conservazione della storia clinica e delle allergie\n- Contatti per appuntamenti, modifiche e cancellazioni\n- Adempimento degli obblighi di legge\n- Dati necessari per la fatturazione\n\nI dati saranno conservati per il tempo necessario agli scopi per i quali sono stati raccolti e potranno essere comunicati esclusivamente a soggetti competenti per l'espletamento dei servizi necessari, con garanzia di tutela dei suoi diritti.\n\nLei ha il diritto di ottenere dal titolare la cancellazione, la limitazione, l'aggiornamento, la rettificazione, la portabilità dei suoi dati, e può opporsi al loro trattamento nei casi previsti dalla legge.\n\nPer esercitare i suoi diritti o per ottenere informazioni sui suoi dati, può contattare il titolare del trattamento.\n","consentAccepted":true,"consentType":"digital_acceptance","fullName":"marco berto","signature":"marco berto - Consenso digitale accettato il 17/06/2025, 12:06:58"}
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta POST a /api/consents: Object
+Console.js:61 Risposta da /api/consents: 200 OK ok: true
+4Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 🔘 Submit button clicked
+Console.js:61 🔄 Form submit - Dati inviati: Object
+Console.js:61 📝 Form errors: Object
+Console.js:61 🚀 Mutation inizio - Dati da inviare: Object
+Console.js:61 ✏️ Aggiornamento cliente esistente: 1750153393298
+Console.js:61 Esecuzione richiesta PUT a /api/clients/1750153393298 {"firstName":"Marco","lastName":"Berto","phone":"+41794374849","email":"marco_berto@msn.com","address":"Via Monte Rosa 4b , 22070 Appiano Gentile ","birthday":"1978-07-20","hasConsent":false}
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta PUT a /api/clients/1750153393298: Object
+Console.js:61 Risposta da /api/clients/1750153393298: 200 OK ok: true
+Console.js:61 Error parsing response: SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+2Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all
+Console.js:61 [desktop] Ricevuti 3 clienti dal nuovo sistema multi-tenant
+Console.js:61 [desktop] Sample clienti: Array(3)
+Console.js:61 Cliente aggiornato, refreshing data...
+Console.js:61 [desktop] Chiamata /api/clients con nuovo sistema multi-tenant
+Console.js:61 [desktop] Ricevuti 3 clienti dal nuovo sistema multi-tenant
+Console.js:61 [desktop] Sample clienti: Array(3)
+2Console.js:61 CONTEGGIO CLIENTI: Ricevuti: 3, Filtrati: 3, Tab attivo: all

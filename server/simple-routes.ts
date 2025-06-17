@@ -482,6 +482,62 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // PUT /api/clients/:id - Aggiorna cliente esistente
+  app.put("/api/clients/:id", (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const clientId = parseInt(req.params.id);
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    
+    if (isNaN(clientId)) {
+      return res.status(400).json({ message: "ID cliente non valido" });
+    }
+
+    try {
+      console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
+      console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Dati ricevuti:`, req.body);
+
+      const storageData = loadStorageData();
+      
+      // Trova il cliente esistente
+      const existingClientIndex = storageData.clients.findIndex((c: any) => c.id === clientId);
+      if (existingClientIndex === -1) {
+        console.log(`❌ [PUT /api/clients/${clientId}] Cliente non trovato`);
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+
+      const existingClient = storageData.clients[existingClientIndex];
+      
+      // Verifica ownership per utenti non-staff
+      if (user.type !== 'staff' && existingClient.ownerId !== user.id) {
+        console.log(`❌ [PUT /api/clients/${clientId}] Accesso negato - cliente non appartiene all'utente`);
+        return res.status(403).json({ message: "Accesso negato" });
+      }
+
+      // Aggiorna i dati del cliente mantenendo ID e ownerId
+      const updatedClient = {
+        ...existingClient,
+        ...req.body,
+        id: clientId, // Mantieni l'ID originale
+        ownerId: existingClient.ownerId, // Mantieni il proprietario originale
+        updatedAt: new Date().toISOString()
+      };
+
+      // Sostituisci il cliente nell'array
+      storageData.clients[existingClientIndex] = updatedClient;
+      
+      // Salva nel file
+      saveStorageData(storageData);
+      
+      console.log(`✅ [PUT /api/clients/${clientId}] Cliente aggiornato con successo`);
+      res.json(updatedClient);
+      
+    } catch (error) {
+      console.error(`❌ [PUT /api/clients/${clientId}] Errore durante l'aggiornamento:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
   // Sistema lineare semplice - Appuntamenti
   // Endpoint rimossi - duplicati degli endpoint attivi alle linee 485+
 
