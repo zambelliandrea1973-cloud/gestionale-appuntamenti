@@ -26,6 +26,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface ConsentFormProps {
   clientId: number;
+  embedded?: boolean; // Se true, non mostra il form wrapper per evitare form annidati
 }
 
 // Default consent text
@@ -61,7 +62,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function ConsentForm({ clientId }: ConsentFormProps) {
+export default function ConsentForm({ clientId, embedded = false }: ConsentFormProps) {
   const { toast } = useToast();
 
   // Fetch client
@@ -232,7 +233,7 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-6">
             {/* Display consent text */}
             <div className="bg-muted p-6 rounded-lg max-h-80 overflow-y-auto">
               <pre className="whitespace-pre-wrap text-sm font-sans leading-relaxed">
@@ -290,7 +291,8 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
 
             {/* Submit button */}
             <Button
-              type="submit"
+              type="button"
+              onClick={form.handleSubmit(onSubmit)}
               disabled={createConsentMutation.isPending || !form.watch('consentAccepted')}
               className="w-full"
             >
@@ -306,7 +308,7 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
                 </>
               )}
             </Button>
-          </form>
+          </div>
         </Form>
       </CardContent>
     </Card>
