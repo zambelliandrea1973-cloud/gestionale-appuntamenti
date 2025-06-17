@@ -160,16 +160,22 @@ export default function QRCodeModal({ clientId, clientName, open, onClose, onQrC
                 </div>
                 
                 {/* VERIFICA TOKEN - Mostra il token contenuto nel QR */}
-                {activationUrl && (
-                  <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded-md">
-                    <p className="text-xs font-medium text-yellow-800 text-center">
-                      VERIFICA TOKEN: {activationUrl.split('token=')[1]?.split('&')[0] || 'N/A'}
+                <div className="mt-3 p-3 bg-red-100 border-2 border-red-300 rounded-md">
+                  <p className="text-sm font-bold text-red-800 text-center">
+                    🔍 VERIFICA QR - MARCO BERTO
+                  </p>
+                  <p className="text-xs font-mono text-red-700 text-center mt-1 break-all">
+                    TOKEN ATTESO: PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03
+                  </p>
+                  <p className="text-xs text-red-600 text-center mt-2">
+                    ⚠️ FOTOQR E CONTROLLA CHE CONTENGA QUESTO TOKEN
+                  </p>
+                  {activationUrl && (
+                    <p className="text-xs font-mono text-gray-600 text-center mt-1 break-all">
+                      MOSTRATO: {activationUrl.split('token=')[1]?.split('&')[0] || 'N/A'}
                     </p>
-                    <p className="text-xs text-yellow-700 text-center mt-1">
-                      Cliente: {clientName} (ID: {clientId})
-                    </p>
-                  </div>
-                )}
+                  )}
+                </div>
                 
                 <div className="flex space-x-2 mt-4">
                   <Button variant="outline" size="sm" onClick={downloadQrCode}>
