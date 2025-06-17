@@ -2289,10 +2289,23 @@ Studio Professionale`,
         return res.status(404).json({ message: "Cliente non trovato" });
       }
       
-      // SISTEMA SEMPLIFICATO: Incrementa il contatore di accessi
       const [id, client] = storageData.clients[clientIndex];
+      const now = new Date();
+      const lastAccessTime = client.lastAccess ? new Date(client.lastAccess) : null;
+      
+      // PROTEZIONE CONTRO TRACKING MULTIPLO: Ignora se l'ultimo accesso è stato meno di 30 secondi fa
+      if (lastAccessTime && (now.getTime() - lastAccessTime.getTime()) < 30000) {
+        console.log(`🚫 [PWA ACCESS SKIP] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Accesso duplicato ignorato (${Math.round((now.getTime() - lastAccessTime.getTime()) / 1000)}s fa)`);
+        return res.json({
+          success: true,
+          accessCount: client.accessCount || 0,
+          message: 'Accesso già registrato di recente'
+        });
+      }
+      
+      // SISTEMA SEMPLIFICATO: Incrementa il contatore di accessi solo se non è duplicato
       client.accessCount = (client.accessCount || 0) + 1;
-      client.lastAccess = new Date().toISOString();
+      client.lastAccess = now.toISOString();
       
       // Salva i dati aggiornati
       saveStorageData(storageData);

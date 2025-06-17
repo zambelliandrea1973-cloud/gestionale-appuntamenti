@@ -50,14 +50,6 @@ export default function ClientArea() {
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
-    // Protezione contro tracking multiplo (React Strict Mode o chiamate duplicate)
-    const trackingKey = `tracking_${clientId}_${Date.now()}`;
-    if (sessionStorage.getItem(trackingKey)) {
-      console.log(`⚡ Tracking già in corso per cliente ${clientId} - Skip duplicato`);
-      return;
-    }
-    sessionStorage.setItem(trackingKey, 'true');
-    
     try {
       const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
       if (response.ok) {
@@ -68,11 +60,6 @@ export default function ClientArea() {
     } catch (error) {
       console.error('Errore nel tracking accesso PWA:', error);
       // Non blocchiamo l'accesso per errori di tracking
-    } finally {
-      // Rimuovi la protezione dopo 2 secondi
-      setTimeout(() => {
-        sessionStorage.removeItem(trackingKey);
-      }, 2000);
     }
   };
   
