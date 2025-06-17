@@ -293,7 +293,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
               </div>
             )}
             
-            {client.uniqueCode && (
+            {client.uniqueCode && typeof client.uniqueCode === 'string' && (
               <div className="flex items-center text-xs text-blue-600 mt-1 font-mono">
                 <span className="bg-blue-50 px-2 py-1 rounded border">
                   {client.uniqueCode}

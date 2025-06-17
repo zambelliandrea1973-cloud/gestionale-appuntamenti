@@ -2032,6 +2032,26 @@
         "lastAccess": "2025-06-17T12:45:01.682Z",
         "professionistCode": "PROF_014_D84F"
       }
+    ],
+    [
+      1750177330362,
+      {
+        "id": 1750177330362,
+        "ownerId": 14,
+        "uniqueCode": {},
+        "professionistCode": {},
+        "createdAt": "2025-06-17T16:22:10.363Z",
+        "firstName": "Marco",
+        "lastName": "Berto",
+        "phone": "+41794374849",
+        "email": "marco_berto@msn.com",
+        "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
+        "birthday": "1978-07-20",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": ""
+      }
     ]
   ],
   "users": [
