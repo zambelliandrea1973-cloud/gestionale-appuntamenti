@@ -301,11 +301,14 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
               </div>
             )}
             
-            {/* VERIFICA TOKEN QR - Mostra il token associato */}
+            {/* TOKEN QR - Invisibile di default, visibile al hover */}
             {clientToken && (
               <div className="flex items-center text-xs text-orange-600 mt-2 font-mono">
-                <span className="bg-orange-50 px-2 py-1 rounded border border-orange-200">
-                  TOKEN: {clientToken.substring(0, 20)}...{clientToken.substring(-8)}
+                <span className="bg-orange-50 px-2 py-1 rounded border border-orange-200 relative group cursor-pointer">
+                  <span className="text-orange-400">TOKEN: ••••••••••••••••••••</span>
+                  <span className="absolute inset-0 px-2 py-1 bg-orange-50 text-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    TOKEN: {clientToken.substring(0, 20)}...{clientToken.substring(-8)}
+                  </span>
                 </span>
               </div>
             )}
