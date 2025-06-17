@@ -712,15 +712,15 @@ export function registerSimpleRoutes(app: Express): Server {
   }
 
   // Genera codice professionista univoco basato su licenza
-  function generateProfessionistCode(userId: number): string {
-    const crypto = require('crypto');
+  async function generateProfessionistCode(userId: number): Promise<string> {
+    const crypto = await import('crypto');
     const timestamp = Date.now();
     const hash = crypto.createHash('md5').update(`PROF_${userId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
     return `PROF_${userId.toString().padStart(3, '0')}_${hash}`;
   }
 
   // Recupera o genera il codice professionista
-  function getProfessionistCode(userId: number): string {
+  async function getProfessionistCode(userId: number): Promise<string> {
     const storageData = loadStorageData();
     
     // Cerca se l'utente ha già un codice professionista
@@ -729,7 +729,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     // Genera nuovo codice e lo salva
-    const newCode = generateProfessionistCode(userId);
+    const newCode = await generateProfessionistCode(userId);
     
     if (!storageData.professionistCodes) {
       storageData.professionistCodes = {};
@@ -743,18 +743,18 @@ export function registerSimpleRoutes(app: Express): Server {
   }
 
   // Genera codice cliente che include codice professionista
-  function generateClientCode(ownerId: number, clientId: number): string {
-    const crypto = require('crypto');
-    const profCode = getProfessionistCode(ownerId);
+  async function generateClientCode(ownerId: number, clientId: number): Promise<string> {
+    const crypto = await import('crypto');
+    const profCode = await getProfessionistCode(ownerId);
     const timestamp = Date.now();
     const hash = crypto.createHash('md5').update(`${profCode}_CLIENT_${clientId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
     return `${profCode}_CLIENT_${clientId.toString().padStart(3, '0')}_${hash}`;
   }
 
   // Valida ownership attraverso codice gerarchico
-  function validateClientOwnership(clientCode: string, expectedOwnerId: number): boolean {
+  async function validateClientOwnership(clientCode: string, expectedOwnerId: number): Promise<boolean> {
     if (!clientCode) return false;
-    const profCode = getProfessionistCode(expectedOwnerId);
+    const profCode = await getProfessionistCode(expectedOwnerId);
     return clientCode.startsWith(profCode);
   }
 
@@ -1548,16 +1548,16 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // SISTEMA CODICI GERARCHICI: Verifica e genera codici se mancanti
     let clientCode = client.uniqueCode;
-    if (!clientCode || !validateClientOwnership(clientCode, ownerUserId)) {
+    if (!clientCode || !(await validateClientOwnership(clientCode, ownerUserId))) {
       console.log(`🔧 Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
-      clientCode = generateClientCode(ownerUserId, clientId);
+      clientCode = await generateClientCode(ownerUserId, clientId);
       
       // Aggiorna il cliente con il nuovo codice
       const storageData = loadStorageData();
       const clientIndex = storageData.clients.findIndex(([id]) => id === clientId);
       if (clientIndex !== -1) {
         storageData.clients[clientIndex][1].uniqueCode = clientCode;
-        storageData.clients[clientIndex][1].professionistCode = getProfessionistCode(ownerUserId);
+        storageData.clients[clientIndex][1].professionistCode = await getProfessionistCode(ownerUserId);
         saveStorageData(storageData);
       }
     }
@@ -1680,7 +1680,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     // Verifica che il codice cliente corrisponda al formato gerarchico
-    if (client.uniqueCode && !validateClientOwnership(client.uniqueCode, ownerId)) {
+    if (client.uniqueCode && !(await validateClientOwnership(client.uniqueCode, ownerId))) {
       console.error(`🚨 VIOLAZIONE SICUREZZA: Codice cliente ${client.uniqueCode} non valido per proprietario ${ownerId}`);
       return res.status(403).json({ message: "Codice cliente non valido per questo proprietario" });
     }
