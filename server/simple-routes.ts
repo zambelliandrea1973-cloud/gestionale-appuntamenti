@@ -1485,10 +1485,11 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     // Genera token di attivazione permanente per cliente
-    // Usa un hash stabile basato su userId + clientId per evitare cambio token
+    // CORREZIONE CRITICA: Usa ownerId del cliente invece di user.id corrente per garantire consistenza icone PWA
+    const ownerUserId = client.ownerId || user.id; // Fallback a user.id solo se ownerId non esiste
     const crypto = require('crypto');
-    const stableHash = crypto.createHash('md5').update(`${user.id}_${clientId}_permanent`).digest('hex').substring(0, 8);
-    const token = `${user.id}_${clientId}_${stableHash}`;
+    const stableHash = crypto.createHash('md5').update(`${ownerUserId}_${clientId}_permanent`).digest('hex').substring(0, 8);
+    const token = `${ownerUserId}_${clientId}_${stableHash}`;
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const activationUrl = `${protocol}://${host}/activate?token=${token}`;
@@ -1532,7 +1533,7 @@ export function registerSimpleRoutes(app: Express): Server {
 
 
   // Endpoint per verificare token QR e autenticare cliente
-  app.post("/api/client-access/verify-token", (req, res) => {
+  app.post("/api/client-access/verify-token", async (req, res) => {
     const { token, clientId } = req.body;
     
     if (!token || !clientId) {
@@ -1548,7 +1549,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const [userId, tokenClientId, hash] = tokenParts;
     
     // Verifica validità del token confrontando l'hash
-    const crypto = require('crypto');
+    const crypto = await import('crypto');
     const expectedHash = crypto.createHash('md5').update(`${userId}_${tokenClientId}_permanent`).digest('hex').substring(0, 8);
     
     if (hash !== expectedHash) {
@@ -1630,7 +1631,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per verificare token QR e restituire dati cliente
-  app.post("/api/client-access/verify-token", (req, res) => {
+  app.post("/api/client-access/verify-token", async (req, res) => {
     const { token, clientId } = req.body;
     
     if (!token || !clientId) {
@@ -1761,7 +1762,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint di validazione token QR code per attivazione app PWA cliente
-  app.get("/activate", (req, res) => {
+  app.get("/activate", async (req, res) => {
     const { token } = req.query;
     
     if (!token || typeof token !== 'string') {
@@ -1801,7 +1802,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const [userId, clientId, hash] = tokenParts;
     
     // Verifica validità del token confrontando l'hash
-    const crypto = require('crypto');
+    const crypto = await import('crypto');
     const expectedHash = crypto.createHash('md5').update(`${userId}_${clientId}_permanent`).digest('hex').substring(0, 8);
     
     if (hash !== expectedHash) {
