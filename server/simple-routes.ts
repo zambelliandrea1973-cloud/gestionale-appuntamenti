@@ -1487,7 +1487,7 @@ export function registerSimpleRoutes(app: Express): Server {
     // Genera token di attivazione permanente per cliente
     // CORREZIONE CRITICA: Usa ownerId del cliente invece di user.id corrente per garantire consistenza icone PWA
     const ownerUserId = client.ownerId || user.id; // Fallback a user.id solo se ownerId non esiste
-    const crypto = require('crypto');
+    const crypto = await import('crypto');
     const stableHash = crypto.createHash('md5').update(`${ownerUserId}_${clientId}_permanent`).digest('hex').substring(0, 8);
     const token = `${ownerUserId}_${clientId}_${stableHash}`;
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -1516,7 +1516,17 @@ export function registerSimpleRoutes(app: Express): Server {
         }
       });
       
-
+      // CORREZIONE CRITICA: Sincronizza icone PWA con l'icona del proprietario del cliente
+      const storageData = loadStorageData();
+      const ownerIcon = storageData.userIcons[ownerUserId] || defaultIconBase64;
+      console.log(`🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente ${clientId} con icona del proprietario ${ownerUserId}`);
+      
+      try {
+        await updatePWAIconsFromCompanyLogo(ownerUserId, ownerIcon);
+        console.log(`✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario ${ownerUserId}`);
+      } catch (syncError) {
+        console.error(`❌ [QR-PWA-SYNC] Errore sincronizzazione icone PWA:`, syncError);
+      }
       
       res.json({
         token,
