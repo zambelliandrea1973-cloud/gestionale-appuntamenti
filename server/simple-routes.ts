@@ -753,7 +753,7 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Valida ownership attraverso codice gerarchico
   async function validateClientOwnership(clientCode: string, expectedOwnerId: number): Promise<boolean> {
-    if (!clientCode) return false;
+    if (!clientCode || typeof clientCode !== 'string') return false;
     const profCode = await getProfessionistCode(expectedOwnerId);
     return clientCode.startsWith(profCode);
   }
