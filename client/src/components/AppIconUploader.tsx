@@ -220,9 +220,23 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         // Aggiorna immediatamente l'anteprima con l'icona caricata
         setPreviewUrl(iconData);
         
+        // SINCRONIZZAZIONE AUTOMATICA ICONE PWA
+        try {
+          const syncResponse = await fetch('/api/sync-pwa-icons', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          if (syncResponse.ok) {
+            console.log('✅ Icone PWA sincronizzate automaticamente');
+          }
+        } catch (syncError) {
+          console.warn('Errore sincronizzazione PWA:', syncError);
+        }
+        
         toast({
           title: "Icona caricata con successo",
-          description: "L'icona dell'app cliente è stata aggiornata.",
+          description: "L'icona dell'app è stata aggiornata e sincronizzata automaticamente per i clienti.",
           variant: "default",
         });
 

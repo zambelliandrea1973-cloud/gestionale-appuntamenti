@@ -48,28 +48,13 @@ export default function ClientArea() {
   const [token, setToken] = useState<string>("");
   const [accessTracked, setAccessTracked] = useState<boolean>(false); // Flag per evitare tracking duplicato
 
-  // Funzione per registrare l'accesso del cliente - SISTEMA ORIGINALE CHE FUNZIONAVA
+  // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
-    // Usa localStorage per persistenza ma con controllo temporale per evitare spam
-    const storageKey = `pwa_access_${clientId}`;
-    const lastAccess = localStorage.getItem(storageKey);
-    const now = Date.now();
-    const oneHour = 60 * 60 * 1000; // 1 ora in millisecondi
-    
-    // Se l'ultimo accesso è stato meno di 1 ora fa, non tracciare di nuovo
-    if (lastAccess && (now - parseInt(lastAccess)) < oneHour) {
-      console.log(`📱 [PWA ACCESS] Cliente ${clientId} - Accesso recente (${Math.round((now - parseInt(lastAccess)) / 60000)} min fa)`);
-      return;
-    }
-    
     try {
       const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
       if (response.ok) {
         const result = await response.json();
         console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount}`);
-        
-        // Segna il timestamp dell'ultimo accesso
-        localStorage.setItem(storageKey, now.toString());
         setAccessTracked(true);
       }
     } catch (error) {
