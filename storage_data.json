@@ -1774,7 +1774,9 @@
         "notes": "",
         "isFrequent": false,
         "medicalNotes": "",
-        "allergies": ""
+        "allergies": "",
+        "accessCount": 1,
+        "lastAccess": "2025-06-17T12:39:31.046Z"
       }
     ]
   ],
