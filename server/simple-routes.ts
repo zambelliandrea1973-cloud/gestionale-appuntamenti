@@ -1539,15 +1539,23 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "Token e clientId richiesti" });
     }
     
-    // Verifica formato token: userId_clientId_timestamp
+    // Verifica formato token: userId_clientId_hash (permanente)
     const tokenParts = token.split('_');
     if (tokenParts.length !== 3) {
       return res.status(400).json({ message: "Formato token non valido" });
     }
     
-    const [userId, tokenClientId, timestamp] = tokenParts;
+    const [userId, tokenClientId, hash] = tokenParts;
     
-    // Verifica che il clientId nel token corrisponda a quello nell'URL
+    // Verifica validità del token confrontando l'hash
+    const crypto = require('crypto');
+    const expectedHash = crypto.createHash('md5').update(`${userId}_${tokenClientId}_permanent`).digest('hex').substring(0, 8);
+    
+    if (hash !== expectedHash) {
+      return res.status(401).json({ message: "Token non autorizzato" });
+    }
+    
+    // Verifica che il clientId nel token corrisponda a quello fornito
     if (tokenClientId !== clientId.toString()) {
       return res.status(400).json({ message: "Token non corrisponde al cliente" });
     }
@@ -1772,7 +1780,7 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    // Verifica formato token: userId_clientId_timestamp
+    // Verifica formato token: userId_clientId_hash (permanente)
     const tokenParts = token.split('_');
     if (tokenParts.length !== 3) {
       return res.status(400).send(`
@@ -1790,7 +1798,27 @@ export function registerSimpleRoutes(app: Express): Server {
       `);
     }
     
-    const [userId, clientId, timestamp] = tokenParts;
+    const [userId, clientId, hash] = tokenParts;
+    
+    // Verifica validità del token confrontando l'hash
+    const crypto = require('crypto');
+    const expectedHash = crypto.createHash('md5').update(`${userId}_${clientId}_permanent`).digest('hex').substring(0, 8);
+    
+    if (hash !== expectedHash) {
+      return res.status(401).send(`
+        <html>
+          <head>
+            <title>Token Non Autorizzato</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+            <h1 style="color: #EF4444;">🔒 Token Non Autorizzato</h1>
+            <p>Il token non è valido per questo cliente. Richiedi un nuovo QR code.</p>
+          </body>
+        </html>
+      `);
+    }
     
     // Verifica che il cliente esista nel sistema storage reale
     const storageData = loadStorageData();
