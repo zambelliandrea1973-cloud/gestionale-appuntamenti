@@ -56,15 +56,13 @@ const formSchema = z.object({
     message: "È necessario accettare l'informativa per procedere"
   }),
   consentType: z.enum(["digital_acceptance"]),
-  fullName: z.string().min(2, "Nome e cognome obbligatori"),
-  confirmationText: z.string()
+  fullName: z.string().min(2, "Nome e cognome obbligatori")
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export default function ConsentForm({ clientId }: ConsentFormProps) {
   const { toast } = useToast();
-  const [isAcceptanceConfirmed, setIsAcceptanceConfirmed] = useState(false);
 
   // Fetch client
   const { data: client, isLoading: isLoadingClient } = useQuery({
@@ -85,15 +83,9 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
       consentText: DEFAULT_CONSENT_TEXT,
       consentAccepted: false,
       consentType: "digital_acceptance" as const,
-      fullName: "",
-      confirmationText: "ACCETTO"
+      fullName: client ? `${client.firstName || ''} ${client.lastName || ''}`.trim() : ""
     }
   });
-
-  // Update form when client data is loaded
-  if (client && !form.getValues().fullName) {
-    form.setValue('fullName', `${client.firstName} ${client.lastName}`);
-  }
 
   // Create consent mutation
   const createConsentMutation = useMutation({
@@ -124,14 +116,6 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
 
   // Handle form submission
   const onSubmit = (data: FormData) => {
-    if (!isAcceptanceConfirmed) {
-      toast({
-        title: "Conferma richiesta",
-        description: "È necessario confermare l'accettazione dell'informativa.",
-        variant: "destructive",
-      });
-      return;
-    }
     createConsentMutation.mutate(data);
   };
 
@@ -279,35 +263,12 @@ export default function ConsentForm({ clientId }: ConsentFormProps) {
               )}
             />
 
-            {/* Confirmation text field */}
-            <FormField
-              control={form.control}
-              name="confirmationText"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Conferma digitando "ACCETTO"</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="Digita ACCETTO per confermare"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setIsAcceptanceConfirmed(e.target.value.toUpperCase() === "ACCETTO");
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Per procedere, digita "ACCETTO" nel campo sopra
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
 
             {/* Submit button */}
             <Button
               type="submit"
-              disabled={createConsentMutation.isPending || !isAcceptanceConfirmed || !form.watch('consentAccepted')}
+              disabled={createConsentMutation.isPending || !form.watch('consentAccepted')}
               className="w-full"
             >
               {createConsentMutation.isPending ? (
