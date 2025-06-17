@@ -30,6 +30,52 @@ export const notificationService = {
   async sendEmail(to: string, subject: string, message: string): Promise<boolean> {
     return directNotificationService.sendEmail(to, subject, message);
   },
+
+  /**
+   * Invia un'email utilizzando direttamente la configurazione dal file
+   * @param to Indirizzo email del destinatario
+   * @param subject Oggetto dell'email
+   * @param message Testo dell'email
+   * @param emailConfig Configurazione email dal file
+   * @returns Una Promise che risolve a true se l'invio è riuscito
+   */
+  async sendEmailDirect(to: string, subject: string, message: string, emailConfig: any): Promise<boolean> {
+    try {
+      const nodemailer = await import('nodemailer');
+      
+      // Crea trasportatore SMTP per Gmail
+      const transporter = nodemailer.default.createTransport({
+        service: 'gmail',
+        auth: {
+          user: emailConfig.emailAddress,
+          pass: emailConfig.emailPassword,
+        }
+      });
+      
+      // Sostituisce i placeholder nel subject con i dati reali se presente un template
+      let finalSubject = subject;
+      if (emailConfig.emailSubject) {
+        finalSubject = emailConfig.emailSubject.replace(/{{data}}/g, new Date().toLocaleDateString('it-IT'));
+      }
+      
+      const mailOptions = {
+        from: emailConfig.emailAddress,
+        to,
+        subject: finalSubject,
+        text: message,
+        html: message.replace(/\n/g, '<br>'),
+      };
+      
+      console.log(`Invio email promemoria a ${to} con oggetto: ${finalSubject}`);
+      
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Email promemoria inviata con successo: ${info.messageId}`);
+      return true;
+    } catch (error: any) {
+      console.error('Errore nell\'invio dell\'email promemoria:', error);
+      return false;
+    }
+  },
   
   /**
    * Invia un messaggio SMS (non implementato - usa link diretti invece)
@@ -179,9 +225,32 @@ export const notificationService = {
               console.log(`WhatsApp inviato con successo per l'appuntamento ${appointment.id}`, result.sid);
               successCount++;
             } else if (trimmedType === 'email' && client.email) {
-              // Per ora registriamo solo l'intenzione di inviare email, da implementare
-              console.log(`Email non implementata per il cliente ${client.id} all'indirizzo ${client.email}`);
-              // In futuro, implementare l'invio effettivo di email
+              // Carica la configurazione email dal file separato
+              const fs = await import('fs');
+              const path = await import('path');
+              const emailConfigPath = 'email_settings.json';
+              
+              try {
+                const emailConfigData = fs.readFileSync(emailConfigPath, 'utf8');
+                const emailConfig = JSON.parse(emailConfigData);
+                
+                if (emailConfig.emailEnabled && emailConfig.emailAddress && emailConfig.emailPassword) {
+                  const success = await this.sendEmailDirect(client.email, reminderTemplate?.subject || `Promemoria appuntamento del ${appointmentDate}`, message, emailConfig);
+                  if (success) {
+                    console.log(`Email inviata con successo per l'appuntamento ${appointment.id} a ${client.email}`);
+                    successCount++;
+                  } else {
+                    console.error(`Errore nell'invio email per l'appuntamento ${appointment.id}`);
+                    errorCount++;
+                  }
+                } else {
+                  console.log(`Configurazione email non completa - Email abilitata: ${emailConfig.emailEnabled}, Indirizzo configurato: ${!!emailConfig.emailAddress}, Password configurata: ${!!emailConfig.emailPassword}`);
+                  errorCount++;
+                }
+              } catch (error) {
+                console.error(`Errore nel caricamento della configurazione email:`, error);
+                errorCount++;
+              }
             } else if (trimmedType !== 'email') {
               console.warn(`Tipo di promemoria non supportato: ${trimmedType}`);
               errorCount++;
