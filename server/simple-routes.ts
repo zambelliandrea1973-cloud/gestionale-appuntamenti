@@ -3220,7 +3220,7 @@ Studio Professionale`,
       }
       
       // Se l'icona è in formato base64, convertila e servila
-      if (userIcon.startsWith('data:image/')) {
+      if (userIcon && userIcon.startsWith('data:image/')) {
         const base64Data = userIcon.split(',')[1];
         const buffer = Buffer.from(base64Data, 'base64');
         
@@ -3235,13 +3235,15 @@ Studio Professionale`,
           'Content-Length': buffer.length
         });
         
-        console.log(`📱 Servendo icona PWA personalizzata ${size} per utente ${ownerUserId}`);
+        console.log(`📱 Servendo icona PWA personalizzata ${size} per proprietario ${ownerUserId}`);
         return res.send(buffer);
       }
       
       // Se è un percorso file, serve quello
-      console.log(`📁 Reindirizzando a icona file: ${userIcon}`);
-      res.redirect(userIcon);
+      if (userIcon && userIcon.length > 0 && !userIcon.startsWith('data:')) {
+        console.log(`📁 Reindirizzando a icona file: ${userIcon}`);
+        return res.redirect(userIcon);
+      }
       
     } catch (error) {
       console.error('Errore nel servire icona PWA personalizzata:', error);
