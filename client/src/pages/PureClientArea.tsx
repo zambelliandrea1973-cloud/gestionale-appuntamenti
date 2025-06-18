@@ -390,49 +390,6 @@ export default function PureClientArea() {
         {/* PWA Installation Banner */}
         <PWAInstallBanner />
 
-        {/* Istruzioni PWA */}
-        <Card className="bg-green-50 border-green-200 mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-green-800">
-              <Download className="h-5 w-5" />
-              Installa App sul tuo dispositivo
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 text-sm text-green-700">
-              <p><strong>📱 Su Android:</strong></p>
-              <ol className="list-decimal list-inside space-y-1 ml-4">
-                <li>Tocca il menu ⋮ in alto a destra</li>
-                <li>Seleziona "Aggiungi alla schermata Home"</li>
-                <li>Conferma "Installa" o "Aggiungi"</li>
-              </ol>
-              
-              <p><strong>🍎 Su iOS:</strong></p>
-              <ol className="list-decimal list-inside space-y-1 ml-4">
-                <li>Tocca il pulsante Condividi 📤</li>
-                <li>Scorri e tocca "Aggiungi alla schermata Home"</li>
-                <li>Tocca "Aggiungi" in alto a destra</li>
-              </ol>
-              
-              <p><strong>💻 Su Desktop:</strong></p>
-              <ol className="list-decimal list-inside space-y-1 ml-4">
-                <li>Cerca l'icona + nella barra degli indirizzi</li>
-                <li>Clicca "Installa" quando appare</li>
-              </ol>
-              
-              <div className="mt-4 p-3 bg-green-100 rounded-lg">
-                <p className="font-medium">✨ Vantaggi dell'installazione:</p>
-                <ul className="list-disc list-inside space-y-1 mt-2">
-                  <li>Accesso rapido dalla schermata principale</li>
-                  <li>Funziona anche senza connessione</li>
-                  <li>Esperienza app nativa</li>
-                  <li>Notifiche per i tuoi appuntamenti</li>
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Lista Appuntamenti */}
         <Card>
           <CardHeader>
