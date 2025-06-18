@@ -112,7 +112,7 @@ function PWAInstallBanner() {
                 <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
               )}
               <span className={`text-sm font-medium ${isPwaMode ? 'text-green-700' : 'text-blue-700'}`}>
-                {isPwaMode ? 'App installata sul tuo dispositivo' : 'Installa app sul tuo dispositivo'}
+                {isPwaMode ? 'App correttamente installata' : 'Installa app sul tuo dispositivo'}
               </span>
             </div>
             {/* Mostra pulsante se disponibile installazione e non è PWA */}
