@@ -157,29 +157,28 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "version": manifestVersion
     };
     
-    // Usa icone personalizzate se abbiamo un owner, altrimenti default
-    // Aggiunge timestamp univoco per forzare refresh cache icone su dispositivi
+    // SOLUZIONE ANDROID: Usa proxy per icone con headers anti-cache
     const iconTimestamp = Date.now() + Math.random();
-    const iconPrefix = ownerUserId ? `/icons/owner-${ownerUserId}-icon-` : '/icons/icon-';
-    const iconSuffix = `?v=${iconTimestamp}&bust=${ownerUserId || 'default'}`;
+    const iconBaseUrl = `/pwa-icon`;
+    const iconParams = `?owner=${ownerUserId || 'default'}&v=${iconTimestamp}&android=1`;
     
     const manifest = {
       ...baseManifest,
       "icons": [
         {
-          "src": `${iconPrefix}96x96.png${iconSuffix}`,
+          "src": `${iconBaseUrl}/96x96${iconParams}`,
           "sizes": "96x96", 
           "type": "image/png",
           "purpose": "any"
         },
         {
-          "src": `${iconPrefix}192x192.png${iconSuffix}`,
+          "src": `${iconBaseUrl}/192x192${iconParams}`,
           "sizes": "192x192",
           "type": "image/png", 
           "purpose": "any maskable"
         },
         {
-          "src": `${iconPrefix}512x512.png${iconSuffix}`,
+          "src": `${iconBaseUrl}/512x512${iconParams}`,
           "sizes": "512x512",
           "type": "image/png",
           "purpose": "any maskable"
@@ -192,11 +191,19 @@ export function serveDynamicManifest(req: Request, res: Response) {
           "description": "Accedi alla tua area personale",
           "icons": [
             {
-              "src": `${iconPrefix}96x96.png${iconSuffix}`,
+              "src": `${iconBaseUrl}/96x96${iconParams}`,
               "sizes": "96x96",
               "type": "image/png"
             }
           ]
+        }
+      ],
+      "screenshots": [
+        {
+          "src": `${iconBaseUrl}/512x512${iconParams}`,
+          "sizes": "512x512",
+          "type": "image/png",
+          "form_factor": "wide"
         }
       ]
     };
