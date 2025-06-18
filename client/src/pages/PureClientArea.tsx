@@ -11,6 +11,7 @@ function PWAInstallBanner() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [isPwaMode, setIsPwaMode] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     // Rileva se è in modalità PWA - metodo semplificato e affidabile
@@ -84,7 +85,10 @@ function PWAInstallBanner() {
   return (
     <div className="group">
       <div className={`${isPwaMode ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'} border rounded-lg transition-all duration-300 overflow-hidden`}>
-        <div className="p-3 cursor-pointer">
+        <div 
+          className="p-3 cursor-pointer"
+          onClick={() => !isPwaMode && setIsExpanded(!isExpanded)}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {isPwaMode ? (
@@ -108,9 +112,11 @@ function PWAInstallBanner() {
             )}
           </div>
           
-          {/* Istruzioni dettagliate sempre espandibili al hover se non è PWA */}
+          {/* Istruzioni dettagliate espandibili con hover e click */}
           {!isPwaMode && (
-            <div className="max-h-0 group-hover:max-h-[600px] overflow-hidden transition-all duration-500 ease-in-out">
+            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+              isExpanded ? 'max-h-[600px]' : 'max-h-0 group-hover:max-h-[600px]'
+            }`}>
             <div className="pt-3 border-t border-blue-200 mt-3">
               <div className="space-y-3">
                 <div>
