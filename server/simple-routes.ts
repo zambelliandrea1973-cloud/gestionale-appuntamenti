@@ -1851,8 +1851,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     
-    // FLUSSO DIRETTO: Punta direttamente alla client area con token, salta /activate
-    const activationUrl = `${protocol}://${host}/client-area?token=${token}&clientId=${clientId}&autoLogin=true`;
+    // FLUSSO CORRETTO: Usa /activate per gestire l'autenticazione QR
+    const activationUrl = `${protocol}://${host}/activate?token=${token}&clientId=${clientId}`;
     
     try {
       // Genera QR code vero usando la libreria qrcode con import dinamico sicuro
