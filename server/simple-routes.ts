@@ -1851,8 +1851,8 @@ export function registerSimpleRoutes(app: Express): Server {
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     
-    // PERCORSO DEDICATO: Ogni cliente ha il suo URL specifico
-    const activationUrl = `${protocol}://${host}/client/${clientId}?token=${token}&autoLogin=true`;
+    // PERCORSO DEDICATO BASATO SU CODICE UNIVOCO: Ogni cliente ha il suo URL unico
+    const activationUrl = `${protocol}://${host}/client/${clientData.uniqueCode}?token=${token}&autoLogin=true`;
     
     try {
       // Genera QR code vero usando la libreria qrcode con import dinamico sicuro

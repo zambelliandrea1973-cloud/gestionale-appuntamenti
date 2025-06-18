@@ -107,33 +107,39 @@ export default function ClientArea() {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromQuery = urlParams.get('token');
     
-    // Controlla se siamo su un percorso cliente specifico /client/ID
-    const clientPathMatch = currentPath.match(/\/client\/(\d+)/);
-    const clientIdFromPath = clientPathMatch ? clientPathMatch[1] : null;
+    // Controlla se siamo su un percorso cliente specifico /client/CODICE_UNIVOCO
+    const clientPathMatch = currentPath.match(/\/client\/([A-Z0-9_]+)/);
+    const clientCodeFromPath = clientPathMatch ? clientPathMatch[1] : null;
     const clientIdFromQuery = urlParams.get('clientId');
     
-    console.log("🔍 [CLIENT AREA] Path:", currentPath, "ClientId da path:", clientIdFromPath, "Token:", tokenFromQuery);
+    console.log("🔍 [CLIENT AREA] Path:", currentPath, "Codice cliente da path:", clientCodeFromPath, "Token:", tokenFromQuery);
     
-    if (tokenFromQuery && (clientIdFromPath || clientIdFromQuery)) {
-      // Accesso diretto tramite QR con percorso dedicato
-      const finalClientId = clientIdFromPath || clientIdFromQuery;
-      console.log("🎯 [CLIENT AREA] Accesso a percorso dedicato cliente:", finalClientId);
+    if (tokenFromQuery && (clientCodeFromPath || clientIdFromQuery)) {
+      // Accesso diretto tramite QR con percorso dedicato basato su codice univoco
+      const finalClientId = clientIdFromQuery; // Manteniamo l'ID numerico per le API
+      const clientCode = clientCodeFromPath;
+      console.log("🎯 [CLIENT AREA] Accesso a percorso dedicato con codice:", clientCode, "ID:", finalClientId);
       
       localStorage.setItem('clientAccessToken', tokenFromQuery);
-      localStorage.setItem('clientId', finalClientId);
+      localStorage.setItem('clientId', finalClientId || '');
+      localStorage.setItem('clientCode', clientCode || '');
       
       setToken(tokenFromQuery);
-      verifyQRToken(tokenFromQuery, finalClientId);
+      if (finalClientId) {
+        verifyQRToken(tokenFromQuery, finalClientId);
+      }
     } else {
       // Accesso PWA - recupera da localStorage
       const savedToken = localStorage.getItem('clientAccessToken');
       const savedClientId = localStorage.getItem('clientId');
       
       if (savedToken && savedClientId) {
-        console.log("📱 [PWA] Token recuperato per cliente:", savedClientId);
-        // Aggiorna URL per riflettere il percorso dedicato
-        if (!clientIdFromPath) {
-          window.history.replaceState({}, '', `/client/${savedClientId}`);
+        const savedClientCode = localStorage.getItem('clientCode');
+        console.log("📱 [PWA] Token recuperato per cliente:", savedClientId, "Codice:", savedClientCode);
+        
+        // Aggiorna URL per riflettere il percorso dedicato basato su codice univoco
+        if (!clientCodeFromPath && savedClientCode) {
+          window.history.replaceState({}, '', `/client/${savedClientCode}`);
         }
         setToken(savedToken);
         verifyQRToken(savedToken, savedClientId);
