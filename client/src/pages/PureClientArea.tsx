@@ -2,9 +2,62 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+// PWA Installation Banner Component
+function PWAInstallBanner() {
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBanner(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        setShowInstallBanner(false);
+      }
+      setDeferredPrompt(null);
+    }
+  };
+
+  if (!showInstallBanner) return null;
+
+  return (
+    <Card className="bg-blue-50 border-blue-200">
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Download className="h-5 w-5 text-blue-600" />
+            <div>
+              <p className="font-medium text-blue-900">Installa App</p>
+              <p className="text-sm text-blue-700">Aggiungi questa app alla schermata principale per un accesso rapido</p>
+            </div>
+          </div>
+          <Button onClick={handleInstallClick} size="sm" className="bg-blue-600 hover:bg-blue-700">
+            Installa
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 interface ClientData {
   id: number;
