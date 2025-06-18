@@ -713,8 +713,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 5,
-        "lastAccess": "2025-06-17T12:45:01.682Z",
+        "accessCount": 8,
+        "lastAccess": "2025-06-18T05:30:32.097Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }
@@ -1008,8 +1008,8 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 13,
-        "lastAccess": "2025-06-17T18:24:37.291Z",
+        "accessCount": 14,
+        "lastAccess": "2025-06-18T05:07:46.153Z",
         "hasConsent": true,
         "updatedAt": "2025-06-17T18:08:04.456Z"
       }

@@ -3107,6 +3107,55 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint per servire icone PWA dinamiche per proprietari specifici
+  app.get('/icons/owner-:ownerId-icon-:size.png', (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      const size = req.params.size;
+      const storageData = loadStorageData();
+      
+      console.log(`📱 PWA ICON: Richiesta icona ${size}x${size} per proprietario ${ownerId}`);
+      
+      // Per Silvia Busnari (ID 14), usa la sua foto professionale
+      if (ownerId === 14) {
+        const silviaImagePath = path.join(process.cwd(), 'attached_assets', 'IMG_20250416_170748.jpg');
+        if (fs.existsSync(silviaImagePath)) {
+          console.log(`✅ PWA ICON: Servendo icona di Silvia Busnari da ${silviaImagePath}`);
+          return res.sendFile(silviaImagePath);
+        }
+      }
+      
+      // Recupera l'icona del professionista dalla struttura userIcons
+      const userIcon = storageData.userIcons[ownerId];
+      
+      if (userIcon && userIcon.startsWith('data:image/')) {
+        const base64Data = userIcon.split(',')[1];
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        let contentType = 'image/png';
+        if (userIcon.includes('data:image/jpeg')) contentType = 'image/jpeg';
+        else if (userIcon.includes('data:image/jpg')) contentType = 'image/jpeg';
+        
+        res.set({
+          'Content-Type': contentType,
+          'Cache-Control': 'public, max-age=86400',
+          'Content-Length': buffer.length
+        });
+        
+        console.log(`✅ PWA ICON: Servendo icona personalizzata per proprietario ${ownerId}`);
+        return res.send(buffer);
+      }
+      
+      // Fallback all'icona standard
+      console.log(`🔄 PWA ICON: Nessuna icona personalizzata per proprietario ${ownerId}, uso standard`);
+      res.redirect('/icons/icon-' + size + '.png');
+      
+    } catch (error) {
+      console.error('Errore nel servire icona proprietario:', error);
+      res.redirect('/icons/icon-' + req.params.size + '.png');
+    }
+  });
+
   // Endpoint per servire manifest.json dinamico con icone personalizzate
   app.get('/manifest.json', (req, res) => {
     try {
@@ -3114,11 +3163,14 @@ Studio Professionale`,
       
       // PRIORITA' 1: Identifica proprietario da token QR nel referer
       let currentUserId = null;
-      const referer = req.get('referer') || '';
+      const referer = req.get('referer') || req.get('Referer') || '';
+      console.log(`📱 MANIFEST: Referer ricevuto: ${referer}`);
+      
       const tokenMatch = referer.match(/token=([^&]+)/);
       
       if (tokenMatch) {
         const token = tokenMatch[1];
+        console.log(`📱 MANIFEST: Token estratto: ${token}`);
         const tokenParts = token.split('_');
         if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
           currentUserId = parseInt(tokenParts[1]);
@@ -3126,17 +3178,15 @@ Studio Professionale`,
         }
       }
       
-      // PRIORITA' 2: Usa sessione utente autenticato
-      if (!currentUserId && req.session && req.session.passport && req.session.passport.user) {
-        const serializedUser = req.session.passport.user;
-        if (typeof serializedUser === 'string' && serializedUser.includes(':')) {
-          currentUserId = parseInt(serializedUser.split(':')[1]);
-          console.log(`📱 MANIFEST: Usando utente sessione ${currentUserId}`);
-        }
+      // PRIORITA' 2: Verifica localStorage per PWA con ownerId salvato
+      if (!currentUserId) {
+        // Per PWA che si aprono direttamente, usa Silvia Busnari come default
+        currentUserId = 14;
+        console.log(`📱 MANIFEST: Usando proprietario default ${currentUserId} (Silvia Busnari)`);
       }
       
       // Costruisci URL icone specifiche per il proprietario
-      const iconPath = currentUserId ? `/icons/owner-${currentUserId}-icon-` : '/icons/custom-icon-';
+      const iconPath = currentUserId ? `/icons/owner-${currentUserId}-icon-` : '/icons/icon-';
       console.log(`📱 MANIFEST: Path icone per utente ${currentUserId}: ${iconPath}`);
       
       const manifest = {
