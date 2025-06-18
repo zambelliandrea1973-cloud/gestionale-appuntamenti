@@ -16,37 +16,75 @@ function loadStorageData() {
 
 export function serveDynamicManifest(req: Request, res: Response) {
   try {
-    // Determina l'owner ID dal referer o dal token QR
+    console.log('🔍 PWA MANIFEST: Richiesta manifest dinamico');
+    
     let ownerUserId = null;
     
-    const referer = req.get('referer') || '';
-    const tokenMatch = referer.match(/token=([^&]+)/);
+    // Metodo 1: Query parameter ownerId (priorità massima)
+    const ownerIdQuery = req.query.ownerId;
+    if (ownerIdQuery) {
+      ownerUserId = parseInt(ownerIdQuery as string);
+      console.log(`📱 PWA MANIFEST: Owner ID da query param: ${ownerUserId}`);
+    }
     
-    if (tokenMatch) {
-      const token = tokenMatch[1];
-      const tokenParts = token.split('_');
-      if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
-        ownerUserId = parseInt(tokenParts[1]);
-        console.log(`📱 MANIFEST: Trovato ownerId ${ownerUserId} da token QR`);
+    // Metodo 2: Analizza referer per token QR
+    if (!ownerUserId) {
+      const referer = req.get('referer') || '';
+      console.log(`🔍 PWA MANIFEST: Referer: ${referer}`);
+      
+      // Cerca pattern /client/PROF_XXX_ nel referer  
+      const pathTokenMatch = referer.match(/\/client\/(PROF_\d+_[A-F0-9]+_CLIENT_\d+_[A-F0-9]+_[a-f0-9]+)/);
+      if (pathTokenMatch) {
+        const token = pathTokenMatch[1];
+        const tokenParts = token.split('_');
+        if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
+          ownerUserId = parseInt(tokenParts[1]);
+          console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token nel path`);
+        }
+      }
+      
+      // Fallback: cerca token nei query params del referer
+      if (!ownerUserId) {
+        const tokenMatch = referer.match(/token=([^&]+)/);
+        if (tokenMatch) {
+          const token = tokenMatch[1];
+          const tokenParts = token.split('_');
+          if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
+            ownerUserId = parseInt(tokenParts[1]);
+            console.log(`📱 PWA MANIFEST: Trovato ownerId ${ownerUserId} da token QR nei params`);
+          }
+        }
       }
     }
     
-    // Se non trovato dal token, usa fallback
+    // Metodo 3: Header personalizzato
+    if (!ownerUserId) {
+      const ownerIdHeader = req.get('x-owner-id');
+      if (ownerIdHeader) {
+        ownerUserId = parseInt(ownerIdHeader);
+        console.log(`📱 PWA MANIFEST: Owner ID da header: ${ownerUserId}`);
+      }
+    }
+    
+    // Metodo 4: Fallback agli utenti esistenti
     if (!ownerUserId) {
       const storageData = loadStorageData();
       const usersWithIcons = Object.keys(storageData.userIcons || {});
       if (usersWithIcons.length === 1) {
         ownerUserId = parseInt(usersWithIcons[0]);
-        console.log(`📱 MANIFEST: Usando fallback owner ${ownerUserId}`);
+        console.log(`📱 PWA MANIFEST: Usando fallback owner ${ownerUserId}`);
       }
     }
     
-    // Crea manifest dinamico
+    // Crea manifest dinamico con start_url che preserva il contesto
+    const storageData = loadStorageData();
+    const ownerName = storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
+    
     const baseManifest = {
-      "name": "Gestione Appuntamenti v4",
-      "short_name": "App Cliente", 
-      "description": "Gestione consensi e servizi medici",
-      "start_url": "/pwa",
+      "name": `${ownerName} - Area Cliente`,
+      "short_name": "Area Cliente", 
+      "description": "Accedi alla tua area personale",
+      "start_url": ownerUserId ? `/client/pwa?ownerId=${ownerUserId}` : "/client/pwa",
       "display": "standalone",
       "background_color": "#ffffff",
       "theme_color": "#4f46e5",
@@ -56,7 +94,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "dir": "ltr",
       "prefer_related_applications": false,
       "scope": "/",
-      "id": "gestione-appuntamenti-client-v4"
+      "id": ownerUserId ? `area-cliente-${ownerUserId}` : "area-cliente-generic"
     };
     
     // Usa icone personalizzate se abbiamo un owner, altrimenti default
