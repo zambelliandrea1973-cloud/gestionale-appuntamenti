@@ -173,6 +173,9 @@ export default function PureClientArea() {
 
         // Carica appuntamenti del cliente
         await loadClientAppointments(clientData.id, clientData.ownerId);
+        
+        // Carica informazioni contatto del professionista
+        await loadOwnerContactInfo(clientData.ownerId);
 
       } catch (error) {
         console.error('❌ [PURE CLIENT] Errore inizializzazione:', error);
@@ -187,23 +190,41 @@ export default function PureClientArea() {
 
   const loadClientAppointments = async (clientId: number, ownerId: number) => {
     try {
-      console.log('📅 [PURE CLIENT] Caricamento appuntamenti per cliente:', clientId);
-      
-      const response = await fetch(`/api/client-appointments/${clientId}?ownerId=${ownerId}`, {
+      console.log(`📅 [PURE CLIENT] Caricamento appuntamenti per cliente ${clientId}`);
+      const response = await fetch(`/api/client-appointments/${clientId}`, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
-        }
+        headers: { 'Content-Type': 'application/json' }
       });
-
+      
       if (response.ok) {
         const appointmentsData = await response.json();
-        setAppointments(appointmentsData);
-        console.log('📅 [PURE CLIENT] Appuntamenti caricati:', appointmentsData.length);
+        setAppointments(appointmentsData || []);
+        console.log(`✅ [PURE CLIENT] Caricati ${appointmentsData?.length || 0} appuntamenti`);
+      } else {
+        console.warn(`⚠️ [PURE CLIENT] Errore caricamento appuntamenti: ${response.status}`);
       }
     } catch (error) {
       console.error('❌ [PURE CLIENT] Errore caricamento appuntamenti:', error);
+    }
+  };
+
+  const loadOwnerContactInfo = async (ownerId: number) => {
+    try {
+      console.log(`🏥 [PWA CONTACTS] Caricamento contatti per professionista ${ownerId}`);
+      const response = await fetch(`/api/owner-contact-info/${ownerId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (response.ok) {
+        const contacts = await response.json();
+        setContactInfo(contacts);
+        console.log(`✅ [PWA CONTACTS] Contatti caricati:`, contacts);
+      } else {
+        console.warn(`⚠️ [PWA CONTACTS] Errore caricamento contatti: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('❌ [PWA CONTACTS] Errore caricamento contatti:', error);
     }
   };
 
