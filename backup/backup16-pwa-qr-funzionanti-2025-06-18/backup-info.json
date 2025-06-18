@@ -1,0 +1,25 @@
+{
+  "backupName": "backup16-pwa-qr-funzionanti-2025-06-18",
+  "createdAt": "2025-06-18T08:59:00Z",
+  "description": "Backup completo con PWA e QR code perfettamente funzionanti",
+  "features": [
+    "PWA apre direttamente nell'area cliente specifica",
+    "QR code e PWA seguono lo stesso percorso di routing", 
+    "Manifest dinamico con icone personalizzate sincronizzate",
+    "Conteggio accessi PWA funzionante",
+    "Sistema di autenticazione trasparente completamente operativo"
+  ],
+  "status": "Completamente funzionante",
+  "clientExample": "Bruna Pizzolato - PROF_014_9C1F_CLIENT_1750163505034_340F",
+  "accessCounts": {
+    "Bruna": 24,
+    "Marco": 7,
+    "Trial clients": 0
+  },
+  "technicalNotes": [
+    "Dynamic manifest generation working",
+    "Client-specific PWA start URLs implemented", 
+    "Access counting with /2 display formula active",
+    "Professional icon synchronization restored"
+  ]
+}
