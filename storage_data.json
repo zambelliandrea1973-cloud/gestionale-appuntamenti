@@ -713,8 +713,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 10,
-        "lastAccess": "2025-06-18T05:36:05.437Z",
+        "accessCount": 12,
+        "lastAccess": "2025-06-18T05:50:12.108Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }
@@ -1323,5 +1323,14 @@
   "clientCodes": {},
   "professionistCodes": {
     "14": "PROF_014_9C1F"
+  },
+  "userContactInfo": {
+    "14": {
+      "email": "busnari.silvia@libero.it",
+      "phone": "+39 123 456 7890",
+      "phone1": "+39 3471445767",
+      "website": "biomedicinaintegrata.it",
+      "instagram": "Biomedicinaintegrata"
+    }
   }
 }

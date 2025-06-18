@@ -19,6 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LanguageSelector } from "@/components/ui/language-selector";
 import { apiRequest } from "@/lib/queryClient";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
+import FooterContactIcons from "@/components/FooterContactIcons";
 
 // Componente per l'icona dell'app - STESSA LOGICA NOME AZIENDALE
 function AppIcon() {
@@ -346,6 +347,11 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Sezione icone contatti social */}
+      <div className="mt-12">
+        <FooterContactIcons />
       </div>
     </div>
   );
