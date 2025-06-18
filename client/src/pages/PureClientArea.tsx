@@ -13,35 +13,17 @@ function PWAInstallBanner() {
   const [isPwaMode, setIsPwaMode] = useState(false);
 
   useEffect(() => {
-    // Rileva se è in modalità PWA con più metodi
+    // Rileva se è in modalità PWA - metodo semplificato e affidabile
     const checkPwaMode = () => {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
       const isInAppBrowser = (window.navigator as any).standalone === true;
       const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
       const hasMinimalUi = window.matchMedia('(display-mode: minimal-ui)').matches;
       
-      // Controlla anche se è stato installato tramite localStorage
-      const isPwaInstalled = localStorage.getItem('pwa-installed') === 'true';
+      const isPwaMode = isStandalone || isInAppBrowser || isFullscreen || hasMinimalUi;
       
-      // Verifica anche dall'URL se contiene indicatori PWA
-      const urlIndicatesPwa = window.location.search.includes('source=pwa') || 
-                              window.location.search.includes('utm_source=homescreen') ||
-                              document.referrer === '';
-      
-      // Se è in Chrome e la barra degli indirizzi è nascosta, probabile PWA
-      const isLikelyPwa = window.innerHeight === screen.height || 
-                          (window.outerHeight - window.innerHeight) < 100;
-      
-      const isPwaMode = isStandalone || isInAppBrowser || isFullscreen || hasMinimalUi || isPwaInstalled || 
-                        (isLikelyPwa && urlIndicatesPwa);
-      
-      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, Fullscreen: ${isFullscreen}, MinimalUI: ${hasMinimalUi}, Installed: ${isPwaInstalled}, LikelyPWA: ${isLikelyPwa}, URLIndicates: ${urlIndicatesPwa}, PWA Mode: ${isPwaMode}`);
+      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, Fullscreen: ${isFullscreen}, MinimalUI: ${hasMinimalUi}, PWA Mode: ${isPwaMode}`);
       setIsPwaMode(isPwaMode);
-      
-      // Se rileva PWA, salva lo stato
-      if (isPwaMode && !isPwaInstalled) {
-        localStorage.setItem('pwa-installed', 'true');
-      }
       
       return isPwaMode;
     };
@@ -49,8 +31,7 @@ function PWAInstallBanner() {
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      // Mostra banner solo se NON è già in modalità PWA
-      if (!checkPwaMode()) {
+      if (!isPwaMode) {
         setShowInstallBanner(true);
       }
     };
