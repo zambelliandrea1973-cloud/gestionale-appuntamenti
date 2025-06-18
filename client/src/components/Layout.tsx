@@ -118,7 +118,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>{t('navigation.notifications')}</span>
                   </Button>
                 </Link>
-                {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
+                {userWithLicense?.type === 'admin' && (
                   <Link href="/referral">
                     <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[90px]">
                       <CreditCard className="h-4 w-4 mr-1 text-blue-400" />
@@ -243,7 +243,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
               
               {/* Seconda riga mobile */}
               <div className="flex justify-center gap-x-1 mb-1 w-full flex-wrap">
-                {(userWithLicense?.type === 'staff' || userWithLicense?.type === 'admin') && (
+                {userWithLicense?.type === 'admin' && (
                   <Link href="/referral">
                     <Button variant={isActive("/referral") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[70px] text-xs">
                       <CreditCard className="h-3 w-3 mr-1 text-blue-400" />
