@@ -103,6 +103,11 @@ export default function PureClientArea() {
           const newHref = `/manifest.json?clientToken=${clientCode}`;
           manifestLink.setAttribute('href', newHref);
           console.log(`📱 PWA: Manifest aggiornato per cliente: ${newHref}`);
+          
+          // Forza il refresh del manifest per dispositivi PWA
+          const link = manifestLink.cloneNode(true);
+          manifestLink.parentNode?.removeChild(manifestLink);
+          document.head.appendChild(link);
         }
         
         // Carica dati cliente con autenticazione basata su codice
