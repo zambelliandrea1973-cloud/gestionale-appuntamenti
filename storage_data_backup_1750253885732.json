@@ -767,8 +767,8 @@
         "birthday": "2013-10-16",
         "hasConsent": false,
         "updatedAt": "2025-06-18T06:03:05.025Z",
-        "accessCount": 9,
-        "lastAccess": "2025-06-18T10:45:42.427Z",
+        "accessCount": 15,
+        "lastAccess": "2025-06-18T13:35:13.066Z",
         "lastPwaAccess": "2025-06-18T10:45:42.427Z",
         "pwaAccessCount": 5
       }
@@ -789,8 +789,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 221,
-        "lastAccess": "2025-06-18T12:26:19.524Z",
+        "accessCount": 238,
+        "lastAccess": "2025-06-18T13:38:05.722Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F",
         "lastPwaAccess": "2025-06-18T12:22:54.088Z",
