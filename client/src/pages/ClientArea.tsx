@@ -56,10 +56,20 @@ export default function ClientArea() {
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
     try {
-      const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, {});
+      // Aggiungi informazioni per distinguere tra accessi PWA e browser
+      const accessInfo = {
+        isPWA: window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true,
+        userAgent: navigator.userAgent,
+        timestamp: Date.now(),
+        accessType: window.matchMedia('(display-mode: standalone)').matches ? 'pwa' : 'browser'
+      };
+      
+      console.log(`📱 [PWA ACCESS] Tracking accesso cliente ${clientId}:`, accessInfo);
+      
+      const response = await apiRequest('POST', `/api/client-access/track/${clientId}`, accessInfo);
       if (response.ok) {
         const result = await response.json();
-        console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount}`);
+        console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount} (${accessInfo.accessType})`);
         setAccessTracked(true);
       }
     } catch (error) {
@@ -231,8 +241,12 @@ export default function ClientArea() {
       const ownerMatch = token.match(/^PROF_(\d{2,3})_/);
       const extractedOwnerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(clientId, 10);
       
-      // Salva l'ownerId nel localStorage per recupero futuro PWA
+      // Salva tutti i dati necessari per PWA
       localStorage.setItem('ownerId', extractedOwnerId.toString());
+      localStorage.setItem('client_qr_token', token);
+      localStorage.setItem('client_id', clientId);
+      console.log("💾 [PWA SAVE] Tutti i dati salvati per PWA installata");
+      
       setOwnerId(extractedOwnerId);
       
       // Imposta i dati utente direttamente
@@ -243,10 +257,23 @@ export default function ClientArea() {
         client: clientData.client
       });
       
-      // Registra l'accesso per il tracking
-      if (!accessTracked) {
-        trackClientAccess(clientId);
-      }
+      // Registra l'accesso per il tracking (sia per PWA che browser)
+      trackClientAccess(clientId);
+      
+      // Traccia nuovamente quando la PWA torna in primo piano
+      const handleVisibilityChange = () => {
+        if (!document.hidden && document.visibilityState === 'visible') {
+          console.log("📱 [PWA] App tornata in primo piano, nuovo tracking");
+          setTimeout(() => trackClientAccess(clientId), 500);
+        }
+      };
+      
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      
+      // Cleanup
+      return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      };
       
       setLoading(false);
       

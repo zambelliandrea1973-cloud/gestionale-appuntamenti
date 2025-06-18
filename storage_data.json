@@ -698,7 +698,9 @@
         "address": "Via Cavallotti",
         "birthday": "2013-10-16",
         "hasConsent": false,
-        "updatedAt": "2025-06-18T06:03:05.025Z"
+        "updatedAt": "2025-06-18T06:03:05.025Z",
+        "accessCount": 1,
+        "lastAccess": "2025-06-18T06:24:10.684Z"
       }
     ],
     [
@@ -717,8 +719,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 23,
-        "lastAccess": "2025-06-18T06:20:26.518Z",
+        "accessCount": 27,
+        "lastAccess": "2025-06-18T06:27:01.927Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }
