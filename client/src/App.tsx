@@ -98,12 +98,18 @@ function AppRoutes() {
       '/client-area', '/auto-login', '/pwa', '/consent', '/activate'
     ];
     
+    // Verifica se il percorso corrente è un'area cliente diretta
+    const isClientDirectPath = location.startsWith('/client/');
+    
+    // Controllo se il percorso inizia con /client/ (area clienti diretta via QR)
+    const isClientPath = location.startsWith('/client/');
+    
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
       
-      // Se siamo su un percorso dedicato ai clienti, NON applicare la logica di autenticazione staff
-      if (clientOnlyPaths.includes(location)) {
+      // Se siamo su un percorso dedicato ai clienti o inizia con /client/, NON applicare la logica di autenticazione staff
+      if (clientOnlyPaths.includes(location) || isClientPath) {
         console.log('Percorso cliente rilevato, salto controlli autenticazione staff');
         return;
       }

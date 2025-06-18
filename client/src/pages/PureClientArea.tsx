@@ -279,23 +279,6 @@ export default function PureClientArea() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-gray-500" />
-                <span>{client.phone}</span>
-              </div>
-              {client.email && (
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-gray-500" />
-                  <span>{client.email}</span>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Lista Appuntamenti */}
-        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-3">
               <Calendar className="h-6 w-6 text-green-600" />
