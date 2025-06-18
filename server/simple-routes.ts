@@ -414,7 +414,7 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(userClients);
   });
 
-  app.post("/api/clients", (req, res) => {
+  app.post("/api/clients", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
@@ -449,15 +449,16 @@ export function registerSimpleRoutes(app: Express): Server {
         });
       }
       
-      // Crea nuovo cliente con ownership e codice gerarchico
+      // Crea nuovo cliente con ownership e codice gerarchico automatico
       const clientId = Date.now();
-      const hierarchicalCode = generateClientCode(user.id, clientId);
+      const hierarchicalCode = await generateClientCode(user.id, clientId);
+      const professionistCode = await getProfessionistCode(user.id);
       
       const newClient = {
         id: clientId,
         ownerId: user.id,
         uniqueCode: hierarchicalCode,
-        professionistCode: getProfessionistCode(user.id),
+        professionistCode: professionistCode,
         createdAt: new Date().toISOString(),
         ...req.body
       };
@@ -1828,19 +1829,21 @@ export function registerSimpleRoutes(app: Express): Server {
     // Genera token di attivazione permanente basato su codici gerarchici
     const ownerUserId = client.ownerId || user.id;
     
-    // SISTEMA CODICI GERARCHICI: Verifica e genera codici se mancanti
+    // SISTEMA CODICI GERARCHICI: Verifica e genera codici se mancanti (logica permanente)
     let clientCode = client.uniqueCode;
-    if (!clientCode || !(await validateClientOwnership(clientCode, ownerUserId))) {
-      console.log(`🔧 Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
+    if (!clientCode || !clientCode.startsWith('PROF_') || !(await validateClientOwnership(clientCode, ownerUserId))) {
+      console.log(`🔧 [AUTO-FIX] Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
       clientCode = await generateClientCode(ownerUserId, clientId);
       
-      // Aggiorna il cliente con il nuovo codice
+      // Aggiorna automaticamente il cliente con il nuovo codice (logica permanente)
       const storageData = loadStorageData();
       const clientIndex = storageData.clients.findIndex(([id]) => id === clientId);
       if (clientIndex !== -1) {
         storageData.clients[clientIndex][1].uniqueCode = clientCode;
         storageData.clients[clientIndex][1].professionistCode = await getProfessionistCode(ownerUserId);
+        storageData.clients[clientIndex][1].ownerId = ownerUserId; // Assicura proprietario corretto
         saveStorageData(storageData);
+        console.log(`✅ [AUTO-FIX] Cliente ${clientId} aggiornato con codice: ${clientCode}`);
       }
     }
     
