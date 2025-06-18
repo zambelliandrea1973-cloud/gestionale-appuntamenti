@@ -120,18 +120,19 @@ function PWAInstallBanner() {
             <div className="pt-3 border-t border-blue-200 mt-3">
               {/* Pulsante chiusura sempre visibile quando espanso */}
               {isExpanded && (
-                <div className="flex justify-end mb-2">
+                <div className="flex justify-end mb-3">
                   <button 
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('🔴 Pulsante X cliccato - chiudendo banner');
+                      console.log('🔴 [ANDROID] Pulsante X cliccato - chiudendo banner');
                       setIsExpanded(false);
                     }}
-                    className="p-2 rounded-full hover:bg-blue-100 transition-colors bg-blue-50 border border-blue-200"
+                    className="p-3 rounded-full hover:bg-blue-100 active:bg-blue-200 transition-colors bg-blue-50 border border-blue-300 shadow-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
                     type="button"
+                    style={{ touchAction: 'manipulation' }}
                   >
-                    <X className="h-4 w-4 text-blue-600" />
+                    <X className="h-5 w-5 text-blue-700" />
                   </button>
                 </div>
               )}
