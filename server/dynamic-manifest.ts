@@ -21,6 +21,9 @@ export function serveDynamicManifest(req: Request, res: Response) {
     console.log('🔍 PWA MANIFEST: Query params:', req.query);
     console.log('🔍 PWA MANIFEST: Headers referer:', req.get('referer'));
     
+    // FORZA DEBUG PER IDENTIFICARE IL PROBLEMA
+    console.error('📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA');
+    
     let ownerUserId = null;
     
     // Metodo 1: Query parameter ownerId (priorità massima)
