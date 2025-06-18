@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail, Download, Check } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download, Check, X } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
