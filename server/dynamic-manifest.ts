@@ -150,25 +150,28 @@ export function serveDynamicManifest(req: Request, res: Response) {
     };
     
     // Usa icone personalizzate se abbiamo un owner, altrimenti default
+    // Aggiunge timestamp per forzare refresh cache icone su dispositivi
+    const timestamp = Date.now();
     const iconPrefix = ownerUserId ? `/icons/owner-${ownerUserId}-icon-` : '/icons/icon-';
+    const iconSuffix = `?v=${timestamp}`;
     
     const manifest = {
       ...baseManifest,
       "icons": [
         {
-          "src": `${iconPrefix}96x96.png`,
+          "src": `${iconPrefix}96x96.png${iconSuffix}`,
           "sizes": "96x96", 
           "type": "image/png",
           "purpose": "any"
         },
         {
-          "src": `${iconPrefix}192x192.png`,
+          "src": `${iconPrefix}192x192.png${iconSuffix}`,
           "sizes": "192x192",
           "type": "image/png", 
           "purpose": "any maskable"
         },
         {
-          "src": `${iconPrefix}512x512.png`,
+          "src": `${iconPrefix}512x512.png${iconSuffix}`,
           "sizes": "512x512",
           "type": "image/png",
           "purpose": "any maskable"
@@ -181,7 +184,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
           "description": "Accedi alla tua area personale",
           "icons": [
             {
-              "src": `${iconPrefix}96x96.png`,
+              "src": `${iconPrefix}96x96.png${iconSuffix}`,
               "sizes": "96x96",
               "type": "image/png"
             }
@@ -197,7 +200,8 @@ export function serveDynamicManifest(req: Request, res: Response) {
       'Expires': '0'
     });
     
-    console.log(`📱 MANIFEST DINAMICO: Servendo manifest per owner ${ownerUserId || 'default'}`);
+    console.log(`📱 MANIFEST DINAMICO: Servendo manifest per owner ${ownerUserId || 'default'} con icone personalizzate`);
+    console.log(`📱 MANIFEST ICONE: ${JSON.stringify(manifest.icons.map(i => i.src))}`);
     res.json(manifest);
     
   } catch (error) {

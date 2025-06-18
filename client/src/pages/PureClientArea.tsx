@@ -229,14 +229,22 @@ export default function PureClientArea() {
         // Aggiorna il manifest PWA per preservare il percorso del cliente
         const manifestLink = document.querySelector('link[rel="manifest"]');
         if (manifestLink) {
-          const newHref = `/manifest.json?clientToken=${clientCode}`;
+          // Aggiunge timestamp per forzare il refresh delle icone PWA
+          const timestamp = Date.now();
+          const newHref = `/manifest.json?clientToken=${clientCode}&v=${timestamp}`;
           manifestLink.setAttribute('href', newHref);
-          console.log(`📱 PWA: Manifest aggiornato per cliente: ${newHref}`);
+          console.log(`📱 PWA: Manifest aggiornato per cliente con versioning: ${newHref}`);
           
-          // Forza il refresh del manifest per dispositivi PWA
+          // Forza il refresh completo del manifest per dispositivi PWA
           const link = manifestLink.cloneNode(true);
           manifestLink.parentNode?.removeChild(manifestLink);
           document.head.appendChild(link);
+          
+          // Aggiunge meta tag per forzare aggiornamento icone
+          let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+          if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', '#4f46e5');
+          }
         }
         
         // Registra l'accesso del cliente (importante per conteggio)
