@@ -96,15 +96,14 @@ function PWAInstallBanner() {
                 {isPwaMode ? 'App correttamente installata' : 'Installa app sul tuo dispositivo'}
               </span>
             </div>
-            {/* Mostra pulsante se disponibile installazione e non è PWA */}
+            {/* Mostra pulsante sempre quando non è PWA */}
             {!isPwaMode && (
               <Button 
                 onClick={handleInstallClick} 
                 size="sm" 
                 className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                disabled={!showInstallBanner}
               >
-                {showInstallBanner ? "Installa" : "Non disponibile"}
+                Installa
               </Button>
             )}
           </div>
