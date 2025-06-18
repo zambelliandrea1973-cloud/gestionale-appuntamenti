@@ -102,95 +102,34 @@ export default function ClientArea() {
   };
   
   useEffect(() => {
-    // PRIORITÀ AI PARAMETRI QR - Controlla sempre prima i parametri URL
+    // Logica semplificata come da foto funzionante
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromQuery = urlParams.get('token');
     const clientIdFromQuery = urlParams.get('clientId');
-    const autoLoginFromQuery = urlParams.get('autoLogin');
-    
-    // PRIORITÀ AI LINK DIRETTI QR - Secondo controllo per path di accesso diretto
-    const currentPath = window.location.pathname;
-    const pathSegments = currentPath.split('/');
-    const clientIndex = pathSegments.findIndex(segment => segment === 'client');
-    const tokenFromPath = clientIndex !== -1 && clientIndex + 1 < pathSegments.length ? pathSegments[clientIndex + 1] : null;
     
     console.log("🔍 [CLIENT AREA] URL Params - token:", tokenFromQuery, "clientId:", clientIdFromQuery);
-    console.log("🔍 [CLIENT AREA] Path token:", tokenFromPath);
     
     if (tokenFromQuery && clientIdFromQuery) {
-      // CASO 1: Link QR completo con parametri
-      console.log("🎯 [CLIENT AREA] Usando token da parametri URL");
+      // Accesso diretto tramite QR con autenticazione automatica
+      console.log("🎯 [CLIENT AREA] Autenticazione automatica tramite QR");
       
-      // Salva immediatamente per PWA future
-      localStorage.setItem('client_qr_token', tokenFromQuery);
-      localStorage.setItem('client_id', clientIdFromQuery);
-      console.log("💾 [PWA PREP] Token salvato per future installazioni PWA");
+      localStorage.setItem('clientAccessToken', tokenFromQuery);
+      localStorage.setItem('clientId', clientIdFromQuery);
       
       setToken(tokenFromQuery);
       verifyQRToken(tokenFromQuery, clientIdFromQuery);
-    } else if (tokenFromPath && tokenFromPath !== 'client' && tokenFromPath.includes('PROF_')) {
-      // CASO 2: Link diretto /client/TOKEN
-      console.log("🎯 [CLIENT AREA] Usando token da path");
-      
-      // Estrai clientId dal token gerarchico
-      const clientMatch = tokenFromPath.match(/CLIENT_(\d+)_/);
-      if (clientMatch) {
-        const extractedClientId = clientMatch[1];
-        console.log("🎯 [CLIENT AREA] Cliente estratto dal token:", extractedClientId);
-        
-        // Salva immediatamente per PWA future
-        localStorage.setItem('client_qr_token', tokenFromPath);
-        localStorage.setItem('client_id', extractedClientId);
-        console.log("💾 [PWA PREP] Token e cliente salvati per future installazioni PWA");
-        
-        setToken(tokenFromPath);
-        verifyQRToken(tokenFromPath, extractedClientId);
-      } else {
-        console.log("❌ [CLIENT AREA] Impossibile estrarre clientId dal token");
-        setLoading(false);
-        setPwaAccessMessage(true);
-      }
     } else {
-      // CASO 3: Accesso PWA o recupero sessione - prova localStorage
-      console.log("🔍 [CLIENT AREA] Controllo localStorage per PWA installata");
-      
-      const savedToken = localStorage.getItem('client_qr_token');
-      const savedClientId = localStorage.getItem('client_id');
+      // Accesso PWA - recupera da localStorage
+      const savedToken = localStorage.getItem('clientAccessToken');
+      const savedClientId = localStorage.getItem('clientId');
       
       if (savedToken && savedClientId) {
-        console.log("📱 [PWA RECOVERY] Token recuperato dal localStorage:", savedToken);
-        console.log("📱 [PWA RECOVERY] Cliente ID recuperato:", savedClientId);
-        
-        // Aggiorna URL per mantenere coerenza
-        window.history.replaceState({}, '', `/client/${savedToken}`);
-        
+        console.log("📱 [PWA] Token recuperato:", savedClientId);
         setToken(savedToken);
         verifyQRToken(savedToken, savedClientId);
       } else {
-        // Fallback ai vecchi nomi localStorage per compatibilità
-        const legacyToken = localStorage.getItem('clientAccessToken');
-        const legacyClientId = localStorage.getItem('clientId');
-        const savedOwnerId = localStorage.getItem('ownerId');
-        
-        if (legacyToken && legacyClientId) {
-          console.log("📱 [PWA LEGACY] Usando token legacy salvato");
-          
-          // Migra ai nuovi nomi
-          localStorage.setItem('client_qr_token', legacyToken);
-          localStorage.setItem('client_id', legacyClientId);
-          
-          setToken(legacyToken);
-          verifyQRToken(legacyToken, legacyClientId);
-        } else if (savedOwnerId) {
-          // Tenta recupero ultimo accesso
-          console.log("🔄 [PWA] Tentativo recupero ultimo accesso per ownerId:", savedOwnerId);
-          tryRecoverLastAccess(savedOwnerId);
-        } else {
-          // Nessun dato salvato - mostra messaggio per accesso QR
-          console.log("❌ [CLIENT AREA] Nessun token trovato - richiesto accesso QR");
-          setLoading(false);
-          setPwaAccessMessage(true);
-        }
+        setLoading(false);
+        setPwaAccessMessage(true);
       }
     }
     const checkAdminAccess = async () => {
