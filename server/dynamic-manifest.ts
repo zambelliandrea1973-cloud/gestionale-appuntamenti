@@ -76,15 +76,30 @@ export function serveDynamicManifest(req: Request, res: Response) {
       }
     }
     
-    // Crea manifest dinamico con start_url che preserva il contesto
+    // Crea manifest dinamico con start_url che preserva il contesto del cliente
     const storageData = loadStorageData();
     const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
+    
+    // Determina start_url in base al referer per preservare il contesto del cliente
+    let startUrl = "/";
+    const referer = req.get('referer') || '';
+    
+    // Se il referer contiene un percorso /client/, usalo come start_url
+    const clientPathMatch = referer.match(/(\/client\/[^?#]+)/);
+    if (clientPathMatch) {
+      startUrl = clientPathMatch[1];
+      console.log(`📱 PWA MANIFEST: Start URL impostato su percorso cliente: ${startUrl}`);
+    } else if (req.query.clientToken) {
+      // Se abbiamo un token client nei query params, costruisci il percorso
+      startUrl = `/client/${req.query.clientToken}`;
+      console.log(`📱 PWA MANIFEST: Start URL costruito da token: ${startUrl}`);
+    }
     
     const baseManifest = {
       "name": `${ownerName} - Area Cliente`,
       "short_name": "Area Cliente", 
       "description": "Accedi alla tua area personale",
-      "start_url": req.originalUrl.split('?')[0].replace('/manifest.json', ''),
+      "start_url": startUrl,
       "display": "standalone",
       "background_color": "#ffffff",
       "theme_color": "#4f46e5",
