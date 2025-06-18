@@ -13,13 +13,19 @@ function PWAInstallBanner() {
   const [isPwaMode, setIsPwaMode] = useState(false);
 
   useEffect(() => {
-    // Rileva se è in modalità PWA
+    // Rileva se è in modalità PWA con più metodi
     const checkPwaMode = () => {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
       const isInAppBrowser = (window.navigator as any).standalone === true;
-      const isPwaMode = isStandalone || isInAppBrowser;
+      const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
+      const hasMinimalUi = window.matchMedia('(display-mode: minimal-ui)').matches;
       
-      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, PWA Mode: ${isPwaMode}`);
+      // Controlla anche se è stato installato tramite localStorage
+      const isPwaInstalled = localStorage.getItem('pwa-installed') === 'true';
+      
+      const isPwaMode = isStandalone || isInAppBrowser || isFullscreen || hasMinimalUi || isPwaInstalled;
+      
+      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, Fullscreen: ${isFullscreen}, MinimalUI: ${hasMinimalUi}, Installed: ${isPwaInstalled}, PWA Mode: ${isPwaMode}`);
       setIsPwaMode(isPwaMode);
       
       return isPwaMode;
@@ -37,9 +43,28 @@ function PWAInstallBanner() {
     // Check iniziale
     checkPwaMode();
     
+    // Ascolta per cambiamenti nella modalità di visualizzazione
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    const handleDisplayModeChange = () => {
+      console.log('📱 [PWA] Display mode cambiato, ricontrollo...');
+      setTimeout(checkPwaMode, 500);
+    };
+    
+    // Ascolta per eventi di appinstalled
+    const handleAppInstalled = () => {
+      console.log('📱 [PWA] App installata rilevata!');
+      localStorage.setItem('pwa-installed', 'true');
+      setIsPwaMode(true);
+      setShowInstallBanner(false);
+    };
+    
+    mediaQuery.addListener(handleDisplayModeChange);
+    window.addEventListener('appinstalled', handleAppInstalled);
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     
     return () => {
+      mediaQuery.removeListener(handleDisplayModeChange);
+      window.removeEventListener('appinstalled', handleAppInstalled);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
   }, []);
@@ -51,11 +76,9 @@ function PWAInstallBanner() {
       
       if (outcome === 'accepted') {
         setShowInstallBanner(false);
-        // Ricontrolla dopo l'installazione
-        setTimeout(() => {
-          const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-          setIsPwaMode(isStandalone);
-        }, 1000);
+        // Salva stato di installazione e forza aggiornamento
+        localStorage.setItem('pwa-installed', 'true');
+        setIsPwaMode(true);
       }
       setDeferredPrompt(null);
     }
@@ -172,7 +195,10 @@ export default function PureClientArea() {
           if (clientId) {
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
             const isInAppBrowser = (window.navigator as any).standalone === true;
-            const isPWA = isStandalone || isInAppBrowser;
+            const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
+            const hasMinimalUi = window.matchMedia('(display-mode: minimal-ui)').matches;
+            const isPwaInstalled = localStorage.getItem('pwa-installed') === 'true';
+            const isPWA = isStandalone || isInAppBrowser || isFullscreen || hasMinimalUi || isPwaInstalled;
             
             const accessInfo = {
               isPWA: isPWA,
