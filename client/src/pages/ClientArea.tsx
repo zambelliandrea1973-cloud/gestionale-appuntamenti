@@ -47,6 +47,7 @@ export default function ClientArea() {
   const [showAllAppointments, setShowAllAppointments] = useState<boolean>(false);
   const [selectedAppointment, setSelectedAppointment] = useState<any | null>(null);
   const [token, setToken] = useState<string>("");
+  const [ownerId, setOwnerId] = useState<number | null>(null); // ID del proprietario (professionista)
   const [accessTracked, setAccessTracked] = useState<boolean>(false); // Flag per evitare tracking duplicato
   const [pwaAccessMessage, setPwaAccessMessage] = useState<boolean>(false); // Flag per messaggio PWA
   const [recoveryLoading, setRecoveryLoading] = useState<boolean>(false); // Flag per caricamento recupero
@@ -127,6 +128,7 @@ export default function ClientArea() {
     const storedOwnerId = localStorage.getItem('ownerId');
     if (storedOwnerId) {
       console.log(`📱 PWA: Tentativo recupero ultimo accesso per proprietario ${storedOwnerId}`);
+      setOwnerId(parseInt(storedOwnerId, 10));
       tryRecoverLastAccess(storedOwnerId);
       return;
     }
@@ -206,11 +208,15 @@ export default function ClientArea() {
       
       // Estrai owner ID dal token gerarchico per user ID
       const ownerMatch = token.match(/^PROF_(\d{2,3})_/);
-      const ownerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(clientId, 10);
+      const extractedOwnerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(clientId, 10);
+      
+      // Salva l'ownerId nel localStorage per recupero futuro PWA
+      localStorage.setItem('ownerId', extractedOwnerId.toString());
+      setOwnerId(extractedOwnerId);
       
       // Imposta i dati utente direttamente
       setUser({
-        id: ownerId,
+        id: extractedOwnerId,
         username: `client_${clientId}`,
         type: "client",
         client: clientData.client
@@ -262,10 +268,13 @@ export default function ClientArea() {
             
             // Estrai owner ID dal token per user ID  
             const ownerMatch = storedToken.match(/^PROF_(\d{2,3})_/);
-            const ownerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(storedClientId, 10);
+            const extractedOwnerId = ownerMatch ? parseInt(ownerMatch[1], 10) : parseInt(storedClientId, 10);
+            
+            localStorage.setItem('ownerId', extractedOwnerId.toString());
+            setOwnerId(extractedOwnerId);
             
             setUser({
-              id: ownerId,
+              id: extractedOwnerId,
               username: `client_${storedClientId}`,
               type: "client", 
               client: clientData.client
@@ -824,7 +833,7 @@ export default function ClientArea() {
       
       {/* Contatti del professionista per il cliente */}
       <div className="mt-8">
-        <FooterContactIcons />
+        <FooterContactIcons ownerId={ownerId || undefined} />
       </div>
       
       {/* Componente PWA per clienti via QR code */}
