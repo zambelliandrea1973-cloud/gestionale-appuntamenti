@@ -789,12 +789,12 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 148,
-        "lastAccess": "2025-06-18T10:23:36.061Z",
+        "accessCount": 172,
+        "lastAccess": "2025-06-18T10:33:09.706Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F",
-        "lastPwaAccess": "2025-06-18T10:14:08.056Z",
-        "pwaAccessCount": 54
+        "lastPwaAccess": "2025-06-18T10:33:09.706Z",
+        "pwaAccessCount": 75
       }
     ],
     [
