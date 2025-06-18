@@ -1643,24 +1643,59 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     const appointmentId = parseInt(req.params.id);
     
+    console.log(`🗑️ [DELETE] Tentativo eliminazione appuntamento ${appointmentId} da utente ${user.id} (${user.type})`);
+    
     if (isNaN(appointmentId)) {
       return res.status(400).json({ message: "ID appuntamento non valido" });
     }
     
-    // ELIMINA DAL STORAGE PERSISTENTE
+    // ELIMINA DAL STORAGE PERSISTENTE - USA LA STRUTTURA CORRETTA
     const storageData = loadStorageData();
-    if (!storageData.userAppointments) storageData.userAppointments = {};
-    if (!storageData.userAppointments[user.id]) storageData.userAppointments[user.id] = [];
     
-    const appointmentIndex = storageData.userAppointments[user.id].findIndex(app => app.id === appointmentId);
-    
-    if (appointmentIndex === -1) {
+    // Gli appuntamenti sono memorizzati in storageData.appointments come array
+    if (!storageData.appointments) {
+      console.log(`❌ [DELETE] Nessun appuntamento trovato nel sistema`);
       return res.status(404).json({ message: "Appuntamento non trovato" });
     }
     
-    storageData.userAppointments[user.id].splice(appointmentIndex, 1);
+    // Trova l'appuntamento da eliminare
+    let appointmentIndex = -1;
+    let appointmentData = null;
+    
+    // Cerca nell'array di appuntamenti (formato [id, appointment] o oggetto diretto)
+    for (let i = 0; i < storageData.appointments.length; i++) {
+      const item = storageData.appointments[i];
+      let appointment = Array.isArray(item) ? item[1] : item;
+      
+      if (appointment && appointment.id === appointmentId) {
+        appointmentIndex = i;
+        appointmentData = appointment;
+        break;
+      }
+    }
+    
+    if (appointmentIndex === -1) {
+      console.log(`❌ [DELETE] Appuntamento ${appointmentId} non trovato nel sistema`);
+      return res.status(404).json({ message: "Appuntamento non trovato" });
+    }
+    
+    // Verifica permessi: staff può eliminare solo i propri appuntamenti
+    if (user.type === 'staff') {
+      // Per staff, verifica che l'appuntamento sia associato a un cliente di sua proprietà
+      const allClients = storageData.clients || [];
+      const clientData = allClients.find(([id, client]) => client.id === appointmentData.clientId);
+      
+      if (!clientData || clientData[1].ownerId !== user.id) {
+        console.log(`❌ [DELETE] Staff ${user.id} non autorizzato a eliminare appuntamento per cliente ${appointmentData.clientId}`);
+        return res.status(403).json({ message: "Non sei autorizzato a eliminare questo appuntamento" });
+      }
+    }
+    
+    // Elimina l'appuntamento
+    storageData.appointments.splice(appointmentIndex, 1);
     saveStorageData(storageData);
-    console.log(`💾🗑️ Appuntamento ${appointmentId} eliminato permanentemente per utente ${user.id}`);
+    
+    console.log(`💾🗑️ [DELETE] Appuntamento ${appointmentId} eliminato con successo da utente ${user.id}`);
     res.status(200).json({ message: "Appuntamento eliminato con successo" });
   });
 
