@@ -118,6 +118,18 @@ function PWAInstallBanner() {
               isExpanded ? 'max-h-[600px]' : 'max-h-0 group-hover:max-h-[600px]'
             }`}>
             <div className="pt-3 border-t border-blue-200 mt-3">
+              {/* Pulsante chiusura per mobile */}
+              <div className="flex justify-end mb-2 md:hidden">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsExpanded(false);
+                  }}
+                  className="p-1 rounded-full hover:bg-blue-100 transition-colors"
+                >
+                  <X className="h-4 w-4 text-blue-600" />
+                </button>
+              </div>
               <div className="space-y-3">
                 <div>
                   <p className="text-xs font-medium text-blue-700">📱 Su Android:</p>
