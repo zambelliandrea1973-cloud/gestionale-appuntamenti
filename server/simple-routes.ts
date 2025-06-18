@@ -591,6 +591,25 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // API per recuperare informazioni di contatto di un professionista specifico (per PWA clienti)
+  app.get('/api/owner-contact-info/:ownerId', (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      if (!ownerId) {
+        return res.status(400).json({ error: 'ID proprietario non valido' });
+      }
+      
+      const storageData = loadStorageData();
+      const contactInfo = storageData.userContactInfo?.[ownerId] || {};
+      
+      console.log(`🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista ${ownerId}:`, contactInfo);
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Errore nel recupero informazioni contatto professionista:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
   // Endpoint POST per salvare le informazioni di contatto - Sistema dal backup15
   app.post("/api/contact-info", requireAuth, async (req, res) => {
     try {
