@@ -11,7 +11,9 @@
         "createdAt": "2025-04-02T16:08:04.062Z",
         "accessCount": 3,
         "lastAccess": "2025-06-16T14:28:58.656Z",
-        "ownerId": 3
+        "ownerId": 3,
+        "uniqueCode": "PROF_003_0003_CLIENT_1_0001",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -30,7 +32,9 @@
         "hasConsent": false,
         "id": 2,
         "createdAt": "2025-04-02T16:43:36.683Z",
-        "ownerId": 3
+        "ownerId": 3,
+        "uniqueCode": "PROF_003_0003_CLIENT_2_0002",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -49,7 +53,9 @@
         "hasConsent": false,
         "ownerId": 9,
         "id": 25,
-        "createdAt": "2025-06-03T13:34:58.643Z"
+        "createdAt": "2025-06-03T13:34:58.643Z",
+        "uniqueCode": "PROF_009_6099_CLIENT_25_5832",
+        "professionistCode": "PROF_009_2DA9"
       }
     ],
     [
@@ -68,7 +74,9 @@
         "hasConsent": false,
         "ownerId": 12,
         "id": 28,
-        "createdAt": "2025-06-03T13:34:58.644Z"
+        "createdAt": "2025-06-03T13:34:58.644Z",
+        "uniqueCode": "PROF_012_1936_CLIENT_28_CE96",
+        "professionistCode": "PROF_012_7424"
       }
     ],
     [
@@ -89,7 +97,9 @@
         "id": 251,
         "createdAt": "2025-06-03T13:34:58.644Z",
         "accessCount": 36,
-        "lastAccess": "2025-06-17T07:47:09.539Z"
+        "lastAccess": "2025-06-17T07:47:09.539Z",
+        "uniqueCode": "PROF_016_21E9_CLIENT_251_E8A6",
+        "professionistCode": "PROF_016_B4B8"
       }
     ],
     [
@@ -110,7 +120,9 @@
         "id": 252,
         "createdAt": "2025-06-03T13:34:58.644Z",
         "accessCount": 14,
-        "lastAccess": "2025-06-17T07:47:49.607Z"
+        "lastAccess": "2025-06-17T07:47:49.607Z",
+        "uniqueCode": "PROF_016_3063_CLIENT_252_3678",
+        "professionistCode": "PROF_016_72FA"
       }
     ],
     [
@@ -129,7 +141,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 256,
-        "createdAt": "2025-06-03T13:34:58.644Z"
+        "createdAt": "2025-06-03T13:34:58.644Z",
+        "uniqueCode": "PROF_016_9930_CLIENT_256_6F8B",
+        "professionistCode": "PROF_016_8783"
       }
     ],
     [
@@ -148,7 +162,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 257,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_016_4B3B_CLIENT_257_02EF",
+        "professionistCode": "PROF_016_01B7"
       }
     ],
     [
@@ -167,7 +183,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 258,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_016_1226_CLIENT_258_87F8",
+        "professionistCode": "PROF_016_8B57"
       }
     ],
     [
@@ -186,7 +204,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 259,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_016_2AE2_CLIENT_259_C705",
+        "professionistCode": "PROF_016_ED6C"
       }
     ],
     [
@@ -205,7 +225,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 261,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_016_F529_CLIENT_261_7C2D",
+        "professionistCode": "PROF_016_7C7E"
       }
     ],
     [
@@ -224,7 +246,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 263,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_016_89F8_CLIENT_263_1DFB",
+        "professionistCode": "PROF_016_9251"
       }
     ],
     [
@@ -243,7 +267,9 @@
         "hasConsent": false,
         "ownerId": 12,
         "id": 264,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_012_B830_CLIENT_264_85C1",
+        "professionistCode": "PROF_012_64C9"
       }
     ],
     [
@@ -262,7 +288,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 265,
-        "createdAt": "2025-06-03T13:34:58.645Z"
+        "createdAt": "2025-06-03T13:34:58.645Z",
+        "uniqueCode": "PROF_016_0DF1_CLIENT_265_6498",
+        "professionistCode": "PROF_016_0E95"
       }
     ],
     [
@@ -281,7 +309,9 @@
         "hasConsent": false,
         "ownerId": 3,
         "id": 266,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_266_0266",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -300,7 +330,9 @@
         "hasConsent": false,
         "ownerId": 3,
         "id": 267,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_267_0267",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -319,7 +351,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 268,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_016_2429_CLIENT_268_2ED9",
+        "professionistCode": "PROF_016_B320"
       }
     ],
     [
@@ -338,7 +372,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 269,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_016_AD27_CLIENT_269_0FA6",
+        "professionistCode": "PROF_016_1CAE"
       }
     ],
     [
@@ -357,7 +393,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 270,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_016_791B_CLIENT_270_C1F2",
+        "professionistCode": "PROF_016_1C33"
       }
     ],
     [
@@ -376,7 +414,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 271,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_016_6E06_CLIENT_271_70E6",
+        "professionistCode": "PROF_016_DA36"
       }
     ],
     [
@@ -395,7 +435,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 272,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_016_2037_CLIENT_272_1DF3",
+        "professionistCode": "PROF_016_0820"
       }
     ],
     [
@@ -414,7 +456,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 273,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_016_A7FC_CLIENT_273_1771",
+        "professionistCode": "PROF_016_7118"
       }
     ],
     [
@@ -433,7 +477,9 @@
         "hasConsent": false,
         "ownerId": 9,
         "id": 316,
-        "createdAt": "2025-06-03T13:34:58.647Z"
+        "createdAt": "2025-06-03T13:34:58.647Z",
+        "uniqueCode": "PROF_009_F7D7_CLIENT_316_85CF",
+        "professionistCode": "PROF_009_B72D"
       }
     ],
     [
@@ -452,7 +498,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 513,
-        "createdAt": "2025-06-03T13:34:58.647Z"
+        "createdAt": "2025-06-03T13:34:58.647Z",
+        "uniqueCode": "PROF_016_6659_CLIENT_513_7308",
+        "professionistCode": "PROF_016_D42B"
       }
     ],
     [
@@ -471,7 +519,9 @@
         "hasConsent": false,
         "ownerId": 16,
         "id": 514,
-        "createdAt": "2025-06-03T13:34:58.647Z"
+        "createdAt": "2025-06-03T13:34:58.647Z",
+        "uniqueCode": "PROF_016_BEF6_CLIENT_514_2556",
+        "professionistCode": "PROF_016_A61F"
       }
     ],
     [
@@ -490,7 +540,9 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "hasConsent": false
+        "hasConsent": false,
+        "uniqueCode": "PROF_009_A08C_CLIENT_1749666196976_9BDC",
+        "professionistCode": "PROF_009_4881"
       }
     ],
     [
@@ -509,7 +561,9 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "hasConsent": false
+        "hasConsent": false,
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437314_7314",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -531,7 +585,9 @@
         "allergies": "",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.110Z"
+        "createdAt": "2025-06-11T18:50:38.110Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437315_7315",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -553,7 +609,9 @@
         "allergies": "Penicillina",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.111Z"
+        "createdAt": "2025-06-11T18:50:38.111Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437316_7316",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -575,7 +633,9 @@
         "allergies": "Lattosio",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.111Z"
+        "createdAt": "2025-06-11T18:50:38.111Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437317_7317",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -597,7 +657,9 @@
         "allergies": "",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.111Z"
+        "createdAt": "2025-06-11T18:50:38.111Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437318_7318",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -618,7 +680,9 @@
         "ownerId": 3,
         "originalOwnerId": 1,
         "id": 1749667437319,
-        "createdAt": "2025-06-11T18:54:21.929Z"
+        "createdAt": "2025-06-11T18:54:21.929Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437319_7319",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -639,7 +703,9 @@
         "ownerId": 3,
         "originalOwnerId": 2,
         "id": 1749667437320,
-        "createdAt": "2025-06-11T18:54:21.930Z"
+        "createdAt": "2025-06-11T18:54:21.930Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437320_7320",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -660,7 +726,9 @@
         "ownerId": 3,
         "originalOwnerId": 4,
         "id": 1749667437321,
-        "createdAt": "2025-06-11T18:54:21.930Z"
+        "createdAt": "2025-06-11T18:54:21.930Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437321_7321",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -699,8 +767,8 @@
         "birthday": "2013-10-16",
         "hasConsent": false,
         "updatedAt": "2025-06-18T06:03:05.025Z",
-        "accessCount": 1,
-        "lastAccess": "2025-06-18T06:24:10.684Z"
+        "accessCount": 2,
+        "lastAccess": "2025-06-18T09:23:06.640Z"
       }
     ],
     [
@@ -719,8 +787,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 45,
-        "lastAccess": "2025-06-18T07:17:06.945Z",
+        "accessCount": 56,
+        "lastAccess": "2025-06-18T09:23:14.515Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }
@@ -1014,8 +1082,8 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 14,
-        "lastAccess": "2025-06-18T05:07:46.153Z",
+        "accessCount": 16,
+        "lastAccess": "2025-06-18T09:13:36.551Z",
         "hasConsent": true,
         "updatedAt": "2025-06-17T18:08:04.456Z"
       }
@@ -1333,6 +1401,20 @@
         "notes": "",
         "status": "scheduled",
         "createdAt": "2025-06-18T06:02:11.946Z"
+      }
+    ],
+    [
+      1750236374443,
+      {
+        "id": 1750236374443,
+        "clientId": 1750177330362,
+        "serviceId": 1750225071976,
+        "date": "2025-06-19",
+        "startTime": "12:15:00",
+        "endTime": "13:15:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-18T08:46:14.443Z"
       }
     ]
   ],
