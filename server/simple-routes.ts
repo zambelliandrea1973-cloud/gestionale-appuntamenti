@@ -3660,23 +3660,15 @@ Studio Professionale`,
       let foundClient = null;
       let ownerId = null;
       
-      console.log('🔍 [CLIENT ACCESS] Ricerca in', allUsers.length, 'utenti');
-      
       for (const userRecord of allUsers) {
-        console.log('🔍 [CLIENT ACCESS] Controllo utente:', userRecord.id, 'ha clienti:', !!userRecord.clients);
-        
         if (userRecord.clients) {
-          console.log('🔍 [CLIENT ACCESS] Clienti trovati:', userRecord.clients.length);
-          
           // Controlla sia array che oggetto clients
           let clientsToCheck = Array.isArray(userRecord.clients) ? userRecord.clients : Object.values(userRecord.clients);
           
           for (const client of clientsToCheck) {
-            console.log('🔍 [CLIENT ACCESS] Controllo cliente:', client.firstName, client.lastName, 'codice:', client.uniqueCode);
             if (client.uniqueCode === clientCode) {
               foundClient = client;
               ownerId = userRecord.id;
-              console.log('✅ [CLIENT ACCESS] Cliente trovato!');
               break;
             }
           }
