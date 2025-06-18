@@ -84,7 +84,7 @@ function PWAInstallBanner() {
     }
   };
 
-  // Banner con effetto tendina - sempre presente ma contenuto nascosto se PWA installata
+  // Banner sempre visibile con effetto tendina
   return (
     <div className="group">
       <div className="bg-blue-50 border border-blue-200 rounded-lg transition-all duration-300 overflow-hidden">
@@ -96,48 +96,58 @@ function PWAInstallBanner() {
                 Installa app sul tuo dispositivo
               </span>
             </div>
-            {showInstallBanner && !isPwaMode && (
+            {/* Mostra pulsante se disponibile installazione e non è PWA */}
+            {!isPwaMode && (
               <Button 
                 onClick={handleInstallClick} 
                 size="sm" 
                 className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                disabled={!showInstallBanner}
               >
-                Installa
+                {showInstallBanner ? "Installa" : "Non disponibile"}
               </Button>
             )}
           </div>
           
-          {/* Istruzioni dettagliate con effetto tendina */}
+          {/* Istruzioni dettagliate sempre espandibili al hover se non è PWA */}
           <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
             isPwaMode 
               ? 'max-h-0' // Nascosto quando PWA è installata
-              : 'max-h-0 group-hover:max-h-[500px]' // Si espande al hover quando non installata
+              : 'max-h-0 group-hover:max-h-[600px]' // Si espande al hover quando non installata
           }`}>
             <div className="pt-3 border-t border-blue-200 mt-3">
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div>
                   <p className="text-xs font-medium text-blue-700">📱 Su Android:</p>
-                  <p className="text-xs text-blue-600 ml-4">1. Tocca il menù ⋮ in alto a destra</p>
-                  <p className="text-xs text-blue-600 ml-4">2. Seleziona "Aggiungi alla schermata Home"</p>
-                  <p className="text-xs text-blue-600 ml-4">3. Conferma "Installa" o "Aggiungi"</p>
+                  <div className="ml-4 space-y-1">
+                    <p className="text-xs text-blue-600">1. Tocca il menù ⋮ in alto a destra</p>
+                    <p className="text-xs text-blue-600">2. Seleziona "Aggiungi alla schermata Home"</p>
+                    <p className="text-xs text-blue-600">3. Conferma "Installa" o "Aggiungi"</p>
+                  </div>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-blue-700">🍎 Su iOS:</p>
-                  <p className="text-xs text-blue-600 ml-4">1. Tocca il pulsante Condividi 🔗</p>
-                  <p className="text-xs text-blue-600 ml-4">2. Scorri e tocca "Aggiungi alla schermata Home"</p>
-                  <p className="text-xs text-blue-600 ml-4">3. Tocca "Aggiungi" in alto a destra</p>
+                  <div className="ml-4 space-y-1">
+                    <p className="text-xs text-blue-600">1. Tocca il pulsante Condividi 🔗</p>
+                    <p className="text-xs text-blue-600">2. Scorri e tocca "Aggiungi alla schermata Home"</p>
+                    <p className="text-xs text-blue-600">3. Tocca "Aggiungi" in alto a destra</p>
+                  </div>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-blue-700">💻 Su Desktop:</p>
-                  <p className="text-xs text-blue-600 ml-4">1. Cerca l'icona + nella barra degli indirizzi</p>
-                  <p className="text-xs text-blue-600 ml-4">2. Clicca "Installa" quando appare</p>
+                  <div className="ml-4 space-y-1">
+                    <p className="text-xs text-blue-600">1. Cerca l'icona + nella barra degli indirizzi</p>
+                    <p className="text-xs text-blue-600">2. Clicca "Installa" quando appare</p>
+                  </div>
                 </div>
-                <div className="bg-blue-100 p-2 rounded">
+                <div className="bg-blue-100 p-3 rounded">
                   <p className="text-xs font-medium text-blue-700">✨ Vantaggi dell'installazione:</p>
-                  <p className="text-xs text-blue-600">• Accesso rapido dalla schermata principale</p>
-                  <p className="text-xs text-blue-600">• Funziona anche senza connessione</p>
-                  <p className="text-xs text-blue-600">• Esperienza app nativa</p>
-                  <p className="text-xs text-blue-600">• Notifiche per i tuoi appuntamenti</p>
+                  <div className="mt-1 space-y-1">
+                    <p className="text-xs text-blue-600">• Accesso rapido dalla schermata principale</p>
+                    <p className="text-xs text-blue-600">• Funziona anche senza connessione</p>
+                    <p className="text-xs text-blue-600">• Esperienza app nativa</p>
+                    <p className="text-xs text-blue-600">• Notifiche per i tuoi appuntamenti</p>
+                  </div>
                 </div>
               </div>
             </div>
