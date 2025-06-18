@@ -7,23 +7,28 @@ import { ContactInfo, loadContactInfo, loadContactInfoFromAPI, formatContactInfo
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
 
-export default function FooterContactIcons() {
+interface FooterContactIconsProps {
+  ownerId?: number; // ID del proprietario (professionista) per mostrare i suoi contatti
+}
+
+export default function FooterContactIcons({ ownerId }: FooterContactIconsProps) {
   const [contactInfo, setContactInfo] = useState<ContactInfo>({});
   const { t } = useTranslation();
   const { user } = useUserWithLicense();
 
   // Funzione per caricare le informazioni di contatto con separazione utente
   const loadContactData = async () => {
-    if (!user?.id) return;
+    const targetUserId = ownerId || user?.id;
+    if (!targetUserId) return;
     
     // Prima carica dal localStorage (per un caricamento veloce)
-    const savedInfo = loadContactInfo(user.id);
+    const savedInfo = loadContactInfo(targetUserId);
     setContactInfo(savedInfo);
     
     // Poi tenta di caricare dall'API (per aggiornamenti)
     try {
-      const apiInfo = await loadContactInfoFromAPI(user.id);
-      console.log(`Informazioni di contatto caricate da API per utente ${user.id}:`, apiInfo);
+      const apiInfo = await loadContactInfoFromAPI(targetUserId);
+      console.log(`Informazioni di contatto caricate da API per utente ${targetUserId}:`, apiInfo);
       setContactInfo(apiInfo);
     } catch (error) {
       console.error("Errore durante il caricamento delle informazioni di contatto dall'API:", error);
@@ -32,14 +37,16 @@ export default function FooterContactIcons() {
 
   // Carica le informazioni all'avvio e quando cambia l'utente
   useEffect(() => {
-    if (user?.id) {
+    const targetUserId = ownerId || user?.id;
+    if (targetUserId) {
       loadContactData();
     }
     
     // Aggiungi un event listener per aggiornare i contatti quando vengono salvati
     const handleStorageChange = (e: StorageEvent) => {
+      const targetUserId = ownerId || user?.id;
       // Ricarica solo se è cambiato il localStorage per questo utente specifico
-      if (e.key && e.key.includes(`healthcare_app_contact_info_user_${user?.id}`)) {
+      if (e.key && e.key.includes(`healthcare_app_contact_info_user_${targetUserId}`)) {
         loadContactData();
       }
     };
@@ -49,8 +56,9 @@ export default function FooterContactIcons() {
     // Ascolta l'evento personalizzato dall'editor di contatti
     const handleContactInfoUpdated = (e: any) => {
       console.log("Evento contactInfoUpdated ricevuto:", e.detail);
+      const targetUserId = ownerId || user?.id;
       // Verifica che l'evento sia per l'utente corrente
-      if (e.detail && e.detail.userId === user?.id) {
+      if (e.detail && e.detail.userId === targetUserId) {
         if (e.detail.contactInfo) {
           setContactInfo(e.detail.contactInfo);
         } else {
@@ -66,7 +74,7 @@ export default function FooterContactIcons() {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('contactInfoUpdated', handleContactInfoUpdated);
     };
-  }, [user?.id]);
+  }, [user?.id, ownerId]);
 
   // Verifica ogni 5 secondi se ci sono nuovi dati (fallback)
   useEffect(() => {
