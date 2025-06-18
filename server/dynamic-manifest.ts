@@ -84,15 +84,21 @@ export function serveDynamicManifest(req: Request, res: Response) {
     let startUrl = "/";
     const referer = req.get('referer') || '';
     
-    // Se il referer contiene un percorso /client/, usalo come start_url
-    const clientPathMatch = referer.match(/(\/client\/[^?#]+)/);
-    if (clientPathMatch) {
-      startUrl = clientPathMatch[1];
-      console.log(`📱 PWA MANIFEST: Start URL impostato su percorso cliente: ${startUrl}`);
-    } else if (req.query.clientToken) {
-      // Se abbiamo un token client nei query params, costruisci il percorso
+    console.log(`🔍 PWA MANIFEST: Analizzando referer: ${referer}`);
+    console.log(`🔍 PWA MANIFEST: Query params:`, req.query);
+    
+    // Prima priorità: token client nei query params
+    if (req.query.clientToken) {
       startUrl = `/client/${req.query.clientToken}`;
-      console.log(`📱 PWA MANIFEST: Start URL costruito da token: ${startUrl}`);
+      console.log(`📱 PWA MANIFEST: Start URL costruito da query token: ${startUrl}`);
+    }
+    // Seconda priorità: estrai percorso /client/ dal referer
+    else if (referer) {
+      const clientPathMatch = referer.match(/(\/client\/[^?#\s]+)/);
+      if (clientPathMatch) {
+        startUrl = clientPathMatch[1];
+        console.log(`📱 PWA MANIFEST: Start URL estratto da referer: ${startUrl}`);
+      }
     }
     
     const baseManifest = {
