@@ -3656,24 +3656,18 @@ Studio Professionale`,
       console.log('🏠 [CLIENT ACCESS] Accesso diretto per codice:', clientCode);
       
       // Cerca il cliente nel database usando il codice univoco
-      const allUsers = Object.values(userData);
+      const storageData = loadStorageData();
       let foundClient = null;
       let ownerId = null;
       
-      for (const userRecord of allUsers) {
-        if (userRecord.clients) {
-          // Controlla sia array che oggetto clients
-          let clientsToCheck = Array.isArray(userRecord.clients) ? userRecord.clients : Object.values(userRecord.clients);
-          
-          for (const client of clientsToCheck) {
-            if (client.uniqueCode === clientCode) {
-              foundClient = client;
-              ownerId = userRecord.id;
-              break;
-            }
+      // Cerca nei clienti usando la nuova struttura
+      if (storageData.clients) {
+        for (const [clientId, clientData] of storageData.clients) {
+          if (clientData.uniqueCode === clientCode) {
+            foundClient = clientData;
+            ownerId = clientData.ownerId;
+            break;
           }
-          
-          if (foundClient) break;
         }
       }
       
