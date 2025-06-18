@@ -86,6 +86,10 @@ export function serveDynamicManifest(req: Request, res: Response) {
     const storageData = loadStorageData();
     const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
     
+    // Forza aggiornamento completo del manifest per Android PWA
+    const manifestVersion = `${Date.now()}-${ownerUserId || 'default'}`;
+    console.log(`🔄 MANIFEST: Versione aggiornata: ${manifestVersion}`);
+    
     // Determina start_url in base al referer per preservare il contesto del cliente
     let startUrl = "/";
     const referer = req.get('referer') || '';
@@ -132,28 +136,32 @@ export function serveDynamicManifest(req: Request, res: Response) {
       }
     }
     
+    // Nome personalizzato per Silvia Busnari per distinguere l'app
+    const professionalName = ownerUserId === 14 ? "Silvia Busnari" : ownerName;
+    
     const baseManifest = {
-      "name": `${ownerName} - Area Cliente`,
-      "short_name": "Area Cliente", 
-      "description": "Accedi alla tua area personale",
+      "name": `${professionalName} - Area Cliente`,
+      "short_name": `${professionalName}`, 
+      "description": `Accedi alla tua area personale - ${professionalName}`,
       "start_url": startUrl,
       "display": "standalone",
       "background_color": "#ffffff",
-      "theme_color": "#4f46e5",
+      "theme_color": "#006400",
       "orientation": "any",
       "categories": ["healthcare", "business"],
       "lang": "it-IT",
       "dir": "ltr",
       "prefer_related_applications": false,
       "scope": "/",
-      "id": ownerUserId ? `area-cliente-${ownerUserId}` : "area-cliente-generic"
+      "id": ownerUserId ? `silvia-busnari-cliente-${ownerUserId}` : `area-cliente-generic`,
+      "version": manifestVersion
     };
     
     // Usa icone personalizzate se abbiamo un owner, altrimenti default
-    // Aggiunge timestamp per forzare refresh cache icone su dispositivi
-    const timestamp = Date.now();
+    // Aggiunge timestamp univoco per forzare refresh cache icone su dispositivi
+    const iconTimestamp = Date.now() + Math.random();
     const iconPrefix = ownerUserId ? `/icons/owner-${ownerUserId}-icon-` : '/icons/icon-';
-    const iconSuffix = `?v=${timestamp}`;
+    const iconSuffix = `?v=${iconTimestamp}&bust=${ownerUserId || 'default'}`;
     
     const manifest = {
       ...baseManifest,
@@ -200,8 +208,10 @@ export function serveDynamicManifest(req: Request, res: Response) {
       'Expires': '0'
     });
     
-    console.log(`📱 MANIFEST DINAMICO: Servendo manifest per owner ${ownerUserId || 'default'} con icone personalizzate`);
+    console.log(`📱 MANIFEST DINAMICO: Servendo manifest per ${professionalName} (owner ${ownerUserId || 'default'})`);
     console.log(`📱 MANIFEST ICONE: ${JSON.stringify(manifest.icons.map(i => i.src))}`);
+    console.log(`📱 MANIFEST ID: ${manifest.id}`);
+    console.log(`📱 MANIFEST NAME: ${manifest.name}`);
     res.json(manifest);
     
   } catch (error) {

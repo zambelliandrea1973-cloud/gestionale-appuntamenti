@@ -226,25 +226,52 @@ export default function PureClientArea() {
 
         console.log('🏠 [PURE CLIENT] Inizializzazione area cliente:', clientCode);
         
+        // Carica script per forzare aggiornamento PWA su Android
+        const pwaScript = document.createElement('script');
+        pwaScript.src = '/pwa-force-update.js';
+        pwaScript.async = true;
+        document.head.appendChild(pwaScript);
+        
+        // Aggiorna il titolo della pagina per riflettere il professionista
+        document.title = 'Silvia Busnari - Area Cliente';
+        
         // Aggiorna il manifest PWA per preservare il percorso del cliente
         const manifestLink = document.querySelector('link[rel="manifest"]');
         if (manifestLink) {
           // Aggiunge timestamp per forzare il refresh delle icone PWA
           const timestamp = Date.now();
-          const newHref = `/manifest.json?clientToken=${clientCode}&v=${timestamp}`;
+          const newHref = `/manifest.json?clientToken=${clientCode}&v=${timestamp}&force=1`;
           manifestLink.setAttribute('href', newHref);
           console.log(`📱 PWA: Manifest aggiornato per cliente con versioning: ${newHref}`);
           
           // Forza il refresh completo del manifest per dispositivi PWA
-          const link = manifestLink.cloneNode(true);
+          const link = manifestLink.cloneNode(true) as HTMLLinkElement;
           manifestLink.parentNode?.removeChild(manifestLink);
           document.head.appendChild(link);
           
-          // Aggiunge meta tag per forzare aggiornamento icone
+          // Aggiunge meta tag per forzare aggiornamento icone con ID univoco
           let themeColorMeta = document.querySelector('meta[name="theme-color"]');
           if (themeColorMeta) {
             themeColorMeta.setAttribute('content', '#4f46e5');
           }
+          
+          // Aggiunge meta tag per identificare l'app PWA univocamente
+          let appIdMeta = document.querySelector('meta[name="mobile-web-app-capable"]');
+          if (!appIdMeta) {
+            appIdMeta = document.createElement('meta');
+            appIdMeta.setAttribute('name', 'mobile-web-app-capable');
+            document.head.appendChild(appIdMeta);
+          }
+          appIdMeta.setAttribute('content', 'yes');
+          
+          // Forza reload delle icone touchscreen per iOS/Android
+          const appleTouchIcons = document.querySelectorAll('link[rel*="apple-touch-icon"]');
+          appleTouchIcons.forEach(icon => {
+            const href = (icon as HTMLLinkElement).href;
+            if (!href.includes('?v=')) {
+              (icon as HTMLLinkElement).href = `${href}?v=${timestamp}`;
+            }
+          });
         }
         
         // Registra l'accesso del cliente (importante per conteggio)
