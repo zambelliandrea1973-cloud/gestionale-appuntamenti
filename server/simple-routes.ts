@@ -1033,9 +1033,14 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Endpoint per manifest.json dinamico
+  // Endpoint per manifest.json dinamico - UNICO HANDLER
   app.get('/manifest.json', (req, res) => {
     try {
+      console.log('🔍 MANIFEST ROUTES: Richiesta manifest ricevuta');
+      console.log('🔍 MANIFEST ROUTES: URL:', req.url);
+      console.log('🔍 MANIFEST ROUTES: Query:', req.query);
+      console.log('🔍 MANIFEST ROUTES: Referer:', req.get('referer'));
+      
       const { serveDynamicManifest } = require('./dynamic-manifest');
       serveDynamicManifest(req, res);
     } catch (error) {
