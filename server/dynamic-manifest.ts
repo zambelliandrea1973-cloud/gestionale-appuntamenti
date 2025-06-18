@@ -17,6 +17,9 @@ function loadStorageData() {
 export function serveDynamicManifest(req: Request, res: Response) {
   try {
     console.log('🔍 PWA MANIFEST: Richiesta manifest dinamico');
+    console.log('🔍 PWA MANIFEST: URL completo:', req.url);
+    console.log('🔍 PWA MANIFEST: Query params:', req.query);
+    console.log('🔍 PWA MANIFEST: Headers referer:', req.get('referer'));
     
     let ownerUserId = null;
     
@@ -98,6 +101,39 @@ export function serveDynamicManifest(req: Request, res: Response) {
       if (clientPathMatch) {
         startUrl = clientPathMatch[1];
         console.log(`📱 PWA MANIFEST: Start URL estratto da referer: ${startUrl}`);
+      }
+    }
+    // Terza priorità: se non abbiamo token specifico ma abbiamo ownerUserId, 
+    // cerca il cliente principale per questo proprietario (Bruna per utente 14)
+    else if (ownerUserId && !startUrl.includes('/client/')) {
+      const storageData = loadStorageData();
+      const clients = storageData.clients || [];
+      
+      // Per utente 14 (Silvia), trova Bruna (1750163505034)
+      let targetClient = null;
+      if (ownerUserId === 14) {
+        for (const [clientId, clientData] of clients) {
+          if (clientId === 1750163505034 && clientData.ownerId === ownerUserId) {
+            targetClient = { id: clientId, data: clientData };
+            break;
+          }
+        }
+      }
+      
+      // Fallback: cliente più recente
+      if (!targetClient) {
+        for (const [clientId, clientData] of clients) {
+          if (clientData.ownerId === ownerUserId) {
+            if (!targetClient || clientId > targetClient.id) {
+              targetClient = { id: clientId, data: clientData };
+            }
+          }
+        }
+      }
+      
+      if (targetClient && targetClient.data.uniqueCode) {
+        startUrl = `/client/${targetClient.data.uniqueCode}`;
+        console.log(`📱 PWA MANIFEST: Start URL costruito per cliente ${targetClient.data.firstName} ${targetClient.data.lastName} (${targetClient.id}): ${startUrl}`);
       }
     }
     
