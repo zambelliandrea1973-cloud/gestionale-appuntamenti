@@ -45,6 +45,7 @@ export default function PureClientArea() {
         console.log('🏠 [PURE CLIENT] Inizializzazione area cliente:', clientCode);
         
         // Carica dati cliente con autenticazione basata su codice
+        console.log('🏠 [PURE CLIENT] Richiesta API per codice:', clientCode);
         const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {
           method: 'GET',
           headers: {
@@ -52,9 +53,14 @@ export default function PureClientArea() {
             'Cache-Control': 'no-cache'
           }
         });
+        
+        console.log('🏠 [PURE CLIENT] Risposta API status:', clientResponse.status, clientResponse.statusText);
 
         if (!clientResponse.ok) {
-          setError("Accesso non autorizzato");
+          console.error('🏠 [PURE CLIENT] Errore API:', clientResponse.status, clientResponse.statusText);
+          const errorText = await clientResponse.text();
+          console.error('🏠 [PURE CLIENT] Dettagli errore:', errorText);
+          setError(`Accesso non autorizzato (${clientResponse.status})`);
           setLoading(false);
           return;
         }
