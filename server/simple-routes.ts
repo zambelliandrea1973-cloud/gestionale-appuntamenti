@@ -1852,7 +1852,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     
     // PERCORSO DEDICATO BASATO SU CODICE UNIVOCO: Ogni cliente ha il suo URL unico
-    const activationUrl = `${protocol}://${host}/client/${clientData.uniqueCode}?token=${token}&autoLogin=true`;
+    const activationUrl = `${protocol}://${host}/client/${clientCode}?token=${token}&autoLogin=true`;
     
     try {
       // Genera QR code vero usando la libreria qrcode con import dinamico sicuro
