@@ -86,6 +86,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "description": "Accedi alla tua area personale",
       "start_url": ownerUserId ? `/client/pwa?ownerId=${ownerUserId}` : "/client/pwa",
       "display": "standalone",
+      "display_override": ["standalone", "minimal-ui"],
       "background_color": "#ffffff",
       "theme_color": "#4f46e5",
       "orientation": "any",
@@ -94,7 +95,13 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "dir": "ltr",
       "prefer_related_applications": false,
       "scope": "/",
-      "id": ownerUserId ? `area-cliente-${ownerUserId}` : "area-cliente-generic"
+      "id": ownerUserId ? `area-cliente-${ownerUserId}` : "area-cliente-generic",
+      "edge_side_panel": {
+        "preferred_width": 400
+      },
+      "launch_handler": {
+        "client_mode": "focus-existing"
+      }
     };
     
     // Usa icone personalizzate se abbiamo un owner, altrimenti default
