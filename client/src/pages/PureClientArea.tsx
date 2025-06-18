@@ -279,16 +279,6 @@ export default function PureClientArea() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-3">
-              <Calendar className="h-6 w-6 text-green-600" />
-              I Tuoi Appuntamenti
-            </CardTitle>
-            <CardDescription>
-              Consulta tutti i tuoi appuntamenti programmati
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
             {appointments.length === 0 ? (
               <div className="text-center py-8">
                 <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
@@ -297,6 +287,44 @@ export default function PureClientArea() {
             ) : (
               <ScrollArea className="h-96">
                 <div className="space-y-4">
+                  {appointments.map((appointment) => (
+                    <Card key={appointment.id} className="border-l-4 border-l-blue-500">
+                      <CardContent className="pt-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-semibold text-lg">{appointment.service}</h3>
+                            <div className="flex items-center gap-2 text-gray-600 mt-1">
+                              <Calendar className="h-4 w-4" />
+                              <span>{formatDate(appointment.date)}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-600 mt-1">
+                              <Clock className="h-4 w-4" />
+                              <span>{appointment.time}</span>
+                            </div>
+                            {appointment.notes && (
+                              <p className="text-gray-600 mt-2 text-sm">{appointment.notes}</p>
+                            )}
+                          </div>
+                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            appointment.status === 'scheduled' 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {appointment.status === 'scheduled' ? 'Confermato' : 'In attesa'}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </ScrollArea>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
                   {appointments.map((appointment) => (
                     <Card key={appointment.id} className="border-l-4 border-l-blue-500">
                       <CardContent className="pt-4">
