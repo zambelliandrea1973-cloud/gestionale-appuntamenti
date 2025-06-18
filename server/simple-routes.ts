@@ -3740,19 +3740,6 @@ Studio Professionale`,
       console.log(`📅 [CLIENT APPOINTMENTS] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
       res.json(clientAppointments);
       
-      // Filtra solo i dati essenziali dell'appuntamento
-      const pureAppointments = clientAppointments.map((apt: any) => ({
-        id: apt.id,
-        date: apt.date,
-        time: apt.time,
-        service: apt.service || 'Appuntamento',
-        status: apt.status || 'confirmed',
-        notes: apt.notes || ''
-      }));
-      
-      console.log('📅 [CLIENT APPOINTMENTS] Trovati', pureAppointments.length, 'appuntamenti');
-      res.json(pureAppointments);
-      
     } catch (error) {
       console.error('❌ [CLIENT APPOINTMENTS] Errore:', error);
       res.status(500).json({ error: 'Errore del sistema' });
