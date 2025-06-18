@@ -112,21 +112,25 @@ export default function PureClientArea() {
         
         // Registra l'accesso del cliente (importante per conteggio)
         try {
-          const accessResponse = await fetch(`/api/client-access/${clientCode}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-device-type': 'mobile' // PWA è sempre mobile
-            },
-            body: JSON.stringify({
-              timestamp: new Date().toISOString(),
-              userAgent: navigator.userAgent,
-              source: 'pwa'
-            })
-          });
+          // Estrai clientId dal clientCode per registrare l'accesso
+          const parts = clientCode.split('_');
+          const clientId = parts.length >= 4 ? parts[3] : null;
           
-          if (accessResponse.ok) {
-            console.log('✅ Accesso PWA registrato per cliente:', clientCode);
+          if (clientId) {
+            const accessInfo = {
+              isPWA: window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true,
+              userAgent: navigator.userAgent,
+              timestamp: Date.now(),
+              accessType: window.matchMedia('(display-mode: standalone)').matches ? 'pwa' : 'browser'
+            };
+            
+            console.log(`📱 [PWA ACCESS] Tracking accesso cliente ${clientId}:`, accessInfo);
+            
+            const accessResponse = await apiRequest('POST', `/api/client-access/track/${clientId}`, accessInfo);
+            if (accessResponse.ok) {
+              const result = await accessResponse.json();
+              console.log(`📱 [PWA ACCESS TRACKED] Cliente ${clientId} - Accesso registrato: ${result.accessCount} (${accessInfo.accessType})`);
+            }
           }
         } catch (error) {
           console.warn('Errore registrazione accesso PWA:', error);

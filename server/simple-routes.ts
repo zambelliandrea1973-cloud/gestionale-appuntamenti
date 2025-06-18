@@ -1129,11 +1129,14 @@ export function registerSimpleRoutes(app: Express): Server {
       const base64Data = iconBase64.split(',')[1];
       const imageBuffer = Buffer.from(base64Data, 'base64');
       
-      // Genera le diverse dimensioni per PWA
+      // Genera le diverse dimensioni per PWA - sia generiche che specifiche per utente
       const sizes = [
         { size: 96, name: 'icon-96x96.png' },
         { size: 192, name: 'icon-192x192.png' },
-        { size: 512, name: 'icon-512x512.png' }
+        { size: 512, name: 'icon-512x512.png' },
+        { size: 96, name: `owner-${userId}-icon-96x96.png` },
+        { size: 192, name: `owner-${userId}-icon-192x192.png` },
+        { size: 512, name: `owner-${userId}-icon-512x512.png` }
       ];
       
       for (const { size, name } of sizes) {
