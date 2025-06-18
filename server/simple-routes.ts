@@ -557,14 +557,18 @@ export function registerSimpleRoutes(app: Express): Server {
   // Impostazioni azienda - RIMOSSO DUPLICATO ERRATO (ora gestito da storage_data.json)
 
   // Informazioni di contatto
-  app.get("/api/contact-info", (req, res) => {
+  app.get("/api/contact-info", requireAuth, (req, res) => {
+    const user = req.user!;
     const storageData = loadStorageData();
     const defaultInfo = {
       email: "info@studiomedico.it",
       phone: "+39 123 456 7890"
     };
     
-    res.json(storageData.contactInfo || defaultInfo);
+    // Cerca le informazioni di contatto specifiche per l'utente
+    const userContactInfo = storageData.userContactInfo?.[user.id];
+    
+    res.json(userContactInfo || defaultInfo);
   });
 
   // Endpoint POST per salvare le informazioni di contatto - Sistema dal backup15
@@ -585,29 +589,33 @@ export function registerSimpleRoutes(app: Express): Server {
       // Carica i dati esistenti
       const storageData = loadStorageData();
       
-      // Salva le informazioni di contatto nel formato corretto
-      if (!storageData.contactInfo) {
-        storageData.contactInfo = {};
+      // Inizializza la struttura per le informazioni di contatto per utente
+      if (!storageData.userContactInfo) {
+        storageData.userContactInfo = {};
+      }
+      if (!storageData.userContactInfo[user.id]) {
+        storageData.userContactInfo[user.id] = {};
       }
       
-      // Aggiorna tutti i campi forniti
-      if (contactInfo.email !== undefined) storageData.contactInfo.email = contactInfo.email;
-      if (contactInfo.phone !== undefined) storageData.contactInfo.phone = contactInfo.phone;
-      if (contactInfo.phone1 !== undefined) storageData.contactInfo.phone1 = contactInfo.phone1;
-      if (contactInfo.phone2 !== undefined) storageData.contactInfo.phone2 = contactInfo.phone2;
-      if (contactInfo.website !== undefined) storageData.contactInfo.website = contactInfo.website;
-      if (contactInfo.instagram !== undefined) storageData.contactInfo.instagram = contactInfo.instagram;
-      if (contactInfo.facebook !== undefined) storageData.contactInfo.facebook = contactInfo.facebook;
+      // Aggiorna tutti i campi forniti per l'utente specifico
+      const userContactInfo = storageData.userContactInfo[user.id];
+      if (contactInfo.email !== undefined) userContactInfo.email = contactInfo.email;
+      if (contactInfo.phone !== undefined) userContactInfo.phone = contactInfo.phone;
+      if (contactInfo.phone1 !== undefined) userContactInfo.phone1 = contactInfo.phone1;
+      if (contactInfo.phone2 !== undefined) userContactInfo.phone2 = contactInfo.phone2;
+      if (contactInfo.website !== undefined) userContactInfo.website = contactInfo.website;
+      if (contactInfo.instagram !== undefined) userContactInfo.instagram = contactInfo.instagram;
+      if (contactInfo.facebook !== undefined) userContactInfo.facebook = contactInfo.facebook;
       
       // Salva i dati aggiornati
       saveStorageData(storageData);
       
-      console.log(`✅ [CONTACT INFO] Informazioni salvate per utente ${user.id}:`, storageData.contactInfo);
+      console.log(`✅ [CONTACT INFO] Informazioni salvate per utente ${user.id}:`, userContactInfo);
       
       res.json({ 
         success: true, 
         message: 'Informazioni di contatto salvate con successo',
-        contactInfo: storageData.contactInfo
+        contactInfo: storageData.userContactInfo[user.id]
       });
       
     } catch (error) {
