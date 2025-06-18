@@ -11,7 +11,9 @@
         "createdAt": "2025-04-02T16:08:04.062Z",
         "accessCount": 3,
         "lastAccess": "2025-06-16T14:28:58.656Z",
-        "ownerId": 3
+        "ownerId": 3,
+        "uniqueCode": "PROF_003_0003_CLIENT_1_0001",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -30,7 +32,9 @@
         "hasConsent": false,
         "id": 2,
         "createdAt": "2025-04-02T16:43:36.683Z",
-        "ownerId": 3
+        "ownerId": 3,
+        "uniqueCode": "PROF_003_0003_CLIENT_2_0002",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -281,7 +285,9 @@
         "hasConsent": false,
         "ownerId": 3,
         "id": 266,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_266_0266",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -300,7 +306,9 @@
         "hasConsent": false,
         "ownerId": 3,
         "id": 267,
-        "createdAt": "2025-06-03T13:34:58.646Z"
+        "createdAt": "2025-06-03T13:34:58.646Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_267_0267",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -509,7 +517,9 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "hasConsent": false
+        "hasConsent": false,
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437314_7314",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -531,7 +541,9 @@
         "allergies": "",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.110Z"
+        "createdAt": "2025-06-11T18:50:38.110Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437315_7315",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -553,7 +565,9 @@
         "allergies": "Penicillina",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.111Z"
+        "createdAt": "2025-06-11T18:50:38.111Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437316_7316",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -575,7 +589,9 @@
         "allergies": "Lattosio",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.111Z"
+        "createdAt": "2025-06-11T18:50:38.111Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437317_7317",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -597,7 +613,9 @@
         "allergies": "",
         "hasConsent": true,
         "assignmentCode": null,
-        "createdAt": "2025-06-11T18:50:38.111Z"
+        "createdAt": "2025-06-11T18:50:38.111Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437318_7318",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -618,7 +636,9 @@
         "ownerId": 3,
         "originalOwnerId": 1,
         "id": 1749667437319,
-        "createdAt": "2025-06-11T18:54:21.929Z"
+        "createdAt": "2025-06-11T18:54:21.929Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437319_7319",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -639,7 +659,9 @@
         "ownerId": 3,
         "originalOwnerId": 2,
         "id": 1749667437320,
-        "createdAt": "2025-06-11T18:54:21.930Z"
+        "createdAt": "2025-06-11T18:54:21.930Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437320_7320",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
@@ -660,7 +682,9 @@
         "ownerId": 3,
         "originalOwnerId": 4,
         "id": 1749667437321,
-        "createdAt": "2025-06-11T18:54:21.930Z"
+        "createdAt": "2025-06-11T18:54:21.930Z",
+        "uniqueCode": "PROF_003_0003_CLIENT_1749667437321_7321",
+        "professionistCode": "PROF_003_0003"
       }
     ],
     [
