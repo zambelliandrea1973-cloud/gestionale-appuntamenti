@@ -767,8 +767,8 @@
         "birthday": "2013-10-16",
         "hasConsent": false,
         "updatedAt": "2025-06-18T06:03:05.025Z",
-        "accessCount": 3,
-        "lastAccess": "2025-06-18T09:23:51.042Z"
+        "accessCount": 4,
+        "lastAccess": "2025-06-18T09:24:29.815Z"
       }
     ],
     [
@@ -787,8 +787,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 57,
-        "lastAccess": "2025-06-18T09:24:22.943Z",
+        "accessCount": 68,
+        "lastAccess": "2025-06-18T09:32:13.738Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }

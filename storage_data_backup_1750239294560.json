@@ -767,8 +767,8 @@
         "birthday": "2013-10-16",
         "hasConsent": false,
         "updatedAt": "2025-06-18T06:03:05.025Z",
-        "accessCount": 1,
-        "lastAccess": "2025-06-18T06:24:10.684Z"
+        "accessCount": 4,
+        "lastAccess": "2025-06-18T09:24:29.815Z"
       }
     ],
     [
@@ -787,8 +787,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 53,
-        "lastAccess": "2025-06-18T09:13:36.003Z",
+        "accessCount": 77,
+        "lastAccess": "2025-06-18T09:34:40.279Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }
@@ -1082,8 +1082,8 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 15,
-        "lastAccess": "2025-06-18T09:10:17.021Z",
+        "accessCount": 16,
+        "lastAccess": "2025-06-18T09:13:36.551Z",
         "hasConsent": true,
         "updatedAt": "2025-06-17T18:08:04.456Z"
       }
