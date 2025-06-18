@@ -546,13 +546,22 @@ export default function ClientArea() {
       </Dialog>
       
       <header className="mb-6 flex flex-col md:flex-row justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>
-          {user?.client && (
-            <p className="text-muted-foreground">
-              Benvenuto, {user.client.firstName} {user.client.lastName}
-            </p>
+        <div className="flex items-center gap-4">
+          {professionalIcon && (
+            <img 
+              src={professionalIcon} 
+              alt="Logo Professionista" 
+              className="w-12 h-12 rounded-full object-cover"
+            />
           )}
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Area Cliente</h1>
+            {user?.client && (
+              <p className="text-muted-foreground">
+                Benvenuto, {user.client.firstName} {user.client.lastName}
+              </p>
+            )}
+          </div>
         </div>
         <div className="flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
           <Button variant="outline" onClick={handleLogout}>
