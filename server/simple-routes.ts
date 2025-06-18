@@ -3649,6 +3649,92 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint per accesso diretto cliente - SOLO dati cliente, NESSUN accesso al gestionale
+  app.get("/api/client-by-code/:clientCode", async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      console.log('🏠 [CLIENT ACCESS] Accesso diretto per codice:', clientCode);
+      
+      // Cerca il cliente nel database usando il codice univoco
+      const allUsers = Object.values(usersData);
+      let foundClient = null;
+      let ownerId = null;
+      
+      for (const userData of allUsers) {
+        if (userData.clients) {
+          const client = userData.clients.find((c: any) => c.uniqueCode === clientCode);
+          if (client) {
+            foundClient = client;
+            ownerId = userData.id;
+            break;
+          }
+        }
+      }
+      
+      if (!foundClient) {
+        console.log('❌ [CLIENT ACCESS] Accesso negato');
+        return res.status(404).json({ error: 'Accesso non autorizzato' });
+      }
+      
+      console.log('🏠 [CLIENT ACCESS] Cliente autenticato:', foundClient.firstName, foundClient.lastName);
+      
+      // Ritorna SOLO i dati essenziali del cliente - NESSUN riferimento al gestionale
+      const pureClientData = {
+        id: foundClient.id,
+        firstName: foundClient.firstName,
+        lastName: foundClient.lastName,
+        phone: foundClient.phone,
+        email: foundClient.email,
+        uniqueCode: foundClient.uniqueCode,
+        ownerId: ownerId // Solo per identificare i suoi appuntamenti
+      };
+      
+      res.json(pureClientData);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT ACCESS] Errore sistema:', error);
+      res.status(500).json({ error: 'Errore del sistema' });
+    }
+  });
+
+  // Endpoint per appuntamenti di un singolo cliente - SOLO suoi dati
+  app.get("/api/client-appointments/:clientId", async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      const { ownerId } = req.query;
+      
+      console.log('📅 [CLIENT APPOINTMENTS] Caricamento per cliente:', clientId, 'Owner:', ownerId);
+      
+      if (!ownerId || !usersData[ownerId]) {
+        return res.status(404).json({ error: 'Professionista non trovato' });
+      }
+      
+      const userData = usersData[ownerId];
+      
+      // Trova SOLO gli appuntamenti di questo cliente specifico
+      const clientAppointments = userData.appointments?.filter((apt: any) => 
+        apt.clientId === parseInt(clientId)
+      ) || [];
+      
+      // Filtra solo i dati essenziali dell'appuntamento
+      const pureAppointments = clientAppointments.map((apt: any) => ({
+        id: apt.id,
+        date: apt.date,
+        time: apt.time,
+        service: apt.service || 'Appuntamento',
+        status: apt.status || 'confirmed',
+        notes: apt.notes || ''
+      }));
+      
+      console.log('📅 [CLIENT APPOINTMENTS] Trovati', pureAppointments.length, 'appuntamenti');
+      res.json(pureAppointments);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT APPOINTMENTS] Errore:', error);
+      res.status(500).json({ error: 'Errore del sistema' });
+    }
+  });
+
   // Endpoint di test per forzare l'esecuzione del sistema di promemoria
   app.post("/api/test-reminder-system", requireAuth, async (req, res) => {
     try {
