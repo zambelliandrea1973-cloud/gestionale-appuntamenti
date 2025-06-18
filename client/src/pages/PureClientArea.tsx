@@ -113,8 +113,9 @@ export default function PureClientArea() {
         // Registra l'accesso del cliente (importante per conteggio)
         try {
           // Estrai clientId dal clientCode per registrare l'accesso
+          // Formato: PROF_014_9C1F_CLIENT_1750163505034_340F
           const parts = clientCode.split('_');
-          const clientId = parts.length >= 4 ? parts[3] : null;
+          const clientId = parts.length >= 5 ? parts[4] : null;
           
           if (clientId) {
             const accessInfo = {
