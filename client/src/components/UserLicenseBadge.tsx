@@ -74,16 +74,23 @@ export default function UserLicenseBadge() {
   const userTypeDisplay = formatUserType(user.type);
 
   return (
-    <div className="flex items-center space-x-2">
-      <div className={`px-3 py-1 rounded-full text-xs font-medium ${getBadgeColor()}`}>
-        {licenseDisplay}
+    <div className="flex flex-col space-y-1">
+      <div className="flex items-center space-x-2">
+        <div className={`px-3 py-1 rounded-full text-xs font-medium ${getBadgeColor()}`}>
+          {licenseDisplay}
+        </div>
+        <div className="text-sm text-gray-600">
+          {userTypeDisplay}
+        </div>
+        <div className="text-sm font-medium">
+          {user.username}
+        </div>
       </div>
-      <div className="text-sm text-gray-600">
-        {userTypeDisplay}
-      </div>
-      <div className="text-sm font-medium">
-        {user.username}
-      </div>
+      {user.professionistCode && (
+        <div className="text-xs text-amber-200 font-mono bg-black/20 px-2 py-1 rounded">
+          Codice: {user.professionistCode}
+        </div>
+      )}
     </div>
   );
 }
