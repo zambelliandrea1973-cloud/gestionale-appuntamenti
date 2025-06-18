@@ -6,6 +6,7 @@ import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Do
 import { DirectLinkAccess } from "@/components/DirectLinkAccess";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { TokenExpiryAlert } from "@/components/TokenExpiryAlert";
+import FooterContactIcons from "@/components/FooterContactIcons";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -820,6 +821,11 @@ export default function ClientArea() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      
+      {/* Contatti del professionista per il cliente */}
+      <div className="mt-8">
+        <FooterContactIcons />
+      </div>
       
       {/* Componente PWA per clienti via QR code */}
       <PwaInstallButton />
