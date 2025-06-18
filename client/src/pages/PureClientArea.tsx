@@ -84,46 +84,57 @@ function PWAInstallBanner() {
     }
   };
 
-  // Banner compatto sempre visibile
+  // Banner con testo sempre visibile e dettagli espandibili
   return (
     <div className="group">
       {isPwaMode ? (
-        // Banner compatto per app installata
-        <div className="bg-green-50 border border-green-200 rounded-lg p-2 cursor-pointer transition-all duration-300 group-hover:p-4">
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-            <span className="text-sm text-green-700 font-medium truncate group-hover:whitespace-normal">
-              App installata
-            </span>
-          </div>
-          {/* Espansione al hover */}
-          <div className="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-300">
-            <p className="text-xs text-green-600 mt-2">L'applicazione è attiva e funzionante</p>
+        // Banner per app installata
+        <div className="bg-green-50 border border-green-200 rounded-lg transition-all duration-300">
+          <div className="p-3 cursor-pointer">
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
+              <span className="text-sm text-green-700 font-medium">
+                App installata sul tuo dispositivo
+              </span>
+            </div>
+            {/* Dettagli espandibili al hover */}
+            <div className="max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-300 ease-in-out">
+              <div className="pt-2 border-t border-green-200 mt-2">
+                <p className="text-xs text-green-600">✓ L'applicazione è attiva e funzionante</p>
+                <p className="text-xs text-green-600">✓ Accesso rapido dalla schermata principale</p>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
-        // Banner compatto per installazione
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 cursor-pointer transition-all duration-300 group-hover:p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
-              <span className="text-sm text-blue-700 font-medium truncate group-hover:whitespace-normal">
-                {showInstallBanner ? "Installa App" : "Installazione disponibile"}
-              </span>
+        // Banner per installazione
+        <div className="bg-blue-50 border border-blue-200 rounded-lg transition-all duration-300">
+          <div className="p-3 cursor-pointer">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-sm text-blue-700 font-medium">
+                  Installa app sul tuo dispositivo
+                </span>
+              </div>
+              {showInstallBanner && (
+                <Button 
+                  onClick={handleInstallClick} 
+                  size="sm" 
+                  className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  Installa
+                </Button>
+              )}
             </div>
-            {showInstallBanner && (
-              <Button 
-                onClick={handleInstallClick} 
-                size="sm" 
-                className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-2"
-              >
-                Installa
-              </Button>
-            )}
-          </div>
-          {/* Espansione al hover */}
-          <div className="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-300">
-            <p className="text-xs text-blue-600 mt-2">Aggiungi alla schermata principale per accesso rapido</p>
+            {/* Istruzioni espandibili al hover */}
+            <div className="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-300 ease-in-out">
+              <div className="pt-2 border-t border-blue-200 mt-2">
+                <p className="text-xs text-blue-600">• Aggiungi alla schermata principale</p>
+                <p className="text-xs text-blue-600">• Accesso rapido senza browser</p>
+                <p className="text-xs text-blue-600">• Esperienza app nativa</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
