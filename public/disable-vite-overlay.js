@@ -180,8 +180,9 @@
     if (typeof message === 'string' && 
         (message.includes('plugin:runtime-error-plugin') ||
          message.includes('Unexpected token') ||
-         message.includes('vite-error-overlay'))) {
-      return; // Non mostrare questi errori
+         message.includes('vite-error-overlay') ||
+         message.includes('Function components cannot be given refs'))) {
+      return; // Non mostrare questi errori che causano overlay
     }
     return originalConsoleError.apply(this, args);
   };
