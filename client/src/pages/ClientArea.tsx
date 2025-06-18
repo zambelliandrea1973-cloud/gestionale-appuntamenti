@@ -51,6 +51,7 @@ export default function ClientArea() {
   const [accessTracked, setAccessTracked] = useState<boolean>(false); // Flag per evitare tracking duplicato
   const [pwaAccessMessage, setPwaAccessMessage] = useState<boolean>(false); // Flag per messaggio PWA
   const [recoveryLoading, setRecoveryLoading] = useState<boolean>(false); // Flag per caricamento recupero
+  const [professionalIcon, setProfessionalIcon] = useState<string>(""); // Icona del professionista
 
   // Funzione per registrare l'accesso del cliente - CONTEGGIO SEMPLICE SENZA LIMITI TEMPORALI
   const trackClientAccess = async (clientId: string) => {
@@ -181,6 +182,26 @@ export default function ClientArea() {
       fetchClientAppointments(user.client.id);
     }
   }, [user]);
+
+  // Carica l'icona del professionista quando ownerId è disponibile
+  useEffect(() => {
+    const loadProfessionalIcon = async () => {
+      if (!ownerId) return;
+      
+      try {
+        const response = await apiRequest('GET', `/api/client-app-info/${ownerId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProfessionalIcon(data.icon || "");
+          console.log(`🏠 CLIENT: Icona del professionista ${ownerId} caricata`);
+        }
+      } catch (error) {
+        console.error("Errore nel caricamento dell'icona del professionista:", error);
+      }
+    };
+
+    loadProfessionalIcon();
+  }, [ownerId]);
 
   const verifyQRToken = async (token: string, clientId: string) => {
     console.log(`🔐 Verifica token QR per cliente ${clientId}`);
@@ -841,11 +862,13 @@ export default function ClientArea() {
       </Dialog>
       
       {/* Contatti del professionista per il cliente */}
-      <div className="mt-8">
-        <FooterContactIcons ownerId={ownerId || undefined} />
-      </div>
+      {/* Icone di contatto del professionista */}
+      {ownerId && (
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <FooterContactIcons ownerId={ownerId} />
+        </div>
+      )}
       
-      {/* Componente PWA per clienti via QR code */}
       <PwaInstallButton />
     </div>
   );
