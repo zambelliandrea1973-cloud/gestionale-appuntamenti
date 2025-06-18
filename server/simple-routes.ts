@@ -679,7 +679,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Utente con licenza - SINCRONIZZAZIONE COMPLETA MOBILE/DESKTOP
-  app.get("/api/user-with-license", (req, res) => {
+  app.get("/api/user-with-license", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const deviceType = req.headers['x-device-type'] || 'unknown';
@@ -701,6 +701,17 @@ export function registerSimpleRoutes(app: Express): Server {
       }
     }
     
+    // Genera o recupera il codice professionista per staff e admin
+    let professionistCode = null;
+    if (user.type === 'staff' || user.type === 'admin') {
+      try {
+        professionistCode = await getProfessionistCode(user.id);
+        console.log(`🏷️ [${deviceType}] Codice professionista per utente ${user.id}: ${professionistCode}`);
+      } catch (error) {
+        console.error(`❌ [${deviceType}] Errore generazione codice professionista per utente ${user.id}:`, error);
+      }
+    }
+    
     const response = {
       id: user.id,
       username: user.username,
@@ -708,6 +719,7 @@ export function registerSimpleRoutes(app: Express): Server {
       type: user.type,
       firstName: firstName,
       lastName: lastName,
+      professionistCode: professionistCode,
       licenseInfo: {
         type: user.type === 'admin' ? 'passepartout' : 
               user.type === 'staff' ? 'staff_free_10years' : 
