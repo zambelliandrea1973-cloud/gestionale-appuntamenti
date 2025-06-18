@@ -1205,6 +1205,54 @@
         "color": "#2196F3",
         "price": 7500,
         "ownerId": 16
+      },
+      {
+        "id": 9,
+        "name": "Visita Cardiologica",
+        "duration": 45,
+        "color": "#E91E63",
+        "price": 8000,
+        "ownerId": 16
+      },
+      {
+        "id": 10,
+        "name": "Controllo Post-Operatorio",
+        "duration": 30,
+        "color": "#FF9800",
+        "price": 4500,
+        "ownerId": 16
+      },
+      {
+        "id": 11,
+        "name": "Ecografia",
+        "duration": 45,
+        "color": "#9C27B0",
+        "price": 6000,
+        "ownerId": 16
+      },
+      {
+        "id": 12,
+        "name": "Terapia Riabilitativa",
+        "duration": 60,
+        "color": "#607D8B",
+        "price": 5500,
+        "ownerId": 16
+      },
+      {
+        "id": 13,
+        "name": "Consulenza Nutrizionale",
+        "duration": 45,
+        "color": "#795548",
+        "price": 6500,
+        "ownerId": 16
+      },
+      {
+        "id": 14,
+        "name": "Fisioterapia",
+        "duration": 50,
+        "color": "#009688",
+        "price": 5000,
+        "ownerId": 16
       }
     ],
     "3": [
