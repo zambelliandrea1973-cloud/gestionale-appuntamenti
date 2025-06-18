@@ -3094,19 +3094,17 @@ Studio Professionale`,
       const now = new Date();
       const lastAccessTime = client.lastAccess ? new Date(client.lastAccess) : null;
       
-      // PROTEZIONE CONTRO TRACKING MULTIPLO: Ignora se l'ultimo accesso è stato meno di 30 secondi fa
-      if (lastAccessTime && (now.getTime() - lastAccessTime.getTime()) < 30000) {
-        console.log(`🚫 [PWA ACCESS SKIP] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Accesso duplicato ignorato (${Math.round((now.getTime() - lastAccessTime.getTime()) / 1000)}s fa)`);
-        return res.json({
-          success: true,
-          accessCount: client.accessCount || 0,
-          message: 'Accesso già registrato di recente'
-        });
-      }
-      
-      // SISTEMA SEMPLIFICATO: Incrementa il contatore di accessi solo se non è duplicato
+      // TRACKING MIGLIORATO: Incrementa sempre il contatore per PWA e QR
       client.accessCount = (client.accessCount || 0) + 1;
       client.lastAccess = now.toISOString();
+      
+      console.log(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientId}) - Accesso registrato: ${client.accessCount} (${req.body.accessType})`);
+      
+      // Aggiorna informazioni di accesso PWA
+      if (req.body.isPWA) {
+        client.lastPwaAccess = now.toISOString();
+        client.pwaAccessCount = (client.pwaAccessCount || 0) + 1;
+      }
       
       // Salva i dati aggiornati
       saveStorageData(storageData);

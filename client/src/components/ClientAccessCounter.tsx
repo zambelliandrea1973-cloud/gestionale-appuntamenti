@@ -23,7 +23,7 @@ export default function ClientAccessCounter({ clientId, showDetails = false }: C
   } = useQuery<{clientId: number, count: number}>({
     queryKey: [`/api/client-access/count/${clientId}`],
     enabled: !!clientId,
-    refetchInterval: 5000, // Aggiorna ogni 5 secondi
+    refetchInterval: 10000, // Aggiorna ogni 10 secondi per ridurre carico
     staleTime: 0, // Considera i dati sempre obsoleti (forza il refresh)
     refetchOnMount: true, // Aggiorna quando il componente viene montato
     refetchOnWindowFocus: true // Aggiorna quando la finestra riceve il focus
