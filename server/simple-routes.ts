@@ -1033,27 +1033,7 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  // Endpoint per manifest.json dinamico - UNICO HANDLER
-  app.get('/manifest.json', (req, res) => {
-    try {
-      console.log('🔍 MANIFEST ROUTES: Richiesta manifest ricevuta');
-      console.log('🔍 MANIFEST ROUTES: URL:', req.url);
-      console.log('🔍 MANIFEST ROUTES: Query:', req.query);
-      console.log('🔍 MANIFEST ROUTES: Referer:', req.get('referer'));
-      
-      const { serveDynamicManifest } = require('./dynamic-manifest');
-      serveDynamicManifest(req, res);
-    } catch (error) {
-      console.error('Errore caricamento manifest dinamico:', error);
-      // Fallback al manifest statico
-      const staticManifestPath = path.join(process.cwd(), 'public', 'manifest.json');
-      if (fs.existsSync(staticManifestPath)) {
-        res.sendFile(staticManifestPath);
-      } else {
-        res.status(500).json({ error: 'Manifest non disponibile' });
-      }
-    }
-  });
+  // RIMOSSO: Handler duplicato - gestito in routes.ts
 
   // Endpoint per recuperare icona dell'app tramite ownerId (per clienti)
   app.get("/api/client-app-info/:ownerId", async (req, res) => {

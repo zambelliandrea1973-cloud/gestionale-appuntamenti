@@ -106,37 +106,29 @@ export function serveDynamicManifest(req: Request, res: Response) {
         console.log(`📱 PWA MANIFEST: Start URL estratto da referer: ${startUrl}`);
       }
     }
-    // Terza priorità: se non abbiamo token specifico ma abbiamo ownerUserId, 
-    // cerca il cliente principale per questo proprietario (Bruna per utente 14)
+    // Terza priorità: per utente 14, usa direttamente il codice di Bruna
+    else if (ownerUserId === 14 && !startUrl.includes('/client/')) {
+      // Usa direttamente il codice univoco di Bruna Pizzolato
+      startUrl = `/client/PROF_014_9C1F_CLIENT_1750163505034_340F`;
+      console.log(`📱 PWA MANIFEST: Start URL fissato per Bruna Pizzolato: ${startUrl}`);
+    }
+    // Fallback generico per altri utenti
     else if (ownerUserId && !startUrl.includes('/client/')) {
       const storageData = loadStorageData();
       const clients = storageData.clients || [];
       
-      // Per utente 14 (Silvia), trova Bruna (1750163505034)
       let targetClient = null;
-      if (ownerUserId === 14) {
-        for (const [clientId, clientData] of clients) {
-          if (clientId === 1750163505034 && clientData.ownerId === ownerUserId) {
+      for (const [clientId, clientData] of clients) {
+        if (clientData.ownerId === ownerUserId) {
+          if (!targetClient || clientId > targetClient.id) {
             targetClient = { id: clientId, data: clientData };
-            break;
-          }
-        }
-      }
-      
-      // Fallback: cliente più recente
-      if (!targetClient) {
-        for (const [clientId, clientData] of clients) {
-          if (clientData.ownerId === ownerUserId) {
-            if (!targetClient || clientId > targetClient.id) {
-              targetClient = { id: clientId, data: clientData };
-            }
           }
         }
       }
       
       if (targetClient && targetClient.data.uniqueCode) {
         startUrl = `/client/${targetClient.data.uniqueCode}`;
-        console.log(`📱 PWA MANIFEST: Start URL costruito per cliente ${targetClient.data.firstName} ${targetClient.data.lastName} (${targetClient.id}): ${startUrl}`);
+        console.log(`📱 PWA MANIFEST: Start URL costruito per cliente ${targetClient.data.firstName} ${targetClient.data.lastName}: ${startUrl}`);
       }
     }
     
