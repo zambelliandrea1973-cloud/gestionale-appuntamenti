@@ -173,6 +173,19 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
+      {/* AREA CLIENTE senza protezione password - accesso diretto con QR */}
+      <Route path="/client/:token?">
+        <ClientPageWrapper>
+          <ClientArea />
+        </ClientPageWrapper>
+      </Route>
+      
+      <Route path="/client">
+        <ClientPageWrapper>
+          <ClientArea />
+        </ClientPageWrapper>
+      </Route>
+      
       {/* Pagina consenso privacy con layout cliente */}
       <Route path="/consent">
         <ClientPageWrapper>
