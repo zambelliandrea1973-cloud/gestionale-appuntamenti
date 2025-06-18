@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "wouter";
+import { useLocation, useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Check, Clock, FileText, User, Link, ExternalLink, Copy, X, Download, Smartphone, Save, Loader2, ArrowLeft, ChevronLeft } from "lucide-react";
@@ -38,6 +38,7 @@ interface UserData {
 
 export default function ClientArea() {
   const [, setLocation] = useLocation();
+  const params = useParams();
   const { toast } = useToast();
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);

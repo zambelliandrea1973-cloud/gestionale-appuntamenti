@@ -180,10 +180,12 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* AREA CLIENTE senza protezione password - accesso diretto con QR */}
-      <Route path="/client/:token?">
+      {/* AREA CLIENTE - accesso diretto con codice univoco senza password */}
+      <Route path="/client/:clientCode">
         <ClientPageWrapper>
-          <ClientArea />
+          <PwaSessionManager>
+            <ClientArea />
+          </PwaSessionManager>
         </ClientPageWrapper>
       </Route>
       
