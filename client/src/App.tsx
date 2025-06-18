@@ -89,12 +89,12 @@ function AppRoutes() {
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', 
       '/staff-login', '/customer-login', '/register', '/client-area', 
-      '/consent', '/', '/client'
+      '/consent', '/'
     ];
     
     // Percorsi dedicati ai clienti finali (pazienti) - NON devono essere gestiti dal sistema staff
     const clientOnlyPaths = [
-      '/client-area', '/auto-login', '/pwa', '/consent', '/client'
+      '/client-area', '/auto-login', '/pwa', '/consent', '/activate'
     ];
     
     // Aspetta che il caricamento delle informazioni utente sia completo
@@ -102,13 +102,13 @@ function AppRoutes() {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
       
       // Se siamo su un percorso dedicato ai clienti, NON applicare la logica di autenticazione staff
-      if (clientOnlyPaths.includes(location) || location.startsWith('/client')) {
+      if (clientOnlyPaths.includes(location)) {
         console.log('Percorso cliente rilevato, salto controlli autenticazione staff');
         return;
       }
       
       // SOLO se l'utente NON è autenticato e sta cercando di accedere a una pagina protetta
-      if (!user && !publicPaths.includes(location) && !location.startsWith('/client')) {
+      if (!user && !publicPaths.includes(location)) {
         console.log('Utente non autenticato su pagina protetta, reindirizzamento a /');
         setLocation('/');
       }
@@ -131,6 +131,13 @@ function AppRoutes() {
       <Route path="/pwa">
         <ClientPageWrapper>
           <PwaLauncher />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina di attivazione QR - Route principale per link QR */}
+      <Route path="/activate">
+        <ClientPageWrapper>
+          <AutoLogin />
         </ClientPageWrapper>
       </Route>
       
