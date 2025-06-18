@@ -110,11 +110,8 @@ function PWAInstallBanner() {
           </div>
           
           {/* Istruzioni dettagliate sempre espandibili al hover se non è PWA */}
-          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            isPwaMode 
-              ? 'max-h-0' // Nascosto quando PWA è installata
-              : 'max-h-0 group-hover:max-h-[600px]' // Si espande al hover quando non installata
-          }`}>
+          {!isPwaMode && (
+            <div className="max-h-0 group-hover:max-h-[600px] overflow-hidden transition-all duration-500 ease-in-out">
             <div className="pt-3 border-t border-blue-200 mt-3">
               <div className="space-y-3">
                 <div>
@@ -152,6 +149,7 @@ function PWAInstallBanner() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </div>
     </div>
