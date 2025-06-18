@@ -69,6 +69,14 @@ interface ClientData {
   ownerId: number;
 }
 
+interface ContactInfo {
+  email: string;
+  phone: string;
+  phone1?: string;
+  website?: string;
+  instagram?: string;
+}
+
 interface Appointment {
   id: number;
   date: string;
@@ -82,6 +90,7 @@ export default function PureClientArea() {
   const params = useParams();
   const [client, setClient] = useState<ClientData | null>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
@@ -361,6 +370,51 @@ export default function PureClientArea() {
             )}
           </CardContent>
         </Card>
+
+        {/* Footer con informazioni di contatto del professionista */}
+        {contactInfo && (
+          <Card className="mt-8 bg-white/80 backdrop-blur-sm border-gray-200">
+            <CardContent className="pt-6">
+              <div className="text-center space-y-3">
+                <h3 className="font-semibold text-gray-800">Informazioni di contatto</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                  {contactInfo.email && (
+                    <div className="flex items-center justify-center gap-2">
+                      <span>📧</span>
+                      <a href={`mailto:${contactInfo.email}`} className="hover:text-blue-600">
+                        {contactInfo.email}
+                      </a>
+                    </div>
+                  )}
+                  {contactInfo.phone1 && (
+                    <div className="flex items-center justify-center gap-2">
+                      <span>📱</span>
+                      <a href={`tel:${contactInfo.phone1}`} className="hover:text-blue-600">
+                        {contactInfo.phone1}
+                      </a>
+                    </div>
+                  )}
+                  {contactInfo.website && (
+                    <div className="flex items-center justify-center gap-2">
+                      <span>🌐</span>
+                      <a href={`https://${contactInfo.website}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
+                        {contactInfo.website}
+                      </a>
+                    </div>
+                  )}
+                  {contactInfo.instagram && (
+                    <div className="flex items-center justify-center gap-2">
+                      <span>📷</span>
+                      <a href={`https://instagram.com/${contactInfo.instagram}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
+                        @{contactInfo.instagram}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
