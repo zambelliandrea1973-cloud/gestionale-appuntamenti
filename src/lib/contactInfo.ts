@@ -16,31 +16,35 @@ const CONTACT_INFO_KEY = 'healthcare_app_contact_info';
 /**
  * Carica le informazioni di contatto dall'API
  */
-export async function loadContactInfoFromAPI(): Promise<ContactInfo> {
+export async function loadContactInfoFromAPI(ownerId?: number): Promise<ContactInfo> {
   try {
-    const response = await apiRequest('GET', '/api/contact-info');
+    // Se è specificato un ownerId, usa l'endpoint pubblico per clienti
+    const endpoint = ownerId ? `/api/contact-info/${ownerId}` : '/api/contact-info';
+    const response = await apiRequest('GET', endpoint);
     const data = await response.json();
     
     // Se abbiamo ricevuto dati validi, li salviamo anche in localStorage
     if (data && typeof data === 'object') {
-      localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(data));
+      const storageKey = ownerId ? `${CONTACT_INFO_KEY}_user_${ownerId}` : CONTACT_INFO_KEY;
+      localStorage.setItem(storageKey, JSON.stringify(data));
       return data;
     }
     
     // Se non abbiamo ricevuto dati validi, usiamo quelli in localStorage
-    return loadContactInfo();
+    return loadContactInfo(ownerId);
   } catch (error) {
     console.error('Errore durante il recupero delle informazioni di contatto dall\'API:', error);
     // Fallback al localStorage in caso di errore
-    return loadContactInfo();
+    return loadContactInfo(ownerId);
   }
 }
 
 /**
  * Carica le informazioni di contatto salvate da localStorage
  */
-export function loadContactInfo(): ContactInfo {
-  const savedInfo = localStorage.getItem(CONTACT_INFO_KEY);
+export function loadContactInfo(ownerId?: number): ContactInfo {
+  const storageKey = ownerId ? `${CONTACT_INFO_KEY}_user_${ownerId}` : CONTACT_INFO_KEY;
+  const savedInfo = localStorage.getItem(storageKey);
   if (!savedInfo) {
     return {};
   }
