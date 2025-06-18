@@ -3656,16 +3656,16 @@ Studio Professionale`,
       console.log('🏠 [CLIENT ACCESS] Accesso diretto per codice:', clientCode);
       
       // Cerca il cliente nel database usando il codice univoco
-      const allUsers = Object.values(usersData);
+      const allUsers = Object.values(userData);
       let foundClient = null;
       let ownerId = null;
       
-      for (const userData of allUsers) {
-        if (userData.clients) {
-          const client = userData.clients.find((c: any) => c.uniqueCode === clientCode);
+      for (const userRecord of allUsers) {
+        if (userRecord.clients) {
+          const client = userRecord.clients.find((c: any) => c.uniqueCode === clientCode);
           if (client) {
             foundClient = client;
-            ownerId = userData.id;
+            ownerId = userRecord.id;
             break;
           }
         }
@@ -3705,14 +3705,14 @@ Studio Professionale`,
       
       console.log('📅 [CLIENT APPOINTMENTS] Caricamento per cliente:', clientId, 'Owner:', ownerId);
       
-      if (!ownerId || !usersData[ownerId]) {
+      if (!ownerId || !userData[ownerId]) {
         return res.status(404).json({ error: 'Professionista non trovato' });
       }
       
-      const userData = usersData[ownerId];
+      const ownerData = userData[ownerId];
       
       // Trova SOLO gli appuntamenti di questo cliente specifico
-      const clientAppointments = userData.appointments?.filter((apt: any) => 
+      const clientAppointments = ownerData.appointments?.filter((apt: any) => 
         apt.clientId === parseInt(clientId)
       ) || [];
       

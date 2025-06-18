@@ -45,9 +45,7 @@ export default function PureClientArea() {
         console.log('🏠 [PURE CLIENT] Inizializzazione area cliente:', clientCode);
         
         // Carica dati cliente
-        const clientResponse = await apiRequest(`/api/client-by-code/${clientCode}`, {
-          method: 'GET'
-        });
+        const clientResponse = await apiRequest(`/api/client-by-code/${clientCode}`);
 
         if (!clientResponse.ok) {
           setError("Accesso non autorizzato");
@@ -77,9 +75,7 @@ export default function PureClientArea() {
     try {
       console.log('📅 [PURE CLIENT] Caricamento appuntamenti per cliente:', clientId);
       
-      const response = await apiRequest(`/api/client-appointments/${clientId}?ownerId=${ownerId}`, {
-        method: 'GET'
-      });
+      const response = await apiRequest(`/api/client-appointments/${clientId}?ownerId=${ownerId}`);
 
       if (response.ok) {
         const appointmentsData = await response.json();
