@@ -97,6 +97,14 @@ export default function PureClientArea() {
 
         console.log('🏠 [PURE CLIENT] Inizializzazione area cliente:', clientCode);
         
+        // Aggiorna il manifest PWA per preservare il percorso del cliente
+        const manifestLink = document.querySelector('link[rel="manifest"]');
+        if (manifestLink) {
+          const newHref = `/manifest.json?clientToken=${clientCode}`;
+          manifestLink.setAttribute('href', newHref);
+          console.log(`📱 PWA: Manifest aggiornato per cliente: ${newHref}`);
+        }
+        
         // Carica dati cliente con autenticazione basata su codice
         console.log('🏠 [PURE CLIENT] Richiesta API per codice:', clientCode);
         const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {
