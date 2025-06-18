@@ -1032,6 +1032,23 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
+  // Endpoint per manifest.json dinamico
+  app.get('/manifest.json', (req, res) => {
+    try {
+      const { serveDynamicManifest } = require('./dynamic-manifest');
+      serveDynamicManifest(req, res);
+    } catch (error) {
+      console.error('Errore caricamento manifest dinamico:', error);
+      // Fallback al manifest statico
+      const staticManifestPath = path.join(process.cwd(), 'public', 'manifest.json');
+      if (fs.existsSync(staticManifestPath)) {
+        res.sendFile(staticManifestPath);
+      } else {
+        res.status(500).json({ error: 'Manifest non disponibile' });
+      }
+    }
+  });
+
   // Endpoint per recuperare icona dell'app tramite ownerId (per clienti)
   app.get("/api/client-app-info/:ownerId", async (req, res) => {
     try {
@@ -3140,7 +3157,7 @@ Studio Professionale`,
       // Controlla se c'è un token QR negli headers o referer per identificare il proprietario
       let ownerUserId = null;
       
-      // Controlla il referer per token QR
+      // 1. Controlla il referer per token QR
       const referer = req.get('referer') || '';
       const tokenMatch = referer.match(/token=([^&]+)/);
       
@@ -3149,8 +3166,25 @@ Studio Professionale`,
         const tokenParts = token.split('_');
         if (tokenParts.length >= 5 && tokenParts[0] === 'PROF') {
           ownerUserId = parseInt(tokenParts[1]); // Seconda parte = userId proprietario
-          console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da token QR`);
+          console.log(`📱 PWA ICON: Trovato ownerId ${ownerUserId} da token QR nel referer`);
         }
+      }
+      
+      // 2. Controlla il localStorage per ownerId salvato
+      if (!ownerUserId) {
+        // Cerca nelle sessioni attive o nel database per determinare l'owner
+        const sessions = req.sessionStore;
+        // Per ora, usa un fallback intelligente: se c'è solo un utente con icone, usa quello
+        const usersWithIcons = Object.keys(storageData.userIcons || {});
+        if (usersWithIcons.length === 1) {
+          ownerUserId = parseInt(usersWithIcons[0]);
+          console.log(`📱 PWA ICON: Usando fallback owner ${ownerUserId}`);
+        }
+      }
+      
+      // Non serve duplicare la logica del token qui
+      if (ownerUserId) {
+        console.log(`🔍 PWA ICON: Identificato proprietario ${ownerUserId} da token QR o fallback`);
       }
       
       // Se non trovato da token QR, controlla header custom per ownerId dalla PWA
