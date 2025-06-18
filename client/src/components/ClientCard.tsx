@@ -274,7 +274,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
       )}
       <CardContent className="pt-6">
         <div className="flex justify-between items-start">
-          <div>
+          <div className="flex-1 min-w-0">
             <h3 className="text-lg font-medium flex items-center">
               {client.firstName} {client.lastName}
               {client.isFrequent && (
@@ -314,12 +314,12 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
             )}
           </div>
           
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             {!isOtherAccount ? (
               <>
                 <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
                   <DialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                       <Pencil className="h-4 w-4" />
                     </Button>
                   </DialogTrigger>
