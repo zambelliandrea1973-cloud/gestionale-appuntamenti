@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail, Download } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download, Check } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -10,14 +10,33 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 function PWAInstallBanner() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [isPwaMode, setIsPwaMode] = useState(false);
 
   useEffect(() => {
+    // Rileva se è in modalità PWA
+    const checkPwaMode = () => {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      const isInAppBrowser = (window.navigator as any).standalone === true;
+      const isPwaMode = isStandalone || isInAppBrowser;
+      
+      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, PWA Mode: ${isPwaMode}`);
+      setIsPwaMode(isPwaMode);
+      
+      return isPwaMode;
+    };
+
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShowInstallBanner(true);
+      // Mostra banner solo se NON è già in modalità PWA
+      if (!checkPwaMode()) {
+        setShowInstallBanner(true);
+      }
     };
 
+    // Check iniziale
+    checkPwaMode();
+    
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     
     return () => {
@@ -32,10 +51,34 @@ function PWAInstallBanner() {
       
       if (outcome === 'accepted') {
         setShowInstallBanner(false);
+        // Ricontrolla dopo l'installazione
+        setTimeout(() => {
+          const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+          setIsPwaMode(isStandalone);
+        }, 1000);
       }
       setDeferredPrompt(null);
     }
   };
+
+  // Se è già in modalità PWA, mostra messaggio di conferma
+  if (isPwaMode) {
+    return (
+      <Card className="bg-green-50 border-green-200">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-green-100 rounded-full">
+              <Check className="h-5 w-5 text-green-600" />
+            </div>
+            <div>
+              <p className="font-medium text-green-900">App installata correttamente</p>
+              <p className="text-sm text-green-700">L'applicazione è attiva e funzionante</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   if (!showInstallBanner) return null;
 
@@ -127,11 +170,15 @@ export default function PureClientArea() {
           const clientId = parts.length >= 5 ? parts[4] : null;
           
           if (clientId) {
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isInAppBrowser = (window.navigator as any).standalone === true;
+            const isPWA = isStandalone || isInAppBrowser;
+            
             const accessInfo = {
-              isPWA: window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true,
+              isPWA: isPWA,
               userAgent: navigator.userAgent,
               timestamp: Date.now(),
-              accessType: window.matchMedia('(display-mode: standalone)').matches ? 'pwa' : 'browser'
+              accessType: isPWA ? 'pwa' : 'browser'
             };
             
             console.log(`📱 [PWA ACCESS] Tracking accesso cliente ${clientId}:`, accessInfo);
