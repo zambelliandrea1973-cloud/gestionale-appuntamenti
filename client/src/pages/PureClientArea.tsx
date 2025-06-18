@@ -110,6 +110,28 @@ export default function PureClientArea() {
           document.head.appendChild(link);
         }
         
+        // Registra l'accesso del cliente (importante per conteggio)
+        try {
+          const accessResponse = await fetch(`/api/client-access/${clientCode}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-device-type': 'mobile' // PWA è sempre mobile
+            },
+            body: JSON.stringify({
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+              source: 'pwa'
+            })
+          });
+          
+          if (accessResponse.ok) {
+            console.log('✅ Accesso PWA registrato per cliente:', clientCode);
+          }
+        } catch (error) {
+          console.warn('Errore registrazione accesso PWA:', error);
+        }
+        
         // Carica dati cliente con autenticazione basata su codice
         console.log('🏠 [PURE CLIENT] Richiesta API per codice:', clientCode);
         const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {

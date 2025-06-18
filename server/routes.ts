@@ -45,6 +45,15 @@ export function registerRoutes(app: Express): Server {
       console.log(`📱 MANIFEST: Start URL default per Bruna: ${startUrl}`);
     }
     
+    // Determina il proprietario dal percorso per icona dinamica
+    let ownerUserId = 14; // Default Silvia
+    if (startUrl.includes('CLIENT_')) {
+      const ownerMatch = startUrl.match(/PROF_(\d+)_/);
+      if (ownerMatch) {
+        ownerUserId = parseInt(ownerMatch[1]);
+      }
+    }
+    
     const manifest = {
       "name": "Silvia Busnari - Area Cliente",
       "short_name": "Area Cliente",
@@ -58,13 +67,13 @@ export function registerRoutes(app: Express): Server {
       "id": "gestione-appuntamenti-client-v4",
       "icons": [
         {
-          "src": "/icons/owner-14-icon-192x192.png",
+          "src": `/icons/owner-${ownerUserId}-icon-192x192.png`,
           "sizes": "192x192",
           "type": "image/png",
           "purpose": "any maskable"
         },
         {
-          "src": "/icons/owner-14-icon-512x512.png",
+          "src": `/icons/owner-${ownerUserId}-icon-512x512.png`,
           "sizes": "512x512",
           "type": "image/png", 
           "purpose": "any maskable"
