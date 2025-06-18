@@ -84,60 +84,66 @@ function PWAInstallBanner() {
     }
   };
 
-  // Banner con testo sempre visibile e dettagli espandibili
+  // Banner con effetto tendina - sempre presente ma contenuto nascosto se PWA installata
   return (
     <div className="group">
-      {isPwaMode ? (
-        // Banner per app installata
-        <div className="bg-green-50 border border-green-200 rounded-lg transition-all duration-300">
-          <div className="p-3 cursor-pointer">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg transition-all duration-300 overflow-hidden">
+        <div className="p-3 cursor-pointer">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
-              <span className="text-sm text-green-700 font-medium">
-                App installata sul tuo dispositivo
+              <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
+              <span className="text-sm text-blue-700 font-medium">
+                Installa app sul tuo dispositivo
               </span>
             </div>
-            {/* Dettagli espandibili al hover */}
-            <div className="max-h-0 overflow-hidden group-hover:max-h-16 transition-all duration-300 ease-in-out">
-              <div className="pt-2 border-t border-green-200 mt-2">
-                <p className="text-xs text-green-600">✓ L'applicazione è attiva e funzionante</p>
-                <p className="text-xs text-green-600">✓ Accesso rapido dalla schermata principale</p>
+            {showInstallBanner && !isPwaMode && (
+              <Button 
+                onClick={handleInstallClick} 
+                size="sm" 
+                className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              >
+                Installa
+              </Button>
+            )}
+          </div>
+          
+          {/* Istruzioni dettagliate con effetto tendina */}
+          <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
+            isPwaMode 
+              ? 'max-h-0' // Nascosto quando PWA è installata
+              : 'max-h-0 group-hover:max-h-[500px]' // Si espande al hover quando non installata
+          }`}>
+            <div className="pt-3 border-t border-blue-200 mt-3">
+              <div className="space-y-2">
+                <div>
+                  <p className="text-xs font-medium text-blue-700">📱 Su Android:</p>
+                  <p className="text-xs text-blue-600 ml-4">1. Tocca il menù ⋮ in alto a destra</p>
+                  <p className="text-xs text-blue-600 ml-4">2. Seleziona "Aggiungi alla schermata Home"</p>
+                  <p className="text-xs text-blue-600 ml-4">3. Conferma "Installa" o "Aggiungi"</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-blue-700">🍎 Su iOS:</p>
+                  <p className="text-xs text-blue-600 ml-4">1. Tocca il pulsante Condividi 🔗</p>
+                  <p className="text-xs text-blue-600 ml-4">2. Scorri e tocca "Aggiungi alla schermata Home"</p>
+                  <p className="text-xs text-blue-600 ml-4">3. Tocca "Aggiungi" in alto a destra</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-blue-700">💻 Su Desktop:</p>
+                  <p className="text-xs text-blue-600 ml-4">1. Cerca l'icona + nella barra degli indirizzi</p>
+                  <p className="text-xs text-blue-600 ml-4">2. Clicca "Installa" quando appare</p>
+                </div>
+                <div className="bg-blue-100 p-2 rounded">
+                  <p className="text-xs font-medium text-blue-700">✨ Vantaggi dell'installazione:</p>
+                  <p className="text-xs text-blue-600">• Accesso rapido dalla schermata principale</p>
+                  <p className="text-xs text-blue-600">• Funziona anche senza connessione</p>
+                  <p className="text-xs text-blue-600">• Esperienza app nativa</p>
+                  <p className="text-xs text-blue-600">• Notifiche per i tuoi appuntamenti</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      ) : (
-        // Banner per installazione
-        <div className="bg-blue-50 border border-blue-200 rounded-lg transition-all duration-300">
-          <div className="p-3 cursor-pointer">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-sm text-blue-700 font-medium">
-                  Installa app sul tuo dispositivo
-                </span>
-              </div>
-              {showInstallBanner && (
-                <Button 
-                  onClick={handleInstallClick} 
-                  size="sm" 
-                  className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                >
-                  Installa
-                </Button>
-              )}
-            </div>
-            {/* Istruzioni espandibili al hover */}
-            <div className="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-300 ease-in-out">
-              <div className="pt-2 border-t border-blue-200 mt-2">
-                <p className="text-xs text-blue-600">• Aggiungi alla schermata principale</p>
-                <p className="text-xs text-blue-600">• Accesso rapido senza browser</p>
-                <p className="text-xs text-blue-600">• Esperienza app nativa</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
