@@ -1,0 +1,64 @@
+{
+  "trial": {
+    "name": "Prova",
+    "price": 0,
+    "duration": 40,
+    "features": [
+      "Gestione appuntamenti",
+      "Gestione clienti",
+      "Notifiche ai clienti"
+    ],
+    "description": "Per 40 giorni"
+  },
+  "base": {
+    "name": "Base",
+    "price": 3.99,
+    "duration": "monthly",
+    "features": [
+      "Gestione appuntamenti",
+      "Gestione clienti",
+      "Notifiche ai clienti"
+    ],
+    "description": "Per professionisti individuali"
+  },
+  "pro": {
+    "name": "PRO",
+    "price": 6.99,
+    "duration": "monthly",
+    "features": [
+      "Gestione appuntamenti",
+      "Gestione clienti",
+      "Notifiche ai clienti",
+      "Integrazione Google Calendar",
+      "Gestione fatture",
+      "Report dettagliati"
+    ],
+    "description": "Tutte le funzionalità premium"
+  },
+  "business": {
+    "name": "Business",
+    "price": 9.99,
+    "duration": "monthly",
+    "features": [
+      "Gestione appuntamenti",
+      "Gestione clienti",
+      "Notifiche ai clienti",
+      "Integrazione Google Calendar",
+      "Gestione fatture",
+      "Report dettagliati",
+      "Supporto per più operatori"
+    ],
+    "description": "Per studi con più operatori"
+  },
+  "staff": {
+    "name": "Staff",
+    "price": 0,
+    "duration": "lifetime",
+    "features": [
+      "Piano completo gratuito",
+      "Possibilità referral",
+      "Tutte le funzionalità"
+    ],
+    "description": "Piano completo gratuito a vita"
+  }
+}
