@@ -84,44 +84,50 @@ function PWAInstallBanner() {
     }
   };
 
-  // Se è già in modalità PWA, mostra messaggio di conferma
-  if (isPwaMode) {
-    return (
-      <Card className="bg-green-50 border-green-200">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 rounded-full">
-              <Check className="h-5 w-5 text-green-600" />
-            </div>
-            <div>
-              <p className="font-medium text-green-900">App installata correttamente</p>
-              <p className="text-sm text-green-700">L'applicazione è attiva e funzionante</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (!showInstallBanner) return null;
-
+  // Banner compatto sempre visibile
   return (
-    <Card className="bg-blue-50 border-blue-200">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Download className="h-5 w-5 text-blue-600" />
-            <div>
-              <p className="font-medium text-blue-900">Installa App</p>
-              <p className="text-sm text-blue-700">Aggiungi questa app alla schermata principale per un accesso rapido</p>
-            </div>
+    <div className="group">
+      {isPwaMode ? (
+        // Banner compatto per app installata
+        <div className="bg-green-50 border border-green-200 rounded-lg p-2 cursor-pointer transition-all duration-300 group-hover:p-4">
+          <div className="flex items-center gap-2">
+            <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
+            <span className="text-sm text-green-700 font-medium truncate group-hover:whitespace-normal">
+              App installata
+            </span>
           </div>
-          <Button onClick={handleInstallClick} size="sm" className="bg-blue-600 hover:bg-blue-700">
-            Installa
-          </Button>
+          {/* Espansione al hover */}
+          <div className="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-300">
+            <p className="text-xs text-green-600 mt-2">L'applicazione è attiva e funzionante</p>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      ) : (
+        // Banner compatto per installazione
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 cursor-pointer transition-all duration-300 group-hover:p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
+              <span className="text-sm text-blue-700 font-medium truncate group-hover:whitespace-normal">
+                {showInstallBanner ? "Installa App" : "Installazione disponibile"}
+              </span>
+            </div>
+            {showInstallBanner && (
+              <Button 
+                onClick={handleInstallClick} 
+                size="sm" 
+                className="bg-blue-600 hover:bg-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-2"
+              >
+                Installa
+              </Button>
+            )}
+          </div>
+          {/* Espansione al hover */}
+          <div className="max-h-0 overflow-hidden group-hover:max-h-20 transition-all duration-300">
+            <p className="text-xs text-blue-600 mt-2">Aggiungi alla schermata principale per accesso rapido</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
