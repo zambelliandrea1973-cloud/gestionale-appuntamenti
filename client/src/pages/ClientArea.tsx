@@ -108,56 +108,91 @@ export default function ClientArea() {
     const clientIdFromQuery = urlParams.get('clientId');
     const autoLoginFromQuery = urlParams.get('autoLogin');
     
-    // ACCESSO DIRETTO VIA QR CODE - Priorità massima
-    if (tokenFromQuery && clientIdFromQuery && autoLoginFromQuery === 'true') {
-      console.log("🔐 QR Code Token rilevato - Accesso cliente diretto (priorità)");
-      console.log(`Token: ${tokenFromQuery}`);
-      console.log(`Client ID: ${clientIdFromQuery}`);
+    // PRIORITÀ AI LINK DIRETTI QR - Secondo controllo per path di accesso diretto
+    const currentPath = window.location.pathname;
+    const pathSegments = currentPath.split('/');
+    const clientIndex = pathSegments.findIndex(segment => segment === 'client');
+    const tokenFromPath = clientIndex !== -1 && clientIndex + 1 < pathSegments.length ? pathSegments[clientIndex + 1] : null;
+    
+    console.log("🔍 [CLIENT AREA] URL Params - token:", tokenFromQuery, "clientId:", clientIdFromQuery);
+    console.log("🔍 [CLIENT AREA] Path token:", tokenFromPath);
+    
+    if (tokenFromQuery && clientIdFromQuery) {
+      // CASO 1: Link QR completo con parametri
+      console.log("🎯 [CLIENT AREA] Usando token da parametri URL");
       
-      // Salva nel localStorage per supporto PWA
-      localStorage.setItem('clientAccessToken', tokenFromQuery);
-      localStorage.setItem('clientId', clientIdFromQuery);
+      // Salva immediatamente per PWA future
+      localStorage.setItem('client_qr_token', tokenFromQuery);
+      localStorage.setItem('client_id', clientIdFromQuery);
+      console.log("💾 [PWA PREP] Token salvato per future installazioni PWA");
       
-      // Imposta il token e verifica immediatamente
       setToken(tokenFromQuery);
       verifyQRToken(tokenFromQuery, clientIdFromQuery);
-      return;
+    } else if (tokenFromPath && tokenFromPath !== 'client' && tokenFromPath.includes('PROF_')) {
+      // CASO 2: Link diretto /client/TOKEN
+      console.log("🎯 [CLIENT AREA] Usando token da path");
+      
+      // Estrai clientId dal token gerarchico
+      const clientMatch = tokenFromPath.match(/CLIENT_(\d+)_/);
+      if (clientMatch) {
+        const extractedClientId = clientMatch[1];
+        console.log("🎯 [CLIENT AREA] Cliente estratto dal token:", extractedClientId);
+        
+        // Salva immediatamente per PWA future
+        localStorage.setItem('client_qr_token', tokenFromPath);
+        localStorage.setItem('client_id', extractedClientId);
+        console.log("💾 [PWA PREP] Token e cliente salvati per future installazioni PWA");
+        
+        setToken(tokenFromPath);
+        verifyQRToken(tokenFromPath, extractedClientId);
+      } else {
+        console.log("❌ [CLIENT AREA] Impossibile estrarre clientId dal token");
+        setLoading(false);
+        setPwaAccessMessage(true);
+      }
+    } else {
+      // CASO 3: Accesso PWA o recupero sessione - prova localStorage
+      console.log("🔍 [CLIENT AREA] Controllo localStorage per PWA installata");
+      
+      const savedToken = localStorage.getItem('client_qr_token');
+      const savedClientId = localStorage.getItem('client_id');
+      
+      if (savedToken && savedClientId) {
+        console.log("📱 [PWA RECOVERY] Token recuperato dal localStorage:", savedToken);
+        console.log("📱 [PWA RECOVERY] Cliente ID recuperato:", savedClientId);
+        
+        // Aggiorna URL per mantenere coerenza
+        window.history.replaceState({}, '', `/client/${savedToken}`);
+        
+        setToken(savedToken);
+        verifyQRToken(savedToken, savedClientId);
+      } else {
+        // Fallback ai vecchi nomi localStorage per compatibilità
+        const legacyToken = localStorage.getItem('clientAccessToken');
+        const legacyClientId = localStorage.getItem('clientId');
+        const savedOwnerId = localStorage.getItem('ownerId');
+        
+        if (legacyToken && legacyClientId) {
+          console.log("📱 [PWA LEGACY] Usando token legacy salvato");
+          
+          // Migra ai nuovi nomi
+          localStorage.setItem('client_qr_token', legacyToken);
+          localStorage.setItem('client_id', legacyClientId);
+          
+          setToken(legacyToken);
+          verifyQRToken(legacyToken, legacyClientId);
+        } else if (savedOwnerId) {
+          // Tenta recupero ultimo accesso
+          console.log("🔄 [PWA] Tentativo recupero ultimo accesso per ownerId:", savedOwnerId);
+          tryRecoverLastAccess(savedOwnerId);
+        } else {
+          // Nessun dato salvato - mostra messaggio per accesso QR
+          console.log("❌ [CLIENT AREA] Nessun token trovato - richiesto accesso QR");
+          setLoading(false);
+          setPwaAccessMessage(true);
+        }
+      }
     }
-    
-    // Se non c'è token QR negli URL, verifica localStorage per PWA
-    const storedToken = localStorage.getItem('clientAccessToken');
-    const storedClientId = localStorage.getItem('clientId');
-    
-    if (storedToken && storedClientId) {
-      console.log("📱 PWA Token salvato rilevato - Tentativo accesso cliente");
-      setToken(storedToken);
-      verifyQRToken(storedToken, storedClientId);
-      return;
-    }
-    
-    // Verifica se c'è un owner ID salvato per recuperare l'ultimo accesso
-    const storedOwnerId = localStorage.getItem('ownerId');
-    if (storedOwnerId) {
-      console.log(`📱 PWA: Tentativo recupero ultimo accesso per proprietario ${storedOwnerId}`);
-      setOwnerId(parseInt(storedOwnerId, 10));
-      tryRecoverLastAccess(storedOwnerId);
-      return;
-    }
-    
-    // Controllo PWA standalone - se siamo in PWA, NON fare controlli staff
-    const isPWA = 
-      window.matchMedia('(display-mode: standalone)').matches || 
-      (window.navigator as any).standalone || 
-      document.referrer.includes('android-app://');
-    
-    if (isPWA) {
-      console.log("📱 PWA rilevata - Skip controlli staff, mostra messaggio informativo");
-      setLoading(false);
-      setPwaAccessMessage(true);
-      return;
-    }
-    
-    // Solo ora verifica se l'utente è già autenticato come admin/staff
     const checkAdminAccess = async () => {
       try {
         const response = await apiRequest('GET', '/api/current-user');
