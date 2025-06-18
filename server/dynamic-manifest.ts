@@ -78,7 +78,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
     
     // Crea manifest dinamico con start_url che preserva il contesto
     const storageData = loadStorageData();
-    const ownerName = storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
+    const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
     
     const baseManifest = {
       "name": `${ownerName} - Area Cliente`,
