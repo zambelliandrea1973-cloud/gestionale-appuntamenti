@@ -119,7 +119,10 @@ export default function ClientArea() {
       setToken(tokenFromQuery);
       verifyQRToken(tokenFromQuery, clientIdFromQuery);
     } else {
-      // Accesso PWA - recupera da localStorage
+      // Accesso PWA - recupera da localStorage o usa ownerId dall'URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const ownerIdFromUrl = urlParams.get('ownerId');
+      
       const savedToken = localStorage.getItem('clientAccessToken');
       const savedClientId = localStorage.getItem('clientId');
       
@@ -127,6 +130,10 @@ export default function ClientArea() {
         console.log("📱 [PWA] Token recuperato:", savedClientId);
         setToken(savedToken);
         verifyQRToken(savedToken, savedClientId);
+      } else if (ownerIdFromUrl) {
+        console.log("🔄 [PWA] Tentativo recupero ultimo accesso per ownerId:", ownerIdFromUrl);
+        localStorage.setItem('ownerId', ownerIdFromUrl);
+        tryRecoverLastAccess(ownerIdFromUrl);
       } else {
         setLoading(false);
         setPwaAccessMessage(true);
