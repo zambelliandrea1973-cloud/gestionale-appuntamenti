@@ -58,19 +58,36 @@ export function loadContactInfo(): ContactInfo {
  */
 export async function saveContactInfoToAPI(contactInfo: ContactInfo): Promise<boolean> {
   try {
+    console.log('📞 Salvataggio informazioni contatto:', contactInfo);
+    
     // Salva nel localStorage
     localStorage.setItem(CONTACT_INFO_KEY, JSON.stringify(contactInfo));
     
-    // Salva tramite API
-    const response = await apiRequest('POST', '/api/contact-info', contactInfo);
+    // Salva tramite API - uso fetch diretto come backup15
+    const response = await fetch('/api/contact-info', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(contactInfo)
+    });
+    
+    if (!response.ok) {
+      console.error(`Errore HTTP: ${response.status}`);
+      const errorText = await response.text();
+      console.error('Risposta server:', errorText);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const result = await response.json();
+    console.log('✅ Informazioni di contatto salvate con successo:', result);
     
     // Invia un evento personalizzato per notificare che i dati sono cambiati
     window.dispatchEvent(new CustomEvent('contactInfoUpdated'));
     
-    return result.success;
+    return true;
   } catch (error) {
-    console.error('Errore durante il salvataggio delle informazioni di contatto tramite API:', error);
+    console.error('Errore durante il salvataggio delle informazioni di contatto:', error);
     return false;
   }
 }

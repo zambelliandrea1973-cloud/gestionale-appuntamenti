@@ -567,8 +567,8 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(storageData.contactInfo || defaultInfo);
   });
 
-  // Endpoint POST per salvare le informazioni di contatto
-  app.post("/api/contact-info", requireAuth, (req, res) => {
+  // Endpoint POST per salvare le informazioni di contatto - Sistema dal backup15
+  app.post("/api/contact-info", requireAuth, async (req, res) => {
     try {
       const user = req.user!;
       const contactInfo = req.body;
@@ -578,7 +578,6 @@ export function registerSimpleRoutes(app: Express): Server {
       // Validazione base dei dati
       if (!contactInfo || typeof contactInfo !== 'object') {
         return res.status(400).json({ 
-          success: false, 
           error: 'Dati di contatto non validi' 
         });
       }
@@ -586,27 +585,34 @@ export function registerSimpleRoutes(app: Express): Server {
       // Carica i dati esistenti
       const storageData = loadStorageData();
       
-      // Salva le informazioni di contatto
-      storageData.contactInfo = {
-        ...storageData.contactInfo,
-        ...contactInfo
-      };
+      // Salva le informazioni di contatto nel formato corretto
+      if (!storageData.contactInfo) {
+        storageData.contactInfo = {};
+      }
+      
+      // Aggiorna tutti i campi forniti
+      if (contactInfo.email !== undefined) storageData.contactInfo.email = contactInfo.email;
+      if (contactInfo.phone !== undefined) storageData.contactInfo.phone = contactInfo.phone;
+      if (contactInfo.phone1 !== undefined) storageData.contactInfo.phone1 = contactInfo.phone1;
+      if (contactInfo.phone2 !== undefined) storageData.contactInfo.phone2 = contactInfo.phone2;
+      if (contactInfo.website !== undefined) storageData.contactInfo.website = contactInfo.website;
+      if (contactInfo.instagram !== undefined) storageData.contactInfo.instagram = contactInfo.instagram;
+      if (contactInfo.facebook !== undefined) storageData.contactInfo.facebook = contactInfo.facebook;
       
       // Salva i dati aggiornati
       saveStorageData(storageData);
       
-      console.log(`✅ [CONTACT INFO] Informazioni salvate per utente ${user.id}`);
+      console.log(`✅ [CONTACT INFO] Informazioni salvate per utente ${user.id}:`, storageData.contactInfo);
       
       res.json({ 
         success: true, 
         message: 'Informazioni di contatto salvate con successo',
-        data: storageData.contactInfo
+        contactInfo: storageData.contactInfo
       });
       
     } catch (error) {
       console.error('❌ [ERRORE CONTACT INFO]:', error);
       res.status(500).json({ 
-        success: false, 
         error: 'Errore durante il salvataggio delle informazioni di contatto' 
       });
     }
