@@ -314,7 +314,7 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
             )}
           </div>
           
-          <div className="flex">
+          <div className="flex items-center gap-1">
             {!isOtherAccount ? (
               <>
                 <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
