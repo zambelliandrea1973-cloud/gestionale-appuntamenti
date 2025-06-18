@@ -18,9 +18,18 @@ function loadStorageData() {
   return { clients: [] };
 }
 
+import { serveDynamicManifest } from './dynamic-manifest'
+import { serveCustomIcon } from './icon-proxy'
+
 export function registerRoutes(app: Express): Server {
-  // PRIORITA ASSOLUTA: Manifest dinamico per PWA con start_url client-specifico
-  app.get('/manifest.json', (req, res) => {
+  // Route proxy per icone PWA ottimizzate per Android
+  app.get('/pwa-icon/:size', serveCustomIcon);
+  
+  // Route per il manifest dinamico PWA
+  app.get('/manifest.json', serveDynamicManifest);
+  
+  // LEGACY: Manifest handler inline (RIMOSSO - sostituito con dynamic-manifest.ts)
+  app.get('/manifest-legacy.json', (req, res) => {
     console.log('🔍 ROUTES MANIFEST: Handler dinamico chiamato');
     console.log('🔍 ROUTES MANIFEST: URL:', req.url);
     console.log('🔍 ROUTES MANIFEST: Query:', req.query);
@@ -86,7 +95,7 @@ export function registerRoutes(app: Express): Server {
       'Cache-Control': 'no-cache, no-store, must-revalidate'
     });
     
-    console.log(`📱 MANIFEST: Servendo con start_url: ${startUrl}`);
+    console.log(`📱 MANIFEST LEGACY: Servendo con start_url: ${startUrl}`);
     res.json(manifest);
   });
 
