@@ -1189,6 +1189,24 @@
     }
   },
   "userServices": {
+    "16": [
+      {
+        "id": 7,
+        "name": "Consulenza Generale",
+        "duration": 60,
+        "color": "#4CAF50",
+        "price": 5000,
+        "ownerId": 16
+      },
+      {
+        "id": 8,
+        "name": "Trattamento Specialistico",
+        "duration": 90,
+        "color": "#2196F3",
+        "price": 7500,
+        "ownerId": 16
+      }
+    ],
     "3": [
       {
         "id": 1,
@@ -1311,23 +1329,6 @@
         "status": "scheduled",
         "createdAt": "2025-06-16T07:39:04.768Z",
         "reminderType": "email"
-      }
-    ],
-    [
-      1750148900000,
-      {
-        "id": 1750148900000,
-        "clientId": 252,
-        "serviceId": 7,
-        "date": "2025-06-18",
-        "startTime": "08:30",
-        "endTime": "09:30:00",
-        "notes": "Test promemoria automatico",
-        "status": "scheduled",
-        "createdAt": "2025-06-17T08:28:00.000Z",
-        "reminderType": "email",
-        "reminderStatus": "sent",
-        "reminderSentAt": "2025-06-17T08:34:05.513Z"
       }
     ],
     [
