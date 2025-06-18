@@ -23,10 +23,25 @@ function PWAInstallBanner() {
       // Controlla anche se è stato installato tramite localStorage
       const isPwaInstalled = localStorage.getItem('pwa-installed') === 'true';
       
-      const isPwaMode = isStandalone || isInAppBrowser || isFullscreen || hasMinimalUi || isPwaInstalled;
+      // Verifica anche dall'URL se contiene indicatori PWA
+      const urlIndicatesPwa = window.location.search.includes('source=pwa') || 
+                              window.location.search.includes('utm_source=homescreen') ||
+                              document.referrer === '';
       
-      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, Fullscreen: ${isFullscreen}, MinimalUI: ${hasMinimalUi}, Installed: ${isPwaInstalled}, PWA Mode: ${isPwaMode}`);
+      // Se è in Chrome e la barra degli indirizzi è nascosta, probabile PWA
+      const isLikelyPwa = window.innerHeight === screen.height || 
+                          (window.outerHeight - window.innerHeight) < 100;
+      
+      const isPwaMode = isStandalone || isInAppBrowser || isFullscreen || hasMinimalUi || isPwaInstalled || 
+                        (isLikelyPwa && urlIndicatesPwa);
+      
+      console.log(`📱 [PWA DETECTION] Standalone: ${isStandalone}, iOS: ${isInAppBrowser}, Fullscreen: ${isFullscreen}, MinimalUI: ${hasMinimalUi}, Installed: ${isPwaInstalled}, LikelyPWA: ${isLikelyPwa}, URLIndicates: ${urlIndicatesPwa}, PWA Mode: ${isPwaMode}`);
       setIsPwaMode(isPwaMode);
+      
+      // Se rileva PWA, salva lo stato
+      if (isPwaMode && !isPwaInstalled) {
+        localStorage.setItem('pwa-installed', 'true');
+      }
       
       return isPwaMode;
     };
@@ -84,16 +99,20 @@ function PWAInstallBanner() {
     }
   };
 
-  // Banner sempre visibile con effetto tendina
+  // Banner che cambia in base allo stato PWA
   return (
     <div className="group">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg transition-all duration-300 overflow-hidden">
+      <div className={`${isPwaMode ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'} border rounded-lg transition-all duration-300 overflow-hidden`}>
         <div className="p-3 cursor-pointer">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
-              <span className="text-sm text-blue-700 font-medium">
-                Installa app sul tuo dispositivo
+              {isPwaMode ? (
+                <Check className="h-4 w-4 text-green-600 flex-shrink-0" />
+              ) : (
+                <Download className="h-4 w-4 text-blue-600 flex-shrink-0" />
+              )}
+              <span className={`text-sm font-medium ${isPwaMode ? 'text-green-700' : 'text-blue-700'}`}>
+                {isPwaMode ? 'App installata sul tuo dispositivo' : 'Installa app sul tuo dispositivo'}
               </span>
             </div>
             {/* Mostra pulsante se disponibile installazione e non è PWA */}
