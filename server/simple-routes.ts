@@ -3708,16 +3708,37 @@ Studio Professionale`,
       
       console.log('📅 [CLIENT APPOINTMENTS] Caricamento per cliente:', clientId, 'Owner:', ownerId);
       
-      if (!ownerId || !userData[ownerId]) {
-        return res.status(404).json({ error: 'Professionista non trovato' });
-      }
-      
-      const ownerData = userData[ownerId];
+      const storageData = loadStorageData();
+      const allAppointments = storageData.appointments || [];
+      const allServices = storageData.userServices || {};
       
       // Trova SOLO gli appuntamenti di questo cliente specifico
-      const clientAppointments = ownerData.appointments?.filter((apt: any) => 
-        apt.clientId === parseInt(clientId)
-      ) || [];
+      const clientAppointments = [];
+      
+      for (const [id, appointment] of allAppointments) {
+        if (appointment.clientId && appointment.clientId.toString() === clientId.toString()) {
+          
+          // Trova il servizio corrispondente
+          let serviceName = 'Servizio';
+          const ownerServices = allServices[ownerId] || [];
+          const service = ownerServices.find(s => s.id === appointment.serviceId);
+          if (service) {
+            serviceName = service.name;
+          }
+          
+          clientAppointments.push({
+            id: appointment.id,
+            date: appointment.date,
+            time: appointment.startTime || appointment.time || '09:00',
+            service: serviceName,
+            status: appointment.status || 'scheduled',
+            notes: appointment.notes || ''
+          });
+        }
+      }
+      
+      console.log(`📅 [CLIENT APPOINTMENTS] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
+      res.json(clientAppointments);
       
       // Filtra solo i dati essenziali dell'appuntamento
       const pureAppointments = clientAppointments.map((apt: any) => ({

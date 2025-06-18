@@ -84,7 +84,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "name": `${ownerName} - Area Cliente`,
       "short_name": "Area Cliente", 
       "description": "Accedi alla tua area personale",
-      "start_url": `/client/${req.params.clientCode}`,
+      "start_url": req.originalUrl.split('?')[0].replace('/manifest.json', ''),
       "display": "standalone",
       "background_color": "#ffffff",
       "theme_color": "#4f46e5",
