@@ -22,6 +22,7 @@ import AutoLogin from "./pages/AutoLogin";
 import PwaLauncher from "./pages/PwaLauncher";
 
 import ClientArea from "./pages/ClientArea";
+import PureClientArea from "./pages/PureClientArea";
 import ConsentPage from "./pages/ConsentPage";
 import TestNotificationsPage from "./pages/TestNotificationsPage";
 import ClientAppointments from "./pages/ClientAppointments";
@@ -180,13 +181,9 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* AREA CLIENTE - accesso diretto con codice univoco senza password */}
+      {/* AREA CLIENTE PURA - accesso diretto senza gestionale */}
       <Route path="/client/:clientCode">
-        <ClientPageWrapper>
-          <PwaSessionManager>
-            <ClientArea />
-          </PwaSessionManager>
-        </ClientPageWrapper>
+        <PureClientArea />
       </Route>
       
       <Route path="/client">
