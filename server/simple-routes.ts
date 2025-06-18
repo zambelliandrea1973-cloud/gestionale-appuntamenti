@@ -558,10 +558,58 @@ export function registerSimpleRoutes(app: Express): Server {
 
   // Informazioni di contatto
   app.get("/api/contact-info", (req, res) => {
-    res.json({
+    const storageData = loadStorageData();
+    const defaultInfo = {
       email: "info@studiomedico.it",
       phone: "+39 123 456 7890"
-    });
+    };
+    
+    res.json(storageData.contactInfo || defaultInfo);
+  });
+
+  // Endpoint POST per salvare le informazioni di contatto
+  app.post("/api/contact-info", requireAuth, (req, res) => {
+    try {
+      const user = req.user!;
+      const contactInfo = req.body;
+      
+      console.log(`📞 [CONTACT INFO] Salvataggio informazioni per utente ${user.id}:`, contactInfo);
+      
+      // Validazione base dei dati
+      if (!contactInfo || typeof contactInfo !== 'object') {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Dati di contatto non validi' 
+        });
+      }
+      
+      // Carica i dati esistenti
+      const storageData = loadStorageData();
+      
+      // Salva le informazioni di contatto
+      storageData.contactInfo = {
+        ...storageData.contactInfo,
+        ...contactInfo
+      };
+      
+      // Salva i dati aggiornati
+      saveStorageData(storageData);
+      
+      console.log(`✅ [CONTACT INFO] Informazioni salvate per utente ${user.id}`);
+      
+      res.json({ 
+        success: true, 
+        message: 'Informazioni di contatto salvate con successo',
+        data: storageData.contactInfo
+      });
+      
+    } catch (error) {
+      console.error('❌ [ERRORE CONTACT INFO]:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Errore durante il salvataggio delle informazioni di contatto' 
+      });
+    }
   });
 
   // Info applicazione rimossa - usa l'endpoint unificato sopra
