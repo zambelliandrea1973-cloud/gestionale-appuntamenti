@@ -2,7 +2,7 @@
   "name": "Gestione Appuntamenti v4",
   "short_name": "App Cliente",
   "description": "Gestione consensi e servizi medici",
-  "start_url": "/pwa",
+  "start_url": "/client",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",

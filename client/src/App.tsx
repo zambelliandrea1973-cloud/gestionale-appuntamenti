@@ -20,7 +20,7 @@ import ActivateAccount from "./pages/ActivateAccount";
 
 import AutoLogin from "./pages/AutoLogin";
 import PwaLauncher from "./pages/PwaLauncher";
-import PWALauncher from "./pages/PWALauncher";
+
 import ClientArea from "./pages/ClientArea";
 import ConsentPage from "./pages/ConsentPage";
 import TestNotificationsPage from "./pages/TestNotificationsPage";
