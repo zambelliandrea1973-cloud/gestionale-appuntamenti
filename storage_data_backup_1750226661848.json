@@ -686,7 +686,7 @@
         "id": 14002,
         "firstName": "Trial",
         "lastName": "Account",
-        "email": "trial.account.14@example.com",
+        "email": "zambelli.andrea@libero.it",
         "phone": "+39 098 765 4321",
         "birthDate": "1985-06-20",
         "fiscalCode": "TRLCNT85H20BU2Y",
@@ -694,7 +694,11 @@
         "createdAt": "2025-06-17T09:33:32.557Z",
         "notes": "Account di test generato automaticamente",
         "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
-        "professionistCode": "PROF_014_9C1F"
+        "professionistCode": "PROF_014_9C1F",
+        "address": "Via Cavallotti",
+        "birthday": "2013-10-16",
+        "hasConsent": false,
+        "updatedAt": "2025-06-18T06:03:05.025Z"
       }
     ],
     [
@@ -713,8 +717,8 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 5,
-        "lastAccess": "2025-06-17T12:45:01.682Z",
+        "accessCount": 17,
+        "lastAccess": "2025-06-18T06:03:47.101Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F"
       }
@@ -1008,8 +1012,8 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 12,
-        "lastAccess": "2025-06-17T18:23:27.648Z",
+        "accessCount": 14,
+        "lastAccess": "2025-06-18T05:07:46.153Z",
         "hasConsent": true,
         "updatedAt": "2025-06-17T18:08:04.456Z"
       }
@@ -1172,6 +1176,44 @@
         "ownerId": 3,
         "originalDefaultId": 7
       }
+    ],
+    "14": [
+      {
+        "id": 1750225060109,
+        "ownerId": 14,
+        "name": "bio bicom",
+        "duration": 60,
+        "price": 70,
+        "color": "#a2f73b",
+        "description": ""
+      },
+      {
+        "id": 1750225071976,
+        "ownerId": 14,
+        "name": "zapter",
+        "duration": 60,
+        "price": 40,
+        "color": "#3b82f6",
+        "description": ""
+      },
+      {
+        "id": 1750225104451,
+        "ownerId": 14,
+        "name": "test diacom",
+        "duration": 120,
+        "price": 150,
+        "color": "#e13bf7",
+        "description": ""
+      },
+      {
+        "id": 1750225141396,
+        "ownerId": 14,
+        "name": "detox",
+        "duration": 30,
+        "price": 40,
+        "color": "#f7a93b",
+        "description": ""
+      }
     ]
   },
   "appointments": [
@@ -1262,6 +1304,34 @@
         "status": "scheduled",
         "createdAt": "2025-06-16T09:11:30.713Z"
       }
+    ],
+    [
+      1750226496608,
+      {
+        "id": 1750226496608,
+        "clientId": 1750163505034,
+        "serviceId": 1750225060109,
+        "date": "2025-06-19",
+        "startTime": "11:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-18T06:01:36.608Z"
+      }
+    ],
+    [
+      1750226531946,
+      {
+        "id": 1750226531946,
+        "clientId": 14001,
+        "serviceId": 1750225071976,
+        "date": "2025-06-20",
+        "startTime": "09:00",
+        "endTime": "10:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-18T06:02:11.946Z"
+      }
     ]
   ],
   "consents": [
@@ -1285,5 +1355,14 @@
   "clientCodes": {},
   "professionistCodes": {
     "14": "PROF_014_9C1F"
+  },
+  "userContactInfo": {
+    "14": {
+      "email": "busnari.silvia@libero.it",
+      "phone": "+39 123 456 7890",
+      "phone1": "+39 3471445767",
+      "website": "biomedicinaintegrata.it",
+      "instagram": "Biomedicinaintegrata"
+    }
   }
 }

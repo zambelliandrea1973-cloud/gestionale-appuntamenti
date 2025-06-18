@@ -571,6 +571,25 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(userContactInfo || defaultInfo);
   });
 
+  // Endpoint per caricare informazioni di contatto tramite ownerId (per clienti)
+  app.get("/api/contact-info/:ownerId", (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      console.log(`Caricamento informazioni di contatto per professionista ${ownerId} (richiesta client)`);
+      
+      if (!ownerId || isNaN(ownerId)) {
+        return res.status(400).json({ error: "ID professionista non valido" });
+      }
+      
+      const storageData = loadStorageData();
+      const contactInfo = storageData.userContactInfo?.[ownerId] || {};
+      res.json(contactInfo);
+    } catch (error) {
+      console.error('Errore nel caricamento informazioni di contatto:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
   // Endpoint POST per salvare le informazioni di contatto - Sistema dal backup15
   app.post("/api/contact-info", requireAuth, async (req, res) => {
     try {
@@ -1011,6 +1030,34 @@ export function registerSimpleRoutes(app: Express): Server {
       appName: "Gestionale Sanitario", 
       icon: userIcon 
     });
+  });
+
+  // Endpoint per recuperare icona dell'app tramite ownerId (per clienti)
+  app.get("/api/client-app-info/:ownerId", async (req, res) => {
+    try {
+      const ownerId = parseInt(req.params.ownerId);
+      console.log(`Caricamento icona app per professionista ${ownerId} (richiesta client)`);
+      
+      if (!ownerId || isNaN(ownerId)) {
+        return res.status(400).json({ error: "ID professionista non valido" });
+      }
+
+      const storageData = loadStorageData();
+      const userIcon = storageData.userIcons[ownerId] || defaultIconBase64;
+      
+      // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
+      await updatePWAIconsFromCompanyLogo(ownerId, userIcon);
+      
+      console.log(`✅ Icone PWA aggiornate per professionista ${ownerId} con logo aziendale (richiesta client)`);
+      
+      res.json({ 
+        appName: "Gestionale Sanitario", 
+        icon: userIcon 
+      });
+    } catch (error) {
+      console.error('Errore nel caricamento icona app:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
   });
 
   // Endpoint per caricare una nuova icona - SEPARAZIONE PER UTENTE
