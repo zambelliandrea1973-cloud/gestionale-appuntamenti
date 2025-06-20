@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail, Download } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download, X } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ClientFooterContactIcons from "@/components/ClientFooterContactIcons";
 
 // PWA Installation Banner Component
@@ -85,6 +86,9 @@ export default function PureClientArea() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
+  const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
+  const [showDataProtectionModal, setShowDataProtectionModal] = useState<boolean>(false);
 
 
 
@@ -402,30 +406,147 @@ export default function PureClientArea() {
           <div className="mt-6 pt-6 border-t border-gray-100 text-center text-sm text-gray-500">
             <div className="space-y-2">
               <div className="flex flex-wrap justify-center gap-4">
-                <a href="/privacy-policy" className="hover:text-blue-600 transition-colors">
+                <button 
+                  onClick={() => setShowPrivacyModal(true)}
+                  className="hover:text-blue-600 transition-colors underline"
+                >
                   Privacy Policy
-                </a>
+                </button>
                 <span>•</span>
-                <a href="/terms-of-service" className="hover:text-blue-600 transition-colors">
+                <button 
+                  onClick={() => setShowTermsModal(true)}
+                  className="hover:text-blue-600 transition-colors underline"
+                >
                   Termini di Servizio
-                </a>
+                </button>
                 <span>•</span>
-                <a href="/data-protection" className="hover:text-blue-600 transition-colors">
+                <button 
+                  onClick={() => setShowDataProtectionModal(true)}
+                  className="hover:text-blue-600 transition-colors underline"
+                >
                   Protezione Dati
-                </a>
+                </button>
               </div>
               <div className="flex flex-wrap justify-center gap-4 text-xs">
-                <span>&copy; 2024 Gestionale Sanitario</span>
+                <span>&copy; 2024 Gestionale Appuntamenti by Zambelli Andrea</span>
                 <span>•</span>
                 <span>Versione 2.4.1</span>
                 <span>•</span>
-                <a href="mailto:support@gestionale.it" className="hover:text-blue-600 transition-colors">
+                <a href="mailto:zambelli.andrea@libero.it" className="hover:text-blue-600 transition-colors">
                   Supporto Tecnico
                 </a>
               </div>
             </div>
           </div>
         </footer>
+
+        {/* Modal Privacy Policy */}
+        <Dialog open={showPrivacyModal} onOpenChange={setShowPrivacyModal}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex justify-between items-center">
+                Privacy Policy
+                <Button variant="ghost" size="sm" onClick={() => setShowPrivacyModal(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 text-sm">
+              <h3 className="font-semibold">1. Informazioni Generali</h3>
+              <p>Il presente documento costituisce l'informativa privacy resa agli utenti che utilizzano i servizi del Gestionale Appuntamenti by Zambelli Andrea.</p>
+              
+              <h3 className="font-semibold">2. Titolare del Trattamento</h3>
+              <p>Il Titolare del trattamento dei dati è Zambelli Andrea, con sede in Via Cavallotti, contattabile all'indirizzo zambelli.andrea@libero.it</p>
+              
+              <h3 className="font-semibold">3. Tipologie di Dati Raccolti</h3>
+              <p>I dati personali raccolti comprendono: nome, cognome, data di nascita, codice fiscale, indirizzo email, numero di telefono, informazioni relative agli appuntamenti sanitari.</p>
+              
+              <h3 className="font-semibold">4. Finalità del Trattamento</h3>
+              <p>I dati vengono trattati per: gestione degli appuntamenti, comunicazioni relative ai servizi sanitari, adempimenti di obblighi legali e contabili.</p>
+              
+              <h3 className="font-semibold">5. Base Giuridica</h3>
+              <p>Il trattamento è basato sul consenso dell'interessato e sull'esecuzione di misure precontrattuali adottate su richiesta dello stesso.</p>
+              
+              <h3 className="font-semibold">6. Conservazione dei Dati</h3>
+              <p>I dati saranno conservati per il tempo strettamente necessario al raggiungimento delle finalità per cui sono stati raccolti.</p>
+              
+              <h3 className="font-semibold">7. Diritti dell'Interessato</h3>
+              <p>L'utente ha diritto di richiedere l'accesso, la rettifica, la cancellazione dei propri dati personali, nonché la limitazione del trattamento.</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Modal Termini di Servizio */}
+        <Dialog open={showTermsModal} onOpenChange={setShowTermsModal}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex justify-between items-center">
+                Termini di Servizio
+                <Button variant="ghost" size="sm" onClick={() => setShowTermsModal(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 text-sm">
+              <h3 className="font-semibold">1. Accettazione dei Termini</h3>
+              <p>Utilizzando il Gestionale Appuntamenti by Zambelli Andrea, l'utente accetta integralmente i presenti termini di servizio.</p>
+              
+              <h3 className="font-semibold">2. Descrizione del Servizio</h3>
+              <p>Il servizio consiste in una piattaforma digitale per la gestione degli appuntamenti sanitari e la consultazione delle proprie informazioni.</p>
+              
+              <h3 className="font-semibold">3. Registrazione e Account</h3>
+              <p>Per utilizzare il servizio è necessario fornire informazioni accurate e complete durante la registrazione.</p>
+              
+              <h3 className="font-semibold">4. Uso Consentito</h3>
+              <p>Il servizio deve essere utilizzato esclusivamente per finalità lecite e in conformità alle presenti condizioni.</p>
+              
+              <h3 className="font-semibold">5. Responsabilità dell'Utente</h3>
+              <p>L'utente è responsabile della sicurezza delle proprie credenziali di accesso e dell'uso appropriato del servizio.</p>
+              
+              <h3 className="font-semibold">6. Limitazioni di Responsabilità</h3>
+              <p>Il servizio è fornito "così com'è" senza garanzie di alcun tipo, esplicite o implicite.</p>
+              
+              <h3 className="font-semibold">7. Modifiche ai Termini</h3>
+              <p>I presenti termini possono essere modificati in qualsiasi momento con preavviso agli utenti.</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Modal Protezione Dati */}
+        <Dialog open={showDataProtectionModal} onOpenChange={setShowDataProtectionModal}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex justify-between items-center">
+                Protezione Dati
+                <Button variant="ghost" size="sm" onClick={() => setShowDataProtectionModal(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 text-sm">
+              <h3 className="font-semibold">1. Sicurezza dei Dati</h3>
+              <p>Implementiamo misure tecniche e organizzative appropriate per proteggere i dati personali contro la distruzione, la perdita, la modifica, la divulgazione non autorizzata.</p>
+              
+              <h3 className="font-semibold">2. Crittografia</h3>
+              <p>Tutti i dati sensibili sono protetti mediante crittografia avanzata durante la trasmissione e l'archiviazione.</p>
+              
+              <h3 className="font-semibold">3. Accesso ai Dati</h3>
+              <p>L'accesso ai dati personali è limitato al personale autorizzato che ha necessità di conoscere tali informazioni per le finalità del trattamento.</p>
+              
+              <h3 className="font-semibold">4. Backup e Ripristino</h3>
+              <p>Vengono eseguiti backup regolari dei dati per garantire la continuità del servizio e la protezione contro la perdita di informazioni.</p>
+              
+              <h3 className="font-semibold">5. Monitoraggio</h3>
+              <p>I sistemi vengono costantemente monitorati per rilevare e prevenire accessi non autorizzati o attività sospette.</p>
+              
+              <h3 className="font-semibold">6. Formazione del Personale</h3>
+              <p>Il personale riceve formazione regolare sulle procedure di sicurezza e protezione dei dati personali.</p>
+              
+              <h3 className="font-semibold">7. Segnalazione Violazioni</h3>
+              <p>In caso di violazione dei dati personali, procediamo alla notifica tempestiva alle autorità competenti e agli interessati, se richiesto.</p>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
