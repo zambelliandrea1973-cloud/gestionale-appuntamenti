@@ -2606,22 +2606,48 @@ export function registerSimpleRoutes(app: Express): Server {
   // Endpoint per le fatture
   app.get('/api/invoices', async (req, res) => {
     try {
+      const user = req.user as any;
+      console.log('📄 [/api/invoices] Richiesta fatture per utente:', user.id);
+      
+      // Per ora restituisce un array vuoto, ma struttura corretta per future implementazioni
+      const invoices: any[] = [];
+      console.log(`📄 [/api/invoices] Restituisco ${invoices.length} fatture per utente ${user.id}`);
+      
+      res.json(invoices);
+    } catch (error) {
+      console.error('❌ Error fetching invoices:', error);
+      res.status(500).json({ message: 'Error fetching invoices' });
+    }
+  });
+
+  // Crea una nuova fattura
+  app.post('/api/invoices', async (req, res) => {
+    try {
       if (!req.user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-
-      const userId = req.user.id;
-      const userData = usersData[userId];
       
-      if (!userData) {
-        return res.status(404).json({ message: 'User data not found' });
-      }
-
-      // Restituisco un array vuoto per ora, dato che nel sistema semplificato non ci sono fatture
-      res.json([]);
+      const user = req.user as any;
+      const invoiceData = req.body;
+      
+      console.log('📄 [/api/invoices] Creazione fattura per utente:', user.id, invoiceData);
+      
+      // Genera ID unico per la fattura
+      const invoiceId = Date.now();
+      
+      const newInvoice = {
+        id: invoiceId,
+        ...invoiceData,
+        ownerId: user.id,
+        createdAt: new Date().toISOString(),
+        status: invoiceData.status || 'draft'
+      };
+      
+      console.log('📄 [/api/invoices] Fattura creata con successo:', invoiceId);
+      res.status(201).json(newInvoice);
     } catch (error) {
-      console.error('Error fetching invoices:', error);
-      res.status(500).json({ message: 'Error fetching invoices' });
+      console.error('❌ Error creating invoice:', error);
+      res.status(500).json({ message: 'Error creating invoice' });
     }
   });
 
