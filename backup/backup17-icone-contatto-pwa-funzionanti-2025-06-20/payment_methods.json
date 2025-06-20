@@ -1,0 +1,47 @@
+[
+  {
+    "id": "stripe",
+    "name": "Carta di Credito (Stripe)",
+    "enabled": false,
+    "config": {
+      "publicKey": "",
+      "secretKey": "",
+      "webhookSecret": "",
+      "statementDescriptor": "Ethera Scheduler"
+    }
+  },
+  {
+    "id": "paypal",
+    "name": "PayPal",
+    "enabled": true,
+    "config": {
+      "clientId": " AfHjuOnMnvF8d2e8m3mON-IsPt9pSOkC6Qlvwa9u 026ctvJ9zvdQD34srqbZIFqq4AFxVY_UWdU8LHxF",
+      "clientSecret": "ENwVoFXV9J4u0MNW9WD8nb_pKy0xW5AEzaQKlXQk SIr7AtfX5d7_8k5tCWmXj3aKl9sLg24m3OgPLUdP",
+      "mode": "live"
+    }
+  },
+  {
+    "id": "wise",
+    "name": "Wise (TransferWise)",
+    "enabled": false,
+    "config": {
+      "apiKey": "",
+      "profileId": "",
+      "accountId": "",
+      "recipientEmail": ""
+    }
+  },
+  {
+    "id": "bank",
+    "name": "Bonifico Bancario",
+    "enabled": true,
+    "config": {
+      "accountName": "zambelli andrea",
+      "iban": "IT22I0200851620000100456243",
+      "swift": "UNICRITM1124",
+      "bankName": "unicredit",
+      "recipient": "Ethera Srl",
+      "instructions": "Nel bonifico, indicare il numero di licenza come causale. L'accesso sarà attivato entro 24 ore lavorative dal ricevimento del pagamento."
+    }
+  }
+]

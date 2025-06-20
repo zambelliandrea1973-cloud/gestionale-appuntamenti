@@ -1534,7 +1534,7 @@ export function registerSimpleRoutes(app: Express): Server {
     } else if (user.type === 'staff') {
       console.log(`👩‍⚕️ [${deviceType}] Staff - Accesso ai propri appuntamenti per report`);
       userRangeAppointments = allAppointments.filter(apt => 
-        apt.date >= startDate && apt.date <= endDate && apt.ownerId === user.id
+        apt.date >= startDate && apt.date <= endDate && apt.staffId === user.id
       );
     } else {
       console.log(`👤 [${deviceType}] Cliente - Accesso limitato ai propri appuntamenti per report`);
