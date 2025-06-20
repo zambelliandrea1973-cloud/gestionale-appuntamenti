@@ -104,7 +104,6 @@ export default function Invoices() {
 
   const form = useForm({
     resolver: zodResolver(z.object({
-      invoiceNumber: z.string().min(1, "Numero fattura richiesto"),
       clientName: z.string().min(1, "Nome cliente richiesto"),
       totalAmount: z.number().min(0, "Importo deve essere positivo"),
       date: z.string().min(1, "Data richiesta"),
@@ -113,7 +112,6 @@ export default function Invoices() {
       status: z.enum(["draft", "sent", "paid", "overdue"]).default("draft"),
     })),
     defaultValues: {
-      invoiceNumber: "",
       clientName: "",
       totalAmount: 0,
       date: format(new Date(), "yyyy-MM-dd"),
@@ -204,19 +202,9 @@ export default function Invoices() {
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="invoiceNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Numero Fattura</FormLabel>
-                    <FormControl>
-                      <Input placeholder="es. 2025-001" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="bg-muted/50 p-3 rounded-md text-sm text-muted-foreground">
+                📋 Il numero fattura verrà generato automaticamente in formato ANNO/MESE/PROGRESSIVO
+              </div>
               <FormField
                 control={form.control}
                 name="clientName"
