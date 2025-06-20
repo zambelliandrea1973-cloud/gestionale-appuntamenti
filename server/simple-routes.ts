@@ -3257,19 +3257,31 @@ Studio Professionale`,
     }
   });
 
-  // Endpoint pubblico per informazioni di contatto (per area clienti)
+  // Endpoint pubblico per informazioni di contatto complete (per area clienti)
   app.get('/api/public/contact-info', (req, res) => {
     try {
       const storageData = loadStorageData();
-      const { contactInfo = {} } = storageData;
+      const { contactInfo = {}, contactSettings = {} } = storageData;
       
-      // Restituisce solo le informazioni di contatto pubbliche
+      // Restituisce le informazioni di contatto con tutte le impostazioni per replicare il layout della home
       const publicContactInfo = {
+        // Dati di contatto
         businessName: contactInfo.businessName || 'Studio Professionale',
         email: contactInfo.email,
+        phone: contactInfo.phone,
         phone1: contactInfo.phone1,
         website: contactInfo.website,
-        instagram: contactInfo.instagram
+        instagram: contactInfo.instagram,
+        
+        // Impostazioni di visibilità (per mostrare solo quello che il professionista ha abilitato)
+        showEmail: contactSettings.showEmail !== false,
+        showPhone: contactSettings.showPhone !== false,
+        showPhone1: contactSettings.showPhone1 !== false,
+        showWebsite: contactSettings.showWebsite !== false,
+        showInstagram: contactSettings.showInstagram !== false,
+        
+        // Impostazioni di layout se presenti
+        contactLayout: contactSettings.layout || 'default'
       };
       
       res.json(publicContactInfo);
