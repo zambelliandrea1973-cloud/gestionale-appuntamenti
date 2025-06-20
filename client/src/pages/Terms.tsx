@@ -203,7 +203,7 @@ export default function Terms() {
               <h2 className="text-2xl font-semibold text-blue-900 mb-4">11. Contatti</h2>
               <p className="text-muted-foreground mb-4">Per questioni relative ai presenti termini, contattare:</p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li><strong>Email:</strong> andreazambelli64@gmail.com</li>
+                <li><strong>Email:</strong> zambelli.andrea.1973@gmail.com</li>
                 <li><strong>Sviluppatore:</strong> Zambelli Development</li>
               </ul>
             </CardContent>
