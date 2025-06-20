@@ -84,7 +84,7 @@ export default function PureClientArea() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const [contactInfo, setContactInfo] = useState<any>(null);
+
 
   useEffect(() => {
     const initializeClientArea = async () => {
@@ -161,21 +161,7 @@ export default function PureClientArea() {
         // Carica appuntamenti del cliente
         await loadClientAppointments(clientData.id, clientData.ownerId);
         
-        // Carica informazioni di contatto del professionista per il footer
-        try {
-          const contactResponse = await fetch('/api/public/contact-info', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-          });
-          
-          if (contactResponse.ok) {
-            const contactData = await contactResponse.json();
-            setContactInfo(contactData);
-            console.log('📞 [PURE CLIENT] Informazioni contatto caricate per footer');
-          }
-        } catch (error) {
-          console.warn('❌ [PURE CLIENT] Errore caricamento contatti:', error);
-        }
+
 
       } catch (error) {
         console.error('❌ [PURE CLIENT] Errore inizializzazione:', error);
