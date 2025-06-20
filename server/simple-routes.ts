@@ -2674,6 +2674,8 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+
+
   // Crea una nuova fattura
   app.post('/api/invoices', async (req, res) => {
     try {
@@ -2700,7 +2702,12 @@ export function registerSimpleRoutes(app: Express): Server {
       };
       
       // Salva nel database
-      saveInvoiceToStorage(newInvoice);
+      const storageData = loadStorageData();
+      if (!storageData.invoices) {
+        storageData.invoices = [];
+      }
+      storageData.invoices.push([invoiceId, newInvoice]);
+      saveStorageData(storageData);
       
       console.log(`📄 [/api/invoices] Fattura creata con numero: ${invoiceNumber} (ID: ${invoiceId})`);
       res.status(201).json(newInvoice);
