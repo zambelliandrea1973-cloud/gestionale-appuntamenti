@@ -135,7 +135,7 @@ export default function Invoices() {
     })),
     defaultValues: {
       clientName: "",
-      totalAmount: undefined as any,
+      totalAmount: "" as any,
       date: format(new Date(), "yyyy-MM-dd"),
       dueDate: format(addDays(new Date(), 30), "yyyy-MM-dd"),
       description: "",
@@ -144,7 +144,12 @@ export default function Invoices() {
   });
 
   const onSubmit = (data: any) => {
-    createMutation.mutate(data);
+    // Assicurati che totalAmount sia un numero valido
+    const submitData = {
+      ...data,
+      totalAmount: parseFloat(data.totalAmount) || 0
+    };
+    createMutation.mutate(submitData);
   };
 
   const emailForm = useForm({
@@ -345,9 +350,12 @@ export default function Invoices() {
                         <Input 
                           type="number" 
                           step="0.01" 
-                          placeholder="0.00" 
-                          {...field}
-                          onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                          placeholder="Inserisci importo manualmente" 
+                          value={field.value || ""}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : parseFloat(value) || "");
+                          }}
                         />
                         {suggestions?.amounts.length > 0 && (
                           <div className="flex flex-wrap gap-1">
