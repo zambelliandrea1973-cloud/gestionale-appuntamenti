@@ -104,6 +104,13 @@ function AppRoutes() {
     // Controllo se il percorso inizia con /client/ (area clienti diretta via QR)
     const isClientPath = location.startsWith('/client/');
     
+    // Se siamo in area cliente e non abbiamo parametri QR validi, reindirizza alla dashboard
+    if (isClientPath && user && !location.includes('?token=')) {
+      console.log('Area cliente rilevata senza token QR, reindirizzamento a dashboard professionale');
+      setLocation('/dashboard');
+      return;
+    }
+    
     // Aspetta che il caricamento delle informazioni utente sia completo
     if (!isLoading) {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
@@ -187,9 +194,8 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* AREA CLIENTE PURA - accesso diretto senza gestionale - NON VISIBILE NEL PREVIEW DESKTOP */}
+      {/* AREA CLIENTE PURA - accesso diretto senza gestionale */}
       <Route path="/client/:clientCode">
-        {/* Questa route è accessibile solo da dispositivi mobili/QR, non dal preview desktop */}
         <PureClientArea />
       </Route>
       

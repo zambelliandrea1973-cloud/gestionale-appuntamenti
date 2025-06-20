@@ -1,0 +1,31 @@
+Console.js:61 🔍 Risposta user-with-license: 200 true
+Console.js:61 ✅ Accesso PWA registrato per cliente: PROF_014_9C1F_CLIENT_1750163505034_340F
+Console.js:61 🏠 [PURE CLIENT] Richiesta API per codice: PROF_014_9C1F_CLIENT_1750163505034_340F
+Console.js:61 ✅ Accesso PWA registrato per cliente: PROF_014_9C1F_CLIENT_1750163505034_340F
+Console.js:61 🏠 [PURE CLIENT] Richiesta API per codice: PROF_014_9C1F_CLIENT_1750163505034_340F
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 🔍 Dati utente ricevuti FRESCHI: Object
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Percorso cliente rilevato, salto controlli autenticazione staff
+Console.js:61 Esecuzione richiesta GET a /api/tenant-context 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/tenant-context: Object
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Navigator serviceWorker: ServiceWorkerContainer
+Console.js:61 Location protocol: https:
+Console.js:61 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 Fuso orario aggiornato con successo
+2Console.js:61 🏠 [PURE CLIENT] Risposta API status: 200 OK
+Console.js:61 🏠 [PURE CLIENT] Cliente caricato: Bruna  Pizzolato
+Console.js:61 📅 [PURE CLIENT] Caricamento appuntamenti per cliente: 1750163505034
+Console.js:61 Risposta da /api/tenant-context: 200 OK ok: true
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+Console.js:61 🏠 [PURE CLIENT] Cliente caricato: Bruna  Pizzolato
+Console.js:61 📅 [PURE CLIENT] Caricamento appuntamenti per cliente: 1750163505034
+Console.js:61 Fuso orario aggiornato con successo
+2Console.js:61 📅 [PURE CLIENT] Appuntamenti caricati: 2
