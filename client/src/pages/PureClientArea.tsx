@@ -292,35 +292,68 @@ export default function PureClientArea() {
             ) : (
               <ScrollArea className="h-96">
                 <div className="space-y-4">
-                  {appointments.map((appointment) => (
-                    <Card key={appointment.id} className="border-l-4 border-l-blue-500">
-                      <CardContent className="pt-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-semibold text-lg">{appointment.service}</h3>
-                            <div className="flex items-center gap-2 text-gray-600 mt-1">
-                              <Calendar className="h-4 w-4" />
-                              <span>{formatDate(appointment.date)}</span>
+                  {appointments.map((appointment) => {
+                    const appointmentDate = new Date(appointment.date + 'T' + appointment.time);
+                    const now = new Date();
+                    const isPast = appointmentDate < now;
+                    
+                    return (
+                      <Card 
+                        key={appointment.id} 
+                        className={`border-l-4 ${
+                          isPast 
+                            ? 'border-l-gray-400 bg-gray-50 opacity-75' 
+                            : 'border-l-blue-500 bg-white'
+                        }`}
+                      >
+                        <CardContent className="pt-4">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h3 className={`font-semibold text-lg ${
+                                isPast ? 'text-gray-600' : 'text-gray-900'
+                              }`}>
+                                {appointment.service}
+                              </h3>
+                              <div className={`flex items-center gap-2 mt-1 ${
+                                isPast ? 'text-gray-500' : 'text-gray-600'
+                              }`}>
+                                <Calendar className="h-4 w-4" />
+                                <span>{formatDate(appointment.date)}</span>
+                                {isPast && <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full ml-2">Completato</span>}
+                              </div>
+                              <div className={`flex items-center gap-2 mt-1 ${
+                                isPast ? 'text-gray-500' : 'text-gray-600'
+                              }`}>
+                                <Clock className="h-4 w-4" />
+                                <span>{appointment.time}</span>
+                              </div>
+                              {appointment.notes && (
+                                <p className={`mt-2 text-sm ${
+                                  isPast ? 'text-gray-500' : 'text-gray-600'
+                                }`}>
+                                  {appointment.notes}
+                                </p>
+                              )}
                             </div>
-                            <div className="flex items-center gap-2 text-gray-600 mt-1">
-                              <Clock className="h-4 w-4" />
-                              <span>{appointment.time}</span>
+                            <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              isPast 
+                                ? 'bg-gray-200 text-gray-700'
+                                : appointment.status === 'scheduled' 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {isPast 
+                                ? 'Completato' 
+                                : appointment.status === 'scheduled' 
+                                  ? 'Confermato' 
+                                  : 'In attesa'
+                              }
                             </div>
-                            {appointment.notes && (
-                              <p className="text-gray-600 mt-2 text-sm">{appointment.notes}</p>
-                            )}
                           </div>
-                          <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            appointment.status === 'scheduled' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {appointment.status === 'scheduled' ? 'Confermato' : 'In attesa'}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               </ScrollArea>
             )}
