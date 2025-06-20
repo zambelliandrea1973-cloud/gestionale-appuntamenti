@@ -1522,7 +1522,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const userServices = storageData.userServices?.[user.id] || [];
     
     console.log(`📊 [${deviceType}] Appuntamenti totali processati: ${allAppointments.length}`);
-    console.log(`🔍 [${deviceType}] DEBUG primi 3 appuntamenti:`, allAppointments.slice(0, 3).map(a => ({id: a?.id, date: a?.date})));
+    console.log(`🔍 [${deviceType}] DEBUG primi 3 appuntamenti:`, allAppointments.slice(0, 3).map(a => ({id: a?.id, date: a?.date, ownerId: a?.ownerId, clientId: a?.clientId})));
     
     // Filtra appuntamenti per range di date
     let userRangeAppointments;
