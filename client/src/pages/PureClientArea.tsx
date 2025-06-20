@@ -112,35 +112,21 @@ export default function PureClientArea() {
         
         // Registra l'accesso del cliente (importante per conteggio)
         try {
-          // Prima ottieni l'ID del cliente dal codice
-          const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+          const accessResponse = await fetch(`/api/client-access/${clientCode}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-device-type': 'mobile' // PWA è sempre mobile
+            },
+            body: JSON.stringify({
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+              source: 'pwa'
+            })
           });
           
-          if (clientResponse.ok) {
-            const clientData = await clientResponse.json();
-            const clientId = clientData.client.id;
-            
-            // Ora registra l'accesso usando l'endpoint corretto
-            const accessResponse = await fetch(`/api/client-access/track/${clientId}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'x-device-type': 'mobile'
-              },
-              body: JSON.stringify({
-                timestamp: new Date().toISOString(),
-                userAgent: navigator.userAgent,
-                source: 'pwa',
-                isPWA: true,
-                accessType: 'qr_access'
-              })
-            });
-            
-            if (accessResponse.ok) {
-              console.log('✅ Accesso PWA registrato per cliente ID:', clientId);
-            }
+          if (accessResponse.ok) {
+            console.log('✅ Accesso PWA registrato per cliente:', clientCode);
           }
         } catch (error) {
           console.warn('Errore registrazione accesso PWA:', error);
@@ -319,7 +305,6 @@ export default function PureClientArea() {
                               }`}>
                                 <Calendar className="h-4 w-4" />
                                 <span>{formatDate(appointment.date)}</span>
-                                {isPast && <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full ml-2">Completato</span>}
                               </div>
                               <div className={`flex items-center gap-2 mt-1 ${
                                 isPast ? 'text-gray-500' : 'text-gray-600'
