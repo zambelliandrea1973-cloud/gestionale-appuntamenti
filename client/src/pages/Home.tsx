@@ -366,7 +366,6 @@ export default function Home() {
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-2">Privacy e Sicurezza</h3>
-            <p>Operatore responsabile: {userWithLicense?.username || 'Non specificato'}</p>
             <p>Supporto tecnico: andreazambelli64@gmail.com</p>
             <button 
               className="text-primary hover:underline mt-1"
