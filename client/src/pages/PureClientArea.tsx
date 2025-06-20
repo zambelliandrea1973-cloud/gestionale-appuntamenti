@@ -160,6 +160,22 @@ export default function PureClientArea() {
 
         // Carica appuntamenti del cliente
         await loadClientAppointments(clientData.id, clientData.ownerId);
+        
+        // Carica informazioni di contatto del professionista per il footer
+        try {
+          const contactResponse = await fetch('/api/public/contact-info', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          if (contactResponse.ok) {
+            const contactData = await contactResponse.json();
+            setContactInfo(contactData);
+            console.log('📞 [PURE CLIENT] Informazioni contatto caricate per footer');
+          }
+        } catch (error) {
+          console.warn('❌ [PURE CLIENT] Errore caricamento contatti:', error);
+        }
 
       } catch (error) {
         console.error('❌ [PURE CLIENT] Errore inizializzazione:', error);

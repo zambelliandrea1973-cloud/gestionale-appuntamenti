@@ -3257,6 +3257,28 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint pubblico per informazioni di contatto (per area clienti)
+  app.get('/api/public/contact-info', (req, res) => {
+    try {
+      const storageData = loadStorageData();
+      const { contactInfo = {} } = storageData;
+      
+      // Restituisce solo le informazioni di contatto pubbliche
+      const publicContactInfo = {
+        businessName: contactInfo.businessName || 'Studio Professionale',
+        email: contactInfo.email,
+        phone1: contactInfo.phone1,
+        website: contactInfo.website,
+        instagram: contactInfo.instagram
+      };
+      
+      res.json(publicContactInfo);
+    } catch (error) {
+      console.error('Errore nel caricamento informazioni contatto pubbliche:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
   // Endpoint per registrare accesso PWA tramite codice cliente (senza autenticazione)
   app.post('/api/client-access/:clientCode', (req, res) => {
     try {
