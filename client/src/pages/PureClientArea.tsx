@@ -90,10 +90,15 @@ export default function PureClientArea() {
   const [showDataProtectionModal, setShowDataProtectionModal] = useState<boolean>(false);
   const [contactInfo, setContactInfo] = useState<any>({});
 
-  // Funzione per caricare le informazioni di contatto del professionista
-  const loadContactInfo = async () => {
+  // Funzione per caricare le informazioni di contatto del professionista tramite ownerId
+  const loadContactInfo = async (ownerId?: number) => {
     try {
-      const response = await fetch('/api/public/contact-info', {
+      if (!ownerId) {
+        console.log('📞 [CLIENT FOOTER] Nessun ownerId fornito');
+        return;
+      }
+      
+      const response = await fetch(`/api/owner-contact-info/${ownerId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -101,7 +106,9 @@ export default function PureClientArea() {
       if (response.ok) {
         const data = await response.json();
         setContactInfo(data);
-        console.log('📞 [CLIENT FOOTER] Informazioni contatto caricate:', data);
+        console.log('📞 [CLIENT FOOTER] Informazioni contatto caricate per owner:', ownerId, data);
+      } else {
+        console.error('📞 [CLIENT FOOTER] Errore response:', response.status);
       }
     } catch (error) {
       console.error('❌ [CLIENT FOOTER] Errore caricamento contatti:', error);
@@ -182,6 +189,9 @@ export default function PureClientArea() {
 
         // Carica appuntamenti del cliente
         await loadClientAppointments(clientData.id, clientData.ownerId);
+        
+        // Carica le informazioni di contatto del professionista
+        await loadContactInfo(clientData.ownerId);
         
 
 
