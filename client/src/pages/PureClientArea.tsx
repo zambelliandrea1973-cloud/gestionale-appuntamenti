@@ -456,7 +456,7 @@ export default function PureClientArea() {
               <p>Il presente documento costituisce l'informativa privacy resa agli utenti che utilizzano i servizi del Gestionale Appuntamenti by Zambelli Andrea.</p>
               
               <h3 className="font-semibold">2. Titolare del Trattamento</h3>
-              <p>Il Titolare del trattamento dei dati è Zambelli Andrea, con sede in Via Cavallotti, contattabile all'indirizzo zambelli.andrea@libero.it</p>
+              <p>Il Titolare del trattamento dei dati è Zambelli Andrea, contattabile all'indirizzo zambelli.andrea.1973@gmail.com</p>
               
               <h3 className="font-semibold">3. Tipologie di Dati Raccolti</h3>
               <p>I dati personali raccolti comprendono: nome, cognome, data di nascita, codice fiscale, indirizzo email, numero di telefono, informazioni relative agli appuntamenti sanitari.</p>
