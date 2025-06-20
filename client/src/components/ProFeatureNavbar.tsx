@@ -33,7 +33,7 @@ export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
         </h1>
       </div>
       
-      <div className="grid w-full grid-cols-3 mb-8">
+      <div className="grid w-full grid-cols-4 mb-8">
         <Link to="/pro-features">
           <div 
             className={`flex items-center justify-center py-3 px-3 ${
