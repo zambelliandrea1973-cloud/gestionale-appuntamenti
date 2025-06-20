@@ -80,52 +80,6 @@
       }
     ],
     [
-      251,
-      {
-        "firstName": "Bruna",
-        "lastName": "Pizzolato",
-        "phone": "+393401234567",
-        "email": "brunapizzolato77@gmail.com",
-        "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
-        "birthday": "1987-03-14",
-        "notes": "Cliente storica, preferisce appuntamenti mattutini",
-        "isFrequent": true,
-        "medicalNotes": "Lieve ipertensione, sotto controllo medico",
-        "allergies": "Nichel",
-        "hasConsent": true,
-        "ownerId": 16,
-        "id": 251,
-        "createdAt": "2025-06-03T13:34:58.644Z",
-        "accessCount": 36,
-        "lastAccess": "2025-06-17T07:47:09.539Z",
-        "uniqueCode": "PROF_016_B17E_CLIENT_251_1A6D",
-        "professionistCode": "PROF_016_B17E"
-      }
-    ],
-    [
-      252,
-      {
-        "firstName": "Marco",
-        "lastName": "Berto",
-        "phone": "+393407654321",
-        "email": "marco_berto@msn.com",
-        "address": "Via Monte Rosa 4b, 22070 Appiano Gentile",
-        "birthday": "1978-07-20",
-        "notes": "Preferisce essere contattato via email",
-        "isFrequent": true,
-        "medicalNotes": "Nessun problema di salute noto",
-        "allergies": "Nessuna allergia dichiarata",
-        "hasConsent": true,
-        "ownerId": 16,
-        "id": 252,
-        "createdAt": "2025-06-03T13:34:58.644Z",
-        "accessCount": 14,
-        "lastAccess": "2025-06-17T07:47:49.607Z",
-        "uniqueCode": "PROF_016_B17E_CLIENT_252_4CEC",
-        "professionistCode": "PROF_016_B17E"
-      }
-    ],
-    [
       256,
       {
         "firstName": "pippo",
@@ -793,12 +747,12 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 402,
-        "lastAccess": "2025-06-20T09:09:54.980Z",
+        "accessCount": 417,
+        "lastAccess": "2025-06-20T11:51:33.115Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F",
-        "lastPwaAccess": "2025-06-20T09:09:54.980Z",
-        "pwaAccessCount": 281
+        "lastPwaAccess": "2025-06-20T11:51:33.115Z",
+        "pwaAccessCount": 296
       }
     ],
     [
@@ -7970,12 +7924,12 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 56,
-        "lastAccess": "2025-06-20T09:06:12.806Z",
+        "accessCount": 60,
+        "lastAccess": "2025-06-20T11:06:31.355Z",
         "hasConsent": true,
         "updatedAt": "2025-06-20T08:19:15.826Z",
-        "lastPwaAccess": "2025-06-20T09:06:12.806Z",
-        "pwaAccessCount": 36
+        "lastPwaAccess": "2025-06-20T11:06:31.355Z",
+        "pwaAccessCount": 40
       }
     ]
   ],
@@ -8256,7 +8210,8 @@
         "notes": "",
         "status": "scheduled",
         "createdAt": "2025-06-16T07:39:04.768Z",
-        "reminderType": "email"
+        "reminderType": "email",
+        "ownerId": 16
       }
     ],
     [
@@ -8270,7 +8225,8 @@
         "endTime": "12:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-16T09:09:59.602Z"
+        "createdAt": "2025-06-16T09:09:59.602Z",
+        "ownerId": 16
       }
     ],
     [
@@ -8284,7 +8240,8 @@
         "endTime": "13:45:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-16T09:10:26.422Z"
+        "createdAt": "2025-06-16T09:10:26.422Z",
+        "ownerId": 3
       }
     ],
     [
@@ -8298,7 +8255,8 @@
         "endTime": "13:30:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-16T09:10:53.499Z"
+        "createdAt": "2025-06-16T09:10:53.499Z",
+        "ownerId": 9
       }
     ],
     [
@@ -8312,7 +8270,8 @@
         "endTime": "11:45:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-16T09:11:30.713Z"
+        "createdAt": "2025-06-16T09:11:30.713Z",
+        "ownerId": 9
       }
     ],
     [
@@ -8326,7 +8285,8 @@
         "endTime": "12:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-18T06:01:36.608Z"
+        "createdAt": "2025-06-18T06:01:36.608Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8340,7 +8300,8 @@
         "endTime": "10:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-18T06:02:11.946Z"
+        "createdAt": "2025-06-18T06:02:11.946Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8354,7 +8315,8 @@
         "endTime": "13:15:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-18T08:46:14.443Z"
+        "createdAt": "2025-06-18T08:46:14.443Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8368,7 +8330,22 @@
         "endTime": "12:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-06-20T06:30:11.631Z"
+        "createdAt": "2025-06-20T06:30:11.631Z",
+        "ownerId": 14
+      }
+    ],
+    [
+      1750417476582,
+      {
+        "id": 1750417476582,
+        "clientId": 14001,
+        "serviceId": 1750225071976,
+        "date": "2025-06-21",
+        "startTime": "09:00",
+        "endTime": "10:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-20T11:04:36.582Z"
       }
     ]
   ],
@@ -8392,6 +8369,7 @@
   ],
   "clientCodes": {},
   "professionistCodes": {
+    "3": "PROF_003_36B3",
     "14": "PROF_014_9C1F",
     "16": "PROF_016_B17E"
   },
@@ -8408,5 +8386,76 @@
       "phone": "+39 123 456 7890",
       "phone1": "+39 3471445767"
     }
-  }
+  },
+  "invoices": [
+    [
+      1750413460810,
+      {
+        "id": 1750413460810,
+        "invoiceNumber": "06/2025/001",
+        "clientName": "bruna pizzolato",
+        "totalAmount": 70,
+        "date": "2025-06-20",
+        "dueDate": "2025-07-20",
+        "description": "bicom",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-06-20T09:57:40.813Z"
+      }
+    ],
+    [
+      1750413484006,
+      {
+        "id": 1750413484006,
+        "invoiceNumber": "06/2025/002",
+        "clientName": "marco brto",
+        "totalAmount": 70,
+        "date": "2025-06-20",
+        "dueDate": "2025-07-20",
+        "description": "bicom",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-06-20T09:58:04.009Z"
+      }
+    ],
+    [
+      1750414118518,
+      {
+        "id": 1750414118518,
+        "invoiceNumber": "06/2025/003",
+        "clientName": "Trial Account",
+        "totalAmount": 80,
+        "date": "2025-06-20",
+        "dueDate": "2025-07-20",
+        "description": "pedicure",
+        "status": "draft",
+        "ownerId": 14,
+        "createdAt": "2025-06-20T10:08:38.520Z"
+      }
+    ]
+  ],
+  "adminNotifications": [
+    {
+      "id": 1750422642036,
+      "type": "client_deleted",
+      "message": "L'utente faverioelisa6@gmail.com ha eliminato il cliente \"Marco Berto\" dal database",
+      "userId": 16,
+      "userEmail": "faverioelisa6@gmail.com",
+      "clientId": 252,
+      "clientName": "Marco Berto",
+      "timestamp": "2025-06-20T12:30:42.036Z",
+      "read": false
+    },
+    {
+      "id": 1750422650386,
+      "type": "client_deleted",
+      "message": "L'utente faverioelisa6@gmail.com ha eliminato il cliente \"Bruna Pizzolato\" dal database",
+      "userId": 16,
+      "userEmail": "faverioelisa6@gmail.com",
+      "clientId": 251,
+      "clientName": "Bruna Pizzolato",
+      "timestamp": "2025-06-20T12:30:50.386Z",
+      "read": false
+    }
+  ]
 }
