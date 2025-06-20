@@ -5,6 +5,7 @@ import {
   FileSpreadsheet,
   Receipt,
   Crown,
+  Package,
 } from "lucide-react";
 import { Link } from 'wouter';
 
@@ -37,7 +38,7 @@ export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
         <Link to="/pro-features">
           <div 
             className={`flex items-center justify-center py-3 px-3 ${
-              isActive('/pro-features') && !isActive('/invoices') && !isActive('/reports') 
+              isActive('/pro-features') && !isActive('/invoices') && !isActive('/inventory') && !isActive('/reports') 
                 ? 'border-b-2 border-primary font-medium text-primary' 
                 : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
             }`}
@@ -57,6 +58,19 @@ export default function ProFeatureNavbar({ children }: ProFeatureNavbarProps) {
           >
             <Receipt className="h-4 w-4 mr-2" />
             {t('pro.invoices', 'Fatture')}
+          </div>
+        </Link>
+        
+        <Link to="/inventory">
+          <div 
+            className={`flex items-center justify-center py-3 px-3 ${
+              isActive('/inventory') 
+                ? 'border-b-2 border-primary font-medium text-primary' 
+                : 'border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground'
+            }`}
+          >
+            <Package className="h-4 w-4 mr-2" />
+            {t('pro.inventory', 'Magazzino')}
           </div>
         </Link>
         
