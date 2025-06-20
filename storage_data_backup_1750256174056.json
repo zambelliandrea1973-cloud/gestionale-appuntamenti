@@ -98,8 +98,8 @@
         "createdAt": "2025-06-03T13:34:58.644Z",
         "accessCount": 36,
         "lastAccess": "2025-06-17T07:47:09.539Z",
-        "uniqueCode": "PROF_016_21E9_CLIENT_251_E8A6",
-        "professionistCode": "PROF_016_B4B8"
+        "uniqueCode": "PROF_016_B17E_CLIENT_251_1A6D",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -142,8 +142,8 @@
         "ownerId": 16,
         "id": 256,
         "createdAt": "2025-06-03T13:34:58.644Z",
-        "uniqueCode": "PROF_016_9930_CLIENT_256_6F8B",
-        "professionistCode": "PROF_016_8783"
+        "uniqueCode": "PROF_016_B17E_CLIENT_256_5BAC",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -164,7 +164,9 @@
         "id": 257,
         "createdAt": "2025-06-03T13:34:58.645Z",
         "uniqueCode": "PROF_016_B17E_CLIENT_257_CFDB",
-        "professionistCode": "PROF_016_B17E"
+        "professionistCode": "PROF_016_B17E",
+        "accessCount": 2,
+        "lastAccess": "2025-06-18T13:48:45.434Z"
       }
     ],
     [
@@ -205,8 +207,8 @@
         "ownerId": 16,
         "id": 259,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "uniqueCode": "PROF_016_2AE2_CLIENT_259_C705",
-        "professionistCode": "PROF_016_ED6C"
+        "uniqueCode": "PROF_016_B17E_CLIENT_259_9CE6",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -226,8 +228,8 @@
         "ownerId": 16,
         "id": 261,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "uniqueCode": "PROF_016_F529_CLIENT_261_7C2D",
-        "professionistCode": "PROF_016_7C7E"
+        "uniqueCode": "PROF_016_B17E_CLIENT_261_99B7",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -247,8 +249,8 @@
         "ownerId": 16,
         "id": 263,
         "createdAt": "2025-06-03T13:34:58.645Z",
-        "uniqueCode": "PROF_016_89F8_CLIENT_263_1DFB",
-        "professionistCode": "PROF_016_9251"
+        "uniqueCode": "PROF_016_B17E_CLIENT_263_C51C",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -290,7 +292,9 @@
         "id": 265,
         "createdAt": "2025-06-03T13:34:58.645Z",
         "uniqueCode": "PROF_016_B17E_CLIENT_265_95C4",
-        "professionistCode": "PROF_016_B17E"
+        "professionistCode": "PROF_016_B17E",
+        "accessCount": 2,
+        "lastAccess": "2025-06-18T13:47:12.663Z"
       }
     ],
     [
@@ -394,8 +398,8 @@
         "ownerId": 16,
         "id": 270,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "uniqueCode": "PROF_016_791B_CLIENT_270_C1F2",
-        "professionistCode": "PROF_016_1C33"
+        "uniqueCode": "PROF_016_B17E_CLIENT_270_B842",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -520,8 +524,8 @@
         "ownerId": 16,
         "id": 514,
         "createdAt": "2025-06-03T13:34:58.647Z",
-        "uniqueCode": "PROF_016_BEF6_CLIENT_514_2556",
-        "professionistCode": "PROF_016_A61F"
+        "uniqueCode": "PROF_016_B17E_CLIENT_514_44A1",
+        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -1291,6 +1295,72 @@
         "color": "#f7a93b",
         "description": ""
       }
+    ],
+    "16": [
+      {
+        "id": 7,
+        "name": "Consulenza Generale",
+        "duration": 60,
+        "color": "#4CAF50",
+        "price": 5000,
+        "ownerId": 16
+      },
+      {
+        "id": 8,
+        "name": "Trattamento Specialistico",
+        "duration": 90,
+        "color": "#2196F3",
+        "price": 75,
+        "ownerId": 16
+      },
+      {
+        "id": 9,
+        "name": "Visita Cardiologica",
+        "duration": 45,
+        "color": "#E91E63",
+        "price": 8000,
+        "ownerId": 16
+      },
+      {
+        "id": 10,
+        "name": "Controllo Post-Operatorio",
+        "duration": 30,
+        "color": "#FF9800",
+        "price": 4500,
+        "ownerId": 16
+      },
+      {
+        "id": 11,
+        "name": "Ecografia",
+        "duration": 45,
+        "color": "#9C27B0",
+        "price": 6000,
+        "ownerId": 16
+      },
+      {
+        "id": 12,
+        "name": "Terapia Riabilitativa",
+        "duration": 60,
+        "color": "#607D8B",
+        "price": 5500,
+        "ownerId": 16
+      },
+      {
+        "id": 13,
+        "name": "Consulenza Nutrizionale",
+        "duration": 45,
+        "color": "#795548",
+        "price": 6500,
+        "ownerId": 16
+      },
+      {
+        "id": 14,
+        "name": "Fisioterapia",
+        "duration": 50,
+        "color": "#009688",
+        "price": 5000,
+        "ownerId": 16
+      }
     ]
   },
   "appointments": [
@@ -1307,23 +1377,6 @@
         "status": "scheduled",
         "createdAt": "2025-06-16T07:39:04.768Z",
         "reminderType": "email"
-      }
-    ],
-    [
-      1750148900000,
-      {
-        "id": 1750148900000,
-        "clientId": 252,
-        "serviceId": 7,
-        "date": "2025-06-18",
-        "startTime": "08:30",
-        "endTime": "09:30:00",
-        "notes": "Test promemoria automatico",
-        "status": "scheduled",
-        "createdAt": "2025-06-17T08:28:00.000Z",
-        "reminderType": "email",
-        "reminderStatus": "sent",
-        "reminderSentAt": "2025-06-17T08:34:05.513Z"
       }
     ],
     [
@@ -1455,6 +1508,11 @@
       "phone1": "+39 3471445767",
       "website": "biomedicinaintegrata.it",
       "instagram": "Biomedicinaintegrata"
+    },
+    "16": {
+      "email": "elisafaverio6@gmail.com",
+      "phone": "+39 123 456 7890",
+      "phone1": "+39 3471445767"
     }
   }
 }
