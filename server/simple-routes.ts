@@ -2674,6 +2674,83 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Endpoint per suggerimenti fatturazione
+  app.get('/api/invoices/suggestions', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      
+      // Carica clienti del professionista
+      const allClients = storageData.clients || [];
+      const userClients = allClients
+        .filter(([_, client]) => client.ownerId === user.id)
+        .map(([_, client]) => ({
+          name: `${client.firstName} ${client.lastName}`.trim(),
+          fullName: `${client.firstName} ${client.lastName}`.trim()
+        }))
+        .filter(client => client.name.length > 0);
+
+      // Carica fatture esistenti per analizzare importi comuni
+      const allInvoices = storageData.invoices || [];
+      const userInvoices = allInvoices
+        .filter(([_, invoice]) => invoice.ownerId === user.id)
+        .map(([_, invoice]) => invoice);
+
+      // Estrai importi più comuni
+      const amountCounts = {};
+      userInvoices.forEach(invoice => {
+        const amount = invoice.totalAmount;
+        if (amount && amount > 0) {
+          amountCounts[amount] = (amountCounts[amount] || 0) + 1;
+        }
+      });
+
+      // Ordina importi per frequenza
+      const commonAmounts = Object.entries(amountCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 10)
+        .map(([amount]) => parseFloat(amount));
+
+      // Aggiungi alcuni importi standard se la lista è vuota
+      if (commonAmounts.length === 0) {
+        commonAmounts.push(50, 70, 100, 150, 200);
+      }
+
+      // Estrai descrizioni più comuni
+      const descriptionCounts = {};
+      userInvoices.forEach(invoice => {
+        if (invoice.description && invoice.description.trim().length > 0) {
+          const desc = invoice.description.trim().toLowerCase();
+          descriptionCounts[desc] = (descriptionCounts[desc] || 0) + 1;
+        }
+      });
+
+      const commonDescriptions = Object.entries(descriptionCounts)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 10)
+        .map(([desc]) => desc);
+
+      // Aggiungi descrizioni standard se la lista è vuota
+      if (commonDescriptions.length === 0) {
+        commonDescriptions.push('visita medica', 'consulenza', 'controllo', 'terapia', 'esame');
+      }
+
+      res.json({
+        clients: userClients,
+        amounts: commonAmounts,
+        descriptions: commonDescriptions
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore caricamento suggerimenti:', error);
+      res.status(500).json({ message: 'Errore nel caricamento dei suggerimenti' });
+    }
+  });
+
 
 
   // Crea una nuova fattura

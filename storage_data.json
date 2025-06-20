@@ -8417,5 +8417,37 @@
       "phone": "+39 123 456 7890",
       "phone1": "+39 3471445767"
     }
-  }
+  },
+  "invoices": [
+    [
+      1750413460810,
+      {
+        "id": 1750413460810,
+        "invoiceNumber": "06/2025/001",
+        "clientName": "bruna pizzolato",
+        "totalAmount": 70,
+        "date": "2025-06-20",
+        "dueDate": "2025-07-20",
+        "description": "bicom",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-06-20T09:57:40.813Z"
+      }
+    ],
+    [
+      1750413484006,
+      {
+        "id": 1750413484006,
+        "invoiceNumber": "06/2025/002",
+        "clientName": "marco brto",
+        "totalAmount": 70,
+        "date": "2025-06-20",
+        "dueDate": "2025-07-20",
+        "description": "bicom",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-06-20T09:58:04.009Z"
+      }
+    ]
+  ]
 }
