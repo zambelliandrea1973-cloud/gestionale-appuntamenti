@@ -31,6 +31,7 @@ import BetaAdmin from "./pages/BetaAdmin";
 import Terms from "./pages/Terms";
 import PaymentAdmin from "./pages/PaymentAdmin";
 import StaffManagementPageFixed from "./pages/StaffManagementPageFixed";
+import Inventory from "./pages/Inventory";
 import SubscribePage from "./pages/SubscribePage";
 import RegisterPage from "./pages/RegisterPage";
 import StaffLogin from "./pages/StaffLogin";
@@ -261,6 +262,11 @@ function AppRoutes() {
       <Route path="/terms">
         <StaffPageWrapper>
           <Terms />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/inventory">
+        <StaffPageWrapper>
+          <Inventory />
         </StaffPageWrapper>
       </Route>
       <Route path="/client-medical-details">

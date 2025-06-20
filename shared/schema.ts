@@ -612,6 +612,112 @@ export type InsertPaymentTransaction = z.infer<typeof insertPaymentTransactionSc
 export type UserSettings = typeof userSettings.$inferSelect;
 export type InsertUserSettings = z.infer<typeof insertUserSettingsSchema>;
 
+// Product Inventory System for PRO subscription
+export const productCategories = pgTable("product_categories", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Multi-tenant support
+  name: text("name").notNull(),
+  description: text("description"),
+  color: text("color").default("#3f51b5"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Multi-tenant support
+  categoryId: integer("category_id").references(() => productCategories.id),
+  name: text("name").notNull(),
+  description: text("description"),
+  sku: text("sku"), // Stock Keeping Unit
+  barcode: text("barcode"),
+  price: integer("price"), // in cents
+  cost: integer("cost"), // in cents (purchase cost)
+  currentStock: integer("current_stock").default(0),
+  minStock: integer("min_stock").default(0), // Minimum stock alert threshold
+  maxStock: integer("max_stock"), // Maximum stock capacity
+  unit: text("unit").default("pz"), // Unit of measurement (pz, kg, l, etc.)
+  supplier: text("supplier"),
+  supplierContact: text("supplier_contact"),
+  expirationDate: date("expiration_date"),
+  location: text("location"), // Storage location
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const stockMovements = pgTable("stock_movements", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Multi-tenant support
+  productId: integer("product_id").notNull().references(() => products.id),
+  movementType: text("movement_type").notNull(), // 'IN', 'OUT', 'ADJUSTMENT', 'SALE', 'WASTE'
+  quantity: integer("quantity").notNull(),
+  unitPrice: integer("unit_price"), // in cents
+  totalValue: integer("total_value"), // in cents
+  reason: text("reason"),
+  reference: text("reference"), // Invoice number, order number, etc.
+  staffMember: text("staff_member"), // Who performed the movement
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const productSales = pgTable("product_sales", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Multi-tenant support
+  productId: integer("product_id").notNull().references(() => products.id),
+  clientId: integer("client_id").references(() => clients.id),
+  quantity: integer("quantity").notNull(),
+  unitPrice: integer("unit_price").notNull(), // in cents
+  totalAmount: integer("total_amount").notNull(), // in cents
+  discountPercent: decimal("discount_percent", { precision: 5, scale: 2 }).default("0"),
+  finalAmount: integer("final_amount").notNull(), // in cents after discount
+  saleDate: timestamp("sale_date").defaultNow(),
+  invoiceId: integer("invoice_id").references(() => invoices.id),
+  staffMember: text("staff_member"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Insert schemas
+export const insertProductCategorySchema = createInsertSchema(productCategories).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertProductSchema = createInsertSchema(products).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertStockMovementSchema = createInsertSchema(stockMovements).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+});
+
+export const insertProductSaleSchema = createInsertSchema(productSales).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+});
+
+// Types
+export type ProductCategory = typeof productCategories.$inferSelect;
+export type InsertProductCategory = z.infer<typeof insertProductCategorySchema>;
+
+export type Product = typeof products.$inferSelect;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
+
+export type StockMovement = typeof stockMovements.$inferSelect;
+export type InsertStockMovement = z.infer<typeof insertStockMovementSchema>;
+
+export type ProductSale = typeof productSales.$inferSelect;
+export type InsertProductSale = z.infer<typeof insertProductSaleSchema>;
+
 // Define relations
 export const clientsRelations = relations(clients, ({ many, one }) => ({
   appointments: many(appointments),
