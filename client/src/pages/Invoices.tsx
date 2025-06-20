@@ -90,6 +90,11 @@ export default function Invoices() {
     queryKey: ["/api/invoices"],
   });
 
+  const { data: nextInvoiceNumber } = useQuery<{ nextInvoiceNumber: string }>({
+    queryKey: ["/api/invoices/next-number"],
+    enabled: isFormOpen,
+  });
+
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
       const response = await fetch("/api/invoices", {
@@ -284,8 +289,15 @@ export default function Invoices() {
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="bg-muted/50 p-3 rounded-md text-sm text-muted-foreground">
-                📋 Il numero fattura verrà generato automaticamente in formato ANNO/MESE/PROGRESSIVO
+              <div className="bg-muted/50 p-3 rounded-md text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">
+                    📋 Numero fattura automatico:
+                  </span>
+                  <span className="font-mono font-semibold text-primary">
+                    {nextInvoiceNumber?.nextInvoiceNumber || "Caricamento..."}
+                  </span>
+                </div>
               </div>
               <FormField
                 control={form.control}

@@ -2632,14 +2632,14 @@ export function registerSimpleRoutes(app: Express): Server {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
-    const yearMonth = `${year}${month}`;
+    const monthYear = `${month}/${year}`;
     
     // Carica fatture esistenti per questo owner
     const existingInvoices = storageData.invoices || [];
     const ownerInvoices = existingInvoices
       .filter(([_, invoice]) => invoice.ownerId === ownerId)
       .map(([_, invoice]) => invoice.invoiceNumber)
-      .filter(num => num && num.startsWith(yearMonth));
+      .filter(num => num && num.startsWith(monthYear));
     
     // Trova il numero progressivo più alto per questo mese
     let maxNumber = 0;
@@ -2654,8 +2654,25 @@ export function registerSimpleRoutes(app: Express): Server {
     });
     
     const nextNumber = String(maxNumber + 1).padStart(3, '0');
-    return `${year}/${month}/${nextNumber}`;
+    return `${month}/${year}/${nextNumber}`;
   }
+
+  // Endpoint per ottenere il prossimo numero fattura
+  app.get('/api/invoices/next-number', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const nextNumber = generateInvoiceNumber(user.id);
+      
+      res.json({ nextInvoiceNumber: nextNumber });
+    } catch (error) {
+      console.error('❌ Errore generazione prossimo numero:', error);
+      res.status(500).json({ message: 'Errore nella generazione del numero' });
+    }
+  });
 
   // Crea una nuova fattura
   app.post('/api/invoices', async (req, res) => {
