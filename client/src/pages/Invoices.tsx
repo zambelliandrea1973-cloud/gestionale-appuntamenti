@@ -135,7 +135,7 @@ export default function Invoices() {
     })),
     defaultValues: {
       clientName: "",
-      totalAmount: 0,
+      totalAmount: undefined as any,
       date: format(new Date(), "yyyy-MM-dd"),
       dueDate: format(addDays(new Date(), 30), "yyyy-MM-dd"),
       description: "",
