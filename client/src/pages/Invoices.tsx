@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format, addDays } from "date-fns";
-import { Plus, FileText } from "lucide-react";
+import { Plus, FileText, Printer, Mail, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +33,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 
 type Invoice = {
@@ -73,6 +79,8 @@ export default function Invoices() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
   const {
     data: invoices = [],
@@ -125,6 +133,61 @@ export default function Invoices() {
     createMutation.mutate(data);
   };
 
+  const emailForm = useForm({
+    resolver: zodResolver(z.object({
+      recipientEmail: z.string().email("Email non valida"),
+      subject: z.string().min(1, "Oggetto richiesto"),
+      message: z.string().optional(),
+    })),
+    defaultValues: {
+      recipientEmail: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  const sendEmailMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await fetch(`/api/invoices/${selectedInvoice?.id}/send-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error("Failed to send email");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      setIsEmailDialogOpen(false);
+      setSelectedInvoice(null);
+      emailForm.reset();
+      toast({ title: "Email inviata con successo" });
+    },
+    onError: () => {
+      toast({ title: "Errore nell'invio dell'email", variant: "destructive" });
+    },
+  });
+
+  const handlePrintInvoice = (invoice: Invoice) => {
+    const printWindow = window.open(`/api/invoices/${invoice.id}/pdf`, '_blank');
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    }
+  };
+
+  const handleEmailInvoice = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber} - Studio Medico`);
+    emailForm.setValue("message", `Gentile ${invoice.client?.firstName || invoice.clientName},\n\nIn allegato trova la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti,\nStudio Medico`);
+    setIsEmailDialogOpen(true);
+  };
+
+  const onEmailSubmit = (data: any) => {
+    sendEmailMutation.mutate(data);
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -165,26 +228,45 @@ export default function Invoices() {
           {invoices.map((invoice) => (
             <Card key={invoice.id} className="p-4">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex-1">
                   <h3 className="font-medium">Fattura #{invoice.invoiceNumber}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Cliente: {invoice.client?.firstName} {invoice.client?.lastName}
+                    Cliente: {invoice.client?.firstName} {invoice.client?.lastName || invoice.clientName}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     Data: {format(new Date(invoice.date), "dd/MM/yyyy")}
                   </p>
                 </div>
-                <div className="text-right">
-                  <p className="font-medium">€{invoice.totalAmount.toFixed(2)}</p>
-                  <Badge variant={
-                    invoice.status === "paid" ? "default" :
-                    invoice.status === "sent" ? "secondary" :
-                    invoice.status === "overdue" ? "destructive" : "outline"
-                  }>
-                    {invoice.status === "paid" ? "Pagata" :
-                     invoice.status === "sent" ? "Inviata" :
-                     invoice.status === "overdue" ? "Scaduta" : "Bozza"}
-                  </Badge>
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <p className="font-medium">€{invoice.totalAmount.toFixed(2)}</p>
+                    <Badge variant={
+                      invoice.status === "paid" ? "default" :
+                      invoice.status === "sent" ? "secondary" :
+                      invoice.status === "overdue" ? "destructive" : "outline"
+                    }>
+                      {invoice.status === "paid" ? "Pagata" :
+                       invoice.status === "sent" ? "Inviata" :
+                       invoice.status === "overdue" ? "Scaduta" : "Bozza"}
+                    </Badge>
+                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handlePrintInvoice(invoice)}>
+                        <Printer className="h-4 w-4 mr-2" />
+                        Stampa
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleEmailInvoice(invoice)}>
+                        <Mail className="h-4 w-4 mr-2" />
+                        Invia via Email
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             </Card>
@@ -307,6 +389,73 @@ export default function Invoices() {
                 </Button>
                 <Button type="submit" disabled={createMutation.isPending}>
                   {createMutation.isPending ? "Creazione..." : "Crea Fattura"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per invio email */}
+      <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Invia Fattura via Email</DialogTitle>
+            <DialogDescription>
+              Invia la fattura {selectedInvoice?.invoiceNumber} al cliente
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...emailForm}>
+            <form onSubmit={emailForm.handleSubmit(onEmailSubmit)} className="space-y-4">
+              <FormField
+                control={emailForm.control}
+                name="recipientEmail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Destinatario</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="cliente@esempio.it" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={emailForm.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Oggetto</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Oggetto dell'email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={emailForm.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Messaggio (opzionale)</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Messaggio personalizzato..." 
+                        rows={4}
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setIsEmailDialogOpen(false)}>
+                  Annulla
+                </Button>
+                <Button type="submit" disabled={sendEmailMutation.isPending}>
+                  {sendEmailMutation.isPending ? "Invio..." : "Invia Email"}
                 </Button>
               </DialogFooter>
             </form>
