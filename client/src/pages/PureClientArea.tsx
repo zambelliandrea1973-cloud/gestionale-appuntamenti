@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail, Download, ChevronDown, ChevronUp } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -258,64 +258,6 @@ export default function PureClientArea() {
 
         {/* PWA Installation Banner rimosso */}
 
-        {/* Istruzioni PWA - Collassabile */}
-        <Card className="bg-green-50 border-green-200 mb-8">
-          <CardHeader 
-            className="cursor-pointer hover:bg-green-100 transition-colors"
-            onClick={() => setPwaInstructionsOpen(!pwaInstructionsOpen)}
-          >
-            <CardTitle className="flex items-center justify-between text-green-800">
-              <div className="flex items-center gap-2">
-                <Download className="h-5 w-5" />
-                Installa App sul tuo dispositivo
-              </div>
-              {pwaInstructionsOpen ? (
-                <ChevronUp className="h-5 w-5" />
-              ) : (
-                <ChevronDown className="h-5 w-5" />
-              )}
-            </CardTitle>
-            <CardDescription className="text-green-600">
-              Clicca qui per vedere le istruzioni di installazione
-            </CardDescription>
-          </CardHeader>
-          {pwaInstructionsOpen && (
-            <CardContent>
-              <div className="space-y-3 text-sm text-green-700">
-                <p><strong>📱 Su Android:</strong></p>
-                <ol className="list-decimal list-inside space-y-1 ml-4">
-                  <li>Tocca il menu ⋮ in alto a destra</li>
-                  <li>Seleziona "Aggiungi alla schermata Home"</li>
-                  <li>Conferma "Installa" o "Aggiungi"</li>
-                </ol>
-                
-                <p><strong>🍎 Su iOS:</strong></p>
-                <ol className="list-decimal list-inside space-y-1 ml-4">
-                  <li>Tocca il pulsante Condividi 📤</li>
-                  <li>Scorri e tocca "Aggiungi alla schermata Home"</li>
-                  <li>Tocca "Aggiungi" in alto a destra</li>
-                </ol>
-                
-                <p><strong>💻 Su Desktop:</strong></p>
-                <ol className="list-decimal list-inside space-y-1 ml-4">
-                  <li>Cerca l'icona + nella barra degli indirizzi</li>
-                  <li>Clicca "Installa" quando appare</li>
-                </ol>
-                
-                <div className="mt-4 p-3 bg-green-100 rounded-lg">
-                  <p className="font-medium">✨ Vantaggi dell'installazione:</p>
-                  <ul className="list-disc list-inside space-y-1 mt-2">
-                    <li>Accesso rapido dalla schermata principale</li>
-                    <li>Funziona anche senza connessione</li>
-                    <li>Esperienza app nativa</li>
-                    <li>Notifiche per i tuoi appuntamenti</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          )}
-        </Card>
-
         {/* Lista Appuntamenti */}
         <Card>
           <CardHeader>
@@ -368,6 +310,49 @@ export default function PureClientArea() {
                 </div>
               </ScrollArea>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Istruzioni PWA spostate a fondo pagina */}
+        <Card className="bg-green-50 border-green-200 mt-8">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-green-800">
+              <Download className="h-5 w-5" />
+              Installa App sul tuo dispositivo
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-sm text-green-700">
+              <p><strong>📱 Su Android:</strong></p>
+              <ol className="list-decimal list-inside space-y-1 ml-4">
+                <li>Tocca il menu ⋮ in alto a destra</li>
+                <li>Seleziona "Aggiungi alla schermata Home"</li>
+                <li>Conferma "Installa" o "Aggiungi"</li>
+              </ol>
+              
+              <p><strong>🍎 Su iOS:</strong></p>
+              <ol className="list-decimal list-inside space-y-1 ml-4">
+                <li>Tocca il pulsante Condividi 📤</li>
+                <li>Scorri e tocca "Aggiungi alla schermata Home"</li>
+                <li>Tocca "Aggiungi" in alto a destra</li>
+              </ol>
+              
+              <p><strong>💻 Su Desktop:</strong></p>
+              <ol className="list-decimal list-inside space-y-1 ml-4">
+                <li>Cerca l'icona + nella barra degli indirizzi</li>
+                <li>Clicca "Installa" quando appare</li>
+              </ol>
+              
+              <div className="mt-4 p-3 bg-green-100 rounded-lg">
+                <p className="font-medium">✨ Vantaggi dell'installazione:</p>
+                <ul className="list-disc list-inside space-y-1 mt-2">
+                  <li>Accesso rapido dalla schermata principale</li>
+                  <li>Funziona anche senza connessione</li>
+                  <li>Esperienza app nativa</li>
+                  <li>Notifiche per i tuoi appuntamenti</li>
+                </ul>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
