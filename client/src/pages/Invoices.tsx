@@ -95,6 +95,15 @@ export default function Invoices() {
     enabled: isFormOpen,
   });
 
+  const { data: suggestions } = useQuery<{
+    clients: Array<{ name: string; fullName: string }>;
+    amounts: number[];
+    descriptions: string[];
+  }>({
+    queryKey: ["/api/invoices/suggestions"],
+    enabled: isFormOpen,
+  });
+
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
       const response = await fetch("/api/invoices", {
@@ -306,9 +315,22 @@ export default function Invoices() {
                   <FormItem>
                     <FormLabel>Nome Cliente</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nome del cliente" {...field} />
+                      <div className="relative">
+                        <Input placeholder="Nome del cliente" {...field} list="client-suggestions" />
+                        <datalist id="client-suggestions">
+                          {suggestions?.clients.map((client, index) => (
+                            <option key={index} value={client.fullName} />
+                          ))}
+                        </datalist>
+                      </div>
                     </FormControl>
                     <FormMessage />
+                    {suggestions?.clients.length > 0 && (
+                      <div className="text-xs text-muted-foreground mt-1">
+                        Suggerimenti: {suggestions.clients.slice(0, 3).map(c => c.name).join(", ")}
+                        {suggestions.clients.length > 3 && "..."}
+                      </div>
+                    )}
                   </FormItem>
                 )}
               />
@@ -319,13 +341,31 @@ export default function Invoices() {
                   <FormItem>
                     <FormLabel>Importo Totale (€)</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="number" 
-                        step="0.01" 
-                        placeholder="0.00" 
-                        {...field}
-                        onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                      />
+                      <div className="space-y-2">
+                        <Input 
+                          type="number" 
+                          step="0.01" 
+                          placeholder="0.00" 
+                          {...field}
+                          onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                        />
+                        {suggestions?.amounts.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {suggestions.amounts.slice(0, 6).map((amount) => (
+                              <Button
+                                key={amount}
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-6 px-2 text-xs"
+                                onClick={() => field.onChange(amount)}
+                              >
+                                €{amount}
+                              </Button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -366,7 +406,34 @@ export default function Invoices() {
                   <FormItem>
                     <FormLabel>Descrizione (opzionale)</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Descrizione dei servizi..." {...field} />
+                      <div className="space-y-2">
+                        <Textarea 
+                          placeholder="Descrizione dei servizi..." 
+                          {...field} 
+                          list="description-suggestions"
+                        />
+                        <datalist id="description-suggestions">
+                          {suggestions?.descriptions.map((desc, index) => (
+                            <option key={index} value={desc} />
+                          ))}
+                        </datalist>
+                        {suggestions?.descriptions.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {suggestions.descriptions.slice(0, 5).map((desc) => (
+                              <Button
+                                key={desc}
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="h-6 px-2 text-xs capitalize"
+                                onClick={() => field.onChange(desc)}
+                              >
+                                {desc}
+                              </Button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
