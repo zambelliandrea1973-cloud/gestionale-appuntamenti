@@ -459,10 +459,10 @@ export default function PureClientArea() {
               <p>Il Titolare del trattamento dei dati è Zambelli Andrea, contattabile all'indirizzo zambelli.andrea.1973@gmail.com</p>
               
               <h3 className="font-semibold">3. Tipologie di Dati Raccolti</h3>
-              <p>I dati personali raccolti comprendono: nome, cognome, data di nascita, codice fiscale, indirizzo email, numero di telefono, informazioni relative agli appuntamenti sanitari.</p>
+              <p>I dati personali raccolti comprendono: nome, cognome, data di nascita, codice fiscale, indirizzo email, numero di telefono, informazioni relative agli appuntamenti erogati.</p>
               
               <h3 className="font-semibold">4. Finalità del Trattamento</h3>
-              <p>I dati vengono trattati per: gestione degli appuntamenti, comunicazioni relative ai servizi sanitari, adempimenti di obblighi legali e contabili.</p>
+              <p>I dati vengono trattati per: gestione degli appuntamenti, comunicazioni relative ai servizi erogati, adempimenti di obblighi legali e contabili.</p>
               
               <h3 className="font-semibold">5. Base Giuridica</h3>
               <p>Il trattamento è basato sul consenso dell'interessato e sull'esecuzione di misure precontrattuali adottate su richiesta dello stesso.</p>
