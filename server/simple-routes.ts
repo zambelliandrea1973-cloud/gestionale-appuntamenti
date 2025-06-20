@@ -2609,16 +2609,53 @@ export function registerSimpleRoutes(app: Express): Server {
       const user = req.user as any;
       console.log('📄 [/api/invoices] Richiesta fatture per utente:', user.id);
       
-      // Per ora restituisce un array vuoto, ma struttura corretta per future implementazioni
-      const invoices: any[] = [];
-      console.log(`📄 [/api/invoices] Restituisco ${invoices.length} fatture per utente ${user.id}`);
+      // Carica fatture dal database per questo utente
+      const storageData = loadStorageData();
+      const allInvoices = storageData.invoices || [];
+      const userInvoices = allInvoices
+        .filter(([_, invoice]) => invoice.ownerId === user.id)
+        .map(([_, invoice]) => invoice)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
-      res.json(invoices);
+      console.log(`📄 [/api/invoices] Restituisco ${userInvoices.length} fatture per utente ${user.id}`);
+      
+      res.json(userInvoices);
     } catch (error) {
       console.error('❌ Error fetching invoices:', error);
       res.status(500).json({ message: 'Error fetching invoices' });
     }
   });
+
+  // Funzione per generare numero fattura automatico
+  function generateInvoiceNumber(ownerId: number): string {
+    const storageData = loadStorageData();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const yearMonth = `${year}${month}`;
+    
+    // Carica fatture esistenti per questo owner
+    const existingInvoices = storageData.invoices || [];
+    const ownerInvoices = existingInvoices
+      .filter(([_, invoice]) => invoice.ownerId === ownerId)
+      .map(([_, invoice]) => invoice.invoiceNumber)
+      .filter(num => num && num.startsWith(yearMonth));
+    
+    // Trova il numero progressivo più alto per questo mese
+    let maxNumber = 0;
+    ownerInvoices.forEach(invoiceNumber => {
+      const parts = invoiceNumber.split('/');
+      if (parts.length === 3) {
+        const progressiveNumber = parseInt(parts[2]);
+        if (!isNaN(progressiveNumber) && progressiveNumber > maxNumber) {
+          maxNumber = progressiveNumber;
+        }
+      }
+    });
+    
+    const nextNumber = String(maxNumber + 1).padStart(3, '0');
+    return `${year}/${month}/${nextNumber}`;
+  }
 
   // Crea una nuova fattura
   app.post('/api/invoices', async (req, res) => {
@@ -2632,18 +2669,23 @@ export function registerSimpleRoutes(app: Express): Server {
       
       console.log('📄 [/api/invoices] Creazione fattura per utente:', user.id, invoiceData);
       
-      // Genera ID unico per la fattura
+      // Genera ID unico e numero fattura automatico
       const invoiceId = Date.now();
+      const invoiceNumber = generateInvoiceNumber(user.id);
       
       const newInvoice = {
         id: invoiceId,
+        invoiceNumber,
         ...invoiceData,
         ownerId: user.id,
         createdAt: new Date().toISOString(),
         status: invoiceData.status || 'draft'
       };
       
-      console.log('📄 [/api/invoices] Fattura creata con successo:', invoiceId);
+      // Salva nel database
+      saveInvoiceToStorage(newInvoice);
+      
+      console.log(`📄 [/api/invoices] Fattura creata con numero: ${invoiceNumber} (ID: ${invoiceId})`);
       res.status(201).json(newInvoice);
     } catch (error) {
       console.error('❌ Error creating invoice:', error);
