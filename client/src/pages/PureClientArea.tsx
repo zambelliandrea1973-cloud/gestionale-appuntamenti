@@ -406,8 +406,39 @@ export default function PureClientArea() {
           </CardContent>
         </Card>
         
-        {/* Footer con informazioni di contatto usando il componente funzionante */}
-        <ClientFooterContactIcons />
+        {/* Footer completo con tutte le informazioni */}
+        <footer className="mt-12 pt-8 border-t border-gray-200">
+          {/* Informazioni di contatto del professionista */}
+          <ClientFooterContactIcons />
+          
+          {/* Informazioni legali e versione */}
+          <div className="mt-6 pt-6 border-t border-gray-100 text-center text-sm text-gray-500">
+            <div className="space-y-2">
+              <div className="flex flex-wrap justify-center gap-4">
+                <a href="/privacy-policy" className="hover:text-blue-600 transition-colors">
+                  Privacy Policy
+                </a>
+                <span>•</span>
+                <a href="/terms-of-service" className="hover:text-blue-600 transition-colors">
+                  Termini di Servizio
+                </a>
+                <span>•</span>
+                <a href="/data-protection" className="hover:text-blue-600 transition-colors">
+                  Protezione Dati
+                </a>
+              </div>
+              <div className="flex flex-wrap justify-center gap-4 text-xs">
+                <span>&copy; 2024 Gestionale Sanitario</span>
+                <span>•</span>
+                <span>Versione 2.4.1</span>
+                <span>•</span>
+                <a href="mailto:support@gestionale.it" className="hover:text-blue-600 transition-colors">
+                  Supporto Tecnico
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
