@@ -112,21 +112,35 @@ export default function PureClientArea() {
         
         // Registra l'accesso del cliente (importante per conteggio)
         try {
-          const accessResponse = await fetch(`/api/client-access/${clientCode}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-device-type': 'mobile' // PWA è sempre mobile
-            },
-            body: JSON.stringify({
-              timestamp: new Date().toISOString(),
-              userAgent: navigator.userAgent,
-              source: 'pwa'
-            })
+          // Prima ottieni l'ID del cliente dal codice
+          const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
           });
           
-          if (accessResponse.ok) {
-            console.log('✅ Accesso PWA registrato per cliente:', clientCode);
+          if (clientResponse.ok) {
+            const clientData = await clientResponse.json();
+            const clientId = clientData.client.id;
+            
+            // Ora registra l'accesso usando l'endpoint corretto
+            const accessResponse = await fetch(`/api/client-access/track/${clientId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-device-type': 'mobile'
+              },
+              body: JSON.stringify({
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                source: 'pwa',
+                isPWA: true,
+                accessType: 'qr_access'
+              })
+            });
+            
+            if (accessResponse.ok) {
+              console.log('✅ Accesso PWA registrato per cliente ID:', clientId);
+            }
           }
         } catch (error) {
           console.warn('Errore registrazione accesso PWA:', error);
