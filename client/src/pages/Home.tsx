@@ -366,7 +366,7 @@ export default function Home() {
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-2">Privacy e Sicurezza</h3>
-            <p>Supporto tecnico: andreazambelli64@gmail.com</p>
+            <p>Supporto tecnico: zambelli.andrea.1973@gmail.com</p>
             <button 
               className="text-primary hover:underline mt-1"
               onClick={() => navigate('/terms')}
