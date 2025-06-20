@@ -2,17 +2,71 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface Client {
+// PWA Installation Banner Component
+function PWAInstallBanner() {
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBanner(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        setShowInstallBanner(false);
+      }
+      setDeferredPrompt(null);
+    }
+  };
+
+  if (!showInstallBanner) return null;
+
+  return (
+    <Card className="bg-blue-50 border-blue-200">
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Download className="h-5 w-5 text-blue-600" />
+            <div>
+              <p className="font-medium text-blue-900">Installa App</p>
+              <p className="text-sm text-blue-700">Aggiungi questa app alla schermata principale per un accesso rapido</p>
+            </div>
+          </div>
+          <Button onClick={handleInstallClick} size="sm" className="bg-blue-600 hover:bg-blue-700">
+            Installa
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+interface ClientData {
   id: number;
   firstName: string;
   lastName: string;
   phone: string;
   email?: string;
   uniqueCode: string;
+  ownerId: number;
 }
 
 interface Appointment {
@@ -20,119 +74,132 @@ interface Appointment {
   date: string;
   time: string;
   service: string;
-  status: 'scheduled' | 'pending';
+  status: string;
   notes?: string;
 }
 
-interface ContactInfo {
-  email?: string;
-  phone?: string;
-  phone1?: string;
-  website?: string;
-  instagram?: string;
-}
-
 export default function PureClientArea() {
-  const { clientCode } = useParams<{ clientCode: string }>();
-  const [client, setClient] = useState<Client | null>(null);
+  const params = useParams();
+  const [client, setClient] = useState<ClientData | null>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Get token from URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
-  const autoLogin = urlParams.get('autoLogin') === 'true';
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    if (!clientCode) {
-      setError("Codice cliente mancante");
-      setLoading(false);
-      return;
-    }
+    const initializeClientArea = async () => {
+      try {
+        const clientCode = params.clientCode;
+        if (!clientCode) {
+          setError("Codice di accesso non valido");
+          setLoading(false);
+          return;
+        }
 
-    loadClientData();
-  }, [clientCode, token]);
+        console.log('🏠 [PURE CLIENT] Inizializzazione area cliente:', clientCode);
+        
+        // Aggiorna il manifest PWA per preservare il percorso del cliente
+        const manifestLink = document.querySelector('link[rel="manifest"]');
+        if (manifestLink) {
+          const newHref = `/manifest.json?clientToken=${clientCode}`;
+          manifestLink.setAttribute('href', newHref);
+          console.log(`📱 PWA: Manifest aggiornato per cliente: ${newHref}`);
+          
+          // Forza il refresh del manifest per dispositivi PWA
+          const link = manifestLink.cloneNode(true);
+          manifestLink.parentNode?.removeChild(manifestLink);
+          document.head.appendChild(link);
+        }
+        
+        // Registra l'accesso del cliente (importante per conteggio)
+        try {
+          const accessResponse = await fetch(`/api/client-access/${clientCode}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-device-type': 'mobile' // PWA è sempre mobile
+            },
+            body: JSON.stringify({
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+              source: 'pwa'
+            })
+          });
+          
+          if (accessResponse.ok) {
+            console.log('✅ Accesso PWA registrato per cliente:', clientCode);
+          }
+        } catch (error) {
+          console.warn('Errore registrazione accesso PWA:', error);
+        }
+        
+        // Carica dati cliente con autenticazione basata su codice
+        console.log('🏠 [PURE CLIENT] Richiesta API per codice:', clientCode);
+        const clientResponse = await fetch(`/api/client-by-code/${clientCode}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+          }
+        });
+        
+        console.log('🏠 [PURE CLIENT] Risposta API status:', clientResponse.status, clientResponse.statusText);
 
-  const loadClientData = async () => {
+        if (!clientResponse.ok) {
+          console.error('🏠 [PURE CLIENT] Errore API:', clientResponse.status, clientResponse.statusText);
+          const errorText = await clientResponse.text();
+          console.error('🏠 [PURE CLIENT] Dettagli errore:', errorText);
+          setError(`Accesso non autorizzato (${clientResponse.status})`);
+          setLoading(false);
+          return;
+        }
+
+        const clientData = await clientResponse.json();
+        console.log('🏠 [PURE CLIENT] Cliente caricato:', clientData.firstName, clientData.lastName);
+        setClient(clientData);
+
+        // Carica appuntamenti del cliente
+        await loadClientAppointments(clientData.id, clientData.ownerId);
+
+      } catch (error) {
+        console.error('❌ [PURE CLIENT] Errore inizializzazione:', error);
+        setError("Errore di connessione");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeClientArea();
+  }, [params.clientCode]);
+
+  const loadClientAppointments = async (clientId: number, ownerId: number) => {
     try {
-      setLoading(true);
-      setError(null);
-
-      console.log(`🔍 [CLIENT-AREA] Caricamento dati per cliente: ${clientCode}`);
-      console.log(`🔑 [CLIENT-AREA] Token ricevuto: ${token ? 'Presente' : 'Assente'}`);
-      console.log(`🚀 [CLIENT-AREA] AutoLogin: ${autoLogin}`);
-
-      // Headers per l'autenticazione
-      const headers: Record<string, string> = {};
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-
-      // Carica dati cliente
-      const clientResponse = await apiRequest(`/api/simple/client/${clientCode}`, {
+      console.log('📅 [PURE CLIENT] Caricamento appuntamenti per cliente:', clientId);
+      
+      const response = await fetch(`/api/client-appointments/${clientId}?ownerId=${ownerId}`, {
         method: 'GET',
-        headers
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        }
       });
 
-      if (!clientResponse.ok) {
-        throw new Error(`Errore nel caricamento del cliente: ${clientResponse.status}`);
-      }
-
-      const clientData = await clientResponse.json();
-      console.log(`✅ [CLIENT-AREA] Dati cliente caricati:`, clientData);
-      setClient(clientData);
-
-      // Carica appuntamenti
-      const appointmentsResponse = await apiRequest(`/api/simple/client/${clientCode}/appointments`, {
-        method: 'GET',
-        headers
-      });
-
-      if (appointmentsResponse.ok) {
-        const appointmentsData = await appointmentsResponse.json();
-        console.log(`📅 [CLIENT-AREA] Appuntamenti caricati:`, appointmentsData);
+      if (response.ok) {
+        const appointmentsData = await response.json();
         setAppointments(appointmentsData);
-      } else {
-        console.warn(`⚠️ [CLIENT-AREA] Impossibile caricare appuntamenti: ${appointmentsResponse.status}`);
-        setAppointments([]);
+        console.log('📅 [PURE CLIENT] Appuntamenti caricati:', appointmentsData.length);
       }
-
-      // Carica informazioni di contatto del professionista
-      const contactResponse = await apiRequest(`/api/simple/client/${clientCode}/contact-info`, {
-        method: 'GET',
-        headers
-      });
-
-      if (contactResponse.ok) {
-        const contactData = await contactResponse.json();
-        console.log(`📞 [CLIENT-AREA] Info contatto caricate:`, contactData);
-        setContactInfo(contactData);
-      } else {
-        console.warn(`⚠️ [CLIENT-AREA] Impossibile caricare info contatto: ${contactResponse.status}`);
-      }
-
-    } catch (err) {
-      console.error('❌ [CLIENT-AREA] Errore nel caricamento:', err);
-      setError(err instanceof Error ? err.message : 'Errore sconosciuto');
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error('❌ [PURE CLIENT] Errore caricamento appuntamenti:', error);
     }
   };
 
   const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('it-IT', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    } catch {
-      return dateString;
-    }
+    return new Date(dateString).toLocaleDateString('it-IT', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
   if (loading) {
@@ -189,26 +256,70 @@ export default function PureClientArea() {
           </CardContent>
         </Card>
 
+        {/* PWA Installation Banner rimosso */}
+
+        {/* Istruzioni PWA */}
+        <Card className="bg-green-50 border-green-200 mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-green-800">
+              <Download className="h-5 w-5" />
+              Installa App sul tuo dispositivo
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-sm text-green-700">
+              <p><strong>📱 Su Android:</strong></p>
+              <ol className="list-decimal list-inside space-y-1 ml-4">
+                <li>Tocca il menu ⋮ in alto a destra</li>
+                <li>Seleziona "Aggiungi alla schermata Home"</li>
+                <li>Conferma "Installa" o "Aggiungi"</li>
+              </ol>
+              
+              <p><strong>🍎 Su iOS:</strong></p>
+              <ol className="list-decimal list-inside space-y-1 ml-4">
+                <li>Tocca il pulsante Condividi 📤</li>
+                <li>Scorri e tocca "Aggiungi alla schermata Home"</li>
+                <li>Tocca "Aggiungi" in alto a destra</li>
+              </ol>
+              
+              <p><strong>💻 Su Desktop:</strong></p>
+              <ol className="list-decimal list-inside space-y-1 ml-4">
+                <li>Cerca l'icona + nella barra degli indirizzi</li>
+                <li>Clicca "Installa" quando appare</li>
+              </ol>
+              
+              <div className="mt-4 p-3 bg-green-100 rounded-lg">
+                <p className="font-medium">✨ Vantaggi dell'installazione:</p>
+                <ul className="list-disc list-inside space-y-1 mt-2">
+                  <li>Accesso rapido dalla schermata principale</li>
+                  <li>Funziona anche senza connessione</li>
+                  <li>Esperienza app nativa</li>
+                  <li>Notifiche per i tuoi appuntamenti</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Lista Appuntamenti */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              I tuoi Appuntamenti
+            <CardTitle className="flex items-center gap-3">
+              <Calendar className="h-6 w-6 text-green-600" />
+              I Tuoi Appuntamenti
             </CardTitle>
             <CardDescription>
-              Visualizza tutti i tuoi appuntamenti programmati
+              La tua area personale per consultare i tuoi appuntamenti
             </CardDescription>
           </CardHeader>
           <CardContent>
             {appointments.length === 0 ? (
-              <div className="text-center py-12">
-                <Calendar className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Nessun appuntamento</h3>
-                <p className="text-gray-600">Non hai appuntamenti programmati al momento.</p>
+              <div className="text-center py-8">
+                <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500">Nessun appuntamento programmato</p>
               </div>
             ) : (
-              <ScrollArea className="h-[400px]">
+              <ScrollArea className="h-96">
                 <div className="space-y-4">
                   {appointments.map((appointment) => (
                     <Card key={appointment.id} className="border-l-4 border-l-blue-500">
@@ -244,57 +355,6 @@ export default function PureClientArea() {
             )}
           </CardContent>
         </Card>
-
-        {/* Footer con informazioni di contatto del professionista */}
-        {contactInfo && (
-          <Card className="mt-8 bg-white/80 backdrop-blur-sm border-gray-200">
-            <CardContent className="pt-6">
-              <div className="text-center space-y-3">
-                <h3 className="font-semibold text-gray-800">Informazioni di contatto</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                  {contactInfo.email && (
-                    <div className="flex items-center justify-center gap-2">
-                      <Mail className="h-4 w-4" />
-                      <span>{contactInfo.email}</span>
-                    </div>
-                  )}
-                  {contactInfo.phone1 && (
-                    <div className="flex items-center justify-center gap-2">
-                      <Phone className="h-4 w-4" />
-                      <span>{contactInfo.phone1}</span>
-                    </div>
-                  )}
-                  {contactInfo.website && (
-                    <div className="flex items-center justify-center gap-2">
-                      <span>🌐</span>
-                      <a 
-                        href={`https://${contactInfo.website}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        {contactInfo.website}
-                      </a>
-                    </div>
-                  )}
-                  {contactInfo.instagram && (
-                    <div className="flex items-center justify-center gap-2">
-                      <span>📷</span>
-                      <a 
-                        href={`https://instagram.com/${contactInfo.instagram}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        @{contactInfo.instagram}
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );
