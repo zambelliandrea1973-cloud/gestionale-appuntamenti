@@ -369,7 +369,7 @@ export default function Home() {
             <p>Supporto tecnico: andreazambelli64@gmail.com</p>
             <button 
               className="text-primary hover:underline mt-1"
-              onClick={() => window.open('/terms.html', '_blank')}
+              onClick={() => navigate('/terms')}
             >
               Termini di servizio e condizioni d'uso →
             </button>

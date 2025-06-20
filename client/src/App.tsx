@@ -28,6 +28,7 @@ import TestNotificationsPage from "./pages/TestNotificationsPage";
 import ClientAppointments from "./pages/ClientAppointments";
 import BetaPage from "./pages/BetaPage";
 import BetaAdmin from "./pages/BetaAdmin";
+import Terms from "./pages/Terms";
 import PaymentAdmin from "./pages/PaymentAdmin";
 import StaffManagementPageFixed from "./pages/StaffManagementPageFixed";
 import SubscribePage from "./pages/SubscribePage";
