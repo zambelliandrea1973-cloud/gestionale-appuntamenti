@@ -1,0 +1,476 @@
+{
+  "app": {
+    "title": "Управление Записями",
+    "welcome": "Добро пожаловать в Управление Записями",
+    "description": "Легко управляйте записями, клиентами и счетами"
+  },
+  "navigation": {
+    "home": "Главная",
+    "notifications": "[NEEDS TRANSLATION] Notifiche",
+    "referral": "[NEEDS TRANSLATION] Referral",
+    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
+    "staff": "[NEEDS TRANSLATION] Staff",
+    "payments": "[NEEDS TRANSLATION] Pagamenti"
+  },
+  "sidebar": {
+    "clients": "Клиенты",
+    "calendar": "Календарь",
+    "invoices": "Счета",
+    "reports": "Отчеты",
+    "settings": "Настройки"
+  },
+  "language": {
+    "it": "Итальянский",
+    "en": "Английский",
+    "de": "Немецкий",
+    "fr": "Французский",
+    "es": "Испанский",
+    "ru": "Русский",
+    "nl": "Голландский",
+    "no": "Норвежский",
+    "ro": "Румынский",
+    "select": "Выбрать язык"
+  },
+  "home": {
+    "calendar": {
+      "title": "Календарь",
+      "description": "Просмотр и управление всеми записями",
+      "content": "Просматривайте записи в ежедневном, еженедельном или ежемесячном режиме, и легко создавайте новые записи.",
+      "button": "Перейти к Календарю"
+    },
+    "clients": {
+      "title": "Клиенты",
+      "description": "Управление информацией о клиентах",
+      "content": "Добавляйте, редактируйте и просматривайте данные клиентов, включая личную и медицинскую информацию.",
+      "button": "Управление Клиентами"
+    },
+    "invoices": {
+      "title": "Счета",
+      "description": "Управление счетами и платежами",
+      "content": "Создавайте и управляйте счетами, регистрируйте платежи и отслеживайте статус счетов в реальном времени.",
+      "button": "Управление Счетами"
+    },
+    "reports": {
+      "title": "Отчеты",
+      "description": "Анализ производительности бизнеса",
+      "content": "Просматривайте ежедневные, еженедельные и ежемесячные отчеты для анализа производительности бизнеса.",
+      "button": "Просмотр Отчетов"
+    }
+  },
+  "calendar": {
+    "title": "Календарь",
+    "description": "Просмотр и управление всеми записями",
+    "subDescription": "Просматривайте записи в ежедневном, еженедельном или ежемесячном режиме, и легко создавайте новые записи",
+    "goTo": "Перейти к Календарю",
+    "daily": "Ежедневно",
+    "weekly": "Еженедельно",
+    "monthly": "Ежемесячно",
+    "weekView": "Недельный вид",
+    "monthView": "Месячный вид",
+    "addAppointment": "Новая Запись",
+    "today": "Сегодня",
+    "searchResults": "Результаты поиска",
+    "noAppointmentsFound": "Не найдено записей на",
+    "goToDay": "Перейти к дате",
+    "days": {
+      "monday": "Понедельник",
+      "tuesday": "Вторник",
+      "wednesday": "Среда",
+      "thursday": "Четверг",
+      "friday": "Пятница",
+      "saturday": "Суббота",
+      "sunday": "Воскресенье"
+    },
+    "months": {
+      "january": "Январь",
+      "february": "Февраль",
+      "march": "Март",
+      "april": "Апрель",
+      "may": "Май",
+      "june": "Июнь",
+      "july": "Июль",
+      "august": "Август",
+      "september": "Сентябрь",
+      "october": "Октябрь",
+      "november": "Ноябрь",
+      "december": "Декабрь"
+    },
+    "selectNewAppointment": "Выберите новую запись",
+    "selectTimeNewAppointment": "Выберите время для новой записи",
+    "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
+    "hasAppointments": "Есть записи",
+    "slotOccupied": "Слот занят предыдущей записью",
+    "customDuration": "Пользовательская длительность",
+    "incrementBy15Min": "Увеличить на 15 мин",
+    "decrementBy15Min": "Уменьшить на 15 мин",
+    "selected": "Выбрано",
+    "select": "Выбрать"
+  },
+  "clients": {
+    "title": "Клиенты",
+    "description": "Управление информацией о клиентах",
+    "subDescription": "Добавляйте, редактируйте и просматривайте данные клиентов, включая личную и медицинскую информацию",
+    "goTo": "Управление Клиентами",
+    "addClient": "Новый Клиент",
+    "newClient": "Новый Клиент",
+    "addFirstClient": "Добавить первого клиента",
+    "search": {
+      "placeholder": "Поиск клиентов по имени, телефону или email...",
+      "minLength": "Введите не менее 2 символов для поиска"
+    },
+    "filter": {
+      "all": "Все",
+      "frequent": "Частые",
+      "noConsent": "Без согласия"
+    },
+    "noClientsFound": "Клиенты не найдены",
+    "noClientsInSystem": "В системе нет зарегистрированных клиентов",
+    "noResultsMatch": "Ни один клиент не соответствует критериям поиска \"{{query}}\"",
+    "refreshSuccess": "Данные клиентов обновлены",
+    "lastUpdate": "Последнее обновление",
+    "autoUpdate": "Автоматическое обновление каждый час и в 23:59",
+    "stats": {
+      "total": "Всего клиентов",
+      "frequent": "Частые клиенты",
+      "noConsent": "Без согласия"
+    },
+    "table": {
+      "name": "Имя",
+      "surname": "Фамилия",
+      "email": "Email",
+      "phone": "Телефон",
+      "actions": "Действия"
+    },
+    "details": {
+      "title": "Детали Клиента",
+      "personalInfo": "Личная Информация",
+      "medicalInfo": "Медицинская Информация",
+      "appointments": "Записи",
+      "notes": "Заметки",
+      "consents": "Согласия",
+      "clientFile": "Карточка клиента",
+      "addAppointment": "Новая запись",
+      "generateQRCode": "Создать QR-код",
+      "accessActivated": "QR-код доступа клиента",
+      "showDetails": "Подробности",
+      "deleteClient": "Удалить клиента",
+      "deleteClientConfirmation": "Вы уверены, что хотите удалить этого клиента? Все его записи также будут удалены. Это действие нельзя отменить.",
+      "notFound": "Клиент не найден",
+      "notSpecified": "Не указано",
+      "frequentClient": "Частый клиент",
+      "dataConsent": "Согласие на обработку данных",
+      "obtained": "Получено",
+      "notObtained": "Не получено",
+      "viewAllAppointments": "Просмотреть все записи",
+      "backToClients": "Вернуться к списку клиентов",
+      "structuredNotes": "Структурированные заметки",
+      "legacyMedicalData": "Устаревшие медицинские данные",
+      "otherInfo": "Другая информация",
+      "viewMode": "Режим просмотра заметок",
+      "stackedView": "Вид стопкой карточек",
+      "classicView": "Классический вид",
+      "stackedViewDescription": "Заметки отображаются как стопка карточек. Нажмите на карточки или используйте кнопки навигации для просмотра.",
+      "classicViewDescription": "Заметки отображаются в вертикальной последовательности.",
+      "generalNotes": "Общие заметки",
+      "medicalNotes": "Медицинские заметки",
+      "allergiesInfo": "Аллергии и информация о здоровье",
+      "medicalNotesLegacy": "Медицинские заметки (устаревшие)",
+      "allergiesInfoLegacy": "Аллергии и информация о здоровье (устаревшие)",
+      "generalNotesLegacy": "Общие заметки (устаревшие)",
+      "noMedicalNotes": "Медицинские заметки не записаны",
+      "noAllergiesInfo": "Аллергии и информация о здоровье не записаны",
+      "noGeneralNotes": "Общие заметки не записаны"
+    },
+    "form": {
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "email": "Email",
+      "phone": "Телефон",
+      "birthDate": "Дата Рождения",
+      "address": "Адрес",
+      "city": "Город",
+      "zipCode": "Почтовый Индекс",
+      "notes": "Заметки",
+      "save": "Сохранить",
+      "cancel": "Отмена"
+    },
+    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
+    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
+    "showDetails": "[NEEDS TRANSLATION] Dettagli",
+    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
+    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
+    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
+    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
+    "generateQR": "[NEEDS TRANSLATION] Genera QR",
+    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "accesses": {
+      "loading": "Caricamento...",
+      "error": "N/D",
+      "count": "Accessi all'app: {{count}}",
+      "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
+    },
+    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
+    "total": "[NEEDS TRANSLATION] clienti",
+    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
+    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
+    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
+    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+  },
+  "invoices": {
+    "title": "Счета",
+    "description": "Управление счетами и платежами",
+    "subDescription": "Создавайте и управляйте счетами, регистрируйте платежи и отслеживайте статус счетов в реальном времени",
+    "goTo": "Управление Счетами",
+    "addInvoice": "Новый Счет",
+    "table": {
+      "number": "Номер",
+      "date": "Дата",
+      "client": "Клиент",
+      "amount": "Сумма",
+      "status": "Статус",
+      "actions": "Действия"
+    },
+    "status": {
+      "paid": "Оплачен",
+      "unpaid": "Не Оплачен",
+      "partial": "Частично Оплачен"
+    }
+  },
+  "reports": {
+    "title": "Отчеты",
+    "description": "Анализ производительности бизнеса",
+    "subDescription": "Просматривайте ежедневные, еженедельные и ежемесячные отчеты для анализа производительности бизнеса",
+    "goTo": "Просмотр Отчетов",
+    "daily": "Ежедневный Отчет",
+    "weekly": "Еженедельный Отчет",
+    "monthly": "Ежемесячный Отчет",
+    "appointments": "Записи",
+    "clients": "Клиенты",
+    "revenue": "Доход"
+  },
+  "settings": {
+    "title": "Настройки",
+    "general": "Общие",
+    "profile": "Профиль",
+    "appearance": "Внешний Вид",
+    "notifications": "Уведомления",
+    "language": "Язык",
+    "theme": "Тема",
+    "save": "Сохранить Настройки",
+    "googleCalendar": "Google календарь",
+    "contacts": "Контакты",
+    "saving": "Сохранение...",
+    "contactsTitle": "Контактная Информация",
+    "contactsDesc": "Управляйте контактной информацией, которая будет отображаться в нижней части приложения для клиентов",
+    "appName": "Название Приложения",
+    "appIcon": "Иконка Приложения",
+    "integrations": "Интеграции",
+    "appearanceTitle": "Фирменный Стиль",
+    "appearanceDesc": "Настройте название и иконку приложения в соответствии с фирменным стилем вашей компании. Эти настройки будут применены как к основному приложению, так и к приложению для клиентов."
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "view": "Просмотр",
+    "search": "Поиск",
+    "back": "Назад",
+    "next": "Вперед",
+    "previous": "Назад",
+    "actions": "Действия",
+    "name": "Имя",
+    "email": "Email",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "date": "Дата",
+    "time": "Время",
+    "description": "Описание",
+    "support": "Поддержка",
+    "terms": "Условия использования",
+    "refresh": "Обновить",
+    "error": "Ошибка",
+    "birthday": "Дата рождения",
+    "yes": "Да",
+    "no": "Нет"
+  },
+  "notifications": {
+    "success": "Операция успешно завершена",
+    "error": "Произошла ошибка",
+    "warning": "Предупреждение",
+    "info": "Информация",
+    "clientDeleted": "Клиент удален",
+    "clientDeletedSuccess": "Клиент был успешно удален"
+  },
+  "whatsappNotifications": {
+    "title": "Уведомления клиентов",
+    "description": "Управление напоминаниями о встречах",
+    "subDescription": "Отправляйте WhatsApp-напоминания клиентам о предстоящих встречах",
+    "goTo": "Управление уведомлениями"
+  },
+  "notificationsPage": {
+    "title": "Уведомления клиентов",
+    "subtitle": "Управление напоминаниями о встречах клиентов",
+    "refresh": "Обновить",
+    "tabs": {
+      "upcoming": "Для отправки",
+      "history": "История",
+      "settings": "Настройки уведомлений",
+      "calendar": "Google Календарь"
+    },
+    "howItWorks": {
+      "title": "Как работают WhatsApp уведомления",
+      "steps": [
+        "Выберите записи, для которых хотите отправить напоминание",
+        "Нажмите \"Создать WhatsApp уведомления\" для создания ссылок",
+        "Будут созданы ссылки, открывающие WhatsApp с предварительно заполненными текстами",
+        "Вы можете настроить стандартный текст перед отправкой"
+      ]
+    },
+    "customMessage": {
+      "title": "Персонализированное сообщение (опционально)",
+      "description": "Если указано, этот текст будет добавлен к стандартному сообщению",
+      "placeholder": "Например: Не забудьте принести предыдущую медицинскую документацию.",
+      "characters": "символов",
+      "clear": "Очистить"
+    },
+    "noAppointments": {
+      "loading": "Загрузка записей...",
+      "empty": "Нет записей для уведомления",
+      "description": "Нет предстоящих записей, требующих напоминаний."
+    },
+    "table": {
+      "client": "Клиент",
+      "service": "Услуга",
+      "time": "Время",
+      "actions": "Действия",
+      "send": "Отправить",
+      "selectAll": "Выбрать все"
+    },
+    "buttons": {
+      "generating": "Создание...",
+      "generateWhatsApp": "Создать WhatsApp уведомления"
+    },
+    "history": {
+      "title": "История уведомлений",
+      "description": "Последние напоминания, отправленные через WhatsApp",
+      "noNotifications": "Недавно не отправлено ни одного уведомления",
+      "table": {
+        "date": "Дата",
+        "message": "Сообщение",
+        "actions": "Действия",
+        "reopen": "Повторно открыть",
+        "client": "[NEEDS TRANSLATION] Cliente",
+        "status": "[NEEDS TRANSLATION] Stato"
+      },
+      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "status": {
+        "delivered": "Consegnato",
+        "sent": "Inviato",
+        "undelivered": "Non consegnato",
+        "failed": "Fallito",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "appointmentList": {
+      "selectAll": "Выбрать все",
+      "actions": "Действия",
+      "sendButton": "Создать WhatsApp уведомления",
+      "sending": "Создание уведомлений..."
+    },
+    "errors": {
+      "loadingAppointments": "Невозможно загрузить записи",
+      "loadingHistory": "Невозможно загрузить историю",
+      "noneSelected": "Выберите хотя бы одну запись для отправки уведомлений",
+      "sendingFailed": "Не удалось отправить напоминания"
+    },
+    "success": {
+      "remindersSent": "Напоминания успешно созданы"
+    },
+    "whatsappLink": "Открыть WhatsApp"
+  },
+  "notificationSettings": {
+    "title": "Настройки уведомлений",
+    "enableEmailNotifications": "Включить уведомления по электронной почте",
+    "emailSetup": {
+      "title": "Быстрая настройка электронной почты",
+      "email": "Электронная почта",
+      "emailPlaceholder": "Введите свой адрес электронной почты",
+      "password": "Пароль",
+      "passwordPlaceholder": "Введите пароль от электронной почты",
+      "description": "Эта конфигурация настраивает вашу учетную запись электронной почты для отправки уведомлений.",
+      "autoDetect": "Автоматическое определение настроек",
+      "emailRequired": "Введите свой адрес электронной почты для определения настроек"
+    },
+    "errors": {
+      "loadingSettings": "Невозможно загрузить настройки уведомлений",
+      "savingSettings": "Невозможно сохранить настройки",
+      "testEmailMissing": "Введите адрес электронной почты для тестирования"
+    },
+    "success": {
+      "settingsSaved": "Настройки уведомлений успешно сохранены",
+      "testEmailSent": "Тестовое письмо успешно отправлено",
+      "remindersProcessed": "Напоминания успешно обработаны"
+    }
+  },
+  "googleCalendar": {
+    "title": "Google Календарь",
+    "setupInstructions": "Настройка интеграции с Google Calendar",
+    "emailLabel": "Аккаунт Gmail",
+    "emailPlaceholder": "ваш.адрес@gmail.com",
+    "emailDescription": "Аккаунт Google, который вы хотите использовать для календаря",
+    "connected": "Аккаунт подключен",
+    "notConnected": "Аккаунт еще не подключен",
+    "clientIdLabel": "Client ID",
+    "clientIdPlaceholder": "Ваш Client ID Google",
+    "clientIdDescription": "Получите это значение из консоли Google Cloud",
+    "clientSecretLabel": "Client Secret",
+    "clientSecretPlaceholder": "Ваш Client Secret Google",
+    "clientSecretDescription": "Получите это значение из консоли Google Cloud",
+    "configHelp": "Помощь с настройкой",
+    "errors": {
+      "authorizationUrlFailed": "Невозможно создать URL авторизации"
+    },
+    "success": {
+      "settingsSaved": "Настройки синхронизации успешно сохранены",
+      "authorizationComplete": "Ваш аккаунт Google успешно подключен"
+    }
+  },
+  "errors": {
+    "genericError": "Произошла ошибка: {{error}}",
+    "qrCodeFetchError": "Ошибка при получении существующего QR-кода:"
+  },
+  "auth": {
+    "login": "Вход",
+    "logout": "Выход",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "rememberMe": "Запомнить меня",
+    "forgotPassword": "Забыли пароль?",
+    "loginButton": "Войти"
+  },
+  "clientArea": {
+    "title": "Личный Кабинет",
+    "welcome": "Добро пожаловать в ваш Личный Кабинет",
+    "appointments": "Ваши Записи",
+    "personalInfo": "Личная Информация",
+    "consents": "Управление Согласиями",
+    "messages": "Сообщения"
+  },
+  "contacts": {
+    "accessOurContacts": "Доступ к нашим контактам"
+  },
+  "appointment": {
+    "selectTimeSlots": "Выберите время для новой записи",
+    "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
+    "selected": "Выбрано",
+    "selectSlots": "Выберите временные интервалы",
+    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
+    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+  },
+  "trial": {
+    "days": "giorni",
+    "expired": "Scaduto",
+    "upgradeMessage": "Scopri i piani premium"
+  }
+}
