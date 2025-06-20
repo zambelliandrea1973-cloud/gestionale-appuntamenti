@@ -3257,7 +3257,50 @@ Studio Professionale`,
     }
   });
 
-  // Endpoint per registrare accesso PWA del cliente (senza autenticazione)
+  // Endpoint per registrare accesso PWA tramite codice cliente (senza autenticazione)
+  app.post('/api/client-access/:clientCode', (req, res) => {
+    try {
+      const clientCode = req.params.clientCode;
+      const storageData = loadStorageData();
+      
+      // Trova il cliente tramite il codice univoco
+      const clientData = storageData.clients?.find(([id, client]) => client.uniqueCode === clientCode);
+      if (!clientData) {
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      const [id, client] = clientData;
+      const clientIndex = storageData.clients.findIndex(([cId, c]) => cId === id);
+      
+      const now = new Date();
+      
+      // Incrementa il contatore degli accessi
+      storageData.clients[clientIndex][1].accessCount = (client.accessCount || 0) + 1;
+      storageData.clients[clientIndex][1].lastAccess = now.toISOString();
+      
+      // Aggiorna informazioni di accesso PWA
+      if (req.body.source === 'pwa') {
+        storageData.clients[clientIndex][1].lastPwaAccess = now.toISOString();
+        storageData.clients[clientIndex][1].pwaAccessCount = (client.pwaAccessCount || 0) + 1;
+      }
+      
+      // Salva i dati aggiornati
+      saveStorageData(storageData);
+      
+      console.log(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientCode}) - Accesso registrato: ${storageData.clients[clientIndex][1].accessCount}`);
+      
+      res.json({
+        success: true,
+        accessCount: storageData.clients[clientIndex][1].accessCount,
+        clientId: id
+      });
+    } catch (error) {
+      console.error('Errore nella registrazione accesso cliente:', error);
+      res.status(500).json({ message: "Errore interno" });
+    }
+  });
+
+  // Endpoint per registrare accesso PWA del cliente tramite ID (senza autenticazione)
   app.post('/api/client-access/track/:clientId', (req, res) => {
     try {
       const clientId = parseInt(req.params.clientId);
