@@ -387,6 +387,87 @@ export default function PureClientArea() {
             </div>
           </CardContent>
         </Card>
+        
+        {/* Footer con informazioni del professionista */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="bg-gray-50 rounded-lg p-4 text-center space-y-3">
+            <div className="text-sm text-gray-600">
+              <p className="font-medium text-gray-800">
+                {contactInfo?.businessName || 'Studio Professionale'}
+              </p>
+              {contactInfo?.email && (
+                <p>
+                  <span className="font-medium">Email:</span>{' '}
+                  <a 
+                    href={`mailto:${contactInfo.email}`} 
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    {contactInfo.email}
+                  </a>
+                </p>
+              )}
+              {contactInfo?.phone1 && (
+                <p>
+                  <span className="font-medium">Telefono:</span>{' '}
+                  <a 
+                    href={`tel:${contactInfo.phone1}`} 
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    {contactInfo.phone1}
+                  </a>
+                </p>
+              )}
+              {contactInfo?.website && (
+                <p>
+                  <span className="font-medium">Sito web:</span>{' '}
+                  <a 
+                    href={`https://${contactInfo.website.replace(/^https?:\/\//, '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    {contactInfo.website.replace(/^https?:\/\//, '')}
+                  </a>
+                </p>
+              )}
+              {contactInfo?.instagram && (
+                <p>
+                  <span className="font-medium">Instagram:</span>{' '}
+                  <a 
+                    href={`https://instagram.com/${contactInfo.instagram.replace('@', '')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    @{contactInfo.instagram.replace('@', '')}
+                  </a>
+                </p>
+              )}
+            </div>
+            
+            <div className="pt-2 border-t border-gray-300 text-xs text-gray-500 space-y-1">
+              <p>
+                <a 
+                  href="/terms" 
+                  target="_blank" 
+                  className="text-gray-600 hover:text-gray-800 underline"
+                >
+                  Termini di Servizio
+                </a>
+                {' · '}
+                <a 
+                  href="/privacy" 
+                  target="_blank" 
+                  className="text-gray-600 hover:text-gray-800 underline"
+                >
+                  Privacy Policy
+                </a>
+              </p>
+              <p>Sviluppato da Zambelli Andrea</p>
+              <p>Versione 2.1.0 - Gestionale Sanitario PWA</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
