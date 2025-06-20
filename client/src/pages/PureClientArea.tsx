@@ -90,7 +90,23 @@ export default function PureClientArea() {
   const [showDataProtectionModal, setShowDataProtectionModal] = useState<boolean>(false);
   const [contactInfo, setContactInfo] = useState<any>({});
 
-
+  // Funzione per caricare le informazioni di contatto del professionista
+  const loadContactInfo = async () => {
+    try {
+      const response = await fetch('/api/public/contact-info', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setContactInfo(data);
+        console.log('📞 [CLIENT FOOTER] Informazioni contatto caricate:', data);
+      }
+    } catch (error) {
+      console.error('❌ [CLIENT FOOTER] Errore caricamento contatti:', error);
+    }
+  };
 
   useEffect(() => {
     const initializeClientArea = async () => {
@@ -399,8 +415,155 @@ export default function PureClientArea() {
         
         {/* Footer completo con tutte le informazioni */}
         <footer className="mt-12 pt-8 border-t border-gray-200">
-          {/* Informazioni di contatto del professionista */}
-          <ClientFooterContactIcons />
+          {/* Sezione contatti del professionista */}
+          {(contactInfo.email || contactInfo.phone || contactInfo.phone1 || contactInfo.website || contactInfo.instagram) && (
+            <Card className="bg-gray-50 mb-6">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-center text-gray-800">
+                  {contactInfo.businessName || 'Studio Professionale'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Icone di contatto */}
+                <div className="flex justify-center space-x-4">
+                  {contactInfo.email && contactInfo.showEmail !== false && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-10 w-10 p-0"
+                      onClick={() => window.location.href = `mailto:${contactInfo.email}`}
+                      title={contactInfo.email}
+                    >
+                      <Mail className="h-4 w-4" />
+                    </Button>
+                  )}
+
+                  {contactInfo.phone && contactInfo.showPhone !== false && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-10 w-10 p-0"
+                      onClick={() => window.location.href = `tel:${contactInfo.phone}`}
+                      title={contactInfo.phone}
+                    >
+                      <Phone className="h-4 w-4" />
+                    </Button>
+                  )}
+
+                  {contactInfo.phone1 && contactInfo.showPhone1 !== false && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-10 w-10 p-0"
+                      onClick={() => window.location.href = `tel:${contactInfo.phone1}`}
+                      title={contactInfo.phone1}
+                    >
+                      <Phone className="h-4 w-4" />
+                    </Button>
+                  )}
+
+                  {contactInfo.website && contactInfo.showWebsite !== false && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-10 w-10 p-0"
+                      onClick={() => window.open(
+                        contactInfo.website?.startsWith('http') 
+                          ? contactInfo.website 
+                          : `https://${contactInfo.website}`, 
+                        '_blank'
+                      )}
+                      title={contactInfo.website}
+                    >
+                      <Globe className="h-4 w-4" />
+                    </Button>
+                  )}
+
+                  {contactInfo.instagram && contactInfo.showInstagram !== false && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-10 w-10 p-0"
+                      onClick={() => window.open(
+                        `https://instagram.com/${contactInfo.instagram?.replace('@', '')}`, 
+                        '_blank'
+                      )}
+                      title={`@${contactInfo.instagram?.replace('@', '')}`}
+                    >
+                      <Instagram className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+
+                {/* Informazioni dettagliate in formato testo */}
+                <div className="text-center space-y-2 text-sm text-gray-600">
+                  {contactInfo.email && contactInfo.showEmail !== false && (
+                    <p>
+                      <span className="font-medium">Email:</span>{' '}
+                      <a 
+                        href={`mailto:${contactInfo.email}`} 
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        {contactInfo.email}
+                      </a>
+                    </p>
+                  )}
+                  
+                  {contactInfo.phone && contactInfo.showPhone !== false && (
+                    <p>
+                      <span className="font-medium">Telefono:</span>{' '}
+                      <a 
+                        href={`tel:${contactInfo.phone}`} 
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        {contactInfo.phone}
+                      </a>
+                    </p>
+                  )}
+
+                  {contactInfo.phone1 && contactInfo.showPhone1 !== false && (
+                    <p>
+                      <span className="font-medium">Cellulare:</span>{' '}
+                      <a 
+                        href={`tel:${contactInfo.phone1}`} 
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        {contactInfo.phone1}
+                      </a>
+                    </p>
+                  )}
+                  
+                  {contactInfo.website && contactInfo.showWebsite !== false && (
+                    <p>
+                      <span className="font-medium">Sito web:</span>{' '}
+                      <a 
+                        href={contactInfo.website?.startsWith('http') ? contactInfo.website : `https://${contactInfo.website}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        {contactInfo.website}
+                      </a>
+                    </p>
+                  )}
+                  
+                  {contactInfo.instagram && contactInfo.showInstagram !== false && (
+                    <p>
+                      <span className="font-medium">Instagram:</span>{' '}
+                      <a 
+                        href={`https://instagram.com/${contactInfo.instagram?.replace('@', '')}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        @{contactInfo.instagram?.replace('@', '')}
+                      </a>
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
           
           {/* Informazioni legali e versione */}
           <div className="mt-6 pt-6 border-t border-gray-100 text-center text-sm text-gray-500">
