@@ -2625,6 +2625,138 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // === AREA CLIENTI - ROTTE PER QR CODE ACCESS ===
+  
+  // Validazione token QR
+  function validateQRToken(clientCode: string, token: string) {
+    const storageData = loadStorageData();
+    const clients = storageData.clients || [];
+    
+    // Trova il cliente dal codice
+    const clientEntry = clients.find(([_, client]) => client.uniqueCode === clientCode);
+    if (!clientEntry) {
+      console.log(`🔍 [QR-AUTH] Cliente non trovato per codice: ${clientCode}`);
+      return null;
+    }
+    
+    const [clientId, client] = clientEntry;
+    
+    // Verifica che il token sia valido
+    const expectedTokenPrefix = `${clientCode}_`;
+    if (!token.startsWith(expectedTokenPrefix)) {
+      console.log(`🔍 [QR-AUTH] Token non valido per cliente ${clientCode}: ${token}`);
+      return null;
+    }
+    
+    console.log(`✅ [QR-AUTH] Token valido per cliente ${client.firstName} ${client.lastName} (${clientCode})`);
+    return { clientId, client };
+  }
+
+  // API: Recupera dati cliente tramite QR code
+  app.get('/api/simple/client/:clientCode', async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || '';
+      
+      console.log(`🔍 [CLIENT-API] Richiesta dati per cliente: ${clientCode}, token: ${token ? 'presente' : 'assente'}`);
+      
+      const validation = validateQRToken(clientCode, token);
+      if (!validation) {
+        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+      }
+      
+      const { client } = validation;
+      
+      // Restituisci solo i dati necessari del cliente
+      const clientData = {
+        id: client.id,
+        firstName: client.firstName,
+        lastName: client.lastName,
+        phone: client.phone,
+        email: client.email,
+        uniqueCode: client.uniqueCode
+      };
+      
+      console.log(`✅ [CLIENT-API] Dati cliente inviati: ${client.firstName} ${client.lastName}`);
+      res.json(clientData);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT-API] Errore nel recupero dati cliente:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // API: Recupera appuntamenti cliente tramite QR code
+  app.get('/api/simple/client/:clientCode/appointments', async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || '';
+      
+      const validation = validateQRToken(clientCode, token);
+      if (!validation) {
+        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+      }
+      
+      const { clientId } = validation;
+      const storageData = loadStorageData();
+      
+      // Recupera appuntamenti del cliente
+      const appointments = storageData.appointments || [];
+      const clientAppointments = appointments.filter(apt => apt.client === clientId);
+      
+      // Recupera i servizi per ottenere i nomi
+      const userServices = storageData.userServices || {};
+      const allServices = Object.values(userServices).flat();
+      
+      // Mappa gli appuntamenti con i nomi dei servizi
+      const mappedAppointments = clientAppointments.map(apt => {
+        const service = allServices.find(s => s.id === apt.service);
+        return {
+          id: apt.id,
+          date: apt.date,
+          time: apt.time,
+          service: service?.name || 'Servizio sconosciuto',
+          status: apt.status || 'scheduled',
+          notes: apt.notes || ''
+        };
+      });
+      
+      console.log(`📅 [CLIENT-API] ${mappedAppointments.length} appuntamenti trovati per cliente ${clientCode}`);
+      res.json(mappedAppointments);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT-API] Errore nel recupero appuntamenti:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
+  // API: Recupera informazioni di contatto del professionista
+  app.get('/api/simple/client/:clientCode/contact-info', async (req, res) => {
+    try {
+      const { clientCode } = req.params;
+      const token = req.headers.authorization?.replace('Bearer ', '') || '';
+      
+      const validation = validateQRToken(clientCode, token);
+      if (!validation) {
+        return res.status(401).json({ error: 'Token non valido o cliente non trovato' });
+      }
+      
+      const { client } = validation;
+      const storageData = loadStorageData();
+      
+      // Trova il proprietario del cliente
+      const ownerId = client.ownerId;
+      const contactInfo = storageData.contactInfo?.[ownerId] || {};
+      
+      console.log(`📞 [CLIENT-API] Info contatto inviate per proprietario ${ownerId}`);
+      res.json(contactInfo);
+      
+    } catch (error) {
+      console.error('❌ [CLIENT-API] Errore nel recupero info contatto:', error);
+      res.status(500).json({ error: 'Errore interno del server' });
+    }
+  });
+
   // API per sbloccare la cancellazione di clienti importati eliminati alla fonte
   app.post('/api/unlock-client-deletion/:clientId', requireAuth, async (req, res) => {
     try {
