@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt } from "lucide-react";
+import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package } from "lucide-react";
 import GoogleCalendarSimpleSetup from '@/components/GoogleCalendarSimpleSetup';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
@@ -36,7 +36,7 @@ export default function ProFeaturesPage() {
         </h1>
       </div>
       
-      <div className="grid w-full grid-cols-3 mb-8">
+      <div className="grid w-full grid-cols-4 mb-8">
         <Link to="/pro-features">
           <div 
             className="flex items-center justify-center py-3 px-3 border-b-2 border-primary font-medium text-primary"
@@ -52,6 +52,15 @@ export default function ProFeaturesPage() {
           >
             <Receipt className="h-4 w-4 mr-2" />
             {t('pro.invoices', 'Fatture')}
+          </div>
+        </Link>
+        
+        <Link to="/inventory">
+          <div 
+            className="flex items-center justify-center py-3 px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground"
+          >
+            <Package className="h-4 w-4 mr-2" />
+            {t('pro.inventory', 'Magazzino')}
           </div>
         </Link>
         
