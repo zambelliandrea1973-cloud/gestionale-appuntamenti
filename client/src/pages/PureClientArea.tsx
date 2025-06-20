@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Phone, Mail, Download, X } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, Download, X, Globe, Instagram } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import ClientFooterContactIcons from "@/components/ClientFooterContactIcons";
 
 // PWA Installation Banner Component
 function PWAInstallBanner() {
@@ -89,6 +88,7 @@ export default function PureClientArea() {
   const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
   const [showDataProtectionModal, setShowDataProtectionModal] = useState<boolean>(false);
+  const [contactInfo, setContactInfo] = useState<any>({});
 
 
 
