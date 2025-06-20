@@ -360,14 +360,14 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
           <div>
             <h3 className="font-semibold text-foreground mb-2">Informazioni Sistema</h3>
-            <p>Gestionale Sanitario v2.1.0</p>
+            <p>Gestionale Appuntamenti v2.1.0</p>
             <p>© 2025 Zambelli Development</p>
             <p>Tutti i diritti riservati</p>
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-2">Privacy e Sicurezza</h3>
-            <p>Sistema conforme GDPR per la gestione sicura dei dati sanitari</p>
             <p>Operatore responsabile: {userWithLicense?.username || 'Non specificato'}</p>
+            <p>Supporto tecnico: andreazambelli64@gmail.com</p>
             <button 
               className="text-primary hover:underline mt-1"
               onClick={() => window.open('/terms.html', '_blank')}
@@ -375,15 +375,6 @@ export default function Home() {
               Termini di servizio e condizioni d'uso →
             </button>
           </div>
-        </div>
-        
-        <div className="mt-4 p-3 bg-muted/50 rounded-md">
-          <p className="text-xs text-muted-foreground">
-            <strong>Nota importante:</strong> Questo sistema gestisce dati sensibili sanitari. 
-            L'operatore {userWithLicense?.username || 'corrente'} è responsabile del corretto utilizzo 
-            e della protezione dei dati dei pazienti secondo le normative vigenti. 
-            Per assistenza tecnica o questioni sulla privacy contattare il supporto Zambelli Development.
-          </p>
         </div>
       </div>
     </div>
