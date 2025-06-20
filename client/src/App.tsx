@@ -109,8 +109,17 @@ function AppRoutes() {
       console.log('Stato autenticazione:', { user: !!user, location, isLoading });
       
       // Se siamo su un percorso dedicato ai clienti o inizia con /client/, NON applicare la logica di autenticazione staff
+      // MA se siamo su desktop e non abbiamo parametri QR, reindirizza alla dashboard
       if (clientOnlyPaths.includes(location) || isClientPath) {
         console.log('Percorso cliente rilevato, salto controlli autenticazione staff');
+        
+        // Se siamo su /client/... senza parametri QR e abbiamo un utente autenticato, vai alla dashboard
+        if (isClientPath && user && !location.includes('?token=')) {
+          console.log('Area cliente senza QR rilevata, reindirizzamento a dashboard');
+          setLocation('/dashboard');
+          return;
+        }
+        
         return;
       }
       
