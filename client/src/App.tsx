@@ -187,8 +187,9 @@ function AppRoutes() {
         </ClientPageWrapper>
       </Route>
       
-      {/* AREA CLIENTE PURA - accesso diretto senza gestionale */}
+      {/* AREA CLIENTE PURA - accesso diretto senza gestionale - NON VISIBILE NEL PREVIEW DESKTOP */}
       <Route path="/client/:clientCode">
+        {/* Questa route è accessibile solo da dispositivi mobili/QR, non dal preview desktop */}
         <PureClientArea />
       </Route>
       

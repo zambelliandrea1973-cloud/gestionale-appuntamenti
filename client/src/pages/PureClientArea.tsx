@@ -86,6 +86,20 @@ export default function PureClientArea() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
+  // Blocca l'accesso da desktop/preview - solo per dispositivi mobili e QR
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const hasQRParams = window.location.search.includes('token=') || window.location.search.includes('autoLogin=');
+    
+    // Se non è mobile, non è PWA standalone e non ha parametri QR, blocca l'accesso
+    if (!isMobile && !isStandalone && !hasQRParams) {
+      setError("Questa pagina è accessibile solo tramite QR code su dispositivi mobili");
+      setLoading(false);
+      return;
+    }
+  }, []);
 
   useEffect(() => {
     const initializeClientArea = async () => {
