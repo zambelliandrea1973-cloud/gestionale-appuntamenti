@@ -84,6 +84,7 @@ export default function PureClientArea() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [contactInfo, setContactInfo] = useState<any>(null);
 
   useEffect(() => {
     const initializeClientArea = async () => {

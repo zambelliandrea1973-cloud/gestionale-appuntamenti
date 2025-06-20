@@ -793,12 +793,12 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 249,
-        "lastAccess": "2025-06-18T13:40:43.734Z",
+        "accessCount": 261,
+        "lastAccess": "2025-06-20T07:24:24.212Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F",
-        "lastPwaAccess": "2025-06-18T13:40:43.734Z",
-        "pwaAccessCount": 128
+        "lastPwaAccess": "2025-06-20T07:24:24.212Z",
+        "pwaAccessCount": 140
       }
     ],
     [
@@ -1090,12 +1090,12 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 38,
-        "lastAccess": "2025-06-18T14:17:49.994Z",
+        "accessCount": 42,
+        "lastAccess": "2025-06-18T14:18:43.804Z",
         "hasConsent": true,
         "updatedAt": "2025-06-17T18:08:04.456Z",
-        "lastPwaAccess": "2025-06-18T12:23:01.531Z",
-        "pwaAccessCount": 18
+        "lastPwaAccess": "2025-06-18T14:18:43.804Z",
+        "pwaAccessCount": 22
       }
     ]
   ],
@@ -1475,6 +1475,20 @@
         "notes": "",
         "status": "scheduled",
         "createdAt": "2025-06-18T08:46:14.443Z"
+      }
+    ],
+    [
+      1750401011631,
+      {
+        "id": 1750401011631,
+        "clientId": 1750163505034,
+        "serviceId": 1750225060109,
+        "date": "2025-06-26",
+        "startTime": "11:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-20T06:30:11.631Z"
       }
     ]
   ],
