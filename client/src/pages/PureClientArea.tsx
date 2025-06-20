@@ -492,7 +492,7 @@ export default function PureClientArea() {
               <p>Utilizzando il Gestionale Appuntamenti by Zambelli Andrea, l'utente accetta integralmente i presenti termini di servizio.</p>
               
               <h3 className="font-semibold">2. Descrizione del Servizio</h3>
-              <p>Il servizio consiste in una piattaforma digitale per la gestione degli appuntamenti sanitari e la consultazione delle proprie informazioni.</p>
+              <p>Il servizio consiste in una piattaforma digitale per la gestione degli appuntamenti e la consultazione delle proprie informazioni.</p>
               
               <h3 className="font-semibold">3. Registrazione e Account</h3>
               <p>Per utilizzare il servizio è necessario fornire informazioni accurate e complete durante la registrazione.</p>
