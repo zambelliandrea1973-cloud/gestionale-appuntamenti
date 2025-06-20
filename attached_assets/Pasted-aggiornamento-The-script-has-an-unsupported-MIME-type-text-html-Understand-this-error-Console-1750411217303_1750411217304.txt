@@ -1,0 +1,49 @@
+aggiornamento...
+The script has an unsupported MIME type ('text/html').Understand this error
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ invoices:259
+Promise.catch
+(anonymous) @ invoices:258Understand this error
+Console.js:61 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ invoices:263
+Promise.catch
+(anonymous) @ invoices:258Understand this error
+Console.js:61 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+Console.js:61 Location protocol: https:
+Console.js:61 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 Risposta da /api/tenant-context: 200 OK ok: true
+Console.js:61 Fuso orario aggiornato con successo
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+Console.js:61 Fuso orario aggiornato con successo
+Console.js:61 Stato autenticazione: {user: true, location: '/reports', isLoading: false}
+Console.js:61 Stato autenticazione: {user: true, location: '/invoices', isLoading: false}
+queryClient.ts:205 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/invoices 500 (Internal Server Error)
+window.fetch @ Network.js:219
+(anonymous) @ queryClient.ts:205
+fetchFn @ @tanstack_react-query.js?v=3572cf0e:840
+run @ @tanstack_react-query.js?v=3572cf0e:494
+start @ @tanstack_react-query.js?v=3572cf0e:536
+fetch @ @tanstack_react-query.js?v=3572cf0e:926
+executeFetch_fn @ @tanstack_react-query.js?v=3572cf0e:2211
+onSubscribe @ @tanstack_react-query.js?v=3572cf0e:1898
+subscribe @ @tanstack_react-query.js?v=3572cf0e:24
+(anonymous) @ @tanstack_react-query.js?v=3572cf0e:3022
+subscribeToStore @ chunk-C43VWYGG.js?v=3572cf0e:12587
+commitHookEffectListMount @ chunk-C43VWYGG.js?v=3572cf0e:16883
+commitPassiveMountOnFiber @ chunk-C43VWYGG.js?v=3572cf0e:18124
+commitPassiveMountEffects_complete @ chunk-C43VWYGG.js?v=3572cf0e:18097
+commitPassiveMountEffects_begin @ chunk-C43VWYGG.js?v=3572cf0e:18087
+commitPassiveMountEffects @ chunk-C43VWYGG.js?v=3572cf0e:18077
+flushPassiveEffectsImpl @ chunk-C43VWYGG.js?v=3572cf0e:19458
+flushPassiveEffects @ chunk-C43VWYGG.js?v=3572cf0e:19415
+commitRootImpl @ chunk-C43VWYGG.js?v=3572cf0e:19384
+commitRoot @ chunk-C43VWYGG.js?v=3572cf0e:19245
+performSyncWorkOnRoot @ chunk-C43VWYGG.js?v=3572cf0e:18863
+flushSyncCallbacks @ chunk-C43VWYGG.js?v=3572cf0e:9119
+(anonymous) @ chunk-C43VWYGG.js?v=3572cf0e:18595Understand this error
