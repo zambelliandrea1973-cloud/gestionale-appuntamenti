@@ -1,0 +1,68 @@
+Uncaught SyntaxError: Unexpected token '<'Understand this error
+Console.js:61 PWA check - standalone mode: false
+Console.js:61 PWA check - iOS fullscreen: undefined
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 🔍 Risposta user-with-license: 200 true
+Console.js:61 🔍 Dati utente ricevuti FRESCHI: Object
+Console.js:61 ✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard
+Console.js:61 Stato autenticazione: Object
+Console.js:61 Esecuzione richiesta GET a /api/tenant-context 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/tenant-context: Object
+2Home.tsx:369 Uncaught ReferenceError: userWithLicense is not defined
+    at Home (Home.tsx:369:41)
+    at renderWithHooks (chunk-C43VWYGG.js?v=3a510db0:12151:26)
+    at mountIndeterminateComponent (chunk-C43VWYGG.js?v=3a510db0:14901:21)
+    at beginWork (chunk-C43VWYGG.js?v=3a510db0:15882:22)
+    at HTMLUnknownElement.callCallback2 (chunk-C43VWYGG.js?v=3a510db0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-C43VWYGG.js?v=3a510db0:3699:24)
+    at invokeGuardedCallback (chunk-C43VWYGG.js?v=3a510db0:3733:39)
+    at beginWork$1 (chunk-C43VWYGG.js?v=3a510db0:19733:15)
+    at performUnitOfWork (chunk-C43VWYGG.js?v=3a510db0:19166:20)
+    at workLoopSync (chunk-C43VWYGG.js?v=3a510db0:19105:13)Understand this error
+Console.js:61 The above error occurred in the <Home> component:
+
+    at Home (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Home.tsx:208:25)
+    at div
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=Vt0r0DE5fUFWbQCoWjC:80:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3a510db0:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3a510db0:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=Vt0r0DE5fUFWbQCoWjC:90:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=3a510db0:291:17)
+    at TenantContextProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-tenant-context.tsx:23:41)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=3a510db0:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=Vt0r0DE5fUFWbQCoWjC:685:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+chunk-C43VWYGG.js?v=3a510db0:9129 Uncaught ReferenceError: userWithLicense is not defined
+    at Home (Home.tsx:369:41)
+    at renderWithHooks (chunk-C43VWYGG.js?v=3a510db0:12151:26)
+    at mountIndeterminateComponent (chunk-C43VWYGG.js?v=3a510db0:14901:21)
+    at beginWork (chunk-C43VWYGG.js?v=3a510db0:15882:22)
+    at beginWork$1 (chunk-C43VWYGG.js?v=3a510db0:19721:22)
+    at performUnitOfWork (chunk-C43VWYGG.js?v=3a510db0:19166:20)
+    at workLoopSync (chunk-C43VWYGG.js?v=3a510db0:19105:13)
+    at renderRootSync (chunk-C43VWYGG.js?v=3a510db0:19084:15)
+    at recoverFromConcurrentError (chunk-C43VWYGG.js?v=3a510db0:18704:28)
+    at performSyncWorkOnRoot (chunk-C43VWYGG.js?v=3a510db0:18847:28)Understand this error
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61Understand this error
+Console.js:61 Navigator serviceWorker: ServiceWorkerContainer
+Console.js:61 Location protocol: https:
+Console.js:61 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 Risposta da /api/tenant-context: 200 OK ok: true
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+2Console.js:61 Fuso orario aggiornato con successo
