@@ -293,25 +293,67 @@ class GestionaleAutoInstaller {
         return true;
     }
     
+    private function setupFileBasedStorage() {
+        // Crea sistema di storage basato su file per hosting condiviso
+        $storage_dir = dirname(__FILE__) . '/gestionale_data';
+        if (!file_exists($storage_dir)) {
+            mkdir($storage_dir, 0755, true);
+        }
+        
+        // Crea file di configurazione per storage basato su file
+        $config_content = "<?php
+// Configurazione storage file-based
+define('STORAGE_TYPE', 'file');
+define('STORAGE_DIR', '" . $storage_dir . "');
+define('ADMIN_EMAIL', '{$_POST['admin_email']}');
+define('ADMIN_PASSWORD', '" . password_hash($_POST['admin_password'], PASSWORD_DEFAULT) . "');
+?>";
+        
+        // Crea directory includes se non esiste
+        $includes_dir = dirname(__FILE__) . '/includes';
+        if (!file_exists($includes_dir)) {
+            mkdir($includes_dir, 0755, true);
+        }
+        
+        file_put_contents($includes_dir . '/config.php', $config_content);
+        
+        // Crea file di storage iniziali
+        $initial_data = [
+            'clients' => [],
+            'appointments' => [],
+            'settings' => [
+                'app_name' => 'Gestionale Sanitario',
+                'admin_email' => $_POST['admin_email']
+            ]
+        ];
+        
+        file_put_contents($storage_dir . '/data.json', json_encode($initial_data, JSON_PRETTY_PRINT));
+        
+        $this->success[] = "✅ Sistema file-based configurato";
+        return true;
+    }
+    
     private function setupDatabase($host, $name, $user, $pass) {
         try {
-            // Test diverse combinazioni di credenziali per SiteGround
-            $connections = [
-                ['user' => $user, 'pass' => $pass],
-                ['user' => $name, 'pass' => $pass],
-                ['user' => $name, 'pass' => ''],
-                ['user' => $user, 'pass' => '']
+            // Prova prima con WordPress database esistente
+            $wp_connections = [
+                ['db' => 'dbv5hshva16sx', 'user' => 'dbv5hshva16sx', 'pass' => ''],
+                ['db' => 'dbv5hshva16sx', 'user' => 'dbv5hshva16sxx', 'pass' => 'colverde79'],
+                ['db' => $name, 'user' => $user, 'pass' => $pass],
+                ['db' => $name, 'user' => 'dbv5hshva16sxx', 'pass' => 'colverde79']
             ];
             
             $connected = false;
             $pdo = null;
+            $final_db = $name;
             
-            foreach ($connections as $conn) {
+            foreach ($wp_connections as $conn) {
                 try {
-                    $pdo = new PDO("mysql:host=$host;dbname=$name", $conn['user'], $conn['pass']);
+                    $pdo = new PDO("mysql:host=$host;dbname={$conn['db']}", $conn['user'], $conn['pass']);
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $connected = true;
-                    $this->success[] = "✅ Connessione riuscita con utente: " . $conn['user'];
+                    $final_db = $conn['db'];
+                    $this->success[] = "✅ Connessione riuscita al database: {$conn['db']} con utente: {$conn['user']}";
                     break;
                 } catch (PDOException $e) {
                     continue;
@@ -319,8 +361,17 @@ class GestionaleAutoInstaller {
             }
             
             if (!$connected) {
-                throw new Exception("Impossibile connettersi al database con nessuna combinazione di credenziali");
+                // Fallback: usa sistema di file
+                $this->success[] = "⚠️ Database MySQL non accessibile con le credenziali fornite";
+                $this->success[] = "✅ Installazione con sistema file-based (più compatibile per hosting condiviso)";
+                return $this->setupFileBasedStorage();
             }
+            
+            // Aggiorna la configurazione con il database che funziona
+            $name = $final_db;
+            
+            // Aggiorna le variabili POST per il resto dell'installazione
+            $_POST['db_name'] = $final_db;
             
             // Tabella users
             $pdo->exec("CREATE TABLE IF NOT EXISTS users (
