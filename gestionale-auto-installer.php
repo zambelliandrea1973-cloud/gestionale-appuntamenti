@@ -179,16 +179,7 @@ class GestionaleAutoInstaller {
     }
     
     private function processInstallation() {
-        $dbHost = $_POST['db_host'];
-        $dbName = $_POST['db_name'];
-        $dbUser = $_POST['db_user'];
-        $dbPass = $_POST['db_pass'];
-        
-        // Test connessione database
-        if (!$this->testConnection($dbHost, $dbName, $dbUser, $dbPass)) {
-            $this->showResult();
-            return;
-        }
+        $this->success[] = "Utilizzo sistema file-based per hosting condiviso";
         
         // Crea cartella installazione
         if (!$this->createDirectory($this->installDir)) {
@@ -202,36 +193,24 @@ class GestionaleAutoInstaller {
             return;
         }
         
-        // Configura database
-        if (!$this->configureDatabase($dbHost, $dbName, $dbUser, $dbPass)) {
+        // Setup storage file-based
+        if (!$this->setupFileBasedStorage()) {
             $this->showResult();
             return;
         }
         
-        // Crea tabelle e dati iniziali
-        if (!$this->setupDatabase($dbHost, $dbName, $dbUser, $dbPass)) {
-            $this->showResult();
-            return;
-        }
-        
-        $this->success[] = "✅ Installazione completata con successo!";
-        $this->success[] = "🌐 Accedi al gestionale: <a href='{$this->installDir}/index.php' target='_blank' style='color: #2ecc71; font-weight: bold;'>{$this->installDir}/index.php</a>";
-        $this->success[] = "👤 Username: <strong>admin</strong>";
-        $this->success[] = "🔑 Password: <strong>coverde79</strong>";
+        $this->success[] = "Installazione completata con successo!";
+        $this->success[] = "Accedi al gestionale: <a href='{$this->installDir}/index.php' target='_blank' style='color: #2ecc71; font-weight: bold;'>{$this->installDir}/index.php</a>";
+        $this->success[] = "Username: <strong>admin</strong>";
+        $this->success[] = "Password: <strong>coverde79</strong>";
         
         $this->showResult();
     }
     
     private function testConnection($host, $name, $user, $pass) {
-        try {
-            $pdo = new PDO("mysql:host=$host;dbname=$name", $user, $pass);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->success[] = "✅ Connessione database riuscita";
-            return true;
-        } catch (PDOException $e) {
-            $this->errors[] = "❌ Errore connessione database: " . $e->getMessage();
-            return false;
-        }
+        // Sistema file-based non richiede connessione database
+        $this->success[] = "✅ Sistema file-based: connessione non necessaria";
+        return true;
     }
     
     private function createDirectory($dir) {
@@ -334,44 +313,9 @@ define('ADMIN_PASSWORD', '" . password_hash($_POST['admin_password'], PASSWORD_D
     }
     
     private function setupDatabase($host, $name, $user, $pass) {
-        try {
-            // Prova prima con WordPress database esistente
-            $wp_connections = [
-                ['db' => 'dbv5hshva16sx', 'user' => 'dbv5hshva16sx', 'pass' => ''],
-                ['db' => 'dbv5hshva16sx', 'user' => 'dbv5hshva16sxx', 'pass' => 'colverde79'],
-                ['db' => $name, 'user' => $user, 'pass' => $pass],
-                ['db' => $name, 'user' => 'dbv5hshva16sxx', 'pass' => 'colverde79']
-            ];
-            
-            $connected = false;
-            $pdo = null;
-            $final_db = $name;
-            
-            foreach ($wp_connections as $conn) {
-                try {
-                    $pdo = new PDO("mysql:host=$host;dbname={$conn['db']}", $conn['user'], $conn['pass']);
-                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $connected = true;
-                    $final_db = $conn['db'];
-                    $this->success[] = "✅ Connessione riuscita al database: {$conn['db']} con utente: {$conn['user']}";
-                    break;
-                } catch (PDOException $e) {
-                    continue;
-                }
-            }
-            
-            if (!$connected) {
-                // Fallback: usa sistema di file
-                $this->success[] = "⚠️ Database MySQL non accessibile con le credenziali fornite";
-                $this->success[] = "✅ Installazione con sistema file-based (più compatibile per hosting condiviso)";
-                return $this->setupFileBasedStorage();
-            }
-            
-            // Aggiorna la configurazione con il database che funziona
-            $name = $final_db;
-            
-            // Aggiorna le variabili POST per il resto dell'installazione
-            $_POST['db_name'] = $final_db;
+        // Forza sempre l'uso del sistema file-based per evitare problemi di credenziali
+        $this->success[] = "✅ Utilizzo sistema file-based per massima compatibilità";
+        return $this->setupFileBasedStorage();
             
             // Tabella users
             $pdo->exec("CREATE TABLE IF NOT EXISTS users (
