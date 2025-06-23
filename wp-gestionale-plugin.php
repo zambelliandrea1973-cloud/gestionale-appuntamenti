@@ -1,9 +1,12 @@
 <?php
 /**
  * Plugin Name: Gestionale Sanitario
- * Description: Sistema di gestione clienti con accesso QR code
- * Version: 1.0
- * Author: Silvia Busnari
+ * Plugin URI: https://biomedicinaintegrata.it
+ * Description: Sistema completo di gestione clienti con accesso QR code per studi medici
+ * Version: 1.0.0
+ * Author: Dr.ssa Silvia Busnari
+ * License: GPL v2 or later
+ * Text Domain: gestionale-sanitario
  */
 
 // Prevent direct access
@@ -11,8 +14,123 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Create plugin directory and files on activation
-register_activation_hook(__FILE__, 'gestionale_create_files');
+// Define plugin constants
+define('GESTIONALE_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('GESTIONALE_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('GESTIONALE_VERSION', '1.0.0');
+
+// Plugin activation and deactivation hooks
+register_activation_hook(__FILE__, 'gestionale_activate');
+register_deactivation_hook(__FILE__, 'gestionale_deactivate');
+
+// Initialize plugin
+add_action('init', 'gestionale_init');
+add_action('wp_enqueue_scripts', 'gestionale_enqueue_scripts');
+
+function gestionale_activate() {
+    // Create database tables and initial data
+    gestionale_create_tables();
+    gestionale_create_pages();
+    gestionale_create_files();
+    
+    // Flush rewrite rules
+    flush_rewrite_rules();
+}
+
+function gestionale_deactivate() {
+    // Clean up if needed
+    flush_rewrite_rules();
+}
+
+function gestionale_init() {
+    // Add custom rewrite rules for QR access
+    add_rewrite_rule('^cliente/([^/]+)/?', 'index.php?gestionale_client=$matches[1]', 'top');
+    add_rewrite_rule('^gestionale-admin/?', 'index.php?gestionale_admin=1', 'top');
+    
+    // Add query vars
+    add_filter('query_vars', 'gestionale_query_vars');
+}
+
+function gestionale_query_vars($vars) {
+    $vars[] = 'gestionale_client';
+    $vars[] = 'gestionale_admin';
+    return $vars;
+}
+
+function gestionale_enqueue_scripts() {
+    wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+    wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', array(), false, true);
+    wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+}
+
+function gestionale_create_tables() {
+    $upload_dir = wp_upload_dir();
+    $data_dir = $upload_dir['basedir'] . '/gestionale-data';
+    
+    if (!file_exists($data_dir)) {
+        wp_mkdir_p($data_dir);
+    }
+    
+    // Create initial data file
+    $initial_data = array(
+        'settings' => array(
+            'doctor_name' => 'Dr.ssa Silvia Busnari',
+            'studio_name' => 'Studio di Biomedicina Integrata',
+            'email' => 'busnari.silvia@libero.it',
+            'phone' => '+39 3471445767',
+            'website' => 'biomedicinaintegrata.it',
+            'instagram' => '@biomedicinaintegrata',
+            'admin_password' => password_hash('gestionale2024!', PASSWORD_DEFAULT)
+        ),
+        'clients' => array(
+            array(
+                'id' => 'CLI001',
+                'name' => 'Mario Rossi',
+                'email' => 'mario.rossi@email.com',
+                'phone' => '+39 123 456 7890',
+                'birth_date' => '1980-05-15',
+                'qr_code' => 'CLI001',
+                'created_date' => date('Y-m-d H:i:s'),
+                'appointments' => array(
+                    array('date' => '2024-01-15', 'time' => '10:00', 'type' => 'Visita controllo', 'status' => 'confermato'),
+                    array('date' => '2024-02-20', 'time' => '14:30', 'type' => 'Consulenza specialistica', 'status' => 'confermato')
+                )
+            ),
+            array(
+                'id' => 'CLI002', 
+                'name' => 'Anna Verdi',
+                'email' => 'anna.verdi@email.com',
+                'phone' => '+39 098 765 4321',
+                'birth_date' => '1975-08-22',
+                'qr_code' => 'CLI002',
+                'created_date' => date('Y-m-d H:i:s'),
+                'appointments' => array(
+                    array('date' => '2024-01-20', 'time' => '09:00', 'type' => 'Prima visita', 'status' => 'confermato'),
+                    array('date' => '2024-03-10', 'time' => '15:00', 'type' => 'Controllo follow-up', 'status' => 'programmato')
+                )
+            )
+        )
+    );
+    
+    $data_file = $data_dir . '/data.json';
+    if (!file_exists($data_file)) {
+        file_put_contents($data_file, json_encode($initial_data, JSON_PRETTY_PRINT));
+    }
+}
+
+function gestionale_create_pages() {
+    // Create admin page
+    $admin_page = array(
+        'post_title' => 'Gestionale Admin',
+        'post_content' => '[gestionale_admin]',
+        'post_status' => 'private',
+        'post_type' => 'page',
+        'post_name' => 'gestionale-admin'
+    );
+    
+    $admin_page_id = wp_insert_post($admin_page);
+    update_option('gestionale_admin_page_id', $admin_page_id);
+}
 
 function gestionale_create_files() {
     $upload_dir = wp_upload_dir();
@@ -417,21 +535,252 @@ function gestionale_admin_menu() {
 }
 
 function gestionale_admin_page() {
-    $upload_dir = wp_upload_dir();
-    $gestionale_url = $upload_dir['baseurl'] . '/gestionale/';
+    // Handle form submissions
+    if (isset($_POST['action'])) {
+        gestionale_handle_admin_actions();
+    }
     
-    echo '<div class="wrap">';
-    echo '<h1>Gestionale Sanitario</h1>';
-    echo '<div class="notice notice-success"><p><strong>Gestionale installato e funzionante!</strong></p></div>';
-    echo '<p>Il sistema gestionale è stato installato correttamente.</p>';
-    echo '<h3>Link di accesso:</h3>';
-    echo '<ul>';
-    echo '<li><strong>Amministrazione:</strong> <a href="' . $gestionale_url . 'login.php" target="_blank">' . $gestionale_url . 'login.php</a></li>';
-    echo '<li><strong>Test Cliente 1:</strong> <a href="' . $gestionale_url . 'client-access.php?code=CLI001" target="_blank">' . $gestionale_url . 'client-access.php?code=CLI001</a></li>';
-    echo '<li><strong>Test Cliente 2:</strong> <a href="' . $gestionale_url . 'client-access.php?code=CLI002" target="_blank">' . $gestionale_url . 'client-access.php?code=CLI002</a></li>';
-    echo '</ul>';
-    echo '<h3>Credenziali di accesso:</h3>';
-    echo '<p><strong>Email:</strong> busnari.silvia@libero.it<br><strong>Password:</strong> gestionale2024!</p>';
-    echo '</div>';
+    $clients = gestionale_get_clients();
+    $stats = gestionale_get_stats();
+    
+    ?>
+    <div class="wrap">
+        <h1><i class="fas fa-stethoscope"></i> Gestionale Sanitario</h1>
+        
+        <!-- Stats Dashboard -->
+        <div class="gestionale-stats">
+            <div class="stat-box">
+                <h3><?php echo $stats['total_clients']; ?></h3>
+                <p>Clienti Totali</p>
+            </div>
+            <div class="stat-box">
+                <h3><?php echo $stats['appointments_today']; ?></h3>
+                <p>Appuntamenti Oggi</p>
+            </div>
+            <div class="stat-box">
+                <h3><?php echo $stats['appointments_week']; ?></h3>
+                <p>Appuntamenti Settimana</p>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="gestionale-actions">
+            <button type="button" class="button button-primary" onclick="showAddClientForm()">
+                <i class="fas fa-user-plus"></i> Aggiungi Cliente
+            </button>
+            <a href="<?php echo home_url('/cliente/CLI001'); ?>" target="_blank" class="button">
+                <i class="fas fa-qrcode"></i> Test QR Cliente 1
+            </a>
+            <a href="<?php echo home_url('/cliente/CLI002'); ?>" target="_blank" class="button">
+                <i class="fas fa-qrcode"></i> Test QR Cliente 2
+            </a>
+        </div>
+        
+        <!-- Add Client Form (Hidden) -->
+        <div id="add-client-form" style="display:none;">
+            <h2>Aggiungi Nuovo Cliente</h2>
+            <form method="post">
+                <input type="hidden" name="action" value="add_client">
+                <table class="form-table">
+                    <tr>
+                        <th><label for="client_name">Nome Completo</label></th>
+                        <td><input type="text" id="client_name" name="client_name" class="regular-text" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="client_email">Email</label></th>
+                        <td><input type="email" id="client_email" name="client_email" class="regular-text" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="client_phone">Telefono</label></th>
+                        <td><input type="tel" id="client_phone" name="client_phone" class="regular-text" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="client_birth">Data di Nascita</label></th>
+                        <td><input type="date" id="client_birth" name="client_birth" class="regular-text"></td>
+                    </tr>
+                </table>
+                <p class="submit">
+                    <input type="submit" class="button button-primary" value="Crea Cliente">
+                    <button type="button" class="button" onclick="hideAddClientForm()">Annulla</button>
+                </p>
+            </form>
+        </div>
+        
+        <!-- Clients Table -->
+        <h2>Clienti</h2>
+        <table class="wp-list-table widefat fixed striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Codice QR</th>
+                    <th>URL Cliente</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($clients as $client): ?>
+                    <tr>
+                        <td><strong><?php echo esc_html($client['name']); ?></strong></td>
+                        <td><?php echo esc_html($client['email']); ?></td>
+                        <td><?php echo esc_html($client['phone']); ?></td>
+                        <td><code><?php echo esc_html($client['qr_code']); ?></code></td>
+                        <td>
+                            <a href="<?php echo home_url('/cliente/' . $client['qr_code']); ?>" target="_blank">
+                                <?php echo home_url('/cliente/' . $client['qr_code']); ?>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="<?php echo home_url('/cliente/' . $client['qr_code']); ?>" target="_blank" class="button button-small">
+                                <i class="fas fa-external-link-alt"></i> Visualizza
+                            </a>
+                            <button class="button button-small" onclick="generateQRCode('<?php echo $client['qr_code']; ?>')">
+                                <i class="fas fa-qrcode"></i> QR
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        
+        <!-- QR Code Modal -->
+        <div id="qr-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000;">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; text-align:center;">
+                <h3>QR Code Cliente</h3>
+                <div id="qr-code-container"></div>
+                <p><strong>URL:</strong> <span id="qr-url"></span></p>
+                <button class="button button-primary" onclick="closeQRModal()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+    .gestionale-stats {
+        display: flex;
+        gap: 20px;
+        margin: 20px 0;
+    }
+    .stat-box {
+        background: #fff;
+        border: 1px solid #ccd0d4;
+        border-radius: 4px;
+        padding: 20px;
+        text-align: center;
+        flex: 1;
+    }
+    .stat-box h3 {
+        margin: 0;
+        font-size: 2em;
+        color: #0073aa;
+    }
+    .stat-box p {
+        margin: 5px 0 0;
+        color: #666;
+    }
+    .gestionale-actions {
+        margin: 20px 0;
+    }
+    .gestionale-actions .button {
+        margin-right: 10px;
+    }
+    </style>
+    
+    <script>
+    function showAddClientForm() {
+        document.getElementById('add-client-form').style.display = 'block';
+    }
+    
+    function hideAddClientForm() {
+        document.getElementById('add-client-form').style.display = 'none';
+    }
+    
+    function generateQRCode(clientCode) {
+        var url = '<?php echo home_url('/cliente/'); ?>' + clientCode;
+        document.getElementById('qr-url').textContent = url;
+        
+        // Create QR code using qrcode.js library
+        var qrContainer = document.getElementById('qr-code-container');
+        qrContainer.innerHTML = '';
+        
+        // Simple QR code placeholder - in production would use QR library
+        qrContainer.innerHTML = '<div style="width:200px; height:200px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin:20px auto;">QR Code<br>' + clientCode + '</div>';
+        
+        document.getElementById('qr-modal').style.display = 'block';
+    }
+    
+    function closeQRModal() {
+        document.getElementById('qr-modal').style.display = 'none';
+    }
+    </script>
+    <?php
+}
+
+// Helper functions
+function gestionale_get_clients() {
+    $upload_dir = wp_upload_dir();
+    $data_file = $upload_dir['basedir'] . '/gestionale-data/data.json';
+    
+    if (file_exists($data_file)) {
+        $data = json_decode(file_get_contents($data_file), true);
+        return isset($data['clients']) ? $data['clients'] : array();
+    }
+    
+    return array();
+}
+
+function gestionale_get_stats() {
+    $clients = gestionale_get_clients();
+    $stats = array(
+        'total_clients' => count($clients),
+        'appointments_today' => 0,
+        'appointments_week' => 0
+    );
+    
+    $today = date('Y-m-d');
+    $week_start = date('Y-m-d', strtotime('monday this week'));
+    $week_end = date('Y-m-d', strtotime('sunday this week'));
+    
+    foreach ($clients as $client) {
+        if (isset($client['appointments'])) {
+            foreach ($client['appointments'] as $appointment) {
+                $apt_date = $appointment['date'];
+                if ($apt_date === $today) {
+                    $stats['appointments_today']++;
+                }
+                if ($apt_date >= $week_start && $apt_date <= $week_end) {
+                    $stats['appointments_week']++;
+                }
+            }
+        }
+    }
+    
+    return $stats;
+}
+
+function gestionale_handle_admin_actions() {
+    if ($_POST['action'] === 'add_client') {
+        $new_client = array(
+            'id' => 'CLI' . sprintf('%03d', time() % 1000),
+            'name' => sanitize_text_field($_POST['client_name']),
+            'email' => sanitize_email($_POST['client_email']),
+            'phone' => sanitize_text_field($_POST['client_phone']),
+            'birth_date' => sanitize_text_field($_POST['client_birth']),
+            'qr_code' => 'CLI' . sprintf('%03d', time() % 1000),
+            'created_date' => date('Y-m-d H:i:s'),
+            'appointments' => array()
+        );
+        
+        $upload_dir = wp_upload_dir();
+        $data_file = $upload_dir['basedir'] . '/gestionale-data/data.json';
+        
+        if (file_exists($data_file)) {
+            $data = json_decode(file_get_contents($data_file), true);
+            $data['clients'][] = $new_client;
+            file_put_contents($data_file, json_encode($data, JSON_PRETTY_PRINT));
+            
+            echo '<div class="notice notice-success"><p>Cliente aggiunto con successo! Codice QR: ' . $new_client['qr_code'] . '</p></div>';
+        }
+    }
 }
 ?>
