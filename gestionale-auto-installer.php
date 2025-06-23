@@ -134,20 +134,20 @@ class GestionaleAutoInstaller {
                     
                     <div class="form-group">
                         <label for="db_name">🗄️ Nome Database:</label>
-                        <input type="text" id="db_name" name="db_name" value="gestionale_sanitario" required>
-                        <small style="color: #666;">Verrà creato automaticamente se non esiste</small>
+                        <input type="text" id="db_name" name="db_name" value="dbda081gi0gizt" required>
+                        <small style="color: #666;">Database appena creato nel pannello</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="db_user">👤 Username Database:</label>
-                        <input type="text" id="db_user" name="db_user" placeholder="Inserisci username MySQL" required>
-                        <small style="color: #666;">Username del tuo account MySQL/cPanel</small>
+                        <input type="text" id="db_user" name="db_user" value="ug87yqacduwf" required>
+                        <small style="color: #666;">Username mostrato nel pannello MySQL</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="db_pass">🔒 Password Database:</label>
-                        <input type="password" id="db_pass" name="db_pass" placeholder="Inserisci password MySQL">
-                        <small style="color: #666;">Password del tuo account MySQL (necessaria)</small>
+                        <input type="password" id="db_pass" name="db_pass" placeholder="Controlla nella sezione UTENTI del pannello MySQL" required>
+                        <small style="color: #666;">⚠️ IMPORTANTE: Verifica la password nella sezione UTENTI del pannello MySQL SiteGround</small>
                     </div>
                     
                     <button type="submit" class="install-btn" onclick="showLoading()">
