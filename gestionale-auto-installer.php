@@ -134,17 +134,20 @@ class GestionaleAutoInstaller {
                     
                     <div class="form-group">
                         <label for="db_name">🗄️ Nome Database:</label>
-                        <input type="text" id="db_name" name="db_name" placeholder="gestionale_sanitario" required>
+                        <input type="text" id="db_name" name="db_name" value="gestionale_sanitario" required>
+                        <small style="color: #666;">Verrà creato automaticamente se non esiste</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="db_user">👤 Username Database:</label>
-                        <input type="text" id="db_user" name="db_user" placeholder="root" required>
+                        <input type="text" id="db_user" name="db_user" placeholder="Inserisci username MySQL" required>
+                        <small style="color: #666;">Username del tuo account MySQL/cPanel</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="db_pass">🔒 Password Database:</label>
-                        <input type="password" id="db_pass" name="db_pass" placeholder="Lascia vuoto se non presente">
+                        <input type="password" id="db_pass" name="db_pass" placeholder="Inserisci password MySQL">
+                        <small style="color: #666;">Password del tuo account MySQL (necessaria)</small>
                     </div>
                     
                     <button type="submit" class="install-btn" onclick="showLoading()">
@@ -292,6 +295,11 @@ class GestionaleAutoInstaller {
     
     private function setupDatabase($host, $name, $user, $pass) {
         try {
+            // Prima prova a creare il database se non esiste
+            $pdo_root = new PDO("mysql:host=$host", $user, $pass);
+            $pdo_root->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo_root->exec("CREATE DATABASE IF NOT EXISTS `$name`");
+            
             $pdo = new PDO("mysql:host=$host;dbname=$name", $user, $pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
