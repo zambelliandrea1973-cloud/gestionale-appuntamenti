@@ -140,14 +140,14 @@ class GestionaleAutoInstaller {
                     
                     <div class="form-group">
                         <label for="db_user">👤 Username Database:</label>
-                        <input type="text" id="db_user" name="db_user" value="ug87yqacduwf" required>
-                        <small style="color: #666;">Username mostrato nel pannello MySQL</small>
+                        <input type="text" id="db_user" name="db_user" value="gestionale_user" required>
+                        <small style="color: #dc3545; font-weight: bold;">NUOVO UTENTE da creare nel pannello</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="db_pass">🔒 Password Database:</label>
-                        <input type="password" id="db_pass" name="db_pass" placeholder="Controlla nella sezione UTENTI del pannello MySQL" required>
-                        <small style="color: #666;">⚠️ IMPORTANTE: Verifica la password nella sezione UTENTI del pannello MySQL SiteGround</small>
+                        <input type="password" id="db_pass" name="db_pass" value="gestionale123!" required>
+                        <small style="color: #dc3545; font-weight: bold;">Password del NUOVO UTENTE</small>
                     </div>
                     
                     <button type="submit" class="install-btn" onclick="showLoading()">
@@ -295,13 +295,32 @@ class GestionaleAutoInstaller {
     
     private function setupDatabase($host, $name, $user, $pass) {
         try {
-            // Prima prova a creare il database se non esiste
-            $pdo_root = new PDO("mysql:host=$host", $user, $pass);
-            $pdo_root->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo_root->exec("CREATE DATABASE IF NOT EXISTS `$name`");
+            // Test diverse combinazioni di credenziali per SiteGround
+            $connections = [
+                ['user' => $user, 'pass' => $pass],
+                ['user' => $name, 'pass' => $pass],
+                ['user' => $name, 'pass' => ''],
+                ['user' => $user, 'pass' => '']
+            ];
             
-            $pdo = new PDO("mysql:host=$host;dbname=$name", $user, $pass);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $connected = false;
+            $pdo = null;
+            
+            foreach ($connections as $conn) {
+                try {
+                    $pdo = new PDO("mysql:host=$host;dbname=$name", $conn['user'], $conn['pass']);
+                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $connected = true;
+                    $this->success[] = "✅ Connessione riuscita con utente: " . $conn['user'];
+                    break;
+                } catch (PDOException $e) {
+                    continue;
+                }
+            }
+            
+            if (!$connected) {
+                throw new Exception("Impossibile connettersi al database con nessuna combinazione di credenziali");
+            }
             
             // Tabella users
             $pdo->exec("CREATE TABLE IF NOT EXISTS users (
