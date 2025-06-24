@@ -1,0 +1,373 @@
+{
+  "settings": {
+    "doctor_name": "Dr.ssa Silvia Busnari",
+    "studio_name": "Studio di Biomedicina Integrata",
+    "email": "busnari.silvia@libero.it",
+    "phone": "+39 3471445767",
+    "website": "biomedicinaintegrata.it",
+    "instagram": "@biomedicinaintegrata",
+    "admin_password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"
+  },
+  "clients": [
+    {
+      "id": "PROF_003_0003_CLIENT_1_0001",
+      "name": "Mario Rossi",
+      "email": "mario.rossi@esempio.it",
+      "phone": "3201234567",
+      "birth_date": "",
+      "qr_code": "PROF_003_0003_CLIENT_1_0001",
+      "created_date": "2025-04-02T16:08:04.062Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_2_0002",
+      "name": "Zambelli Andrea",
+      "email": "zambelli.andrea.1973@gmail.com",
+      "phone": "3472550110",
+      "birth_date": "2025-04-24",
+      "qr_code": "PROF_003_0003_CLIENT_2_0002",
+      "created_date": "2025-04-02T16:43:36.683Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_009_6099_CLIENT_25_5832",
+      "name": "Cliente Trial",
+      "email": "zambelli.andrea.1973A@gmail.com",
+      "phone": "+39 123456789",
+      "birth_date": "",
+      "qr_code": "PROF_009_6099_CLIENT_25_5832",
+      "created_date": "2025-06-03T13:34:58.643Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_012_1936_CLIENT_28_CE96",
+      "name": "Cliente Business",
+      "email": "zambelli.andrea.1973D@gmail.com",
+      "phone": "+39 123456789",
+      "birth_date": "",
+      "qr_code": "PROF_012_1936_CLIENT_28_CE96",
+      "created_date": "2025-06-03T13:34:58.644Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_256_5BAC",
+      "name": "pippo quattro",
+      "email": "zambelli.andrea@libero.it",
+      "phone": "+393472550110",
+      "birth_date": "2025-05-29",
+      "qr_code": "PROF_016_B17E_CLIENT_256_5BAC",
+      "created_date": "2025-06-03T13:34:58.644Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_257_CFDB",
+      "name": "Valentina Cotrino",
+      "email": "",
+      "phone": "+393801808350",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_257_CFDB",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_258_E536",
+      "name": "Cinzia Munaretto",
+      "email": "",
+      "phone": "+393333637578",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_258_E536",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_259_9CE6",
+      "name": "Eleonora Tentori",
+      "email": "",
+      "phone": "+393420241919",
+      "birth_date": "1999-10-06",
+      "qr_code": "PROF_016_B17E_CLIENT_259_9CE6",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_261_99B7",
+      "name": "Cristina Valetti",
+      "email": "",
+      "phone": "+393337124083",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_261_99B7",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_263_C51C",
+      "name": "Matteo Somaschini",
+      "email": "",
+      "phone": "+393920820219",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_263_C51C",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_012_B830_CLIENT_264_85C1",
+      "name": "Business Account",
+      "email": "zambelli.andrea.1973D@gmail.com",
+      "phone": "1234567890",
+      "birth_date": "",
+      "qr_code": "PROF_012_B830_CLIENT_264_85C1",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_265_95C4",
+      "name": "Zambelli Andrea",
+      "email": "zambelli.andrea@libero.it",
+      "phone": "+393472550110",
+      "birth_date": "2022-03-26",
+      "qr_code": "PROF_016_B17E_CLIENT_265_95C4",
+      "created_date": "2025-06-03T13:34:58.645Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_266_0266",
+      "name": "giovanni rizzo",
+      "email": "zambelli.andrea.1973@gmail.com",
+      "phone": "+392550110",
+      "birth_date": "2000-07-13",
+      "qr_code": "PROF_003_0003_CLIENT_266_0266",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_267_0267",
+      "name": "giovanni ribbio",
+      "email": "zambelli.andrea.1973@gmail.com",
+      "phone": "+392550110",
+      "birth_date": "2006-10-11",
+      "qr_code": "PROF_003_0003_CLIENT_267_0267",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_268_9B35",
+      "name": "Leila Baldovin",
+      "email": "leila.baldovin22@gmail.com",
+      "phone": "+393312936414",
+      "birth_date": "1999-07-10",
+      "qr_code": "PROF_016_B17E_CLIENT_268_9B35",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_269_2010",
+      "name": "Rosa Nappi",
+      "email": "",
+      "phone": "+393479687939",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_269_2010",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_270_B842",
+      "name": "Giovanna Spano",
+      "email": "",
+      "phone": "+393666249288",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_270_B842",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_271_5A39",
+      "name": "Alan Marconi",
+      "email": "",
+      "phone": "+393337960111",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_271_5A39",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_272_FC04",
+      "name": "Dino Nappi",
+      "email": "",
+      "phone": "+393385893919",
+      "birth_date": "",
+      "qr_code": "PROF_016_B17E_CLIENT_272_FC04",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_273_5EBF",
+      "name": "Matteo Libera",
+      "email": "",
+      "phone": "+393494195547",
+      "birth_date": "2004-11-13",
+      "qr_code": "PROF_016_B17E_CLIENT_273_5EBF",
+      "created_date": "2025-06-03T13:34:58.646Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_009_F7D7_CLIENT_316_85CF",
+      "name": "Trial Account",
+      "email": "zambelli.andrea.1973A@gmail.com",
+      "phone": "1234567890",
+      "birth_date": "",
+      "qr_code": "PROF_009_F7D7_CLIENT_316_85CF",
+      "created_date": "2025-06-03T13:34:58.647Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_513_7E52",
+      "name": "provaci ancora due",
+      "email": "zambelli.andrea@libero.it",
+      "phone": "+393472550110",
+      "birth_date": "2013-07-19",
+      "qr_code": "PROF_016_B17E_CLIENT_513_7E52",
+      "created_date": "2025-06-03T13:34:58.647Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_016_B17E_CLIENT_514_44A1",
+      "name": "maaa vaaa",
+      "email": "zambelli.andrea@libero.it",
+      "phone": "+393472550110",
+      "birth_date": "2014-11-30",
+      "qr_code": "PROF_016_B17E_CLIENT_514_44A1",
+      "created_date": "2025-06-03T13:34:58.647Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_009_A08C_CLIENT_1749666196976_9BDC",
+      "name": "Andrea Zambelli",
+      "email": "zambelli.andrea@libero.it",
+      "phone": "+393472550110",
+      "birth_date": "2025-06-11",
+      "qr_code": "PROF_009_A08C_CLIENT_1749666196976_9BDC",
+      "created_date": "2025-06-11T18:23:16.976Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437314_7314",
+      "name": "Silvia Bus",
+      "email": "busnari.silvia@libero.it",
+      "phone": "+393472550110",
+      "birth_date": "2025-06-07",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437314_7314",
+      "created_date": "2025-06-11T18:43:57.314Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437315_7315",
+      "name": "Mario Rossi",
+      "email": "mario.rossi@email.com",
+      "phone": "3331234567",
+      "birth_date": "1980-05-15",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437315_7315",
+      "created_date": "2025-06-11T18:50:38.110Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437316_7316",
+      "name": "Giulia Verdi",
+      "email": "giulia.verdi@email.com",
+      "phone": "3337654321",
+      "birth_date": "1975-09-22",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437316_7316",
+      "created_date": "2025-06-11T18:50:38.111Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437317_7317",
+      "name": "Franco Bianchi",
+      "email": "franco.bianchi@email.com",
+      "phone": "3339876543",
+      "birth_date": "1990-12-03",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437317_7317",
+      "created_date": "2025-06-11T18:50:38.111Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437318_7318",
+      "name": "Anna Neri",
+      "email": "anna.neri@email.com",
+      "phone": "3334567890",
+      "birth_date": "1985-03-18",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437318_7318",
+      "created_date": "2025-06-11T18:50:38.111Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437319_7319",
+      "name": "Mario Rossi",
+      "email": "mario.rossi@test.com",
+      "phone": "3331234567",
+      "birth_date": "1980-05-15",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437319_7319",
+      "created_date": "2025-06-11T18:54:21.929Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437320_7320",
+      "name": "Giulia Verdi",
+      "email": "giulia.verdi@test.com",
+      "phone": "3337654321",
+      "birth_date": "1975-09-22",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437320_7320",
+      "created_date": "2025-06-11T18:54:21.930Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_003_0003_CLIENT_1749667437321_7321",
+      "name": "Franco Bianchi",
+      "email": "franco.bianchi@test.com",
+      "phone": "3339876543",
+      "birth_date": "1990-12-03",
+      "qr_code": "PROF_003_0003_CLIENT_1749667437321_7321",
+      "created_date": "2025-06-11T18:54:21.930Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_014_9C1F_CLIENT_14001_A665",
+      "name": "Cliente Trial",
+      "email": "cliente.trial.14@example.com",
+      "phone": "+39 123 456 7890",
+      "birth_date": "",
+      "qr_code": "PROF_014_9C1F_CLIENT_14001_A665",
+      "created_date": "2025-06-17T09:33:32.557Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_014_9C1F_CLIENT_14002_09A9",
+      "name": "Trial Account",
+      "email": "zambelli.andrea@libero.it",
+      "phone": "+39 098 765 4321",
+      "birth_date": "2013-10-16",
+      "qr_code": "PROF_014_9C1F_CLIENT_14002_09A9",
+      "created_date": "2025-06-17T09:33:32.557Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_014_9C1F_CLIENT_1750163505034_340F",
+      "name": "Bruna  Pizzolato",
+      "email": "brunapizzolato77@gmail.com",
+      "phone": "+393270881677",
+      "birth_date": "1987-07-20",
+      "qr_code": "PROF_014_9C1F_CLIENT_1750163505034_340F",
+      "created_date": "2025-06-17T12:31:45.034Z",
+      "appointments": []
+    },
+    {
+      "id": "PROF_014_9C1F_CLIENT_1750177330362_816C",
+      "name": "Marco Berto",
+      "email": "marco_berto@msn.com",
+      "phone": "+41794374849",
+      "birth_date": "1978-07-20",
+      "qr_code": "PROF_014_9C1F_CLIENT_1750177330362_816C",
+      "created_date": "2025-06-17T16:22:10.363Z",
+      "appointments": []
+    }
+  ]
+}
