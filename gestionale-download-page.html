@@ -402,9 +402,9 @@
         }
         
         function downloadFile(filename) {
-            // Simula download - in produzione questo sarebbe un vero file
+            // Download del file ZIP reale
             const link = document.createElement('a');
-            link.href = '#'; // URL del file ZIP reale
+            link.href = './gestionale-sanitario-completo.zip'; // File ZIP reale
             link.download = filename;
             link.click();
             
