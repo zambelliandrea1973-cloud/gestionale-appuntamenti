@@ -1,18 +1,3 @@
-#!/bin/bash
-# Script per creare pacchetto di ripristino SiteGround
-
-echo "Creando pacchetto di ripristino per SiteGround..."
-
-# Crea directory temporanea
-mkdir -p siteground-ripristino
-
-# Copia file necessari
-cp index.php siteground-ripristino/
-cp gestionale-standalone.php siteground-ripristino/
-cp RIPRISTINO-SITO.md siteground-ripristino/
-
-# Crea istruzioni specifiche per SiteGround
-cat > siteground-ripristino/ISTRUZIONI-SITEGROUND.txt << 'EOF'
 RIPRISTINO BIOMEDICINAINTEGRATA.IT - ISTRUZIONI SITEGROUND
 
 PASSO 1: Elimina File Problematici
@@ -44,10 +29,3 @@ Username: email del professionista
 CLIENTI QR (test):
 - Mario Rossi: biomedicinaintegrata.it/gestionale-standalone.php?client=PROF_003_0003_CLIENT_1_0001
 - Zambelli Andrea: biomedicinaintegrata.it/gestionale-standalone.php?client=PROF_003_0003_CLIENT_2_0002
-EOF
-
-# Crea archivio
-tar -czf biomedicinaintegrata-ripristino.tar.gz siteground-ripristino/
-
-echo "Pacchetto creato: biomedicinaintegrata-ripristino.tar.gz"
-echo "Estrai e carica i file nel File Manager SiteGround"
