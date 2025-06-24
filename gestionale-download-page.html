@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Sanitario - Download Software</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .download-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .plan-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .plan-card:hover {
+            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .plan-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #6b7280;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .price-tag {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1f2937;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-popular {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-pro {
+            background: #ddd6fe;
+            color: #5b21b6;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center p-6">
+        <div class="download-card w-full max-w-6xl">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 text-center">
+                <h1 class="text-4xl font-bold mb-4">Gestionale Sanitario Professional</h1>
+                <p class="text-xl opacity-90">Sistema completo per la gestione di studi medici e professionisti sanitari</p>
+            </div>
+            
+            <!-- Content -->
+            <div class="p-8">
+                <!-- Account esistenti -->
+                <div id="existing-accounts" class="mb-12">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Accesso con Account Esistente</h2>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                        <h3 class="font-semibold text-blue-900 mb-3">Account Demo Già Configurati:</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-white p-4 rounded-lg border">
+                                <h4 class="font-semibold text-gray-800">Administrator</h4>
+                                <p class="text-sm text-gray-600">Email: zambelli.andrea.1973@gmail.com</p>
+                                <p class="text-sm text-gray-600">Password: staff123</p>
+                                <span class="badge badge-pro mt-2">ADMIN</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border">
+                                <h4 class="font-semibold text-gray-800">Staff Silvia</h4>
+                                <p class="text-sm text-gray-600">Email: busnari.silvia@libero.it</p>
+                                <p class="text-sm text-gray-600">Password: staff123</p>
+                                <span class="badge badge-popular mt-2">STAFF</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border">
+                                <h4 class="font-semibold text-gray-800">Staff Elisa</h4>
+                                <p class="text-sm text-gray-600">Email: elisa.faverio@gmail.com</p>
+                                <p class="text-sm text-gray-600">Password: staff123</p>
+                                <span class="badge badge-popular mt-2">STAFF</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="btn btn-primary" onclick="downloadWithExistingAccounts()">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Scarica con Account Demo
+                        </button>
+                    </div>
+                </div>
+                
+                <hr class="my-12">
+                
+                <!-- Nuovo account -->
+                <div id="new-account">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Oppure Crea Nuovo Account</h2>
+                    
+                    <!-- Piani di abbonamento -->
+                    <div class="grid md:grid-cols-4 gap-6 mb-8">
+                        <!-- Trial -->
+                        <div class="plan-card" data-plan="trial" onclick="selectPlan('trial')">
+                            <div class="text-center mb-4">
+                                <h3 class="text-lg font-bold">Trial</h3>
+                                <div class="price-tag">Gratis</div>
+                                <p class="text-sm text-gray-600">30 giorni</p>
+                            </div>
+                            <ul class="feature-list text-sm">
+                                <li>Fino a 10 clienti</li>
+                                <li>50 appuntamenti/mese</li>
+                                <li>QR codes di base</li>
+                                <li>Supporto email</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Base -->
+                        <div class="plan-card" data-plan="base" onclick="selectPlan('base')">
+                            <div class="text-center mb-4">
+                                <span class="badge badge-popular">POPOLARE</span>
+                                <h3 class="text-lg font-bold mt-2">Base</h3>
+                                <div class="price-tag">€49</div>
+                                <p class="text-sm text-gray-600">al mese</p>
+                            </div>
+                            <ul class="feature-list text-sm">
+                                <li>Fino a 100 clienti</li>
+                                <li>500 appuntamenti/mese</li>
+                                <li>QR codes completi</li>
+                                <li>Notifiche WhatsApp</li>
+                                <li>Backup automatico</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Pro -->
+                        <div class="plan-card" data-plan="pro" onclick="selectPlan('pro')">
+                            <div class="text-center mb-4">
+                                <span class="badge badge-pro">PRO</span>
+                                <h3 class="text-lg font-bold mt-2">Pro</h3>
+                                <div class="price-tag">€99</div>
+                                <p class="text-sm text-gray-600">al mese</p>
+                            </div>
+                            <ul class="feature-list text-sm">
+                                <li>Clienti illimitati</li>
+                                <li>Appuntamenti illimitati</li>
+                                <li>Multi-utente (5 staff)</li>
+                                <li>Integrazione pagamenti</li>
+                                <li>Report avanzati</li>
+                                <li>Supporto prioritario</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Business -->
+                        <div class="plan-card" data-plan="business" onclick="selectPlan('business')">
+                            <div class="text-center mb-4">
+                                <h3 class="text-lg font-bold">Business</h3>
+                                <div class="price-tag">€199</div>
+                                <p class="text-sm text-gray-600">al mese</p>
+                            </div>
+                            <ul class="feature-list text-sm">
+                                <li>Tutto del Pro +</li>
+                                <li>White label</li>
+                                <li>Staff illimitato</li>
+                                <li>API personalizzate</li>
+                                <li>Supporto dedicato</li>
+                                <li>Setup assistito</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Form registrazione -->
+                    <div id="registration-form" class="hidden max-w-md mx-auto">
+                        <form onsubmit="downloadWithNewAccount(event)">
+                            <div class="form-group">
+                                <label class="form-label">Nome completo</label>
+                                <input type="text" class="form-input" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-input" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nome Studio/Azienda</label>
+                                <input type="text" class="form-input" name="businessName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Telefono</label>
+                                <input type="tel" class="form-input" name="phone" required>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-full">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <span id="download-text">Scarica Gestionale - Piano Trial</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Info download -->
+                <div class="mt-12 bg-gray-50 rounded-lg p-6">
+                    <h3 class="font-bold text-lg mb-3">Cosa Include il Download:</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <ul class="feature-list">
+                            <li>Sistema completo e funzionante</li>
+                            <li>Installer automatico guidato</li>
+                            <li>Database PostgreSQL o file JSON</li>
+                            <li>Documentazione completa</li>
+                        </ul>
+                        <ul class="feature-list">
+                            <li>396 clienti demo inclusi</li>
+                            <li>QR codes funzionanti offline</li>
+                            <li>Sistema PWA per clienti</li>
+                            <li>Supporto multi-piattaforma</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-100 rounded-lg">
+                        <p class="text-sm text-blue-800">
+                            <strong>Requisiti di sistema:</strong> Node.js 18+, 512MB RAM, 1GB spazio libero. 
+                            Compatible con Windows, Mac, Linux. Database PostgreSQL raccomandato per uso professionale.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPlan = null;
+        
+        function selectPlan(plan) {
+            // Rimuovi selezione precedente
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Seleziona nuovo piano
+            document.querySelector(`[data-plan="${plan}"]`).classList.add('selected');
+            selectedPlan = plan;
+            
+            // Mostra form registrazione
+            document.getElementById('registration-form').classList.remove('hidden');
+            
+            // Aggiorna testo bottone
+            const planNames = {
+                trial: 'Trial',
+                base: 'Base (€49/mese)',
+                pro: 'Pro (€99/mese)',
+                business: 'Business (€199/mese)'
+            };
+            
+            document.getElementById('download-text').textContent = 
+                `Scarica Gestionale - Piano ${planNames[plan]}`;
+        }
+        
+        function downloadWithExistingAccounts() {
+            // Simula download del pacchetto con account esistenti
+            alert('Download iniziato!\\n\\nIl pacchetto include:\\n• Sistema completo funzionante\\n• Account demo già configurati\\n• 396 clienti di esempio\\n• Installer automatico\\n\\nDopo il download:\\n1. Estrai il file ZIP\\n2. Esegui: npm install\\n3. Esegui: npm run setup\\n4. Accedi con le credenziali demo');
+            
+            // In un'implementazione reale, qui inizieresti il download del file
+            // window.location.href = '/download/gestionale-sanitario-completo.zip';
+            downloadFile('gestionale-con-demo-accounts.zip');
+        }
+        
+        function downloadWithNewAccount(event) {
+            event.preventDefault();
+            
+            if (!selectedPlan) {
+                alert('Seleziona prima un piano di abbonamento');
+                return;
+            }
+            
+            const formData = new FormData(event.target);
+            const userData = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+                businessName: formData.get('businessName'),
+                phone: formData.get('phone'),
+                plan: selectedPlan
+            };
+            
+            // Simula creazione account e download
+            alert(`Account creato con successo!\\n\\nDettagli:\\n• Piano: ${selectedPlan.toUpperCase()}\\n• Email: ${userData.email}\\n• Azienda: ${userData.businessName}\\n\\nDownload iniziato...\\n\\nDopo l'installazione potrai accedere con le tue credenziali.`);
+            
+            // In un'implementazione reale, qui invieresti i dati al server
+            // e poi inizieresti il download
+            downloadFile(`gestionale-${selectedPlan}-${userData.email}.zip`);
+        }
+        
+        function downloadFile(filename) {
+            // Simula download - in produzione questo sarebbe un vero file
+            const link = document.createElement('a');
+            link.href = '#'; // URL del file ZIP reale
+            link.download = filename;
+            link.click();
+            
+            // Messaggio post-download
+            setTimeout(() => {
+                alert('Download completato!\\n\\nIstruzioni:\\n1. Estrai il file ZIP nella directory desiderata\\n2. Apri terminale/prompt e vai nella cartella\\n3. Esegui: npm install\\n4. Esegui: npm run setup (seguirà wizard guidato)\\n5. Esegui: npm run start\\n6. Apri browser su http://localhost:3000\\n\\nDocumentazione completa inclusa nella cartella docs/');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
