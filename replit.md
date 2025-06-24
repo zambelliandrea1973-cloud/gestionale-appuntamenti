@@ -116,7 +116,8 @@ This is a comprehensive medical practice management system built with React, Typ
 - Storage data protection mechanisms
 
 ## Changelog
-- June 24, 2025. Initial setup
+- June 24, 2025: Initial setup
+- June 24, 2025: Complete system migration to standalone PHP - Created gestionale-standalone.php for independent hosting after biomedicinaintegrata.it access lost
 
 ## User Preferences
 
