@@ -1,26 +1,29 @@
-# Abilita mod_rewrite
-RewriteEngine On
+DirectoryIndex index.php index.html
+Options +Indexes +FollowSymLinks
 
-# Redirect HTTP a HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+<Files "index.php">
+    Require all granted
+</Files>
 
-# Gestione routing per SPA
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/api/
-RewriteRule ^.*$ index.php [QSA,L]
+<Files "gestionale-standalone.php">
+    Require all granted
+</Files>
 
-# Cache headers
+# Abilita PHP
+AddType application/x-httpd-php .php
+
+# Permetti accesso a tutti i file PHP
+<FilesMatch "\.php$">
+    Require all granted
+</FilesMatch>
+
+# Cache control
 <IfModule mod_expires.c>
-    ExpiresActive on
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresActive Off
 </IfModule>
 
-# Compressione GZIP
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
 </IfModule>
