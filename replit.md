@@ -1,0 +1,123 @@
+# Medical Practice Management System
+
+## Overview
+
+This is a comprehensive medical practice management system built with React, TypeScript, and Node.js. The application provides features for managing patients, appointments, QR code access, billing, and staff management. It's designed as a PWA (Progressive Web App) that can be deployed on various hosting platforms including Replit, SiteGround, and standard web servers.
+
+## System Architecture
+
+### Frontend Architecture
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite for fast development and optimized builds
+- **Styling**: Tailwind CSS with Radix UI components for a modern, accessible interface
+- **State Management**: React Query for server state management
+- **Routing**: Wouter for lightweight client-side routing
+- **Forms**: React Hook Form with Zod validation
+- **PWA**: Service worker implementation for offline capabilities
+
+### Backend Architecture
+- **Runtime**: Node.js with Express.js server
+- **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
+- **Authentication**: Session-based authentication with role-based access control
+- **File Storage**: Local file system with JSON backup capabilities
+- **API Design**: RESTful API endpoints with TypeScript interfaces
+
+## Key Components
+
+### User Management System
+- Multi-tier authentication system (admin, staff, customer)
+- Role-based access control with different permission levels
+- Account credentials stored in `accounts-credentials.json`
+- Password hashing with Node.js crypto module
+
+### Client Management
+- Comprehensive patient/client database
+- QR code generation for client access
+- PWA client interface accessible via unique codes
+- Access tracking and analytics
+
+### Appointment System
+- Calendar-based appointment scheduling
+- Service management with customizable offerings
+- Email notification system with templating
+- Reminder functionality
+
+### Billing and Payments
+- Multiple payment method support (Stripe, PayPal, Bank Transfer, Wise)
+- Subscription plan management (Trial, Base, PRO, Business)
+- Invoice generation and tracking
+
+### Multi-language Support
+- Complete internationalization with 9 languages
+- Translation files in `client/src/locales/`
+- Dynamic language switching
+
+## Data Flow
+
+### Client Access Flow
+1. Client scans QR code or accesses unique URL
+2. System validates access token
+3. Client-specific PWA interface loads
+4. Access tracking recorded in database
+
+### Appointment Management Flow
+1. Staff creates appointment through admin interface
+2. Email notifications sent via configured SMTP
+3. Appointment data synchronized with calendar systems
+4. Reminders automatically scheduled
+
+### Authentication Flow
+1. User login through secure form
+2. Credentials validated against user database
+3. Session created with role-based permissions
+4. Route access controlled by middleware
+
+## External Dependencies
+
+### Database
+- PostgreSQL database (configurable via DATABASE_URL)
+- Drizzle ORM for schema management and queries
+- JSON file fallback for development/small deployments
+
+### Email Services
+- SMTP configuration for appointment notifications
+- Template-based email system with placeholder substitution
+- Gmail integration support with app passwords
+
+### Payment Services
+- Stripe integration for credit card processing
+- PayPal SDK for PayPal payments
+- Wise API for international transfers
+- Bank transfer instructions management
+
+### Cloud Services
+- Google OAuth for calendar integration
+- SendGrid for transactional emails
+- Neon Database for PostgreSQL hosting
+
+## Deployment Strategy
+
+### Development Environment
+- Replit-based development with hot reloading
+- Local PostgreSQL database or file-based storage
+- Environment variables managed through .env files
+
+### Production Deployment
+- Support for multiple hosting platforms:
+  - Replit hosting with autoscale deployment
+  - SiteGround shared hosting with PHP compatibility layer
+  - Standard VPS/cloud hosting with Docker support
+- Automated build process via npm scripts
+- SSL/HTTPS enforcement through .htaccess rules
+
+### Backup and Recovery
+- Automated data backups to JSON files
+- Multiple backup timestamps for rollback capability
+- Storage data protection mechanisms
+
+## Changelog
+- June 24, 2025. Initial setup
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
