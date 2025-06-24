@@ -1,29 +1,35 @@
+# Configurazione di emergenza per biomedicinaintegrata.it
 DirectoryIndex index.php index.html
-Options +Indexes +FollowSymLinks
+Options +FollowSymLinks -Indexes
 
+# Permessi file PHP
 <Files "index.php">
+    Order allow,deny
+    Allow from all
     Require all granted
 </Files>
 
 <Files "gestionale-standalone.php">
+    Order allow,deny
+    Allow from all
     Require all granted
 </Files>
 
-# Abilita PHP
-AddType application/x-httpd-php .php
+# Blocca accesso a file sensibili
+<Files ".htaccess">
+    Order allow,deny
+    Deny from all
+</Files>
 
-# Permetti accesso a tutti i file PHP
-<FilesMatch "\.php$">
-    Require all granted
-</FilesMatch>
+# Forza processamento PHP
+AddHandler application/x-httpd-php .php
 
-# Cache control
-<IfModule mod_expires.c>
-    ExpiresActive Off
-</IfModule>
+# Configurazione errori
+ErrorDocument 403 /index.php
+ErrorDocument 404 /index.php
 
+# Header di sicurezza base
 <IfModule mod_headers.c>
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires 0
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
 </IfModule>
