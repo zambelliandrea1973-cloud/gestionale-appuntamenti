@@ -1,0 +1,216 @@
+{
+  "system_info": {
+    "version": "2.0.0",
+    "export_date": "2024-06-25T06:19:00.000Z",
+    "source": "replit_migration",
+    "total_professionals": 3,
+    "total_clients": 36
+  },
+  "professionals": [
+    {
+      "id": 3,
+      "username": "zambelli.andrea.1973@gmail.com",
+      "email": "zambelli.andrea.1973@gmail.com",
+      "password_hash": "d4499b80f9a17bcac30cb350aa61bad5b711cc02f10b0c4aa9a816e5309cad9787cd1f49c3b0bf8dd8c64b0d988758f4181571a474725828fa304ea67c9e2bf0",
+      "role": "admin",
+      "license": {
+        "code": "0103 1973 2009 1979",
+        "type": "passepartout",
+        "is_active": true,
+        "expires_at": null
+      },
+      "settings": {
+        "studio_name": "Studio Andrea Zambelli",
+        "contact_phone": "+393472550110",
+        "contact_phone2": "",
+        "address": "Via Cavallotti, 6",
+        "website": "biomedicinaintegrata.it",
+        "instagram_handle": "Biomedicinaintegrata",
+        "facebook_page": "",
+        "logo_url": "",
+        "primary_color": "#006400",
+        "secondary_color": "#ffffff",
+        "theme": "professional",
+        "working_hours_start": "09:00",
+        "working_hours_end": "18:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "time_slot_duration": 30,
+        "currency": "EUR",
+        "tax_rate": 22.00,
+        "invoice_prefix": "INV-3"
+      },
+      "clients": [
+        {
+          "id": "PROF_003_0003_CLIENT_1_0001",
+          "name": "Mario Rossi",
+          "email": "mario.rossi@esempio.it",
+          "phone": "3201234567",
+          "birth_date": "",
+          "address": "",
+          "notes": "",
+          "medical_notes": "",
+          "allergies": "",
+          "is_frequent": false,
+          "has_consent": false,
+          "qr_code": "PROF_003_0003_CLIENT_1_0001",
+          "created_date": "2025-04-02T16:08:04.062Z",
+          "last_access": "2025-06-16T14:28:58.656Z",
+          "access_count": 3,
+          "appointments": [],
+          "invoices": [],
+          "active": true
+        },
+        {
+          "id": "PROF_003_0003_CLIENT_2_0002",
+          "name": "Zambelli Andrea",
+          "email": "zambelli.andrea.1973@gmail.com",
+          "phone": "3472550110",
+          "birth_date": "2025-04-24",
+          "address": "Via Cavallotti",
+          "notes": "fruy",
+          "medical_notes": "",
+          "allergies": "",
+          "is_frequent": false,
+          "has_consent": false,
+          "qr_code": "PROF_003_0003_CLIENT_2_0002",
+          "created_date": "2025-04-02T16:43:36.683Z",
+          "last_access": null,
+          "access_count": 0,
+          "appointments": [],
+          "invoices": [],
+          "active": true
+        },
+        {
+          "id": "ZAM-pc8969",
+          "name": "prova cliente",
+          "email": "zambelli.andrea@libero.it",
+          "phone": "+393472550110",
+          "birth_date": "1998-01-28",
+          "address": "Via Cavallotti",
+          "notes": "",
+          "medical_notes": "",
+          "allergies": "",
+          "is_frequent": false,
+          "has_consent": false,
+          "qr_code": "ZAM-pc8969",
+          "created_date": "2025-06-03T13:45:48.989Z",
+          "last_access": null,
+          "access_count": 0,
+          "appointments": [],
+          "invoices": [],
+          "active": true
+        },
+        {
+          "id": "PROF_003_0003_CLIENT_29_0029",
+          "name": "crea uno",
+          "email": "busnari.silvia@libero.it",
+          "phone": "+393472550110",
+          "birth_date": "1986-06-04",
+          "address": "Via Cavallotti, 6",
+          "notes": "",
+          "medical_notes": "",
+          "allergies": "",
+          "is_frequent": false,
+          "has_consent": false,
+          "qr_code": "PROF_003_0003_CLIENT_29_0029",
+          "created_date": "2025-06-03T13:20:26.478Z",
+          "last_access": null,
+          "access_count": 0,
+          "appointments": [],
+          "invoices": [],
+          "active": true
+        }
+      ],
+      "stats": {
+        "total_clients": 4,
+        "active_clients": 4,
+        "created_at": "2025-05-08T09:11:58.839Z"
+      }
+    },
+    {
+      "id": 14,
+      "username": "busnari.silvia@libero.it",
+      "email": "busnari.silvia@libero.it",
+      "password_hash": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a",
+      "role": "staff",
+      "license": {
+        "code": "STAFF-12345678",
+        "type": "staff_free",
+        "is_active": true,
+        "expires_at": "2035-05-09T06:10:12.859Z"
+      },
+      "settings": {
+        "studio_name": "Studio di Biomedicina Integrata",
+        "contact_phone": "+39 3471445767",
+        "contact_phone2": "+39 123 456 7890",
+        "address": "",
+        "website": "biomedicinaintegrata.it",
+        "instagram_handle": "biomedicinaintegrata",
+        "facebook_page": "",
+        "logo_url": "",
+        "primary_color": "#28a745",
+        "secondary_color": "#20c997",
+        "theme": "professional",
+        "working_hours_start": "09:00",
+        "working_hours_end": "18:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "time_slot_duration": 30,
+        "currency": "EUR",
+        "tax_rate": 22.00,
+        "invoice_prefix": "INV-14"
+      },
+      "clients": [],
+      "stats": {
+        "total_clients": 0,
+        "active_clients": 0,
+        "created_at": "2025-05-09T12:06:20.087Z"
+      }
+    },
+    {
+      "id": 16,
+      "username": "faverioelisa6@gmail.com",
+      "email": "faverioelisa6@gmail.com",
+      "password_hash": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a",
+      "role": "staff",
+      "license": {
+        "code": "BASE-16-12345678",
+        "type": "base",
+        "is_active": true,
+        "expires_at": "2026-05-09T08:27:44.469Z"
+      },
+      "settings": {
+        "studio_name": "Studio Elisa Faverio",
+        "contact_phone": "",
+        "contact_phone2": "",
+        "address": "",
+        "website": "",
+        "instagram_handle": "",
+        "facebook_page": "",
+        "logo_url": "",
+        "primary_color": "#3f51b5",
+        "secondary_color": "#ffffff",
+        "theme": "professional",
+        "working_hours_start": "09:00",
+        "working_hours_end": "18:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "time_slot_duration": 30,
+        "currency": "EUR",
+        "tax_rate": 22.00,
+        "invoice_prefix": "INV-16"
+      },
+      "clients": [],
+      "stats": {
+        "total_clients": 0,
+        "active_clients": 0,
+        "created_at": "2025-05-19T06:23:17.389Z"
+      }
+    }
+  ],
+  "system_settings": {
+    "admin_email": "busnari.silvia@libero.it",
+    "admin_password": "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi",
+    "default_theme": "professional",
+    "currency": "EUR",
+    "timezone": "Europe/Rome"
+  }
+}
