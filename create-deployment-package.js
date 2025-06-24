@@ -3,9 +3,9 @@
  * Questo pacchetto conterrà tutto il necessario per installare il sistema su qualsiasi hosting
  */
 
-const fs = require('fs');
-const path = require('path');
-const archiver = require('archiver');
+import fs from 'fs';
+import path from 'path';
+import archiver from 'archiver';
 
 // Configurazione del pacchetto
 const packageConfig = {
@@ -228,8 +228,8 @@ function createInstallationScript(packageDir) {
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
-const readline = require('readline');
+import { execSync } from 'child_process';
+import readline from 'readline';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -658,7 +658,7 @@ function createFinalArchive(packageDir) {
   const archive = archiver('zip', { zlib: { level: 9 } });
 
   output.on('close', () => {
-    console.log(\`📦 Archivio creato: gestionale-sanitario-completo.zip (\${archive.pointer()} bytes)\`);
+    console.log(`📦 Archivio creato: gestionale-sanitario-completo.zip (${archive.pointer()} bytes)`);
   });
 
   archive.on('error', (err) => {
@@ -671,8 +671,4 @@ function createFinalArchive(packageDir) {
 }
 
 // Esegui la creazione del pacchetto
-if (require.main === module) {
-  createDeploymentPackage();
-}
-
-module.exports = { createDeploymentPackage };
+createDeploymentPackage();
