@@ -1,0 +1,97 @@
+🔍 Installer Debug Mode
+Directory base: /home/customer/www/biomedicinaintegrata.it/public_html
+File ZIP cercato: /home/customer/www/biomedicinaintegrata.it/public_html/gestionale-sanitario-completo.zip
+✅ File ZIP trovato
+Dimensione ZIP: 7.7 MB
+📦 Tentativo estrazione...
+Risultato apertura ZIP: Non è un file ZIP
+✅ ZIP aperto correttamente
+Numero file nel ZIP: 439
+Primi file nel ZIP:
+- .env.example
+- DOWNLOAD-INSTRUCTIONS.md
+- Dockerfile
+- QUICK-START.md
+- README-INSTALLATION.md
+- README.md
+- accounts-credentials.json
+- check-deployment.sh
+- client/
+- client/index.html
+✅ Estrazione completata
+🔍 Verifica file estratti...
+File dopo estrazione:
+- .env.example (0.5 KB)
+- .htaccess (0.6 KB)
+- .well-known (directory)
+- DOWNLOAD-INSTRUCTIONS.md (6.6 KB)
+- Default.html (88.2 KB)
+- Dockerfile (0.8 KB)
+- QUICK-START.md (2.5 KB)
+- README-INSTALLATION.md (2 KB)
+- README.md (1.9 KB)
+- accounts-credentials.json (0 KB)
+- check-deployment.sh (6.3 KB)
+- client (directory)
+- deployment-guide.md (4.7 KB)
+- docker-compose.yml (1.4 KB)
+- docs (directory)
+- drizzle.config.ts (0.3 KB)
+- gestionale-sanitario-completo.zip (7891.1 KB)
+- gestionale.html (0.4 KB)
+- gestionale.php (0 KB)
+- index.php (0.4 KB)
+- install.js (5.5 KB)
+- install.sh (8.9 KB)
+- installation-config.json (1.2 KB)
+- installer-automatico-siteground-debug.php (6.1 KB)
+- installer-automatico-siteground.php (5.2 KB)
+- license.txt (19.4 KB)
+- nginx.conf (4.5 KB)
+- package-lock.json (487.2 KB)
+- package.json (4.6 KB)
+- php_errorlog (1 KB)
+- postcss.config.js (0.1 KB)
+- public (directory)
+- readme.html (7.3 KB)
+- server (directory)
+- shared (directory)
+- storage_data.json (0.1 KB)
+- tailwind.config.ts (2.9 KB)
+- test-siteground.html (3.1 KB)
+- tsconfig.json (0.6 KB)
+- verifica-caricamento.html (3.6 KB)
+- vite.config.ts (1 KB)
+- wp-activate.php (7.2 KB)
+- wp-admin (directory)
+- wp-blog-header.php (0.3 KB)
+- wp-comments-post.php (2.3 KB)
+- wp-config-sample.php (3.3 KB)
+- wp-config.php (3.5 KB)
+- wp-content (directory)
+- wp-cron.php (5.5 KB)
+- wp-includes (directory)
+- wp-links-opml.php (2.4 KB)
+- wp-load.php (3.8 KB)
+- wp-login.php (50.2 KB)
+- wp-mail.php (8.5 KB)
+- wp-settings.php (29.4 KB)
+- wp-signup.php (33.7 KB)
+- wp-trackback.php (5 KB)
+- xmlrpc.php (3.1 KB)
+🔍 Ricerca file gestionale...
+Controllo: /home/customer/www/biomedicinaintegrata.it/public_html/gestionale-sanitario-completo/gestionale-completo-con-database.html
+❌ Non trovato
+Controllo: /home/customer/www/biomedicinaintegrata.it/public_html/gestionale-completo-con-database.html
+❌ Non trovato
+Controllo: /home/customer/www/biomedicinaintegrata.it/public_html/gestionale-sanitario-completo/gestionale.html
+❌ Non trovato
+Controllo: /home/customer/www/biomedicinaintegrata.it/public_html/gestionale.html
+✅ TROVATO: /home/customer/www/biomedicinaintegrata.it/public_html/gestionale.html (0.4 KB)
+🎉 INSTALLAZIONE COMPLETATA!
+
+📍 URL gestionale: ACCEDI AL GESTIONALE
+
+🔐 Credenziali demo:
+👤 Email: zambelli.andrea.1973@gmail.com
+🔑 Password: staff123
