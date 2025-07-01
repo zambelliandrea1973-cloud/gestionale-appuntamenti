@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "name": "gestionale-sanitario",
+  "builds": [
+    {
+      "src": "server/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/dist/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "DATABASE_URL": "@database_url",
+    "SESSION_SECRET": "@session_secret"
+  },
+  "functions": {
+    "server/index.js": {
+      "maxDuration": 30
+    }
+  }
+}

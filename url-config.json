@@ -1,0 +1,22 @@
+{
+  "environments": {
+    "development": {
+      "url": "http://localhost:3000",
+      "database": "local"
+    },
+    "replit": {
+      "url": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev",
+      "database": "replit-postgres"
+    },
+    "railway": {
+      "url": "https://gestionale-sanitario.up.railway.app",
+      "database": "railway-postgres"
+    },
+    "vercel": {
+      "url": "https://gestionale-sanitario.vercel.app",
+      "database": "external-postgres"
+    }
+  },
+  "active": "replit",
+  "migration_target": "railway"
+}
