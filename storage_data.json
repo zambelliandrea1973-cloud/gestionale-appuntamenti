@@ -8001,6 +8001,16 @@
       "color": "#FF1493",
       "enabled": true
     },
+    "9": {
+      "businessName": "Studio Medico",
+      "showBusinessName": true,
+      "name": "zambelli.andrea.1973A@gmail.com",
+      "fontSize": 24,
+      "fontFamily": "Arial, sans-serif",
+      "fontStyle": "normal",
+      "color": "#000000",
+      "enabled": true
+    },
     "14": {
       "businessName": "Studio Medico",
       "showBusinessName": true,
