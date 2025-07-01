@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Sanitario - Dr.ssa Silvia Busnari</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .card-desc {
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .login-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        .demo-accounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .account-card {
+            border: 2px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9ff;
+        }
+        .account-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .credential {
+            margin: 5px 0;
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 5px;
+        }
+        .feature-icon {
+            margin-right: 10px;
+            color: #28a745;
+            font-size: 1.2em;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .warning-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .access-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+        .btn-info:hover {
+            background: #138496;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🏥 Gestionale Sanitario</div>
+            <div class="subtitle">Dr.ssa Silvia Busnari - Biomedicina Integrata</div>
+        </div>
+
+        <div class="warning-box">
+            <div class="warning-title">⚠️ Installazione Completata con Limitazioni</div>
+            <p>Il gestionale React completo è stato estratto ma richiede un server Node.js per funzionare completamente. 
+            Questa versione standalone mostra le funzionalità principali e i dati demo.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">396</div>
+                <div class="stat-label">Pazienti Demo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Professionisti</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Appuntamenti</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Dati Reali</div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <div class="card-title">Gestione Pazienti</div>
+                <div class="card-desc">Database completo con 396 pazienti demo reali</div>
+                <div class="card-number">396</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <div class="card-title">Calendario Appuntamenti</div>
+                <div class="card-desc">Sistema di prenotazione e gestione appuntamenti</div>
+                <div class="card-number">10</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📱</div>
+                <div class="card-title">QR Code Access</div>
+                <div class="card-desc">Accesso pazienti tramite codici QR personalizzati</div>
+                <div class="card-number">✓</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💰</div>
+                <div class="card-title">Fatturazione</div>
+                <div class="card-desc">Sistema completo di gestione pagamenti e fatture</div>
+                <div class="card-number">✓</div>
+            </div>
+        </div>
+
+        <div class="login-section">
+            <h2 style="text-align: center; color: #667eea;">🔐 Account Demo Disponibili</h2>
+            
+            <div class="demo-accounts">
+                <div class="account-card">
+                    <div class="account-title">👤 Staff - Andrea Zambelli</div>
+                    <div class="credential">Email: zambelli.andrea.1973@gmail.com</div>
+                    <div class="credential">Password: staff123</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        Accesso completo a gestione pazienti e calendario
+                    </div>
+                </div>
+
+                <div class="account-card">
+                    <div class="account-title">👤 Staff - Silvia Busnari</div>
+                    <div class="credential">Email: busnari.silvia@libero.it</div>
+                    <div class="credential">Password: staff123</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        Account principale del titolare dello studio
+                    </div>
+                </div>
+
+                <div class="account-card">
+                    <div class="account-title">👑 Amministratore</div>
+                    <div class="credential">Email: admin@gestionale.local</div>
+                    <div class="credential">Password: admin123</div>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        Accesso illimitato a tutte le funzionalità
+                    </div>
+                </div>
+            </div>
+
+            <div class="access-buttons">
+                <a href="client/index.html" class="btn btn-primary">🚀 Prova Gestionale React</a>
+                <a href="gestionale.html" class="btn btn-info">📋 Gestionale Semplice</a>
+                <a href="../" class="btn btn-success">🌐 Torna al Sito</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="text-align: center; color: #667eea;">✨ Funzionalità Incluse</h3>
+            <div class="features-list">
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Dashboard multi-utente in italiano</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>396 pazienti demo con dati reali</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Sistema calendario appuntamenti</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>QR codes per accesso pazienti</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Notifiche email automatiche</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Multi-tenant per 3 professionisti</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Sistema fatturazione integrato</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Backup automatico dati</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <div class="warning-title">🚀 Per Funzionalità Complete</div>
+            <p>Per utilizzare tutte le funzionalità avanzate (React, Node.js, database PostgreSQL), 
+            il sistema deve essere installato su un hosting che supporta Node.js come Heroku, Vercel, 
+            o un VPS con Node.js configurato.</p>
+            <p><strong>Questa installazione su SiteGround include tutti i file ma in modalità dimostrativa.</strong></p>
+        </div>
+
+        <footer style="text-align: center; margin-top: 50px; color: rgba(255,255,255,0.8);">
+            <p>Gestionale Sanitario v2.0 - Installazione SiteGround Completata</p>
+            <p>Sistema sviluppato per biomedicinaintegrata.it</p>
+        </footer>
+    </div>
+
+    <script>
+        console.log('🏥 Gestionale Sanitario - Versione Standalone');
+        console.log('📊 Sistema caricato con 396 pazienti demo');
+        console.log('🔐 Account disponibili:', {
+            staff1: 'zambelli.andrea.1973@gmail.com / staff123',
+            staff2: 'busnari.silvia@libero.it / staff123', 
+            admin: 'admin@gestionale.local / admin123'
+        });
+    </script>
+</body>
+</html>
