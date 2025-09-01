@@ -2612,9 +2612,35 @@ export function registerSimpleRoutes(app: Express): Server {
       // Carica fatture dal database per questo utente
       const storageData = loadStorageData();
       const allInvoices = storageData.invoices || [];
+      const allClients = storageData.clients || [];
+      
       const userInvoices = allInvoices
         .filter(([_, invoice]) => invoice.ownerId === user.id)
-        .map(([_, invoice]) => invoice)
+        .map(([_, invoice]) => {
+          // Trova il cliente associato alla fattura
+          let clientData = null;
+          if (invoice.clientId) {
+            const clientEntry = allClients.find(([id, client]) => id === invoice.clientId);
+            if (clientEntry) {
+              const [_, client] = clientEntry;
+              clientData = {
+                id: client.id,
+                firstName: client.firstName,
+                lastName: client.lastName,
+                email: client.email,
+                phone: client.phone,
+                address: client.address,
+                taxCode: client.taxCode,
+                vatNumber: client.vatNumber
+              };
+            }
+          }
+          
+          return {
+            ...invoice,
+            client: clientData
+          };
+        })
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       console.log(`📄 [/api/invoices] Restituisco ${userInvoices.length} fatture per utente ${user.id}`);
@@ -2956,10 +2982,10 @@ export function registerSimpleRoutes(app: Express): Server {
       let clientDetails = null;
       try {
         const currentStorageData = loadStorageData();
-        const clients = Object.entries(currentStorageData.clients || {});
+        const clients = currentStorageData.clients || [];
         
         if (invoice.clientId) {
-          const clientEntry = clients.find(([id]) => id.toString() === invoice.clientId.toString());
+          const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
           if (clientEntry) {
             clientDetails = clientEntry[1];
             console.log(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
@@ -3183,7 +3209,7 @@ export function registerSimpleRoutes(app: Express): Server {
       let clientData = null;
       
       if (invoice.clientId) {
-        const clientEntry = clients.find(([id]) => id.toString() === invoice.clientId.toString());
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
         if (clientEntry) {
           const [_, client] = clientEntry;
           clientEmail = client.email || '';
