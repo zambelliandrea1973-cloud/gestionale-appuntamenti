@@ -3606,33 +3606,19 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Invio email con nodemailer direttamente (stesso sistema dei promemoria)
-            const nodemailer = await import('nodemailer');
+            // Usa esattamente lo stesso sistema dei promemoria che funziona già
+            const emailSent = await notificationService.sendEmailDirect(
+              recipientEmail,
+              subject,
+              message || `Gentile Cliente,\n\nLa informiamo che la fattura n. ${invoice.invoiceNumber} è disponibile.\n\nDettagli fattura:\n- Numero: ${invoice.invoiceNumber}\n- Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Importo: €${invoice.total.toFixed(2)}\n\nPer scaricare la fattura, acceda al portale clienti.\n\nCordiali saluti,\n${businessName}`,
+              emailConfig
+            );
             
-            const transporter = nodemailer.default.createTransport({
-              service: 'gmail',
-              auth: {
-                user: emailConfig.emailAddress,
-                pass: emailConfig.emailPassword,
-              }
-            });
-            
-            // Genera PDF per allegato utilizzando la stessa logica della stampa
-            const pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
-            
-            const mailOptions = {
-              from: `${businessName} <${emailConfig.emailAddress}>`,
-              to: recipientEmail,
-              subject: subject,
-              text: message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber}.\n\nCordiali saluti,\n${businessName}`,
-              attachments: [{
-                filename: `fattura-${invoice.invoiceNumber}.pdf`,
-                content: pdfBuffer
-              }]
-            };
-            
-            await transporter.sendMail(mailOptions);
-            console.log(`✅ [INVOICE EMAIL] Email fattura reale inviata da ${emailConfig.emailAddress} a ${recipientEmail}`);
+            if (emailSent) {
+              console.log(`✅ [INVOICE EMAIL] Email fattura inviata con successo tramite sistema promemoria`);
+            } else {
+              throw new Error('Errore invio email dal sistema notificationService');
+            }
           }
         }
       } catch (emailError) {
