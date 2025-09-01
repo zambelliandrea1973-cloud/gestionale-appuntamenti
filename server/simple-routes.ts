@@ -3075,11 +3075,29 @@ export function registerSimpleRoutes(app: Express): Server {
       
       // Cerca email del cliente se presente
       let clientEmail = '';
+      
+      // Prima prova con clientId se presente
       if (invoice.clientId) {
         const clientEntry = clients.find(([id]) => id === invoice.clientId);
         if (clientEntry) {
           const [_, client] = clientEntry;
           clientEmail = client.email || '';
+        }
+      }
+      
+      // Se non trovato via clientId, cerca per nome cliente
+      if (!clientEmail && invoice.clientName) {
+        const clientEntry = clients.find(([_, client]) => {
+          const fullName = `${client.firstName?.trim()} ${client.lastName?.trim()}`.trim();
+          return fullName === invoice.clientName.trim() && client.ownerId === user.id;
+        });
+        
+        if (clientEntry) {
+          const [_, client] = clientEntry;
+          clientEmail = client.email || '';
+          console.log(`📧 [EMAIL SUGGESTIONS] Email trovata per cliente "${invoice.clientName}": ${clientEmail}`);
+        } else {
+          console.log(`📧 [EMAIL SUGGESTIONS] Cliente non trovato per nome: "${invoice.clientName}"`);
         }
       }
       
