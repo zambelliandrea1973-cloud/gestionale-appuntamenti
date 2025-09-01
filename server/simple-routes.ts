@@ -8,7 +8,6 @@ import { initializeSchedulers } from "./services/schedulerService";
 import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
 import multer from 'multer';
-import puppeteer from 'puppeteer';
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
