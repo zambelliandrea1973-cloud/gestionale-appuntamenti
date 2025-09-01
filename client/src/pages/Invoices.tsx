@@ -551,7 +551,10 @@ export default function Invoices() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Cliente</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select 
+                      onValueChange={(value) => field.onChange(parseInt(value))} 
+                      value={field.value ? field.value.toString() : ""}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleziona un cliente" />
@@ -559,7 +562,7 @@ export default function Invoices() {
                       </FormControl>
                       <SelectContent>
                         {suggestions?.clients.map((client) => (
-                          <SelectItem key={client.id} value={client.id}>
+                          <SelectItem key={client.id} value={client.id.toString()}>
                             <div className="flex flex-col">
                               <span className="font-medium">{client.fullName}</span>
                               {client.email && (
