@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format, addDays } from "date-fns";
-import { Plus, FileText, Printer, Mail, MoreVertical } from "lucide-react";
+import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -80,6 +80,7 @@ export default function Invoices() {
   const queryClient = useQueryClient();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
   const {
@@ -175,32 +176,115 @@ export default function Invoices() {
       if (!response.ok) throw new Error("Failed to send email");
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
       setIsEmailDialogOpen(false);
       setSelectedInvoice(null);
       emailForm.reset();
-      toast({ title: "Email inviata con successo" });
+      toast({ 
+        title: "✅ Email inviata con successo", 
+        description: `Fattura inviata a ${data.recipientEmail}` 
+      });
     },
-    onError: () => {
-      toast({ title: "Errore nell'invio dell'email", variant: "destructive" });
+    onError: (error) => {
+      toast({ 
+        title: "❌ Errore nell'invio dell'email", 
+        description: error.message || "Verifica le impostazioni email",
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async (data: { invoiceId: number; status: string }) => {
+      const response = await fetch(`/api/invoices/${data.invoiceId}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: data.status }),
+      });
+      if (!response.ok) throw new Error("Failed to update status");
+      return response.json();
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      const statusLabels = {
+        draft: "Bozza",
+        sent: "Inviata", 
+        paid: "Pagata",
+        overdue: "Scaduta"
+      };
+      toast({ 
+        title: "✅ Stato aggiornato", 
+        description: `Fattura marcata come: ${statusLabels[variables.status]}` 
+      });
+      setIsStatusDialogOpen(false);
+      setSelectedInvoice(null);
+    },
+    onError: (error) => {
+      toast({ 
+        title: "❌ Errore aggiornamento stato", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const printMutation = useMutation({
+    mutationFn: async (invoiceId: number) => {
+      const response = await fetch(`/api/invoices/${invoiceId}/pdf`);
+      if (!response.ok) throw new Error("Failed to generate PDF");
+      return response.blob();
+    },
+    onSuccess: (blob, invoiceId) => {
+      const url = window.URL.createObjectURL(blob);
+      const printWindow = window.open(url, '_blank');
+      if (printWindow) {
+        printWindow.onload = () => {
+          printWindow.print();
+        };
+        toast({ 
+          title: "✅ Stampa avviata", 
+          description: "La finestra di stampa si aprirà automaticamente" 
+        });
+      } else {
+        toast({ 
+          title: "❌ Errore stampa", 
+          description: "Popup bloccato. Abilita i popup per stampare",
+          variant: "destructive" 
+        });
+      }
+    },
+    onError: (error) => {
+      toast({ 
+        title: "❌ Errore nella generazione PDF", 
+        description: error.message,
+        variant: "destructive" 
+      });
     },
   });
 
   const handlePrintInvoice = (invoice: Invoice) => {
-    const printWindow = window.open(`/api/invoices/${invoice.id}/pdf`, '_blank');
-    if (printWindow) {
-      printWindow.onload = () => {
-        printWindow.print();
-      };
-    }
+    printMutation.mutate(invoice.id);
   };
 
   const handleEmailInvoice = (invoice: Invoice) => {
     setSelectedInvoice(invoice);
+    emailForm.setValue("recipientEmail", invoice.client?.firstName ? `${invoice.client.firstName.toLowerCase()}.${invoice.client.lastName?.toLowerCase()}@esempio.it` : "");
     emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber} - Studio Medico`);
     emailForm.setValue("message", `Gentile ${invoice.client?.firstName || invoice.clientName},\n\nIn allegato trova la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti,\nStudio Medico`);
     setIsEmailDialogOpen(true);
+  };
+
+  const handleStatusChange = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setIsStatusDialogOpen(true);
+  };
+
+  const handleQuickStatusUpdate = (invoice: Invoice, newStatus: string) => {
+    updateStatusMutation.mutate({
+      invoiceId: invoice.id,
+      status: newStatus
+    });
   };
 
   const onEmailSubmit = (data: any) => {
@@ -259,16 +343,90 @@ export default function Invoices() {
                 <div className="flex items-center gap-3">
                   <div className="text-right">
                     <p className="font-medium">€{invoice.totalAmount.toFixed(2)}</p>
-                    <Badge variant={
-                      invoice.status === "paid" ? "default" :
-                      invoice.status === "sent" ? "secondary" :
-                      invoice.status === "overdue" ? "destructive" : "outline"
-                    }>
-                      {invoice.status === "paid" ? "Pagata" :
-                       invoice.status === "sent" ? "Inviata" :
-                       invoice.status === "overdue" ? "Scaduta" : "Bozza"}
-                    </Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge 
+                        variant={
+                          invoice.status === "paid" ? "default" :
+                          invoice.status === "sent" ? "secondary" :
+                          invoice.status === "overdue" ? "destructive" : "outline"
+                        }
+                        className="cursor-pointer"
+                        onClick={() => handleStatusChange(invoice)}
+                      >
+                        {invoice.status === "paid" ? (
+                          <>
+                            <Check className="h-3 w-3 mr-1" />
+                            Pagata
+                          </>
+                        ) : invoice.status === "sent" ? (
+                          <>
+                            <Mail className="h-3 w-3 mr-1" />
+                            Inviata
+                          </>
+                        ) : invoice.status === "overdue" ? (
+                          <>
+                            <AlertCircle className="h-3 w-3 mr-1" />
+                            Scaduta
+                          </>
+                        ) : (
+                          <>
+                            <Edit3 className="h-3 w-3 mr-1" />
+                            Bozza
+                          </>
+                        )}
+                      </Badge>
+                    </div>
                   </div>
+                  
+                  {/* Pulsanti azione rapidi */}
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePrintInvoice(invoice)}
+                      disabled={printMutation.isPending}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Printer className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEmailInvoice(invoice)}
+                      disabled={sendEmailMutation.isPending}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Mail className="h-3 w-3" />
+                    </Button>
+                    
+                    {/* Azioni rapide per stato */}
+                    {invoice.status === "sent" && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleQuickStatusUpdate(invoice, "paid")}
+                        disabled={updateStatusMutation.isPending}
+                        className="h-8 px-2 text-xs text-green-600 border-green-200 hover:bg-green-50"
+                      >
+                        <Check className="h-3 w-3 mr-1" />
+                        Segna Pagata
+                      </Button>
+                    )}
+                    
+                    {invoice.status === "draft" && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleQuickStatusUpdate(invoice, "sent")}
+                        disabled={updateStatusMutation.isPending}
+                        className="h-8 px-2 text-xs text-blue-600 border-blue-200 hover:bg-blue-50"
+                      >
+                        <Mail className="h-3 w-3 mr-1" />
+                        Segna Inviata
+                      </Button>
+                    )}
+                  </div>
+
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm">
@@ -276,13 +434,23 @@ export default function Invoices() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => handlePrintInvoice(invoice)}>
-                        <Printer className="h-4 w-4 mr-2" />
-                        Stampa
+                      <DropdownMenuItem onClick={() => handleStatusChange(invoice)}>
+                        <Edit3 className="h-4 w-4 mr-2" />
+                        Cambia Stato
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleEmailInvoice(invoice)}>
+                      <DropdownMenuItem 
+                        onClick={() => handlePrintInvoice(invoice)}
+                        disabled={printMutation.isPending}
+                      >
+                        <Printer className="h-4 w-4 mr-2" />
+                        {printMutation.isPending ? "Stampa..." : "Stampa PDF"}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={() => handleEmailInvoice(invoice)}
+                        disabled={sendEmailMutation.isPending}
+                      >
                         <Mail className="h-4 w-4 mr-2" />
-                        Invia via Email
+                        {sendEmailMutation.isPending ? "Invio..." : "Invia via Email"}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -547,6 +715,81 @@ export default function Invoices() {
               </DialogFooter>
             </form>
           </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per cambio stato */}
+      <Dialog open={isStatusDialogOpen} onOpenChange={setIsStatusDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Cambia Stato Fattura</DialogTitle>
+            <DialogDescription>
+              Aggiorna lo stato della fattura {selectedInvoice?.invoiceNumber}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                variant={selectedInvoice?.status === "draft" ? "secondary" : "outline"}
+                className="h-16 flex-col gap-2"
+                onClick={() => selectedInvoice && handleQuickStatusUpdate(selectedInvoice, "draft")}
+                disabled={updateStatusMutation.isPending || selectedInvoice?.status === "draft"}
+              >
+                <Edit3 className="h-5 w-5" />
+                <span className="text-sm">Bozza</span>
+              </Button>
+              
+              <Button
+                variant={selectedInvoice?.status === "sent" ? "secondary" : "outline"}
+                className="h-16 flex-col gap-2"
+                onClick={() => selectedInvoice && handleQuickStatusUpdate(selectedInvoice, "sent")}
+                disabled={updateStatusMutation.isPending || selectedInvoice?.status === "sent"}
+              >
+                <Mail className="h-5 w-5" />
+                <span className="text-sm">Inviata</span>
+              </Button>
+              
+              <Button
+                variant={selectedInvoice?.status === "paid" ? "default" : "outline"}
+                className="h-16 flex-col gap-2 text-green-600 border-green-200 hover:bg-green-50"
+                onClick={() => selectedInvoice && handleQuickStatusUpdate(selectedInvoice, "paid")}
+                disabled={updateStatusMutation.isPending || selectedInvoice?.status === "paid"}
+              >
+                <Check className="h-5 w-5" />
+                <span className="text-sm">Pagata</span>
+              </Button>
+              
+              <Button
+                variant={selectedInvoice?.status === "overdue" ? "destructive" : "outline"}
+                className="h-16 flex-col gap-2"
+                onClick={() => selectedInvoice && handleQuickStatusUpdate(selectedInvoice, "overdue")}
+                disabled={updateStatusMutation.isPending || selectedInvoice?.status === "overdue"}
+              >
+                <AlertCircle className="h-5 w-5" />
+                <span className="text-sm">Scaduta</span>
+              </Button>
+            </div>
+            
+            <div className="flex items-center justify-center pt-4 border-t">
+              <div className="text-sm text-muted-foreground">
+                Stato attuale: <span className="font-medium">
+                  {selectedInvoice?.status === "paid" ? "Pagata" :
+                   selectedInvoice?.status === "sent" ? "Inviata" :
+                   selectedInvoice?.status === "overdue" ? "Scaduta" : "Bozza"}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsStatusDialogOpen(false)}
+              disabled={updateStatusMutation.isPending}
+            >
+              Chiudi
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
