@@ -2895,6 +2895,41 @@ export function registerSimpleRoutes(app: Express): Server {
         console.log('⚠️ Impossibile caricare impostazioni nome, uso default:', error);
       }
       
+      // Recupera dati completi del cliente dal database
+      let clientDetails = null;
+      try {
+        const currentStorageData = loadStorageData();
+        const clients = Object.entries(currentStorageData.clients || {});
+        
+        // Prima cerca per clientId se presente
+        if (invoice.clientId) {
+          const clientEntry = clients.find(([id]) => id === invoice.clientId.toString());
+          if (clientEntry) {
+            clientDetails = clientEntry[1];
+          }
+        }
+        
+        // Se non trovato, cerca per nome cliente
+        if (!clientDetails && invoice.clientName) {
+          const clientEntry = clients.find(([_, client]) => {
+            const fullName = `${client.firstName?.trim()} ${client.lastName?.trim()}`.trim();
+            return fullName === invoice.clientName.trim() && client.ownerId === user.id;
+          });
+          
+          if (clientEntry) {
+            clientDetails = clientEntry[1];
+            console.log(`📄 [PDF] Dati cliente trovati per "${invoice.clientName}":`, {
+              name: `${clientDetails.firstName} ${clientDetails.lastName}`,
+              email: clientDetails.email,
+              phone: clientDetails.phone,
+              address: clientDetails.address
+            });
+          }
+        }
+      } catch (error) {
+        console.log('⚠️ Errore recupero dati cliente:', error);
+      }
+      
       // Genera HTML per PDF
       const htmlContent = `
         <!DOCTYPE html>
@@ -2960,8 +2995,11 @@ export function registerSimpleRoutes(app: Express): Server {
           <div class="invoice-info">
             <div class="client-info">
               <h3>Cliente:</h3>
-              <p><strong>${invoice.clientName || 'Cliente'}</strong></p>
-              <p>${invoice.client?.firstName || ''} ${invoice.client?.lastName || ''}</p>
+              <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</strong></p>
+              ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+              ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+              ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+              ${clientDetails?.birthday ? `<p><strong>Data di nascita:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('it-IT')}</p>` : ''}
             </div>
             <div class="invoice-details">
               <h3>Fattura: ${invoice.invoiceNumber}</h3>
