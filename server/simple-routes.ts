@@ -4985,6 +4985,58 @@ Studio Professionale`,
     }
   });
 
+  // Endpoint di test diretto per l'invio email - DEBUG
+  app.post("/api/test-email-direct", requireAuth, async (req, res) => {
+    try {
+      console.log('🔧 TEST DIRETTO EMAIL - Inizio debug');
+      
+      const { notificationService } = await import('./services/notificationService');
+      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+      
+      if (!fs.existsSync(emailConfigPath)) {
+        throw new Error('File email_settings.json non trovato');
+      }
+      
+      const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+      console.log('📧 Configurazione email caricata:', {
+        enabled: emailConfig.emailEnabled,
+        address: emailConfig.emailAddress,
+        hasPassword: !!emailConfig.emailPassword
+      });
+      
+      if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+        throw new Error('Configurazione email incompleta');
+      }
+      
+      // Test email semplice
+      const testEmail = req.body.testEmail || 'zambelli.andrea.1973@gmail.com';
+      console.log(`🧪 Invio email di test a: ${testEmail}`);
+      
+      const emailSent = await notificationService.sendEmailDirect(
+        testEmail,
+        'Test Sistema Email',
+        `Test invio email dal sistema.\n\nData/Ora: ${new Date().toLocaleString('it-IT')}\n\nSe ricevi questa email, il sistema funziona correttamente!`,
+        emailConfig
+      );
+      
+      res.json({
+        success: emailSent,
+        message: emailSent ? 'Email di test inviata con successo!' : 'Errore nell\'invio dell\'email',
+        testEmail,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error: any) {
+      console.error('❌ Errore nel test email diretto:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
