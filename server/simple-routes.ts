@@ -2686,6 +2686,150 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Funzione helper per generare PDF come buffer per allegati email
+  async function generateInvoicePDFBuffer(invoiceId: number, user: any): Promise<Buffer> {
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata');
+    }
+    
+    const [_, invoice] = invoiceEntry;
+    
+    // Carica dati aziendali completi (stesso codice della stampa)
+    let businessHeader = 'Studio Medico';
+    let businessData = {
+      companyName: '', address: '', city: '', postalCode: '', 
+      vatNumber: '', fiscalCode: '', phone: '', email: ''
+    };
+    
+    try {
+      const currentStorageData = loadStorageData();
+      const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      
+      if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+        businessHeader = userBusinessSettings.name;
+      }
+      
+      if (userBusinessData) {
+        businessData = { ...businessData, ...userBusinessData };
+        if (userBusinessData.companyName) {
+          businessHeader = userBusinessData.companyName;
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Impossibile caricare dati aziendali per PDF allegato:', error);
+    }
+    
+    // Carica dati cliente
+    let clientDetails = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientDetails = clientEntry[1];
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore recupero dati cliente per PDF:', error);
+    }
+    
+    // Genera HTML completo per PDF
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fattura ${invoice.invoiceNumber}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+    .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+    .invoice-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
+    .client-info, .invoice-details { flex: 1; }
+    .invoice-details { text-align: right; }
+    .items-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    .items-table th, .items-table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    .items-table th { background-color: #f5f5f5; font-weight: bold; }
+    .total-row { font-weight: bold; font-size: 1.2em; }
+    .footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>${businessHeader}</h1>
+    ${businessData.address ? `<p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>` : ''}
+    ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
+    ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
+    ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
+    ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+  </div>
+  
+  <div class="invoice-info">
+    <div class="client-info">
+      <h3>Cliente:</h3>
+      <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</strong></p>
+      ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+      ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+      ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+      ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
+      ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+    </div>
+    
+    <div class="invoice-details">
+      <h3>Dettagli Fattura:</h3>
+      <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+      <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+      <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+      <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : 'Scaduta'}</p>
+    </div>
+  </div>
+  
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>Descrizione</th>
+        <th>Quantità</th>
+        <th>Prezzo Unit.</th>
+        <th>Totale</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${invoice.items.map(item => `
+        <tr>
+          <td>${item.description}</td>
+          <td>${item.quantity}</td>
+          <td>€${item.price.toFixed(2)}</td>
+          <td>€${(item.quantity * item.price).toFixed(2)}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="3" style="text-align: right;"><strong>Totale:</strong></td>
+        <td><strong>€${invoice.total.toFixed(2)}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <div class="footer">
+    <p>Grazie per aver scelto i nostri servizi.</p>
+    <p>Per qualsiasi domanda, non esitate a contattarci.</p>
+  </div>
+</body>
+</html>`;
+    
+    // Ritorna HTML come buffer per allegato
+    return Buffer.from(htmlContent, 'utf-8');
+  }
+
   // Endpoint per le fatture
   app.get('/api/invoices', async (req, res) => {
     try {
@@ -3431,14 +3575,71 @@ ${businessName}`;
         console.log('⚠️ Impossibile caricare nome aziendale per invio email:', error);
       }
       
-      // Simula invio email (in produzione usare SMTP reale)
-      console.log(`📧 SIMULAZIONE INVIO EMAIL:
-        Da: ${businessName} <noreply@biomedicinaintegrata.it>
-        A: ${recipientEmail}
-        Oggetto: ${subject}
-        Messaggio: ${message || 'Fattura in allegato'}
-        Allegato: fattura-${invoice.invoiceNumber}.pdf
-      `);
+      // Invio email reale utilizzando configurazione SMTP
+      try {
+        const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
+        
+        if (!fs.existsSync(emailConfigPath)) {
+          console.log('⚠️ [EMAIL] Configurazione email non trovata, simulazione invio');
+          console.log(`📧 SIMULAZIONE INVIO EMAIL:
+            Da: ${businessName} <noreply@biomedicinaintegrata.it>
+            A: ${recipientEmail}
+            Oggetto: ${subject}
+            Messaggio: ${message || 'Fattura in allegato'}
+            Allegato: fattura-${invoice.invoiceNumber}.pdf
+          `);
+        } else {
+          const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
+          
+          if (!emailConfig.emailEnabled || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+            console.log('⚠️ [EMAIL] Email non configurata, simulazione invio');
+            console.log(`📧 SIMULAZIONE INVIO EMAIL:
+              Da: ${businessName} <noreply@biomedicinaintegrata.it>
+              A: ${recipientEmail}
+              Oggetto: ${subject}
+              Messaggio: ${message || 'Fattura in allegato'}
+              Allegato: fattura-${invoice.invoiceNumber}.pdf
+            `);
+          } else {
+            // Invio email reale con nodemailer
+            const nodemailer = require('nodemailer');
+            
+            const transporter = nodemailer.createTransporter({
+              service: 'gmail',
+              auth: {
+                user: emailConfig.emailAddress,
+                pass: emailConfig.emailPassword
+              }
+            });
+            
+            // Genera PDF per allegato utilizzando la stessa logica della stampa
+            const pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
+            
+            const mailOptions = {
+              from: `${businessName} <${emailConfig.emailAddress}>`,
+              to: recipientEmail,
+              subject: subject,
+              text: message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber}.\n\nCordiali saluti,\n${businessName}`,
+              attachments: [{
+                filename: `fattura-${invoice.invoiceNumber}.pdf`,
+                content: pdfBuffer
+              }]
+            };
+            
+            await transporter.sendMail(mailOptions);
+            console.log(`✅ [EMAIL] Email reale inviata da ${emailConfig.emailAddress} a ${recipientEmail}`);
+          }
+        }
+      } catch (emailError) {
+        console.error('❌ [EMAIL] Errore invio email reale, fallback a simulazione:', emailError);
+        console.log(`📧 SIMULAZIONE INVIO EMAIL:
+          Da: ${businessName} <noreply@biomedicinaintegrata.it>
+          A: ${recipientEmail}
+          Oggetto: ${subject}
+          Messaggio: ${message || 'Fattura in allegato'}
+          Allegato: fattura-${invoice.invoiceNumber}.pdf
+        `);
+      }
       
       console.log(`📧 [EMAIL] Nome aziendale utilizzato per invio: "${businessName}"`);
       
