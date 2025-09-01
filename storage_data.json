@@ -8443,6 +8443,36 @@
         "ownerId": 14,
         "createdAt": "2025-06-20T10:08:38.520Z"
       }
+    ],
+    [
+      1756743933122,
+      {
+        "id": 1756743933122,
+        "invoiceNumber": "09/2025/001",
+        "clientName": "Cliente Trial",
+        "totalAmount": 70,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "bicom",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:25:33.128Z"
+      }
+    ],
+    [
+      1756744382035,
+      {
+        "id": 1756744382035,
+        "invoiceNumber": "09/2025/002",
+        "clientName": "Bruna  Pizzolato",
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:33:02.040Z"
+      }
     ]
   ],
   "adminNotifications": [

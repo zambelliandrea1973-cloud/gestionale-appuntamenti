@@ -2794,6 +2794,310 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Aggiorna stato fattura
+  app.patch('/api/invoices/:id/status', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      console.log(`📄 [/api/invoices/${invoiceId}/status] Aggiornamento stato per utente ${user.id}: ${status}`);
+      
+      // Valida status
+      const validStatuses = ['draft', 'sent', 'paid', 'overdue'];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: 'Stato non valido' });
+      }
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova e aggiorna la fattura
+      const invoiceIndex = invoices.findIndex(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (invoiceIndex === -1) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      // Aggiorna lo stato
+      invoices[invoiceIndex][1].status = status;
+      invoices[invoiceIndex][1].updatedAt = new Date().toISOString();
+      
+      // Aggiungi metadati per stati specifici
+      if (status === 'sent') {
+        invoices[invoiceIndex][1].sentAt = new Date().toISOString();
+      } else if (status === 'paid') {
+        invoices[invoiceIndex][1].paidAt = new Date().toISOString();
+      }
+      
+      saveStorageData(storageData);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/status] Stato aggiornato a: ${status}`);
+      res.json({ 
+        success: true, 
+        status,
+        invoice: invoices[invoiceIndex][1]
+      });
+      
+    } catch (error) {
+      console.error('❌ Error updating invoice status:', error);
+      res.status(500).json({ message: 'Errore aggiornamento stato' });
+    }
+  });
+
+  // Genera PDF per stampa
+  app.get('/api/invoices/:id/pdf', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      
+      console.log(`📄 [/api/invoices/${invoiceId}/pdf] Generazione PDF per utente ${user.id}`);
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Genera HTML per PDF
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              margin: 20px;
+              color: #333;
+            }
+            .header { 
+              text-align: center; 
+              border-bottom: 2px solid #ccc; 
+              padding-bottom: 20px;
+              margin-bottom: 30px;
+            }
+            .invoice-info {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 30px;
+            }
+            .client-info, .invoice-details {
+              flex: 1;
+            }
+            .invoice-details {
+              text-align: right;
+            }
+            .items-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 30px;
+            }
+            .items-table th, .items-table td {
+              border: 1px solid #ccc;
+              padding: 10px;
+              text-align: left;
+            }
+            .items-table th {
+              background-color: #f5f5f5;
+              font-weight: bold;
+            }
+            .total-row {
+              font-weight: bold;
+              font-size: 1.2em;
+            }
+            .footer {
+              margin-top: 50px;
+              text-align: center;
+              font-size: 0.9em;
+              color: #666;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Studio Medico - Silvia Busnari</h1>
+            <p>biomedicinaintegrata.it | Tel: +39 347 144 5767</p>
+          </div>
+          
+          <div class="invoice-info">
+            <div class="client-info">
+              <h3>Cliente:</h3>
+              <p><strong>${invoice.clientName || 'Cliente'}</strong></p>
+              <p>${invoice.client?.firstName || ''} ${invoice.client?.lastName || ''}</p>
+            </div>
+            <div class="invoice-details">
+              <h3>Fattura: ${invoice.invoiceNumber}</h3>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${
+                invoice.status === 'paid' ? 'Pagata' :
+                invoice.status === 'sent' ? 'Inviata' :
+                invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'
+              }</p>
+            </div>
+          </div>
+          
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${invoice.items?.map(item => `
+                <tr>
+                  <td>${item.description || invoice.description || 'Servizio medico'}</td>
+                  <td>1</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                </tr>
+              `).join('') || `
+                <tr>
+                  <td>${invoice.description || 'Servizio medico'}</td>
+                  <td>1</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                  <td>€${invoice.totalAmount.toFixed(2)}</td>
+                </tr>
+              `}
+              <tr class="total-row">
+                <td colspan="3" style="text-align: right;"><strong>TOTALE:</strong></td>
+                <td><strong>€${invoice.totalAmount.toFixed(2)}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          ${invoice.notes ? `
+            <div>
+              <h4>Note:</h4>
+              <p>${invoice.notes}</p>
+            </div>
+          ` : ''}
+          
+          <div class="footer">
+            <p>Grazie per aver scelto i nostri servizi</p>
+          </div>
+        </body>
+        </html>
+      `;
+      
+      // Per ora restituisco l'HTML. In produzione si userebbe puppeteer o simile per PDF
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Content-Disposition', `inline; filename="fattura-${invoice.invoiceNumber}.html"`);
+      res.send(htmlContent);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/pdf] PDF generato per fattura ${invoice.invoiceNumber}`);
+      
+    } catch (error) {
+      console.error('❌ Error generating PDF:', error);
+      res.status(500).json({ message: 'Errore generazione PDF' });
+    }
+  });
+
+  // Invia fattura via email
+  app.post('/api/invoices/:id/send-email', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      const { recipientEmail, subject, message } = req.body;
+      
+      console.log(`📄 [/api/invoices/${invoiceId}/send-email] Invio email per utente ${user.id} a ${recipientEmail}`);
+      
+      // Validazione input
+      if (!recipientEmail || !subject) {
+        return res.status(400).json({ message: 'Email e oggetto sono obbligatori' });
+      }
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Simula invio email (in produzione usare SMTP reale)
+      console.log(`📧 SIMULAZIONE INVIO EMAIL:
+        Da: Studio Medico <noreply@biomedicinaintegrata.it>
+        A: ${recipientEmail}
+        Oggetto: ${subject}
+        Messaggio: ${message || 'Fattura in allegato'}
+        Allegato: fattura-${invoice.invoiceNumber}.pdf
+      `);
+      
+      // Aggiorna stato fattura a "inviata" se era in bozza
+      if (invoice.status === 'draft') {
+        const invoiceIndex = invoices.findIndex(([id]) => id === invoiceId);
+        if (invoiceIndex !== -1) {
+          invoices[invoiceIndex][1].status = 'sent';
+          invoices[invoiceIndex][1].sentAt = new Date().toISOString();
+          saveStorageData(storageData);
+        }
+      }
+      
+      // Salva log invio
+      if (!invoice.emailHistory) {
+        invoice.emailHistory = [];
+      }
+      invoice.emailHistory.push({
+        sentAt: new Date().toISOString(),
+        recipientEmail,
+        subject,
+        message: message || '',
+        status: 'sent'
+      });
+      
+      saveStorageData(storageData);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/send-email] Email inviata con successo`);
+      res.json({ 
+        success: true,
+        recipientEmail,
+        sentAt: new Date().toISOString(),
+        message: 'Email inviata con successo'
+      });
+      
+    } catch (error) {
+      console.error('❌ Error sending email:', error);
+      res.status(500).json({ message: 'Errore invio email' });
+    }
+  });
+
   // === AREA CLIENTI - ROTTE PER QR CODE ACCESS ===
   
   // Validazione token QR
