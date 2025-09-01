@@ -2879,6 +2879,26 @@ export function registerSimpleRoutes(app: Express): Server {
       
       const [_, invoice] = invoiceEntry;
       
+      // Carica le impostazioni nome aziendale dell'utente
+      let businessHeader = 'Studio Medico';
+      try {
+        // Carica le impostazioni dal database usando la stessa logica dell'endpoint
+        const storageData = loadStorageData();
+        const userSettings = storageData.userSettings || {};
+        const companyNameSettings = userSettings[user.id]?.companyNameSettings;
+        
+        if (companyNameSettings?.enabled) {
+          if (companyNameSettings.showBusinessName && companyNameSettings.businessName) {
+            businessHeader = `${companyNameSettings.businessName} - ${companyNameSettings.name}`;
+          } else {
+            businessHeader = companyNameSettings.name || 'Studio Medico';
+          }
+        }
+        console.log(`📄 [PDF] Nome aziendale caricato per utente ${user.id}: ${businessHeader}`);
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare impostazioni nome, uso default');
+      }
+      
       // Genera HTML per PDF
       const htmlContent = `
         <!DOCTYPE html>
@@ -2937,7 +2957,7 @@ export function registerSimpleRoutes(app: Express): Server {
         </head>
         <body>
           <div class="header">
-            <h1>Studio Medico - Silvia Busnari</h1>
+            <h1>${businessHeader}</h1>
             <p>biomedicinaintegrata.it | Tel: +39 347 144 5767</p>
           </div>
           
