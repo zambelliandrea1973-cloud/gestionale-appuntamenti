@@ -136,7 +136,7 @@ export default function Invoices() {
 
   const form = useForm({
     resolver: zodResolver(z.object({
-      clientId: z.string().min(1, "Cliente richiesto"),
+      clientId: z.number().min(1, "Cliente richiesto"),
       totalAmount: z.number().min(0, "Importo deve essere positivo"),
       date: z.string().min(1, "Data richiesta"),
       dueDate: z.string().min(1, "Data scadenza richiesta"),
@@ -144,7 +144,7 @@ export default function Invoices() {
       status: z.enum(["draft", "sent", "paid", "overdue"]).default("draft"),
     })),
     defaultValues: {
-      clientId: "",
+      clientId: undefined,
       totalAmount: "" as any,
       date: format(new Date(), "yyyy-MM-dd"),
       dueDate: format(addDays(new Date(), 30), "yyyy-MM-dd"),
@@ -553,7 +553,7 @@ export default function Invoices() {
                     <FormLabel>Cliente</FormLabel>
                     <Select 
                       onValueChange={(value) => field.onChange(parseInt(value))} 
-                      value={field.value ? field.value.toString() : ""}
+                      value={field.value ? field.value.toString() : undefined}
                     >
                       <FormControl>
                         <SelectTrigger>
