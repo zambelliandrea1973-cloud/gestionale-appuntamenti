@@ -3606,17 +3606,25 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Genera PDF semplice per allegato (solo se i dati sono completi)
+            // Debug dati fattura per capire perché PDF non si genera
+            console.log(`🔍 [INVOICE EMAIL] Debug fattura ${invoiceId}:`, {
+              hasItems: !!invoice.items,
+              itemsLength: invoice.items?.length || 0,
+              itemsPreview: invoice.items?.slice(0, 2) || 'nessun items',
+              hasTotal: !!invoice.total
+            });
+            
+            // Forza generazione PDF sempre (come per la stampa)
             let pdfBuffer;
             let filename;
             try {
-              if (invoice.items && invoice.items.length > 0) {
-                pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
-                filename = `fattura-${invoice.invoiceNumber}.pdf`;
-                console.log(`📎 [INVOICE EMAIL] PDF generato con successo: ${filename}`);
-              }
+              console.log(`📄 [INVOICE EMAIL] Tentativo generazione PDF per fattura ${invoice.invoiceNumber}...`);
+              pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
+              filename = `fattura-${invoice.invoiceNumber}.pdf`;
+              console.log(`📎 [INVOICE EMAIL] PDF generato con successo: ${filename} (${pdfBuffer?.length || 0} bytes)`);
             } catch (pdfError) {
-              console.warn(`⚠️ [INVOICE EMAIL] Impossibile generare PDF, invio solo testo:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Stack trace:`, pdfError.stack);
               pdfBuffer = null;
               filename = null;
             }
