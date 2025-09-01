@@ -2689,8 +2689,14 @@ export function registerSimpleRoutes(app: Express): Server {
       const userClients = allClients
         .filter(([_, client]) => client.ownerId === user.id)
         .map(([_, client]) => ({
+          id: client.id,
           name: `${client.firstName} ${client.lastName}`.trim(),
-          fullName: `${client.firstName} ${client.lastName}`.trim()
+          fullName: `${client.firstName} ${client.lastName}`.trim(),
+          email: client.email || '',
+          phone: client.phone || '',
+          address: client.address || '',
+          taxCode: client.taxCode || '', // codice fiscale
+          vatNumber: client.vatNumber || '' // partita iva
         }))
         .filter(client => client.name.length > 0);
 
@@ -2751,7 +2757,58 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-
+  // Endpoint per aggiornare fatture esistenti con clientId (migrazione dati)
+  app.post('/api/invoices/migrate-client-ids', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      const invoices = Object.entries(storageData.invoices || {});
+      const clients = Object.entries(storageData.clients || {});
+      
+      let updatedCount = 0;
+      
+      console.log(`🔄 [MIGRATE] Avvio migrazione clientId per utente ${user.id}`);
+      
+      for (const [invoiceKey, invoice] of invoices) {
+        if (invoice.ownerId === user.id && !invoice.clientId && invoice.clientName) {
+          const clientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+          
+          const matchingClient = clients.find(([_, client]) => {
+            if (client.ownerId !== user.id) return false;
+            const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+            return fullName === clientName;
+          });
+          
+          if (matchingClient) {
+            const [_, clientData] = matchingClient;
+            invoice.clientId = clientData.id;
+            updatedCount++;
+            console.log(`✅ [MIGRATE] Fattura ${invoice.invoiceNumber}: "${invoice.clientName}" → cliente ID ${clientData.id}`);
+          } else {
+            console.log(`⚠️ [MIGRATE] Cliente non trovato per fattura ${invoice.invoiceNumber}: "${invoice.clientName}"`);
+          }
+        }
+      }
+      
+      if (updatedCount > 0) {
+        saveStorageData(storageData);
+        console.log(`💾 [MIGRATE] Salvate ${updatedCount} fatture con clientId aggiornato`);
+      }
+      
+      res.json({
+        message: `Migrazione completata: ${updatedCount} fatture aggiornate`,
+        updatedCount
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore migrazione clientId:', error);
+      res.status(500).json({ message: 'Errore durante la migrazione' });
+    }
+  });
 
   // Crea una nuova fattura
   app.post('/api/invoices', async (req, res) => {
@@ -2895,44 +2952,43 @@ export function registerSimpleRoutes(app: Express): Server {
         console.log('⚠️ Impossibile caricare impostazioni nome, uso default:', error);
       }
       
-      // Recupera dati completi del cliente dal database
+      // Recupera dati completi del cliente dal database usando SEMPRE clientId
       let clientDetails = null;
       try {
         const currentStorageData = loadStorageData();
         const clients = Object.entries(currentStorageData.clients || {});
         
-        // Prima cerca per clientId se presente
         if (invoice.clientId) {
-          const clientEntry = clients.find(([id]) => id === invoice.clientId.toString());
+          const clientEntry = clients.find(([id]) => id.toString() === invoice.clientId.toString());
           if (clientEntry) {
             clientDetails = clientEntry[1];
-          }
-        }
-        
-        // Se non trovato, cerca per nome cliente
-        if (!clientDetails && invoice.clientName) {
-          const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' '); // Normalizza spazi
-          
-          const clientEntry = clients.find(([_, client]) => {
-            if (client.ownerId !== user.id) return false;
-            
-            // Normalizza anche il nome dal database
-            const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
-            
-            console.log(`📄 [PDF DEBUG] Confronto: "${fullName}" vs "${invoiceClientName}"`);
-            return fullName === invoiceClientName;
-          });
-          
-          if (clientEntry) {
-            clientDetails = clientEntry[1];
-            console.log(`📄 [PDF] Dati cliente trovati per "${invoice.clientName}":`, {
-              name: `${clientDetails.firstName} ${clientDetails.lastName}`,
+            console.log(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+              nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
               email: clientDetails.email,
-              phone: clientDetails.phone,
-              address: clientDetails.address
+              telefono: clientDetails.phone,
+              indirizzo: clientDetails.address,
+              codiceFiscale: clientDetails.taxCode,
+              partitaIva: clientDetails.vatNumber
             });
           } else {
-            console.log(`📄 [PDF] Cliente non trovato per nome: "${invoice.clientName}"`);
+            console.log(`📄 [PDF] Cliente non trovato per ID: ${invoice.clientId}`);
+          }
+        } else {
+          console.log(`⚠️ [PDF] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+          
+          // Solo come fallback per fatture vecchie
+          if (invoice.clientName) {
+            const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+            const clientEntry = clients.find(([_, client]) => {
+              if (client.ownerId !== user.id) return false;
+              const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+              return fullName === invoiceClientName;
+            });
+            
+            if (clientEntry) {
+              clientDetails = clientEntry[1];
+              console.log(`📄 [PDF] FALLBACK: Dati trovati per nome "${invoice.clientName}"`);
+            }
           }
         }
       } catch (error) {
@@ -3008,6 +3064,8 @@ export function registerSimpleRoutes(app: Express): Server {
               ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
               ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
               ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+              ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
               ${clientDetails?.birthday ? `<p><strong>Data di nascita:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('it-IT')}</p>` : ''}
             </div>
             <div class="invoice-details">
@@ -3120,44 +3178,42 @@ export function registerSimpleRoutes(app: Express): Server {
         console.log('⚠️ Impossibile caricare nome aziendale per email:', error);
       }
       
-      // Cerca email del cliente se presente
+      // Cerca email del cliente usando SEMPRE clientId (metodo corretto)
       let clientEmail = '';
+      let clientData = null;
       
-      // Prima prova con clientId se presente
       if (invoice.clientId) {
-        const clientEntry = clients.find(([id]) => id === invoice.clientId);
+        const clientEntry = clients.find(([id]) => id.toString() === invoice.clientId.toString());
         if (clientEntry) {
           const [_, client] = clientEntry;
           clientEmail = client.email || '';
-        }
-      }
-      
-      // Se non trovato via clientId, cerca per nome cliente
-      if (!clientEmail && invoice.clientName) {
-        const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' '); // Normalizza spazi
-        
-        const clientEntry = clients.find(([_, client]) => {
-          if (client.ownerId !== user.id) return false;
-          
-          // Normalizza anche il nome dal database
-          const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
-          
-          console.log(`📧 [EMAIL DEBUG] Confronto: "${fullName}" vs "${invoiceClientName}"`);
-          return fullName === invoiceClientName;
-        });
-        
-        if (clientEntry) {
-          const [_, client] = clientEntry;
-          clientEmail = client.email || '';
-          console.log(`📧 [EMAIL SUGGESTIONS] Email trovata per cliente "${invoice.clientName}": ${clientEmail}`);
+          clientData = client;
+          console.log(`📧 [EMAIL SUGGESTIONS] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+            nome: `${client.firstName} ${client.lastName}`,
+            email: client.email,
+            telefono: client.phone
+          });
         } else {
-          console.log(`📧 [EMAIL SUGGESTIONS] Cliente non trovato per nome: "${invoice.clientName}"`);
+          console.log(`📧 [EMAIL SUGGESTIONS] Cliente non trovato per ID: ${invoice.clientId}`);
+        }
+      } else {
+        console.log(`⚠️ [EMAIL SUGGESTIONS] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+        
+        // Solo come fallback per fatture vecchie senza clientId
+        if (invoice.clientName) {
+          const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+          const clientEntry = clients.find(([_, client]) => {
+            if (client.ownerId !== user.id) return false;
+            const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+            return fullName === invoiceClientName;
+          });
           
-          // Debug: mostra tutti i clienti disponibili
-          const availableClients = clients
-            .filter(([_, client]) => client.ownerId === user.id)
-            .map(([_, client]) => `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' '));
-          console.log(`📧 [EMAIL DEBUG] Clienti disponibili:`, availableClients);
+          if (clientEntry) {
+            const [_, client] = clientEntry;
+            clientEmail = client.email || '';
+            clientData = client;
+            console.log(`📧 [EMAIL SUGGESTIONS] FALLBACK: Email trovata per nome "${invoice.clientName}": ${clientEmail}`);
+          }
         }
       }
       
