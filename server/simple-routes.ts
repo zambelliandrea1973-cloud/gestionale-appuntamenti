@@ -813,6 +813,7 @@ export function registerSimpleRoutes(app: Express): Server {
         const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
         if (!data.userIcons) data.userIcons = {};
         if (!data.userBusinessSettings) data.userBusinessSettings = {};
+        if (!data.userBusinessData) data.userBusinessData = {};
         if (!data.userServices) data.userServices = {};
         if (!data.professionistCodes) data.professionistCodes = {};
         if (!data.clientCodes) data.clientCodes = {};
@@ -821,7 +822,7 @@ export function registerSimpleRoutes(app: Express): Server {
     } catch (error) {
       console.error('Errore caricamento storage:', error);
     }
-    return { userIcons: {}, userBusinessSettings: {}, userServices: {}, professionistCodes: {}, clientCodes: {} };
+    return { userIcons: {}, userBusinessSettings: {}, userBusinessData: {}, userServices: {}, professionistCodes: {}, clientCodes: {} };
   }
 
   // Genera codice professionista univoco basato su licenza
@@ -1264,6 +1265,88 @@ export function registerSimpleRoutes(app: Express): Server {
     
     console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId} (${userType}):`, userSettings);
     res.json(userSettings);
+  });
+
+  // Endpoint per ottenere i dati aziendali completi del professionista
+  app.get("/api/company-business-data", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.json({
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      });
+    }
+
+    const userId = req.user.id;
+    console.log(`🏢 [/api/company-business-data] GET per utente ${userId}`);
+    
+    const currentStorageData = loadStorageData();
+    if (!currentStorageData.userBusinessData) {
+      currentStorageData.userBusinessData = {};
+    }
+    
+    // Inizializza dati vuoti se non esistono
+    if (!currentStorageData.userBusinessData[userId]) {
+      currentStorageData.userBusinessData[userId] = {
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      };
+      saveStorageData(currentStorageData);
+    }
+    
+    const userBusinessData = currentStorageData.userBusinessData[userId];
+    console.log(`🏢 [/api/company-business-data] Dati per utente ${userId}:`, userBusinessData);
+    res.json(userBusinessData);
+  });
+
+  // Endpoint per salvare i dati aziendali completi del professionista
+  app.post("/api/company-business-data", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Non autenticato" });
+    }
+
+    try {
+      const { companyName, address, city, postalCode, vatNumber, fiscalCode, phone, email } = req.body;
+      const userId = req.user.id;
+      
+      console.log(`🏢 [POST] Salvando dati aziendali completi per utente ${userId}:`, req.body);
+      
+      const currentStorageData = loadStorageData();
+      if (!currentStorageData.userBusinessData) {
+        currentStorageData.userBusinessData = {};
+      }
+      
+      currentStorageData.userBusinessData[userId] = {
+        companyName: companyName || '',
+        address: address || '',
+        city: city || '',
+        postalCode: postalCode || '',
+        vatNumber: vatNumber || '',
+        fiscalCode: fiscalCode || '',
+        phone: phone || '',
+        email: email || '',
+        updatedAt: new Date().toISOString()
+      };
+      
+      saveStorageData(currentStorageData);
+      
+      console.log(`✅ [POST] Dati aziendali salvati per utente ${userId}`);
+      res.json({ success: true, message: "Dati aziendali salvati con successo" });
+    } catch (error) {
+      console.error('❌ Errore salvataggio dati aziendali:', error);
+      res.status(500).json({ error: "Errore interno del server" });
+    }
   });
 
   // Endpoint per salvare le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
@@ -2962,20 +3045,49 @@ export function registerSimpleRoutes(app: Express): Server {
       
       const [_, invoice] = invoiceEntry;
       
-      // Carica solo il nome personalizzato dell'utente dalle impostazioni
+      // Carica dati aziendali completi per intestazione fattura
       let businessHeader = 'Studio Medico';
+      let businessData = {
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      };
+      
       try {
         const currentStorageData = loadStorageData();
         const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        const userBusinessData = currentStorageData.userBusinessData?.[user.id];
         
+        // Usa il nome personalizzato se disponibile
         if (userBusinessSettings?.enabled && userBusinessSettings.name) {
-          // USA SOLO il nome personalizzato dell'utente, ignora businessName
           businessHeader = userBusinessSettings.name;
         }
-        console.log(`📄 [PDF] Nome intestazione per utente ${user.id}: "${businessHeader}"`);
-        console.log(`📄 [PDF] Impostazioni nome utilizzate: ${userBusinessSettings?.name || 'non trovato'}`);
+        
+        // Carica tutti i dati aziendali se disponibili
+        if (userBusinessData) {
+          businessData = { ...businessData, ...userBusinessData };
+          if (userBusinessData.companyName) {
+            businessHeader = userBusinessData.companyName;
+          }
+        }
+        
+        console.log(`📄 [PDF] Dati aziendali per utente ${user.id}:`, {
+          nome: businessHeader,
+          indirizzo: businessData.address,
+          citta: businessData.city,
+          cap: businessData.postalCode,
+          partitaIva: businessData.vatNumber,
+          codiceFiscale: businessData.fiscalCode,
+          telefono: businessData.phone,
+          email: businessData.email
+        });
       } catch (error) {
-        console.log('⚠️ Impossibile caricare impostazioni nome, uso default:', error);
+        console.log('⚠️ Impossibile caricare dati aziendali, uso default:', error);
       }
       
       // Recupera dati completi del cliente dal database usando SEMPRE clientId
@@ -3080,7 +3192,13 @@ export function registerSimpleRoutes(app: Express): Server {
         <body>
           <div class="header">
             <h1>${businessHeader}</h1>
-            <p>biomedicinaintegrata.it | Tel: +39 347 144 5767</p>
+            ${businessData.address || businessData.city || businessData.postalCode ? `
+              <p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
+            ` : ''}
+            ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
+            ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
+            ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
+            ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
           </div>
           
           <div class="invoice-info">

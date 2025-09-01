@@ -8551,5 +8551,17 @@
       "timestamp": "2025-06-21T09:31:17.727Z",
       "read": false
     }
-  ]
+  ],
+  "userBusinessData": {
+    "14": {
+      "companyName": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": ""
+    }
+  }
 }
