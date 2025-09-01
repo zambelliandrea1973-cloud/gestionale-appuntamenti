@@ -54,8 +54,8 @@
         "ownerId": 9,
         "id": 25,
         "createdAt": "2025-06-03T13:34:58.643Z",
-        "uniqueCode": "PROF_009_6099_CLIENT_25_5832",
-        "professionistCode": "PROF_009_2DA9"
+        "uniqueCode": "PROF_009_9D95_CLIENT_25_5EAF",
+        "professionistCode": "PROF_009_9D95"
       }
     ],
     [
@@ -77,52 +77,6 @@
         "createdAt": "2025-06-03T13:34:58.644Z",
         "uniqueCode": "PROF_012_1936_CLIENT_28_CE96",
         "professionistCode": "PROF_012_7424"
-      }
-    ],
-    [
-      251,
-      {
-        "firstName": "Bruna",
-        "lastName": "Pizzolato",
-        "phone": "+393401234567",
-        "email": "brunapizzolato77@gmail.com",
-        "address": "Via Monte Rosa 4b , 22070 Appiano Gentile ",
-        "birthday": "1987-03-14",
-        "notes": "Cliente storica, preferisce appuntamenti mattutini",
-        "isFrequent": true,
-        "medicalNotes": "Lieve ipertensione, sotto controllo medico",
-        "allergies": "Nichel",
-        "hasConsent": true,
-        "ownerId": 16,
-        "id": 251,
-        "createdAt": "2025-06-03T13:34:58.644Z",
-        "accessCount": 36,
-        "lastAccess": "2025-06-17T07:47:09.539Z",
-        "uniqueCode": "PROF_016_B17E_CLIENT_251_1A6D",
-        "professionistCode": "PROF_016_B17E"
-      }
-    ],
-    [
-      252,
-      {
-        "firstName": "Marco",
-        "lastName": "Berto",
-        "phone": "+393407654321",
-        "email": "marco_berto@msn.com",
-        "address": "Via Monte Rosa 4b, 22070 Appiano Gentile",
-        "birthday": "1978-07-20",
-        "notes": "Preferisce essere contattato via email",
-        "isFrequent": true,
-        "medicalNotes": "Nessun problema di salute noto",
-        "allergies": "Nessuna allergia dichiarata",
-        "hasConsent": true,
-        "ownerId": 16,
-        "id": 252,
-        "createdAt": "2025-06-03T13:34:58.644Z",
-        "accessCount": 14,
-        "lastAccess": "2025-06-17T07:47:49.607Z",
-        "uniqueCode": "PROF_016_B17E_CLIENT_252_4CEC",
-        "professionistCode": "PROF_016_B17E"
       }
     ],
     [
@@ -482,8 +436,8 @@
         "ownerId": 9,
         "id": 316,
         "createdAt": "2025-06-03T13:34:58.647Z",
-        "uniqueCode": "PROF_009_F7D7_CLIENT_316_85CF",
-        "professionistCode": "PROF_009_B72D"
+        "uniqueCode": "PROF_009_9D95_CLIENT_316_8EFE",
+        "professionistCode": "PROF_009_9D95"
       }
     ],
     [
@@ -545,8 +499,8 @@
         "medicalNotes": "",
         "allergies": "",
         "hasConsent": false,
-        "uniqueCode": "PROF_009_A08C_CLIENT_1749666196976_9BDC",
-        "professionistCode": "PROF_009_4881"
+        "uniqueCode": "PROF_009_9D95_CLIENT_1749666196976_011A",
+        "professionistCode": "PROF_009_9D95"
       }
     ],
     [
@@ -756,8 +710,8 @@
       14002,
       {
         "id": 14002,
-        "firstName": "Trial",
-        "lastName": "Account",
+        "firstName": "andrea",
+        "lastName": "zambelli",
         "email": "zambelli.andrea@libero.it",
         "phone": "+39 098 765 4321",
         "birthDate": "1985-06-20",
@@ -768,13 +722,14 @@
         "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
         "professionistCode": "PROF_014_9C1F",
         "address": "Via Cavallotti",
-        "birthday": "2013-10-16",
+        "birthday": "1973-03-01",
         "hasConsent": false,
-        "updatedAt": "2025-06-18T06:03:05.025Z",
+        "updatedAt": "2025-09-01T17:25:08.911Z",
         "accessCount": 15,
         "lastAccess": "2025-06-18T13:35:13.066Z",
         "lastPwaAccess": "2025-06-18T10:45:42.427Z",
-        "pwaAccessCount": 5
+        "pwaAccessCount": 5,
+        "taxCode": "zmbndr73c01d969s"
       }
     ],
     [
@@ -793,12 +748,12 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 410,
-        "lastAccess": "2025-06-21T09:28:21.616Z",
+        "accessCount": 413,
+        "lastAccess": "2025-06-21T09:29:29.796Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
         "professionistCode": "PROF_014_9C1F",
-        "lastPwaAccess": "2025-06-21T09:28:21.616Z",
-        "pwaAccessCount": 289
+        "lastPwaAccess": "2025-06-21T09:29:29.796Z",
+        "pwaAccessCount": 292
       }
     ],
     [
@@ -8047,6 +8002,16 @@
       "color": "#FF1493",
       "enabled": true
     },
+    "9": {
+      "businessName": "Studio Medico",
+      "showBusinessName": true,
+      "name": "zambelli.andrea.1973A@gmail.com",
+      "fontSize": 24,
+      "fontFamily": "Arial, sans-serif",
+      "fontStyle": "normal",
+      "color": "#000000",
+      "enabled": true
+    },
     "14": {
       "businessName": "Studio Medico",
       "showBusinessName": true,
@@ -8379,6 +8344,20 @@
         "createdAt": "2025-06-20T06:30:11.631Z",
         "ownerId": 14
       }
+    ],
+    [
+      1750498323224,
+      {
+        "id": 1750498323224,
+        "clientId": 256,
+        "serviceId": 8,
+        "date": "2025-06-22",
+        "startTime": "10:00",
+        "endTime": "11:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-06-21T09:32:03.224Z"
+      }
     ]
   ],
   "consents": [
@@ -8402,6 +8381,7 @@
   "clientCodes": {},
   "professionistCodes": {
     "3": "PROF_003_4678",
+    "9": "PROF_009_9D95",
     "14": "PROF_014_9C1F",
     "16": "PROF_016_B17E"
   },
@@ -8464,6 +8444,66 @@
         "ownerId": 14,
         "createdAt": "2025-06-20T10:08:38.520Z"
       }
+    ],
+    [
+      1756743933122,
+      {
+        "id": 1756743933122,
+        "invoiceNumber": "09/2025/001",
+        "clientName": "Cliente Trial",
+        "totalAmount": 70,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "bicom",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:25:33.128Z"
+      }
+    ],
+    [
+      1756744382035,
+      {
+        "id": 1756744382035,
+        "invoiceNumber": "09/2025/002",
+        "clientName": "Bruna  Pizzolato",
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:33:02.040Z"
+      }
+    ],
+    [
+      1756744901638,
+      {
+        "id": 1756744901638,
+        "invoiceNumber": "09/2025/003",
+        "clientName": "Cliente Trial",
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:41:41.643Z"
+      }
+    ],
+    [
+      1756747989753,
+      {
+        "id": 1756747989753,
+        "invoiceNumber": "09/2025/004",
+        "clientId": 14002,
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T17:33:09.757Z"
+      }
     ]
   ],
   "adminNotifications": [
@@ -8488,6 +8528,40 @@
       "clientName": "Bruna Pizzolato",
       "timestamp": "2025-06-20T12:30:50.386Z",
       "read": false
+    },
+    {
+      "id": 1750498263719,
+      "type": "client_deleted",
+      "message": "L'utente faverioelisa6@gmail.com ha eliminato il cliente \"Marco Berto\" dal database",
+      "userId": 16,
+      "userEmail": "faverioelisa6@gmail.com",
+      "clientId": 252,
+      "clientName": "Marco Berto",
+      "timestamp": "2025-06-21T09:31:03.719Z",
+      "read": false
+    },
+    {
+      "id": 1750498277727,
+      "type": "client_deleted",
+      "message": "L'utente faverioelisa6@gmail.com ha eliminato il cliente \"Bruna Pizzolato\" dal database",
+      "userId": 16,
+      "userEmail": "faverioelisa6@gmail.com",
+      "clientId": 251,
+      "clientName": "Bruna Pizzolato",
+      "timestamp": "2025-06-21T09:31:17.727Z",
+      "read": false
     }
-  ]
+  ],
+  "userBusinessData": {
+    "14": {
+      "companyName": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": ""
+    }
+  }
 }
