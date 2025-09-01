@@ -25,6 +25,8 @@ export const clients = pgTable("clients", {
   uniqueCode: text("uniqueCode"), // Codice univoco per identificare il cliente
   deletedAtSource: boolean("deletedAtSource").default(false), // Flag: cliente eliminato dall'account originale
   deletionUnlocked: boolean("deletionUnlocked").default(false), // Flag: admin ha sbloccato eliminazione
+  taxCode: text("taxCode"), // Codice fiscale
+  vatNumber: text("vatNumber"), // Partita IVA
 });
 
 export const insertClientSchema = createInsertSchema(clients).omit({
