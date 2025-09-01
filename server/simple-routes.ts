@@ -2911,9 +2911,16 @@ export function registerSimpleRoutes(app: Express): Server {
         
         // Se non trovato, cerca per nome cliente
         if (!clientDetails && invoice.clientName) {
+          const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' '); // Normalizza spazi
+          
           const clientEntry = clients.find(([_, client]) => {
-            const fullName = `${client.firstName?.trim()} ${client.lastName?.trim()}`.trim();
-            return fullName === invoice.clientName.trim() && client.ownerId === user.id;
+            if (client.ownerId !== user.id) return false;
+            
+            // Normalizza anche il nome dal database
+            const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+            
+            console.log(`📄 [PDF DEBUG] Confronto: "${fullName}" vs "${invoiceClientName}"`);
+            return fullName === invoiceClientName;
           });
           
           if (clientEntry) {
@@ -2924,6 +2931,8 @@ export function registerSimpleRoutes(app: Express): Server {
               phone: clientDetails.phone,
               address: clientDetails.address
             });
+          } else {
+            console.log(`📄 [PDF] Cliente non trovato per nome: "${invoice.clientName}"`);
           }
         }
       } catch (error) {
@@ -3125,9 +3134,16 @@ export function registerSimpleRoutes(app: Express): Server {
       
       // Se non trovato via clientId, cerca per nome cliente
       if (!clientEmail && invoice.clientName) {
+        const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' '); // Normalizza spazi
+        
         const clientEntry = clients.find(([_, client]) => {
-          const fullName = `${client.firstName?.trim()} ${client.lastName?.trim()}`.trim();
-          return fullName === invoice.clientName.trim() && client.ownerId === user.id;
+          if (client.ownerId !== user.id) return false;
+          
+          // Normalizza anche il nome dal database
+          const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+          
+          console.log(`📧 [EMAIL DEBUG] Confronto: "${fullName}" vs "${invoiceClientName}"`);
+          return fullName === invoiceClientName;
         });
         
         if (clientEntry) {
@@ -3136,6 +3152,12 @@ export function registerSimpleRoutes(app: Express): Server {
           console.log(`📧 [EMAIL SUGGESTIONS] Email trovata per cliente "${invoice.clientName}": ${clientEmail}`);
         } else {
           console.log(`📧 [EMAIL SUGGESTIONS] Cliente non trovato per nome: "${invoice.clientName}"`);
+          
+          // Debug: mostra tutti i clienti disponibili
+          const availableClients = clients
+            .filter(([_, client]) => client.ownerId === user.id)
+            .map(([_, client]) => `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' '));
+          console.log(`📧 [EMAIL DEBUG] Clienti disponibili:`, availableClients);
         }
       }
       
