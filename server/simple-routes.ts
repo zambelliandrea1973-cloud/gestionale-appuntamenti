@@ -2879,21 +2879,18 @@ export function registerSimpleRoutes(app: Express): Server {
       
       const [_, invoice] = invoiceEntry;
       
-      // Carica le impostazioni nome aziendale dell'utente usando la stessa logica dell'endpoint
+      // Carica solo il nome personalizzato dell'utente dalle impostazioni
       let businessHeader = 'Studio Medico';
       try {
         const currentStorageData = loadStorageData();
         const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
         
-        if (userBusinessSettings?.enabled) {
-          if (userBusinessSettings.showBusinessName && userBusinessSettings.businessName) {
-            businessHeader = `${userBusinessSettings.businessName} - ${userBusinessSettings.name}`;
-          } else {
-            businessHeader = userBusinessSettings.name || 'Studio Medico';
-          }
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          // USA SOLO il nome personalizzato dell'utente, ignora businessName
+          businessHeader = userBusinessSettings.name;
         }
-        console.log(`📄 [PDF] Nome aziendale caricato per utente ${user.id}: "${businessHeader}"`);
-        console.log(`📄 [PDF] Impostazioni utilizzate:`, userBusinessSettings);
+        console.log(`📄 [PDF] Nome intestazione per utente ${user.id}: "${businessHeader}"`);
+        console.log(`📄 [PDF] Impostazioni nome utilizzate: ${userBusinessSettings?.name || 'non trovato'}`);
       } catch (error) {
         console.log('⚠️ Impossibile caricare impostazioni nome, uso default:', error);
       }
