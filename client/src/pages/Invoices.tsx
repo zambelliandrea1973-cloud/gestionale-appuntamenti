@@ -97,7 +97,16 @@ export default function Invoices() {
   });
 
   const { data: suggestions } = useQuery<{
-    clients: Array<{ name: string; fullName: string }>;
+    clients: Array<{ 
+      id: string; 
+      name: string; 
+      fullName: string; 
+      email: string; 
+      phone: string; 
+      address: string; 
+      taxCode: string; 
+      vatNumber: string; 
+    }>;
     amounts: number[];
     descriptions: string[];
   }>({
@@ -127,7 +136,7 @@ export default function Invoices() {
 
   const form = useForm({
     resolver: zodResolver(z.object({
-      clientName: z.string().min(1, "Nome cliente richiesto"),
+      clientId: z.string().min(1, "Cliente richiesto"),
       totalAmount: z.number().min(0, "Importo deve essere positivo"),
       date: z.string().min(1, "Data richiesta"),
       dueDate: z.string().min(1, "Data scadenza richiesta"),
@@ -135,7 +144,7 @@ export default function Invoices() {
       status: z.enum(["draft", "sent", "paid", "overdue"]).default("draft"),
     })),
     defaultValues: {
-      clientName: "",
+      clientId: "",
       totalAmount: "" as any,
       date: format(new Date(), "yyyy-MM-dd"),
       dueDate: format(addDays(new Date(), 30), "yyyy-MM-dd"),
@@ -263,6 +272,31 @@ export default function Invoices() {
     },
   });
 
+  const migrateClientIdsMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/invoices/migrate-client-ids", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) throw new Error("Failed to migrate client IDs");
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      toast({ 
+        title: "Migrazione completata", 
+        description: data.message 
+      });
+    },
+    onError: (error) => {
+      toast({ 
+        title: "Errore nella migrazione", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
   const handlePrintInvoice = (invoice: Invoice) => {
     printMutation.mutate(invoice.id);
   };
@@ -282,14 +316,14 @@ export default function Invoices() {
         // Fallback a valori di default
         emailForm.setValue("recipientEmail", "");
         emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber}`);
-        emailForm.setValue("message", `Gentile ${invoice.clientName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
+        emailForm.setValue("message", `Gentile ${invoice.client?.firstName} ${invoice.client?.lastName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
       }
     } catch (error) {
       console.log('Errore caricamento suggerimenti email:', error);
       // Fallback a valori di default
       emailForm.setValue("recipientEmail", "");
       emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber}`);
-      emailForm.setValue("message", `Gentile ${invoice.clientName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
+      emailForm.setValue("message", `Gentile ${invoice.client?.firstName} ${invoice.client?.lastName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
     }
     
     setIsEmailDialogOpen(true);
@@ -328,10 +362,20 @@ export default function Invoices() {
             Crea e gestisci le fatture per i tuoi clienti
           </p>
         </div>
-        <Button onClick={() => setIsFormOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Nuova Fattura
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => migrateClientIdsMutation.mutate()}
+            disabled={migrateClientIdsMutation.isPending}
+          >
+            {migrateClientIdsMutation.isPending ? "Migrazione..." : "Aggiorna Fatture"}
+          </Button>
+          <Button onClick={() => setIsFormOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Nuova Fattura
+          </Button>
+        </div>
       </div>
 
       {invoices.length === 0 ? (
@@ -354,7 +398,7 @@ export default function Invoices() {
                 <div className="flex-1">
                   <h3 className="font-medium">Fattura #{invoice.invoiceNumber}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Cliente: {invoice.client?.firstName} {invoice.client?.lastName || invoice.clientName}
+                    Cliente: {invoice.client?.firstName} {invoice.client?.lastName}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     Data: {format(new Date(invoice.date), "dd/MM/yyyy")}
@@ -503,25 +547,33 @@ export default function Invoices() {
               </div>
               <FormField
                 control={form.control}
-                name="clientName"
+                name="clientId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome Cliente</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input placeholder="Nome del cliente" {...field} list="client-suggestions" />
-                        <datalist id="client-suggestions">
-                          {suggestions?.clients.map((client, index) => (
-                            <option key={index} value={client.fullName} />
-                          ))}
-                        </datalist>
-                      </div>
-                    </FormControl>
+                    <FormLabel>Cliente</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Seleziona un cliente" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {suggestions?.clients.map((client) => (
+                          <SelectItem key={client.id} value={client.id}>
+                            <div className="flex flex-col">
+                              <span className="font-medium">{client.fullName}</span>
+                              {client.email && (
+                                <span className="text-xs text-muted-foreground">{client.email}</span>
+                              )}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
-                    {suggestions?.clients.length > 0 && (
+                    {suggestions?.clients.length === 0 && (
                       <div className="text-xs text-muted-foreground mt-1">
-                        Suggerimenti: {suggestions.clients.slice(0, 3).map(c => c.name).join(", ")}
-                        {suggestions.clients.length > 3 && "..."}
+                        Nessun cliente trovato. Aggiungi prima alcuni clienti.
                       </div>
                     )}
                   </FormItem>
