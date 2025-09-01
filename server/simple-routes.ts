@@ -3034,6 +3034,79 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Ottieni dati suggeriti per invio email fattura
+  app.get('/api/invoices/:id/email-suggestions', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      const clients = storageData.clients || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Carica le impostazioni nome aziendale dell'utente
+      let businessName = 'Studio Medico';
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessName = userBusinessSettings.name;
+        }
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare nome aziendale per email:', error);
+      }
+      
+      // Cerca email del cliente se presente
+      let clientEmail = '';
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id]) => id === invoice.clientId);
+        if (clientEntry) {
+          const [_, client] = clientEntry;
+          clientEmail = client.email || '';
+        }
+      }
+      
+      // Crea oggetto e messaggio personalizzati
+      const subject = `Fattura ${invoice.invoiceNumber} - ${businessName}`;
+      const message = `Gentile ${invoice.clientName || 'Cliente'},
+
+In allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.issueDate).toLocaleDateString('it-IT')}.
+
+Importo totale: €${invoice.totalAmount.toFixed(2)}
+
+Cordiali saluti,
+${businessName}`;
+      
+      res.json({
+        clientEmail,
+        subject,
+        message,
+        businessName
+      });
+      
+    } catch (error) {
+      console.error('❌ Error getting email suggestions:', error);
+      res.status(500).json({ message: 'Errore caricamento suggerimenti email' });
+    }
+  });
+
   // Invia fattura via email
   app.post('/api/invoices/:id/send-email', async (req, res) => {
     try {
@@ -3067,14 +3140,29 @@ export function registerSimpleRoutes(app: Express): Server {
       
       const [_, invoice] = invoiceEntry;
       
+      // Carica nome aziendale personalizzato per mittente
+      let businessName = 'Studio Medico';
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessName = userBusinessSettings.name;
+        }
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare nome aziendale per invio email:', error);
+      }
+      
       // Simula invio email (in produzione usare SMTP reale)
       console.log(`📧 SIMULAZIONE INVIO EMAIL:
-        Da: Studio Medico <noreply@biomedicinaintegrata.it>
+        Da: ${businessName} <noreply@biomedicinaintegrata.it>
         A: ${recipientEmail}
         Oggetto: ${subject}
         Messaggio: ${message || 'Fattura in allegato'}
         Allegato: fattura-${invoice.invoiceNumber}.pdf
       `);
+      
+      console.log(`📧 [EMAIL] Nome aziendale utilizzato per invio: "${businessName}"`);
       
       // Aggiorna stato fattura a "inviata" se era in bozza
       if (invoice.status === 'draft') {
