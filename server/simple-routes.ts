@@ -8,6 +8,7 @@ import { initializeSchedulers } from "./services/schedulerService";
 import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
 import multer from 'multer';
+import puppeteer from 'puppeteer';
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
@@ -3606,25 +3607,20 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Debug dati fattura per capire perché PDF non si genera
-            console.log(`🔍 [INVOICE EMAIL] Debug fattura ${invoiceId}:`, {
-              hasItems: !!invoice.items,
-              itemsLength: invoice.items?.length || 0,
-              itemsPreview: invoice.items?.slice(0, 2) || 'nessun items',
-              hasTotal: !!invoice.total
-            });
-            
-            // Forza generazione PDF sempre (come per la stampa)
+            // Usa la stessa funzione di generazione PDF della stampa
             let pdfBuffer;
             let filename;
             try {
-              console.log(`📄 [INVOICE EMAIL] Tentativo generazione PDF per fattura ${invoice.invoiceNumber}...`);
+              console.log(`📄 [INVOICE EMAIL] Generazione PDF con stessa logica della stampa...`);
+              
+              // Usa direttamente la funzione esistente
               pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
               filename = `fattura-${invoice.invoiceNumber}.pdf`;
-              console.log(`📎 [INVOICE EMAIL] PDF generato con successo: ${filename} (${pdfBuffer?.length || 0} bytes)`);
+              console.log(`📎 [INVOICE EMAIL] PDF generato: ${filename} (${pdfBuffer?.length || 0} bytes)`);
+              
             } catch (pdfError) {
               console.error(`❌ [INVOICE EMAIL] Errore generazione PDF:`, pdfError.message);
-              console.error(`❌ [INVOICE EMAIL] Stack trace:`, pdfError.stack);
+              console.error(`❌ [INVOICE EMAIL] Stack:`, pdfError.stack);
               pdfBuffer = null;
               filename = null;
             }
