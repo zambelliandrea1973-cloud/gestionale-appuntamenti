@@ -76,6 +76,56 @@ export const notificationService = {
       return false;
     }
   },
+
+  /**
+   * Invia un'email per fattura con allegato PDF
+   * @param to Indirizzo email del destinatario
+   * @param subject Oggetto dell'email
+   * @param message Testo dell'email
+   * @param emailConfig Configurazione email dal file
+   * @param pdfBuffer Buffer del PDF da allegare
+   * @param filename Nome del file PDF
+   * @returns Una Promise che risolve a true se l'invio è riuscito
+   */
+  async sendInvoiceEmail(to: string, subject: string, message: string, emailConfig: any, pdfBuffer?: Buffer, filename?: string): Promise<boolean> {
+    try {
+      const nodemailer = await import('nodemailer');
+      
+      // Crea trasportatore SMTP per Gmail
+      const transporter = nodemailer.default.createTransport({
+        service: 'gmail',
+        auth: {
+          user: emailConfig.emailAddress,
+          pass: emailConfig.emailPassword,
+        }
+      });
+      
+      const mailOptions: any = {
+        from: emailConfig.emailAddress,
+        to,
+        subject, // Usa l'oggetto esatto passato, senza template dei promemoria
+        text: message,
+        html: message.replace(/\n/g, '<br>'),
+      };
+
+      // Aggiungi allegato PDF se presente
+      if (pdfBuffer && filename) {
+        mailOptions.attachments = [{
+          filename: filename,
+          content: pdfBuffer
+        }];
+      }
+      
+      console.log(`Invio email fattura a ${to} con oggetto: ${subject}`);
+      
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Email fattura inviata con successo: ${info.messageId}`);
+      return true;
+    } catch (error: any) {
+      console.error('Errore nell\'invio dell\'email fattura:', error);
+      return false;
+    }
+  },
   
   /**
    * Invia un messaggio SMS (non implementato - usa link diretti invece)
