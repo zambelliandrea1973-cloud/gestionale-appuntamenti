@@ -499,8 +499,8 @@
         "medicalNotes": "",
         "allergies": "",
         "hasConsent": false,
-        "uniqueCode": "PROF_009_A08C_CLIENT_1749666196976_9BDC",
-        "professionistCode": "PROF_009_4881"
+        "uniqueCode": "PROF_009_9D95_CLIENT_1749666196976_011A",
+        "professionistCode": "PROF_009_9D95"
       }
     ],
     [
@@ -710,8 +710,8 @@
       14002,
       {
         "id": 14002,
-        "firstName": "Trial",
-        "lastName": "Account",
+        "firstName": "andrea",
+        "lastName": "zambelli",
         "email": "zambelli.andrea@libero.it",
         "phone": "+39 098 765 4321",
         "birthDate": "1985-06-20",
@@ -722,13 +722,14 @@
         "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
         "professionistCode": "PROF_014_9C1F",
         "address": "Via Cavallotti",
-        "birthday": "2013-10-16",
+        "birthday": "1973-03-01",
         "hasConsent": false,
-        "updatedAt": "2025-06-18T06:03:05.025Z",
+        "updatedAt": "2025-09-01T17:25:08.911Z",
         "accessCount": 15,
         "lastAccess": "2025-06-18T13:35:13.066Z",
         "lastPwaAccess": "2025-06-18T10:45:42.427Z",
-        "pwaAccessCount": 5
+        "pwaAccessCount": 5,
+        "taxCode": "zmbndr73c01d969s"
       }
     ],
     [
@@ -8357,6 +8358,48 @@
         "status": "scheduled",
         "createdAt": "2025-06-21T09:32:03.224Z"
       }
+    ],
+    [
+      1756750410383,
+      {
+        "id": 1756750410383,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-02",
+        "startTime": "09:00",
+        "endTime": "10:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-01T18:13:30.383Z"
+      }
+    ],
+    [
+      1756750470106,
+      {
+        "id": 1756750470106,
+        "clientId": 14002,
+        "serviceId": 1750225071976,
+        "date": "2025-09-03",
+        "startTime": "08:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-01T18:14:30.106Z"
+      }
+    ],
+    [
+      1756750501769,
+      {
+        "id": 1756750501769,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-02",
+        "startTime": "20:15:00",
+        "endTime": "21:15:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-01T18:15:01.769Z"
+      }
     ]
   ],
   "consents": [
@@ -8443,6 +8486,138 @@
         "ownerId": 14,
         "createdAt": "2025-06-20T10:08:38.520Z"
       }
+    ],
+    [
+      1756743933122,
+      {
+        "id": 1756743933122,
+        "invoiceNumber": "09/2025/001",
+        "clientName": "Cliente Trial",
+        "totalAmount": 70,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "bicom",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:25:33.128Z"
+      }
+    ],
+    [
+      1756744382035,
+      {
+        "id": 1756744382035,
+        "invoiceNumber": "09/2025/002",
+        "clientName": "Bruna  Pizzolato",
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:33:02.040Z"
+      }
+    ],
+    [
+      1756744901638,
+      {
+        "id": 1756744901638,
+        "invoiceNumber": "09/2025/003",
+        "clientName": "Cliente Trial",
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "sent",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T16:41:41.643Z"
+      }
+    ],
+    [
+      1756747989753,
+      {
+        "id": 1756747989753,
+        "invoiceNumber": "09/2025/004",
+        "clientId": 14002,
+        "totalAmount": 80,
+        "date": "2025-09-01",
+        "dueDate": "2025-10-01",
+        "description": "pedicure",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-09-01T17:33:09.757Z",
+        "emailHistory": [
+          {
+            "sentAt": "2025-09-01T17:54:51.387Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:06:28.636Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:12:10.094Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:21:27.257Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:23:00.351Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:25:17.206Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:26:00.116Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:29:21.087Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:31:51.628Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:32:27.110Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          }
+        ]
+      }
     ]
   ],
   "adminNotifications": [
@@ -8490,5 +8665,18 @@
       "timestamp": "2025-06-21T09:31:17.727Z",
       "read": false
     }
-  ]
+  ],
+  "userBusinessData": {
+    "14": {
+      "companyName": "busnari silvia",
+      "address": "via largo caduti nassiria 17",
+      "city": "olgiate comasco",
+      "postalCode": "22100",
+      "vatNumber": "it32445929",
+      "fiscalCode": "",
+      "phone": "3471445767",
+      "email": "silvia.busnari@libero.it",
+      "updatedAt": "2025-09-01T17:52:35.286Z"
+    }
+  }
 }
