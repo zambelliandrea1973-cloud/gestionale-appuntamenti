@@ -105,7 +105,9 @@ export default function ClientForm({
       notes: "",
       isFrequent: false,
       medicalNotes: "",
-      allergies: ""
+      allergies: "",
+      taxCode: "",
+      vatNumber: ""
     }
   });
   
@@ -164,7 +166,9 @@ export default function ClientForm({
           notes: "",
           isFrequent: false,
           medicalNotes: "",
-          allergies: ""
+          allergies: "",
+          taxCode: "",
+          vatNumber: ""
         });
         
         if (onClientCreated && responseData) {
@@ -382,6 +386,36 @@ export default function ClientForm({
                     </FormItem>
                   )}
                 />
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="taxCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Codice Fiscale</FormLabel>
+                        <FormControl>
+                          <Input {...field} value={field.value || ''} placeholder="RSSMRA80A01H501Z" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="vatNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Partita IVA</FormLabel>
+                        <FormControl>
+                          <Input {...field} value={field.value || ''} placeholder="12345678901" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
