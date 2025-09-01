@@ -19,6 +19,7 @@ import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock,
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
+import CompanyBusinessDataEditor from '@/components/CompanyBusinessDataEditor';
 import SimpleServiceManager from '@/components/SimpleServiceManager';
 import EmailSettings from '@/components/EmailSettings';
 import AdminNotifications from '@/components/AdminNotifications';
@@ -248,6 +249,10 @@ export default function Settings() {
                   <h3 className="text-lg font-medium">{t('settings.companyName', 'Nome Aziendale')}</h3>
                 </div>
                 <CompanyNameEditor />
+              </div>
+
+              <div className="pt-4 border-t">
+                <CompanyBusinessDataEditor />
               </div>
             </CardContent>
           </Card>
