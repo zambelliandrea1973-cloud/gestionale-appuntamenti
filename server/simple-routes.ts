@@ -3575,8 +3575,9 @@ ${businessName}`;
         console.log('⚠️ Impossibile caricare nome aziendale per invio email:', error);
       }
       
-      // Invio email reale utilizzando configurazione SMTP
+      // Invio email reale utilizzando il sistema collaudato dei promemoria
       try {
+        const { notificationService } = await import('./services/notificationService');
         const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
         
         if (!fs.existsSync(emailConfigPath)) {
@@ -3601,33 +3602,23 @@ ${businessName}`;
               Allegato: fattura-${invoice.invoiceNumber}.pdf
             `);
           } else {
-            // Invio email reale con nodemailer
-            const nodemailer = require('nodemailer');
+            console.log(`📧 [INVOICE EMAIL] Invio fattura via email utilizzando sistema collaudato`);
+            console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
+            console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            const transporter = nodemailer.createTransporter({
-              service: 'gmail',
-              auth: {
-                user: emailConfig.emailAddress,
-                pass: emailConfig.emailPassword
-              }
-            });
+            // Usa il sistema collaudato dei promemoria per inviare l'email
+            const emailSent = await notificationService.sendEmailDirect(
+              recipientEmail,
+              subject,
+              message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber}.\n\nCordiali saluti,\n${businessName}`,
+              emailConfig
+            );
             
-            // Genera PDF per allegato utilizzando la stessa logica della stampa
-            const pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
-            
-            const mailOptions = {
-              from: `${businessName} <${emailConfig.emailAddress}>`,
-              to: recipientEmail,
-              subject: subject,
-              text: message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber}.\n\nCordiali saluti,\n${businessName}`,
-              attachments: [{
-                filename: `fattura-${invoice.invoiceNumber}.pdf`,
-                content: pdfBuffer
-              }]
-            };
-            
-            await transporter.sendMail(mailOptions);
-            console.log(`✅ [EMAIL] Email reale inviata da ${emailConfig.emailAddress} a ${recipientEmail}`);
+            if (emailSent) {
+              console.log(`✅ [INVOICE EMAIL] Email fattura inviata con successo a ${recipientEmail}`);
+            } else {
+              throw new Error('Errore invio email dal sistema notificationService');
+            }
           }
         }
       } catch (emailError) {
