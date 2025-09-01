@@ -2879,24 +2879,23 @@ export function registerSimpleRoutes(app: Express): Server {
       
       const [_, invoice] = invoiceEntry;
       
-      // Carica le impostazioni nome aziendale dell'utente
+      // Carica le impostazioni nome aziendale dell'utente usando la stessa logica dell'endpoint
       let businessHeader = 'Studio Medico';
       try {
-        // Carica le impostazioni dal database usando la stessa logica dell'endpoint
-        const storageData = loadStorageData();
-        const userSettings = storageData.userSettings || {};
-        const companyNameSettings = userSettings[user.id]?.companyNameSettings;
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
         
-        if (companyNameSettings?.enabled) {
-          if (companyNameSettings.showBusinessName && companyNameSettings.businessName) {
-            businessHeader = `${companyNameSettings.businessName} - ${companyNameSettings.name}`;
+        if (userBusinessSettings?.enabled) {
+          if (userBusinessSettings.showBusinessName && userBusinessSettings.businessName) {
+            businessHeader = `${userBusinessSettings.businessName} - ${userBusinessSettings.name}`;
           } else {
-            businessHeader = companyNameSettings.name || 'Studio Medico';
+            businessHeader = userBusinessSettings.name || 'Studio Medico';
           }
         }
-        console.log(`📄 [PDF] Nome aziendale caricato per utente ${user.id}: ${businessHeader}`);
+        console.log(`📄 [PDF] Nome aziendale caricato per utente ${user.id}: "${businessHeader}"`);
+        console.log(`📄 [PDF] Impostazioni utilizzate:`, userBusinessSettings);
       } catch (error) {
-        console.log('⚠️ Impossibile caricare impostazioni nome, uso default');
+        console.log('⚠️ Impossibile caricare impostazioni nome, uso default:', error);
       }
       
       // Genera HTML per PDF
