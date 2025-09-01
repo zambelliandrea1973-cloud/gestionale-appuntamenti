@@ -267,11 +267,31 @@ export default function Invoices() {
     printMutation.mutate(invoice.id);
   };
 
-  const handleEmailInvoice = (invoice: Invoice) => {
+  const handleEmailInvoice = async (invoice: Invoice) => {
     setSelectedInvoice(invoice);
-    emailForm.setValue("recipientEmail", invoice.client?.firstName ? `${invoice.client.firstName.toLowerCase()}.${invoice.client.lastName?.toLowerCase()}@esempio.it` : "");
-    emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber} - Studio Medico`);
-    emailForm.setValue("message", `Gentile ${invoice.client?.firstName || invoice.clientName},\n\nIn allegato trova la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti,\nStudio Medico`);
+    
+    try {
+      // Carica suggerimenti email personalizzati dal server
+      const response = await fetch(`/api/invoices/${invoice.id}/email-suggestions`);
+      if (response.ok) {
+        const suggestions = await response.json();
+        emailForm.setValue("recipientEmail", suggestions.clientEmail || "");
+        emailForm.setValue("subject", suggestions.subject);
+        emailForm.setValue("message", suggestions.message);
+      } else {
+        // Fallback a valori di default
+        emailForm.setValue("recipientEmail", "");
+        emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber}`);
+        emailForm.setValue("message", `Gentile ${invoice.clientName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
+      }
+    } catch (error) {
+      console.log('Errore caricamento suggerimenti email:', error);
+      // Fallback a valori di default
+      emailForm.setValue("recipientEmail", "");
+      emailForm.setValue("subject", `Fattura ${invoice.invoiceNumber}`);
+      emailForm.setValue("message", `Gentile ${invoice.clientName || 'Cliente'},\n\nIn allegato la fattura ${invoice.invoiceNumber}.\n\nCordiali saluti`);
+    }
+    
     setIsEmailDialogOpen(true);
   };
 
