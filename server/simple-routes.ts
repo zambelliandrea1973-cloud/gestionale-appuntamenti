@@ -118,7 +118,7 @@ const userData = {
   }
 };
 
-// Funzione per generare numero fattura progressivo per anno solare
+// Funzione per generare numero fattura progressivo per anno solare - FORMATO LEGALE
 function generateInvoiceNumber(userId: number): string {
   const currentYear = new Date().getFullYear();
   
@@ -129,8 +129,8 @@ function generateInvoiceNumber(userId: number): string {
   const userInvoicesThisYear = invoices.filter(([_, invoice]) => {
     if (invoice.ownerId !== userId) return false;
     
-    // Cerca pattern YYYY/ nel numero fattura
-    const yearPattern = new RegExp(`${currentYear}/`);
+    // Cerca pattern /YYYY nel numero fattura (formato corretto NNN/YYYY)
+    const yearPattern = new RegExp(`/${currentYear}$`);
     return yearPattern.test(invoice.invoiceNumber);
   });
   
@@ -138,8 +138,8 @@ function generateInvoiceNumber(userId: number): string {
   const nextNumber = userInvoicesThisYear.length + 1;
   const paddedNumber = nextNumber.toString().padStart(3, '0');
   
-  // Formato: YYYY/NNN (es: 2025/001)
-  return `${currentYear}/${paddedNumber}`;
+  // Formato LEGALE: NNN/YYYY (es: 001/2025)
+  return `${paddedNumber}/${currentYear}`;
 }
 
 export function registerSimpleRoutes(app: Express): Server {
@@ -2903,27 +2903,24 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Funzione per generare numero fattura automatico
+  // Funzione per generare numero fattura automatico - FORMATO LEGALE
   function generateInvoiceNumber(ownerId: number): string {
     const storageData = loadStorageData();
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const monthYear = `${month}/${year}`;
+    const currentYear = new Date().getFullYear();
     
-    // Carica fatture esistenti per questo owner
+    // Carica fatture esistenti per questo owner per l'anno corrente
     const existingInvoices = storageData.invoices || [];
-    const ownerInvoices = existingInvoices
+    const ownerInvoicesThisYear = existingInvoices
       .filter(([_, invoice]) => invoice.ownerId === ownerId)
       .map(([_, invoice]) => invoice.invoiceNumber)
-      .filter(num => num && num.startsWith(monthYear));
+      .filter(num => num && num.endsWith(`/${currentYear}`)); // Formato NNN/YYYY
     
-    // Trova il numero progressivo più alto per questo mese
+    // Trova il numero progressivo più alto per questo anno
     let maxNumber = 0;
-    ownerInvoices.forEach(invoiceNumber => {
+    ownerInvoicesThisYear.forEach(invoiceNumber => {
       const parts = invoiceNumber.split('/');
-      if (parts.length === 3) {
-        const progressiveNumber = parseInt(parts[2]);
+      if (parts.length === 2) {
+        const progressiveNumber = parseInt(parts[0]);
         if (!isNaN(progressiveNumber) && progressiveNumber > maxNumber) {
           maxNumber = progressiveNumber;
         }
@@ -2931,7 +2928,8 @@ export function registerSimpleRoutes(app: Express): Server {
     });
     
     const nextNumber = String(maxNumber + 1).padStart(3, '0');
-    return `${month}/${year}/${nextNumber}`;
+    // FORMATO LEGALE: NNN/YYYY (es: 001/2025, 002/2025, etc.)
+    return `${nextNumber}/${currentYear}`;
   }
 
   // Endpoint per ottenere il prossimo numero fattura
