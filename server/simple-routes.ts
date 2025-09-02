@@ -3085,6 +3085,120 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // PULIZIA FATTURE - Rinumera tutte le fatture con formato legale NNN/YYYY
+  app.post('/api/invoices/cleanup-numbering', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      console.log(`🧹 [/api/invoices/cleanup-numbering] Pulizia numerazione fatture per utente ${user.id}`);
+      
+      const storageData = loadStorageData();
+      const allInvoices = storageData.invoices || [];
+      
+      // Filtra solo le fatture dell'utente corrente
+      const userInvoices = allInvoices.filter(([_, invoice]) => invoice.ownerId === user.id);
+      
+      if (userInvoices.length === 0) {
+        return res.json({ message: 'Nessuna fattura da pulire', cleaned: 0 });
+      }
+      
+      console.log(`🧹 Trovate ${userInvoices.length} fatture dell'utente da rinumerare`);
+      
+      // Ordina le fatture per data (dalla più vecchia alla più recente)
+      userInvoices.sort(([_, a], [__, b]) => new Date(a.date || a.createdAt).getTime() - new Date(b.date || b.createdAt).getTime());
+      
+      let cleanedCount = 0;
+      
+      // Rinumera tutte le fatture nell'ordine cronologico corretto
+      userInvoices.forEach(([invoiceId, invoice], index) => {
+        const newNumber = String(index + 1).padStart(3, '0') + '/2025';
+        const oldNumber = invoice.invoiceNumber;
+        
+        if (oldNumber !== newNumber) {
+          console.log(`🔄 Rinumerazione: ${oldNumber} → ${newNumber} (${invoice.date || invoice.createdAt})`);
+          invoice.invoiceNumber = newNumber;
+          invoice.updatedAt = new Date().toISOString();
+          cleanedCount++;
+        }
+      });
+      
+      // Salva i dati aggiornati
+      if (cleanedCount > 0) {
+        saveStorageData(storageData);
+        console.log(`✅ [/api/invoices/cleanup-numbering] Pulizia completata: ${cleanedCount} fatture rinumerate`);
+      }
+      
+      res.json({
+        message: `Pulizia completata: ${cleanedCount} fatture rinumerate in formato legale NNN/YYYY`,
+        cleaned: cleanedCount,
+        total: userInvoices.length
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore pulizia numerazione fatture:', error);
+      res.status(500).json({ message: 'Errore durante la pulizia' });
+    }
+  });
+
+  // ELIMINAZIONE FATTURA con doppia sicurezza
+  app.delete('/api/invoices/:id', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      const { confirmation } = req.body;
+      
+      console.log(`🗑️ [/api/invoices/${invoiceId}] Richiesta eliminazione per utente ${user.id}`);
+      
+      // Controllo doppia sicurezza - richiede confirmation: true
+      if (!confirmation) {
+        return res.status(400).json({ 
+          message: 'Conferma di sicurezza richiesta',
+          requiresConfirmation: true 
+        });
+      }
+      
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova l'indice della fattura da eliminare
+      const invoiceIndex = invoices.findIndex(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (invoiceIndex === -1) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const invoiceToDelete = invoices[invoiceIndex][1];
+      
+      // Rimuovi la fattura dall'array
+      invoices.splice(invoiceIndex, 1);
+      saveStorageData(storageData);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}] Fattura ${invoiceToDelete.invoiceNumber} eliminata con successo`);
+      
+      res.json({
+        message: `Fattura ${invoiceToDelete.invoiceNumber} eliminata con successo`,
+        deletedInvoice: {
+          invoiceNumber: invoiceToDelete.invoiceNumber,
+          date: invoiceToDelete.date,
+          totalAmount: invoiceToDelete.totalAmount
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore eliminazione fattura:', error);
+      res.status(500).json({ message: 'Errore durante l\'eliminazione' });
+    }
+  });
+
   // Crea una nuova fattura
   app.post('/api/invoices', async (req, res) => {
     try {

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format, addDays } from "date-fns";
-import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3 } from "lucide-react";
+import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3, Trash2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -81,6 +81,8 @@ export default function Invoices() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isCleanupDialogOpen, setIsCleanupDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
   const {
@@ -238,6 +240,68 @@ export default function Invoices() {
     },
   });
 
+  // Mutation per eliminazione fattura con doppia sicurezza
+  const deleteMutation = useMutation({
+    mutationFn: async (data: { invoiceId: number; confirmation: boolean }) => {
+      const response = await fetch(`/api/invoices/${data.invoiceId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirmation: data.confirmation }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      setIsDeleteDialogOpen(false);
+      setSelectedInvoice(null);
+      toast({ 
+        title: "✅ Fattura eliminata", 
+        description: data.message 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: "❌ Errore eliminazione fattura", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  // Mutation per pulizia numerazione fatture
+  const cleanupMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/invoices/cleanup-numbering", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      setIsCleanupDialogOpen(false);
+      toast({ 
+        title: "🧹 Pulizia completata", 
+        description: data.message 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: "❌ Errore pulizia numerazione", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
   const printMutation = useMutation({
     mutationFn: async (invoiceId: number) => {
       const response = await fetch(`/api/invoices/${invoiceId}/pdf`);
@@ -345,6 +409,28 @@ export default function Invoices() {
     sendEmailMutation.mutate(data);
   };
 
+  const handleDeleteInvoice = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (selectedInvoice) {
+      deleteMutation.mutate({
+        invoiceId: selectedInvoice.id,
+        confirmation: true
+      });
+    }
+  };
+
+  const handleCleanupNumbering = () => {
+    setIsCleanupDialogOpen(true);
+  };
+
+  const confirmCleanup = () => {
+    cleanupMutation.mutate();
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -370,6 +456,15 @@ export default function Invoices() {
             disabled={migrateClientIdsMutation.isPending}
           >
             {migrateClientIdsMutation.isPending ? "Migrazione..." : "Aggiorna Fatture"}
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleCleanupNumbering}
+            disabled={cleanupMutation.isPending}
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            {cleanupMutation.isPending ? "Pulizia..." : "Pulisci Numerazione"}
           </Button>
           <Button onClick={() => setIsFormOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
@@ -515,6 +610,14 @@ export default function Invoices() {
                       >
                         <Mail className="h-4 w-4 mr-2" />
                         {sendEmailMutation.isPending ? "Invio..." : "Invia via Email"}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={() => handleDeleteInvoice(invoice)}
+                        disabled={deleteMutation.isPending}
+                        className="text-red-600 focus:text-red-600"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        {deleteMutation.isPending ? "Eliminazione..." : "Elimina Fattura"}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -863,6 +966,96 @@ export default function Invoices() {
               disabled={updateStatusMutation.isPending}
             >
               Chiudi
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per eliminazione fattura con doppia conferma */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-red-600">⚠️ Elimina Fattura</DialogTitle>
+            <DialogDescription>
+              Sei sicuro di voler eliminare definitivamente la fattura <strong>{selectedInvoice?.invoiceNumber}</strong>?
+              <br />
+              <span className="text-red-600 font-medium mt-2 block">
+                Questa azione non può essere annullata!
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="bg-red-50 p-4 rounded-md border border-red-200">
+            <div className="text-sm">
+              <p><strong>Fattura:</strong> {selectedInvoice?.invoiceNumber}</p>
+              <p><strong>Cliente:</strong> {selectedInvoice?.client?.firstName} {selectedInvoice?.client?.lastName}</p>
+              <p><strong>Importo:</strong> €{selectedInvoice?.totalAmount.toFixed(2)}</p>
+              <p><strong>Data:</strong> {selectedInvoice?.date && format(new Date(selectedInvoice.date), "dd/MM/yyyy")}</p>
+            </div>
+          </div>
+          
+          <DialogFooter className="flex gap-2">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={deleteMutation.isPending}
+              className="flex-1"
+            >
+              Annulla
+            </Button>
+            <Button 
+              variant="destructive"
+              onClick={confirmDelete}
+              disabled={deleteMutation.isPending}
+              className="flex-1"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              {deleteMutation.isPending ? "Eliminazione..." : "Elimina Definitivamente"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per pulizia numerazione */}
+      <Dialog open={isCleanupDialogOpen} onOpenChange={setIsCleanupDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-orange-600">🧹 Pulizia Numerazione Fatture</DialogTitle>
+            <DialogDescription>
+              Questa operazione rinumererà tutte le tue fatture in ordine cronologico usando il formato legale <strong>NNN/YYYY</strong>.
+              <br />
+              <span className="text-orange-600 font-medium mt-2 block">
+                Le fatture verranno rinumerate automaticamente!
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="bg-orange-50 p-4 rounded-md border border-orange-200">
+            <div className="text-sm">
+              <p><strong>Formato corrente:</strong> Misto (06/2025/001, 09/2025/002, ecc.)</p>
+              <p><strong>Formato dopo pulizia:</strong> Legale NNN/YYYY (001/2025, 002/2025, ecc.)</p>
+              <p><strong>Totale fatture:</strong> {invoices.length}</p>
+              <p className="text-green-600 mt-2"><strong>✓ Ordine cronologico mantenuto</strong></p>
+            </div>
+          </div>
+          
+          <DialogFooter className="flex gap-2">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsCleanupDialogOpen(false)}
+              disabled={cleanupMutation.isPending}
+              className="flex-1"
+            >
+              Annulla
+            </Button>
+            <Button 
+              variant="default"
+              onClick={confirmCleanup}
+              disabled={cleanupMutation.isPending}
+              className="flex-1 bg-orange-600 hover:bg-orange-700"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {cleanupMutation.isPending ? "Pulizia..." : "Pulisci Numerazione"}
             </Button>
           </DialogFooter>
         </DialogContent>
