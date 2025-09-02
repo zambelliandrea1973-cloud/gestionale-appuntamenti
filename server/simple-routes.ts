@@ -3529,6 +3529,173 @@ ${businessName}`;
     }
   });
 
+  // Funzione per generare PDF identico al pulsante stampa
+  async function generateInvoicePDFForEmail(invoiceId: number, user: any): Promise<Buffer> {
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata per email');
+    }
+    
+    const [_, invoice] = invoiceEntry;
+    
+    // Stessa logica dati aziendali dell'endpoint /pdf
+    let businessHeader = 'Studio Medico';
+    let businessData = {
+      companyName: '', address: '', city: '', postalCode: '', 
+      vatNumber: '', fiscalCode: '', phone: '', email: ''
+    };
+    
+    try {
+      const currentStorageData = loadStorageData();
+      const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      
+      if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+        businessHeader = userBusinessSettings.name;
+      }
+      
+      if (userBusinessData) {
+        businessData = { ...businessData, ...userBusinessData };
+        if (userBusinessData.companyName) {
+          businessHeader = userBusinessData.companyName;
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Dati aziendali per PDF email, uso default:', error);
+    }
+    
+    // Stessa logica cliente dell'endpoint /pdf
+    let clientDetails = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientDetails = clientEntry[1];
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore dati cliente per PDF email:', error);
+    }
+    
+    // HTML identico all'endpoint /pdf
+    const htmlContent = \`<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fattura \${invoice.invoiceNumber}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+    .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+    .invoice-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
+    .client-info, .invoice-details { flex: 1; }
+    .invoice-details { text-align: right; }
+    .items-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    .items-table th, .items-table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    .items-table th { background-color: #f5f5f5; font-weight: bold; }
+    .total-row { font-weight: bold; font-size: 1.2em; }
+    .footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>\${businessHeader}</h1>
+    \${businessData.address || businessData.city ? \`<p><strong>Indirizzo:</strong> \${businessData.address}\${businessData.city ? \`, \${businessData.city}\` : ''}\${businessData.postalCode ? \` \${businessData.postalCode}\` : ''}</p>\` : ''}
+    \${businessData.phone ? \`<p><strong>Tel:</strong> \${businessData.phone}</p>\` : '<p>Tel: +39 347 144 5767</p>'}
+    \${businessData.email ? \`<p><strong>Email:</strong> \${businessData.email}</p>\` : '<p>biomedicinaintegrata.it</p>'}
+    \${businessData.vatNumber ? \`<p><strong>Partita IVA:</strong> \${businessData.vatNumber}</p>\` : ''}
+    \${businessData.fiscalCode ? \`<p><strong>Codice Fiscale:</strong> \${businessData.fiscalCode}</p>\` : ''}
+  </div>
+  
+  <div class="invoice-info">
+    <div class="client-info">
+      <h3>Dati Cliente</h3>
+      \${clientDetails ? \`
+        <p><strong>Nome:</strong> \${clientDetails.firstName} \${clientDetails.lastName}</p>
+        \${clientDetails.email ? \`<p><strong>Email:</strong> \${clientDetails.email}</p>\` : ''}
+        \${clientDetails.phone ? \`<p><strong>Telefono:</strong> \${clientDetails.phone}</p>\` : ''}
+        \${clientDetails.address ? \`<p><strong>Indirizzo:</strong> \${clientDetails.address}</p>\` : ''}
+        \${clientDetails.taxCode ? \`<p><strong>Codice Fiscale:</strong> \${clientDetails.taxCode}</p>\` : ''}
+        \${clientDetails.vatNumber ? \`<p><strong>Partita IVA:</strong> \${clientDetails.vatNumber}</p>\` : ''}
+      \` : \`
+        <p><strong>Nome:</strong> \${invoice.clientName || 'Cliente'}</p>
+      \`}
+    </div>
+    
+    <div class="invoice-details">
+      <h3>Dettagli Fattura</h3>
+      <p><strong>Numero:</strong> \${invoice.invoiceNumber}</p>
+      <p><strong>Data:</strong> \${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+      <p><strong>Stato:</strong> \${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
+    </div>
+  </div>
+  
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th>Descrizione</th>
+        <th style="width: 100px;">Quantità</th>
+        <th style="width: 100px;">Prezzo Unit.</th>
+        <th style="width: 100px;">Totale</th>
+      </tr>
+    </thead>
+    <tbody>
+      \${(invoice.items || []).map(item => \`
+        <tr>
+          <td>\${item.description || 'Servizio professionale'}</td>
+          <td style="text-align: center;">\${item.quantity || 1}</td>
+          <td style="text-align: right;">€ \${(item.price || 0).toFixed(2)}</td>
+          <td style="text-align: right;">€ \${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td>
+        </tr>
+      \`).join('')}
+      \${(!invoice.items || invoice.items.length === 0) ? \`
+        <tr>
+          <td>Servizi professionali - \${invoice.invoiceNumber}</td>
+          <td style="text-align: center;">1</td>
+          <td style="text-align: right;">€ \${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td>
+          <td style="text-align: right;">€ \${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td>
+        </tr>
+      \` : ''}
+    </tbody>
+  </table>
+  
+  <div class="total-row" style="text-align: right; font-size: 1.3em;">
+    <strong>Totale: € \${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
+  </div>
+  
+  <div class="footer">
+    <p>Documento generato il \${new Date().toLocaleDateString('it-IT')} alle \${new Date().toLocaleTimeString('it-IT')}</p>
+  </div>
+</body>
+</html>\`;
+    
+    // Puppeteer per PDF (stessa logica endpoint /pdf)
+    const puppeteer = await import('puppeteer');
+    const browser = await puppeteer.default.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    
+    const page = await browser.newPage();
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      margin: { top: '20mm', bottom: '20mm', left: '15mm', right: '15mm' }
+    });
+    
+    await browser.close();
+    return pdfBuffer;
+  }
+
   // Invia fattura via email
   app.post('/api/invoices/:id/send-email', async (req, res) => {
     try {
@@ -3606,63 +3773,25 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Genera PDF semplice per allegato email
+            // Genera PDF identico al pulsante stampa per allegato email
             let pdfBuffer = null;
             let filename = null;
             
             try {
-              const pdfMake = await import('pdfmake/build/pdfmake');
-              const pdfFonts = await import('pdfmake/build/vfs_fonts');
-              pdfMake.default.vfs = pdfFonts.default.pdfMake.vfs;
-
-              const docDefinition = {
-                content: [
-                  {
-                    text: businessName,
-                    style: 'header'
-                  },
-                  {
-                    text: `FATTURA N. ${invoice.invoiceNumber}`,
-                    style: 'title'
-                  },
-                  {
-                    text: `Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}`,
-                    margin: [0, 10, 0, 20]
-                  },
-                  {
-                    table: {
-                      widths: ['*', 'auto'],
-                      body: [
-                        ['Descrizione', 'Importo'],
-                        [`Servizi professionali - ${invoice.invoiceNumber}`, `€ ${(invoice.total || 0).toFixed(2)}`]
-                      ]
-                    }
-                  },
-                  {
-                    text: `Totale: € ${(invoice.total || 0).toFixed(2)}`,
-                    style: 'total',
-                    margin: [0, 20, 0, 0]
-                  }
-                ],
-                styles: {
-                  header: { fontSize: 18, bold: true, alignment: 'center', margin: [0, 0, 0, 20] },
-                  title: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 0, 0, 10] },
-                  total: { fontSize: 14, bold: true, alignment: 'right' }
-                }
-              };
-
-              pdfBuffer = await new Promise((resolve, reject) => {
-                const printer = pdfMake.default.createPdf(docDefinition);
-                printer.getBuffer((buffer) => {
-                  resolve(buffer);
-                });
-              });
-
-              filename = `fattura-${invoice.invoiceNumber}.pdf`;
-              console.log(`📎 [INVOICE EMAIL] PDF allegato generato: ${filename} (${pdfBuffer.length} bytes)`);
+              console.log(`📄 [INVOICE EMAIL] Uso stessa logica del pulsante stampa...`);
+              
+              // Chiama la funzione esistente che genera il PDF per la stampa
+              pdfBuffer = await generateInvoicePDFForEmail(invoiceId, user);
+              
+              if (pdfBuffer && pdfBuffer.length > 0) {
+                filename = `fattura-${invoice.invoiceNumber}.pdf`;
+                console.log(`📎 [INVOICE EMAIL] PDF identico a stampa generato: ${filename} (${pdfBuffer.length} bytes)`);
+              } else {
+                throw new Error('PDF Buffer vuoto');
+              }
 
             } catch (pdfError) {
-              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF stampa:`, pdfError.message);
               pdfBuffer = null;
               filename = null;
             }
