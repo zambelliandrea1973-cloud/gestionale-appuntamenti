@@ -3531,26 +3531,228 @@ ${businessName}`;
 
   // Funzione per generare PDF identico al pulsante stampa
   async function generateInvoicePDFForEmail(invoiceId: number, user: any): Promise<Buffer> {
-  console.log('📄 [INVOICE EMAIL] Riutilizzo PDF del tasto stampa...');
-  
-  try {
-    // Chiamo l'endpoint identico al tasto stampa per ottenere il PDF
-    const response = await fetch(`http://localhost:${process.env.PORT || 3000}/api/invoices/${invoiceId}/pdf`);
+    console.log('📄 [INVOICE EMAIL] Genera PDF con stessa logica endpoint stampa...');
     
-    if (!response.ok) {
-      throw new Error(`PDF endpoint failed: ${response.status}`);
+    // COPIA ESATTA della logica dall'endpoint /api/invoices/:id/pdf
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata per email');
     }
-
-    const pdfBuffer = Buffer.from(await response.arrayBuffer());
-    console.log(`📎 [INVOICE EMAIL] PDF identico a stampa recuperato: ${pdfBuffer.length} bytes`);
     
-    return pdfBuffer;
-  } catch (error) {
-    console.log('❌ [INVOICE EMAIL] Errore recupero PDF stampa:', error.message);
-    // Fallback alla vecchia logica se l'endpoint non funziona
-    return await generateInvoicePDFForEmailFallback(invoiceId, user);
+    const [_, invoice] = invoiceEntry;
+    
+    // Carica dati aziendali completi (IDENTICA logica endpoint PDF)
+    let businessHeader = 'Studio Medico';
+    let businessData = {
+      companyName: '', address: '', city: '', postalCode: '', 
+      vatNumber: '', fiscalCode: '', phone: '', email: ''
+    };
+    
+    try {
+      const currentStorageData = loadStorageData();
+      const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      
+      if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+        businessHeader = userBusinessSettings.name;
+      }
+      
+      if (userBusinessData) {
+        businessData = { ...businessData, ...userBusinessData };
+        if (userBusinessData.companyName) {
+          businessHeader = userBusinessData.companyName;
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Dati aziendali per PDF email, uso default:', error);
+    }
+    
+    // Recupera dati cliente (IDENTICA logica endpoint PDF)
+    let clientDetails = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientDetails = clientEntry[1];
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore dati cliente per PDF email:', error);
+    }
+    
+    // Usa Puppeteer con STESSA IDENTICA logica dell'endpoint stampa
+    try {
+      const puppeteer = await import('puppeteer');
+      
+      const browser = await puppeteer.default.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
+      
+      const page = await browser.newPage();
+      
+      // HTML IDENTICO all'endpoint PDF
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              margin: 20px;
+              color: #333;
+            }
+            .header { 
+              text-align: center; 
+              border-bottom: 2px solid #ccc; 
+              padding-bottom: 20px;
+              margin-bottom: 30px;
+            }
+            .invoice-info {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 30px;
+            }
+            .client-info, .invoice-details {
+              flex: 1;
+            }
+            .invoice-details {
+              text-align: right;
+            }
+            .items-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 30px;
+            }
+            .items-table th, .items-table td {
+              border: 1px solid #ccc;
+              padding: 10px;
+              text-align: left;
+            }
+            .items-table th {
+              background-color: #f5f5f5;
+              font-weight: bold;
+            }
+            .total-row {
+              font-weight: bold;
+              font-size: 1.2em;
+            }
+            .footer {
+              margin-top: 50px;
+              text-align: center;
+              font-size: 0.9em;
+              color: #666;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${businessHeader}</h1>
+            ${businessData.address || businessData.city || businessData.postalCode ? `
+              <p><strong>Indirizzo:</strong> ${businessData.address}${businessData.city ? `, ${businessData.city}` : ''}${businessData.postalCode ? ` ${businessData.postalCode}` : ''}</p>
+            ` : ''}
+            ${businessData.phone ? `<p><strong>Tel:</strong> ${businessData.phone}</p>` : '<p>Tel: +39 347 144 5767</p>'}
+            ${businessData.email ? `<p><strong>Email:</strong> ${businessData.email}</p>` : '<p>biomedicinaintegrata.it</p>'}
+            ${businessData.vatNumber ? `<p><strong>Partita IVA:</strong> ${businessData.vatNumber}</p>` : ''}
+            ${businessData.fiscalCode ? `<p><strong>Codice Fiscale:</strong> ${businessData.fiscalCode}</p>` : ''}
+          </div>
+          
+          <div class="invoice-info">
+            <div class="client-info">
+              <h3>Cliente:</h3>
+              <p><strong>${clientDetails ? `${clientDetails.firstName} ${clientDetails.lastName}` : invoice.clientName || 'Cliente'}</strong></p>
+              ${clientDetails?.address ? `<p><strong>Indirizzo:</strong> ${clientDetails.address}</p>` : ''}
+              ${clientDetails?.phone ? `<p><strong>Telefono:</strong> ${clientDetails.phone}</p>` : ''}
+              ${clientDetails?.email ? `<p><strong>Email:</strong> ${clientDetails.email}</p>` : ''}
+              ${clientDetails?.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails?.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientDetails.vatNumber}</p>` : ''}
+              ${clientDetails?.birthday ? `<p><strong>Data di nascita:</strong> ${new Date(clientDetails.birthday).toLocaleDateString('it-IT')}</p>` : ''}
+            </div>
+            <div class="invoice-details">
+              <h3>Fattura: ${invoice.invoiceNumber}</h3>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${
+                invoice.status === 'paid' ? 'Pagata' :
+                invoice.status === 'sent' ? 'Inviata' :
+                invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'
+              }</p>
+            </div>
+          </div>
+          
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(!invoice.items || invoice.items.length === 0) ? `
+                <tr>
+                  <td>Servizi professionali - ${invoice.invoiceNumber}</td>
+                  <td style="text-align: center;">1</td>
+                  <td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td>
+                  <td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td>
+                </tr>
+              ` : invoice.items.map((item: any) => `
+                <tr>
+                  <td>${item.description || 'Servizio professionale'}</td>
+                  <td style="text-align: center;">${item.quantity || 1}</td>
+                  <td style="text-align: right;">€ ${(item.unitPrice || item.price || 0).toFixed(2)}</td>
+                  <td style="text-align: right;">€ ${((item.quantity || 1) * (item.unitPrice || item.price || 0)).toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          
+          <div class="total-row" style="text-align: right; font-size: 1.3em;">
+            <strong>Totale: € ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
+          </div>
+          
+          <div class="footer">
+            <p>Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}</p>
+            ${businessData.vatNumber || businessData.fiscalCode ? `
+              <p>
+                ${businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}` : ''}
+                ${businessData.vatNumber && businessData.fiscalCode ? ' - ' : ''}
+                ${businessData.fiscalCode ? `C.F.: ${businessData.fiscalCode}` : ''}
+              </p>
+            ` : ''}
+          </div>
+        </body>
+        </html>`;
+      
+      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+      
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        margin: { top: '20mm', bottom: '20mm', left: '15mm', right: '15mm' }
+      });
+      
+      await browser.close();
+      
+      console.log(`📎 [INVOICE EMAIL] PDF identico a stampa generato: ${pdfBuffer.length} bytes`);
+      return pdfBuffer;
+      
+    } catch (error) {
+      console.log('❌ [INVOICE EMAIL] Puppeteer fallisce, uso pdfMake:', error.message);
+      return await generateInvoicePDFForEmailFallback(invoiceId, user);
+    }
   }
-}
 
 async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any): Promise<Buffer> {
     const storageData = loadStorageData();
@@ -3689,9 +3891,9 @@ async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any):
 </html>`;
     
     // Usa pdfmake invece di Puppeteer (più affidabile su Replit)
-    const pdfMake = await import('pdfmake/build/pdfmake');
-    const pdfFonts = await import('pdfmake/build/vfs_fonts');
-    pdfMake.default.vfs = pdfFonts.default.pdfMake.vfs;
+    const pdfMake = require('pdfmake/build/pdfmake');
+    const pdfFonts = require('pdfmake/build/vfs_fonts');
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const docDefinition = {
       content: [
