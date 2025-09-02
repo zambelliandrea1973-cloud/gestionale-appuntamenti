@@ -3531,6 +3531,28 @@ ${businessName}`;
 
   // Funzione per generare PDF identico al pulsante stampa
   async function generateInvoicePDFForEmail(invoiceId: number, user: any): Promise<Buffer> {
+  console.log('📄 [INVOICE EMAIL] Riutilizzo PDF del tasto stampa...');
+  
+  try {
+    // Chiamo l'endpoint identico al tasto stampa per ottenere il PDF
+    const response = await fetch(`http://localhost:${process.env.PORT || 3000}/api/invoices/${invoiceId}/pdf`);
+    
+    if (!response.ok) {
+      throw new Error(`PDF endpoint failed: ${response.status}`);
+    }
+
+    const pdfBuffer = Buffer.from(await response.arrayBuffer());
+    console.log(`📎 [INVOICE EMAIL] PDF identico a stampa recuperato: ${pdfBuffer.length} bytes`);
+    
+    return pdfBuffer;
+  } catch (error) {
+    console.log('❌ [INVOICE EMAIL] Errore recupero PDF stampa:', error.message);
+    // Fallback alla vecchia logica se l'endpoint non funziona
+    return await generateInvoicePDFForEmailFallback(invoiceId, user);
+  }
+}
+
+async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any): Promise<Buffer> {
     const storageData = loadStorageData();
     const invoices = storageData.invoices || [];
     
