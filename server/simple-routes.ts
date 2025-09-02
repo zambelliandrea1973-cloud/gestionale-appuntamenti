@@ -3923,30 +3923,75 @@ async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any):
 
     const docDefinition = {
       content: [
-        { text: businessHeader, style: 'header' },
-        { text: `FATTURA N. ${invoice.invoiceNumber}`, style: 'subheader' },
-        { text: `Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}`, margin: [0, 10, 0, 20] },
+        // Header aziendale completo (identico al PDF stampato)
+        { 
+          columns: [
+            {
+              text: [
+                { text: `${businessInfo.name}\n`, fontSize: 18, bold: true },
+                `${businessInfo.address}\n`,
+                `${businessInfo.city} ${businessInfo.zip}\n`,
+                `Tel: ${businessInfo.phone}\n`,
+                `Email: ${businessInfo.email}\n`,
+                businessInfo.partitaIva ? `P.IVA: ${businessInfo.partitaIva}\n` : '',
+                businessInfo.codiceFiscale ? `C.F.: ${businessInfo.codiceFiscale}` : ''
+              ].filter(line => line),
+              width: '50%'
+            },
+            {
+              text: [
+                { text: 'FATTURA N. ', bold: true, fontSize: 14 },
+                { text: `${invoice.invoiceNumber}\n`, fontSize: 14 },
+                { text: 'Data: ', bold: true },
+                `${new Date(invoice.date).toLocaleDateString('it-IT')}\n`,
+              ],
+              alignment: 'right',
+              width: '50%'
+            }
+          ],
+          margin: [0, 0, 0, 30]
+        },
         
-        // Dati cliente
-        { text: 'Dati Cliente:', style: 'sectionHeader' },
-        clientDetails ? [
-          { text: `Nome: ${clientDetails.firstName} ${clientDetails.lastName}` },
-          clientDetails.email ? { text: `Email: ${clientDetails.email}` } : null,
-          clientDetails.phone ? { text: `Telefono: ${clientDetails.phone}` } : null,
-          clientDetails.address ? { text: `Indirizzo: ${clientDetails.address}` } : null
-        ].filter(Boolean) : [
-          { text: `Nome: ${invoice.clientName || 'Cliente'}` }
-        ],
+        // Dati Cliente completi
+        { 
+          text: 'Dati Cliente:', 
+          style: 'sectionHeader',
+          margin: [0, 0, 0, 10]
+        },
+        {
+          text: [
+            { text: 'Nome: ', bold: true },
+            `${clientData?.nome || invoice.clientName}\n`,
+            { text: 'Email: ', bold: true },
+            `${clientData?.email || 'N/A'}\n`,
+            { text: 'Telefono: ', bold: true },
+            `${clientData?.telefono || 'N/A'}\n`,
+            { text: 'Indirizzo: ', bold: true },
+            `${clientData?.indirizzo || 'N/A'}\n`,
+            clientData?.codiceFiscale ? [
+              { text: 'Codice Fiscale: ', bold: true },
+              `${clientData.codiceFiscale}\n`
+            ] : '',
+            clientData?.partitaIva ? [
+              { text: 'P.IVA: ', bold: true },
+              `${clientData.partitaIva}`
+            ] : ''
+          ].flat().filter(Boolean),
+          margin: [0, 0, 0, 20]
+        },
         
-        { text: '', margin: [0, 10] },
-        
-        // Tabella servizi
+        // Tabella servizi identica
         {
           table: {
             headerRows: 1,
             widths: ['*', 'auto', 'auto', 'auto'],
             body: [
-              ['Descrizione', 'Quantità', 'Prezzo Unit.', 'Totale'],
+              [
+                { text: 'Descrizione', style: 'tableHeader' },
+                { text: 'Quantità', style: 'tableHeader' },
+                { text: 'Prezzo Unit.', style: 'tableHeader' },
+                { text: 'Totale', style: 'tableHeader' }
+              ],
               ...((!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) ? [
                 [`Servizi professionali - ${invoice.invoiceNumber}`, '1', `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`]
               ] : invoice.items.map(item => [
@@ -3957,18 +4002,38 @@ async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any):
               ]))
             ]
           },
-          layout: 'lightHorizontalLines'
+          layout: 'lightHorizontalLines',
+          margin: [0, 0, 0, 20]
         },
         
-        { text: '', margin: [0, 20] },
-        { text: `TOTALE: € ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, style: 'total' }
+        // Totale finale
+        {
+          text: [
+            { text: 'TOTALE: ', bold: true, fontSize: 16 },
+            { text: `€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}`, bold: true, fontSize: 16 }
+          ],
+          alignment: 'right',
+          margin: [0, 10, 0, 30]
+        },
+        
+        // Footer identico al PDF stampato
+        {
+          text: [
+            `Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}\n`,
+            businessInfo.partitaIva && businessInfo.codiceFiscale ? 
+              `P.IVA: ${businessInfo.partitaIva} - C.F: ${businessInfo.codiceFiscale}` :
+              businessInfo.partitaIva ? `P.IVA: ${businessInfo.partitaIva}` :
+              businessInfo.codiceFiscale ? `C.F: ${businessInfo.codiceFiscale}` : ''
+          ].filter(Boolean),
+          fontSize: 10,
+          alignment: 'center',
+          margin: [0, 20, 0, 0]
+        }
       ],
       
       styles: {
-        header: { fontSize: 18, bold: true, alignment: 'center', margin: [0, 0, 0, 20] },
-        subheader: { fontSize: 14, bold: true, alignment: 'center', margin: [0, 0, 0, 10] },
-        sectionHeader: { fontSize: 12, bold: true, margin: [0, 10, 0, 5] },
-        total: { fontSize: 14, bold: true, alignment: 'right' }
+        sectionHeader: { fontSize: 12, bold: true },
+        tableHeader: { bold: true, fillColor: '#eeeeee' }
       }
     };
 
