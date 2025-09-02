@@ -3606,24 +3606,63 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Richiama direttamente l'endpoint PDF esistente che funziona per la stampa
-            let pdfBuffer;
-            let filename;
+            // Genera PDF semplice per allegato email
+            let pdfBuffer = null;
+            let filename = null;
+            
             try {
-              console.log(`📄 [INVOICE EMAIL] Generazione PDF utilizzando endpoint stampa...`);
-              
-              // Usa generateInvoicePDFBuffer che funziona per la stampa  
-              pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
-              
-              if (pdfBuffer && pdfBuffer.length > 0) {
-                filename = `fattura-${invoice.invoiceNumber}.pdf`;
-                console.log(`📎 [INVOICE EMAIL] PDF identico a stampa ottenuto: ${filename} (${pdfBuffer.length} bytes)`);
-              } else {
-                throw new Error('PDF Buffer vuoto dalla chiamata endpoint');
-              }
-              
+              const pdfMake = await import('pdfmake/build/pdfmake');
+              const pdfFonts = await import('pdfmake/build/vfs_fonts');
+              pdfMake.default.vfs = pdfFonts.default.pdfMake.vfs;
+
+              const docDefinition = {
+                content: [
+                  {
+                    text: businessName,
+                    style: 'header'
+                  },
+                  {
+                    text: `FATTURA N. ${invoice.invoiceNumber}`,
+                    style: 'title'
+                  },
+                  {
+                    text: `Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}`,
+                    margin: [0, 10, 0, 20]
+                  },
+                  {
+                    table: {
+                      widths: ['*', 'auto'],
+                      body: [
+                        ['Descrizione', 'Importo'],
+                        [`Servizi professionali - ${invoice.invoiceNumber}`, `€ ${(invoice.total || 0).toFixed(2)}`]
+                      ]
+                    }
+                  },
+                  {
+                    text: `Totale: € ${(invoice.total || 0).toFixed(2)}`,
+                    style: 'total',
+                    margin: [0, 20, 0, 0]
+                  }
+                ],
+                styles: {
+                  header: { fontSize: 18, bold: true, alignment: 'center', margin: [0, 0, 0, 20] },
+                  title: { fontSize: 16, bold: true, alignment: 'center', margin: [0, 0, 0, 10] },
+                  total: { fontSize: 14, bold: true, alignment: 'right' }
+                }
+              };
+
+              pdfBuffer = await new Promise((resolve, reject) => {
+                const printer = pdfMake.default.createPdf(docDefinition);
+                printer.getBuffer((buffer) => {
+                  resolve(buffer);
+                });
+              });
+
+              filename = `fattura-${invoice.invoiceNumber}.pdf`;
+              console.log(`📎 [INVOICE EMAIL] PDF allegato generato: ${filename} (${pdfBuffer.length} bytes)`);
+
             } catch (pdfError) {
-              console.error(`❌ [INVOICE EMAIL] Errore richiamo endpoint PDF:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF:`, pdfError.message);
               pdfBuffer = null;
               filename = null;
             }
