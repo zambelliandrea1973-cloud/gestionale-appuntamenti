@@ -3554,93 +3554,34 @@ ${businessName}`;
   });
 
   // Funzione per generare PDF identico al pulsante stampa
-  async function generateInvoicePDFForEmail(invoiceId: number, user: any): Promise<Buffer> {
-    console.log('📄 [INVOICE EMAIL] Genera PDF con stessa logica endpoint stampa...');
-    
-    // COPIA ESATTA della logica dall'endpoint /api/invoices/:id/pdf
-    const storageData = loadStorageData();
-    const invoices = storageData.invoices || [];
-    
-    const invoiceEntry = invoices.find(([id, invoice]) => 
-      id === invoiceId && invoice.ownerId === user.id
-    );
-    
-    if (!invoiceEntry) {
-      throw new Error('Fattura non trovata per email');
-    }
-    
-    const [_, invoice] = invoiceEntry;
-    
-    // Carica dati aziendali completi (IDENTICA logica endpoint PDF)
-    let businessHeader = 'Studio Medico';
-    let businessData = {
-      companyName: '', address: '', city: '', postalCode: '', 
-      vatNumber: '', fiscalCode: '', phone: '', email: ''
-    };
+  async function generateInvoicePDFForEmail(invoiceId: number, user: any, req: any): Promise<Buffer> {
+    console.log('📄 [INVOICE EMAIL] Riutilizzo direttamente endpoint PDF esistente...');
     
     try {
-      const currentStorageData = loadStorageData();
-      const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
-      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      // Chiamata interna diretta all'endpoint PDF esistente che funziona perfettamente
+      const pdfUrl = `http://localhost:5000/api/invoices/${invoiceId}/pdf`;
       
-      if (userBusinessSettings?.enabled && userBusinessSettings.name) {
-        businessHeader = userBusinessSettings.name;
-      }
-      
-      if (userBusinessData) {
-        businessData = { ...businessData, ...userBusinessData };
-        if (userBusinessData.companyName) {
-          businessHeader = userBusinessData.companyName;
+      const response = await fetch(pdfUrl, {
+        method: 'GET',
+        headers: {
+          'Cookie': req.headers.cookie || '',
+          'User-Agent': req.headers['user-agent'] || 'Internal-PDF-Generator'
         }
-      }
-    } catch (error) {
-      console.log('⚠️ Dati aziendali per PDF email, uso default:', error);
-    }
-    
-    // Recupera dati cliente (IDENTICA logica endpoint PDF)
-    let clientDetails = null;
-    try {
-      const currentStorageData = loadStorageData();
-      const clients = currentStorageData.clients || [];
-      
-      if (invoice.clientId) {
-        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
-        if (clientEntry) {
-          clientDetails = clientEntry[1];
-        }
-      }
-    } catch (error) {
-      console.log('⚠️ Errore dati cliente per PDF email:', error);
-    }
-    
-    // Usa Puppeteer con STESSA IDENTICA logica dell'endpoint stampa
-    try {
-      const puppeteer = await import('puppeteer');
-      
-      const browser = await puppeteer.default.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
       });
       
-      const page = await browser.newPage();
+      if (!response.ok) {
+        throw new Error(`PDF endpoint error: ${response.status} ${response.statusText}`);
+      }
       
-      // HTML IDENTICO all'endpoint PDF
-      const htmlContent = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <title>Fattura ${invoice.invoiceNumber}</title>
-          <style>
-            body { 
-              font-family: Arial, sans-serif; 
-              margin: 20px;
-              color: #333;
-            }
-            .header { 
-              text-align: center; 
-              border-bottom: 2px solid #ccc; 
-              padding-bottom: 20px;
+      const pdfBuffer = Buffer.from(await response.arrayBuffer());
+      console.log(`📎 [INVOICE EMAIL] PDF identico ottenuto dall'endpoint stampa: ${pdfBuffer.length} bytes`);
+      return pdfBuffer;
+      
+    } catch (error) {
+      console.log(`❌ [INVOICE EMAIL] Endpoint PDF non disponibile: ${error.message}, uso fallback`);
+      return await generateInvoicePDFForEmailFallback(invoiceId, user);
+    }
+  }
               margin-bottom: 30px;
             }
             .invoice-info {
@@ -4133,7 +4074,7 @@ async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any):
               console.log(`📄 [INVOICE EMAIL] Uso stessa logica del pulsante stampa...`);
               
               // Chiama la funzione esistente che genera il PDF per la stampa
-              pdfBuffer = await generateInvoicePDFForEmail(invoiceId, user);
+              pdfBuffer = await generateInvoicePDFForEmail(invoiceId, user, req);
               
               if (pdfBuffer && pdfBuffer.length > 0) {
                 filename = `fattura-${invoice.invoiceNumber}.pdf`;
