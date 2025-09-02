@@ -3606,107 +3606,24 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Genera PDF utilizzando lo stesso endpoint funzionante della stampa
+            // Genera PDF COMPLETO utilizzando la funzione esistente che funziona per la stampa
             let pdfBuffer;
             let filename;
             try {
-              console.log(`📄 [INVOICE EMAIL] Generazione PDF utilizzando endpoint stampa...`);
+              console.log(`📄 [INVOICE EMAIL] Generazione PDF COMPLETO utilizzando funzione esistente...`);
               
-              // Usa lo stesso codice dell'endpoint /pdf che funziona
-              const storageData = loadStorageData();
-              const invoices = storageData.invoices || [];
+              // Utilizza la funzione generateInvoicePDFBuffer che genera PDF completi identici a quelli di stampa
+              pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
               
-              // Trova la fattura (stesso codice dell'endpoint PDF)
-              const invoiceEntry = invoices.find(([id, invoice]) => 
-                id === invoiceId && invoice.ownerId === user.id
-              );
-              
-              if (!invoiceEntry) {
-                throw new Error('Fattura non trovata per PDF');
+              if (pdfBuffer && pdfBuffer.length > 0) {
+                filename = `fattura-${invoice.invoiceNumber}.pdf`;
+                console.log(`📎 [INVOICE EMAIL] PDF COMPLETO generato: ${filename} (${pdfBuffer.length} bytes)`);
+              } else {
+                throw new Error('Funzione generateInvoicePDFBuffer ha restituito un buffer vuoto');
               }
-              
-              const [_, invoiceData] = invoiceEntry;
-              
-              // Carica dati aziendali (stesso codice dell'endpoint PDF)
-              let businessHeader = 'Studio Medico';
-              let businessData = {
-                companyName: '', address: '', city: '', postalCode: '', 
-                vatNumber: '', fiscalCode: '', phone: '', email: ''
-              };
-              
-              try {
-                const currentStorageData = loadStorageData();
-                const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
-                const userBusinessData = currentStorageData.userBusinessData?.[user.id];
-                
-                if (userBusinessSettings?.enabled && userBusinessSettings.name) {
-                  businessHeader = userBusinessSettings.name;
-                }
-                
-                if (userBusinessData) {
-                  businessData = { ...businessData, ...userBusinessData };
-                  if (userBusinessData.companyName) {
-                    businessHeader = userBusinessData.companyName;
-                  }
-                }
-              } catch (error) {
-                console.log('⚠️ Impossibile caricare dati aziendali per PDF email:', error);
-              }
-              
-              // Genera PDF semplice con font predefiniti
-              const PdfPrinter = await import('pdfmake');
-              
-              // Font predefiniti per pdfmake
-              const fonts = {
-                Helvetica: {
-                  normal: 'Helvetica',
-                  bold: 'Helvetica-Bold',
-                  italics: 'Helvetica-Oblique',
-                  bolditalics: 'Helvetica-BoldOblique'
-                }
-              };
-              
-              const docDefinition = {
-                content: [
-                  { text: businessHeader, fontSize: 20, bold: true, margin: [0, 0, 0, 20] },
-                  { text: `Fattura n. ${invoiceData.invoiceNumber}`, fontSize: 16, bold: true, margin: [0, 0, 0, 10] },
-                  { text: `Data: ${new Date(invoiceData.date).toLocaleDateString('it-IT')}`, fontSize: 12, margin: [0, 0, 0, 20] },
-                  {
-                    table: {
-                      headerRows: 1,
-                      widths: ['*', 100],
-                      body: [
-                        [{ text: 'Descrizione', style: 'tableHeader' }, { text: 'Importo', style: 'tableHeader' }],
-                        [`Servizi professionali - ${invoiceData.invoiceNumber}`, `€ ${invoiceData.totalAmount?.toFixed(2) || invoiceData.total?.toFixed(2) || '0.00'}`]
-                      ]
-                    },
-                    margin: [0, 0, 0, 20]
-                  },
-                  { text: 'Grazie per aver scelto i nostri servizi.', fontSize: 10, italics: true, margin: [0, 30, 0, 0] }
-                ],
-                styles: {
-                  tableHeader: { bold: true, fillColor: '#eeeeee' }
-                },
-                defaultStyle: {
-                  font: 'Helvetica'
-                }
-              };
-              
-              pdfBuffer = await new Promise((resolve, reject) => {
-                const printer = new PdfPrinter.default(fonts);
-                const doc = printer.createPdfKitDocument(docDefinition);
-                const chunks: Buffer[] = [];
-                doc.on('data', chunk => chunks.push(chunk));
-                doc.on('end', () => resolve(Buffer.concat(chunks)));
-                doc.on('error', reject);
-                doc.end();
-              });
-              
-              filename = `fattura-${invoiceData.invoiceNumber}.pdf`;
-              console.log(`📎 [INVOICE EMAIL] PDF generato per email: ${filename} (${pdfBuffer?.length || 0} bytes)`);
               
             } catch (pdfError) {
-              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF completo:`, pdfError.message);
               pdfBuffer = null;
               filename = null;
             }
