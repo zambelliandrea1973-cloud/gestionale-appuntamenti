@@ -3610,40 +3610,10 @@ ${businessName}`;
             let pdfBuffer;
             let filename;
             try {
-              console.log(`📄 [INVOICE EMAIL] Richiamo endpoint PDF esistente per allegato...`);
+              console.log(`📄 [INVOICE EMAIL] Generazione PDF utilizzando endpoint stampa...`);
               
-              // Chiamata HTTP interna all'endpoint PDF esistente
-              const http = await import('http');
-              
-              const options = {
-                hostname: 'localhost',
-                port: 5000,
-                path: `/api/invoices/${invoiceId}/pdf`,
-                method: 'GET',
-                headers: {
-                  'Cookie': req.headers.cookie || '', // Mantieni i cookie di sessione
-                  'User-Agent': 'internal-email-attachment'
-                }
-              };
-              
-              pdfBuffer = await new Promise((resolve, reject) => {
-                const request = http.request(options, (response) => {
-                  if (response.statusCode === 200) {
-                    const chunks = [];
-                    response.on('data', chunk => chunks.push(chunk));
-                    response.on('end', () => resolve(Buffer.concat(chunks)));
-                  } else {
-                    reject(new Error(`Endpoint PDF ha risposto con status ${response.statusCode}`));
-                  }
-                });
-                
-                request.on('error', reject);
-                request.setTimeout(30000, () => {
-                  request.destroy();
-                  reject(new Error('Timeout chiamata endpoint PDF'));
-                });
-                request.end();
-              });
+              // Usa generateInvoicePDFBuffer che funziona per la stampa  
+              pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
               
               if (pdfBuffer && pdfBuffer.length > 0) {
                 filename = `fattura-${invoice.invoiceNumber}.pdf`;
