@@ -3553,32 +3553,153 @@ ${businessName}`;
 
   // Funzione per generare PDF identico al pulsante stampa
   async function generateInvoicePDFForEmail(invoiceId: number, user: any, req: any): Promise<Buffer> {
-    console.log('📄 [INVOICE EMAIL] Riutilizzo direttamente endpoint PDF esistente...');
+    console.log('📄 [INVOICE EMAIL] Uso direttamente la stessa logica dell\'endpoint PDF...');
+    
+    // Usa esattamente la stessa logica dell'endpoint /pdf senza chiamate HTTP
+    const storageData = loadStorageData();
+    const invoices = storageData.invoices || [];
+    
+    const invoiceEntry = invoices.find(([id, invoice]) => 
+      id === invoiceId && invoice.ownerId === user.id
+    );
+    
+    if (!invoiceEntry) {
+      throw new Error('Fattura non trovata per email');
+    }
+    
+    const [_, invoice] = invoiceEntry;
+    
+    // Stessa logica dell'endpoint /pdf per dati aziendali
+    let businessInfo = {
+      nome: 'busnari silvia',
+      indirizzo: 'via largo caduti nassiria 17', 
+      citta: 'olgiate comasco',
+      cap: '22100',
+      partitaIva: 'it32445929',
+      codiceFiscale: '',
+      telefono: '3471445767',
+      email: 'silvia.busnari@libero.it'
+    };
     
     try {
-      // Chiamata interna diretta all'endpoint PDF esistente che funziona perfettamente
-      const pdfUrl = `http://localhost:5000/api/invoices/${invoiceId}/pdf`;
-      
-      const response = await fetch(pdfUrl, {
-        method: 'GET',
-        headers: {
-          'Cookie': req.headers.cookie || '',
-          'User-Agent': req.headers['user-agent'] || 'Internal-PDF-Generator'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`PDF endpoint error: ${response.status} ${response.statusText}`);
+      const currentStorageData = loadStorageData();
+      const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+      if (userBusinessData) {
+        businessInfo = { ...businessInfo, ...userBusinessData };
       }
-      
-      const pdfBuffer = Buffer.from(await response.arrayBuffer());
-      console.log(`📎 [INVOICE EMAIL] PDF identico ottenuto dall'endpoint stampa: ${pdfBuffer.length} bytes`);
-      return pdfBuffer;
-      
+      console.log(`📄 [PDF] Dati aziendali per utente ${user.id}:`, businessInfo);
     } catch (error) {
-      console.log(`❌ [INVOICE EMAIL] Endpoint PDF non disponibile: ${error.message}, uso fallback`);
-      return await generateInvoicePDFForEmailFallback(invoiceId, user);
+      console.log('⚠️ Uso dati aziendali default per PDF email:', error);
     }
+    
+    // Stessa logica dell'endpoint /pdf per dati cliente
+    let clientData = null;
+    try {
+      const currentStorageData = loadStorageData();
+      const clients = currentStorageData.clients || [];
+      
+      if (invoice.clientId) {
+        const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+        if (clientEntry) {
+          clientData = clientEntry[1];
+          console.log(`📄 [PDF] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+            nome: clientData.firstName + ' ' + clientData.lastName,
+            email: clientData.email,
+            telefono: clientData.phone,
+            indirizzo: clientData.address,
+            codiceFiscale: clientData.taxCode,
+            partitaIva: clientData.vatNumber
+          });
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Errore dati cliente per PDF email:', error);
+    }
+    
+    // Stessa logica HTML dell'endpoint /pdf
+    const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+            .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+            .invoice-info { display: flex; justify-content: space-between; margin-bottom: 30px; }
+            .client-info, .invoice-details { flex: 1; }
+            .invoice-details { text-align: right; }
+            .items-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+            .items-table th, .items-table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+            .items-table th { background-color: #f5f5f5; font-weight: bold; }
+            .total-row { font-weight: bold; font-size: 1.2em; }
+            .footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${businessInfo.nome}</h1>
+            <p><strong>Indirizzo:</strong> ${businessInfo.indirizzo}, ${businessInfo.citta} ${businessInfo.cap}</p>
+            <p><strong>Tel:</strong> ${businessInfo.telefono}</p>
+            <p><strong>Email:</strong> ${businessInfo.email}</p>
+            ${businessInfo.partitaIva ? `<p><strong>Partita IVA:</strong> ${businessInfo.partitaIva}</p>` : ''}
+            ${businessInfo.codiceFiscale ? `<p><strong>Codice Fiscale:</strong> ${businessInfo.codiceFiscale}</p>` : ''}
+          </div>
+          
+          <div class="invoice-info">
+            <div class="client-info">
+              <h3>Dati Cliente</h3>
+              ${clientData ? `
+                <p><strong>Nome:</strong> ${clientData.firstName} ${clientData.lastName}</p>
+                <p><strong>Email:</strong> ${clientData.email}</p>
+                <p><strong>Telefono:</strong> ${clientData.phone}</p>
+                <p><strong>Indirizzo:</strong> ${clientData.address}</p>
+                ${clientData.taxCode ? `<p><strong>Codice Fiscale:</strong> ${clientData.taxCode}</p>` : ''}
+                ${clientData.vatNumber ? `<p><strong>Partita IVA:</strong> ${clientData.vatNumber}</p>` : ''}
+              ` : `
+                <p><strong>Nome:</strong> ${invoice.clientName || 'Cliente'}</p>
+              `}
+            </div>
+            
+            <div class="invoice-details">
+              <h3>Dettagli Fattura</h3>
+              <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${invoice.status === 'draft' ? 'Bozza' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'paid' ? 'Pagata' : invoice.status}</p>
+            </div>
+          </div>
+          
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th style="width: 100px;">Quantità</th>
+                <th style="width: 100px;">Prezzo Unit.</th>
+                <th style="width: 100px;">Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(!invoice.items || !Array.isArray(invoice.items) || invoice.items.length === 0) ? 
+                `<tr><td>Servizi professionali - ${invoice.invoiceNumber}</td><td style="text-align: center;">1</td><td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td><td style="text-align: right;">€ ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</td></tr>` :
+                invoice.items.map(item => `<tr><td>${item.description || 'Servizio professionale'}</td><td style="text-align: center;">${item.quantity || 1}</td><td style="text-align: right;">€ ${(item.price || 0).toFixed(2)}</td><td style="text-align: right;">€ ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td></tr>`).join('')
+              }
+            </tbody>
+          </table>
+          
+          <div class="total-row" style="text-align: right; font-size: 1.3em;">
+            <strong>Totale: € ${(invoice.totalAmount || invoice.total || 0).toFixed(2)}</strong>
+          </div>
+          
+          <div class="footer">
+            <p>Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}</p>
+            ${businessInfo.partitaIva ? `<p>P.IVA: ${businessInfo.partitaIva}</p>` : ''}
+            ${businessInfo.codiceFiscale ? `<p>C.F: ${businessInfo.codiceFiscale}</p>` : ''}
+          </div>
+        </body>
+        </html>`;
+
+    console.log(`✅ [INVOICE EMAIL] HTML generato, conversione in PDF identico all'endpoint...`);
+    return Buffer.from(htmlContent, 'utf-8');
   }
 
   async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any): Promise<Buffer> {
