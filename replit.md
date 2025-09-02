@@ -127,6 +127,7 @@ This is a comprehensive medical practice management system built with React, Typ
 - July 1, 2025: STANDALONE PHP SOLUTION - Created complete PHP-only version (gestionale-php-completo.php) that works independently from Replit on any PHP hosting. Includes all 396 patients, appointments, login system, and dashboard functionality. Solves offline testing issues for staff and clients.
 - July 1, 2025: MIGRATION SYSTEM READY - Prepared complete migration system for React/Node.js hosting with zero downtime. Created deployment configurations for Railway (recommended with free PostgreSQL), Vercel, and migration scripts. System maintains exact Replit interface and functionality while ensuring 24/7 availability for staff and clients.
 - September 1, 2025: EMAIL SYSTEM PROGRESS - Fixed fundamental email delivery issues. Gmail SMTP now working with correct subject lines for invoices. PDF generation identified as issue (invoice.items undefined error). Email delivery functional but PDF attachment needs data structure fix.
+- September 2, 2025: INVOICE SYSTEM COMPLETE SUCCESS - Fixed critical invoice numbering and PDF generation issues. Successfully implemented legal compliant invoice format (NNN/YYYY instead of MM/YYYY/NNN). Resolved PDF attachment corruption by implementing proper HTML-to-PDF conversion with pdfmake fallback. Invoice emails now send with valid PDF attachments that open correctly. System fully operational with proper legal invoice numbering format.
 
 ## User Preferences
 
