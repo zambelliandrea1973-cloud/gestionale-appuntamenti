@@ -3715,7 +3715,7 @@ ${businessName}`;
             const emailSent = await notificationService.sendInvoiceEmail(
               recipientEmail,
               subject,
-              message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.date).toLocaleDateString('it-IT')}.\n\nDettagli fattura:\n- Numero: ${invoice.invoiceNumber}\n- Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Importo: €${invoice.total?.toFixed(2) || '0.00'}\n\nCordiali saluti,\n${businessName}`,
+              message || `Gentile Cliente,\n\nIn allegato trova la fattura n. ${invoice.invoiceNumber} del ${new Date(invoice.date).toLocaleDateString('it-IT')}.\n\nDettagli fattura:\n- Numero: ${invoice.invoiceNumber}\n- Data: ${new Date(invoice.date).toLocaleDateString('it-IT')}\n- Importo: €${invoice.total?.toFixed(2) || '0.00'}\n\nCordiali saluti,\n${businessName}`.replace(/invalid date/gi, ''),
               emailConfig,
               pdfBuffer,
               filename
