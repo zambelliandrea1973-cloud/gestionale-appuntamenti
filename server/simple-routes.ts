@@ -118,6 +118,31 @@ const userData = {
   }
 };
 
+// Funzione per generare numero fattura progressivo per anno solare
+function generateInvoiceNumber(userId: number): string {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
+  
+  // Carica tutte le fatture dell'utente per l'anno corrente
+  const storageData = loadStorageData();
+  const invoices = storageData.invoices || [];
+  
+  const userInvoicesThisYear = invoices.filter(([_, invoice]) => {
+    if (invoice.ownerId !== userId) return false;
+    
+    // Cerca pattern MM/YYYY/ nel numero fattura
+    const yearPattern = new RegExp(`\\d{2}/${currentYear}/`);
+    return yearPattern.test(invoice.invoiceNumber);
+  });
+  
+  // Calcola il prossimo numero progressivo
+  const nextNumber = userInvoicesThisYear.length + 1;
+  const paddedNumber = nextNumber.toString().padStart(3, '0');
+  
+  // Formato: MM/YYYY/NNN (es: 09/2025/001)
+  return `${currentMonth}/${currentYear}/${paddedNumber}`;
+}
+
 export function registerSimpleRoutes(app: Express): Server {
   setupAuth(app);
   
@@ -3891,9 +3916,11 @@ async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any):
 </html>`;
     
     // Usa pdfmake invece di Puppeteer (più affidabile su Replit)
-    const pdfMake = require('pdfmake/build/pdfmake');
-    const pdfFonts = require('pdfmake/build/vfs_fonts');
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    const pdfMake = await import('pdfmake/build/pdfmake');
+    const pdfFonts = await import('pdfmake/build/vfs_fonts');
+    if (pdfMake.default) {
+      pdfMake.default.vfs = pdfFonts.default?.pdfMake?.vfs || pdfFonts.pdfMake?.vfs;
+    }
 
     const docDefinition = {
       content: [
@@ -3947,7 +3974,8 @@ async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any):
     };
 
     const pdfBuffer = await new Promise((resolve, reject) => {
-      const printer = pdfMake.default.createPdf(docDefinition);
+      const pdfMakeInstance = pdfMake.default || pdfMake;
+      const printer = pdfMakeInstance.createPdf(docDefinition);
       printer.getBuffer((buffer) => {
         resolve(buffer);
       });
