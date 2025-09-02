@@ -3606,200 +3606,54 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Genera PDF utilizzando la stessa logica dell'endpoint /pdf (ESATTA COPIA)
+            // Richiama direttamente l'endpoint PDF esistente che funziona per la stampa
             let pdfBuffer;
             let filename;
             try {
-              console.log(`📄 [INVOICE EMAIL] Utilizzo logica endpoint PDF esistente...`);
+              console.log(`📄 [INVOICE EMAIL] Richiamo endpoint PDF esistente per allegato...`);
               
-              // COPIA ESATTA della logica dall'endpoint /api/invoices/:id/pdf
-              const storageData = loadStorageData();
-              const invoices = storageData.invoices || [];
+              // Chiamata HTTP interna all'endpoint PDF esistente
+              const http = await import('http');
               
-              const invoiceEntry = invoices.find(([id, invoice]) => 
-                id === invoiceId && invoice.ownerId === user.id
-              );
-              
-              if (!invoiceEntry) {
-                throw new Error('Fattura non trovata');
-              }
-              
-              const [_, invoiceForPdf] = invoiceEntry;
-              
-              // Carica dati aziendali completi per intestazione fattura (COPIA ESATTA)
-              let businessHeader = 'Studio Medico';
-              let businessData = {
-                companyName: '', address: '', city: '', postalCode: '', 
-                vatNumber: '', fiscalCode: '', phone: '', email: ''
+              const options = {
+                hostname: 'localhost',
+                port: 5000,
+                path: `/api/invoices/${invoiceId}/pdf`,
+                method: 'GET',
+                headers: {
+                  'Cookie': req.headers.cookie || '', // Mantieni i cookie di sessione
+                  'User-Agent': 'internal-email-attachment'
+                }
               };
               
-              try {
-                const currentStorageData = loadStorageData();
-                const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
-                const userBusinessData = currentStorageData.userBusinessData?.[user.id];
-                
-                console.log(`📄 [PDF] Dati aziendali per utente ${user.id}:`, {
-                  hasSettings: !!userBusinessSettings,
-                  hasData: !!userBusinessData,
-                  settingsEnabled: userBusinessSettings?.enabled,
-                  settingsName: userBusinessSettings?.name
+              pdfBuffer = await new Promise((resolve, reject) => {
+                const request = http.request(options, (response) => {
+                  if (response.statusCode === 200) {
+                    const chunks = [];
+                    response.on('data', chunk => chunks.push(chunk));
+                    response.on('end', () => resolve(Buffer.concat(chunks)));
+                  } else {
+                    reject(new Error(`Endpoint PDF ha risposto con status ${response.statusCode}`));
+                  }
                 });
                 
-                if (userBusinessSettings?.enabled && userBusinessSettings.name) {
-                  businessHeader = userBusinessSettings.name;
-                }
-                
-                if (userBusinessData) {
-                  businessData = { ...businessData, ...userBusinessData };
-                  if (userBusinessData.companyName) {
-                    businessHeader = userBusinessData.companyName;
-                  }
-                }
-              } catch (error) {
-                console.log('⚠️ Impossibile caricare dati aziendali per PDF:', error);
-              }
-              
-              // Carica dati cliente (COPIA ESATTA)
-              let clientData = { nome: '', cognome: '', email: '', telefono: '', indirizzo: '' };
-              
-              try {
-                const clients = storageData.clients || [];
-                const client = clients.find(([id]) => id === invoiceForPdf.clientId);
-                if (client) {
-                  const [_, clientInfo] = client;
-                  console.log(`📄 [PDF] Dati cliente trovati tramite ID ${invoiceForPdf.clientId}:`, {
-                    nome: clientInfo.nome,
-                    email: clientInfo.email,
-                    telefono: clientInfo.telefono
-                  });
-                  
-                  clientData = {
-                    nome: clientInfo.nome || '',
-                    cognome: clientInfo.cognome || '',
-                    email: clientInfo.email || '',
-                    telefono: clientInfo.telefono || '',
-                    indirizzo: clientInfo.indirizzo || ''
-                  };
-                }
-              } catch (error) {
-                console.log('⚠️ Errore recupero dati cliente per PDF:', error);
-              }
-              
-              // Genera HTML identico a quello dell'endpoint PDF
-              const htmlContent = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
-    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
-    .company-name { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-    .company-details { font-size: 12px; line-height: 1.4; }
-    .invoice-title { font-size: 20px; font-weight: bold; text-align: center; margin: 30px 0; }
-    .invoice-details { margin-bottom: 30px; }
-    .client-section { margin-bottom: 20px; }
-    .section-title { font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-    .details-grid { display: flex; justify-content: space-between; margin-bottom: 20px; }
-    .details-column { width: 48%; }
-    .items-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    .items-table th, .items-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-    .items-table th { background-color: #f5f5f5; font-weight: bold; }
-    .total-section { text-align: right; margin-top: 20px; font-size: 16px; font-weight: bold; }
-    .footer { margin-top: 40px; text-align: center; font-size: 10px; color: #666; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="company-name">${businessHeader}</div>
-    <div class="company-details">
-      ${businessData.address ? businessData.address + '<br>' : ''}
-      ${businessData.city ? businessData.city + (businessData.postalCode ? ', ' + businessData.postalCode : '') + '<br>' : ''}
-      ${businessData.phone ? 'Tel: ' + businessData.phone + '<br>' : ''}
-      ${businessData.email ? 'Email: ' + businessData.email + '<br>' : ''}
-      ${businessData.vatNumber ? 'P.IVA: ' + businessData.vatNumber + '<br>' : ''}
-      ${businessData.fiscalCode ? 'C.F.: ' + businessData.fiscalCode : ''}
-    </div>
-  </div>
-  
-  <div class="invoice-title">FATTURA N. ${invoiceForPdf.invoiceNumber}</div>
-  
-  <div class="details-grid">
-    <div class="details-column">
-      <div class="section-title">Dati Cliente</div>
-      <strong>${clientData.nome} ${clientData.cognome}</strong><br>
-      ${clientData.indirizzo ? clientData.indirizzo + '<br>' : ''}
-      ${clientData.email ? 'Email: ' + clientData.email + '<br>' : ''}
-      ${clientData.telefono ? 'Tel: ' + clientData.telefono : ''}
-    </div>
-    <div class="details-column">
-      <div class="section-title">Dettagli Fattura</div>
-      <strong>Data:</strong> ${new Date(invoiceForPdf.date).toLocaleDateString('it-IT')}<br>
-      <strong>Numero:</strong> ${invoiceForPdf.invoiceNumber}<br>
-      <strong>Stato:</strong> ${invoiceForPdf.status === 'draft' ? 'Bozza' : invoiceForPdf.status === 'sent' ? 'Inviata' : invoiceForPdf.status === 'paid' ? 'Pagata' : invoiceForPdf.status}
-    </div>
-  </div>
-  
-  <table class="items-table">
-    <thead>
-      <tr>
-        <th>Descrizione</th>
-        <th style="width: 100px;">Quantità</th>
-        <th style="width: 100px;">Prezzo Unit.</th>
-        <th style="width: 100px;">Totale</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${(invoiceForPdf.items || []).map(item => `
-        <tr>
-          <td>${item.description || 'Servizio professionale'}</td>
-          <td style="text-align: center;">${item.quantity || 1}</td>
-          <td style="text-align: right;">€ ${(item.price || 0).toFixed(2)}</td>
-          <td style="text-align: right;">€ ${((item.quantity || 1) * (item.price || 0)).toFixed(2)}</td>
-        </tr>
-      `).join('')}
-      ${(!invoiceForPdf.items || invoiceForPdf.items.length === 0) ? `
-        <tr>
-          <td>Servizi professionali - ${invoiceForPdf.invoiceNumber}</td>
-          <td style="text-align: center;">1</td>
-          <td style="text-align: right;">€ ${(invoiceForPdf.totalAmount || invoiceForPdf.total || 0).toFixed(2)}</td>
-          <td style="text-align: right;">€ ${(invoiceForPdf.totalAmount || invoiceForPdf.total || 0).toFixed(2)}</td>
-        </tr>
-      ` : ''}
-    </tbody>
-  </table>
-  
-  <div class="total-section">
-    <div>Totale: € ${(invoiceForPdf.totalAmount || invoiceForPdf.total || 0).toFixed(2)}</div>
-  </div>
-  
-  <div class="footer">
-    Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}
-  </div>
-</body>
-</html>`;
-
-              // Converte in PDF usando puppeteer (STESSA LOGICA ENDPOINT)
-              const puppeteer = await import('puppeteer');
-              const browser = await puppeteer.default.launch({
-                headless: true,
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
+                request.on('error', reject);
+                request.setTimeout(30000, () => {
+                  request.destroy();
+                  reject(new Error('Timeout chiamata endpoint PDF'));
+                });
+                request.end();
               });
               
-              const page = await browser.newPage();
-              await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-              
-              pdfBuffer = await page.pdf({
-                format: 'A4',
-                margin: { top: '20mm', bottom: '20mm', left: '15mm', right: '15mm' }
-              });
-              
-              await browser.close();
-              
-              filename = `fattura-${invoiceForPdf.invoiceNumber}.pdf`;
-              console.log(`📎 [INVOICE EMAIL] PDF identico a stampa generato: ${filename} (${pdfBuffer.length} bytes)`);
+              if (pdfBuffer && pdfBuffer.length > 0) {
+                filename = `fattura-${invoice.invoiceNumber}.pdf`;
+                console.log(`📎 [INVOICE EMAIL] PDF identico a stampa ottenuto: ${filename} (${pdfBuffer.length} bytes)`);
+              } else {
+                throw new Error('PDF Buffer vuoto dalla chiamata endpoint');
+              }
               
             } catch (pdfError) {
-              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Errore richiamo endpoint PDF:`, pdfError.message);
               pdfBuffer = null;
               filename = null;
             }
