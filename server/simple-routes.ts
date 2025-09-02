@@ -3698,8 +3698,40 @@ ${businessName}`;
         </body>
         </html>`;
 
-    console.log(`✅ [INVOICE EMAIL] HTML generato, conversione in PDF identico all'endpoint...`);
-    return Buffer.from(htmlContent, 'utf-8');
+    console.log(`✅ [INVOICE EMAIL] HTML generato, conversione in PDF reale con Puppeteer...`);
+    
+    // Usa Puppeteer per convertire HTML in PDF reale
+    try {
+      const puppeteer = await import('puppeteer');
+      
+      const browser = await puppeteer.default.launch({ 
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+      
+      const page = await browser.newPage();
+      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+      
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        margin: {
+          top: '20mm',
+          right: '15mm', 
+          bottom: '20mm',
+          left: '15mm'
+        },
+        printBackground: true
+      });
+      
+      await browser.close();
+      
+      console.log(`✅ [INVOICE EMAIL] PDF reale generato con successo: ${pdfBuffer.length} bytes`);
+      return pdfBuffer;
+      
+    } catch (puppeteerError) {
+      console.log(`❌ [INVOICE EMAIL] Puppeteer failed: ${puppeteerError.message}, uso fallback`);
+      return await generateInvoicePDFForEmailFallback(invoiceId, user);
+    }
   }
 
   async function generateInvoicePDFForEmailFallback(invoiceId: number, user: any): Promise<Buffer> {
