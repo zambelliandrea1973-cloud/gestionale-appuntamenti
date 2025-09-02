@@ -121,7 +121,6 @@ const userData = {
 // Funzione per generare numero fattura progressivo per anno solare
 function generateInvoiceNumber(userId: number): string {
   const currentYear = new Date().getFullYear();
-  const currentMonth = (new Date().getMonth() + 1).toString().padStart(2, '0');
   
   // Carica tutte le fatture dell'utente per l'anno corrente
   const storageData = loadStorageData();
@@ -130,8 +129,8 @@ function generateInvoiceNumber(userId: number): string {
   const userInvoicesThisYear = invoices.filter(([_, invoice]) => {
     if (invoice.ownerId !== userId) return false;
     
-    // Cerca pattern MM/YYYY/ nel numero fattura
-    const yearPattern = new RegExp(`\\d{2}/${currentYear}/`);
+    // Cerca pattern YYYY/ nel numero fattura
+    const yearPattern = new RegExp(`${currentYear}/`);
     return yearPattern.test(invoice.invoiceNumber);
   });
   
@@ -139,8 +138,8 @@ function generateInvoiceNumber(userId: number): string {
   const nextNumber = userInvoicesThisYear.length + 1;
   const paddedNumber = nextNumber.toString().padStart(3, '0');
   
-  // Formato: MM/YYYY/NNN (es: 09/2025/001)
-  return `${currentMonth}/${currentYear}/${paddedNumber}`;
+  // Formato: YYYY/NNN (es: 2025/001)
+  return `${currentYear}/${paddedNumber}`;
 }
 
 export function registerSimpleRoutes(app: Express): Server {
