@@ -85,6 +85,7 @@
     "openid-client": "^6.6.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "pdfmake": "^0.2.20",
     "pg": "^8.16.0",
     "postgres": "^3.4.5",
     "qrcode": "^1.5.4",
