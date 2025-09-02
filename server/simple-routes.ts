@@ -3653,32 +3653,47 @@ ${businessName}`;
                 console.log('⚠️ Impossibile caricare dati aziendali per PDF email:', error);
               }
               
-              // Genera PDF con stessa logica dell'endpoint
+              // Genera PDF semplice con font predefiniti
               const PdfPrinter = await import('pdfmake');
+              
+              // Font predefiniti per pdfmake
+              const fonts = {
+                Helvetica: {
+                  normal: 'Helvetica',
+                  bold: 'Helvetica-Bold',
+                  italics: 'Helvetica-Oblique',
+                  bolditalics: 'Helvetica-BoldOblique'
+                }
+              };
+              
               const docDefinition = {
                 content: [
-                  { text: businessHeader, style: 'header' },
-                  { text: `Fattura n. ${invoiceData.invoiceNumber}`, style: 'subheader' },
-                  { text: `Data: ${new Date(invoiceData.date).toLocaleDateString('it-IT')}`, margin: [0, 0, 0, 20] },
-                  { text: 'Dettagli fattura:', style: 'tableHeader' },
+                  { text: businessHeader, fontSize: 20, bold: true, margin: [0, 0, 0, 20] },
+                  { text: `Fattura n. ${invoiceData.invoiceNumber}`, fontSize: 16, bold: true, margin: [0, 0, 0, 10] },
+                  { text: `Data: ${new Date(invoiceData.date).toLocaleDateString('it-IT')}`, fontSize: 12, margin: [0, 0, 0, 20] },
                   {
                     table: {
+                      headerRows: 1,
+                      widths: ['*', 100],
                       body: [
-                        ['Descrizione', 'Importo'],
+                        [{ text: 'Descrizione', style: 'tableHeader' }, { text: 'Importo', style: 'tableHeader' }],
                         [`Servizi professionali - ${invoiceData.invoiceNumber}`, `€ ${invoiceData.totalAmount?.toFixed(2) || invoiceData.total?.toFixed(2) || '0.00'}`]
                       ]
-                    }
-                  }
+                    },
+                    margin: [0, 0, 0, 20]
+                  },
+                  { text: 'Grazie per aver scelto i nostri servizi.', fontSize: 10, italics: true, margin: [0, 30, 0, 0] }
                 ],
                 styles: {
-                  header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
-                  subheader: { fontSize: 16, bold: true, margin: [0, 10, 0, 5] },
-                  tableHeader: { fontSize: 12, bold: true, margin: [0, 20, 0, 8] }
+                  tableHeader: { bold: true, fillColor: '#eeeeee' }
+                },
+                defaultStyle: {
+                  font: 'Helvetica'
                 }
               };
               
               pdfBuffer = await new Promise((resolve, reject) => {
-                const printer = new PdfPrinter.default({});
+                const printer = new PdfPrinter.default(fonts);
                 const doc = printer.createPdfKitDocument(docDefinition);
                 const chunks: Buffer[] = [];
                 doc.on('data', chunk => chunks.push(chunk));
