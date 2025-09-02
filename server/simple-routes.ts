@@ -3606,24 +3606,47 @@ ${businessName}`;
             console.log(`📧 [INVOICE EMAIL] Da: ${emailConfig.emailAddress} A: ${recipientEmail}`);
             console.log(`📧 [INVOICE EMAIL] Oggetto: ${subject}`);
             
-            // Genera PDF COMPLETO utilizzando la funzione esistente che funziona per la stampa
+            // Genera PDF identico alla stampa tramite chiamata HTTP interna
             let pdfBuffer;
             let filename;
             try {
-              console.log(`📄 [INVOICE EMAIL] Generazione PDF COMPLETO utilizzando funzione esistente...`);
+              console.log(`📄 [INVOICE EMAIL] Chiamata all'endpoint PDF di stampa...`);
               
-              // Utilizza la funzione generateInvoicePDFBuffer che genera PDF completi identici a quelli di stampa
-              pdfBuffer = await generateInvoicePDFBuffer(invoiceId, user);
+              // Utilizza una chiamata HTTP interna per ottenere lo stesso PDF della stampa
+              const http = await import('http');
+              const options = {
+                hostname: 'localhost',
+                port: 5000,
+                path: `/api/invoices/${invoiceId}/pdf`,
+                method: 'GET',
+                headers: {
+                  'Cookie': `connect.sid=${req.sessionID}` // Mantieni la sessione per l'autenticazione
+                }
+              };
+              
+              pdfBuffer = await new Promise((resolve, reject) => {
+                const request = http.request(options, (response) => {
+                  if (response.statusCode === 200) {
+                    const chunks = [];
+                    response.on('data', chunk => chunks.push(chunk));
+                    response.on('end', () => resolve(Buffer.concat(chunks)));
+                  } else {
+                    reject(new Error(`HTTP ${response.statusCode}: ${response.statusMessage}`));
+                  }
+                });
+                request.on('error', reject);
+                request.end();
+              });
               
               if (pdfBuffer && pdfBuffer.length > 0) {
                 filename = `fattura-${invoice.invoiceNumber}.pdf`;
-                console.log(`📎 [INVOICE EMAIL] PDF COMPLETO generato: ${filename} (${pdfBuffer.length} bytes)`);
+                console.log(`📎 [INVOICE EMAIL] PDF identico alla stampa generato: ${filename} (${pdfBuffer.length} bytes)`);
               } else {
-                throw new Error('Funzione generateInvoicePDFBuffer ha restituito un buffer vuoto');
+                throw new Error('Endpoint PDF ha restituito un buffer vuoto');
               }
               
             } catch (pdfError) {
-              console.error(`❌ [INVOICE EMAIL] Errore generazione PDF completo:`, pdfError.message);
+              console.error(`❌ [INVOICE EMAIL] Errore chiamata endpoint PDF:`, pdfError.message);
               pdfBuffer = null;
               filename = null;
             }

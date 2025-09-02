@@ -8386,6 +8386,20 @@
         "status": "scheduled",
         "createdAt": "2025-09-01T18:14:30.106Z"
       }
+    ],
+    [
+      1756750501769,
+      {
+        "id": 1756750501769,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-02",
+        "startTime": "20:15:00",
+        "endTime": "21:15:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-01T18:15:01.769Z"
+      }
     ]
   ],
   "consents": [
@@ -8548,6 +8562,146 @@
           },
           {
             "sentAt": "2025-09-01T18:12:10.094Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:21:27.257Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:23:00.351Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:25:17.206Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:26:00.116Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:29:21.087Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:31:51.628Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:32:27.110Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:33:38.486Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:37:21.786Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:38:16.903Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:40:42.801Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:48:47.435Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-01T18:51:16.149Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T16:57:13.292Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T17:03:43.915Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T17:07:47.864Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T17:09:44.349Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T17:13:34.261Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T17:16:53.807Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 09/2025/004 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T17:18:48.795Z",
             "recipientEmail": "zambelli.andrea@libero.it",
             "subject": "Fattura 09/2025/004 - Silvia Busnari",
             "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
