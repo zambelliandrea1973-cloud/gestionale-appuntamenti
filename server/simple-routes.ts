@@ -3731,13 +3731,13 @@ ${businessName}`;
           columns: [
             {
               text: [
-                { text: `${businessInfo.name}\n`, fontSize: 18, bold: true },
-                `${businessInfo.address}\n`,
-                `${businessInfo.city} ${businessInfo.zip}\n`,
-                `Tel: ${businessInfo.phone}\n`,
-                `Email: ${businessInfo.email}\n`,
-                businessInfo.partitaIva ? `P.IVA: ${businessInfo.partitaIva}\n` : '',
-                businessInfo.codiceFiscale ? `C.F.: ${businessInfo.codiceFiscale}` : ''
+                { text: `${businessHeader}\n`, fontSize: 18, bold: true },
+                `${businessData.address || 'via largo caduti nassiria 17'}\n`,
+                `${businessData.city || 'olgiate comasco'} ${businessData.postalCode || '22100'}\n`,
+                `Tel: ${businessData.phone || '3471445767'}\n`,
+                `Email: ${businessData.email || 'silvia.busnari@libero.it'}\n`,
+                businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}\n` : '',
+                businessData.fiscalCode ? `C.F.: ${businessData.fiscalCode}` : ''
               ].filter(line => line),
               width: '50%'
             },
@@ -3764,20 +3764,20 @@ ${businessName}`;
         {
           text: [
             { text: 'Nome: ', bold: true },
-            `${clientData?.nome || invoice.clientName}\n`,
+            `${clientDetails ? clientDetails.firstName + ' ' + clientDetails.lastName : invoice.clientName}\n`,
             { text: 'Email: ', bold: true },
-            `${clientData?.email || 'N/A'}\n`,
+            `${clientDetails?.email || 'N/A'}\n`,
             { text: 'Telefono: ', bold: true },
-            `${clientData?.telefono || 'N/A'}\n`,
+            `${clientDetails?.phone || 'N/A'}\n`,
             { text: 'Indirizzo: ', bold: true },
-            `${clientData?.indirizzo || 'N/A'}\n`,
-            clientData?.codiceFiscale ? [
+            `${clientDetails?.address || 'N/A'}\n`,
+            clientDetails?.taxCode ? [
               { text: 'Codice Fiscale: ', bold: true },
-              `${clientData.codiceFiscale}\n`
+              `${clientDetails.taxCode}\n`
             ] : '',
-            clientData?.partitaIva ? [
+            clientDetails?.vatNumber ? [
               { text: 'P.IVA: ', bold: true },
-              `${clientData.partitaIva}`
+              `${clientDetails.vatNumber}`
             ] : ''
           ].flat().filter(Boolean),
           margin: [0, 0, 0, 20]
@@ -3823,10 +3823,10 @@ ${businessName}`;
         {
           text: [
             `Documento generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT')}\n`,
-            businessInfo.partitaIva && businessInfo.codiceFiscale ? 
-              `P.IVA: ${businessInfo.partitaIva} - C.F: ${businessInfo.codiceFiscale}` :
-              businessInfo.partitaIva ? `P.IVA: ${businessInfo.partitaIva}` :
-              businessInfo.codiceFiscale ? `C.F: ${businessInfo.codiceFiscale}` : ''
+            businessData.vatNumber && businessData.fiscalCode ? 
+              `P.IVA: ${businessData.vatNumber} - C.F: ${businessData.fiscalCode}` :
+              businessData.vatNumber ? `P.IVA: ${businessData.vatNumber}` :
+              businessData.fiscalCode ? `C.F: ${businessData.fiscalCode}` : ''
           ].filter(Boolean),
           fontSize: 10,
           alignment: 'center',
