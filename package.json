@@ -88,6 +88,7 @@
     "pdfmake": "^0.2.20",
     "pg": "^8.16.0",
     "postgres": "^3.4.5",
+    "puppeteer": "^24.18.0",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
     "qrcode.react": "^4.2.0",
