@@ -3199,6 +3199,36 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // DOWNLOAD ZIP GESTIONALE - Endpoint per scaricare il gestionale completo
+  app.get('/download-gestionale-zip', (req, res) => {
+    try {
+      const zipPath = path.join(__dirname, '../gestionale-sanitario-completo-20250910-061135.zip');
+      
+      // Verifica che il file esista
+      if (!fs.existsSync(zipPath)) {
+        return res.status(404).json({ error: 'File ZIP non trovato' });
+      }
+      
+      // Imposta headers per il download
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', 'attachment; filename="gestionale-sanitario-completo.zip"');
+      
+      // Invia il file
+      res.sendFile(zipPath, (err) => {
+        if (err) {
+          console.error('❌ Errore invio file ZIP:', err);
+          res.status(500).json({ error: 'Errore durante il download' });
+        } else {
+          console.log('✅ Download ZIP gestionale completato con successo');
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Errore endpoint download ZIP:', error);
+      res.status(500).json({ error: 'Errore del server' });
+    }
+  });
+
   // Crea una nuova fattura
   app.post('/api/invoices', async (req, res) => {
     try {
