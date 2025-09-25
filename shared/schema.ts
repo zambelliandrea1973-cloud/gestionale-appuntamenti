@@ -1161,6 +1161,29 @@ export const companyNameSettings = pgTable("company_name_settings", {
 export type CompanyNameSettings = typeof companyNameSettings.$inferSelect;
 export type InsertCompanyNameSettings = typeof companyNameSettings.$inferInsert;
 
+// Contact Settings - Configurazione semplice telefono/email per notifiche (sostituisce verifica SMS)
+export const contactSettings = pgTable("contact_settings", {
+  id: serial("id").primaryKey(),
+  tenantId: integer("tenant_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  phoneNumber: varchar("phone_number", { length: 20 }), // Numero di telefono per WhatsApp
+  email: varchar("email", { length: 255 }), // Email per invio notifiche
+  businessName: varchar("business_name", { length: 255 }), // Nome dell'attività
+  whatsappEnabled: boolean("whatsapp_enabled").default(false), // WhatsApp attivo
+  emailEnabled: boolean("email_enabled").default(false), // Email attiva
+  isConfigured: boolean("is_configured").default(false), // Setup completato
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertContactSettingsSchema = createInsertSchema(contactSettings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ContactSettings = typeof contactSettings.$inferSelect;
+export type InsertContactSettings = z.infer<typeof insertContactSettingsSchema>;
+
 // Company Name Settings Relations
 export const companyNameSettingsRelations = relations(companyNameSettings, ({ one }) => ({
   user: one(users, {
