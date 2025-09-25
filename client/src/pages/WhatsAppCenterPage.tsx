@@ -833,7 +833,75 @@ const WhatsAppCenterPage: React.FC = () => {
                 </div>
               )}
               
-
+              {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
+                <div className="space-y-4">
+                  <Alert variant="default" className="bg-amber-50 border-amber-200">
+                    <AlertCircle className="h-4 w-4 text-amber-600" />
+                    <AlertTitle className="text-amber-800">{t('Verifica necessaria')}</AlertTitle>
+                    <AlertDescription className="text-amber-700">
+                      {t('Il numero')} <strong>{savedPhoneNumber}</strong> {t('è configurato ma necessita di verifica')}
+                    </AlertDescription>
+                  </Alert>
+                  
+                  <div className="bg-white border-2 border-amber-200 rounded-lg p-6">
+                    <div className="space-y-4">
+                      <div className="text-center">
+                        <div className="mx-auto w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                          <Phone className="h-10 w-10 text-amber-600" />
+                        </div>
+                        <h3 className="font-medium text-gray-900 mb-2">{t('Inserisci il codice di verifica')}</h3>
+                        <p className="text-sm text-gray-600 mb-4">
+                          {t('Controlla i tuoi SMS e inserisci il codice ricevuto per completare la configurazione')}
+                        </p>
+                      </div>
+                      
+                      <div className="max-w-sm mx-auto space-y-3">
+                        <div>
+                          <Label htmlFor="verification-code">{t('Codice di verifica')}</Label>
+                          <Input
+                            id="verification-code"
+                            type="text"
+                            placeholder="123456"
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            className="text-center text-lg tracking-widest"
+                            maxLength={6}
+                          />
+                        </div>
+                        
+                        <Button 
+                          onClick={handleVerifyCode}
+                          disabled={isVerifying || !verificationCode.trim()}
+                          className="w-full bg-amber-600 hover:bg-amber-700"
+                        >
+                          {isVerifying ? (
+                            <>
+                              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                              {t('Verifica in corso...')}
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle className="h-4 w-4 mr-2" />
+                              {t('Verifica codice')}
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline"
+                      onClick={handleDisconnect}
+                      className="text-gray-600 hover:text-gray-800"
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      {t('Rimuovi telefono e riconfigura')}
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               
               {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
