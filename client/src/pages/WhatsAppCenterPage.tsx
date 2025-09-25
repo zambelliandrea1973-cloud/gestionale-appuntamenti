@@ -54,18 +54,18 @@ import {
   QrCode
 } from 'lucide-react';
 
-// Stati del dispositivo telefonico
-enum DeviceStatus {
-  DISCONNECTED = 'disconnected',
-  CONNECTED = 'connected',
-  VERIFICATION_PENDING = 'verification_pending',
-  VERIFIED = 'verified'
+// Stati del sistema WhatsApp semplificato
+enum WhatsAppStatus {
+  NOT_CONFIGURED = 'not_configured',
+  CONFIGURED = 'configured'
 }
 
-// Informazioni sul dispositivo
-interface DeviceInfo {
-  status: DeviceStatus;
-  phoneNumber: string | null;
+// Informazioni sul sistema WhatsApp
+interface WhatsAppInfo {
+  status: WhatsAppStatus;
+  phone: string;
+  email: string;
+  whatsappOptIn: boolean;
   lastUpdated?: Date | null;
 }
 
@@ -118,13 +118,14 @@ const WhatsAppCenterPage: React.FC = () => {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   
-  // Stati per il dispositivo telefonico
-  const [deviceStatus, setDeviceStatus] = useState<DeviceStatus>(DeviceStatus.DISCONNECTED);
+  // Stati per il sistema WhatsApp semplificato
+  const [whatsappStatus, setWhatsappStatus] = useState<WhatsAppStatus>(WhatsAppStatus.NOT_CONFIGURED);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [savedPhoneNumber, setSavedPhoneNumber] = useState<string | null>(null);
-  const [verificationCode, setVerificationCode] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [whatsappOptIn, setWhatsappOptIn] = useState<boolean>(false);
+  const [savedSettings, setSavedSettings] = useState<WhatsAppInfo | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
+  // isVerifying stato rimosso - faceva parte del vecchio sistema SMS
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [configuredEmail, setConfiguredEmail] = useState<string>('');
 
@@ -145,16 +146,17 @@ const WhatsAppCenterPage: React.FC = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        // Carica lo stato del dispositivo
-        const response = await fetch('/api/direct-phone/direct-status');
+        // Carica le impostazioni di contatto
+        const response = await fetch('/api/contact-settings');
         const data = await response.json();
         
-        if (data.success && data.phoneInfo) {
-          updateDeviceInfo(data.phoneInfo);
+        if (data.success && data.settings) {
+          setSavedSettings(data.settings);
+          setWhatsappStatus(data.settings.phone ? WhatsAppStatus.CONFIGURED : WhatsAppStatus.NOT_CONFIGURED);
+          setLastUpdated(new Date(data.settings.updatedAt || Date.now()));
           
-          // Se il telefono è già verificato, carica gli appuntamenti
-          if (data.phoneInfo.status === DeviceStatus.VERIFIED || 
-              data.phoneInfo.status === DeviceStatus.CONNECTED) {
+          // Se il telefono è configurato, carica gli appuntamenti
+          if (data.settings.phone) {
             fetchUpcomingAppointments();
           } else if (activeTab === "send-notifications") {
             // Se siamo nella tab di invio ma il telefono non è configurato, mostra un messaggio
@@ -220,143 +222,16 @@ const WhatsAppCenterPage: React.FC = () => {
 
   // La funzione per caricare lo storico è stata rimossa
 
-  // Aggiorna le informazioni del dispositivo
-  const updateDeviceInfo = (data: DeviceInfo) => {
-    setDeviceStatus(data.status);
-    setSavedPhoneNumber(data.phoneNumber);
-    setLastUpdated(data.lastUpdated ? new Date(data.lastUpdated) : new Date());
-  };
+  // La funzione updateDeviceInfo è stata rimossa - sostituita da ContactSettings
   
   // Genera QR code per WhatsApp Web
 
   
-  // Verifica il codice di verifica
-  const handleVerifyCode = async () => {
-    if (!verificationCode.trim()) {
-      toast({
-        title: 'Errore',
-        description: 'Inserisci il codice di verifica ricevuto',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    setIsVerifying(true);
-    
-    try {
-      const response = await fetch('/api/direct-phone/verify-direct', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          phoneNumber: savedPhoneNumber,
-          verificationCode: verificationCode.trim() 
-        }),
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        toast({
-          title: 'Numero verificato',
-          description: 'Il tuo numero è stato verificato con successo!',
-          variant: 'default',
-        });
-        
-        // Aggiorniamo lo stato a verificato
-        setDeviceStatus(DeviceStatus.VERIFIED);
-        setLastUpdated(new Date());
-        
-        // Carica gli appuntamenti dopo la verifica
-        fetchUpcomingAppointments();
-        
-        // Passa alla tab di invio messaggi
-        setActiveTab("send-notifications");
-      } else {
-        throw new Error(data.error || 'Codice di verifica non valido');
-      }
-    } catch (error) {
-      console.error('Errore nella verifica del codice', error);
-      
-      toast({
-        title: 'Errore',
-        description: error instanceof Error ? error.message : 'Impossibile verificare il codice. Riprova.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsVerifying(false);
-    }
-  };
+  // La funzione handleVerifyCode è stata rimossa - il nuovo sistema ContactSettings non usa codici di verifica
   
-  // Disconnette il dispositivo
-  const handleDisconnect = async () => {
-    try {
-      const response = await fetch('/api/direct-phone/disconnect-direct', {
-        method: 'POST',
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        toast({
-          title: 'Numero rimosso',
-          description: 'Il numero di telefono è stato rimosso con successo',
-        });
-        
-        // Resettiamo lo stato
-        setDeviceStatus(DeviceStatus.DISCONNECTED);
-        setSavedPhoneNumber(null);
-        setPhoneNumber('');
-        setVerificationCode('');
-        setLastUpdated(new Date());
-        
-        // Torna alla tab di configurazione
-        setActiveTab("device-setup");
-      } else {
-        throw new Error(data.error || 'Errore sconosciuto durante la rimozione');
-      }
-    } catch (error) {
-      console.error('Errore nella rimozione del numero', error);
-      
-      toast({
-        title: 'Errore',
-        description: 'Impossibile rimuovere il numero. Riprova.',
-        variant: 'destructive',
-      });
-    }
-  };
+  // La funzione handleDisconnect è stata rimossa - sostituita da reset delle ContactSettings
   
-  // Genera e apre un link WhatsApp per inviare un messaggio di test
-  const handleSendTestSms = async () => {
-    try {
-      const response = await fetch('/api/direct-phone/send-test-direct', {
-        method: 'POST',
-      });
-      
-      const data = await response.json();
-      
-      if (data.success && data.whatsappLink) {
-        // Apri il link WhatsApp in un popup
-        window.open(data.whatsappLink, '_blank', 'width=800,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=50,top=50');
-        
-        toast({
-          title: 'Link WhatsApp generato',
-          description: 'Abbiamo aperto WhatsApp con un messaggio di test',
-        });
-      } else {
-        throw new Error(data.error || 'Errore sconosciuto durante la generazione del link WhatsApp');
-      }
-    } catch (error) {
-      console.error('Errore nella generazione del link WhatsApp', error);
-      
-      toast({
-        title: 'Errore',
-        description: 'Impossibile generare il link WhatsApp. Riprova.',
-        variant: 'destructive',
-      });
-    }
-  };
+  // La funzione handleSendTestSms è stata rimossa - sostituita da nuova logica ContactSettings
   
   // Toggle selezione di un appuntamento
   const toggleAppointmentSelection = (id: number) => {
@@ -629,31 +504,23 @@ const WhatsAppCenterPage: React.FC = () => {
   };
   
   // Funzione per ottenere il testo dello stato del dispositivo
-  const getStatusText = (status: DeviceStatus): string => {
+  const getStatusText = (status: WhatsAppStatus): string => {
     switch (status) {
-      case DeviceStatus.DISCONNECTED:
+      case WhatsAppStatus.NOT_CONFIGURED:
         return t('Non configurato');
-      case DeviceStatus.CONNECTED:
-        return t('Connesso');
-      case DeviceStatus.VERIFICATION_PENDING:
-        return t('Verifica necessaria');
-      case DeviceStatus.VERIFIED:
-        return t('Verificato');
+      case WhatsAppStatus.CONFIGURED:
+        return t('Configurato');
       default:
         return t('Sconosciuto');
     }
   };
   
-  // Funzione per ottenere il colore dello stato del dispositivo
-  const getStatusColor = (status: DeviceStatus): string => {
+  // Funzione per ottenere il colore dello stato WhatsApp
+  const getStatusColor = (status: WhatsAppStatus): string => {
     switch (status) {
-      case DeviceStatus.DISCONNECTED:
+      case WhatsAppStatus.NOT_CONFIGURED:
         return 'text-red-600';
-      case DeviceStatus.CONNECTED:
-        return 'text-blue-600';
-      case DeviceStatus.VERIFICATION_PENDING:
-        return 'text-amber-600';
-      case DeviceStatus.VERIFIED:
+      case WhatsAppStatus.CONFIGURED:
         return 'text-green-600';
       default:
         return 'text-slate-500';
@@ -718,14 +585,14 @@ const WhatsAppCenterPage: React.FC = () => {
         <div className="text-right">
           <div className="text-sm text-muted-foreground mb-1">
             {t('Stato telefono')}:
-            <span className={`ml-2 font-medium ${getStatusColor(deviceStatus)}`}>
-              {getStatusText(deviceStatus)}
+            <span className={`ml-2 font-medium ${getStatusColor(whatsappStatus)}`}>
+              {getStatusText(whatsappStatus)}
             </span>
           </div>
           
-          {savedPhoneNumber && (
+          {savedSettings?.phone && (
             <div className="text-sm font-medium">
-              {savedPhoneNumber}
+              {savedSettings.phone}
             </div>
           )}
           
@@ -766,7 +633,7 @@ const WhatsAppCenterPage: React.FC = () => {
             </CardHeader>
             
             <CardContent className="space-y-6 pt-6">
-              {deviceStatus === DeviceStatus.DISCONNECTED && (
+              {whatsappStatus === WhatsAppStatus.NOT_CONFIGURED && (
                 <div className="space-y-4">
                   <Alert variant="default" className="bg-green-50 border-green-200">
                     <MessageSquare className="h-4 w-4 text-green-600" />
@@ -818,7 +685,7 @@ const WhatsAppCenterPage: React.FC = () => {
                     <Button 
                       variant="outline"
                       onClick={() => {
-                        setDeviceStatus(DeviceStatus.CONNECTED);
+                        // Nel nuovo sistema ContactSettings, la connessione è gestita diversamente
                         toast({
                           title: t('WhatsApp collegato!'),
                           description: t('Dispositivo collegato con successo'),
@@ -833,84 +700,16 @@ const WhatsAppCenterPage: React.FC = () => {
                 </div>
               )}
               
-              {deviceStatus === DeviceStatus.VERIFICATION_PENDING && (
-                <div className="space-y-4">
-                  <Alert variant="default" className="bg-amber-50 border-amber-200">
-                    <AlertCircle className="h-4 w-4 text-amber-600" />
-                    <AlertTitle className="text-amber-800">{t('Verifica necessaria')}</AlertTitle>
-                    <AlertDescription className="text-amber-700">
-                      {t('Il numero')} <strong>{savedPhoneNumber}</strong> {t('è configurato ma necessita di verifica')}
-                    </AlertDescription>
-                  </Alert>
-                  
-                  <div className="bg-white border-2 border-amber-200 rounded-lg p-6">
-                    <div className="space-y-4">
-                      <div className="text-center">
-                        <div className="mx-auto w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-4">
-                          <Phone className="h-10 w-10 text-amber-600" />
-                        </div>
-                        <h3 className="font-medium text-gray-900 mb-2">{t('Inserisci il codice di verifica')}</h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                          {t('Controlla i tuoi SMS e inserisci il codice ricevuto per completare la configurazione')}
-                        </p>
-                      </div>
-                      
-                      <div className="max-w-sm mx-auto space-y-3">
-                        <div>
-                          <Label htmlFor="verification-code">{t('Codice di verifica')}</Label>
-                          <Input
-                            id="verification-code"
-                            type="text"
-                            placeholder="123456"
-                            value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.target.value)}
-                            className="text-center text-lg tracking-widest"
-                            maxLength={6}
-                          />
-                        </div>
-                        
-                        <Button 
-                          onClick={handleVerifyCode}
-                          disabled={isVerifying || !verificationCode.trim()}
-                          className="w-full bg-amber-600 hover:bg-amber-700"
-                        >
-                          {isVerifying ? (
-                            <>
-                              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                              {t('Verifica in corso...')}
-                            </>
-                          ) : (
-                            <>
-                              <CheckCircle className="h-4 w-4 mr-2" />
-                              {t('Verifica codice')}
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-center">
-                    <Button 
-                      variant="outline"
-                      onClick={handleDisconnect}
-                      className="text-gray-600 hover:text-gray-800"
-                    >
-                      <X className="h-4 w-4 mr-2" />
-                      {t('Rimuovi telefono e riconfigura')}
-                    </Button>
-                  </div>
-                </div>
-              )}
+              {/* Vecchia sezione UI per verifica SMS rimossa - sostituita da ContactSettings */}
 
               
-              {(deviceStatus === DeviceStatus.VERIFIED || deviceStatus === DeviceStatus.CONNECTED) && (
+              {whatsappStatus === WhatsAppStatus.CONFIGURED && (
                 <div className="space-y-4">
                   <Alert variant="default" className="bg-green-50 border-green-200">
                     <CheckCircle className="h-4 w-4 text-green-600" />
                     <AlertTitle>{t('Telefono configurato correttamente')}</AlertTitle>
                     <AlertDescription>
-                      {t('Il numero')} {savedPhoneNumber} {t('è stato verificato e può essere usato per inviare notifiche WhatsApp')}
+                      {t('WhatsApp è configurato e può essere usato per inviare notifiche ai clienti')}
                     </AlertDescription>
                   </Alert>
                   
@@ -919,14 +718,20 @@ const WhatsAppCenterPage: React.FC = () => {
                       <p className="text-sm font-medium">
                         {t('Telefono')}:
                         <span className="text-green-600 ml-2">
-                          {savedPhoneNumber}
+                          {savedSettings?.phone || 'Non configurato'}
                         </span>
                       </p>
                       
                       <Button 
                         variant="outline" 
                         size="sm"
-                        onClick={handleSendTestSms}
+                        onClick={() => {
+                          // Test WhatsApp link generation
+                          const message = "Test messaggio dal sistema di gestione appuntamenti";
+                          const phone = savedSettings?.phone || '';
+                          const link = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+                          window.open(link, '_blank');
+                        }}
                       >
                         <Send className="h-4 w-4 mr-2" />
                         {t('Invia messaggio di test')}
@@ -968,7 +773,13 @@ const WhatsAppCenterPage: React.FC = () => {
                   <div className="flex justify-end pt-2">
                     <Button 
                       variant="outline"
-                      onClick={handleDisconnect}
+                      onClick={() => {
+                        // Reset ContactSettings (da implementare)
+                        toast({
+                          title: t('Funzione da implementare'),
+                          description: t('La rimozione telefono sarà implementata nel nuovo sistema ContactSettings')
+                        });
+                      }}
                     >
                       <Phone className="h-4 w-4 mr-2" />
                       {t('Rimuovi telefono')}
@@ -993,7 +804,7 @@ const WhatsAppCenterPage: React.FC = () => {
             </CardHeader>
             
             <CardContent className="space-y-6 pt-6">
-              {!savedPhoneNumber || deviceStatus === DeviceStatus.DISCONNECTED || deviceStatus === DeviceStatus.VERIFICATION_PENDING ? (
+              {!savedSettings?.phone || whatsappStatus === WhatsAppStatus.NOT_CONFIGURED ? (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertTitle>{t('Nessun telefono configurato')}</AlertTitle>
