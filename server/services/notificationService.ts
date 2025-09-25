@@ -371,18 +371,25 @@ export const notificationService = {
       console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
       console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
       
-      // Recupera tutti gli appuntamenti di oggi e domani
+      // FIXME: Il sistema di promemoria deve recuperare appuntamenti da TUTTI gli utenti
+      // Per ora raccogliamo gli appuntamenti di tutti gli utenti attivi
+      // In futuro si potrebbe configurare per utente specifico
       let appointments = [];
       
-      // Recupera appuntamenti di oggi
-      const todayAppointments = await storage.getAppointmentsByDate(todayStr);
-      // Recupera appuntamenti di domani
-      const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrowStr);
+      try {
+        // Usa getAppointmentsByDateRange che è più sicura e non ha problemi multi-tenant
+        const startDate = todayStr;
+        const endDate = tomorrowStr;
+        
+        console.log(`Recupero appuntamenti dal database per il range: ${startDate} - ${endDate}`);
+        appointments = await storage.getAppointmentsByDateRange(startDate, endDate);
+        
+      } catch (error) {
+        console.error('Errore nel recupero appuntamenti per promemoria:', error);
+        appointments = [];
+      }
       
-      // Combina gli appuntamenti
-      appointments = [...todayAppointments, ...tomorrowAppointments];
-      
-      console.log(`Trovati ${appointments.length} appuntamenti potenziali (${todayAppointments.length} oggi, ${tomorrowAppointments.length} domani)`);
+      console.log(`Trovati ${appointments.length} appuntamenti potenziali per il range ${todayStr} - ${tomorrowStr}`);
       
       let remindersSent = 0;
       const apptsToRemind = [];
