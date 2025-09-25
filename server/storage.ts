@@ -1860,6 +1860,35 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async getAppointmentsByDateRange(startDate: string, endDate: string): Promise<AppointmentWithDetails[]> {
+    try {
+      const result: AppointmentWithDetails[] = [];
+      const appointmentsList = await db
+        .select()
+        .from(appointments)
+        .where(and(gte(appointments.date, startDate), lte(appointments.date, endDate)))
+        .orderBy(appointments.date, appointments.startTime);
+
+      for (const appointment of appointmentsList) {
+        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
+        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
+        
+        if (client && service) {
+          result.push({
+            ...appointment,
+            client,
+            service
+          });
+        }
+      }
+
+      return result;
+    } catch (error) {
+      console.error("Error getting appointments by date range:", error);
+      return [];
+    }
+  }
+
   // Multi-tenant appointment operations - Sistema separazione per utente RISTRUTTURATO
   async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
