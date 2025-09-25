@@ -178,12 +178,12 @@ const WhatsAppCenterPage: React.FC = () => {
     }
   });
 
-  // Handler per salvare le impostazioni
+  // Handler per salvare le impostazioni (WhatsApp abilitato automaticamente)
   const handleSaveContactSettings = () => {
     updateContactSettingsMutation.mutate({
       phone: phoneNumber.trim(),
       email: email.trim(),
-      whatsappOptIn: whatsappOptIn
+      whatsappOptIn: true // Sempre abilitato automaticamente
     });
   };
 
@@ -706,14 +706,14 @@ const WhatsAppCenterPage: React.FC = () => {
                           <Input
                             id="phone-input"
                             type="tel"
-                            placeholder="+39 123 456 7890"
+                            placeholder="+393473556110"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             className="mt-1"
                             data-testid="input-phone"
                           />
                           <p className="text-xs text-gray-500 mt-1">
-                            {t('Inserisci il numero con il prefisso internazionale (es. +39 per Italia)')}
+                            {t('Inserisci il numero tutto di seguito con prefisso internazionale (es. +393473556110)')}
                           </p>
                         </div>
                         
@@ -732,16 +732,13 @@ const WhatsAppCenterPage: React.FC = () => {
                           />
                         </div>
                         
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="whatsapp-opt-in"
-                            checked={whatsappOptIn}
-                            onCheckedChange={(checked) => setWhatsappOptIn(!!checked)}
-                            data-testid="checkbox-whatsapp-opt-in"
-                          />
-                          <Label htmlFor="whatsapp-opt-in" className="text-sm">
-                            {t('Abilita notifiche WhatsApp')}
-                          </Label>
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                            <span className="text-sm font-medium text-green-800">
+                              {t('Le notifiche WhatsApp verranno abilitate automaticamente')}
+                            </span>
+                          </div>
                         </div>
                       </div>
                       
