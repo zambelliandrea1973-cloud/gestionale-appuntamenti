@@ -27,6 +27,7 @@ import {
   licenses, type License, type InsertLicense,
   onboardingProgress, type OnboardingProgress, type InsertOnboardingProgress,
   companyNameSettings, type CompanyNameSettings, type InsertCompanyNameSettings,
+  contactSettings, type ContactSettings, type InsertContactSettings,
   productCategories, type ProductCategory, type InsertProductCategory,
   products, type Product, type InsertProduct,
   stockMovements, type StockMovement, type InsertStockMovement,
@@ -207,6 +208,12 @@ export interface IStorage {
   getCompanyNameSettings(userId: number): Promise<any | undefined>;
   saveCompanyNameSettings(userId: number, settings: any): Promise<any>;
   updateCompanyNameSettings(userId: number, settings: any): Promise<any | undefined>;
+  
+  // Contact Settings operations - Configurazione semplice telefono/email (sostituisce verifica SMS)
+  getContactSettings(tenantId: number): Promise<ContactSettings | undefined>;
+  createContactSettings(settings: InsertContactSettings): Promise<ContactSettings>;
+  updateContactSettings(tenantId: number, settings: Partial<InsertContactSettings>): Promise<ContactSettings | undefined>;
+  deleteContactSettings(tenantId: number): Promise<boolean>;
   
   // Notification Settings operations
   getNotificationSettings(): Promise<NotificationSettings | undefined>;
