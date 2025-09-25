@@ -8400,6 +8400,34 @@
         "status": "scheduled",
         "createdAt": "2025-09-01T18:15:01.769Z"
       }
+    ],
+    [
+      1758790031194,
+      {
+        "id": 1758790031194,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-26",
+        "startTime": "10:00",
+        "endTime": "11:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T08:47:11.194Z"
+      }
+    ],
+    [
+      1758790082551,
+      {
+        "id": 1758790082551,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-26",
+        "startTime": "08:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T08:48:02.551Z"
+      }
     ]
   ],
   "consents": [
