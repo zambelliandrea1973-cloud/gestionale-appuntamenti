@@ -227,6 +227,182 @@ router.post('/send-batch', async (req: Request, res: Response) => {
   }
 });
 
+// NUOVO: Invia automaticamente TUTTI i messaggi WhatsApp per domani con un click
+router.post('/send-all-tomorrow', async (req: Request, res: Response) => {
+  try {
+    // Ottieni userId dalla sessione di autenticazione
+    const userId = (req as any).user?.id;
+    const userType = (req as any).user?.type || 'staff';
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+    
+    // Data di domani
+    const tomorrow = format(addDays(new Date(), 1), 'yyyy-MM-dd');
+    
+    console.log(`🚀 INVIO AUTOMATICO: Cercando appuntamenti per domani ${tomorrow} - utente ${userId}`);
+    
+    // Trova TUTTI gli appuntamenti di domani per l'utente
+    const tomorrowAppointments = await storage.getAppointmentsByDateForUser(tomorrow, userId, userType);
+    
+    // Filtra solo quelli confermati/programmati
+    const eligibleAppointments = tomorrowAppointments.filter(a => 
+      (a.status === 'scheduled' || a.status === 'confirmed')
+    );
+    
+    console.log(`🚀 INVIO AUTOMATICO: Trovati ${eligibleAppointments.length} appuntamenti validi per domani`);
+    
+    if (eligibleAppointments.length === 0) {
+      return res.json({
+        success: true,
+        message: 'Nessun appuntamento trovato per domani',
+        results: []
+      });
+    }
+    
+    // Estrai solo gli ID degli appuntamenti
+    const appointmentIds = eligibleAppointments.map(a => a.id);
+    
+    // Ottieni le impostazioni necessarie
+    const templates = await storage.getReminderTemplates();
+    const defaultTemplate = templates.find(t => t.isDefault);
+    const contactInfo = await storage.getContactInfo();
+    
+    const results = [];
+    
+    // Processa ogni appuntamento automaticamente
+    for (const appointment of eligibleAppointments) {
+      try {
+        const client = await storage.getClient(appointment.clientId);
+        const service = await storage.getService(appointment.serviceId);
+        
+        if (!client || !service) {
+          results.push({
+            id: appointment.id,
+            success: false,
+            clientName: 'N/D',
+            error: 'Dati cliente o servizio mancanti'
+          });
+          continue;
+        }
+        
+        // Trova template unificato per il servizio
+        const unifiedTemplate = templates.find(t => 
+          t.serviceId === service.id && 
+          t.type && 
+          t.type.includes('whatsapp') && 
+          t.type.includes('email')
+        );
+        
+        const whatsappTemplate = unifiedTemplate || templates.find(t => 
+          t.serviceId === service.id && 
+          t.type && 
+          t.type.includes('whatsapp')
+        );
+        
+        const template = unifiedTemplate || whatsappTemplate || defaultTemplate;
+        
+        // Genera il messaggio
+        let message = template 
+          ? template.template
+          : `Gentile {clientName}, le ricordiamo l'appuntamento per {serviceName} di domani {appointmentDate} alle ore {appointmentTime}.`;
+        
+        // Sostituzioni
+        const appointmentDate = format(parseISO(appointment.date), 'EEEE d MMMM yyyy', { locale: it });
+        const appointmentTime = appointment.startTime.substring(0, 5);
+        const clientName = `${client.firstName} ${client.lastName}`;
+        
+        message = message
+          .replace(/{clientName}/g, clientName)
+          .replace(/{firstName}/g, client.firstName)
+          .replace(/{lastName}/g, client.lastName)
+          .replace(/{serviceName}/g, service.name)
+          .replace(/{appointmentDate}/g, appointmentDate)
+          .replace(/{appointmentTime}/g, appointmentTime)
+          .replace(/{businessName}/g, contactInfo?.businessName || '')
+          .replace(/{businessAddress}/g, contactInfo?.address || '')
+          .replace(/{businessPhone}/g, contactInfo?.phone1 || '');
+        
+        // Genera URL WhatsApp
+        const phoneNumber = client.phone.replace(/\s+/g, '').replace(/^\+/, '');
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        const messageWithLink = `${message}\n\n[Apri WhatsApp](${whatsappUrl})`;
+        
+        // Salva notifica
+        await storage.saveNotification({
+          appointmentId: appointment.id,
+          clientId: client.id,
+          type: 'whatsapp',
+          message: messageWithLink,
+          channel: 'whatsapp'
+        });
+        
+        // Aggiorna stato appuntamento
+        let reminderStatus = appointment.reminderStatus || '';
+        if (!reminderStatus.includes('whatsapp_generated')) {
+          reminderStatus = reminderStatus 
+            ? `${reminderStatus},whatsapp_generated` 
+            : 'whatsapp_generated';
+        }
+        
+        await storage.updateAppointment(appointment.id, {
+          ...appointment,
+          reminderStatus
+        });
+        
+        results.push({
+          id: appointment.id,
+          success: true,
+          clientName,
+          serviceName: service.name,
+          date: appointmentDate,
+          time: appointmentTime,
+          message,
+          whatsappUrl
+        });
+        
+        console.log(`✅ INVIO AUTOMATICO: Messaggio preparato per ${clientName} - ${service.name}`);
+        
+      } catch (error: any) {
+        console.error(`❌ INVIO AUTOMATICO: Errore per appuntamento ${appointment.id}:`, error);
+        results.push({
+          id: appointment.id,
+          success: false,
+          clientName: 'N/D',
+          error: error.message
+        });
+      }
+    }
+    
+    const successCount = results.filter(r => r.success).length;
+    const failureCount = results.filter(r => !r.success).length;
+    
+    console.log(`🎉 INVIO AUTOMATICO COMPLETATO: ${successCount} successi, ${failureCount} errori`);
+    
+    res.json({
+      success: true,
+      results,
+      summary: {
+        total: results.length,
+        successful: successCount,
+        failed: failureCount
+      },
+      message: `Preparati ${successCount} messaggi WhatsApp per domani!`
+    });
+    
+  } catch (error: any) {
+    console.error('❌ ERRORE INVIO AUTOMATICO:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Ottiene lo storico delle notifiche inviate
 // Per requisito esplicito, rimosso il controllo staff per consentire a chiunque abbia accesso
 // all'applicazione di visualizzare lo storico delle notifiche
