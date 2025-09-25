@@ -73,6 +73,7 @@ export interface IStorage {
   // Appointment operations - Multi-tenant system
   getAppointment(id: number): Promise<AppointmentWithDetails | undefined>;
   getAppointmentsByClient(clientId: number): Promise<AppointmentWithDetails[]>;
+  getAppointmentsByDateRange(startDate: string, endDate: string): Promise<AppointmentWithDetails[]>;
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   updateAppointment(id: number, appointment: Partial<InsertAppointment>): Promise<Appointment | undefined>;
   deleteAppointment(id: number): Promise<boolean>;
