@@ -124,9 +124,23 @@ router.post('/send-batch', async (req: Request, res: Response) => {
         continue;
       }
       
-      // Trova il template specifico per il servizio, altrimenti usa quello di default
-      const serviceTemplate = templates.find(t => t.serviceId === service.id);
-      const template = serviceTemplate || defaultTemplate;
+      // Trova il template specifico per il servizio che supporti sia WhatsApp che email (unificato)
+      const unifiedTemplate = templates.find(t => 
+        t.serviceId === service.id && 
+        t.type && 
+        t.type.includes('whatsapp') && 
+        t.type.includes('email')
+      );
+      
+      // Se non c'è un template unificato, cerca uno che supporti almeno WhatsApp
+      const whatsappTemplate = unifiedTemplate || templates.find(t => 
+        t.serviceId === service.id && 
+        t.type && 
+        t.type.includes('whatsapp')
+      );
+      
+      // Usa template unificato, WhatsApp specifico, o default
+      const template = unifiedTemplate || whatsappTemplate || defaultTemplate;
       
       // Se non c'è alcun template, usa un messaggio predefinito
       let message = template 
@@ -356,9 +370,23 @@ router.post('/send-multiple', async (req: Request, res: Response) => {
           continue;
         }
         
-        // Trova il template specifico per il servizio, altrimenti usa quello di default
-        const serviceTemplate = templates.find(t => t.serviceId === service.id);
-        const template = serviceTemplate || defaultTemplate;
+        // Trova il template unificato che supporti sia WhatsApp che email
+        const unifiedTemplate = templates.find(t => 
+          t.serviceId === service.id && 
+          t.type && 
+          t.type.includes('whatsapp') && 
+          t.type.includes('email')
+        );
+        
+        // Se non c'è template unificato, cerca uno specifico per il tipo richiesto
+        const typeSpecificTemplate = unifiedTemplate || templates.find(t => 
+          t.serviceId === service.id && 
+          t.type && 
+          t.type.includes(type)
+        );
+        
+        // Usa template unificato, specifico per tipo, o default
+        const template = unifiedTemplate || typeSpecificTemplate || defaultTemplate;
         
         // Se non c'è alcun template, usa un messaggio predefinito
         let message = template 

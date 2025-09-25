@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import FooterOnly from '@/components/FooterOnly';
 import { NotificationSettingsForm } from '@/components/NotificationSettingsForm';
 import GoogleCalendarSettings from '@/components/GoogleCalendarSettings';
+import ReminderTemplateManager from '@/components/ReminderTemplateManager';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
@@ -897,7 +898,24 @@ const NotificationsPage: React.FC = () => {
           
           {/* Tab per le impostazioni notifiche */}
           <TabsContent value="settings">
-            <NotificationSettingsForm />
+            <div className="space-y-6">
+              <NotificationSettingsForm />
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <MessageSquare className="mr-2 h-5 w-5" />
+                    Template Messaggi
+                  </CardTitle>
+                  <CardDescription>
+                    Crea e gestisci i template per i messaggi di promemoria email e WhatsApp. I template unificati funzionano per entrambi i canali.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ReminderTemplateManager />
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
           
           {/* Tab per Google Calendar */}
