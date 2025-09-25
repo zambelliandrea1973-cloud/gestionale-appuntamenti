@@ -11,6 +11,17 @@ const router = express.Router();
 // Ottiene gli appuntamenti imminenti che necessitano di promemoria
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
+    // Ottieni userId dalla sessione di autenticazione
+    const userId = (req as any).user?.id;
+    const userType = (req as any).user?.type || 'staff';
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Utente non autenticato'
+      });
+    }
+    
     // Utilizziamo un approccio più semplice per generare le date di oggi e domani
     const now = new Date();
     // Converti le date in formato stringa YYYY-MM-DD
@@ -19,8 +30,14 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     
     console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
-    // Ottieni gli appuntamenti per i prossimi due giorni
-    const appointments = await storage.getAppointmentsByDateRange(today, tomorrow);
+    // CORRETTO: Ottieni solo gli appuntamenti dell'utente autenticato
+    const todayAppointments = await storage.getAppointmentsByDate(today);
+    const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrow);
+    
+    // Filtra solo gli appuntamenti dell'utente corrente
+    const userTodayAppts = todayAppointments.filter(a => a.userId === userId);
+    const userTomorrowAppts = tomorrowAppointments.filter(a => a.userId === userId);
+    const appointments = [...userTodayAppts, ...userTomorrowAppts];
     
     // Filtra gli appuntamenti includendo sia quelli 'scheduled' che 'confirmed'
     const eligibleAppointments = appointments.filter(a => 
