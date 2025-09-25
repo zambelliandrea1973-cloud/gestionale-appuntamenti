@@ -20,11 +20,8 @@ export const clients = pgTable("clients", {
   createdAt: timestamp("createdAt").defaultNow(),
   hasConsent: boolean("hasConsent").default(false),
   ownerId: integer("ownerId"), // ID dell'utente che ha creato questo cliente
-  originalOwnerId: integer("originalOwnerId"), // ID dell'utente originale (per clienti importati)
   assignmentCode: text("assignmentCode"), // Codice usato per assegnare il cliente all'account
   uniqueCode: text("uniqueCode"), // Codice univoco per identificare il cliente
-  deletedAtSource: boolean("deletedAtSource").default(false), // Flag: cliente eliminato dall'account originale
-  deletionUnlocked: boolean("deletionUnlocked").default(false), // Flag: admin ha sbloccato eliminazione
   taxCode: text("taxCode"), // Codice fiscale
   vatNumber: text("vatNumber"), // Partita IVA
 });
