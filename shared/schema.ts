@@ -1165,10 +1165,10 @@ export type InsertCompanyNameSettings = typeof companyNameSettings.$inferInsert;
 export const contactSettings = pgTable("contact_settings", {
   id: serial("id").primaryKey(),
   tenantId: integer("tenant_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
-  phoneNumber: varchar("phone_number", { length: 20 }), // Numero di telefono per WhatsApp
+  phone: varchar("phone", { length: 20 }), // Numero di telefono per WhatsApp
   email: varchar("email", { length: 255 }), // Email per invio notifiche
   businessName: varchar("business_name", { length: 255 }), // Nome dell'attività
-  whatsappEnabled: boolean("whatsapp_enabled").default(false), // WhatsApp attivo
+  whatsappOptIn: boolean("whatsapp_opt_in").default(false), // WhatsApp attivo
   emailEnabled: boolean("email_enabled").default(false), // Email attiva
   isConfigured: boolean("is_configured").default(false), // Setup completato
   createdAt: timestamp("created_at").defaultNow(),
