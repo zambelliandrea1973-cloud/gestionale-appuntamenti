@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { apiRequest, queryClient } from '@/lib/queryClient';
 import FooterOnly from '@/components/FooterOnly';
 import { format, parseISO, addDays } from 'date-fns';
 import { it } from 'date-fns/locale';
@@ -141,6 +143,46 @@ const WhatsAppCenterPage: React.FC = () => {
   
   // Tab attivo - mostriamo direttamente "Invia notifiche" come tab di default
   const [activeTab, setActiveTab] = useState("send-notifications");
+
+  // Query per caricare ContactSettings con React Query
+  const { data: contactSettingsData, isLoading: isLoadingSettings, refetch: refetchSettings } = useQuery({
+    queryKey: ['/api/contact-settings'],
+    staleTime: 0,
+    cacheTime: 0
+  });
+
+  // Mutation per salvare ContactSettings 
+  const updateContactSettingsMutation = useMutation({
+    mutationFn: (data: { phone?: string; email?: string; whatsappOptIn?: boolean }) => 
+      apiRequest('/api/contact-settings', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }),
+    onSuccess: () => {
+      toast({
+        title: t('✅ Configurazione salvata!'),
+        description: t('Le impostazioni del telefono sono state salvate con successo'),
+      });
+      refetchSettings();
+      queryClient.invalidateQueries({ queryKey: ['/api/contact-settings'] });
+    },
+    onError: () => {
+      toast({
+        title: t('❌ Errore nel salvataggio'),
+        description: t('Si è verificato un errore durante il salvataggio delle impostazioni'),
+        variant: 'destructive'
+      });
+    }
+  });
+
+  // Handler per salvare le impostazioni
+  const handleSaveContactSettings = () => {
+    updateContactSettingsMutation.mutate({
+      phone: phoneNumber.trim(),
+      email: email.trim(),
+      whatsappOptIn: whatsappOptIn
+    });
+  };
 
   // Carica lo stato iniziale del dispositivo telefonico e gli appuntamenti
   useEffect(() => {
@@ -634,68 +676,103 @@ const WhatsAppCenterPage: React.FC = () => {
             
             <CardContent className="space-y-6 pt-6">
               {whatsappStatus === WhatsAppStatus.NOT_CONFIGURED && (
-                <div className="space-y-4">
-                  <Alert variant="default" className="bg-green-50 border-green-200">
-                    <MessageSquare className="h-4 w-4 text-green-600" />
-                    <AlertTitle className="text-green-800">{t('Collega WhatsApp Web')}</AlertTitle>
-                    <AlertDescription className="text-green-700">
-                      {t('Utilizza WhatsApp Web ufficiale per collegare il tuo dispositivo')}
+                <div className="space-y-6">
+                  <Alert variant="default" className="bg-blue-50 border-blue-200">
+                    <Settings className="h-4 w-4 text-blue-600" />
+                    <AlertTitle className="text-blue-800">{t('Configura il tuo telefono')}</AlertTitle>
+                    <AlertDescription className="text-blue-700">
+                      {t('Inserisci il tuo numero di telefono per iniziare a inviare notifiche WhatsApp ai clienti')}
                     </AlertDescription>
                   </Alert>
                   
-                  <div className="bg-white border-2 border-green-200 rounded-lg p-6">
-                    <div className="space-y-4">
-                      <div className="text-center">
-                        <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                          <MessageSquare className="h-10 w-10 text-green-600" />
+                  <div className="bg-white border-2 border-blue-200 rounded-lg p-6">
+                    <div className="space-y-4 max-w-md mx-auto">
+                      <div className="text-center mb-6">
+                        <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                          <Phone className="h-8 w-8 text-blue-600" />
                         </div>
-                        <h3 className="font-medium text-gray-900 mb-2">{t('Istruzioni per collegare WhatsApp:')}</h3>
+                        <h3 className="font-medium text-gray-900 mb-2">{t('Configurazione telefono')}</h3>
+                        <p className="text-sm text-gray-600">{t('Le tue informazioni di contatto per le notifiche')}</p>
                       </div>
                       
-                      <ol className="text-sm text-gray-700 space-y-3 max-w-lg mx-auto">
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                          <span>{t('Clicca il pulsante verde qui sotto per aprire WhatsApp Web')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                          <span>{t('Sul tuo telefono: apri WhatsApp > Menu (⋮) > Dispositivi collegati')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                          <span>{t('Tocca "Collega un dispositivo" e scansiona il QR code di WhatsApp Web')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                          <span className="font-medium text-green-700">{t('Dopo la connessione, torna qui e clicca "Dispositivo collegato"')}</span>
-                        </li>
-                      </ol>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="phone-input" className="text-sm font-medium">
+                            {t('Numero di telefono')} *
+                          </Label>
+                          <Input
+                            id="phone-input"
+                            type="tel"
+                            placeholder="+39 123 456 7890"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            className="mt-1"
+                            data-testid="input-phone"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            {t('Inserisci il numero con il prefisso internazionale (es. +39 per Italia)')}
+                          </p>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="email-input" className="text-sm font-medium">
+                            {t('Email')} ({t('opzionale')})
+                          </Label>
+                          <Input
+                            id="email-input"
+                            type="email"
+                            placeholder="nome@esempio.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="mt-1"
+                            data-testid="input-email"
+                          />
+                        </div>
+                        
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id="whatsapp-opt-in"
+                            checked={whatsappOptIn}
+                            onCheckedChange={(checked) => setWhatsappOptIn(!!checked)}
+                            data-testid="checkbox-whatsapp-opt-in"
+                          />
+                          <Label htmlFor="whatsapp-opt-in" className="text-sm">
+                            {t('Abilita notifiche WhatsApp')}
+                          </Label>
+                        </div>
+                      </div>
+                      
+                      <Button 
+                        onClick={handleSaveContactSettings}
+                        disabled={!phoneNumber.trim() || updateContactSettingsMutation.isPending}
+                        className="w-full bg-blue-600 hover:bg-blue-700 mt-6"
+                        data-testid="button-save-settings"
+                      >
+                        {updateContactSettingsMutation.isPending ? (
+                          <>
+                            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                            {t('Salvataggio...')}
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="h-4 w-4 mr-2" />
+                            {t('Salva configurazione')}
+                          </>
+                        )}
+                      </Button>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col gap-3">
-                    <Button 
-                      onClick={() => window.open('https://web.whatsapp.com', '_blank')}
-                      className="bg-green-600 hover:bg-green-700 w-full"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      {t('Apri WhatsApp Web')}
-                    </Button>
-                    
-                    <Button 
-                      variant="outline"
-                      onClick={() => {
-                        // Nel nuovo sistema ContactSettings, la connessione è gestita diversamente
-                        toast({
-                          title: t('WhatsApp collegato!'),
-                          description: t('Dispositivo collegato con successo'),
-                        });
-                      }}
-                      className="w-full border-green-200 text-green-700 hover:bg-green-50"
-                    >
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      {t('Dispositivo collegato')}
-                    </Button>
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="flex gap-3">
+                      <MessageSquare className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <div className="text-sm">
+                        <p className="font-medium text-green-800 mb-1">{t('Come funzionano le notifiche:')}</p>
+                        <p className="text-green-700">
+                          {t('Dopo aver salvato il telefono, potrai inviare notifiche WhatsApp ai clienti tramite link diretti che si aprono nella tua app WhatsApp.')}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
