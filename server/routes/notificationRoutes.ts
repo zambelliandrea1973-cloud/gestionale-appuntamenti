@@ -30,14 +30,12 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     
     console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
-    // CORRETTO: Ottieni solo gli appuntamenti dell'utente autenticato
-    const todayAppointments = await storage.getAppointmentsByDate(today);
-    const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrow);
+    // CORRETTO: Ottieni solo gli appuntamenti dell'utente autenticato con filtro diretto nel database
+    const todayAppointments = await storage.getAppointmentsByDateForUser(today, userId, userType);
+    const tomorrowAppointments = await storage.getAppointmentsByDateForUser(tomorrow, userId, userType);
     
-    // Filtra solo gli appuntamenti dell'utente corrente
-    const userTodayAppts = todayAppointments.filter(a => a.userId === userId);
-    const userTomorrowAppts = tomorrowAppointments.filter(a => a.userId === userId);
-    const appointments = [...userTodayAppts, ...userTomorrowAppts];
+    // Già filtrati dal database per l'utente corrente
+    const appointments = [...todayAppointments, ...tomorrowAppointments];
     
     // Filtra gli appuntamenti includendo sia quelli 'scheduled' che 'confirmed'
     const eligibleAppointments = appointments.filter(a => 
