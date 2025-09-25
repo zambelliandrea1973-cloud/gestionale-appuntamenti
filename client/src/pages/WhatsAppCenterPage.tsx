@@ -156,6 +156,9 @@ const WhatsAppCenterPage: React.FC = () => {
     mutationFn: (data: { phone?: string; email?: string; whatsappOptIn?: boolean }) => 
       apiRequest('/api/contact-settings', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(data)
       }),
     onSuccess: () => {
