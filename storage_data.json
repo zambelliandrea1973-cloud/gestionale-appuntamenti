@@ -8428,6 +8428,20 @@
         "status": "scheduled",
         "createdAt": "2025-09-25T08:48:02.551Z"
       }
+    ],
+    [
+      1758790114050,
+      {
+        "id": 1758790114050,
+        "clientId": 14002,
+        "serviceId": 1750225071976,
+        "date": "2025-09-26",
+        "startTime": "10:30:00",
+        "endTime": "11:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T08:48:34.050Z"
+      }
     ]
   ],
   "consents": [
