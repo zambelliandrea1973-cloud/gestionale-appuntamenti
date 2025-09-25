@@ -9,6 +9,10 @@ import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
 import multer from 'multer';
 
+// Import route modules for WhatsApp and notifications
+import notificationRoutes from './routes/notificationRoutes';
+import directPhoneRoutes from './routes/directPhoneRoutes';
+
 // TYPE INTERFACES - Define common data structures
 interface Client {
   id: number;
@@ -214,6 +218,10 @@ export function registerSimpleRoutes(app: Express): Server {
   
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
+
+  // Connect WhatsApp and notification routes
+  app.use('/api/notifications', notificationRoutes);
+  app.use('/api/direct-phone', directPhoneRoutes);
 
   // Sistema lineare semplice - Servizi dell'utente
   app.get("/api/services", (req, res) => {
