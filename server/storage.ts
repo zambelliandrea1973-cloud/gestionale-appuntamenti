@@ -4336,6 +4336,110 @@ export class DatabaseStorage implements IStorage {
       throw error;
     }
   }
+
+  // Contact Settings operations - Configurazione semplice telefono/email (sostituisce verifica SMS)
+  async getContactSettings(tenantId: number): Promise<ContactSettings | undefined> {
+    try {
+      console.log(`📞 Recupero impostazioni contatto per tenant ${tenantId}`);
+      
+      const [settings] = await db
+        .select()
+        .from(contactSettings)
+        .where(eq(contactSettings.tenantId, tenantId))
+        .limit(1);
+      
+      if (settings) {
+        console.log(`✅ Impostazioni contatto trovate per tenant ${tenantId}:`, {
+          phone: settings.phone,
+          email: settings.email,
+          whatsappOptIn: settings.whatsappOptIn
+        });
+      } else {
+        console.log(`ℹ️ Nessuna impostazione contatto per tenant ${tenantId}`);
+      }
+      
+      return settings;
+    } catch (error) {
+      console.error(`Errore nel recupero impostazioni contatto per tenant ${tenantId}:`, error);
+      return undefined;
+    }
+  }
+
+  async createContactSettings(settings: InsertContactSettings): Promise<ContactSettings> {
+    try {
+      console.log(`📞 Creazione impostazioni contatto per tenant ${settings.tenantId}:`, {
+        phone: settings.phone,
+        email: settings.email,
+        whatsappOptIn: settings.whatsappOptIn
+      });
+      
+      const [created] = await db
+        .insert(contactSettings)
+        .values({
+          ...settings,
+          updatedAt: new Date()
+        })
+        .returning();
+      
+      console.log(`✅ Impostazioni contatto create per tenant ${settings.tenantId}`);
+      return created;
+    } catch (error) {
+      console.error(`Errore nella creazione impostazioni contatto per tenant ${settings.tenantId}:`, error);
+      throw error;
+    }
+  }
+
+  async updateContactSettings(tenantId: number, settings: Partial<InsertContactSettings>): Promise<ContactSettings | undefined> {
+    try {
+      console.log(`📞 Aggiornamento impostazioni contatto per tenant ${tenantId}:`, {
+        phone: settings.phone,
+        email: settings.email,
+        whatsappOptIn: settings.whatsappOptIn
+      });
+      
+      const [updated] = await db
+        .update(contactSettings)
+        .set({
+          ...settings,
+          updatedAt: new Date()
+        })
+        .where(eq(contactSettings.tenantId, tenantId))
+        .returning();
+      
+      if (updated) {
+        console.log(`✅ Impostazioni contatto aggiornate per tenant ${tenantId}`);
+      } else {
+        console.log(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
+      }
+      
+      return updated;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento impostazioni contatto per tenant ${tenantId}:`, error);
+      return undefined;
+    }
+  }
+
+  async deleteContactSettings(tenantId: number): Promise<boolean> {
+    try {
+      console.log(`📞 Eliminazione impostazioni contatto per tenant ${tenantId}`);
+      
+      const result = await db
+        .delete(contactSettings)
+        .where(eq(contactSettings.tenantId, tenantId));
+      
+      const success = result.rowCount > 0;
+      if (success) {
+        console.log(`✅ Impostazioni contatto eliminate per tenant ${tenantId}`);
+      } else {
+        console.log(`⚠️ Nessuna impostazione contatto trovata per tenant ${tenantId}`);
+      }
+      
+      return success;
+    } catch (error) {
+      console.error(`Errore nell'eliminazione impostazioni contatto per tenant ${tenantId}:`, error);
+      return false;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
