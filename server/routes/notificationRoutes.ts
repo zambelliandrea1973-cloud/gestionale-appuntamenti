@@ -3,8 +3,24 @@ import { storage } from '../storage';
 import { formatInTimeZone } from 'date-fns-tz';
 import { addDays, addHours, addMinutes, format, parse, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
+import fs from 'fs';
+import path from 'path';
 // Per requisito esplicito, rimosso il controllo isStaff
 // import { isStaff } from '../auth';
+
+// Funzione per caricare dati dal file JSON (come fa il calendario)
+function loadStorageData() {
+  const storageFile = path.join(process.cwd(), 'storage_data.json');
+  try {
+    if (fs.existsSync(storageFile)) {
+      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+      return data;
+    }
+  } catch (error) {
+    console.error('Errore caricamento storage per notifiche:', error);
+  }
+  return { appointments: [], clients: [], userServices: {} };
+}
 
 const router = express.Router();
 
@@ -30,12 +46,42 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     
     console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
-    // CORRETTO: Ottieni solo gli appuntamenti dell'utente autenticato con filtro diretto nel database
-    const todayAppointments = await storage.getAppointmentsByDateForUser(today, userId, userType);
-    const tomorrowAppointments = await storage.getAppointmentsByDateForUser(tomorrow, userId, userType);
+    // USA LA STESSA FONTE DEL CALENDARIO: File JSON
+    const storageData = loadStorageData();
+    const allAppointments = (storageData.appointments || []).map(item => {
+      if (Array.isArray(item)) {
+        return item[1]; // Formato [id, appointment]
+      }
+      return item; // Formato diretto
+    });
     
-    // Già filtrati dal database per l'utente corrente
-    const appointments = [...todayAppointments, ...tomorrowAppointments];
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[userId] || [];
+    
+    // Filtra appuntamenti per oggi e domani dello stesso utente (come fa il calendario)
+    const relevantAppointments = allAppointments.filter(appointment => {
+      const appointmentDate = appointment.date;
+      return (appointmentDate === today || appointmentDate === tomorrow);
+    });
+    
+    // Aggiungi i dettagli del cliente e servizio per ogni appuntamento
+    const appointments = [];
+    for (const appointment of relevantAppointments) {
+      // Trova cliente
+      const clientEntry = allClients.find(([id, client]) => client.id === appointment.clientId);
+      const client = clientEntry ? clientEntry[1] : null;
+      
+      // Trova servizio
+      const service = userServices.find(s => s.id === appointment.serviceId);
+      
+      if (client && service) {
+        appointments.push({
+          ...appointment,
+          client,
+          service
+        });
+      }
+    }
     
     // Filtra gli appuntamenti includendo sia quelli 'scheduled' che 'confirmed'
     const eligibleAppointments = appointments.filter(a => 
@@ -246,8 +292,41 @@ router.post('/send-all-tomorrow', async (req: Request, res: Response) => {
     
     console.log(`🚀 INVIO AUTOMATICO: Cercando appuntamenti per domani ${tomorrow} - utente ${userId}`);
     
-    // Trova TUTTI gli appuntamenti di domani per l'utente
-    const tomorrowAppointments = await storage.getAppointmentsByDateForUser(tomorrow, userId, userType);
+    // Trova TUTTI gli appuntamenti di domani per l'utente (usa stessa fonte del calendario)
+    const storageData = loadStorageData();
+    const allAppointments = (storageData.appointments || []).map(item => {
+      if (Array.isArray(item)) {
+        return item[1]; // Formato [id, appointment]
+      }
+      return item; // Formato diretto
+    });
+    
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[userId] || [];
+    
+    // Filtra appuntamenti per domani
+    const relevantAppointments = allAppointments.filter(appointment => {
+      return appointment.date === tomorrow;
+    });
+    
+    // Aggiungi i dettagli del cliente e servizio per ogni appuntamento
+    const tomorrowAppointments = [];
+    for (const appointment of relevantAppointments) {
+      // Trova cliente
+      const clientEntry = allClients.find(([id, client]) => client.id === appointment.clientId);
+      const client = clientEntry ? clientEntry[1] : null;
+      
+      // Trova servizio
+      const service = userServices.find(s => s.id === appointment.serviceId);
+      
+      if (client && service) {
+        tomorrowAppointments.push({
+          ...appointment,
+          client,
+          service
+        });
+      }
+    }
     
     // Filtra solo quelli confermati/programmati
     const eligibleAppointments = tomorrowAppointments.filter(a => 
