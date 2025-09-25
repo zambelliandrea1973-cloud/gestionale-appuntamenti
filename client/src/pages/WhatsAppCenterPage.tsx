@@ -129,6 +129,9 @@ const WhatsAppCenterPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   // isVerifying stato rimosso - faceva parte del vecchio sistema SMS
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  
+  // Stato per invio automatico completo
+  const [isSendingAll, setIsSendingAll] = useState(false);
   const [configuredEmail, setConfiguredEmail] = useState<string>('');
 
   
@@ -311,6 +314,80 @@ const WhatsAppCenterPage: React.FC = () => {
       updatedSelection[appointment.id] = !isMessageSent; // seleziona solo i non inviati
     });
     setSelectedAppointments(updatedSelection);
+  };
+  
+  // NUOVO: Funzione per inviare automaticamente TUTTI i messaggi di domani
+  const handleSendAllTomorrow = async () => {
+    if (isSendingAll) return;
+    
+    setIsSendingAll(true);
+    
+    try {
+      console.log('🚀 FRONTEND: Avviando invio automatico per domani...');
+      
+      const response = await apiRequest('/api/notifications/send-all-tomorrow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+      });
+      
+      if (response.success) {
+        const { results, summary } = response;
+        
+        console.log('✅ FRONTEND: Invio automatico completato:', summary);
+        
+        // Mostra risultato all'utente
+        toast({
+          title: "🎉 Invio Automatico Completato!",
+          description: `${summary.successful} messaggi preparati per domani! ${summary.failed > 0 ? `${summary.failed} errori.` : ''}`,
+          variant: summary.failed > 0 ? 'destructive' : 'default'
+        });
+        
+        // Aggiorna automaticamente la lista degli appuntamenti
+        await fetchUpcomingAppointments();
+        
+        // Se ci sono messaggi preparati, mostra i link WhatsApp per aprirli
+        if (results && results.length > 0) {
+          const links = results
+            .filter((r: any) => r.success)
+            .map((r: any) => ({
+              id: r.id,
+              name: r.clientName,
+              link: r.whatsappUrl
+            }));
+          
+          if (links.length > 0) {
+            setGeneratedLinks(links);
+            setCurrentLinkIndex(0);
+            setShowGeneratedLinks(true);
+            setIsSequenceRunning(false);
+            
+            // Mostra toast aggiuntivo per guidare l'utente
+            setTimeout(() => {
+              toast({
+                title: "💬 Messaggi Pronti!",
+                description: `Clicca su "Apri WhatsApp" per iniziare a inviare i ${links.length} messaggi preparati.`,
+              });
+            }, 1000);
+          }
+        }
+        
+      } else {
+        throw new Error(response.error || 'Errore sconosciuto durante invio automatico');
+      }
+      
+    } catch (error: any) {
+      console.error('❌ FRONTEND: Errore invio automatico:', error);
+      toast({
+        title: "❌ Errore Invio Automatico",
+        description: error.message || 'Impossibile inviare i messaggi automaticamente. Riprova.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSendingAll(false);
+    }
   };
   
   // Stato per i link WhatsApp generati e il processo sequenziale
@@ -948,6 +1025,18 @@ const WhatsAppCenterPage: React.FC = () => {
                       </div>
                       
                       <div className="flex items-center gap-1">
+                        <Button
+                          size="sm"
+                          variant="default"
+                          onClick={handleSendAllTomorrow}
+                          disabled={isSendingAll}
+                          className="bg-green-600 hover:bg-green-700 text-white"
+                          data-testid="button-send-all-tomorrow"
+                        >
+                          <MessageSquare className="h-4 w-4 mr-1" />
+                          {isSendingAll ? t('Invio automatico...') : t('Invia Tutti per Domani')}
+                        </Button>
+                        
                         <Button
                           size="sm"
                           variant="default"
