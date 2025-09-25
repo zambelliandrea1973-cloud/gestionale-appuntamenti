@@ -73,7 +73,7 @@ export function setupAuth(app: Express) {
         userType = user.role === 'admin' ? 'admin' : 'staff';
         console.log(`Tipo utente non definito per ${username}, impostato a ${userType} basato sul ruolo`);
       } else {
-        console.log(`Tipo utente mantenuto per ${username}: ${userType}`);
+        // Debug log removed for performance optimization
       }
       
       return done(null, { 
@@ -145,8 +145,7 @@ export function setupAuth(app: Express) {
 
   // Serializziamo l'utente con un formato che ci permette di riconoscere se è staff o cliente
   passport.serializeUser((user: any, done) => {
-    // Logging per debug
-    console.log('Serializzazione utente:', user.username, 'tipo:', user.type, 'id:', user.id);
+    // User serialization - debug logs removed for performance
     
     const userType = user.type;
     const userId = user.id;
@@ -163,8 +162,7 @@ export function setupAuth(app: Express) {
   // Deserializziamo l'utente in base al tipo
   passport.deserializeUser(async (serialized: string, done) => {
     try {
-      // Logging per debug
-      console.log('Deserializzazione utente con serialized:', serialized);
+      // User deserialization - debug logs removed for performance
       
       // Verifica se serialized è una stringa valida
       if (!serialized || typeof serialized !== 'string') {
@@ -192,7 +190,7 @@ export function setupAuth(app: Express) {
           userType = user.role === 'admin' ? 'admin' : (type === 'customer' ? 'customer' : 'staff');
           console.log(`Tipo utente non definito per ID ${id}, impostato a ${userType} basato sul tipo serializzato`);
         } else {
-          console.log(`Tipo utente mantenuto per ID ${id}: ${userType}`);
+          // User type maintained - debug log removed for performance
         }
         
         return done(null, { ...user, type: userType });
