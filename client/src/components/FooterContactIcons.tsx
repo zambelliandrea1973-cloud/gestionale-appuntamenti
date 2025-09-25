@@ -76,15 +76,8 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     };
   }, [user?.id, ownerId]);
 
-  // Verifica ogni 5 secondi se ci sono nuovi dati (fallback)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("Verifica periodica delle informazioni di contatto...");
-      loadContactData();
-    }, 5000);
-    
-    return () => clearInterval(interval);
-  }, []);
+  // RIDONDANZA ELIMINATA: Il componente già ascolta eventi storage e personalizzati
+  // per gli aggiornamenti, non serve polling ogni 5 secondi che spreca risorse
 
   if (!contactInfo.email && !contactInfo.phone1 && !contactInfo.phone2 && 
       !contactInfo.website && !contactInfo.facebook && !contactInfo.instagram) {

@@ -9,6 +9,32 @@ import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
 import multer from 'multer';
 
+// TYPE INTERFACES - Define common data structures
+interface Client {
+  id: number;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  ownerId?: number;
+}
+
+interface Service {
+  id: number;
+  name: string;
+  duration: number;
+  price: number;
+  color: string;
+  ownerId?: number;
+}
+
+interface Invoice {
+  invoiceNumber: string;
+  ownerId: number;
+  date: string;
+  [key: string]: any;
+}
+
 // STORAGE FUNCTIONS - Add missing storage functions
 function loadStorageData() {
   const storageFile = path.join(process.cwd(), 'storage_data.json');
@@ -167,7 +193,7 @@ function generateInvoiceNumber(userId: number): string {
   const storageData = loadStorageData();
   const invoices = storageData.invoices || [];
   
-  const userInvoicesThisYear = invoices.filter(([_, invoice]) => {
+  const userInvoicesThisYear = invoices.filter(([_, invoice]: [any, Invoice]) => {
     if (invoice.ownerId !== userId) return false;
     
     // Cerca pattern /YYYY nel numero fattura (formato corretto NNN/YYYY)
@@ -253,7 +279,7 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(404).json({ message: "Servizi non trovati" });
     }
     
-    const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
+    const serviceIndex = storageData.userServices[user.id].findIndex((s: Service) => s.id === serviceId);
     if (serviceIndex === -1) {
       return res.status(404).json({ message: "Servizio non trovato" });
     }
@@ -290,7 +316,7 @@ export function registerSimpleRoutes(app: Express): Server {
       storageData.userServices[user.id].map(s => ({ id: s.id, name: s.name })));
     
     // Cerca il servizio con l'ID ricevuto (ora gli ID coincidono)
-    const serviceIndex = storageData.userServices[user.id].findIndex(s => s.id === serviceId);
+    const serviceIndex = storageData.userServices[user.id].findIndex((s: Service) => s.id === serviceId);
     
     if (serviceIndex === -1) {
       console.log(`❌ [DELETE] Servizio con ID ${serviceId} non trovato tra i servizi dell'utente ${user.id}`);
@@ -320,8 +346,8 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Gestisce sia formato [id, client] che client diretto + filtra per utente
     const userClients = allClientsRaw
-      .map(item => Array.isArray(item) ? item[1] : item)
-      .filter(client => {
+      .map((item: any) => Array.isArray(item) ? item[1] : item)
+      .filter((client: Client) => {
         if (user.type === 'admin') return true; // Admin vede tutti
         return client.ownerId === user.id || !client.ownerId; // Altri vedono solo i propri
       });
