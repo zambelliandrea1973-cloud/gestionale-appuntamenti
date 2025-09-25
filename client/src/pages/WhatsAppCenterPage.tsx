@@ -151,16 +151,24 @@ const WhatsAppCenterPage: React.FC = () => {
     cacheTime: 0
   });
 
-  // Mutation per salvare ContactSettings 
+  // Mutation per salvare ContactSettings (usando fetch diretto per debug) 
   const updateContactSettingsMutation = useMutation({
-    mutationFn: (data: { phone?: string; email?: string; whatsappOptIn?: boolean }) => 
-      apiRequest('/api/contact-settings', {
+    mutationFn: async (data: { phone?: string; email?: string; whatsappOptIn?: boolean }) => {
+      const response = await fetch('/api/contact-settings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'same-origin',
         body: JSON.stringify(data)
-      }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return response.json();
+    },
     onSuccess: () => {
       toast({
         title: t('✅ Configurazione salvata!'),
