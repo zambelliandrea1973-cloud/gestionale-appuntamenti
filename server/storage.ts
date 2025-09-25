@@ -628,7 +628,7 @@ export class MemStorage implements IStorage {
 
   // Multi-tenant appointment operations - Sistema separazione per utente
   async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
-    console.log(`🔍 MemStorage multi-tenant: recupero appuntamenti per utente ${userId} (${userType})`);
+    // MemStorage multi-tenant appointment retrieval - debug removed
     
     // Ottieni solo i clienti visibili per questo utente
     const visibleClients = await this.getVisibleClientsForUser(userId, userType);
@@ -658,7 +658,7 @@ export class MemStorage implements IStorage {
   }
 
   async getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]> {
-    console.log(`🔍 MemStorage multi-tenant: recupero appuntamenti per data ${date} - utente ${userId} (${userType})`);
+    // MemStorage multi-tenant date appointment retrieval - debug removed
     
     // Ottieni solo i clienti visibili per questo utente
     const visibleClients = await this.getVisibleClientsForUser(userId, userType);
@@ -1768,7 +1768,7 @@ export class DatabaseStorage implements IStorage {
   // NUOVO Sistema multi-tenant: Servizi separati per utente
   async getServicesForUser(userId: number): Promise<Service[]> {
     try {
-      console.log(`🔍 NUOVO Sistema multi-tenant: recupero servizi per utente ${userId} - FILTRO DIRETTO`);
+      // NEW multi-tenant system: user services retrieval - debug removed
       const userServices = await db
         .select()
         .from(services)
@@ -1899,7 +1899,7 @@ export class DatabaseStorage implements IStorage {
   // Multi-tenant appointment operations - Sistema separazione per utente RISTRUTTURATO
   async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      console.log(`🔍 NUOVO Sistema multi-tenant: recupero appuntamenti per utente ${userId} (${userType}) - FILTRO DIRETTO`);
+      // NEW multi-tenant system: user appointments retrieval - debug removed
       
       const result: AppointmentWithDetails[] = [];
       
@@ -1933,7 +1933,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      console.log(`🔍 Sistema multi-tenant: recupero appuntamenti per data ${date} - utente ${userId} (${userType})`);
+      // Multi-tenant system: date appointments retrieval - debug removed
       
       const result: AppointmentWithDetails[] = [];
       
@@ -2507,15 +2507,15 @@ export class DatabaseStorage implements IStorage {
   // USER OPERATIONS
   async getUser(id: number): Promise<User | undefined> {
     try {
-      console.log(`getUser: Cercando utente con ID ${id}`);
+      // getUser search - debug log removed for performance
       const [user] = await db.select().from(users).where(eq(users.id, id));
       
       if (!user) {
-        console.log(`getUser: Nessun utente trovato con ID ${id}`);
+        // getUser not found - debug log removed for performance
         return undefined;
       }
       
-      console.log(`getUser: Trovato utente ${user.username}, tipo: ${user.type}`);
+      // getUser found - debug log removed for performance
       return user;
     } catch (error) {
       console.error("Error getting user:", error);
