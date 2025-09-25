@@ -1,7 +1,20 @@
 import { Router, Request, Response } from 'express';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
-import { loadStorageData } from '../storage';
+import { storage } from '../storage';
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Function to load data from JSON file (same pattern as simple-routes.ts)
+function loadStorageData() {
+  const storageFile = path.join(process.cwd(), 'storage_data.json');
+  try {
+    return JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+  } catch (error) {
+    console.error('Error loading storage data:', error);
+    return { appointments: [], clients: [], userServices: {} };
+  }
+}
 
 const router = Router();
 
