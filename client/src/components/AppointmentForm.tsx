@@ -736,7 +736,8 @@ export default function AppointmentForm({
             )}
             
             {/* Collaboratori e Stanze - mostrati sempre */}
-            {true && (
+            <div>
+            {/* DEBUG: Forza visualizzazione */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Collaboratore/Staff */}
                 <FormField
@@ -815,7 +816,7 @@ export default function AppointmentForm({
                   )}
                 />
               </div>
-            )}
+            </div>
             
             {/* Sezione per selezione di data e ora */}
             <div className="space-y-4">
