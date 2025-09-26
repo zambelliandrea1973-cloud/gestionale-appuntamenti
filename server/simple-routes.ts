@@ -1772,6 +1772,18 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user as any;
     if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
     
+    // DEBUG: Log completo dei dati ricevuti per verificare staffId e roomId
+    console.log(`🔍 [DEBUG POST APPOINTMENTS] Dati ricevuti dal form:`, {
+      clientId: req.body.clientId,
+      serviceId: req.body.serviceId,
+      staffId: req.body.staffId,
+      roomId: req.body.roomId,
+      date: req.body.date,
+      startTime: req.body.startTime,
+      notes: req.body.notes,
+      allFields: req.body
+    });
+    
     // Valida gli ID con dati persistenti
     const storageData = loadStorageData();
     const allClients = storageData.clients || [];
