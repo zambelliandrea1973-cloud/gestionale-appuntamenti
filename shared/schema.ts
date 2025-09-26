@@ -49,12 +49,14 @@ export const insertServiceSchema = createInsertSchema(services).omit({
   id: true,
 });
 
-// Appointments table schema - RISTRUTTURATO PER MULTI-TENANT
+// Appointments table schema - RISTRUTTURATO PER MULTI-TENANT + STAFF/ROOMS
 export const appointments = pgTable("appointments", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(), // AGGIUNTO: Separazione per utente
   clientId: integer("client_id").notNull(),
   serviceId: integer("service_id").notNull(),
+  staffId: integer("staff_id"), // NUOVO: Collaboratore assegnato (optional)
+  roomId: integer("room_id"), // NUOVO: Stanza/cabina assegnata (optional) 
   date: text("date").notNull(), // YYYY-MM-DD format
   startTime: time("start_time").notNull(),
   endTime: time("end_time").notNull(),
@@ -70,6 +72,40 @@ export const appointments = pgTable("appointments", {
 });
 
 export const insertAppointmentSchema = createInsertSchema(appointments).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Staff/Collaboratori table schema
+export const staff = pgTable("staff", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Proprietario dello studio
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email"),
+  phone: text("phone"),
+  specialization: text("specialization"), // Specializzazione del collaboratore
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertStaffSchema = createInsertSchema(staff).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Treatment Rooms/Cabine table schema  
+export const treatmentRooms = pgTable("treatment_rooms", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Proprietario dello studio
+  name: text("name").notNull(), // Nome della stanza/cabina
+  description: text("description"), // Descrizione optional
+  color: text("color").default("#3f51b5"), // Colore per il calendario
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertTreatmentRoomSchema = createInsertSchema(treatmentRooms).omit({
   id: true,
   createdAt: true,
 });
@@ -550,6 +586,12 @@ export type InsertService = z.infer<typeof insertServiceSchema>;
 
 export type Appointment = typeof appointments.$inferSelect;
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
+
+export type Staff = typeof staff.$inferSelect;
+export type InsertStaff = z.infer<typeof insertStaffSchema>;
+
+export type TreatmentRoom = typeof treatmentRooms.$inferSelect;
+export type InsertTreatmentRoom = z.infer<typeof insertTreatmentRoomSchema>;
 
 export type GoogleCalendarEvent = typeof googleCalendarEvents.$inferSelect;
 export type InsertGoogleCalendarEvent = z.infer<typeof insertGoogleCalendarEventSchema>;
