@@ -14,6 +14,9 @@ import notificationRoutes from './routes/notificationRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
 import contactSettingsRoutes from './routes/contactSettingsRoutes';
 
+// Import storage for new collaborators and rooms functionality
+import { storage } from './storage';
+
 // TYPE INTERFACES - Define common data structures
 interface Client {
   id: number;
