@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 
@@ -43,6 +43,16 @@ export default function ClientAppointments() {
   const { data: appointments, isLoading: isLoadingAppointments } = useQuery<any[]>({
     queryKey: clientId ? [`/api/appointments/client/${clientId}`] : [],
     enabled: !!clientId
+  });
+
+  // Carica i collaboratori per mostrare i nomi
+  const { data: collaborators = [] } = useQuery<any[]>({
+    queryKey: ['/api/collaborators']
+  });
+
+  // Carica le stanze per mostrare i nomi
+  const { data: treatmentRooms = [] } = useQuery<any[]>({
+    queryKey: ['/api/treatment-rooms']
   });
   
   if (isLoadingClient || isLoadingAppointments) {
@@ -188,6 +198,8 @@ export default function ClientAppointments() {
                   <TableHead>Data</TableHead>
                   <TableHead>Ora</TableHead>
                   <TableHead>Servizio</TableHead>
+                  <TableHead>Collaboratore</TableHead>
+                  <TableHead>Stanza</TableHead>
                   <TableHead>Stato</TableHead>
                   <TableHead>Azioni</TableHead>
                 </TableRow>
@@ -212,6 +224,44 @@ export default function ClientAppointments() {
                       </TableCell>
                       <TableCell>
                         {appointment.service?.name || appointment.serviceName || 'Nessun servizio specificato'}
+                      </TableCell>
+                      <TableCell>
+                        {(() => {
+                          if (!appointment.staffId) return (
+                            <span className="text-muted-foreground text-sm">Non assegnato</span>
+                          );
+                          const staff = collaborators.find((c: any) => c.id === appointment.staffId);
+                          return staff ? (
+                            <div className="flex items-center">
+                              <User className="mr-2 h-4 w-4 text-muted-foreground" />
+                              <span className="text-sm">{staff.firstName} {staff.lastName}</span>
+                            </div>
+                          ) : (
+                            <span className="text-muted-foreground text-sm">Collaboratore non trovato</span>
+                          );
+                        })()}
+                      </TableCell>
+                      <TableCell>
+                        {(() => {
+                          if (!appointment.roomId) return (
+                            <span className="text-muted-foreground text-sm">Non specificata</span>
+                          );
+                          const room = treatmentRooms.find((r: any) => r.id === appointment.roomId);
+                          return room ? (
+                            <div className="flex items-center">
+                              <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+                              <div className="flex items-center gap-2">
+                                <div 
+                                  className="w-3 h-3 rounded-full border" 
+                                  style={{ backgroundColor: room.color }}
+                                />
+                                <span className="text-sm">{room.name}</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <span className="text-muted-foreground text-sm">Stanza non trovata</span>
+                          );
+                        })()}
                       </TableCell>
                       <TableCell>
                         <Badge variant={status.variant}>
