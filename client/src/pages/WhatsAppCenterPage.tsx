@@ -593,11 +593,11 @@ const WhatsAppCenterPage: React.FC = () => {
         });
         
         const links = data.results
-          .filter((result: any) => result.success && result.whatsappLink)
+          .filter((result: any) => result.success && result.whatsappUrl)
           .map((result: any) => ({
             id: result.appointmentId,
             name: result.clientName,
-            link: result.whatsappLink
+            link: result.whatsappUrl
           }));
         
         if (links.length > 0) {
