@@ -207,8 +207,11 @@ const WhatsAppCenterPage: React.FC = () => {
         const data = await response.json();
         
         if (data.success && data.settings) {
+          console.log('🔧 CENTRO WHATSAPP: Impostazioni caricate:', data.settings);
           setSavedSettings(data.settings);
-          setWhatsappStatus(data.settings.phone ? WhatsAppStatus.CONFIGURED : WhatsAppStatus.NOT_CONFIGURED);
+          const newStatus = data.settings.phone ? WhatsAppStatus.CONFIGURED : WhatsAppStatus.NOT_CONFIGURED;
+          console.log('📞 CENTRO WHATSAPP: Telefono configurato?', data.settings.phone, 'Status:', newStatus);
+          setWhatsappStatus(newStatus);
           setLastUpdated(new Date(data.settings.updatedAt || Date.now()));
           
           // Se il telefono è configurato, carica gli appuntamenti
@@ -258,14 +261,32 @@ const WhatsAppCenterPage: React.FC = () => {
       const response = await fetch('/api/notifications/upcoming-appointments');
       const data = await response.json();
       
+      console.log('🔍 CENTRO WHATSAPP: Dati ricevuti dall\'API:', JSON.stringify(data, null, 2));
+      
       if (data.success) {
-        setAppointments(data.appointments || []);
-        setGroupedAppointments(data.groupedAppointments || {});
+        const appointments = data.appointments || [];
+        console.log('📅 CENTRO WHATSAPP: Appuntamenti elaborati:', appointments.length);
+        console.log('📋 CENTRO WHATSAPP: Primo appuntamento di esempio:', appointments[0]);
+        
+        setAppointments(appointments);
+        
+        // Raggruppa gli appuntamenti per data se non sono già raggruppati
+        const grouped = appointments.reduce((groups: Record<string, Appointment[]>, appointment: Appointment) => {
+          const dateKey = appointment.date;
+          if (!groups[dateKey]) {
+            groups[dateKey] = [];
+          }
+          groups[dateKey].push(appointment);
+          return groups;
+        }, {});
+        
+        console.log('🗂️ CENTRO WHATSAPP: Appuntamenti raggruppati:', Object.keys(grouped).map(date => `${date}: ${grouped[date].length} app`));
+        setGroupedAppointments(grouped);
       } else {
         throw new Error(data.error || 'Errore sconosciuto');
       }
     } catch (error) {
-      console.error('Errore nel caricamento appuntamenti:', error);
+      console.error('❌ CENTRO WHATSAPP: Errore nel caricamento appuntamenti:', error);
       toast({
         title: 'Errore',
         description: 'Impossibile caricare gli appuntamenti.',
