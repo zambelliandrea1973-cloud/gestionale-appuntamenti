@@ -455,15 +455,15 @@ export const notificationService = {
         console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
                     `Ore di differenza: ${hoursDiff.toFixed(1)} (usando timestamp diretto senza offset)`);
         
-        // Verifica se l'appuntamento è tra 23 e 25 ore nel futuro
-        // Usiamo 23 invece di 24 per dare un po' di margine e non perderci promemoria
-        if (hoursDiff >= 23 && hoursDiff <= 25) {
+        // Verifica se l'appuntamento è tra 22 e 26 ore nel futuro
+        // Range ampliato per catturare tutti gli appuntamenti della giornata successiva
+        if (hoursDiff >= 22 && hoursDiff <= 26) {
           console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
           apptsToRemind.push(appointment);
         }
       }
       
-      console.log(`Trovati ${apptsToRemind.length} appuntamenti che necessitano di promemoria nelle prossime 24-25 ore`);
+      console.log(`Trovati ${apptsToRemind.length} appuntamenti che necessitano di promemoria nelle prossime 22-26 ore`);
       
       // Invia i promemoria
       for (const appointment of apptsToRemind) {
