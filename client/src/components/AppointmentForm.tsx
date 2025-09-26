@@ -110,6 +110,25 @@ export default function AppointmentForm({
     queryKey: ['/api/treatment-rooms']
   });
 
+  // DEBUG: Log dei dati caricati
+  useEffect(() => {
+    console.log('🔍 DEBUG COLLABORATORI:', {
+      collaborators,
+      length: collaborators?.length,
+      isLoading: isLoadingCollaborators,
+      raw: collaborators
+    });
+  }, [collaborators, isLoadingCollaborators]);
+
+  useEffect(() => {
+    console.log('🏠 DEBUG STANZE:', {
+      treatmentRooms,
+      length: treatmentRooms?.length,
+      isLoading: isLoadingRooms,
+      raw: treatmentRooms
+    });
+  }, [treatmentRooms, isLoadingRooms]);
+
   // Fetch appointment if editing
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
     queryKey: [`/api/appointments/${appointmentId}`],
@@ -737,7 +756,8 @@ export default function AppointmentForm({
                           <SelectContent>
                             <SelectItem value="none">Nessun collaboratore</SelectItem>
                             {collaborators
-                              .filter((collaborator: any) => collaborator.isActive)
+                              // TEMP: rimuovo il filtro isActive per debug
+                              // .filter((collaborator: any) => collaborator.isActive)
                               .map((collaborator: any) => (
                                 <SelectItem key={collaborator.id} value={collaborator.id.toString()}>
                                   {collaborator.firstName} {collaborator.lastName}
@@ -774,7 +794,8 @@ export default function AppointmentForm({
                           <SelectContent>
                             <SelectItem value="none">Nessuna stanza</SelectItem>
                             {treatmentRooms
-                              .filter((room: any) => room.isActive)
+                              // TEMP: rimuovo il filtro isActive per debug
+                              // .filter((room: any) => room.isActive)
                               .map((room: any) => (
                                 <SelectItem key={room.id} value={room.id.toString()}>
                                   <div className="flex items-center gap-2">
