@@ -17,6 +17,8 @@ interface DayViewWithTimeSlotsProps {
   isLoading: boolean;
   appointments: AppointmentWithDetails[];
   services: Service[];
+  collaborators?: any[];
+  treatmentRooms?: any[];
   onAppointmentUpdated: () => void;
   onAppointmentDeleted: (id: number) => void;
 }
@@ -26,6 +28,8 @@ export default function DayViewWithTimeSlots({
   isLoading,
   appointments,
   services,
+  collaborators = [],
+  treatmentRooms = [],
   onAppointmentUpdated,
   onAppointmentDeleted
 }: DayViewWithTimeSlotsProps) {

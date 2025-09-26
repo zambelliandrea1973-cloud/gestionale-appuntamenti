@@ -81,6 +81,16 @@ export default function Calendar() {
   const { data: services = [], isLoading: isLoadingServices } = useQuery({
     queryKey: ['/api/services'],
   });
+
+  // Collaboratori per mostrare i nomi negli appuntamenti
+  const { data: collaborators = [] } = useQuery({
+    queryKey: ['/api/collaborators'],
+  });
+
+  // Stanze per mostrare i colori negli appuntamenti
+  const { data: treatmentRooms = [] } = useQuery({
+    queryKey: ['/api/treatment-rooms'],
+  });
   
   const { data: clients = [] } = useQuery({
     queryKey: ['/api/clients'],
@@ -405,6 +415,8 @@ export default function Calendar() {
               isLoading={isLoadingAppointments || isLoadingServices}
               appointments={dayAppointments as any[]}
               services={services as any[]}
+              collaborators={collaborators as any[]}
+              treatmentRooms={treatmentRooms as any[]}
               onAppointmentUpdated={handleAppointmentSaved}
               onAppointmentDeleted={(id) => {
                 // Invalidate queries after deletion
@@ -420,6 +432,9 @@ export default function Calendar() {
           {view === "week" && (
             <WeekView
               selectedDate={selectedDate}
+              services={services as any[]}
+              collaborators={collaborators as any[]}
+              treatmentRooms={treatmentRooms as any[]}
               onRefresh={handleRefresh}
             />
           )}
@@ -427,6 +442,9 @@ export default function Calendar() {
           {view === "month" && (
             <MonthView
               selectedDate={selectedDate}
+              services={services as any[]}
+              collaborators={collaborators as any[]}
+              treatmentRooms={treatmentRooms as any[]}
               onRefresh={handleRefresh}
               onDateSelect={(date) => {
                 setSelectedDate(date);
