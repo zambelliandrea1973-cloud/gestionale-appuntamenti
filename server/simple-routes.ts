@@ -5756,6 +5756,182 @@ Studio Professionale`,
     }
   });
 
+  // === STAFF (COLLABORATORI) API ROUTES ===
+  
+  // GET /api/collaborators - Lista collaboratori per utente
+  app.get("/api/collaborators", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const collaborators = await storage.getStaffForUser(user.id);
+      res.json(collaborators);
+    } catch (error) {
+      console.error("Errore recupero collaboratori:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // POST /api/collaborators - Crea nuovo collaboratore
+  app.post("/api/collaborators", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const collaboratorData = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const newCollaborator = await storage.createStaff(collaboratorData);
+      console.log(`✅ Collaboratore creato: ${newCollaborator.firstName} ${newCollaborator.lastName} per utente ${user.id}`);
+      res.status(201).json(newCollaborator);
+    } catch (error) {
+      console.error("Errore creazione collaboratore:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // PUT /api/collaborators/:id - Aggiorna collaboratore
+  app.put("/api/collaborators/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const collaboratorId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingCollaborator = await storage.getStaff(collaboratorId);
+      if (!existingCollaborator || existingCollaborator.userId !== user.id) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      const updatedCollaborator = await storage.updateStaff(collaboratorId, req.body);
+      if (!updatedCollaborator) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      console.log(`✅ Collaboratore aggiornato: ${updatedCollaborator.firstName} ${updatedCollaborator.lastName}`);
+      res.json(updatedCollaborator);
+    } catch (error) {
+      console.error("Errore aggiornamento collaboratore:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // DELETE /api/collaborators/:id - Elimina collaboratore
+  app.delete("/api/collaborators/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const collaboratorId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingCollaborator = await storage.getStaff(collaboratorId);
+      if (!existingCollaborator || existingCollaborator.userId !== user.id) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      const deleted = await storage.deleteStaff(collaboratorId);
+      if (!deleted) {
+        return res.status(404).json({ message: "Collaboratore non trovato" });
+      }
+      
+      console.log(`✅ Collaboratore eliminato: ID ${collaboratorId} per utente ${user.id}`);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Errore eliminazione collaboratore:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // === TREATMENT ROOMS (STANZE) API ROUTES ===
+  
+  // GET /api/treatment-rooms - Lista stanze per utente
+  app.get("/api/treatment-rooms", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const rooms = await storage.getTreatmentRoomsForUser(user.id);
+      res.json(rooms);
+    } catch (error) {
+      console.error("Errore recupero stanze:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // POST /api/treatment-rooms - Crea nuova stanza
+  app.post("/api/treatment-rooms", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const roomData = {
+        ...req.body,
+        userId: user.id
+      };
+      
+      const newRoom = await storage.createTreatmentRoom(roomData);
+      console.log(`✅ Stanza creata: ${newRoom.name} per utente ${user.id}`);
+      res.status(201).json(newRoom);
+    } catch (error) {
+      console.error("Errore creazione stanza:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // PUT /api/treatment-rooms/:id - Aggiorna stanza
+  app.put("/api/treatment-rooms/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const roomId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingRoom = await storage.getTreatmentRoom(roomId);
+      if (!existingRoom || existingRoom.userId !== user.id) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      const updatedRoom = await storage.updateTreatmentRoom(roomId, req.body);
+      if (!updatedRoom) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      console.log(`✅ Stanza aggiornata: ${updatedRoom.name}`);
+      res.json(updatedRoom);
+    } catch (error) {
+      console.error("Errore aggiornamento stanza:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // DELETE /api/treatment-rooms/:id - Elimina stanza
+  app.delete("/api/treatment-rooms/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    const roomId = parseInt(req.params.id);
+    
+    try {
+      // Verifica proprietà
+      const existingRoom = await storage.getTreatmentRoom(roomId);
+      if (!existingRoom || existingRoom.userId !== user.id) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      const deleted = await storage.deleteTreatmentRoom(roomId);
+      if (!deleted) {
+        return res.status(404).json({ message: "Stanza non trovata" });
+      }
+      
+      console.log(`✅ Stanza eliminata: ID ${roomId} per utente ${user.id}`);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Errore eliminazione stanza:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

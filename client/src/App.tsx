@@ -50,6 +50,8 @@ import WelcomePage from "./pages/WelcomePage";
 import ReferralCommissionsPage from "./pages/ReferralCommissionsPage";
 import BankingSettingsPage from "./pages/BankingSettingsPage";
 import OnboardingWizard from "./pages/OnboardingWizard";
+import StaffCollaboratorsPage from "./pages/StaffCollaboratorsPage";
+import TreatmentRoomsPage from "./pages/TreatmentRoomsPage";
 
 import NotFound from "./pages/not-found";
 import { TimezoneDetector } from "./components/TimezoneDetector";
@@ -305,6 +307,16 @@ function AppRoutes() {
       <Route path="/staff-management">
         <StaffPageWrapper>
           <StaffManagementPageFixed />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/collaborators">
+        <StaffPageWrapper>
+          <StaffCollaboratorsPage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/treatment-rooms">
+        <StaffPageWrapper>
+          <TreatmentRoomsPage />
         </StaffPageWrapper>
       </Route>
       <Route path="/subscribe">
