@@ -114,6 +114,21 @@ export default function AppointmentForm({
     gcTime: 0, // Don't cache the data
   });
 
+  // Form setup - DEVE ESSERE PRIMA di qualsiasi useEffect che lo utilizza
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      clientId: defaultClientId || 0,
+      serviceId: 0,
+      staffId: undefined,
+      roomId: undefined,
+      date: defaultDate || new Date(),
+      startTime: defaultTime || "09:00",
+      notes: "",
+      reminderType: "whatsapp" // Imposta solo WhatsApp come valore predefinito
+    }
+  });
+
   // Auto-seleziona il primo collaboratore quando i dati sono caricati
   useEffect(() => {
     if (collaborators && collaborators.length > 0 && !appointmentId) {
@@ -127,21 +142,6 @@ export default function AppointmentForm({
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
     queryKey: [`/api/appointments/${appointmentId}`],
     enabled: !!appointmentId
-  });
-
-  // Form setup
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      clientId: defaultClientId || 0,
-      serviceId: 0,
-      staffId: undefined,
-      roomId: undefined,
-      date: defaultDate || new Date(),
-      startTime: defaultTime || "09:00",
-      notes: "",
-      reminderType: "whatsapp" // Imposta solo WhatsApp come valore predefinito
-    }
   });
 
   // Update form values when editing existing appointment
