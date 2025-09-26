@@ -2,13 +2,25 @@ import { Router, Request, Response } from 'express';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { storage } from '../storage';
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Function to load data from JSON file (ripristinata temporaneamente)
+function loadStorageData() {
+  const storageFile = path.join(process.cwd(), 'storage_data.json');
+  try {
+    return JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+  } catch (error) {
+    console.error('Error loading storage data:', error);
+    return { appointments: [], clients: [], userServices: {} };
+  }
+}
 
 const router = Router();
 
 /**
  * Ottiene tutti gli appuntamenti imminenti (oggi e domani) 
- * con i dettagli del cliente e del servizio
- * ORA USA LA STESSA FONTE DEL SISTEMA DI PROMEMORIA: Database PostgreSQL
+ * TEMPORANEAMENTE ripristinato file JSON per mostrare tutti gli appuntamenti
  */
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
@@ -21,34 +33,60 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       });
     }
 
-    // Calcola le date per oggi e domani (stessa logica del processReminders)
+    // Calcola le date per oggi e domani
     const today = format(new Date(), 'yyyy-MM-dd');
     const tomorrow = format(new Date(Date.now() + 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
     
     console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
-    // USA LA STESSA FONTE DEL SISTEMA PROMEMORIA: Database PostgreSQL
-    const appointmentsFromDb = await storage.getAppointmentsByDateRange(today, tomorrow);
-    
-    console.log(`Trovati ${appointmentsFromDb.length} appuntamenti totali dal database per date ${today} - ${tomorrow}`);
-    
-    // Mappa i risultati nel formato atteso dal frontend
-    const appointments = appointmentsFromDb.map((appointment: any) => ({
-      ...appointment,
-      client: {
-        id: appointment.client.id,
-        firstName: appointment.client.firstName,
-        lastName: appointment.client.lastName,
-        phone: appointment.client.phone,
-        email: appointment.client.email
-      },
-      service: {
-        id: appointment.service.id,
-        name: appointment.service.name
+    // TEMPORANEAMENTE torna al file JSON per vedere tutti gli appuntamenti
+    const storageData = loadStorageData();
+    const allAppointments = (storageData.appointments || []).map((item: any) => {
+      if (Array.isArray(item)) {
+        return item[1]; // Formato [id, appointment]
       }
-    }));
+      return item; // Formato diretto
+    });
     
-    console.log(`Processati ${appointments.length} appuntamenti per notifiche WhatsApp`);
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[userId] || [];
+    
+    // Filtra appuntamenti per oggi e domani dello stesso utente (come fa il calendario)
+    const relevantAppointments = allAppointments.filter((appointment: any) => {
+      const appointmentDate = appointment.date;
+      return (appointmentDate === today || appointmentDate === tomorrow);
+    });
+    
+    // Aggiungi i dettagli del cliente e servizio per ogni appuntamento
+    const appointments = [];
+    for (const appointment of relevantAppointments) {
+      // Trova cliente
+      const clientEntry = allClients.find(([id, client]: [any, any]) => client.id === appointment.clientId);
+      const client = clientEntry ? clientEntry[1] : null;
+      
+      // Trova servizio
+      const service = userServices.find((s: any) => s.id === appointment.serviceId);
+      
+      if (client && service) {
+        appointments.push({
+          ...appointment,
+          client: {
+            id: client.id,
+            firstName: client.firstName,
+            lastName: client.lastName,
+            phone: client.phone,
+            email: client.email
+          },
+          service: {
+            id: service.id,
+            name: service.name
+          }
+        });
+      }
+    }
+    
+    console.log(`Trovati ${appointments.length} appuntamenti totali per date ${today} - ${tomorrow}`);
+    console.log(`Filtrati ${appointments.length} appuntamenti per notifiche WhatsApp`);
     
     res.json({
       success: true,
