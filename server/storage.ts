@@ -37,7 +37,9 @@ import {
   type InvoiceWithDetails,
   type InvoiceItemWithDetails,
   type SubscriptionWithDetails,
-  type BetaFeedbackWithUserDetails
+  type BetaFeedbackWithUserDetails,
+  type Staff, type InsertStaff,
+  type TreatmentRoom, type InsertTreatmentRoom
 } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 import session from "express-session";
@@ -70,6 +72,20 @@ export interface IStorage {
   createService(service: InsertService): Promise<Service>;
   updateService(id: number, service: Partial<InsertService>): Promise<Service | undefined>;
   deleteService(id: number): Promise<boolean>;
+  
+  // Staff operations
+  getStaff(id: number): Promise<Staff | undefined>;
+  getStaffForUser(userId: number): Promise<Staff[]>;
+  createStaff(staff: InsertStaff): Promise<Staff>;
+  updateStaff(id: number, staff: Partial<InsertStaff>): Promise<Staff | undefined>;
+  deleteStaff(id: number): Promise<boolean>;
+  
+  // Treatment Room operations
+  getTreatmentRoom(id: number): Promise<TreatmentRoom | undefined>;
+  getTreatmentRoomsForUser(userId: number): Promise<TreatmentRoom[]>;
+  createTreatmentRoom(room: InsertTreatmentRoom): Promise<TreatmentRoom>;
+  updateTreatmentRoom(id: number, room: Partial<InsertTreatmentRoom>): Promise<TreatmentRoom | undefined>;
+  deleteTreatmentRoom(id: number): Promise<boolean>;
   
   // Appointment operations - Multi-tenant system
   getAppointment(id: number): Promise<AppointmentWithDetails | undefined>;
@@ -298,6 +314,8 @@ export interface IStorage {
 export class MemStorage implements IStorage {
   private clients: Map<number, Client>;
   private services: Map<number, Service>;
+  private staff: Map<number, Staff>;
+  private treatmentRooms: Map<number, TreatmentRoom>;
   private appointments: Map<number, Appointment>;
   private consents: Map<number, Consent>;
   private invoices: Map<number, Invoice>;
@@ -309,6 +327,8 @@ export class MemStorage implements IStorage {
   
   private clientIdCounter: number;
   private serviceIdCounter: number;
+  private staffIdCounter: number;
+  private treatmentRoomIdCounter: number;
   private appointmentIdCounter: number;
   private consentIdCounter: number;
   private invoiceIdCounter: number;
@@ -333,6 +353,8 @@ export class MemStorage implements IStorage {
         // Restore maps from the saved data
         this.clients = new Map(data.clients);
         this.services = new Map(data.services);
+        this.staff = data.staff ? new Map(data.staff) : new Map();
+        this.treatmentRooms = data.treatmentRooms ? new Map(data.treatmentRooms) : new Map();
         this.appointments = new Map(data.appointments);
         this.consents = new Map(data.consents);
         
@@ -349,6 +371,8 @@ export class MemStorage implements IStorage {
         // Restore counters
         this.clientIdCounter = data.clientIdCounter;
         this.serviceIdCounter = data.serviceIdCounter;
+        this.staffIdCounter = data.staffIdCounter || 1;
+        this.treatmentRoomIdCounter = data.treatmentRoomIdCounter || 1;
         this.appointmentIdCounter = data.appointmentIdCounter;
         this.consentIdCounter = data.consentIdCounter;
         this.invoiceIdCounter = data.invoiceIdCounter || 1;
@@ -363,6 +387,8 @@ export class MemStorage implements IStorage {
         // Initialize empty maps if no saved data
         this.clients = new Map();
         this.services = new Map();
+        this.staff = new Map();
+        this.treatmentRooms = new Map();
         this.appointments = new Map();
         this.consents = new Map();
         this.invoices = new Map();
@@ -374,6 +400,8 @@ export class MemStorage implements IStorage {
         
         this.clientIdCounter = 1;
         this.serviceIdCounter = 1;
+        this.staffIdCounter = 1;
+        this.treatmentRoomIdCounter = 1;
         this.appointmentIdCounter = 1;
         this.consentIdCounter = 1;
         this.invoiceIdCounter = 1;
@@ -390,6 +418,8 @@ export class MemStorage implements IStorage {
       // Initialize empty maps if loading fails
       this.clients = new Map();
       this.services = new Map();
+      this.staff = new Map();
+      this.treatmentRooms = new Map();
       this.appointments = new Map();
       this.consents = new Map();
       this.invoices = new Map();
@@ -401,6 +431,8 @@ export class MemStorage implements IStorage {
       
       this.clientIdCounter = 1;
       this.serviceIdCounter = 1;
+      this.staffIdCounter = 1;
+      this.treatmentRoomIdCounter = 1;
       this.appointmentIdCounter = 1;
       this.consentIdCounter = 1;
       this.invoiceIdCounter = 1;
@@ -420,6 +452,8 @@ export class MemStorage implements IStorage {
       const data = {
         clients: Array.from(this.clients.entries()),
         services: Array.from(this.services.entries()),
+        staff: Array.from(this.staff.entries()),
+        treatmentRooms: Array.from(this.treatmentRooms.entries()),
         appointments: Array.from(this.appointments.entries()),
         consents: Array.from(this.consents.entries()),
         invoices: Array.from(this.invoices.entries()),
@@ -430,6 +464,8 @@ export class MemStorage implements IStorage {
         onboardingProgressMap: Array.from(this.onboardingProgressMap.entries()),
         clientIdCounter: this.clientIdCounter,
         serviceIdCounter: this.serviceIdCounter,
+        staffIdCounter: this.staffIdCounter,
+        treatmentRoomIdCounter: this.treatmentRoomIdCounter,
         appointmentIdCounter: this.appointmentIdCounter,
         consentIdCounter: this.consentIdCounter,
         invoiceIdCounter: this.invoiceIdCounter,
@@ -539,6 +575,70 @@ export class MemStorage implements IStorage {
     const result = this.services.delete(id);
     this.saveToStorage();
     return result;
+  }
+
+  // Staff operations
+  async getStaff(id: number): Promise<Staff | undefined> {
+    return this.staff.get(id);
+  }
+
+  async getStaffForUser(userId: number): Promise<Staff[]> {
+    return Array.from(this.staff.values()).filter(staff => (staff as any).userId === userId);
+  }
+
+  async createStaff(staff: InsertStaff): Promise<Staff> {
+    const id = this.staffIdCounter++;
+    const newStaff: Staff = { ...staff, id };
+    this.staff.set(id, newStaff);
+    this.saveToStorage();
+    return newStaff;
+  }
+
+  async updateStaff(id: number, staff: Partial<InsertStaff>): Promise<Staff | undefined> {
+    const existingStaff = this.staff.get(id);
+    if (!existingStaff) return undefined;
+    const updatedStaff: Staff = { ...existingStaff, ...staff };
+    this.staff.set(id, updatedStaff);
+    this.saveToStorage();
+    return updatedStaff;
+  }
+
+  async deleteStaff(id: number): Promise<boolean> {
+    const deleted = this.staff.delete(id);
+    if (deleted) this.saveToStorage();
+    return deleted;
+  }
+
+  // Treatment Room operations
+  async getTreatmentRoom(id: number): Promise<TreatmentRoom | undefined> {
+    return this.treatmentRooms.get(id);
+  }
+
+  async getTreatmentRoomsForUser(userId: number): Promise<TreatmentRoom[]> {
+    return Array.from(this.treatmentRooms.values()).filter(room => (room as any).userId === userId);
+  }
+
+  async createTreatmentRoom(room: InsertTreatmentRoom): Promise<TreatmentRoom> {
+    const id = this.treatmentRoomIdCounter++;
+    const newRoom: TreatmentRoom = { ...room, id };
+    this.treatmentRooms.set(id, newRoom);
+    this.saveToStorage();
+    return newRoom;
+  }
+
+  async updateTreatmentRoom(id: number, room: Partial<InsertTreatmentRoom>): Promise<TreatmentRoom | undefined> {
+    const existingRoom = this.treatmentRooms.get(id);
+    if (!existingRoom) return undefined;
+    const updatedRoom: TreatmentRoom = { ...existingRoom, ...room };
+    this.treatmentRooms.set(id, updatedRoom);
+    this.saveToStorage();
+    return updatedRoom;
+  }
+
+  async deleteTreatmentRoom(id: number): Promise<boolean> {
+    const deleted = this.treatmentRooms.delete(id);
+    if (deleted) this.saveToStorage();
+    return deleted;
   }
   
   // Appointment operations
