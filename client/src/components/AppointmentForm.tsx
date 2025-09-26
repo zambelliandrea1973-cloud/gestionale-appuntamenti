@@ -771,7 +771,17 @@ export default function AppointmentForm({
                       <FormControl>
                         <Select
                           value={field.value?.toString() || "none"}
-                          onValueChange={(value) => field.onChange(value !== "none" ? parseInt(value) : undefined)}
+                          onValueChange={(value) => {
+                            console.log('🎯 COLLABORATORE SELEZIONATO:', value);
+                            field.onChange(value !== "none" ? parseInt(value) : undefined);
+                          }}
+                          onOpenChange={(open) => {
+                            console.log('🔍 DROPDOWN COLLABORATORI:', open ? 'APERTO' : 'CHIUSO');
+                            if (open) {
+                              console.log('📊 COLLABORATORI DISPONIBILI NEL DROPDOWN:', collaborators?.length || 0);
+                              console.log('📋 LISTA COLLABORATORI:', collaborators);
+                            }
+                          }}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Seleziona collaboratore..." />
@@ -781,16 +791,19 @@ export default function AppointmentForm({
                             {collaborators
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((collaborator: any) => collaborator.isActive)
-                              .map((collaborator: any) => (
-                                <SelectItem key={collaborator.id} value={collaborator.id.toString()}>
-                                  {collaborator.firstName} {collaborator.lastName}
-                                  {collaborator.specialization && (
-                                    <span className="text-sm text-muted-foreground ml-2">
-                                      - {collaborator.specialization}
-                                    </span>
-                                  )}
-                                </SelectItem>
-                              ))}
+                              .map((collaborator: any) => {
+                                console.log('🔨 RENDERING COLLABORATORE:', collaborator);
+                                return (
+                                  <SelectItem key={collaborator.id} value={collaborator.id.toString()}>
+                                    {collaborator.firstName} {collaborator.lastName}
+                                    {collaborator.specialization && (
+                                      <span className="text-sm text-muted-foreground ml-2">
+                                        - {collaborator.specialization}
+                                      </span>
+                                    )}
+                                  </SelectItem>
+                                );
+                              })}
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -809,7 +822,17 @@ export default function AppointmentForm({
                       <FormControl>
                         <Select
                           value={field.value?.toString() || "none"}
-                          onValueChange={(value) => field.onChange(value !== "none" ? parseInt(value) : undefined)}
+                          onValueChange={(value) => {
+                            console.log('🏠 STANZA SELEZIONATA:', value);
+                            field.onChange(value !== "none" ? parseInt(value) : undefined);
+                          }}
+                          onOpenChange={(open) => {
+                            console.log('🔍 DROPDOWN STANZE:', open ? 'APERTO' : 'CHIUSO');
+                            if (open) {
+                              console.log('📊 STANZE DISPONIBILI NEL DROPDOWN:', treatmentRooms?.length || 0);
+                              console.log('📋 LISTA STANZE:', treatmentRooms);
+                            }
+                          }}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Seleziona stanza..." />
@@ -819,17 +842,20 @@ export default function AppointmentForm({
                             {treatmentRooms
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((room: any) => room.isActive)
-                              .map((room: any) => (
-                                <SelectItem key={room.id} value={room.id.toString()}>
-                                  <div className="flex items-center gap-2">
-                                    <div 
-                                      className="w-3 h-3 rounded-full border" 
-                                      style={{ backgroundColor: room.color }}
-                                    />
-                                    {room.name}
-                                  </div>
-                                </SelectItem>
-                              ))}
+                              .map((room: any) => {
+                                console.log('🏗️ RENDERING STANZA:', room);
+                                return (
+                                  <SelectItem key={room.id} value={room.id.toString()}>
+                                    <div className="flex items-center gap-2">
+                                      <div 
+                                        className="w-3 h-3 rounded-full border" 
+                                        style={{ backgroundColor: room.color }}
+                                      />
+                                      {room.name}
+                                    </div>
+                                  </SelectItem>
+                                );
+                              })}
                           </SelectContent>
                         </Select>
                       </FormControl>
