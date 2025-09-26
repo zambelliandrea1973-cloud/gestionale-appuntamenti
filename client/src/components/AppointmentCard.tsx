@@ -87,6 +87,15 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     
     return appointment.client.isFrequent ? "rgba(236, 72, 153, 0.12)" : "rgba(59, 130, 246, 0.12)";
   };
+
+  // Get treatment room color for the small circle indicator
+  const getRoomColor = () => {
+    if (!appointment.treatmentRoomId) return null;
+    
+    // This will be populated from parent component with treatmentRooms data
+    // For now, return a default color if room ID exists
+    return appointment.treatmentRoomId ? '#10b981' : null; // Default green
+  };
   
   // Controlla se siamo su mobile
   const isMobile = window.innerWidth < 768;
@@ -160,6 +169,14 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
           <div className="truncate mr-1 flex-grow">
             <div className={`font-medium ${isMobile ? 'text-sm' : 'text-xs'} truncate flex items-center`}>
               <span className="font-bold">{appointment.client.firstName} {appointment.client.lastName}</span>
+              {/* Small room color indicator */}
+              {getRoomColor() && (
+                <div 
+                  className="w-2 h-2 rounded-full ml-2 flex-shrink-0"
+                  style={{ backgroundColor: getRoomColor() }}
+                  title={`Stanza: ${appointment.treatmentRoomId || 'N/A'}`}
+                />
+              )}
             </div>
             <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-700 truncate mt-0.5`}>
               <span className="font-medium">{appointment.service.name}</span>
@@ -255,8 +272,16 @@ export default function AppointmentCard({ appointment, onUpdate, compact = false
     >
       <div className="flex justify-between items-start">
         <div>
-          <div className={`font-medium ${isMobile ? 'text-base' : 'text-sm'}`}>
-            {appointment.client.firstName} {appointment.client.lastName}
+          <div className={`font-medium ${isMobile ? 'text-base' : 'text-sm'} flex items-center gap-2`}>
+            <span>{appointment.client.firstName} {appointment.client.lastName}</span>
+            {/* Small room color indicator */}
+            {getRoomColor() && (
+              <div 
+                className="w-3 h-3 rounded-full flex-shrink-0"
+                style={{ backgroundColor: getRoomColor() }}
+                title={`Stanza: ${appointment.treatmentRoomId || 'N/A'}`}
+              />
+            )}
           </div>
           <div className={`${isMobile ? 'text-sm' : 'text-xs'} text-gray-600`}>
             {appointment.service.name} ({formatTime(new Date(`2000-01-01T${appointment.startTime}`))}) - {appointment.service.duration} min

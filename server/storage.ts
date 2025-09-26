@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { 
   clients, type Client, type InsertClient,
   services, type Service, type InsertService,
+  staff, treatmentRooms,
   appointments, type Appointment, type InsertAppointment,
   consents, type Consent, type InsertConsent,
   invoices, type Invoice, type InsertInvoice, 
