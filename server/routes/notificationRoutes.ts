@@ -27,8 +27,10 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     
     console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
-    // SISTEMA UNIFICATO: usa solo database PostgreSQL
-    const appointmentsFromDb = await storage.getAppointmentsByDateRange(today, tomorrow);
+    // SISTEMA UNIFICATO: usa solo database PostgreSQL - CON FILTRO UTENTE
+    const appointmentsToday = await storage.getAppointmentsByDateForUser(today, userId, 'staff');
+    const appointmentsTomorrow = await storage.getAppointmentsByDateForUser(tomorrow, userId, 'staff');
+    const appointmentsFromDb = [...appointmentsToday, ...appointmentsTomorrow];
     
     console.log(`Trovati ${appointmentsFromDb.length} appuntamenti totali dal database unificato per date ${today} - ${tomorrow}`);
     
