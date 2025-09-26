@@ -409,8 +409,38 @@ export const notificationService = {
       
       // Filtra gli appuntamenti per trovare quelli nelle prossime 24-25 ore
       for (const appointment of appointments) {
-        // Salta gli appuntamenti senza tipo di promemoria o con promemoria già inviato
-        if (!appointment.reminderType || appointment.reminderStatus === 'sent') {
+        // Salta gli appuntamenti con promemoria già inviato
+        if (appointment.reminderStatus === 'sent') {
+          continue;
+        }
+        
+        // Se l'appuntamento ha un tipo di promemoria specifico, lo rispettiamo
+        // Altrimenti, verifichiamo se l'utente ha WhatsApp abilitato nelle impostazioni
+        let shouldSendReminder = false;
+        
+        if (appointment.reminderType) {
+          // L'appuntamento ha un tipo di promemoria specifico
+          shouldSendReminder = true;
+        } else {
+          // L'appuntamento non ha un tipo specifico, controlliamo le impostazioni utente
+          try {
+            // Recupera l'owner dell'appuntamento per controllare le sue impostazioni
+            const client = await storage.getClient(appointment.clientId);
+            if (client) {
+              const contactSettings = await storage.getContactSettings(client.ownerId);
+              if (contactSettings && contactSettings.whatsappOptIn) {
+                // L'utente ha WhatsApp abilitato, impostiamo automaticamente il tipo
+                appointment.reminderType = 'whatsapp';
+                shouldSendReminder = true;
+                console.log(`Appuntamento ID ${appointment.id}: impostato automaticamente reminderType=whatsapp per utente ${client.ownerId}`);
+              }
+            }
+          } catch (error) {
+            console.log(`Errore nel recupero impostazioni per appuntamento ${appointment.id}:`, error);
+          }
+        }
+        
+        if (!shouldSendReminder) {
           continue;
         }
         
