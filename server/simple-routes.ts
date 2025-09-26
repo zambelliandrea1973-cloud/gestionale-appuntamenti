@@ -5768,6 +5768,21 @@ Studio Professionale`,
     
     try {
       const collaborators = await storage.getStaffForUser(user.id);
+      
+      // DEBUG LOG
+      console.log('🔍 DEBUG API COLLABORATORS:', {
+        userId: user.id,
+        count: collaborators.length,
+        collaborators: collaborators.map(c => ({
+          id: c.id,
+          firstName: c.firstName,
+          lastName: c.lastName,
+          isActive: c.isActive,
+          hasIsActiveField: c.hasOwnProperty('isActive'),
+          allFields: Object.keys(c)
+        }))
+      });
+      
       res.json(collaborators);
     } catch (error) {
       console.error("Errore recupero collaboratori:", error);
