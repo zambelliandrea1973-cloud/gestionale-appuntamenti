@@ -50,6 +50,8 @@ const formSchema = insertAppointmentSchema.extend({
   startTime: z.string({
     required_error: "Seleziona un orario di inizio",
   }),
+  staffId: z.number().optional(),
+  roomId: z.number().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -98,6 +100,16 @@ export default function AppointmentForm({
     queryKey: ['/api/services']
   });
 
+  // Fetch collaborators
+  const { data: collaborators = [], isLoading: isLoadingCollaborators } = useQuery({
+    queryKey: ['/api/collaborators']
+  });
+
+  // Fetch treatment rooms
+  const { data: treatmentRooms = [], isLoading: isLoadingRooms } = useQuery({
+    queryKey: ['/api/treatment-rooms']
+  });
+
   // Fetch appointment if editing
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
     queryKey: [`/api/appointments/${appointmentId}`],
@@ -110,6 +122,8 @@ export default function AppointmentForm({
     defaultValues: {
       clientId: defaultClientId || 0,
       serviceId: 0,
+      staffId: undefined,
+      roomId: undefined,
       date: defaultDate || new Date(),
       startTime: defaultTime || "09:00",
       notes: "",
@@ -198,6 +212,8 @@ export default function AppointmentForm({
       const appointmentData = {
         clientId: data.clientId,
         serviceId: data.serviceId,
+        staffId: data.staffId || null,
+        roomId: data.roomId || null,
         date: formatDateForApi(data.date),
         startTime: data.startTime + ":00",
         endTime: endTime,
@@ -365,6 +381,8 @@ export default function AppointmentForm({
         const appointmentData = {
           clientId: data.clientId,
           serviceId: data.serviceId,
+          staffId: data.staffId || null,
+          roomId: data.roomId || null,
           date: formatDateForApi(data.date),
           startTime: data.startTime + ":00",
           endTime: endTime,
@@ -471,7 +489,7 @@ export default function AppointmentForm({
   };
 
   // Loading state
-  const isLoading = isLoadingClients || isLoadingServices || (appointmentId && isLoadingAppointment);
+  const isLoading = isLoadingClients || isLoadingServices || isLoadingCollaborators || isLoadingRooms || (appointmentId && isLoadingAppointment);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto max-h-[85vh] sm:max-w-[600px]">
@@ -695,6 +713,86 @@ export default function AppointmentForm({
                     </Button>
                   </div>
                 </div>
+              </div>
+            )}
+            
+            {/* Collaboratori e Stanze - mostrati solo se un servizio è selezionato */}
+            {form.watch("serviceId") > 0 && (
+              <div className="grid grid-cols-2 gap-4">
+                {/* Collaboratore/Staff */}
+                <FormField
+                  control={form.control}
+                  name="staffId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Collaboratore (opzionale)</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value?.toString() || ""}
+                          onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleziona collaboratore..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="">Nessun collaboratore</SelectItem>
+                            {collaborators
+                              .filter((collaborator: any) => collaborator.isActive)
+                              .map((collaborator: any) => (
+                                <SelectItem key={collaborator.id} value={collaborator.id.toString()}>
+                                  {collaborator.firstName} {collaborator.lastName}
+                                  {collaborator.specialization && (
+                                    <span className="text-sm text-muted-foreground ml-2">
+                                      - {collaborator.specialization}
+                                    </span>
+                                  )}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Stanza/Cabina */}
+                <FormField
+                  control={form.control}
+                  name="roomId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Stanza/Cabina (opzionale)</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value?.toString() || ""}
+                          onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleziona stanza..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="">Nessuna stanza</SelectItem>
+                            {treatmentRooms
+                              .filter((room: any) => room.isActive)
+                              .map((room: any) => (
+                                <SelectItem key={room.id} value={room.id.toString()}>
+                                  <div className="flex items-center gap-2">
+                                    <div 
+                                      className="w-3 h-3 rounded-full border" 
+                                      style={{ backgroundColor: room.color }}
+                                    />
+                                    {room.name}
+                                  </div>
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             )}
             
