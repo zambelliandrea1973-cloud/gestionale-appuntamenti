@@ -786,7 +786,7 @@ export default function AppointmentForm({
                           <SelectTrigger>
                             <SelectValue placeholder="Seleziona collaboratore..." />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="z-[9999] max-h-[200px] overflow-y-auto bg-white border shadow-lg">
                             <SelectItem value="none">Nessun collaboratore</SelectItem>
                             {collaborators
                               // TEMP: rimuovo il filtro isActive per debug
@@ -837,7 +837,7 @@ export default function AppointmentForm({
                           <SelectTrigger>
                             <SelectValue placeholder="Seleziona stanza..." />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="z-[9999] max-h-[200px] overflow-y-auto bg-white border shadow-lg">
                             <SelectItem value="none">Nessuna stanza</SelectItem>
                             {treatmentRooms
                               // TEMP: rimuovo il filtro isActive per debug
