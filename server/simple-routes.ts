@@ -926,12 +926,10 @@ export function registerSimpleRoutes(app: Express): Server {
     return { userIcons: {}, userBusinessSettings: {}, userBusinessData: {}, userServices: {}, professionistCodes: {}, clientCodes: {} };
   }
 
-  // Genera codice professionista univoco basato su licenza
+  // Genera codice professionista univoco SEMPLIFICATO
   async function generateProfessionistCode(userId: number): Promise<string> {
-    const crypto = await import('crypto');
-    const timestamp = Date.now();
-    const hash = crypto.createHash('md5').update(`PROF_${userId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
-    return `PROF_${userId.toString().padStart(3, '0')}_${hash}`;
+    // Codice semplice senza hash MD5 visibile
+    return `PROF_${userId.toString().padStart(3, '0')}`;
   }
 
   // Recupera o genera il codice professionista
@@ -957,13 +955,12 @@ export function registerSimpleRoutes(app: Express): Server {
     return newCode;
   }
 
-  // Genera codice cliente che include codice professionista
+  // Genera codice cliente SEMPLIFICATO - max 99999 clienti per studio
   async function generateClientCode(ownerId: number, clientId: number): Promise<string> {
-    const crypto = await import('crypto');
     const profCode = await getProfessionistCode(ownerId);
-    const timestamp = Date.now();
-    const hash = crypto.createHash('md5').update(`${profCode}_CLIENT_${clientId}_${timestamp}`).digest('hex').substring(0, 4).toUpperCase();
-    return `${profCode}_CLIENT_${clientId}_${hash}`;
+    // Codice semplice: PROF_003_C00001 (max 99999 clienti)
+    const clientNumber = clientId.toString().padStart(5, '0');
+    return `${profCode}_C${clientNumber}`;
   }
 
   // Valida ownership attraverso codice gerarchico
@@ -973,8 +970,9 @@ export function registerSimpleRoutes(app: Express): Server {
     return clientCode.startsWith(profCode);
   }
 
-  // Estrae owner ID da codice cliente
+  // Estrae owner ID da codice cliente (supporta entrambi i formati)
   function extractOwnerFromClientCode(clientCode: string): number | null {
+    // Supporta formato nuovo: PROF_003_C00001 e vecchio: PROF_003_0003_CLIENT_1_0001
     const match = clientCode.match(/^PROF_(\d{3})_/);
     return match ? parseInt(match[1], 10) : null;
   }
