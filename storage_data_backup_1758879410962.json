@@ -712,8 +712,8 @@
         "id": 14002,
         "firstName": "andrea",
         "lastName": "zambelli",
-        "email": "zambelli.andrea@libero.it",
-        "phone": "+39 098 765 4321",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "phone": "+39 3472550110",
         "birthDate": "1985-06-20",
         "fiscalCode": "TRLCNT85H20BU2Y",
         "ownerId": 14,
@@ -724,7 +724,7 @@
         "address": "Via Cavallotti",
         "birthday": "1973-03-01",
         "hasConsent": false,
-        "updatedAt": "2025-09-01T17:25:08.911Z",
+        "updatedAt": "2025-09-25T14:17:29.542Z",
         "accessCount": 15,
         "lastAccess": "2025-06-18T13:35:13.066Z",
         "lastPwaAccess": "2025-06-18T10:45:42.427Z",
@@ -733,9 +733,9 @@
       }
     ],
     [
-      1750163505034,
+      14004,
       {
-        "id": 1750163505034,
+        "id": 14004,
         "ownerId": 14,
         "createdAt": "2025-06-17T12:31:45.034Z",
         "firstName": "Bruna ",
@@ -750,14 +750,14 @@
         "allergies": "",
         "accessCount": 413,
         "lastAccess": "2025-06-21T09:29:29.796Z",
-        "uniqueCode": "PROF_014_9C1F_CLIENT_1750163505034_340F",
+        "uniqueCode": "PROF_014_9C1F_CLIENT_14004_340F",
         "professionistCode": "PROF_014_9C1F",
         "lastPwaAccess": "2025-06-21T09:29:29.796Z",
         "pwaAccessCount": 292
       }
     ],
     [
-      1750177330362,
+      14003,
       {
         "0": {
           "id": 14001,
@@ -7910,7 +7910,7 @@
           "lastPwaAccess": "2025-06-20T07:28:52.459Z",
           "pwaAccessCount": 24
         },
-        "id": 1750177330362,
+        "id": 14003,
         "ownerId": 14,
         "createdAt": "2025-06-17T16:22:10.363Z",
         "firstName": "Marco",
@@ -7923,7 +7923,7 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "uniqueCode": "PROF_014_9C1F_CLIENT_1750177330362_816C",
+        "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
         "professionistCode": "PROF_014_9C1F",
         "accessCount": 58,
         "lastAccess": "2025-06-20T09:16:50.673Z",
@@ -8289,7 +8289,7 @@
       1750226496608,
       {
         "id": 1750226496608,
-        "clientId": 1750163505034,
+        "clientId": 14004,
         "serviceId": 1750225060109,
         "date": "2025-06-19",
         "startTime": "11:00",
@@ -8319,7 +8319,7 @@
       1750236374443,
       {
         "id": 1750236374443,
-        "clientId": 1750177330362,
+        "clientId": 14003,
         "serviceId": 1750225071976,
         "date": "2025-06-19",
         "startTime": "12:15:00",
@@ -8334,7 +8334,7 @@
       1750401011631,
       {
         "id": 1750401011631,
-        "clientId": 1750163505034,
+        "clientId": 14004,
         "serviceId": 1750225060109,
         "date": "2025-06-26",
         "startTime": "11:00",
@@ -8399,6 +8399,132 @@
         "notes": "",
         "status": "scheduled",
         "createdAt": "2025-09-01T18:15:01.769Z"
+      }
+    ],
+    [
+      1758790031194,
+      {
+        "id": 1758790031194,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-26",
+        "startTime": "10:00",
+        "endTime": "11:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T08:47:11.194Z"
+      }
+    ],
+    [
+      1758790082551,
+      {
+        "id": 1758790082551,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-26",
+        "startTime": "08:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T08:48:02.551Z"
+      }
+    ],
+    [
+      1758790114050,
+      {
+        "id": 1758790114050,
+        "clientId": 14002,
+        "serviceId": 1750225071976,
+        "date": "2025-09-26",
+        "startTime": "10:30:00",
+        "endTime": "11:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T08:48:34.050Z"
+      }
+    ],
+    [
+      1758809475747,
+      {
+        "id": 1758809475747,
+        "clientId": 14004,
+        "serviceId": 1750225060109,
+        "date": "2025-09-26",
+        "startTime": "16:00",
+        "endTime": "17:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-25T14:11:15.747Z"
+      }
+    ],
+    [
+      1758865109598,
+      {
+        "id": 1758865109598,
+        "clientId": 14004,
+        "serviceId": 1750225071976,
+        "date": "2025-09-27",
+        "startTime": "12:00",
+        "endTime": "13:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T05:38:29.598Z"
+      }
+    ],
+    [
+      1758865134081,
+      {
+        "id": 1758865134081,
+        "clientId": 14003,
+        "serviceId": 1750225060109,
+        "date": "2025-09-27",
+        "startTime": "12:30:00",
+        "endTime": "13:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T05:38:54.081Z"
+      }
+    ],
+    [
+      1758865160129,
+      {
+        "id": 1758865160129,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-27",
+        "startTime": "12:00",
+        "endTime": "13:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T05:39:20.129Z"
+      }
+    ],
+    [
+      1758866525320,
+      {
+        "id": 1758866525320,
+        "clientId": 14002,
+        "serviceId": 1750225071976,
+        "date": "2025-09-27",
+        "startTime": "08:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T06:02:05.320Z"
+      }
+    ],
+    [
+      1758877159870,
+      {
+        "id": 1758877159870,
+        "clientId": 14004,
+        "serviceId": 1750225060109,
+        "date": "2025-09-26",
+        "startTime": "08:30:00",
+        "endTime": "09:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T08:59:19.870Z"
       }
     ]
   ],
@@ -8533,275 +8659,6 @@
       }
     ],
     [
-      1756747989753,
-      {
-        "id": 1756747989753,
-        "invoiceNumber": "09/2025/004",
-        "clientId": 14002,
-        "totalAmount": 80,
-        "date": "2025-09-01",
-        "dueDate": "2025-10-01",
-        "description": "pedicure",
-        "status": "paid",
-        "ownerId": 14,
-        "createdAt": "2025-09-01T17:33:09.757Z",
-        "emailHistory": [
-          {
-            "sentAt": "2025-09-01T17:54:51.387Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:06:28.636Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:12:10.094Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:21:27.257Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:23:00.351Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:25:17.206Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:26:00.116Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:29:21.087Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:31:51.628Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:32:27.110Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:33:38.486Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:37:21.786Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:38:16.903Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:40:42.801Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:48:47.435Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-01T18:51:16.149Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T16:57:13.292Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:03:43.915Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:07:47.864Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:09:44.349Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:13:34.261Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:16:53.807Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:18:48.795Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:19:31.895Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:25:48.413Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:29:12.420Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:33:44.778Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:34:31.028Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:36:02.870Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:45:51.949Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:48:35.999Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:52:20.251Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T17:55:07.968Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T18:00:26.569Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T18:03:32.978Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          },
-          {
-            "sentAt": "2025-09-02T18:35:51.746Z",
-            "recipientEmail": "zambelli.andrea@libero.it",
-            "subject": "Fattura 09/2025/004 - Silvia Busnari",
-            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 09/2025/004 del Invalid Date.\n\nImporto totale: €80.00\n\nCordiali saluti,\nSilvia Busnari",
-            "status": "sent"
-          }
-        ]
-      }
-    ],
-    [
       1756838441027,
       {
         "id": 1756838441027,
@@ -8824,6 +8681,20 @@
           },
           {
             "sentAt": "2025-09-02T18:45:20.408Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 001/2025 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 001/2025 del Invalid Date.\n\nImporto totale: €70.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T18:49:17.690Z",
+            "recipientEmail": "zambelli.andrea@libero.it",
+            "subject": "Fattura 001/2025 - Silvia Busnari",
+            "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 001/2025\n\nImporto totale: €70.00\n\nCordiali saluti,\nSilvia Busnari",
+            "status": "sent"
+          },
+          {
+            "sentAt": "2025-09-02T18:51:26.954Z",
             "recipientEmail": "zambelli.andrea@libero.it",
             "subject": "Fattura 001/2025 - Silvia Busnari",
             "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 001/2025 del Invalid Date.\n\nImporto totale: €70.00\n\nCordiali saluti,\nSilvia Busnari",
