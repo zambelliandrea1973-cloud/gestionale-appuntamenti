@@ -2,19 +2,7 @@ import { Router, Request, Response } from 'express';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { storage } from '../storage';
-import * as fs from 'fs';
-import * as path from 'path';
-
-// Function to load data from JSON file (ripristinata temporaneamente)
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  try {
-    return JSON.parse(fs.readFileSync(storageFile, 'utf8'));
-  } catch (error) {
-    console.error('Error loading storage data:', error);
-    return { appointments: [], clients: [], userServices: {} };
-  }
-}
+// Removed JSON dependency - now using unified PostgreSQL storage via storage.ts
 
 const router = Router();
 
@@ -104,16 +92,8 @@ router.post('/send-batch', async (req: Request, res: Response) => {
     
     for (const appointmentId of appointmentIds) {
       try {
-        // USA LA STESSA FONTE DEL CALENDARIO: File JSON
-        const storageData = loadStorageData();
-        const allAppointments = (storageData.appointments || []).map((item: any) => {
-          if (Array.isArray(item)) {
-            return item[1];
-          }
-          return item;
-        });
-        
-        const appointment = allAppointments.find((apt: any) => apt.id === appointmentId);
+        // USA SISTEMA UNIFICATO: Database PostgreSQL
+        const appointment = await storage.getAppointment(appointmentId);
         
         if (!appointment) {
           results.push({
@@ -124,10 +104,8 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           continue;
         }
         
-        // Trova cliente dalla stessa fonte
-        const allClients = storageData.clients || [];
-        const clientEntry = allClients.find(([id, client]: [any, any]) => client.id === appointment.clientId);
-        const client = clientEntry ? clientEntry[1] : null;
+        // Trova cliente dal database unificato
+        const client = appointment?.client;
         
         if (!client) {
           results.push({
@@ -138,10 +116,8 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           continue;
         }
         
-        // Trova servizio dalla stessa fonte 
-        const userId = (req as any).user?.id;
-        const userServices = storageData.userServices?.[userId] || [];
-        const service = userServices.find((s: any) => s.id === appointment.serviceId);
+        // Trova servizio dal database unificato
+        const service = appointment?.service;
         
         if (!service) {
           results.push({
