@@ -216,10 +216,13 @@ export default function ReminderTemplateManager() {
 
   // Variables suggestions for template text
   const variableSuggestions = [
-    '{clientName}', 
-    '{appointmentDate}', 
-    '{appointmentTime}', 
-    '{serviceName}'
+    '{{nome}}', 
+    '{{cognome}}', 
+    '{{servizio}}',
+    '{{data}}', 
+    '{{ora}}',
+    '{{collaboratore}}',
+    '{{stanza}}'
   ];
 
   return (
@@ -434,7 +437,7 @@ export default function ReminderTemplateManager() {
                 id="template"
                 value={formData.template}
                 onChange={(e) => setFormData(prev => ({ ...prev, template: e.target.value }))}
-                placeholder={t('settings.reminderTemplates.templatePlaceholder', 'Es. Gentile {clientName}, questo è un promemoria per il tuo appuntamento del {appointmentDate} alle {appointmentTime}.')}
+                placeholder={t('settings.reminderTemplates.templatePlaceholder', 'Es. Gentile {{nome}}, questo è un promemoria per il tuo appuntamento {{servizio}} del {{data}} alle {{ora}} con {{collaboratore}} nella {{stanza}}.')}
                 required
                 rows={6}
               />

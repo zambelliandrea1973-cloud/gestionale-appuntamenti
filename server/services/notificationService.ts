@@ -213,6 +213,12 @@ export const notificationService = {
       // Recupera i dati del servizio
       const service = appointment.serviceId ? await storage.getService(appointment.serviceId) : null;
       
+      // Recupera i dati del collaboratore se presente
+      const staff = appointment.staffId ? await storage.getCollaborator(appointment.staffId) : null;
+      
+      // Recupera i dati della stanza se presente
+      const room = appointment.roomId ? await storage.getTreatmentRoom(appointment.roomId) : null;
+      
       // Formatta la data e l'ora dell'appuntamento
       const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
       const startTime = appointment.startTime.substring(0, 5); // Estrae solo HH:MM
@@ -238,10 +244,17 @@ export const notificationService = {
           .replace('{{cognome}}', client.lastName)
           .replace('{{servizio}}', service ? service.name : 'appuntamento')
           .replace('{{data}}', appointmentDate)
-          .replace('{{ora}}', startTime);
+          .replace('{{ora}}', startTime)
+          .replace('{{collaboratore}}', staff ? `${staff.firstName} ${staff.lastName}` : '')
+          .replace('{{stanza}}', room ? room.name : '');
       } else {
         // Messaggio predefinito con data e ora incluse
-        message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento ${service ? `di ${service.name}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
+        let appointmentDetails = '';
+        if (service) appointmentDetails += `di ${service.name}`;
+        if (staff) appointmentDetails += ` con ${staff.firstName} ${staff.lastName}`;
+        if (room) appointmentDetails += ` nella ${room.name}`;
+        
+        message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento${appointmentDetails ? ` ${appointmentDetails}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
       }
       
       // Genera un ID univoco per questo messaggio
