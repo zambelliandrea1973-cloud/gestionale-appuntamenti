@@ -114,42 +114,14 @@ export default function AppointmentForm({
     gcTime: 0, // Don't cache the data
   });
 
-  // DEBUG: Log dei dati caricati
+  // Auto-seleziona il primo collaboratore quando i dati sono caricati
   useEffect(() => {
-    console.log('🔍 DEBUG COLLABORATORI CARICATI:', {
-      collaborators,
-      length: collaborators?.length,
-      isLoading: isLoadingCollaborators,
-      raw: collaborators,
-      timestamp: new Date().toLocaleTimeString()
-    });
-    
-    if (collaborators && collaborators.length > 0) {
-      console.log('✅ COLLABORATORI DISPONIBILI:', collaborators.map((c: any) => 
-        `${c.firstName} ${c.lastName} (ID: ${c.id}, Attivo: ${c.isActive})`
-      ));
-    } else {
-      console.log('❌ NESSUN COLLABORATORE TROVATO - Array vuoto o undefined');
+    if (collaborators && collaborators.length > 0 && !appointmentId) {
+      // Precompila solo se non stiamo modificando un appuntamento esistente
+      const firstCollaborator = collaborators[0];
+      form.setValue('staffId', firstCollaborator.id);
     }
-  }, [collaborators, isLoadingCollaborators]);
-
-  useEffect(() => {
-    console.log('🏠 DEBUG STANZE CARICATE:', {
-      treatmentRooms,
-      length: treatmentRooms?.length,
-      isLoading: isLoadingRooms,
-      raw: treatmentRooms,
-      timestamp: new Date().toLocaleTimeString()
-    });
-    
-    if (treatmentRooms && treatmentRooms.length > 0) {
-      console.log('✅ STANZE DISPONIBILI:', treatmentRooms.map((r: any) => 
-        `${r.name} (ID: ${r.id}, Attivo: ${r.isActive}, Colore: ${r.color})`
-      ));
-    } else {
-      console.log('❌ NESSUNA STANZA TROVATA - Array vuoto o undefined');
-    }
-  }, [treatmentRooms, isLoadingRooms]);
+  }, [collaborators, appointmentId, form]);
 
   // Fetch appointment if editing
   const { data: appointment, isLoading: isLoadingAppointment } = useQuery({
@@ -767,7 +739,7 @@ export default function AppointmentForm({
                   name="staffId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Collaboratore (opzionale)</FormLabel>
+                      <FormLabel>Professionista</FormLabel>
                       <FormControl>
                         <Select
                           value={field.value?.toString() || "none"}
@@ -784,10 +756,10 @@ export default function AppointmentForm({
                           }}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Seleziona collaboratore..." />
+                            <SelectValue placeholder="Seleziona professionista..." />
                           </SelectTrigger>
                           <SelectContent className="z-[9999] max-h-[200px] overflow-y-auto bg-white border shadow-lg">
-                            <SelectItem value="none">Nessun collaboratore</SelectItem>
+                            <SelectItem value="none">Nessun professionista</SelectItem>
                             {collaborators
                               // TEMP: rimuovo il filtro isActive per debug
                               // .filter((collaborator: any) => collaborator.isActive)
