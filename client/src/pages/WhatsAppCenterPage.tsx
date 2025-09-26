@@ -151,7 +151,7 @@ const WhatsAppCenterPage: React.FC = () => {
   const { data: contactSettingsData, isLoading: isLoadingSettings, refetch: refetchSettings } = useQuery({
     queryKey: ['/api/contact-settings'],
     staleTime: 0,
-    cacheTime: 0
+    gcTime: 0
   });
 
   // Mutation per salvare ContactSettings (usando fetch diretto per debug) 
@@ -354,8 +354,10 @@ const WhatsAppCenterPage: React.FC = () => {
         body: JSON.stringify({})
       });
       
-      if (response.success) {
-        const { results, summary } = response;
+      const data = await response.json();
+      
+      if (data.success) {
+        const { results, summary } = data;
         
         console.log('✅ FRONTEND: Invio automatico completato:', summary);
         
@@ -396,7 +398,7 @@ const WhatsAppCenterPage: React.FC = () => {
         }
         
       } else {
-        throw new Error(response.error || 'Errore sconosciuto durante invio automatico');
+        throw new Error(data.error || 'Errore sconosciuto durante invio automatico');
       }
       
     } catch (error: any) {
