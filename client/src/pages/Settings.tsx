@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -89,7 +89,7 @@ export default function Settings() {
         setActiveTab(value);
         localStorage.setItem('settings_active_tab', value);
       }}>
-        <TabsList className="grid grid-cols-4 mb-6">
+        <TabsList className="grid grid-cols-5 mb-6">
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -97,6 +97,10 @@ export default function Settings() {
           <TabsTrigger value="contacts" className="flex items-center whitespace-nowrap">
             <Contact className="mr-2 h-4 w-4" />
             <span>{t('settings.contacts', 'Contatti')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="staff" className="flex items-center whitespace-nowrap">
+            <Users className="mr-2 h-4 w-4" />
+            <span>Staff & Stanze</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center whitespace-nowrap">
             <Mail className="mr-2 h-4 w-4" />
@@ -198,6 +202,61 @@ export default function Settings() {
               <ContactInfoEditor />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="staff">
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Users className="mr-2 h-5 w-5" />
+                  Gestione Collaboratori
+                </CardTitle>
+                <CardDescription>
+                  Gestisci i collaboratori dello studio e le loro specializzazioni
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Aggiungi e gestisci i collaboratori che lavorano nel tuo studio. 
+                  Potrai assegnarli agli appuntamenti e personalizzare le comunicazioni.
+                </p>
+                <Button 
+                  onClick={() => setLocation('/collaborators')}
+                  className="w-full"
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Gestisci Collaboratori
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Building className="mr-2 h-5 w-5" />
+                  Gestione Stanze/Cabine
+                </CardTitle>
+                <CardDescription>
+                  Configura le stanze e cabine di trattamento del tuo studio
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Organizza le stanze del tuo studio con colori personalizzati per il calendario.
+                  Assegna le stanze agli appuntamenti per una migliore organizzazione.
+                </p>
+                <Button 
+                  onClick={() => setLocation('/treatment-rooms')}
+                  className="w-full"
+                  variant="outline"
+                >
+                  <Building className="mr-2 h-4 w-4" />
+                  Gestisci Stanze
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
         
 
