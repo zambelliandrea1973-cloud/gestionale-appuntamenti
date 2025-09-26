@@ -553,8 +553,15 @@ export function registerSimpleRoutes(app: Express): Server {
         });
       }
       
-      // Crea nuovo cliente con ownership e codice gerarchico automatico
-      const clientId = Date.now();
+      // Sistema di numerazione sequenziale coerente per tutti i clienti
+      const userIdBase = user.id * 1000; // Base per utente (es. 14000 per utente 14)
+      const existingUserClients = (storageData.clients || [])
+        .filter(([id, client]) => client.ownerId === user.id)
+        .length;
+      const clientId = userIdBase + existingUserClients + 1; // ID sequenziale coerente
+      
+      console.log(`🔢 [NUMERAZIONE] Nuovo ID cliente: ${clientId} (base ${userIdBase} + ${existingUserClients + 1})`);
+      
       const hierarchicalCode = await generateClientCode(user.id, clientId);
       const professionistCode = await getProfessionistCode(user.id);
       
@@ -588,6 +595,60 @@ export function registerSimpleRoutes(app: Express): Server {
     } catch (error) {
       console.error(`❌ [POST /api/clients] Errore generale:`, error);
       res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // Helper function per generare hash casuali
+  function generateRandomHash(): string {
+    return Math.random().toString(36).substring(2, 6).toUpperCase();
+  }
+
+  // ENDPOINT per normalizzare tutti i codici clienti (fix one-time)
+  app.post("/api/clients/normalize-codes", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    try {
+      const storageData = loadStorageData();
+      let updatedCount = 0;
+      
+      // Aggiorna tutti i clienti dell'utente con nuovi ID sequenziali
+      const userClients = (storageData.clients || [])
+        .filter(([id, client]) => client.ownerId === user.id)
+        .sort((a, b) => a[1].id - b[1].id); // Ordina per ID esistente
+      
+      const userIdBase = user.id * 1000;
+      
+      for (let i = 0; i < userClients.length; i++) {
+        const [oldId, client] = userClients[i];
+        const newSequentialId = userIdBase + i + 1;
+        
+        // Aggiorna l'ID del cliente e rigenera il codice univoco
+        client.id = newSequentialId;
+        const professionistCode = await getProfessionistCode(user.id);
+        client.uniqueCode = `${professionistCode}_CLIENT_${newSequentialId}_${generateRandomHash()}`;
+        
+        // Sostituisci nel storage con nuovo ID
+        const index = storageData.clients.findIndex(([id, c]) => id === oldId);
+        if (index !== -1) {
+          storageData.clients[index] = [newSequentialId, client];
+          updatedCount++;
+        }
+        
+        console.log(`🔄 NORMALIZZATO: ${client.firstName} ${client.lastName} - ${oldId} → ${newSequentialId}`);
+      }
+      
+      saveStorageData(storageData);
+      console.log(`✅ NORMALIZZAZIONE COMPLETATA: ${updatedCount} clienti aggiornati`);
+      
+      res.json({ 
+        success: true, 
+        message: `${updatedCount} clienti normalizzati con successo`,
+        updatedCount 
+      });
+    } catch (error) {
+      console.error("❌ Errore normalizzazione:", error);
+      res.status(500).json({ message: "Errore durante la normalizzazione" });
     }
   });
 
