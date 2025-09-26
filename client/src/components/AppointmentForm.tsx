@@ -716,8 +716,8 @@ export default function AppointmentForm({
               </div>
             )}
             
-            {/* Collaboratori e Stanze - mostrati solo se un servizio è selezionato */}
-            {form.watch("serviceId") > 0 && (
+            {/* Collaboratori e Stanze - mostrati sempre */}
+            {true && (
               <div className="grid grid-cols-2 gap-4">
                 {/* Collaboratore/Staff */}
                 <FormField
