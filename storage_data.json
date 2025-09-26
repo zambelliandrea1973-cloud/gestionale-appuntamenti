@@ -8456,6 +8456,48 @@
         "status": "scheduled",
         "createdAt": "2025-09-25T14:11:15.747Z"
       }
+    ],
+    [
+      1758865109598,
+      {
+        "id": 1758865109598,
+        "clientId": 1750163505034,
+        "serviceId": 1750225071976,
+        "date": "2025-09-27",
+        "startTime": "12:00",
+        "endTime": "13:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T05:38:29.598Z"
+      }
+    ],
+    [
+      1758865134081,
+      {
+        "id": 1758865134081,
+        "clientId": 1750177330362,
+        "serviceId": 1750225060109,
+        "date": "2025-09-27",
+        "startTime": "12:30:00",
+        "endTime": "13:30:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T05:38:54.081Z"
+      }
+    ],
+    [
+      1758865160129,
+      {
+        "id": 1758865160129,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "date": "2025-09-27",
+        "startTime": "12:00",
+        "endTime": "13:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-26T05:39:20.129Z"
+      }
     ]
   ],
   "consents": [
