@@ -66,6 +66,19 @@ export default function DayViewWithTimeSlots({
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // Helper functions per trovare professionista e stanza
+  const getCollaboratorName = (staffId: number | undefined): string => {
+    if (!staffId || !collaborators.length) return '';
+    const collaborator = collaborators.find(c => c.id === staffId);
+    return collaborator ? `${collaborator.firstName} ${collaborator.lastName}` : '';
+  };
+
+  const getTreatmentRoomName = (roomId: number | undefined): string => {
+    if (!roomId || !treatmentRooms.length) return '';
+    const room = treatmentRooms.find(r => r.id === roomId);
+    return room ? room.name : '';
+  };
   
   // Gestione dell'appuntamento espanso e timer di chiusura automatica
   useEffect(() => {
@@ -603,6 +616,20 @@ export default function DayViewWithTimeSlots({
                   <div className="text-[10px] sm:text-xs font-medium flex flex-col" style={{ color: appointment.service?.color || '#4299e1' }}>
                     <span>{appointment.startTime.substring(0, 5)} - {appointment.endTime.substring(0, 5)}</span>
                     <span className={`text-gray-600 ${isExpanded ? '' : 'truncate'}`}>{appointment.service?.name}</span>
+                    
+                    {/* Informazioni professionista e stanza */}
+                    <div className="flex flex-col gap-0.5 mt-1">
+                      {getCollaboratorName(appointment.staffId) && (
+                        <span className="text-[9px] sm:text-xs text-blue-600 font-medium">
+                          👨‍⚕️ {getCollaboratorName(appointment.staffId)}
+                        </span>
+                      )}
+                      {getTreatmentRoomName(appointment.roomId) && (
+                        <span className="text-[9px] sm:text-xs text-purple-600 font-medium">
+                          🏠 {getTreatmentRoomName(appointment.roomId)}
+                        </span>
+                      )}
+                    </div>
                     
                     {/* Mostra le note solo quando l'appuntamento è espanso */}
                     {isExpanded && appointment.notes && (
