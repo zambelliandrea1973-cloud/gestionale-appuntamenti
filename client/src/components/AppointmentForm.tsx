@@ -728,14 +728,14 @@ export default function AppointmentForm({
                       <FormLabel>Collaboratore (opzionale)</FormLabel>
                       <FormControl>
                         <Select
-                          value={field.value?.toString() || ""}
-                          onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+                          value={field.value?.toString() || "none"}
+                          onValueChange={(value) => field.onChange(value !== "none" ? parseInt(value) : undefined)}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Seleziona collaboratore..." />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="">Nessun collaboratore</SelectItem>
+                            <SelectItem value="none">Nessun collaboratore</SelectItem>
                             {collaborators
                               .filter((collaborator: any) => collaborator.isActive)
                               .map((collaborator: any) => (
@@ -765,14 +765,14 @@ export default function AppointmentForm({
                       <FormLabel>Stanza/Cabina (opzionale)</FormLabel>
                       <FormControl>
                         <Select
-                          value={field.value?.toString() || ""}
-                          onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+                          value={field.value?.toString() || "none"}
+                          onValueChange={(value) => field.onChange(value !== "none" ? parseInt(value) : undefined)}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Seleziona stanza..." />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="">Nessuna stanza</SelectItem>
+                            <SelectItem value="none">Nessuna stanza</SelectItem>
                             {treatmentRooms
                               .filter((room: any) => room.isActive)
                               .map((room: any) => (
