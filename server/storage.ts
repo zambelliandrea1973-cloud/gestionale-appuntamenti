@@ -1917,6 +1917,122 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  // STAFF OPERATIONS
+  async getStaff(id: number): Promise<Staff | undefined> {
+    try {
+      const [staffMember] = await db.select().from(staff).where(eq(staff.id, id));
+      return staffMember;
+    } catch (error) {
+      console.error("Error getting staff:", error);
+      return undefined;
+    }
+  }
+
+  async getStaffForUser(userId: number): Promise<Staff[]> {
+    try {
+      return await db
+        .select()
+        .from(staff)
+        .where(and(eq(staff.userId, userId), eq(staff.isActive, true)))
+        .orderBy(staff.firstName, staff.lastName);
+    } catch (error) {
+      console.error("Error getting staff for user:", error);
+      return [];
+    }
+  }
+
+  async createStaff(staffData: InsertStaff): Promise<Staff> {
+    try {
+      const [newStaff] = await db.insert(staff).values(staffData).returning();
+      return newStaff;
+    } catch (error) {
+      console.error("Error creating staff:", error);
+      throw error;
+    }
+  }
+
+  async updateStaff(id: number, staffData: Partial<InsertStaff>): Promise<Staff | undefined> {
+    try {
+      const [updatedStaff] = await db
+        .update(staff)
+        .set(staffData)
+        .where(eq(staff.id, id))
+        .returning();
+      return updatedStaff;
+    } catch (error) {
+      console.error("Error updating staff:", error);
+      return undefined;
+    }
+  }
+
+  async deleteStaff(id: number): Promise<boolean> {
+    try {
+      await db.delete(staff).where(eq(staff.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting staff:", error);
+      return false;
+    }
+  }
+
+  // TREATMENT ROOM OPERATIONS
+  async getTreatmentRoom(id: number): Promise<TreatmentRoom | undefined> {
+    try {
+      const [room] = await db.select().from(treatmentRooms).where(eq(treatmentRooms.id, id));
+      return room;
+    } catch (error) {
+      console.error("Error getting treatment room:", error);
+      return undefined;
+    }
+  }
+
+  async getTreatmentRoomsForUser(userId: number): Promise<TreatmentRoom[]> {
+    try {
+      return await db
+        .select()
+        .from(treatmentRooms)
+        .where(and(eq(treatmentRooms.userId, userId), eq(treatmentRooms.isActive, true)))
+        .orderBy(treatmentRooms.name);
+    } catch (error) {
+      console.error("Error getting treatment rooms for user:", error);
+      return [];
+    }
+  }
+
+  async createTreatmentRoom(roomData: InsertTreatmentRoom): Promise<TreatmentRoom> {
+    try {
+      const [newRoom] = await db.insert(treatmentRooms).values(roomData).returning();
+      return newRoom;
+    } catch (error) {
+      console.error("Error creating treatment room:", error);
+      throw error;
+    }
+  }
+
+  async updateTreatmentRoom(id: number, roomData: Partial<InsertTreatmentRoom>): Promise<TreatmentRoom | undefined> {
+    try {
+      const [updatedRoom] = await db
+        .update(treatmentRooms)
+        .set(roomData)
+        .where(eq(treatmentRooms.id, id))
+        .returning();
+      return updatedRoom;
+    } catch (error) {
+      console.error("Error updating treatment room:", error);
+      return undefined;
+    }
+  }
+
+  async deleteTreatmentRoom(id: number): Promise<boolean> {
+    try {
+      await db.delete(treatmentRooms).where(eq(treatmentRooms.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting treatment room:", error);
+      return false;
+    }
+  }
+
   // APPOINTMENT OPERATIONS
   async getAppointment(id: number): Promise<AppointmentWithDetails | undefined> {
     try {
