@@ -100,33 +100,55 @@ export default function AppointmentForm({
     queryKey: ['/api/services']
   });
 
-  // Fetch collaborators
-  const { data: collaborators = [], isLoading: isLoadingCollaborators } = useQuery({
-    queryKey: ['/api/collaborators']
+  // Fetch collaborators - FORCE FRESH DATA
+  const { data: collaborators = [], isLoading: isLoadingCollaborators, refetch: refetchCollaborators } = useQuery({
+    queryKey: ['/api/collaborators'],
+    staleTime: 0, // Always consider data stale
+    gcTime: 0, // Don't cache the data
   });
 
-  // Fetch treatment rooms
-  const { data: treatmentRooms = [], isLoading: isLoadingRooms } = useQuery({
-    queryKey: ['/api/treatment-rooms']
+  // Fetch treatment rooms - FORCE FRESH DATA
+  const { data: treatmentRooms = [], isLoading: isLoadingRooms, refetch: refetchRooms } = useQuery({
+    queryKey: ['/api/treatment-rooms'],
+    staleTime: 0, // Always consider data stale
+    gcTime: 0, // Don't cache the data
   });
 
   // DEBUG: Log dei dati caricati
   useEffect(() => {
-    console.log('🔍 DEBUG COLLABORATORI:', {
+    console.log('🔍 DEBUG COLLABORATORI CARICATI:', {
       collaborators,
       length: collaborators?.length,
       isLoading: isLoadingCollaborators,
-      raw: collaborators
+      raw: collaborators,
+      timestamp: new Date().toLocaleTimeString()
     });
+    
+    if (collaborators && collaborators.length > 0) {
+      console.log('✅ COLLABORATORI DISPONIBILI:', collaborators.map((c: any) => 
+        `${c.firstName} ${c.lastName} (ID: ${c.id}, Attivo: ${c.isActive})`
+      ));
+    } else {
+      console.log('❌ NESSUN COLLABORATORE TROVATO - Array vuoto o undefined');
+    }
   }, [collaborators, isLoadingCollaborators]);
 
   useEffect(() => {
-    console.log('🏠 DEBUG STANZE:', {
+    console.log('🏠 DEBUG STANZE CARICATE:', {
       treatmentRooms,
       length: treatmentRooms?.length,
       isLoading: isLoadingRooms,
-      raw: treatmentRooms
+      raw: treatmentRooms,
+      timestamp: new Date().toLocaleTimeString()
     });
+    
+    if (treatmentRooms && treatmentRooms.length > 0) {
+      console.log('✅ STANZE DISPONIBILI:', treatmentRooms.map((r: any) => 
+        `${r.name} (ID: ${r.id}, Attivo: ${r.isActive}, Colore: ${r.color})`
+      ));
+    } else {
+      console.log('❌ NESSUNA STANZA TROVATA - Array vuoto o undefined');
+    }
   }, [treatmentRooms, isLoadingRooms]);
 
   // Fetch appointment if editing
