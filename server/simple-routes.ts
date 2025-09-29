@@ -1828,10 +1828,9 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(rangeAppointmentsWithDetails);
   });
 
-  app.post("/api/appointments", (req, res) => {
+  app.post("/api/appointments", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
     
     // DEBUG: Log completo dei dati ricevuti per verificare staffId e roomId
     console.log(`🔍 [DEBUG POST APPOINTMENTS] Dati ricevuti dal form:`, {
@@ -1845,55 +1844,52 @@ export function registerSimpleRoutes(app: Express): Server {
       allFields: req.body
     });
     
-    // Valida gli ID con dati persistenti
-    const storageData = loadStorageData();
-    const allClients = storageData.clients || [];
-    const userServices = storageData.userServices?.[user.id] || [];
-    
-    // Per admin, usa tutti i clienti; per altri solo i propri
-    let availableClients;
-    if (user.type === 'admin') {
-      availableClients = allClients.map(([id, client]) => client);
-    } else {
-      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
+    try {
+      // Valida che clientId e serviceId esistano usando PostgreSQL
+      const clientExists = await storage.getClient(req.body.clientId);
+      const serviceExists = await storage.getService(req.body.serviceId);
+      
+      if (!clientExists) {
+        console.log(`❌ Cliente ID ${req.body.clientId} non trovato`);
+        return res.status(400).json({ message: "Cliente non valido" });
+      }
+      
+      if (!serviceExists) {
+        console.log(`❌ Servizio ID ${req.body.serviceId} non trovato`);
+        return res.status(400).json({ message: "Servizio non valido" });
+      }
+      
+      // Prepara i dati dell'appuntamento con TUTTI i campi inclusi staffId e roomId
+      const appointmentData = {
+        userId: user.id,
+        clientId: req.body.clientId,
+        serviceId: req.body.serviceId,
+        staffId: req.body.staffId || null, // MANTIENE staffId se presente
+        roomId: req.body.roomId || null,   // MANTIENE roomId se presente
+        date: req.body.date,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        notes: req.body.notes || null,
+        status: req.body.status || "scheduled",
+        reminderType: req.body.reminderType || null,
+        reminderStatus: req.body.reminderStatus || "pending"
+      };
+      
+      console.log(`🚀 [PostgreSQL] Creazione appuntamento con staffId: ${appointmentData.staffId}, roomId: ${appointmentData.roomId}`);
+      
+      // USA IL NUOVO SISTEMA PostgreSQL
+      const newAppointment = await storage.createAppointment(appointmentData);
+      
+      // Recupera l'appuntamento completo con dettagli per la risposta
+      const appointmentWithDetails = await storage.getAppointment(newAppointment.id);
+      
+      console.log(`✅ [PostgreSQL] Appuntamento ${newAppointment.id} salvato nel database con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
+      
+      res.status(201).json(appointmentWithDetails);
+    } catch (error) {
+      console.error("❌ Errore creazione appuntamento:", error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    // Valida che clientId e serviceId esistano
-    const clientExists = availableClients.find(c => c.id === req.body.clientId);
-    const serviceExists = userServices.find(s => s.id === req.body.serviceId);
-    
-    if (!clientExists) {
-      console.log(`❌ Cliente ID ${req.body.clientId} non trovato`);
-      return res.status(400).json({ message: "Cliente non valido" });
-    }
-    
-    if (!serviceExists) {
-      console.log(`❌ Servizio ID ${req.body.serviceId} non trovato`);
-      return res.status(400).json({ message: "Servizio non valido" });
-    }
-    
-    const newAppointment = {
-      id: Date.now(),
-      ...req.body,
-      createdAt: new Date()
-    };
-    
-    // SALVA NEL STORAGE PERSISTENTE nella struttura appointments
-    if (!storageData.appointments) storageData.appointments = [];
-    
-    // Aggiungi alla lista principale degli appuntamenti
-    storageData.appointments.push([newAppointment.id, newAppointment]);
-    saveStorageData(storageData);
-    console.log(`💾 Appuntamento ${newAppointment.id} salvato permanentemente nel storage globale`);
-    
-    // Popola le relazioni con client e service prima di restituire
-    const appointmentWithDetails = {
-      ...newAppointment,
-      client: clientExists,
-      service: serviceExists
-    };
-    
-    res.status(201).json(appointmentWithDetails);
   });
 
   app.delete("/api/appointments/:id", (req, res) => {
