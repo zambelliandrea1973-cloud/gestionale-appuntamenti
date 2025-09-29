@@ -3724,6 +3724,236 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Genera anteprima HTML per fattura (stessa logica del PDF ma senza download)
+  app.get('/api/invoices/:id/preview', async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      
+      const user = req.user as any;
+      const invoiceId = parseInt(req.params.id);
+      
+      console.log(`👁️ [/api/invoices/${invoiceId}/preview] Generazione anteprima per utente ${user.id}`);
+      
+      // Carica dati
+      const storageData = loadStorageData();
+      const invoices = storageData.invoices || [];
+      
+      // Trova la fattura
+      const invoiceEntry = invoices.find(([id, invoice]) => 
+        id === invoiceId && invoice.ownerId === user.id
+      );
+      
+      if (!invoiceEntry) {
+        return res.status(404).json({ message: 'Fattura non trovata' });
+      }
+      
+      const [_, invoice] = invoiceEntry;
+      
+      // Carica dati aziendali completi per intestazione fattura
+      let businessHeader = 'Studio Medico';
+      let businessData = {
+        companyName: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        vatNumber: '',
+        fiscalCode: '',
+        phone: '',
+        email: ''
+      };
+      
+      try {
+        const currentStorageData = loadStorageData();
+        const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
+        const userBusinessData = currentStorageData.userBusinessData?.[user.id];
+        
+        // Usa il nome personalizzato se disponibile
+        if (userBusinessSettings?.enabled && userBusinessSettings.name) {
+          businessHeader = userBusinessSettings.name;
+        }
+        
+        // Carica tutti i dati aziendali se disponibili
+        if (userBusinessData) {
+          businessData = { ...businessData, ...userBusinessData };
+          if (userBusinessData.companyName) {
+            businessHeader = userBusinessData.companyName;
+          }
+        }
+        
+        console.log(`👁️ [PREVIEW] Dati aziendali per utente ${user.id}:`, {
+          nome: businessHeader,
+          indirizzo: businessData.address,
+          email: businessData.email
+        });
+      } catch (error) {
+        console.log('⚠️ Impossibile caricare dati aziendali per preview, uso default:', error);
+      }
+      
+      // Recupera dati completi del cliente dal database usando SEMPRE clientId
+      let clientDetails = null;
+      try {
+        const currentStorageData = loadStorageData();
+        const clients = currentStorageData.clients || [];
+        
+        if (invoice.clientId) {
+          const clientEntry = clients.find(([id, client]) => id === invoice.clientId);
+          if (clientEntry) {
+            clientDetails = clientEntry[1];
+            console.log(`👁️ [PREVIEW] Dati cliente trovati tramite ID ${invoice.clientId}:`, {
+              nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
+              email: clientDetails.email
+            });
+          } else {
+            console.log(`👁️ [PREVIEW] Cliente non trovato per ID: ${invoice.clientId}`);
+          }
+        } else {
+          console.log(`⚠️ [PREVIEW] FATTURA SENZA CLIENTID! Fattura ${invoice.invoiceNumber} usa clientName obsoleto`);
+          
+          // Solo come fallback per fatture vecchie
+          if (invoice.clientName) {
+            const invoiceClientName = invoice.clientName.trim().replace(/\s+/g, ' ');
+            const clientEntry = clients.find(([_, client]) => {
+              if (client.ownerId !== user.id) return false;
+              const fullName = `${client.firstName?.trim() || ''} ${client.lastName?.trim() || ''}`.trim().replace(/\s+/g, ' ');
+              return fullName === invoiceClientName;
+            });
+            
+            if (clientEntry) {
+              clientDetails = clientEntry[1];
+              console.log(`👁️ [PREVIEW] Cliente trovato tramite nome "${invoiceClientName}":`, {
+                nome: `${clientDetails.firstName} ${clientDetails.lastName}`,
+                email: clientDetails.email
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.log('⚠️ Errore caricamento dati cliente per preview:', error);
+      }
+      
+      // Recupera descrizione del servizio
+      let serviceDescription = invoice.description || 'Servizio';
+      try {
+        const currentStorageData = loadStorageData();
+        const services = currentStorageData.services || [];
+        
+        if (invoice.serviceId) {
+          const serviceEntry = services.find(([id, service]) => id === invoice.serviceId);
+          if (serviceEntry) {
+            serviceDescription = serviceEntry[1].name;
+            console.log(`👁️ [PREVIEW] Servizio trovato per ID ${invoice.serviceId}: ${serviceDescription}`);
+          }
+        } else {
+          console.log(`⚠️ [PREVIEW] FATTURA SENZA SERVICEID! Usando description: ${serviceDescription}`);
+        }
+      } catch (error) {
+        console.log('⚠️ Errore caricamento dati servizio per preview:', error);
+      }
+      
+      // Genera HTML per anteprima (stessa logica del PDF)
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Fattura ${invoice.invoiceNumber}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 40px; font-size: 14px; line-height: 1.6; }
+            .header { border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+            .company-info { float: left; width: 50%; }
+            .invoice-info { float: right; width: 45%; text-align: right; }
+            .clear { clear: both; }
+            .client-info { margin: 20px 0; padding: 15px; background-color: #f9f9f9; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .total { text-align: right; font-size: 16px; }
+            .footer { margin-top: 40px; text-align: center; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="company-info">
+              <h2>${businessHeader}</h2>
+              ${businessData.address ? `<p>${businessData.address}</p>` : ''}
+              ${businessData.city && businessData.postalCode ? `<p>${businessData.postalCode} ${businessData.city}</p>` : ''}
+              ${businessData.phone ? `<p>Tel: ${businessData.phone}</p>` : ''}
+              ${businessData.email ? `<p>Email: ${businessData.email}</p>` : ''}
+              ${businessData.vatNumber ? `<p>P.IVA: ${businessData.vatNumber}</p>` : ''}
+              ${businessData.fiscalCode ? `<p>C.F.: ${businessData.fiscalCode}</p>` : ''}
+            </div>
+            
+            <div class="invoice-info">
+              <h3>FATTURA</h3>
+              <p><strong>Numero:</strong> ${invoice.invoiceNumber}</p>
+              <p><strong>Data:</strong> ${new Date(invoice.date).toLocaleDateString('it-IT')}</p>
+              <p><strong>Scadenza:</strong> ${new Date(invoice.dueDate).toLocaleDateString('it-IT')}</p>
+              <p><strong>Stato:</strong> ${invoice.status === 'paid' ? 'Pagata' : invoice.status === 'sent' ? 'Inviata' : invoice.status === 'overdue' ? 'Scaduta' : 'Bozza'}</p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          
+          <div class="client-info">
+            <h4>Fatturato a:</h4>
+            ${clientDetails ? `
+              <p><strong>${clientDetails.firstName} ${clientDetails.lastName}</strong></p>
+              ${clientDetails.address ? `<p>${clientDetails.address}</p>` : ''}
+              ${clientDetails.email ? `<p>Email: ${clientDetails.email}</p>` : ''}
+              ${clientDetails.phone ? `<p>Tel: ${clientDetails.phone}</p>` : ''}
+              ${clientDetails.taxCode ? `<p>Codice Fiscale: ${clientDetails.taxCode}</p>` : ''}
+              ${clientDetails.vatNumber ? `<p>P.IVA: ${clientDetails.vatNumber}</p>` : ''}
+            ` : `
+              <p><strong>${invoice.clientName || 'Cliente'}</strong></p>
+            `}
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Totale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${serviceDescription}</td>
+                <td>1</td>
+                <td>€${invoice.totalAmount.toFixed(2)}</td>
+                <td><strong>€${invoice.totalAmount.toFixed(2)}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          ${invoice.notes ? `
+            <div>
+              <h4>Note:</h4>
+              <p>${invoice.notes}</p>
+            </div>
+          ` : ''}
+          
+          <div class="footer">
+            <p>Grazie per aver scelto i nostri servizi</p>
+          </div>
+        </body>
+        </html>
+      `;
+      
+      // Restituisce HTML puro per anteprima (senza header di download)
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(htmlContent);
+      
+      console.log(`✅ [/api/invoices/${invoiceId}/preview] Anteprima generata per fattura ${invoice.invoiceNumber}`);
+      
+    } catch (error) {
+      console.error('❌ Error generating preview:', error);
+      res.status(500).json({ message: 'Errore generazione anteprima' });
+    }
+  });
+
   // Ottieni dati suggeriti per invio email fattura
   app.get('/api/invoices/:id/email-suggestions', async (req, res) => {
     try {
