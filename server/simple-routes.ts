@@ -14,6 +14,9 @@ import notificationRoutes from './routes/notificationRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
 import contactSettingsRoutes from './routes/contactSettingsRoutes';
 
+// Import notification service for automatic appointment notifications
+import { notificationService } from './services/notificationService';
+
 // Import storage for new collaborators and rooms functionality
 import { storage } from './storage';
 
@@ -1892,6 +1895,7 @@ export function registerSimpleRoutes(app: Express): Server {
       startTime: req.body.startTime,
       endTime: req.body.endTime,
       notes: req.body.notes || "",
+      reminderType: req.body.reminderType || "whatsapp,email", // ← Notifiche automatiche
       createdAt: new Date().toISOString()
     };
     
@@ -1901,6 +1905,28 @@ export function registerSimpleRoutes(app: Express): Server {
     saveStorageData(storageData);
     
     console.log(`✅ [JSON] Appuntamento ${newAppointment.id} salvato nel JSON con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
+    
+    // 📧📱 NOTIFICHE AUTOMATICHE - Invio immediato per nuovi appuntamenti
+    if (newAppointment.reminderType && newAppointment.clientId) {
+      try {
+        console.log(`📧 [NOTIFICHE] Invio automatico per appuntamento ${newAppointment.id} (${newAppointment.reminderType})`);
+        
+        // Chiamata asincrona alle notifiche senza bloccare la risposta
+        notificationService.sendAppointmentReminder(newAppointment as any)
+          .then(success => {
+            if (success) {
+              console.log(`✅ [NOTIFICHE] Inviate con successo per appuntamento ${newAppointment.id}`);
+            } else {
+              console.log(`⚠️ [NOTIFICHE] Problema nell'invio per appuntamento ${newAppointment.id}`);
+            }
+          })
+          .catch(error => {
+            console.error(`❌ [NOTIFICHE] Errore per appuntamento ${newAppointment.id}:`, error);
+          });
+      } catch (error) {
+        console.error(`❌ [NOTIFICHE] Errore generale per appuntamento ${newAppointment.id}:`, error);
+      }
+    }
     
     res.status(201).json(newAppointment);
   });
