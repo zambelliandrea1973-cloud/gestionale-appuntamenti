@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format, addDays } from "date-fns";
-import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3, Trash2, RefreshCw } from "lucide-react";
+import { Plus, FileText, Printer, Mail, MoreVertical, Check, Clock, AlertCircle, Edit3, Trash2, RefreshCw, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -83,7 +83,9 @@ export default function Invoices() {
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isCleanupDialogOpen, setIsCleanupDialogOpen] = useState(false);
+  const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [previewHtml, setPreviewHtml] = useState<string>("");
 
   const {
     data: invoices = [],
@@ -336,6 +338,29 @@ export default function Invoices() {
     },
   });
 
+  const previewMutation = useMutation({
+    mutationFn: async (invoiceId: number) => {
+      const response = await fetch(`/api/invoices/${invoiceId}/preview`);
+      if (!response.ok) throw new Error("Failed to generate preview");
+      return response.text();
+    },
+    onSuccess: (html, invoiceId) => {
+      setPreviewHtml(html);
+      setIsPreviewDialogOpen(true);
+      toast({ 
+        title: "✅ Anteprima generata", 
+        description: "Ecco come apparirà la fattura" 
+      });
+    },
+    onError: (error) => {
+      toast({ 
+        title: "❌ Errore anteprima", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
   const migrateClientIdsMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch("/api/invoices/migrate-client-ids", {
@@ -363,6 +388,11 @@ export default function Invoices() {
 
   const handlePrintInvoice = (invoice: Invoice) => {
     printMutation.mutate(invoice.id);
+  };
+
+  const handlePreviewInvoice = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    previewMutation.mutate(invoice.id);
   };
 
   const handleEmailInvoice = async (invoice: Invoice) => {
@@ -542,9 +572,20 @@ export default function Invoices() {
                     <Button
                       variant="outline"
                       size="sm"
+                      onClick={() => handlePreviewInvoice(invoice)}
+                      disabled={previewMutation.isPending}
+                      className="h-8 w-8 p-0"
+                      title="Anteprima fattura"
+                    >
+                      <Eye className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => handlePrintInvoice(invoice)}
                       disabled={printMutation.isPending}
                       className="h-8 w-8 p-0"
+                      title="Stampa fattura"
                     >
                       <Printer className="h-3 w-3" />
                     </Button>
@@ -554,6 +595,7 @@ export default function Invoices() {
                       onClick={() => handleEmailInvoice(invoice)}
                       disabled={sendEmailMutation.isPending}
                       className="h-8 w-8 p-0"
+                      title="Invia via email"
                     >
                       <Mail className="h-3 w-3" />
                     </Button>
@@ -593,6 +635,10 @@ export default function Invoices() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handlePreviewInvoice(invoice)}>
+                        <Eye className="h-4 w-4 mr-2" />
+                        {previewMutation.isPending ? "Anteprima..." : "Anteprima Fattura"}
+                      </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleStatusChange(invoice)}>
                         <Edit3 className="h-4 w-4 mr-2" />
                         Cambia Stato
@@ -1057,6 +1103,80 @@ export default function Invoices() {
               <RefreshCw className="h-4 w-4 mr-2" />
               {cleanupMutation.isPending ? "Pulizia..." : "Pulisci Numerazione"}
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog per anteprima fattura */}
+      <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-blue-600">👁️ Anteprima Fattura</DialogTitle>
+            <DialogDescription>
+              Anteprima di come apparirà la fattura <strong>{selectedInvoice?.invoiceNumber}</strong> prima dell'invio o stampa
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="bg-white border rounded-lg p-6 shadow-sm">
+            {previewMutation.isPending ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <span className="ml-3 text-muted-foreground">Generazione anteprima...</span>
+              </div>
+            ) : previewHtml ? (
+              <div 
+                className="invoice-preview"
+                dangerouslySetInnerHTML={{ __html: previewHtml }}
+                style={{
+                  fontFamily: 'Arial, sans-serif',
+                  fontSize: '14px',
+                  lineHeight: '1.4',
+                  color: '#333'
+                }}
+              />
+            ) : (
+              <div className="text-center text-muted-foreground py-8">
+                <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Nessuna anteprima disponibile</p>
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter className="flex gap-2">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsPreviewDialogOpen(false)}
+              className="flex-1"
+            >
+              Chiudi Anteprima
+            </Button>
+            {selectedInvoice && (
+              <>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    setIsPreviewDialogOpen(false);
+                    handlePrintInvoice(selectedInvoice);
+                  }}
+                  disabled={printMutation.isPending}
+                  className="flex-1"
+                >
+                  <Printer className="h-4 w-4 mr-2" />
+                  {printMutation.isPending ? "Stampa..." : "Stampa Fattura"}
+                </Button>
+                <Button 
+                  onClick={() => {
+                    setIsPreviewDialogOpen(false);
+                    handleEmailInvoice(selectedInvoice);
+                  }}
+                  disabled={sendEmailMutation.isPending}
+                  className="flex-1"
+                >
+                  <Mail className="h-4 w-4 mr-2" />
+                  {sendEmailMutation.isPending ? "Invio..." : "Invia via Email"}
+                </Button>
+              </>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
