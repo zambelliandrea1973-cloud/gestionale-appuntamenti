@@ -8610,6 +8610,21 @@
         "status": "scheduled",
         "createdAt": "2025-09-29T14:45:35.854Z"
       }
+    ],
+    [
+      1759162080487,
+      {
+        "id": 1759162080487,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "staffId": 1,
+        "roomId": 1,
+        "date": "2025-09-30",
+        "startTime": "16:00:00",
+        "endTime": "17:00:00",
+        "notes": "",
+        "createdAt": "2025-09-29T16:08:00.487Z"
+      }
     ]
   ],
   "consents": [
