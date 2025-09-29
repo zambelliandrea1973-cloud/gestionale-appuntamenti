@@ -8568,6 +8568,20 @@
         "status": "scheduled",
         "createdAt": "2025-09-29T14:02:39.039Z"
       }
+    ],
+    [
+      1759156445874,
+      {
+        "id": 1759156445874,
+        "clientId": 14002,
+        "serviceId": 1750225141396,
+        "date": "2025-09-30",
+        "startTime": "20:30:00",
+        "endTime": "21:00:00",
+        "notes": "",
+        "status": "scheduled",
+        "createdAt": "2025-09-29T14:34:05.874Z"
+      }
     ]
   ],
   "consents": [
