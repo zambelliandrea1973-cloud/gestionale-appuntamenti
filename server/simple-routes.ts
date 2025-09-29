@@ -1864,70 +1864,45 @@ export function registerSimpleRoutes(app: Express): Server {
   app.post("/api/appointments", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    if (!userData[user.id]) userData[user.id] = { services: [], clients: [], appointments: [], settings: {} };
     
-    // DEBUG: Log completo dei dati ricevuti per verificare staffId e roomId
-    console.log(`🔍 [DEBUG POST APPOINTMENTS] Dati ricevuti dal form:`, {
-      clientId: req.body.clientId,
-      serviceId: req.body.serviceId,
-      staffId: req.body.staffId,
-      roomId: req.body.roomId,
-      date: req.body.date,
-      startTime: req.body.startTime,
-      notes: req.body.notes,
-      allFields: req.body
-    });
+    // 🔧 RIPRISTINO SISTEMA ORIGINALE: Solo JSON, semplice ed efficace
+    console.log(`📅 [/api/appointments] POST - Creazione appuntamento per utente ${user.id}`);
+    console.log(`📝 Dati ricevuti:`, req.body);
     
-    // Valida gli ID con dati persistenti
+    // Carica dati dal JSON per validazione minima
     const storageData = loadStorageData();
-    const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[user.id] || [];
+    const allClients = storageData.clients || [];
     
-    // Per admin, usa tutti i clienti; per altri solo i propri
-    let availableClients;
-    if (user.type === 'admin') {
-      availableClients = allClients.map(([id, client]) => client);
-    } else {
-      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
-    }
+    // Trova client e service per riferimento (opzionale, per compatibilità response)
+    const availableClients = allClients.map(([id, client]) => client).filter(client => 
+      user.type === 'admin' || client.ownerId === user.id
+    );
+    const clientData = availableClients.find(c => c.id === req.body.clientId);
+    const serviceData = userServices.find(s => s.id === req.body.serviceId);
     
-    // Valida che clientId e serviceId esistano
-    const clientExists = availableClients.find(c => c.id === req.body.clientId);
-    const serviceExists = userServices.find(s => s.id === req.body.serviceId);
-    
-    if (!clientExists) {
-      console.log(`❌ Cliente ID ${req.body.clientId} non trovato`);
-      return res.status(400).json({ message: "Cliente non valido" });
-    }
-    
-    if (!serviceExists) {
-      console.log(`❌ Servizio ID ${req.body.serviceId} non trovato`);
-      return res.status(400).json({ message: "Servizio non valido" });
-    }
-    
+    // Crea nuovo appuntamento con TUTTI i campi (originali + nuovi) nel JSON
     const newAppointment = {
       id: Date.now(),
-      ...req.body,
-      createdAt: new Date()
+      clientId: req.body.clientId,
+      serviceId: req.body.serviceId,
+      staffId: req.body.staffId,     // ← NUOVO CAMPO nel JSON
+      roomId: req.body.roomId,       // ← NUOVO CAMPO nel JSON
+      date: req.body.date,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      notes: req.body.notes || "",
+      createdAt: new Date().toISOString()
     };
     
-    // 🔥 SALVA CON SISTEMA MISTO: JSON + PostgreSQL per staffId/roomId
-    // SALVA NEL STORAGE PERSISTENTE nella struttura appointments
+    // 📁 SALVA NEL JSON come il sistema originale
     if (!storageData.appointments) storageData.appointments = [];
-    
-    // Aggiungi alla lista principale degli appuntamenti
     storageData.appointments.push([newAppointment.id, newAppointment]);
     saveStorageData(storageData);
-    console.log(`💾 [JSON] Appuntamento ${newAppointment.id} salvato nel JSON con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
     
-    // Popola le relazioni con client e service prima di restituire
-    const appointmentWithDetails = {
-      ...newAppointment,
-      client: clientExists,
-      service: serviceExists
-    };
+    console.log(`✅ [JSON] Appuntamento ${newAppointment.id} salvato nel JSON con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
     
-    res.status(201).json(appointmentWithDetails);
+    res.status(201).json(newAppointment);
   });
 
   app.delete("/api/appointments/:id", (req, res) => {
