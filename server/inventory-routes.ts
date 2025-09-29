@@ -5,31 +5,44 @@ import { z } from 'zod';
 
 const router = express.Router();
 
-// Middleware to check PRO access
-const requireProAccess = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+// Middleware to check access: all staff + PRO clients (blocks only base/free clients)
+const requireStaffAccess = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
     const userId = req.user?.id;
     if (!userId) {
       return res.status(401).json({ error: 'Non autorizzato' });
     }
 
-    // Check if user has PRO access
     const license = await storage.getLicense(userId);
-    const hasProAccess = license?.type === 'staff_pro' || license?.type === 'client_pro';
+    const licenseType = license?.type || '';
     
-    if (!hasProAccess) {
+    // Staff has no restrictions (all staff types can access)
+    const isStaff = licenseType.startsWith('staff_');
+    
+    // PRO clients can access
+    const isProClient = licenseType === 'client_pro';
+    
+    // Block only base/free clients
+    const isBlockedClient = licenseType === 'client_base' || licenseType === 'client_free';
+    
+    if (isBlockedClient) {
       return res.status(403).json({ error: 'Funzionalità disponibile solo con abbonamento PRO' });
+    }
+    
+    // Allow staff and PRO clients
+    if (!isStaff && !isProClient) {
+      return res.status(403).json({ error: 'Accesso non autorizzato' });
     }
 
     next();
   } catch (error) {
-    console.error('Error checking PRO access:', error);
+    console.error('Error checking access:', error);
     res.status(500).json({ error: 'Errore del server' });
   }
 };
 
 // Product Categories Routes
-router.get('/categories', requireProAccess, async (req, res) => {
+router.get('/categories', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     console.log(`📦 [CATEGORIES] GET request for user ${userId}`);
@@ -61,7 +74,7 @@ router.get('/categories', requireProAccess, async (req, res) => {
   }
 });
 
-router.post('/categories', requireProAccess, async (req, res) => {
+router.post('/categories', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const categoryData = insertProductCategorySchema.parse(req.body);
@@ -76,7 +89,7 @@ router.post('/categories', requireProAccess, async (req, res) => {
   }
 });
 
-router.put('/categories/:id', requireProAccess, async (req, res) => {
+router.put('/categories/:id', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -97,7 +110,7 @@ router.put('/categories/:id', requireProAccess, async (req, res) => {
   }
 });
 
-router.delete('/categories/:id', requireProAccess, async (req, res) => {
+router.delete('/categories/:id', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -115,7 +128,7 @@ router.delete('/categories/:id', requireProAccess, async (req, res) => {
 });
 
 // Products Routes
-router.get('/products', requireProAccess, async (req, res) => {
+router.get('/products', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const products = await storage.getProducts(userId);
@@ -126,7 +139,7 @@ router.get('/products', requireProAccess, async (req, res) => {
   }
 });
 
-router.get('/products/:id', requireProAccess, async (req, res) => {
+router.get('/products/:id', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -143,7 +156,7 @@ router.get('/products/:id', requireProAccess, async (req, res) => {
   }
 });
 
-router.post('/products', requireProAccess, async (req, res) => {
+router.post('/products', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     console.log(`📦 [PRODUCTS] POST request for user ${userId}`);
@@ -166,7 +179,7 @@ router.post('/products', requireProAccess, async (req, res) => {
   }
 });
 
-router.put('/products/:id', requireProAccess, async (req, res) => {
+router.put('/products/:id', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -187,7 +200,7 @@ router.put('/products/:id', requireProAccess, async (req, res) => {
   }
 });
 
-router.delete('/products/:id', requireProAccess, async (req, res) => {
+router.delete('/products/:id', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -204,7 +217,7 @@ router.delete('/products/:id', requireProAccess, async (req, res) => {
   }
 });
 
-router.get('/low-stock', requireProAccess, async (req, res) => {
+router.get('/low-stock', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const products = await storage.getLowStockProducts(userId);
@@ -216,7 +229,7 @@ router.get('/low-stock', requireProAccess, async (req, res) => {
 });
 
 // Stock Movements Routes
-router.get('/movements', requireProAccess, async (req, res) => {
+router.get('/movements', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
@@ -228,7 +241,7 @@ router.get('/movements', requireProAccess, async (req, res) => {
   }
 });
 
-router.post('/movements', requireProAccess, async (req, res) => {
+router.post('/movements', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const movementData = insertStockMovementSchema.parse(req.body);
@@ -243,7 +256,7 @@ router.post('/movements', requireProAccess, async (req, res) => {
   }
 });
 
-router.get('/products/:id/movements', requireProAccess, async (req, res) => {
+router.get('/products/:id/movements', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
@@ -256,7 +269,7 @@ router.get('/products/:id/movements', requireProAccess, async (req, res) => {
 });
 
 // Sales Routes
-router.get('/sales', requireProAccess, async (req, res) => {
+router.get('/sales', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
@@ -268,7 +281,7 @@ router.get('/sales', requireProAccess, async (req, res) => {
   }
 });
 
-router.post('/sales', requireProAccess, async (req, res) => {
+router.post('/sales', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const saleData = insertProductSaleSchema.parse(req.body);
@@ -283,7 +296,7 @@ router.post('/sales', requireProAccess, async (req, res) => {
   }
 });
 
-router.get('/products/:id/sales', requireProAccess, async (req, res) => {
+router.get('/products/:id/sales', requireStaffAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
