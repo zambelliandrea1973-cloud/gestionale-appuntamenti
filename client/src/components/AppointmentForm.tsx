@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { insertAppointmentSchema } from "@shared/schema";
+// import { insertAppointmentSchema } from "@shared/schema"; // Rimosso per evitare limiti integer
 import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,16 +42,24 @@ interface AppointmentFormProps {
   selectedSlots?: string[];
 }
 
-// Extended schema with validation
-const formSchema = insertAppointmentSchema.extend({
+// Schema personalizzato per evitare limitazioni integer su timestamp ID
+const formSchema = z.object({
+  clientId: z.number({
+    required_error: "Seleziona un cliente",
+  }),
+  serviceId: z.number({
+    required_error: "Seleziona un servizio",
+  }),
+  staffId: z.number().optional(),
+  roomId: z.number().optional(),
   date: z.date({
     required_error: "Seleziona una data per l'appuntamento",
   }),
   startTime: z.string({
     required_error: "Seleziona un orario di inizio",
   }),
-  staffId: z.number().optional(),
-  roomId: z.number().optional(),
+  endTime: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
