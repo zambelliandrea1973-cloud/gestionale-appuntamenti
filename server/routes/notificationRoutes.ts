@@ -5,6 +5,7 @@ import { storage } from '../storage';
 import fs from 'fs';
 import path from 'path';
 import { loadStorageData } from '../utils/jsonStorage';
+import { directNotificationService } from '../services/directNotificationService';
 
 // 📁 Usa funzioni JSON centralizzate da utils/jsonStorage.ts
 
@@ -207,12 +208,50 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           
         } // SISTEMA OTTIMIZZATO - Solo WhatsApp
         else if (type === 'email' && notificationSettings.emailEnabled) {
-          // Logica per email - per future implementazioni
-          results.push({
-            id: appointmentId,
-            success: false,
-            error: 'Invio email non ancora implementato'
-          });
+          // 📧 RIPRISTINO SISTEMA EMAIL - era funzionante prima
+          try {
+            if (!client.email) {
+              results.push({
+                id: appointmentId,
+                success: false,
+                error: 'Email cliente non disponibile'
+              });
+              continue;
+            }
+
+            const emailSubject = `Promemoria appuntamento - ${service.name}`;
+            const emailMessage = `Gentile ${client.firstName},\n\nLe ricordiamo il Suo appuntamento di ${service.name} per il giorno ${appointmentDate} alle ore ${appointmentTime}.\n\nCordiali saluti`;
+            
+            console.log(`📧 Tentativo invio email a ${client.email} per appuntamento ${appointmentId}`);
+            const emailSent = await directNotificationService.sendEmail(client.email, emailSubject, emailMessage);
+            
+            if (emailSent) {
+              console.log(`✅ Email inviata per appuntamento ${appointmentId} - Cliente: ${client.firstName} ${client.lastName}`);
+              results.push({
+                id: appointmentId,
+                success: true,
+                clientName,
+                serviceName: service.name,
+                date: appointmentDate,
+                time: appointmentTime,
+                message: emailMessage,
+                method: 'email'
+              });
+            } else {
+              results.push({
+                id: appointmentId,
+                success: false,
+                error: 'Errore invio email'
+              });
+            }
+          } catch (emailError: any) {
+            console.error(`❌ Errore email per appuntamento ${appointmentId}:`, emailError);
+            results.push({
+              id: appointmentId,
+              success: false,
+              error: `Errore email: ${emailError.message}`
+            });
+          }
         } else {
           results.push({
             id: appointmentId,
