@@ -3,29 +3,9 @@ import { Appointment } from '@shared/schema';
 import { directNotificationService } from './directNotificationService';
 import fs from 'fs';
 import path from 'path';
+import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 
-// 📁 SISTEMA SOLO JSON - Rimuovo completamente PostgreSQL
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  try {
-    if (fs.existsSync(storageFile)) {
-      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
-      return data;
-    }
-  } catch (error) {
-    console.error('❌ [NOTIFICHE JSON] Errore caricamento storage:', error);
-  }
-  return { appointments: [], clients: [], userServices: {} };
-}
-
-function saveStorageData(data: any) {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  try {
-    fs.writeFileSync(storageFile, JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error('❌ [NOTIFICHE JSON] Errore salvataggio storage:', error);
-  }
-}
+// 📁 FUNZIONI JSON CENTRALIZZATE IN utils/jsonStorage.ts
 
 const messagesPendingDelivery = new Map<string, boolean>();
 
