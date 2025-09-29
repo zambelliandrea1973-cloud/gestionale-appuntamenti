@@ -44,6 +44,7 @@ import {
 import { formatDateForApi } from "@/lib/utils/date";
 import ProFeatureGuard from "@/components/ProFeatureGuard";
 import ProFeatureNavbar from "@/components/ProFeatureNavbar";
+import { buildPeriodBuckets, aggregateAppointments, calculateRevenue } from "@/lib/reports";
 
 export default function Reports() {
   const { t } = useTranslation();
@@ -97,103 +98,28 @@ function ReportsContent() {
     queryKey: ['/api/services'],
   });
   
-  // Helper function to safely calculate revenue (handles both euro and cent formats)
-  const calculateRevenue = (appointments) => {
-    return appointments.reduce((sum, a) => {
-      let price = 0;
-      
-      // Try to get price from service object first
-      if (a.service && typeof a.service.price === 'number') {
-        price = a.service.price;
-      } else {
-        // If service price is not available, use the service directly from services array
-        const serviceData = services.find(s => s.id === a.serviceId);
-        if (serviceData && typeof serviceData.price === 'number') {
-          price = serviceData.price;
-        }
-      }
-      
-      // Auto-detect format: if price > 1000, assume it's in cents, otherwise euros
-      const priceInEuros = price > 1000 ? (price / 100) : price;
-      
-      return sum + priceInEuros;
-    }, 0);
-  };
+  // Note: calculateRevenue function is now imported from @/lib/reports
 
-  // Aggregate data for reports when appointments or report type changes
+  // 📊 AGGREGAZIONE DATI UNIFICATA - Usa logica condivisa per tutti i tipi di report
   useEffect(() => {
     if (appointments.length === 0 || isLoadingAppointments || isLoadingServices) return;
     
-    if (reportType === "weekly") {
-      // Aggregate by day of week
-      const weekStart = startOfWeek(selectedDate, { locale: it });
-      const weekDays = eachDayOfInterval({
-        start: weekStart,
-        end: endOfWeek(selectedDate, { locale: it })
-      });
-      
-      const weeklyData = weekDays.map(day => {
-        const dayStr = formatDateForApi(day);
-        const dayAppointments = appointments.filter(a => a.date === dayStr);
-        
-        return {
-          name: format(day, 'EEEE', { locale: it }),
-          count: dayAppointments.length,
-          revenue: calculateRevenue(dayAppointments),
-          date: day
-        };
-      });
-      
-      setAggregatedData(weeklyData);
-    } else if (reportType === "monthly") {
-      // Aggregate by day of month
-      const monthStart = startOfMonth(selectedDate);
-      const monthEnd = endOfMonth(selectedDate);
-      const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-      
-      const monthlyData = daysInMonth.map(day => {
-        const dayStr = formatDateForApi(day);
-        const dayAppointments = appointments.filter(a => a.date === dayStr);
-        
-        return {
-          name: format(day, 'd', { locale: it }),
-          count: dayAppointments.length,
-          revenue: calculateRevenue(dayAppointments),
-          date: day
-        };
-      });
-      
-      setAggregatedData(monthlyData);
-    } else {
-      // Aggregate by month for yearly report
-      const monthlyData = Array.from({ length: 12 }, (_, monthIndex) => {
-        const monthDate = new Date(selectedDate.getFullYear(), monthIndex, 1);
-        const monthStr = format(monthDate, 'yyyy-MM');
-        const monthAppointments = appointments.filter(a => a.date.startsWith(monthStr));
-        
-        return {
-          name: format(monthDate, 'MMM', { locale: it }),
-          count: monthAppointments.length,
-          revenue: calculateRevenue(monthAppointments),
-          date: monthDate
-        };
-      });
-      
-      setAggregatedData(monthlyData);
-    }
+    // 🗓️ Genera buckets di tempo per il tipo di report selezionato
+    const buckets = buildPeriodBuckets(reportType, selectedDate);
     
-    // Aggregate by service type
+    // 📈 Aggrega dati usando la logica condivisa (stessa che funziona per annuale)
+    const aggregatedReportData = aggregateAppointments(buckets, appointments, services);
+    
+    setAggregatedData(aggregatedReportData);
+    
+    // 🎯 Aggregazione per tipo di servizio (usa la stessa logica di calcolo revenue)
     const serviceAggregation = services.map(service => {
       const serviceAppointments = appointments.filter(a => a.serviceId === service.id);
-      
-      // Auto-detect price format for service aggregation
-      const price = service.price || 0;
-      const pricePerService = price > 1000 ? (price / 100) : price;
       
       return {
         name: service.name,
         count: serviceAppointments.length,
-        revenue: serviceAppointments.length * pricePerService,
+        revenue: calculateRevenue(serviceAppointments, services),
         color: service.color || "#3f51b5"
       };
     }).filter(s => s.count > 0);
