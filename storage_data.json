@@ -8316,127 +8316,6 @@
       }
     ],
     [
-      1759900000010,
-      {
-        "id": 1759900000010,
-        "clientId": 14004,
-        "serviceId": 1750225060109,
-        "date": "2025-09-02",
-        "startTime": "09:00",
-        "endTime": "10:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
-      1759900000011,
-      {
-        "id": 1759900000011,
-        "clientId": 14001,
-        "serviceId": 1750225071976,
-        "date": "2025-09-03",
-        "startTime": "14:30",
-        "endTime": "15:30:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
-      1759900000012,
-      {
-        "id": 1759900000012,
-        "clientId": 14004,
-        "serviceId": 1750225060109,
-        "date": "2025-09-26",
-        "startTime": "10:00",
-        "endTime": "11:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
-      1759900000013,
-      {
-        "id": 1759900000013,
-        "clientId": 14001,
-        "serviceId": 1750225071976,
-        "date": "2025-09-27",
-        "startTime": "16:00",
-        "endTime": "17:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
-      1759900000014,
-      {
-        "id": 1759900000014,
-        "clientId": 14004,
-        "serviceId": 1750225060109,
-        "date": "2025-09-29",
-        "startTime": "11:00",
-        "endTime": "12:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
-      1759900000015,
-      {
-        "id": 1759900000015,
-        "clientId": 14001,
-        "serviceId": 1750225071976,
-        "date": "2025-09-30",
-        "startTime": "15:00",
-        "endTime": "16:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14,
-        "reminderStatus": "sent"
-      }
-    ],
-    [
-      1759900000016,
-      {
-        "id": 1759900000016,
-        "clientId": 14004,
-        "serviceId": 1750225060109,
-        "date": "2025-10-01",
-        "startTime": "09:30",
-        "endTime": "10:30:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
-      1759900000017,
-      {
-        "id": 1759900000017,
-        "clientId": 14001,
-        "serviceId": 1750225071976,
-        "date": "2025-10-02",
-        "startTime": "14:00",
-        "endTime": "15:00:00",
-        "notes": "",
-        "status": "scheduled",
-        "createdAt": "2025-09-29T17:30:00.000Z",
-        "ownerId": 14
-      }
-    ],
-    [
       1750236374443,
       {
         "id": 1750236374443,
@@ -8491,7 +8370,8 @@
         "endTime": "10:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-01T18:13:30.383Z"
+        "createdAt": "2025-09-01T18:13:30.383Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8505,7 +8385,8 @@
         "endTime": "09:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-01T18:14:30.106Z"
+        "createdAt": "2025-09-01T18:14:30.106Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8519,7 +8400,8 @@
         "endTime": "21:15:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-01T18:15:01.769Z"
+        "createdAt": "2025-09-01T18:15:01.769Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8533,7 +8415,8 @@
         "endTime": "11:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-25T08:47:11.194Z"
+        "createdAt": "2025-09-25T08:47:11.194Z",
+        "ownerId": 14
       }
     ],
     [
@@ -8547,7 +8430,8 @@
         "endTime": "09:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-25T08:48:02.551Z"
+        "createdAt": "2025-09-25T08:48:02.551Z",
+        "ownerId": 14
       }
     ],
     [
