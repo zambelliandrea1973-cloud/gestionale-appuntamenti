@@ -319,7 +319,7 @@ export default function Inventory() {
                               type="number" 
                               step="0.01" 
                               {...field} 
-                              onChange={(e) => field.onChange(parseFloat(e.target.value) * 100)}
+                              onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -337,7 +337,7 @@ export default function Inventory() {
                               type="number" 
                               step="0.01" 
                               {...field} 
-                              onChange={(e) => field.onChange(parseFloat(e.target.value) * 100)}
+                              onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -354,7 +354,7 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Scorte Attuali</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value))} />
+                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -367,7 +367,7 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Scorte Minime</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value))} />
+                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -380,7 +380,7 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Scorte Massime</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value))} />
+                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
