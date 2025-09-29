@@ -228,8 +228,8 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/direct-phone', directPhoneRoutes);
   app.use('/api/contact-settings', contactSettingsRoutes);
 
-  // Sistema lineare semplice - Servizi dell'utente
-  app.get("/api/services", (req, res) => {
+  // Sistema lineare semplice - Servizi dell'utente  
+  app.get("/api/services", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const deviceType = req.headers['x-device-type'] || 'unknown';
@@ -248,34 +248,98 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔄 [${deviceType}] Anti-cache applicato per servizi mobile`);
     }
     
-    // Carica solo i servizi dell'utente dal file storage_data.json
-    const storageData = loadStorageData();
-    const userServices = storageData.userServices?.[user.id] || [];
-    
-    console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi per utente ${user.id}`);
-    res.json(userServices);
+    try {
+      // 🔧 MIGRAZIONE AUTOMATICA: Sincronizza servizi esistenti con ID timestamp
+      const storageData = loadStorageData();
+      const userServices = storageData.userServices?.[user.id] || [];
+      
+      // Controlla se ci sono servizi con ID timestamp (> 1000000000000)
+      const servicesWithTimestamp = userServices.filter(s => s.id > 1000000000000);
+      
+      if (servicesWithTimestamp.length > 0) {
+        console.log(`🔄 MIGRAZIONE: Trovati ${servicesWithTimestamp.length} servizi con ID timestamp da sincronizzare`);
+        
+        for (const oldService of servicesWithTimestamp) {
+          try {
+            // Salva nel database per ottenere ID serial
+            const serviceData = {
+              userId: user.id,
+              name: oldService.name,
+              duration: oldService.duration,
+              color: oldService.color || "#3f51b5",
+              price: oldService.price || 0
+            };
+            
+            const dbService = await storage.createService(serviceData);
+            console.log(`🎯 Servizio "${oldService.name}" migrato: ID ${oldService.id} → ${dbService.id}`);
+            
+            // Aggiorna il servizio nel file storage con il nuovo ID
+            const serviceIndex = userServices.findIndex(s => s.id === oldService.id);
+            if (serviceIndex !== -1) {
+              userServices[serviceIndex].id = dbService.id;
+            }
+            
+          } catch (error) {
+            console.error(`❌ Errore migrazione servizio ${oldService.id}:`, error);
+          }
+        }
+        
+        // Salva i dati aggiornati
+        storageData.userServices[user.id] = userServices;
+        saveStorageData(storageData);
+        console.log(`✅ MIGRAZIONE COMPLETATA: ${servicesWithTimestamp.length} servizi sincronizzati`);
+      }
+      
+      console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi per utente ${user.id}`);
+      res.json(userServices);
+      
+    } catch (error) {
+      console.error("Errore durante il caricamento servizi:", error);
+      // Fallback al metodo originale
+      const storageData = loadStorageData();
+      const userServices = storageData.userServices?.[user.id] || [];
+      res.json(userServices);
+    }
   });
 
-  app.post("/api/services", (req, res) => {
+  app.post("/api/services", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    // Carica e aggiorna servizi nel file storage_data.json
-    const storageData = loadStorageData();
-    if (!storageData.userServices) storageData.userServices = {};
-    if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
-    
-    const newService = {
-      id: Date.now(),
-      ownerId: user.id,
-      ...req.body
-    };
-    
-    storageData.userServices[user.id].push(newService);
-    saveStorageData(storageData);
-    
-    console.log(`🔧 [/api/services] Servizio "${newService.name}" aggiunto per utente ${user.id}`);
-    res.status(201).json(newService);
+    try {
+      // 🔧 PRIMA salva nel database PostgreSQL (genera serial ID)
+      const serviceData = {
+        userId: user.id,
+        name: req.body.name,
+        duration: req.body.duration,
+        color: req.body.color || "#3f51b5",
+        price: req.body.price || 0
+      };
+      
+      const dbService = await storage.createService(serviceData);
+      console.log(`🎯 Servizio salvato nel database con ID serial: ${dbService.id}`);
+      
+      // 🔧 POI salva nel file storage usando lo STESSO ID dal database
+      const storageData = loadStorageData();
+      if (!storageData.userServices) storageData.userServices = {};
+      if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
+      
+      const newService = {
+        id: dbService.id,  // ← USA ID DAL DATABASE invece di Date.now()
+        ownerId: user.id,
+        ...req.body
+      };
+      
+      storageData.userServices[user.id].push(newService);
+      saveStorageData(storageData);
+      
+      console.log(`🔧 [/api/services] Servizio "${newService.name}" sincronizzato con ID ${dbService.id} per utente ${user.id}`);
+      res.status(201).json(newService);
+      
+    } catch (error) {
+      console.error("Errore creazione servizio:", error);
+      res.status(500).json({ message: "Errore durante la creazione del servizio" });
+    }
   });
 
   app.put("/api/services/:id", (req, res) => {
