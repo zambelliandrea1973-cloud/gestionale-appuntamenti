@@ -80,6 +80,7 @@ export default function Inventory() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [productDialogOpen, setProductDialogOpen] = useState(false);
   
   // Fetch data
   const { data: categories = [] } = useQuery({
@@ -119,6 +120,8 @@ export default function Inventory() {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/low-stock"] });
       toast({ title: "Prodotto creato con successo" });
+      productForm.reset();
+      setProductDialogOpen(false);
     },
   });
   
@@ -207,7 +210,7 @@ export default function Inventory() {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-primary">Gestione Magazzino</h1>
         <div className="flex gap-2">
-          <Dialog>
+          <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
             <DialogTrigger asChild>
               <Button>
                 <PackagePlus className="mr-2 h-4 w-4" />
@@ -219,7 +222,13 @@ export default function Inventory() {
                 <DialogTitle>Aggiungi Nuovo Prodotto</DialogTitle>
               </DialogHeader>
               <Form {...productForm}>
-                <form onSubmit={productForm.handleSubmit((data) => createProductMutation.mutate(data))} className="space-y-4">
+                <form onSubmit={productForm.handleSubmit((data) => {
+                  // Pulisci i dati rimuovendo campi undefined/null
+                  const cleanData = Object.fromEntries(
+                    Object.entries(data).filter(([_, v]) => v !== undefined && v !== null && v !== "")
+                  );
+                  createProductMutation.mutate(cleanData);
+                })} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={productForm.control}
@@ -240,7 +249,10 @@ export default function Inventory() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Categoria</FormLabel>
-                          <Select onValueChange={(value) => field.onChange(parseInt(value))}>
+                          <Select 
+                            value={field.value?.toString()} 
+                            onValueChange={(value) => field.onChange(parseInt(value))}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Seleziona categoria" />
