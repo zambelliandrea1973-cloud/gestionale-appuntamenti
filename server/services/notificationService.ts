@@ -419,10 +419,11 @@ export const notificationService = {
             // Trova il cliente dal JSON
             const client = allClients.find(([id, c]) => c.id === appointment.clientId)?.[1];
             if (client && client.ownerId) {
-              // Per semplicità, impostiamo sempre WhatsApp per tutti gli appuntamenti senza tipo
-              appointment.reminderType = 'whatsapp';
+              // 📧 SISTEMA AUTOMATICO: Email automatiche + WhatsApp manuali
+              // Per i promemoria automatici, impostiamo email (automatica) + whatsapp (manuale nel centro)
+              appointment.reminderType = 'email,whatsapp';
               shouldSendReminder = true;
-              console.log(`✅ [NOTIFICHE JSON] Appuntamento ID ${appointment.id}: impostato automaticamente reminderType=whatsapp per utente ${client.ownerId}`);
+              console.log(`✅ [NOTIFICHE JSON] Appuntamento ID ${appointment.id}: impostato automaticamente reminderType=email,whatsapp per utente ${client.ownerId}`);
             }
           } catch (error) {
             console.log(`❌ [NOTIFICHE JSON] Errore nel recupero impostazioni per appuntamento ${appointment.id}:`, error);
