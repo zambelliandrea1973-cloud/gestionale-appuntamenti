@@ -232,9 +232,13 @@ export default function Inventory() {
               <Form {...productForm}>
                 <form onSubmit={productForm.handleSubmit((data) => {
                   console.log("Dati form prima della pulizia:", data);
-                  // Pulisci i dati rimuovendo campi undefined/null
+                  // Pulisci i dati rimuovendo solo campi undefined, null o stringhe vuote
+                  // Mantieni i numeri anche se sono 0
                   const cleanData = Object.fromEntries(
-                    Object.entries(data).filter(([_, v]) => v !== undefined && v !== null && v !== "")
+                    Object.entries(data).filter(([_, v]) => {
+                      if (typeof v === 'number') return true; // Mantieni tutti i numeri
+                      return v !== undefined && v !== null && v !== "";
+                    })
                   );
                   console.log("Dati form dopo la pulizia:", cleanData);
                   createProductMutation.mutate(cleanData);
@@ -260,20 +264,26 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Categoria</FormLabel>
                           <Select 
-                            value={field.value?.toString()} 
+                            value={field.value ? field.value.toString() : undefined}
                             onValueChange={(value) => field.onChange(parseInt(value))}
                           >
                             <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Seleziona categoria" />
+                              <SelectTrigger data-testid="select-category">
+                                <SelectValue placeholder={categories.length === 0 ? "Nessuna categoria disponibile" : "Seleziona categoria"} />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {categories.map((cat) => (
-                                <SelectItem key={cat.id} value={cat.id.toString()}>
-                                  {cat.name}
-                                </SelectItem>
-                              ))}
+                              {categories.length === 0 ? (
+                                <div className="p-2 text-sm text-muted-foreground">
+                                  Crea prima una categoria nella sezione Categorie
+                                </div>
+                              ) : (
+                                categories.map((cat) => (
+                                  <SelectItem key={cat.id} value={cat.id.toString()}>
+                                    {cat.name}
+                                  </SelectItem>
+                                ))
+                              )}
                             </SelectContent>
                           </Select>
                           <FormMessage />
