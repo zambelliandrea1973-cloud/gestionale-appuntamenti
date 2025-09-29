@@ -43,10 +43,10 @@ const productSchema = z.object({
   description: z.string().optional(),
   sku: z.string().optional(),
   barcode: z.string().optional(),
-  price: z.number().min(0, "Prezzo deve essere positivo"),
-  cost: z.number().min(0, "Costo deve essere positivo"),
-  currentStock: z.number().min(0, "Stock deve essere positivo"),
-  minStock: z.number().min(0, "Stock minimo deve essere positivo"),
+  price: z.number().min(0, "Prezzo deve essere positivo").optional(),
+  cost: z.number().min(0, "Costo deve essere positivo").optional(),
+  currentStock: z.number().min(0, "Stock deve essere positivo").optional(),
+  minStock: z.number().min(0, "Stock minimo deve essere positivo").optional(),
   maxStock: z.number().optional(),
   unit: z.string().default("pz"),
   supplier: z.string().optional(),
@@ -155,11 +155,17 @@ export default function Inventory() {
     defaultValues: {
       name: "",
       description: "",
-      price: 0,
-      cost: 0,
-      currentStock: 0,
-      minStock: 0,
+      sku: "",
+      barcode: "",
+      price: undefined,
+      cost: undefined,
+      currentStock: undefined,
+      minStock: undefined,
+      maxStock: undefined,
       unit: "pz",
+      supplier: "",
+      supplierContact: "",
+      location: "",
     },
   });
   
@@ -260,7 +266,7 @@ export default function Inventory() {
                       name="sku"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Codice SKU</FormLabel>
+                          <FormLabel>Codice interno</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -319,8 +325,11 @@ export default function Inventory() {
                               type="number" 
                               step="0.01" 
                               {...field} 
-                              value={(field.value || 0) / 100}
-                              onChange={(e) => field.onChange(Math.round((parseFloat(e.target.value) || 0) * 100))}
+                              value={field.value ? field.value / 100 : ""}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(value === "" ? undefined : Math.round((parseFloat(value) || 0) * 100));
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -338,8 +347,11 @@ export default function Inventory() {
                               type="number" 
                               step="0.01" 
                               {...field} 
-                              value={(field.value || 0) / 100}
-                              onChange={(e) => field.onChange(Math.round((parseFloat(e.target.value) || 0) * 100))}
+                              value={field.value ? field.value / 100 : ""}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(value === "" ? undefined : Math.round((parseFloat(value) || 0) * 100));
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -356,7 +368,15 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Scorte Attuali</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
+                            <Input 
+                              type="number" 
+                              {...field} 
+                              value={field.value ?? ""}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(value === "" ? undefined : parseInt(value) || 0);
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -369,7 +389,15 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Scorte Minime</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
+                            <Input 
+                              type="number" 
+                              {...field} 
+                              value={field.value ?? ""}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(value === "" ? undefined : parseInt(value) || 0);
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -382,7 +410,15 @@ export default function Inventory() {
                         <FormItem>
                           <FormLabel>Scorte Massime</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} onChange={(e) => field.onChange(parseInt(e.target.value) || 0)} />
+                            <Input 
+                              type="number" 
+                              {...field} 
+                              value={field.value ?? ""}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                field.onChange(value === "" ? undefined : parseInt(value) || 0);
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
