@@ -135,8 +135,13 @@ router.post('/send-batch', async (req: Request, res: Response) => {
     
     for (const appointmentId of appointmentIds) {
       try {
-        // USA SISTEMA UNIFICATO: Database PostgreSQL
-        const appointment = await storage.getAppointment(appointmentId);
+        // 📁 USA JSON COME TUTTI GLI ALTRI ENDPOINT
+        const storageData = loadStorageData();
+        const allAppointments = storageData.appointments || [];
+        const allClients = storageData.clients || [];
+        
+        // Trova appuntamento dal JSON
+        const appointment = allAppointments.find(([id, app]) => app.id === appointmentId)?.[1];
         
         if (!appointment) {
           results.push({
@@ -147,8 +152,8 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           continue;
         }
         
-        // Trova cliente dal database unificato
-        const client = appointment?.client;
+        // 📁 Trova cliente dal JSON
+        const client = allClients.find(([id, c]) => c.id === appointment.clientId)?.[1];
         
         if (!client) {
           results.push({
@@ -159,8 +164,9 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           continue;
         }
         
-        // Trova servizio dal database unificato
-        const service = appointment?.service;
+        // 📁 Trova servizio dal JSON
+        const userServices = storageData.userServices?.[client.ownerId] || [];
+        const service = userServices.find(s => s.id === appointment.serviceId);
         
         if (!service) {
           results.push({

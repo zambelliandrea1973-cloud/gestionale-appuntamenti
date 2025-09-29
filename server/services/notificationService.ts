@@ -1,7 +1,31 @@
 import { format, addDays, isBefore } from 'date-fns';
 import { Appointment } from '@shared/schema';
-import { storage } from '../storage';
 import { directNotificationService } from './directNotificationService';
+import fs from 'fs';
+import path from 'path';
+
+// 📁 SISTEMA SOLO JSON - Rimuovo completamente PostgreSQL
+function loadStorageData() {
+  const storageFile = path.join(process.cwd(), 'storage_data.json');
+  try {
+    if (fs.existsSync(storageFile)) {
+      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+      return data;
+    }
+  } catch (error) {
+    console.error('❌ [NOTIFICHE JSON] Errore caricamento storage:', error);
+  }
+  return { appointments: [], clients: [], userServices: {} };
+}
+
+function saveStorageData(data: any) {
+  const storageFile = path.join(process.cwd(), 'storage_data.json');
+  try {
+    fs.writeFileSync(storageFile, JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error('❌ [NOTIFICHE JSON] Errore salvataggio storage:', error);
+  }
+}
 
 const messagesPendingDelivery = new Map<string, boolean>();
 
@@ -186,6 +210,7 @@ export const notificationService = {
   
   /**
    * Invia un promemoria per un appuntamento
+   * 📁 SISTEMA SOLO JSON - Rimosso PostgreSQL completamente
    * @param appointment L'appuntamento per cui inviare il promemoria
    * @returns true se il promemoria è stato inviato con successo, false altrimenti
    */
@@ -193,69 +218,51 @@ export const notificationService = {
     try {
       // Verifica che l'appuntamento abbia un tipo di promemoria specificato e un clientId
       if (!appointment.reminderType || !appointment.clientId) {
-        console.error(`Impossibile inviare promemoria: dati mancanti nell'appuntamento`, appointment);
+        console.error(`❌ [NOTIFICHE JSON] Impossibile inviare promemoria: dati mancanti nell'appuntamento`, appointment);
         return false;
       }
       
-      // Recupera i dati del cliente
-      const client = await storage.getClient(appointment.clientId);
+      // 📁 RECUPERA DATI DAL JSON (non PostgreSQL)
+      const storageData = loadStorageData();
+      const allClients = storageData.clients || [];
+      
+      // Trova il cliente dal JSON
+      const client = allClients.find(([id, c]) => c.id === appointment.clientId)?.[1];
       if (!client) {
-        console.error(`Cliente non trovato per l'appuntamento ${appointment.id}`);
+        console.error(`❌ [NOTIFICHE JSON] Cliente non trovato per l'appuntamento ${appointment.id}`);
         return false;
       }
       
       // Verifica che il cliente abbia un numero di telefono
       if (!client.phone) {
-        console.error(`Il cliente ${client.id} (${client.firstName} ${client.lastName}) non ha un numero di telefono`);
+        console.error(`❌ [NOTIFICHE JSON] Il cliente ${client.id} (${client.firstName} ${client.lastName}) non ha un numero di telefono`);
         return false;
       }
 
-      // Recupera i dati del servizio
-      const service = appointment.serviceId ? await storage.getService(appointment.serviceId) : null;
+      // 📁 RECUPERA SERVIZIO DAL JSON (trova owner tramite cliente)
+      const userServices = storageData.userServices?.[client.ownerId] || [];
+      const service = appointment.serviceId ? userServices.find(s => s.id === appointment.serviceId) : null;
       
-      // Recupera i dati del collaboratore se presente
-      const staff = appointment.staffId ? await storage.getCollaborator(appointment.staffId) : null;
+      // 📁 RECUPERA COLLABORATORE DAL JSON (se presente)
+      const allCollaborators = storageData.collaborators || [];
+      const staff = appointment.staffId ? allCollaborators.find(([id, c]) => c.id === appointment.staffId)?.[1] : null;
       
-      // Recupera i dati della stanza se presente
-      const room = appointment.roomId ? await storage.getTreatmentRoom(appointment.roomId) : null;
+      // 📁 RECUPERA STANZA DAL JSON (se presente)
+      const allRooms = storageData.treatmentRooms || [];
+      const room = appointment.roomId ? allRooms.find(([id, r]) => r.id === appointment.roomId)?.[1] : null;
       
       // Formatta la data e l'ora dell'appuntamento
       const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
       const startTime = appointment.startTime.substring(0, 5); // Estrae solo HH:MM
       
-      // Prova a recuperare un template personalizzato
-      let reminderTemplate = null;
-      if (appointment.serviceId) {
-        // Prima cerca un template specifico per questo servizio
-        reminderTemplate = await storage.getReminderTemplateByService(appointment.serviceId);
-      }
+      // 📁 TEMPLATE SEMPLIFICATO (niente PostgreSQL)
+      // Messaggio predefinito con tutti i dettagli disponibili
+      let appointmentDetails = '';
+      if (service) appointmentDetails += `di ${service.name}`;
+      if (staff) appointmentDetails += ` con ${staff.firstName} ${staff.lastName}`;
+      if (room) appointmentDetails += ` nella ${room.name}`;
       
-      // Se non trova un template specifico, usa quello predefinito
-      if (!reminderTemplate) {
-        reminderTemplate = await storage.getDefaultReminderTemplate();
-      }
-      
-      // Prepara il messaggio - se esiste un template lo usa, altrimenti usa un messaggio predefinito
-      let message = '';
-      if (reminderTemplate) {
-        // Sostituisci i placeholder nel template con i dati reali
-        message = reminderTemplate.template
-          .replace('{{nome}}', client.firstName)
-          .replace('{{cognome}}', client.lastName)
-          .replace('{{servizio}}', service ? service.name : 'appuntamento')
-          .replace('{{data}}', appointmentDate)
-          .replace('{{ora}}', startTime)
-          .replace('{{collaboratore}}', staff ? `${staff.firstName} ${staff.lastName}` : '')
-          .replace('{{stanza}}', room ? room.name : '');
-      } else {
-        // Messaggio predefinito con data e ora incluse
-        let appointmentDetails = '';
-        if (service) appointmentDetails += `di ${service.name}`;
-        if (staff) appointmentDetails += ` con ${staff.firstName} ${staff.lastName}`;
-        if (room) appointmentDetails += ` nella ${room.name}`;
-        
-        message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento${appointmentDetails ? ` ${appointmentDetails}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
-      }
+      const message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento${appointmentDetails ? ` ${appointmentDetails}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
       
       // Genera un ID univoco per questo messaggio
       const messageId = `${appointment.id}-${appointment.date}-${appointment.startTime}`;
@@ -298,7 +305,7 @@ export const notificationService = {
                 const emailConfig = JSON.parse(emailConfigData);
                 
                 if (emailConfig.emailEnabled && emailConfig.emailAddress && emailConfig.emailPassword) {
-                  const success = await this.sendEmailDirect(client.email, reminderTemplate?.subject || `Promemoria appuntamento del ${appointmentDate}`, message, emailConfig);
+                  const success = await this.sendEmailDirect(client.email, `Promemoria appuntamento del ${appointmentDate}`, message, emailConfig);
                   if (success) {
                     console.log(`Email inviata con successo per l'appuntamento ${appointment.id} a ${client.email}`);
                     successCount++;
@@ -324,13 +331,25 @@ export const notificationService = {
           }
         }
         
-        // Aggiorna lo stato del promemoria
+        // 📁 AGGIORNA STATO NEL JSON (non PostgreSQL)
         if (successCount > 0) {
-          await storage.updateAppointment(appointment.id, { reminderStatus: 'sent' });
-          console.log(`Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
+          // Trova e aggiorna l'appuntamento nel JSON
+          const updatedStorageData = loadStorageData();
+          const appointmentIndex = updatedStorageData.appointments.findIndex(([id, app]) => app.id === appointment.id);
+          if (appointmentIndex !== -1) {
+            updatedStorageData.appointments[appointmentIndex][1].reminderStatus = 'sent';
+            saveStorageData(updatedStorageData);
+          }
+          console.log(`✅ [NOTIFICHE JSON] Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
         } else {
-          await storage.updateAppointment(appointment.id, { reminderStatus: 'failed' });
-          console.error(`Tutti i tentativi di invio promemoria per l'appuntamento ${appointment.id} sono falliti`);
+          // Trova e aggiorna l'appuntamento nel JSON
+          const updatedStorageData = loadStorageData();
+          const appointmentIndex = updatedStorageData.appointments.findIndex(([id, app]) => app.id === appointment.id);
+          if (appointmentIndex !== -1) {
+            updatedStorageData.appointments[appointmentIndex][1].reminderStatus = 'failed';
+            saveStorageData(updatedStorageData);
+          }
+          console.error(`❌ [NOTIFICHE JSON] Tutti i tentativi di invio promemoria per l'appuntamento ${appointment.id} sono falliti`);
         }
       } finally {
         // Rimuovi il flag anche in caso di errore
@@ -346,29 +365,16 @@ export const notificationService = {
   
   /**
    * Verifica gli appuntamenti per cui è necessario inviare un promemoria
+   * 📁 SISTEMA SOLO JSON - Rimosso PostgreSQL completamente
    * @returns Il numero di promemoria inviati con successo
    */
   async processReminders(): Promise<number> {
     try {
-      // Tenta di ottenere il fuso orario dalle impostazioni dell'app
+      // 📁 FUSO ORARIO FISSO (niente PostgreSQL)
       let TIMEZONE_OFFSET_HOURS = 2; // Valore predefinito per l'Italia (CEST, UTC+2)
       let timezoneName = "Europe/Rome";
       
-      try {
-        // Ottieni le impostazioni del fuso orario dalla configurazione dell'app
-        const timezoneSetting = await storage.getSetting('timezone');
-        if (timezoneSetting) {
-          const timezoneData = JSON.parse(timezoneSetting.value);
-          TIMEZONE_OFFSET_HOURS = timezoneData.offset || 2;
-          timezoneName = timezoneData.timezone || "Europe/Rome";
-          console.log(`Utilizzando fuso orario da configurazione: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
-        } else {
-          console.log(`Nessuna configurazione di fuso orario trovata, utilizzo predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
-        }
-      } catch (error) {
-        console.error('Errore nel recupero delle impostazioni del fuso orario:', error);
-        console.log(`Utilizzo fuso orario predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
-      }
+      console.log(`✅ [NOTIFICHE JSON] Utilizzo fuso orario predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
       
       // Otteniamo la data attuale
       const now = new Date();
@@ -384,21 +390,24 @@ export const notificationService = {
       console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
       console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
       
-      // FIXME: Il sistema di promemoria deve recuperare appuntamenti da TUTTI gli utenti
-      // Per ora raccogliamo gli appuntamenti di tutti gli utenti attivi
-      // In futuro si potrebbe configurare per utente specifico
+      // 📁 RECUPERA APPUNTAMENTI DAL JSON (non PostgreSQL)
       let appointments = [];
       
       try {
-        // Usa getAppointmentsByDateRange che è più sicura e non ha problemi multi-tenant
-        const startDate = todayStr;
-        const endDate = tomorrowStr;
+        const storageData = loadStorageData();
+        const allAppointments = storageData.appointments || [];
         
-        console.log(`Recupero appuntamenti dal database per il range: ${startDate} - ${endDate}`);
-        appointments = await storage.getAppointmentsByDateRange(startDate, endDate);
+        console.log(`🔍 [NOTIFICHE JSON] Recupero appuntamenti dal JSON per il range: ${todayStr} - ${tomorrowStr}`);
+        
+        // Filtra appuntamenti per oggi e domani
+        appointments = allAppointments
+          .map(([id, appointment]) => appointment)
+          .filter((appointment: any) => {
+            return appointment.date === todayStr || appointment.date === tomorrowStr;
+          });
         
       } catch (error) {
-        console.error('Errore nel recupero appuntamenti per promemoria:', error);
+        console.error('❌ [NOTIFICHE JSON] Errore nel recupero appuntamenti per promemoria:', error);
         appointments = [];
       }
       
@@ -422,21 +431,21 @@ export const notificationService = {
           // L'appuntamento ha un tipo di promemoria specifico
           shouldSendReminder = true;
         } else {
-          // L'appuntamento non ha un tipo specifico, controlliamo le impostazioni utente
+          // 📁 CONTROLLO IMPOSTAZIONI DAL JSON (non PostgreSQL)
           try {
-            // Recupera l'owner dell'appuntamento per controllare le sue impostazioni
-            const client = await storage.getClient(appointment.clientId);
-            if (client) {
-              const contactSettings = await storage.getContactSettings(client.ownerId);
-              if (contactSettings && contactSettings.whatsappOptIn) {
-                // L'utente ha WhatsApp abilitato, impostiamo automaticamente il tipo
-                appointment.reminderType = 'whatsapp';
-                shouldSendReminder = true;
-                console.log(`Appuntamento ID ${appointment.id}: impostato automaticamente reminderType=whatsapp per utente ${client.ownerId}`);
-              }
+            const reminderStorageData = loadStorageData();
+            const allClients = reminderStorageData.clients || [];
+            
+            // Trova il cliente dal JSON
+            const client = allClients.find(([id, c]) => c.id === appointment.clientId)?.[1];
+            if (client && client.ownerId) {
+              // Per semplicità, impostiamo sempre WhatsApp per tutti gli appuntamenti senza tipo
+              appointment.reminderType = 'whatsapp';
+              shouldSendReminder = true;
+              console.log(`✅ [NOTIFICHE JSON] Appuntamento ID ${appointment.id}: impostato automaticamente reminderType=whatsapp per utente ${client.ownerId}`);
             }
           } catch (error) {
-            console.log(`Errore nel recupero impostazioni per appuntamento ${appointment.id}:`, error);
+            console.log(`❌ [NOTIFICHE JSON] Errore nel recupero impostazioni per appuntamento ${appointment.id}:`, error);
           }
         }
         
