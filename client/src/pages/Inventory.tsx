@@ -374,7 +374,7 @@ export default function Inventory() {
                               value={field.value ?? ""}
                               onChange={(e) => {
                                 const value = e.target.value;
-                                field.onChange(value === "" ? undefined : parseInt(value) || 0);
+                                field.onChange(value === "" ? undefined : parseInt(value) || undefined);
                               }}
                             />
                           </FormControl>
@@ -395,7 +395,7 @@ export default function Inventory() {
                               value={field.value ?? ""}
                               onChange={(e) => {
                                 const value = e.target.value;
-                                field.onChange(value === "" ? undefined : parseInt(value) || 0);
+                                field.onChange(value === "" ? undefined : parseInt(value) || undefined);
                               }}
                             />
                           </FormControl>
@@ -416,7 +416,7 @@ export default function Inventory() {
                               value={field.value ?? ""}
                               onChange={(e) => {
                                 const value = e.target.value;
-                                field.onChange(value === "" ? undefined : parseInt(value) || 0);
+                                field.onChange(value === "" ? undefined : parseInt(value) || undefined);
                               }}
                             />
                           </FormControl>

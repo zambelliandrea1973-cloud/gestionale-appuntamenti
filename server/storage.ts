@@ -309,6 +309,31 @@ export interface IStorage {
   updateOnboardingProgress(userId: number, progress: Partial<InsertOnboardingProgress>): Promise<OnboardingProgress | undefined>;
   deleteOnboardingProgress(userId: number): Promise<boolean>;
   markOnboardingCompleted(userId: number): Promise<OnboardingProgress | undefined>;
+  
+  // Product Category operations
+  getProductCategories(userId: number): Promise<ProductCategory[]>;
+  getProductCategory(id: number, userId: number): Promise<ProductCategory | undefined>;
+  createProductCategory(category: InsertProductCategory & { userId: number }): Promise<ProductCategory>;
+  updateProductCategory(id: number, userId: number, category: Partial<InsertProductCategory>): Promise<ProductCategory | undefined>;
+  deleteProductCategory(id: number, userId: number): Promise<boolean>;
+  
+  // Product operations
+  getProducts(userId: number): Promise<Product[]>;
+  getProduct(id: number, userId: number): Promise<Product | undefined>;
+  createProduct(product: InsertProduct & { userId: number }): Promise<Product>;
+  updateProduct(id: number, userId: number, product: Partial<InsertProduct>): Promise<Product | undefined>;
+  deleteProduct(id: number, userId: number): Promise<boolean>;
+  getLowStockProducts(userId: number): Promise<Product[]>;
+  
+  // Stock Movement operations
+  getStockMovements(userId: number, limit?: number): Promise<StockMovement[]>;
+  createStockMovement(movement: InsertStockMovement & { userId: number }): Promise<StockMovement>;
+  getProductStockHistory(productId: number, userId: number): Promise<StockMovement[]>;
+  
+  // Product Sale operations
+  getProductSales(userId: number, limit?: number): Promise<ProductSale[]>;
+  createProductSale(sale: InsertProductSale & { userId: number }): Promise<ProductSale>;
+  getProductSalesHistory(productId: number, userId: number): Promise<ProductSale[]>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -3597,6 +3622,297 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error(`Errore nell'eliminazione impostazioni contatto per tenant ${tenantId}:`, error);
       return false;
+    }
+  }
+
+  // Product Category operations
+  async getProductCategories(userId: number): Promise<ProductCategory[]> {
+    try {
+      const categories = await db
+        .select()
+        .from(productCategories)
+        .where(eq(productCategories.userId, userId))
+        .orderBy(productCategories.name);
+      return categories;
+    } catch (error) {
+      console.error("Error getting product categories:", error);
+      return [];
+    }
+  }
+
+  async getProductCategory(id: number, userId: number): Promise<ProductCategory | undefined> {
+    try {
+      const [category] = await db
+        .select()
+        .from(productCategories)
+        .where(and(eq(productCategories.id, id), eq(productCategories.userId, userId)));
+      return category;
+    } catch (error) {
+      console.error("Error getting product category:", error);
+      return undefined;
+    }
+  }
+
+  async createProductCategory(category: InsertProductCategory & { userId: number }): Promise<ProductCategory> {
+    try {
+      const [newCategory] = await db
+        .insert(productCategories)
+        .values(category)
+        .returning();
+      return newCategory;
+    } catch (error) {
+      console.error("Error creating product category:", error);
+      throw error;
+    }
+  }
+
+  async updateProductCategory(id: number, userId: number, category: Partial<InsertProductCategory>): Promise<ProductCategory | undefined> {
+    try {
+      const [updated] = await db
+        .update(productCategories)
+        .set({ ...category, updatedAt: new Date() })
+        .where(and(eq(productCategories.id, id), eq(productCategories.userId, userId)))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error("Error updating product category:", error);
+      return undefined;
+    }
+  }
+
+  async deleteProductCategory(id: number, userId: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(productCategories)
+        .where(and(eq(productCategories.id, id), eq(productCategories.userId, userId)));
+      return result.rowCount > 0;
+    } catch (error) {
+      console.error("Error deleting product category:", error);
+      return false;
+    }
+  }
+
+  // Product operations
+  async getProducts(userId: number): Promise<Product[]> {
+    try {
+      const productsList = await db
+        .select()
+        .from(products)
+        .where(eq(products.userId, userId))
+        .orderBy(products.name);
+      return productsList;
+    } catch (error) {
+      console.error("Error getting products:", error);
+      return [];
+    }
+  }
+
+  async getProduct(id: number, userId: number): Promise<Product | undefined> {
+    try {
+      const [product] = await db
+        .select()
+        .from(products)
+        .where(and(eq(products.id, id), eq(products.userId, userId)));
+      return product;
+    } catch (error) {
+      console.error("Error getting product:", error);
+      return undefined;
+    }
+  }
+
+  async createProduct(product: InsertProduct & { userId: number }): Promise<Product> {
+    try {
+      const [newProduct] = await db
+        .insert(products)
+        .values(product)
+        .returning();
+      return newProduct;
+    } catch (error) {
+      console.error("Error creating product:", error);
+      throw error;
+    }
+  }
+
+  async updateProduct(id: number, userId: number, product: Partial<InsertProduct>): Promise<Product | undefined> {
+    try {
+      const [updated] = await db
+        .update(products)
+        .set({ ...product, updatedAt: new Date() })
+        .where(and(eq(products.id, id), eq(products.userId, userId)))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error("Error updating product:", error);
+      return undefined;
+    }
+  }
+
+  async deleteProduct(id: number, userId: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(products)
+        .where(and(eq(products.id, id), eq(products.userId, userId)));
+      return result.rowCount > 0;
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      return false;
+    }
+  }
+
+  async getLowStockProducts(userId: number): Promise<Product[]> {
+    try {
+      const lowStockProducts = await db
+        .select()
+        .from(products)
+        .where(
+          and(
+            eq(products.userId, userId),
+            sql`${products.currentStock} <= ${products.minStock}`
+          )
+        )
+        .orderBy(products.name);
+      return lowStockProducts;
+    } catch (error) {
+      console.error("Error getting low stock products:", error);
+      return [];
+    }
+  }
+
+  // Stock Movement operations
+  async getStockMovements(userId: number, limit?: number): Promise<StockMovement[]> {
+    try {
+      let query = db
+        .select()
+        .from(stockMovements)
+        .where(eq(stockMovements.userId, userId))
+        .orderBy(desc(stockMovements.createdAt));
+      
+      if (limit) {
+        query = query.limit(limit);
+      }
+      
+      const movements = await query;
+      return movements;
+    } catch (error) {
+      console.error("Error getting stock movements:", error);
+      return [];
+    }
+  }
+
+  async createStockMovement(movement: InsertStockMovement & { userId: number }): Promise<StockMovement> {
+    try {
+      const [newMovement] = await db
+        .insert(stockMovements)
+        .values(movement)
+        .returning();
+      
+      // Update product stock if it's an inventory change
+      if (movement.movementType === 'IN') {
+        await db
+          .update(products)
+          .set({
+            currentStock: sql`${products.currentStock} + ${movement.quantity}`,
+            updatedAt: new Date()
+          })
+          .where(and(eq(products.id, movement.productId), eq(products.userId, movement.userId)));
+      } else if (movement.movementType === 'OUT' || movement.movementType === 'SALE' || movement.movementType === 'WASTE') {
+        await db
+          .update(products)
+          .set({
+            currentStock: sql`${products.currentStock} - ${movement.quantity}`,
+            updatedAt: new Date()
+          })
+          .where(and(eq(products.id, movement.productId), eq(products.userId, movement.userId)));
+      } else if (movement.movementType === 'ADJUSTMENT') {
+        await db
+          .update(products)
+          .set({
+            currentStock: movement.quantity,
+            updatedAt: new Date()
+          })
+          .where(and(eq(products.id, movement.productId), eq(products.userId, movement.userId)));
+      }
+      
+      return newMovement;
+    } catch (error) {
+      console.error("Error creating stock movement:", error);
+      throw error;
+    }
+  }
+
+  async getProductStockHistory(productId: number, userId: number): Promise<StockMovement[]> {
+    try {
+      const history = await db
+        .select()
+        .from(stockMovements)
+        .where(and(eq(stockMovements.productId, productId), eq(stockMovements.userId, userId)))
+        .orderBy(desc(stockMovements.createdAt));
+      return history;
+    } catch (error) {
+      console.error("Error getting product stock history:", error);
+      return [];
+    }
+  }
+
+  // Product Sale operations
+  async getProductSales(userId: number, limit?: number): Promise<ProductSale[]> {
+    try {
+      let query = db
+        .select()
+        .from(productSales)
+        .where(eq(productSales.userId, userId))
+        .orderBy(desc(productSales.createdAt));
+      
+      if (limit) {
+        query = query.limit(limit);
+      }
+      
+      const sales = await query;
+      return sales;
+    } catch (error) {
+      console.error("Error getting product sales:", error);
+      return [];
+    }
+  }
+
+  async createProductSale(sale: InsertProductSale & { userId: number }): Promise<ProductSale> {
+    try {
+      const [newSale] = await db
+        .insert(productSales)
+        .values(sale)
+        .returning();
+      
+      // Create a stock movement for the sale
+      await this.createStockMovement({
+        userId: sale.userId,
+        productId: sale.productId,
+        movementType: 'SALE',
+        quantity: sale.quantity,
+        unitPrice: sale.unitPrice,
+        reason: 'Vendita prodotto',
+        reference: `Vendita #${newSale.id}`,
+        staffMember: sale.staffMember,
+        notes: sale.notes
+      });
+      
+      return newSale;
+    } catch (error) {
+      console.error("Error creating product sale:", error);
+      throw error;
+    }
+  }
+
+  async getProductSalesHistory(productId: number, userId: number): Promise<ProductSale[]> {
+    try {
+      const history = await db
+        .select()
+        .from(productSales)
+        .where(and(eq(productSales.productId, productId), eq(productSales.userId, userId)))
+        .orderBy(desc(productSales.createdAt));
+      return history;
+    } catch (error) {
+      console.error("Error getting product sales history:", error);
+      return [];
     }
   }
 }
