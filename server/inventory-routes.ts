@@ -32,25 +32,31 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
 router.get('/categories', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
+    console.log(`📦 [CATEGORIES] GET request for user ${userId}`);
     let categories = await storage.getProductCategories(userId);
+    console.log(`📦 [CATEGORIES] Found ${categories.length} categories`);
     
     // Initialize default categories if user has none
     if (categories.length === 0) {
+      console.log(`📦 [CATEGORIES] Creating default categories for user ${userId}`);
       const defaultCategories = [
         { name: 'Consumabili', description: 'Materiali e prodotti consumabili per trattamenti', color: '#3b82f6' },
         { name: 'Prodotti per la vendita', description: 'Prodotti destinati alla vendita diretta ai clienti', color: '#10b981' }
       ];
       
       for (const cat of defaultCategories) {
-        await storage.createProductCategory({ ...cat, userId });
+        const created = await storage.createProductCategory({ ...cat, userId });
+        console.log(`📦 [CATEGORIES] Created category: ${created.name} (ID: ${created.id})`);
       }
       
       categories = await storage.getProductCategories(userId);
+      console.log(`📦 [CATEGORIES] Total categories after init: ${categories.length}`);
     }
     
+    console.log(`📦 [CATEGORIES] Returning ${categories.length} categories`);
     res.json(categories);
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('❌ [CATEGORIES] Error:', error);
     res.status(500).json({ error: 'Errore nel recupero delle categorie' });
   }
 });
@@ -140,14 +146,22 @@ router.get('/products/:id', requireProAccess, async (req, res) => {
 router.post('/products', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
+    console.log(`📦 [PRODUCTS] POST request for user ${userId}`);
+    console.log(`📦 [PRODUCTS] Request body:`, JSON.stringify(req.body, null, 2));
+    
     const productData = insertProductSchema.parse(req.body);
+    console.log(`📦 [PRODUCTS] Validated product data:`, JSON.stringify(productData, null, 2));
+    
     const product = await storage.createProduct({ ...productData, userId });
+    console.log(`📦 [PRODUCTS] Created product:`, JSON.stringify(product, null, 2));
+    
     res.status(201).json(product);
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error('❌ [PRODUCTS] Validation error:', error.errors);
       return res.status(400).json({ error: 'Dati non validi', details: error.errors });
     }
-    console.error('Error creating product:', error);
+    console.error('❌ [PRODUCTS] Error creating product:', error);
     res.status(500).json({ error: 'Errore nella creazione del prodotto' });
   }
 });
