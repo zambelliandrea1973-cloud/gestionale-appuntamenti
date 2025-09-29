@@ -51,3 +51,29 @@ export function saveStorageData(data: any) {
     throw error;
   }
 }
+
+/**
+ * 🗓️ FILTRO CONDIVISO: Trova appuntamenti di domani
+ * Usato sia dal Centro WhatsApp che dal job automatico per coerenza
+ * @returns Array di appuntamenti di domani
+ */
+export function getTomorrowAppointments() {
+  const storageData = loadStorageData();
+  const { appointments = [] } = storageData;
+  
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  
+  // Filtra appuntamenti per domani (stessa logica del Centro WhatsApp)
+  const tomorrowAppointments = appointments
+    .map(([id, appointment]) => appointment)
+    .filter((apt: any) => {
+      const aptDate = new Date(apt.date);
+      return aptDate.toDateString() === tomorrow.toDateString();
+    });
+  
+  console.log(`🗓️ [JSON STORAGE] Trovati ${tomorrowAppointments.length} appuntamenti per domani (${tomorrow.toDateString()})`);
+  
+  return tomorrowAppointments;
+}

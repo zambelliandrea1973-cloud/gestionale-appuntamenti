@@ -8552,7 +8552,8 @@
         "endTime": "20:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-29T14:02:14.563Z"
+        "createdAt": "2025-09-29T14:02:14.563Z",
+        "reminderStatus": "sent"
       }
     ],
     [
@@ -8566,7 +8567,8 @@
         "endTime": "20:45:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-29T14:02:39.039Z"
+        "createdAt": "2025-09-29T14:02:39.039Z",
+        "reminderStatus": "sent"
       }
     ],
     [
@@ -8580,7 +8582,8 @@
         "endTime": "21:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-29T14:34:05.874Z"
+        "createdAt": "2025-09-29T14:34:05.874Z",
+        "reminderStatus": "sent"
       }
     ],
     [
@@ -8594,7 +8597,8 @@
         "endTime": "22:00:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-29T14:37:46.195Z"
+        "createdAt": "2025-09-29T14:37:46.195Z",
+        "reminderStatus": "sent"
       }
     ],
     [

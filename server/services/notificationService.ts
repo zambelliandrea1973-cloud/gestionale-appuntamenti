@@ -3,7 +3,7 @@ import { Appointment } from '@shared/schema';
 import { directNotificationService } from './directNotificationService';
 import fs from 'fs';
 import path from 'path';
-import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
+import { loadStorageData, saveStorageData, getTomorrowAppointments } from '../utils/jsonStorage';
 
 // 📁 FUNZIONI JSON CENTRALIZZATE IN utils/jsonStorage.ts
 
@@ -350,53 +350,15 @@ export const notificationService = {
    */
   async processReminders(): Promise<number> {
     try {
-      // 📁 FUSO ORARIO FISSO (niente PostgreSQL)
-      let TIMEZONE_OFFSET_HOURS = 2; // Valore predefinito per l'Italia (CEST, UTC+2)
-      let timezoneName = "Europe/Rome";
+      console.log(`🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani`);
       
-      console.log(`✅ [NOTIFICHE JSON] Utilizzo fuso orario predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
-      
-      // Otteniamo la data attuale
-      const now = new Date();
-      
-      // Creazione delle date per il controllo dei promemoria
-      const nowPlus24Hours = addDays(now, 1);
-      const nowPlus25Hours = new Date(nowPlus24Hours.getTime() + 60 * 60 * 1000); // +1 ora
-      
-      // Ottieni le date nel formato yyyy-MM-dd per oggi e domani
-      const todayStr = format(now, 'yyyy-MM-dd');
-      const tomorrowStr = format(nowPlus24Hours, 'yyyy-MM-dd');
-      
-      console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
-      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
-      
-      // 📁 RECUPERA APPUNTAMENTI DAL JSON (non PostgreSQL)
-      let appointments = [];
-      
-      try {
-        const storageData = loadStorageData();
-        const allAppointments = storageData.appointments || [];
-        
-        console.log(`🔍 [NOTIFICHE JSON] Recupero appuntamenti dal JSON per il range: ${todayStr} - ${tomorrowStr}`);
-        
-        // Filtra appuntamenti per oggi e domani
-        appointments = allAppointments
-          .map(([id, appointment]) => appointment)
-          .filter((appointment: any) => {
-            return appointment.date === todayStr || appointment.date === tomorrowStr;
-          });
-        
-      } catch (error) {
-        console.error('❌ [NOTIFICHE JSON] Errore nel recupero appuntamenti per promemoria:', error);
-        appointments = [];
-      }
-      
-      console.log(`Trovati ${appointments.length} appuntamenti potenziali per il range ${todayStr} - ${tomorrowStr}`);
+      // 🎯 USA FUNZIONE CONDIVISA: Stessa logica del Centro WhatsApp
+      let appointments = getTomorrowAppointments();
       
       let remindersSent = 0;
       const apptsToRemind = [];
       
-      // Filtra gli appuntamenti per trovare quelli nelle prossime 24-25 ore
+      // Filtra gli appuntamenti di domani per trovare quelli che necessitano promemoria
       for (const appointment of appointments) {
         // Salta gli appuntamenti con promemoria già inviato
         if (appointment.reminderStatus === 'sent') {
@@ -430,30 +392,13 @@ export const notificationService = {
           }
         }
         
-        if (!shouldSendReminder) {
-          continue;
-        }
-        
-        // Crea un oggetto Date per l'appuntamento
-        const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
-        
-        // Calcoliamo semplicemente la differenza oraria in ore senza complicare con offset
-        // Utilizziamo direttamente il timestamp come riferimento assoluto
-        const hoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-        
-        // Logghiamo informazioni utili per il debug
-        console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
-                    `Ore di differenza: ${hoursDiff.toFixed(1)} (usando timestamp diretto senza offset)`);
-        
-        // Verifica se l'appuntamento è tra 22 e 26 ore nel futuro
-        // Range ampliato per catturare tutti gli appuntamenti della giornata successiva
-        if (hoursDiff >= 22 && hoursDiff <= 26) {
-          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
+        if (shouldSendReminder) {
+          console.log(`📧 [NOTIFICHE JSON] Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime} aggiunto ai promemoria di domani`);
           apptsToRemind.push(appointment);
         }
       }
       
-      console.log(`Trovati ${apptsToRemind.length} appuntamenti che necessitano di promemoria nelle prossime 22-26 ore`);
+      console.log(`Trovati ${apptsToRemind.length} appuntamenti di domani che necessitano di promemoria automatici`);
       
       // Invia i promemoria
       for (const appointment of apptsToRemind) {
