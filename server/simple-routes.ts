@@ -13,6 +13,7 @@ import multer from 'multer';
 import notificationRoutes from './routes/notificationRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
 import contactSettingsRoutes from './routes/contactSettingsRoutes';
+import inventoryRoutes from './inventory-routes';
 
 // Import notification service for automatic appointment notifications
 import { notificationService } from './services/notificationService';
@@ -194,6 +195,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/direct-phone', directPhoneRoutes);
   app.use('/api/contact-settings', contactSettingsRoutes);
+  app.use('/api/inventory', inventoryRoutes);
 
   // Sistema lineare semplice - Servizi dell'utente  
   app.get("/api/services", async (req, res) => {
