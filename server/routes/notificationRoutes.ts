@@ -2,13 +2,28 @@ import { Router, Request, Response } from 'express';
 import { format, parseISO } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { storage } from '../storage';
-// Removed JSON dependency - now using unified PostgreSQL storage via storage.ts
+import fs from 'fs';
+import path from 'path';
+
+// Funzioni per caricare dati dal JSON (stesso pattern di simple-routes.ts)
+function loadStorageData() {
+  const storageFile = path.join(process.cwd(), 'storage_data.json');
+  try {
+    if (fs.existsSync(storageFile)) {
+      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+      return data;
+    }
+  } catch (error) {
+    console.error('Errore caricamento storage JSON:', error);
+  }
+  return { appointments: [], clients: [] };
+}
 
 const router = Router();
 
 /**
  * Ottiene tutti gli appuntamenti imminenti (oggi e domani) 
- * SISTEMA UNIFICATO: usa solo database PostgreSQL come fonte unica di verità
+ * 🔧 RIPRISTINO JSON: usa il JSON come tutti gli altri endpoint funzionanti
  */
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
@@ -25,39 +40,65 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     const today = format(new Date(), 'yyyy-MM-dd');
     const tomorrow = format(new Date(Date.now() + 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
     
-    console.log(`Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
+    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
-    // SISTEMA UNIFICATO: usa solo database PostgreSQL - CON FILTRO UTENTE
-    const appointmentsToday = await storage.getAppointmentsByDateForUser(today, userId, 'staff');
-    const appointmentsTomorrow = await storage.getAppointmentsByDateForUser(tomorrow, userId, 'staff');
-    const appointmentsFromDb = [...appointmentsToday, ...appointmentsTomorrow];
+    // 📁 USA JSON come tutti gli altri endpoint che funzionano
+    const storageData = loadStorageData();
+    const allAppointments = storageData.appointments || [];
+    const allClients = storageData.clients || [];
+    const userServices = storageData.userServices?.[userId] || [];
     
-    console.log(`Trovati ${appointmentsFromDb.length} appuntamenti totali dal database unificato per date ${today} - ${tomorrow}`);
+    // Filtra appuntamenti per oggi e domani + utente owner
+    const appointmentsFromJson = allAppointments
+      .map(([id, appointment]) => appointment)
+      .filter((appointment: any) => {
+        // Filtra per date
+        if (appointment.date !== today && appointment.date !== tomorrow) return false;
+        
+        // Filtra per ownership usando clienti dell'utente
+        const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
+        if (!client) return false;
+        
+        // Permetti accesso agli staff o al proprietario
+        const user = req.user as any;
+        if (user.type === 'staff' || client.ownerId === userId) {
+          return true;
+        }
+        
+        return false;
+      });
     
-    // Mappa i risultati nel formato atteso dal frontend
-    const appointments = appointmentsFromDb.map((appointment: any) => ({
-      ...appointment,
-      client: {
-        id: appointment.client.id,
-        firstName: appointment.client.firstName,
-        lastName: appointment.client.lastName,
-        phone: appointment.client.phone,
-        email: appointment.client.email
-      },
-      service: {
-        id: appointment.service.id,
-        name: appointment.service.name
-      }
-    }));
+    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti per date ${today} - ${tomorrow}`);
     
-    console.log(`Processati ${appointments.length} appuntamenti dal database unificato per notifiche WhatsApp`);
+    // Mappa i risultati nel formato atteso dal frontend con tutti i dati
+    const appointments = appointmentsFromJson.map((appointment: any) => {
+      const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
+      const service = userServices.find(s => s.id === appointment.serviceId);
+      
+      return {
+        ...appointment,
+        client: client ? {
+          id: client.id,
+          firstName: client.firstName,
+          lastName: client.lastName,
+          phone: client.phone,
+          email: client.email
+        } : null,
+        service: service ? {
+          id: service.id,
+          name: service.name
+        } : null
+      };
+    });
+    
+    console.log(`✅ [NOTIFICHE JSON] Processati ${appointments.length} appuntamenti per notifiche WhatsApp`);
     
     res.json({
       success: true,
       appointments
     });
   } catch (error: any) {
-    console.error('Errore nel recupero appuntamenti imminenti:', error);
+    console.error('❌ [NOTIFICHE JSON] Errore nel recupero appuntamenti imminenti:', error);
     res.status(500).json({
       success: false,
       error: error.message
