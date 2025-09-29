@@ -253,41 +253,28 @@ export function registerSimpleRoutes(app: Express): Server {
       const storageData = loadStorageData();
       const userServices = storageData.userServices?.[user.id] || [];
       
-      // Controlla se ci sono servizi con ID timestamp (> 1000000000000)
-      const servicesWithTimestamp = userServices.filter(s => s.id > 1000000000000);
+      // 🔧 RIPRISTINO ID ORIGINALI - Corregge la migrazione problematica
+      const idMapping = {
+        64: 1750225060109,  // bio bicom
+        65: 1750225071976,  // zapter  
+        66: 1750225104451,  // test diacom
+        67: 1750225141396   // detox
+      };
       
-      if (servicesWithTimestamp.length > 0) {
-        console.log(`🔄 MIGRAZIONE: Trovati ${servicesWithTimestamp.length} servizi con ID timestamp da sincronizzare`);
-        
-        for (const oldService of servicesWithTimestamp) {
-          try {
-            // Salva nel database per ottenere ID serial
-            const serviceData = {
-              userId: user.id,
-              name: oldService.name,
-              duration: oldService.duration,
-              color: oldService.color || "#3f51b5",
-              price: oldService.price || 0
-            };
-            
-            const dbService = await storage.createService(serviceData);
-            console.log(`🎯 Servizio "${oldService.name}" migrato: ID ${oldService.id} → ${dbService.id}`);
-            
-            // Aggiorna il servizio nel file storage con il nuovo ID
-            const serviceIndex = userServices.findIndex(s => s.id === oldService.id);
-            if (serviceIndex !== -1) {
-              userServices[serviceIndex].id = dbService.id;
-            }
-            
-          } catch (error) {
-            console.error(`❌ Errore migrazione servizio ${oldService.id}:`, error);
-          }
+      // Ripristina gli ID originali se sono stati migrati
+      let needsFixing = false;
+      userServices.forEach(service => {
+        if (idMapping[service.id]) {
+          console.log(`🔄 Ripristino ID servizio "${service.name}": ${service.id} → ${idMapping[service.id]}`);
+          service.id = idMapping[service.id];
+          needsFixing = true;
         }
-        
-        // Salva i dati aggiornati
+      });
+      
+      if (needsFixing) {
         storageData.userServices[user.id] = userServices;
         saveStorageData(storageData);
-        console.log(`✅ MIGRAZIONE COMPLETATA: ${servicesWithTimestamp.length} servizi sincronizzati`);
+        console.log(`✅ RIPRISTINO COMPLETATO: ID originali ripristinati per compatibilità appuntamenti`);
       }
       
       console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi per utente ${user.id}`);
@@ -302,44 +289,26 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  app.post("/api/services", async (req, res) => {
+  app.post("/api/services", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    try {
-      // 🔧 PRIMA salva nel database PostgreSQL (genera serial ID)
-      const serviceData = {
-        userId: user.id,
-        name: req.body.name,
-        duration: req.body.duration,
-        color: req.body.color || "#3f51b5",
-        price: req.body.price || 0
-      };
-      
-      const dbService = await storage.createService(serviceData);
-      console.log(`🎯 Servizio salvato nel database con ID serial: ${dbService.id}`);
-      
-      // 🔧 POI salva nel file storage usando lo STESSO ID dal database
-      const storageData = loadStorageData();
-      if (!storageData.userServices) storageData.userServices = {};
-      if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
-      
-      const newService = {
-        id: dbService.id,  // ← USA ID DAL DATABASE invece di Date.now()
-        ownerId: user.id,
-        ...req.body
-      };
-      
-      storageData.userServices[user.id].push(newService);
-      saveStorageData(storageData);
-      
-      console.log(`🔧 [/api/services] Servizio "${newService.name}" sincronizzato con ID ${dbService.id} per utente ${user.id}`);
-      res.status(201).json(newService);
-      
-    } catch (error) {
-      console.error("Errore creazione servizio:", error);
-      res.status(500).json({ message: "Errore durante la creazione del servizio" });
-    }
+    // 🔧 RIPRISTINO MECCANISMO ORIGINALE - Usa timestamp ID per compatibilità
+    const storageData = loadStorageData();
+    if (!storageData.userServices) storageData.userServices = {};
+    if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
+    
+    const newService = {
+      id: Date.now(),  // ← RIPRISTINO Date.now() per compatibilità appuntamenti
+      ownerId: user.id,
+      ...req.body
+    };
+    
+    storageData.userServices[user.id].push(newService);
+    saveStorageData(storageData);
+    
+    console.log(`🔧 [/api/services] Servizio "${newService.name}" aggiunto per utente ${user.id} con ID timestamp ${newService.id}`);
+    res.status(201).json(newService);
   });
 
   app.put("/api/services/:id", (req, res) => {
