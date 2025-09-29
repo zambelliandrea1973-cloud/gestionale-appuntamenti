@@ -20,6 +20,9 @@ import { notificationService } from './services/notificationService';
 // Import storage for new collaborators and rooms functionality
 import { storage } from './storage';
 
+// Import centralizzato per JSON storage
+import { loadStorageData, saveStorageData } from './utils/jsonStorage';
+
 // TYPE INTERFACES - Define common data structures
 interface Client {
   id: number;
@@ -46,46 +49,7 @@ interface Invoice {
   [key: string]: any;
 }
 
-// STORAGE FUNCTIONS - Add missing storage functions
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  try {
-    if (fs.existsSync(storageFile)) {
-      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
-      if (!data.userIcons) data.userIcons = {};
-      if (!data.userBusinessSettings) data.userBusinessSettings = {};
-      if (!data.userBusinessData) data.userBusinessData = {};
-      if (!data.userServices) data.userServices = {};
-      if (!data.professionistCodes) data.professionistCodes = {};
-      if (!data.clientCodes) data.clientCodes = {};
-      return data;
-    }
-  } catch (error) {
-    console.error('Errore caricamento storage:', error);
-  }
-  return { userIcons: {}, userBusinessSettings: {}, userBusinessData: {}, userServices: {}, professionistCodes: {}, clientCodes: {} };
-}
-
-function saveStorageData(updatedData: any) {
-  try {
-    const storageFile = path.join(process.cwd(), 'storage_data.json');
-    const currentData = fs.existsSync(storageFile) 
-      ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
-      : {};
-    
-    // Backup sicurezza
-    if (fs.existsSync(storageFile)) {
-      const backupFile = `storage_data_backup_${Date.now()}.json`;
-      fs.copyFileSync(storageFile, backupFile);
-    }
-    
-    const mergedData = { ...currentData, ...updatedData };
-    fs.writeFileSync(storageFile, JSON.stringify(mergedData, null, 2));
-    console.log('✅ Storage data salvato con successo');
-  } catch (error) {
-    console.error('❌ Errore salvataggio storage:', error);
-  }
-}
+// 📁 LE FUNZIONI STORAGE SONO ORA CENTRALIZZATE IN utils/jsonStorage.ts
 
 // Middleware di autenticazione
 function requireAuth(req: any, res: any, next: any) {
@@ -1005,26 +969,7 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ title: "Gestionale Sanitario" });
   });
 
-  // Sistema permanente icone PER UTENTE con persistenza
-  const storageFile = path.join(__dirname, '../storage_data.json');
-  
-  function loadStorageData() {
-    try {
-      if (fs.existsSync(storageFile)) {
-        const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
-        if (!data.userIcons) data.userIcons = {};
-        if (!data.userBusinessSettings) data.userBusinessSettings = {};
-        if (!data.userBusinessData) data.userBusinessData = {};
-        if (!data.userServices) data.userServices = {};
-        if (!data.professionistCodes) data.professionistCodes = {};
-        if (!data.clientCodes) data.clientCodes = {};
-        return data;
-      }
-    } catch (error) {
-      console.error('Errore caricamento storage:', error);
-    }
-    return { userIcons: {}, userBusinessSettings: {}, userBusinessData: {}, userServices: {}, professionistCodes: {}, clientCodes: {} };
-  }
+  // 📁 Sistema permanente icone PER UTENTE con persistenza (usa utils centralizzate)
 
   // Genera codice professionista univoco SEMPLIFICATO
   async function generateProfessionistCode(userId: number): Promise<string> {

@@ -4,20 +4,9 @@ import { it } from 'date-fns/locale';
 import { storage } from '../storage';
 import fs from 'fs';
 import path from 'path';
+import { loadStorageData } from '../utils/jsonStorage';
 
-// Funzioni per caricare dati dal JSON (stesso pattern di simple-routes.ts)
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  try {
-    if (fs.existsSync(storageFile)) {
-      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
-      return data;
-    }
-  } catch (error) {
-    console.error('Errore caricamento storage JSON:', error);
-  }
-  return { appointments: [], clients: [] };
-}
+// 📁 Usa funzioni JSON centralizzate da utils/jsonStorage.ts
 
 const router = Router();
 
