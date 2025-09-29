@@ -4,15 +4,9 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
+import { loadStorageData } from './utils/jsonStorage';
 
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  if (fs.existsSync(storageFile)) {
-    const data = fs.readFileSync(storageFile, 'utf8');
-    return JSON.parse(data);
-  }
-  return {};
-}
+// 📁 Usa funzione centralizzata da utils/jsonStorage.ts
 
 export function serveCustomIcon(req: Request, res: Response) {
   try {
