@@ -332,6 +332,16 @@ export default function AppointmentForm({
     try {
       console.log("=== INIZIO PROCESSO SALVATAGGIO APPUNTAMENTO ===");
       console.log("Dati form:", data);
+      
+      // 🚨 DEBUG CRITICO: Verifica dei valori del form
+      console.log("🔍 [SUBMIT DEBUG] staffId dal form:", data.staffId, typeof data.staffId);
+      console.log("🔍 [SUBMIT DEBUG] roomId dal form:", data.roomId, typeof data.roomId);
+      
+      // Verifica anche i valori direttamente dal form state
+      const formValues = form.getValues();
+      console.log("🔍 [FORM STATE] staffId:", formValues.staffId, typeof formValues.staffId);
+      console.log("🔍 [FORM STATE] roomId:", formValues.roomId, typeof formValues.roomId);
+      console.log("🔍 [FORM STATE] tutti i valori:", formValues);
       console.log(`Client ID: ${data.clientId}, Service ID: ${data.serviceId}`);
       console.log(`Data: ${data.date}, Ora: ${data.startTime}`);
       
@@ -745,7 +755,17 @@ export default function AppointmentForm({
                           value={field.value?.toString() || "none"}
                           onValueChange={(value) => {
                             console.log('🎯 COLLABORATORE SELEZIONATO:', value);
-                            field.onChange(value !== "none" ? parseInt(value) : undefined);
+                            console.log('🎯 [STAFFID DEBUG] Value ricevuto:', value, typeof value);
+                            const staffIdValue = value !== "none" ? parseInt(value) : undefined;
+                            console.log('🎯 [STAFFID DEBUG] Valore convertito:', staffIdValue, typeof staffIdValue);
+                            field.onChange(staffIdValue);
+                            console.log('🎯 [STAFFID DEBUG] field.onChange chiamato con:', staffIdValue);
+                            
+                            // Verifica immediata del form state
+                            setTimeout(() => {
+                              const currentValue = form.getValues('staffId');
+                              console.log('🎯 [STAFFID DEBUG] Valore nel form dopo onChange:', currentValue);
+                            }, 100);
                           }}
                           onOpenChange={(open) => {
                             console.log('🔍 DROPDOWN COLLABORATORI:', open ? 'APERTO' : 'CHIUSO');
@@ -796,7 +816,17 @@ export default function AppointmentForm({
                           value={field.value?.toString() || "none"}
                           onValueChange={(value) => {
                             console.log('🏠 STANZA SELEZIONATA:', value);
-                            field.onChange(value !== "none" ? parseInt(value) : undefined);
+                            console.log('🏠 [ROOMID DEBUG] Value ricevuto:', value, typeof value);
+                            const roomIdValue = value !== "none" ? parseInt(value) : undefined;
+                            console.log('🏠 [ROOMID DEBUG] Valore convertito:', roomIdValue, typeof roomIdValue);
+                            field.onChange(roomIdValue);
+                            console.log('🏠 [ROOMID DEBUG] field.onChange chiamato con:', roomIdValue);
+                            
+                            // Verifica immediata del form state
+                            setTimeout(() => {
+                              const currentValue = form.getValues('roomId');
+                              console.log('🏠 [ROOMID DEBUG] Valore nel form dopo onChange:', currentValue);
+                            }, 100);
                           }}
                           onOpenChange={(open) => {
                             console.log('🔍 DROPDOWN STANZE:', open ? 'APERTO' : 'CHIUSO');
