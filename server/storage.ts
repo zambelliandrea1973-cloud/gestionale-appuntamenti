@@ -46,6 +46,7 @@ import connectPg from "connect-pg-simple";
 import session from "express-session";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray } from 'drizzle-orm';
+import { inventoryJsonStorage } from "./inventory-json-storage.js";
 
 // Interface defining all storage operations
 export interface IStorage {
@@ -3625,295 +3626,76 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Product Category operations
+  // Product Category operations - JSON Storage (delegated)
   async getProductCategories(userId: number): Promise<ProductCategory[]> {
-    try {
-      const categories = await db
-        .select()
-        .from(productCategories)
-        .where(eq(productCategories.userId, userId))
-        .orderBy(productCategories.name);
-      return categories;
-    } catch (error) {
-      console.error("Error getting product categories:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getProductCategories(userId);
   }
 
   async getProductCategory(id: number, userId: number): Promise<ProductCategory | undefined> {
-    try {
-      const [category] = await db
-        .select()
-        .from(productCategories)
-        .where(and(eq(productCategories.id, id), eq(productCategories.userId, userId)));
-      return category;
-    } catch (error) {
-      console.error("Error getting product category:", error);
-      return undefined;
-    }
+    return inventoryJsonStorage.getProductCategory(id, userId);
   }
 
   async createProductCategory(category: InsertProductCategory & { userId: number }): Promise<ProductCategory> {
-    try {
-      const [newCategory] = await db
-        .insert(productCategories)
-        .values(category)
-        .returning();
-      return newCategory;
-    } catch (error) {
-      console.error("Error creating product category:", error);
-      throw error;
-    }
+    return inventoryJsonStorage.createProductCategory(category);
   }
 
   async updateProductCategory(id: number, userId: number, category: Partial<InsertProductCategory>): Promise<ProductCategory | undefined> {
-    try {
-      const [updated] = await db
-        .update(productCategories)
-        .set({ ...category, updatedAt: new Date() })
-        .where(and(eq(productCategories.id, id), eq(productCategories.userId, userId)))
-        .returning();
-      return updated;
-    } catch (error) {
-      console.error("Error updating product category:", error);
-      return undefined;
-    }
+    return inventoryJsonStorage.updateProductCategory(id, userId, category);
   }
 
   async deleteProductCategory(id: number, userId: number): Promise<boolean> {
-    try {
-      const result = await db
-        .delete(productCategories)
-        .where(and(eq(productCategories.id, id), eq(productCategories.userId, userId)));
-      return result.rowCount > 0;
-    } catch (error) {
-      console.error("Error deleting product category:", error);
-      return false;
-    }
+    return inventoryJsonStorage.deleteProductCategory(id, userId);
   }
 
-  // Product operations
+  // Product operations - JSON Storage (delegated)
   async getProducts(userId: number): Promise<Product[]> {
-    try {
-      const productsList = await db
-        .select()
-        .from(products)
-        .where(eq(products.userId, userId))
-        .orderBy(products.name);
-      return productsList;
-    } catch (error) {
-      console.error("Error getting products:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getProducts(userId);
   }
 
   async getProduct(id: number, userId: number): Promise<Product | undefined> {
-    try {
-      const [product] = await db
-        .select()
-        .from(products)
-        .where(and(eq(products.id, id), eq(products.userId, userId)));
-      return product;
-    } catch (error) {
-      console.error("Error getting product:", error);
-      return undefined;
-    }
+    return inventoryJsonStorage.getProduct(id, userId);
   }
 
   async createProduct(product: InsertProduct & { userId: number }): Promise<Product> {
-    try {
-      const [newProduct] = await db
-        .insert(products)
-        .values(product)
-        .returning();
-      return newProduct;
-    } catch (error) {
-      console.error("Error creating product:", error);
-      throw error;
-    }
+    return inventoryJsonStorage.createProduct(product);
   }
 
   async updateProduct(id: number, userId: number, product: Partial<InsertProduct>): Promise<Product | undefined> {
-    try {
-      const [updated] = await db
-        .update(products)
-        .set({ ...product, updatedAt: new Date() })
-        .where(and(eq(products.id, id), eq(products.userId, userId)))
-        .returning();
-      return updated;
-    } catch (error) {
-      console.error("Error updating product:", error);
-      return undefined;
-    }
+    return inventoryJsonStorage.updateProduct(id, userId, product);
   }
 
   async deleteProduct(id: number, userId: number): Promise<boolean> {
-    try {
-      const result = await db
-        .delete(products)
-        .where(and(eq(products.id, id), eq(products.userId, userId)));
-      return result.rowCount > 0;
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      return false;
-    }
+    return inventoryJsonStorage.deleteProduct(id, userId);
   }
 
   async getLowStockProducts(userId: number): Promise<Product[]> {
-    try {
-      const lowStockProducts = await db
-        .select()
-        .from(products)
-        .where(
-          and(
-            eq(products.userId, userId),
-            sql`${products.currentStock} <= ${products.minStock}`
-          )
-        )
-        .orderBy(products.name);
-      return lowStockProducts;
-    } catch (error) {
-      console.error("Error getting low stock products:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getLowStockProducts(userId);
   }
 
-  // Stock Movement operations
+  // Stock Movement operations - JSON Storage (delegated)
   async getStockMovements(userId: number, limit?: number): Promise<StockMovement[]> {
-    try {
-      let query = db
-        .select()
-        .from(stockMovements)
-        .where(eq(stockMovements.userId, userId))
-        .orderBy(desc(stockMovements.createdAt));
-      
-      if (limit) {
-        query = query.limit(limit);
-      }
-      
-      const movements = await query;
-      return movements;
-    } catch (error) {
-      console.error("Error getting stock movements:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getStockMovements(userId, limit);
   }
 
   async createStockMovement(movement: InsertStockMovement & { userId: number }): Promise<StockMovement> {
-    try {
-      const [newMovement] = await db
-        .insert(stockMovements)
-        .values(movement)
-        .returning();
-      
-      // Update product stock if it's an inventory change
-      if (movement.movementType === 'IN') {
-        await db
-          .update(products)
-          .set({
-            currentStock: sql`${products.currentStock} + ${movement.quantity}`,
-            updatedAt: new Date()
-          })
-          .where(and(eq(products.id, movement.productId), eq(products.userId, movement.userId)));
-      } else if (movement.movementType === 'OUT' || movement.movementType === 'SALE' || movement.movementType === 'WASTE') {
-        await db
-          .update(products)
-          .set({
-            currentStock: sql`${products.currentStock} - ${movement.quantity}`,
-            updatedAt: new Date()
-          })
-          .where(and(eq(products.id, movement.productId), eq(products.userId, movement.userId)));
-      } else if (movement.movementType === 'ADJUSTMENT') {
-        await db
-          .update(products)
-          .set({
-            currentStock: movement.quantity,
-            updatedAt: new Date()
-          })
-          .where(and(eq(products.id, movement.productId), eq(products.userId, movement.userId)));
-      }
-      
-      return newMovement;
-    } catch (error) {
-      console.error("Error creating stock movement:", error);
-      throw error;
-    }
+    return inventoryJsonStorage.createStockMovement(movement);
   }
 
   async getProductStockHistory(productId: number, userId: number): Promise<StockMovement[]> {
-    try {
-      const history = await db
-        .select()
-        .from(stockMovements)
-        .where(and(eq(stockMovements.productId, productId), eq(stockMovements.userId, userId)))
-        .orderBy(desc(stockMovements.createdAt));
-      return history;
-    } catch (error) {
-      console.error("Error getting product stock history:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getProductStockHistory(productId, userId);
   }
 
-  // Product Sale operations
+  // Product Sale operations - JSON Storage (delegated)
   async getProductSales(userId: number, limit?: number): Promise<ProductSale[]> {
-    try {
-      let query = db
-        .select()
-        .from(productSales)
-        .where(eq(productSales.userId, userId))
-        .orderBy(desc(productSales.createdAt));
-      
-      if (limit) {
-        query = query.limit(limit);
-      }
-      
-      const sales = await query;
-      return sales;
-    } catch (error) {
-      console.error("Error getting product sales:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getProductSales(userId, limit);
   }
 
   async createProductSale(sale: InsertProductSale & { userId: number }): Promise<ProductSale> {
-    try {
-      const [newSale] = await db
-        .insert(productSales)
-        .values(sale)
-        .returning();
-      
-      // Create a stock movement for the sale
-      await this.createStockMovement({
-        userId: sale.userId,
-        productId: sale.productId,
-        movementType: 'SALE',
-        quantity: sale.quantity,
-        unitPrice: sale.unitPrice,
-        reason: 'Vendita prodotto',
-        reference: `Vendita #${newSale.id}`,
-        staffMember: sale.staffMember,
-        notes: sale.notes
-      });
-      
-      return newSale;
-    } catch (error) {
-      console.error("Error creating product sale:", error);
-      throw error;
-    }
+    return inventoryJsonStorage.createProductSale(sale);
   }
 
   async getProductSalesHistory(productId: number, userId: number): Promise<ProductSale[]> {
-    try {
-      const history = await db
-        .select()
-        .from(productSales)
-        .where(and(eq(productSales.productId, productId), eq(productSales.userId, userId)))
-        .orderBy(desc(productSales.createdAt));
-      return history;
-    } catch (error) {
-      console.error("Error getting product sales history:", error);
-      return [];
-    }
+    return inventoryJsonStorage.getProductSalesHistory(productId, userId);
   }
 }
 

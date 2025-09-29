@@ -32,7 +32,22 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
 router.get('/categories', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
-    const categories = await storage.getProductCategories(userId);
+    let categories = await storage.getProductCategories(userId);
+    
+    // Initialize default categories if user has none
+    if (categories.length === 0) {
+      const defaultCategories = [
+        { name: 'Consumabili', description: 'Materiali e prodotti consumabili per trattamenti', color: '#3b82f6' },
+        { name: 'Prodotti per la vendita', description: 'Prodotti destinati alla vendita diretta ai clienti', color: '#10b981' }
+      ];
+      
+      for (const cat of defaultCategories) {
+        await storage.createProductCategory({ ...cat, userId });
+      }
+      
+      categories = await storage.getProductCategories(userId);
+    }
+    
     res.json(categories);
   } catch (error) {
     console.error('Error fetching categories:', error);

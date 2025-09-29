@@ -123,6 +123,14 @@ export default function Inventory() {
       productForm.reset();
       setProductDialogOpen(false);
     },
+    onError: (error: any) => {
+      console.error("Errore creazione prodotto:", error);
+      toast({ 
+        title: "Errore nella creazione del prodotto", 
+        description: error.message || "Errore sconosciuto",
+        variant: "destructive"
+      });
+    },
   });
   
   const addStockMutation = useMutation({
@@ -223,10 +231,12 @@ export default function Inventory() {
               </DialogHeader>
               <Form {...productForm}>
                 <form onSubmit={productForm.handleSubmit((data) => {
+                  console.log("Dati form prima della pulizia:", data);
                   // Pulisci i dati rimuovendo campi undefined/null
                   const cleanData = Object.fromEntries(
                     Object.entries(data).filter(([_, v]) => v !== undefined && v !== null && v !== "")
                   );
+                  console.log("Dati form dopo la pulizia:", cleanData);
                   createProductMutation.mutate(cleanData);
                 })} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
