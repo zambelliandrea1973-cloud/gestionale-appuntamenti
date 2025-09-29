@@ -319,7 +319,8 @@ export default function Inventory() {
                               type="number" 
                               step="0.01" 
                               {...field} 
-                              onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                              value={(field.value || 0) / 100}
+                              onChange={(e) => field.onChange(Math.round((parseFloat(e.target.value) || 0) * 100))}
                             />
                           </FormControl>
                           <FormMessage />
@@ -337,7 +338,8 @@ export default function Inventory() {
                               type="number" 
                               step="0.01" 
                               {...field} 
-                              onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                              value={(field.value || 0) / 100}
+                              onChange={(e) => field.onChange(Math.round((parseFloat(e.target.value) || 0) * 100))}
                             />
                           </FormControl>
                           <FormMessage />
