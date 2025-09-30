@@ -141,7 +141,6 @@ export default function Inventory() {
   
   const addStockMutation = useMutation({
     mutationFn: async (data: z.infer<typeof stockMovementSchema>) => {
-      console.log("📦 Invio movimento magazzino:", data);
       const res = await apiRequest("POST", "/api/inventory/movements", data);
       return res.json();
     },
@@ -152,7 +151,6 @@ export default function Inventory() {
       toast({ title: "Movimento di magazzino registrato" });
     },
     onError: (error: any) => {
-      console.error("❌ Errore registrazione movimento:", error);
       toast({
         title: "Errore nella registrazione del movimento",
         description: error.message || "Errore sconosciuto",
@@ -691,7 +689,6 @@ export default function Inventory() {
                           <Form {...movementForm}>
                             <form onSubmit={movementForm.handleSubmit(
                               (data) => {
-                                console.log("✅ Form valido, dati:", data);
                                 addStockMutation.mutate(data, {
                                   onSuccess: () => {
                                     setStockDialogProductId(null);
@@ -700,7 +697,6 @@ export default function Inventory() {
                                 });
                               },
                               (errors) => {
-                                console.error("❌ Errori validazione form:", errors);
                                 toast({
                                   title: "Errore nel form",
                                   description: "Controlla i campi inseriti",
@@ -804,7 +800,6 @@ export default function Inventory() {
                                 });
                               },
                               (errors) => {
-                                console.error("❌ Errori vendita:", errors);
                                 toast({
                                   title: "Errore nel form",
                                   description: "Controlla i campi inseriti",

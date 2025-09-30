@@ -8953,6 +8953,30 @@
         "createdAt": "2025-09-30T17:20:07.032Z",
         "updatedAt": "2025-09-30T17:20:07.032Z"
       }
+    ],
+    [
+      4,
+      {
+        "name": "Consumabili",
+        "description": "Materiali e prodotti consumabili per trattamenti",
+        "color": "#3b82f6",
+        "userId": 16,
+        "id": 4,
+        "createdAt": "2025-09-30T17:55:58.243Z",
+        "updatedAt": "2025-09-30T17:55:58.243Z"
+      }
+    ],
+    [
+      5,
+      {
+        "name": "Prodotti per la vendita",
+        "description": "Prodotti destinati alla vendita diretta ai clienti",
+        "color": "#10b981",
+        "userId": 16,
+        "id": 5,
+        "createdAt": "2025-09-30T17:55:58.257Z",
+        "updatedAt": "2025-09-30T17:55:58.257Z"
+      }
     ]
   ],
   "userBusinessData": {
@@ -9039,7 +9063,7 @@
       }
     ]
   ],
-  "categoryNextId": 4,
+  "categoryNextId": 6,
   "productNextId": 3,
   "movementNextId": 3,
   "saleNextId": 1
