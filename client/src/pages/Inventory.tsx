@@ -671,6 +671,7 @@ export default function Inventory() {
                             onClick={() => {
                               // Precompila il form con il costo del prodotto
                               movementForm.reset({
+                                productId: product.id,
                                 quantity: 1,
                                 unitPrice: product.cost || 0,
                                 reference: "",
@@ -690,7 +691,7 @@ export default function Inventory() {
                             <form onSubmit={movementForm.handleSubmit(
                               (data) => {
                                 console.log("✅ Form valido, dati:", data);
-                                addStockMutation.mutate({ ...data, productId: product.id, movementType: "IN" }, {
+                                addStockMutation.mutate(data, {
                                   onSuccess: () => {
                                     setStockDialogProductId(null);
                                     movementForm.reset();
