@@ -8976,7 +8976,7 @@
         "name": "elisa A",
         "price": 200,
         "cost": 100,
-        "currentStock": 1,
+        "currentStock": 6,
         "minStock": 2,
         "maxStock": 3,
         "unit": "pz",
@@ -8985,7 +8985,7 @@
         "id": 1,
         "isActive": true,
         "createdAt": "2025-09-30T17:19:48.276Z",
-        "updatedAt": "2025-09-30T17:19:48.276Z"
+        "updatedAt": "2025-09-30T17:45:22.888Z"
       }
     ],
     [
@@ -9010,9 +9010,23 @@
     ]
   ],
   "productSales": [],
-  "stockMovements": [],
+  "stockMovements": [
+    [
+      1,
+      {
+        "productId": 1,
+        "movementType": "IN",
+        "quantity": 5,
+        "unitPrice": 100,
+        "reference": "",
+        "userId": 14,
+        "id": 1,
+        "createdAt": "2025-09-30T17:45:22.888Z"
+      }
+    ]
+  ],
   "categoryNextId": 4,
   "productNextId": 3,
-  "movementNextId": 1,
+  "movementNextId": 2,
   "saleNextId": 1
 }
