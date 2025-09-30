@@ -8977,6 +8977,18 @@
         "createdAt": "2025-09-30T17:55:58.257Z",
         "updatedAt": "2025-09-30T17:55:58.257Z"
       }
+    ],
+    [
+      6,
+      {
+        "name": "utenze",
+        "description": "",
+        "color": "#3f51b5",
+        "userId": 16,
+        "id": 6,
+        "createdAt": "2025-09-30T17:56:11.535Z",
+        "updatedAt": "2025-09-30T17:56:11.535Z"
+      }
     ]
   ],
   "userBusinessData": {
@@ -9063,7 +9075,7 @@
       }
     ]
   ],
-  "categoryNextId": 6,
+  "categoryNextId": 7,
   "productNextId": 3,
   "movementNextId": 3,
   "saleNextId": 1
