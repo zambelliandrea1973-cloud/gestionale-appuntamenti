@@ -1080,7 +1080,9 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   }
 
-  function saveStorageData(updatedData) {
+  const storageFile = 'storage_data.json';
+
+  function saveStorageDataLocal(updatedData) {
     try {
       const currentData = fs.existsSync(storageFile) 
         ? JSON.parse(fs.readFileSync(storageFile, 'utf8'))
