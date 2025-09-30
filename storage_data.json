@@ -8893,6 +8893,21 @@
         "updatedAt": "2025-09-30T18:09:31.642Z",
         "paidAt": "2025-09-30T18:09:31.642Z"
       }
+    ],
+    [
+      1759255864365,
+      {
+        "id": 1759255864365,
+        "invoiceNumber": "001/2025",
+        "clientId": 9001,
+        "totalAmount": 50,
+        "date": "2025-09-30",
+        "dueDate": "2025-10-30",
+        "description": "visita medica",
+        "status": "draft",
+        "ownerId": 9,
+        "createdAt": "2025-09-30T18:11:04.375Z"
+      }
     ]
   ],
   "adminNotifications": [
@@ -9016,6 +9031,16 @@
     ]
   ],
   "userBusinessData": {
+    "9": {
+      "companyName": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": ""
+    },
     "14": {
       "companyName": "busnari silvia",
       "address": "via largo caduti nassiria 17",
