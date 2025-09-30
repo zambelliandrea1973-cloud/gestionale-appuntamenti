@@ -8739,7 +8739,7 @@
       1750413460810,
       {
         "id": 1750413460810,
-        "invoiceNumber": "06/2025/001",
+        "invoiceNumber": "001/2025",
         "clientName": "bruna pizzolato",
         "totalAmount": 70,
         "date": "2025-06-20",
@@ -8747,14 +8747,15 @@
         "description": "bicom",
         "status": "paid",
         "ownerId": 14,
-        "createdAt": "2025-06-20T09:57:40.813Z"
+        "createdAt": "2025-06-20T09:57:40.813Z",
+        "updatedAt": "2025-09-30T18:08:15.237Z"
       }
     ],
     [
       1750413484006,
       {
         "id": 1750413484006,
-        "invoiceNumber": "06/2025/002",
+        "invoiceNumber": "002/2025",
         "clientName": "marco brto",
         "totalAmount": 70,
         "date": "2025-06-20",
@@ -8762,14 +8763,15 @@
         "description": "bicom",
         "status": "paid",
         "ownerId": 14,
-        "createdAt": "2025-06-20T09:58:04.009Z"
+        "createdAt": "2025-06-20T09:58:04.009Z",
+        "updatedAt": "2025-09-30T18:08:15.237Z"
       }
     ],
     [
       1750414118518,
       {
         "id": 1750414118518,
-        "invoiceNumber": "06/2025/003",
+        "invoiceNumber": "003/2025",
         "clientName": "Trial Account",
         "totalAmount": 80,
         "date": "2025-06-20",
@@ -8777,14 +8779,15 @@
         "description": "pedicure",
         "status": "draft",
         "ownerId": 14,
-        "createdAt": "2025-06-20T10:08:38.520Z"
+        "createdAt": "2025-06-20T10:08:38.520Z",
+        "updatedAt": "2025-09-30T18:08:15.237Z"
       }
     ],
     [
       1756743933122,
       {
         "id": 1756743933122,
-        "invoiceNumber": "09/2025/001",
+        "invoiceNumber": "004/2025",
         "clientName": "Cliente Trial",
         "totalAmount": 70,
         "date": "2025-09-01",
@@ -8792,14 +8795,15 @@
         "description": "bicom",
         "status": "sent",
         "ownerId": 14,
-        "createdAt": "2025-09-01T16:25:33.128Z"
+        "createdAt": "2025-09-01T16:25:33.128Z",
+        "updatedAt": "2025-09-30T18:08:15.238Z"
       }
     ],
     [
       1756744382035,
       {
         "id": 1756744382035,
-        "invoiceNumber": "09/2025/002",
+        "invoiceNumber": "005/2025",
         "clientName": "Bruna  Pizzolato",
         "totalAmount": 80,
         "date": "2025-09-01",
@@ -8807,14 +8811,15 @@
         "description": "pedicure",
         "status": "paid",
         "ownerId": 14,
-        "createdAt": "2025-09-01T16:33:02.040Z"
+        "createdAt": "2025-09-01T16:33:02.040Z",
+        "updatedAt": "2025-09-30T18:08:15.238Z"
       }
     ],
     [
       1756744901638,
       {
         "id": 1756744901638,
-        "invoiceNumber": "09/2025/003",
+        "invoiceNumber": "006/2025",
         "clientName": "Cliente Trial",
         "totalAmount": 80,
         "date": "2025-09-01",
@@ -8822,14 +8827,15 @@
         "description": "pedicure",
         "status": "sent",
         "ownerId": 14,
-        "createdAt": "2025-09-01T16:41:41.643Z"
+        "createdAt": "2025-09-01T16:41:41.643Z",
+        "updatedAt": "2025-09-30T18:08:15.238Z"
       }
     ],
     [
       1756838441027,
       {
         "id": 1756838441027,
-        "invoiceNumber": "001/2025",
+        "invoiceNumber": "007/2025",
         "clientId": 14002,
         "totalAmount": 70,
         "date": "2025-09-02",
@@ -8867,7 +8873,23 @@
             "message": "Gentile Cliente,\n\nIn allegato trova la fattura n. 001/2025 del Invalid Date.\n\nImporto totale: €70.00\n\nCordiali saluti,\nSilvia Busnari",
             "status": "sent"
           }
-        ]
+        ],
+        "updatedAt": "2025-09-30T18:08:15.238Z"
+      }
+    ],
+    [
+      1759255718564,
+      {
+        "id": 1759255718564,
+        "invoiceNumber": "008/2025",
+        "clientId": 14003,
+        "totalAmount": 70,
+        "date": "2025-09-30",
+        "dueDate": "2025-10-30",
+        "description": "bicom",
+        "status": "draft",
+        "ownerId": 14,
+        "createdAt": "2025-09-30T18:08:38.570Z"
       }
     ]
   ],
