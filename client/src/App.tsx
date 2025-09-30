@@ -52,6 +52,7 @@ import BankingSettingsPage from "./pages/BankingSettingsPage";
 import OnboardingWizard from "./pages/OnboardingWizard";
 import StaffCollaboratorsPage from "./pages/StaffCollaboratorsPage";
 import TreatmentRoomsPage from "./pages/TreatmentRoomsPage";
+import AIChat from "./pages/AIChat";
 
 import NotFound from "./pages/not-found";
 import { TimezoneDetector } from "./components/TimezoneDetector";
@@ -227,6 +228,13 @@ function AppRoutes() {
       <Route path="/onboarding">
         <StaffPageWrapper>
           <OnboardingWizard />
+        </StaffPageWrapper>
+      </Route>
+      
+      {/* AI Chat Assistant */}
+      <Route path="/ai-chat">
+        <StaffPageWrapper>
+          <AIChat />
         </StaffPageWrapper>
       </Route>
       

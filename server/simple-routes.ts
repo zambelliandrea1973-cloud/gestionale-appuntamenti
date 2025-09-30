@@ -17,6 +17,7 @@ import inventoryRoutes from './inventory-routes';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
+import { processChatMessage } from './ai-chat';
 
 // Import notification service for automatic appointment notifications
 import { notificationService } from './services/notificationService';
@@ -6333,6 +6334,53 @@ Studio Professionale`,
     } catch (error) {
       console.error('❌ Errore completamento onboarding:', error);
       res.status(500).json({ message: 'Errore nel completamento dell\'onboarding' });
+    }
+  });
+
+  // POST /api/ai-chat - Chat conversazionale con AI
+  app.post('/api/ai-chat', requireAuth, async (req, res) => {
+    try {
+      const user = req.user as any;
+      const { messages, includeContext } = req.body;
+      
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ message: 'Messaggi non validi' });
+      }
+      
+      console.log('💬 [AI CHAT] Nuova richiesta da utente', user.id);
+      
+      // Prepara il contesto se richiesto
+      let context: any = {};
+      if (includeContext) {
+        const storageData = loadStorageData();
+        
+        // Carica dati clienti per suggerimenti personalizzati
+        const clients = storageData.clients || [];
+        const userClients = clients.filter((c: any) => c.ownerId === user.id);
+        
+        // Carica preferenze onboarding
+        const onboardingKey = `onboarding_${user.id}`;
+        const onboardingData = storageData[onboardingKey];
+        
+        context = {
+          clientCount: userClients.length,
+          onboardingPreferences: onboardingData
+        };
+      }
+      
+      // Processa il messaggio con AI
+      const response = await processChatMessage({
+        messages,
+        context
+      });
+      
+      res.json(response);
+    } catch (error) {
+      console.error('❌ [AI CHAT] Errore:', error);
+      res.status(500).json({ 
+        message: 'Errore nella comunicazione con l\'AI',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   });
 

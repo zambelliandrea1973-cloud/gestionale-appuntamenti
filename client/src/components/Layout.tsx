@@ -12,7 +12,8 @@ import {
   Brain, 
   Settings as SettingsIcon,
   UserCog,
-  Clock
+  Clock,
+  Sparkles
 } from "lucide-react";
 import { useLicense } from "@/hooks/use-license";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
@@ -154,6 +155,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                     <span>{isOnboardingCompleted ? t('navigation.aiSettings') : t('navigation.aiSetup')}</span>
                   </Button>
                 </Link>
+                <Link href="/ai-chat">
+                  <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[110px]">
+                    <Sparkles className="h-4 w-4 mr-1 text-cyan-400" />
+                    <span>{t('navigation.aiAssistant')}</span>
+                  </Button>
+                </Link>
                 <Link href="/pro">
                   <Button variant={isActive("/pro") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[70px]">
                     <Crown className="h-4 w-4 mr-1 text-amber-400" />
@@ -273,6 +280,12 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                   <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
                     <Brain className="h-3 w-3 mr-1 text-purple-400" />
                     <span>{isOnboardingCompleted ? t('navigation.aiSettings') : t('navigation.aiSetup')}</span>
+                  </Button>
+                </Link>
+                <Link href="/ai-chat">
+                  <Button variant={isActive("/ai-chat") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[90px] text-xs">
+                    <Sparkles className="h-3 w-3 mr-1 text-cyan-400" />
+                    <span>{t('navigation.aiAssistant')}</span>
                   </Button>
                 </Link>
                 <Link href="/pro">
