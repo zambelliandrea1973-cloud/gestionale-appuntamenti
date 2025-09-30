@@ -21,6 +21,8 @@ import { useMobileForcedSync } from "@/hooks/use-mobile-force-sync";
 import { LanguageSelector } from "./ui/language-selector";
 import UserLicenseBadge from "./UserLicenseBadge";
 import LogoutButton from "./LogoutButton";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,6 +38,22 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
   const { user: userWithLicense, isLoading: isUserLoading } = useUserWithLicense();
   const isAdmin = userWithLicense?.type === 'admin';
   const isStaff = userWithLicense?.type === 'staff';
+  
+  // Controlla se l'onboarding è completato
+  const { data: onboardingProgress } = useQuery({
+    queryKey: ['/api/onboarding/progress'],
+    queryFn: async () => {
+      try {
+        const response = await apiRequest('GET', '/api/onboarding/progress');
+        return response.json();
+      } catch {
+        return { isCompleted: false };
+      }
+    },
+    enabled: !!userWithLicense
+  });
+  
+  const isOnboardingCompleted = onboardingProgress?.isCompleted || false;
   
   // Attiva sincronizzazione automatica per dispositivi mobili
   const { isMobile } = useMobileSync();
@@ -133,7 +151,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/onboarding">
                   <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-2 min-w-[100px]">
                     <Brain className="h-4 w-4 mr-1 text-purple-400" />
-                    <span>{t('navigation.aiSetup')}</span>
+                    <span>{isOnboardingCompleted ? t('navigation.aiSettings') : t('navigation.aiSetup')}</span>
                   </Button>
                 </Link>
                 <Link href="/pro">
@@ -254,7 +272,7 @@ export default function Layout({ children, hideHeader = false }: LayoutProps) {
                 <Link href="/onboarding">
                   <Button variant={isActive("/onboarding") ? "secondary" : "ghost"} size="sm" className="flex items-center hover:bg-primary-dark px-1 min-w-[80px] text-xs">
                     <Brain className="h-3 w-3 mr-1 text-purple-400" />
-                    <span>{t('navigation.aiSetup')}</span>
+                    <span>{isOnboardingCompleted ? t('navigation.aiSettings') : t('navigation.aiSetup')}</span>
                   </Button>
                 </Link>
                 <Link href="/pro">
