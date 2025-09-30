@@ -60,6 +60,9 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
 // Product Categories Routes
 router.get('/categories', requireProAccess, async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Non autorizzato' });
+    }
     const userId = req.user.id;
     console.log(`📦 [CATEGORIES] GET request for user ${userId}`);
     let categories = await storage.getProductCategories(userId);
@@ -92,7 +95,11 @@ router.get('/categories', requireProAccess, async (req, res) => {
 
 router.post('/categories', requireProAccess, async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Non autorizzato' });
+    }
     const userId = req.user.id;
+    console.log(`📦 [CATEGORIES] POST request for user ${userId}`, req.body);
     const categoryData = insertProductCategorySchema.parse(req.body);
     const category = await storage.createProductCategory({ ...categoryData, userId });
     res.status(201).json(category);
@@ -174,6 +181,9 @@ router.get('/products/:id', requireProAccess, async (req, res) => {
 
 router.post('/products', requireProAccess, async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Non autorizzato' });
+    }
     const userId = req.user.id;
     console.log(`📦 [PRODUCTS] POST request for user ${userId}`);
     console.log(`📦 [PRODUCTS] Request body:`, JSON.stringify(req.body, null, 2));
