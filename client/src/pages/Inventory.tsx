@@ -81,6 +81,7 @@ export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [productDialogOpen, setProductDialogOpen] = useState(false);
+  const [stockDialogProductId, setStockDialogProductId] = useState<number | null>(null);
   
   // Fetch data
   const { data: categories = [] } = useQuery({
@@ -139,6 +140,7 @@ export default function Inventory() {
   
   const addStockMutation = useMutation({
     mutationFn: async (data: z.infer<typeof stockMovementSchema>) => {
+      console.log("📦 Invio movimento magazzino:", data);
       const res = await apiRequest("POST", "/api/inventory/movements", data);
       return res.json();
     },
@@ -147,6 +149,14 @@ export default function Inventory() {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/movements"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/low-stock"] });
       toast({ title: "Movimento di magazzino registrato" });
+    },
+    onError: (error: any) => {
+      console.error("❌ Errore registrazione movimento:", error);
+      toast({
+        title: "Errore nella registrazione del movimento",
+        description: error.message || "Errore sconosciuto",
+        variant: "destructive"
+      });
     },
   });
   
@@ -653,7 +663,7 @@ export default function Inventory() {
                     )}
                     
                     <div className="flex gap-2">
-                      <Dialog>
+                      <Dialog open={stockDialogProductId === product.id} onOpenChange={(open) => setStockDialogProductId(open ? product.id : null)}>
                         <DialogTrigger asChild>
                           <Button 
                             size="sm" 
@@ -677,10 +687,25 @@ export default function Inventory() {
                             <DialogTitle>Carico Merce - {product.name}</DialogTitle>
                           </DialogHeader>
                           <Form {...movementForm}>
-                            <form onSubmit={movementForm.handleSubmit((data) => {
-                              addStockMutation.mutate({ ...data, productId: product.id, movementType: "IN" });
-                              movementForm.reset();
-                            })}>
+                            <form onSubmit={movementForm.handleSubmit(
+                              (data) => {
+                                console.log("✅ Form valido, dati:", data);
+                                addStockMutation.mutate({ ...data, productId: product.id, movementType: "IN" }, {
+                                  onSuccess: () => {
+                                    setStockDialogProductId(null);
+                                    movementForm.reset();
+                                  }
+                                });
+                              },
+                              (errors) => {
+                                console.error("❌ Errori validazione form:", errors);
+                                toast({
+                                  title: "Errore nel form",
+                                  description: "Controlla i campi inseriti",
+                                  variant: "destructive"
+                                });
+                              }
+                            )}>
                               <div className="space-y-4">
                                 <FormField
                                   control={movementForm.control}
