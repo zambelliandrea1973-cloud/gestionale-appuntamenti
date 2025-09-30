@@ -8987,12 +8987,32 @@
         "createdAt": "2025-09-30T17:19:48.276Z",
         "updatedAt": "2025-09-30T17:19:48.276Z"
       }
+    ],
+    [
+      2,
+      {
+        "categoryId": 2,
+        "name": "elisir",
+        "sku": "1111",
+        "price": 4500,
+        "cost": 2000,
+        "currentStock": 5,
+        "minStock": 2,
+        "maxStock": 10,
+        "unit": "pz",
+        "supplier": "jaku",
+        "userId": 14,
+        "id": 2,
+        "isActive": true,
+        "createdAt": "2025-09-30T17:23:32.702Z",
+        "updatedAt": "2025-09-30T17:23:32.702Z"
+      }
     ]
   ],
   "productSales": [],
   "stockMovements": [],
   "categoryNextId": 4,
-  "productNextId": 2,
+  "productNextId": 3,
   "movementNextId": 1,
   "saleNextId": 1
 }
