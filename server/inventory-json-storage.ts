@@ -36,12 +36,11 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       
       if (!data.productCategories) data.productCategories = [];
+      if (!data.categoryNextId) data.categoryNextId = 1;
       
-      // Generate safe ID: find max existing ID and increment (max integer is 2147483647)
-      const maxId = data.productCategories.length > 0 
-        ? Math.max(...data.productCategories.map(([id, cat]) => id))
-        : 0;
-      const newId = maxId + 1;
+      // Semplice contatore auto-incrementale
+      const newId = data.categoryNextId;
+      data.categoryNextId = newId + 1;
       
       const newCategory = {
         ...category,
@@ -137,12 +136,11 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       
       if (!data.products) data.products = [];
+      if (!data.productNextId) data.productNextId = 1;
       
-      // Generate safe ID: find max existing ID and increment
-      const maxId = data.products.length > 0 
-        ? Math.max(...data.products.map(([id, prod]) => id))
-        : 0;
-      const newId = maxId + 1;
+      // Semplice contatore auto-incrementale
+      const newId = data.productNextId;
+      data.productNextId = newId + 1;
       
       const newProduct = {
         ...product,
@@ -250,12 +248,11 @@ export class InventoryJsonStorage {
       
       if (!data.stockMovements) data.stockMovements = [];
       if (!data.products) data.products = [];
+      if (!data.movementNextId) data.movementNextId = 1;
       
-      // Generate safe ID: find max existing ID and increment
-      const maxId = data.stockMovements.length > 0 
-        ? Math.max(...data.stockMovements.map(([id, mov]) => id))
-        : 0;
-      const newId = maxId + 1;
+      // Semplice contatore auto-incrementale
+      const newId = data.movementNextId;
+      data.movementNextId = newId + 1;
       
       const newMovement = {
         ...movement,
@@ -333,12 +330,11 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       
       if (!data.productSales) data.productSales = [];
+      if (!data.saleNextId) data.saleNextId = 1;
       
-      // Generate safe ID: find max existing ID and increment
-      const maxId = data.productSales.length > 0 
-        ? Math.max(...data.productSales.map(([id, s]) => id))
-        : 0;
-      const newId = maxId + 1;
+      // Semplice contatore auto-incrementale
+      const newId = data.saleNextId;
+      data.saleNextId = newId + 1;
       
       const newSale = {
         ...sale,
