@@ -15,6 +15,9 @@ import directPhoneRoutes from './routes/directPhoneRoutes';
 import contactSettingsRoutes from './routes/contactSettingsRoutes';
 import inventoryRoutes from './inventory-routes';
 
+// Import AI onboarding module
+import { analyzeBusinessNeeds } from './onboarding-ai';
+
 // Import notification service for automatic appointment notifications
 import { notificationService } from './services/notificationService';
 
@@ -6210,6 +6213,92 @@ Studio Professionale`,
     } catch (error) {
       console.error("Errore eliminazione stanza:", error);
       res.status(500).json({ message: "Errore interno del server" });
+    }
+  });
+
+  // ========== ONBOARDING AI ENDPOINTS ==========
+
+  // GET /api/onboarding/progress - Recupera il progresso dell'onboarding dell'utente
+  app.get('/api/onboarding/progress', requireAuth, (req, res) => {
+    try {
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      
+      // Cerca il progresso onboarding dell'utente
+      const onboardingKey = `onboarding_${user.id}`;
+      const progress = storageData[onboardingKey] || {
+        userId: user.id,
+        currentStep: 0,
+        completedSteps: [],
+        isCompleted: false
+      };
+      
+      res.json(progress);
+    } catch (error) {
+      console.error('❌ Errore caricamento progresso onboarding:', error);
+      res.status(500).json({ message: 'Errore nel caricamento del progresso' });
+    }
+  });
+
+  // POST /api/onboarding/update-step - Aggiorna lo step corrente dell'onboarding
+  app.post('/api/onboarding/update-step', requireAuth, (req, res) => {
+    try {
+      const user = req.user as any;
+      const { currentStep, stepData, completedSteps } = req.body;
+      
+      const storageData = loadStorageData();
+      const onboardingKey = `onboarding_${user.id}`;
+      
+      // Aggiorna o crea il progresso
+      const progress = storageData[onboardingKey] || { userId: user.id };
+      storageData[onboardingKey] = {
+        ...progress,
+        currentStep,
+        completedSteps: completedSteps || progress.completedSteps || [],
+        ...stepData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      saveStorageData(storageData);
+      res.json(storageData[onboardingKey]);
+    } catch (error) {
+      console.error('❌ Errore aggiornamento step onboarding:', error);
+      res.status(500).json({ message: 'Errore nell\'aggiornamento dello step' });
+    }
+  });
+
+  // POST /api/onboarding/analyze - Analizza i dati business con AI
+  app.post('/api/onboarding/analyze', requireAuth, async (req, res) => {
+    try {
+      const { businessName, businessType, description } = req.body;
+      
+      console.log('🤖 [AI ONBOARDING] Richiesta analisi per:', businessName);
+      
+      // Chiama il servizio AI per analizzare il business
+      const analysis = await analyzeBusinessNeeds({
+        businessName,
+        businessDescription: description,
+        targetClients: businessType
+      });
+      
+      console.log('✅ [AI ONBOARDING] Analisi completata');
+      res.json(analysis);
+    } catch (error) {
+      console.error('❌ Errore analisi AI:', error);
+      // Ritorna raccomandazioni di fallback
+      res.json({
+        suggestedBusinessType: 'consulting',
+        recommendedServices: ['Consulenza', 'Visita', 'Controllo'],
+        workingHoursRecommendation: 'Lunedì - Venerdì, 9:00 - 18:00',
+        clientManagementNeeds: ['gestione-appuntamenti', 'comunicazione-clienti'],
+        communicationPreferences: ['email', 'sms'],
+        integrationGoals: ['calendario', 'promemoria-automatici'],
+        personalizedTips: [
+          'Inizia con la gestione base degli appuntamenti',
+          'Configura promemoria automatici per ridurre gli assenti',
+          'Crea un portale clienti per prenotazioni facili'
+        ]
+      });
     }
   });
 
