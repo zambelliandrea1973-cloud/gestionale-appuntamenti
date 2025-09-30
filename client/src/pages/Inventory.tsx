@@ -105,8 +105,10 @@ export default function Inventory() {
 
   // Mutations
   const createCategoryMutation = useMutation({
-    mutationFn: (data: z.infer<typeof categorySchema>) =>
-      apiRequest("/api/inventory/categories", { method: "POST", body: data }),
+    mutationFn: async (data: z.infer<typeof categorySchema>) => {
+      const res = await apiRequest("POST", "/api/inventory/categories", data);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/categories"] });
       toast({ title: "Categoria creata con successo" });
@@ -114,8 +116,10 @@ export default function Inventory() {
   });
   
   const createProductMutation = useMutation({
-    mutationFn: (data: z.infer<typeof productSchema>) =>
-      apiRequest("/api/inventory/products", { method: "POST", body: data }),
+    mutationFn: async (data: z.infer<typeof productSchema>) => {
+      const res = await apiRequest("POST", "/api/inventory/products", data);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/low-stock"] });
@@ -134,8 +138,10 @@ export default function Inventory() {
   });
   
   const addStockMutation = useMutation({
-    mutationFn: (data: z.infer<typeof stockMovementSchema>) =>
-      apiRequest("/api/inventory/movements", { method: "POST", body: data }),
+    mutationFn: async (data: z.infer<typeof stockMovementSchema>) => {
+      const res = await apiRequest("POST", "/api/inventory/movements", data);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/movements"] });
@@ -145,8 +151,10 @@ export default function Inventory() {
   });
   
   const recordSaleMutation = useMutation({
-    mutationFn: (data: z.infer<typeof saleSchema>) =>
-      apiRequest("/api/inventory/sales", { method: "POST", body: data }),
+    mutationFn: async (data: z.infer<typeof saleSchema>) => {
+      const res = await apiRequest("POST", "/api/inventory/sales", data);
+      return res.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory/movements"] });
