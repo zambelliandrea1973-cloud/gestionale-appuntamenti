@@ -6309,17 +6309,25 @@ Studio Professionale`,
       const storageData = loadStorageData();
       const onboardingKey = `onboarding_${user.id}`;
       
-      // Segna come completato
-      if (storageData[onboardingKey]) {
-        storageData[onboardingKey].isCompleted = true;
-        storageData[onboardingKey].completedAt = new Date().toISOString();
-        saveStorageData(storageData);
+      // Crea o aggiorna il record di onboarding
+      if (!storageData[onboardingKey]) {
+        storageData[onboardingKey] = {
+          userId: user.id,
+          currentStep: 0,
+          completedSteps: []
+        };
       }
       
-      console.log('✅ [AI ONBOARDING] Onboarding completato per utente', user.id);
+      // Segna come completato
+      storageData[onboardingKey].isCompleted = true;
+      storageData[onboardingKey].completedAt = new Date().toISOString();
+      saveStorageData(storageData);
+      
+      console.log('✅ [AI ONBOARDING] Onboarding completato per utente', user.id, '- isCompleted:', storageData[onboardingKey].isCompleted);
       
       res.json({
         success: true,
+        isCompleted: true,
         welcomeMessage: 'La tua configurazione è stata completata con successo! Sei pronto per iniziare.'
       });
     } catch (error) {
