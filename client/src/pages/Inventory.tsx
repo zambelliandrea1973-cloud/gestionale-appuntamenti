@@ -655,7 +655,19 @@ export default function Inventory() {
                     <div className="flex gap-2">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => {
+                              // Precompila il form con il costo del prodotto
+                              movementForm.reset({
+                                quantity: 1,
+                                unitPrice: product.cost || 0,
+                                reference: "",
+                                movementType: "IN"
+                              });
+                            }}
+                          >
                             <Plus className="h-3 w-3 mr-1" />
                             Carico
                           </Button>
@@ -667,6 +679,7 @@ export default function Inventory() {
                           <Form {...movementForm}>
                             <form onSubmit={movementForm.handleSubmit((data) => {
                               addStockMutation.mutate({ ...data, productId: product.id, movementType: "IN" });
+                              movementForm.reset();
                             })}>
                               <div className="space-y-4">
                                 <FormField
@@ -692,8 +705,8 @@ export default function Inventory() {
                                         <Input 
                                           type="number" 
                                           step="0.01" 
-                                          {...field} 
-                                          onChange={(e) => field.onChange(parseFloat(e.target.value) * 100)}
+                                          value={(field.value || 0) / 100}
+                                          onChange={(e) => field.onChange(Math.round(parseFloat(e.target.value || "0") * 100))}
                                         />
                                       </FormControl>
                                       <FormMessage />
@@ -713,8 +726,8 @@ export default function Inventory() {
                                     </FormItem>
                                   )}
                                 />
-                                <Button type="submit" className="w-full">
-                                  Registra Carico
+                                <Button type="submit" className="w-full" disabled={addStockMutation.isPending}>
+                                  {addStockMutation.isPending ? "Registrazione..." : "Registra Carico"}
                                 </Button>
                               </div>
                             </form>
