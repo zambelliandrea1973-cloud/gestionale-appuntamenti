@@ -8917,7 +8917,44 @@
       "read": false
     }
   ],
-  "productCategories": [],
+  "productCategories": [
+    [
+      1,
+      {
+        "name": "Consumabili",
+        "description": "Materiali e prodotti consumabili per trattamenti",
+        "color": "#3b82f6",
+        "userId": 14,
+        "id": 1,
+        "createdAt": "2025-09-30T17:19:35.638Z",
+        "updatedAt": "2025-09-30T17:19:35.638Z"
+      }
+    ],
+    [
+      2,
+      {
+        "name": "Prodotti per la vendita",
+        "description": "Prodotti destinati alla vendita diretta ai clienti",
+        "color": "#10b981",
+        "userId": 14,
+        "id": 2,
+        "createdAt": "2025-09-30T17:19:35.647Z",
+        "updatedAt": "2025-09-30T17:19:35.647Z"
+      }
+    ],
+    [
+      3,
+      {
+        "name": "test",
+        "description": "aaaa",
+        "color": "#3f51b5",
+        "userId": 14,
+        "id": 3,
+        "createdAt": "2025-09-30T17:20:07.032Z",
+        "updatedAt": "2025-09-30T17:20:07.032Z"
+      }
+    ]
+  ],
   "userBusinessData": {
     "14": {
       "companyName": "busnari silvia",
@@ -8931,11 +8968,31 @@
       "updatedAt": "2025-09-01T17:52:35.286Z"
     }
   },
-  "products": [],
+  "products": [
+    [
+      1,
+      {
+        "categoryId": 1,
+        "name": "elisa A",
+        "price": 200,
+        "cost": 100,
+        "currentStock": 1,
+        "minStock": 2,
+        "maxStock": 3,
+        "unit": "pz",
+        "supplier": "jaku",
+        "userId": 14,
+        "id": 1,
+        "isActive": true,
+        "createdAt": "2025-09-30T17:19:48.276Z",
+        "updatedAt": "2025-09-30T17:19:48.276Z"
+      }
+    ]
+  ],
   "productSales": [],
   "stockMovements": [],
-  "categoryNextId": 1,
-  "productNextId": 1,
+  "categoryNextId": 4,
+  "productNextId": 2,
   "movementNextId": 1,
   "saleNextId": 1
 }
