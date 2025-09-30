@@ -9,13 +9,20 @@ const router = express.Router();
 // Middleware to check PRO access using the existing license system
 const requireProAccess = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
+    console.log(`📦 [INVENTORY ACCESS] ${req.method} ${req.path} - Checking authentication`);
+    console.log(`📦 [INVENTORY ACCESS] req.user:`, req.user);
+    console.log(`📦 [INVENTORY ACCESS] req.isAuthenticated():`, req.isAuthenticated ? req.isAuthenticated() : 'N/A');
+    console.log(`📦 [INVENTORY ACCESS] Session ID:`, req.sessionID);
+    
     const userId = req.user?.id;
     if (!userId) {
+      console.log(`📦 [INVENTORY ACCESS] ❌ No userId in req.user`);
       return res.status(401).json({ error: 'Non autorizzato' });
     }
 
     const user = await storage.getUser(userId);
     if (!user) {
+      console.log(`📦 [INVENTORY ACCESS] ❌ User ${userId} not found in database`);
       return res.status(401).json({ error: 'Utente non trovato' });
     }
     
