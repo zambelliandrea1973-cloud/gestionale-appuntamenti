@@ -6302,6 +6302,32 @@ Studio Professionale`,
     }
   });
 
+  // POST /api/onboarding/complete - Segna l'onboarding come completato
+  app.post('/api/onboarding/complete', requireAuth, (req, res) => {
+    try {
+      const user = req.user as any;
+      const storageData = loadStorageData();
+      const onboardingKey = `onboarding_${user.id}`;
+      
+      // Segna come completato
+      if (storageData[onboardingKey]) {
+        storageData[onboardingKey].isCompleted = true;
+        storageData[onboardingKey].completedAt = new Date().toISOString();
+        saveStorageData(storageData);
+      }
+      
+      console.log('✅ [AI ONBOARDING] Onboarding completato per utente', user.id);
+      
+      res.json({
+        success: true,
+        welcomeMessage: 'La tua configurazione è stata completata con successo! Sei pronto per iniziare.'
+      });
+    } catch (error) {
+      console.error('❌ Errore completamento onboarding:', error);
+      res.status(500).json({ message: 'Errore nel completamento dell\'onboarding' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
