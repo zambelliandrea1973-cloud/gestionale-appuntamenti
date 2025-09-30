@@ -1,48 +1,64 @@
 import express from 'express';
 import { storage } from './storage';
 import { insertProductCategorySchema, insertProductSchema, insertStockMovementSchema, insertProductSaleSchema } from '@shared/schema';
+import { licenseService } from './services/licenseService';
 import { z } from 'zod';
 
 const router = express.Router();
 
-// Middleware to check access: all staff + PRO clients (blocks only base/free clients)
-const requireStaffAccess = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+// Middleware to check PRO access using the existing license system
+const requireProAccess = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
     const userId = req.user?.id;
     if (!userId) {
       return res.status(401).json({ error: 'Non autorizzato' });
     }
 
-    const license = await storage.getLicense(userId);
-    const licenseType = license?.type || '';
-    
-    // Staff has no restrictions (all staff types can access)
-    const isStaff = licenseType.startsWith('staff_');
-    
-    // PRO clients can access
-    const isProClient = licenseType === 'client_pro';
-    
-    // Block only base/free clients
-    const isBlockedClient = licenseType === 'client_base' || licenseType === 'client_free';
-    
-    if (isBlockedClient) {
-      return res.status(403).json({ error: 'Funzionalità disponibile solo con abbonamento PRO' });
+    const user = await storage.getUser(userId);
+    if (!user) {
+      return res.status(401).json({ error: 'Utente non trovato' });
     }
     
-    // Allow staff and PRO clients
-    if (!isStaff && !isProClient) {
-      return res.status(403).json({ error: 'Accesso non autorizzato' });
+    console.log(`📦 [INVENTORY ACCESS] Checking access for user ${userId} (type: ${user.type})`);
+    
+    // Staff and admin always have access
+    if (user.type === 'staff' || user.type === 'admin') {
+      console.log(`📦 [INVENTORY ACCESS] ✅ Access granted - staff/admin`);
+      return next();
     }
-
-    next();
+    
+    // For other users, check their license via the license service
+    const licenseInfo = await licenseService.getCurrentLicenseInfo(userId);
+    console.log(`📦 [INVENTORY ACCESS] License info:`, licenseInfo);
+    
+    // Check if license is active and not expired
+    const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
+    
+    // Allow access for PRO, BUSINESS, STAFF_FREE, and PASSEPARTOUT licenses
+    const hasAccess = isActive && (
+      licenseInfo.type === 'pro' || 
+      licenseInfo.type === 'business' || 
+      licenseInfo.type === 'staff_free' ||
+      licenseInfo.type === 'staff_free_10years' ||
+      licenseInfo.type === 'passepartout'
+    );
+    
+    if (hasAccess) {
+      console.log(`📦 [INVENTORY ACCESS] ✅ Access granted - ${licenseInfo.type} license`);
+      return next();
+    }
+    
+    console.log(`📦 [INVENTORY ACCESS] ❌ Access denied - insufficient license`);
+    return res.status(403).json({ error: 'Funzionalità disponibile solo con abbonamento PRO o superiore' });
+    
   } catch (error) {
-    console.error('Error checking access:', error);
+    console.error('❌ [INVENTORY ACCESS] Error checking access:', error);
     res.status(500).json({ error: 'Errore del server' });
   }
 };
 
 // Product Categories Routes
-router.get('/categories', requireStaffAccess, async (req, res) => {
+router.get('/categories', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     console.log(`📦 [CATEGORIES] GET request for user ${userId}`);
@@ -74,7 +90,7 @@ router.get('/categories', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.post('/categories', requireStaffAccess, async (req, res) => {
+router.post('/categories', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const categoryData = insertProductCategorySchema.parse(req.body);
@@ -89,7 +105,7 @@ router.post('/categories', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.put('/categories/:id', requireStaffAccess, async (req, res) => {
+router.put('/categories/:id', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -110,7 +126,7 @@ router.put('/categories/:id', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.delete('/categories/:id', requireStaffAccess, async (req, res) => {
+router.delete('/categories/:id', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -128,7 +144,7 @@ router.delete('/categories/:id', requireStaffAccess, async (req, res) => {
 });
 
 // Products Routes
-router.get('/products', requireStaffAccess, async (req, res) => {
+router.get('/products', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const products = await storage.getProducts(userId);
@@ -139,7 +155,7 @@ router.get('/products', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.get('/products/:id', requireStaffAccess, async (req, res) => {
+router.get('/products/:id', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -156,7 +172,7 @@ router.get('/products/:id', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.post('/products', requireStaffAccess, async (req, res) => {
+router.post('/products', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     console.log(`📦 [PRODUCTS] POST request for user ${userId}`);
@@ -179,7 +195,7 @@ router.post('/products', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.put('/products/:id', requireStaffAccess, async (req, res) => {
+router.put('/products/:id', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -200,7 +216,7 @@ router.put('/products/:id', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.delete('/products/:id', requireStaffAccess, async (req, res) => {
+router.delete('/products/:id', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const id = parseInt(req.params.id);
@@ -217,7 +233,7 @@ router.delete('/products/:id', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.get('/low-stock', requireStaffAccess, async (req, res) => {
+router.get('/low-stock', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const products = await storage.getLowStockProducts(userId);
@@ -229,7 +245,7 @@ router.get('/low-stock', requireStaffAccess, async (req, res) => {
 });
 
 // Stock Movements Routes
-router.get('/movements', requireStaffAccess, async (req, res) => {
+router.get('/movements', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
@@ -241,7 +257,7 @@ router.get('/movements', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.post('/movements', requireStaffAccess, async (req, res) => {
+router.post('/movements', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const movementData = insertStockMovementSchema.parse(req.body);
@@ -256,7 +272,7 @@ router.post('/movements', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.get('/products/:id/movements', requireStaffAccess, async (req, res) => {
+router.get('/products/:id/movements', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
@@ -269,7 +285,7 @@ router.get('/products/:id/movements', requireStaffAccess, async (req, res) => {
 });
 
 // Sales Routes
-router.get('/sales', requireStaffAccess, async (req, res) => {
+router.get('/sales', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
@@ -281,7 +297,7 @@ router.get('/sales', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.post('/sales', requireStaffAccess, async (req, res) => {
+router.post('/sales', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const saleData = insertProductSaleSchema.parse(req.body);
@@ -296,7 +312,7 @@ router.post('/sales', requireStaffAccess, async (req, res) => {
   }
 });
 
-router.get('/products/:id/sales', requireStaffAccess, async (req, res) => {
+router.get('/products/:id/sales', requireProAccess, async (req, res) => {
   try {
     const userId = req.user.id;
     const productId = parseInt(req.params.id);
