@@ -9127,5 +9127,46 @@
   "categoryNextId": 7,
   "productNextId": 3,
   "movementNextId": 3,
-  "saleNextId": 1
+  "saleNextId": 1,
+  "onboarding_9": {
+    "userId": 9,
+    "currentStep": 3,
+    "completedSteps": [
+      0,
+      1,
+      2
+    ],
+    "updatedAt": "2025-09-30T18:25:09.514Z",
+    "businessName": "zambelli andrea",
+    "businessType": "biorisonanza ,naturopata",
+    "description": "servizi alla persona ,prevenzione salute , allergie , ",
+    "analysis": {
+      "suggestedBusinessType": "consulting",
+      "recommendedServices": [
+        "Consultation",
+        "Meeting",
+        "Session"
+      ],
+      "workingHoursRecommendation": "Monday to Friday, 9:00 AM to 6:00 PM",
+      "clientManagementNeeds": [
+        "appointment-scheduling",
+        "client-communication",
+        "payment-tracking"
+      ],
+      "communicationPreferences": [
+        "email",
+        "sms"
+      ],
+      "integrationGoals": [
+        "calendar-sync",
+        "automated-reminders",
+        "client-portal"
+      ],
+      "personalizedTips": [
+        "Start with basic appointment scheduling",
+        "Set up automated reminders to reduce no-shows",
+        "Create a simple client portal for easy booking"
+      ]
+    }
+  }
 }
