@@ -132,3 +132,5 @@ This is a comprehensive medical practice management system built with React, Typ
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+
+Development approach: When implementing new features, always evaluate 2-3 alternative solutions and compare them before choosing the simplest and most robust option. Never jump to the first solution that comes to mind - take time to analyze different approaches for probability of success and maintainability.

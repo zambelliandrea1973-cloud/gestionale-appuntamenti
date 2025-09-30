@@ -9,34 +9,23 @@ const router = express.Router();
 // Middleware to check PRO access using the existing license system
 const requireProAccess = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    console.log(`📦 [INVENTORY ACCESS] ${req.method} ${req.path} - Checking authentication`);
-    console.log(`📦 [INVENTORY ACCESS] req.user:`, req.user);
-    console.log(`📦 [INVENTORY ACCESS] req.isAuthenticated():`, req.isAuthenticated ? req.isAuthenticated() : 'N/A');
-    console.log(`📦 [INVENTORY ACCESS] Session ID:`, req.sessionID);
-    
     const userId = req.user?.id;
     if (!userId) {
-      console.log(`📦 [INVENTORY ACCESS] ❌ No userId in req.user`);
       return res.status(401).json({ error: 'Non autorizzato' });
     }
 
     const user = await storage.getUser(userId);
     if (!user) {
-      console.log(`📦 [INVENTORY ACCESS] ❌ User ${userId} not found in database`);
       return res.status(401).json({ error: 'Utente non trovato' });
     }
     
-    console.log(`📦 [INVENTORY ACCESS] Checking access for user ${userId} (type: ${user.type})`);
-    
     // Staff and admin always have access
     if (user.type === 'staff' || user.type === 'admin') {
-      console.log(`📦 [INVENTORY ACCESS] ✅ Access granted - staff/admin`);
       return next();
     }
     
     // For other users, check their license via the license service
     const licenseInfo = await licenseService.getCurrentLicenseInfo(userId);
-    console.log(`📦 [INVENTORY ACCESS] License info:`, licenseInfo);
     
     // Check if license is active and not expired
     const isActive = licenseInfo.isActive && (licenseInfo.expiresAt === null || licenseInfo.expiresAt > new Date());
@@ -51,11 +40,9 @@ const requireProAccess = async (req: express.Request, res: express.Response, nex
     );
     
     if (hasAccess) {
-      console.log(`📦 [INVENTORY ACCESS] ✅ Access granted - ${licenseInfo.type} license`);
       return next();
     }
     
-    console.log(`📦 [INVENTORY ACCESS] ❌ Access denied - insufficient license`);
     return res.status(403).json({ error: 'Funzionalità disponibile solo con abbonamento PRO o superiore' });
     
   } catch (error) {
