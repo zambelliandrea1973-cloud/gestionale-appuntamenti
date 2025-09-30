@@ -82,6 +82,7 @@ export default function Inventory() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [productDialogOpen, setProductDialogOpen] = useState(false);
   const [stockDialogProductId, setStockDialogProductId] = useState<number | null>(null);
+  const [saleDialogProductId, setSaleDialogProductId] = useState<number | null>(null);
   
   // Fetch data
   const { data: categories = [] } = useQuery({
@@ -761,9 +762,21 @@ export default function Inventory() {
                         </DialogContent>
                       </Dialog>
                       
-                      <Dialog>
+                      <Dialog open={saleDialogProductId === product.id} onOpenChange={(open) => setSaleDialogProductId(open ? product.id : null)}>
                         <DialogTrigger asChild>
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => {
+                              saleForm.reset({
+                                productId: product.id,
+                                quantity: 1,
+                                unitPrice: product.price || 0,
+                                discountPercent: 0,
+                                clientId: undefined
+                              });
+                            }}
+                          >
                             <ShoppingCart className="h-3 w-3 mr-1" />
                             Vendi
                           </Button>
@@ -773,9 +786,24 @@ export default function Inventory() {
                             <DialogTitle>Registra Vendita - {product.name}</DialogTitle>
                           </DialogHeader>
                           <Form {...saleForm}>
-                            <form onSubmit={saleForm.handleSubmit((data) => {
-                              recordSaleMutation.mutate({ ...data, productId: product.id });
-                            })}>
+                            <form onSubmit={saleForm.handleSubmit(
+                              (data) => {
+                                recordSaleMutation.mutate(data, {
+                                  onSuccess: () => {
+                                    setSaleDialogProductId(null);
+                                    saleForm.reset();
+                                  }
+                                });
+                              },
+                              (errors) => {
+                                console.error("❌ Errori vendita:", errors);
+                                toast({
+                                  title: "Errore nel form",
+                                  description: "Controlla i campi inseriti",
+                                  variant: "destructive"
+                                });
+                              }
+                            )}>
                               <div className="space-y-4">
                                 <FormField
                                   control={saleForm.control}
@@ -783,7 +811,7 @@ export default function Inventory() {
                                   render={({ field }) => (
                                     <FormItem>
                                       <FormLabel>Cliente (opzionale)</FormLabel>
-                                      <Select onValueChange={(value) => field.onChange(parseInt(value))}>
+                                      <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value?.toString()}>
                                         <FormControl>
                                           <SelectTrigger>
                                             <SelectValue placeholder="Seleziona cliente" />
@@ -824,9 +852,8 @@ export default function Inventory() {
                                         <Input 
                                           type="number" 
                                           step="0.01" 
-                                          {...field} 
-                                          onChange={(e) => field.onChange(parseFloat(e.target.value) * 100)}
-                                          defaultValue={(product.price || 0) / 100}
+                                          value={(field.value || 0) / 100}
+                                          onChange={(e) => field.onChange(Math.round(parseFloat(e.target.value || "0") * 100))}
                                         />
                                       </FormControl>
                                       <FormMessage />
@@ -840,14 +867,14 @@ export default function Inventory() {
                                     <FormItem>
                                       <FormLabel>Sconto (%)</FormLabel>
                                       <FormControl>
-                                        <Input type="number" min="0" max="100" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value))} />
+                                        <Input type="number" min="0" max="100" step="0.01" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value || "0"))} />
                                       </FormControl>
                                       <FormMessage />
                                     </FormItem>
                                   )}
                                 />
-                                <Button type="submit" className="w-full">
-                                  Registra Vendita
+                                <Button type="submit" className="w-full" disabled={recordSaleMutation.isPending}>
+                                  {recordSaleMutation.isPending ? "Registrazione..." : "Registra Vendita"}
                                 </Button>
                               </div>
                             </form>
