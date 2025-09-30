@@ -37,7 +37,12 @@ export class InventoryJsonStorage {
       
       if (!data.productCategories) data.productCategories = [];
       
-      const newId = Date.now();
+      // Generate safe ID: find max existing ID and increment (max integer is 2147483647)
+      const maxId = data.productCategories.length > 0 
+        ? Math.max(...data.productCategories.map(([id, cat]) => id))
+        : 0;
+      const newId = maxId + 1;
+      
       const newCategory = {
         ...category,
         id: newId,
@@ -133,7 +138,12 @@ export class InventoryJsonStorage {
       
       if (!data.products) data.products = [];
       
-      const newId = Date.now();
+      // Generate safe ID: find max existing ID and increment
+      const maxId = data.products.length > 0 
+        ? Math.max(...data.products.map(([id, prod]) => id))
+        : 0;
+      const newId = maxId + 1;
+      
       const newProduct = {
         ...product,
         id: newId,
@@ -241,7 +251,12 @@ export class InventoryJsonStorage {
       if (!data.stockMovements) data.stockMovements = [];
       if (!data.products) data.products = [];
       
-      const newId = Date.now();
+      // Generate safe ID: find max existing ID and increment
+      const maxId = data.stockMovements.length > 0 
+        ? Math.max(...data.stockMovements.map(([id, mov]) => id))
+        : 0;
+      const newId = maxId + 1;
+      
       const newMovement = {
         ...movement,
         id: newId,
@@ -319,7 +334,12 @@ export class InventoryJsonStorage {
       
       if (!data.productSales) data.productSales = [];
       
-      const newId = Date.now();
+      // Generate safe ID: find max existing ID and increment
+      const maxId = data.productSales.length > 0 
+        ? Math.max(...data.productSales.map(([id, s]) => id))
+        : 0;
+      const newId = maxId + 1;
+      
       const newSale = {
         ...sale,
         id: newId,
