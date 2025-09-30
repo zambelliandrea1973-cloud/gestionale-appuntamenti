@@ -788,7 +788,15 @@ export default function Inventory() {
                           <Form {...saleForm}>
                             <form onSubmit={saleForm.handleSubmit(
                               (data) => {
-                                recordSaleMutation.mutate(data, {
+                                const totalAmount = data.unitPrice * data.quantity;
+                                const finalAmount = Math.round(totalAmount * (1 - data.discountPercent / 100));
+                                
+                                recordSaleMutation.mutate({
+                                  ...data,
+                                  discountPercent: data.discountPercent.toString(),
+                                  totalAmount,
+                                  finalAmount
+                                }, {
                                   onSuccess: () => {
                                     setSaleDialogProductId(null);
                                     saleForm.reset();
