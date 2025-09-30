@@ -36,7 +36,14 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       
       if (!data.productCategories) data.productCategories = [];
-      if (!data.categoryNextId) data.categoryNextId = 1;
+      
+      // Inizializza contatore: trova max ID valido o parte da 1
+      if (!data.categoryNextId) {
+        const validIds = data.productCategories
+          .map(([id]) => id)
+          .filter(id => id < 2147483647); // Ignora ID troppo grandi
+        data.categoryNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
+      }
       
       // Semplice contatore auto-incrementale
       const newId = data.categoryNextId;
@@ -136,7 +143,14 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       
       if (!data.products) data.products = [];
-      if (!data.productNextId) data.productNextId = 1;
+      
+      // Inizializza contatore: trova max ID valido o parte da 1
+      if (!data.productNextId) {
+        const validIds = data.products
+          .map(([id]) => id)
+          .filter(id => id < 2147483647); // Ignora ID troppo grandi
+        data.productNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
+      }
       
       // Semplice contatore auto-incrementale
       const newId = data.productNextId;
@@ -248,7 +262,14 @@ export class InventoryJsonStorage {
       
       if (!data.stockMovements) data.stockMovements = [];
       if (!data.products) data.products = [];
-      if (!data.movementNextId) data.movementNextId = 1;
+      
+      // Inizializza contatore: trova max ID valido o parte da 1
+      if (!data.movementNextId) {
+        const validIds = data.stockMovements
+          .map(([id]) => id)
+          .filter(id => id < 2147483647);
+        data.movementNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
+      }
       
       // Semplice contatore auto-incrementale
       const newId = data.movementNextId;
@@ -330,7 +351,14 @@ export class InventoryJsonStorage {
       const data = loadStorageData();
       
       if (!data.productSales) data.productSales = [];
-      if (!data.saleNextId) data.saleNextId = 1;
+      
+      // Inizializza contatore: trova max ID valido o parte da 1
+      if (!data.saleNextId) {
+        const validIds = data.productSales
+          .map(([id]) => id)
+          .filter(id => id < 2147483647);
+        data.saleNextId = validIds.length > 0 ? Math.max(...validIds) + 1 : 1;
+      }
       
       // Semplice contatore auto-incrementale
       const newId = data.saleNextId;

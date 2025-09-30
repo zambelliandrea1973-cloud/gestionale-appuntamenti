@@ -8917,56 +8917,7 @@
       "read": false
     }
   ],
-  "productCategories": [
-    [
-      1,
-      {
-        "id": 1,
-        "userId": 3,
-        "name": "Consumabili",
-        "description": "Materiali di consumo e prodotti monouso",
-        "color": "#2563eb",
-        "createdAt": "2025-09-29T17:50:00.000Z",
-        "updatedAt": "2025-09-29T17:50:00.000Z"
-      }
-    ],
-    [
-      2,
-      {
-        "id": 2,
-        "userId": 3,
-        "name": "Prodotti per la vendita",
-        "description": "Prodotti destinati alla vendita ai clienti",
-        "color": "#059669",
-        "createdAt": "2025-09-29T17:50:00.000Z",
-        "updatedAt": "2025-09-29T17:50:00.000Z"
-      }
-    ],
-    [
-      1759251361799,
-      {
-        "name": "Consumabili",
-        "description": "Materiali e prodotti consumabili per trattamenti",
-        "color": "#3b82f6",
-        "userId": 14,
-        "id": 1759251361799,
-        "createdAt": "2025-09-30T16:56:01.799Z",
-        "updatedAt": "2025-09-30T16:56:01.799Z"
-      }
-    ],
-    [
-      1759251361812,
-      {
-        "name": "Prodotti per la vendita",
-        "description": "Prodotti destinati alla vendita diretta ai clienti",
-        "color": "#10b981",
-        "userId": 14,
-        "id": 1759251361812,
-        "createdAt": "2025-09-30T16:56:01.812Z",
-        "updatedAt": "2025-09-30T16:56:01.812Z"
-      }
-    ]
-  ],
+  "productCategories": [],
   "userBusinessData": {
     "14": {
       "companyName": "busnari silvia",
@@ -8979,5 +8930,12 @@
       "email": "silvia.busnari@libero.it",
       "updatedAt": "2025-09-01T17:52:35.286Z"
     }
-  }
+  },
+  "products": [],
+  "productSales": [],
+  "stockMovements": [],
+  "categoryNextId": 1,
+  "productNextId": 1,
+  "movementNextId": 1,
+  "saleNextId": 1
 }
