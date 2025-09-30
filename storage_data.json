@@ -8887,9 +8887,11 @@
         "date": "2025-09-30",
         "dueDate": "2025-10-30",
         "description": "bicom",
-        "status": "draft",
+        "status": "paid",
         "ownerId": 14,
-        "createdAt": "2025-09-30T18:08:38.570Z"
+        "createdAt": "2025-09-30T18:08:38.570Z",
+        "updatedAt": "2025-09-30T18:09:31.642Z",
+        "paidAt": "2025-09-30T18:09:31.642Z"
       }
     ]
   ],
