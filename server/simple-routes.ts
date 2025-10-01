@@ -2781,7 +2781,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint Commissioni Staff - Solo per admin
-  app.get("/api/staff-commissions/:staffId", (req, res) => {
+  app.get("/api/staff-commissions/:staffId", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
@@ -2794,20 +2794,28 @@ export function registerSimpleRoutes(app: Express): Server {
       const storageData = loadStorageData();
       const referralCommissions = storageData.referralCommissions || [];
       
-      // Trova commissioni per lo staff specifico
-      const staffCommissions = referralCommissions
-        .filter(commission => commission.referrerId === staffId)
-        .map(commission => ({
-          id: commission.id,
-          commissionAmount: commission.monthlyAmount || 0,
-          isPaid: commission.isPaid || false,
-          paidAt: commission.paidAt || null,
-          createdAt: commission.createdAt || new Date().toISOString(),
-          notes: commission.notes || null,
-          licenseCode: commission.licenseCode || `REF-${commission.id}`,
-          licenseType: commission.licenseType || 'business',
-          customerEmail: commission.customerEmail || 'cliente@email.com'
-        }));
+      // Trova commissioni per lo staff specifico e arricchisci con dati utente
+      const staffCommissions = await Promise.all(
+        referralCommissions
+          .filter(commission => commission.referrerId === staffId)
+          .map(async (commission) => {
+            // Recupera dati dell'utente sponsorizzato (referred)
+            const referredUser = await storage.getUserById(commission.referredId);
+            const subscription = await storage.getActiveSubscriptionByUserId(commission.referredId);
+            
+            return {
+              id: commission.id,
+              commissionAmount: commission.monthlyAmount || 0,
+              isPaid: commission.isPaid || false,
+              paidAt: commission.paidAt || null,
+              createdAt: commission.createdAt || commission.startDate || new Date().toISOString(),
+              notes: commission.notes || null,
+              licenseCode: subscription?.licenseCode || `REF-${commission.id}`,
+              licenseType: subscription?.licenseType || 'business',
+              customerEmail: referredUser?.email || referredUser?.username || 'cliente@email.com'
+            };
+          })
+      );
       
       res.json(staffCommissions);
     } catch (error) {
