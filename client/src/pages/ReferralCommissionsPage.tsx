@@ -46,6 +46,7 @@ interface ReferralOverview {
 
 export default function ReferralCommissionsPage() {
   const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState("overview");
   const { toast } = useToast();
   const { user } = useUserWithLicense();
 
@@ -152,7 +153,7 @@ export default function ReferralCommissionsPage() {
             )}
           </div>
 
-          <Tabs defaultValue="overview" className="space-y-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="overview">Panoramica Staff</TabsTrigger>
               <TabsTrigger value="commissions">Commissioni Dettagliate</TabsTrigger>
@@ -203,7 +204,10 @@ export default function ReferralCommissionsPage() {
                                 </div>
                               </div>
                               <Button 
-                                onClick={() => setSelectedStaffId(staff.staffId)}
+                                onClick={() => {
+                                  setSelectedStaffId(staff.staffId);
+                                  setActiveTab("commissions");
+                                }}
                                 size="sm"
                                 className="mt-2"
                               >
