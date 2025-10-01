@@ -1,7 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
 
+// Forza l'uso di GEMINI_API_KEY (non GOOGLE_API_KEY che è per altri servizi)
 const genai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || ''
+  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || ''
 });
 
 interface ChatMessage {
