@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2, UserPlus, Search, Edit, Trash2, CreditCard, History, Eye, EyeOff, Settings, Shield } from "lucide-react";
+import { Loader2, UserPlus, Search, Edit, Trash2, CreditCard, History, Eye, EyeOff } from "lucide-react";
 import { AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -30,13 +30,11 @@ export default function StaffManagementPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isPaymentHistoryDialogOpen, setIsPaymentHistoryDialogOpen] = useState(false);
   const [isBankingDialogOpen, setIsBankingDialogOpen] = useState(false);
-  const [isAdminConfigDialogOpen, setIsAdminConfigDialogOpen] = useState(false);
   
   // Stati per i form
   const [formError, setFormError] = useState("");
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isSavingAdminConfig, setIsSavingAdminConfig] = useState(false);
   
   // Ricerca
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,16 +48,6 @@ export default function StaffManagementPage() {
     email: "",
     password: "",
     role: "staff"
-  });
-  
-  // Configurazione admin
-  const [adminBankingConfig, setAdminBankingConfig] = useState({
-    adminIban: "",
-    adminBank: "",
-    adminAccountHolder: "",
-    paymentApiKey: "",
-    dailyLimit: 500,
-    autoPaymentsEnabled: false
   });
 
   // Query per ottenere gli utenti staff
@@ -126,49 +114,6 @@ export default function StaffManagementPage() {
     }
   };
 
-  // Funzione per salvare la configurazione admin
-  const saveAdminConfig = async () => {
-    if (!adminBankingConfig.adminIban) {
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: "L'IBAN dell'amministratore è obbligatorio",
-      });
-      return;
-    }
-
-    setIsSavingAdminConfig(true);
-
-    try {
-      const response = await fetch('/api/admin/config', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(adminBankingConfig),
-      });
-
-      if (response.ok) {
-        setIsAdminConfigDialogOpen(false);
-        toast({
-          title: "Successo",
-          description: "Configurazione admin salvata con successo",
-        });
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante il salvataggio della configurazione");
-      }
-    } catch (err: any) {
-      toast({
-        variant: "destructive",
-        title: "Errore",
-        description: err.message || "Impossibile salvare la configurazione",
-      });
-    } finally {
-      setIsSavingAdminConfig(false);
-    }
-  };
-
   // Funzioni di gestione
   const handleDeleteClick = (user: StaffUser) => {
     setSelectedUser(user);
@@ -226,17 +171,7 @@ export default function StaffManagementPage() {
           <p className="text-muted-foreground">Gestisci gli utenti staff del tuo sistema</p>
         </div>
         
-        <div className="flex gap-3">
-          <Button 
-            variant="outline" 
-            onClick={() => setIsAdminConfigDialogOpen(true)}
-            className="border-blue-200 text-blue-700 hover:bg-blue-50"
-          >
-            <Settings className="mr-2 h-4 w-4" />
-            Configurazione Admin
-          </Button>
-          
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
                 <UserPlus className="h-4 w-4" />
@@ -384,131 +319,6 @@ export default function StaffManagementPage() {
           <p className="text-muted-foreground">Nessun utente staff trovato.</p>
         </div>
       )}
-
-      {/* Dialog Configurazione Admin */}
-      <Dialog open={isAdminConfigDialogOpen} onOpenChange={setIsAdminConfigDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-blue-600" />
-              Configurazione Admin
-            </DialogTitle>
-            <DialogDescription>
-              Configura i tuoi dati bancari per autorizzare i pagamenti automatici agli staff
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-6 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="adminIban">IBAN Amministratore *</Label>
-              <Input
-                id="adminIban"
-                value={adminBankingConfig.adminIban}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  adminIban: e.target.value
-                }))}
-                placeholder="IT60 X054 2811 1010 0000 0123 456"
-                className="font-mono"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="adminBank">Banca</Label>
-              <Input
-                id="adminBank"
-                value={adminBankingConfig.adminBank}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  adminBank: e.target.value
-                }))}
-                placeholder="Nome della banca"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="adminAccountHolder">Intestatario Conto</Label>
-              <Input
-                id="adminAccountHolder"
-                value={adminBankingConfig.adminAccountHolder}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  adminAccountHolder: e.target.value
-                }))}
-                placeholder="Nome completo intestatario"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="paymentApiKey">API Key Pagamenti</Label>
-              <Input
-                id="paymentApiKey"
-                type="password"
-                value={adminBankingConfig.paymentApiKey}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  paymentApiKey: e.target.value
-                }))}
-                placeholder="API key per servizio bonifici"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="dailyLimit">Limite Giornaliero (€)</Label>
-              <Input
-                id="dailyLimit"
-                type="number"
-                value={adminBankingConfig.dailyLimit}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  dailyLimit: parseFloat(e.target.value) || 0
-                }))}
-                placeholder="500"
-              />
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="autoPaymentsEnabled"
-                checked={adminBankingConfig.autoPaymentsEnabled}
-                onCheckedChange={(checked) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  autoPaymentsEnabled: checked as boolean
-                }))}
-              />
-              <Label htmlFor="autoPaymentsEnabled">
-                Abilita pagamenti automatici
-              </Label>
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsAdminConfigDialogOpen(false)}
-              disabled={isSavingAdminConfig}
-            >
-              Annulla
-            </Button>
-            <Button
-              onClick={saveAdminConfig}
-              disabled={isSavingAdminConfig || !adminBankingConfig.adminIban}
-            >
-              {isSavingAdminConfig ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Salvataggio...
-                </>
-              ) : (
-                <>
-                  <Shield className="mr-2 h-4 w-4" />
-                  Salva Configurazione
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
