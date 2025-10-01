@@ -47,6 +47,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 import PaymentPage from "./pages/PaymentPage";
 import WelcomePage from "./pages/WelcomePage";
+import ReferralPage from "./pages/ReferralPage";
 import ReferralCommissionsPage from "./pages/ReferralCommissionsPage";
 import BankingSettingsPage from "./pages/BankingSettingsPage";
 import OnboardingWizard from "./pages/OnboardingWizard";
@@ -333,6 +334,11 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       <Route path="/referral">
+        <StaffPageWrapper>
+          <ReferralPage />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/referral-commissions">
         <StaffPageWrapper>
           <ReferralCommissionsPage />
         </StaffPageWrapper>
