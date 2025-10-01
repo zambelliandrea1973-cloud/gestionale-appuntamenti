@@ -6,9 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import { apiRequest } from '@/lib/queryClient';
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
+import { apiRequest, queryClient } from '@/lib/queryClient';
+import { useMutation } from "@tanstack/react-query";
 import PaymentMethodsConfig from '@/components/payment/PaymentMethodsConfig';
 import { 
   Euro, 
@@ -26,10 +29,24 @@ import {
   BadgeCheck,
   Settings,
   Shield,
-  Loader2
+  Banknote
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
+import { triggerRefreshAfterSave } from "@/lib/autoRefresh";
+
+interface BankingSettings {
+  bankName: string;
+  accountHolder: string;
+  iban: string;
+  bic: string;
+  address: string;
+  autoPayEnabled: boolean;
+  paymentDelay: number;
+  minimumAmount: number;
+  description: string;
+  isConfigured: boolean;
+}
 
 export default function PaymentAdmin() {
   const { toast } = useToast();
@@ -38,24 +55,13 @@ export default function PaymentAdmin() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [subscriptions, setSubscriptions] = useState<any[]>([]);
   const [licenses, setLicenses] = useState<any[]>([]);
-  
-  // Stati per dialog configurazione admin
-  const [isAdminConfigDialogOpen, setIsAdminConfigDialogOpen] = useState(false);
-  const [isSavingAdminConfig, setIsSavingAdminConfig] = useState(false);
-  
-  // Configurazione admin
-  const [adminBankingConfig, setAdminBankingConfig] = useState({
-    adminIban: "",
-    adminBank: "",
-    adminAccountHolder: "",
-    paymentApiKey: "",
-    dailyLimit: 500,
-    autoPaymentsEnabled: false
-  });
+  const [showIban, setShowIban] = useState(false);
+  const [bankingSettings, setBankingSettings] = useState<BankingSettings | null>(null);
 
   // Carica i dati automaticamente all'avvio del componente
   useEffect(() => {
     fetchDashboardData();
+    fetchBankingSettings();
   }, []);
 
   // Funzione per caricare i dati della dashboard
@@ -97,56 +103,85 @@ export default function PaymentAdmin() {
     }
   };
 
+  // Funzione per caricare configurazione bancaria
+  const fetchBankingSettings = async () => {
+    try {
+      const response = await apiRequest("GET", "/api/admin/banking-settings");
+      const data = await response.json();
+      setBankingSettings(data);
+    } catch (error) {
+      console.error('Errore durante il recupero della configurazione bancaria:', error);
+    }
+  };
+
   // Funzione per aggiornare i dati
   const handleRefresh = () => {
     fetchDashboardData();
+    fetchBankingSettings();
     toast({
       title: "Aggiornamento dati",
       description: "Aggiornamento dati in corso...",
     });
   };
 
-  // Funzione per salvare la configurazione bancaria admin
-  const saveAdminConfig = async () => {
-    if (!adminBankingConfig.adminIban) {
+  // Mutation per aggiornare la configurazione bancaria
+  const updateBankingMutation = useMutation({
+    mutationFn: async (settings: Partial<BankingSettings>) => {
+      const response = await apiRequest("POST", "/api/admin/banking-settings", settings);
+      return response.json();
+    },
+    onSuccess: () => {
       toast({
-        variant: "destructive",
-        title: "Errore",
-        description: "L'IBAN dell'amministratore è obbligatorio",
+        title: "Impostazioni salvate",
+        description: "Le impostazioni bancarie sono state aggiornate con successo",
       });
-      return;
-    }
-
-    setIsSavingAdminConfig(true);
-
-    try {
-      const response = await fetch('/api/admin/config', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(adminBankingConfig),
-      });
-
-      if (response.ok) {
-        setIsAdminConfigDialogOpen(false);
-        toast({
-          title: "Successo",
-          description: "Configurazione bancaria salvata con successo",
-        });
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Errore durante il salvataggio della configurazione");
-      }
-    } catch (err: any) {
+      fetchBankingSettings();
+      triggerRefreshAfterSave('banking');
+    },
+    onError: () => {
       toast({
-        variant: "destructive",
         title: "Errore",
-        description: err.message || "Impossibile salvare la configurazione",
+        description: "Impossibile salvare le impostazioni bancarie",
+        variant: "destructive",
       });
-    } finally {
-      setIsSavingAdminConfig(false);
-    }
+    },
+  });
+
+  // Mutation per testare il sistema di pagamento
+  const testPaymentMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("POST", "/api/admin/test-payment");
+      return response.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Test completato",
+        description: data.message || "Il sistema di pagamento è configurato correttamente",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Test fallito",
+        description: "Verifica la configurazione dei dati bancari",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Handler per salvare configurazione bancaria
+  const handleSaveSettings = (formData: FormData) => {
+    const settings = {
+      bankName: formData.get('bankName') as string,
+      accountHolder: formData.get('accountHolder') as string,
+      iban: formData.get('iban') as string,
+      bic: formData.get('bic') as string,
+      address: formData.get('address') as string,
+      autoPayEnabled: formData.get('autoPayEnabled') === 'on',
+      paymentDelay: parseInt(formData.get('paymentDelay') as string) || 30,
+      minimumAmount: parseFloat(formData.get('minimumAmount') as string) || 1.0,
+      description: formData.get('description') as string,
+    };
+    updateBankingMutation.mutate(settings);
   };
 
   // Genera un badge per il tipo di licenza
@@ -219,16 +254,7 @@ export default function PaymentAdmin() {
     <div className="min-h-screen p-4 bg-slate-50 dark:bg-slate-900">
       <header className="mb-8 flex justify-between items-center">
         <h1 className="text-3xl font-bold">Dashboard Amministrazione Pagamenti</h1>
-        <div className="flex gap-3">
-          <Button 
-            onClick={() => setIsAdminConfigDialogOpen(true)}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            <Shield className="mr-2 h-4 w-4" />
-            Configurazione Bancaria
-          </Button>
-          <Button variant="outline" onClick={handleRefresh}>Aggiorna Dati</Button>
-        </div>
+        <Button variant="outline" onClick={handleRefresh}>Aggiorna Dati</Button>
       </header>
 
       {isLoading ? (
@@ -286,6 +312,10 @@ export default function PaymentAdmin() {
               <TabsTrigger value="payment-methods" className="flex items-center gap-1">
                 <Settings className="h-4 w-4" />
                 <span>Metodi di Pagamento</span>
+              </TabsTrigger>
+              <TabsTrigger value="banking-config" className="flex items-center gap-1 bg-green-50 text-green-700 data-[state=active]:bg-green-600 data-[state=active]:text-white">
+                <Shield className="h-4 w-4" />
+                <span>Configurazione Bancaria</span>
               </TabsTrigger>
             </TabsList>
             
@@ -521,137 +551,268 @@ export default function PaymentAdmin() {
             <TabsContent value="payment-methods">
               <PaymentMethodsConfig />
             </TabsContent>
+            
+            {/* Tab Configurazione Bancaria */}
+            <TabsContent value="banking-config">
+              {(() => {
+                const currentSettings = bankingSettings || {
+                  bankName: '',
+                  accountHolder: '',
+                  iban: '',
+                  bic: '',
+                  address: '',
+                  autoPayEnabled: false,
+                  paymentDelay: 30,
+                  minimumAmount: 1.0,
+                  description: 'Commissione referral sistema gestione appuntamenti',
+                  isConfigured: false,
+                };
+
+                return (
+                  <div className="space-y-6">
+                    {/* Alert informativo */}
+                    <Alert className="bg-green-50 border-green-200">
+                      <Shield className="h-4 w-4 text-green-700" />
+                      <AlertDescription className="text-green-800">
+                        Questi dati vengono utilizzati per elaborare automaticamente i pagamenti delle commissioni referral allo staff. 
+                        Tutti i dati sono crittografati e conservati in sicurezza.
+                      </AlertDescription>
+                    </Alert>
+
+                    <div className="grid gap-6 lg:grid-cols-2">
+                      {/* Configurazione dati bancari */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <CreditCard className="h-5 w-5" />
+                            Dati Bancari Admin
+                          </CardTitle>
+                          <CardDescription>
+                            IBAN aziendale dove ricevere i pagamenti dai clienti
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <form action={handleSaveSettings} className="space-y-4">
+                            <div className="grid gap-2">
+                              <Label htmlFor="bankName">Nome Banca</Label>
+                              <Input
+                                id="bankName"
+                                name="bankName"
+                                defaultValue={currentSettings.bankName}
+                                placeholder="es. Intesa Sanpaolo"
+                                required
+                              />
+                            </div>
+
+                            <div className="grid gap-2">
+                              <Label htmlFor="accountHolder">Intestatario Conto</Label>
+                              <Input
+                                id="accountHolder"
+                                name="accountHolder"
+                                defaultValue={currentSettings.accountHolder}
+                                placeholder="Nome e Cognome / Ragione Sociale"
+                                required
+                              />
+                            </div>
+
+                            <div className="grid gap-2">
+                              <div className="flex items-center justify-between">
+                                <Label htmlFor="iban">IBAN</Label>
+                                <Button 
+                                  type="button"
+                                  variant="ghost" 
+                                  size="sm"
+                                  onClick={() => setShowIban(!showIban)}
+                                >
+                                  {showIban ? "Nascondi" : "Mostra"}
+                                </Button>
+                              </div>
+                              <Input
+                                id="iban"
+                                name="iban"
+                                type={showIban ? "text" : "password"}
+                                defaultValue={currentSettings.iban}
+                                placeholder="IT60 X054 2811 1010 0000 0123 456"
+                                className="font-mono"
+                                required
+                              />
+                            </div>
+
+                            <div className="grid gap-2">
+                              <Label htmlFor="bic">BIC/SWIFT</Label>
+                              <Input
+                                id="bic"
+                                name="bic"
+                                defaultValue={currentSettings.bic}
+                                placeholder="es. BCITITMM"
+                              />
+                            </div>
+
+                            <div className="grid gap-2">
+                              <Label htmlFor="address">Indirizzo</Label>
+                              <Textarea
+                                id="address"
+                                name="address"
+                                defaultValue={currentSettings.address}
+                                placeholder="Indirizzo completo per fatturazione"
+                                rows={3}
+                              />
+                            </div>
+
+                            <Button 
+                              type="submit" 
+                              className="w-full bg-green-600 hover:bg-green-700"
+                              disabled={updateBankingMutation.isPending}
+                            >
+                              {updateBankingMutation.isPending ? "Salvando..." : "Salva Dati Bancari"}
+                            </Button>
+                          </form>
+                        </CardContent>
+                      </Card>
+
+                      {/* Configurazione pagamenti automatici */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <Settings className="h-5 w-5" />
+                            Pagamenti Automatici
+                          </CardTitle>
+                          <CardDescription>
+                            Configura le commissioni per i referral staff
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <form action={handleSaveSettings} className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <div className="space-y-0.5">
+                                <Label>Pagamenti Automatici</Label>
+                                <p className="text-sm text-muted-foreground">
+                                  Abilita i pagamenti automatici delle commissioni
+                                </p>
+                              </div>
+                              <Switch 
+                                name="autoPayEnabled"
+                                defaultChecked={currentSettings.autoPayEnabled}
+                              />
+                            </div>
+
+                            <Separator />
+
+                            <div className="grid gap-2">
+                              <Label htmlFor="paymentDelay">Ritardo Pagamento (giorni)</Label>
+                              <Input
+                                id="paymentDelay"
+                                name="paymentDelay"
+                                type="number"
+                                min="1"
+                                max="90"
+                                defaultValue={currentSettings.paymentDelay}
+                                placeholder="30"
+                              />
+                              <p className="text-sm text-muted-foreground">
+                                Giorni di attesa prima di processare il pagamento
+                              </p>
+                            </div>
+
+                            <div className="grid gap-2">
+                              <Label htmlFor="minimumAmount">Importo Minimo (€)</Label>
+                              <Input
+                                id="minimumAmount"
+                                name="minimumAmount"
+                                type="number"
+                                min="0.01"
+                                step="0.01"
+                                defaultValue={currentSettings.minimumAmount}
+                                placeholder="1.00"
+                              />
+                              <p className="text-sm text-muted-foreground">
+                                Importo minimo per processare un pagamento
+                              </p>
+                            </div>
+
+                            <div className="grid gap-2">
+                              <Label htmlFor="description">Descrizione Pagamento</Label>
+                              <Input
+                                id="description"
+                                name="description"
+                                defaultValue={currentSettings.description}
+                                placeholder="Descrizione che apparirà nei bonifici"
+                              />
+                            </div>
+
+                            <Button 
+                              type="submit" 
+                              variant="secondary" 
+                              className="w-full"
+                              disabled={updateBankingMutation.isPending}
+                            >
+                              {updateBankingMutation.isPending ? "Salvando..." : "Salva Configurazione"}
+                            </Button>
+                          </form>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Test e statistiche */}
+                    <div className="grid gap-6 lg:grid-cols-2">
+                      {/* Test sistema */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <Banknote className="h-5 w-5" />
+                            Test Sistema
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-sm text-muted-foreground">
+                            Verifica che la configurazione sia corretta eseguendo un test del sistema di pagamento.
+                          </p>
+                          
+                          <Button 
+                            onClick={() => testPaymentMutation.mutate()}
+                            disabled={testPaymentMutation.isPending || !currentSettings.isConfigured}
+                            className="w-full"
+                          >
+                            {testPaymentMutation.isPending ? "Test in corso..." : "Testa Configurazione"}
+                          </Button>
+                        </CardContent>
+                      </Card>
+
+                      {/* Riepilogo commissioni */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2">
+                            <Euro className="h-5 w-5" />
+                            Riepilogo Commissioni
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4 text-center">
+                            <div className="space-y-1">
+                              <div className="text-2xl font-bold text-green-600">10%</div>
+                              <div className="text-sm text-muted-foreground">Per abbonamento</div>
+                            </div>
+                            <div className="space-y-1">
+                              <div className="text-2xl font-bold text-blue-600">{currentSettings.paymentDelay}</div>
+                              <div className="text-sm text-muted-foreground">Giorni di attesa</div>
+                            </div>
+                          </div>
+                          
+                          <Separator />
+                          
+                          <div className="text-sm text-muted-foreground">
+                            Le commissioni vengono pagate automaticamente {currentSettings.paymentDelay} giorni dopo ogni abbonamento sponsorizzato.
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                );
+              })()}
+            </TabsContent>
           </Tabs>
         </div>
       )}
-
-      {/* Dialog Configurazione Bancaria Admin */}
-      <Dialog open={isAdminConfigDialogOpen} onOpenChange={setIsAdminConfigDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-blue-600" />
-              Configurazione Bancaria Admin
-            </DialogTitle>
-            <DialogDescription>
-              Configura i dati bancari aziendali dove ricevere i pagamenti dai clienti
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-6 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="adminIban">IBAN Aziendale *</Label>
-              <Input
-                id="adminIban"
-                value={adminBankingConfig.adminIban}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  adminIban: e.target.value
-                }))}
-                placeholder="IT60 X054 2811 1010 0000 0123 456"
-                className="font-mono"
-              />
-              <p className="text-sm text-muted-foreground">
-                Su questo IBAN riceverai i pagamenti dei clienti via Stripe/PayPal
-              </p>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="adminBank">Banca</Label>
-              <Input
-                id="adminBank"
-                value={adminBankingConfig.adminBank}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  adminBank: e.target.value
-                }))}
-                placeholder="Nome della banca"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="adminAccountHolder">Intestatario Conto</Label>
-              <Input
-                id="adminAccountHolder"
-                value={adminBankingConfig.adminAccountHolder}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  adminAccountHolder: e.target.value
-                }))}
-                placeholder="Nome completo intestatario"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="paymentApiKey">API Key Pagamenti (opzionale)</Label>
-              <Input
-                id="paymentApiKey"
-                type="password"
-                value={adminBankingConfig.paymentApiKey}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  paymentApiKey: e.target.value
-                }))}
-                placeholder="API key per servizio bonifici automatici"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="dailyLimit">Limite Giornaliero (€)</Label>
-              <Input
-                id="dailyLimit"
-                type="number"
-                value={adminBankingConfig.dailyLimit}
-                onChange={(e) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  dailyLimit: parseFloat(e.target.value) || 0
-                }))}
-                placeholder="500"
-              />
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="autoPaymentsEnabled"
-                checked={adminBankingConfig.autoPaymentsEnabled}
-                onCheckedChange={(checked) => setAdminBankingConfig(prev => ({
-                  ...prev,
-                  autoPaymentsEnabled: checked as boolean
-                }))}
-              />
-              <Label htmlFor="autoPaymentsEnabled">
-                Abilita pagamenti automatici (futuro)
-              </Label>
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsAdminConfigDialogOpen(false)}
-              disabled={isSavingAdminConfig}
-            >
-              Annulla
-            </Button>
-            <Button
-              onClick={saveAdminConfig}
-              disabled={isSavingAdminConfig || !adminBankingConfig.adminIban}
-            >
-              {isSavingAdminConfig ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Salvataggio...
-                </>
-              ) : (
-                <>
-                  <Shield className="mr-2 h-4 w-4" />
-                  Salva Configurazione
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
