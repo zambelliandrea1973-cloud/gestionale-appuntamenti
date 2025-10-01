@@ -3,6 +3,7 @@ import { Appointment, NotificationSettings } from '@shared/schema';
 import { storage } from '../storage';
 import { notificationSettingsService } from './notificationSettingsService';
 import nodemailer from 'nodemailer';
+import { loadStorageData, saveStorageData } from '../utils/jsonStorage';
 
 const messagesPendingDelivery = new Map<string, boolean>();
 
@@ -202,17 +203,26 @@ export const directNotificationService = {
     scheduledFor?: Date
   ): Promise<boolean> {
     try {
-      await storage.createNotification({
+      // MIGRATO A JSON: Salva su adminNotifications invece di PostgreSQL
+      const storageData = loadStorageData();
+      
+      if (!storageData.adminNotifications) {
+        storageData.adminNotifications = [];
+      }
+      
+      storageData.adminNotifications.push({
+        id: Date.now(),
         clientId,
         appointmentId,
         type,
         message,
-        isRead: false,
-        channel: 'app',
-        scheduledFor: scheduledFor || new Date(),
+        timestamp: (scheduledFor || new Date()).toISOString(),
+        read: false,
+        channel: 'app'
       });
       
-      console.log(`Notifica aggiunta al centro notifiche per il cliente ${clientId}`);
+      saveStorageData(storageData);
+      console.log(`✅ Notifica aggiunta al centro notifiche JSON per il cliente ${clientId}`);
       return true;
     } catch (error) {
       console.error('Errore nell\'aggiunta della notifica al centro notifiche:', error);
