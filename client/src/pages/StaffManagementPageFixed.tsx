@@ -54,6 +54,7 @@ export default function StaffManagementPageFixed() {
   
   // Stati per i dialogs
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<StaffUser | null>(null);
   
@@ -63,6 +64,13 @@ export default function StaffManagementPageFixed() {
     password: "",
     email: "",
     role: "staff"
+  });
+  
+  // Form state per modifica staff
+  const [editStaff, setEditStaff] = useState({
+    username: "",
+    password: "",
+    email: ""
   });
 
   const { data: staffUsers = [], isLoading, error } = useQuery({
@@ -88,6 +96,31 @@ export default function StaffManagementPageFixed() {
       toast({
         title: "Errore",
         description: error.message || "Impossibile creare lo staff",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Mutation per modificare staff
+  const editStaffMutation = useMutation({
+    mutationFn: async ({ userId, data }: { userId: number; data: typeof editStaff }) => {
+      const res = await apiRequest('PATCH', `/api/staff/${userId}`, data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
+      toast({
+        title: "Staff aggiornato",
+        description: "Le informazioni sono state modificate con successo",
+      });
+      setIsEditDialogOpen(false);
+      setSelectedStaff(null);
+      setEditStaff({ username: "", password: "", email: "" });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Errore",
+        description: error.message || "Impossibile modificare lo staff",
         variant: "destructive",
       });
     }
@@ -133,6 +166,34 @@ export default function StaffManagementPageFixed() {
       return;
     }
     createStaffMutation.mutate(newStaff);
+  };
+
+  const handleOpenEditDialog = (staff: StaffUser) => {
+    setSelectedStaff(staff);
+    setEditStaff({
+      username: staff.username,
+      password: "",
+      email: staff.email || ""
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditStaff = () => {
+    if (!selectedStaff) return;
+    
+    if (!editStaff.username) {
+      toast({
+        title: "Campo obbligatorio",
+        description: "Lo username è obbligatorio",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    editStaffMutation.mutate({ 
+      userId: selectedStaff.id, 
+      data: editStaff 
+    });
   };
 
   const handleDeleteStaff = () => {
@@ -321,11 +382,11 @@ export default function StaffManagementPageFixed() {
                         <DropdownMenuLabel>Azioni</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                          onClick={() => setLocation(`/staff/${user.id}`)}
-                          data-testid={`menu-view-staff-${user.id}`}
+                          onClick={() => handleOpenEditDialog(user)}
+                          data-testid={`menu-edit-staff-${user.id}`}
                         >
                           <Edit className="h-4 w-4 mr-2" />
-                          Visualizza/Modifica
+                          Modifica
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => {
@@ -380,6 +441,77 @@ export default function StaffManagementPageFixed() {
           </div>
         )}
       </div>
+
+      {/* Dialog per modificare staff */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Modifica Staff: {selectedStaff?.username}</DialogTitle>
+            <DialogDescription>
+              Modifica le informazioni del membro dello staff. Lascia la password vuota per mantenerla invariata.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="edit-username">Username *</Label>
+              <Input
+                id="edit-username"
+                data-testid="input-edit-staff-username"
+                placeholder="username.staff"
+                value={editStaff.username}
+                onChange={(e) => setEditStaff({ ...editStaff, username: e.target.value })}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-email">Email</Label>
+              <Input
+                id="edit-email"
+                data-testid="input-edit-staff-email"
+                type="email"
+                placeholder="staff@example.com"
+                value={editStaff.email}
+                onChange={(e) => setEditStaff({ ...editStaff, email: e.target.value })}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-password">Nuova Password</Label>
+              <Input
+                id="edit-password"
+                data-testid="input-edit-staff-password"
+                type="password"
+                placeholder="Lascia vuoto per non cambiare"
+                value={editStaff.password}
+                onChange={(e) => setEditStaff({ ...editStaff, password: e.target.value })}
+              />
+              <p className="text-xs text-muted-foreground">
+                Lascia vuoto se non vuoi modificare la password
+              </p>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-2">
+              <p className="text-sm text-green-800">
+                ✅ <strong>Accesso PRO:</strong> Questo staff mantiene l'accesso completo PRO gratuito
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditDialogOpen(false)}
+              disabled={editStaffMutation.isPending}
+              data-testid="button-cancel-edit-staff"
+            >
+              Annulla
+            </Button>
+            <Button
+              onClick={handleEditStaff}
+              disabled={editStaffMutation.isPending}
+              data-testid="button-confirm-edit-staff"
+            >
+              {editStaffMutation.isPending ? "Salvataggio..." : "Salva Modifiche"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Alert Dialog per conferma eliminazione */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
