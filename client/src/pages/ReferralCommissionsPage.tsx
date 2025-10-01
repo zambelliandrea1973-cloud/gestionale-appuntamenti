@@ -64,7 +64,7 @@ export default function ReferralCommissionsPage() {
     data: staffCommissions, 
     isLoading: commissionsLoading 
   } = useQuery<StaffCommission[]>({
-    queryKey: ['/api/staff-commissions', selectedStaffId],
+    queryKey: [`/api/staff-commissions/${selectedStaffId}`],
     enabled: !!selectedStaffId && user?.type === 'admin'
   });
 
