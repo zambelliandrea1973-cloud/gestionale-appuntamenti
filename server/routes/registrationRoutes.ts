@@ -14,11 +14,23 @@ export default function setupRegistrationRoutes(app: Express) {
   // Endpoint per la registrazione di nuovi utenti cliente
   app.post("/api/register", async (req, res) => {
     try {
-      const { name, email, username, password } = req.body;
+      const { name, email, username, password, referralCode } = req.body;
       
       // Verifica che tutti i campi necessari siano presenti
       if (!name || !email || !username || !password) {
         return res.status(400).json({ message: "Tutti i campi sono obbligatori" });
+      }
+      
+      // Verifica codice referral se fornito
+      let referrerStaff = null;
+      if (referralCode && referralCode.trim() !== '') {
+        referrerStaff = await storage.getUserByReferralCode(referralCode.trim());
+        if (!referrerStaff) {
+          console.log(`⚠️ Codice referral non valido: ${referralCode}`);
+          // Non blocchiamo la registrazione, semplicemente ignoriamo il codice
+        } else {
+          console.log(`✅ Codice referral valido! Sponsor: ${referrerStaff.username} (${referrerStaff.id})`);
+        }
       }
       
       // Verifica se l'username è già in uso
@@ -38,14 +50,19 @@ export default function setupRegistrationRoutes(app: Express) {
       // Crea l'hash della password
       const hashedPassword = await hashPassword(password);
       
-      // Crea il nuovo utente
+      // Crea il nuovo utente (con referral se presente)
       const newUser = await storage.createUser({
         username,
         email,
         password: hashedPassword,
         role: 'user', // I nuovi utenti hanno il ruolo 'user' di default
-        type: 'customer' // Tutti i nuovi utenti sono 'customer' di default, solo admin può promuovere a 'staff'
+        type: 'customer', // Tutti i nuovi utenti sono 'customer' di default, solo admin può promuovere a 'staff'
+        referredBy: referrerStaff?.id || null // Assegna sponsor se presente
       });
+      
+      if (referrerStaff) {
+        console.log(`🎉 REFERRAL TRACCIATO: ${newUser.username} sponsorizzato da ${referrerStaff.username}`);
+      }
       
       console.log(`Nuovo utente registrato: ${username} (${email})`);
       
