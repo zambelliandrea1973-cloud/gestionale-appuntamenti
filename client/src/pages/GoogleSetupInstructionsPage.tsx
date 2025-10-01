@@ -14,14 +14,22 @@ import {
 } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Calendar, ExternalLink, Check, CopyIcon, RefreshCw } from "lucide-react";
+import { Calendar, ExternalLink, Check, CopyIcon, RefreshCw, Lock } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { useCapabilities } from "@/hooks/use-capabilities";
+import { UpgradePrompt } from "@/components/UpgradePrompt";
 
 export default function GoogleSetupInstructionsPage() {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { hasCapability, getUpgradeMessage } = useCapabilities();
+  const [showUpgradePrompt, setShowUpgradePrompt] = React.useState(false);
   const [testingStatus, setTestingStatus] = React.useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const callbackUrl = 'https://workspace.replit.app/api/google-auth/callback';
+
+  // Verifica accesso a Google Calendar (solo PRO+)
+  const canAccessGoogleCal = hasCapability('google_calendar');
+  const upgradeMessage = getUpgradeMessage('google_calendar');
 
   // Funzione per copiare l'URL negli appunti
   const copyToClipboard = (text: string) => {
@@ -99,6 +107,40 @@ export default function GoogleSetupInstructionsPage() {
       });
     }
   };
+
+  // Se non ha accesso a Google Calendar, mostra UI bloccata
+  if (!canAccessGoogleCal) {
+    return (
+      <>
+        <div className="container mx-auto py-6 space-y-6">
+          <Card className="border-2 border-purple-200 bg-purple-50/50">
+            <CardContent className="text-center py-12">
+              <Lock className="h-16 w-16 mx-auto text-purple-600 mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Google Calendar Non Disponibile</h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                L'integrazione con Google Calendar è disponibile solo nei piani <span className="font-bold text-purple-700">Pro</span> e <span className="font-bold text-purple-700">Business</span>.
+              </p>
+              <Button 
+                onClick={() => setShowUpgradePrompt(true)}
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                data-testid="button-upgrade-google"
+              >
+                Passa a Pro
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <UpgradePrompt
+          open={showUpgradePrompt}
+          onOpenChange={setShowUpgradePrompt}
+          title={upgradeMessage.title}
+          description={upgradeMessage.description}
+          requiredPlan={upgradeMessage.requiredPlan}
+        />
+      </>
+    );
+  }
 
   return (
     <div className="container py-8 max-w-4xl">

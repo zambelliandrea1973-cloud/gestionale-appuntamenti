@@ -10,7 +10,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Home, Plus, Edit, Trash2, Palette } from "lucide-react";
+import { Home, Plus, Edit, Trash2, Palette, Lock } from "lucide-react";
+import { useCapabilities } from "@/hooks/use-capabilities";
+import { UpgradePrompt } from "@/components/UpgradePrompt";
 
 interface TreatmentRoom {
   id: number;
@@ -28,6 +30,8 @@ const PRESET_COLORS = [
 
 export default function TreatmentRoomsPage() {
   const { toast } = useToast();
+  const { hasCapability, getUpgradeMessage } = useCapabilities();
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingRoom, setEditingRoom] = useState<TreatmentRoom | null>(null);
   const [deletingRoom, setDeletingRoom] = useState<TreatmentRoom | null>(null);
@@ -37,6 +41,10 @@ export default function TreatmentRoomsPage() {
     color: "#3f51b5",
     isActive: true
   });
+
+  // Verifica accesso a Treatment Rooms (solo BUSINESS)
+  const canAccessRooms = hasCapability('staff_rooms');
+  const upgradeMessage = getUpgradeMessage('staff_rooms');
 
   // Query per recuperare stanze
   const { data: rooms = [], isLoading, refetch } = useQuery({
@@ -146,6 +154,40 @@ export default function TreatmentRoomsPage() {
     );
   }
 
+  // Se non ha accesso alle Stanze, mostra UI bloccata
+  if (!canAccessRooms) {
+    return (
+      <>
+        <div className="container mx-auto py-6 space-y-6">
+          <Card className="border-2 border-yellow-200 bg-yellow-50/50">
+            <CardContent className="text-center py-12">
+              <Lock className="h-16 w-16 mx-auto text-yellow-600 mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Gestione Stanze Non Disponibile</h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                La gestione di stanze e cabine è disponibile solo nel piano <span className="font-bold text-yellow-700">Business</span>.
+              </p>
+              <Button 
+                onClick={() => setShowUpgradePrompt(true)}
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                data-testid="button-upgrade-rooms"
+              >
+                Passa a Business
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <UpgradePrompt
+          open={showUpgradePrompt}
+          onOpenChange={setShowUpgradePrompt}
+          title={upgradeMessage.title}
+          description={upgradeMessage.description}
+          requiredPlan={upgradeMessage.requiredPlan}
+        />
+      </>
+    );
+  }
+
   return (
     <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
@@ -162,6 +204,7 @@ export default function TreatmentRoomsPage() {
             setShowAddDialog(true);
           }}
           className="bg-green-600 hover:bg-green-700"
+          data-testid="button-add-room"
         >
           <Plus className="h-4 w-4 mr-2" />
           Aggiungi Stanza

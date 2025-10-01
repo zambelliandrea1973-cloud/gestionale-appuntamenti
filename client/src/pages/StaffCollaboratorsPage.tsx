@@ -9,7 +9,9 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Users, UserPlus, Edit, Trash2, Phone, Mail, Award } from "lucide-react";
+import { Users, UserPlus, Edit, Trash2, Phone, Mail, Award, Lock } from "lucide-react";
+import { useCapabilities } from "@/hooks/use-capabilities";
+import { UpgradePrompt } from "@/components/UpgradePrompt";
 
 interface Collaborator {
   id: number;
@@ -24,6 +26,8 @@ interface Collaborator {
 
 export default function StaffCollaboratorsPage() {
   const { toast } = useToast();
+  const { hasCapability, getUpgradeMessage } = useCapabilities();
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingCollaborator, setEditingCollaborator] = useState<Collaborator | null>(null);
   const [deletingCollaborator, setDeletingCollaborator] = useState<Collaborator | null>(null);
@@ -35,6 +39,10 @@ export default function StaffCollaboratorsPage() {
     specialization: "",
     isActive: true
   });
+
+  // Verifica accesso a Staff Management (solo BUSINESS)
+  const canAccessStaff = hasCapability('staff_rooms');
+  const upgradeMessage = getUpgradeMessage('staff_rooms');
 
   // Query per recuperare collaboratori
   const { data: collaborators = [], isLoading, refetch } = useQuery({
@@ -148,6 +156,40 @@ export default function StaffCollaboratorsPage() {
     );
   }
 
+  // Se non ha accesso a Staff Management, mostra UI bloccata
+  if (!canAccessStaff) {
+    return (
+      <>
+        <div className="container mx-auto py-6 space-y-6">
+          <Card className="border-2 border-yellow-200 bg-yellow-50/50">
+            <CardContent className="text-center py-12">
+              <Lock className="h-16 w-16 mx-auto text-yellow-600 mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Gestione Staff Non Disponibile</h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                La gestione di collaboratori e stanze è disponibile solo nel piano <span className="font-bold text-yellow-700">Business</span>.
+              </p>
+              <Button 
+                onClick={() => setShowUpgradePrompt(true)}
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                data-testid="button-upgrade-staff"
+              >
+                Passa a Business
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <UpgradePrompt
+          open={showUpgradePrompt}
+          onOpenChange={setShowUpgradePrompt}
+          title={upgradeMessage.title}
+          description={upgradeMessage.description}
+          requiredPlan={upgradeMessage.requiredPlan}
+        />
+      </>
+    );
+  }
+
   return (
     <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
@@ -164,6 +206,7 @@ export default function StaffCollaboratorsPage() {
             setShowAddDialog(true);
           }}
           className="bg-blue-600 hover:bg-blue-700"
+          data-testid="button-add-staff"
         >
           <UserPlus className="h-4 w-4 mr-2" />
           Aggiungi Collaboratore
