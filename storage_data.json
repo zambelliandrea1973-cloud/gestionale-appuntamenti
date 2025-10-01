@@ -8103,6 +8103,17 @@
         "originalDefaultId": 7
       }
     ],
+    "9": [
+      {
+        "id": 1759318197759,
+        "ownerId": 9,
+        "name": "pedicure",
+        "duration": 60,
+        "price": 20,
+        "color": "#3b82f6",
+        "description": ""
+      }
+    ],
     "14": [
       {
         "id": 1750225060109,
@@ -8692,6 +8703,23 @@
         "endTime": "17:00:00",
         "notes": "",
         "createdAt": "2025-09-29T16:08:00.487Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759318266861,
+      {
+        "id": 1759318266861,
+        "clientId": 9001,
+        "serviceId": 1759318197759,
+        "staffId": null,
+        "roomId": null,
+        "date": "2025-10-02",
+        "startTime": "10:00:00",
+        "endTime": "11:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-01T11:31:06.861Z",
         "reminderStatus": "sent"
       }
     ]
