@@ -133,7 +133,7 @@ export default function setupStaffRoutes(app: Express) {
       
       // Dati da aggiornare
       const updateData: any = {};
-      const { username, email, password } = req.body;
+      const { username, email, password, role } = req.body;
       
       // Controlla se l'username è stato fornito e se è cambiato
       if (username && username !== user.username) {
@@ -153,6 +153,11 @@ export default function setupStaffRoutes(app: Express) {
       // Aggiorna la password se fornita
       if (password) {
         updateData.password = await hashPassword(password);
+      }
+      
+      // Aggiorna il ruolo se fornito (solo admin può modificare ruoli)
+      if (role !== undefined && (role === 'admin' || role === 'staff')) {
+        updateData.role = role;
       }
       
       // Verifica che ci sia almeno un campo da aggiornare

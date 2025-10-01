@@ -70,7 +70,8 @@ export default function StaffManagementPageFixed() {
   const [editStaff, setEditStaff] = useState({
     username: "",
     password: "",
-    email: ""
+    email: "",
+    role: "staff"
   });
 
   const { data: staffUsers = [], isLoading, error } = useQuery({
@@ -115,7 +116,7 @@ export default function StaffManagementPageFixed() {
       });
       setIsEditDialogOpen(false);
       setSelectedStaff(null);
-      setEditStaff({ username: "", password: "", email: "" });
+      setEditStaff({ username: "", password: "", email: "", role: "staff" });
     },
     onError: (error: any) => {
       toast({
@@ -173,7 +174,8 @@ export default function StaffManagementPageFixed() {
     setEditStaff({
       username: staff.username,
       password: "",
-      email: staff.email || ""
+      email: staff.email || "",
+      role: staff.role || "staff"
     });
     setIsEditDialogOpen(true);
   };
@@ -485,6 +487,22 @@ export default function StaffManagementPageFixed() {
               />
               <p className="text-xs text-muted-foreground">
                 Lascia vuoto se non vuoi modificare la password
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="edit-role">Ruolo</Label>
+              <select
+                id="edit-role"
+                data-testid="select-edit-staff-role"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+                value={editStaff.role}
+                onChange={(e) => setEditStaff({ ...editStaff, role: e.target.value })}
+              >
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
+              <p className="text-xs text-muted-foreground">
+                Admin ha accesso completo, Staff ha accesso PRO con funzionalità limitate
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-2">
