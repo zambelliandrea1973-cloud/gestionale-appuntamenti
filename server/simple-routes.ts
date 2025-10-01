@@ -2780,6 +2780,52 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Endpoint Tutte le Commissioni - Solo per admin
+  app.get("/api/staff-commissions/all", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alle commissioni staff" });
+    }
+    
+    try {
+      const storageData = loadStorageData();
+      const referralCommissions = storageData.referralCommissions || [];
+      
+      // Arricchisci TUTTE le commissioni con dati utente e staff
+      const allCommissions = await Promise.all(
+        referralCommissions.map(async (commission) => {
+          // Recupera dati dell'utente sponsorizzato (referred)
+          const referredUser = await storage.getUser(commission.referredId);
+          const subscription = await storage.getSubscriptionByUserId(commission.referredId);
+          
+          // Recupera dati dello staff (referrer)
+          const staffUser = await storage.getUser(commission.referrerId);
+          
+          return {
+            id: commission.id,
+            commissionAmount: commission.monthlyAmount || 0,
+            isPaid: commission.isPaid || false,
+            paidAt: commission.paidAt || null,
+            createdAt: commission.createdAt || commission.startDate || new Date().toISOString(),
+            notes: commission.notes || null,
+            licenseCode: subscription?.licenseCode || `REF-${commission.id}`,
+            licenseType: subscription?.licenseType || 'business',
+            customerEmail: referredUser?.email || referredUser?.username || 'cliente@email.com',
+            staffName: `${staffUser?.firstName || ''} ${staffUser?.lastName || ''}`.trim() || staffUser?.username || 'Staff',
+            staffEmail: staffUser?.email || staffUser?.username || 'staff@email.com'
+          };
+        })
+      );
+      
+      res.json(allCommissions);
+    } catch (error) {
+      console.error('Errore nel caricamento di tutte le commissioni:', error);
+      res.status(500).json({ message: "Errore nel caricamento delle commissioni" });
+    }
+  });
+
   // Endpoint Commissioni Staff - Solo per admin
   app.get("/api/staff-commissions/:staffId", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });

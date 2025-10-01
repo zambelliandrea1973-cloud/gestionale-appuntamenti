@@ -22,6 +22,8 @@ interface StaffCommission {
   licenseCode: string;
   licenseType: string;
   customerEmail: string;
+  staffName?: string;
+  staffEmail?: string;
 }
 
 interface ReferralOverview {
@@ -60,13 +62,15 @@ export default function ReferralCommissionsPage() {
     enabled: user?.type === 'admin'
   });
 
-  // Query per commissioni dettagliate di uno staff specifico
+  // Query per commissioni dettagliate (uno staff specifico o tutti)
   const { 
     data: staffCommissions, 
     isLoading: commissionsLoading 
   } = useQuery<StaffCommission[]>({
-    queryKey: [`/api/staff-commissions/${selectedStaffId}`],
-    enabled: !!selectedStaffId && user?.type === 'admin'
+    queryKey: selectedStaffId 
+      ? [`/api/staff-commissions/${selectedStaffId}`] 
+      : ['/api/staff-commissions/all'],
+    enabled: user?.type === 'admin'
   });
 
   // Mutation per segnare commissione come pagata
@@ -236,15 +240,11 @@ export default function ReferralCommissionsPage() {
                   <CardDescription>
                     {selectedStaffId 
                       ? `Commissioni per lo staff selezionato` 
-                      : "Seleziona uno staff dalla panoramica per vedere le commissioni dettagliate"}
+                      : "Tutte le commissioni di tutti gli staff"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {!selectedStaffId ? (
-                    <div className="text-center p-8 text-gray-500">
-                      Seleziona uno staff dalla scheda "Panoramica Staff" per vedere le commissioni dettagliate
-                    </div>
-                  ) : commissionsLoading ? (
+                  {commissionsLoading ? (
                     <div className="text-center p-8">Caricamento commissioni...</div>
                   ) : staffCommissions && staffCommissions.length > 0 ? (
                     <div className="space-y-4">
@@ -261,6 +261,11 @@ export default function ReferralCommissionsPage() {
                                 </span>
                               </div>
                               <p className="font-medium">{commission.customerEmail}</p>
+                              {!selectedStaffId && commission.staffName && (
+                                <p className="text-sm font-medium text-blue-600 mt-1">
+                                  Staff: {commission.staffName}
+                                </p>
+                              )}
                               <p className="text-sm text-gray-600">
                                 Creata: {format(new Date(commission.createdAt), 'dd MMMM yyyy', { locale: it })}
                               </p>
