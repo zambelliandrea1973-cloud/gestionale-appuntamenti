@@ -2801,7 +2801,7 @@ export function registerSimpleRoutes(app: Express): Server {
           .map(async (commission) => {
             // Recupera dati dell'utente sponsorizzato (referred)
             const referredUser = await storage.getUser(commission.referredId);
-            const subscription = await storage.getActiveSubscriptionByUserId(commission.referredId);
+            const subscription = await storage.getSubscriptionByUserId(commission.referredId);
             
             return {
               id: commission.id,
