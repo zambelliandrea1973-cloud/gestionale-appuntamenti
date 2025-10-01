@@ -1,7 +1,7 @@
-import OpenAI from 'openai';
+import { GoogleGenAI } from '@google/genai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+const genai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY || ''
 });
 
 interface ChatMessage {
@@ -67,17 +67,24 @@ Per suggerimenti generali, fornisci consigli pratici e applicabili.`
       ...request.messages
     ];
 
-    // Chiama OpenAI GPT-4o
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
-      messages: messages,
-      temperature: 0.7,
-      max_tokens: 1000
+    // Chiama Google Gemini
+    const prompt = messages.map(m => {
+      if (m.role === 'system') return m.content;
+      return `${m.role === 'user' ? 'Utente' : 'Assistente'}: ${m.content}`;
+    }).join('\n\n');
+
+    const response = await genai.models.generateContent({
+      model: 'gemini-2.0-flash-exp',
+      contents: prompt,
+      config: {
+        temperature: 0.7,
+        maxOutputTokens: 1000
+      }
     });
 
-    const aiMessage = completion.choices[0]?.message?.content || 'Mi dispiace, non sono riuscito a processare la richiesta.';
+    const aiMessage = response.text || 'Mi dispiace, non sono riuscito a processare la richiesta.';
     
-    console.log('✅ [AI CHAT] Risposta ricevuta da OpenAI');
+    console.log('✅ [AI CHAT] Risposta ricevuta da Gemini');
 
     // Analizza l'intento dalla risposta
     const intent = detectIntent(request.messages[request.messages.length - 1].content, aiMessage);
@@ -174,20 +181,18 @@ function extractMessagePreview(aiResponse: string): AIResponse['preview'] | unde
  * (Funzionalità futura con web browsing)
  */
 export async function searchOnlineInfo(query: string): Promise<string> {
-  // Per ora, delega a OpenAI che può usare le sue conoscenze
-  // In futuro, potremmo integrare una API di ricerca web reale
+  // Delega a Gemini per la ricerca di informazioni
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
-      messages: [{
-        role: 'user',
-        content: `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`
-      }],
-      temperature: 0.5,
-      max_tokens: 800
+    const response = await genai.models.generateContent({
+      model: 'gemini-2.0-flash-exp',
+      contents: `Cerca informazioni su: ${query}. Fornisci una risposta concisa e utile basata sulle tue conoscenze.`,
+      config: {
+        temperature: 0.5,
+        maxOutputTokens: 800
+      }
     });
 
-    return completion.choices[0]?.message?.content || 'Nessuna informazione trovata.';
+    return response.text || 'Nessuna informazione trovata.';
   } catch (error) {
     console.error('❌ [AI SEARCH] Errore ricerca:', error);
     return 'Mi dispiace, non sono riuscito a trovare informazioni al momento.';
