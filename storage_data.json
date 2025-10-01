@@ -12,8 +12,8 @@
         "accessCount": 3,
         "lastAccess": "2025-06-16T14:28:58.656Z",
         "ownerId": 3,
-        "uniqueCode": "PROF_003_0003_CLIENT_1_0001",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C00001",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -33,8 +33,8 @@
         "id": 2,
         "createdAt": "2025-04-02T16:43:36.683Z",
         "ownerId": 3,
-        "uniqueCode": "PROF_003_0003_CLIENT_2_0002",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C00002",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -268,8 +268,8 @@
         "ownerId": 3,
         "id": 266,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_266_0266",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C00266",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -289,8 +289,8 @@
         "ownerId": 3,
         "id": 267,
         "createdAt": "2025-06-03T13:34:58.646Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_267_0267",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C00267",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -520,8 +520,8 @@
         "medicalNotes": "",
         "allergies": "",
         "hasConsent": false,
-        "uniqueCode": "PROF_003_0003_CLIENT_3001_7314",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03001",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -544,8 +544,8 @@
         "hasConsent": true,
         "assignmentCode": null,
         "createdAt": "2025-06-11T18:50:38.110Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3002_7315",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03002",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -568,8 +568,8 @@
         "hasConsent": true,
         "assignmentCode": null,
         "createdAt": "2025-06-11T18:50:38.111Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3003_7316",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03003",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -592,8 +592,8 @@
         "hasConsent": true,
         "assignmentCode": null,
         "createdAt": "2025-06-11T18:50:38.111Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3004_7317",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03004",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -616,8 +616,8 @@
         "hasConsent": true,
         "assignmentCode": null,
         "createdAt": "2025-06-11T18:50:38.111Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3005_7318",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03005",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -639,8 +639,8 @@
         "originalOwnerId": 1,
         "id": 3006,
         "createdAt": "2025-06-11T18:54:21.929Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3006_7319",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03006",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -662,8 +662,8 @@
         "originalOwnerId": 2,
         "id": 3007,
         "createdAt": "2025-06-11T18:54:21.930Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3007_7320",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03007",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -685,8 +685,8 @@
         "originalOwnerId": 4,
         "id": 3008,
         "createdAt": "2025-06-11T18:54:21.930Z",
-        "uniqueCode": "PROF_003_0003_CLIENT_3008_7321",
-        "professionistCode": "PROF_003_0003"
+        "uniqueCode": "PROF_003_4678_C03008",
+        "professionistCode": "PROF_003_4678"
       }
     ],
     [
@@ -8746,6 +8746,7 @@
   "professionistCodes": {
     "3": "PROF_003_4678",
     "9": "PROF_009_9D95",
+    "12": "PROF_012",
     "14": "PROF_014_9C1F",
     "16": "PROF_016_B17E"
   },
