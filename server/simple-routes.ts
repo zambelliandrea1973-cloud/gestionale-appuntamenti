@@ -14,6 +14,7 @@ import notificationRoutes from './routes/notificationRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
 import contactSettingsRoutes from './routes/contactSettingsRoutes';
 import inventoryRoutes from './inventory-routes';
+import adminLicenseRoutes from './routes/adminLicenseRoutes';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -176,6 +177,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/direct-phone', directPhoneRoutes);
   app.use('/api/contact-settings', contactSettingsRoutes);
   app.use('/api/inventory', inventoryRoutes);
+  app.use('/api/admin-license', adminLicenseRoutes);
 
   // Sistema lineare semplice - Servizi dell'utente  
   app.get("/api/services", async (req, res) => {
