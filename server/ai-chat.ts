@@ -58,7 +58,7 @@ Se riconosci una richiesta di generazione messaggio, rispondi SEMPRE con JSON ne
 {"type": "message_preview", "content": "Il tuo messaggio qui", "recipient": "chi lo riceve"}
 
 Per ricerche online, indica chiaramente che stai cercando informazioni.
-Per suggerimenti generali, fornisci consigli pratici e applicabili.`;
+Per suggerimenti generali, fornisci consigli pratici e applicabili.`
     };
 
     // Prepara i messaggi per OpenAI
