@@ -177,7 +177,18 @@ export default function StaffManagementPageFixed() {
       email: staff.email || "",
       role: staff.role || "staff"
     });
-    setIsEditDialogOpen(true);
+    // Piccolo delay per permettere al dropdown di chiudersi prima di aprire il dialog
+    setTimeout(() => {
+      setIsEditDialogOpen(true);
+    }, 100);
+  };
+
+  const handleOpenDeleteDialog = (staff: StaffUser) => {
+    setSelectedStaff(staff);
+    // Piccolo delay per permettere al dropdown di chiudersi prima di aprire il dialog
+    setTimeout(() => {
+      setIsDeleteDialogOpen(true);
+    }, 100);
   };
 
   const handleEditStaff = () => {
@@ -396,10 +407,7 @@ export default function StaffManagementPageFixed() {
                           Modifica
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => {
-                            setSelectedStaff(user);
-                            setIsDeleteDialogOpen(true);
-                          }}
+                          onClick={() => handleOpenDeleteDialog(user)}
                           className="text-red-600 focus:text-red-600"
                           data-testid={`menu-delete-staff-${user.id}`}
                         >
