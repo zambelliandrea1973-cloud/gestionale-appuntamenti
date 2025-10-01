@@ -249,14 +249,6 @@ export default function StaffManagementPageFixed() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Button 
-              onClick={() => setLocation('/banking-settings')}
-              className="bg-green-600 hover:bg-green-700 text-white"
-            >
-              <Banknote className="h-4 w-4 mr-2" />
-              Configurazione Bancaria
-            </Button>
-            
             {/* Dialog per creare nuovo staff */}
             <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
               <DialogTrigger asChild>
