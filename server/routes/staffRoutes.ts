@@ -86,8 +86,20 @@ export default function setupStaffRoutes(app: Express) {
       // Crea l'hash della password
       const hashedPassword = await hashPassword(password);
       
-      // Imposta il ruolo (default: 'staff')
-      const userRole = role === 'admin' ? 'admin' : 'staff';
+      // Imposta il ruolo e il type
+      let userRole = 'staff';
+      let userType = 'staff';
+      
+      if (role === 'admin') {
+        userRole = 'admin';
+        userType = 'admin';
+      } else if (role === 'user' || role === 'customer') {
+        userRole = 'user';
+        userType = 'customer';
+      } else {
+        userRole = 'staff';
+        userType = 'staff';
+      }
       
       // Crea il nuovo utente
       const newUser = await storage.createUser({
@@ -95,7 +107,7 @@ export default function setupStaffRoutes(app: Express) {
         password: hashedPassword,
         email: email || null,
         role: userRole,
-        type: 'staff',
+        type: userType,
         clientId: null
       });
       
@@ -156,8 +168,16 @@ export default function setupStaffRoutes(app: Express) {
       }
       
       // Aggiorna il ruolo se fornito (solo admin può modificare ruoli)
-      if (role !== undefined && (role === 'admin' || role === 'staff')) {
+      if (role !== undefined && (role === 'admin' || role === 'staff' || role === 'user')) {
         updateData.role = role;
+        
+        // Se il ruolo è 'user', cambia anche il type a 'customer'
+        if (role === 'user') {
+          updateData.type = 'customer';
+        } else {
+          // Staff e Admin hanno type uguale al role
+          updateData.type = role;
+        }
       }
       
       // Verifica che ci sia almeno un campo da aggiornare

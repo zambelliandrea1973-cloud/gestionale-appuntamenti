@@ -303,8 +303,9 @@ export default function StaffManagementPageFixed() {
                       value={newStaff.role}
                       onChange={(e) => setNewStaff({ ...newStaff, role: e.target.value })}
                     >
-                      <option value="staff">Staff</option>
-                      <option value="admin">Admin</option>
+                      <option value="staff">Staff - Dipendente con accesso PRO</option>
+                      <option value="admin">Admin - Accesso completo</option>
+                      <option value="user">Customer PRO - Professionista abbonato</option>
                     </select>
                   </div>
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-2">
@@ -364,8 +365,12 @@ export default function StaffManagementPageFixed() {
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">{user.username}</CardTitle>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-                      {user.role === 'admin' ? 'Admin' : 'Staff'}
+                    <Badge variant="secondary" className={
+                      user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
+                      user.role === 'user' ? 'bg-green-100 text-green-700' :
+                      'bg-blue-100 text-blue-700'
+                    }>
+                      {user.role === 'admin' ? 'Admin' : user.role === 'user' ? 'Customer PRO' : 'Staff'}
                     </Badge>
                     
                     {/* Menu dropdown azioni */}
@@ -498,11 +503,12 @@ export default function StaffManagementPageFixed() {
                 value={editStaff.role}
                 onChange={(e) => setEditStaff({ ...editStaff, role: e.target.value })}
               >
-                <option value="staff">Staff</option>
-                <option value="admin">Admin</option>
+                <option value="staff">Staff - Dipendente con accesso PRO</option>
+                <option value="admin">Admin - Accesso completo</option>
+                <option value="user">Customer PRO - Professionista abbonato</option>
               </select>
               <p className="text-xs text-muted-foreground">
-                Admin ha accesso completo, Staff ha accesso PRO con funzionalità limitate
+                Staff/Admin: dipendenti gratuiti. Customer PRO: professionista che paga abbonamento
               </p>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-2">
