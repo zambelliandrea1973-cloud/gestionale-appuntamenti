@@ -72,11 +72,8 @@ export default function StaffManagementPageFixed() {
   // Mutation per creare nuovo staff
   const createStaffMutation = useMutation({
     mutationFn: async (data: typeof newStaff) => {
-      return await apiRequest('/api/staff/register', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' }
-      });
+      const res = await apiRequest('POST', '/api/staff/register', data);
+      return await res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
@@ -99,9 +96,8 @@ export default function StaffManagementPageFixed() {
   // Mutation per eliminare staff
   const deleteStaffMutation = useMutation({
     mutationFn: async (userId: number) => {
-      return await apiRequest(`/api/staff/${userId}`, {
-        method: 'DELETE'
-      });
+      const res = await apiRequest('DELETE', `/api/staff/${userId}`);
+      return await res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
