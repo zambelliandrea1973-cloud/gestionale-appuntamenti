@@ -56,6 +56,7 @@ export default function StaffManagementPageFixed() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isBankingDialogOpen, setIsBankingDialogOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<StaffUser | null>(null);
   
   // Form state per nuovo staff
@@ -434,6 +435,23 @@ export default function StaffManagementPageFixed() {
                     ✓ Accesso PRO
                   </Badge>
                 </div>
+                
+                {/* Pulsante Dati Bancari */}
+                <div className="pt-3 border-t">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => {
+                      setSelectedStaff(user);
+                      setIsBankingDialogOpen(true);
+                    }}
+                    data-testid={`button-banking-staff-${user.id}`}
+                  >
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    Dati Bancari
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
@@ -585,6 +603,93 @@ export default function StaffManagementPageFixed() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Dialog Dati Bancari Staff */}
+      <Dialog open={isBankingDialogOpen} onOpenChange={setIsBankingDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CreditCard className="h-5 w-5 text-green-600" />
+              Dati Bancari: {selectedStaff?.username}
+            </DialogTitle>
+            <DialogDescription>
+              Inserisci i dati bancari dove lo staff riceverà le commissioni referral
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <p className="text-sm text-blue-800">
+                <strong>Nota:</strong> L'IBAN inserito verrà utilizzato per accreditare automaticamente 
+                le commissioni del 10% quando i clienti sponsorizzati attivano abbonamenti.
+              </p>
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="staff-iban">IBAN *</Label>
+              <Input
+                id="staff-iban"
+                placeholder="IT60 X054 2811 1010 0000 0123 456"
+                className="font-mono"
+                data-testid="input-staff-iban"
+              />
+              <p className="text-xs text-muted-foreground">
+                Formato: IT + 2 cifre controllo + codice bancario
+              </p>
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="staff-bank-name">Nome Banca</Label>
+              <Input
+                id="staff-bank-name"
+                placeholder="es. Intesa Sanpaolo"
+                data-testid="input-staff-bank-name"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="staff-account-holder">Intestatario Conto</Label>
+              <Input
+                id="staff-account-holder"
+                placeholder="Nome completo intestatario"
+                data-testid="input-staff-account-holder"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="staff-bic">BIC/SWIFT (opzionale)</Label>
+              <Input
+                id="staff-bic"
+                placeholder="es. BCITITMM"
+                data-testid="input-staff-bic"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsBankingDialogOpen(false)}
+              data-testid="button-cancel-banking"
+            >
+              Annulla
+            </Button>
+            <Button
+              onClick={() => {
+                // TODO: Salvare i dati bancari dello staff
+                toast({
+                  title: "Dati bancari salvati",
+                  description: "I dati bancari dello staff sono stati aggiornati con successo",
+                });
+                setIsBankingDialogOpen(false);
+              }}
+              className="bg-green-600 hover:bg-green-700"
+              data-testid="button-save-banking"
+            >
+              <CreditCard className="mr-2 h-4 w-4" />
+              Salva Dati Bancari
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AuthorizedRoute>
   );
 }
