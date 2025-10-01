@@ -2699,14 +2699,21 @@ export function registerSimpleRoutes(app: Express): Server {
       const referralCommissions = storageData.referralCommissions || [];
       
       // Trova tutti gli staff con referral attivi nel JSON
+      // Struttura JSON users: { "0": [id, datiUtente], "1": [id, datiUtente], ... }
       const allUsersArray = Object.entries(storageData.users || {});
       const staffMembers = allUsersArray
-        .filter(([id, userData]) => (userData as any).type === 'staff')
-        .map(([id, userData]) => ({
-          staffId: (userData as any).id,
-          staffName: (userData as any).username,
-          staffEmail: (userData as any).email || (userData as any).username
-        }));
+        .filter(([key, userEntry]) => {
+          const userData = (userEntry as any)[1]; // Secondo elemento dell'array
+          return userData && userData.type === 'staff';
+        })
+        .map(([key, userEntry]) => {
+          const userData = (userEntry as any)[1];
+          return {
+            staffId: userData.id,
+            staffName: userData.username,
+            staffEmail: userData.email || userData.username
+          };
+        });
       
       // Calcola statistiche per ogni staff
       const staffStats = staffMembers.map(staff => {

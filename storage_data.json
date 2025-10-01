@@ -7952,7 +7952,8 @@
         "username": "elisafaverio6@gmail.com",
         "email": "elisafaverio6@gmail.com",
         "type": "business",
-        "createdAt": "2025-06-03T13:34:58.643Z"
+        "createdAt": "2025-06-03T13:34:58.643Z",
+        "referredBy": 16
       }
     ],
     [
@@ -7962,7 +7963,8 @@
         "username": "business.user@gmail.com",
         "email": "business.user@gmail.com",
         "type": "business",
-        "createdAt": "2025-06-03T13:34:58.643Z"
+        "createdAt": "2025-06-03T13:34:58.643Z",
+        "referredBy": 14
       }
     ],
     [
@@ -9234,5 +9236,25 @@
     ],
     "isCompleted": true,
     "completedAt": "2025-09-30T18:33:06.078Z"
-  }
+  },
+  "referralCommissions": [
+    {
+      "id": 1,
+      "referrerId": 16,
+      "referredId": 9,
+      "monthlyAmount": 100,
+      "status": "active",
+      "startDate": "2025-10-01",
+      "isPaid": false
+    },
+    {
+      "id": 2,
+      "referrerId": 14,
+      "referredId": 12,
+      "monthlyAmount": 200,
+      "status": "active",
+      "startDate": "2025-10-01",
+      "isPaid": false
+    }
+  ]
 }
