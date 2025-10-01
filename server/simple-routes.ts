@@ -2684,7 +2684,7 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(userCodes);
   });
 
-  // Endpoint Referral Overview - Solo per admin
+  // Endpoint Referral Overview - Solo per admin (USA JSON STORAGE)
   app.get("/api/referral-overview", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
@@ -2694,32 +2694,33 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     try {
+      // Carica dati dal JSON storage
       const storageData = loadStorageData();
-      const allUsers = storageData.users || [];
       const referralCommissions = storageData.referralCommissions || [];
       
-      // Trova tutti gli staff con referral attivi
-      const staffMembers = allUsers
-        .filter(([id, userData]) => userData.type === 'staff')
+      // Trova tutti gli staff con referral attivi nel JSON
+      const allUsersArray = Object.entries(storageData.users || {});
+      const staffMembers = allUsersArray
+        .filter(([id, userData]) => (userData as any).type === 'staff')
         .map(([id, userData]) => ({
-          staffId: userData.id,
-          staffName: userData.username,
-          staffEmail: userData.email || userData.username
+          staffId: (userData as any).id,
+          staffName: (userData as any).username,
+          staffEmail: (userData as any).email || (userData as any).username
         }));
       
       // Calcola statistiche per ogni staff
       const staffStats = staffMembers.map(staff => {
-        const staffCommissions = referralCommissions.filter(commission => 
-          commission.referrerId === staff.staffId
+        const staffCommissions = referralCommissions.filter((commission: any) => 
+          commission.referrerId === staff.staffId && commission.status === 'active'
         );
         
         const sponsoredCount = staffCommissions.length;
-        const totalCommissions = staffCommissions.reduce((sum, commission) => 
+        const totalCommissions = staffCommissions.reduce((sum: number, commission: any) => 
           sum + (commission.monthlyAmount || 0), 0
         );
         const paidCommissions = staffCommissions
-          .filter(commission => commission.isPaid)
-          .reduce((sum, commission) => sum + (commission.monthlyAmount || 0), 0);
+          .filter((commission: any) => commission.isPaid)
+          .reduce((sum: number, commission: any) => sum + (commission.monthlyAmount || 0), 0);
         const pendingCommissions = totalCommissions - paidCommissions;
         
         return {
