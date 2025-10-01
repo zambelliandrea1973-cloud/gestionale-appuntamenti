@@ -2800,7 +2800,7 @@ export function registerSimpleRoutes(app: Express): Server {
           .filter(commission => commission.referrerId === staffId)
           .map(async (commission) => {
             // Recupera dati dell'utente sponsorizzato (referred)
-            const referredUser = await storage.getUserById(commission.referredId);
+            const referredUser = await storage.getUser(commission.referredId);
             const subscription = await storage.getActiveSubscriptionByUserId(commission.referredId);
             
             return {
