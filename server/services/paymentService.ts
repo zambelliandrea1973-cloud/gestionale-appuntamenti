@@ -294,6 +294,9 @@ export class PaymentService {
         status: 'active'
       });
       
+      // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+      await this.handleReferralCommission(userId, subscription.id, subscription.plan.price);
+      
       // Registra la transazione
       const transactionData: InsertPaymentTransaction = {
         userId,
@@ -534,6 +537,9 @@ export class PaymentService {
           stripeCustomerId: session.customer || null
         });
         
+        // SISTEMA AUTOMATICO REFERRAL: Crea commissione se l'utente è stato sponsorizzato
+        await this.handleReferralCommission(userId, subscription.id, session.amount_total / 100);
+        
         // Registra la transazione
         const transactionData: InsertPaymentTransaction = {
           userId,
@@ -563,6 +569,65 @@ export class PaymentService {
         success: false,
         message: 'Errore durante la gestione del webhook di Stripe'
       };
+    }
+  }
+
+  /**
+   * Sistema automatico referral: Crea commissione quando un abbonamento diventa attivo
+   * @param userId ID dell'utente che ha fatto l'abbonamento
+   * @param subscriptionId ID dell'abbonamento
+   * @param planPrice Prezzo del piano in centesimi
+   */
+  private static async handleReferralCommission(
+    userId: number,
+    subscriptionId: number,
+    planPrice: number
+  ): Promise<void> {
+    try {
+      // Verifica se l'utente è stato sponsorizzato da qualcuno
+      const user = await storage.getUser(userId);
+      if (!user || !user.referredBy) {
+        console.log(`ℹ️ Utente ${userId} non ha uno sponsor - nessuna commissione da creare`);
+        return;
+      }
+
+      // Verifica se esiste già una commissione per questo abbonamento
+      const existingCommission = await storage.getReferralCommissionsByReferred(userId);
+      if (existingCommission) {
+        console.log(`⚠️ Commissione già esistente per utente ${userId} - skip`);
+        return;
+      }
+
+      // Calcola commissione al 10% del prezzo del piano
+      const commissionAmount = Math.round(planPrice * 0.10);
+      
+      // Ottieni info sponsor
+      const sponsor = await storage.getUser(user.referredBy);
+      if (!sponsor) {
+        console.log(`⚠️ Sponsor ID ${user.referredBy} non trovato - commissione non creata`);
+        return;
+      }
+
+      // Crea la commissione automaticamente
+      const commissionData = {
+        referrerId: user.referredBy,
+        referredId: userId,
+        subscriptionId: subscriptionId,
+        monthlyAmount: commissionAmount,
+        status: 'active',
+        startDate: new Date(),
+        endDate: null
+      };
+
+      await storage.createReferralCommission(commissionData);
+      
+      console.log(`🎉 COMMISSIONE AUTOMATICA CREATA!`);
+      console.log(`   Sponsor: ${sponsor.username} (ID: ${sponsor.id})`);
+      console.log(`   Cliente: ${user.username} (ID: ${user.id})`);
+      console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)}/mese (10% di €${(planPrice/100).toFixed(2)})`);
+    } catch (error) {
+      console.error('Errore durante la creazione della commissione referral:', error);
+      // Non blocchiamo il pagamento se c'è un errore nella commissione
     }
   }
 }

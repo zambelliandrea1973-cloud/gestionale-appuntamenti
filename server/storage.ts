@@ -33,6 +33,7 @@ import {
   products, type Product, type InsertProduct,
   stockMovements, type StockMovement, type InsertStockMovement,
   productSales, type ProductSale, type InsertProductSale,
+  referralCommissions,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -115,6 +116,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined>;
+  getUserByReferralCode(referralCode: string): Promise<User | undefined>;
   getAllStaffUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
@@ -176,6 +178,9 @@ export interface IStorage {
   getReferralCodeForUser(userId: number): Promise<string | null>;
   getReferralsByStaffId(staffId: number): Promise<any[]>;
   getBankingInfoForStaff(staffId: number): Promise<any>;
+  createReferralCommission(commission: any): Promise<any>;
+  getReferralCommissionsByReferrer(referrerId: number): Promise<any[]>;
+  getReferralCommissionsByReferred(referredId: number): Promise<any>;
   
   // License operations
   getLicense(id: number): Promise<License | undefined>;
@@ -1735,6 +1740,24 @@ export class DatabaseStorage implements IStorage {
       return undefined;
     }
   }
+
+  async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
+    try {
+      console.log(`🔍 Cercando staff con codice referral: ${referralCode}`);
+      const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
+      
+      if (user) {
+        console.log(`✅ Trovato staff ${user.username} con codice referral ${referralCode}`);
+      } else {
+        console.log(`❌ Nessuno staff trovato per codice referral ${referralCode}`);
+      }
+      
+      return user;
+    } catch (error) {
+      console.error("Error getting user by referral code:", error);
+      return undefined;
+    }
+  }
   
   async getAllStaffUsers(): Promise<User[]> {
     try {
@@ -1808,6 +1831,41 @@ export class DatabaseStorage implements IStorage {
         bankName: null,
         accountHolder: null
       };
+    }
+  }
+
+  async createReferralCommission(commission: any): Promise<any> {
+    try {
+      const [newCommission] = await db.insert(referralCommissions).values(commission).returning();
+      console.log(`✅ Commissione referral creata: ${commission.monthly_amount/100}€/mese per sponsor ID ${commission.referrer_id}`);
+      return newCommission;
+    } catch (error) {
+      console.error("Error creating referral commission:", error);
+      throw error;
+    }
+  }
+
+  async getReferralCommissionsByReferrer(referrerId: number): Promise<any[]> {
+    try {
+      const commissions = await db.select()
+        .from(referralCommissions)
+        .where(eq(referralCommissions.referrerId, referrerId));
+      return commissions;
+    } catch (error) {
+      console.error("Error getting referral commissions by referrer:", error);
+      return [];
+    }
+  }
+
+  async getReferralCommissionsByReferred(referredId: number): Promise<any> {
+    try {
+      const [commission] = await db.select()
+        .from(referralCommissions)
+        .where(eq(referralCommissions.referredId, referredId));
+      return commission;
+    } catch (error) {
+      console.error("Error getting referral commission by referred:", error);
+      return null;
     }
   }
 
