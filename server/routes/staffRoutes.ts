@@ -2,6 +2,7 @@ import { Express, Request, Response } from "express";
 import { storage } from "../storage";
 import { hashPassword } from "../auth";
 import { isAdmin } from "../auth";
+import { loadStorageData } from "../utils/jsonStorage";
 
 /**
  * Configura le route per la gestione degli utenti staff
@@ -226,6 +227,34 @@ export default function setupStaffRoutes(app: Express) {
       if (user.role === 'admin' && user.username === 'zambelli.andrea.1973@gmail.com') {
         return res.status(403).json({ message: "Non è possibile eliminare l'account amministratore principale" });
       }
+      
+      // PROTEZIONE CROSS-STORE: Verifica se user ha dati in JSON prima di cancellare
+      const storageData = loadStorageData();
+      
+      // Normalizza struttura JSON (supporta sia [id, obj] che obj)
+      const clients = (storageData.clients || []).map((it: any) => Array.isArray(it) ? it[1] : it);
+      const appointments = (storageData.appointments || []).map((it: any) => Array.isArray(it) ? it[1] : it);
+      
+      const userClients = clients.filter((client: any) => client.ownerId === userId);
+      const userAppointments = appointments.filter((appt: any) => {
+        // Trova il client dell'appuntamento e verifica se appartiene a questo user
+        const apptClient = clients.find((c: any) => c.id === appt.clientId);
+        return apptClient && apptClient.ownerId === userId;
+      });
+      
+      if (userClients.length > 0 || userAppointments.length > 0) {
+        console.error(`❌ [PROTEZIONE] Impossibile eliminare utente ${userId}: ha ${userClients.length} clienti e ${userAppointments.length} appuntamenti in JSON`);
+        return res.status(409).json({ 
+          message: `Impossibile eliminare: l'utente ha ${userClients.length} clienti e ${userAppointments.length} appuntamenti associati`,
+          error: "HAS_RELATED_DATA",
+          details: {
+            clients: userClients.length,
+            appointments: userAppointments.length
+          }
+        });
+      }
+      
+      console.log(`✅ [PROTEZIONE] Utente ${userId} non ha dati in JSON, eliminazione sicura`);
       
       // Elimina l'utente
       const deleted = await storage.deleteUser(userId);

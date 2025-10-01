@@ -1810,12 +1810,31 @@ export function registerSimpleRoutes(app: Express): Server {
     const userServices = storageData.userServices?.[user.id] || [];
     const allClients = storageData.clients || [];
     
-    // Trova client e service per riferimento (opzionale, per compatibilità response)
+    // VALIDAZIONE CROSS-STORE: Verifica che client e service esistano
     const availableClients = allClients.map(([id, client]) => client).filter(client => 
       user.type === 'admin' || client.ownerId === user.id
     );
     const clientData = availableClients.find(c => c.id === req.body.clientId);
     const serviceData = userServices.find(s => s.id === req.body.serviceId);
+    
+    // Validazione riferimenti obbligatori
+    if (!clientData) {
+      console.error(`❌ [VALIDAZIONE] Cliente ${req.body.clientId} non trovato per utente ${user.id}`);
+      return res.status(400).json({ 
+        message: "Cliente non valido",
+        error: "CLIENT_NOT_FOUND"
+      });
+    }
+    
+    if (req.body.serviceId && !serviceData) {
+      console.error(`❌ [VALIDAZIONE] Servizio ${req.body.serviceId} non trovato per utente ${user.id}`);
+      return res.status(400).json({ 
+        message: "Servizio non valido", 
+        error: "SERVICE_NOT_FOUND"
+      });
+    }
+    
+    console.log(`✅ [VALIDAZIONE] Cliente e servizio verificati per appuntamento`);
     
     // Crea nuovo appuntamento con TUTTI i campi (originali + nuovi) nel JSON
     const newAppointment = {
