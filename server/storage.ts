@@ -1743,13 +1743,21 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
     try {
-      console.log(`🔍 Cercando staff con codice referral: ${referralCode}`);
-      const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
+      // Converti il codice referral in ID numerico
+      const userId = parseInt(referralCode, 10);
+      
+      if (isNaN(userId)) {
+        console.log(`❌ Codice referral non valido (deve essere un numero): ${referralCode}`);
+        return undefined;
+      }
+      
+      console.log(`🔍 Cercando staff con ID: ${userId}`);
+      const [user] = await db.select().from(users).where(eq(users.id, userId));
       
       if (user) {
-        console.log(`✅ Trovato staff ${user.username} con codice referral ${referralCode}`);
+        console.log(`✅ Trovato staff ${user.username} con ID ${userId}`);
       } else {
-        console.log(`❌ Nessuno staff trovato per codice referral ${referralCode}`);
+        console.log(`❌ Nessuno staff trovato per ID ${userId}`);
       }
       
       return user;
