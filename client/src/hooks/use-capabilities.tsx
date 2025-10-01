@@ -49,7 +49,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'unlimited_clients',
   ],
   
-  // Staff - Stesso accesso di Pro (gratis per 10 anni)
+  // Staff - Accesso completo a tutto (gratis per 10 anni)
   'staff_free': [
     'calendar',
     'email_notifications',
@@ -57,6 +57,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'invoices_reports',
     'google_calendar',
     'client_pwa_qr',
+    'staff_rooms',
+    'unlimited_clients',
   ],
   
   // Passepartout - Accesso completo a tutto
