@@ -542,27 +542,29 @@ export default function StaffManagementPageFixed() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>⚠️ Conferma eliminazione staff</AlertDialogTitle>
-            <AlertDialogDescription className="space-y-3">
-              <p className="font-semibold text-red-600">
-                Stai per eliminare definitivamente l'account staff:
-              </p>
-              <div className="bg-gray-100 p-3 rounded">
-                <p><strong>Username:</strong> {selectedStaff?.username}</p>
-                {selectedStaff?.email && <p><strong>Email:</strong> {selectedStaff?.email}</p>}
-                <p><strong>ID:</strong> {selectedStaff?.id}</p>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <div className="font-semibold text-red-600">
+                  Stai per eliminare definitivamente l'account staff:
+                </div>
+                <div className="bg-gray-100 p-3 rounded">
+                  <div><strong>Username:</strong> {selectedStaff?.username}</div>
+                  {selectedStaff?.email && <div><strong>Email:</strong> {selectedStaff?.email}</div>}
+                  <div><strong>ID:</strong> {selectedStaff?.id}</div>
+                </div>
+                <div className="bg-red-50 border border-red-200 rounded p-3 space-y-2">
+                  <div className="text-red-800 font-semibold">⚠️ ATTENZIONE:</div>
+                  <ul className="list-disc list-inside text-sm text-red-700 space-y-1">
+                    <li>Questa azione è <strong>irreversibile</strong></li>
+                    <li>L'account verrà eliminato <strong>permanentemente</strong></li>
+                    <li>Tutti i dati associati saranno persi</li>
+                    <li>L'utente non potrà più accedere al sistema</li>
+                  </ul>
+                </div>
+                <div className="text-sm font-medium">
+                  Sei assolutamente sicuro di voler procedere?
+                </div>
               </div>
-              <div className="bg-red-50 border border-red-200 rounded p-3 space-y-2">
-                <p className="text-red-800 font-semibold">⚠️ ATTENZIONE:</p>
-                <ul className="list-disc list-inside text-sm text-red-700 space-y-1">
-                  <li>Questa azione è <strong>irreversibile</strong></li>
-                  <li>L'account verrà eliminato <strong>permanentemente</strong></li>
-                  <li>Tutti i dati associati saranno persi</li>
-                  <li>L'utente non potrà più accedere al sistema</li>
-                </ul>
-              </div>
-              <p className="text-sm font-medium">
-                Sei assolutamente sicuro di voler procedere?
-              </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
