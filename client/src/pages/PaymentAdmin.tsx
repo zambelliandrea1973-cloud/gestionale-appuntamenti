@@ -221,11 +221,10 @@ export default function PaymentAdmin() {
         <h1 className="text-3xl font-bold">Dashboard Amministrazione Pagamenti</h1>
         <div className="flex gap-3">
           <Button 
-            variant="outline" 
             onClick={() => setIsAdminConfigDialogOpen(true)}
-            className="border-blue-200 text-blue-700 hover:bg-blue-50"
+            className="bg-green-600 hover:bg-green-700 text-white"
           >
-            <Settings className="mr-2 h-4 w-4" />
+            <Shield className="mr-2 h-4 w-4" />
             Configurazione Bancaria
           </Button>
           <Button variant="outline" onClick={handleRefresh}>Aggiorna Dati</Button>
