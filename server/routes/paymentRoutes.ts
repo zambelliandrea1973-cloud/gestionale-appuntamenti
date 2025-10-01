@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import { PaymentService } from '../services/paymentService';
 import { WiseService } from '../services/wiseService';
 import { isAdmin, isAuthenticated } from '../auth';
@@ -10,62 +10,7 @@ import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clie
 
 const router = Router();
 
-// Password amministrativa predefinita per l'accesso all'area pagamenti
-const DEFAULT_PAYMENT_ADMIN_PASSWORD = 'gironico';
-
-// Middleware per l'autenticazione personalizzata per l'area pagamenti
-const isPaymentAdmin = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Logga tutti gli header per debug
-    console.log('Headers ricevuti payment admin:', JSON.stringify(req.headers));
-    
-    // Controlla tutti i possibili header di autenticazione
-    const adminToken = req.headers['x-payment-admin-token'] as string | undefined;
-    const authHeader = req.headers['authorization'] as string | undefined;
-    const xBypassAuth = req.headers['x-bypass-auth'] as string | undefined;
-    const xBrowser = req.headers['x-browser'] as string | undefined;
-    
-    // Per DuckDuckGo o browser problematici, bypass speciale
-    if (xBypassAuth === 'true' || xBrowser === 'duckduckgo') {
-      console.log('Browser speciale rilevato, utilizzo bypass per autenticazione');
-      return next();
-    }
-    
-    // Estrae il token dall'header Authorization se presente
-    let bearerToken: string | undefined;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      bearerToken = authHeader.substring(7); // Rimuove "Bearer " dall'inizio
-    }
-    
-    console.log('Token di autenticazione ricevuti payment admin:', { adminToken, bearerToken });
-    
-    // Verifica se uno dei token è presente
-    if (!adminToken && !bearerToken) {
-      console.log('Accesso negato: nessun token di autenticazione fornito');
-      return res.status(401).json({ success: false, message: 'Accesso non autorizzato: token mancante' });
-    }
-    
-    // Verifica se uno dei token corrisponde a una password valida
-    // Utilizziamo la stessa password dell'area beta
-    const validToken = 
-      adminToken === DEFAULT_PAYMENT_ADMIN_PASSWORD || 
-      adminToken === 'EF2025Admin' || 
-      bearerToken === DEFAULT_PAYMENT_ADMIN_PASSWORD || 
-      bearerToken === 'EF2025Admin';
-    
-    if (validToken) {
-      console.log('Autenticazione payment admin riuscita con token standard');
-      return next();
-    }
-    
-    // Se arriviamo qui, il token non è valido
-    console.log('Autenticazione payment admin fallita: token non valido', { adminToken, bearerToken });
-    return res.status(401).json({ success: false, message: 'Accesso non autorizzato: token non valido' });
-  } catch (error) {
-    console.error('Errore durante autenticazione payment admin:', error);
-    return res.status(500).json({ success: false, message: 'Errore di autenticazione' });
-  }
-};
+// SICUREZZA: Usa autenticazione esistente (isAuthenticated + isAdmin) invece di password hardcoded
 
 /**
  * Endpoint per ottenere tutti i piani di abbonamento attivi
@@ -520,9 +465,9 @@ router.get('/admin/subscriptions', isAuthenticated, isAdmin, async (req, res) =>
 /**
  * Endpoint per la dashboard dei pagamenti admin
  * GET /api/payments/payment-admin/dashboard
- * Accesso: payment admin (utilizza autenticazione con token)
+ * Accesso: admin autenticato
  */
-router.get('/payment-admin/dashboard', isPaymentAdmin, async (req, res) => {
+router.get('/payment-admin/dashboard', isAuthenticated, isAdmin, async (req, res) => {
   try {
     console.log('Recupero dashboard pagamenti admin...');
     
@@ -771,9 +716,9 @@ router.get('/payment-admin/dashboard', isPaymentAdmin, async (req, res) => {
 /**
  * Endpoint per ottenere tutte le transazioni di pagamento
  * GET /api/payments/payment-admin/transactions
- * Accesso: payment admin (utilizza autenticazione con token)
+ * Accesso: admin autenticato
  */
-router.get('/payment-admin/transactions', isPaymentAdmin, async (req, res) => {
+router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, res) => {
   try {
     console.log('Recupero transazioni pagamenti...');
     let paypalTransactions = await storage.getPaymentTransactionsByMethod('paypal');
@@ -904,9 +849,9 @@ router.get('/payment-admin/transactions', isPaymentAdmin, async (req, res) => {
 /**
  * Endpoint per ottenere tutti gli abbonamenti
  * GET /api/payments/payment-admin/subscriptions
- * Accesso: payment admin (utilizza autenticazione con token)
+ * Accesso: admin autenticato
  */
-router.get('/payment-admin/subscriptions', isPaymentAdmin, async (req, res) => {
+router.get('/payment-admin/subscriptions', isAuthenticated, isAdmin, async (req, res) => {
   try {
     console.log('Recupero abbonamenti...');
     let subscriptions = await storage.getSubscriptions();
@@ -1110,56 +1055,14 @@ router.get('/payment-admin/subscriptions', isPaymentAdmin, async (req, res) => {
   }
 });
 
-/**
- * Endpoint per autenticare l'admin dei pagamenti
- * POST /api/payments/payment-admin/authenticate
- * Accesso: pubblico
- */
-router.post('/payment-admin/authenticate', async (req, res) => {
-  try {
-    const { password } = req.body;
-    
-    if (!password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password richiesta'
-      });
-    }
-    
-    // Verifica la password
-    if (password === DEFAULT_PAYMENT_ADMIN_PASSWORD || password === 'EF2025Admin') {
-      console.log('Autenticazione amministratore pagamenti riuscita');
-      
-      // Genera un token semplice (in un sistema reale, usare JWT con scadenza)
-      const token = DEFAULT_PAYMENT_ADMIN_PASSWORD;
-      
-      return res.json({
-        success: true,
-        message: 'Autenticazione riuscita',
-        token
-      });
-    }
-    
-    console.log('Tentativo di autenticazione fallito: password errata');
-    return res.status(401).json({
-      success: false,
-      message: 'Credenziali non valide'
-    });
-  } catch (error) {
-    console.error('Errore durante autenticazione amministratore:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Errore interno del server'
-    });
-  }
-});
+// RIMOSSO: Endpoint /payment-admin/authenticate (password hardcoded) - Usa login normale admin
 
 /**
  * Endpoint per ottenere tutte le licenze con informazioni sugli utenti
  * GET /api/payments/payment-admin/licenses
- * Accesso: payment admin (utilizza autenticazione con token)
+ * Accesso: admin autenticato
  */
-router.get('/payment-admin/licenses', isPaymentAdmin, async (req, res) => {
+router.get('/payment-admin/licenses', isAuthenticated, isAdmin, async (req, res) => {
   try {
     console.log('Recupero licenze con dettagli utente...');
     
