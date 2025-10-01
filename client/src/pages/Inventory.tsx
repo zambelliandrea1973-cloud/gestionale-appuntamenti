@@ -26,9 +26,12 @@ import {
   Minus,
   ShoppingCart,
   History,
-  FileText
+  FileText,
+  Lock
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCapabilities } from "@/hooks/use-capabilities";
+import { UpgradePrompt } from "@/components/UpgradePrompt";
 
 // Form schemas
 const categorySchema = z.object({
@@ -78,11 +81,17 @@ const saleSchema = z.object({
 export default function Inventory() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { hasCapability, getUpgradeMessage } = useCapabilities();
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [productDialogOpen, setProductDialogOpen] = useState(false);
   const [stockDialogProductId, setStockDialogProductId] = useState<number | null>(null);
   const [saleDialogProductId, setSaleDialogProductId] = useState<number | null>(null);
+
+  // Verifica accesso a Magazzino (solo BUSINESS)
+  const canAccessWarehouse = hasCapability('warehouse');
+  const upgradeMessage = getUpgradeMessage('warehouse');
   
   // Fetch data
   const { data: categories = [] } = useQuery({
@@ -229,6 +238,40 @@ export default function Inventory() {
     if (product.currentStock <= product.minStock) return { status: "low", color: "warning", text: "Scorte basse" };
     return { status: "ok", color: "success", text: "Disponibile" };
   };
+
+  // Se non ha accesso al Magazzino, mostra UI bloccata
+  if (!canAccessWarehouse) {
+    return (
+      <>
+        <div className="container mx-auto py-6 space-y-6">
+          <Card className="border-2 border-orange-200 bg-orange-50/50">
+            <CardContent className="text-center py-12">
+              <Lock className="h-16 w-16 mx-auto text-orange-600 mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Magazzino Non Disponibile</h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                La gestione del magazzino e inventario è disponibile solo nel piano <span className="font-bold text-orange-700">Business</span>.
+              </p>
+              <Button 
+                onClick={() => setShowUpgradePrompt(true)}
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
+                data-testid="button-upgrade-warehouse"
+              >
+                Passa a Business
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <UpgradePrompt
+          open={showUpgradePrompt}
+          onOpenChange={setShowUpgradePrompt}
+          title={upgradeMessage.title}
+          description={upgradeMessage.description}
+          requiredPlan={upgradeMessage.requiredPlan}
+        />
+      </>
+    );
+  }
 
   return (
     <div className="container mx-auto p-6 space-y-6">

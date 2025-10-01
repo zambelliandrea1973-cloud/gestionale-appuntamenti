@@ -9,6 +9,7 @@ export type Capability =
   | 'google_calendar'       // Integrazione Google Calendar
   | 'client_pwa_qr'         // App clienti con QR code
   | 'staff_rooms'           // Staff e Stanze (gestione dipendenti)
+  | 'warehouse'             // Magazzino/Inventario
   | 'unlimited_clients';    // Clienti illimitati
 
 // Mappa delle capabilities per tipo di licenza
@@ -37,7 +38,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'client_pwa_qr',
   ],
   
-  // Business - Pro + Staff/Stanze + Illimitati
+  // Business - Pro + Staff/Stanze + Magazzino + Illimitati
   'business': [
     'calendar',
     'email_notifications',
@@ -46,6 +47,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
+    'warehouse',
     'unlimited_clients',
   ],
   
@@ -58,6 +60,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
+    'warehouse',
     'unlimited_clients',
   ],
   
@@ -70,6 +73,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
+    'warehouse',
     'unlimited_clients',
   ],
 };
@@ -113,6 +117,11 @@ export const UPGRADE_MESSAGES: Record<Capability, {
   staff_rooms: {
     title: 'Gestione Staff non disponibile',
     description: 'La gestione di staff e stanze è disponibile solo nel piano Business.',
+    requiredPlan: 'Business',
+  },
+  warehouse: {
+    title: 'Magazzino non disponibile',
+    description: 'La gestione del magazzino e inventario è disponibile solo nel piano Business.',
     requiredPlan: 'Business',
   },
   unlimited_clients: {
