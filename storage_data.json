@@ -8675,7 +8675,8 @@
         "endTime": "16:30:00",
         "notes": "",
         "status": "scheduled",
-        "createdAt": "2025-09-29T17:00:00.000Z"
+        "createdAt": "2025-09-29T17:00:00.000Z",
+        "reminderStatus": "sent"
       }
     ],
     [
