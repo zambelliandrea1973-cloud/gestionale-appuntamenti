@@ -155,19 +155,19 @@ export default function ReferralPage() {
 
   // Gestisce la copia del codice di referral negli appunti
   const copyToClipboard = () => {
-    if (referralData?.userData?.referralCode) {
-      navigator.clipboard.writeText(referralData.userData.referralCode);
+    if (referralData?.userData?.id) {
+      navigator.clipboard.writeText(referralData.userData.id.toString());
       toast({
         title: "Codice copiato!",
-        description: "Il codice è stato copiato negli appunti.",
+        description: "Il tuo ID è stato copiato negli appunti.",
       });
     }
   };
 
   // Gestisce la condivisione del codice referral
   const shareReferralCode = () => {
-    if (referralData?.userData?.referralCode) {
-      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.userData.referralCode}`;
+    if (referralData?.userData?.id) {
+      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.userData.id}`;
       
       if (navigator.share) {
         navigator.share({
@@ -263,7 +263,7 @@ export default function ReferralPage() {
 
   const commissions: Commission[] = referralData?.commissionsData || referralData?.commissions || [];
   const bankAccount: BankAccount | null = referralData?.bankData || null;
-  const referralCode = referralData?.userData?.referralCode || referralData?.referralCode;
+  const referralCode = referralData?.userData?.id?.toString();
   
   // Determina se l'utente è staff o admin
   const isAdmin = userWithLicense?.type === 'admin';
@@ -321,13 +321,7 @@ export default function ReferralPage() {
               </div>
             ) : (
               <div className="flex flex-col items-center gap-4">
-                <p className="text-center">Non hai ancora un codice referral.</p>
-                <Button 
-                  onClick={() => generateCodeMutation.mutate()}
-                  disabled={generateCodeMutation.isPending}
-                >
-                  {generateCodeMutation.isPending ? 'Generazione...' : 'Genera codice'}
-                </Button>
+                <p className="text-center text-muted-foreground">Il tuo codice referral è il tuo ID utente.</p>
               </div>
             )}
           </CardContent>
