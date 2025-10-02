@@ -35,10 +35,10 @@
         "ownerId": 3,
         "uniqueCode": "PROF_003_4678_C00002",
         "professionistCode": "PROF_003_4678",
-        "accessCount": 32,
-        "lastAccess": "2025-10-02T18:30:33.251Z",
-        "lastPwaAccess": "2025-10-02T18:30:33.251Z",
-        "pwaAccessCount": 32
+        "accessCount": 34,
+        "lastAccess": "2025-10-02T18:45:27.495Z",
+        "lastPwaAccess": "2025-10-02T18:45:27.495Z",
+        "pwaAccessCount": 34
       }
     ],
     [
@@ -8825,6 +8825,14 @@
     "16": "PROF_016_B17E"
   },
   "userContactInfo": {
+    "3": {
+      "email": "zambelli.andrea.1973@gmail.com",
+      "phone": "+39 123 456 7890",
+      "phone1": "+393472550110",
+      "website": "biomedicinaintegrata.it",
+      "instagram": "zambelli1105",
+      "facebook": "andrea.zambelli9275"
+    },
     "14": {
       "email": "busnari.silvia@libero.it",
       "phone": "+39 123 456 7890",
