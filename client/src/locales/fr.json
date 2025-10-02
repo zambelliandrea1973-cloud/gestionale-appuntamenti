@@ -469,8 +469,135 @@
     "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "jours",
+    "expired": "Expiré",
+    "upgradeMessage": "Découvrir les plans premium"
+  },
+  "banking": {
+    "title": "Configuration des paiements",
+    "subtitle": "Gérer les coordonnées bancaires pour les paiements automatiques de commissions de parrainage",
+    "bankName": "Nom de la banque",
+    "bankNamePlaceholder": "ex. BNP Paribas",
+    "accountHolder": "Titulaire du compte",
+    "accountHolderPlaceholder": "Nom complet / Raison sociale",
+    "iban": "IBAN",
+    "ibanPlaceholder": "FR14 2004 1010 0505 0001 3M02 606",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "ex. BNPAFRPPXXX",
+    "address": "Adresse",
+    "addressPlaceholder": "Adresse complète de facturation",
+    "autoPayEnabled": "Paiement automatique des commissions",
+    "paymentDelay": "Délai de paiement (jours)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Montant minimum (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Description",
+    "descriptionPlaceholder": "Description qui apparaîtra dans les virements",
+    "showIban": "Afficher IBAN",
+    "hideIban": "Masquer IBAN",
+    "testPayment": "Tester le paiement",
+    "saveSettings": "Enregistrer les paramètres",
+    "configured": "Configuré",
+    "notConfigured": "Non configuré",
+    "status": {
+      "configured": "Les coordonnées bancaires sont correctement configurées",
+      "notConfigured": "Configurer les coordonnées bancaires pour activer les paiements de commissions"
+    },
+    "alerts": {
+      "security": "Les coordonnées bancaires sont protégées et cryptées. Seuls les administrateurs peuvent les consulter.",
+      "paymentInfo": "Les commissions seront payées automatiquement lorsque le solde dépasse le montant minimum configuré."
+    },
+    "success": {
+      "saved": "Paramètres enregistrés",
+      "savedDescription": "Les paramètres bancaires ont été mis à jour avec succès",
+      "testComplete": "Test terminé",
+      "testSuccess": "Le système de paiement est correctement configuré"
+    },
+    "errors": {
+      "saveFailed": "Impossible d'enregistrer les paramètres bancaires",
+      "testFailed": "Veuillez vérifier la configuration des coordonnées bancaires"
+    }
+  },
+  "payments": {
+    "title": "Administration des paiements",
+    "subtitle": "Gérer les abonnements, transactions et commissions",
+    "tabs": {
+      "overview": "Aperçu",
+      "transactions": "Transactions",
+      "methods": "Moyens de paiement",
+      "settings": "Paramètres"
+    },
+    "demo": "DÉMO",
+    "realData": "Données réelles",
+    "testTransaction": "Transaction de test",
+    "filterByLicense": "Filtrer par licence",
+    "allLicenses": "Toutes les licences",
+    "stats": {
+      "totalRevenue": "Revenu total",
+      "activeSubscriptions": "Abonnements actifs",
+      "pendingCommissions": "Commissions en attente"
+    },
+    "table": {
+      "date": "Date",
+      "user": "Utilisateur",
+      "license": "Licence",
+      "amount": "Montant",
+      "method": "Méthode",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "completed": "Terminé",
+      "pending": "En attente",
+      "failed": "Échoué",
+      "cancelled": "Annulé"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Virement bancaire",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Système de parrainage",
+    "subtitle": "Gagnez des commissions en invitant de nouveaux clients",
+    "adminOnly": "Seuls les administrateurs peuvent gérer les parrainages, coordonner et vérifier les abonnements parrainés par le personnel pour procéder aux paiements",
+    "yourCode": "Votre code de parrainage",
+    "copyCode": "Copier le code",
+    "shareCode": "Partager",
+    "copyToClipboard": "Copier dans le presse-papiers",
+    "share": "Partager",
+    "earnings": {
+      "title": "Vos gains",
+      "total": "Total gagné",
+      "pending": "En attente",
+      "paid": "Payé"
+    },
+    "iban": {
+      "title": "IBAN pour les paiements",
+      "placeholder": "FR14 2004 1010 0505 0001 3M02 606",
+      "description": "Entrez votre IBAN pour recevoir les commissions",
+      "save": "Enregistrer l'IBAN",
+      "saved": "IBAN enregistré avec succès"
+    },
+    "commissions": {
+      "title": "Commissions",
+      "customer": "Client",
+      "license": "Licence",
+      "amount": "Montant",
+      "status": "Statut",
+      "date": "Date",
+      "noCommissions": "Aucune commission pour le moment",
+      "pending": "En attente",
+      "paid": "Payé"
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "step1": "Partagez votre code de parrainage avec des clients potentiels",
+      "step2": "Lorsqu'ils s'inscrivent avec votre code, ils deviennent vos filleuls",
+      "step3": "Vous gagnez 10% sur chaque abonnement qu'ils activent",
+      "step4": "Les commissions sont versées sur votre IBAN"
+    }
   }
 }

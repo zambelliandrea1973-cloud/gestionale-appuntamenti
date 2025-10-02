@@ -469,8 +469,135 @@
     "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "Tage",
+    "expired": "Abgelaufen",
+    "upgradeMessage": "Premium-Pläne entdecken"
+  },
+  "banking": {
+    "title": "Zahlungskonfiguration",
+    "subtitle": "Bankdaten für automatische Empfehlungsprovisionen verwalten",
+    "bankName": "Bankname",
+    "bankNamePlaceholder": "z.B. Deutsche Bank",
+    "accountHolder": "Kontoinhaber",
+    "accountHolderPlaceholder": "Vollständiger Name / Firmenname",
+    "iban": "IBAN",
+    "ibanPlaceholder": "DE89 3704 0044 0532 0130 00",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "z.B. COBADEFFXXX",
+    "address": "Adresse",
+    "addressPlaceholder": "Vollständige Rechnungsadresse",
+    "autoPayEnabled": "Automatische Provisionszahlung",
+    "paymentDelay": "Zahlungsverzögerung (Tage)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Mindestbetrag (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Beschreibung",
+    "descriptionPlaceholder": "Beschreibung für Überweisungen",
+    "showIban": "IBAN anzeigen",
+    "hideIban": "IBAN ausblenden",
+    "testPayment": "Zahlung testen",
+    "saveSettings": "Einstellungen speichern",
+    "configured": "Konfiguriert",
+    "notConfigured": "Nicht konfiguriert",
+    "status": {
+      "configured": "Bankdaten sind korrekt konfiguriert",
+      "notConfigured": "Bankdaten konfigurieren um Provisionszahlungen zu aktivieren"
+    },
+    "alerts": {
+      "security": "Bankdaten sind geschützt und verschlüsselt. Nur Administratoren können sie einsehen.",
+      "paymentInfo": "Provisionen werden automatisch gezahlt wenn der Saldo den konfigurierten Mindestbetrag überschreitet."
+    },
+    "success": {
+      "saved": "Einstellungen gespeichert",
+      "savedDescription": "Bankeinstellungen wurden erfolgreich aktualisiert",
+      "testComplete": "Test abgeschlossen",
+      "testSuccess": "Zahlungssystem ist korrekt konfiguriert"
+    },
+    "errors": {
+      "saveFailed": "Bankeinstellungen konnten nicht gespeichert werden",
+      "testFailed": "Bitte Bankkonfiguration überprüfen"
+    }
+  },
+  "payments": {
+    "title": "Zahlungsverwaltung",
+    "subtitle": "Abonnements, Transaktionen und Provisionen verwalten",
+    "tabs": {
+      "overview": "Übersicht",
+      "transactions": "Transaktionen",
+      "methods": "Zahlungsmethoden",
+      "settings": "Einstellungen"
+    },
+    "demo": "DEMO",
+    "realData": "Echte Daten",
+    "testTransaction": "Testtransaktion",
+    "filterByLicense": "Nach Lizenz filtern",
+    "allLicenses": "Alle Lizenzen",
+    "stats": {
+      "totalRevenue": "Gesamtumsatz",
+      "activeSubscriptions": "Aktive Abonnements",
+      "pendingCommissions": "Ausstehende Provisionen"
+    },
+    "table": {
+      "date": "Datum",
+      "user": "Benutzer",
+      "license": "Lizenz",
+      "amount": "Betrag",
+      "method": "Methode",
+      "status": "Status",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "completed": "Abgeschlossen",
+      "pending": "Ausstehend",
+      "failed": "Fehlgeschlagen",
+      "cancelled": "Storniert"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Banküberweisung",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Empfehlungssystem",
+    "subtitle": "Provisionen verdienen durch neue Kundenempfehlungen",
+    "adminOnly": "Nur Administratoren können Empfehlungen verwalten, vom Personal gesponserte Abonnements koordinieren und überprüfen, um Zahlungen zu veranlassen",
+    "yourCode": "Ihr Empfehlungscode",
+    "copyCode": "Code kopieren",
+    "shareCode": "Teilen",
+    "copyToClipboard": "In Zwischenablage kopieren",
+    "share": "Teilen",
+    "earnings": {
+      "title": "Ihre Einnahmen",
+      "total": "Gesamt verdient",
+      "pending": "Ausstehend",
+      "paid": "Bezahlt"
+    },
+    "iban": {
+      "title": "IBAN für Zahlungen",
+      "placeholder": "DE89 3704 0044 0532 0130 00",
+      "description": "IBAN eingeben um Provisionen zu erhalten",
+      "save": "IBAN speichern",
+      "saved": "IBAN erfolgreich gespeichert"
+    },
+    "commissions": {
+      "title": "Provisionen",
+      "customer": "Kunde",
+      "license": "Lizenz",
+      "amount": "Betrag",
+      "status": "Status",
+      "date": "Datum",
+      "noCommissions": "Noch keine Provisionen",
+      "pending": "Ausstehend",
+      "paid": "Bezahlt"
+    },
+    "howItWorks": {
+      "title": "So funktioniert es",
+      "step1": "Teilen Sie Ihren Empfehlungscode mit potenziellen Kunden",
+      "step2": "Wenn sie sich mit Ihrem Code registrieren, werden sie Ihre Empfehlungen",
+      "step3": "Sie verdienen 10% auf jedes Abonnement das sie aktivieren",
+      "step4": "Provisionen werden auf Ihre IBAN gezahlt"
+    }
   }
 }

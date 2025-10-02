@@ -474,5 +474,132 @@
   },
   "contacts": {
     "accessOurContacts": "Accedi ai nostri contatti"
+  },
+  "banking": {
+    "title": "Configurazione Pagamenti",
+    "subtitle": "Gestisci i dati bancari per i pagamenti automatici delle commissioni referral",
+    "bankName": "Nome Banca",
+    "bankNamePlaceholder": "es. Intesa Sanpaolo",
+    "accountHolder": "Intestatario Conto",
+    "accountHolderPlaceholder": "Nome e Cognome / Ragione Sociale",
+    "iban": "IBAN",
+    "ibanPlaceholder": "IT60 X054 2811 1010 0000 0123 456",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "es. BCITITMM",
+    "address": "Indirizzo",
+    "addressPlaceholder": "Indirizzo completo per fatturazione",
+    "autoPayEnabled": "Pagamento Automatico Commissioni",
+    "paymentDelay": "Ritardo Pagamento (giorni)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Importo Minimo (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Descrizione",
+    "descriptionPlaceholder": "Descrizione che apparirà nei bonifici",
+    "showIban": "Mostra IBAN",
+    "hideIban": "Nascondi IBAN",
+    "testPayment": "Test Pagamento",
+    "saveSettings": "Salva Impostazioni",
+    "configured": "Configurato",
+    "notConfigured": "Non Configurato",
+    "status": {
+      "configured": "I dati bancari sono configurati correttamente",
+      "notConfigured": "Configura i dati bancari per abilitare i pagamenti delle commissioni"
+    },
+    "alerts": {
+      "security": "I dati bancari sono protetti e criptati. Solo l'amministratore può visualizzarli.",
+      "paymentInfo": "Le commissioni verranno pagate automaticamente quando il saldo supera l'importo minimo configurato."
+    },
+    "success": {
+      "saved": "Impostazioni salvate",
+      "savedDescription": "Le impostazioni bancarie sono state aggiornate con successo",
+      "testComplete": "Test completato",
+      "testSuccess": "Il sistema di pagamento è configurato correttamente"
+    },
+    "errors": {
+      "saveFailed": "Impossibile salvare le impostazioni bancarie",
+      "testFailed": "Verifica la configurazione dei dati bancari"
+    }
+  },
+  "payments": {
+    "title": "Amministrazione Pagamenti",
+    "subtitle": "Gestisci abbonamenti, transazioni e commissioni",
+    "tabs": {
+      "overview": "Panoramica",
+      "transactions": "Transazioni",
+      "methods": "Metodi di Pagamento",
+      "settings": "Impostazioni"
+    },
+    "demo": "DEMO",
+    "realData": "Dati Reali",
+    "testTransaction": "Transazione di test",
+    "filterByLicense": "Filtra per licenza",
+    "allLicenses": "Tutte le licenze",
+    "stats": {
+      "totalRevenue": "Fatturato Totale",
+      "activeSubscriptions": "Abbonamenti Attivi",
+      "pendingCommissions": "Commissioni in Sospeso"
+    },
+    "table": {
+      "date": "Data",
+      "user": "Utente",
+      "license": "Licenza",
+      "amount": "Importo",
+      "method": "Metodo",
+      "status": "Stato",
+      "actions": "Azioni"
+    },
+    "status": {
+      "completed": "Completato",
+      "pending": "In Sospeso",
+      "failed": "Fallito",
+      "cancelled": "Annullato"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Bonifico Bancario",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Sistema Referral",
+    "subtitle": "Guadagna commissioni invitando nuovi clienti",
+    "adminOnly": "Solo gli amministratori possono gestire i referral, coordinare e verificare gli abbonamenti sponsorizzati dallo staff per procedere ai pagamenti",
+    "yourCode": "Il tuo Codice Referral",
+    "copyCode": "Copia codice",
+    "shareCode": "Condividi",
+    "copyToClipboard": "Copia negli appunti",
+    "share": "Condividi",
+    "earnings": {
+      "title": "I tuoi Guadagni",
+      "total": "Totale Guadagnato",
+      "pending": "In Attesa",
+      "paid": "Pagato"
+    },
+    "iban": {
+      "title": "IBAN per Pagamenti",
+      "placeholder": "IT60 X054 2811 1010 0000 0123 456",
+      "description": "Inserisci il tuo IBAN dove ricevere le commissioni",
+      "save": "Salva IBAN",
+      "saved": "IBAN salvato con successo"
+    },
+    "commissions": {
+      "title": "Commissioni",
+      "customer": "Cliente",
+      "license": "Licenza",
+      "amount": "Importo",
+      "status": "Stato",
+      "date": "Data",
+      "noCommissions": "Nessuna commissione ancora",
+      "pending": "In Sospeso",
+      "paid": "Pagato"
+    },
+    "howItWorks": {
+      "title": "Come Funziona",
+      "step1": "Condividi il tuo codice referral con potenziali clienti",
+      "step2": "Quando si registrano usando il tuo codice, diventano tuoi referral",
+      "step3": "Guadagni il 10% su ogni abbonamento che attivano",
+      "step4": "Le commissioni vengono pagate sul tuo IBAN"
+    }
   }
 }
