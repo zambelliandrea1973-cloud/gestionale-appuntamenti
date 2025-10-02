@@ -469,8 +469,135 @@
     "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "дней",
+    "expired": "Истёк",
+    "upgradeMessage": "Открыть премиум планы"
+  },
+  "banking": {
+    "title": "Настройка Платежей",
+    "subtitle": "Управление банковскими данными для автоматических платежей реферальных комиссий",
+    "bankName": "Название Банка",
+    "bankNamePlaceholder": "напр. Сбербанк",
+    "accountHolder": "Владелец Счета",
+    "accountHolderPlaceholder": "Полное имя / Название компании",
+    "iban": "IBAN",
+    "ibanPlaceholder": "RU12 3456 7890 1234 5678 9012 3456",
+    "bic": "БИК/SWIFT",
+    "bicPlaceholder": "напр. SABRRUMMXXX",
+    "address": "Адрес",
+    "addressPlaceholder": "Полный адрес для выставления счетов",
+    "autoPayEnabled": "Автоматическая Выплата Комиссий",
+    "paymentDelay": "Задержка Платежа (дней)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Минимальная Сумма (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Описание",
+    "descriptionPlaceholder": "Описание для банковских переводов",
+    "showIban": "Показать IBAN",
+    "hideIban": "Скрыть IBAN",
+    "testPayment": "Проверить Платеж",
+    "saveSettings": "Сохранить Настройки",
+    "configured": "Настроено",
+    "notConfigured": "Не Настроено",
+    "status": {
+      "configured": "Банковские данные правильно настроены",
+      "notConfigured": "Настройте банковские данные для активации выплат комиссий"
+    },
+    "alerts": {
+      "security": "Банковские данные защищены и зашифрованы. Только администраторы могут их просматривать.",
+      "paymentInfo": "Комиссии будут выплачиваться автоматически когда баланс превысит настроенную минимальную сумму."
+    },
+    "success": {
+      "saved": "Настройки сохранены",
+      "savedDescription": "Банковские настройки успешно обновлены",
+      "testComplete": "Проверка завершена",
+      "testSuccess": "Платежная система настроена правильно"
+    },
+    "errors": {
+      "saveFailed": "Не удалось сохранить банковские настройки",
+      "testFailed": "Проверьте конфигурацию банковских данных"
+    }
+  },
+  "payments": {
+    "title": "Администрирование Платежей",
+    "subtitle": "Управление подписками, транзакциями и комиссиями",
+    "tabs": {
+      "overview": "Обзор",
+      "transactions": "Транзакции",
+      "methods": "Способы Оплаты",
+      "settings": "Настройки"
+    },
+    "demo": "ДЕМО",
+    "realData": "Реальные Данные",
+    "testTransaction": "Тестовая транзакция",
+    "filterByLicense": "Фильтр по лицензии",
+    "allLicenses": "Все лицензии",
+    "stats": {
+      "totalRevenue": "Общий Доход",
+      "activeSubscriptions": "Активные Подписки",
+      "pendingCommissions": "Ожидающие Комиссии"
+    },
+    "table": {
+      "date": "Дата",
+      "user": "Пользователь",
+      "license": "Лицензия",
+      "amount": "Сумма",
+      "method": "Способ",
+      "status": "Статус",
+      "actions": "Действия"
+    },
+    "status": {
+      "completed": "Завершено",
+      "pending": "Ожидает",
+      "failed": "Не удалось",
+      "cancelled": "Отменено"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Банковский Перевод",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Реферальная Система",
+    "subtitle": "Зарабатывайте комиссии приглашая новых клиентов",
+    "adminOnly": "Только администраторы могут управлять рефералами, координировать и проверять подписки спонсированные персоналом для осуществления платежей",
+    "yourCode": "Ваш Реферальный Код",
+    "copyCode": "Копировать код",
+    "shareCode": "Поделиться",
+    "copyToClipboard": "Копировать в буфер обмена",
+    "share": "Поделиться",
+    "earnings": {
+      "title": "Ваш Заработок",
+      "total": "Всего Заработано",
+      "pending": "Ожидает",
+      "paid": "Оплачено"
+    },
+    "iban": {
+      "title": "IBAN для Платежей",
+      "placeholder": "RU12 3456 7890 1234 5678 9012 3456",
+      "description": "Введите ваш IBAN для получения комиссий",
+      "save": "Сохранить IBAN",
+      "saved": "IBAN успешно сохранен"
+    },
+    "commissions": {
+      "title": "Комиссии",
+      "customer": "Клиент",
+      "license": "Лицензия",
+      "amount": "Сумма",
+      "status": "Статус",
+      "date": "Дата",
+      "noCommissions": "Комиссий пока нет",
+      "pending": "Ожидает",
+      "paid": "Оплачено"
+    },
+    "howItWorks": {
+      "title": "Как Это Работает",
+      "step1": "Поделитесь вашим реферальным кодом с потенциальными клиентами",
+      "step2": "Когда они регистрируются используя ваш код, они становятся вашими рефералами",
+      "step3": "Вы зарабатываете 10% с каждой подписки которую они активируют",
+      "step4": "Комиссии выплачиваются на ваш IBAN"
+    }
   }
 }

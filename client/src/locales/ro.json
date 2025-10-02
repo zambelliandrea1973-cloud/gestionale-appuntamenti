@@ -469,8 +469,135 @@
     "settings": "Setări"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "zile",
+    "expired": "Expirat",
+    "upgradeMessage": "Descoperiți planurile premium"
+  },
+  "banking": {
+    "title": "Configurare Plăți",
+    "subtitle": "Gestionați detaliile bancare pentru plățile automate de comisioane de recomandare",
+    "bankName": "Nume Bancă",
+    "bankNamePlaceholder": "ex. Banca Transilvania",
+    "accountHolder": "Titular Cont",
+    "accountHolderPlaceholder": "Nume complet / Denumire firmă",
+    "iban": "IBAN",
+    "ibanPlaceholder": "RO49 AAAA 1B31 0075 9384 0000",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "ex. BTRLRO22",
+    "address": "Adresă",
+    "addressPlaceholder": "Adresă completă de facturare",
+    "autoPayEnabled": "Plată Automată Comisioane",
+    "paymentDelay": "Întârziere Plată (zile)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Sumă Minimă (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Descriere",
+    "descriptionPlaceholder": "Descriere pentru transferuri",
+    "showIban": "Afișare IBAN",
+    "hideIban": "Ascundere IBAN",
+    "testPayment": "Testare Plată",
+    "saveSettings": "Salvare Setări",
+    "configured": "Configurat",
+    "notConfigured": "Neconfigurat",
+    "status": {
+      "configured": "Detaliile bancare sunt configurate corect",
+      "notConfigured": "Configurați detaliile bancare pentru a activa plățile de comisioane"
+    },
+    "alerts": {
+      "security": "Detaliile bancare sunt protejate și criptate. Doar administratorii le pot vizualiza.",
+      "paymentInfo": "Comisioanele vor fi plătite automat când soldul depășește suma minimă configurată."
+    },
+    "success": {
+      "saved": "Setări salvate",
+      "savedDescription": "Setările bancare au fost actualizate cu succes",
+      "testComplete": "Test finalizat",
+      "testSuccess": "Sistemul de plată este configurat corect"
+    },
+    "errors": {
+      "saveFailed": "Nu s-au putut salva setările bancare",
+      "testFailed": "Verificați configurarea detaliilor bancare"
+    }
+  },
+  "payments": {
+    "title": "Administrare Plăți",
+    "subtitle": "Gestionați abonamente, tranzacții și comisioane",
+    "tabs": {
+      "overview": "Prezentare",
+      "transactions": "Tranzacții",
+      "methods": "Metode de Plată",
+      "settings": "Setări"
+    },
+    "demo": "DEMO",
+    "realData": "Date Reale",
+    "testTransaction": "Tranzacție test",
+    "filterByLicense": "Filtrare după licență",
+    "allLicenses": "Toate licențele",
+    "stats": {
+      "totalRevenue": "Venit Total",
+      "activeSubscriptions": "Abonamente Active",
+      "pendingCommissions": "Comisioane în Așteptare"
+    },
+    "table": {
+      "date": "Dată",
+      "user": "Utilizator",
+      "license": "Licență",
+      "amount": "Sumă",
+      "method": "Metodă",
+      "status": "Status",
+      "actions": "Acțiuni"
+    },
+    "status": {
+      "completed": "Finalizat",
+      "pending": "În așteptare",
+      "failed": "Eșuat",
+      "cancelled": "Anulat"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Transfer Bancar",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Sistem Recomandări",
+    "subtitle": "Câștigați comisioane invitând clienți noi",
+    "adminOnly": "Doar administratorii pot gestiona recomandările, coordona și verifica abonamentele sponsorizate de personal pentru a procesa plățile",
+    "yourCode": "Codul Dvs. de Recomandare",
+    "copyCode": "Copiați codul",
+    "shareCode": "Partajare",
+    "copyToClipboard": "Copiere în clipboard",
+    "share": "Partajare",
+    "earnings": {
+      "title": "Câștigurile Dvs.",
+      "total": "Total Câștigat",
+      "pending": "În așteptare",
+      "paid": "Plătit"
+    },
+    "iban": {
+      "title": "IBAN pentru Plăți",
+      "placeholder": "RO49 AAAA 1B31 0075 9384 0000",
+      "description": "Introduceți IBAN-ul pentru a primi comisioane",
+      "save": "Salvare IBAN",
+      "saved": "IBAN salvat cu succes"
+    },
+    "commissions": {
+      "title": "Comisioane",
+      "customer": "Client",
+      "license": "Licență",
+      "amount": "Sumă",
+      "status": "Status",
+      "date": "Dată",
+      "noCommissions": "Încă nu există comisioane",
+      "pending": "În așteptare",
+      "paid": "Plătit"
+    },
+    "howItWorks": {
+      "title": "Cum Funcționează",
+      "step1": "Partajați codul dvs. de recomandare cu clienți potențiali",
+      "step2": "Când se înregistrează folosind codul dvs., devin recomandările dvs.",
+      "step3": "Câștigați 10% din fiecare abonament pe care îl activează",
+      "step4": "Comisioanele sunt plătite pe IBAN-ul dvs."
+    }
   }
 }

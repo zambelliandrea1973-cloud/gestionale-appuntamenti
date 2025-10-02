@@ -469,8 +469,135 @@
     "settings": "Instellingen"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "dagen",
+    "expired": "Verlopen",
+    "upgradeMessage": "Ontdek premium plannen"
+  },
+  "banking": {
+    "title": "Betalingsconfiguratie",
+    "subtitle": "Beheer bankgegevens voor automatische betalingen van doorverwijsingscommissies",
+    "bankName": "Banknaam",
+    "bankNamePlaceholder": "bijv. ING Bank",
+    "accountHolder": "Rekeninghouder",
+    "accountHolderPlaceholder": "Volledige naam / Bedrijfsnaam",
+    "iban": "IBAN",
+    "ibanPlaceholder": "NL91 ABNA 0417 1643 00",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "bijv. ABNANL2A",
+    "address": "Adres",
+    "addressPlaceholder": "Volledig factuuradres",
+    "autoPayEnabled": "Automatische Commissiebetaling",
+    "paymentDelay": "Betalingsvertraging (dagen)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Minimumbedrag (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Omschrijving",
+    "descriptionPlaceholder": "Omschrijving voor overschrijvingen",
+    "showIban": "IBAN tonen",
+    "hideIban": "IBAN verbergen",
+    "testPayment": "Betaling testen",
+    "saveSettings": "Instellingen opslaan",
+    "configured": "Geconfigureerd",
+    "notConfigured": "Niet geconfigureerd",
+    "status": {
+      "configured": "Bankgegevens zijn correct geconfigureerd",
+      "notConfigured": "Configureer bankgegevens om commissiebetalingen te activeren"
+    },
+    "alerts": {
+      "security": "Bankgegevens zijn beveiligd en versleuteld. Alleen beheerders kunnen ze bekijken.",
+      "paymentInfo": "Commissies worden automatisch betaald wanneer het saldo het geconfigureerde minimumbedrag overschrijdt."
+    },
+    "success": {
+      "saved": "Instellingen opgeslagen",
+      "savedDescription": "Bankinstellingen zijn succesvol bijgewerkt",
+      "testComplete": "Test voltooid",
+      "testSuccess": "Betalingssysteem is correct geconfigureerd"
+    },
+    "errors": {
+      "saveFailed": "Kan bankinstellingen niet opslaan",
+      "testFailed": "Controleer de configuratie van bankgegevens"
+    }
+  },
+  "payments": {
+    "title": "Betalingsbeheer",
+    "subtitle": "Beheer abonnementen, transacties en commissies",
+    "tabs": {
+      "overview": "Overzicht",
+      "transactions": "Transacties",
+      "methods": "Betaalmethoden",
+      "settings": "Instellingen"
+    },
+    "demo": "DEMO",
+    "realData": "Echte Gegevens",
+    "testTransaction": "Testtransactie",
+    "filterByLicense": "Filter op licentie",
+    "allLicenses": "Alle licenties",
+    "stats": {
+      "totalRevenue": "Totale Omzet",
+      "activeSubscriptions": "Actieve Abonnementen",
+      "pendingCommissions": "Openstaande Commissies"
+    },
+    "table": {
+      "date": "Datum",
+      "user": "Gebruiker",
+      "license": "Licentie",
+      "amount": "Bedrag",
+      "method": "Methode",
+      "status": "Status",
+      "actions": "Acties"
+    },
+    "status": {
+      "completed": "Voltooid",
+      "pending": "In behandeling",
+      "failed": "Mislukt",
+      "cancelled": "Geannuleerd"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Bankoverschrijving",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Doorverwijzingssysteem",
+    "subtitle": "Verdien commissies door nieuwe klanten uit te nodigen",
+    "adminOnly": "Alleen beheerders kunnen doorverwijzingen beheren, door personeel gesponsorde abonnementen coördineren en verifiëren om betalingen te verwerken",
+    "yourCode": "Uw Doorverwijzingscode",
+    "copyCode": "Code kopiëren",
+    "shareCode": "Delen",
+    "copyToClipboard": "Kopieer naar klembord",
+    "share": "Delen",
+    "earnings": {
+      "title": "Uw Inkomsten",
+      "total": "Totaal Verdiend",
+      "pending": "In behandeling",
+      "paid": "Betaald"
+    },
+    "iban": {
+      "title": "IBAN voor Betalingen",
+      "placeholder": "NL91 ABNA 0417 1643 00",
+      "description": "Voer uw IBAN in om commissies te ontvangen",
+      "save": "IBAN opslaan",
+      "saved": "IBAN succesvol opgeslagen"
+    },
+    "commissions": {
+      "title": "Commissies",
+      "customer": "Klant",
+      "license": "Licentie",
+      "amount": "Bedrag",
+      "status": "Status",
+      "date": "Datum",
+      "noCommissions": "Nog geen commissies",
+      "pending": "In behandeling",
+      "paid": "Betaald"
+    },
+    "howItWorks": {
+      "title": "Hoe Het Werkt",
+      "step1": "Deel uw doorverwijzingscode met potentiële klanten",
+      "step2": "Wanneer zij zich registreren met uw code, worden zij uw doorverwijzingen",
+      "step3": "U verdient 10% op elk abonnement dat zij activeren",
+      "step4": "Commissies worden op uw IBAN gestort"
+    }
   }
 }

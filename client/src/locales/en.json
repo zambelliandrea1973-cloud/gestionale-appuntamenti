@@ -469,8 +469,135 @@
     "accessOurContacts": "Access our contacts"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "days",
+    "expired": "Expired",
+    "upgradeMessage": "Discover premium plans"
+  },
+  "banking": {
+    "title": "Payment Configuration",
+    "subtitle": "Manage bank details for automatic referral commission payments",
+    "bankName": "Bank Name",
+    "bankNamePlaceholder": "e.g. Bank of America",
+    "accountHolder": "Account Holder",
+    "accountHolderPlaceholder": "Full Name / Business Name",
+    "iban": "IBAN",
+    "ibanPlaceholder": "GB29 NWBK 6016 1331 9268 19",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "e.g. NWBKGB2L",
+    "address": "Address",
+    "addressPlaceholder": "Full billing address",
+    "autoPayEnabled": "Automatic Commission Payment",
+    "paymentDelay": "Payment Delay (days)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Minimum Amount (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Description",
+    "descriptionPlaceholder": "Description that will appear in transfers",
+    "showIban": "Show IBAN",
+    "hideIban": "Hide IBAN",
+    "testPayment": "Test Payment",
+    "saveSettings": "Save Settings",
+    "configured": "Configured",
+    "notConfigured": "Not Configured",
+    "status": {
+      "configured": "Bank details are correctly configured",
+      "notConfigured": "Configure bank details to enable commission payments"
+    },
+    "alerts": {
+      "security": "Bank details are protected and encrypted. Only administrators can view them.",
+      "paymentInfo": "Commissions will be paid automatically when the balance exceeds the configured minimum amount."
+    },
+    "success": {
+      "saved": "Settings saved",
+      "savedDescription": "Bank settings have been successfully updated",
+      "testComplete": "Test completed",
+      "testSuccess": "Payment system is correctly configured"
+    },
+    "errors": {
+      "saveFailed": "Unable to save bank settings",
+      "testFailed": "Please check bank details configuration"
+    }
+  },
+  "payments": {
+    "title": "Payment Administration",
+    "subtitle": "Manage subscriptions, transactions and commissions",
+    "tabs": {
+      "overview": "Overview",
+      "transactions": "Transactions",
+      "methods": "Payment Methods",
+      "settings": "Settings"
+    },
+    "demo": "DEMO",
+    "realData": "Real Data",
+    "testTransaction": "Test transaction",
+    "filterByLicense": "Filter by license",
+    "allLicenses": "All licenses",
+    "stats": {
+      "totalRevenue": "Total Revenue",
+      "activeSubscriptions": "Active Subscriptions",
+      "pendingCommissions": "Pending Commissions"
+    },
+    "table": {
+      "date": "Date",
+      "user": "User",
+      "license": "License",
+      "amount": "Amount",
+      "method": "Method",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Bank Transfer",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Referral System",
+    "subtitle": "Earn commissions by inviting new customers",
+    "adminOnly": "Only administrators can manage referrals, coordinate and verify staff-sponsored subscriptions to proceed with payments",
+    "yourCode": "Your Referral Code",
+    "copyCode": "Copy code",
+    "shareCode": "Share",
+    "copyToClipboard": "Copy to clipboard",
+    "share": "Share",
+    "earnings": {
+      "title": "Your Earnings",
+      "total": "Total Earned",
+      "pending": "Pending",
+      "paid": "Paid"
+    },
+    "iban": {
+      "title": "IBAN for Payments",
+      "placeholder": "GB29 NWBK 6016 1331 9268 19",
+      "description": "Enter your IBAN to receive commissions",
+      "save": "Save IBAN",
+      "saved": "IBAN saved successfully"
+    },
+    "commissions": {
+      "title": "Commissions",
+      "customer": "Customer",
+      "license": "License",
+      "amount": "Amount",
+      "status": "Status",
+      "date": "Date",
+      "noCommissions": "No commissions yet",
+      "pending": "Pending",
+      "paid": "Paid"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": "Share your referral code with potential customers",
+      "step2": "When they register using your code, they become your referrals",
+      "step3": "You earn 10% on every subscription they activate",
+      "step4": "Commissions are paid to your IBAN"
+    }
   }
 }

@@ -469,8 +469,135 @@
     "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "días",
+    "expired": "Expirado",
+    "upgradeMessage": "Descubrir planes premium"
+  },
+  "banking": {
+    "title": "Configuración de Pagos",
+    "subtitle": "Gestionar datos bancarios para pagos automáticos de comisiones de referidos",
+    "bankName": "Nombre del Banco",
+    "bankNamePlaceholder": "ej. Banco Santander",
+    "accountHolder": "Titular de la Cuenta",
+    "accountHolderPlaceholder": "Nombre completo / Razón social",
+    "iban": "IBAN",
+    "ibanPlaceholder": "ES91 2100 0418 4502 0005 1332",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "ej. CAIXESBBXXX",
+    "address": "Dirección",
+    "addressPlaceholder": "Dirección completa de facturación",
+    "autoPayEnabled": "Pago Automático de Comisiones",
+    "paymentDelay": "Retraso de Pago (días)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Cantidad Mínima (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Descripción que aparecerá en las transferencias",
+    "showIban": "Mostrar IBAN",
+    "hideIban": "Ocultar IBAN",
+    "testPayment": "Probar Pago",
+    "saveSettings": "Guardar Ajustes",
+    "configured": "Configurado",
+    "notConfigured": "No Configurado",
+    "status": {
+      "configured": "Los datos bancarios están correctamente configurados",
+      "notConfigured": "Configurar datos bancarios para habilitar pagos de comisiones"
+    },
+    "alerts": {
+      "security": "Los datos bancarios están protegidos y cifrados. Solo los administradores pueden verlos.",
+      "paymentInfo": "Las comisiones se pagarán automáticamente cuando el saldo supere la cantidad mínima configurada."
+    },
+    "success": {
+      "saved": "Ajustes guardados",
+      "savedDescription": "La configuración bancaria se ha actualizado correctamente",
+      "testComplete": "Prueba completada",
+      "testSuccess": "El sistema de pago está configurado correctamente"
+    },
+    "errors": {
+      "saveFailed": "No se pudieron guardar los ajustes bancarios",
+      "testFailed": "Verificar la configuración de datos bancarios"
+    }
+  },
+  "payments": {
+    "title": "Administración de Pagos",
+    "subtitle": "Gestionar suscripciones, transacciones y comisiones",
+    "tabs": {
+      "overview": "Resumen",
+      "transactions": "Transacciones",
+      "methods": "Métodos de Pago",
+      "settings": "Ajustes"
+    },
+    "demo": "DEMO",
+    "realData": "Datos Reales",
+    "testTransaction": "Transacción de prueba",
+    "filterByLicense": "Filtrar por licencia",
+    "allLicenses": "Todas las licencias",
+    "stats": {
+      "totalRevenue": "Ingresos Totales",
+      "activeSubscriptions": "Suscripciones Activas",
+      "pendingCommissions": "Comisiones Pendientes"
+    },
+    "table": {
+      "date": "Fecha",
+      "user": "Usuario",
+      "license": "Licencia",
+      "amount": "Cantidad",
+      "method": "Método",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "completed": "Completado",
+      "pending": "Pendiente",
+      "failed": "Fallido",
+      "cancelled": "Cancelado"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Transferencia Bancaria",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Sistema de Referidos",
+    "subtitle": "Gane comisiones invitando nuevos clientes",
+    "adminOnly": "Solo los administradores pueden gestionar referidos, coordinar y verificar suscripciones patrocinadas por el personal para proceder con los pagos",
+    "yourCode": "Su Código de Referido",
+    "copyCode": "Copiar código",
+    "shareCode": "Compartir",
+    "copyToClipboard": "Copiar al portapapeles",
+    "share": "Compartir",
+    "earnings": {
+      "title": "Sus Ganancias",
+      "total": "Total Ganado",
+      "pending": "Pendiente",
+      "paid": "Pagado"
+    },
+    "iban": {
+      "title": "IBAN para Pagos",
+      "placeholder": "ES91 2100 0418 4502 0005 1332",
+      "description": "Ingrese su IBAN para recibir comisiones",
+      "save": "Guardar IBAN",
+      "saved": "IBAN guardado correctamente"
+    },
+    "commissions": {
+      "title": "Comisiones",
+      "customer": "Cliente",
+      "license": "Licencia",
+      "amount": "Cantidad",
+      "status": "Estado",
+      "date": "Fecha",
+      "noCommissions": "Aún no hay comisiones",
+      "pending": "Pendiente",
+      "paid": "Pagado"
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "step1": "Comparta su código de referido con clientes potenciales",
+      "step2": "Cuando se registren usando su código, se convierten en sus referidos",
+      "step3": "Gana el 10% en cada suscripción que activen",
+      "step4": "Las comisiones se pagan a su IBAN"
+    }
   }
 }

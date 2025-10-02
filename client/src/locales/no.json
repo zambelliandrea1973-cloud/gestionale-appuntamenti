@@ -469,8 +469,135 @@
     "settings": "Innstillinger"
   },
   "trial": {
-    "days": "giorni",
-    "expired": "Scaduto",
-    "upgradeMessage": "Scopri i piani premium"
+    "days": "dager",
+    "expired": "Utløpt",
+    "upgradeMessage": "Oppdag premium-planer"
+  },
+  "banking": {
+    "title": "Betalingskonfigurasjon",
+    "subtitle": "Administrer bankdetaljer for automatiske henvisninger provisjonsbetalinger",
+    "bankName": "Banknavn",
+    "bankNamePlaceholder": "f.eks. DNB Bank",
+    "accountHolder": "Kontoinnehaver",
+    "accountHolderPlaceholder": "Fullt navn / Firmanavn",
+    "iban": "IBAN",
+    "ibanPlaceholder": "NO93 8601 1117 947",
+    "bic": "BIC/SWIFT",
+    "bicPlaceholder": "f.eks. DNBANOKK",
+    "address": "Adresse",
+    "addressPlaceholder": "Fullstendig fakturaadresse",
+    "autoPayEnabled": "Automatisk Provisjonsbetaling",
+    "paymentDelay": "Betalingsforsinkelse (dager)",
+    "paymentDelayPlaceholder": "30",
+    "minimumAmount": "Minimumsbeløp (€)",
+    "minimumAmountPlaceholder": "1.00",
+    "description": "Beskrivelse",
+    "descriptionPlaceholder": "Beskrivelse for overføringer",
+    "showIban": "Vis IBAN",
+    "hideIban": "Skjul IBAN",
+    "testPayment": "Test Betaling",
+    "saveSettings": "Lagre Innstillinger",
+    "configured": "Konfigurert",
+    "notConfigured": "Ikke Konfigurert",
+    "status": {
+      "configured": "Bankdetaljer er korrekt konfigurert",
+      "notConfigured": "Konfigurer bankdetaljer for å aktivere provisjonsbetalinger"
+    },
+    "alerts": {
+      "security": "Bankdetaljer er beskyttet og kryptert. Bare administratorer kan se dem.",
+      "paymentInfo": "Provisjoner betales automatisk når saldoen overstiger det konfigurerte minimumsbeløpet."
+    },
+    "success": {
+      "saved": "Innstillinger lagret",
+      "savedDescription": "Bankinnstillinger har blitt oppdatert",
+      "testComplete": "Test fullført",
+      "testSuccess": "Betalingssystemet er korrekt konfigurert"
+    },
+    "errors": {
+      "saveFailed": "Kan ikke lagre bankinnstillinger",
+      "testFailed": "Kontroller konfigurasjonen av bankdetaljer"
+    }
+  },
+  "payments": {
+    "title": "Betalingsadministrasjon",
+    "subtitle": "Administrer abonnementer, transaksjoner og provisjoner",
+    "tabs": {
+      "overview": "Oversikt",
+      "transactions": "Transaksjoner",
+      "methods": "Betalingsmetoder",
+      "settings": "Innstillinger"
+    },
+    "demo": "DEMO",
+    "realData": "Ekte Data",
+    "testTransaction": "Testtransaksjon",
+    "filterByLicense": "Filtrer etter lisens",
+    "allLicenses": "Alle lisenser",
+    "stats": {
+      "totalRevenue": "Total Inntekt",
+      "activeSubscriptions": "Aktive Abonnementer",
+      "pendingCommissions": "Ventende Provisjoner"
+    },
+    "table": {
+      "date": "Dato",
+      "user": "Bruker",
+      "license": "Lisens",
+      "amount": "Beløp",
+      "method": "Metode",
+      "status": "Status",
+      "actions": "Handlinger"
+    },
+    "status": {
+      "completed": "Fullført",
+      "pending": "Venter",
+      "failed": "Mislyktes",
+      "cancelled": "Kansellert"
+    },
+    "methods": {
+      "stripe": "Stripe",
+      "paypal": "PayPal",
+      "bankTransfer": "Bankoverføring",
+      "wise": "Wise"
+    }
+  },
+  "referral": {
+    "title": "Henvisningssystem",
+    "subtitle": "Tjen provisjoner ved å invitere nye kunder",
+    "adminOnly": "Bare administratorer kan administrere henvisninger, koordinere og verifisere personalsponsede abonnementer for å behandle betalinger",
+    "yourCode": "Din Henvisningskode",
+    "copyCode": "Kopier kode",
+    "shareCode": "Del",
+    "copyToClipboard": "Kopier til utklippstavle",
+    "share": "Del",
+    "earnings": {
+      "title": "Dine Inntekter",
+      "total": "Totalt Tjent",
+      "pending": "Venter",
+      "paid": "Betalt"
+    },
+    "iban": {
+      "title": "IBAN for Betalinger",
+      "placeholder": "NO93 8601 1117 947",
+      "description": "Angi din IBAN for å motta provisjoner",
+      "save": "Lagre IBAN",
+      "saved": "IBAN lagret"
+    },
+    "commissions": {
+      "title": "Provisjoner",
+      "customer": "Kunde",
+      "license": "Lisens",
+      "amount": "Beløp",
+      "status": "Status",
+      "date": "Dato",
+      "noCommissions": "Ingen provisjoner ennå",
+      "pending": "Venter",
+      "paid": "Betalt"
+    },
+    "howItWorks": {
+      "title": "Hvordan Det Fungerer",
+      "step1": "Del din henvisningskode med potensielle kunder",
+      "step2": "Når de registrerer seg med din kode, blir de dine henvisninger",
+      "step3": "Du tjener 10% på hvert abonnement de aktiverer",
+      "step4": "Provisjoner betales til din IBAN"
+    }
   }
 }
