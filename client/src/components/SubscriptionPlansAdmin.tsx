@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Euro, Save, Edit2, Check, X } from 'lucide-react';
+import { Euro, Save, Edit2, Check, X, Eye } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 
@@ -131,6 +131,18 @@ export default function SubscriptionPlansAdmin() {
 
   return (
     <div className="space-y-6">
+      {/* Pulsante Anteprima */}
+      <div className="flex justify-end">
+        <Button
+          variant="outline"
+          onClick={() => window.open('/subscribe', '_blank')}
+          className="gap-2"
+          data-testid="button-preview-plans"
+        >
+          <Eye className="h-4 w-4" />
+          Anteprima Piani Pubblici
+        </Button>
+      </div>
       {plans?.map((plan) => {
         const isEditing = editingPlan === plan.id;
         
