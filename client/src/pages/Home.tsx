@@ -30,19 +30,25 @@ function AppIcon() {
     const fetchIconInfo = async () => {
       try {
         setLoading(true);
+        console.log('🏠 HOME AppIcon: Inizio caricamento icona');
         const response = await apiRequest("GET", "/api/client-app-info");
+        console.log('🏠 HOME AppIcon: Risposta ricevuta, status:', response.status);
         const data = await response.json();
-        console.log('🏠 HOME: Icona ricevuta dal server:', { 
-          url: data.icon?.substring(0, 50) + '...',
-          length: data.icon?.length 
+        console.log('🏠 HOME AppIcon: Dati parsati:', { 
+          hasIcon: !!data.icon,
+          iconLength: data.icon?.length,
+          url: data.icon?.substring(0, 50) + '...'
         });
         
         // STESSA LOGICA NOME AZIENDALE - usa direttamente l'icona dal server
         if (data.icon) {
           setIconUrl(data.icon);
+          console.log('✅ HOME AppIcon: Icona impostata correttamente');
+        } else {
+          console.log('❌ HOME AppIcon: Nessuna icona nella risposta');
         }
       } catch (error) {
-        console.error("Errore nel recuperare le informazioni dell'icona:", error);
+        console.error("❌ HOME AppIcon: Errore nel recuperare le informazioni dell'icona:", error);
       } finally {
         setLoading(false);
       }

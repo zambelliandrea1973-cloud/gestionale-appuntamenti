@@ -1195,7 +1195,8 @@ export function registerSimpleRoutes(app: Express): Server {
     // Sincronizza automaticamente le icone PWA con il logo aziendale attuale
     await updatePWAIconsFromCompanyLogo(targetUserId, userIcon);
     
-    console.log(`✅ Icone PWA aggiornate per utente ${targetUserId} con logo aziendale`);
+    const deviceType = req.headers['x-device-type'] || 'unknown';
+    console.log(`✅ [${deviceType}] Icone PWA per utente ${targetUserId}, icon length: ${userIcon?.length || 0}`);
     
     res.json({ 
       appName: "Gestionale Sanitario", 
