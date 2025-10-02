@@ -563,14 +563,22 @@ export default function SubscribePage() {
                         )}
                       </div>
                       <ul className="space-y-2 mb-6">
-                        {plan.features.map((feature: PlanFeature, index: number) => (
-                          <li key={index} className="flex items-start">
-                            <div className={`rounded-full p-1 mr-2 ${feature.included ? 'text-green-500' : 'text-gray-300'}`}>
-                              {feature.included ? <Check className="h-4 w-4" /> : <span className="block h-4 w-4">-</span>}
-                            </div>
-                            <span className={feature.included ? '' : 'text-gray-400'}>{feature.name}</span>
-                          </li>
-                        ))}
+                        {plan.features.flatMap((feature: PlanFeature, featureIndex: number) => {
+                          // Separa la feature per virgola, punto o trattino
+                          const items = feature.name
+                            .split(/[,;.\-]/)
+                            .map(item => item.trim())
+                            .filter(item => item.length > 0);
+                          
+                          return items.map((item, itemIndex) => (
+                            <li key={`${featureIndex}-${itemIndex}`} className="flex items-start">
+                              <div className={`rounded-full p-1 mr-2 flex-shrink-0 ${feature.included ? 'text-green-500' : 'text-gray-300'}`}>
+                                {feature.included ? <Check className="h-4 w-4" /> : <span className="block h-4 w-4">-</span>}
+                              </div>
+                              <span className={feature.included ? '' : 'text-gray-400'}>{item}</span>
+                            </li>
+                          ));
+                        })}
                       </ul>
                     </CardContent>
                     <CardFooter>
