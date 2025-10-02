@@ -20,9 +20,13 @@ function getContactInfoKey(userId?: number): string {
 
 /**
  * Carica le informazioni di contatto dall'API
+ * IMPORTANTE: L'API usa req.user dalla sessione, NON il parametro userId
+ * Il parametro userId serve solo per la cache localStorage
  */
 export async function loadContactInfoFromAPI(userId?: number): Promise<ContactInfo> {
   try {
+    // L'API /api/contact-info usa req.user.id dalla sessione server
+    // NON passiamo userId come parametro perché l'autenticazione è basata su sessione
     const response = await apiRequest('GET', '/api/contact-info');
     const data = await response.json();
     
@@ -31,11 +35,12 @@ export async function loadContactInfoFromAPI(userId?: number): Promise<ContactIn
       const storageKey = getContactInfoKey(userId);
       localStorage.setItem(storageKey, JSON.stringify(data));
       
-      // Pulisci cache di altri utenti per evitare contaminazione
+      // Pulisci cache di altri utenti per evitare contaminazione cross-utente
       if (userId) {
         const allKeys = Object.keys(localStorage);
         allKeys.forEach(key => {
           if (key.startsWith('healthcare_app_contact_info_user_') && key !== storageKey) {
+            console.log(`🧹 Pulisco cache contatti obsoleta: ${key}`);
             localStorage.removeItem(key);
           }
         });
@@ -44,12 +49,13 @@ export async function loadContactInfoFromAPI(userId?: number): Promise<ContactIn
       return data;
     }
     
-    // Se non abbiamo ricevuto dati validi, usiamo quelli in localStorage
-    return loadContactInfo(userId);
+    // Se non abbiamo ricevuto dati validi, ritorna oggetto vuoto invece di localStorage
+    // per evitare contaminazione
+    return {};
   } catch (error) {
     console.error('Errore durante il recupero delle informazioni di contatto dall\'API:', error);
-    // Fallback al localStorage in caso di errore
-    return loadContactInfo(userId);
+    // In caso di errore di rete, ritorna oggetto vuoto invece di cache potenzialmente obsoleta
+    return {};
   }
 }
 

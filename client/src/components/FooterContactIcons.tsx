@@ -21,17 +21,17 @@ export default function FooterContactIcons({ ownerId }: FooterContactIconsProps)
     const targetUserId = ownerId || user?.id;
     if (!targetUserId) return;
     
-    // Prima carica dal localStorage (per un caricamento veloce)
-    const savedInfo = loadContactInfo(targetUserId);
-    setContactInfo(savedInfo);
-    
-    // Poi tenta di caricare dall'API (per aggiornamenti)
+    // IMPORTANTE: NON caricare da localStorage per evitare contaminazione cross-utente
+    // Carica SEMPRE dall'API per garantire dati freschi dell'utente corrente
     try {
       const apiInfo = await loadContactInfoFromAPI(targetUserId);
-      console.log(`Informazioni di contatto caricate da API per utente ${targetUserId}:`, apiInfo);
+      console.log(`✅ Informazioni di contatto caricate da API per utente ${targetUserId}:`, apiInfo);
       setContactInfo(apiInfo);
     } catch (error) {
-      console.error("Errore durante il caricamento delle informazioni di contatto dall'API:", error);
+      console.error("❌ Errore durante il caricamento delle informazioni di contatto dall'API:", error);
+      // Solo in caso di errore API, usa localStorage come fallback
+      const savedInfo = loadContactInfo(targetUserId);
+      setContactInfo(savedInfo);
     }
   };
 
