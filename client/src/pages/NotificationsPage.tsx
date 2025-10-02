@@ -83,39 +83,6 @@ const NotificationsPage: React.FC = () => {
   const [smsHistory, setSmsHistory] = useState<any[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [loadingSmsHistory, setLoadingSmsHistory] = useState(false);
-  const [hasRecentNotifications, setHasRecentNotifications] = useState(false);
-
-  // Verifica se ci sono notifiche inviate nelle ultime 4 settimane (1 mese)
-  const checkRecentNotifications = () => {
-    const storedData = localStorage.getItem('whatsapp_notifications_sent');
-    if (!storedData) {
-      setHasRecentNotifications(false);
-      return;
-    }
-
-    try {
-      const data = JSON.parse(storedData);
-      const sentTimestamp = new Date(data.timestamp).getTime();
-      const now = new Date().getTime();
-      const oneMonthInMs = 30 * 24 * 60 * 60 * 1000; // 30 giorni
-
-      // Se è passato più di un mese, rimuovi i dati e imposta false
-      if (now - sentTimestamp > oneMonthInMs) {
-        localStorage.removeItem('whatsapp_notifications_sent');
-        setHasRecentNotifications(false);
-      } else {
-        setHasRecentNotifications(true);
-      }
-    } catch (e) {
-      localStorage.removeItem('whatsapp_notifications_sent');
-      setHasRecentNotifications(false);
-    }
-  };
-
-  // Controlla lo stato all'avvio
-  useEffect(() => {
-    checkRecentNotifications();
-  }, []);
 
   // Carica gli appuntamenti imminenti
   const fetchUpcomingAppointments = async () => {
@@ -306,14 +273,6 @@ const NotificationsPage: React.FC = () => {
       const data = await response.json();
       
       if (data.success) {
-        // Salva lo stato di invio con timestamp per persistenza di 1 mese
-        const notificationData = {
-          timestamp: new Date().toISOString(),
-          count: data.results.length
-        };
-        localStorage.setItem('whatsapp_notifications_sent', JSON.stringify(notificationData));
-        setHasRecentNotifications(true);
-        
         toast({
           title: 'Promemoria WhatsApp generati',
           description: data.message || `${data.results.length} promemoria WhatsApp generati con successo`,
@@ -533,10 +492,7 @@ const NotificationsPage: React.FC = () => {
           className="space-y-4"
         >
           <TabsList className="grid grid-cols-4">
-            <TabsTrigger 
-              value="upcoming"
-              className={hasRecentNotifications ? "data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=inactive]:bg-red-100 data-[state=inactive]:text-red-700" : ""}
-            >
+            <TabsTrigger value="upcoming">
               <MessageSquare className="h-4 w-4 mr-2" />
               {t('notificationsPage.tabs.upcoming')}
             </TabsTrigger>
