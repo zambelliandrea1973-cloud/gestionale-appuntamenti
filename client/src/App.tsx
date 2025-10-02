@@ -120,7 +120,9 @@ function AppRoutes() {
         console.log('Percorso cliente rilevato, salto controlli autenticazione staff');
         
         // Se siamo su /client/... senza parametri QR e abbiamo un utente autenticato, vai alla dashboard
-        if (isClientPath && user && !location.includes('?token=')) {
+        // NOTA: location da wouter NON include query params, usa window.location.search
+        const hasToken = window.location.search.includes('token=');
+        if (isClientPath && user && !hasToken) {
           console.log('Area cliente senza QR rilevata, reindirizzamento a dashboard');
           setLocation('/dashboard');
           return;

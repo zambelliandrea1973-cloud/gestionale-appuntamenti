@@ -34,7 +34,11 @@
         "createdAt": "2025-04-02T16:43:36.683Z",
         "ownerId": 3,
         "uniqueCode": "PROF_003_4678_C00002",
-        "professionistCode": "PROF_003_4678"
+        "professionistCode": "PROF_003_4678",
+        "accessCount": 4,
+        "lastAccess": "2025-10-02T18:15:22.910Z",
+        "lastPwaAccess": "2025-10-02T18:15:22.910Z",
+        "pwaAccessCount": 4
       }
     ],
     [
