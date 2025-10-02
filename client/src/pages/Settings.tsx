@@ -23,6 +23,7 @@ import CompanyBusinessDataEditor from '@/components/CompanyBusinessDataEditor';
 import SimpleServiceManager from '@/components/SimpleServiceManager';
 import EmailSettings from '@/components/EmailSettings';
 import AdminNotifications from '@/components/AdminNotifications';
+import SubscriptionPlansAdmin from '@/components/SubscriptionPlansAdmin';
 
 import { RestartAppButton } from '@/components/RestartAppButton';
 
@@ -89,7 +90,7 @@ export default function Settings() {
         setActiveTab(value);
         localStorage.setItem('settings_active_tab', value);
       }}>
-        <TabsList className="grid grid-cols-5 mb-6">
+        <TabsList className={`grid ${isAdmin ? 'grid-cols-6' : 'grid-cols-5'} mb-6`}>
           <TabsTrigger value="app" className="flex items-center whitespace-nowrap">
             <SettingsIcon className="mr-2 h-4 w-4" />
             <span>{t('settings.general', 'Generali')}</span>
@@ -110,6 +111,12 @@ export default function Settings() {
             <Brush className="mr-2 h-4 w-4" />
             <span>{t('settings.appearance', 'Aspetto')}</span>
           </TabsTrigger>
+          {isAdmin && (
+            <TabsTrigger value="admin" className="flex items-center whitespace-nowrap">
+              <Shield className="mr-2 h-4 w-4" />
+              <span>Admin</span>
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent value="app">
@@ -316,6 +323,25 @@ export default function Settings() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {isAdmin && (
+          <TabsContent value="admin">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Shield className="mr-2 h-5 w-5" />
+                  Gestione Piani Abbonamento
+                </CardTitle>
+                <CardDescription>
+                  Modifica prezzi e autorizzazioni dei pacchetti abbonamento (Trial, Base, Pro, Business)
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SubscriptionPlansAdmin />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
       </Tabs>
 
       {/* Il dialog per la richiesta della password è stato rimosso - 
