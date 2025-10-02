@@ -64,13 +64,27 @@ export default function SubscriptionPlansAdmin() {
   });
 
   const startEditing = (plan: SubscriptionPlan) => {
+    // Gestione corretta delle features all'avvio dell'editing
+    let parsedFeatures: PlanFeature[] = [];
+    if (plan.features) {
+      if (typeof plan.features === 'string') {
+        try {
+          parsedFeatures = JSON.parse(plan.features);
+        } catch {
+          parsedFeatures = [];
+        }
+      } else if (Array.isArray(plan.features)) {
+        parsedFeatures = plan.features;
+      }
+    }
+    
     setEditingPlan(plan.id);
     setEditForm({
       name: plan.name,
       description: plan.description || '',
       price: plan.price,
       interval: plan.interval,
-      features: plan.features,
+      features: parsedFeatures,
       clientLimit: plan.clientLimit,
       isActive: plan.isActive,
     });
@@ -119,7 +133,20 @@ export default function SubscriptionPlansAdmin() {
     <div className="space-y-6">
       {plans?.map((plan) => {
         const isEditing = editingPlan === plan.id;
-        const features: PlanFeature[] = Array.isArray(plan.features) ? plan.features : [];
+        
+        // Gestione corretta delle features (potrebbero essere string JSON o array)
+        let features: PlanFeature[] = [];
+        if (plan.features) {
+          if (typeof plan.features === 'string') {
+            try {
+              features = JSON.parse(plan.features);
+            } catch {
+              features = [];
+            }
+          } else if (Array.isArray(plan.features)) {
+            features = plan.features;
+          }
+        }
 
         return (
           <Card key={plan.id}>
@@ -266,7 +293,7 @@ export default function SubscriptionPlansAdmin() {
                         </Button>
                       </div>
                     ))
-                  ) : (
+                  ) : features.length > 0 ? (
                     features.map((feature, index) => (
                       <div key={index} className="flex items-center gap-2">
                         {feature.included ? (
@@ -279,6 +306,10 @@ export default function SubscriptionPlansAdmin() {
                         </span>
                       </div>
                     ))
+                  ) : (
+                    <div className="text-sm text-muted-foreground italic">
+                      Nessuna funzionalità configurata. Clicca "Modifica" per aggiungere funzionalità.
+                    </div>
                   )}
                 </div>
               </div>
