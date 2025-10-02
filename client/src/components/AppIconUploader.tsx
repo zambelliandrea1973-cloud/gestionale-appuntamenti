@@ -5,6 +5,7 @@ import { Upload, Check, AlertCircle, Image as ImageIcon, RefreshCw, Undo2 } from
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { apiRequest } from '@/lib/queryClient';
 
 interface AppIconUploaderProps {
   onSuccess?: () => void;
@@ -42,7 +43,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
   const fetchIconInfo = async () => {
     setIsLoadingInfo(true);
     try {
-      const response = await fetch('/api/client-app-info');
+      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
+      const response = await apiRequest('GET', '/api/client-app-info');
       if (!response.ok) {
         throw new Error('Errore nel recupero delle informazioni sull\'icona');
       }
@@ -81,8 +83,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
 
   const fetchDefaultIconInfo = async () => {
     try {
-      // Usa l'endpoint dedicato per l'icona predefinita
-      const response = await fetch('/api/default-app-icon');
+      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
+      const response = await apiRequest('GET', '/api/default-app-icon');
       if (!response.ok) {
         throw new Error(`Errore HTTP ${response.status}: ${response.statusText}`);
       }
@@ -123,11 +125,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
     setUploadSuccess(false);
 
     try {
-      // STESSA LOGICA NOME AZIENDALE - usa endpoint di reset
-      const response = await fetch('/api/reset-app-icon', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+      const response = await apiRequest('POST', '/api/reset-app-icon');
 
       const data = await response.json();
 
@@ -203,11 +202,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
       reader.onload = async (e) => {
         const iconData = e.target?.result as string;
         
-        const response = await fetch('/api/upload-app-icon', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ iconData }),
-        });
+        // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+        const response = await apiRequest('POST', '/api/upload-app-icon', { iconData });
 
         const data = await response.json();
 
@@ -222,10 +218,8 @@ export default function AppIconUploader({ onSuccess }: AppIconUploaderProps) {
         
         // SINCRONIZZAZIONE AUTOMATICA ICONE PWA
         try {
-          const syncResponse = await fetch('/api/sync-pwa-icons', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-          });
+          // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+          const syncResponse = await apiRequest('POST', '/api/sync-pwa-icons');
           
           if (syncResponse.ok) {
             console.log('✅ Icone PWA sincronizzate automaticamente');

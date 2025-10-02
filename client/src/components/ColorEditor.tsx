@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from '@/lib/queryClient';
 
 interface ColorSettings {
   primaryColor: string;
@@ -25,9 +26,8 @@ export default function ColorEditor() {
 
   const loadColorSettings = async () => {
     try {
-      const response = await fetch('/api/client-app-info', {
-        credentials: 'include'
-      });
+      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
+      const response = await apiRequest('GET', '/api/client-app-info');
       
       if (response.ok) {
         const data = await response.json();
@@ -47,16 +47,9 @@ export default function ColorEditor() {
     setSaveError(null);
     
     try {
-      // USA L'API REALE CON DATABASE SEPARATI PER UTENTE - STESSO SISTEMA DEL NOME AZIENDALE
-      const response = await fetch('/api/color-settings-v2', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          primaryColor: settings.primaryColor
-        })
+      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+      const response = await apiRequest('POST', '/api/color-settings-v2', {
+        primaryColor: settings.primaryColor
       });
       
       if (response.ok) {

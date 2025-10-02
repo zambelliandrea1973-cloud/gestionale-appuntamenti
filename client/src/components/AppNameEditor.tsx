@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Info, Check, AlertCircle, Save } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { apiRequest } from '@/lib/queryClient';
 
 interface AppNameEditorProps {
   onSuccess?: () => void;
@@ -47,7 +48,8 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
   const fetchAppInfo = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/client-app-info');
+      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
+      const response = await apiRequest('GET', '/api/client-app-info');
       if (!response.ok) {
         throw new Error('Errore nel recupero delle informazioni dell\'app');
       }
@@ -96,13 +98,8 @@ export default function AppNameEditor({ onSuccess }: AppNameEditorProps) {
     setSaveError(null);
 
     try {
-      const response = await fetch('/api/update-app-info', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formValues),
-      });
+      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+      const response = await apiRequest('POST', '/api/update-app-info', formValues);
 
       const data = await response.json();
 
