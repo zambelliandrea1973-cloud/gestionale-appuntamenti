@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Check, AlertCircle, Type, Bold, Italic, Underline } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { apiRequest } from '@/lib/queryClient';
 import { 
   Select,
   SelectContent,
@@ -48,13 +49,8 @@ export default function CompanyNameEditor() {
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/company-name-settings', {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'x-device-type': 'desktop'
-        }
-      });
+      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
+      const response = await apiRequest('GET', '/api/company-name-settings');
       
       if (response.ok) {
         const data = await response.json();
@@ -78,14 +74,8 @@ export default function CompanyNameEditor() {
     try {
       console.log('🏢 Salvataggio impostazioni nome aziendale:', settings);
       
-      const response = await fetch('/api/company-name-settings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
-        },
-        body: JSON.stringify(settings)
-      });
+      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+      const response = await apiRequest('POST', '/api/company-name-settings', settings);
 
       if (!response.ok) {
         throw new Error('Errore durante il salvataggio delle impostazioni');
