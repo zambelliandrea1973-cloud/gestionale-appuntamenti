@@ -21,6 +21,20 @@ export default function StaffLogin() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   
+  // CRITICO: Pulisci la sessione server PRIMA di qualsiasi altra operazione
+  // per evitare che FooterContactIcons carichi dati di sessioni precedenti
+  useEffect(() => {
+    const clearSession = async () => {
+      try {
+        await apiRequest('POST', '/api/logout');
+        console.log('🧹 Sessione server pulita all\'arrivo su StaffLogin');
+      } catch (error) {
+        console.log('⚠️ Errore pulizia sessione (normale se non c\'era sessione):', error);
+      }
+    };
+    clearSession();
+  }, []);
+  
   // Controlla se dobbiamo mostrare la pagina di login per admin
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
