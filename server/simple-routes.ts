@@ -16,6 +16,7 @@ import contactSettingsRoutes from './routes/contactSettingsRoutes';
 import inventoryRoutes from './inventory-routes';
 import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import referralRoutes from './routes/referralRoutes';
+import paymentRoutes from './routes/paymentRoutes';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -180,6 +181,7 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/inventory', inventoryRoutes);
   app.use('/api/admin-license', adminLicenseRoutes);
   app.use('/api/referral', referralRoutes);
+  app.use('/api/payments', paymentRoutes);
 
   // Sistema lineare semplice - Servizi dell'utente  
   app.get("/api/services", async (req, res) => {
