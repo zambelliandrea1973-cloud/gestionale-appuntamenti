@@ -35,10 +35,10 @@
         "ownerId": 3,
         "uniqueCode": "PROF_003_4678_C00002",
         "professionistCode": "PROF_003_4678",
-        "accessCount": 8,
-        "lastAccess": "2025-10-02T18:20:08.512Z",
-        "lastPwaAccess": "2025-10-02T18:20:08.512Z",
-        "pwaAccessCount": 8
+        "accessCount": 32,
+        "lastAccess": "2025-10-02T18:30:33.251Z",
+        "lastPwaAccess": "2025-10-02T18:30:33.251Z",
+        "pwaAccessCount": 32
       }
     ],
     [
@@ -8728,6 +8728,74 @@
         "createdAt": "2025-10-01T11:31:06.861Z",
         "reminderStatus": "sent"
       }
+    ],
+    [
+      1759429268967,
+      {
+        "id": 1759429268967,
+        "clientId": 2,
+        "serviceId": 4,
+        "staffId": null,
+        "roomId": null,
+        "date": "2025-10-04",
+        "startTime": "09:00:00",
+        "endTime": "10:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-02T18:21:08.967Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759429457084,
+      {
+        "id": 1759429457084,
+        "clientId": 2,
+        "serviceId": 7,
+        "staffId": null,
+        "roomId": null,
+        "date": "2025-10-02",
+        "startTime": "11:00:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-02T18:24:17.084Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759429764441,
+      {
+        "id": 1759429764441,
+        "clientId": 9001,
+        "serviceId": 1,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-04",
+        "startTime": "10:15:00",
+        "endTime": "10:45:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-02T18:29:24.441Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759429813092,
+      {
+        "id": 1759429813092,
+        "clientId": 2,
+        "serviceId": 1,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-04",
+        "startTime": "11:00:00",
+        "endTime": "11:30:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-02T18:30:13.092Z",
+        "reminderStatus": "sent"
+      }
     ]
   ],
   "consents": [
@@ -8990,6 +9058,42 @@
       "clientName": "Bruna Pizzolato",
       "timestamp": "2025-06-21T09:31:17.727Z",
       "read": false
+    },
+    {
+      "id": 1759429268981,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero 3472550110. [Apri WhatsApp](https://wa.me/3472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Consulenza%20Nutrizionale%20del%2004%2F10%2F2025%20alle%20ore%2009%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-02T18:21:08.981Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759429457099,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero 3472550110. [Apri WhatsApp](https://wa.me/3472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Bicom%20del%2002%2F10%2F2025%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-02T18:24:17.099Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759429764464,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393472550110. [Apri WhatsApp](https://wa.me/393472550110?text=Gentile%20Andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2004%2F10%2F2025%20alle%20ore%2010%3A15.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-02T18:29:24.464Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759429813109,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero 3472550110. [Apri WhatsApp](https://wa.me/3472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Visita%20Generale%20del%2004%2F10%2F2025%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-02T18:30:13.109Z",
+      "read": false,
+      "channel": "app"
     }
   ],
   "productCategories": [
