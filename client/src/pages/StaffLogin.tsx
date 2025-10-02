@@ -62,12 +62,9 @@ export default function StaffLogin() {
         }
       });
       
-      // Forza la ripultura della cache per ottenere i dati utente aggiornati
-      queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/contact-info'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/company-name-settings'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/client-app-info'] });
+      // Forza la ripultura COMPLETA della cache per ottenere i dati utente aggiornati
+      queryClient.clear(); // PULISCE TUTTA LA CACHE per evitare contaminazione cross-utente
+      console.log('🧹 Cache React Query completamente pulita al login');
       
       // Aggiungiamo un piccolo ritardo per permettere al browser di respirare
       setTimeout(() => {
