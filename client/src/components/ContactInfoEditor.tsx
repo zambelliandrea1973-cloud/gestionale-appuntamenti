@@ -8,6 +8,7 @@ import { Mail, Phone, Globe, Facebook, Instagram, Check, AlertCircle, Save } fro
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ContactInfo, loadContactInfo, saveContactInfo, saveContactInfoToAPI, isValidContactInfo } from '@/lib/contactInfo';
+import { apiRequest } from '@/lib/queryClient';
 
 interface ContactInfoEditorProps {
   onSuccess?: () => void;
@@ -29,13 +30,8 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
 
   const fetchContactInfo = async () => {
     try {
-      const response = await fetch('/api/contact-info', {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'x-device-type': 'desktop'
-        }
-      });
+      // USA apiRequest per headers automatici (x-device-type, anti-cache, etc.)
+      const response = await apiRequest('GET', '/api/contact-info');
       
       if (response.ok) {
         const data = await response.json();
@@ -103,14 +99,8 @@ export default function ContactInfoEditor({ onSuccess }: ContactInfoEditorProps)
     try {
       console.log('📞 Salvataggio informazioni contatto:', contactInfo);
       
-      const response = await fetch('/api/contact-info', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
-        },
-        body: JSON.stringify(contactInfo)
-      });
+      // USA apiRequest per headers automatici (x-device-type, Content-Type, anti-cache, etc.)
+      const response = await apiRequest('POST', '/api/contact-info', contactInfo);
 
       if (!response.ok) {
         throw new Error('Errore durante il salvataggio delle informazioni di contatto');
