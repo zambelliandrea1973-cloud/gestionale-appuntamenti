@@ -3244,6 +3244,57 @@ export class DatabaseStorage implements IStorage {
   }
   
   /**
+   * Crea un nuovo piano di abbonamento
+   */
+  async createSubscriptionPlan(plan: InsertSubscriptionPlan): Promise<SubscriptionPlan> {
+    try {
+      const [newPlan] = await db
+        .insert(subscriptionPlans)
+        .values(plan)
+        .returning();
+      
+      return newPlan;
+    } catch (error) {
+      console.error('Errore nella creazione del piano di abbonamento:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Aggiorna un piano di abbonamento esistente
+   */
+  async updateSubscriptionPlan(id: number, plan: Partial<InsertSubscriptionPlan>): Promise<SubscriptionPlan | undefined> {
+    try {
+      const [updatedPlan] = await db
+        .update(subscriptionPlans)
+        .set(plan)
+        .where(eq(subscriptionPlans.id, id))
+        .returning();
+      
+      return updatedPlan;
+    } catch (error) {
+      console.error(`Errore nell'aggiornamento del piano di abbonamento con ID ${id}:`, error);
+      return undefined;
+    }
+  }
+  
+  /**
+   * Elimina un piano di abbonamento
+   */
+  async deleteSubscriptionPlan(id: number): Promise<boolean> {
+    try {
+      await db
+        .delete(subscriptionPlans)
+        .where(eq(subscriptionPlans.id, id));
+      
+      return true;
+    } catch (error) {
+      console.error(`Errore nell'eliminazione del piano di abbonamento con ID ${id}:`, error);
+      return false;
+    }
+  }
+  
+  /**
    * Recupera tutti i metodi di pagamento configurati
    */
   async getPaymentMethods(): Promise<any[]> {
