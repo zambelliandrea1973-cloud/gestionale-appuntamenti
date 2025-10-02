@@ -757,6 +757,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
           paymentMethod: 'paypal',
           status: 'completed',
           description: 'Abbonamento Base - 1 anno',
+          isTestData: true, // Flag per identificare dati di test
           createdAt: fiveMonthsAgo.toISOString(),
           updatedAt: fiveMonthsAgo.toISOString(),
           metadata: {
@@ -773,6 +774,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
           paymentMethod: 'stripe',
           status: 'completed',
           description: 'Abbonamento Professional - 1 anno',
+          isTestData: true, // Flag per identificare dati di test
           createdAt: fourMonthsAgo.toISOString(),
           updatedAt: fourMonthsAgo.toISOString(),
           metadata: {
@@ -789,6 +791,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
           paymentMethod: 'stripe',
           status: 'completed',
           description: 'Abbonamento Business - 1 anno',
+          isTestData: true, // Flag per identificare dati di test
           createdAt: threeMonthsAgo.toISOString(),
           updatedAt: threeMonthsAgo.toISOString(),
           metadata: {
@@ -805,6 +808,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
           paymentMethod: 'paypal',
           status: 'failed',
           description: 'Tentativo abbonamento Base - Pagamento fallito',
+          isTestData: true, // Flag per identificare dati di test
           createdAt: twoMonthsAgo.toISOString(),
           updatedAt: twoMonthsAgo.toISOString(),
           metadata: {
@@ -821,6 +825,7 @@ router.get('/payment-admin/transactions', isAuthenticated, isAdmin, async (req, 
           paymentMethod: 'wise',
           status: 'pending',
           description: 'Abbonamento Base - In attesa di conferma bonifico',
+          isTestData: true, // Flag per identificare dati di test
           createdAt: oneMonthAgo.toISOString(),
           updatedAt: oneMonthAgo.toISOString(),
           metadata: {

@@ -344,7 +344,16 @@ export default function PaymentAdmin() {
                         {transactions.length > 0 ? (
                           transactions.map((transaction) => (
                             <TableRow key={transaction.id}>
-                              <TableCell className="font-medium">{transaction.id}</TableCell>
+                              <TableCell className="font-medium">
+                                <div className="flex items-center gap-2">
+                                  {transaction.id}
+                                  {transaction.isTestData && (
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200">
+                                      DEMO
+                                    </span>
+                                  )}
+                                </div>
+                              </TableCell>
                               <TableCell>{formatDate(transaction.createdAt)}</TableCell>
                               <TableCell>{formatCurrency(transaction.amount / 100)}</TableCell>
                               <TableCell>{getPaymentMethodBadge(transaction.paymentMethod)}</TableCell>
