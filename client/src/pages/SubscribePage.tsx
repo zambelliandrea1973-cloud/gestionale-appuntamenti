@@ -327,13 +327,13 @@ export default function SubscribePage() {
   // Converte i piani dal server al formato locale
   const plans = serverPlans?.length 
     ? serverPlans.map((plan: ServerPlan) => {
-        let features = [];
+        let features: PlanFeature[] = [];
         try {
           if (plan.features) {
             if (typeof plan.features === 'string') {
               features = JSON.parse(plan.features);
             } else if (typeof plan.features === 'object') {
-              features = plan.features;
+              features = plan.features as any;
             }
           }
         } catch (error) {
@@ -346,6 +346,24 @@ export default function SubscribePage() {
             ? LicenseType.BUSINESS
             : LicenseType.BASE;
         
+        // Normalizza le features: possono essere già oggetti {name, included} o stringhe
+        const normalizedFeatures: PlanFeature[] = Array.isArray(features) && features.length > 0
+          ? features.map((f: any) => {
+              // Se è già un oggetto con name e included, usalo così com'è
+              if (typeof f === 'object' && f.name !== undefined) {
+                return {
+                  name: f.name,
+                  included: f.included !== undefined ? f.included : true
+                };
+              }
+              // Se è una stringa, convertila in oggetto
+              return {
+                name: String(f),
+                included: true
+              };
+            })
+          : fallbackPlans.find(p => p.type === planType)?.features || [];
+        
         return {
           id: String(plan.id),
           type: planType,
@@ -355,10 +373,7 @@ export default function SubscribePage() {
           priceLabel: `€${(plan.price / 100).toFixed(2).replace('.', ',')}/mese`,
           popular: plan.name.toLowerCase().includes('pro'),
           buttonVariant: plan.name.toLowerCase().includes('pro') ? 'default' : 'outline' as 'default' | 'outline',
-          features: Array.isArray(features) ? features.map((f: string) => ({
-            name: f,
-            included: true
-          })) : fallbackPlans.find(p => p.type === planType)?.features || [],
+          features: normalizedFeatures,
         };
       }) 
     : fallbackPlans;
