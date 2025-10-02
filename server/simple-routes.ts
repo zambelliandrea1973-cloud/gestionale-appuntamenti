@@ -187,9 +187,9 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/services", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
     const userAgent = req.headers['user-agent'] || '';
-    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     // FORZA ANTI-CACHE PER MOBILE
     if (isMobile) {
@@ -387,9 +387,9 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/clients", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
     const userAgent = req.headers['user-agent'] || '';
-    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`🔍 [/api/clients] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
     
@@ -645,7 +645,9 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const clientId = parseInt(req.params.id);
-    const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     if (isNaN(clientId)) {
       return res.status(400).json({ message: "ID cliente non valido" });
@@ -835,7 +837,9 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/user-with-license", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`🔐 [${deviceType}] /api/user-with-license per utente ${user.id} (${user.username})`);
     
@@ -1350,9 +1354,9 @@ export function registerSimpleRoutes(app: Express): Server {
 
     const userId = req.user.id;
     const userType = req.user.type;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
     const userAgent = req.headers['user-agent'] || '';
-    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`🏢 [/api/company-name-settings] [${deviceType}] GET per utente ${userId} (${userType})`);
     
@@ -1549,9 +1553,9 @@ export function registerSimpleRoutes(app: Express): Server {
   app.get("/api/appointments", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
     const userAgent = req.headers['user-agent'] || '';
-    const isMobile = userAgent.includes('Mobile') || deviceType === 'mobile';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`📅 [/api/appointments] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.username}`);
     console.log(`📱 [/api/appointments] [${deviceType}] Mobile: ${isMobile}, UserAgent: ${userAgent.substring(0, 50)}...`);
@@ -1630,7 +1634,9 @@ export function registerSimpleRoutes(app: Express): Server {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const { date } = req.params;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`📅 [/api/appointments/date] [${deviceType}] Utente ${user.id} cerca appuntamenti per data ${date}`);
     
@@ -1714,7 +1720,9 @@ export function registerSimpleRoutes(app: Express): Server {
     
     const { startDate, endDate } = req.params;
     const user = req.user as any;
-    const deviceType = req.headers['x-device-type'] || 'unknown';
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
     console.log(`📊 [/api/appointments/range] [${deviceType}] Utente ${user.id} cerca appuntamenti per range ${startDate}-${endDate}`);
     
