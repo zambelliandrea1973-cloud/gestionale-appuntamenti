@@ -79,10 +79,11 @@ This is a comprehensive medical practice management system built with React, Typ
 4. Reminders automatically scheduled
 
 ### Authentication Flow
-1. User login through secure form
-2. Credentials validated against user database
-3. Session created with role-based permissions
-4. Route access controlled by middleware
+1. **Session Cleanup**: On login page arrival, system calls /api/logout to clear any previous session (prevents cross-user data contamination)
+2. **Credential Validation**: User credentials validated against user database
+3. **Session Creation**: New session created with role-based permissions for authenticated user
+4. **Cache Invalidation**: React Query cache invalidated for auth-related queries (user-with-license, contact-info, company-name-settings)
+5. **Route Protection**: Route access controlled by middleware based on user type (admin/staff/customer/client)
 
 ### Referral Commission Flow
 1. Staff member shares unique referral code with potential customer
@@ -157,6 +158,7 @@ This is a comprehensive medical practice management system built with React, Typ
 - October 1, 2025: REFERRAL SYSTEM COMPLETE - Implemented automatic referral tracking and commission system. Staff gets unique codes, customers register with code, system auto-creates 10% commissions when subscriptions activate. Fixed critical bug: registered referralRoutes in simple-routes.ts (was missing). Complete payment infrastructure: admin IBAN (receives payments) → client pays via Stripe/PayPal → staff IBAN (receives commissions). All endpoints functional and tested.
 - October 1, 2025: REFERRAL CODE SIMPLIFICATION - Simplified referral system to use user ID directly as referral code instead of separate alphanumeric codes (e.g., "14" instead of "BUS14"). This eliminates potential conflicts and makes the system more intuitive. Modified getUserByReferralCode to accept numeric IDs, updated ReferralPage to display user ID as referral code.
 - October 1, 2025: COMMISSION VIEWS ENHANCEMENT - Enhanced referral commission management with dual-view system. Admin can now view: 1) Individual staff commissions (green "Dettagli" button on each staff card), 2) All commissions from all staff combined (gray "Commissioni Dettagliate" tab). Implemented /api/staff-commissions/all endpoint with complete data enrichment (customer email, license type, staff attribution). Fixed query key structure for proper cache invalidation using hierarchical array segments.
+- October 2, 2025: SESSION CONTAMINATION FIX - Fixed critical cross-user data contamination bug where mobile showed configurations from previous sessions. Implemented automatic session cleanup on login page arrival: StaffLogin now calls /api/logout to clear previous sessions and invalidates React Query cache for auth-related queries (user-with-license, contact-info, company-name-settings). Mobile and desktop now correctly load user-specific data without cross-contamination. All components (CompanyNameEditor, ContactInfoEditor, AppIconUploader, AppNameEditor, ColorEditor) migrated from fetch() to apiRequest() helper for consistent device-type detection and anti-cache headers.
 
 ## User Preferences
 

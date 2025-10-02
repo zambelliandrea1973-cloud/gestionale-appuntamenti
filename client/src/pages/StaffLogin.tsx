@@ -21,18 +21,20 @@ export default function StaffLogin() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   
-  // CRITICO: Pulisci la sessione server E la cache React Query PRIMA di qualsiasi altra operazione
+  // CRITICO: Pulisci la sessione server PRIMA di qualsiasi altra operazione
   // per evitare che FooterContactIcons carichi dati di sessioni precedenti
   useEffect(() => {
     const clearSession = async () => {
       try {
-        // 1. Pulisci cache React Query (useUserWithLicense, ecc.)
-        queryClient.clear();
-        console.log('🧹 Cache React Query pulita all\'arrivo su StaffLogin');
-        
-        // 2. Pulisci sessione server
+        // 1. Pulisci sessione server (questo invaliderà automaticamente i dati utente)
         await apiRequest('POST', '/api/logout');
         console.log('🧹 Sessione server pulita all\'arrivo su StaffLogin');
+        
+        // 2. Invalida query di autenticazione per forzare ricaricamento
+        queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/contact-info'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/company-name-settings'] });
+        console.log('🧹 Query di autenticazione invalidate');
       } catch (error) {
         console.log('⚠️ Errore pulizia sessione (normale se non c\'era sessione):', error);
       }
