@@ -52,9 +52,22 @@ export default function StaffLogin() {
     onSuccess: (userData) => {
       console.log("Login riuscito, dati utente:", userData);
       
+      // CRITICO: Pulisci TUTTI i dati localStorage di altri utenti per evitare contaminazione
+      const keysToKeep = ['staffUsername']; // Solo credenziali memorizzate
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (!keysToKeep.includes(key)) {
+          localStorage.removeItem(key);
+          console.log(`🧹 Rimosso localStorage: ${key}`);
+        }
+      });
+      
       // Forza la ripultura della cache per ottenere i dati utente aggiornati
       queryClient.invalidateQueries({ queryKey: ['/api/user-with-license'] });
       queryClient.invalidateQueries({ queryKey: ['/api/license/application-title'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/contact-info'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/company-name-settings'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-app-info'] });
       
       // Aggiungiamo un piccolo ritardo per permettere al browser di respirare
       setTimeout(() => {
