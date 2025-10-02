@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, RotateCcw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -18,6 +18,7 @@ export default function StaffLogin() {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [isAdminLogin, setIsAdminLogin] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isClearing, setIsClearing] = useState<boolean>(false);
   const [, navigate] = useLocation();
   const { toast } = useToast();
   
@@ -59,6 +60,52 @@ export default function StaffLogin() {
       setRememberMe(true);
     }
   }, []);
+  
+  // Funzione per pulire manualmente cache e dati (utile per app WebView)
+  const handleClearCache = async () => {
+    setIsClearing(true);
+    try {
+      // 1. Pulisci sessione server
+      await apiRequest('POST', '/api/logout');
+      console.log('🧹 PULIZIA MANUALE: Sessione server pulita');
+      
+      // 2. Pulisci localStorage (tranne credenziali se richiesto)
+      const keysToKeep = rememberMe ? ['staffUsername'] : [];
+      const allKeys = Object.keys(localStorage);
+      allKeys.forEach(key => {
+        if (!keysToKeep.includes(key)) {
+          localStorage.removeItem(key);
+          console.log(`🧹 PULIZIA MANUALE: Rimosso localStorage ${key}`);
+        }
+      });
+      
+      // 3. Pulisci cache React Query
+      queryClient.clear();
+      console.log('🧹 PULIZIA MANUALE: Cache React Query pulita');
+      
+      // 4. Mostra messaggio di conferma
+      toast({
+        title: "✅ Cache pulita con successo",
+        description: "Tutti i dati temporanei sono stati rimossi. Puoi effettuare il login.",
+      });
+      
+      // 5. Reset form
+      if (!rememberMe) {
+        setUsername("");
+      }
+      setPassword("");
+      
+    } catch (error) {
+      console.error('❌ Errore durante la pulizia:', error);
+      toast({
+        title: "Errore durante la pulizia",
+        description: "Si è verificato un errore. Riprova.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsClearing(false);
+    }
+  };
   
   // Crea la mutazione per gestire il login
   const loginMutation = useMutation({
@@ -198,6 +245,23 @@ export default function StaffLogin() {
                 {loginMutation.isPending ? "Accesso in corso..." : "Accedi"}
               </Button>
             </form>
+            
+            {/* Pulsante per pulire cache manualmente (utile per app WebView) */}
+            <div className="mt-4 pt-4 border-t">
+              <Button 
+                type="button"
+                variant="outline"
+                className="w-full" 
+                disabled={isClearing}
+                onClick={handleClearCache}
+              >
+                {isClearing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RotateCcw className="mr-2 h-4 w-4" />}
+                {isClearing ? "Pulizia in corso..." : "🧹 Pulisci Cache App"}
+              </Button>
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                Usa questo pulsante se vedi dati di altri utenti
+              </p>
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2 text-center text-sm">
             <div>Non hai un account? <a href="/register" className="text-primary hover:underline">Registrati</a></div>
