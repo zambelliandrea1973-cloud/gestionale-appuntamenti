@@ -1102,7 +1102,9 @@ const WhatsAppCenterPage: React.FC = () => {
                           <div className="space-y-2 pl-4">
                             {apps.map(appointment => {
                                 // Determiniamo se il messaggio è già stato inviato
-                                const isMessageSent = appointment.reminderStatus?.includes('whatsapp_generated');
+                                // Supporta sia 'whatsapp_generated' (nuovo) che 'sent' (legacy)
+                                const isMessageSent = appointment.reminderStatus?.includes('whatsapp_generated') || 
+                                                     appointment.reminderStatus?.includes('sent');
                                 
                                 // Nascondi messaggi inviati da più di 30 giorni
                                 if (isMessageSent && appointment.whatsappSentAt) {
