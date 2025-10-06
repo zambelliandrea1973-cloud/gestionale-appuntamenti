@@ -8796,6 +8796,108 @@
         "createdAt": "2025-10-02T18:30:13.092Z",
         "reminderStatus": "sent"
       }
+    ],
+    [
+      1759740659638,
+      {
+        "id": 1759740659638,
+        "clientId": 2,
+        "serviceId": 4,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-07",
+        "startTime": "11:00:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T08:50:59.638Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759740663915,
+      {
+        "id": 1759740663915,
+        "clientId": 2,
+        "serviceId": 4,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-07",
+        "startTime": "11:00:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T08:51:03.915Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759740703747,
+      {
+        "id": 1759740703747,
+        "clientId": 14004,
+        "serviceId": 6,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-07",
+        "startTime": "11:45:00",
+        "endTime": "12:45:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T08:51:43.747Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759740750208,
+      {
+        "id": 1759740750208,
+        "clientId": 14003,
+        "serviceId": 7,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-07",
+        "startTime": "12:15:00",
+        "endTime": "13:15:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T08:52:30.208Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759740751779,
+      {
+        "id": 1759740751779,
+        "clientId": 14003,
+        "serviceId": 7,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-07",
+        "startTime": "12:15:00",
+        "endTime": "13:15:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T08:52:31.779Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759740783229,
+      {
+        "id": 1759740783229,
+        "clientId": 14004,
+        "serviceId": 1,
+        "staffId": 3,
+        "roomId": null,
+        "date": "2025-10-07",
+        "startTime": "16:00:00",
+        "endTime": "16:30:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T08:53:03.229Z",
+        "reminderStatus": "sent"
+      }
     ]
   ],
   "consents": [
@@ -9100,6 +9202,60 @@
       "type": "staff_reminder",
       "message": "📱 Invia WhatsApp al cliente con numero 3472550110. [Apri WhatsApp](https://wa.me/3472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Visita%20Generale%20del%2004%2F10%2F2025%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
       "timestamp": "2025-10-02T18:30:13.109Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759740659675,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero 3472550110. [Apri WhatsApp](https://wa.me/3472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Consulenza%20Nutrizionale%20del%2007%2F10%2F2025%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T08:50:59.675Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759740663930,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero 3472550110. [Apri WhatsApp](https://wa.me/3472550110?text=Gentile%20Zambelli%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20Consulenza%20Nutrizionale%20del%2007%2F10%2F2025%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T08:51:03.930Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759740703775,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393270881677. [Apri WhatsApp](https://wa.me/393270881677?text=Gentile%20Bruna%20%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2007%2F10%2F2025%20alle%20ore%2011%3A45.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T08:51:43.775Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759740750234,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +41794374849. [Apri WhatsApp](https://wa.me/41794374849?text=Gentile%20Marco%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2007%2F10%2F2025%20alle%20ore%2012%3A15.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T08:52:30.234Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759740751800,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +41794374849. [Apri WhatsApp](https://wa.me/41794374849?text=Gentile%20Marco%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2007%2F10%2F2025%20alle%20ore%2012%3A15.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T08:52:31.800Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759740783253,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393270881677. [Apri WhatsApp](https://wa.me/393270881677?text=Gentile%20Bruna%20%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2007%2F10%2F2025%20alle%20ore%2016%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T08:53:03.253Z",
       "read": false,
       "channel": "app"
     }

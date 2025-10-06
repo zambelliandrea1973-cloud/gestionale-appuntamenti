@@ -112,9 +112,24 @@ const NotificationsPage: React.FC = () => {
     }
   };
 
-  // Controlla lo stato all'avvio
+  // Controlla lo stato all'avvio e quando la pagina torna visibile
   useEffect(() => {
+    // Controlla subito all'avvio
     checkRecentNotifications();
+    
+    // Aggiungi listener per quando la pagina diventa visibile
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        checkRecentNotifications();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Cleanup
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   // Carica gli appuntamenti imminenti
