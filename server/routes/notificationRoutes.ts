@@ -308,6 +308,7 @@ router.get('/whatsapp-history', async (req: Request, res: Response) => {
 
 /**
  * Marca un appuntamento come "messaggio WhatsApp inviato"
+ * Salva timestamp per cancellazione automatica dopo 30 giorni
  */
 router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => {
   try {
@@ -320,13 +321,49 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
       });
     }
     
-    // SKIP DATABASE OPERATIONS - Evita timeout e errori PostgreSQL con ID grandi
+    // Carica dati dal JSON
+    const storageData = loadStorageData();
+    const allAppointments = storageData.appointments || [];
     
-    console.log(`Appuntamento ${appointmentId} marcato come "WhatsApp inviato"`);
+    // Trova l'appuntamento
+    const appointmentIndex = allAppointments.findIndex(([id, app]) => app.id === parseInt(appointmentId));
+    
+    if (appointmentIndex === -1) {
+      return res.status(404).json({
+        success: false,
+        error: 'Appuntamento non trovato'
+      });
+    }
+    
+    const [id, appointment] = allAppointments[appointmentIndex];
+    
+    // Aggiorna reminderStatus e aggiungi timestamp
+    let reminderStatus = appointment.reminderStatus || '';
+    if (!reminderStatus.includes('whatsapp_generated')) {
+      reminderStatus = reminderStatus 
+        ? `${reminderStatus},whatsapp_generated` 
+        : 'whatsapp_generated';
+    }
+    
+    const updatedAppointment = {
+      ...appointment,
+      reminderStatus,
+      whatsappSentAt: new Date().toISOString() // Timestamp per cancellazione dopo 30 giorni
+    };
+    
+    allAppointments[appointmentIndex] = [id, updatedAppointment];
+    storageData.appointments = allAppointments;
+    
+    // Salva nel JSON
+    const storagePath = path.join(process.cwd(), '/tmp/storage_data.json');
+    fs.writeFileSync(storagePath, JSON.stringify(storageData, null, 2));
+    
+    console.log(`✅ Appuntamento ${appointmentId} marcato come "WhatsApp inviato" - timestamp: ${updatedAppointment.whatsappSentAt}`);
     
     res.json({
       success: true,
-      message: 'Appuntamento marcato come "WhatsApp inviato"'
+      message: 'Appuntamento marcato come "WhatsApp inviato"',
+      whatsappSentAt: updatedAppointment.whatsappSentAt
     });
   } catch (error: any) {
     console.error('Errore nel marcare appuntamento come inviato:', error);
