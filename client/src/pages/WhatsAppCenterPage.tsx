@@ -1103,6 +1103,16 @@ const WhatsAppCenterPage: React.FC = () => {
                             {apps.map(appointment => {
                                 // Determiniamo se il messaggio è già stato inviato
                                 const isMessageSent = appointment.reminderStatus?.includes('whatsapp_generated');
+                                
+                                // Nascondi messaggi inviati da più di 30 giorni
+                                if (isMessageSent && appointment.whatsappSentAt) {
+                                  const sentDate = new Date(appointment.whatsappSentAt);
+                                  const daysSinceSent = Math.floor((Date.now() - sentDate.getTime()) / (1000 * 60 * 60 * 24));
+                                  if (daysSinceSent > 30) {
+                                    return null; // Nascondi appuntamento
+                                  }
+                                }
+                                
                                 const bgColor = isMessageSent ? 'bg-red-50' : 'bg-green-50';
                                 
                                 // Creiamo un link WhatsApp diretto
