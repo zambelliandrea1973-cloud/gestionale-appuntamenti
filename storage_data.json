@@ -8915,6 +8915,22 @@
         "createdAt": "2025-10-06T14:11:09.514Z",
         "reminderStatus": "sent"
       }
+    ],
+    [
+      1759760276092,
+      {
+        "id": 1759760276092,
+        "clientId": 14003,
+        "serviceId": 1750225141396,
+        "staffId": 1,
+        "roomId": null,
+        "date": "2025-10-07",
+        "startTime": "10:00:00",
+        "endTime": "10:30:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T14:17:56.092Z"
+      }
     ]
   ],
   "consents": [
