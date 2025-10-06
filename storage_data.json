@@ -8881,6 +8881,40 @@
         "createdAt": "2025-10-06T13:53:33.716Z",
         "reminderStatus": "sent"
       }
+    ],
+    [
+      1759759781580,
+      {
+        "id": 1759759781580,
+        "clientId": 14002,
+        "serviceId": 1750225060109,
+        "staffId": 1,
+        "roomId": null,
+        "date": "2025-10-08",
+        "startTime": "11:00:00",
+        "endTime": "12:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T14:09:41.580Z",
+        "reminderStatus": "sent"
+      }
+    ],
+    [
+      1759759869514,
+      {
+        "id": 1759759869514,
+        "clientId": 14003,
+        "serviceId": 1750225071976,
+        "staffId": 1,
+        "roomId": 1,
+        "date": "2025-10-08",
+        "startTime": "11:30:00",
+        "endTime": "12:30:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T14:11:09.514Z",
+        "reminderStatus": "sent"
+      }
     ]
   ],
   "consents": [
@@ -9293,6 +9327,24 @@
       "type": "staff_reminder",
       "message": "📱 Invia WhatsApp al cliente con numero +39 3472550110. [Apri WhatsApp](https://wa.me/39 3472550110?text=Gentile%20andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20zapter%20del%2009%2F10%2F2025%20alle%20ore%2009%3A15.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
       "timestamp": "2025-10-06T13:53:33.735Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759759781596,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +39 3472550110. [Apri WhatsApp](https://wa.me/39 3472550110?text=Gentile%20andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20bio%20bicom%20del%2008%2F10%2F2025%20alle%20ore%2011%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T14:09:41.596Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759759869537,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +41794374849. [Apri WhatsApp](https://wa.me/41794374849?text=Gentile%20Marco%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20zapter%20del%2008%2F10%2F2025%20alle%20ore%2011%3A30.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T14:11:09.537Z",
       "read": false,
       "channel": "app"
     }
