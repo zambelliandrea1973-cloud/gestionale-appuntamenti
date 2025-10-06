@@ -26,16 +26,11 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       });
     }
 
-    // Calcola ultimi 10 giorni + oggi e futuro fino a fine mese
-    const now = new Date();
-    const tenDaysAgo = new Date(now);
-    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    // Calcola le date per oggi e domani (logica originale funzionante)
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const tomorrow = format(new Date(Date.now() + 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
     
-    const startDate = format(tenDaysAgo, 'yyyy-MM-dd');
-    const endDate = format(endOfMonth, 'yyyy-MM-dd');
-    
-    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti degli ultimi 10 giorni: ${startDate} - ${endDate}`);
+    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
     
     // 📁 USA JSON come tutti gli altri endpoint che funzionano
     const storageData = loadStorageData();
@@ -43,31 +38,27 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[userId] || [];
     
-    // Filtra appuntamenti per tutto il mese + utente owner
+    // Filtra appuntamenti per oggi e domani + utente owner (logica originale)
     const appointmentsFromJson = allAppointments
       .map(([id, appointment]) => appointment)
       .filter((appointment: any) => {
-        // Filtra per date del mese corrente
-        if (appointment.date < startDate || appointment.date > endDate) return false;
+        // Filtra per date (SOLO oggi e domani)
+        if (appointment.date !== today && appointment.date !== tomorrow) return false;
         
         // Filtra per ownership usando clienti dell'utente
         const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
         if (!client) return false;
         
-        // Usa ownerId o originalOwnerId per consistenza
-        const clientOwnerId = client.ownerId || client.originalOwnerId;
-        
-        // Permetti accesso solo al proprietario del cliente
-        // Admin vede solo i suoi clienti, non quelli di altri
+        // Permetti accesso agli staff o al proprietario
         const user = req.user as any;
-        if (clientOwnerId === userId) {
+        if (user.type === 'staff' || client.ownerId === userId) {
           return true;
         }
         
         return false;
       });
     
-    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti negli ultimi 10 giorni: ${startDate} - ${endDate}`);
+    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti per date ${today} - ${tomorrow}`);
     
     // Mappa i risultati nel formato atteso dal frontend con tutti i dati
     const appointments = appointmentsFromJson.map((appointment: any) => {
