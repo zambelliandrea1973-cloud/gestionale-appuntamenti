@@ -192,7 +192,21 @@ export default function AppointmentForm({
   useEffect(() => {
     const client = clients.find((c: any) => c.id === watchedClientId);
     setSelectedClient(client || null);
-  }, [watchedClientId, clients]);
+    
+    // Debug forzato
+    if (client) {
+      const clientOwnerId = client.ownerId || client.originalOwnerId;
+      const isOther = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
+      console.log(`🔍 [APPOINTMENT FORM] Cliente selezionato ${client.firstName} ${client.lastName}:`, {
+        clientId: client.id,
+        ownerId: client.ownerId,
+        originalOwnerId: client.originalOwnerId,
+        clientOwnerId,
+        currentUserId: currentUser?.id,
+        isOtherAccount: isOther
+      });
+    }
+  }, [watchedClientId, clients, currentUser]);
   
   // Gestione del click fuori dai popover per chiuderli
   useEffect(() => {

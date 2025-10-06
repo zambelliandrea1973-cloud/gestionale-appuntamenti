@@ -355,15 +355,31 @@ export default function Clients() {
               </Card>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredClients.map((client: any) => (
-                  <ClientCard
-                    key={client.id}
-                    client={client}
-                    onUpdate={handleClientUpdated}
-                    onDelete={handleClientDeleted}
-                    isOtherAccount={currentUser?.type === 'admin' && (client.ownerId || client.originalOwnerId) !== currentUser.id}
-                  />
-                ))}
+                {filteredClients.map((client: any) => {
+                  const clientOwnerId = client.ownerId || client.originalOwnerId;
+                  const isOtherAccount = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
+                  
+                  // Debug forzato per primi 3 clienti
+                  if (filteredClients.indexOf(client) < 3) {
+                    console.log(`🔍 [CLIENT ${client.id}] ${client.firstName} ${client.lastName}:`, {
+                      ownerId: client.ownerId,
+                      originalOwnerId: client.originalOwnerId,
+                      clientOwnerId,
+                      currentUserId: currentUser?.id,
+                      isOtherAccount
+                    });
+                  }
+                  
+                  return (
+                    <ClientCard
+                      key={client.id}
+                      client={client}
+                      onUpdate={handleClientUpdated}
+                      onDelete={handleClientDeleted}
+                      isOtherAccount={isOtherAccount}
+                    />
+                  );
+                })}
               </div>
             )}
           </TabsContent>
