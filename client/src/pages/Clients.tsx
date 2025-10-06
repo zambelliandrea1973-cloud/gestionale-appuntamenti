@@ -162,15 +162,12 @@ export default function Clients() {
         client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      // Calcola ownership per badge arancione
-      const clientOwnerId = client.ownerId || client.originalOwnerId;
-      const isCurrentUserClient = !clientOwnerId || clientOwnerId === currentUser?.id;
-      
-      // Apply tab filter
+      // Apply tab filter - usa user_id per identificare proprietà
+      const clientUserId = client.user_id || client.ownerId;
       const matchesTab = 
         activeTab === "all" || 
-        (activeTab === "my-clients" && currentUser && isCurrentUserClient) ||
-        (activeTab === "other-clients" && currentUser && !isCurrentUserClient) ||
+        (activeTab === "my-clients" && currentUser && (!clientUserId || clientUserId === currentUser.id)) ||
+        (activeTab === "other-clients" && currentUser && clientUserId && clientUserId !== currentUser.id) ||
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
@@ -180,25 +177,27 @@ export default function Clients() {
 
   console.log(`CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
   
-  // Debug ownership per admin - FORZATO
+  // Debug ownership per admin - usa user_id
   if (currentUser?.type === 'admin' && clients.length > 0) {
-    const ownershipStats = {};
-    const originalOwnershipStats = {};
+    const userStats = {};
     
     clients.forEach(client => {
-      const owner = client.ownerId || 'undefined';
-      const originalOwner = client.originalOwnerId || 'undefined';
-      ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
-      originalOwnershipStats[originalOwner] = (originalOwnershipStats[originalOwner] || 0) + 1;
+      const userId = client.user_id || client.ownerId || 'NULL';
+      userStats[userId] = (userStats[userId] || 0) + 1;
     });
     
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per ownerId:`, ownershipStats);
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per originalOwnerId:`, originalOwnershipStats);
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Admin ID corrente: ${currentUser.id}`);
+    console.log(`👑 OWNERSHIP - Distribuzione per user_id:`, userStats);
+    console.log(`👑 ADMIN ID: ${currentUser.id}`);
     
-    const ownClients = clients.filter(c => !c.originalOwnerId || c.originalOwnerId === currentUser.id).length;
-    const otherClients = clients.filter(c => c.originalOwnerId && c.originalOwnerId !== currentUser.id).length;
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Frontend - Clienti propri: ${ownClients}, Altri: ${otherClients}`);
+    const ownClients = clients.filter(c => {
+      const userId = c.user_id || c.ownerId;
+      return !userId || userId === currentUser.id;
+    }).length;
+    const otherClients = clients.filter(c => {
+      const userId = c.user_id || c.ownerId;
+      return userId && userId !== currentUser.id;
+    }).length;
+    console.log(`👑 CLIENTI: Miei: ${ownClients}, Altri account: ${otherClients}`);
   }
 
   // Loading state
@@ -360,20 +359,19 @@ export default function Clients() {
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {filteredClients.map((client: any, index: number) => {
-                  const clientOwnerId = client.ownerId || client.originalOwnerId;
-                  const isOtherAccount = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
+                  // SOLUZIONE SEMPLICE: usa user_id (il vero campo di ownership)
+                  const clientUserId = client.user_id || client.ownerId;
+                  const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
                   
-                  // Debug SEMPRE per Marco Berto e Bruna Pizzolato
+                  // Debug per Marco Berto e Bruna Pizzolato
                   if (client.id === 14003 || client.id === 14004) {
-                    console.log(`🟢 BADGE CHECK [${client.firstName} ${client.lastName}]:`, {
+                    console.log(`🟢 BADGE [${client.firstName} ${client.lastName}]`, {
                       id: client.id,
+                      user_id: client.user_id,
                       ownerId: client.ownerId,
-                      originalOwnerId: client.originalOwnerId,
-                      clientOwnerId,
-                      currentUserId: currentUser?.id,
-                      currentUserType: currentUser?.type,
+                      myAdminId: currentUser?.id,
                       isOtherAccount,
-                      SHOULD_SHOW_BADGE: isOtherAccount
+                      BADGE: isOtherAccount ? '🟠 ARANCIONE' : '❌ nessuno'
                     });
                   }
                   
