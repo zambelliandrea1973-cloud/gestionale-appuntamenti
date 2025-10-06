@@ -8847,6 +8847,23 @@
         "createdAt": "2025-10-06T08:53:03.229Z",
         "reminderStatus": "sent"
       }
+    ],
+    [
+      1759742100666,
+      {
+        "id": 1759742100666,
+        "clientId": 14004,
+        "serviceId": 4,
+        "staffId": 3,
+        "roomId": 3,
+        "date": "2025-10-07",
+        "startTime": "11:30:00",
+        "endTime": "12:30:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T09:15:00.666Z",
+        "reminderStatus": "sent"
+      }
     ]
   ],
   "consents": [
@@ -9205,6 +9222,15 @@
       "type": "staff_reminder",
       "message": "📱 Invia WhatsApp al cliente con numero +393270881677. [Apri WhatsApp](https://wa.me/393270881677?text=Gentile%20Bruna%20%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2007%2F10%2F2025%20alle%20ore%2016%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
       "timestamp": "2025-10-06T08:53:03.253Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759742100690,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393270881677. [Apri WhatsApp](https://wa.me/393270881677?text=Gentile%20Bruna%20%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20del%2007%2F10%2F2025%20alle%20ore%2011%3A30.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-06T09:15:00.690Z",
       "read": false,
       "channel": "app"
     }
