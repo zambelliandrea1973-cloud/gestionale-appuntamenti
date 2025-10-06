@@ -1,11 +1,11 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 // import { insertAppointmentSchema } from "@shared/schema"; // Rimosso per evitare limiti integer
-import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare } from "lucide-react";
+import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 
 interface AppointmentFormProps {
@@ -85,6 +86,7 @@ export default function AppointmentForm({
   const [serviceSearchTerm, setServiceSearchTerm] = useState("");
   const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<any>(null);
   // Mostra i dettagli solo se stiamo modificando un appuntamento o se vengono forniti valori predefiniti
   const [showDateTimeDetails, setShowDateTimeDetails] = useState(!!appointmentId || !!defaultDate || !!defaultTime);
   
@@ -97,6 +99,16 @@ export default function AppointmentForm({
   
   // i18n
   const { t } = useTranslation();
+
+  // Fetch current user
+  const { data: currentUser } = useQuery({
+    queryKey: ['/api/user'],
+    queryFn: async () => {
+      const response = await fetch('/api/user', { credentials: 'include' });
+      if (!response.ok) throw new Error('Failed to fetch user');
+      return response.json();
+    }
+  });
 
   // Fetch clients
   const { data: clients = [], isLoading: isLoadingClients } = useQuery({
@@ -173,6 +185,14 @@ export default function AppointmentForm({
       form.setValue("clientId", defaultClientId);
     }
   }, [defaultClientId, form]);
+
+  // Track selected client for warnings - use useWatch for reliability
+  const watchedClientId = useWatch({ control: form.control, name: "clientId" });
+  
+  useEffect(() => {
+    const client = clients.find((c: any) => c.id === watchedClientId);
+    setSelectedClient(client || null);
+  }, [watchedClientId, clients]);
   
   // Gestione del click fuori dai popover per chiuderli
   useEffect(() => {
@@ -340,6 +360,22 @@ export default function AppointmentForm({
     try {
       console.log("=== INIZIO PROCESSO SALVATAGGIO APPUNTAMENTO ===");
       console.log("Dati form:", data);
+      
+      // Controllo se il cliente è di un altro account e chiedi conferma
+      const client = clients.find((c: any) => c.id === data.clientId);
+      const clientOwnerId = client?.ownerId || client?.originalOwnerId;
+      if (currentUser?.type === 'admin' && client && clientOwnerId && clientOwnerId !== currentUser.id) {
+        const confirmed = window.confirm(
+          `ATTENZIONE: Stai per creare un appuntamento per ${client.firstName} ${client.lastName}, ` +
+          `che appartiene a un altro account.\n\n` +
+          `Sei sicuro di voler procedere?`
+        );
+        
+        if (!confirmed) {
+          console.log("Salvataggio annullato dall'utente");
+          return;
+        }
+      }
       
       // 🚨 DEBUG CRITICO: Verifica dei valori del form
       console.log("🔍 [SUBMIT DEBUG] staffId dal form:", data.staffId, typeof data.staffId);
@@ -545,6 +581,17 @@ export default function AppointmentForm({
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Warning per cliente di altro account */}
+            {selectedClient && currentUser?.type === 'admin' && (selectedClient.ownerId || selectedClient.originalOwnerId) !== currentUser.id && (
+              <Alert className="border-orange-300 bg-orange-50">
+                <Users className="h-4 w-4 text-orange-600" />
+                <AlertDescription className="text-orange-800">
+                  <strong>Attenzione:</strong> Stai creando un appuntamento per un cliente di un altro account ({selectedClient.firstName} {selectedClient.lastName}). 
+                  Verifica di avere i permessi necessari prima di procedere.
+                </AlertDescription>
+              </Alert>
+            )}
+
             {/* Client selector (visible only if no default client) */}
             {!defaultClientId ? (
               <FormField
@@ -588,19 +635,30 @@ export default function AppointmentForm({
                                   .toLowerCase()
                                   .includes(clientSearchTerm.toLowerCase())
                               )
-                              .map((client: any) => (
-                                <div 
-                                  key={client.id} 
-                                  className="p-2 hover:bg-slate-100 cursor-pointer" 
-                                  onClick={() => {
-                                    field.onChange(client.id);
-                                    setClientSearchTerm(`${client.firstName} ${client.lastName}`);
-                                    setIsClientDropdownOpen(false);
-                                  }}
-                                >
-                                  {client.firstName} {client.lastName}
-                                </div>
-                              ))
+                              .map((client: any) => {
+                                // Usa ownerId o originalOwnerId per consistenza
+                                const clientOwnerId = client.ownerId || client.originalOwnerId;
+                                const isOtherAccount = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
+                                return (
+                                  <div 
+                                    key={client.id} 
+                                    className={`p-2 hover:bg-slate-100 cursor-pointer flex items-center justify-between ${isOtherAccount ? 'bg-orange-50/50' : ''}`}
+                                    onClick={() => {
+                                      field.onChange(client.id);
+                                      setClientSearchTerm(`${client.firstName} ${client.lastName}`);
+                                      setIsClientDropdownOpen(false);
+                                    }}
+                                  >
+                                    <span>{client.firstName} {client.lastName}</span>
+                                    {isOtherAccount && (
+                                      <span className="flex items-center text-xs text-orange-600">
+                                        <Users className="h-3 w-3 mr-1" />
+                                        Altro account
+                                      </span>
+                                    )}
+                                  </div>
+                                );
+                              })
                             }
                           </div>
                         )}
