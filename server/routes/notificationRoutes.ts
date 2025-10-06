@@ -26,15 +26,16 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       });
     }
 
-    // Calcola inizio e fine del mese corrente
+    // Calcola ultimi 10 giorni + oggi e futuro fino a fine mese
     const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const tenDaysAgo = new Date(now);
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     
-    const startDate = format(startOfMonth, 'yyyy-MM-dd');
+    const startDate = format(tenDaysAgo, 'yyyy-MM-dd');
     const endDate = format(endOfMonth, 'yyyy-MM-dd');
     
-    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti del mese: ${startDate} - ${endDate}`);
+    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti degli ultimi 10 giorni: ${startDate} - ${endDate}`);
     
     // 📁 USA JSON come tutti gli altri endpoint che funzionano
     const storageData = loadStorageData();
@@ -66,7 +67,7 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         return false;
       });
     
-    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti per il mese ${startDate} - ${endDate}`);
+    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti negli ultimi 10 giorni: ${startDate} - ${endDate}`);
     
     // Mappa i risultati nel formato atteso dal frontend con tutti i dati
     const appointments = appointmentsFromJson.map((appointment: any) => {
