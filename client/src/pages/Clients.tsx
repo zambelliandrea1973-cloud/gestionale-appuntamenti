@@ -162,11 +162,15 @@ export default function Clients() {
         client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
+      // Calcola ownership per badge arancione
+      const clientOwnerId = client.ownerId || client.originalOwnerId;
+      const isCurrentUserClient = !clientOwnerId || clientOwnerId === currentUser?.id;
+      
       // Apply tab filter
       const matchesTab = 
         activeTab === "all" || 
-        (activeTab === "my-clients" && currentUser && (!client.originalOwnerId || client.originalOwnerId === currentUser.id)) ||
-        (activeTab === "other-clients" && currentUser && client.originalOwnerId && client.originalOwnerId !== currentUser.id) ||
+        (activeTab === "my-clients" && currentUser && isCurrentUserClient) ||
+        (activeTab === "other-clients" && currentUser && !isCurrentUserClient) ||
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
@@ -355,18 +359,21 @@ export default function Clients() {
               </Card>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredClients.map((client: any) => {
+                {filteredClients.map((client: any, index: number) => {
                   const clientOwnerId = client.ownerId || client.originalOwnerId;
                   const isOtherAccount = currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id;
                   
-                  // Debug forzato per primi 3 clienti
-                  if (filteredClients.indexOf(client) < 3) {
-                    console.log(`🔍 [CLIENT ${client.id}] ${client.firstName} ${client.lastName}:`, {
+                  // Debug SEMPRE per Marco Berto e Bruna Pizzolato
+                  if (client.id === 14003 || client.id === 14004) {
+                    console.log(`🟢 BADGE CHECK [${client.firstName} ${client.lastName}]:`, {
+                      id: client.id,
                       ownerId: client.ownerId,
                       originalOwnerId: client.originalOwnerId,
                       clientOwnerId,
                       currentUserId: currentUser?.id,
-                      isOtherAccount
+                      currentUserType: currentUser?.type,
+                      isOtherAccount,
+                      SHOULD_SHOW_BADGE: isOtherAccount
                     });
                   }
                   
