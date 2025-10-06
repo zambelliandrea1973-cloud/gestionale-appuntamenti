@@ -8931,6 +8931,40 @@
         "reminderType": "whatsapp,email",
         "createdAt": "2025-10-06T14:17:56.092Z"
       }
+    ],
+    [
+      1759760320108,
+      {
+        "id": 1759760320108,
+        "clientId": 14002,
+        "serviceId": 1750225141396,
+        "staffId": 1,
+        "roomId": null,
+        "date": "2025-10-08",
+        "startTime": "10:15:00",
+        "endTime": "10:45:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T14:18:40.108Z"
+      }
+    ],
+    [
+      1759760350482,
+      {
+        "id": 1759760350482,
+        "clientId": 14002,
+        "serviceId": 1750225141396,
+        "staffId": 1,
+        "roomId": null,
+        "date": "2025-10-07",
+        "startTime": "10:15:00",
+        "endTime": "10:45:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "createdAt": "2025-10-06T14:19:10.482Z",
+        "reminderStatus": "whatsapp_generated",
+        "whatsappSentAt": "2025-10-06T14:19:20.458Z"
+      }
     ]
   ],
   "consents": [

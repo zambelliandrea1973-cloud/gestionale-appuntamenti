@@ -26,11 +26,17 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       });
     }
 
-    // Calcola le date per oggi e domani (logica originale funzionante)
-    const today = format(new Date(), 'yyyy-MM-dd');
-    const tomorrow = format(new Date(Date.now() + 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+    // Calcola ultimi 10 giorni fino a domani (storico + imminenti, NO futuro lontano)
+    const now = new Date();
+    const tenDaysAgo = new Date(now);
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     
-    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
+    const startDate = format(tenDaysAgo, 'yyyy-MM-dd');
+    const endDate = format(tomorrow, 'yyyy-MM-dd');
+    
+    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: ${startDate} - ${endDate}`);
     
     // 📁 USA JSON come tutti gli altri endpoint che funzionano
     const storageData = loadStorageData();
@@ -38,12 +44,12 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[userId] || [];
     
-    // Filtra appuntamenti per oggi e domani + utente owner (logica originale)
+    // Filtra appuntamenti dal range (ultimi 10gg a domani) + utente owner
     const appointmentsFromJson = allAppointments
       .map(([id, appointment]) => appointment)
       .filter((appointment: any) => {
-        // Filtra per date (SOLO oggi e domani)
-        if (appointment.date !== today && appointment.date !== tomorrow) return false;
+        // Filtra per range di date (ultimi 10 giorni fino a domani, NO futuro lontano)
+        if (appointment.date < startDate || appointment.date > endDate) return false;
         
         // Filtra per ownership usando clienti dell'utente
         const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
@@ -58,7 +64,7 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         return false;
       });
     
-    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti per date ${today} - ${tomorrow}`);
+    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti da ${startDate} a ${endDate}`);
     
     // Mappa i risultati nel formato atteso dal frontend con tutti i dati
     const appointments = appointmentsFromJson.map((appointment: any) => {
