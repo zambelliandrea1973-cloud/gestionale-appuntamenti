@@ -354,8 +354,8 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
     allAppointments[appointmentIndex] = [id, updatedAppointment];
     storageData.appointments = allAppointments;
     
-    // Salva nel JSON
-    const storagePath = path.join(process.cwd(), '/tmp/storage_data.json');
+    // Salva nel JSON (stesso percorso di loadStorageData)
+    const storagePath = path.join(process.cwd(), 'storage_data.json');
     fs.writeFileSync(storagePath, JSON.stringify(storageData, null, 2));
     
     console.log(`✅ Appuntamento ${appointmentId} marcato come "WhatsApp inviato" - timestamp: ${updatedAppointment.whatsappSentAt}`);
