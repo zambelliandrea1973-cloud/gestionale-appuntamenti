@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -35,7 +35,7 @@ interface ClientCardProps {
   isOtherAccount?: boolean;
 }
 
-export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount }: ClientCardProps) {
+export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount: isOtherAccountProp }: ClientCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [_, setLocation] = useLocation();
@@ -46,6 +46,33 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
   const [clientQrCode, setClientQrCode] = useState<string | null>(null);
   const [clientToken, setClientToken] = useState<string | null>(null);
   const [isAccessesDialogOpen, setIsAccessesDialogOpen] = useState(false);
+  
+  // Calcola isOtherAccount direttamente se non passato dal parent
+  // Usa useQuery per ottenere l'utente corrente se necessario
+  const {data: currentUser} = useQuery({
+    queryKey: ['/api/user'],
+    enabled: isOtherAccountProp === undefined
+  });
+  
+  // Calcolo fallback se il prop non è passato
+  const clientOwnerId = client.ownerId || (client as any).originalOwnerId;
+  const isOtherAccount = isOtherAccountProp !== undefined 
+    ? isOtherAccountProp 
+    : (currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id);
+  
+  // Debug temporaneo
+  useEffect(() => {
+    if (client.id === 14003 || client.id === 14004) {
+      console.log(`🟠 CLIENT CARD [${client.firstName} ${client.lastName}]:`, {
+        id: client.id,
+        ownerId: client.ownerId,
+        originalOwnerId: (client as any).originalOwnerId,
+        currentUserId: currentUser?.id,
+        isOtherAccountProp,
+        isOtherAccountCalculated: isOtherAccount
+      });
+    }
+  }, [client.id, client.ownerId, currentUser?.id, isOtherAccountProp, isOtherAccount]);
   
   // Verifica se esiste già un token per questo cliente
   useEffect(() => {
