@@ -12,7 +12,7 @@ import { directNotificationService } from '../services/directNotificationService
 const router = Router();
 
 /**
- * Ottiene tutti gli appuntamenti imminenti (oggi e domani) 
+ * Ottiene tutti gli appuntamenti del mese corrente
  * 🔧 RIPRISTINO JSON: usa il JSON come tutti gli altri endpoint funzionanti
  */
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
@@ -26,11 +26,15 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
       });
     }
 
-    // Calcola le date per oggi e domani (stessa logica del processReminders)
-    const today = format(new Date(), 'yyyy-MM-dd');
-    const tomorrow = format(new Date(Date.now() + 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+    // Calcola inizio e fine del mese corrente
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     
-    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti per le date: ${today} e ${tomorrow}`);
+    const startDate = format(startOfMonth, 'yyyy-MM-dd');
+    const endDate = format(endOfMonth, 'yyyy-MM-dd');
+    
+    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti del mese: ${startDate} - ${endDate}`);
     
     // 📁 USA JSON come tutti gli altri endpoint che funzionano
     const storageData = loadStorageData();
@@ -38,12 +42,12 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     const allClients = storageData.clients || [];
     const userServices = storageData.userServices?.[userId] || [];
     
-    // Filtra appuntamenti per oggi e domani + utente owner
+    // Filtra appuntamenti per tutto il mese + utente owner
     const appointmentsFromJson = allAppointments
       .map(([id, appointment]) => appointment)
       .filter((appointment: any) => {
-        // Filtra per date
-        if (appointment.date !== today && appointment.date !== tomorrow) return false;
+        // Filtra per date del mese corrente
+        if (appointment.date < startDate || appointment.date > endDate) return false;
         
         // Filtra per ownership usando clienti dell'utente
         const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
@@ -62,7 +66,7 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         return false;
       });
     
-    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti per date ${today} - ${tomorrow}`);
+    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti per il mese ${startDate} - ${endDate}`);
     
     // Mappa i risultati nel formato atteso dal frontend con tutti i dati
     const appointments = appointmentsFromJson.map((appointment: any) => {
