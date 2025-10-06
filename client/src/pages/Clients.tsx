@@ -361,7 +361,7 @@ export default function Clients() {
                     client={client}
                     onUpdate={handleClientUpdated}
                     onDelete={handleClientDeleted}
-                    isOtherAccount={currentUser?.type === 'admin' && client.originalOwnerId && client.originalOwnerId !== currentUser.id}
+                    isOtherAccount={currentUser?.type === 'admin' && (client.ownerId || client.originalOwnerId) !== currentUser.id}
                   />
                 ))}
               </div>
