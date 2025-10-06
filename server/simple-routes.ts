@@ -425,8 +425,12 @@ export function registerSimpleRoutes(app: Express): Server {
     // Per admin, mostra tutti i clienti, per altri utenti solo i propri
     let userClients;
     if (user.type === 'admin') {
-      userClients = allClients.map(([id, client]) => client);
-      console.log(`👑 [/api/clients] [${deviceType}] Admin - Restituendo tutti i ${userClients.length} clienti`);
+      // NORMALIZZAZIONE: aggiungi user_id per compatibilità frontend
+      userClients = allClients.map(([id, client]) => ({
+        ...client,
+        user_id: client.user_id ?? client.ownerId ?? null
+      }));
+      console.log(`👑 [/api/clients] [${deviceType}] Admin - Restituendo tutti i ${userClients.length} clienti (normalizzati con user_id)`);
     
     // FORZA DEBUG OWNERSHIP OGNI VOLTA
     const ownershipStats = {};
@@ -451,7 +455,10 @@ export function registerSimpleRoutes(app: Express): Server {
     } else {
       userClients = allClients
         .filter(([id, client]) => client.ownerId === user.id)
-        .map(([id, client]) => client);
+        .map(([id, client]) => ({
+          ...client,
+          user_id: client.user_id ?? client.ownerId ?? null
+        }));
       
       // Se l'utente non ha clienti, genera clienti di default
       if (userClients.length === 0) {
