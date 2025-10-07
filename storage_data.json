@@ -7970,6 +7970,38 @@
         "notes": "Account di test generato automaticamente",
         "professionistCode": "PROF_010"
       }
+    ],
+    [
+      11001,
+      {
+        "id": 11001,
+        "firstName": "Cliente",
+        "lastName": "Trial",
+        "email": "cliente.trial.11@example.com",
+        "phone": "+39 123 456 7890",
+        "birthDate": "1990-01-15",
+        "fiscalCode": "CLNTTL90A15ZA1X",
+        "uniqueCode": "CT11001",
+        "ownerId": 11,
+        "createdAt": "2025-10-07T07:54:59.087Z",
+        "notes": "Cliente di prova generato automaticamente"
+      }
+    ],
+    [
+      11002,
+      {
+        "id": 11002,
+        "firstName": "Trial",
+        "lastName": "Account",
+        "email": "trial.account.11@example.com",
+        "phone": "+39 098 765 4321",
+        "birthDate": "1985-06-20",
+        "fiscalCode": "TRLCNT85H20ZA2Y",
+        "uniqueCode": "TA11002",
+        "ownerId": 11,
+        "createdAt": "2025-10-07T07:54:59.087Z",
+        "notes": "Account di test generato automaticamente"
+      }
     ]
   ],
   "users": [
@@ -9634,6 +9666,30 @@
         "createdAt": "2025-10-01T12:44:41.679Z",
         "updatedAt": "2025-10-01T12:44:41.679Z"
       }
+    ],
+    [
+      9,
+      {
+        "name": "Consumabili",
+        "description": "Materiali e prodotti consumabili per trattamenti",
+        "color": "#3b82f6",
+        "userId": 11,
+        "id": 9,
+        "createdAt": "2025-10-07T07:54:59.303Z",
+        "updatedAt": "2025-10-07T07:54:59.303Z"
+      }
+    ],
+    [
+      10,
+      {
+        "name": "Prodotti per la vendita",
+        "description": "Prodotti destinati alla vendita diretta ai clienti",
+        "color": "#10b981",
+        "userId": 11,
+        "id": 10,
+        "createdAt": "2025-10-07T07:54:59.312Z",
+        "updatedAt": "2025-10-07T07:54:59.312Z"
+      }
     ]
   ],
   "userBusinessData": {
@@ -9769,7 +9825,7 @@
       }
     ]
   ],
-  "categoryNextId": 9,
+  "categoryNextId": 11,
   "productNextId": 4,
   "movementNextId": 3,
   "saleNextId": 1,
