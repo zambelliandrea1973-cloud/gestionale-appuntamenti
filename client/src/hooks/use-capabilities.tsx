@@ -5,7 +5,8 @@ export type Capability =
   | 'calendar'              // Calendario base
   | 'email_notifications'   // Notifiche email
   | 'whatsapp_notifications' // Notifiche WhatsApp
-  | 'invoices_reports'      // Fatture e Report
+  | 'invoices'              // Fatture (Trial/Base/Pro/Business)
+  | 'reports'               // Report (solo Pro/Business)
   | 'google_calendar'       // Integrazione Google Calendar
   | 'client_pwa_qr'         // App clienti con QR code
   | 'staff_rooms'           // Staff e Stanze (gestione dipendenti)
@@ -19,7 +20,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
   ],
   
   // Base - STESSI accessi di Trial (€5.99/mese o €59/anno)
@@ -27,15 +28,16 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
   ],
   
-  // Pro - Base + Report/Fatture + Google Calendar + App clienti
+  // Pro - Base + Report + Google Calendar + App clienti
   'pro': [
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
+    'reports',
     'google_calendar',
     'client_pwa_qr',
   ],
@@ -45,7 +47,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
+    'reports',
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
@@ -58,7 +61,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
+    'reports',
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
@@ -71,7 +75,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
+    'reports',
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
@@ -84,7 +89,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
+    'invoices',
+    'reports',
     'google_calendar',
     'client_pwa_qr',
     'staff_rooms',
@@ -114,10 +120,15 @@ export const UPGRADE_MESSAGES: Record<Capability, {
     description: 'Le notifiche WhatsApp sono incluse in tutti i piani.',
     requiredPlan: 'Trial',
   },
-  invoices_reports: {
-    title: 'Fatture e Report non disponibili',
-    description: 'Fatture e Report sono disponibili in tutti i piani.',
+  invoices: {
+    title: 'Fatture non disponibili',
+    description: 'Le fatture sono disponibili in tutti i piani.',
     requiredPlan: 'Trial',
+  },
+  reports: {
+    title: 'Report non disponibili',
+    description: 'I report sono disponibili dal piano Pro in su.',
+    requiredPlan: 'Pro',
   },
   google_calendar: {
     title: 'Google Calendar non disponibile',
