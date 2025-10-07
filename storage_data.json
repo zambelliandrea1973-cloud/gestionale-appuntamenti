@@ -9029,7 +9029,7 @@
         "notes": "",
         "reminderType": "whatsapp,email",
         "createdAt": "2025-10-07T07:02:46.798Z",
-        "reminderStatus": "whatsapp_generated",
+        "reminderStatus": "sent",
         "whatsappSentAt": "2025-10-07T07:02:57.855Z"
       }
     ]
@@ -9505,6 +9505,15 @@
       "type": "staff_reminder",
       "message": "📱 Invia WhatsApp al cliente con numero +39 3472550110. [Apri WhatsApp](https://wa.me/39 3472550110?text=Gentile%20andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20detox%20del%2008%2F10%2F2025%20alle%20ore%2010%3A15.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
       "timestamp": "2025-10-07T06:09:16.732Z",
+      "read": false,
+      "channel": "app"
+    },
+    {
+      "id": 1759821463033,
+      "clientId": 0,
+      "type": "staff_reminder",
+      "message": "📱 Invia WhatsApp al cliente con numero +393472550110. [Apri WhatsApp](https://wa.me/393472550110?text=Gentile%20Andrea%2C%20questo%20%C3%A8%20un%20promemoria%20per%20il%20suo%20appuntamento%20di%20pedicure%20del%2008%2F10%2F2025%20alle%20ore%2012%3A00.%20Per%20modifiche%20o%20cancellazioni%2C%20la%20preghiamo%20di%20contattarci.)",
+      "timestamp": "2025-10-07T07:17:43.033Z",
       "read": false,
       "channel": "app"
     }

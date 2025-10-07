@@ -32,9 +32,13 @@ const getPayPalClient = () => {
   }
   
   try {
-    // Utilizziamo direttamente l'ambiente di produzione (LiveEnvironment) indipendentemente da NODE_ENV
-    const environment = new paypal.core.LiveEnvironment(clientId, clientSecret);
-    console.log('PayPal: usando ambiente PRODUZIONE');
+    // Usa SandboxEnvironment in development, LiveEnvironment in production
+    const isProduction = process.env.NODE_ENV === 'production';
+    const environment = isProduction 
+      ? new paypal.core.LiveEnvironment(clientId, clientSecret)
+      : new paypal.core.SandboxEnvironment(clientId, clientSecret);
+    
+    console.log(`PayPal: usando ambiente ${isProduction ? 'PRODUZIONE' : 'SANDBOX'}`);
     
     return new paypal.core.PayPalHttpClient(environment);
   } catch (error) {
@@ -455,6 +459,14 @@ export class PaymentService {
         customer_email: user.email || undefined,
         success_url: successUrl,
         cancel_url: cancelUrl,
+      });
+      
+      console.log('Stripe session creata:', {
+        id: session.id,
+        url: session.url,
+        hasUrl: !!session.url,
+        mode: session.mode,
+        status: session.status
       });
       
       // Controlla se esiste già un abbonamento per questo utente
