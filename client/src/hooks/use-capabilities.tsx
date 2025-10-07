@@ -64,6 +64,19 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'unlimited_clients',
   ],
   
+  // Staff 10 anni - Accesso completo a tutto (gratis per 10 anni)
+  'staff_free_10years': [
+    'calendar',
+    'email_notifications',
+    'whatsapp_notifications',
+    'invoices_reports',
+    'google_calendar',
+    'client_pwa_qr',
+    'staff_rooms',
+    'warehouse',
+    'unlimited_clients',
+  ],
+  
   // Passepartout - Accesso completo a tutto
   'passepartout': [
     'calendar',
