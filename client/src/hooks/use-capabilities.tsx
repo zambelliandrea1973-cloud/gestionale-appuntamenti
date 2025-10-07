@@ -19,6 +19,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
+    'invoices_reports',
   ],
   
   // Base - STESSI accessi di Trial (€5.99/mese o €59/anno)
@@ -26,6 +27,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
+    'invoices_reports',
   ],
   
   // Pro - Base + Report/Fatture + Google Calendar + App clienti
@@ -114,8 +116,8 @@ export const UPGRADE_MESSAGES: Record<Capability, {
   },
   invoices_reports: {
     title: 'Fatture e Report non disponibili',
-    description: 'Fatture e Report sono disponibili dal piano Pro in su.',
-    requiredPlan: 'Pro',
+    description: 'Fatture e Report sono disponibili in tutti i piani.',
+    requiredPlan: 'Trial',
   },
   google_calendar: {
     title: 'Google Calendar non disponibile',
