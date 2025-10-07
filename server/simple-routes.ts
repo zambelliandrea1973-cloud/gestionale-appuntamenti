@@ -1759,40 +1759,39 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`📊 [${deviceType}] Appuntamenti totali processati: ${allAppointments.length}`);
     console.log(`🔍 [${deviceType}] DEBUG primi 3 appuntamenti:`, allAppointments.slice(0, 3).map(a => ({id: a?.id, date: a?.date, ownerId: a?.ownerId, clientId: a?.clientId})));
     
-    // Filtra appuntamenti per range di date
+    // Filtra appuntamenti per range di date usando STESSA LOGICA DEL CALENDARIO
     let userRangeAppointments;
+    let availableClients;
+    
     if (user.type === 'admin') {
       console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti per report`);
+      availableClients = allClients.map(([id, clientData]) => ({ id, ...clientData }));
       userRangeAppointments = allAppointments.filter(apt => 
         apt.date >= startDate && apt.date <= endDate
       );
-    } else if (user.type === 'staff') {
-      console.log(`👩‍⚕️ [${deviceType}] Staff - Accesso ai propri appuntamenti per report`);
-      userRangeAppointments = allAppointments.filter(apt => 
-        apt.date >= startDate && apt.date <= endDate && apt.ownerId === user.id
-      );
     } else {
-      console.log(`👤 [${deviceType}] Cliente - Accesso limitato ai propri appuntamenti per report`);
+      // STAFF/CUSTOMER: filtra per clienti propri (stessa logica calendario che funziona!)
+      console.log(`👩‍⚕️ [${deviceType}] Staff/Customer - Filtro per clienti propri`);
+      
+      if (user.type === 'staff') {
+        availableClients = allClients
+          .filter(([id, clientData]) => clientData.ownerId === user.id)
+          .map(([id, clientData]) => ({ id, ...clientData }));
+      } else {
+        availableClients = allClients
+          .filter(([id, clientData]) => id === user.clientId)
+          .map(([id, clientData]) => ({ id, ...clientData }));
+      }
+      
+      const userClientIds = availableClients.map(c => c.id);
+      console.log(`🔍 [${deviceType}] IDs clienti dell'utente: ${userClientIds.join(', ')}`);
+      
       userRangeAppointments = allAppointments.filter(apt => 
-        apt.date >= startDate && apt.date <= endDate && apt.clientId === user.clientId
+        apt.date >= startDate && apt.date <= endDate && userClientIds.includes(apt.clientId)
       );
     }
     
     console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length}`);
-    
-    // Per admin, usa tutti i clienti; per altri solo i propri
-    let availableClients;
-    if (user.type === 'admin') {
-      availableClients = allClients.map(([id, clientData]) => ({ id, ...clientData }));
-    } else if (user.type === 'staff') {
-      availableClients = allClients
-        .filter(([id, clientData]) => clientData.ownerId === user.id)
-        .map(([id, clientData]) => ({ id, ...clientData }));
-    } else {
-      availableClients = allClients
-        .filter(([id, clientData]) => id === user.clientId)
-        .map(([id, clientData]) => ({ id, ...clientData }));
-    }
     
     // Popola le relazioni con client e service con i prezzi per i report
     const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => {
