@@ -118,24 +118,37 @@ export default function SubscribePage() {
       return await res.json();
     },
     onSuccess: (data) => {
-      if (data.url) {
-        // Reindirizza a PayPal per il pagamento
-        window.location.href = data.url;
-      } else {
+      console.log('📱 PAYPAL: Risposta ricevuta:', data);
+      
+      if (data.success && data.url) {
+        console.log('✅ PAYPAL: Reindirizzamento a:', data.url);
+        
+        // Mostra un toast prima del redirect
         toast({
-          title: 'Errore',
-          description: 'Non è stato possibile avviare il processo di pagamento',
+          title: 'Reindirizzamento a PayPal...',
+          description: 'Verrai reindirizzato alla pagina di pagamento PayPal',
+        });
+        
+        // Attendi 500ms prima del redirect per far vedere il toast
+        setTimeout(() => {
+          window.location.href = data.url;
+        }, 500);
+      } else {
+        console.error('❌ PAYPAL: URL mancante nella risposta:', data);
+        toast({
+          title: 'Errore PayPal',
+          description: data.message || 'Non è stato possibile avviare il processo di pagamento PayPal',
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
+      console.error('❌ PAYPAL: Errore mutation:', error);
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'avvio dell\'abbonamento con PayPal',
+        title: 'Errore PayPal',
+        description: error.message || 'Si è verificato un errore durante l\'avvio dell\'abbonamento con PayPal',
         variant: 'destructive',
       });
-      console.error(error);
     }
   });
 
@@ -146,24 +159,37 @@ export default function SubscribePage() {
       return await res.json();
     },
     onSuccess: (data) => {
-      if (data.url) {
-        // Reindirizza a Stripe Checkout per il pagamento
-        window.location.href = data.url;
-      } else {
+      console.log('💳 STRIPE: Risposta ricevuta:', data);
+      
+      if (data.success && data.url) {
+        console.log('✅ STRIPE: Reindirizzamento a:', data.url);
+        
+        // Mostra un toast prima del redirect
         toast({
-          title: 'Errore',
-          description: 'Non è stato possibile avviare il processo di pagamento',
+          title: 'Reindirizzamento a Stripe...',
+          description: 'Verrai reindirizzato alla pagina di pagamento sicura',
+        });
+        
+        // Attendi 500ms prima del redirect per far vedere il toast
+        setTimeout(() => {
+          window.location.href = data.url;
+        }, 500);
+      } else {
+        console.error('❌ STRIPE: URL mancante nella risposta:', data);
+        toast({
+          title: 'Errore Stripe',
+          description: data.message || 'Non è stato possibile avviare il processo di pagamento con carta',
           variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
+      console.error('❌ STRIPE: Errore mutation:', error);
       toast({
-        title: 'Errore',
-        description: 'Si è verificato un errore durante l\'avvio dell\'abbonamento con Stripe',
+        title: 'Errore Stripe',
+        description: error.message || 'Si è verificato un errore durante l\'avvio dell\'abbonamento con Stripe',
         variant: 'destructive',
       });
-      console.error(error);
     }
   });
 
