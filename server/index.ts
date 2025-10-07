@@ -2,8 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import initialSetupService from "./services/initialSetupService";
+import { storage } from "./storage";
 
 const app = express();
+
+// Inizializza storage in app.locals per accesso globale dalle routes
+app.locals.storage = storage;
 // Aumenta il limite per il caricamento di immagini
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
