@@ -878,6 +878,33 @@ export function registerSimpleRoutes(app: Express): Server {
       }
     }
     
+    // Leggi licenza REALE dal database invece di hardcodare
+    let licenseType = 'trial'; // Default
+    let expiresAt = null;
+    let daysLeft = null;
+    
+    if (user.type === 'admin') {
+      licenseType = 'passepartout';
+    } else if (user.type === 'staff') {
+      licenseType = 'staff_free_10years';
+      expiresAt = new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000);
+      daysLeft = 3650;
+    } else if (user.type === 'customer') {
+      try {
+        const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
+        const activeLicense = userLicenses.find((lic: any) => lic.isActive);
+        if (activeLicense) {
+          licenseType = activeLicense.type;
+          expiresAt = activeLicense.expiresAt;
+          if (expiresAt) {
+            daysLeft = Math.ceil((new Date(expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Errore lettura licenza per utente ${user.id}:`, error);
+      }
+    }
+    
     const response = {
       id: user.id,
       username: user.username,
@@ -886,13 +913,12 @@ export function registerSimpleRoutes(app: Express): Server {
       firstName: firstName,
       lastName: lastName,
       professionistCode: professionistCode,
+      licenseType: licenseType,  // Campo aggiunto per il badge
       licenseInfo: {
-        type: user.type === 'admin' ? 'passepartout' : 
-              user.type === 'staff' ? 'staff_free_10years' : 
-              user.type === 'customer' ? 'business_pro' : 'basic',
-        expiresAt: user.type === 'staff' ? new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000) : null, // 10 anni per staff
+        type: licenseType,
+        expiresAt: expiresAt,
         isActive: true,
-        daysLeft: user.type === 'staff' ? 3650 : null, // 10 anni in giorni
+        daysLeft: daysLeft,
         features: {
           maxClients: user.type === 'admin' ? 'unlimited' : 
                      user.type === 'staff' ? 'unlimited' : 
@@ -914,7 +940,8 @@ export function registerSimpleRoutes(app: Express): Server {
       id: response.id, 
       username: response.username, 
       firstName: response.firstName, 
-      lastName: response.lastName 
+      lastName: response.lastName,
+      licenseType: licenseType
     });
     
     res.json(response);
@@ -930,20 +957,33 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Licenze
-  app.get("/api/license/license-info", (req, res) => {
+  app.get("/api/license/license-info", async (req, res) => {
     if (!req.isAuthenticated()) return res.json({ hasLicense: false, type: "none" });
     
     const user = req.user as any;
-    const licenseTypes = {
-      admin: "passepartout",
-      staff: "staff_free_10years", 
-      customer: "business_pro",
-      basic: "basic"
-    };
+    
+    // Leggi licenza REALE dal database invece di hardcodare
+    let licenseType = 'trial';
+    
+    if (user.type === 'admin') {
+      licenseType = 'passepartout';
+    } else if (user.type === 'staff') {
+      licenseType = 'staff_free_10years';
+    } else if (user.type === 'customer') {
+      try {
+        const userLicenses = await req.app.locals.storage.getLicensesByUserId(user.id);
+        const activeLicense = userLicenses.find((lic: any) => lic.isActive);
+        if (activeLicense) {
+          licenseType = activeLicense.type;
+        }
+      } catch (error) {
+        console.error(`❌ Errore lettura licenza per utente ${user.id}:`, error);
+      }
+    }
     
     res.json({ 
       hasLicense: true, 
-      type: licenseTypes[user.type] || "basic",
+      type: licenseType,
       userType: user.type,
       features: {
         maxClients: user.type === 'admin' || user.type === 'staff' ? 'unlimited' : 
