@@ -14,21 +14,21 @@ export type Capability =
 
 // Mappa delle capabilities per tipo di licenza
 const CAPABILITY_MAP: Record<string, Capability[]> = {
-  // Trial/Gratuito - funzionalità base limitate
+  // Trial - STESSI accessi di Base, solo durata diversa (40gg gratis)
   'trial': [
     'calendar',
     'email_notifications',
+    'whatsapp_notifications',
   ],
   
-  // Base - include WhatsApp + Fatture/Report
+  // Base - STESSI accessi di Trial (€5.99/mese o €59/anno)
   'base': [
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
-    'invoices_reports',
   ],
   
-  // Pro - Base + Google Calendar + App clienti
+  // Pro - Base + Report/Fatture + Google Calendar + App clienti
   'pro': [
     'calendar',
     'email_notifications',
@@ -109,13 +109,13 @@ export const UPGRADE_MESSAGES: Record<Capability, {
   },
   whatsapp_notifications: {
     title: 'WhatsApp non disponibile',
-    description: 'Le notifiche WhatsApp sono disponibili dal piano Base in su.',
-    requiredPlan: 'Base',
+    description: 'Le notifiche WhatsApp sono incluse in tutti i piani.',
+    requiredPlan: 'Trial',
   },
   invoices_reports: {
     title: 'Fatture e Report non disponibili',
-    description: 'Fatture e Report sono disponibili dal piano Base in su.',
-    requiredPlan: 'Base',
+    description: 'Fatture e Report sono disponibili dal piano Pro in su.',
+    requiredPlan: 'Pro',
   },
   google_calendar: {
     title: 'Google Calendar non disponibile',
