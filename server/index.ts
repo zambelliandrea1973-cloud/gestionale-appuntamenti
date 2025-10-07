@@ -8,6 +8,7 @@ const app = express();
 
 // Inizializza storage in app.locals per accesso globale dalle routes
 app.locals.storage = storage;
+console.log('✅ Storage inizializzato in app.locals:', typeof app.locals.storage, 'metodi disponibili:', Object.keys(app.locals.storage).slice(0, 5).join(', '));
 // Aumenta il limite per il caricamento di immagini
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
