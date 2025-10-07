@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { useLicense } from '@/hooks/use-license';
+import { useCapabilities, type Capability } from '@/hooks/use-capabilities';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
@@ -17,6 +18,7 @@ interface ProFeatureGuardProps {
   children: ReactNode;
   featureName: string;
   description?: string;
+  requiredCapability?: Capability; // Capability specifica richiesta
 }
 
 /**
@@ -87,18 +89,27 @@ function ProNavigationBar() {
 
 /**
  * Componente che protegge le funzionalità PRO
- * Se l'utente non ha un abbonamento PRO, mostra un messaggio di upgrade
+ * Se l'utente non ha accesso alla capability richiesta, mostra un messaggio di upgrade
  * altrimenti mostra i contenuti normalmente
  */
-export default function ProFeatureGuard({ children, featureName, description }: ProFeatureGuardProps) {
+export default function ProFeatureGuard({ children, featureName, description, requiredCapability }: ProFeatureGuardProps) {
   const { hasProAccess, isLoading } = useLicense();
+  const { hasCapability, getUpgradeMessage } = useCapabilities();
   // Per la navigazione useremo semplici href invece di hook
   const navigate = (path: string) => { window.location.href = path };
   const { t } = useTranslation();
   
+  // Determina se l'utente ha accesso
+  const hasAccess = requiredCapability 
+    ? hasCapability(requiredCapability) 
+    : hasProAccess;
+  
+  // Ottieni messaggio di upgrade specifico se disponibile
+  const upgradeMessage = requiredCapability ? getUpgradeMessage(requiredCapability) : null;
+  
   // La barra di navigazione PRO è sempre visibile
-  // Se l'utente non ha l'abbonamento PRO, mostriamo il messaggio di upgrade
-  if (!isLoading && !hasProAccess) {
+  // Se l'utente non ha accesso, mostriamo il messaggio di upgrade
+  if (!isLoading && !hasAccess) {
     return (
       <div className="container py-6">
         <ProNavigationBar />
@@ -111,15 +122,15 @@ export default function ProFeatureGuard({ children, featureName, description }: 
               </div>
             </div>
             <CardTitle className="text-2xl">
-              {t('proFeature.title', 'Funzionalità PRO')}
+              {upgradeMessage?.title || t('proFeature.title', 'Funzionalità PRO')}
             </CardTitle>
             <CardDescription>
-              {t('proFeature.subtitle', `"${featureName}" è disponibile solo con l'abbonamento PRO`)}
+              {upgradeMessage?.description || t('proFeature.subtitle', `"${featureName}" è disponibile solo con l'abbonamento PRO`)}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-center mb-4 text-muted-foreground">
-              {description || t('proFeature.description', 'Passa a un piano premium per sbloccare tutte le funzionalità avanzate.')}
+              {description || `Passa al piano ${upgradeMessage?.requiredPlan || 'PRO'} per accedere a questa funzionalità.`}
             </p>
             
             <div className="border rounded-lg p-4 mb-4 bg-slate-50">

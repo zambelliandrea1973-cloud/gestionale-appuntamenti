@@ -52,7 +52,8 @@ export default function Reports() {
   return (
     <ProFeatureGuard 
       featureName="Report Statistici"
-      description="I report dettagliati sull'attività sono disponibili nella versione PRO. Aggiorna il tuo piano per accedere a questa funzionalità."
+      description="I report dettagliati sull'attività sono disponibili dal piano Pro in su."
+      requiredCapability="reports"
     >
       <ReportsContent />
     </ProFeatureGuard>
