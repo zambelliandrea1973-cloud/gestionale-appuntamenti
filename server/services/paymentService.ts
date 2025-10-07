@@ -5,17 +5,24 @@ import Stripe from 'stripe';
 
 // Configurazione dell'ambiente Stripe
 const getStripeClient = () => {
-  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  // Usa PAYMENT_MODE per controllare l'ambiente
+  const isProduction = process.env.PAYMENT_MODE === 'production';
+  
+  const stripeSecretKey = isProduction
+    ? process.env.STRIPE_SECRET_KEY_LIVE
+    : process.env.STRIPE_SECRET_KEY;
   
   if (!stripeSecretKey) {
-    throw new Error('Manca la chiave segreta di Stripe. Impostare STRIPE_SECRET_KEY nelle variabili d\'ambiente.');
+    const mode = isProduction ? 'LIVE' : 'TEST';
+    throw new Error(`Manca la chiave segreta di Stripe ${mode}. Impostare STRIPE_SECRET_KEY${isProduction ? '_LIVE' : ''} nelle variabili d'ambiente.`);
   }
   
   // Verifica se la chiave è di test o produzione
   const isTestKey = stripeSecretKey.startsWith('sk_test_');
   const isLiveKey = stripeSecretKey.startsWith('sk_live_');
   
-  console.log(`Stripe: usando chiave ${isTestKey ? 'TEST' : (isLiveKey ? 'PRODUZIONE (LIVE)' : 'SCONOSCIUTA')}`);
+  console.log(`🔐 Stripe: usando chiave ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
+  console.log(`Stripe: PAYMENT_MODE=${process.env.PAYMENT_MODE || 'non impostato (default: test)'}`);
   console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
   
   return new Stripe(stripeSecretKey, {
@@ -25,29 +32,35 @@ const getStripeClient = () => {
 
 // Configurazione dell'ambiente PayPal (sandbox per test, live per produzione)
 const getPayPalClient = () => {
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+  // Usa PAYMENT_MODE per controllare l'ambiente (live o sandbox)
+  // Se PAYMENT_MODE=production usa credenziali LIVE, altrimenti SANDBOX
+  const isProduction = process.env.PAYMENT_MODE === 'production';
+  
+  const clientId = isProduction 
+    ? process.env.PAYPAL_CLIENT_ID_LIVE 
+    : process.env.PAYPAL_CLIENT_ID;
+  const clientSecret = isProduction 
+    ? process.env.PAYPAL_CLIENT_SECRET_LIVE 
+    : process.env.PAYPAL_CLIENT_SECRET;
   
   console.log('PayPal Config:', {
+    mode: isProduction ? 'LIVE (Produzione)' : 'SANDBOX (Test)',
     clientIdPresent: !!clientId,
     clientSecretPresent: !!clientSecret,
-    environment: process.env.NODE_ENV || 'development'
+    paymentMode: process.env.PAYMENT_MODE || 'non impostato (default: test)'
   });
   
   if (!clientId || !clientSecret) {
-    throw new Error('Mancano le credenziali PayPal. Impostare PAYPAL_CLIENT_ID e PAYPAL_CLIENT_SECRET nelle variabili d\'ambiente.');
+    const mode = isProduction ? 'LIVE' : 'SANDBOX';
+    throw new Error(`Mancano le credenziali PayPal ${mode}. Impostare PAYPAL_CLIENT_ID${isProduction ? '_LIVE' : ''} e PAYPAL_CLIENT_SECRET${isProduction ? '_LIVE' : ''} nelle variabili d'ambiente.`);
   }
   
   try {
-    // Usa PAYMENT_MODE per controllare l'ambiente (live o sandbox)
-    // Se PAYMENT_MODE=production usa LIVE, altrimenti SANDBOX
-    const isProduction = process.env.PAYMENT_MODE === 'production';
     const environment = isProduction 
       ? new paypal.core.LiveEnvironment(clientId, clientSecret)
       : new paypal.core.SandboxEnvironment(clientId, clientSecret);
     
-    console.log(`PayPal: usando ambiente ${isProduction ? 'PRODUZIONE (LIVE)' : 'SANDBOX (TEST)'}`);
-    console.log(`PayPal: PAYMENT_MODE=${process.env.PAYMENT_MODE || 'non impostato (default: test)'}`);
+    console.log(`🔐 PayPal: usando ambiente ${isProduction ? 'PRODUZIONE (LIVE) 💰' : 'SANDBOX (TEST) 🧪'}`);
     
     return new paypal.core.PayPalHttpClient(environment);
   } catch (error) {
