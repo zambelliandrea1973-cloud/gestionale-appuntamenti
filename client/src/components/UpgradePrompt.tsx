@@ -29,7 +29,7 @@ export function UpgradePrompt({
   const [, setLocation] = useLocation();
 
   const handleUpgrade = () => {
-    setLocation('/subscription');
+    setLocation('/subscribe');
     onOpenChange(false);
   };
 
