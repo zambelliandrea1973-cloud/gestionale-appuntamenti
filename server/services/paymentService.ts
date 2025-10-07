@@ -11,6 +11,13 @@ const getStripeClient = () => {
     throw new Error('Manca la chiave segreta di Stripe. Impostare STRIPE_SECRET_KEY nelle variabili d\'ambiente.');
   }
   
+  // Verifica se la chiave è di test o produzione
+  const isTestKey = stripeSecretKey.startsWith('sk_test_');
+  const isLiveKey = stripeSecretKey.startsWith('sk_live_');
+  
+  console.log(`Stripe: usando chiave ${isTestKey ? 'TEST' : (isLiveKey ? 'PRODUZIONE (LIVE)' : 'SCONOSCIUTA')}`);
+  console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
+  
   return new Stripe(stripeSecretKey, {
     apiVersion: '2023-10-16'
   });
@@ -32,13 +39,15 @@ const getPayPalClient = () => {
   }
   
   try {
-    // Usa SandboxEnvironment in development, LiveEnvironment in production
-    const isProduction = process.env.NODE_ENV === 'production';
+    // Usa PAYMENT_MODE per controllare l'ambiente (live o sandbox)
+    // Se PAYMENT_MODE=production usa LIVE, altrimenti SANDBOX
+    const isProduction = process.env.PAYMENT_MODE === 'production';
     const environment = isProduction 
       ? new paypal.core.LiveEnvironment(clientId, clientSecret)
       : new paypal.core.SandboxEnvironment(clientId, clientSecret);
     
-    console.log(`PayPal: usando ambiente ${isProduction ? 'PRODUZIONE' : 'SANDBOX'}`);
+    console.log(`PayPal: usando ambiente ${isProduction ? 'PRODUZIONE (LIVE)' : 'SANDBOX (TEST)'}`);
+    console.log(`PayPal: PAYMENT_MODE=${process.env.PAYMENT_MODE || 'non impostato (default: test)'}`);
     
     return new paypal.core.PayPalHttpClient(environment);
   } catch (error) {
