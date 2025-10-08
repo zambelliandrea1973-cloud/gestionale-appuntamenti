@@ -284,14 +284,21 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
     const paymentMethods = await storage.getPaymentMethods();
     const wiseMethod = paymentMethods.find(m => m.id === 'wise');
     
-    if (!wiseMethod || !wiseMethod.config.apiKey) {
+    // Prendi l'API Key dal body della richiesta (frontend) o dal file salvato
+    const apiKey = req.body.apiKey || wiseMethod?.config.apiKey;
+    
+    if (!apiKey) {
       return res.status(400).json({
         success: false,
         message: 'API Key Wise non configurata. Inserisci prima l\'API Key.'
       });
     }
     
-    const apiKey = wiseMethod.config.apiKey;
+    // Se l'API Key arriva dal frontend, aggiornala anche nel wiseMethod
+    if (req.body.apiKey && wiseMethod) {
+      wiseMethod.config.apiKey = req.body.apiKey;
+    }
+    
     const baseUrl = 'https://api.transferwise.com';
     
     try {
