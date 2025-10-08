@@ -102,27 +102,8 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
       console.log('✅ Configurazione metodi di pagamento inizializzata automaticamente');
     }
     
-    // Maschera le chiavi segrete prima di inviarle al client
-    const sanitizedMethods = paymentMethods.map(method => {
-      const sanitizedConfig = { ...method.config };
-      
-      // Maschera le credenziali sensibili
-      if (method.id === 'stripe') {
-        if (sanitizedConfig.secretKey) sanitizedConfig.secretKey = '••••••••';
-        if (sanitizedConfig.webhookSecret) sanitizedConfig.webhookSecret = '••••••••';
-      } else if (method.id === 'paypal') {
-        if (sanitizedConfig.clientSecret) sanitizedConfig.clientSecret = '••••••••';
-      } else if (method.id === 'wise') {
-        if (sanitizedConfig.apiKey) sanitizedConfig.apiKey = '••••••••';
-      }
-      
-      return {
-        ...method,
-        config: sanitizedConfig
-      };
-    });
-    
-    return res.json(sanitizedMethods);
+    // Restituisci le credenziali complete (utente autenticato come payment admin)
+    return res.json(paymentMethods);
   } catch (error) {
     console.error('Errore durante il recupero dei metodi di pagamento:', error);
     return res.status(500).json({
@@ -148,45 +129,8 @@ router.post('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =
       });
     }
     
-    // Per ogni metodo, verifica se esiste già e aggiorna le credenziali
-    // solo se non sono state mascherate
-    const existingMethods = await storage.getPaymentMethods();
-    
-    const methodsToSave = paymentMethods.map(method => {
-      const existing = existingMethods.find(m => m.id === method.id);
-      
-      if (existing) {
-        // Se esiste già un metodo con questo ID, verifica quali credenziali mantenere
-        const updatedConfig = { ...method.config };
-        
-        // Riapplica credenziali esistenti per i valori mascherati
-        if (method.id === 'stripe') {
-          if (updatedConfig.secretKey === '••••••••' && existing.config.secretKey) {
-            updatedConfig.secretKey = existing.config.secretKey;
-          }
-          if (updatedConfig.webhookSecret === '••••••••' && existing.config.webhookSecret) {
-            updatedConfig.webhookSecret = existing.config.webhookSecret;
-          }
-        } else if (method.id === 'paypal') {
-          if (updatedConfig.clientSecret === '••••••••' && existing.config.clientSecret) {
-            updatedConfig.clientSecret = existing.config.clientSecret;
-          }
-        } else if (method.id === 'wise') {
-          if (updatedConfig.apiKey === '••••••••' && existing.config.apiKey) {
-            updatedConfig.apiKey = existing.config.apiKey;
-          }
-        }
-        
-        return {
-          ...method,
-          config: updatedConfig
-        };
-      }
-      
-      return method;
-    });
-    
-    await storage.savePaymentMethods(methodsToSave);
+    // Salva i metodi di pagamento così come arrivano (credenziali complete)
+    await storage.savePaymentMethods(paymentMethods);
     
     return res.json({
       success: true,
