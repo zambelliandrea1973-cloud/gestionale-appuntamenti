@@ -274,6 +274,115 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
 });
 
 /**
+ * Auto-configura Wise recuperando Profile ID e Account ID dall'API
+ * POST /api/payments/payment-admin/wise/auto-configure
+ * Accesso: payment admin
+ */
+router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, res) => {
+  try {
+    // Recupera i metodi di pagamento attuali
+    const paymentMethods = await storage.getPaymentMethods();
+    const wiseMethod = paymentMethods.find(m => m.id === 'wise');
+    
+    if (!wiseMethod || !wiseMethod.config.apiKey) {
+      return res.status(400).json({
+        success: false,
+        message: 'API Key Wise non configurata. Inserisci prima l\'API Key.'
+      });
+    }
+    
+    const apiKey = wiseMethod.config.apiKey;
+    const baseUrl = 'https://api.transferwise.com';
+    
+    try {
+      // Step 1: Recupera Profile ID
+      console.log('🔍 Recupero Profile ID da Wise...');
+      const profilesResponse = await fetch(`${baseUrl}/v1/profiles`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!profilesResponse.ok) {
+        throw new Error(`Errore API Wise (profiles): ${profilesResponse.status} ${profilesResponse.statusText}`);
+      }
+      
+      const profiles = await profilesResponse.json();
+      
+      if (!profiles || profiles.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Nessun profilo trovato per questa API Key'
+        });
+      }
+      
+      const profileId = profiles[0].id;
+      console.log(`✅ Profile ID recuperato: ${profileId}`);
+      
+      // Step 2: Recupera Account ID
+      console.log('🔍 Recupero Account ID da Wise...');
+      const accountsResponse = await fetch(`${baseUrl}/v1/borderless-accounts?profileId=${profileId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!accountsResponse.ok) {
+        throw new Error(`Errore API Wise (accounts): ${accountsResponse.status} ${accountsResponse.statusText}`);
+      }
+      
+      const accounts = await accountsResponse.json();
+      
+      if (!accounts || accounts.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Nessun account Wise trovato per questo profilo'
+        });
+      }
+      
+      const accountId = accounts[0].id;
+      console.log(`✅ Account ID recuperato: ${accountId}`);
+      
+      // Step 3: Aggiorna la configurazione Wise nel database
+      wiseMethod.config.profileId = profileId.toString();
+      wiseMethod.config.accountId = accountId.toString();
+      
+      await storage.savePaymentMethods(paymentMethods);
+      
+      console.log('✅ Configurazione Wise aggiornata automaticamente');
+      
+      return res.json({
+        success: true,
+        message: 'Configurazione Wise completata automaticamente',
+        data: {
+          profileId: profileId.toString(),
+          accountId: accountId.toString(),
+          profileType: profiles[0].type || 'unknown'
+        }
+      });
+      
+    } catch (apiError: any) {
+      console.error('❌ Errore durante la chiamata API Wise:', apiError);
+      return res.status(400).json({
+        success: false,
+        message: `Errore API Wise: ${apiError.message}`
+      });
+    }
+    
+  } catch (error) {
+    console.error('❌ Errore durante l\'auto-configurazione Wise:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Errore interno del server: ' + (error instanceof Error ? error.message : String(error))
+    });
+  }
+});
+
+/**
  * Ottiene i metodi di pagamento disponibili per l'utente
  * GET /api/payments/available-methods
  * Accesso: tutti (pubblico)
