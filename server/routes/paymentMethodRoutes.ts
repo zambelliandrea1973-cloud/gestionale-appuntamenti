@@ -34,11 +34,72 @@ const setupPaypalClient = (clientId: string, clientSecret: string, mode: 'sandbo
  */
 router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) => {
   try {
-    const paymentMethods = await storage.getPaymentMethods();
+    let paymentMethods = await storage.getPaymentMethods();
     
     if (!paymentMethods || paymentMethods.length === 0) {
-      // Se non ci sono metodi configurati, restituisci un array vuoto
-      return res.json([]);
+      // Se non ci sono metodi configurati, crea configurazione iniziale con Stripe e PayPal
+      const isProduction = process.env.PAYMENT_MODE === 'production';
+      
+      const defaultMethods = [
+        {
+          id: 'stripe',
+          name: 'Carta di Credito (Stripe)',
+          enabled: true,
+          config: {
+            publicKey: isProduction 
+              ? (process.env.VITE_STRIPE_PUBLIC_KEY_LIVE || '') 
+              : (process.env.VITE_STRIPE_PUBLIC_KEY || ''),
+            secretKey: isProduction 
+              ? (process.env.STRIPE_SECRET_KEY_LIVE || '') 
+              : (process.env.STRIPE_SECRET_KEY || ''),
+            webhookSecret: '',
+            statementDescriptor: 'Gestionale Sanitario'
+          }
+        },
+        {
+          id: 'paypal',
+          name: 'PayPal',
+          enabled: true,
+          config: {
+            clientId: isProduction 
+              ? (process.env.PAYPAL_CLIENT_ID_LIVE || '') 
+              : (process.env.PAYPAL_CLIENT_ID || ''),
+            clientSecret: isProduction 
+              ? (process.env.PAYPAL_CLIENT_SECRET_LIVE || '') 
+              : (process.env.PAYPAL_CLIENT_SECRET || ''),
+            mode: isProduction ? 'live' : 'sandbox'
+          }
+        },
+        {
+          id: 'wise',
+          name: 'Wise (TransferWise)',
+          enabled: false,
+          config: {
+            apiKey: '',
+            profileId: '',
+            accountId: '',
+            recipientEmail: ''
+          }
+        },
+        {
+          id: 'bank',
+          name: 'Bonifico Bancario',
+          enabled: false,
+          config: {
+            accountName: '',
+            iban: '',
+            swift: '',
+            bankName: '',
+            instructions: ''
+          }
+        }
+      ];
+      
+      // Salva la configurazione iniziale
+      await storage.savePaymentMethods(defaultMethods);
+      paymentMethods = defaultMethods;
+      
+      console.log('✅ Configurazione metodi di pagamento inizializzata automaticamente');
     }
     
     // Maschera le chiavi segrete prima di inviarle al client
