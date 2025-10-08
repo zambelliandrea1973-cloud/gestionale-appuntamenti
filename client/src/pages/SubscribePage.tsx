@@ -162,7 +162,8 @@ export default function SubscribePage() {
       console.log('💳 STRIPE: Risposta ricevuta:', data);
       
       if (data.success && data.url) {
-        console.log('✅ STRIPE: Reindirizzamento a:', data.url);
+        console.log('✅ STRIPE: URL ricevuto:', data.url);
+        console.log('✅ STRIPE: Lunghezza URL:', data.url.length);
         
         // Mostra un toast prima del redirect
         toast({
@@ -170,10 +171,23 @@ export default function SubscribePage() {
           description: 'Verrai reindirizzato alla pagina di pagamento sicura',
         });
         
-        // Attendi 500ms prima del redirect per far vedere il toast
+        // DEBUG: Verifica che l'URL sia valido
+        try {
+          new URL(data.url);
+          console.log('✅ STRIPE: URL valido, eseguendo redirect...');
+        } catch (e) {
+          console.error('❌ STRIPE: URL non valido!', e);
+        }
+        
+        // Redirect immediato invece di setTimeout per evitare blocchi
+        console.log('🚀 STRIPE: Eseguendo window.location.href...');
+        window.location.href = data.url;
+        
+        // Fallback: se dopo 1 secondo non è ancora partito, riprova
         setTimeout(() => {
-          window.location.href = data.url;
-        }, 500);
+          console.log('⚠️ STRIPE: Fallback redirect...');
+          window.location.replace(data.url);
+        }, 1000);
       } else {
         console.error('❌ STRIPE: URL mancante nella risposta:', data);
         toast({
