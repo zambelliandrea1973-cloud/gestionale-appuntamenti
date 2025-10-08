@@ -215,10 +215,18 @@ export default function PaymentMethodsConfig() {
   const autoConfigureWise = async () => {
     setIsAutoConfiguring(true);
     try {
+      // Recupera l'API Key corrente dal form
+      const wiseMethod = paymentMethods.find(m => m.id === 'wise');
+      const apiKey = wiseMethod?.config.apiKey;
+      
+      if (!apiKey) {
+        throw new Error('Inserisci prima l\'API Key Wise');
+      }
+      
       const response = await apiRequest(
         "POST", 
         "/api/payments/payment-admin/wise/auto-configure", 
-        {}, 
+        { apiKey }, // Passa l'API Key dal form
         { withBetaAdminToken: true }
       );
       
