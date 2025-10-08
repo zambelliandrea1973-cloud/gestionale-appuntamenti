@@ -280,12 +280,18 @@ router.post('/payment-admin/test-payment-method/:id', isPaymentAdmin, async (req
  */
 router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, res) => {
   try {
+    console.log('🔍 Body ricevuto per auto-configure:', JSON.stringify(req.body));
+    
     // Recupera i metodi di pagamento attuali
     const paymentMethods = await storage.getPaymentMethods();
     const wiseMethod = paymentMethods.find(m => m.id === 'wise');
     
     // Prendi l'API Key dal body della richiesta (frontend) o dal file salvato
     const apiKey = req.body.apiKey || wiseMethod?.config.apiKey;
+    
+    console.log('🔑 API Key dal body:', req.body.apiKey);
+    console.log('🔑 API Key dal file:', wiseMethod?.config.apiKey);
+    console.log('🔑 API Key finale scelta:', apiKey);
     
     if (!apiKey) {
       return res.status(400).json({
