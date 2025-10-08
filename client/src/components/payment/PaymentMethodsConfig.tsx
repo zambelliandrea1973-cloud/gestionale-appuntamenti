@@ -281,10 +281,11 @@ export default function PaymentMethodsConfig() {
                     <Label htmlFor="stripe-secretKey">Chiave Segreta (Secret Key)</Label>
                     <Input 
                       id="stripe-secretKey" 
-                      type="password" 
+                      type="text" 
                       value={paymentMethods.find(m => m.id === 'stripe')?.config.secretKey || ''}
                       onChange={(e) => updatePaymentMethodConfig('stripe', 'secretKey', e.target.value)}
-                      placeholder="sk_test_..."
+                      placeholder="sk_test_... o sk_live_..."
+                      className="font-mono text-sm"
                     />
                     <p className="text-xs text-muted-foreground">La chiave segreta di Stripe che inizia con "sk_"</p>
                   </div>
@@ -295,10 +296,11 @@ export default function PaymentMethodsConfig() {
                     <Label htmlFor="stripe-webhookSecret">Webhook Secret</Label>
                     <Input 
                       id="stripe-webhookSecret" 
-                      type="password" 
+                      type="text" 
                       value={paymentMethods.find(m => m.id === 'stripe')?.config.webhookSecret || ''}
                       onChange={(e) => updatePaymentMethodConfig('stripe', 'webhookSecret', e.target.value)}
                       placeholder="whsec_..."
+                      className="font-mono text-sm"
                     />
                     <p className="text-xs text-muted-foreground">La chiave segreta del webhook di Stripe (opzionale)</p>
                   </div>
@@ -376,10 +378,11 @@ export default function PaymentMethodsConfig() {
                     <Label htmlFor="paypal-clientSecret">Client Secret</Label>
                     <Input 
                       id="paypal-clientSecret" 
-                      type="password" 
+                      type="text" 
                       value={paymentMethods.find(m => m.id === 'paypal')?.config.clientSecret || ''}
                       onChange={(e) => updatePaymentMethodConfig('paypal', 'clientSecret', e.target.value)}
                       placeholder="Es. EGwT4QVt7D..."
+                      className="font-mono text-sm"
                     />
                   </div>
                 </div>
@@ -462,10 +465,11 @@ export default function PaymentMethodsConfig() {
                     <Label htmlFor="wise-apiKey">API Key</Label>
                     <Input 
                       id="wise-apiKey" 
-                      type="password" 
+                      type="text" 
                       value={paymentMethods.find(m => m.id === 'wise')?.config.apiKey || ''}
                       onChange={(e) => updatePaymentMethodConfig('wise', 'apiKey', e.target.value)}
                       placeholder="Es. dad06e..."
+                      className="font-mono text-sm"
                     />
                   </div>
                   
