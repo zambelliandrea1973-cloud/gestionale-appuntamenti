@@ -22,7 +22,8 @@ import {
   DollarSign,
   Save,
   AlertTriangle,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 import { SiWise, SiPaypal, SiStripe } from 'react-icons/si';
 
@@ -37,6 +38,7 @@ export default function PaymentMethodsConfig() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isAutoConfiguring, setIsAutoConfiguring] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
     {
       id: 'stripe',
@@ -206,6 +208,44 @@ export default function PaymentMethodsConfig() {
         description: `Errore per ${id}: ${error.message}`,
         variant: "destructive",
       });
+    }
+  };
+
+  // Auto-configura Wise recuperando Profile ID e Account ID dall'API
+  const autoConfigureWise = async () => {
+    setIsAutoConfiguring(true);
+    try {
+      const response = await apiRequest(
+        "POST", 
+        "/api/payments/payment-admin/wise/auto-configure", 
+        {}, 
+        { withBetaAdminToken: true }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Ricarica i metodi di pagamento per ottenere i nuovi valori
+        await fetchPaymentMethods();
+        
+        toast({
+          title: "✅ Configurazione Wise completata!",
+          description: `Profile ID: ${data.data.profileId} | Account ID: ${data.data.accountId}`,
+          variant: "default",
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Errore durante l'auto-configurazione");
+      }
+    } catch (error: any) {
+      console.error("Errore nell'auto-configurazione Wise:", error);
+      toast({
+        title: "Errore Auto-Configurazione",
+        description: error.message || "Impossibile recuperare Profile ID e Account ID da Wise",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAutoConfiguring(false);
     }
   };
 
@@ -511,23 +551,62 @@ export default function PaymentMethodsConfig() {
                 </div>
                 
                 <div className="flex justify-end space-x-2 mt-4">
-                  <Button variant="outline" onClick={() => testPaymentMethod('wise')} disabled={!paymentMethods.find(m => m.id === 'wise')?.enabled}>
+                  <Button 
+                    variant="default" 
+                    onClick={autoConfigureWise} 
+                    disabled={!paymentMethods.find(m => m.id === 'wise')?.config.apiKey || isAutoConfiguring}
+                    data-testid="button-wise-auto-configure"
+                  >
+                    {isAutoConfiguring ? (
+                      <>
+                        <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                        Configurazione...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        Auto-Configura
+                      </>
+                    )}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => testPaymentMethod('wise')} 
+                    disabled={!paymentMethods.find(m => m.id === 'wise')?.enabled}
+                    data-testid="button-wise-test"
+                  >
                     <CheckCircle2 className="h-4 w-4 mr-2" />
                     Test Configurazione
                   </Button>
+                </div>
+                
+                <div className="bg-green-50 p-4 rounded-md mt-4">
+                  <div className="flex items-start">
+                    <Sparkles className="h-5 w-5 mr-2 text-green-600 mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold text-green-800">✨ Configurazione Automatica</h4>
+                      <p className="mt-2 text-sm text-green-700">
+                        <strong>NUOVA FUNZIONE:</strong> Inserisci solo l'API Key di Wise e clicca "Auto-Configura"!
+                      </p>
+                      <p className="mt-1 text-sm text-green-700">
+                        Il sistema recupererà automaticamente Profile ID e Account ID senza che tu debba cercarli manualmente.
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="bg-amber-50 p-4 rounded-md mt-4">
                   <div className="flex items-start">
                     <AlertTriangle className="h-5 w-5 mr-2 text-amber-600 mt-0.5" />
                     <div>
-                      <h4 className="font-semibold text-amber-800">Come ottenere le credenziali Wise</h4>
+                      <h4 className="font-semibold text-amber-800">Come ottenere l'API Key Wise</h4>
                       <ol className="mt-2 text-sm space-y-1 text-amber-700">
-                        <li>1. Accedi al tuo account Wise</li>
-                        <li>2. Vai su Impostazioni {`>`} API e token</li>
-                        <li>3. Crea un nuovo token API con i permessi necessari</li>
-                        <li>4. Copia il token appena creato (è visibile solo al momento della creazione)</li>
-                        <li>5. I valori Profile ID e Account ID sono disponibili nelle API documentazione di Wise</li>
+                        <li>1. Accedi al tuo account su <a href="https://wise.com" target="_blank" rel="noopener noreferrer" className="underline">wise.com</a></li>
+                        <li>2. Clicca sul tuo profilo (in alto a destra) {`>`} Impostazioni</li>
+                        <li>3. Scorri fino a "API tokens" e clicca "Add new token"</li>
+                        <li>4. Dai un nome (es. "Gestionale") e clicca "Create token"</li>
+                        <li>5. Copia il token (appare solo una volta!) e incollalo nel campo "API Key" sopra</li>
+                        <li>6. Clicca "Auto-Configura" - Profile ID e Account ID verranno inseriti automaticamente!</li>
                       </ol>
                     </div>
                   </div>
