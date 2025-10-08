@@ -11,16 +11,15 @@ const getStripeClient = async () => {
   
   if (!stripeConfig || !stripeConfig.config.secretKey) {
     // Fallback ai Secrets se non configurato nel database
-    const isProduction = process.env.PAYMENT_MODE === 'production';
-    const stripeSecretKey = isProduction
-      ? process.env.STRIPE_SECRET_KEY_LIVE
-      : process.env.STRIPE_SECRET_KEY;
+    // FORZA MODALITÀ LIVE per controllo autonomo
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY_LIVE || process.env.STRIPE_SECRET_KEY;
     
     if (!stripeSecretKey) {
       throw new Error('Manca la chiave segreta di Stripe. Configurarla nella pagina Metodi di Pagamento.');
     }
     
-    console.log(`🔐 Stripe: usando chiave da Secrets (fallback)`);
+    const isLive = stripeSecretKey.startsWith('sk_live_');
+    console.log(`🔐 Stripe: usando chiave LIVE da Secrets ${isLive ? '💰' : '(fallback TEST 🧪)'}`);
     return new Stripe(stripeSecretKey, {
       apiVersion: '2023-10-16'
     });
