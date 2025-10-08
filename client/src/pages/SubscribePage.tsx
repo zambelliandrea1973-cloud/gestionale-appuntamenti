@@ -179,15 +179,15 @@ export default function SubscribePage() {
           console.error('❌ STRIPE: URL non valido!', e);
         }
         
-        // Redirect immediato invece di setTimeout per evitare blocchi
-        console.log('🚀 STRIPE: Eseguendo window.location.href...');
-        window.location.href = data.url;
+        // Usa window.open() invece di window.location per evitare blocchi del browser
+        console.log('🚀 STRIPE: Aprendo finestra checkout con window.open()...');
+        const checkoutWindow = window.open(data.url, '_self');
         
-        // Fallback: se dopo 1 secondo non è ancora partito, riprova
-        setTimeout(() => {
-          console.log('⚠️ STRIPE: Fallback redirect...');
-          window.location.replace(data.url);
-        }, 1000);
+        // Fallback: se window.open fallisce, prova con location.href
+        if (!checkoutWindow) {
+          console.log('⚠️ STRIPE: window.open bloccato, usando location.href...');
+          window.location.href = data.url;
+        }
       } else {
         console.error('❌ STRIPE: URL mancante nella risposta:', data);
         toast({
