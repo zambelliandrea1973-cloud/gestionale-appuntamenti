@@ -6,6 +6,9 @@ import { storage } from "./storage";
 
 const app = express();
 
+// Configura Express per fidarsi del proxy (Replit) - necessario per HTTPS corretto
+app.set('trust proxy', 1);
+
 // Inizializza storage in app.locals per accesso globale dalle routes
 app.locals.storage = storage;
 console.log('✅ Storage inizializzato in app.locals:', typeof app.locals.storage, 'metodi disponibili:', Object.keys(app.locals.storage).slice(0, 5).join(', '));

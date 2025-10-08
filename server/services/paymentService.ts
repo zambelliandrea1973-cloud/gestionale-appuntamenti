@@ -475,6 +475,13 @@ export class PaymentService {
       // Crea una sessione di checkout
       const stripe = await getStripeClient();
       
+      console.log('🔗 STRIPE URLs configurati:', {
+        successUrl,
+        cancelUrl,
+        successProtocol: successUrl.startsWith('https') ? 'HTTPS ✅' : 'HTTP ❌',
+        cancelProtocol: cancelUrl.startsWith('https') ? 'HTTPS ✅' : 'HTTP ❌'
+      });
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
