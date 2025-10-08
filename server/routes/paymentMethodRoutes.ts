@@ -295,9 +295,9 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
     const baseUrl = 'https://api.transferwise.com';
     
     try {
-      // Step 1: Recupera Profile ID
-      console.log('🔍 Recupero Profile ID da Wise...');
-      const profilesResponse = await fetch(`${baseUrl}/v1/profiles`, {
+      // Step 1: Recupera Profile ID usando v2 endpoint (compatibile con Personal account)
+      console.log('🔍 Recupero Profile ID da Wise (v2 endpoint per account Personal)...');
+      const profilesResponse = await fetch(`${baseUrl}/v2/profiles`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -306,7 +306,8 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       });
       
       if (!profilesResponse.ok) {
-        throw new Error(`Errore API Wise (profiles): ${profilesResponse.status} ${profilesResponse.statusText}`);
+        const errorText = await profilesResponse.text();
+        throw new Error(`Errore API Wise (profiles): ${profilesResponse.status} ${profilesResponse.statusText} - ${errorText}`);
       }
       
       const profiles = await profilesResponse.json();
@@ -314,16 +315,17 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       if (!profiles || profiles.length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'Nessun profilo trovato per questa API Key'
+          message: 'Nessun profilo trovato per questa API Key. Verifica che l\'autenticazione a due fattori sia abilitata.'
         });
       }
       
       const profileId = profiles[0].id;
-      console.log(`✅ Profile ID recuperato: ${profileId}`);
+      const profileType = profiles[0].type || 'personal';
+      console.log(`✅ Profile ID recuperato: ${profileId} (tipo: ${profileType})`);
       
-      // Step 2: Recupera Account ID
-      console.log('🔍 Recupero Account ID da Wise...');
-      const accountsResponse = await fetch(`${baseUrl}/v1/borderless-accounts?profileId=${profileId}`, {
+      // Step 2: Recupera Balance/Account ID usando v4 endpoint
+      console.log('🔍 Recupero Balance ID da Wise (v4 endpoint)...');
+      const balancesResponse = await fetch(`${baseUrl}/v4/profiles/${profileId}/balances?types=STANDARD`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -331,21 +333,22 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
         }
       });
       
-      if (!accountsResponse.ok) {
-        throw new Error(`Errore API Wise (accounts): ${accountsResponse.status} ${accountsResponse.statusText}`);
+      if (!balancesResponse.ok) {
+        const errorText = await balancesResponse.text();
+        throw new Error(`Errore API Wise (balances): ${balancesResponse.status} ${balancesResponse.statusText} - ${errorText}`);
       }
       
-      const accounts = await accountsResponse.json();
+      const balances = await balancesResponse.json();
       
-      if (!accounts || accounts.length === 0) {
+      if (!balances || balances.length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'Nessun account Wise trovato per questo profilo'
+          message: 'Nessun balance Wise trovato. Assicurati di avere almeno una valuta attiva nel tuo account.'
         });
       }
       
-      const accountId = accounts[0].id;
-      console.log(`✅ Account ID recuperato: ${accountId}`);
+      const accountId = balances[0].id;
+      console.log(`✅ Balance ID recuperato: ${accountId}`);
       
       // Step 3: Aggiorna la configurazione Wise nel database
       wiseMethod.config.profileId = profileId.toString();
@@ -357,11 +360,11 @@ router.post('/payment-admin/wise/auto-configure', isPaymentAdmin, async (req, re
       
       return res.json({
         success: true,
-        message: 'Configurazione Wise completata automaticamente',
+        message: `Configurazione Wise completata automaticamente (account ${profileType})`,
         data: {
           profileId: profileId.toString(),
           accountId: accountId.toString(),
-          profileType: profiles[0].type || 'unknown'
+          profileType: profileType
         }
       });
       
