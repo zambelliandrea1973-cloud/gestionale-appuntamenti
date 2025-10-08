@@ -114,8 +114,9 @@ router.post('/paypal/subscribe', isAuthenticated, async (req, res) => {
       });
     }
     
-    // Costruisci gli URL di ritorno
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    // Costruisci gli URL di ritorno (usa X-Forwarded-Proto per HTTPS dietro proxy)
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const baseUrl = `${protocol}://${req.get('host')}`;
     const returnUrl = `${baseUrl}/payment/success`;
     const cancelUrl = `${baseUrl}/payment/cancel`;
     
@@ -175,8 +176,9 @@ router.post('/stripe/create-checkout-session', isAuthenticated, async (req, res)
       });
     }
     
-    // Costruisci gli URL di ritorno
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    // Costruisci gli URL di ritorno (usa X-Forwarded-Proto per HTTPS dietro proxy)
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const baseUrl = `${protocol}://${req.get('host')}`;
     const successUrl = `${baseUrl}/payment/success`;
     const cancelUrl = `${baseUrl}/payment/cancel`;
     
