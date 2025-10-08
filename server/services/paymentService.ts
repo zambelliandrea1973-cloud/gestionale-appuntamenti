@@ -486,7 +486,7 @@ export class PaymentService {
                 name: `Abbonamento ${plan.name}`,
                 description: plan.description || undefined,
               },
-              unit_amount: Math.round(plan.price * 100), // Converte in centesimi
+              unit_amount: plan.price, // Prezzo già in centesimi dal database
             },
             quantity: 1,
           },
