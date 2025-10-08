@@ -4,8 +4,8 @@
     "name": "Carta di Credito (Stripe)",
     "enabled": true,
     "config": {
-      "publicKey": "pk_test_51RGbD9Ca6F83Z2KBYXAKVTjHwHbcmneyN0ogz4e3j3VAjHEkqxvio8DpGlNZ8j2jUcyf9gdYZpjuAjlK24bvOylo009AZfoNKu",
-      "secretKey": "sk_test_51RGbD9Ca6F83Z2KBK478P1frhDB6tpGQwn1hBp8eNWg1zjnxKMWtaNC3TcNmCELHxP7ELcCjbwzVGTMvMbRz0mO3007FdDxFdf",
+      "publicKey": "",
+      "secretKey": "",
       "webhookSecret": "",
       "statementDescriptor": "Gestionale Sanitario"
     }
@@ -15,20 +15,20 @@
     "name": "PayPal",
     "enabled": true,
     "config": {
-      "clientId": "ATHGmP-4yWUc_IlOkymvlwqJx8nEj4unm_tJy6VodJT0a45khSBevE27AmlURIzVj2nZ3iAjflD-eOto",
-      "clientSecret": "EIqT6E3ZrropMHXyrJyLdM39V6xZd9mnCqA084fg1-XZSmbEkgxSHnF_UZJLvlogETAb5UgDgoeD3gj_",
+      "clientId": "",
+      "clientSecret": "",
       "mode": "live"
     }
   },
   {
     "id": "wise",
     "name": "Wise (TransferWise)",
-    "enabled": false,
+    "enabled": true,
     "config": {
-      "apiKey": "",
-      "profileId": "",
-      "accountId": "",
-      "recipientEmail": ""
+      "apiKey": "4880d451-8ac1-45c8-9028-7ae02874f481",
+      "profileId": "P16045458",
+      "accountId": "andreo274",
+      "recipientEmail": "zambelli.andrea.1973@gmail.com"
     }
   },
   {
@@ -37,10 +37,11 @@
     "enabled": true,
     "config": {
       "accountName": "zambelli andrea",
-      "iban": "IT 22I 0200851620000100456243",
-      "swift": "UNCRITM1124",
+      "iban": "IT22I0200851620000100456243",
+      "swift": "UNICRITM1124",
       "bankName": "unicredit",
-      "instructions": ""
+      "recipient": "Ethera Srl",
+      "instructions": "Nel bonifico, indicare il numero di licenza come causale. L'accesso sarà attivato entro 24 ore lavorative dal ricevimento del pagamento."
     }
   }
 ]
