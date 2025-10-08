@@ -4,25 +4,35 @@ import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
 
 // Configurazione dell'ambiente Stripe
-const getStripeClient = () => {
-  // Usa PAYMENT_MODE per controllare l'ambiente
-  const isProduction = process.env.PAYMENT_MODE === 'production';
+const getStripeClient = async () => {
+  // Leggi credenziali dal database
+  const paymentMethods = await storage.getPaymentMethods();
+  const stripeConfig = paymentMethods.find(m => m.id === 'stripe');
   
-  const stripeSecretKey = isProduction
-    ? process.env.STRIPE_SECRET_KEY_LIVE
-    : process.env.STRIPE_SECRET_KEY;
-  
-  if (!stripeSecretKey) {
-    const mode = isProduction ? 'LIVE' : 'TEST';
-    throw new Error(`Manca la chiave segreta di Stripe ${mode}. Impostare STRIPE_SECRET_KEY${isProduction ? '_LIVE' : ''} nelle variabili d'ambiente.`);
+  if (!stripeConfig || !stripeConfig.config.secretKey) {
+    // Fallback ai Secrets se non configurato nel database
+    const isProduction = process.env.PAYMENT_MODE === 'production';
+    const stripeSecretKey = isProduction
+      ? process.env.STRIPE_SECRET_KEY_LIVE
+      : process.env.STRIPE_SECRET_KEY;
+    
+    if (!stripeSecretKey) {
+      throw new Error('Manca la chiave segreta di Stripe. Configurarla nella pagina Metodi di Pagamento.');
+    }
+    
+    console.log(`🔐 Stripe: usando chiave da Secrets (fallback)`);
+    return new Stripe(stripeSecretKey, {
+      apiVersion: '2023-10-16'
+    });
   }
+  
+  const stripeSecretKey = stripeConfig.config.secretKey;
   
   // Verifica se la chiave è di test o produzione
   const isTestKey = stripeSecretKey.startsWith('sk_test_');
   const isLiveKey = stripeSecretKey.startsWith('sk_live_');
   
-  console.log(`🔐 Stripe: usando chiave ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
-  console.log(`Stripe: PAYMENT_MODE=${process.env.PAYMENT_MODE || 'non impostato (default: test)'}`);
+  console.log(`🔐 Stripe: usando chiave dal DATABASE ${isTestKey ? 'TEST 🧪' : (isLiveKey ? 'PRODUZIONE (LIVE) 💰' : 'SCONOSCIUTA ⚠️')}`);
   console.log(`Stripe: Prefisso chiave: ${stripeSecretKey.substring(0, 8)}...`);
   
   return new Stripe(stripeSecretKey, {
@@ -31,36 +41,44 @@ const getStripeClient = () => {
 };
 
 // Configurazione dell'ambiente PayPal (sandbox per test, live per produzione)
-const getPayPalClient = () => {
-  // Usa PAYMENT_MODE per controllare l'ambiente (live o sandbox)
-  // Se PAYMENT_MODE=production usa credenziali LIVE, altrimenti SANDBOX
-  const isProduction = process.env.PAYMENT_MODE === 'production';
+const getPayPalClient = async () => {
+  // Leggi credenziali dal database
+  const paymentMethods = await storage.getPaymentMethods();
+  const paypalConfig = paymentMethods.find(m => m.id === 'paypal');
   
-  const clientId = isProduction 
-    ? process.env.PAYPAL_CLIENT_ID_LIVE 
-    : process.env.PAYPAL_CLIENT_ID;
-  const clientSecret = isProduction 
-    ? process.env.PAYPAL_CLIENT_SECRET_LIVE 
-    : process.env.PAYPAL_CLIENT_SECRET;
+  let clientId: string | undefined;
+  let clientSecret: string | undefined;
+  let mode: 'sandbox' | 'live' = 'sandbox';
   
-  console.log('PayPal Config:', {
-    mode: isProduction ? 'LIVE (Produzione)' : 'SANDBOX (Test)',
-    clientIdPresent: !!clientId,
-    clientSecretPresent: !!clientSecret,
-    paymentMode: process.env.PAYMENT_MODE || 'non impostato (default: test)'
-  });
+  if (paypalConfig && paypalConfig.config.clientId && paypalConfig.config.clientSecret) {
+    // Usa credenziali dal database
+    clientId = paypalConfig.config.clientId;
+    clientSecret = paypalConfig.config.clientSecret;
+    mode = paypalConfig.config.mode || 'sandbox';
+    console.log(`🔐 PayPal: usando credenziali dal DATABASE (${mode.toUpperCase()})`);
+  } else {
+    // Fallback ai Secrets
+    const isProduction = process.env.PAYMENT_MODE === 'production';
+    clientId = isProduction 
+      ? process.env.PAYPAL_CLIENT_ID_LIVE 
+      : process.env.PAYPAL_CLIENT_ID;
+    clientSecret = isProduction 
+      ? process.env.PAYPAL_CLIENT_SECRET_LIVE 
+      : process.env.PAYPAL_CLIENT_SECRET;
+    mode = isProduction ? 'live' : 'sandbox';
+    console.log(`🔐 PayPal: usando credenziali da Secrets (fallback) - ${mode.toUpperCase()}`);
+  }
   
   if (!clientId || !clientSecret) {
-    const mode = isProduction ? 'LIVE' : 'SANDBOX';
-    throw new Error(`Mancano le credenziali PayPal ${mode}. Impostare PAYPAL_CLIENT_ID${isProduction ? '_LIVE' : ''} e PAYPAL_CLIENT_SECRET${isProduction ? '_LIVE' : ''} nelle variabili d'ambiente.`);
+    throw new Error('Mancano le credenziali PayPal. Configurarle nella pagina Metodi di Pagamento.');
   }
   
   try {
-    const environment = isProduction 
+    const environment = mode === 'live'
       ? new paypal.core.LiveEnvironment(clientId, clientSecret)
       : new paypal.core.SandboxEnvironment(clientId, clientSecret);
     
-    console.log(`🔐 PayPal: usando ambiente ${isProduction ? 'PRODUZIONE (LIVE) 💰' : 'SANDBOX (TEST) 🧪'}`);
+    console.log(`PayPal: ambiente ${mode === 'live' ? 'PRODUZIONE (LIVE) 💰' : 'SANDBOX (TEST) 🧪'}`);
     
     return new paypal.core.PayPalHttpClient(environment);
   } catch (error) {
@@ -184,7 +202,7 @@ export class PaymentService {
       console.log('Invio richiesta a PayPal...');
       
       // Invia la richiesta a PayPal
-      const client = getPayPalClient();
+      const client = await getPayPalClient();
       const response = await client.execute(request);
       
       console.log('Risposta PayPal:', {
@@ -302,7 +320,7 @@ export class PaymentService {
       }
       
       // Effettua la cattura del pagamento PayPal
-      const client = getPayPalClient();
+      const client = await getPayPalClient();
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
       
@@ -455,7 +473,7 @@ export class PaymentService {
       }
 
       // Crea una sessione di checkout
-      const stripe = getStripeClient();
+      const stripe = await getStripeClient();
       
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
