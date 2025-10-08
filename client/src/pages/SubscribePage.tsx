@@ -179,15 +179,9 @@ export default function SubscribePage() {
           console.error('❌ STRIPE: URL non valido!', e);
         }
         
-        // Usa window.open() invece di window.location per evitare blocchi del browser
-        console.log('🚀 STRIPE: Aprendo finestra checkout con window.open()...');
-        const checkoutWindow = window.open(data.url, '_self');
-        
-        // Fallback: se window.open fallisce, prova con location.href
-        if (!checkoutWindow) {
-          console.log('⚠️ STRIPE: window.open bloccato, usando location.href...');
-          window.location.href = data.url;
-        }
+        // Redirect diretto alla pagina di checkout Stripe
+        console.log('🚀 STRIPE: Reindirizzamento diretto a checkout...');
+        window.location.href = data.url;
       } else {
         console.error('❌ STRIPE: URL mancante nella risposta:', data);
         toast({
