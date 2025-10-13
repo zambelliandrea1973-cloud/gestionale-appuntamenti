@@ -47,9 +47,11 @@ temp
 *.tmp
 
 # Data files (managed separately)
+# Allow theme.json and package files, exclude data files
 *.json
 !package.json
 !package-lock.json
+!theme.json
 
 # Replit specific
 .cache
