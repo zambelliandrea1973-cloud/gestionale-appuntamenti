@@ -7,7 +7,7 @@ build({
   format: 'esm',
   platform: 'node',
   outdir: 'dist',
-  plugins: [TsconfigPathsPlugin()],
+  plugins: [TsconfigPathsPlugin({})],
   external: [
     'express',
     'drizzle-orm',
