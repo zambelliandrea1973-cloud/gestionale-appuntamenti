@@ -15,6 +15,9 @@ COPY . .
 # Build frontend only
 RUN npx vite build
 
+# Copy built files to location expected by server/vite.ts
+RUN cp -r dist/public server/public
+
 # Expose port 5000
 EXPOSE 5000
 
