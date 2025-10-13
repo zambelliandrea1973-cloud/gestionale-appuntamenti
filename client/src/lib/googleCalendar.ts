@@ -1,5 +1,5 @@
 import { apiRequest } from "./queryClient";
-import { Appointment } from "@shared/schema";
+import { Appointment } from "../../../shared/schema";
 
 export interface GoogleCalendarSettings {
   id?: number;

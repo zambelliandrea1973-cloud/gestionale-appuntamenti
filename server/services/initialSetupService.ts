@@ -1,7 +1,7 @@
 import { storage } from "../storage";
 import { hashPassword } from "../auth";
 import { db } from "../db";
-import { users } from "@shared/schema";
+import { users } from "../../shared/schema";
 import { count, eq } from "drizzle-orm";
 import { addDays } from "date-fns";
 

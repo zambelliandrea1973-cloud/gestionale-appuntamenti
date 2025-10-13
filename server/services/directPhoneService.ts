@@ -5,7 +5,7 @@
 
 import { db } from '../db';
 import { eq } from 'drizzle-orm';
-import { phones } from '@shared/schema';
+import { phones } from '../../shared/schema';
 import { twilioClient } from './twilioService';
 
 // Stati del dispositivo

@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { insertClientSchema } from "@shared/schema";
+import { insertClientSchema } from "../../../shared/schema";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import {

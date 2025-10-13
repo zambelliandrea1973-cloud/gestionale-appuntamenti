@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-// import { insertAppointmentSchema } from "@shared/schema"; // Rimosso per evitare limiti integer
+// import { insertAppointmentSchema } from "../../../shared/schema"; // Rimosso per evitare limiti integer
 import { Loader2, X, Calendar, Clock, Bell, MailIcon, Smartphone, MessageSquare, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

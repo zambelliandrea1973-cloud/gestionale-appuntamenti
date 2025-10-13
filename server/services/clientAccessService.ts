@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { clientAccesses, clients, type ClientAccess, type InsertClientAccess, type Client, type ClientWithAccessCount } from "@shared/schema";
+import { clientAccesses, clients, type ClientAccess, type InsertClientAccess, type Client, type ClientWithAccessCount } from "../../shared/schema";
 import { count, eq } from "drizzle-orm";
 
 /**

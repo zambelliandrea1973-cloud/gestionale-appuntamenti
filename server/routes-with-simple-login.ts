@@ -14,7 +14,7 @@ import {
   insertInvoiceItemSchema,
   insertPaymentSchema,
   insertReminderTemplateSchema
-} from "@shared/schema";
+} from "../shared/schema";
 import { setupAuth, isAdmin, isAuthenticated, isStaff, isClient, comparePasswords } from "./auth";
 import { tokenService } from "./services/tokenService";
 import { qrCodeService } from "./services/qrCodeService";

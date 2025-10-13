@@ -1,5 +1,5 @@
 import { notificationSettingsRepository } from '../db';
-import { NotificationSettings, InsertNotificationSettings } from '@shared/schema';
+import { NotificationSettings, InsertNotificationSettings } from '../../shared/schema';
 
 /**
  * Servizio per la gestione delle impostazioni di notifica

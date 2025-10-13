@@ -1,6 +1,6 @@
 import express from 'express';
 import { contactSettingsService } from '../services/contactSettingsService';
-import { insertContactSettingsSchema } from '@shared/schema';
+import { insertContactSettingsSchema } from '../../shared/schema';
 import { z } from 'zod';
 
 const router = express.Router();

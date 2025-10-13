@@ -6,7 +6,7 @@ import { storage } from '../storage';
 import Stripe from 'stripe';
 import { db } from '../db';
 import { eq, desc, or, isNull } from 'drizzle-orm';
-import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients } from '@shared/schema';
+import { subscriptionPlans, subscriptions, licenses, users, clientAccounts, clients } from '../../shared/schema';
 
 const router = Router();
 

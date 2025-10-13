@@ -1,4 +1,4 @@
-import { Appointment } from "@shared/schema";
+import { Appointment } from "../../../shared/schema";
 
 export interface AppointmentWithDetails extends Appointment {
   client?: Client;

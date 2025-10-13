@@ -1,5 +1,5 @@
 import { storage } from '../storage';
-import type { ContactSettings, InsertContactSettings } from '@shared/schema';
+import type { ContactSettings, InsertContactSettings } from '../../shared/schema';
 
 export class ContactSettingsService {
   

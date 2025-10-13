@@ -8,7 +8,7 @@ import AppointmentCard from "./AppointmentCard";
 import AppointmentModal from "./AppointmentModal";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import { AppointmentWithDetails } from "@shared/schema";
+import { AppointmentWithDetails } from "../../../shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import { getQueryFn, apiRequest } from "@/lib/queryClient";
 

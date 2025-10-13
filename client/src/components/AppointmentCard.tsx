@@ -5,7 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatTime } from "@/lib/utils/date";
 import { Pencil, Trash2, Star, Info, Phone, ChevronDown, ChevronUp, Plus, Mail, MessageCircle, CheckCircle2 } from "lucide-react";
-import { AppointmentWithDetails } from "@shared/schema";
+import { AppointmentWithDetails } from "../../../shared/schema";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {

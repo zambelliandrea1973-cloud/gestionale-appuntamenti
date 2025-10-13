@@ -5,7 +5,7 @@
  */
 
 import { db } from '../db';
-import { users } from '@shared/schema';
+import { users } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 
 export interface UserIdentity {

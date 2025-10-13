@@ -1,5 +1,5 @@
 import { format, addDays, isBefore } from 'date-fns';
-import { Appointment } from '@shared/schema';
+import { Appointment } from '../../shared/schema';
 import { directNotificationService } from './directNotificationService';
 import fs from 'fs';
 import path from 'path';
