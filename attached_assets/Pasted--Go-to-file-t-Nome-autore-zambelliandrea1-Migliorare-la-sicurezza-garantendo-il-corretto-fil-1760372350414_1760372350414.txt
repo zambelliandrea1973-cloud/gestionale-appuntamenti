@@ -1,0 +1,630 @@
+
+Go to file
+t
+Nome		
+autore
+zambelliandrea1
+Migliorare la sicurezza garantendo il corretto filtraggio dei dati dei clienti
+3799c2c
+ · 
+2 ore fa
+API
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+beni allegati
+Migliorare la sicurezza garantendo il corretto filtraggio dei dati dei clienti
+2 ore fa
+backup
+Introduci la gestione dell'inventario per gli abbonamenti PRO e migliora l'app...
+4 mesi fa
+cliente
+Migliora il processo di pagamento di Stripe reindirizzando direttamente gli utenti
+5 giorni fa
+css
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+pacchetto di distribuzione
+Migliorare la distribuzione e la funzionalità PWA per un funzionamento semplificato
+4 mesi fa
+include
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+js
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+php-gestionale
+Impostare un sistema basato su PHP per la gestione degli appuntamenti sanitari
+4 mesi fa
+pubblico
+Migliora il reindirizzamento dei pagamenti Stripe per garantire un aggiornamento corretto dell'abbonamento...
+5 giorni fa
+agente di replica
+Abilita l'integrazione di Google Calendar e aggiungi documenti sull'architettura del sistema
+5 mesi fa
+script
+Risolvi un errore di salvataggio dei dati
+6 mesi fa
+server
+Aggiorna l'integrazione di Stripe per applicare la modalità live per i test
+5 giorni fa
+condiviso
+Semplificare i codici dei clienti e dei professionisti e prepararsi per il personale/addetto alla sala…
+2 settimane fa
+distribuzione di siteground
+Migliora la distribuzione delle applicazioni e l'esperienza utente su SiteGround
+4 mesi fa
+siteground-ripristino
+Ripristina l'accesso al sito web e alla piattaforma sanitaria per gli utenti su SiteGround
+4 mesi fa
+fonte
+Migliora l'area clienti e migliora il caricamento delle informazioni di contatto dall'API
+4 mesi fa
+applicazione_di_test_temp
+Rimuovere temporaneamente le funzionalità PWA e semplificare l'applicazione per agevolare i...
+6 mesi fa
+.attività
+Icona dell'app e accesso aggiornati
+6 mesi fa
+.env.esempio
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+.env.google
+Abilita l'applicazione per connettersi in modo sicuro ai servizi Google
+5 mesi fa
+.gitignore
+Implementare l'applicazione di gestione degli appuntamenti con clienti e medici...
+7 mesi fa
+.htaccess
+Migliora la sicurezza del sito web e risolvi i problemi di accesso per gli utenti
+4 mesi fa
+.replicare
+Migliorare il flusso di aggiornamento dell'abbonamento e risolvere i problemi del gateway di pagamento
+5 giorni fa
+.svegliati
+Icona dell'app e accesso aggiornati
+6 mesi fa
+CHECKLIST-MIGRAZIONE.md
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+DEPLOY-RAILWAY.md
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+DEPLOY-VERCEL.md
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+Impostazioni email.tsx
+Migliora l'esperienza utente e semplifica le funzionalità dell'applicazione
+5 mesi fa
+GUIDA-CARICAMENTO-SITEGROUND.md
+Fornire una guida passo passo per caricare l'applicazione su SiteGround
+4 mesi fa
+GUIDA-INSTALLAZIONE-SITEGROUND.md
+Fornisci istruzioni dettagliate per configurare la piattaforma su SiteGround
+4 mesi fa
+INSTALLAZIONE-COMPLETA.md
+Confeziona l'applicazione con un database e fornisci i passaggi di installazione
+4 mesi fa
+INSTALLAZIONE-GESTIONALE.md
+Migliora il sistema di gestione dei clienti con guida all'installazione e funzionalità estese
+4 mesi fa
+INSTALLAZIONE-SISTEMA-COMPLETO.md
+Abilita una migrazione completa del sistema multi-tenant a un plugin di Wordpress
+4 mesi fa
+INSTALLAZIONE-STANDALONE.md
+Fornire una soluzione immediata per ripristinare la funzionalità del sito web dopo un recente c…
+4 mesi fa
+ISTRUZIONI-INSTALLAZIONE.md
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+ISTRUZIONI-INSTALLER-DEBUG.md
+Aggiungi uno strumento per trovare e diagnosticare automaticamente i problemi di installazione
+4 mesi fa
+ISTRUZIONI-MIGRAZIONE-DATI.md
+Migra i dati dei clienti esistenti su WordPress per un accesso senza interruzioni e una gestione...
+4 mesi fa
+PIANO-MIGRAZIONE.md
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+LEGGIMI.md
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+RIPRISTINO-IMMEDIATO.md
+Risolvi un errore critico del sito Web causato da file di installazione danneggiati
+4 mesi fa
+RIPRISTINO-SITO.md
+Ripristinare il sito web principale e collegarlo a un sistema di gestione separato
+4 mesi fa
+RISOLUZIONE-403.md
+Migliorare l'accessibilità del sito web e risolvere potenziali problemi di accesso
+4 mesi fa
+RISOLUZIONE-PROBLEMA-SITEGROUND.md
+Fornire una guida passo passo per caricare l'applicazione su SiteGround
+4 mesi fa
+SISTEMA-UNIFICATO-COMPLETATO.md
+Unificare i dati di sistema in un unico database PostgreSQL, eliminando JSON…
+2 settimane fa
+Impostazioni.tsx
+Consentire agli utenti di migliorare la sicurezza dell'account tramite la modifica della password
+4 mesi fa
+credenziali-account.json
+Implementare piani di abbonamento e aggiungere credenziali di account di test
+4 mesi fa
+backup-info.json
+Consentire agli utenti di personalizzare l'aspetto dell'app e le informazioni aziendali
+5 mesi fa
+risultati_del_calendario.txt
+Aggiorna lo stile della pagina di diagnostica e implementa la pubblicazione HTML statica per...
+6 mesi fa
+verifica_completezza_della_traduzione.py
+Aggiorna le traduzioni
+6 mesi fa
+controlla_traduzioni.py
+Migliorare la precisione della traduzione
+6 mesi fa
+client-access.php
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+client-manifest.json
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+nome-azienda-api.js
+Implementa la personalizzazione del nome dell'azienda. Consente ai clienti di modificare il nome dell'azienda...
+6 mesi fa
+crea-sistema-php-completo.php
+Abilita i test offline creando una versione PHP dell'applicazione
+4 mesi fa
+crea-replica-completa.js
+Generare una copia locale completa della piattaforma per scopi di test
+4 mesi fa
+crea-pacchetto-distribuzione.js
+Migliorare la distribuzione e la funzionalità PWA per un funzionamento semplificato
+4 mesi fa
+crea-pacchetto-di-distribuzione.sh
+Preparare l'applicazione per la distribuzione su un server remoto
+4 mesi fa
+crea-password.js
+Aggiungere un meccanismo di protezione tramite password per gestire in modo sicuro i dettagli di accesso degli utenti
+5 mesi fa
+crea-versione-php.sh
+Impostare un sistema basato su PHP per la gestione degli appuntamenti sanitari
+4 mesi fa
+crea-pacchetto-siteground.sh
+Ripristina l'accesso al sito web e alla piattaforma sanitaria per gli utenti su SiteGround
+4 mesi fa
+protezione-dei-dati.ts
+Garantire l'integrità dei dati e prevenire modifiche accidentali durante i test
+4 mesi fa
+debug-login.php
+Fornire uno strumento di debug per visualizzare le credenziali esatte per gli accessi al sistema
+4 mesi fa
+impostazioni-predefinite.json
+Aggiungere la possibilità di utilizzare le impostazioni predefinite e il marchio aziendale per i nuovi...
+4 mesi fa
+distribuire-su-vercel.js
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+deploy-vercel.sh
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+download-package.sh
+Aggiorna i dati utente e rimuovi le informazioni client obsolete dal sistema
+4 mesi fa
+drizzle.config.ts
+Implementare l'applicazione di gestione degli appuntamenti con clienti e medici...
+7 mesi fa
+emailCalendarRoutes.ts
+Migliora l'esperienza utente e semplifica le funzionalità dell'applicazione
+5 mesi fa
+email_settings.json
+Migliorare la generazione di codici QR e i promemoria degli appuntamenti via e-mail
+5 mesi fa
+esporta-react-static.js
+Aggiorna l'aspetto dell'app e correggi i problemi relativi ai dati per una migliore esperienza utente...
+4 mesi fa
+correzione-conteggi-accessi.js
+Migliorare il monitoraggio degli accessi dei clienti e correggere i conteggi degli accessi PWA in data…
+4 mesi fa
+correzione-password-amministratore-diretta.js
+Ripristina le password utente in modo che corrispondano al backup e risolvi i problemi di autenticazione
+5 mesi fa
+fix-auth-emergency.js
+Implementare misure temporanee per ripristinare l'accesso e bypassare le autorizzazioni interrotte...
+4 mesi fa
+fix-busnari-email.js
+Aggiornare le informazioni di contatto e i dettagli di riferimento dei membri dello staff per essere...
+4 mesi fa
+fix-gestionale-php.php
+Ripristina l'accesso con le credenziali suggerite e reimposta i dati se necessario
+4 mesi fa
+correzione-sovrapposizione-emergenza.js
+Migliora l'esperienza utente nascondendo automaticamente i messaggi di errore
+5 mesi fa
+icona generata.png
+Commit iniziale
+7 mesi fa
+gestionale-completo-con-database.html
+Confeziona l'applicazione con un database e fornisci i passaggi di installazione
+4 mesi fa
+gestionale-completo-standalone.html
+Aggiungi una versione autonoma della piattaforma di gestione sanitaria per un facile accesso
+4 mesi fa
+gestionale-completo.php
+Fornire un'interfaccia basata sul Web per la gestione dell'assistenza sanitaria e dell'inventario
+4 mesi fa
+gestionale-direct.php
+Fornire un nuovo metodo di configurazione per il sistema di gestione sanitaria
+4 mesi fa
+gestionale-download-page.html
+Migliorare la distribuzione e la funzionalità PWA per un funzionamento semplificato
+4 mesi fa
+gestionale-finale-funzionante.php
+Fornire l'accesso temporaneo a una versione speciale dell'applicazione
+4 mesi fa
+gestionale-react-identico.html
+Aggiorna l'aspetto dell'app e correggi i problemi relativi ai dati per una migliore esperienza utente...
+4 mesi fa
+gestionale-replit-clone-completo.html
+Replicare il sistema attuale con tutti i client e gli account utente
+4 mesi fa
+gestionale-sanitario-completo-20250910-061135.zip
+Aggiungi il file zip del programma per una copia e una condivisione più semplici
+mese scorso
+gestionale-sanitario-completo.zip
+Migliorare la distribuzione e la funzionalità PWA per un funzionamento semplificato
+4 mesi fa
+gestionale-sanitario-deployment.tar.gz.info
+Preparare l'applicazione per la distribuzione su un server remoto
+4 mesi fa
+gestionale-sistema-completo-offline.html
+Crea versioni offline e pronte per la distribuzione complete e identiche
+4 mesi fa
+gestionale-siteground.php
+Implementare un quadro di base per la gestione delle operazioni sanitarie e dei pazienti…
+4 mesi fa
+gestionale-standalone.php
+Fornire una soluzione immediata per ripristinare la funzionalità del sito web dopo un recente c…
+4 mesi fa
+gestionale.html
+Creare un'interfaccia utente di base per gestire in modo sicuro le operazioni sanitarie
+4 mesi fa
+gestionale.php
+Integrare la piattaforma sanitaria direttamente nel sito web principale dell'azienda
+4 mesi fa
+importa-dati-reali.php
+Importa dati reali di clienti e personale dal sistema esistente
+4 mesi fa
+indice.php
+Ripristinare il sito web principale e collegarlo a un sistema di gestione separato
+4 mesi fa
+installer-automatico-siteground-debug.php
+Aggiungi uno strumento per trovare e diagnosticare automaticamente i problemi di installazione
+4 mesi fa
+installer-automatico-siteground.php
+Semplifica il processo di installazione della piattaforma sanitaria sul sito…
+4 mesi fa
+programma di installazione-finale-siteground.php
+Mostra la pagina di installazione riuscita con link e credenziali demo
+4 mesi fa
+login.php
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+logout.php
+Fornisce un pacchetto autoinstallante per l'integrazione del sito web con la configurazione g…
+4 mesi fa
+manifest.json
+Aggiorna l'aspetto dell'app e correggi i problemi relativi ai dati per una migliore esperienza utente...
+4 mesi fa
+migrate-complete-system.js
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+migrate-data.js
+Confeziona l'applicazione con un database e fornisci i passaggi di installazione
+4 mesi fa
+migrare-a-unified-db.cjs
+Migrare i dati dei clienti e degli appuntamenti in un database PostgreSQL unificato
+2 settimane fa
+migrazione_2025-09-26T13-10-10-341Z.sql
+Migrare i dati dei clienti e degli appuntamenti in un database PostgreSQL unificato
+2 settimane fa
+nixpacks.toml
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+normalizza-clients.js
+Aggiornare i codici client per garantire la coerenza in tutto il sistema
+2 settimane fa
+pacchetto-lock.json
+Integra Google Gemini AI per funzionalità di piattaforma avanzate
+2 settimane fa
+pacchetto.json
+Integra Google Gemini AI per funzionalità di piattaforma avanzate
+2 settimane fa
+metodi_di_pagamento.json
+Migliora il processo di pagamento di Stripe reindirizzando direttamente gli utenti
+5 giorni fa
+ping_stats.json
+Icona dell'app e accesso aggiornati
+6 mesi fa
+postcss.config.js
+Implementare l'applicazione di gestione degli appuntamenti con clienti e medici...
+7 mesi fa
+configurazione-rapida-di-amministrazione.cjs
+Fornire un pacchetto di installazione automatica per una facile configurazione e distribuzione
+4 mesi fa
+railway.json
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+token-qr-rigenerati.json
+Reimposta e rigenera tutti i codici QR professionali con nuove regole ID
+4 mesi fa
+token-qr-rigenerati.txt
+Reimposta e rigenera tutti i codici QR professionali con nuove regole ID
+4 mesi fa
+promemoria_modello_metodi.txt
+Aggiungere funzionalità di gestione dei modelli di promemoria
+6 mesi fa
+replica-perfetta-replit.html
+Crea versioni offline e pronte per la distribuzione complete e identiche
+4 mesi fa
+replit.md
+Previeni la contaminazione dei dati cancellando le sessioni utente all'accesso
+2 settimane fa
+replit.nix
+Migliorare il caricamento delle icone delle applicazioni per una migliore esperienza utente
+6 mesi fa
+riavvia.js
+Aggiungere la funzionalità di riavvio di emergenza da utilizzare quando il sistema non risponde più...
+6 mesi fa
+setup-railway-deploy.js
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+setup-railway.sh
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+storage_data.json
+Aggiungi account di prova e categorie di prodotti al sistema
+settimana scorsa
+storage_data_DEPRECATED_README.txt
+Unificare i dati di sistema in un unico database PostgreSQL, eliminando JSON…
+2 settimane fa
+storage_data_LEGACY_DEPRECATED_20250926_131512.json
+Unificare i dati di sistema in un unico database PostgreSQL, eliminando JSON…
+2 settimane fa
+storage_data_backup_1758879271165.json
+Aggiornare i dati di archiviazione per riflettere le configurazioni di sistema correnti
+2 settimane fa
+storage_data_backup_1758879410962.json
+Aggiornare gli ID client con un nuovo sistema di numerazione sequenziale
+2 settimane fa
+storage_data_backup_1758881948529.json
+Rimuovere i dati degli appuntamenti e i record dei clienti obsoleti
+2 settimane fa
+storage_data_backup_1758881960905.json
+Aggiorna l'archiviazione dei dati per rimuovere i record degli appuntamenti obsoleti
+2 settimane fa
+storage_data_backup_1758881967611.json
+Aggiorna l'archiviazione dei dati per rimuovere i record degli appuntamenti obsoleti
+2 settimane fa
+storage_data_backup_1758881975451.json
+Aggiorna l'archiviazione dei dati per rimuovere i record degli appuntamenti obsoleti
+2 settimane fa
+storage_data_backup_1758882063966.json
+Allinea la fonte dei dati degli appuntamenti con il sistema di promemoria
+2 settimane fa
+storage_data_backup_1758882128552.json
+Allinea la fonte dei dati degli appuntamenti con il sistema di promemoria
+2 settimane fa
+storage_data_backup_1758891821095.json
+Aggiungi i dati degli appuntamenti e assicurati che i dati del cliente siano presenti per le notifiche
+2 settimane fa
+storage_data_backup_1758891864407.json
+Aggiungi i dati degli appuntamenti e assicurati che i dati del cliente siano presenti per le notifiche
+2 settimane fa
+storage_data_backup_1759154534567.json
+Migliora i dettagli degli appuntamenti del calendario per mostrare i professionisti assegnati...
+2 settimane fa
+storage_data_backup_1759154559042.json
+Migliora i dettagli degli appuntamenti del calendario per mostrare i professionisti assegnati...
+2 settimane fa
+storage_data_backup_1759155165972.json
+Migliora la creazione degli appuntamenti e la convalida dei dati con PostgreSQL
+2 settimane fa
+storage_data_backup_1759155828522.json
+Correggi gli errori di prenotazione degli appuntamenti convalidando i dati del cliente e del servizio
+2 settimane fa
+storage_data_backup_1759156445880.json
+Aggiungi i dettagli degli appuntamenti mancanti all'archiviazione dati per un migliore monitoraggio
+2 settimane fa
+storage_data_backup_1759156666199.json
+Aggiungi i dettagli mancanti dell'appuntamento per garantire informazioni accurate sul cliente
+2 settimane fa
+storage_data_backup_1759157135859.json
+Risolto il problema per cui la funzionalità di salvataggio del modulo appuntamento non funzionava
+2 settimane fa
+storage_data_backup_1759157668232.json
+Aggiorna gli ID del servizio nei dati di archiviazione e rimuovi il file di backup
+2 settimane fa
+storage_data_backup_1759158110373.json
+Aggiorna i dati di archiviazione con nuovi ID e rimuovi il vecchio file di backup
+2 settimane fa
+storage_data_backup_1759162080490.json
+Aggiungi nuovi dettagli dell'appuntamento all'archivio dati
+2 settimane fa
+storage_data_temp.json
+Aggiungere commissioni di segnalazione per i membri dello staff e aggiornare i dati degli utenti
+2 settimane fa
+piani di abbonamento.json
+Implementare piani di abbonamento e aggiungere credenziali di account di test
+4 mesi fa
+sync-data.js
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+sync_translations.py
+Aggiorna le traduzioni
+6 mesi fa
+tailwind.config.ts
+Aggiorna l'avviso di copyright e la visualizzazione dell'accesso ai contatti
+6 mesi fa
+soluzione-temp-pdf.js
+Riutilizzare la logica di generazione PDF esistente per le e-mail di fatturazione
+mese scorso
+test-autocompilazione-token.html
+Compila automaticamente il modulo di accesso con il token di accesso dell'utente
+4 mesi fa
+test-direct-qr.html
+Invia i codici QR direttamente all'area clienti per un accesso più rapido e semplice
+4 mesi fa
+test-direct-url.html
+Migliorare il reindirizzamento del codice QR per accedere direttamente alle aree PWA specifiche dell'utente
+4 mesi fa
+test-final-qr.html
+Migliora il flusso di accesso del cliente utilizzando codici QR e link di accesso diretto
+4 mesi fa
+test-full-qr-flow.html
+Migliora il flusso di accesso del cliente utilizzando codici QR e link di accesso diretto
+4 mesi fa
+test-pwa-icone.html
+Verificare che le icone dell'app client vengano caricate e visualizzate correttamente
+4 mesi fa
+test-pwa-persistenza.html
+Migliorare la persistenza dell'accesso del client PWA dopo la scansione QR iniziale
+4 mesi fa
+test-qr-attivazione.html
+Migliorare la scansione del codice QR per identificare correttamente gli utenti e indirizzarli
+4 mesi fa
+test-qr-redirect-fix.html
+Abilita l'accesso automatico, rendendo più facile per i clienti raggiungere i propri...
+4 mesi fa
+test-semplice.php
+Aggiungere una pagina di diagnostica di base per controllare la funzionalità del sistema e l'accesso ai file
+4 mesi fa
+test-siteground.html
+Fornire una guida passo passo per caricare l'applicazione su SiteGround
+4 mesi fa
+test-transparent-auth.html
+Rimuovi la schermata di attivazione dell'account e semplifica l'accesso con il codice QR
+4 mesi fa
+tema.json
+Aggiungere la funzionalità di salvataggio diretto degli appuntamenti alla finestra modale e migliorare...
+7 mesi fa
+tsconfig.json
+Implementare l'applicazione di gestione degli appuntamenti con clienti e medici...
+7 mesi fa
+unique-clients.json
+Migliorare il processo di importazione dei clienti per evitare di creare contatti duplicati...
+4 mesi fa
+aggiornamento-codici-qr.sh
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+update_translations.py
+Migliorare la precisione della traduzione
+6 mesi fa
+url-config.json
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+url_risultati.txt
+Aggiorna lo stile della pagina di diagnostica e implementa la pubblicazione HTML statica per...
+6 mesi fa
+vercel.json
+Aggiungere configurazioni di distribuzione garantendo una migrazione fluida al nuovo hosting
+4 mesi fa
+verifica-caricamento.html
+Aggiungere una pagina per guidare gli utenti nella verifica del corretto caricamento dei file sul server
+4 mesi fa
+vite.config.ts
+Implementare l'applicazione di gestione degli appuntamenti con clienti e medici...
+7 mesi fa
+wordpress-complete-system.json
+Abilita una migrazione completa del sistema multi-tenant a un plugin di Wordpress
+4 mesi fa
+wordpress-plugin-data.json
+Migra i dati dei clienti esistenti su WordPress per un accesso senza interruzioni e una gestione...
+4 mesi fa
+wp-gestionale-completo.php
+Abilita una migrazione completa del sistema multi-tenant a un plugin di Wordpress
+4 mesi fa
+wp-gestionale-plugin.php
+Migliora il sistema di gestione dei clienti con guida all'installazione e funzionalità estese
+4 mesi fa
+Navigazione dei file del repository
+LEGGIMI
+Gestionale Sanitario - Versione PHP
+Versione PHP/MySQL del gestionale sanitario ottimizzata per hosting condiviso SiteGround.
+
+Installazione
+Carica tutti i file nella directory principale del dominio
+Crea un database MySQL dal pannello SiteGround
+Modifica le credenziali inincludes/config.php
+Visita il sito - il database si inizializzerà automaticamente
+Credenziali di default
+Nome utente:admin
+Password:coverde79
+Funzionalità
+Gestione clienti
+Sistema appuntamenti
+Generazione codici QR
+Accesso clienti tramite QR
+Interfaccia responsive
+Pronto per PWA
+Configurazione Database
+Modifica includes/config.phpi dati del tuo database SiteGround:
+
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'il_tuo_database');
+define('DB_USER', 'il_tuo_username');
+define('DB_PASS', 'la_tua_password');
+Di
+appuntamenti facili
+
+Risorse
+ Leggimi
+ Attività
+Stelle
+ 0 stelle
+Osservatori
+ 0 visualizzazioni
+Forchette
+ 0 forchette
+Comunicati stampa
+Nessuna versione pubblicata
+Crea una nuova versione
+Pacchetti
+Nessun pacchetto pubblicato
+Pubblica il tuo primo pacchetto
+Lingue
+Dattiloscritto
+94,6%
+ 
+HTML
+2,8%
+ 
+JavaScript
+1,4%
+ 
+PHP
+0,9%
+ 
+CSS
+0,2%
+ 
+Conchiglia
+0,1%
+Flussi di lavoro suggeriti
+In base al tuo stack tecnologico
+Logo Gulp
+Sorso
+Crea un progetto NodeJS con npm e gulp.
+Logo Deno
+Deno
+Metti alla prova il tuo progetto Deno
+Logo del generatore generico SLSA
+Generatore generico SLSA
+Genera la provenienza SLSA3 per i tuoi flussi di lavoro di rilascio esistenti
+Più flussi di lavoro
+Piè di pagina
+© 2025 GitHub, Inc.
+Navigazione a piè di pagina
+Termini
+Riservatezza
+Sicurezza
+Stato
+Comunità
