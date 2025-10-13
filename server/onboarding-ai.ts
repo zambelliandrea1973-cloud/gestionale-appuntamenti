@@ -1,7 +1,18 @@
 import OpenAI from "openai";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// Lazy initialization: create client only when needed
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error("OPENAI_API_KEY environment variable is not configured");
+    }
+    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return openai;
+}
 
 export interface BusinessAnalysis {
   suggestedBusinessType: string;
@@ -42,7 +53,7 @@ Provide recommendations in JSON format:
   "personalizedTips": ["tip1", "tip2", "tip3"]
 }`;
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAIClient().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
@@ -93,7 +104,7 @@ User responses so far: ${JSON.stringify(userResponses)}
 
 Provide recommendations as a JSON array of strings, each recommendation should be practical and specific to their business type and current progress.`;
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAIClient().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
@@ -125,7 +136,7 @@ Provide recommendations as a JSON array of strings, each recommendation should b
 
 export async function generateWelcomeMessage(businessName: string, businessType: string): Promise<string> {
   try {
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAIClient().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
