@@ -1,8 +1,8 @@
 import { calendar_v3, google } from 'googleapis';
-import type { Appointment, Client, Service as ServiceType } from '@shared/schema';
+import type { Appointment, Client, Service as ServiceType } from '../../shared/schema';
 import { storage } from '../storage';
 import { db } from '../db';
-import { appointments, clients, googleCalendarEvents, services } from '@shared/schema';
+import { appointments, clients, googleCalendarEvents, services } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 import { authInfo } from '../routes/googleAuthRoutes';
 

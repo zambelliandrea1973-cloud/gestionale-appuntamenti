@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { addDays } from 'date-fns';
 import { storage } from '../storage';
 import { hashPassword } from '../auth';
-import { ActivationToken } from '@shared/schema';
+import { ActivationToken } from '../../shared/schema';
 
 /**
  * Servizio per la gestione dei token di attivazione

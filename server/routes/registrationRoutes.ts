@@ -3,7 +3,7 @@ import { storage } from "../storage";
 import { hashPassword } from "../auth";
 import { addDays } from "date-fns";
 import { db } from "../db";
-import { users } from "@shared/schema";
+import { users } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 import { licenseService } from "../services/licenseService";
 

@@ -1,5 +1,5 @@
 import { storage } from '../storage';
-import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '@shared/schema';
+import { InsertSubscriptionPlan, InsertSubscription, InsertPaymentMethod, InsertPaymentTransaction } from '../../shared/schema';
 import paypal from '@paypal/checkout-server-sdk';
 import Stripe from 'stripe';
 

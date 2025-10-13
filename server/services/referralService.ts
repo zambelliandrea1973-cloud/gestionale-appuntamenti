@@ -1,5 +1,5 @@
 import { db } from '../db';
-import { bankAccounts, users, subscriptions, referralCommissions, referralPayments } from '@shared/schema';
+import { bankAccounts, users, subscriptions, referralCommissions, referralPayments } from '../../shared/schema';
 import { eq, and, gte, isNull, count, sum, sql } from 'drizzle-orm';
 import { format, subMonths, startOfMonth, endOfMonth } from 'date-fns';
 import { randomBytes } from 'crypto';

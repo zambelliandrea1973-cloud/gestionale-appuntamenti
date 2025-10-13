@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { storage } from '../storage';
-import { InsertPaymentTransaction } from '@shared/schema';
+import { InsertPaymentTransaction } from '../../shared/schema';
 
 /**
  * Servizio per l'integrazione con Wise (precedentemente TransferWise)

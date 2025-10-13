@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { eq } from 'drizzle-orm';
-import * as schema from '@shared/schema';
+import * as schema from '../shared/schema';
 
 // Controlla che DATABASE_URL sia definito
 if (!process.env.DATABASE_URL) {

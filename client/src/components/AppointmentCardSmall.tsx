@@ -4,7 +4,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatTime } from "@/lib/utils/date";
 import { Trash2, Pencil } from "lucide-react";
-import { AppointmentWithDetails } from "@shared/schema";
+import { AppointmentWithDetails } from "../../../shared/schema";
 import {
   AlertDialog,
   AlertDialogAction,

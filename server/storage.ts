@@ -42,7 +42,7 @@ import {
   type BetaFeedbackWithUserDetails,
   type Staff, type InsertStaff,
   type TreatmentRoom, type InsertTreatmentRoom
-} from "@shared/schema";
+} from "../shared/schema";
 import connectPg from "connect-pg-simple";
 import session from "express-session";
 import { db } from "./db";

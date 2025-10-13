@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { storage } from '../storage';
-import { InsertBetaInvitation, InsertBetaFeedback } from '@shared/schema';
+import { InsertBetaInvitation, InsertBetaFeedback } from '../../shared/schema';
 
 /**
  * Servizio per la gestione dei beta tester

@@ -1,6 +1,6 @@
 import express from 'express';
 import { storage } from './storage';
-import { insertProductCategorySchema, insertProductSchema, insertStockMovementSchema, insertProductSaleSchema } from '@shared/schema';
+import { insertProductCategorySchema, insertProductSchema, insertStockMovementSchema, insertProductSaleSchema } from '../shared/schema';
 import { licenseService } from './services/licenseService';
 import { z } from 'zod';
 

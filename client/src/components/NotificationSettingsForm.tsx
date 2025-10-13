@@ -29,7 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { NotificationSettings } from "@shared/schema";
+import { NotificationSettings } from "../../../shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 
 interface NotificationSettingsFormProps {

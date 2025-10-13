@@ -1,5 +1,5 @@
 import { format, addDays } from 'date-fns';
-import { Appointment, NotificationSettings } from '@shared/schema';
+import { Appointment, NotificationSettings } from '../../shared/schema';
 import { storage } from '../storage';
 import { notificationSettingsService } from './notificationSettingsService';
 import nodemailer from 'nodemailer';

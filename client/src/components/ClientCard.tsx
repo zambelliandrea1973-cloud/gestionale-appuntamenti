@@ -4,7 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { Client } from "@shared/schema";
+import { Client } from "../../../shared/schema";
 import { useTranslation } from "react-i18next";
 import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock } from "lucide-react";
 import { Button } from "@/components/ui/button";

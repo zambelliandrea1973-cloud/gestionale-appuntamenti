@@ -1,5 +1,5 @@
 // Sistema lineare semplificato con dati reali dal backup15
-import { Client } from "@shared/schema";
+import { Client } from "../shared/schema";
 
 export class SimpleStorage {
   private clients: Map<number, Client> = new Map();

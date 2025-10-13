@@ -1,4 +1,4 @@
-import { Product, ProductCategory, StockMovement, ProductSale, InsertProduct, InsertProductCategory, InsertStockMovement, InsertProductSale } from '@shared/schema';
+import { Product, ProductCategory, StockMovement, ProductSale, InsertProduct, InsertProductCategory, InsertStockMovement, InsertProductSale } from '../shared/schema';
 import { loadStorageData, saveStorageData } from './utils/jsonStorage.js';
 
 export class InventoryJsonStorage {

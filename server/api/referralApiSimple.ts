@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "../db";
-import { users } from "@shared/schema";
+import { users } from "../../shared/schema";
 import { eq } from "drizzle-orm";
 
 // Versione semplificata che funziona per lo staff
