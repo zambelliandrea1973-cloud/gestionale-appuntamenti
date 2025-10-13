@@ -15,12 +15,13 @@ COPY . .
 # Build frontend (vite build)
 RUN npx vite build
 
-# Build backend with esbuild, bundling everything including @shared
+# Build backend with esbuild, resolving @shared alias
 RUN npx esbuild server/index.ts \
   --platform=node \
   --bundle \
   --format=esm \
   --outdir=dist \
+  --alias:@shared=./shared \
   --external:express \
   --external:drizzle-orm \
   --external:postgres \
