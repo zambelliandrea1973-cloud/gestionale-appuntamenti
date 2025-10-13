@@ -1,0 +1,56 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Build outputs (will be generated during build)
+dist
+.vite
+
+# Development files
+*.log
+.replit
+.config
+.git
+.gitignore
+
+# Environment files (secrets managed by Sliplane)
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+coverage
+
+# Documentation
+README.md
+docs
+*.md
+
+# Temporary files
+tmp
+temp
+*.tmp
+
+# Data files (managed separately)
+*.json
+!package.json
+!package-lock.json
+
+# Replit specific
+.cache
+replit.nix
