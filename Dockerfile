@@ -1,24 +1,4 @@
-# Multi-stage build for production deployment
-FROM node:20-alpine AS builder
-
-WORKDIR /app
-
-# Copy package files
-COPY package.json package-lock.json ./
-
-# Install all dependencies for build
-RUN npm ci
-
-# Copy source code
-COPY . .
-
-# Build frontend (vite build)
-RUN npx vite build
-
-# Build backend with esbuild using build script (resolves @shared alias)
-RUN node build-server.mjs
-
-# Production stage
+# Single-stage build - use tsx like Replit does
 FROM node:20-alpine
 
 WORKDIR /app
@@ -26,14 +6,14 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install only production dependencies
-RUN npm ci --omit=dev
+# Install ALL dependencies (tsx needed for production)
+RUN npm ci
 
-# Copy built files
-COPY --from=builder /app/dist ./dist
+# Copy ALL source code
+COPY . .
 
-# Copy other necessary files
-COPY --from=builder /app/drizzle.config.ts ./
+# Build frontend only
+RUN npx vite build
 
 # Expose port 5000
 EXPOSE 5000
@@ -41,5 +21,5 @@ EXPOSE 5000
 # Set production environment
 ENV NODE_ENV=production
 
-# Start the application
-CMD ["node", "dist/index.js"]
+# Use tsx to run TypeScript directly (resolves aliases automatically)
+CMD ["npx", "tsx", "server/index.ts"]
