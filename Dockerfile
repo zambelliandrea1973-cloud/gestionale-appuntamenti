@@ -21,5 +21,5 @@ EXPOSE 5000
 # Set production environment
 ENV NODE_ENV=production
 
-# Use tsx to run TypeScript directly (resolves aliases automatically)
-CMD ["npx", "tsx", "server/index.ts"]
+# Use Node with tsconfig-paths to resolve aliases before tsx
+CMD ["node", "--require", "tsconfig-paths/register", "--loader", "tsx/esm", "server/index.ts"]
