@@ -1,4 +1,5 @@
 import { build } from 'esbuild';
+import { TsconfigPathsPlugin } from '@esbuild-plugins/tsconfig-paths';
 
 build({
   entryPoints: ['server/index.ts'],
@@ -6,13 +7,12 @@ build({
   format: 'esm',
   platform: 'node',
   outdir: 'dist',
-  alias: {
-    '@shared': './shared'
-  },
+  plugins: [TsconfigPathsPlugin()],
   external: [
     'express',
     'drizzle-orm',
     'postgres',
-    '@neondatabase/serverless'
+    '@neondatabase/serverless',
+    'pg'
   ]
 }).catch(() => process.exit(1));
