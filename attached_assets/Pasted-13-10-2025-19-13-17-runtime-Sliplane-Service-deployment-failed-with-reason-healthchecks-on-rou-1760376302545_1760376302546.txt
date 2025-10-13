@@ -1,0 +1,1047 @@
+13/10/2025, 19:13:17:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port
+13/10/2025, 19:16:33:
+build
+Enumerating objects: 16413, done.
+13/10/2025, 19:16:33:
+build
+Counting objects: 100% (133/133), done.
+13/10/2025, 19:16:33:
+build
+Compressing objects: 100% (50/50), done.
+13/10/2025, 19:16:58:
+build
+Total 16413 (delta 99), reused 116 (delta 83), pack-reused 16280 (from 1)
+13/10/2025, 19:17:29:
+build
+#1 [service_event_a0x51uqobwzd internal] load build definition from Dockerfile
+13/10/2025, 19:17:29:
+build
+#1 transferring dockerfile: 1.05kB done
+13/10/2025, 19:17:29:
+build
+#1 DONE 0.0s
+13/10/2025, 19:17:29:
+build
+13/10/2025, 19:17:29:
+build
+#2 [service_event_a0x51uqobwzd internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 19:17:30:
+build
+#2 DONE 0.8s
+13/10/2025, 19:17:30:
+build
+13/10/2025, 19:17:30:
+build
+#3 [service_event_a0x51uqobwzd internal] load .dockerignore
+13/10/2025, 19:17:30:
+build
+#3 transferring context: 673B done
+13/10/2025, 19:17:30:
+build
+#3 DONE 0.0s
+13/10/2025, 19:17:30:
+build
+13/10/2025, 19:17:30:
+build
+#4 [service_event_a0x51uqobwzd] importing cache manifest from local:13183800235059124447
+13/10/2025, 19:17:30:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 19:17:30:
+build
+#4 DONE 0.0s
+13/10/2025, 19:17:30:
+build
+13/10/2025, 19:17:30:
+build
+#5 [service_event_a0x51uqobwzd builder 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 19:17:30:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 19:17:30:
+build
+#5 DONE 0.0s
+13/10/2025, 19:17:30:
+build
+13/10/2025, 19:17:30:
+build
+#6 [service_event_a0x51uqobwzd internal] load build context
+13/10/2025, 19:17:34:
+build
+#6 transferring context: 1.21GB 3.4s done
+13/10/2025, 19:17:34:
+build
+#6 DONE 3.5s
+13/10/2025, 19:17:34:
+build
+13/10/2025, 19:17:34:
+build
+#7 [service_event_a0x51uqobwzd builder 2/7] WORKDIR /app
+13/10/2025, 19:17:34:
+build
+#7 CACHED
+13/10/2025, 19:17:34:
+build
+13/10/2025, 19:17:34:
+build
+#8 [service_event_a0x51uqobwzd builder 3/7] COPY package.json package-lock.json ./
+13/10/2025, 19:17:34:
+build
+#8 CACHED
+13/10/2025, 19:17:34:
+build
+13/10/2025, 19:17:34:
+build
+#9 [service_event_a0x51uqobwzd builder 4/7] RUN npm ci
+13/10/2025, 19:17:34:
+build
+#9 CACHED
+13/10/2025, 19:17:34:
+build
+13/10/2025, 19:17:34:
+build
+#10 [service_event_a0x51uqobwzd builder 5/7] COPY . .
+13/10/2025, 19:17:37:
+build
+#10 DONE 3.9s
+13/10/2025, 19:17:37:
+build
+13/10/2025, 19:17:37:
+build
+#11 [service_event_a0x51uqobwzd builder 6/7] RUN npx vite build
+13/10/2025, 19:17:39:
+build
+#11 1.265 vite v5.4.14 building for production...
+13/10/2025, 19:17:39:
+build
+#11 1.755 
+13/10/2025, 19:17:39:
+build
+#11 1.769 
+13/10/2025, 19:17:39:
+build
+#11 1.769 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+13/10/2025, 19:17:39:
+build
+#11 1.774 transforming...
+13/10/2025, 19:17:39:
+build
+#11 1.864 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+13/10/2025, 19:17:39:
+build
+#11 1.864   npx update-browserslist-db@latest
+13/10/2025, 19:17:39:
+build
+#11 1.864   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+13/10/2025, 19:17:50:
+build
+#11 13.10 ✓ 3669 modules transformed.
+13/10/2025, 19:17:52:
+build
+#11 14.27 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 19:17:52:
+build
+#11 14.27 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 19:17:52:
+build
+#11 14.27 
+13/10/2025, 19:17:52:
+build
+#11 14.27 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 19:17:52:
+build
+#11 14.27 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 19:17:52:
+build
+#11 14.27 
+13/10/2025, 19:17:52:
+build
+#11 14.27 rendering chunks...
+13/10/2025, 19:17:52:
+build
+#11 14.34 computing gzip size...
+13/10/2025, 19:17:52:
+build
+#11 14.42 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+13/10/2025, 19:17:52:
+build
+#11 14.42 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+13/10/2025, 19:17:52:
+build
+#11 14.42 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+13/10/2025, 19:17:52:
+build
+#11 14.42 
+13/10/2025, 19:17:52:
+build
+#11 14.42 (!) Some chunks are larger than 500 kB after minification. Consider:
+13/10/2025, 19:17:52:
+build
+#11 14.42 - Using dynamic import() to code-split the application
+13/10/2025, 19:17:52:
+build
+#11 14.42 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+13/10/2025, 19:17:52:
+build
+#11 14.42 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+13/10/2025, 19:17:52:
+build
+#11 14.42 ✓ built in 13.10s
+13/10/2025, 19:17:52:
+build
+#11 DONE 14.5s
+13/10/2025, 19:17:52:
+build
+13/10/2025, 19:17:52:
+build
+#12 [service_event_a0x51uqobwzd builder 7/7] RUN npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless
+13/10/2025, 19:17:52:
+build
+#12 0.533 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:17:52:
+build
+#12 0.533 
+13/10/2025, 19:17:52:
+build
+#12 0.533     server/services/initialSetupService.ts:4:22:
+13/10/2025, 19:17:52:
+build
+#12 0.533       4 │ import { users } from "@shared/schema";
+13/10/2025, 19:17:52:
+build
+#12 0.533         ╵                       ~~~~~~~~~~~~~~~~
+13/10/2025, 19:17:52:
+build
+#12 0.533 
+13/10/2025, 19:17:52:
+build
+#12 0.533   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:17:52:
+build
+#12 0.533 
+13/10/2025, 19:17:52:
+build
+#12 0.534 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:17:52:
+build
+#12 0.534 
+13/10/2025, 19:17:52:
+build
+#12 0.534     server/db.ts:4:24:
+13/10/2025, 19:17:52:
+build
+#12 0.534       4 │ import * as schema from '@shared/schema';
+13/10/2025, 19:17:52:
+build
+#12 0.534         ╵                         ~~~~~~~~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+#12 0.534 
+13/10/2025, 19:17:53:
+build
+#12 0.534   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:17:53:
+build
+#12 0.534 
+13/10/2025, 19:17:53:
+build
+#12 0.543 ▲ [WARNING] Duplicate member "getClient" in class body [duplicate-class-member]
+13/10/2025, 19:17:53:
+build
+#12 0.543 
+13/10/2025, 19:17:53:
+build
+#12 0.543     server/storage.ts:773:8:
+13/10/2025, 19:17:53:
+build
+#12 0.543       773 │   async getClient(id: number): Promise {
+13/10/2025, 19:17:53:
+build
+#12 0.543           ╵         ~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+#12 0.543 
+13/10/2025, 19:17:53:
+build
+#12 0.543   The original member "getClient" is here:
+13/10/2025, 19:17:53:
+build
+#12 0.543 
+13/10/2025, 19:17:53:
+build
+#12 0.543     server/storage.ts:362:8:
+13/10/2025, 19:17:53:
+build
+#12 0.543       362 │   async getClient(id: number): Promise {
+13/10/2025, 19:17:53:
+build
+#12 0.543           ╵         ~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+#12 0.543 
+13/10/2025, 19:17:53:
+build
+#12 0.562 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:17:53:
+build
+#12 0.562 
+13/10/2025, 19:17:53:
+build
+#12 0.562     server/storage.ts:45:7:
+13/10/2025, 19:17:53:
+build
+#12 0.562       45 │ } from "@shared/schema";
+13/10/2025, 19:17:53:
+build
+#12 0.562          ╵        ~~~~~~~~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+#12 0.562 
+13/10/2025, 19:17:53:
+build
+#12 0.562   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:17:53:
+build
+#12 0.562 
+13/10/2025, 19:17:53:
+build
+#12 0.585 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:17:53:
+build
+#12 0.585 
+13/10/2025, 19:17:53:
+build
+#12 0.585     server/services/directPhoneService.ts:8:23:
+13/10/2025, 19:17:53:
+build
+#12 0.585       8 │ import { phones } from '@shared/schema';
+13/10/2025, 19:17:53:
+build
+#12 0.585         ╵                        ~~~~~~~~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+#12 0.585 
+13/10/2025, 19:17:53:
+build
+#12 0.585   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:17:53:
+build
+#12 0.585 
+13/10/2025, 19:17:53:
+build
+#12 0.592 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:17:53:
+build
+#12 0.592 
+13/10/2025, 19:17:53:
+build
+#12 0.592     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 19:17:53:
+build
+#12 0.592       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 19:17:53:
+build
+#12 0.592         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+#12 0.592 
+13/10/2025, 19:17:53:
+build
+#12 0.592   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:17:53:
+build
+#12 0.592 
+13/10/2025, 19:17:53:
+build
+#12 1.198 1 of 6 warnings and 5 of 9 errors shown (disable the message limit with --log-limit=0)
+13/10/2025, 19:17:53:
+build
+#12 ERROR: process "/bin/sh -c npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless" did not complete successfully: exit code: 1
+13/10/2025, 19:17:53:
+build
+------
+13/10/2025, 19:17:53:
+build
+ > [service_event_a0x51uqobwzd builder 7/7] RUN npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless:
+13/10/2025, 19:17:53:
+build
+0.585 
+13/10/2025, 19:17:53:
+build
+0.592 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:17:53:
+build
+0.592 
+13/10/2025, 19:17:53:
+build
+0.592     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 19:17:53:
+build
+0.592       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 19:17:53:
+build
+0.592         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 19:17:53:
+build
+0.592 
+13/10/2025, 19:17:53:
+build
+0.592   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:17:53:
+build
+0.592 
+13/10/2025, 19:17:53:
+build
+1.198 1 of 6 warnings and 5 of 9 errors shown (disable the message limit with --log-limit=0)
+13/10/2025, 19:17:53:
+build
+------
+13/10/2025, 19:19:56:
+build
+Counting objects: 100% (133/133), done.
+13/10/2025, 19:19:57:
+build
+Compressing objects: 100% (50/50), done.
+13/10/2025, 19:20:20:
+build
+Total 16413 (delta 99), reused 116 (delta 83), pack-reused 16280 (from 1)
+13/10/2025, 19:20:48:
+build
+#1 [service_event_4igp40bh20pj internal] load build definition from Dockerfile
+13/10/2025, 19:20:48:
+build
+#1 transferring dockerfile: 1.05kB done
+13/10/2025, 19:20:48:
+build
+#1 DONE 0.0s
+13/10/2025, 19:20:48:
+build
+13/10/2025, 19:20:48:
+build
+#2 [service_event_4igp40bh20pj internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 19:20:48:
+build
+#2 DONE 0.8s
+13/10/2025, 19:20:48:
+build
+13/10/2025, 19:20:48:
+build
+#3 [service_event_4igp40bh20pj internal] load .dockerignore
+13/10/2025, 19:20:48:
+build
+#3 transferring context: 673B done
+13/10/2025, 19:20:48:
+build
+#3 DONE 0.0s
+13/10/2025, 19:20:48:
+build
+13/10/2025, 19:20:48:
+build
+#4 [service_event_4igp40bh20pj] importing cache manifest from local:13183800235059124447
+13/10/2025, 19:20:48:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 19:20:48:
+build
+#4 DONE 0.0s
+13/10/2025, 19:20:48:
+build
+13/10/2025, 19:20:48:
+build
+#5 [service_event_4igp40bh20pj builder 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 19:20:48:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 19:20:48:
+build
+#5 DONE 0.0s
+13/10/2025, 19:20:48:
+build
+13/10/2025, 19:20:48:
+build
+#6 [service_event_4igp40bh20pj internal] load build context
+13/10/2025, 19:20:52:
+build
+#6 transferring context: 1.21GB 3.5s done
+13/10/2025, 19:20:52:
+build
+#6 DONE 3.5s
+13/10/2025, 19:20:52:
+build
+13/10/2025, 19:20:52:
+build
+#7 [service_event_4igp40bh20pj builder 5/7] COPY . .
+13/10/2025, 19:20:52:
+build
+#7 CACHED
+13/10/2025, 19:20:52:
+build
+13/10/2025, 19:20:52:
+build
+#8 [service_event_4igp40bh20pj builder 2/7] WORKDIR /app
+13/10/2025, 19:20:52:
+build
+#8 CACHED
+13/10/2025, 19:20:52:
+build
+13/10/2025, 19:20:52:
+build
+#9 [service_event_4igp40bh20pj builder 3/7] COPY package.json package-lock.json ./
+13/10/2025, 19:20:52:
+build
+#9 CACHED
+13/10/2025, 19:20:52:
+build
+13/10/2025, 19:20:52:
+build
+#10 [service_event_4igp40bh20pj builder 4/7] RUN npm ci
+13/10/2025, 19:20:52:
+build
+#10 CACHED
+13/10/2025, 19:20:52:
+build
+13/10/2025, 19:20:52:
+build
+#11 [service_event_4igp40bh20pj builder 6/7] RUN npx vite build
+13/10/2025, 19:20:52:
+build
+#11 CACHED
+13/10/2025, 19:20:52:
+build
+13/10/2025, 19:20:52:
+build
+#12 [service_event_4igp40bh20pj builder 7/7] RUN npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless
+13/10/2025, 19:20:53:
+build
+#12 0.722 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:20:53:
+build
+#12 0.722 
+13/10/2025, 19:20:53:
+build
+#12 0.722     server/services/initialSetupService.ts:4:22:
+13/10/2025, 19:20:53:
+build
+#12 0.722       4 │ import { users } from "@shared/schema";
+13/10/2025, 19:20:53:
+build
+#12 0.722         ╵                       ~~~~~~~~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.722 
+13/10/2025, 19:20:53:
+build
+#12 0.722   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:20:53:
+build
+#12 0.722 
+13/10/2025, 19:20:53:
+build
+#12 0.725 ▲ [WARNING] Duplicate member "getClient" in class body [duplicate-class-member]
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725     server/storage.ts:773:8:
+13/10/2025, 19:20:53:
+build
+#12 0.725       773 │   async getClient(id: number): Promise {
+13/10/2025, 19:20:53:
+build
+#12 0.725           ╵         ~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725   The original member "getClient" is here:
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725     server/storage.ts:362:8:
+13/10/2025, 19:20:53:
+build
+#12 0.725       362 │   async getClient(id: number): Promise {
+13/10/2025, 19:20:53:
+build
+#12 0.725           ╵         ~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725 ▲ [WARNING] Duplicate member "createClient" in class body [duplicate-class-member]
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725     server/storage.ts:788:8:
+13/10/2025, 19:20:53:
+build
+#12 0.725       788 │   async createClient(client: InsertClient): Promise {
+13/10/2025, 19:20:53:
+build
+#12 0.725           ╵         ~~~~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725   The original member "createClient" is here:
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725     server/storage.ts:435:8:
+13/10/2025, 19:20:53:
+build
+#12 0.725       435 │   async createClient(client: InsertClient): Promise {
+13/10/2025, 19:20:53:
+build
+#12 0.725           ╵         ~~~~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725     server/storage.ts:45:7:
+13/10/2025, 19:20:53:
+build
+#12 0.725       45 │ } from "@shared/schema";
+13/10/2025, 19:20:53:
+build
+#12 0.725          ╵        ~~~~~~~~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.725   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:20:53:
+build
+#12 0.725 
+13/10/2025, 19:20:53:
+build
+#12 0.750 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:20:53:
+build
+#12 0.750 
+13/10/2025, 19:20:53:
+build
+#12 0.750     server/db.ts:4:24:
+13/10/2025, 19:20:53:
+build
+#12 0.750       4 │ import * as schema from '@shared/schema';
+13/10/2025, 19:20:53:
+build
+#12 0.750         ╵                         ~~~~~~~~~~~~~~~~
+13/10/2025, 19:20:53:
+build
+#12 0.750 
+13/10/2025, 19:20:54:
+build
+#12 0.750   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:20:54:
+build
+#12 0.750 
+13/10/2025, 19:20:54:
+build
+#12 0.953 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:20:54:
+build
+#12 0.953 
+13/10/2025, 19:20:54:
+build
+#12 0.953     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 19:20:54:
+build
+#12 0.953       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 19:20:54:
+build
+#12 0.953         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 19:20:54:
+build
+#12 0.953 
+13/10/2025, 19:20:54:
+build
+#12 0.953   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:20:54:
+build
+#12 0.953 
+13/10/2025, 19:20:54:
+build
+#12 1.666 2 of 6 warnings and 4 of 9 errors shown (disable the message limit with --log-limit=0)
+13/10/2025, 19:20:54:
+build
+#12 ERROR: process "/bin/sh -c npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless" did not complete successfully: exit code: 1
+13/10/2025, 19:20:54:
+build
+------
+13/10/2025, 19:20:54:
+build
+ > [service_event_4igp40bh20pj builder 7/7] RUN npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless:
+13/10/2025, 19:20:54:
+build
+0.750 
+13/10/2025, 19:20:54:
+build
+0.953 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:20:54:
+build
+0.953 
+13/10/2025, 19:20:54:
+build
+0.953     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 19:20:54:
+build
+0.953       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 19:20:54:
+build
+0.953         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 19:20:54:
+build
+0.953 
+13/10/2025, 19:20:54:
+build
+0.953   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:20:54:
+build
+0.953 
+13/10/2025, 19:20:54:
+build
+1.666 2 of 6 warnings and 4 of 9 errors shown (disable the message limit with --log-limit=0)
+13/10/2025, 19:20:54:
+build
+------
+13/10/2025, 19:21:17:
+build
+Enumerating objects: 16413, done.
+13/10/2025, 19:21:17:
+build
+Counting objects: 100% (133/133), done.
+13/10/2025, 19:21:17:
+build
+Compressing objects: 100% (50/50), done.
+13/10/2025, 19:21:41:
+build
+Total 16413 (delta 99), reused 116 (delta 83), pack-reused 16280 (from 1)
+13/10/2025, 19:22:07:
+build
+#1 [service_event_1gz9twb0de34 internal] load build definition from Dockerfile
+13/10/2025, 19:22:07:
+build
+#1 transferring dockerfile: 1.05kB done
+13/10/2025, 19:22:07:
+build
+#1 DONE 0.0s
+13/10/2025, 19:22:07:
+build
+13/10/2025, 19:22:07:
+build
+#2 [service_event_1gz9twb0de34 internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 19:22:08:
+build
+#2 DONE 0.4s
+13/10/2025, 19:22:08:
+build
+13/10/2025, 19:22:08:
+build
+#3 [service_event_1gz9twb0de34 internal] load .dockerignore
+13/10/2025, 19:22:08:
+build
+#3 transferring context: 673B done
+13/10/2025, 19:22:08:
+build
+#3 DONE 0.0s
+13/10/2025, 19:22:08:
+build
+13/10/2025, 19:22:08:
+build
+#4 [service_event_1gz9twb0de34] importing cache manifest from local:13183800235059124447
+13/10/2025, 19:22:08:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 19:22:08:
+build
+#4 DONE 0.0s
+13/10/2025, 19:22:08:
+build
+13/10/2025, 19:22:08:
+build
+#5 [service_event_1gz9twb0de34 builder 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 19:22:08:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 19:22:08:
+build
+#5 DONE 0.0s
+13/10/2025, 19:22:08:
+build
+13/10/2025, 19:22:08:
+build
+#6 [service_event_1gz9twb0de34 internal] load build context
+13/10/2025, 19:22:11:
+build
+#6 transferring context: 1.21GB 3.0s done
+13/10/2025, 19:22:11:
+build
+#6 DONE 3.0s
+13/10/2025, 19:22:11:
+build
+13/10/2025, 19:22:11:
+build
+#7 [service_event_1gz9twb0de34 builder 5/7] COPY . .
+13/10/2025, 19:22:11:
+build
+#7 CACHED
+13/10/2025, 19:22:11:
+build
+13/10/2025, 19:22:11:
+build
+#8 [service_event_1gz9twb0de34 builder 2/7] WORKDIR /app
+13/10/2025, 19:22:11:
+build
+#8 CACHED
+13/10/2025, 19:22:11:
+build
+13/10/2025, 19:22:11:
+build
+#9 [service_event_1gz9twb0de34 builder 3/7] COPY package.json package-lock.json ./
+13/10/2025, 19:22:11:
+build
+#9 CACHED
+13/10/2025, 19:22:11:
+build
+13/10/2025, 19:22:11:
+build
+#10 [service_event_1gz9twb0de34 builder 4/7] RUN npm ci
+13/10/2025, 19:22:11:
+build
+#10 CACHED
+13/10/2025, 19:22:11:
+build
+13/10/2025, 19:22:11:
+build
+#11 [service_event_1gz9twb0de34 builder 6/7] RUN npx vite build
+13/10/2025, 19:22:11:
+build
+#11 CACHED
+13/10/2025, 19:22:11:
+build
+13/10/2025, 19:22:11:
+build
+#12 [service_event_1gz9twb0de34 builder 7/7] RUN npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless
+13/10/2025, 19:22:11:
+build
+#12 0.474 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:22:11:
+build
+#12 0.474 
+13/10/2025, 19:22:11:
+build
+#12 0.474     server/services/initialSetupService.ts:4:22:
+13/10/2025, 19:22:11:
+build
+#12 0.474       4 │ import { users } from "@shared/schema";
+13/10/2025, 19:22:11:
+build
+#12 0.474         ╵                       ~~~~~~~~~~~~~~~~
+13/10/2025, 19:22:11:
+build
+#12 0.474 
+13/10/2025, 19:22:11:
+build
+#12 0.474   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:22:11:
+build
+#12 0.474 
+13/10/2025, 19:22:11:
+build
+#12 0.475 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:22:11:
+build
+#12 0.475 
+13/10/2025, 19:22:11:
+build
+#12 0.475     server/db.ts:4:24:
+13/10/2025, 19:22:11:
+build
+#12 0.475       4 │ import * as schema from '@shared/schema';
+13/10/2025, 19:22:11:
+build
+#12 0.475         ╵                         ~~~~~~~~~~~~~~~~
+13/10/2025, 19:22:11:
+build
+#12 0.475 
+13/10/2025, 19:22:11:
+build
+#12 0.475   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:22:11:
+build
+#12 0.475 
+13/10/2025, 19:22:11:
+build
+#12 0.478 ▲ [WARNING] Duplicate member "getClient" in class body [duplicate-class-member]
+13/10/2025, 19:22:11:
+build
+#12 0.478 
+13/10/2025, 19:22:11:
+build
+#12 0.478     server/storage.ts:773:8:
+13/10/2025, 19:22:11:
+build
+#12 0.478       773 │   async getClient(id: number): Promise {
+13/10/2025, 19:22:11:
+build
+#12 0.478           ╵         ~~~~~~~~~
+13/10/2025, 19:22:12:
+build
+#12 0.478 
+13/10/2025, 19:22:12:
+build
+#12 0.478   The original member "getClient" is here:
+13/10/2025, 19:22:12:
+build
+#12 0.478 
+13/10/2025, 19:22:12:
+build
+#12 0.478     server/storage.ts:362:8:
+13/10/2025, 19:22:12:
+build
+#12 0.478       362 │   async getClient(id: number): Promise {
+13/10/2025, 19:22:12:
+build
+#12 0.478           ╵         ~~~~~~~~~
+13/10/2025, 19:22:12:
+build
+#12 0.478 
+13/10/2025, 19:22:12:
+build
+#12 0.478 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:22:12:
+build
+#12 0.478 
+13/10/2025, 19:22:12:
+build
+#12 0.478     server/storage.ts:45:7:
+13/10/2025, 19:22:12:
+build
+#12 0.478       45 │ } from "@shared/schema";
+13/10/2025, 19:22:12:
+build
+#12 0.478          ╵        ~~~~~~~~~~~~~~~~
+13/10/2025, 19:22:12:
+build
+#12 0.478 
+13/10/2025, 19:22:12:
+build
+#12 0.478   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:22:12:
+build
+#12 0.478 
+13/10/2025, 19:22:12:
+build
+#12 0.560 ✘ [ERROR] Could not resolve "@babel/preset-typescript/package.json"
+13/10/2025, 19:22:12:
+build
+#12 0.560 
+13/10/2025, 19:22:12:
+build
+#12 0.560     node_modules/@babel/core/lib/config/files/module-types.js:151:40:
+13/10/2025, 19:22:12:
+build
+#12 0.560       151 │ ...t packageJson = require("@babel/preset-typescript/package.json");
+13/10/2025, 19:22:12:
+build
+#12 0.560           ╵                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+13/10/2025, 19:22:12:
+build
+#12 0.560 
+13/10/2025, 19:22:12:
+build
+#12 0.560   You can mark the path "@babel/preset-typescript/package.json" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+13/10/2025, 19:22:12:
+build
+#12 0.560 
+13/10/2025, 19:22:12:
+build
+#12 0.564 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:22:12:
+build
+#12 0.564 
+13/10/2025, 19:22:12:
+build
+#12 0.564     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 19:22:12:
+build
+#12 0.564       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 19:22:12:
+build
+#12 0.564         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 19:22:12:
+build
+#12 0.564 
+13/10/2025, 19:22:12:
+build
+#12 0.564   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:22:12:
+build
+#12 0.564 
+13/10/2025, 19:22:12:
+build
+#12 1.032 1 of 6 warnings and 5 of 9 errors shown (disable the message limit with --log-limit=0)
+13/10/2025, 19:22:13:
+build
+#12 ERROR: process "/bin/sh -c npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless" did not complete successfully: exit code: 1
+13/10/2025, 19:22:13:
+build
+------
+13/10/2025, 19:22:13:
+build
+ > [service_event_1gz9twb0de34 builder 7/7] RUN npx esbuild server/index.ts   --platform=node   --bundle   --format=esm   --outdir=dist   --external:express   --external:drizzle-orm   --external:postgres   --external:@neondatabase/serverless:
+13/10/2025, 19:22:13:
+build
+0.560 
+13/10/2025, 19:22:13:
+build
+0.564 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 19:22:13:
+build
+0.564 
+13/10/2025, 19:22:13:
+build
+0.564     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 19:22:13:
+build
+0.564       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 19:22:13:
+build
+0.564         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 19:22:13:
+build
+0.564 
+13/10/2025, 19:22:13:
+build
+0.564   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 19:22:13:
+build
+0.564 
+13/10/2025, 19:22:13:
+build
+1.032 1 of 6 warnings and 5 of 9 errors shown (disable the message limit with --log-limit=0)
+13/10/2025, 19:22:13:
+build
+------
