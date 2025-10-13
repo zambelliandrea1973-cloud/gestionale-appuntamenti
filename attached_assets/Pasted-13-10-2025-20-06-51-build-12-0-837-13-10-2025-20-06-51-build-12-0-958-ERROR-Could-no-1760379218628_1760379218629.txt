@@ -1,0 +1,718 @@
+13/10/2025, 20:06:51:
+build
+#12 0.837 
+13/10/2025, 20:06:51:
+build
+#12 0.958 ✘ [ERROR] Could not resolve "lightningcss"
+13/10/2025, 20:06:51:
+build
+#12 0.958 
+13/10/2025, 20:06:51:
+build
+#12 0.958     node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:37952:59:
+13/10/2025, 20:06:51:
+build
+#12 0.958       37952 │ ...ightningCSS = createCachedImport(() => import('lightningcss'));
+13/10/2025, 20:06:51:
+build
+#12 0.958             ╵                                                  ~~~~~~~~~~~~~~
+13/10/2025, 20:06:51:
+build
+#12 0.958 
+13/10/2025, 20:06:51:
+build
+#12 0.958   You can mark the path "lightningcss" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also add ".catch()" here to handle this failure at run-time instead of bundle-time.
+13/10/2025, 20:06:51:
+build
+#12 0.958 
+13/10/2025, 20:06:51:
+build
+#12 ERROR: process "/bin/sh -c node build-server.mjs" did not complete successfully: exit code: 1
+13/10/2025, 20:06:51:
+build
+------
+13/10/2025, 20:06:51:
+build
+ > [service_event_vku7obmhu3wz builder 7/7] RUN node build-server.mjs:
+13/10/2025, 20:06:51:
+build
+0.837   You can mark the path "@babel/preset-typescript/package.json" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+13/10/2025, 20:06:51:
+build
+0.837 
+13/10/2025, 20:06:51:
+build
+0.958 ✘ [ERROR] Could not resolve "lightningcss"
+13/10/2025, 20:06:51:
+build
+0.958 
+13/10/2025, 20:06:51:
+build
+0.958     node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:37952:59:
+13/10/2025, 20:06:51:
+build
+0.958       37952 │ ...ightningCSS = createCachedImport(() => import('lightningcss'));
+13/10/2025, 20:06:51:
+build
+0.958             ╵                                                  ~~~~~~~~~~~~~~
+13/10/2025, 20:10:00:
+build
+Counting objects: 100% (170/170), done.
+13/10/2025, 20:10:01:
+build
+Compressing objects: 100% (75/75), done.
+13/10/2025, 20:10:24:
+build
+Total 16450 (delta 126), reused 137 (delta 95), pack-reused 16280 (from 1)
+13/10/2025, 20:10:56:
+build
+#1 [service_event_6cui37mxf71o internal] load build definition from Dockerfile
+13/10/2025, 20:10:56:
+build
+#1 transferring dockerfile: 870B done
+13/10/2025, 20:10:56:
+build
+#1 DONE 0.0s
+13/10/2025, 20:10:56:
+build
+13/10/2025, 20:10:56:
+build
+#2 [service_event_6cui37mxf71o internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 20:10:57:
+build
+#2 DONE 0.8s
+13/10/2025, 20:10:57:
+build
+13/10/2025, 20:10:57:
+build
+#3 [service_event_6cui37mxf71o internal] load .dockerignore
+13/10/2025, 20:10:57:
+build
+#3 transferring context: 673B done
+13/10/2025, 20:10:57:
+build
+#3 DONE 0.0s
+13/10/2025, 20:10:57:
+build
+13/10/2025, 20:10:57:
+build
+#4 [service_event_6cui37mxf71o builder 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 20:10:57:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 20:10:57:
+build
+#4 DONE 0.0s
+13/10/2025, 20:10:57:
+build
+13/10/2025, 20:10:57:
+build
+#5 [service_event_6cui37mxf71o internal] load build context
+13/10/2025, 20:11:00:
+build
+#5 transferring context: 1.21GB 3.5s done
+13/10/2025, 20:11:00:
+build
+#5 DONE 3.5s
+13/10/2025, 20:11:00:
+build
+13/10/2025, 20:11:00:
+build
+#6 [service_event_6cui37mxf71o builder 2/7] WORKDIR /app
+13/10/2025, 20:11:00:
+build
+#6 CACHED
+13/10/2025, 20:11:00:
+build
+13/10/2025, 20:11:00:
+build
+#7 [service_event_6cui37mxf71o builder 3/7] COPY package.json package-lock.json ./
+13/10/2025, 20:11:00:
+build
+#7 CACHED
+13/10/2025, 20:11:00:
+build
+13/10/2025, 20:11:00:
+build
+#8 [service_event_6cui37mxf71o stage-1 4/6] RUN npm ci --omit=dev
+13/10/2025, 20:11:00:
+build
+#8 CACHED
+13/10/2025, 20:11:00:
+build
+13/10/2025, 20:11:00:
+build
+#9 [service_event_6cui37mxf71o builder 4/7] RUN npm ci
+13/10/2025, 20:11:00:
+build
+#9 CACHED
+13/10/2025, 20:11:00:
+build
+13/10/2025, 20:11:00:
+build
+#10 [service_event_6cui37mxf71o builder 5/7] COPY . .
+13/10/2025, 20:11:04:
+build
+#10 DONE 3.8s
+13/10/2025, 20:11:04:
+build
+13/10/2025, 20:11:04:
+build
+#11 [service_event_6cui37mxf71o builder 6/7] RUN npx vite build
+13/10/2025, 20:11:05:
+build
+#11 1.383 vite v5.4.14 building for production...
+13/10/2025, 20:11:06:
+build
+#11 1.827 
+13/10/2025, 20:11:06:
+build
+#11 1.842 
+13/10/2025, 20:11:06:
+build
+#11 1.842 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+13/10/2025, 20:11:06:
+build
+#11 1.847 transforming...
+13/10/2025, 20:11:06:
+build
+#11 1.948 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+13/10/2025, 20:11:06:
+build
+#11 1.948   npx update-browserslist-db@latest
+13/10/2025, 20:11:06:
+build
+#11 1.948   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+13/10/2025, 20:11:17:
+build
+#11 13.14 ✓ 3669 modules transformed.
+13/10/2025, 20:11:18:
+build
+#11 14.22 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 20:11:18:
+build
+#11 14.22 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 20:11:18:
+build
+#11 14.22 
+13/10/2025, 20:11:18:
+build
+#11 14.23 [plugin:vite:reporter] [plugin vite:reporter] 
+13/10/2025, 20:11:18:
+build
+#11 14.23 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+13/10/2025, 20:11:19:
+build
+#11 14.23 
+13/10/2025, 20:11:19:
+build
+#11 14.23 rendering chunks...
+13/10/2025, 20:11:19:
+build
+#11 14.27 computing gzip size...
+13/10/2025, 20:11:19:
+build
+#11 14.35 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+13/10/2025, 20:11:19:
+build
+#11 14.35 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+13/10/2025, 20:11:19:
+build
+#11 14.35 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+13/10/2025, 20:11:19:
+build
+#11 14.35 
+13/10/2025, 20:11:19:
+build
+#11 14.35 (!) Some chunks are larger than 500 kB after minification. Consider:
+13/10/2025, 20:11:19:
+build
+#11 14.35 - Using dynamic import() to code-split the application
+13/10/2025, 20:11:19:
+build
+#11 14.35 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+13/10/2025, 20:11:19:
+build
+#11 14.35 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+13/10/2025, 20:11:19:
+build
+#11 14.35 ✓ built in 12.92s
+13/10/2025, 20:11:19:
+build
+#11 DONE 14.5s
+13/10/2025, 20:11:19:
+build
+13/10/2025, 20:11:19:
+build
+#12 [service_event_6cui37mxf71o builder 7/7] RUN node build-server.mjs
+13/10/2025, 20:11:19:
+build
+#12 0.364 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:19:
+build
+#12 0.364 
+13/10/2025, 20:11:19:
+build
+#12 0.364     server/services/initialSetupService.ts:4:22:
+13/10/2025, 20:11:19:
+build
+#12 0.364       4 │ import { users } from "@shared/schema";
+13/10/2025, 20:11:19:
+build
+#12 0.364         ╵                       ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:19:
+build
+#12 0.364 
+13/10/2025, 20:11:19:
+build
+#12 0.364   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:19:
+build
+#12 0.364 
+13/10/2025, 20:11:19:
+build
+#12 0.368 ▲ [WARNING] Duplicate member "getClient" in class body [duplicate-class-member]
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368     server/storage.ts:773:8:
+13/10/2025, 20:11:19:
+build
+#12 0.368       773 │   async getClient(id: number): Promise {
+13/10/2025, 20:11:19:
+build
+#12 0.368           ╵         ~~~~~~~~~
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368   The original member "getClient" is here:
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368     server/storage.ts:362:8:
+13/10/2025, 20:11:19:
+build
+#12 0.368       362 │   async getClient(id: number): Promise {
+13/10/2025, 20:11:19:
+build
+#12 0.368           ╵         ~~~~~~~~~
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368 ▲ [WARNING] Duplicate member "createClient" in class body [duplicate-class-member]
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368     server/storage.ts:788:8:
+13/10/2025, 20:11:19:
+build
+#12 0.368       788 │   async createClient(client: InsertClient): Promise {
+13/10/2025, 20:11:19:
+build
+#12 0.368           ╵         ~~~~~~~~~~~~
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368   The original member "createClient" is here:
+13/10/2025, 20:11:19:
+build
+#12 0.368 
+13/10/2025, 20:11:19:
+build
+#12 0.368     server/storage.ts:435:8:
+13/10/2025, 20:11:19:
+build
+#12 0.368       435 │   async createClient(client: InsertClient): Promise {
+13/10/2025, 20:11:19:
+build
+#12 0.368           ╵         ~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368 ▲ [WARNING] Duplicate member "updateClient" in class body [duplicate-class-member]
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:798:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       798 │   async updateClient(id: number, client: Partial): ...
+13/10/2025, 20:11:20:
+build
+#12 0.368           ╵         ~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368   The original member "updateClient" is here:
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:445:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       445 │   async updateClient(id: number, client: Partial): ...
+13/10/2025, 20:11:20:
+build
+#12 0.368           ╵         ~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368 ▲ [WARNING] Duplicate member "deleteClient" in class body [duplicate-class-member]
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:812:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       812 │   async deleteClient(id: number): Promise {
+13/10/2025, 20:11:20:
+build
+#12 0.368           ╵         ~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368   The original member "deleteClient" is here:
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:458:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       458 │   async deleteClient(id: number): Promise {
+13/10/2025, 20:11:20:
+build
+#12 0.368           ╵         ~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368 ▲ [WARNING] Duplicate member "getCompanyNameSettings" in class body [duplicate-class-member]
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:3603:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       3603 │   async getCompanyNameSettings(userId: number): Promise
+13/10/2025, 20:11:20:
+build
+#12 0.368            ╵         ~~~~~~~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368   The original member "getCompanyNameSettings" is here:
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:2757:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       2757 │   async getCompanyNameSettings(userId: number): Promise
+13/10/2025, 20:11:20:
+build
+#12 0.368            ╵         ~~~~~~~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368 ▲ [WARNING] Duplicate member "saveCompanyNameSettings" in class body [duplicate-class-member]
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:3622:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       3622 │   async saveCompanyNameSettings(userId: number, settings: any): ...
+13/10/2025, 20:11:20:
+build
+#12 0.368            ╵         ~~~~~~~~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368   The original member "saveCompanyNameSettings" is here:
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.368     server/storage.ts:2779:8:
+13/10/2025, 20:11:20:
+build
+#12 0.368       2779 │   async saveCompanyNameSettings(userId: number, settings: any): ...
+13/10/2025, 20:11:20:
+build
+#12 0.368            ╵         ~~~~~~~~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.368 
+13/10/2025, 20:11:20:
+build
+#12 0.370 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:20:
+build
+#12 0.370 
+13/10/2025, 20:11:20:
+build
+#12 0.370     server/storage.ts:45:7:
+13/10/2025, 20:11:20:
+build
+#12 0.370       45 │ } from "@shared/schema";
+13/10/2025, 20:11:20:
+build
+#12 0.370          ╵        ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.370 
+13/10/2025, 20:11:20:
+build
+#12 0.370   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:20:
+build
+#12 0.370 
+13/10/2025, 20:11:20:
+build
+#12 0.373 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:20:
+build
+#12 0.373 
+13/10/2025, 20:11:20:
+build
+#12 0.373     server/db.ts:4:24:
+13/10/2025, 20:11:20:
+build
+#12 0.373       4 │ import * as schema from '@shared/schema';
+13/10/2025, 20:11:20:
+build
+#12 0.373         ╵                         ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:20:
+build
+#12 0.373 
+13/10/2025, 20:11:20:
+build
+#12 0.373   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:20:
+build
+#12 0.373 
+13/10/2025, 20:11:21:
+build
+#12 0.502 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:21:
+build
+#12 0.502 
+13/10/2025, 20:11:21:
+build
+#12 0.502     server/inventory-routes.ts:3:117:
+13/10/2025, 20:11:21:
+build
+#12 0.502       3 │ ...ockMovementSchema, insertProductSaleSchema } from '@shared/schema';
+13/10/2025, 20:11:21:
+build
+#12 0.502         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:21:
+build
+#12 0.502 
+13/10/2025, 20:11:21:
+build
+#12 0.502   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:21:
+build
+#12 0.502 
+13/10/2025, 20:11:21:
+build
+#12 0.523 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:21:
+build
+#12 0.523 
+13/10/2025, 20:11:21:
+build
+#12 0.523     server/services/directPhoneService.ts:8:23:
+13/10/2025, 20:11:21:
+build
+#12 0.523       8 │ import { phones } from '@shared/schema';
+13/10/2025, 20:11:21:
+build
+#12 0.523         ╵                        ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:21:
+build
+#12 0.523 
+13/10/2025, 20:11:21:
+build
+#12 0.523   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:21:
+build
+#12 0.523 
+13/10/2025, 20:11:21:
+build
+#12 0.576 ✘ [ERROR] Could not resolve "@babel/preset-typescript/package.json"
+13/10/2025, 20:11:21:
+build
+#12 0.576 
+13/10/2025, 20:11:21:
+build
+#12 0.576     node_modules/@babel/core/lib/config/files/module-types.js:151:40:
+13/10/2025, 20:11:21:
+build
+#12 0.576       151 │ ...t packageJson = require("@babel/preset-typescript/package.json");
+13/10/2025, 20:11:21:
+build
+#12 0.576           ╵                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:21:
+build
+#12 0.576 
+13/10/2025, 20:11:21:
+build
+#12 0.576   You can mark the path "@babel/preset-typescript/package.json" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+13/10/2025, 20:11:21:
+build
+#12 0.576 
+13/10/2025, 20:11:21:
+build
+#12 0.594 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:21:
+build
+#12 0.594 
+13/10/2025, 20:11:21:
+build
+#12 0.594     server/routes/paymentRoutes.ts:9:91:
+13/10/2025, 20:11:21:
+build
+#12 0.594       9 │ ..., licenses, users, clientAccounts, clients } from '@shared/schema';
+13/10/2025, 20:11:21:
+build
+#12 0.594         ╵                                                      ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:21:
+build
+#12 0.594 
+13/10/2025, 20:11:21:
+build
+#12 0.594   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:21:
+build
+#12 0.594 
+13/10/2025, 20:11:21:
+build
+#12 0.595 ✘ [ERROR] Could not resolve "@shared/schema"
+13/10/2025, 20:11:21:
+build
+#12 0.595 
+13/10/2025, 20:11:21:
+build
+#12 0.595     server/services/simplifiedReferralService.ts:2:50:
+13/10/2025, 20:11:21:
+build
+#12 0.595       2 │ import { users, licenses, staffCommissions } from '@shared/schema';
+13/10/2025, 20:11:21:
+build
+#12 0.595         ╵                                                   ~~~~~~~~~~~~~~~~
+13/10/2025, 20:11:21:
+build
+#12 0.595 
+13/10/2025, 20:11:21:
+build
+#12 0.595   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:21:
+build
+#12 0.595 
+13/10/2025, 20:11:21:
+build
+#12 0.794 ✘ [ERROR] Could not resolve "lightningcss"
+13/10/2025, 20:11:21:
+build
+#12 0.794 
+13/10/2025, 20:11:21:
+build
+#12 0.794     node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:37952:59:
+13/10/2025, 20:11:21:
+build
+#12 0.794       37952 │ ...ightningCSS = createCachedImport(() => import('lightningcss'));
+13/10/2025, 20:11:21:
+build
+#12 0.794             ╵                                                  ~~~~~~~~~~~~~~
+13/10/2025, 20:11:21:
+build
+#12 0.794 
+13/10/2025, 20:11:21:
+build
+#12 0.794   You can mark the path "lightningcss" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also add ".catch()" here to handle this failure at run-time instead of bundle-time.
+13/10/2025, 20:11:21:
+build
+#12 0.794 
+13/10/2025, 20:11:21:
+build
+#12 ERROR: process "/bin/sh -c node build-server.mjs" did not complete successfully: exit code: 1
+13/10/2025, 20:11:21:
+build
+------
+13/10/2025, 20:11:21:
+build
+ > [service_event_6cui37mxf71o builder 7/7] RUN node build-server.mjs:
+13/10/2025, 20:11:21:
+build
+0.595   You can mark the path "@shared/schema" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+13/10/2025, 20:11:22:
+build
+0.595 
+13/10/2025, 20:11:22:
+build
+0.794 ✘ [ERROR] Could not resolve "lightningcss"
+13/10/2025, 20:11:22:
+build
+0.794 
+13/10/2025, 20:11:22:
+build
+0.794     node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:37952:59:
+13/10/2025, 20:11:22:
+build
+0.794       37952 │ ...ightningCSS = createCachedImport(() => import('lightningcss'));
+13/10/2025, 20:11:22:
+build
+0.794             ╵                                                  ~~~~~~~~~~~~~~
+13/10/2025, 20:11:22:
+build
+0.794 
+13/10/2025, 20:11:22:
+build
+0.794   You can mark the path "lightningcss" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also add ".catch()" here to handle this failure at run-time instead of bundle-time.
+13/10/2025, 20:11:22:
+build
+0.794 
