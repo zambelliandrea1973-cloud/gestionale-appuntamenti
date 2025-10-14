@@ -1,0 +1,731 @@
+14/10/2025, 15:47:45:
+build
+Enumerating objects: 16658, done.
+14/10/2025, 15:47:45:
+build
+Counting objects: 100% (378/378), done.
+14/10/2025, 15:47:45:
+build
+Compressing objects: 100% (198/198), done.
+14/10/2025, 15:48:10:
+build
+Total 16658 (delta 265), reused 254 (delta 179), pack-reused 16280 (from 1)
+14/10/2025, 15:48:42:
+build
+#1 [service_event_56q78k9hrq7f internal] load build definition from Dockerfile
+14/10/2025, 15:48:42:
+build
+#1 transferring dockerfile: 618B done
+14/10/2025, 15:48:42:
+build
+#1 DONE 0.0s
+14/10/2025, 15:48:42:
+build
+14/10/2025, 15:48:42:
+build
+#2 [service_event_56q78k9hrq7f internal] load metadata for docker.io/library/node:20-alpine
+14/10/2025, 15:48:43:
+build
+#2 DONE 0.8s
+14/10/2025, 15:48:43:
+build
+14/10/2025, 15:48:43:
+build
+#3 [service_event_56q78k9hrq7f internal] load .dockerignore
+14/10/2025, 15:48:43:
+build
+#3 transferring context: 740B done
+14/10/2025, 15:48:43:
+build
+#3 DONE 0.0s
+14/10/2025, 15:48:43:
+build
+14/10/2025, 15:48:43:
+build
+#4 [service_event_56q78k9hrq7f] importing cache manifest from local:3594399136602271130
+14/10/2025, 15:48:43:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+14/10/2025, 15:48:43:
+build
+#4 DONE 0.0s
+14/10/2025, 15:48:43:
+build
+14/10/2025, 15:48:43:
+build
+#5 [service_event_56q78k9hrq7f 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 15:48:43:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+14/10/2025, 15:48:43:
+build
+#5 DONE 0.0s
+14/10/2025, 15:48:43:
+build
+14/10/2025, 15:48:43:
+build
+#6 [service_event_56q78k9hrq7f internal] load build context
+14/10/2025, 15:48:46:
+build
+#6 transferring context: 1.22GB 3.5s done
+14/10/2025, 15:48:47:
+build
+#6 DONE 3.5s
+14/10/2025, 15:48:47:
+build
+14/10/2025, 15:48:47:
+build
+#7 [service_event_56q78k9hrq7f 2/7] WORKDIR /app
+14/10/2025, 15:48:47:
+build
+#7 CACHED
+14/10/2025, 15:48:47:
+build
+14/10/2025, 15:48:47:
+build
+#8 [service_event_56q78k9hrq7f 3/7] COPY package.json package-lock.json ./
+14/10/2025, 15:48:47:
+build
+#8 CACHED
+14/10/2025, 15:48:47:
+build
+14/10/2025, 15:48:47:
+build
+#9 [service_event_56q78k9hrq7f 4/7] RUN npm ci
+14/10/2025, 15:48:47:
+build
+#9 CACHED
+14/10/2025, 15:48:47:
+build
+14/10/2025, 15:48:47:
+build
+#10 [service_event_56q78k9hrq7f 5/7] COPY . .
+14/10/2025, 15:48:51:
+build
+#10 DONE 4.2s
+14/10/2025, 15:48:51:
+build
+14/10/2025, 15:48:51:
+build
+#11 [service_event_56q78k9hrq7f 6/7] RUN npx vite build
+14/10/2025, 15:48:52:
+build
+#11 1.258 vite v5.4.14 building for production...
+14/10/2025, 15:48:52:
+build
+#11 1.679 
+14/10/2025, 15:48:53:
+build
+#11 1.687 
+14/10/2025, 15:48:53:
+build
+#11 1.687 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+14/10/2025, 15:48:53:
+build
+#11 1.690 transforming...
+14/10/2025, 15:48:53:
+build
+#11 1.827 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+14/10/2025, 15:48:53:
+build
+#11 1.827   npx update-browserslist-db@latest
+14/10/2025, 15:48:53:
+build
+#11 1.827   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+14/10/2025, 15:49:04:
+build
+#11 13.09 ✓ 3669 modules transformed.
+14/10/2025, 15:49:05:
+build
+#11 14.30 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 15:49:05:
+build
+#11 14.30 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 15:49:05:
+build
+#11 14.30 
+14/10/2025, 15:49:05:
+build
+#11 14.30 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 15:49:05:
+build
+#11 14.30 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 15:49:05:
+build
+#11 14.30 
+14/10/2025, 15:49:05:
+build
+#11 14.30 rendering chunks...
+14/10/2025, 15:49:05:
+build
+#11 14.35 computing gzip size...
+14/10/2025, 15:49:05:
+build
+#11 14.42 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+14/10/2025, 15:49:05:
+build
+#11 14.42 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+14/10/2025, 15:49:05:
+build
+#11 14.42 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+14/10/2025, 15:49:05:
+build
+#11 14.42 
+14/10/2025, 15:49:05:
+build
+#11 14.42 (!) Some chunks are larger than 500 kB after minification. Consider:
+14/10/2025, 15:49:05:
+build
+#11 14.42 - Using dynamic import() to code-split the application
+14/10/2025, 15:49:05:
+build
+#11 14.42 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+14/10/2025, 15:49:05:
+build
+#11 14.42 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+14/10/2025, 15:49:05:
+build
+#11 14.42 ✓ built in 13.12s
+14/10/2025, 15:49:05:
+build
+#11 DONE 14.5s
+14/10/2025, 15:49:05:
+build
+14/10/2025, 15:49:05:
+build
+#12 [service_event_56q78k9hrq7f 7/7] RUN cp -r dist/public server/public
+14/10/2025, 15:49:05:
+build
+#12 DONE 0.1s
+14/10/2025, 15:49:05:
+build
+14/10/2025, 15:49:06:
+build
+#13 [service_event_56q78k9hrq7f] exporting to image
+14/10/2025, 15:49:06:
+build
+#13 exporting layers
+14/10/2025, 15:49:30:
+build
+#13 exporting layers 24.3s done
+14/10/2025, 15:49:30:
+build
+#13 exporting manifest sha256:4d2d35bbb8ec123aff3b9615432bb435b2046a03ec7db51192649aa41bd14066 done
+14/10/2025, 15:49:30:
+build
+#13 exporting config sha256:c70a42d704c5564414b76c5d95f9ed1f52ef76ea2086a308e5494c4ab5554876 done
+14/10/2025, 15:49:30:
+build
+#13 pushing layers
+14/10/2025, 15:49:41:
+build
+#13 pushing layers 11.5s done
+14/10/2025, 15:49:41:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_56q78k9hrq7f@sha256:4d2d35bbb8ec123aff3b9615432bb435b2046a03ec7db51192649aa41bd14066
+14/10/2025, 15:49:41:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_56q78k9hrq7f@sha256:4d2d35bbb8ec123aff3b9615432bb435b2046a03ec7db51192649aa41bd14066 0.1s done
+14/10/2025, 15:49:41:
+build
+#13 DONE 35.9s
+14/10/2025, 15:49:41:
+build
+14/10/2025, 15:49:41:
+build
+#14 [service_event_56q78k9hrq7f] exporting cache to client directory
+14/10/2025, 15:49:41:
+build
+#14 preparing build cache for export
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:3ee126ab17838103065591e8b45e737cee4dd1c8021c4f4eb49ba1f6619b7871 0.0s done
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:4b97f84edcd6957e5355b3ef05ec02c0abeab51acdeb06957e81a6e3d6fd8c70 done
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:5d5c29c344da7413917c57f453b15f6838168a0ffb7748848d71f227cede6c0a 0.0s done
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:8fe1f268b2cbb49a8c91bd0250812da4781860bc394b7f7dbba757e2214bc1ed
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:8fe1f268b2cbb49a8c91bd0250812da4781860bc394b7f7dbba757e2214bc1ed done
+14/10/2025, 15:49:41:
+build
+#14 writing layer sha256:a757d1e22b8bac9a66be69651d59372f0e3f2bc13c0b61bcbabac903ee3848d9
+14/10/2025, 15:49:42:
+build
+#14 writing layer sha256:a757d1e22b8bac9a66be69651d59372f0e3f2bc13c0b61bcbabac903ee3848d9 done
+14/10/2025, 15:49:42:
+build
+#14 writing layer sha256:b8b54004ea6d061a826132dcb3c98a8009f20d7f6b2b1c90daf255c5a03a3972
+14/10/2025, 15:49:47:
+build
+#14 writing layer sha256:b8b54004ea6d061a826132dcb3c98a8009f20d7f6b2b1c90daf255c5a03a3972 6.1s done
+14/10/2025, 15:49:47:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c
+14/10/2025, 15:49:47:
+build
+#14 preparing build cache for export 6.2s done
+14/10/2025, 15:49:47:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+14/10/2025, 15:49:47:
+build
+#14 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 15:49:47:
+build
+#14 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+14/10/2025, 15:49:47:
+build
+#14 writing config sha256:0b9e7c56bc482ff40a36515c53e5689ef8fc66ac1331d498ab9ca70acd497e26 done
+14/10/2025, 15:49:47:
+build
+#14 writing cache image manifest sha256:d2a861be927807733c9e3a44601ede0d32bc2ba20bce3c331f039b5a9ba1d873 done
+14/10/2025, 15:49:47:
+build
+#14 DONE 6.2s
+14/10/2025, 15:49:59:
+build
+service_event_56q78k9hrq7f: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+14/10/2025, 15:49:59:
+build
+2d35ebdb57d9: Already exists
+14/10/2025, 15:49:59:
+build
+c087321cece4: Already exists
+14/10/2025, 15:49:59:
+build
+f2fbe8556258: Already exists
+14/10/2025, 15:49:59:
+build
+c74c90aa7c87: Already exists
+14/10/2025, 15:49:59:
+build
+8fe1f268b2cb: Already exists
+14/10/2025, 15:49:59:
+build
+4b97f84edcd6: Already exists
+14/10/2025, 15:49:59:
+build
+a757d1e22b8b: Already exists
+14/10/2025, 15:49:59:
+build
+b8b54004ea6d: Pulling fs layer
+14/10/2025, 15:49:59:
+build
+3ee126ab1783: Pulling fs layer
+14/10/2025, 15:49:59:
+build
+5d5c29c344da: Pulling fs layer
+14/10/2025, 15:49:59:
+build
+3ee126ab1783: Verifying Checksum
+14/10/2025, 15:49:59:
+build
+3ee126ab1783: Download complete
+14/10/2025, 15:49:59:
+build
+5d5c29c344da: Verifying Checksum
+14/10/2025, 15:49:59:
+build
+5d5c29c344da: Download complete
+14/10/2025, 15:50:06:
+build
+b8b54004ea6d: Verifying Checksum
+14/10/2025, 15:50:06:
+build
+b8b54004ea6d: Download complete
+14/10/2025, 15:50:15:
+build
+b8b54004ea6d: Pull complete
+14/10/2025, 15:50:15:
+build
+3ee126ab1783: Pull complete
+14/10/2025, 15:50:15:
+build
+5d5c29c344da: Pull complete
+14/10/2025, 15:50:15:
+build
+Digest: sha256:4d2d35bbb8ec123aff3b9615432bb435b2046a03ec7db51192649aa41bd14066
+14/10/2025, 15:50:15:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_56q78k9hrq7f
+14/10/2025, 15:50:19:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+14/10/2025, 15:50:19:
+runtime
+Servizio gestione telefono diretto inizializzato
+14/10/2025, 15:50:20:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+14/10/2025, 15:50:20:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+14/10/2025, 15:50:20:
+runtime
+Errore nel caricamento del telefono dal database: AggregateError [ECONNREFUSED]: 
+14/10/2025, 15:50:20:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 15:50:20:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 15:50:20:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 15:50:20:
+runtime
+  [errors]: [
+14/10/2025, 15:50:20:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 15:50:20:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:50:20:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:50:20:
+runtime
+      errno: -111,
+14/10/2025, 15:50:20:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:50:20:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:50:20:
+runtime
+      address: '::1',
+14/10/2025, 15:50:20:
+runtime
+      port: 5432
+14/10/2025, 15:50:20:
+runtime
+    },
+14/10/2025, 15:50:20:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 15:50:20:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:50:20:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:50:20:
+runtime
+      errno: -111,
+14/10/2025, 15:50:20:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:50:20:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:50:20:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 15:50:20:
+runtime
+      port: 5432
+14/10/2025, 15:50:20:
+runtime
+    }
+14/10/2025, 15:50:20:
+runtime
+  ]
+14/10/2025, 15:50:20:
+runtime
+}
+14/10/2025, 15:50:20:
+runtime
+Database non disponibile, controllo utenti da JSON storage
+14/10/2025, 15:50:20:
+runtime
+Trovati 1 utenti nel JSON storage
+14/10/2025, 15:50:20:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+14/10/2025, 15:50:20:
+runtime
+Scheduler dei promemoria avviato con successo
+14/10/2025, 15:50:20:
+runtime
+Tutti gli scheduler inizializzati
+14/10/2025, 15:50:20:
+runtime
+🔍 Controllo integrità all'avvio:
+14/10/2025, 15:50:20:
+runtime
+   📅 Appuntamenti caricati: 48
+14/10/2025, 15:50:20:
+runtime
+   👥 Clienti caricati: 40
+14/10/2025, 15:50:20:
+runtime
+   🔍 Primi 3 appuntamenti: [
+14/10/2025, 15:50:20:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+14/10/2025, 15:50:20:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+14/10/2025, 15:50:20:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+14/10/2025, 15:50:20:
+runtime
+]
+14/10/2025, 15:50:20:
+runtime
+✅ Controllo integrità completato
+14/10/2025, 15:50:20:
+runtime
+1:50:20 PM [express] serving on port 5000
+14/10/2025, 15:50:25:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+14/10/2025, 15:50:25:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 15:50:25:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 15:50:25:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 15:50:25:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 15:50:25:
+runtime
+Job iniziale completato: inviati 0 promemoria
+14/10/2025, 15:52:04:
+runtime
+1:52:04 PM [express] GET /api/user-with-license 401 in 4ms :: {"message":"Non autenticato"}
+14/10/2025, 15:52:06:
+runtime
+Login staff richiesto per: zambelli.andrea.1973A@gmail.com
+14/10/2025, 15:52:06:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 15:52:06:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 15:52:06:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 15:52:06:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 15:52:06:
+runtime
+  [errors]: [
+14/10/2025, 15:52:06:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 15:52:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:52:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:52:06:
+runtime
+      errno: -111,
+14/10/2025, 15:52:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:52:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:52:06:
+runtime
+      address: '::1',
+14/10/2025, 15:52:06:
+runtime
+      port: 5432
+14/10/2025, 15:52:06:
+runtime
+    },
+14/10/2025, 15:52:06:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 15:52:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:52:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:52:06:
+runtime
+      errno: -111,
+14/10/2025, 15:52:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:52:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:52:06:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 15:52:06:
+runtime
+      port: 5432
+14/10/2025, 15:52:06:
+runtime
+    }
+14/10/2025, 15:52:06:
+runtime
+  ]
+14/10/2025, 15:52:06:
+runtime
+}
+14/10/2025, 15:52:06:
+runtime
+Login staff fallito per: zambelli.andrea.1973A@gmail.com
+14/10/2025, 15:52:06:
+runtime
+1:52:06 PM [express] POST /api/staff/login 401 in 16ms :: {"message":"Username o password non validi…
+14/10/2025, 15:52:26:
+runtime
+Login staff richiesto per: zambelli.andrea.1973@gmail.com
+14/10/2025, 15:52:26:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 15:52:26:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 15:52:26:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 15:52:26:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 15:52:26:
+runtime
+  [errors]: [
+14/10/2025, 15:52:26:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 15:52:26:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:52:26:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:52:26:
+runtime
+      errno: -111,
+14/10/2025, 15:52:26:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:52:26:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:52:26:
+runtime
+      address: '::1',
+14/10/2025, 15:52:26:
+runtime
+      port: 5432
+14/10/2025, 15:52:26:
+runtime
+    },
+14/10/2025, 15:52:26:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 15:52:26:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:52:26:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:52:26:
+runtime
+      errno: -111,
+14/10/2025, 15:52:26:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:52:26:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:52:26:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 15:52:26:
+runtime
+      port: 5432
+14/10/2025, 15:52:26:
+runtime
+    }
+14/10/2025, 15:52:26:
+runtime
+  ]
+14/10/2025, 15:52:26:
+runtime
+}
+14/10/2025, 15:52:26:
+runtime
+Errore durante autenticazione staff: TypeError [ERR_INVALID_ARG_TYPE]: The "salt" argument must be of type string or an instance of ArrayBuffer, Buffer, TypedArray, or DataView. Received undefined
+14/10/2025, 15:52:26:
+runtime
+    at check (node:internal/crypto/scrypt:84:10)
+14/10/2025, 15:52:26:
+runtime
+    at scrypt (node:internal/crypto/scrypt:46:13)
+14/10/2025, 15:52:26:
+runtime
+    at node:internal/util:441:7
+14/10/2025, 15:52:26:
+runtime
+    at new Promise ()
+14/10/2025, 15:52:26:
+runtime
+    at scrypt (node:internal/util:427:12)
+14/10/2025, 15:52:26:
+runtime
+    at comparePasswords (/app/server/auth.ts:34:30)
+14/10/2025, 15:52:26:
+runtime
+    at Strategy._verify (/app/server/auth.ts:63:28) {
+14/10/2025, 15:52:26:
+runtime
+  code: 'ERR_INVALID_ARG_TYPE'
+14/10/2025, 15:52:26:
+runtime
+}
+14/10/2025, 15:52:26:
+runtime
+TypeError [ERR_INVALID_ARG_TYPE]: The "salt" argument must be of type string or an instance of ArrayBuffer, Buffer, TypedArray, or DataView. Received undefined
+14/10/2025, 15:52:26:
+runtime
+    at check (node:internal/crypto/scrypt:84:10)
+14/10/2025, 15:52:26:
+runtime
+    at scrypt (node:internal/crypto/scrypt:46:13)
+14/10/2025, 15:52:26:
+runtime
+    at node:internal/util:441:7
+14/10/2025, 15:52:26:
+runtime
+    at new Promise ()
+14/10/2025, 15:52:26:
+runtime
+    at scrypt (node:internal/util:427:12)
+14/10/2025, 15:52:26:
+runtime
+    at comparePasswords (/app/server/auth.ts:34:30)
+14/10/2025, 15:52:26:
+runtime
+    at Strategy._verify (/app/server/auth.ts:63:28)
+14/10/2025, 15:52:26:
+runtime
+1:52:26 PM [express] POST /api/staff/login 500 in 18ms :: {"message":"The \"salt\" argument must be …
