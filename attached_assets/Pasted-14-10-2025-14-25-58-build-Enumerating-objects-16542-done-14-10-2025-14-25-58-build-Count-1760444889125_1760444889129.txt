@@ -1,0 +1,350 @@
+14/10/2025, 14:25:58:
+build
+Enumerating objects: 16542, done.
+14/10/2025, 14:25:58:
+build
+Counting objects: 100% (262/262), done.
+14/10/2025, 14:25:58:
+build
+Compressing objects: 100% (154/154), done.
+14/10/2025, 14:26:20:
+build
+Total 16542 (delta 169), reused 161 (delta 107), pack-reused 16280 (from 1)
+14/10/2025, 14:26:49:
+build
+#1 [service_event_giy6a0i95dpo internal] load build definition from Dockerfile
+14/10/2025, 14:26:49:
+build
+#1 transferring dockerfile: 618B done
+14/10/2025, 14:26:49:
+build
+#1 DONE 0.0s
+14/10/2025, 14:26:49:
+build
+14/10/2025, 14:26:49:
+build
+#2 [service_event_giy6a0i95dpo internal] load metadata for docker.io/library/node:20-alpine
+14/10/2025, 14:26:50:
+build
+#2 DONE 0.8s
+14/10/2025, 14:26:50:
+build
+14/10/2025, 14:26:50:
+build
+#3 [service_event_giy6a0i95dpo internal] load .dockerignore
+14/10/2025, 14:26:50:
+build
+#3 transferring context: 673B done
+14/10/2025, 14:26:50:
+build
+#3 DONE 0.0s
+14/10/2025, 14:26:50:
+build
+14/10/2025, 14:26:50:
+build
+#4 [service_event_giy6a0i95dpo] importing cache manifest from local:2901964186712247765
+14/10/2025, 14:26:50:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+14/10/2025, 14:26:50:
+build
+#4 DONE 0.0s
+14/10/2025, 14:26:50:
+build
+14/10/2025, 14:26:50:
+build
+#5 [service_event_giy6a0i95dpo 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 14:26:50:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+14/10/2025, 14:26:50:
+build
+#5 DONE 0.0s
+14/10/2025, 14:26:50:
+build
+14/10/2025, 14:26:50:
+build
+#6 [service_event_giy6a0i95dpo internal] load build context
+14/10/2025, 14:26:54:
+build
+#6 transferring context: 1.21GB 3.8s done
+14/10/2025, 14:26:54:
+build
+#6 DONE 3.9s
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#7 [service_event_giy6a0i95dpo 5/7] COPY . .
+14/10/2025, 14:26:54:
+build
+#7 CACHED
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#8 [service_event_giy6a0i95dpo 2/7] WORKDIR /app
+14/10/2025, 14:26:54:
+build
+#8 CACHED
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#9 [service_event_giy6a0i95dpo 3/7] COPY package.json package-lock.json ./
+14/10/2025, 14:26:54:
+build
+#9 CACHED
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#10 [service_event_giy6a0i95dpo 4/7] RUN npm ci
+14/10/2025, 14:26:54:
+build
+#10 CACHED
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#11 [service_event_giy6a0i95dpo 6/7] RUN npx vite build
+14/10/2025, 14:26:54:
+build
+#11 CACHED
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#12 [service_event_giy6a0i95dpo 7/7] RUN cp -r dist/public server/public
+14/10/2025, 14:26:54:
+build
+#12 CACHED
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#13 [service_event_giy6a0i95dpo] exporting to image
+14/10/2025, 14:26:54:
+build
+#13 exporting layers done
+14/10/2025, 14:26:54:
+build
+#13 exporting manifest sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3 done
+14/10/2025, 14:26:54:
+build
+#13 exporting config sha256:813b7d4e38522f4da1cffb1bbca33507084a458d60268693509c18255e979776 done
+14/10/2025, 14:26:54:
+build
+#13 pushing layers
+14/10/2025, 14:26:54:
+build
+#13 pushing layers 0.2s done
+14/10/2025, 14:26:54:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_giy6a0i95dpo@sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3
+14/10/2025, 14:26:54:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_giy6a0i95dpo@sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3 0.1s done
+14/10/2025, 14:26:54:
+build
+#13 DONE 0.2s
+14/10/2025, 14:26:54:
+build
+14/10/2025, 14:26:54:
+build
+#14 [service_event_giy6a0i95dpo] exporting cache to client directory
+14/10/2025, 14:26:54:
+build
+#14 preparing build cache for export 0.0s done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:4b97f84edcd6957e5355b3ef05ec02c0abeab51acdeb06957e81a6e3d6fd8c70 done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:8fe1f268b2cbb49a8c91bd0250812da4781860bc394b7f7dbba757e2214bc1ed done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:a757d1e22b8bac9a66be69651d59372f0e3f2bc13c0b61bcbabac903ee3848d9 done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:bd1a859513b73c550a939cc78c16f22034436468f49917e852474ebf27064d07 done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:cf45290c561d8e4e16ee5d36b74df022fb27b33102aa0bc0975e0061eb98c39e done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+14/10/2025, 14:26:54:
+build
+#14 writing layer sha256:fa80a53dd378057a3118ae07f92d7228c00537051042289154607efa393fcc8f done
+14/10/2025, 14:26:54:
+build
+#14 writing config sha256:9a6006fd399c05bb2e481903379eae79fc5141af0d1127679929fe522b78bf4a done
+14/10/2025, 14:26:54:
+build
+#14 writing cache image manifest sha256:e0ec50f565ddf8a7c729056b08c2bd4f7ce5dfb3a462c0e1ef62eb77b5f8b259 done
+14/10/2025, 14:26:54:
+build
+#14 DONE 0.0s
+14/10/2025, 14:27:32:
+build
+service_event_giy6a0i95dpo: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+14/10/2025, 14:27:32:
+build
+Digest: sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3
+14/10/2025, 14:27:32:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_giy6a0i95dpo
+14/10/2025, 14:27:35:
+runtime
+Servizio gestione telefono diretto inizializzato
+14/10/2025, 14:27:36:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+14/10/2025, 14:27:36:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+14/10/2025, 14:27:36:
+runtime
+Errore nel caricamento del telefono dal database: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 14:27:36:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 14:27:36:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 14:27:36:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 14:27:36:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 14:27:36:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 14:27:36:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 14:27:36:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 14:27:36:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 14:27:36:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 14:27:36:
+runtime
+  severity: 'FATAL',
+14/10/2025, 14:27:36:
+runtime
+  code: '28P01',
+14/10/2025, 14:27:36:
+runtime
+  file: 'auth.c',
+14/10/2025, 14:27:36:
+runtime
+  line: '323',
+14/10/2025, 14:27:36:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 14:27:36:
+runtime
+}
+14/10/2025, 14:27:36:
+runtime
+Errore durante l'inizializzazione: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 14:27:36:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 14:27:36:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 14:27:36:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 14:27:36:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 14:27:36:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 14:27:36:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 14:27:36:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 14:27:36:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 14:27:36:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 14:27:36:
+runtime
+  severity: 'FATAL',
+14/10/2025, 14:27:36:
+runtime
+  code: '28P01',
+14/10/2025, 14:27:36:
+runtime
+  file: 'auth.c',
+14/10/2025, 14:27:36:
+runtime
+  line: '323',
+14/10/2025, 14:27:36:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 14:27:36:
+runtime
+}
+14/10/2025, 14:27:36:
+runtime
+Scheduler dei promemoria avviato con successo
+14/10/2025, 14:27:36:
+runtime
+Tutti gli scheduler inizializzati
+14/10/2025, 14:27:36:
+runtime
+🔍 Controllo integrità all'avvio:
+14/10/2025, 14:27:36:
+runtime
+   📅 Appuntamenti caricati: 0
+14/10/2025, 14:27:36:
+runtime
+   👥 Clienti caricati: 0
+14/10/2025, 14:27:36:
+runtime
+✅ Controllo integrità completato
+14/10/2025, 14:27:36:
+runtime
+12:27:36 PM [express] serving on port 5000
+14/10/2025, 14:27:41:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+14/10/2025, 14:27:41:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 14:27:41:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 14:27:41:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 14:27:41:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 14:27:41:
+runtime
+Job iniziale completato: inviati 0 promemoria
