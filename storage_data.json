@@ -445,48 +445,6 @@
       }
     ],
     [
-      513,
-      {
-        "firstName": "provaci ancora",
-        "lastName": "due",
-        "phone": "+393472550110",
-        "email": "zambelli.andrea@libero.it",
-        "address": "Via Cavallotti",
-        "birthday": "2013-07-19",
-        "notes": "",
-        "isFrequent": false,
-        "medicalNotes": "",
-        "allergies": "",
-        "hasConsent": false,
-        "ownerId": 16,
-        "id": 513,
-        "createdAt": "2025-06-03T13:34:58.647Z",
-        "uniqueCode": "PROF_016_B17E_CLIENT_513_7E52",
-        "professionistCode": "PROF_016_B17E"
-      }
-    ],
-    [
-      514,
-      {
-        "firstName": "maaa",
-        "lastName": "vaaa",
-        "phone": "+393472550110",
-        "email": "zambelli.andrea@libero.it",
-        "address": "Via Cavallotti",
-        "birthday": "2014-11-30",
-        "notes": "",
-        "isFrequent": false,
-        "medicalNotes": "",
-        "allergies": "",
-        "hasConsent": false,
-        "ownerId": 16,
-        "id": 514,
-        "createdAt": "2025-06-03T13:34:58.647Z",
-        "uniqueCode": "PROF_016_B17E_CLIENT_514_44A1",
-        "professionistCode": "PROF_016_B17E"
-      }
-    ],
-    [
       9001,
       {
         "id": 9001,
@@ -9756,6 +9714,28 @@
       "timestamp": "2025-10-07T07:17:43.033Z",
       "read": false,
       "channel": "app"
+    },
+    {
+      "id": 1760460515655,
+      "type": "client_deleted",
+      "message": "L'utente faverioelisa6@gmail.com ha eliminato il cliente \"maaa vaaa\" dal database",
+      "userId": 16,
+      "userEmail": "faverioelisa6@gmail.com",
+      "clientId": 514,
+      "clientName": "maaa vaaa",
+      "timestamp": "2025-10-14T16:48:35.655Z",
+      "read": false
+    },
+    {
+      "id": 1760460526950,
+      "type": "client_deleted",
+      "message": "L'utente faverioelisa6@gmail.com ha eliminato il cliente \"provaci ancora due\" dal database",
+      "userId": 16,
+      "userEmail": "faverioelisa6@gmail.com",
+      "clientId": 513,
+      "clientName": "provaci ancora due",
+      "timestamp": "2025-10-14T16:48:46.950Z",
+      "read": false
     }
   ],
   "productCategories": [

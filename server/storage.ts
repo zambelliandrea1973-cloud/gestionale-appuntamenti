@@ -50,6 +50,26 @@ import { db } from "./db";
 import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray } from 'drizzle-orm';
 import { inventoryJsonStorage } from "./inventory-json-storage.js";
 
+// Global flag to check if PostgreSQL is available
+let isDatabaseAvailable = true;
+
+// Check database connection at startup
+async function checkDatabaseAvailability(): Promise<boolean> {
+  try {
+    await db.select().from(users).limit(1);
+    isDatabaseAvailable = true;
+    console.log('✅ PostgreSQL database is available');
+    return true;
+  } catch (error) {
+    isDatabaseAvailable = false;
+    console.log('⚠️ PostgreSQL not available - using JSON storage only (no connection delays)');
+    return false;
+  }
+}
+
+// Call this check at module initialization
+checkDatabaseAvailability();
+
 // Interface defining all storage operations
 export interface IStorage {
   // Client operations
@@ -2275,6 +2295,22 @@ export class DatabaseStorage implements IStorage {
 
   // USER OPERATIONS
   async getUser(id: number): Promise<User | undefined> {
+    // Skip database if not available - direct to JSON (no timeout delay)
+    if (!isDatabaseAvailable) {
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([userId, u]: [number, any]) => userId === id);
+        
+        if (userEntry) {
+          return userEntry[1];
+        }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
+      }
+      return undefined;
+    }
+    
     try {
       // getUser search - debug log removed for performance
       const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -2320,6 +2356,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
+    // Skip database if not available - direct to JSON (no timeout delay)
+    if (!isDatabaseAvailable) {
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([id, u]: [number, any]) => u.username === username);
+        
+        if (userEntry) {
+          return userEntry[1];
+        }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
+      }
+      return undefined;
+    }
+    
     try {
       const [user] = await db.select().from(users).where(eq(users.username, username));
       
