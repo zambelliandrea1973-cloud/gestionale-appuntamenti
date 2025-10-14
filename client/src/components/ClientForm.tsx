@@ -48,7 +48,7 @@ const formSchema = insertClientSchema.extend({
   firstName: z.string().min(2, "Il nome deve contenere almeno 2 caratteri"),
   lastName: z.string().min(2, "Il cognome deve contenere almeno 2 caratteri"),
   phone: z.string().min(6, "Il numero di telefono deve contenere almeno 6 cifre"),
-  email: z.string().email("Email non valida").optional().or(z.literal("")),
+  email: z.string().email("Email non valida").or(z.literal("")),
 });
 
 type FormData = z.infer<typeof formSchema>;
