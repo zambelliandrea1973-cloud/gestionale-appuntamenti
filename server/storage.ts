@@ -1799,7 +1799,35 @@ export class DatabaseStorage implements IStorage {
       return newInvoice;
     } catch (error) {
       console.error("Error creating invoice:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.invoices) {
+          storageData.invoices = [];
+        }
+        
+        const maxId = storageData.invoices.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newInvoice: Invoice = {
+          id: maxId + 1,
+          ...invoice,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.invoices.push([newInvoice.id, newInvoice]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Invoice ${newInvoice.id} created in JSON storage`);
+        return newInvoice;
+      } catch (jsonError) {
+        console.error("Error creating invoice in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
@@ -1968,7 +1996,35 @@ export class DatabaseStorage implements IStorage {
       return newPayment;
     } catch (error) {
       console.error("Error creating payment:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.payments) {
+          storageData.payments = [];
+        }
+        
+        const maxId = storageData.payments.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newPayment: Payment = {
+          id: maxId + 1,
+          ...payment,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.payments.push([newPayment.id, newPayment]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Payment ${newPayment.id} created in JSON storage`);
+        return newPayment;
+      } catch (jsonError) {
+        console.error("Error creating payment in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
