@@ -152,6 +152,15 @@ export default function ClientForm({
     onSuccess: async (response) => {
       console.log("✅ onSuccess chiamato, tipo response:", typeof response);
       
+      // Parse response JSON - do this first to get the client ID
+      let responseData;
+      try {
+        responseData = await response.clone().json();
+        console.log("✅ Response data parsato:", responseData);
+      } catch (e) {
+        console.error("❌ Errore parsing response:", e);
+      }
+      
       toast({
         title: clientId ? "Cliente aggiornato" : "Cliente creato",
         description: clientId 
@@ -178,6 +187,11 @@ export default function ClientForm({
           taxCode: "",
           vatNumber: ""
         });
+        
+        // Call onClientCreated with the new client ID
+        if (onClientCreated && responseData) {
+          onClientCreated(responseData.id);
+        }
       }
       
       // Chiudi sempre il form dopo un salvataggio riuscito
