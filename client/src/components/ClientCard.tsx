@@ -375,14 +375,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
                     <AlertDialogFooter>
                       <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                       <AlertDialogAction 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleDelete();
-                        }}
-                        disabled={deleteMutation.isPending}
+                        onClick={handleDelete}
                         className="bg-red-600 hover:bg-red-700"
                       >
-                        {deleteMutation.isPending ? 'Eliminazione...' : t('common.delete')}
+                        {t('common.delete')}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
