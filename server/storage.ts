@@ -437,7 +437,35 @@ export class DatabaseStorage implements IStorage {
       return newClient;
     } catch (error) {
       console.error("Error creating client:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          storageData.clients = [];
+        }
+        
+        const maxId = storageData.clients.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newClient: Client = {
+          id: maxId + 1,
+          ...client,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.clients.push([newClient.id, newClient]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Client ${newClient.id} created in JSON storage`);
+        return newClient;
+      } catch (jsonError) {
+        console.error("Error creating client in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
@@ -450,7 +478,37 @@ export class DatabaseStorage implements IStorage {
       return updatedClient;
     } catch (error) {
       console.error("Error updating client:", error);
-      return undefined;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          return undefined;
+        }
+        
+        const clientIndex = storageData.clients.findIndex(([cId]: [number, any]) => cId === id);
+        if (clientIndex === -1) {
+          return undefined;
+        }
+        
+        const existingClient = storageData.clients[clientIndex][1];
+        const updatedClient = {
+          ...existingClient,
+          ...client,
+          updatedAt: new Date()
+        };
+        
+        storageData.clients[clientIndex] = [id, updatedClient];
+        saveStorageData(storageData);
+        
+        console.log(`✅ Client ${id} updated in JSON storage`);
+        return updatedClient;
+      } catch (jsonError) {
+        console.error("Error updating client in JSON:", jsonError);
+        return undefined;
+      }
     }
   }
 
@@ -460,7 +518,30 @@ export class DatabaseStorage implements IStorage {
       return true;
     } catch (error) {
       console.error("Error deleting client:", error);
-      return false;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          return false;
+        }
+        
+        const initialLength = storageData.clients.length;
+        storageData.clients = storageData.clients.filter(([cId]: [number, any]) => cId !== id);
+        
+        if (storageData.clients.length === initialLength) {
+          return false; // Client not found
+        }
+        
+        saveStorageData(storageData);
+        console.log(`✅ Client ${id} deleted from JSON storage`);
+        return true;
+      } catch (jsonError) {
+        console.error("Error deleting client in JSON:", jsonError);
+        return false;
+      }
     }
   }
   
@@ -790,7 +871,35 @@ export class DatabaseStorage implements IStorage {
       return newClient;
     } catch (error) {
       console.error("Error creating client:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          storageData.clients = [];
+        }
+        
+        const maxId = storageData.clients.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newClient: Client = {
+          id: maxId + 1,
+          ...client,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.clients.push([newClient.id, newClient]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Client ${newClient.id} created in JSON storage`);
+        return newClient;
+      } catch (jsonError) {
+        console.error("Error creating client in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
@@ -814,7 +923,30 @@ export class DatabaseStorage implements IStorage {
       return true;
     } catch (error) {
       console.error("Error deleting client:", error);
-      return false;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          return false;
+        }
+        
+        const initialLength = storageData.clients.length;
+        storageData.clients = storageData.clients.filter(([cId]: [number, any]) => cId !== id);
+        
+        if (storageData.clients.length === initialLength) {
+          return false; // Client not found
+        }
+        
+        saveStorageData(storageData);
+        console.log(`✅ Client ${id} deleted from JSON storage`);
+        return true;
+      } catch (jsonError) {
+        console.error("Error deleting client in JSON:", jsonError);
+        return false;
+      }
     }
   }
 
@@ -862,7 +994,35 @@ export class DatabaseStorage implements IStorage {
       return newService;
     } catch (error) {
       console.error("Error creating service:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.services) {
+          storageData.services = [];
+        }
+        
+        const maxId = storageData.services.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newService: Service = {
+          id: maxId + 1,
+          ...service,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.services.push([newService.id, newService]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Service ${newService.id} created in JSON storage`);
+        return newService;
+      } catch (jsonError) {
+        console.error("Error creating service in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
@@ -876,7 +1036,37 @@ export class DatabaseStorage implements IStorage {
       return updatedService;
     } catch (error) {
       console.error("Error updating service:", error);
-      return undefined;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.services) {
+          return undefined;
+        }
+        
+        const serviceIndex = storageData.services.findIndex(([sId]: [number, any]) => sId === id);
+        if (serviceIndex === -1) {
+          return undefined;
+        }
+        
+        const existingService = storageData.services[serviceIndex][1];
+        const updatedService = {
+          ...existingService,
+          ...service,
+          updatedAt: new Date()
+        };
+        
+        storageData.services[serviceIndex] = [id, updatedService];
+        saveStorageData(storageData);
+        
+        console.log(`✅ Service ${id} updated in JSON storage`);
+        return updatedService;
+      } catch (jsonError) {
+        console.error("Error updating service in JSON:", jsonError);
+        return undefined;
+      }
     }
   }
 
@@ -886,7 +1076,30 @@ export class DatabaseStorage implements IStorage {
       return true;
     } catch (error) {
       console.error("Error deleting service:", error);
-      return false;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.services) {
+          return false;
+        }
+        
+        const initialLength = storageData.services.length;
+        storageData.services = storageData.services.filter(([sId]: [number, any]) => sId !== id);
+        
+        if (storageData.services.length === initialLength) {
+          return false;
+        }
+        
+        saveStorageData(storageData);
+        console.log(`✅ Service ${id} deleted from JSON storage`);
+        return true;
+      } catch (jsonError) {
+        console.error("Error deleting service in JSON:", jsonError);
+        return false;
+      }
     }
   }
 
@@ -1249,7 +1462,33 @@ export class DatabaseStorage implements IStorage {
       return newAppointment;
     } catch (error) {
       console.error("Error creating appointment:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.appointments) {
+          storageData.appointments = [];
+        }
+        
+        const newId = Date.now();
+        const newAppointment: Appointment = {
+          id: newId,
+          ...appointment,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.appointments.push([newAppointment.id, newAppointment]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Appointment ${newAppointment.id} created in JSON storage`);
+        return newAppointment;
+      } catch (jsonError) {
+        console.error("Error creating appointment in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
@@ -1263,7 +1502,37 @@ export class DatabaseStorage implements IStorage {
       return updatedAppointment;
     } catch (error) {
       console.error("Error updating appointment:", error);
-      return undefined;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.appointments) {
+          return undefined;
+        }
+        
+        const appointmentIndex = storageData.appointments.findIndex(([aId]: [number, any]) => aId === id);
+        if (appointmentIndex === -1) {
+          return undefined;
+        }
+        
+        const existingAppointment = storageData.appointments[appointmentIndex][1];
+        const updatedAppointment = {
+          ...existingAppointment,
+          ...appointment,
+          updatedAt: new Date()
+        };
+        
+        storageData.appointments[appointmentIndex] = [id, updatedAppointment];
+        saveStorageData(storageData);
+        
+        console.log(`✅ Appointment ${id} updated in JSON storage`);
+        return updatedAppointment;
+      } catch (jsonError) {
+        console.error("Error updating appointment in JSON:", jsonError);
+        return undefined;
+      }
     }
   }
 
@@ -1273,7 +1542,30 @@ export class DatabaseStorage implements IStorage {
       return true;
     } catch (error) {
       console.error("Error deleting appointment:", error);
-      return false;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.appointments) {
+          return false;
+        }
+        
+        const initialLength = storageData.appointments.length;
+        storageData.appointments = storageData.appointments.filter(([aId]: [number, any]) => aId !== id);
+        
+        if (storageData.appointments.length === initialLength) {
+          return false; // Appointment not found
+        }
+        
+        saveStorageData(storageData);
+        console.log(`✅ Appointment ${id} deleted from JSON storage`);
+        return true;
+      } catch (jsonError) {
+        console.error("Error deleting appointment in JSON:", jsonError);
+        return false;
+      }
     }
   }
 
