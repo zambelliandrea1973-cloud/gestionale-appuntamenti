@@ -120,6 +120,20 @@ export default function ClientForm({
     }
   }, [client, form]);
   
+  // Extract prefix from phone number when it changes
+  useEffect(() => {
+    const phoneValue = form.watch('phone');
+    if (phoneValue) {
+      const prefixMatch = phoneValue.match(/^\+(\d{1,3})/);
+      if (prefixMatch) {
+        const matchedPrefix = countryPrefixes.find(p => phoneValue.startsWith(p.value));
+        if (matchedPrefix) {
+          setPrefix(matchedPrefix.value);
+        }
+      }
+    }
+  }, [form.watch('phone')]);
+  
   // Create or update client mutation
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
@@ -260,21 +274,6 @@ export default function ClientForm({
                     control={form.control}
                     name="phone"
                     render={({ field }) => {
-                      // Estrai il prefisso dal numero di telefono esistente
-                      useEffect(() => {
-                        if (field.value) {
-                          // Cerca un prefisso internazionale nel formato +XX o +XXX
-                          const prefixMatch = field.value.match(/^\+(\d{1,3})/);
-                          if (prefixMatch) {
-                            // Trova il prefisso dall'elenco
-                            const matchedPrefix = countryPrefixes.find(p => field.value.startsWith(p.value));
-                            if (matchedPrefix) {
-                              setPrefix(matchedPrefix.value);
-                            }
-                          }
-                        }
-                      }, [field.value]);
-                      
                       // Gestisci il cambio di numero rimuovendo il prefisso esistente e aggiungendo quello nuovo
                       const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                         let phoneValue = e.target.value;
