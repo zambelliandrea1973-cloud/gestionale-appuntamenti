@@ -1,0 +1,729 @@
+14/10/2025, 16:45:52:
+runtime
+2:45:52 PM [express] GET /api/user-with-license 401 in 4ms :: {"message":"Non autenticato"}
+14/10/2025, 16:45:55:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+14/10/2025, 16:45:55:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 16:45:55:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 16:45:55:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 16:45:55:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 16:45:55:
+runtime
+  [errors]: [
+14/10/2025, 16:45:55:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 16:45:55:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:45:55:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:45:55:
+runtime
+      errno: -111,
+14/10/2025, 16:45:55:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:45:55:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:45:55:
+runtime
+      address: '::1',
+14/10/2025, 16:45:55:
+runtime
+      port: 5432
+14/10/2025, 16:45:55:
+runtime
+    },
+14/10/2025, 16:45:55:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 16:45:55:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:45:55:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:45:55:
+runtime
+      errno: -111,
+14/10/2025, 16:45:55:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:45:55:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:45:55:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 16:45:55:
+runtime
+      port: 5432
+14/10/2025, 16:45:55:
+runtime
+    }
+14/10/2025, 16:45:55:
+runtime
+  ]
+14/10/2025, 16:45:55:
+runtime
+}
+14/10/2025, 16:45:55:
+runtime
+✅ User found in JSON storage (after DB error): busnari.silvia@libero.it
+14/10/2025, 16:45:55:
+runtime
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+14/10/2025, 16:45:55:
+runtime
+2:45:55 PM [express] POST /api/staff/login 200 in 75ms :: {"id":14,"username":"busnari.silvia@libero…
+14/10/2025, 16:45:55:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 16:45:55:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 16:45:55:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 16:45:55:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 16:45:55:
+runtime
+  [errors]: [
+14/10/2025, 16:45:55:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 16:45:55:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:45:55:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:45:55:
+runtime
+      errno: -111,
+14/10/2025, 16:45:55:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:45:55:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:45:55:
+runtime
+      address: '::1',
+14/10/2025, 16:45:55:
+runtime
+      port: 5432
+14/10/2025, 16:45:55:
+runtime
+    },
+14/10/2025, 16:45:55:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 16:45:55:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:45:55:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:45:55:
+runtime
+      errno: -111,
+14/10/2025, 16:45:55:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:45:55:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:45:55:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 16:45:55:
+runtime
+      port: 5432
+14/10/2025, 16:45:55:
+runtime
+    }
+14/10/2025, 16:45:55:
+runtime
+  ]
+14/10/2025, 16:45:55:
+runtime
+}
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/license/license-info 200 in 7ms :: {"hasLicense":false,"type":"none"}
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/client-app-info 200 in 26ms :: {"appName":"Gestionale Sanitario","icon…
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/license/has-pro-access 200 in 31ms
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/user-with-license 401 in 18ms :: {"message":"Non autenticato"}
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/license/application-title 200 in 20ms :: {"title":"Gestionale Sanitari…
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] GET /api/license/has-business-access 200 in 7ms
+14/10/2025, 16:45:56:
+runtime
+2:45:56 PM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:45:56:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 16:45:56:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760453156345-default
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:45:56:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 16:45:56:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 16:45:56:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760453156345.0952&android=1","/pwa-icon/192x192?owner=default&v=1760453156345.0952&android=1","/pwa-icon/512x512?owner=default&v=1760453156345.0952&android=1"]
+14/10/2025, 16:45:56:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 16:45:56:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 16:45:56:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 16:45:56:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 16:46:04:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 16:46:04:
+runtime
+Logout completato con successo
+14/10/2025, 16:46:04:
+runtime
+2:46:04 PM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+14/10/2025, 16:46:04:
+runtime
+2:46:04 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+14/10/2025, 16:46:08:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+14/10/2025, 16:46:08:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 16:46:08:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 16:46:08:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 16:46:08:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 16:46:08:
+runtime
+  [errors]: [
+14/10/2025, 16:46:08:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 16:46:08:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:08:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:08:
+runtime
+      errno: -111,
+14/10/2025, 16:46:08:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:08:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:08:
+runtime
+      address: '::1',
+14/10/2025, 16:46:08:
+runtime
+      port: 5432
+14/10/2025, 16:46:08:
+runtime
+    },
+14/10/2025, 16:46:08:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 16:46:08:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:08:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:08:
+runtime
+      errno: -111,
+14/10/2025, 16:46:08:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:08:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:08:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 16:46:08:
+runtime
+      port: 5432
+14/10/2025, 16:46:08:
+runtime
+    }
+14/10/2025, 16:46:08:
+runtime
+  ]
+14/10/2025, 16:46:08:
+runtime
+}
+14/10/2025, 16:46:08:
+runtime
+✅ User found in JSON storage (after DB error): busnari.silvia@libero.it
+14/10/2025, 16:46:08:
+runtime
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+14/10/2025, 16:46:08:
+runtime
+2:46:08 PM [express] POST /api/staff/login 200 in 62ms :: {"id":14,"username":"busnari.silvia@libero…
+14/10/2025, 16:46:09:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 16:46:09:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 16:46:09:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 16:46:09:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 16:46:09:
+runtime
+  [errors]: [
+14/10/2025, 16:46:09:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 16:46:09:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:09:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:09:
+runtime
+      errno: -111,
+14/10/2025, 16:46:09:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:09:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:09:
+runtime
+      address: '::1',
+14/10/2025, 16:46:09:
+runtime
+      port: 5432
+14/10/2025, 16:46:09:
+runtime
+    },
+14/10/2025, 16:46:09:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 16:46:09:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:09:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:09:
+runtime
+      errno: -111,
+14/10/2025, 16:46:09:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:09:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:09:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 16:46:09:
+runtime
+      port: 5432
+14/10/2025, 16:46:09:
+runtime
+    }
+14/10/2025, 16:46:09:
+runtime
+  ]
+14/10/2025, 16:46:09:
+runtime
+}
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/license/has-pro-access 304 in 14ms
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/user-with-license 401 in 12ms :: {"message":"Non autenticato"}
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/client-app-info 200 in 14ms :: {"appName":"Gestionale Sanitario","icon…
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/license/has-business-access 304 in 6ms
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/license/application-title 304 in 2ms :: {"title":"Gestionale Sanitario…
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] GET /api/license/license-info 304 in 1ms :: {"hasLicense":false,"type":"none"}
+14/10/2025, 16:46:09:
+runtime
+2:46:09 PM [express] POST /api/timezone-settings 200 in 3ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:46:09:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 16:46:09:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760453169554-default
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:46:09:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 16:46:09:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 16:46:09:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760453169554.5898&android=1","/pwa-icon/192x192?owner=default&v=1760453169554.5898&android=1","/pwa-icon/512x512?owner=default&v=1760453169554.5898&android=1"]
+14/10/2025, 16:46:09:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 16:46:09:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 16:46:09:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 16:46:09:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 16:46:14:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 16:46:14:
+runtime
+Logout completato con successo
+14/10/2025, 16:46:14:
+runtime
+2:46:14 PM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+14/10/2025, 16:46:14:
+runtime
+2:46:14 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+14/10/2025, 16:46:15:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 16:46:15:
+runtime
+Logout completato con successo
+14/10/2025, 16:46:15:
+runtime
+2:46:15 PM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+14/10/2025, 16:46:22:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+14/10/2025, 16:46:22:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 16:46:22:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 16:46:22:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 16:46:22:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 16:46:22:
+runtime
+  [errors]: [
+14/10/2025, 16:46:22:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 16:46:22:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:22:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:22:
+runtime
+      errno: -111,
+14/10/2025, 16:46:22:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:22:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:22:
+runtime
+      address: '::1',
+14/10/2025, 16:46:22:
+runtime
+      port: 5432
+14/10/2025, 16:46:22:
+runtime
+    },
+14/10/2025, 16:46:22:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 16:46:22:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:22:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:22:
+runtime
+      errno: -111,
+14/10/2025, 16:46:22:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:22:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:22:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 16:46:22:
+runtime
+      port: 5432
+14/10/2025, 16:46:22:
+runtime
+    }
+14/10/2025, 16:46:22:
+runtime
+  ]
+14/10/2025, 16:46:22:
+runtime
+}
+14/10/2025, 16:46:22:
+runtime
+✅ User found in JSON storage (after DB error): busnari.silvia@libero.it
+14/10/2025, 16:46:22:
+runtime
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+14/10/2025, 16:46:22:
+runtime
+2:46:22 PM [express] POST /api/staff/login 200 in 93ms :: {"id":14,"username":"busnari.silvia@libero…
+14/10/2025, 16:46:22:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 16:46:22:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 16:46:22:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 16:46:22:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 16:46:22:
+runtime
+  [errors]: [
+14/10/2025, 16:46:22:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 16:46:22:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:22:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:22:
+runtime
+      errno: -111,
+14/10/2025, 16:46:22:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:22:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:22:
+runtime
+      address: '::1',
+14/10/2025, 16:46:22:
+runtime
+      port: 5432
+14/10/2025, 16:46:22:
+runtime
+    },
+14/10/2025, 16:46:22:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 16:46:22:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 16:46:22:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 16:46:22:
+runtime
+      errno: -111,
+14/10/2025, 16:46:22:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 16:46:22:
+runtime
+      syscall: 'connect',
+14/10/2025, 16:46:22:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 16:46:22:
+runtime
+      port: 5432
+14/10/2025, 16:46:22:
+runtime
+    }
+14/10/2025, 16:46:22:
+runtime
+  ]
+14/10/2025, 16:46:22:
+runtime
+}
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/license/has-pro-access 304 in 18ms
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/client-app-info 200 in 19ms :: {"appName":"Gestionale Sanitario","icon…
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/user-with-license 401 in 31ms :: {"message":"Non autenticato"}
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/license/application-title 304 in 20ms :: {"title":"Gestionale Sanitari…
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/license/license-info 304 in 7ms :: {"hasLicense":false,"type":"none"}
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:46:23:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:46:23:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760453183294-default
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 16:46:23:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 16:46:23:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 16:46:23:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760453183295.317&android=1","/pwa-icon/192x192?owner=default&v=1760453183295.317&android=1","/pwa-icon/512x512?owner=default&v=1760453183295.317&android=1"]
+14/10/2025, 16:46:23:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 16:46:23:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] GET /api/license/has-business-access 304 in 40ms
+14/10/2025, 16:46:23:
+runtime
+2:46:23 PM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 16:46:23:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 16:46:23:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes

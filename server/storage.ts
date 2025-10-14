@@ -1700,7 +1700,19 @@ export class DatabaseStorage implements IStorage {
       const [user] = await db.select().from(users).where(eq(users.id, id));
       
       if (!user) {
-        // getUser not found - debug log removed for performance
+        // getUser not found - try JSON storage
+        try {
+          const { loadStorageData } = await import('./utils/jsonStorage.js');
+          const storageData = loadStorageData();
+          const userEntry = storageData.users?.find(([userId, u]: [number, any]) => userId === id);
+          
+          if (userEntry) {
+            console.log(`✅ User ${id} found in JSON storage`);
+            return userEntry[1];
+          }
+        } catch (jsonError) {
+          console.error("Error loading user from JSON:", jsonError);
+        }
         return undefined;
       }
       
@@ -1708,6 +1720,21 @@ export class DatabaseStorage implements IStorage {
       return user;
     } catch (error) {
       console.error("Error getting user:", error);
+      
+      // Fallback to JSON storage on database error
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([userId, u]: [number, any]) => userId === id);
+        
+        if (userEntry) {
+          console.log(`✅ User ${id} found in JSON storage (after DB error)`);
+          return userEntry[1];
+        }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
+      }
+      
       return undefined;
     }
   }
