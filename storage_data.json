@@ -7960,6 +7960,28 @@
         "createdAt": "2025-10-07T07:54:59.087Z",
         "notes": "Account di test generato automaticamente"
       }
+    ],
+    [
+      14005,
+      {
+        "id": 14005,
+        "ownerId": 14,
+        "uniqueCode": "PROF_014_9C1F_C14005",
+        "professionistCode": "PROF_014_9C1F",
+        "createdAt": "2025-10-14T19:00:32.619Z",
+        "firstName": "ADV",
+        "lastName": "ADSVA",
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "address": "Via Cavallotti",
+        "birthday": "2025-10-18",
+        "notes": "",
+        "isFrequent": false,
+        "medicalNotes": "",
+        "allergies": "",
+        "taxCode": "",
+        "vatNumber": ""
+      }
     ]
   ],
   "users": [
