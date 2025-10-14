@@ -3722,7 +3722,30 @@ export class DatabaseStorage implements IStorage {
       return settings;
     } catch (error) {
       console.error(`Errore nel recupero impostazioni contatto per tenant ${tenantId}:`, error);
-      return undefined;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.contact_settings) {
+          return undefined;
+        }
+        
+        const settingsEntry = storageData.contact_settings.find(
+          ([_, s]: [number, any]) => s.tenantId === tenantId
+        );
+        
+        if (settingsEntry) {
+          console.log(`✅ Contact settings found in JSON storage for tenant ${tenantId}`);
+          return settingsEntry[1];
+        }
+        
+        return undefined;
+      } catch (jsonError) {
+        console.error("Error loading contact settings from JSON:", jsonError);
+        return undefined;
+      }
     }
   }
 
@@ -3746,7 +3769,40 @@ export class DatabaseStorage implements IStorage {
       return created;
     } catch (error) {
       console.error(`Errore nella creazione impostazioni contatto per tenant ${settings.tenantId}:`, error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        // Ensure contact_settings array exists
+        if (!storageData.contact_settings) {
+          storageData.contact_settings = [];
+        }
+        
+        // Find max ID
+        const maxId = storageData.contact_settings.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newContactSettings: ContactSettings = {
+          id: maxId + 1,
+          tenantId: settings.tenantId,
+          phone: settings.phone,
+          email: settings.email || '',
+          whatsappOptIn: settings.whatsappOptIn || false,
+          updatedAt: new Date()
+        };
+        
+        // Add to storage
+        storageData.contact_settings.push([newContactSettings.id, newContactSettings]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Contact settings ${newContactSettings.id} created in JSON storage for tenant ${settings.tenantId}`);
+        return newContactSettings;
+      } catch (jsonError) {
+        console.error("Error creating contact settings in JSON:", jsonError);
+        throw error; // Throw original error
+      }
     }
   }
 
@@ -3776,7 +3832,42 @@ export class DatabaseStorage implements IStorage {
       return updated;
     } catch (error) {
       console.error(`Errore nell'aggiornamento impostazioni contatto per tenant ${tenantId}:`, error);
-      return undefined;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.contact_settings) {
+          storageData.contact_settings = [];
+        }
+        
+        // Find existing settings for this tenant
+        const settingsIndex = storageData.contact_settings.findIndex(
+          ([_, s]: [number, any]) => s.tenantId === tenantId
+        );
+        
+        if (settingsIndex >= 0) {
+          // Update existing
+          const [id, existingSettings] = storageData.contact_settings[settingsIndex];
+          const updatedSettings = {
+            ...existingSettings,
+            ...settings,
+            updatedAt: new Date()
+          };
+          storageData.contact_settings[settingsIndex] = [id, updatedSettings];
+          saveStorageData(storageData);
+          
+          console.log(`✅ Contact settings updated in JSON storage for tenant ${tenantId}`);
+          return updatedSettings;
+        } else {
+          console.log(`⚠️ No contact settings found in JSON for tenant ${tenantId}`);
+          return undefined;
+        }
+      } catch (jsonError) {
+        console.error("Error updating contact settings in JSON:", jsonError);
+        return undefined;
+      }
     }
   }
 
