@@ -1,0 +1,873 @@
+14/10/2025, 20:49:46:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C14004?token=PROF_014_9C1F_C14004_32064dbc&autoLogin=true
+14/10/2025, 20:49:46:
+runtime
+6:49:46 PM [express] GET /api/clients/14004/activation-token 200 in 401ms :: {"token":"PROF_014_9C1F…
+14/10/2025, 20:49:46:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+14/10/2025, 20:49:46:
+runtime
+   - Cliente: andrea zambelli
+14/10/2025, 20:49:46:
+runtime
+   - Token: PROF_014_9C1F_CLIENT_14002_09A9_27538b03
+14/10/2025, 20:49:46:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14002_09A9?token=PROF_014_9C1F_CLIENT_14002_09A9_27538b03&autoLogin=true
+14/10/2025, 20:49:46:
+runtime
+6:49:46 PM [express] GET /api/clients/14002/activation-token 200 in 421ms :: {"token":"PROF_014_9C1F…
+14/10/2025, 20:49:46:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+14/10/2025, 20:49:46:
+runtime
+   - Cliente: Cliente Trial
+14/10/2025, 20:49:46:
+runtime
+   - Token: PROF_014_9C1F_CLIENT_14001_A665_1d4f6417
+14/10/2025, 20:49:46:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14001_A665?token=PROF_014_9C1F_CLIENT_14001_A665_1d4f6417&autoLogin=true
+14/10/2025, 20:49:46:
+runtime
+6:49:46 PM [express] GET /api/clients/14001/activation-token 200 in 433ms :: {"token":"PROF_014_9C1F…
+14/10/2025, 20:49:46:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+14/10/2025, 20:49:46:
+runtime
+   - Cliente: edgf rgf
+14/10/2025, 20:49:46:
+runtime
+   - Token: PROF_014_9C1F_C14005_a1bd0b4f
+14/10/2025, 20:49:46:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C14005?token=PROF_014_9C1F_C14005_a1bd0b4f&autoLogin=true
+14/10/2025, 20:49:46:
+runtime
+6:49:46 PM [express] GET /api/clients/14005/activation-token 200 in 444ms :: {"token":"PROF_014_9C1F…
+14/10/2025, 20:49:46:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+14/10/2025, 20:49:46:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+14/10/2025, 20:49:46:
+runtime
+   - Cliente: Marco Berto
+14/10/2025, 20:49:46:
+runtime
+   - Token: PROF_014_9C1F_CLIENT_14003_816C_af2d9001
+14/10/2025, 20:49:46:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14003_816C?token=PROF_014_9C1F_CLIENT_14003_816C_af2d9001&autoLogin=true
+14/10/2025, 20:49:46:
+runtime
+6:49:46 PM [express] GET /api/clients/14003/activation-token 200 in 449ms :: {"token":"PROF_014_9C1F…
+14/10/2025, 20:49:47:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+14/10/2025, 20:49:47:
+runtime
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+14/10/2025, 20:49:47:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+14/10/2025, 20:49:47:
+runtime
+  id: 14,
+14/10/2025, 20:49:47:
+runtime
+  username: 'busnari.silvia@libero.it',
+14/10/2025, 20:49:47:
+runtime
+  firstName: null,
+14/10/2025, 20:49:47:
+runtime
+  lastName: null,
+14/10/2025, 20:49:47:
+runtime
+  licenseType: 'staff_free_10years'
+14/10/2025, 20:49:47:
+runtime
+}
+14/10/2025, 20:49:47:
+runtime
+6:49:47 PM [express] GET /api/user-with-license 200 in 16ms :: {"id":14,"username":"busnari.silvia@l…
+14/10/2025, 20:49:47:
+runtime
+6:49:47 PM [express] GET /api/license/license-info 304 in 17ms :: {"hasLicense":true,"type":"staff_f…
+14/10/2025, 20:49:47:
+runtime
+6:49:47 PM [express] GET /api/license/has-business-access 304 in 40ms :: true
+14/10/2025, 20:49:48:
+runtime
+6:49:48 PM [express] GET /api/license/application-title 304 in 78ms :: {"title":"Gestionale Sanitari…
+14/10/2025, 20:49:48:
+runtime
+6:49:48 PM [express] GET /api/license/has-pro-access 304 in 78ms :: true
+14/10/2025, 20:49:50:
+runtime
+🗑️ [DELETE] Richiesta eliminazione cliente ID 14005 da utente 14 (busnari.silvia@libero.it)
+14/10/2025, 20:49:50:
+runtime
+🗑️ [DELETE] Eliminazione autorizzata - utente 14 è proprietario del cliente 14005
+14/10/2025, 20:49:50:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+14/10/2025, 20:49:50:
+runtime
+📧 [ADMIN-NOTIFICATION] L'utente 14 (busnari.silvia@libero.it) ha eliminato il cliente 14005 "edgf rgf" dal database
+14/10/2025, 20:49:50:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+14/10/2025, 20:49:50:
+runtime
+✅ [DELETE] Cliente ID 14005 "edgf rgf" eliminato definitivamente da utente 14
+14/10/2025, 20:49:50:
+runtime
+6:49:50 PM [express] DELETE /api/clients/14005 200 in 50ms :: {"message":"Cliente eliminato con succ…
+14/10/2025, 20:49:50:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+14/10/2025, 20:49:50:
+runtime
+📦 [/api/clients] [desktop] Caricati 38 clienti totali dal storage
+14/10/2025, 20:49:50:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:50:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 4 clienti propri
+14/10/2025, 20:49:50:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14001,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "Cliente",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "Trial",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14002,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "andrea",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "zambelli",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14003,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "Marco",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "Berto",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14004,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "bruna",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "pizzolato",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14004",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  }
+14/10/2025, 20:49:50:
+runtime
+]
+14/10/2025, 20:49:50:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 4/4
+14/10/2025, 20:49:50:
+runtime
+6:49:50 PM [express] GET /api/clients 200 in 27ms :: [{"id":14001,"firstName":"Cliente","lastName":"…
+14/10/2025, 20:49:50:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+14/10/2025, 20:49:50:
+runtime
+📦 [/api/clients] [desktop] Caricati 38 clienti totali dal storage
+14/10/2025, 20:49:50:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:50:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 4 clienti propri
+14/10/2025, 20:49:50:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14001,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "Cliente",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "Trial",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14002,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "andrea",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "zambelli",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14003,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "Marco",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "Berto",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14004,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "bruna",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "pizzolato",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14004",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  }
+14/10/2025, 20:49:50:
+runtime
+]
+14/10/2025, 20:49:50:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 4/4
+14/10/2025, 20:49:50:
+runtime
+6:49:50 PM [express] GET /api/clients 200 in 22ms :: [{"id":14001,"firstName":"Cliente","lastName":"…
+14/10/2025, 20:49:50:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+14/10/2025, 20:49:50:
+runtime
+📦 [/api/clients] [desktop] Caricati 38 clienti totali dal storage
+14/10/2025, 20:49:50:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:50:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:50:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 4 clienti propri
+14/10/2025, 20:49:50:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14001,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "Cliente",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "Trial",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14002,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "andrea",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "zambelli",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14003,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "Marco",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "Berto",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  },
+14/10/2025, 20:49:50:
+runtime
+  {
+14/10/2025, 20:49:50:
+runtime
+    "id": 14004,
+14/10/2025, 20:49:50:
+runtime
+    "firstName": "bruna",
+14/10/2025, 20:49:50:
+runtime
+    "lastName": "pizzolato",
+14/10/2025, 20:49:50:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14004",
+14/10/2025, 20:49:50:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:50:
+runtime
+  }
+14/10/2025, 20:49:50:
+runtime
+]
+14/10/2025, 20:49:50:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 4/4
+14/10/2025, 20:49:50:
+runtime
+6:49:50 PM [express] GET /api/clients 200 in 29ms :: [{"id":14001,"firstName":"Cliente","lastName":"…
+14/10/2025, 20:49:56:
+runtime
+[DEBUG COUNT] Cliente 14002 (andrea zambelli) - accessCount: 21 → display: 10
+14/10/2025, 20:49:56:
+runtime
+6:49:56 PM [express] GET /api/client-access/count/14002 200 in 18ms :: {"count":10}
+14/10/2025, 20:49:56:
+runtime
+[DEBUG COUNT] Cliente 14001 (Cliente Trial) - accessCount: 0 → display: 0
+14/10/2025, 20:49:56:
+runtime
+6:49:56 PM [express] GET /api/client-access/count/14001 200 in 15ms :: {"count":0}
+14/10/2025, 20:49:56:
+runtime
+[DEBUG COUNT] Cliente 14003 (Marco Berto) - accessCount: 58 → display: 29
+14/10/2025, 20:49:56:
+runtime
+6:49:56 PM [express] GET /api/client-access/count/14003 200 in 26ms :: {"count":29}
+14/10/2025, 20:49:56:
+runtime
+[DEBUG COUNT] Cliente 14004 (bruna pizzolato) - accessCount: 0 → display: 0
+14/10/2025, 20:49:56:
+runtime
+6:49:56 PM [express] GET /api/client-access/count/14004 200 in 26ms :: {"count":0}
+14/10/2025, 20:49:58:
+runtime
+🔄 [POST /api/clients] Richiesta da utente 14 (staff)
+14/10/2025, 20:49:58:
+runtime
+📝 [POST /api/clients] Dati ricevuti: {
+14/10/2025, 20:49:58:
+runtime
+  firstName: 'GVAV',
+14/10/2025, 20:49:58:
+runtime
+  lastName: 'GVAFBV',
+14/10/2025, 20:49:58:
+runtime
+  phone: '+393472550110',
+14/10/2025, 20:49:58:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+14/10/2025, 20:49:58:
+runtime
+  address: 'Via Felice Cavallotti 6',
+14/10/2025, 20:49:58:
+runtime
+  birthday: '2025-10-24',
+14/10/2025, 20:49:58:
+runtime
+  notes: '',
+14/10/2025, 20:49:58:
+runtime
+  isFrequent: false,
+14/10/2025, 20:49:58:
+runtime
+  medicalNotes: '',
+14/10/2025, 20:49:58:
+runtime
+  allergies: '',
+14/10/2025, 20:49:58:
+runtime
+  taxCode: '',
+14/10/2025, 20:49:58:
+runtime
+  vatNumber: ''
+14/10/2025, 20:49:58:
+runtime
+}
+14/10/2025, 20:49:58:
+runtime
+📊 [POST /api/clients] Limite unlimited, Correnti: 4
+14/10/2025, 20:49:58:
+runtime
+🔢 [NUMERAZIONE] Nuovo ID cliente: 14005 (base 14000 + 5)
+14/10/2025, 20:49:58:
+runtime
+✅ [POST /api/clients] Nuovo cliente creato: {
+14/10/2025, 20:49:58:
+runtime
+  id: 14005,
+14/10/2025, 20:49:58:
+runtime
+  ownerId: 14,
+14/10/2025, 20:49:58:
+runtime
+  uniqueCode: 'PROF_014_9C1F_C14005',
+14/10/2025, 20:49:58:
+runtime
+  professionistCode: 'PROF_014_9C1F',
+14/10/2025, 20:49:58:
+runtime
+  createdAt: '2025-10-14T18:49:58.892Z',
+14/10/2025, 20:49:58:
+runtime
+  firstName: 'GVAV',
+14/10/2025, 20:49:58:
+runtime
+  lastName: 'GVAFBV',
+14/10/2025, 20:49:58:
+runtime
+  phone: '+393472550110',
+14/10/2025, 20:49:58:
+runtime
+  email: 'zambelli.andrea.1973@gmail.com',
+14/10/2025, 20:49:58:
+runtime
+  address: 'Via Felice Cavallotti 6',
+14/10/2025, 20:49:58:
+runtime
+  birthday: '2025-10-24',
+14/10/2025, 20:49:58:
+runtime
+  notes: '',
+14/10/2025, 20:49:58:
+runtime
+  isFrequent: false,
+14/10/2025, 20:49:58:
+runtime
+  medicalNotes: '',
+14/10/2025, 20:49:58:
+runtime
+  allergies: '',
+14/10/2025, 20:49:58:
+runtime
+  taxCode: '',
+14/10/2025, 20:49:58:
+runtime
+  vatNumber: ''
+14/10/2025, 20:49:58:
+runtime
+}
+14/10/2025, 20:49:58:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+14/10/2025, 20:49:58:
+runtime
+💾 [POST /api/clients] Cliente salvato nel storage persistente
+14/10/2025, 20:49:58:
+runtime
+👤 [POST /api/clients] Cliente creato da utente 14 (staff): GVAV GVAFBV - Limite: unlimited, Correnti: 5
+14/10/2025, 20:49:58:
+runtime
+6:49:58 PM [express] POST /api/clients 201 in 36ms :: {"id":14005,"ownerId":14,"uniqueCode":"PROF_01…
+14/10/2025, 20:49:58:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+14/10/2025, 20:49:58:
+runtime
+📦 [/api/clients] [desktop] Caricati 39 clienti totali dal storage
+14/10/2025, 20:49:58:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+14/10/2025, 20:49:58:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:58:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:58:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:58:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+14/10/2025, 20:49:59:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 20:49:59:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 20:49:59:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 20:49:59:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 5 clienti propri
+14/10/2025, 20:49:59:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+14/10/2025, 20:49:59:
+runtime
+  {
+14/10/2025, 20:49:59:
+runtime
+    "id": 14001,
+14/10/2025, 20:49:59:
+runtime
+    "firstName": "Cliente",
+14/10/2025, 20:49:59:
+runtime
+    "lastName": "Trial",
+14/10/2025, 20:49:59:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+14/10/2025, 20:49:59:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:59:
+runtime
+  },
+14/10/2025, 20:49:59:
+runtime
+  {
+14/10/2025, 20:49:59:
+runtime
+    "id": 14002,
+14/10/2025, 20:49:59:
+runtime
+    "firstName": "andrea",
+14/10/2025, 20:49:59:
+runtime
+    "lastName": "zambelli",
+14/10/2025, 20:49:59:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+14/10/2025, 20:49:59:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:59:
+runtime
+  },
+14/10/2025, 20:49:59:
+runtime
+  {
+14/10/2025, 20:49:59:
+runtime
+    "id": 14003,
+14/10/2025, 20:49:59:
+runtime
+    "firstName": "Marco",
+14/10/2025, 20:49:59:
+runtime
+    "lastName": "Berto",
+14/10/2025, 20:49:59:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+14/10/2025, 20:49:59:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:59:
+runtime
+  },
+14/10/2025, 20:49:59:
+runtime
+  {
+14/10/2025, 20:49:59:
+runtime
+    "id": 14004,
+14/10/2025, 20:49:59:
+runtime
+    "firstName": "bruna",
+14/10/2025, 20:49:59:
+runtime
+    "lastName": "pizzolato",
+14/10/2025, 20:49:59:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14004",
+14/10/2025, 20:49:59:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:59:
+runtime
+  },
+14/10/2025, 20:49:59:
+runtime
+  {
+14/10/2025, 20:49:59:
+runtime
+    "id": 14005,
+14/10/2025, 20:49:59:
+runtime
+    "firstName": "GVAV",
+14/10/2025, 20:49:59:
+runtime
+    "lastName": "GVAFBV",
+14/10/2025, 20:49:59:
+runtime
+    "uniqueCode": "PROF_014_9C1F_C14005",
+14/10/2025, 20:49:59:
+runtime
+    "ownerId": 14
+14/10/2025, 20:49:59:
+runtime
+  }
+14/10/2025, 20:49:59:
+runtime
+]
+14/10/2025, 20:49:59:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 5/5
+14/10/2025, 20:49:59:
+runtime
+6:49:59 PM [express] GET /api/clients 200 in 21ms :: [{"id":14001,"firstName":"Cliente","lastName":"…
+14/10/2025, 20:49:59:
+runtime
+6:49:59 PM [express] GET /api/clients/14005 200 in 15ms :: {"id":14005,"firstName":"GVAV","lastName"…
+14/10/2025, 20:49:59:
+runtime
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14005 da utente: 14 (busnari.silvia@libero.it)
+14/10/2025, 20:49:59:
+runtime
+🔍 [QR-INTERFACE] Cliente trovato: GVAV GVAFBV (ID: 14005, Owner: 14)
+14/10/2025, 20:49:59:
+runtime
+[DEBUG COUNT] Cliente 14005 (GVAV GVAFBV) - accessCount: 0 → display: 0
+14/10/2025, 20:49:59:
+runtime
+6:49:59 PM [express] GET /api/client-access/count/14005 200 in 37ms :: {"count":0}
+14/10/2025, 20:49:59:
+runtime
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14005 con icona del proprietario 14
+14/10/2025, 20:49:59:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+14/10/2025, 20:49:59:
+runtime
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+14/10/2025, 20:49:59:
+runtime
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+14/10/2025, 20:49:59:
+runtime
+   - Cliente: GVAV GVAFBV
+14/10/2025, 20:49:59:
+runtime
+   - Token: PROF_014_9C1F_C14005_a1bd0b4f
+14/10/2025, 20:49:59:
+runtime
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C14005?token=PROF_014_9C1F_C14005_a1bd0b4f&autoLogin=true
+14/10/2025, 20:49:59:
+runtime
+6:49:59 PM [express] GET /api/clients/14005/activation-token 200 in 131ms :: {"token":"PROF_014_9C1F…
