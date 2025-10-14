@@ -290,7 +290,6 @@ export default function Clients() {
               </DialogHeader>
               <ClientForm 
                 onClose={() => setIsClientDialogOpen(false)} 
-                onClientCreated={handleClientCreated} 
               />
             </DialogContent>
           </Dialog>
