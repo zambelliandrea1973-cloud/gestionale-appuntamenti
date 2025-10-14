@@ -1,0 +1,897 @@
+14/10/2025, 13:18:29:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 13:18:29:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 13:18:29:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 13:18:29:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 13:18:58:
+runtime
+11:18:58 AM [express] POST /api/register 200 in 2ms
+14/10/2025, 13:18:58:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 13:18:58:
+runtime
+Errore durante il logout: Error: The server does not support SSL connections
+14/10/2025, 13:18:58:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:58:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:18:58:
+runtime
+11:18:58 AM [express] POST /api/logout 500 in 1ms :: {"message":"The server does not support SSL conn…
+14/10/2025, 13:18:58:
+runtime
+Error: The server does not support SSL connections
+14/10/2025, 13:18:58:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:18:58:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:18:58:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:19:02:
+runtime
+Login staff richiesto per: prova
+14/10/2025, 13:19:18:
+runtime
+Errore durante logout preventivo: Error: The server does not support SSL connections
+14/10/2025, 13:19:18:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:19:18:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:19:18:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:19:18:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:19:18:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:19:18:
+runtime
+Error getting user by username: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:19:18:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:19:18:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:19:18:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:19:18:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:19:18:
+runtime
+Login staff fallito per: prova
+14/10/2025, 13:19:18:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:19:18:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:19:18:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:19:18:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:19:18:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:19:18:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:19:18:
+runtime
+  code: '28P01',
+14/10/2025, 13:19:18:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:19:18:
+runtime
+  line: '323',
+14/10/2025, 13:19:18:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:19:18:
+runtime
+}
+14/10/2025, 13:19:18:
+runtime
+11:19:02 AM [express] POST /api/staff/login 401 in 22ms :: {"message":"Username o password non validi…
+14/10/2025, 13:19:18:
+runtime
+11:19:13 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+14/10/2025, 13:20:00:
+runtime
+11:20:00 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+14/10/2025, 13:37:34:
+runtime
+Failed to prune sessions: Error: The server does not support SSL connections
+14/10/2025, 13:37:34:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:37:34:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:37:34:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:37:34:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:37:34:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:48:40:
+runtime
+Failed to prune sessions: Error: The server does not support SSL connections
+14/10/2025, 13:48:40:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 13:48:40:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 13:48:40:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 13:48:40:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 13:48:40:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 13:52:50:
+build
+Enumerating objects: 16542, done.
+14/10/2025, 13:52:51:
+build
+Counting objects: 100% (262/262), done.
+14/10/2025, 13:52:51:
+build
+Compressing objects: 100% (154/154), done.
+14/10/2025, 13:53:14:
+build
+Total 16542 (delta 169), reused 161 (delta 107), pack-reused 16280 (from 1)
+14/10/2025, 13:53:43:
+build
+#1 [service_event_ppump90ha7om internal] load build definition from Dockerfile
+14/10/2025, 13:53:43:
+build
+#1 transferring dockerfile: 618B done
+14/10/2025, 13:53:43:
+build
+#1 DONE 0.0s
+14/10/2025, 13:53:43:
+build
+14/10/2025, 13:53:43:
+build
+#2 [service_event_ppump90ha7om internal] load metadata for docker.io/library/node:20-alpine
+14/10/2025, 13:53:44:
+build
+#2 DONE 1.4s
+14/10/2025, 13:53:44:
+build
+14/10/2025, 13:53:44:
+build
+#3 [service_event_ppump90ha7om internal] load .dockerignore
+14/10/2025, 13:53:44:
+build
+#3 transferring context: 673B done
+14/10/2025, 13:53:44:
+build
+#3 DONE 0.0s
+14/10/2025, 13:53:44:
+build
+14/10/2025, 13:53:44:
+build
+#4 [service_event_ppump90ha7om 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 13:53:44:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+14/10/2025, 13:53:44:
+build
+#4 sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce 0B / 445B 0.2s
+14/10/2025, 13:53:44:
+build
+#4 sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce 445B / 445B 0.3s done
+14/10/2025, 13:53:44:
+build
+#4 sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 0B / 1.26MB 0.2s
+14/10/2025, 13:53:44:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 0B / 42.75MB 0.2s
+14/10/2025, 13:53:44:
+build
+#4 sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0B / 3.80MB 0.2s
+14/10/2025, 13:53:44:
+build
+#4 sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 1.05MB / 1.26MB 0.5s
+14/10/2025, 13:53:44:
+build
+#4 sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 1.26MB / 1.26MB 0.5s done
+14/10/2025, 13:53:45:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 20.97MB / 42.75MB 0.8s
+14/10/2025, 13:53:45:
+build
+#4 sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 3.80MB / 3.80MB 0.7s done
+14/10/2025, 13:53:45:
+build
+#4 extracting sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b
+14/10/2025, 13:53:45:
+build
+#4 extracting sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0.1s done
+14/10/2025, 13:53:45:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 34.87MB / 42.75MB 0.9s
+14/10/2025, 13:53:45:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 42.75MB / 42.75MB 1.0s done
+14/10/2025, 13:53:45:
+build
+#4 extracting sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c
+14/10/2025, 13:53:46:
+build
+#4 extracting sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 1.2s done
+14/10/2025, 13:53:46:
+build
+#4 DONE 2.2s
+14/10/2025, 13:53:46:
+build
+14/10/2025, 13:53:46:
+build
+#5 [service_event_ppump90ha7om internal] load build context
+14/10/2025, 13:53:46:
+build
+#5 ...
+14/10/2025, 13:53:46:
+build
+14/10/2025, 13:53:46:
+build
+#4 [service_event_ppump90ha7om 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 13:53:46:
+build
+#4 extracting sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 0.0s done
+14/10/2025, 13:53:46:
+build
+#4 extracting sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 13:53:46:
+build
+#4 DONE 2.3s
+14/10/2025, 13:53:46:
+build
+14/10/2025, 13:53:46:
+build
+#5 [service_event_ppump90ha7om internal] load build context
+14/10/2025, 13:53:47:
+build
+#5 ...
+14/10/2025, 13:53:47:
+build
+14/10/2025, 13:53:47:
+build
+#6 [service_event_ppump90ha7om 2/7] WORKDIR /app
+14/10/2025, 13:53:47:
+build
+#6 DONE 1.2s
+14/10/2025, 13:53:47:
+build
+14/10/2025, 13:53:47:
+build
+#5 [service_event_ppump90ha7om internal] load build context
+14/10/2025, 13:53:48:
+build
+#5 transferring context: 1.21GB 4.2s done
+14/10/2025, 13:53:48:
+build
+#5 DONE 4.2s
+14/10/2025, 13:53:48:
+build
+14/10/2025, 13:53:48:
+build
+#7 [service_event_ppump90ha7om 3/7] COPY package.json package-lock.json ./
+14/10/2025, 13:53:48:
+build
+#7 DONE 0.3s
+14/10/2025, 13:53:49:
+build
+14/10/2025, 13:53:49:
+build
+#8 [service_event_ppump90ha7om 4/7] RUN npm ci
+14/10/2025, 13:53:52:
+build
+#8 3.758 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+14/10/2025, 13:53:53:
+build
+#8 4.670 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+14/10/2025, 13:53:54:
+build
+#8 5.327 npm warn deprecated fstream@1.0.12: This package is no longer supported.
+14/10/2025, 13:53:55:
+build
+#8 6.461 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+14/10/2025, 13:53:55:
+build
+#8 6.488 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+14/10/2025, 13:53:55:
+build
+#8 6.742 npm warn deprecated @paypal/checkout-server-sdk@1.0.3: Package no longer supported. The author suggests using the @paypal/paypal-server-sdk package instead: https://www.npmjs.com/package/@paypal/paypal-server-sdk. Contact Support at https://www.npmjs.com/support for more info.
+14/10/2025, 13:53:55:
+build
+#8 7.081 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+14/10/2025, 13:53:56:
+build
+#8 7.355 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+14/10/2025, 13:53:56:
+build
+#8 7.498 npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+14/10/2025, 13:53:56:
+build
+#8 7.535 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+14/10/2025, 13:53:56:
+build
+#8 7.568 npm warn deprecated puppeteer@18.2.1: < 24.9.0 is no longer supported
+14/10/2025, 13:54:11:
+build
+#8 22.29 
+14/10/2025, 13:54:11:
+build
+#8 22.29 added 939 packages, and audited 940 packages in 22s
+14/10/2025, 13:54:11:
+build
+#8 22.29 
+14/10/2025, 13:54:11:
+build
+#8 22.29 101 packages are looking for funding
+14/10/2025, 13:54:11:
+build
+#8 22.29   run `npm fund` for details
+14/10/2025, 13:54:11:
+build
+#8 22.36 
+14/10/2025, 13:54:11:
+build
+#8 22.36 18 vulnerabilities (3 low, 8 moderate, 6 high, 1 critical)
+14/10/2025, 13:54:11:
+build
+#8 22.36 
+14/10/2025, 13:54:11:
+build
+#8 22.36 To address issues that do not require attention, run:
+14/10/2025, 13:54:11:
+build
+#8 22.36   npm audit fix
+14/10/2025, 13:54:11:
+build
+#8 22.36 
+14/10/2025, 13:54:11:
+build
+#8 22.36 To address all issues (including breaking changes), run:
+14/10/2025, 13:54:11:
+build
+#8 22.36   npm audit fix --force
+14/10/2025, 13:54:11:
+build
+#8 22.36 
+14/10/2025, 13:54:11:
+build
+#8 22.36 Run `npm audit` for details.
+14/10/2025, 13:54:11:
+build
+#8 22.36 npm notice
+14/10/2025, 13:54:11:
+build
+#8 22.36 npm notice New major version of npm available! 10.8.2 -> 11.6.2
+14/10/2025, 13:54:11:
+build
+#8 22.36 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.6.2
+14/10/2025, 13:54:11:
+build
+#8 22.36 npm notice To update run: npm install -g npm@11.6.2
+14/10/2025, 13:54:11:
+build
+#8 22.36 npm notice
+14/10/2025, 13:54:13:
+build
+#8 DONE 24.3s
+14/10/2025, 13:54:13:
+build
+14/10/2025, 13:54:13:
+build
+#9 [service_event_ppump90ha7om 5/7] COPY . .
+14/10/2025, 13:54:16:
+build
+#9 DONE 3.4s
+14/10/2025, 13:54:16:
+build
+14/10/2025, 13:54:16:
+build
+#10 [service_event_ppump90ha7om 6/7] RUN npx vite build
+14/10/2025, 13:54:17:
+build
+#10 0.972 vite v5.4.14 building for production...
+14/10/2025, 13:54:17:
+build
+#10 1.111 
+14/10/2025, 13:54:17:
+build
+#10 1.125 
+14/10/2025, 13:54:17:
+build
+#10 1.125 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+14/10/2025, 13:54:17:
+build
+#10 1.129 transforming...
+14/10/2025, 13:54:17:
+build
+#10 1.418 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+14/10/2025, 13:54:17:
+build
+#10 1.418   npx update-browserslist-db@latest
+14/10/2025, 13:54:17:
+build
+#10 1.418   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+14/10/2025, 13:54:28:
+build
+#10 12.40 ✓ 3669 modules transformed.
+14/10/2025, 13:54:30:
+build
+#10 13.59 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 13:54:30:
+build
+#10 13.59 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 13:54:30:
+build
+#10 13.59 
+14/10/2025, 13:54:30:
+build
+#10 13.59 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 13:54:30:
+build
+#10 13.59 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 13:54:30:
+build
+#10 13.59 
+14/10/2025, 13:54:30:
+build
+#10 13.59 rendering chunks...
+14/10/2025, 13:54:30:
+build
+#10 13.64 computing gzip size...
+14/10/2025, 13:54:30:
+build
+#10 13.72 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+14/10/2025, 13:54:30:
+build
+#10 13.72 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+14/10/2025, 13:54:30:
+build
+#10 13.72 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+14/10/2025, 13:54:30:
+build
+#10 13.72 
+14/10/2025, 13:54:30:
+build
+#10 13.72 (!) Some chunks are larger than 500 kB after minification. Consider:
+14/10/2025, 13:54:30:
+build
+#10 13.72 - Using dynamic import() to code-split the application
+14/10/2025, 13:54:30:
+build
+#10 13.72 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+14/10/2025, 13:54:30:
+build
+#10 13.72 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+14/10/2025, 13:54:30:
+build
+#10 13.72 ✓ built in 12.70s
+14/10/2025, 13:54:30:
+build
+#10 DONE 13.8s
+14/10/2025, 13:54:30:
+build
+14/10/2025, 13:54:30:
+build
+#11 [service_event_ppump90ha7om 7/7] RUN cp -r dist/public server/public
+14/10/2025, 13:54:30:
+build
+#11 DONE 0.2s
+14/10/2025, 13:54:30:
+build
+14/10/2025, 13:54:30:
+build
+#12 [service_event_ppump90ha7om] exporting to image
+14/10/2025, 13:54:30:
+build
+#12 exporting layers
+14/10/2025, 13:55:17:
+build
+#12 exporting layers 46.9s done
+14/10/2025, 13:55:17:
+build
+#12 exporting manifest sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3 done
+14/10/2025, 13:55:17:
+build
+#12 exporting config sha256:813b7d4e38522f4da1cffb1bbca33507084a458d60268693509c18255e979776 done
+14/10/2025, 13:55:17:
+build
+#12 pushing layers
+14/10/2025, 13:55:34:
+build
+#12 pushing layers 16.9s done
+14/10/2025, 13:55:34:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_ppump90ha7om@sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3
+14/10/2025, 13:55:34:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_ppump90ha7om@sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3 0.0s done
+14/10/2025, 13:55:34:
+build
+#12 DONE 63.9s
+14/10/2025, 13:55:34:
+build
+14/10/2025, 13:55:34:
+build
+#13 [service_event_ppump90ha7om] exporting cache to client directory
+14/10/2025, 13:55:34:
+build
+#13 preparing build cache for export
+14/10/2025, 13:55:34:
+build
+#13 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0.1s done
+14/10/2025, 13:55:34:
+build
+#13 writing layer sha256:4b97f84edcd6957e5355b3ef05ec02c0abeab51acdeb06957e81a6e3d6fd8c70
+14/10/2025, 13:55:34:
+build
+#13 writing layer sha256:4b97f84edcd6957e5355b3ef05ec02c0abeab51acdeb06957e81a6e3d6fd8c70 done
+14/10/2025, 13:55:34:
+build
+#13 writing layer sha256:8fe1f268b2cbb49a8c91bd0250812da4781860bc394b7f7dbba757e2214bc1ed done
+14/10/2025, 13:55:34:
+build
+#13 writing layer sha256:a757d1e22b8bac9a66be69651d59372f0e3f2bc13c0b61bcbabac903ee3848d9
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:a757d1e22b8bac9a66be69651d59372f0e3f2bc13c0b61bcbabac903ee3848d9 3.9s done
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:bd1a859513b73c550a939cc78c16f22034436468f49917e852474ebf27064d07
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:bd1a859513b73c550a939cc78c16f22034436468f49917e852474ebf27064d07 done
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 0.3s done
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 13:55:38:
+build
+#13 writing layer sha256:cf45290c561d8e4e16ee5d36b74df022fb27b33102aa0bc0975e0061eb98c39e
+14/10/2025, 13:55:44:
+build
+#13 writing layer sha256:cf45290c561d8e4e16ee5d36b74df022fb27b33102aa0bc0975e0061eb98c39e 6.1s done
+14/10/2025, 13:55:44:
+build
+#13 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a
+14/10/2025, 13:55:44:
+build
+#13 preparing build cache for export 10.5s done
+14/10/2025, 13:55:44:
+build
+#13 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 0.0s done
+14/10/2025, 13:55:44:
+build
+#13 writing layer sha256:fa80a53dd378057a3118ae07f92d7228c00537051042289154607efa393fcc8f done
+14/10/2025, 13:55:44:
+build
+#13 writing config sha256:9a6006fd399c05bb2e481903379eae79fc5141af0d1127679929fe522b78bf4a done
+14/10/2025, 13:55:44:
+build
+#13 writing cache image manifest sha256:e0ec50f565ddf8a7c729056b08c2bd4f7ce5dfb3a462c0e1ef62eb77b5f8b259 done
+14/10/2025, 13:55:44:
+build
+#13 DONE 10.5s
+14/10/2025, 13:56:43:
+build
+service_event_ppump90ha7om: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+14/10/2025, 13:56:43:
+build
+2d35ebdb57d9: Already exists
+14/10/2025, 13:56:43:
+build
+c087321cece4: Already exists
+14/10/2025, 13:56:43:
+build
+f2fbe8556258: Already exists
+14/10/2025, 13:56:43:
+build
+c74c90aa7c87: Already exists
+14/10/2025, 13:56:43:
+build
+8fe1f268b2cb: Pulling fs layer
+14/10/2025, 13:56:43:
+build
+4b97f84edcd6: Pulling fs layer
+14/10/2025, 13:56:43:
+build
+a757d1e22b8b: Pulling fs layer
+14/10/2025, 13:56:43:
+build
+cf45290c561d: Pulling fs layer
+14/10/2025, 13:56:43:
+build
+bd1a859513b7: Pulling fs layer
+14/10/2025, 13:56:43:
+build
+fa80a53dd378: Pulling fs layer
+14/10/2025, 13:56:43:
+build
+cf45290c561d: Waiting
+14/10/2025, 13:56:43:
+build
+bd1a859513b7: Waiting
+14/10/2025, 13:56:43:
+build
+fa80a53dd378: Waiting
+14/10/2025, 13:56:43:
+build
+8fe1f268b2cb: Verifying Checksum
+14/10/2025, 13:56:43:
+build
+8fe1f268b2cb: Download complete
+14/10/2025, 13:56:43:
+build
+8fe1f268b2cb: Pull complete
+14/10/2025, 13:56:43:
+build
+4b97f84edcd6: Verifying Checksum
+14/10/2025, 13:56:43:
+build
+4b97f84edcd6: Download complete
+14/10/2025, 13:56:43:
+build
+4b97f84edcd6: Pull complete
+14/10/2025, 13:56:43:
+build
+bd1a859513b7: Verifying Checksum
+14/10/2025, 13:56:43:
+build
+bd1a859513b7: Download complete
+14/10/2025, 13:56:43:
+build
+fa80a53dd378: Verifying Checksum
+14/10/2025, 13:56:43:
+build
+fa80a53dd378: Download complete
+14/10/2025, 13:56:47:
+build
+a757d1e22b8b: Verifying Checksum
+14/10/2025, 13:56:47:
+build
+a757d1e22b8b: Download complete
+14/10/2025, 13:56:49:
+build
+cf45290c561d: Verifying Checksum
+14/10/2025, 13:56:49:
+build
+cf45290c561d: Download complete
+14/10/2025, 13:57:10:
+build
+a757d1e22b8b: Pull complete
+14/10/2025, 13:57:19:
+build
+cf45290c561d: Pull complete
+14/10/2025, 13:57:19:
+build
+bd1a859513b7: Pull complete
+14/10/2025, 13:57:19:
+build
+fa80a53dd378: Pull complete
+14/10/2025, 13:57:19:
+build
+Digest: sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3
+14/10/2025, 13:57:19:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_ppump90ha7om
+14/10/2025, 13:57:24:
+runtime
+Servizio gestione telefono diretto inizializzato
+14/10/2025, 13:57:25:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+14/10/2025, 13:57:25:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+14/10/2025, 13:57:25:
+runtime
+Errore durante l'inizializzazione: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:57:25:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:57:25:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:57:25:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:57:25:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:57:25:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:57:25:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:57:25:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:57:25:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:57:25:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:57:25:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:57:25:
+runtime
+  code: '28P01',
+14/10/2025, 13:57:25:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:57:25:
+runtime
+  line: '323',
+14/10/2025, 13:57:25:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:57:25:
+runtime
+}
+14/10/2025, 13:57:25:
+runtime
+Scheduler dei promemoria avviato con successo
+14/10/2025, 13:57:25:
+runtime
+Tutti gli scheduler inizializzati
+14/10/2025, 13:57:25:
+runtime
+🔍 Controllo integrità all'avvio:
+14/10/2025, 13:57:25:
+runtime
+   📅 Appuntamenti caricati: 0
+14/10/2025, 13:57:25:
+runtime
+   👥 Clienti caricati: 0
+14/10/2025, 13:57:25:
+runtime
+✅ Controllo integrità completato
+14/10/2025, 13:57:25:
+runtime
+11:57:25 AM [express] serving on port 5000
+14/10/2025, 13:57:25:
+runtime
+Errore nel caricamento del telefono dal database: PostgresError: password authentication failed for user "postgres"
+14/10/2025, 13:57:25:
+runtime
+    at ErrorResponse (file:///app/node_modules/postgres/src/connection.js:788:26)
+14/10/2025, 13:57:25:
+runtime
+    at handle (file:///app/node_modules/postgres/src/connection.js:474:6)
+14/10/2025, 13:57:25:
+runtime
+    at Socket.data (file:///app/node_modules/postgres/src/connection.js:315:9)
+14/10/2025, 13:57:25:
+runtime
+    at Socket.emit (node:events:524:28)
+14/10/2025, 13:57:25:
+runtime
+    at addChunk (node:internal/streams/readable:561:12)
+14/10/2025, 13:57:25:
+runtime
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+14/10/2025, 13:57:25:
+runtime
+    at Readable.push (node:internal/streams/readable:392:5)
+14/10/2025, 13:57:25:
+runtime
+    at TCP.onStreamRead (node:internal/stream_base_commons:191:23) {
+14/10/2025, 13:57:25:
+runtime
+  severity_local: 'FATAL',
+14/10/2025, 13:57:25:
+runtime
+  severity: 'FATAL',
+14/10/2025, 13:57:25:
+runtime
+  code: '28P01',
+14/10/2025, 13:57:25:
+runtime
+  file: 'auth.c',
+14/10/2025, 13:57:25:
+runtime
+  line: '323',
+14/10/2025, 13:57:25:
+runtime
+  routine: 'auth_failed'
+14/10/2025, 13:57:25:
+runtime
+}
+14/10/2025, 13:57:30:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+14/10/2025, 13:57:30:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 13:57:30:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 13:57:30:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 13:57:30:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 13:57:30:
+runtime
+Job iniziale completato: inviati 0 promemoria
+14/10/2025, 14:00:00:
+runtime
+Esecuzione del job di promemoria appuntamenti: 2025-10-14T12:00:00.391Z
+14/10/2025, 14:00:00:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 14:00:00:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 14:00:00:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 14:00:00:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 14:00:00:
+runtime
+Job completato: inviati 0 promemoria
