@@ -288,7 +288,10 @@ export default function Clients() {
               <DialogHeader>
                 <DialogTitle>{t("clients.addNewClient")}</DialogTitle>
               </DialogHeader>
-              <ClientForm onSuccess={handleClientCreated} />
+              <ClientForm 
+                onClose={() => setIsClientDialogOpen(false)} 
+                onClientCreated={handleClientCreated} 
+              />
             </DialogContent>
           </Dialog>
         </div>
