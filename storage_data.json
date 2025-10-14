@@ -10116,5 +10116,2608 @@
       "startDate": "2025-10-01",
       "isPaid": false
     }
+  ],
+  "user_settings": [
+    [
+      6,
+      {
+        "id": 6,
+        "user_id": 11,
+        "logo_url": "/user-icons/user-11/app-icon.jpg",
+        "contact_phone2": null,
+        "address": null,
+        "instagram_handle": null,
+        "facebook_page": null,
+        "linkedin_profile": null,
+        "email_provider": null,
+        "email_api_key": null,
+        "email_from_name": null,
+        "email_from_address": null,
+        "email_signature": null,
+        "whatsapp_enabled": false,
+        "whatsapp_number": null,
+        "whatsapp_api_key": null,
+        "working_hours": null,
+        "billing_settings": null,
+        "custom_fields": null,
+        "preferences": null,
+        "created_at": "2025-05-23T06:33:30.037Z",
+        "updated_at": "2025-05-23T06:33:30.037Z",
+        "whatsapp_template": null,
+        "notification_email_template": null,
+        "notification_sms_template": null,
+        "appointment_confirmation_template": null,
+        "working_hours_start": "09:00:00",
+        "working_hours_end": "18:00:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "billing_company_name": null,
+        "billing_vat_number": null,
+        "billing_address": null,
+        "time_slot_duration": 30,
+        "reminder_enabled": true,
+        "reminder_hours_before": 24,
+        "confirmation_enabled": true,
+        "invoice_prefix": "INV",
+        "tax_rate": "22.00",
+        "currency": "EUR",
+        "app_icon_path": null,
+        "business_name": null,
+        "description": null,
+        "website": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "primary_color": "#3f51b5",
+        "secondary_color": "#ffffff",
+        "theme": "professional",
+        "appearance": "light",
+        "sms_enabled": false,
+        "email_notifications_enabled": true,
+        "sms_notifications_enabled": false,
+        "calendar_integration_enabled": false,
+        "default_calendar_id": null
+      }
+    ],
+    [
+      7,
+      {
+        "id": 7,
+        "user_id": 12,
+        "logo_url": "/user-icons/user-12/app-icon.jpg",
+        "contact_phone2": null,
+        "address": null,
+        "instagram_handle": null,
+        "facebook_page": null,
+        "linkedin_profile": null,
+        "email_provider": null,
+        "email_api_key": null,
+        "email_from_name": null,
+        "email_from_address": null,
+        "email_signature": null,
+        "whatsapp_enabled": false,
+        "whatsapp_number": null,
+        "whatsapp_api_key": null,
+        "working_hours": null,
+        "billing_settings": null,
+        "custom_fields": null,
+        "preferences": null,
+        "created_at": "2025-05-23T07:10:20.504Z",
+        "updated_at": "2025-05-23T07:10:20.504Z",
+        "whatsapp_template": null,
+        "notification_email_template": null,
+        "notification_sms_template": null,
+        "appointment_confirmation_template": null,
+        "working_hours_start": "09:00:00",
+        "working_hours_end": "18:00:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "billing_company_name": null,
+        "billing_vat_number": null,
+        "billing_address": null,
+        "time_slot_duration": 30,
+        "reminder_enabled": true,
+        "reminder_hours_before": 24,
+        "confirmation_enabled": true,
+        "invoice_prefix": "INV-12",
+        "tax_rate": "22.00",
+        "currency": "EUR",
+        "app_icon_path": null,
+        "business_name": null,
+        "description": null,
+        "website": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "primary_color": "#3f51b5",
+        "secondary_color": "#ffffff",
+        "theme": "professional",
+        "appearance": "light",
+        "sms_enabled": false,
+        "email_notifications_enabled": true,
+        "sms_notifications_enabled": false,
+        "calendar_integration_enabled": false,
+        "default_calendar_id": null
+      }
+    ],
+    [
+      4,
+      {
+        "id": 4,
+        "user_id": 9,
+        "logo_url": "/user-icons/user-9/app-icon.jpg",
+        "contact_phone2": null,
+        "address": null,
+        "instagram_handle": null,
+        "facebook_page": null,
+        "linkedin_profile": null,
+        "email_provider": null,
+        "email_api_key": null,
+        "email_from_name": null,
+        "email_from_address": null,
+        "email_signature": null,
+        "whatsapp_enabled": false,
+        "whatsapp_number": null,
+        "whatsapp_api_key": null,
+        "working_hours": null,
+        "billing_settings": null,
+        "custom_fields": null,
+        "preferences": null,
+        "created_at": "2025-05-23T06:12:51.881Z",
+        "updated_at": "2025-05-23T13:16:32.234Z",
+        "whatsapp_template": null,
+        "notification_email_template": null,
+        "notification_sms_template": null,
+        "appointment_confirmation_template": null,
+        "working_hours_start": "09:00:00",
+        "working_hours_end": "18:00:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "billing_company_name": null,
+        "billing_vat_number": null,
+        "billing_address": null,
+        "time_slot_duration": 30,
+        "reminder_enabled": true,
+        "reminder_hours_before": 24,
+        "confirmation_enabled": true,
+        "invoice_prefix": "INV-9",
+        "tax_rate": "22.00",
+        "currency": "EUR",
+        "app_icon_path": null,
+        "business_name": null,
+        "description": null,
+        "website": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "primary_color": "#3f51b5",
+        "secondary_color": "#ffffff",
+        "theme": "professional",
+        "appearance": "light",
+        "sms_enabled": false,
+        "email_notifications_enabled": true,
+        "sms_notifications_enabled": false,
+        "calendar_integration_enabled": false,
+        "default_calendar_id": null
+      }
+    ],
+    [
+      5,
+      {
+        "id": 5,
+        "user_id": 10,
+        "logo_url": "/user-icons/user-10/app-icon.jpg",
+        "contact_phone2": null,
+        "address": null,
+        "instagram_handle": null,
+        "facebook_page": null,
+        "linkedin_profile": null,
+        "email_provider": null,
+        "email_api_key": null,
+        "email_from_name": null,
+        "email_from_address": null,
+        "email_signature": null,
+        "whatsapp_enabled": false,
+        "whatsapp_number": null,
+        "whatsapp_api_key": null,
+        "working_hours": null,
+        "billing_settings": null,
+        "custom_fields": null,
+        "preferences": null,
+        "created_at": "2025-05-23T06:13:54.547Z",
+        "updated_at": "2025-05-23T10:18:07.149Z",
+        "whatsapp_template": null,
+        "notification_email_template": null,
+        "notification_sms_template": null,
+        "appointment_confirmation_template": null,
+        "working_hours_start": "09:00:00",
+        "working_hours_end": "18:00:00",
+        "working_days": "[\"monday\",\"tuesday\",\"wednesday\",\"thursday\",\"friday\"]",
+        "billing_company_name": null,
+        "billing_vat_number": null,
+        "billing_address": null,
+        "time_slot_duration": 30,
+        "reminder_enabled": true,
+        "reminder_hours_before": 24,
+        "confirmation_enabled": true,
+        "invoice_prefix": "INV-10",
+        "tax_rate": "22.00",
+        "currency": "EUR",
+        "app_icon_path": null,
+        "business_name": null,
+        "description": null,
+        "website": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "primary_color": "#3f51b5",
+        "secondary_color": "#ffffff",
+        "theme": "professional",
+        "appearance": "light",
+        "sms_enabled": false,
+        "email_notifications_enabled": true,
+        "sms_notifications_enabled": false,
+        "calendar_integration_enabled": false,
+        "default_calendar_id": null
+      }
+    ]
+  ],
+  "notification_settings": [
+    [
+      1,
+      {
+        "id": 1,
+        "email_enabled": true,
+        "smtp_server": "smtp.gmail.com",
+        "smtp_port": 587,
+        "smtp_username": "zambelli.andrea.1973@gmail.com",
+        "smtp_password": "mxqk fowi uyyr yldu",
+        "sender_email": "zambelli.andrea.1973@gmail.com",
+        "email_signature": "Con i migliori saluti, ....",
+        "sms_enabled": false,
+        "sms_gateway_method": "direct",
+        "whatsapp_enabled": true,
+        "whatsapp_method": "direct",
+        "twilio_enabled": false,
+        "twilio_account_sid": "ACb10ec96e07f94ce9eba5ff953e3f9fa4",
+        "twilio_auth_token": "",
+        "twilio_phone_number": "+14024463256",
+        "notification_center_enabled": true,
+        "default_reminder_time": 24,
+        "created_at": "2025-04-16T16:57:53.589Z",
+        "updated_at": "2025-04-28T18:56:43.324Z",
+        "use_contact_phone_for_notifications": true,
+        "notification_phone": "+393472550110",
+        "preferred_contact_phone": "secondary"
+      }
+    ]
+  ],
+  "company_name_settings": [],
+  "contact_settings": [
+    [
+      1,
+      {
+        "id": 1,
+        "tenant_id": 14,
+        "phone": "+393472550110",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "business_name": null,
+        "whatsapp_opt_in": true,
+        "email_enabled": false,
+        "is_configured": false,
+        "created_at": "2025-09-25T09:19:03.386Z",
+        "updated_at": "2025-09-25T10:12:55.042Z"
+      }
+    ],
+    [
+      2,
+      {
+        "id": 2,
+        "tenant_id": 9,
+        "phone": "+393472550110",
+        "email": "zambelli.andrea@libero.it",
+        "business_name": null,
+        "whatsapp_opt_in": true,
+        "email_enabled": false,
+        "is_configured": false,
+        "created_at": "2025-10-01T11:28:19.543Z",
+        "updated_at": "2025-10-01T11:28:50.780Z"
+      }
+    ],
+    [
+      3,
+      {
+        "id": 3,
+        "tenant_id": 3,
+        "phone": "+393472550110",
+        "email": "zambelli.andrea.1973@gmail.com",
+        "business_name": null,
+        "whatsapp_opt_in": true,
+        "email_enabled": false,
+        "is_configured": false,
+        "created_at": "2025-10-02T18:36:27.680Z",
+        "updated_at": "2025-10-02T18:37:06.382Z"
+      }
+    ]
+  ],
+  "app_settings": [
+    [
+      23,
+      {
+        "id": 23,
+        "key": "companyNameSettings",
+        "value": "{\"name\":\"Andrea Zambelli\",\"fontSize\":24,\"fontFamily\":\"Arial\",\"fontStyle\":\"normal\",\"color\":\"#006400\",\"enabled\":true,\"userId\":10}",
+        "description": "Company name display settings",
+        "category": "appearance",
+        "created_at": "2025-06-05T10:15:27.438Z",
+        "updated_at": "2025-06-05T13:07:49.223Z",
+        "user_id": 10
+      }
+    ],
+    [
+      1,
+      {
+        "id": 1,
+        "key": "timezone",
+        "value": "{\"timezone\":\"Europe/Zurich\",\"offset\":2,\"name\":\"Ora legale dell’Europa centrale\",\"updatedAt\":\"2025-06-20T14:46:57.815Z\"}",
+        "description": "Impostazioni del fuso orario per l'applicazione",
+        "category": "system",
+        "created_at": "2025-04-14T18:59:34.277Z",
+        "updated_at": "2025-06-20T14:46:57.861Z",
+        "user_id": 1
+      }
+    ],
+    [
+      24,
+      {
+        "id": 24,
+        "key": "app_icon_path_user_10",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 10",
+        "category": "appearance",
+        "created_at": "2025-06-05T10:26:33.649Z",
+        "updated_at": "2025-06-05T10:30:44.839Z",
+        "user_id": 10
+      }
+    ],
+    [
+      9,
+      {
+        "id": 9,
+        "key": "app_icon_path_user_9",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 9",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-05T13:15:32.810Z",
+        "user_id": 9
+      }
+    ],
+    [
+      25,
+      {
+        "id": 25,
+        "key": "companyNameSettings",
+        "value": "{\"name\":\"Andrea \",\"fontSize\":24,\"fontFamily\":\"Arial\",\"fontStyle\":\"normal\",\"color\":\"#4682B4\",\"enabled\":true,\"userId\":9}",
+        "description": "Company name display settings",
+        "category": "appearance",
+        "created_at": "2025-06-05T10:41:22.637Z",
+        "updated_at": "2025-06-05T13:22:27.924Z",
+        "user_id": 9
+      }
+    ],
+    [
+      4,
+      {
+        "id": 4,
+        "key": "app_icon_path_user_11",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 11",
+        "category": "appearance",
+        "created_at": "2025-06-04T09:19:32.401Z",
+        "updated_at": "2025-06-04T09:19:53.935Z",
+        "user_id": 1
+      }
+    ],
+    [
+      3,
+      {
+        "id": 3,
+        "key": "app_icon_path_user_3",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 3",
+        "category": "appearance",
+        "created_at": "2025-06-04T07:50:29.564Z",
+        "updated_at": "2025-06-04T09:44:54.123Z",
+        "user_id": 1
+      }
+    ],
+    [
+      5,
+      {
+        "id": 5,
+        "key": "app_icon_path_user_9",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 9",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:21:18.196Z",
+        "updated_at": "2025-06-04T10:21:18.196Z",
+        "user_id": 1
+      }
+    ],
+    [
+      7,
+      {
+        "id": 7,
+        "key": "app_icon_path_user_11",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 11",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 9
+      }
+    ],
+    [
+      8,
+      {
+        "id": 8,
+        "key": "app_icon_path_user_3",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 3",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 9
+      }
+    ],
+    [
+      10,
+      {
+        "id": 10,
+        "key": "timezone",
+        "value": "{\"timezone\":\"Europe/Zurich\",\"offset\":2,\"name\":\"Ora legale dell’Europa centrale\",\"updatedAt\":\"2025-06-04T08:52:49.391Z\"}",
+        "description": "Impostazioni del fuso orario per l'applicazione",
+        "category": "system",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 10
+      }
+    ],
+    [
+      11,
+      {
+        "id": 11,
+        "key": "app_icon_path_user_11",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 11",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 10
+      }
+    ],
+    [
+      12,
+      {
+        "id": 12,
+        "key": "app_icon_path_user_3",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 3",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 10
+      }
+    ],
+    [
+      13,
+      {
+        "id": 13,
+        "key": "app_icon_path_user_9",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 9",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 10
+      }
+    ],
+    [
+      14,
+      {
+        "id": 14,
+        "key": "timezone",
+        "value": "{\"timezone\":\"Europe/Zurich\",\"offset\":2,\"name\":\"Ora legale dell’Europa centrale\",\"updatedAt\":\"2025-06-04T08:52:49.391Z\"}",
+        "description": "Impostazioni del fuso orario per l'applicazione",
+        "category": "system",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 12
+      }
+    ],
+    [
+      15,
+      {
+        "id": 15,
+        "key": "app_icon_path_user_11",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 11",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 12
+      }
+    ],
+    [
+      16,
+      {
+        "id": 16,
+        "key": "app_icon_path_user_3",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 3",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 12
+      }
+    ],
+    [
+      17,
+      {
+        "id": 17,
+        "key": "app_icon_path_user_9",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 9",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 12
+      }
+    ],
+    [
+      18,
+      {
+        "id": 18,
+        "key": "timezone",
+        "value": "{\"timezone\":\"Europe/Zurich\",\"offset\":2,\"name\":\"Ora legale dell’Europa centrale\",\"updatedAt\":\"2025-06-04T08:52:49.391Z\"}",
+        "description": "Impostazioni del fuso orario per l'applicazione",
+        "category": "system",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 16
+      }
+    ],
+    [
+      19,
+      {
+        "id": 19,
+        "key": "app_icon_path_user_11",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 11",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 16
+      }
+    ],
+    [
+      22,
+      {
+        "id": 22,
+        "key": "app_icon_path_user_3",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 3",
+        "category": "appearance",
+        "created_at": "2025-06-04T13:20:13.075Z",
+        "updated_at": "2025-06-05T13:38:32.788Z",
+        "user_id": 3
+      }
+    ],
+    [
+      20,
+      {
+        "id": 20,
+        "key": "app_icon_path_user_3",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 3",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 16
+      }
+    ],
+    [
+      21,
+      {
+        "id": 21,
+        "key": "app_icon_path_user_9",
+        "value": "/icons/app-icon.jpg",
+        "description": "Percorso icona personalizzata per utente 9",
+        "category": "appearance",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-04T10:38:32.668Z",
+        "user_id": 16
+      }
+    ],
+    [
+      26,
+      {
+        "id": 26,
+        "key": "companyNameSettings",
+        "value": "{\"name\":\"boooo\",\"fontSize\":24,\"fontFamily\":\"Arial\",\"fontStyle\":\"normal\",\"color\":\"#A52A2A\",\"enabled\":true,\"userId\":3}",
+        "description": "Company name display settings",
+        "category": "appearance",
+        "created_at": "2025-06-05T13:38:45.018Z",
+        "updated_at": "2025-06-05T13:38:45.018Z",
+        "user_id": 3
+      }
+    ],
+    [
+      6,
+      {
+        "id": 6,
+        "key": "timezone",
+        "value": "{\"timezone\":\"America/Los_Angeles\",\"offset\":-7,\"name\":\"Pacific Daylight Time\",\"updatedAt\":\"2025-06-05T15:49:26.320Z\"}",
+        "description": "Impostazioni del fuso orario per l'applicazione",
+        "category": "system",
+        "created_at": "2025-06-04T10:38:32.668Z",
+        "updated_at": "2025-06-05T15:49:26.363Z",
+        "user_id": 9
+      }
+    ]
+  ],
+  "user_custom_data": [
+    [
+      1,
+      {
+        "id": 1,
+        "user_id": 3,
+        "field_code": "COD_001",
+        "value": "zambelli.andrea.1973@gmail.com",
+        "created_at": "2025-05-23T10:38:16.841Z",
+        "updated_at": "2025-05-23T10:38:16.841Z"
+      }
+    ],
+    [
+      2,
+      {
+        "id": 2,
+        "user_id": 3,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T10:38:17.174Z",
+        "updated_at": "2025-05-23T10:38:17.174Z"
+      }
+    ],
+    [
+      3,
+      {
+        "id": 3,
+        "user_id": 3,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T10:38:17.535Z",
+        "updated_at": "2025-05-23T10:38:17.535Z"
+      }
+    ],
+    [
+      4,
+      {
+        "id": 4,
+        "user_id": 3,
+        "field_code": "COD_007",
+        "value": "zambelli.andrea.1973@gmail.com",
+        "created_at": "2025-05-23T10:38:17.881Z",
+        "updated_at": "2025-05-23T10:38:17.881Z"
+      }
+    ],
+    [
+      5,
+      {
+        "id": 5,
+        "user_id": 3,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T10:38:18.215Z",
+        "updated_at": "2025-05-23T10:38:18.215Z"
+      }
+    ],
+    [
+      6,
+      {
+        "id": 6,
+        "user_id": 3,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T10:38:18.562Z",
+        "updated_at": "2025-05-23T10:38:18.562Z"
+      }
+    ],
+    [
+      7,
+      {
+        "id": 7,
+        "user_id": 3,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T10:38:18.908Z",
+        "updated_at": "2025-05-23T10:38:18.908Z"
+      }
+    ],
+    [
+      8,
+      {
+        "id": 8,
+        "user_id": 3,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T10:38:19.254Z",
+        "updated_at": "2025-05-23T10:38:19.254Z"
+      }
+    ],
+    [
+      9,
+      {
+        "id": 9,
+        "user_id": 3,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T10:38:19.593Z",
+        "updated_at": "2025-05-23T10:38:19.593Z"
+      }
+    ],
+    [
+      10,
+      {
+        "id": 10,
+        "user_id": 3,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T10:38:19.975Z",
+        "updated_at": "2025-05-23T10:38:19.975Z"
+      }
+    ],
+    [
+      11,
+      {
+        "id": 11,
+        "user_id": 3,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T10:38:20.339Z",
+        "updated_at": "2025-05-23T10:38:20.339Z"
+      }
+    ],
+    [
+      12,
+      {
+        "id": 12,
+        "user_id": 3,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T10:38:20.674Z",
+        "updated_at": "2025-05-23T10:38:20.674Z"
+      }
+    ],
+    [
+      13,
+      {
+        "id": 13,
+        "user_id": 3,
+        "field_code": "COD_023",
+        "value": "INV-3",
+        "created_at": "2025-05-23T10:38:21.017Z",
+        "updated_at": "2025-05-23T10:38:21.017Z"
+      }
+    ],
+    [
+      14,
+      {
+        "id": 14,
+        "user_id": 3,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T10:38:21.393Z",
+        "updated_at": "2025-05-23T10:38:21.393Z"
+      }
+    ],
+    [
+      15,
+      {
+        "id": 15,
+        "user_id": 3,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T10:38:21.739Z",
+        "updated_at": "2025-05-23T10:38:21.739Z"
+      }
+    ],
+    [
+      16,
+      {
+        "id": 16,
+        "user_id": 8,
+        "field_code": "COD_001",
+        "value": "zambelli.andrea.19732@gmail.com",
+        "created_at": "2025-05-23T10:38:22.079Z",
+        "updated_at": "2025-05-23T10:38:22.079Z"
+      }
+    ],
+    [
+      17,
+      {
+        "id": 17,
+        "user_id": 8,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T10:38:22.422Z",
+        "updated_at": "2025-05-23T10:38:22.422Z"
+      }
+    ],
+    [
+      18,
+      {
+        "id": 18,
+        "user_id": 8,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T10:38:22.772Z",
+        "updated_at": "2025-05-23T10:38:22.772Z"
+      }
+    ],
+    [
+      19,
+      {
+        "id": 19,
+        "user_id": 8,
+        "field_code": "COD_007",
+        "value": "zambelli.andrea.19732@gmail.com",
+        "created_at": "2025-05-23T10:38:23.112Z",
+        "updated_at": "2025-05-23T10:38:23.112Z"
+      }
+    ],
+    [
+      20,
+      {
+        "id": 20,
+        "user_id": 8,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T10:38:23.443Z",
+        "updated_at": "2025-05-23T10:38:23.443Z"
+      }
+    ],
+    [
+      21,
+      {
+        "id": 21,
+        "user_id": 8,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T10:38:23.809Z",
+        "updated_at": "2025-05-23T10:38:23.809Z"
+      }
+    ],
+    [
+      22,
+      {
+        "id": 22,
+        "user_id": 8,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T10:38:24.173Z",
+        "updated_at": "2025-05-23T10:38:24.173Z"
+      }
+    ],
+    [
+      23,
+      {
+        "id": 23,
+        "user_id": 8,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T10:38:24.528Z",
+        "updated_at": "2025-05-23T10:38:24.528Z"
+      }
+    ],
+    [
+      24,
+      {
+        "id": 24,
+        "user_id": 8,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T10:38:24.891Z",
+        "updated_at": "2025-05-23T10:38:24.891Z"
+      }
+    ],
+    [
+      25,
+      {
+        "id": 25,
+        "user_id": 8,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T10:38:25.253Z",
+        "updated_at": "2025-05-23T10:38:25.253Z"
+      }
+    ],
+    [
+      26,
+      {
+        "id": 26,
+        "user_id": 8,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T10:38:25.605Z",
+        "updated_at": "2025-05-23T10:38:25.605Z"
+      }
+    ],
+    [
+      27,
+      {
+        "id": 27,
+        "user_id": 8,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T10:38:25.937Z",
+        "updated_at": "2025-05-23T10:38:25.937Z"
+      }
+    ],
+    [
+      28,
+      {
+        "id": 28,
+        "user_id": 8,
+        "field_code": "COD_023",
+        "value": "INV-8",
+        "created_at": "2025-05-23T13:10:31.022Z",
+        "updated_at": "2025-05-23T13:10:31.022Z"
+      }
+    ],
+    [
+      29,
+      {
+        "id": 29,
+        "user_id": 8,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:10:31.411Z",
+        "updated_at": "2025-05-23T13:10:31.411Z"
+      }
+    ],
+    [
+      30,
+      {
+        "id": 30,
+        "user_id": 8,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:10:31.795Z",
+        "updated_at": "2025-05-23T13:10:31.795Z"
+      }
+    ],
+    [
+      34,
+      {
+        "id": 34,
+        "user_id": 9,
+        "field_code": "COD_007",
+        "value": "zambelli.andrea.1973A@gmail.com",
+        "created_at": "2025-05-23T13:10:33.224Z",
+        "updated_at": "2025-05-23T13:10:33.224Z"
+      }
+    ],
+    [
+      35,
+      {
+        "id": 35,
+        "user_id": 9,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:10:33.570Z",
+        "updated_at": "2025-05-23T13:10:33.570Z"
+      }
+    ],
+    [
+      36,
+      {
+        "id": 36,
+        "user_id": 9,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:10:33.944Z",
+        "updated_at": "2025-05-23T13:10:33.944Z"
+      }
+    ],
+    [
+      37,
+      {
+        "id": 37,
+        "user_id": 9,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:10:34.319Z",
+        "updated_at": "2025-05-23T13:10:34.319Z"
+      }
+    ],
+    [
+      38,
+      {
+        "id": 38,
+        "user_id": 9,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:10:34.667Z",
+        "updated_at": "2025-05-23T13:10:34.667Z"
+      }
+    ],
+    [
+      41,
+      {
+        "id": 41,
+        "user_id": 9,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:10:35.728Z",
+        "updated_at": "2025-05-23T13:10:35.728Z"
+      }
+    ],
+    [
+      42,
+      {
+        "id": 42,
+        "user_id": 9,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:10:36.099Z",
+        "updated_at": "2025-05-23T13:10:36.099Z"
+      }
+    ],
+    [
+      43,
+      {
+        "id": 43,
+        "user_id": 9,
+        "field_code": "COD_023",
+        "value": "INV-9",
+        "created_at": "2025-05-23T13:10:36.454Z",
+        "updated_at": "2025-05-23T13:10:36.454Z"
+      }
+    ],
+    [
+      44,
+      {
+        "id": 44,
+        "user_id": 9,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:10:36.843Z",
+        "updated_at": "2025-05-23T13:10:36.843Z"
+      }
+    ],
+    [
+      45,
+      {
+        "id": 45,
+        "user_id": 9,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:08.418Z",
+        "updated_at": "2025-05-23T13:12:08.418Z"
+      }
+    ],
+    [
+      46,
+      {
+        "id": 46,
+        "user_id": 10,
+        "field_code": "COD_001",
+        "value": "zambelli.andrea.1973B@gmail.com",
+        "created_at": "2025-05-23T13:12:08.494Z",
+        "updated_at": "2025-05-23T13:12:08.494Z"
+      }
+    ],
+    [
+      47,
+      {
+        "id": 47,
+        "user_id": 10,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:08.566Z",
+        "updated_at": "2025-05-23T13:12:08.566Z"
+      }
+    ],
+    [
+      48,
+      {
+        "id": 48,
+        "user_id": 10,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:08.643Z",
+        "updated_at": "2025-05-23T13:12:08.643Z"
+      }
+    ],
+    [
+      49,
+      {
+        "id": 49,
+        "user_id": 10,
+        "field_code": "COD_007",
+        "value": "zambelli.andrea.1973B@gmail.com",
+        "created_at": "2025-05-23T13:12:08.718Z",
+        "updated_at": "2025-05-23T13:12:08.718Z"
+      }
+    ],
+    [
+      50,
+      {
+        "id": 50,
+        "user_id": 10,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:08.798Z",
+        "updated_at": "2025-05-23T13:12:08.798Z"
+      }
+    ],
+    [
+      51,
+      {
+        "id": 51,
+        "user_id": 10,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:08.872Z",
+        "updated_at": "2025-05-23T13:12:08.872Z"
+      }
+    ],
+    [
+      52,
+      {
+        "id": 52,
+        "user_id": 10,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:08.945Z",
+        "updated_at": "2025-05-23T13:12:08.945Z"
+      }
+    ],
+    [
+      53,
+      {
+        "id": 53,
+        "user_id": 10,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:09.017Z",
+        "updated_at": "2025-05-23T13:12:09.017Z"
+      }
+    ],
+    [
+      54,
+      {
+        "id": 54,
+        "user_id": 10,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:09.090Z",
+        "updated_at": "2025-05-23T13:12:09.090Z"
+      }
+    ],
+    [
+      55,
+      {
+        "id": 55,
+        "user_id": 10,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:09.163Z",
+        "updated_at": "2025-05-23T13:12:09.163Z"
+      }
+    ],
+    [
+      56,
+      {
+        "id": 56,
+        "user_id": 10,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:09.236Z",
+        "updated_at": "2025-05-23T13:12:09.236Z"
+      }
+    ],
+    [
+      57,
+      {
+        "id": 57,
+        "user_id": 10,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:09.311Z",
+        "updated_at": "2025-05-23T13:12:09.311Z"
+      }
+    ],
+    [
+      58,
+      {
+        "id": 58,
+        "user_id": 10,
+        "field_code": "COD_023",
+        "value": "INV-10",
+        "created_at": "2025-05-23T13:12:09.388Z",
+        "updated_at": "2025-05-23T13:12:09.388Z"
+      }
+    ],
+    [
+      59,
+      {
+        "id": 59,
+        "user_id": 10,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:09.464Z",
+        "updated_at": "2025-05-23T13:12:09.464Z"
+      }
+    ],
+    [
+      60,
+      {
+        "id": 60,
+        "user_id": 10,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:09.537Z",
+        "updated_at": "2025-05-23T13:12:09.537Z"
+      }
+    ],
+    [
+      61,
+      {
+        "id": 61,
+        "user_id": 11,
+        "field_code": "COD_001",
+        "value": "zambelli.andrea.1973C@gmail.com",
+        "created_at": "2025-05-23T13:12:09.616Z",
+        "updated_at": "2025-05-23T13:12:09.616Z"
+      }
+    ],
+    [
+      62,
+      {
+        "id": 62,
+        "user_id": 11,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:09.698Z",
+        "updated_at": "2025-05-23T13:12:09.698Z"
+      }
+    ],
+    [
+      63,
+      {
+        "id": 63,
+        "user_id": 11,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:09.775Z",
+        "updated_at": "2025-05-23T13:12:09.775Z"
+      }
+    ],
+    [
+      64,
+      {
+        "id": 64,
+        "user_id": 11,
+        "field_code": "COD_007",
+        "value": "zambelli.andrea.1973C@gmail.com",
+        "created_at": "2025-05-23T13:12:09.849Z",
+        "updated_at": "2025-05-23T13:12:09.849Z"
+      }
+    ],
+    [
+      65,
+      {
+        "id": 65,
+        "user_id": 11,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:09.922Z",
+        "updated_at": "2025-05-23T13:12:09.922Z"
+      }
+    ],
+    [
+      66,
+      {
+        "id": 66,
+        "user_id": 11,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:09.994Z",
+        "updated_at": "2025-05-23T13:12:09.994Z"
+      }
+    ],
+    [
+      67,
+      {
+        "id": 67,
+        "user_id": 11,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:10.067Z",
+        "updated_at": "2025-05-23T13:12:10.067Z"
+      }
+    ],
+    [
+      68,
+      {
+        "id": 68,
+        "user_id": 11,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:10.140Z",
+        "updated_at": "2025-05-23T13:12:10.140Z"
+      }
+    ],
+    [
+      69,
+      {
+        "id": 69,
+        "user_id": 11,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:10.222Z",
+        "updated_at": "2025-05-23T13:12:10.222Z"
+      }
+    ],
+    [
+      70,
+      {
+        "id": 70,
+        "user_id": 11,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:10.296Z",
+        "updated_at": "2025-05-23T13:12:10.296Z"
+      }
+    ],
+    [
+      71,
+      {
+        "id": 71,
+        "user_id": 11,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:10.369Z",
+        "updated_at": "2025-05-23T13:12:10.369Z"
+      }
+    ],
+    [
+      72,
+      {
+        "id": 72,
+        "user_id": 11,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:10.442Z",
+        "updated_at": "2025-05-23T13:12:10.442Z"
+      }
+    ],
+    [
+      73,
+      {
+        "id": 73,
+        "user_id": 11,
+        "field_code": "COD_023",
+        "value": "INV-11",
+        "created_at": "2025-05-23T13:12:10.519Z",
+        "updated_at": "2025-05-23T13:12:10.519Z"
+      }
+    ],
+    [
+      74,
+      {
+        "id": 74,
+        "user_id": 11,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:10.603Z",
+        "updated_at": "2025-05-23T13:12:10.603Z"
+      }
+    ],
+    [
+      75,
+      {
+        "id": 75,
+        "user_id": 11,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:10.687Z",
+        "updated_at": "2025-05-23T13:12:10.687Z"
+      }
+    ],
+    [
+      77,
+      {
+        "id": 77,
+        "user_id": 12,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:10.865Z",
+        "updated_at": "2025-05-23T13:12:10.865Z"
+      }
+    ],
+    [
+      78,
+      {
+        "id": 78,
+        "user_id": 12,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:10.939Z",
+        "updated_at": "2025-05-23T13:12:10.939Z"
+      }
+    ],
+    [
+      79,
+      {
+        "id": 79,
+        "user_id": 12,
+        "field_code": "COD_007",
+        "value": "zambelli.andrea.1973D@gmail.com",
+        "created_at": "2025-05-23T13:12:11.015Z",
+        "updated_at": "2025-05-23T13:12:11.015Z"
+      }
+    ],
+    [
+      80,
+      {
+        "id": 80,
+        "user_id": 12,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:11.088Z",
+        "updated_at": "2025-05-23T13:12:11.088Z"
+      }
+    ],
+    [
+      81,
+      {
+        "id": 81,
+        "user_id": 12,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:11.165Z",
+        "updated_at": "2025-05-23T13:12:11.165Z"
+      }
+    ],
+    [
+      82,
+      {
+        "id": 82,
+        "user_id": 12,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:11.238Z",
+        "updated_at": "2025-05-23T13:12:11.238Z"
+      }
+    ],
+    [
+      83,
+      {
+        "id": 83,
+        "user_id": 12,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:11.314Z",
+        "updated_at": "2025-05-23T13:12:11.314Z"
+      }
+    ],
+    [
+      84,
+      {
+        "id": 84,
+        "user_id": 12,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:11.388Z",
+        "updated_at": "2025-05-23T13:12:11.388Z"
+      }
+    ],
+    [
+      85,
+      {
+        "id": 85,
+        "user_id": 12,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:11.463Z",
+        "updated_at": "2025-05-23T13:12:11.463Z"
+      }
+    ],
+    [
+      86,
+      {
+        "id": 86,
+        "user_id": 12,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:11.536Z",
+        "updated_at": "2025-05-23T13:12:11.536Z"
+      }
+    ],
+    [
+      87,
+      {
+        "id": 87,
+        "user_id": 12,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:11.615Z",
+        "updated_at": "2025-05-23T13:12:11.615Z"
+      }
+    ],
+    [
+      88,
+      {
+        "id": 88,
+        "user_id": 12,
+        "field_code": "COD_023",
+        "value": "INV-12",
+        "created_at": "2025-05-23T13:12:11.690Z",
+        "updated_at": "2025-05-23T13:12:11.690Z"
+      }
+    ],
+    [
+      89,
+      {
+        "id": 89,
+        "user_id": 12,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:11.775Z",
+        "updated_at": "2025-05-23T13:12:11.775Z"
+      }
+    ],
+    [
+      90,
+      {
+        "id": 90,
+        "user_id": 12,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:11.852Z",
+        "updated_at": "2025-05-23T13:12:11.852Z"
+      }
+    ],
+    [
+      91,
+      {
+        "id": 91,
+        "user_id": 13,
+        "field_code": "COD_001",
+        "value": "test@example.com",
+        "created_at": "2025-05-23T13:12:11.930Z",
+        "updated_at": "2025-05-23T13:12:11.930Z"
+      }
+    ],
+    [
+      92,
+      {
+        "id": 92,
+        "user_id": 13,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:12.004Z",
+        "updated_at": "2025-05-23T13:12:12.004Z"
+      }
+    ],
+    [
+      93,
+      {
+        "id": 93,
+        "user_id": 13,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:12.077Z",
+        "updated_at": "2025-05-23T13:12:12.077Z"
+      }
+    ],
+    [
+      94,
+      {
+        "id": 94,
+        "user_id": 13,
+        "field_code": "COD_007",
+        "value": "test@example.com",
+        "created_at": "2025-05-23T13:12:12.151Z",
+        "updated_at": "2025-05-23T13:12:12.151Z"
+      }
+    ],
+    [
+      95,
+      {
+        "id": 95,
+        "user_id": 13,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:12.223Z",
+        "updated_at": "2025-05-23T13:12:12.223Z"
+      }
+    ],
+    [
+      96,
+      {
+        "id": 96,
+        "user_id": 13,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:12.296Z",
+        "updated_at": "2025-05-23T13:12:12.296Z"
+      }
+    ],
+    [
+      97,
+      {
+        "id": 97,
+        "user_id": 13,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:12.368Z",
+        "updated_at": "2025-05-23T13:12:12.368Z"
+      }
+    ],
+    [
+      98,
+      {
+        "id": 98,
+        "user_id": 13,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:12.441Z",
+        "updated_at": "2025-05-23T13:12:12.441Z"
+      }
+    ],
+    [
+      99,
+      {
+        "id": 99,
+        "user_id": 13,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:12.517Z",
+        "updated_at": "2025-05-23T13:12:12.517Z"
+      }
+    ],
+    [
+      100,
+      {
+        "id": 100,
+        "user_id": 13,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:12.594Z",
+        "updated_at": "2025-05-23T13:12:12.594Z"
+      }
+    ],
+    [
+      101,
+      {
+        "id": 101,
+        "user_id": 13,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:12.668Z",
+        "updated_at": "2025-05-23T13:12:12.668Z"
+      }
+    ],
+    [
+      102,
+      {
+        "id": 102,
+        "user_id": 13,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:12.741Z",
+        "updated_at": "2025-05-23T13:12:12.741Z"
+      }
+    ],
+    [
+      103,
+      {
+        "id": 103,
+        "user_id": 13,
+        "field_code": "COD_023",
+        "value": "INV-13",
+        "created_at": "2025-05-23T13:12:12.813Z",
+        "updated_at": "2025-05-23T13:12:12.813Z"
+      }
+    ],
+    [
+      104,
+      {
+        "id": 104,
+        "user_id": 13,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:12.886Z",
+        "updated_at": "2025-05-23T13:12:12.886Z"
+      }
+    ],
+    [
+      105,
+      {
+        "id": 105,
+        "user_id": 13,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:12.959Z",
+        "updated_at": "2025-05-23T13:12:12.959Z"
+      }
+    ],
+    [
+      106,
+      {
+        "id": 106,
+        "user_id": 14,
+        "field_code": "COD_001",
+        "value": "busnari.silvia@libero.it",
+        "created_at": "2025-05-23T13:12:13.032Z",
+        "updated_at": "2025-05-23T13:12:13.032Z"
+      }
+    ],
+    [
+      107,
+      {
+        "id": 107,
+        "user_id": 14,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:13.106Z",
+        "updated_at": "2025-05-23T13:12:13.106Z"
+      }
+    ],
+    [
+      108,
+      {
+        "id": 108,
+        "user_id": 14,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:13.179Z",
+        "updated_at": "2025-05-23T13:12:13.179Z"
+      }
+    ],
+    [
+      109,
+      {
+        "id": 109,
+        "user_id": 14,
+        "field_code": "COD_007",
+        "value": "busnari.silvia@libero.it",
+        "created_at": "2025-05-23T13:12:13.256Z",
+        "updated_at": "2025-05-23T13:12:13.256Z"
+      }
+    ],
+    [
+      110,
+      {
+        "id": 110,
+        "user_id": 14,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:13.333Z",
+        "updated_at": "2025-05-23T13:12:13.333Z"
+      }
+    ],
+    [
+      111,
+      {
+        "id": 111,
+        "user_id": 14,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:13.406Z",
+        "updated_at": "2025-05-23T13:12:13.406Z"
+      }
+    ],
+    [
+      112,
+      {
+        "id": 112,
+        "user_id": 14,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:13.479Z",
+        "updated_at": "2025-05-23T13:12:13.479Z"
+      }
+    ],
+    [
+      113,
+      {
+        "id": 113,
+        "user_id": 14,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:13.552Z",
+        "updated_at": "2025-05-23T13:12:13.552Z"
+      }
+    ],
+    [
+      114,
+      {
+        "id": 114,
+        "user_id": 14,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:13.627Z",
+        "updated_at": "2025-05-23T13:12:13.627Z"
+      }
+    ],
+    [
+      115,
+      {
+        "id": 115,
+        "user_id": 14,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:13.711Z",
+        "updated_at": "2025-05-23T13:12:13.711Z"
+      }
+    ],
+    [
+      40,
+      {
+        "id": 40,
+        "user_id": 9,
+        "field_code": "COD_020",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:10:35.361Z",
+        "updated_at": "2025-05-23T14:24:02.369Z"
+      }
+    ],
+    [
+      32,
+      {
+        "id": 32,
+        "user_id": 9,
+        "field_code": "COD_005",
+        "value": "professional",
+        "created_at": "2025-05-23T13:10:32.519Z",
+        "updated_at": "2025-05-23T14:24:02.125Z"
+      }
+    ],
+    [
+      33,
+      {
+        "id": 33,
+        "user_id": 9,
+        "field_code": "COD_006",
+        "value": "light",
+        "created_at": "2025-05-23T13:10:32.872Z",
+        "updated_at": "2025-05-23T14:24:02.159Z"
+      }
+    ],
+    [
+      76,
+      {
+        "id": 76,
+        "user_id": 12,
+        "field_code": "COD_001",
+        "value": "pulsante test 15",
+        "created_at": "2025-05-23T13:12:10.770Z",
+        "updated_at": "2025-05-27T13:47:27.571Z"
+      }
+    ],
+    [
+      116,
+      {
+        "id": 116,
+        "user_id": 14,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:13.785Z",
+        "updated_at": "2025-05-23T13:12:13.785Z"
+      }
+    ],
+    [
+      117,
+      {
+        "id": 117,
+        "user_id": 14,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:13.862Z",
+        "updated_at": "2025-05-23T13:12:13.862Z"
+      }
+    ],
+    [
+      118,
+      {
+        "id": 118,
+        "user_id": 14,
+        "field_code": "COD_023",
+        "value": "INV-14",
+        "created_at": "2025-05-23T13:12:13.935Z",
+        "updated_at": "2025-05-23T13:12:13.935Z"
+      }
+    ],
+    [
+      119,
+      {
+        "id": 119,
+        "user_id": 14,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:14.007Z",
+        "updated_at": "2025-05-23T13:12:14.007Z"
+      }
+    ],
+    [
+      120,
+      {
+        "id": 120,
+        "user_id": 14,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:14.080Z",
+        "updated_at": "2025-05-23T13:12:14.080Z"
+      }
+    ],
+    [
+      121,
+      {
+        "id": 121,
+        "user_id": 16,
+        "field_code": "COD_001",
+        "value": "faverioelisa6@gmail.com",
+        "created_at": "2025-05-23T13:12:14.152Z",
+        "updated_at": "2025-05-23T13:12:14.152Z"
+      }
+    ],
+    [
+      122,
+      {
+        "id": 122,
+        "user_id": 16,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:14.226Z",
+        "updated_at": "2025-05-23T13:12:14.226Z"
+      }
+    ],
+    [
+      123,
+      {
+        "id": 123,
+        "user_id": 16,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:14.299Z",
+        "updated_at": "2025-05-23T13:12:14.299Z"
+      }
+    ],
+    [
+      124,
+      {
+        "id": 124,
+        "user_id": 16,
+        "field_code": "COD_007",
+        "value": "faverioelisa6@gmail.com",
+        "created_at": "2025-05-23T13:12:14.372Z",
+        "updated_at": "2025-05-23T13:12:14.372Z"
+      }
+    ],
+    [
+      125,
+      {
+        "id": 125,
+        "user_id": 16,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:14.444Z",
+        "updated_at": "2025-05-23T13:12:14.444Z"
+      }
+    ],
+    [
+      126,
+      {
+        "id": 126,
+        "user_id": 16,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:14.518Z",
+        "updated_at": "2025-05-23T13:12:14.518Z"
+      }
+    ],
+    [
+      127,
+      {
+        "id": 127,
+        "user_id": 16,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:14.590Z",
+        "updated_at": "2025-05-23T13:12:14.590Z"
+      }
+    ],
+    [
+      128,
+      {
+        "id": 128,
+        "user_id": 16,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:14.663Z",
+        "updated_at": "2025-05-23T13:12:14.663Z"
+      }
+    ],
+    [
+      129,
+      {
+        "id": 129,
+        "user_id": 16,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:14.736Z",
+        "updated_at": "2025-05-23T13:12:14.736Z"
+      }
+    ],
+    [
+      130,
+      {
+        "id": 130,
+        "user_id": 16,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:14.811Z",
+        "updated_at": "2025-05-23T13:12:14.811Z"
+      }
+    ],
+    [
+      131,
+      {
+        "id": 131,
+        "user_id": 16,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:14.884Z",
+        "updated_at": "2025-05-23T13:12:14.884Z"
+      }
+    ],
+    [
+      132,
+      {
+        "id": 132,
+        "user_id": 16,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:14.958Z",
+        "updated_at": "2025-05-23T13:12:14.958Z"
+      }
+    ],
+    [
+      133,
+      {
+        "id": 133,
+        "user_id": 16,
+        "field_code": "COD_023",
+        "value": "INV-16",
+        "created_at": "2025-05-23T13:12:15.031Z",
+        "updated_at": "2025-05-23T13:12:15.031Z"
+      }
+    ],
+    [
+      134,
+      {
+        "id": 134,
+        "user_id": 16,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:15.103Z",
+        "updated_at": "2025-05-23T13:12:15.103Z"
+      }
+    ],
+    [
+      135,
+      {
+        "id": 135,
+        "user_id": 16,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:15.176Z",
+        "updated_at": "2025-05-23T13:12:15.176Z"
+      }
+    ],
+    [
+      136,
+      {
+        "id": 136,
+        "user_id": 18,
+        "field_code": "COD_001",
+        "value": "testpayment@example.com",
+        "created_at": "2025-05-23T13:12:15.248Z",
+        "updated_at": "2025-05-23T13:12:15.248Z"
+      }
+    ],
+    [
+      137,
+      {
+        "id": 137,
+        "user_id": 18,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:15.323Z",
+        "updated_at": "2025-05-23T13:12:15.323Z"
+      }
+    ],
+    [
+      138,
+      {
+        "id": 138,
+        "user_id": 18,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:15.395Z",
+        "updated_at": "2025-05-23T13:12:15.395Z"
+      }
+    ],
+    [
+      139,
+      {
+        "id": 139,
+        "user_id": 18,
+        "field_code": "COD_007",
+        "value": "testpayment@example.com",
+        "created_at": "2025-05-23T13:12:15.468Z",
+        "updated_at": "2025-05-23T13:12:15.468Z"
+      }
+    ],
+    [
+      140,
+      {
+        "id": 140,
+        "user_id": 18,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:15.546Z",
+        "updated_at": "2025-05-23T13:12:15.546Z"
+      }
+    ],
+    [
+      141,
+      {
+        "id": 141,
+        "user_id": 18,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:15.624Z",
+        "updated_at": "2025-05-23T13:12:15.624Z"
+      }
+    ],
+    [
+      142,
+      {
+        "id": 142,
+        "user_id": 18,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:15.697Z",
+        "updated_at": "2025-05-23T13:12:15.697Z"
+      }
+    ],
+    [
+      143,
+      {
+        "id": 143,
+        "user_id": 18,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:15.769Z",
+        "updated_at": "2025-05-23T13:12:15.769Z"
+      }
+    ],
+    [
+      144,
+      {
+        "id": 144,
+        "user_id": 18,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:15.842Z",
+        "updated_at": "2025-05-23T13:12:15.842Z"
+      }
+    ],
+    [
+      145,
+      {
+        "id": 145,
+        "user_id": 18,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:15.916Z",
+        "updated_at": "2025-05-23T13:12:15.916Z"
+      }
+    ],
+    [
+      146,
+      {
+        "id": 146,
+        "user_id": 18,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:15.989Z",
+        "updated_at": "2025-05-23T13:12:15.989Z"
+      }
+    ],
+    [
+      147,
+      {
+        "id": 147,
+        "user_id": 18,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:16.062Z",
+        "updated_at": "2025-05-23T13:12:16.062Z"
+      }
+    ],
+    [
+      148,
+      {
+        "id": 148,
+        "user_id": 18,
+        "field_code": "COD_023",
+        "value": "INV-18",
+        "created_at": "2025-05-23T13:12:16.136Z",
+        "updated_at": "2025-05-23T13:12:16.136Z"
+      }
+    ],
+    [
+      149,
+      {
+        "id": 149,
+        "user_id": 18,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:16.208Z",
+        "updated_at": "2025-05-23T13:12:16.208Z"
+      }
+    ],
+    [
+      150,
+      {
+        "id": 150,
+        "user_id": 18,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:16.282Z",
+        "updated_at": "2025-05-23T13:12:16.282Z"
+      }
+    ],
+    [
+      151,
+      {
+        "id": 151,
+        "user_id": 19,
+        "field_code": "COD_001",
+        "value": "professionista.test@example.com",
+        "created_at": "2025-05-23T13:12:16.355Z",
+        "updated_at": "2025-05-23T13:12:16.355Z"
+      }
+    ],
+    [
+      152,
+      {
+        "id": 152,
+        "user_id": 19,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:16.428Z",
+        "updated_at": "2025-05-23T13:12:16.428Z"
+      }
+    ],
+    [
+      153,
+      {
+        "id": 153,
+        "user_id": 19,
+        "field_code": "COD_006",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T13:12:16.500Z",
+        "updated_at": "2025-05-23T13:12:16.500Z"
+      }
+    ],
+    [
+      154,
+      {
+        "id": 154,
+        "user_id": 19,
+        "field_code": "COD_007",
+        "value": "professionista.test@example.com",
+        "created_at": "2025-05-23T13:12:16.573Z",
+        "updated_at": "2025-05-23T13:12:16.573Z"
+      }
+    ],
+    [
+      155,
+      {
+        "id": 155,
+        "user_id": 19,
+        "field_code": "COD_008",
+        "value": null,
+        "created_at": "2025-05-23T13:12:16.648Z",
+        "updated_at": "2025-05-23T13:12:16.648Z"
+      }
+    ],
+    [
+      156,
+      {
+        "id": 156,
+        "user_id": 19,
+        "field_code": "COD_009",
+        "value": null,
+        "created_at": "2025-05-23T13:12:16.721Z",
+        "updated_at": "2025-05-23T13:12:16.721Z"
+      }
+    ],
+    [
+      157,
+      {
+        "id": 157,
+        "user_id": 19,
+        "field_code": "COD_010",
+        "value": null,
+        "created_at": "2025-05-23T13:12:16.799Z",
+        "updated_at": "2025-05-23T13:12:16.799Z"
+      }
+    ],
+    [
+      158,
+      {
+        "id": 158,
+        "user_id": 19,
+        "field_code": "COD_011",
+        "value": null,
+        "created_at": "2025-05-23T13:12:16.875Z",
+        "updated_at": "2025-05-23T13:12:16.875Z"
+      }
+    ],
+    [
+      159,
+      {
+        "id": 159,
+        "user_id": 19,
+        "field_code": "COD_019",
+        "value": "09:00:00",
+        "created_at": "2025-05-23T13:12:16.949Z",
+        "updated_at": "2025-05-23T13:12:16.949Z"
+      }
+    ],
+    [
+      160,
+      {
+        "id": 160,
+        "user_id": 19,
+        "field_code": "COD_020",
+        "value": "18:00:00",
+        "created_at": "2025-05-23T13:12:17.024Z",
+        "updated_at": "2025-05-23T13:12:17.024Z"
+      }
+    ],
+    [
+      161,
+      {
+        "id": 161,
+        "user_id": 19,
+        "field_code": "COD_021",
+        "value": "professional",
+        "created_at": "2025-05-23T13:12:17.097Z",
+        "updated_at": "2025-05-23T13:12:17.097Z"
+      }
+    ],
+    [
+      162,
+      {
+        "id": 162,
+        "user_id": 19,
+        "field_code": "COD_022",
+        "value": "30",
+        "created_at": "2025-05-23T13:12:17.172Z",
+        "updated_at": "2025-05-23T13:12:17.172Z"
+      }
+    ],
+    [
+      163,
+      {
+        "id": 163,
+        "user_id": 19,
+        "field_code": "COD_023",
+        "value": "INV-19",
+        "created_at": "2025-05-23T13:12:17.245Z",
+        "updated_at": "2025-05-23T13:12:17.245Z"
+      }
+    ],
+    [
+      164,
+      {
+        "id": 164,
+        "user_id": 19,
+        "field_code": "COD_024",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:12:17.318Z",
+        "updated_at": "2025-05-23T13:12:17.318Z"
+      }
+    ],
+    [
+      165,
+      {
+        "id": 165,
+        "user_id": 19,
+        "field_code": "COD_025",
+        "value": "EUR",
+        "created_at": "2025-05-23T13:12:17.391Z",
+        "updated_at": "2025-05-23T13:12:17.391Z"
+      }
+    ],
+    [
+      166,
+      {
+        "id": 166,
+        "user_id": 20,
+        "field_code": "COD_001",
+        "value": "1professionista.test@example.com",
+        "created_at": "2025-05-23T13:12:17.464Z",
+        "updated_at": "2025-05-23T13:12:17.464Z"
+      }
+    ],
+    [
+      167,
+      {
+        "id": 167,
+        "user_id": 20,
+        "field_code": "COD_005",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T13:12:17.536Z",
+        "updated_at": "2025-05-23T13:12:17.536Z"
+      }
+    ],
+    [
+      171,
+      {
+        "id": 171,
+        "user_id": 9,
+        "field_code": "COD_002",
+        "value": "#3f51b5",
+        "created_at": "2025-05-23T14:11:01.315Z",
+        "updated_at": "2025-05-23T14:24:02.053Z"
+      }
+    ],
+    [
+      172,
+      {
+        "id": 172,
+        "user_id": 9,
+        "field_code": "COD_003",
+        "value": "#ffffff",
+        "created_at": "2025-05-23T14:11:01.364Z",
+        "updated_at": "2025-05-23T14:24:02.091Z"
+      }
+    ],
+    [
+      180,
+      {
+        "id": 180,
+        "user_id": 9,
+        "field_code": "COD_015",
+        "value": "09:00",
+        "created_at": "2025-05-23T14:11:01.482Z",
+        "updated_at": "2025-05-23T14:24:02.194Z"
+      }
+    ],
+    [
+      182,
+      {
+        "id": 182,
+        "user_id": 9,
+        "field_code": "COD_016",
+        "value": "18:00",
+        "created_at": "2025-05-23T14:11:01.521Z",
+        "updated_at": "2025-05-23T14:24:02.229Z"
+      }
+    ],
+    [
+      187,
+      {
+        "id": 187,
+        "user_id": 9,
+        "field_code": "COD_017",
+        "value": "60",
+        "created_at": "2025-05-23T14:11:01.560Z",
+        "updated_at": "2025-05-23T14:24:02.264Z"
+      }
+    ],
+    [
+      190,
+      {
+        "id": 190,
+        "user_id": 9,
+        "field_code": "COD_018",
+        "value": "INV-9",
+        "created_at": "2025-05-23T14:11:01.608Z",
+        "updated_at": "2025-05-23T14:24:02.298Z"
+      }
+    ],
+    [
+      39,
+      {
+        "id": 39,
+        "user_id": 9,
+        "field_code": "COD_019",
+        "value": "22.00",
+        "created_at": "2025-05-23T13:10:35.012Z",
+        "updated_at": "2025-05-23T14:24:02.332Z"
+      }
+    ],
+    [
+      31,
+      {
+        "id": 31,
+        "user_id": 9,
+        "field_code": "COD_001",
+        "value": "test",
+        "created_at": "2025-05-23T13:10:32.154Z",
+        "updated_at": "2025-05-26T12:34:53.039Z"
+      }
+    ],
+    [
+      950,
+      {
+        "id": 950,
+        "user_id": 12,
+        "field_code": "COD_078",
+        "value": "24",
+        "created_at": "2025-05-27T13:42:51.694Z",
+        "updated_at": "2025-05-27T13:42:51.696Z"
+      }
+    ],
+    [
+      952,
+      {
+        "id": 952,
+        "user_id": 12,
+        "field_code": "COD_077",
+        "value": "Arial",
+        "created_at": "2025-05-27T13:42:52.120Z",
+        "updated_at": "2025-05-27T13:42:52.120Z"
+      }
+    ],
+    [
+      954,
+      {
+        "id": 954,
+        "user_id": 12,
+        "field_code": "COD_073",
+        "value": "normal",
+        "created_at": "2025-05-27T13:42:52.519Z",
+        "updated_at": "2025-05-27T13:42:52.539Z"
+      }
+    ],
+    [
+      956,
+      {
+        "id": 956,
+        "user_id": 12,
+        "field_code": "COD_074",
+        "value": "#000000",
+        "created_at": "2025-05-27T13:42:52.908Z",
+        "updated_at": "2025-05-27T13:42:52.954Z"
+      }
+    ],
+    [
+      958,
+      {
+        "id": 958,
+        "user_id": 12,
+        "field_code": "COD_075",
+        "value": "true",
+        "created_at": "2025-05-27T13:42:53.335Z",
+        "updated_at": "2025-05-27T13:42:53.387Z"
+      }
+    ]
   ]
 }
