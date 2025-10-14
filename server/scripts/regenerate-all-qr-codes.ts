@@ -24,14 +24,23 @@ async function regenerateAllQRCodes() {
   console.log('🔄 Inizio rigenerazione QR codes...\n');
   
   // Verifica BASE_URL
-  const baseUrl = process.env.BASE_URL;
-  if (!baseUrl) {
-    console.error('❌ ERRORE: BASE_URL non impostato!');
-    console.error('   Imposta BASE_URL=https://gestionale-appuntamenti.sliplane.app su Sliplane');
-    process.exit(1);
-  }
+  let baseUrl = process.env.BASE_URL;
   
-  console.log(`✅ BASE_URL impostato: ${baseUrl}\n`);
+  if (!baseUrl) {
+    // Fallback per test su Replit
+    const replitSlug = process.env.REPLIT_SLUG || process.env.REPL_SLUG;
+    if (replitSlug) {
+      baseUrl = `https://${replitSlug}.replit.app`;
+      console.log(`⚠️  BASE_URL non impostato, uso Replit per test: ${baseUrl}`);
+      console.log('   SU SLIPLANE: Imposta BASE_URL=https://gestionale-appuntamenti.sliplane.app\n');
+    } else {
+      console.error('❌ ERRORE: BASE_URL non impostato e non su Replit!');
+      console.error('   Imposta BASE_URL=https://gestionale-appuntamenti.sliplane.app');
+      process.exit(1);
+    }
+  } else {
+    console.log(`✅ BASE_URL impostato: ${baseUrl}\n`);
+  }
   
   try {
     // Leggi tutti i clienti dal database o JSON
