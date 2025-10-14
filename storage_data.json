@@ -8006,15 +8006,243 @@
   ],
   "users": [
     [
-      999,
+      3,
       {
-        "id": 999,
+        "id": 3,
         "username": "zambelli.andrea.1973@gmail.com",
         "email": "zambelli.andrea.1973@gmail.com",
-        "password": "8ff35c8d7d344db754b37eef663d4f691ed53141b0d683264a3631820aad41f5c0ed748e3d003fd43b93243fe2c0796cd3b59db05f488e6b7d3cf08fb4b8f86f.f0908fee79e9e36dd4e6ad2e5c432140",
+        "password": "d4499b80f9a17bcac30cb350aa61bad5b711cc02f10b0c4aa9a816e5309cad9787cd1f49c3b0bf8dd8c64b0d988758f4181571a474725828fa304ea67c9e2bf0.9e22154eb7cf018a1b7d6d349ef07d47",
         "type": "admin",
         "role": "admin",
-        "createdAt": "2025-10-14T13:54:21.069Z"
+        "createdAt": "2025-05-08T09:11:58.839Z",
+        "assignmentCode": "ZAM0319",
+        "referralCode": null,
+        "referredBy": null
+      }
+    ],
+    [
+      8,
+      {
+        "id": 8,
+        "username": "zambelli.andrea.19732@gmail.com",
+        "email": "zambelli.andrea.19732@gmail.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "staff",
+        "role": "staff",
+        "createdAt": "2025-05-09T06:10:06.735Z",
+        "assignmentCode": "ZAM0806",
+        "referralCode": "ZAM08",
+        "referredBy": null
+      }
+    ],
+    [
+      9,
+      {
+        "id": 9,
+        "username": "zambelli.andrea.1973A@gmail.com",
+        "email": "zambelli.andrea.1973A@gmail.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-09T06:10:22.838Z",
+        "assignmentCode": "ZAM0942",
+        "referralCode": null,
+        "referredBy": 16
+      }
+    ],
+    [
+      10,
+      {
+        "id": 10,
+        "username": "zambelli.andrea.1973B@gmail.com",
+        "email": "zambelli.andrea.1973B@gmail.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-09T06:10:34.196Z",
+        "assignmentCode": "ZAM102E",
+        "referralCode": null,
+        "referredBy": 14
+      }
+    ],
+    [
+      11,
+      {
+        "id": 11,
+        "username": "zambelli.andrea.1973C@gmail.com",
+        "email": "zambelli.andrea.1973C@gmail.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-09T06:10:45.903Z",
+        "assignmentCode": "ZAM11CC",
+        "referralCode": null,
+        "referredBy": 16
+      }
+    ],
+    [
+      12,
+      {
+        "id": 12,
+        "username": "zambelli.andrea.1973D@gmail.com",
+        "email": "zambelli.andrea.1973D@gmail.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-09T06:10:56.884Z",
+        "assignmentCode": "ZAM1283",
+        "referralCode": null,
+        "referredBy": 14
+      }
+    ],
+    [
+      13,
+      {
+        "id": 13,
+        "username": "test@example.com",
+        "email": "test@example.com",
+        "password": "d4499b80f9a17bcac30cb350aa61bad5b711cc02f10b0c4aa9a816e5309cad9787cd1f49c3b0bf8dd8c64b0d988758f4181571a474725828fa304ea67c9e2bf0.9e22154eb7cf018a1b7d6d349ef07d47",
+        "type": "admin",
+        "role": "admin",
+        "createdAt": "2025-05-09T06:19:04.463Z",
+        "assignmentCode": "TES1312",
+        "referralCode": null,
+        "referredBy": null
+      }
+    ],
+    [
+      14,
+      {
+        "id": 14,
+        "username": "busnari.silvia@libero.it",
+        "email": "busnari.silvia@libero.it",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "staff",
+        "role": "staff",
+        "createdAt": "2025-05-09T12:06:20.087Z",
+        "assignmentCode": "BUS1422",
+        "referralCode": "BUS14",
+        "referredBy": null
+      }
+    ],
+    [
+      16,
+      {
+        "id": 16,
+        "username": "faverioelisa6@gmail.com",
+        "email": "faverioelisa6@gmail.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "staff",
+        "role": "staff",
+        "createdAt": "2025-05-19T06:23:17.389Z",
+        "assignmentCode": "FAV1689",
+        "referralCode": "ELI16",
+        "referredBy": null
+      }
+    ],
+    [
+      18,
+      {
+        "id": 18,
+        "username": "testpayment@example.com",
+        "email": "testpayment@example.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-19T13:48:01.485Z",
+        "assignmentCode": "TES18EA",
+        "referralCode": null,
+        "referredBy": 14
+      }
+    ],
+    [
+      19,
+      {
+        "id": 19,
+        "username": "professionista.test@example.com",
+        "email": "professionista.test@example.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-19T13:55:20.566Z",
+        "assignmentCode": "PRO190C",
+        "referralCode": null,
+        "referredBy": 14
+      }
+    ],
+    [
+      20,
+      {
+        "id": 20,
+        "username": "1professionista.test@example.com",
+        "email": "1professionista.test@example.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "staff",
+        "role": "staff",
+        "createdAt": "2025-05-19T14:08:21.511Z",
+        "assignmentCode": "PRO200B",
+        "referralCode": "PR120",
+        "referredBy": null
+      }
+    ],
+    [
+      21,
+      {
+        "id": 21,
+        "username": "2professionista.test@example.com",
+        "email": "2professionista.test@example.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "staff",
+        "role": "staff",
+        "createdAt": "2025-05-19T14:18:58.179Z",
+        "assignmentCode": "PRO218E",
+        "referralCode": "PR221",
+        "referredBy": null
+      }
+    ],
+    [
+      22,
+      {
+        "id": 22,
+        "username": "3professionista.test@example.com",
+        "email": "3professionista.test@example.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "staff",
+        "role": "staff",
+        "createdAt": "2025-05-19T14:19:41.029Z",
+        "assignmentCode": "PRO227A",
+        "referralCode": "PR322",
+        "referredBy": null
+      }
+    ],
+    [
+      23,
+      {
+        "id": 23,
+        "username": "4professionista.test@example.com",
+        "email": "4professionista.test@example.com",
+        "password": "cf6524f62a5609496219e5b0ebe5a422d0ef03dc17aa11679d365ef3ec4443adc1cb6a3188f0425364980ec79724137ef140f5ba762e9552e60c554984f9ca7a.a7376eb0a05fd69219afc6003fb41b8b",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-05-19T14:28:00.999Z",
+        "assignmentCode": "PRO23D9",
+        "referralCode": null,
+        "referredBy": 16
+      }
+    ],
+    [
+      24,
+      {
+        "id": 24,
+        "username": "test.referral@example.com",
+        "email": "test.referral@example.com",
+        "password": "$2b$10$test",
+        "type": "customer",
+        "role": "user",
+        "createdAt": "2025-10-01T13:33:40.786Z",
+        "assignmentCode": null,
+        "referralCode": null,
+        "referredBy": 14
       }
     ]
   ],
