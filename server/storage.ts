@@ -2502,7 +2502,34 @@ export class DatabaseStorage implements IStorage {
       return newNotification;
     } catch (error) {
       console.error("Error creating notification:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.notifications) {
+          storageData.notifications = [];
+        }
+        
+        const maxId = storageData.notifications.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newNotification: Notification = {
+          id: maxId + 1,
+          ...notification,
+          sentAt: notification.sentAt || new Date()
+        };
+        
+        storageData.notifications.push([newNotification.id, newNotification]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Notification ${newNotification.id} created in JSON storage`);
+        return newNotification;
+      } catch (jsonError) {
+        console.error("Error creating notification in JSON:", jsonError);
+        throw error;
+      }
     }
   }
   
