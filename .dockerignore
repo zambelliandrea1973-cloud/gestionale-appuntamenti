@@ -52,6 +52,9 @@ temp
 !package.json
 !package-lock.json
 !theme.json
+!storage_data.json
+!email_settings.json
+!accounts-credentials.json
 
 # Replit specific
 .cache
