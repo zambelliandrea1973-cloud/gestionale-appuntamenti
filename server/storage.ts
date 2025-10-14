@@ -389,7 +389,29 @@ export class DatabaseStorage implements IStorage {
       return rawClients;
     } catch (error) {
       console.error("Error getting clients:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          return [];
+        }
+        
+        let filteredClients = storageData.clients
+          .map(([_, client]: [number, any]) => client);
+        
+        if (ownerId !== undefined) {
+          filteredClients = filteredClients.filter((client: Client) => client.ownerId === ownerId);
+        }
+        
+        console.log(`✅ Retrieved ${filteredClients.length} clients from JSON${ownerId !== undefined ? ` for owner ${ownerId}` : ''}`);
+        return filteredClients;
+      } catch (jsonError) {
+        console.error("Error getting clients from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
@@ -427,7 +449,32 @@ export class DatabaseStorage implements IStorage {
       }
     } catch (error) {
       console.error("Error getting visible clients:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.clients) {
+          return [];
+        }
+        
+        const allClients = storageData.clients
+          .map(([_, client]: [number, any]) => client);
+        
+        if (role === 'admin') {
+          console.log(`✅ Retrieved ${allClients.length} clients from JSON for admin user ${userId}`);
+          return allClients;
+        } else {
+          // Filter by ownerId for non-admin users
+          const userClients = allClients.filter((client: Client) => client.ownerId === userId);
+          console.log(`✅ Retrieved ${userClients.length} clients from JSON for user ${userId}`);
+          return userClients;
+        }
+      } catch (jsonError) {
+        console.error("Error getting visible clients from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
@@ -984,7 +1031,26 @@ export class DatabaseStorage implements IStorage {
       return userServices;
     } catch (error) {
       console.error("Error getting services for user:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.services) {
+          return [];
+        }
+        
+        const userServices = storageData.services
+          .map(([_, service]: [number, any]) => service)
+          .filter((s: any) => s.userId === userId);
+        
+        console.log(`✅ Retrieved ${userServices.length} services from JSON for user ${userId}`);
+        return userServices;
+      } catch (jsonError) {
+        console.error("Error getting services from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
@@ -1123,7 +1189,26 @@ export class DatabaseStorage implements IStorage {
         .orderBy(staff.firstName, staff.lastName);
     } catch (error) {
       console.error("Error getting staff for user:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.staff) {
+          return [];
+        }
+        
+        const userStaff = storageData.staff
+          .map(([_, staffMember]: [number, any]) => staffMember)
+          .filter((s: any) => s.userId === userId && s.isActive === true);
+        
+        console.log(`✅ Retrieved ${userStaff.length} staff from JSON for user ${userId}`);
+        return userStaff;
+      } catch (jsonError) {
+        console.error("Error getting staff from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
@@ -1209,7 +1294,26 @@ export class DatabaseStorage implements IStorage {
         .orderBy(treatmentRooms.name);
     } catch (error) {
       console.error("Error getting treatment rooms for user:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.treatment_rooms) {
+          return [];
+        }
+        
+        const userRooms = storageData.treatment_rooms
+          .map(([_, room]: [number, any]) => room)
+          .filter((r: any) => r.userId === userId && r.isActive === true);
+        
+        console.log(`✅ Retrieved ${userRooms.length} treatment rooms from JSON for user ${userId}`);
+        return userRooms;
+      } catch (jsonError) {
+        console.error("Error getting treatment rooms from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
@@ -1385,7 +1489,43 @@ export class DatabaseStorage implements IStorage {
       return result;
     } catch (error) {
       console.error("Error getting appointments for user:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.appointments) {
+          return [];
+        }
+        
+        const result: AppointmentWithDetails[] = [];
+        
+        // Filter appointments by userId
+        const userAppointments = storageData.appointments
+          .map(([_, apt]: [number, any]) => apt)
+          .filter((apt: any) => apt.userId === userId);
+        
+        // Manual join with clients and services
+        for (const appointment of userAppointments) {
+          const client = storageData.clients?.find(([id]: [number, any]) => id === appointment.clientId)?.[1];
+          const service = storageData.services?.find(([id]: [number, any]) => id === appointment.serviceId)?.[1];
+          
+          if (client && service) {
+            result.push({
+              ...appointment,
+              client,
+              service
+            });
+          }
+        }
+        
+        console.log(`✅ Retrieved ${result.length} appointments from JSON for user ${userId}`);
+        return result;
+      } catch (jsonError) {
+        console.error("Error getting appointments from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
@@ -1422,7 +1562,43 @@ export class DatabaseStorage implements IStorage {
       return result;
     } catch (error) {
       console.error("Error getting appointments by date for user:", error);
-      return [];
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.appointments) {
+          return [];
+        }
+        
+        const result: AppointmentWithDetails[] = [];
+        
+        // Filter appointments by date AND userId
+        const userDateAppointments = storageData.appointments
+          .map(([_, apt]: [number, any]) => apt)
+          .filter((apt: any) => apt.date === date && apt.userId === userId);
+        
+        // Manual join with clients and services
+        for (const appointment of userDateAppointments) {
+          const client = storageData.clients?.find(([id]: [number, any]) => id === appointment.clientId)?.[1];
+          const service = storageData.services?.find(([id]: [number, any]) => id === appointment.serviceId)?.[1];
+          
+          if (client && service) {
+            result.push({
+              ...appointment,
+              client,
+              service
+            });
+          }
+        }
+        
+        console.log(`✅ Retrieved ${result.length} appointments from JSON for date ${date}, user ${userId}`);
+        return result;
+      } catch (jsonError) {
+        console.error("Error getting appointments by date from JSON:", jsonError);
+        return [];
+      }
     }
   }
 
