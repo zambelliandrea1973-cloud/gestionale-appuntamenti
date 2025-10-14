@@ -39,7 +39,8 @@ import ConsentForm from "./ConsentForm";
 
 interface ClientFormProps {
   clientId?: number;
-  onClose: () => void;
+  onClose?: () => void;
+  onSuccess?: () => void;
   onClientCreated?: (clientId: number) => void;
 }
 
@@ -80,6 +81,7 @@ const countryPrefixes = [
 export default function ClientForm({ 
   clientId,
   onClose,
+  onSuccess,
   onClientCreated
 }: ClientFormProps) {
   const { toast } = useToast();
@@ -165,7 +167,12 @@ export default function ClientForm({
       }
       
       // Chiudi sempre il form dopo un salvataggio riuscito
-      onClose();
+      if (onClose) {
+        onClose();
+      }
+      if (onSuccess) {
+        onSuccess();
+      }
     },
     onError: (error) => {
       toast({
