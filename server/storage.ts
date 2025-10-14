@@ -1715,6 +1715,24 @@ export class DatabaseStorage implements IStorage {
   async getUserByUsername(username: string): Promise<User | undefined> {
     try {
       const [user] = await db.select().from(users).where(eq(users.username, username));
+      
+      // Se l'utente non viene trovato nel database, prova con JSON
+      if (!user) {
+        console.log(`User not found in DB, trying JSON storage for: ${username}`);
+        try {
+          const { loadStorageData } = await import('./utils/jsonStorage.js');
+          const storageData = loadStorageData();
+          const userEntry = storageData.users?.find(([id, u]: [number, any]) => u.username === username);
+          
+          if (userEntry) {
+            console.log(`✅ User found in JSON storage: ${username}`);
+            return userEntry[1];
+          }
+        } catch (jsonError) {
+          console.error("Error loading user from JSON:", jsonError);
+        }
+      }
+      
       return user;
     } catch (error) {
       console.error("Error getting user by username:", error);
@@ -1726,6 +1744,7 @@ export class DatabaseStorage implements IStorage {
         const userEntry = storageData.users?.find(([id, u]: [number, any]) => u.username === username);
         
         if (userEntry) {
+          console.log(`✅ User found in JSON storage (after DB error): ${username}`);
           return userEntry[1];
         }
       } catch (jsonError) {
