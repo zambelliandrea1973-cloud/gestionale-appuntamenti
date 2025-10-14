@@ -45,6 +45,7 @@ import {
 } from "../shared/schema";
 import connectPg from "connect-pg-simple";
 import session from "express-session";
+import createMemoryStore from "memorystore";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, like, or, sql, ne, asc, inArray } from 'drizzle-orm';
 import { inventoryJsonStorage } from "./inventory-json-storage.js";
@@ -347,29 +348,13 @@ export class DatabaseStorage implements IStorage {
   sessionStore: session.Store;
 
   constructor() {
-    // Setup session store - use MemoryStore if DATABASE_URL is fake/unavailable
-    const dbUrl = process.env.DATABASE_URL || '';
-    const isFakeDb = dbUrl.includes('fake') || dbUrl.includes('localhost');
-    
-    if (isFakeDb) {
-      // Use in-memory session store for JSON storage mode
-      console.log('📝 Usando MemoryStore per le sessioni (JSON storage mode)');
-      const MemoryStore = require('memorystore')(session);
-      this.sessionStore = new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h
-      });
-    } else {
-      // Use PostgreSQL session store for database mode
-      console.log('📝 Usando PostgreSQL session store (database mode)');
-      const PostgresSessionStore = connectPg(session);
-      this.sessionStore = new PostgresSessionStore({
-        conObject: {
-          connectionString: process.env.DATABASE_URL,
-          ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
-        },
-        createTableIfMissing: true
-      });
-    }
+    // Setup session store - always use MemoryStore in production for JSON storage
+    // MemoryStore is already installed as dependency
+    console.log('📝 Usando MemoryStore per le sessioni (JSON storage mode)');
+    const MemoryStore = createMemoryStore(session);
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    });
   }
 
   // Client operations
