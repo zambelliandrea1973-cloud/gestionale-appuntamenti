@@ -1,0 +1,558 @@
+4/10/2025, 21:12:25:
+runtime
+}
+14/10/2025, 21:12:25:
+runtime
+7:12:25 PM [express] GET /api/user-with-license 200 in 30ms :: {"id":14,"username":"busnari.silvia@l…
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 21:12:25:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 21:12:25:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760469145708-default
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+14/10/2025, 21:12:25:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 21:12:25:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 21:12:25:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760469145708.7896&android=1","/pwa-icon/192x192?owner=default&v=1760469145708.7896&android=1","/pwa-icon/512x512?owner=default&v=1760469145708.7896&android=1"]
+14/10/2025, 21:12:25:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 21:12:25:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 21:12:25:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 21:12:25:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 67999 bytes
+14/10/2025, 21:12:30:
+build
+#1 [service_event_u4ko50jcmnnz internal] load build definition from Dockerfile
+14/10/2025, 21:12:30:
+build
+#1 transferring dockerfile: 618B done
+14/10/2025, 21:12:30:
+build
+#1 DONE 0.0s
+14/10/2025, 21:12:30:
+build
+14/10/2025, 21:12:30:
+build
+#2 [service_event_u4ko50jcmnnz internal] load metadata for docker.io/library/node:20-alpine
+14/10/2025, 21:12:31:
+build
+#2 DONE 1.4s
+14/10/2025, 21:12:31:
+build
+14/10/2025, 21:12:31:
+build
+#3 [service_event_u4ko50jcmnnz internal] load .dockerignore
+14/10/2025, 21:12:31:
+build
+#3 transferring context: 740B done
+14/10/2025, 21:12:31:
+build
+#3 DONE 0.0s
+14/10/2025, 21:12:31:
+build
+14/10/2025, 21:12:31:
+build
+#4 [service_event_u4ko50jcmnnz 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 21:12:31:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+14/10/2025, 21:12:31:
+build
+#4 sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce 0B / 445B 0.2s
+14/10/2025, 21:12:31:
+build
+#4 sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce 445B / 445B 0.4s done
+14/10/2025, 21:12:31:
+build
+#4 sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 0B / 1.26MB 0.3s
+14/10/2025, 21:12:31:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 0B / 42.75MB 0.3s
+14/10/2025, 21:12:31:
+build
+#4 sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0B / 3.80MB 0.3s
+14/10/2025, 21:12:32:
+build
+#4 sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 1.26MB / 1.26MB 0.6s done
+14/10/2025, 21:12:32:
+build
+#4 sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 3.80MB / 3.80MB 0.5s done
+14/10/2025, 21:12:32:
+build
+#4 extracting sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b
+14/10/2025, 21:12:32:
+build
+#4 extracting sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0.1s done
+14/10/2025, 21:12:32:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 7.04MB / 42.75MB 0.8s
+14/10/2025, 21:12:32:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 13.63MB / 42.75MB 0.9s
+14/10/2025, 21:12:32:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 19.92MB / 42.75MB 1.1s
+14/10/2025, 21:12:32:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 32.51MB / 42.75MB 1.4s
+14/10/2025, 21:12:33:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 36.70MB / 42.75MB 1.5s
+14/10/2025, 21:12:33:
+build
+#4 sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 42.75MB / 42.75MB 1.6s done
+14/10/2025, 21:12:33:
+build
+#4 extracting sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c
+14/10/2025, 21:12:34:
+build
+#4 extracting sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 1.2s done
+14/10/2025, 21:12:34:
+build
+#4 extracting sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 0.0s done
+14/10/2025, 21:12:34:
+build
+#4 extracting sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 21:12:34:
+build
+#4 DONE 2.9s
+14/10/2025, 21:12:34:
+build
+14/10/2025, 21:12:34:
+build
+#5 [service_event_u4ko50jcmnnz internal] load build context
+14/10/2025, 21:12:35:
+build
+#5 transferring context: 1.22GB 4.1s done
+14/10/2025, 21:12:35:
+build
+#5 DONE 4.1s
+14/10/2025, 21:12:35:
+build
+14/10/2025, 21:12:35:
+build
+#6 [service_event_u4ko50jcmnnz 2/7] WORKDIR /app
+14/10/2025, 21:12:35:
+build
+#6 DONE 1.2s
+14/10/2025, 21:12:35:
+build
+14/10/2025, 21:12:35:
+build
+#7 [service_event_u4ko50jcmnnz 3/7] COPY package.json package-lock.json ./
+14/10/2025, 21:12:35:
+build
+#7 DONE 0.0s
+14/10/2025, 21:12:35:
+build
+14/10/2025, 21:12:35:
+build
+#8 [service_event_u4ko50jcmnnz 4/7] RUN npm ci
+14/10/2025, 21:12:39:
+build
+#8 3.750 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+14/10/2025, 21:12:40:
+build
+#8 4.586 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+14/10/2025, 21:12:40:
+build
+#8 5.151 npm warn deprecated fstream@1.0.12: This package is no longer supported.
+14/10/2025, 21:12:42:
+build
+#8 6.404 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+14/10/2025, 21:12:42:
+build
+#8 6.641 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+14/10/2025, 21:12:42:
+build
+#8 7.069 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+14/10/2025, 21:12:42:
+build
+#8 7.140 npm warn deprecated @paypal/checkout-server-sdk@1.0.3: Package no longer supported. The author suggests using the @paypal/paypal-server-sdk package instead: https://www.npmjs.com/package/@paypal/paypal-server-sdk. Contact Support at https://www.npmjs.com/support for more info.
+14/10/2025, 21:12:42:
+build
+#8 7.290 npm warn deprecated puppeteer@18.2.1: < 24.9.0 is no longer supported
+14/10/2025, 21:12:43:
+build
+#8 7.349 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+14/10/2025, 21:12:43:
+build
+#8 7.511 npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+14/10/2025, 21:12:43:
+build
+#8 7.536 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+14/10/2025, 21:12:57:
+build
+#8 21.96 
+14/10/2025, 21:12:57:
+build
+#8 21.96 added 939 packages, and audited 940 packages in 22s
+14/10/2025, 21:12:57:
+build
+#8 21.96 
+14/10/2025, 21:12:57:
+build
+#8 21.96 101 packages are looking for funding
+14/10/2025, 21:12:57:
+build
+#8 21.96   run `npm fund` for details
+14/10/2025, 21:12:57:
+build
+#8 22.01 
+14/10/2025, 21:12:57:
+build
+#8 22.01 18 vulnerabilities (3 low, 8 moderate, 6 high, 1 critical)
+14/10/2025, 21:12:57:
+build
+#8 22.01 
+14/10/2025, 21:12:57:
+build
+#8 22.01 To address issues that do not require attention, run:
+14/10/2025, 21:12:57:
+build
+#8 22.01   npm audit fix
+14/10/2025, 21:12:57:
+build
+#8 22.01 
+14/10/2025, 21:12:57:
+build
+#8 22.01 To address all issues (including breaking changes), run:
+14/10/2025, 21:12:57:
+build
+#8 22.01   npm audit fix --force
+14/10/2025, 21:12:57:
+build
+#8 22.01 
+14/10/2025, 21:12:57:
+build
+#8 22.01 Run `npm audit` for details.
+14/10/2025, 21:12:57:
+build
+#8 22.01 npm notice
+14/10/2025, 21:12:57:
+build
+#8 22.01 npm notice New major version of npm available! 10.8.2 -> 11.6.2
+14/10/2025, 21:12:57:
+build
+#8 22.01 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.6.2
+14/10/2025, 21:12:57:
+build
+#8 22.01 npm notice To update run: npm install -g npm@11.6.2
+14/10/2025, 21:12:57:
+build
+#8 22.01 npm notice
+14/10/2025, 21:12:59:
+build
+#8 DONE 23.9s
+14/10/2025, 21:12:59:
+build
+14/10/2025, 21:12:59:
+build
+#9 [service_event_u4ko50jcmnnz 5/7] COPY . .
+14/10/2025, 21:13:02:
+build
+#9 DONE 3.4s
+14/10/2025, 21:13:03:
+build
+14/10/2025, 21:13:03:
+build
+#10 [service_event_u4ko50jcmnnz 6/7] RUN npx vite build
+14/10/2025, 21:13:03:
+build
+#10 0.954 vite v5.4.14 building for production...
+14/10/2025, 21:13:04:
+build
+#10 1.055 
+14/10/2025, 21:13:04:
+build
+#10 1.064 
+14/10/2025, 21:13:04:
+build
+#10 1.064 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+14/10/2025, 21:13:04:
+build
+#10 1.066 transforming...
+14/10/2025, 21:13:04:
+build
+#10 1.368 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+14/10/2025, 21:13:04:
+build
+#10 1.368   npx update-browserslist-db@latest
+14/10/2025, 21:13:04:
+build
+#10 1.368   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+14/10/2025, 21:13:15:
+build
+#10 12.40 ✓ 3669 modules transformed.
+14/10/2025, 21:13:16:
+build
+#10 13.59 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 21:13:16:
+build
+#10 13.59 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 21:13:16:
+build
+#10 13.59 
+14/10/2025, 21:13:16:
+build
+#10 13.60 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 21:13:16:
+build
+#10 13.60 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 21:13:16:
+build
+#10 13.60 
+14/10/2025, 21:13:16:
+build
+#10 13.60 rendering chunks...
+14/10/2025, 21:13:16:
+build
+#10 13.67 computing gzip size...
+14/10/2025, 21:13:16:
+build
+#10 13.72 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+14/10/2025, 21:13:16:
+build
+#10 13.72 
+14/10/2025, 21:13:16:
+build
+#10 13.72 (!) Some chunks are larger than 500 kB after minification. Consider:
+14/10/2025, 21:13:16:
+build
+#10 13.72 - Using dynamic import() to code-split the application
+14/10/2025, 21:13:16:
+build
+#10 13.72 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+14/10/2025, 21:13:16:
+build
+#10 13.72 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+14/10/2025, 21:13:16:
+build
+#10 13.72 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+14/10/2025, 21:13:16:
+build
+#10 13.72 ../dist/public/assets/index-BP_VhJEW.js   2,038.76 kB │ gzip: 547.92 kB
+14/10/2025, 21:13:17:
+build
+#10 13.72 ✓ built in 12.73s
+14/10/2025, 21:13:17:
+build
+#10 DONE 13.9s
+14/10/2025, 21:13:17:
+build
+14/10/2025, 21:13:17:
+build
+#11 [service_event_u4ko50jcmnnz 7/7] RUN cp -r dist/public server/public
+14/10/2025, 21:13:17:
+build
+#11 DONE 0.3s
+14/10/2025, 21:13:17:
+build
+14/10/2025, 21:13:17:
+build
+#12 [service_event_u4ko50jcmnnz] exporting to image
+14/10/2025, 21:13:17:
+build
+#12 exporting layers
+14/10/2025, 21:14:04:
+build
+#12 exporting layers 46.8s done
+14/10/2025, 21:14:04:
+build
+#12 exporting manifest sha256:07103c92042448729a9592cac34aa99f11e098656c7f2897f19b0b3abe207706 done
+14/10/2025, 21:14:04:
+build
+#12 exporting config sha256:f84c720f124e6aa4f286466a303da270f486e3bd1d9995bba0e0887a71f08baf done
+14/10/2025, 21:14:04:
+build
+#12 pushing layers
+14/10/2025, 21:14:20:
+build
+#12 pushing layers 16.7s done
+14/10/2025, 21:14:20:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_u4ko50jcmnnz@sha256:07103c92042448729a9592cac34aa99f11e098656c7f2897f19b0b3abe207706
+14/10/2025, 21:14:20:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_u4ko50jcmnnz@sha256:07103c92042448729a9592cac34aa99f11e098656c7f2897f19b0b3abe207706 0.1s done
+14/10/2025, 21:14:20:
+build
+#12 DONE 63.7s
+14/10/2025, 21:14:20:
+build
+14/10/2025, 21:14:20:
+build
+#13 [service_event_u4ko50jcmnnz] exporting cache to client directory
+14/10/2025, 21:14:20:
+build
+#13 preparing build cache for export
+14/10/2025, 21:14:21:
+build
+#13 writing layer sha256:101cf3540681fb15890f8f62d568f84faf8dda45497be8443e7d51b79d1084fc
+14/10/2025, 21:14:24:
+build
+#13 writing layer sha256:101cf3540681fb15890f8f62d568f84faf8dda45497be8443e7d51b79d1084fc 4.0s done
+14/10/2025, 21:14:24:
+build
+#13 writing layer sha256:15e48d9fb505170f0fd038b99204c5c9d3f1ba415e7d5b921be849780bced2cf
+14/10/2025, 21:14:25:
+build
+#13 writing layer sha256:15e48d9fb505170f0fd038b99204c5c9d3f1ba415e7d5b921be849780bced2cf done
+14/10/2025, 21:14:25:
+build
+#13 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0.0s done
+14/10/2025, 21:14:25:
+build
+#13 writing layer sha256:508dc9218fa1dfefeb5cbd2a01570a487c3f6dae6571362f2431ceffc7361c49
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:508dc9218fa1dfefeb5cbd2a01570a487c3f6dae6571362f2431ceffc7361c49 6.3s done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:9c0114d352b713a1823f38640b1f308d90ae509f0c2e2f8e89c3f8ddebb8846c
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:9c0114d352b713a1823f38640b1f308d90ae509f0c2e2f8e89c3f8ddebb8846c done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:9f39881a35fb444ad9f0473ab15a8f27eae4987ed4e4138b36ead096e7f46b2c 0.0s done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:a6d60934d71cf19a4d0b10c47265708e938a4bf3ab73671df3113472f5d35793 done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c 0.3s done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce
+14/10/2025, 21:14:31:
+build
+#13 preparing build cache for export 10.8s done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 21:14:31:
+build
+#13 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a 0.0s done
+14/10/2025, 21:14:31:
+build
+#13 writing config sha256:c438b62e2cf53ed0fed4eb90c0d6a24040be4963177e9f5ec513323b56c4d7fc done
+14/10/2025, 21:14:31:
+build
+#13 writing cache image manifest sha256:5c6d32f55e489ce7d42becbf6cf2e2b88369175d49bc20da639d5c7e9efc3b90 done
+14/10/2025, 21:14:31:
+build
+#13 DONE 10.8s
+14/10/2025, 21:14:34:
+build
+service_event_u4ko50jcmnnz: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+14/10/2025, 21:14:34:
+build
+2d35ebdb57d9: Already exists
+14/10/2025, 21:14:34:
+build
+c087321cece4: Already exists
+14/10/2025, 21:14:34:
+build
+f2fbe8556258: Already exists
+14/10/2025, 21:14:34:
+build
+c74c90aa7c87: Already exists
+14/10/2025, 21:14:34:
+build
+a6d60934d71c: Pulling fs layer
+14/10/2025, 21:14:34:
+build
+15e48d9fb505: Pulling fs layer
+14/10/2025, 21:14:34:
+build
+101cf3540681: Pulling fs layer
+14/10/2025, 21:14:34:
+build
+508dc9218fa1: Pulling fs layer
+14/10/2025, 21:14:34:
+build
+9f39881a35fb: Pulling fs layer
+14/10/2025, 21:14:34:
+build
+9c0114d352b7: Pulling fs layer
+14/10/2025, 21:14:34:
+build
+508dc9218fa1: Waiting
+14/10/2025, 21:14:34:
+build
+9f39881a35fb: Waiting
+14/10/2025, 21:14:34:
+build
+9c0114d352b7: Waiting
+14/10/2025, 21:14:34:
+build
+a6d60934d71c: Verifying Checksum
+14/10/2025, 21:14:34:
+build
+a6d60934d71c: Download complete
+14/10/2025, 21:14:34:
+build
+a6d60934d71c: Pull complete
+14/10/2025, 21:14:34:
+build
+15e48d9fb505: Verifying Checksum
+14/10/2025, 21:14:34:
+build
+15e48d9fb505: Download complete
+14/10/2025, 21:14:34:
+build
+15e48d9fb505: Pull complete
+14/10/2025, 21:14:34:
+build
+9f39881a35fb: Download complete
+14/10/2025, 21:14:34:
+build
+9c0114d352b7: Verifying Checksum
+14/10/2025, 21:14:34:
+build
+9c0114d352b7: Download complete
+14/10/2025, 21:14:38:
+build
+101cf3540681: Verifying Checksum
+14/10/2025, 21:14:38:
+build
+101cf3540681: Download complete
+14/10/2025, 21:14:41:
+build
+508dc9218fa1: Verifying Checksum
+14/10/2025, 21:14:41:
+build
+508dc9218fa1: Download complete
