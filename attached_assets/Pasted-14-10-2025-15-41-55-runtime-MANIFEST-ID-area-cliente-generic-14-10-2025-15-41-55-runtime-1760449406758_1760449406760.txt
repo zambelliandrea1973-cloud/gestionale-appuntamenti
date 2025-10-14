@@ -1,0 +1,183 @@
+14/10/2025, 15:41:55:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 15:41:55:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 15:41:55:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 15:41:55:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 15:42:00:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+14/10/2025, 15:42:00:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 15:42:00:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 15:42:00:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 15:42:00:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 15:42:00:
+runtime
+  [errors]: [
+14/10/2025, 15:42:00:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 15:42:00:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:42:00:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:42:00:
+runtime
+      errno: -111,
+14/10/2025, 15:42:00:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:42:00:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:42:00:
+runtime
+      address: '::1',
+14/10/2025, 15:42:00:
+runtime
+      port: 5432
+14/10/2025, 15:42:00:
+runtime
+    },
+14/10/2025, 15:42:00:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 15:42:00:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:42:00:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:42:00:
+runtime
+      errno: -111,
+14/10/2025, 15:42:00:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:42:00:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:42:00:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 15:42:00:
+runtime
+      port: 5432
+14/10/2025, 15:42:00:
+runtime
+    }
+14/10/2025, 15:42:00:
+runtime
+  ]
+14/10/2025, 15:42:00:
+runtime
+}
+14/10/2025, 15:42:00:
+runtime
+Login staff fallito per: busnari.silvia@libero.it
+14/10/2025, 15:42:00:
+runtime
+1:42:00 PM [express] POST /api/staff/login 401 in 8ms :: {"message":"Username o password non validi"}
+14/10/2025, 15:42:42:
+runtime
+1:42:42 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+14/10/2025, 15:42:52:
+runtime
+Login staff richiesto per: zambelli.andrea.1973A@gmail.com
+14/10/2025, 15:42:52:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 15:42:52:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 15:42:52:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 15:42:52:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 15:42:52:
+runtime
+  [errors]: [
+14/10/2025, 15:42:52:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 15:42:52:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:42:52:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:42:52:
+runtime
+      errno: -111,
+14/10/2025, 15:42:52:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:42:52:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:42:52:
+runtime
+      address: '::1',
+14/10/2025, 15:42:52:
+runtime
+      port: 5432
+14/10/2025, 15:42:52:
+runtime
+    },
+14/10/2025, 15:42:52:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 15:42:52:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 15:42:52:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 15:42:52:
+runtime
+      errno: -111,
+14/10/2025, 15:42:52:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 15:42:52:
+runtime
+      syscall: 'connect',
+14/10/2025, 15:42:52:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 15:42:52:
+runtime
+      port: 5432
+14/10/2025, 15:42:52:
+runtime
+    }
+14/10/2025, 15:42:52:
+runtime
+  ]
+14/10/2025, 15:42:52:
+runtime
+}
+14/10/2025, 15:42:52:
+runtime
+Login staff fallito per: zambelli.andrea.1973A@gmail.com
+14/10/2025, 15:42:52:
+runtime
+1:42:52 PM [express] POST /api/staff/login 401 in 5ms :: {"message":"Username o password non validi"}

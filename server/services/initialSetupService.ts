@@ -14,8 +14,25 @@ export class InitialSetupService {
    * Verifica se esistono utenti nel sistema
    */
   async hasAnyUsers(): Promise<boolean> {
-    const [result] = await db.select({ count: count() }).from(users);
-    return result.count > 0;
+    try {
+      const [result] = await db.select({ count: count() }).from(users);
+      return result.count > 0;
+    } catch (error) {
+      // Fallback al JSON storage quando il database non è disponibile
+      console.log('Database non disponibile, controllo utenti da JSON storage');
+      const fs = await import('fs');
+      const path = await import('path');
+      const storageFile = path.join(process.cwd(), 'storage_data.json');
+      
+      if (fs.existsSync(storageFile)) {
+        const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
+        const userCount = data.users ? data.users.length : 0;
+        console.log(`Trovati ${userCount} utenti nel JSON storage`);
+        return userCount > 0;
+      }
+      
+      return false;
+    }
   }
 
   /**
