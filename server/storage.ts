@@ -920,7 +920,35 @@ export class DatabaseStorage implements IStorage {
       return newStaff;
     } catch (error) {
       console.error("Error creating staff:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.staff) {
+          storageData.staff = [];
+        }
+        
+        const maxId = storageData.staff.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newStaff: Staff = {
+          id: maxId + 1,
+          ...staffData,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.staff.push([newStaff.id, newStaff]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Staff ${newStaff.id} created in JSON storage`);
+        return newStaff;
+      } catch (jsonError) {
+        console.error("Error creating staff in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
@@ -978,7 +1006,35 @@ export class DatabaseStorage implements IStorage {
       return newRoom;
     } catch (error) {
       console.error("Error creating treatment room:", error);
-      throw error;
+      
+      // Fallback to JSON storage
+      try {
+        const { loadStorageData, saveStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        
+        if (!storageData.treatment_rooms) {
+          storageData.treatment_rooms = [];
+        }
+        
+        const maxId = storageData.treatment_rooms.reduce((max: number, [id]: [number, any]) => 
+          Math.max(max, id), 0);
+        
+        const newRoom: TreatmentRoom = {
+          id: maxId + 1,
+          ...roomData,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        storageData.treatment_rooms.push([newRoom.id, newRoom]);
+        saveStorageData(storageData);
+        
+        console.log(`✅ Treatment room ${newRoom.id} created in JSON storage`);
+        return newRoom;
+      } catch (jsonError) {
+        console.error("Error creating treatment room in JSON:", jsonError);
+        throw error;
+      }
     }
   }
 
