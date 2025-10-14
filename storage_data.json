@@ -10372,7 +10372,7 @@
         "whatsapp_enabled": true,
         "whatsapp_method": "direct",
         "twilio_enabled": false,
-        "twilio_account_sid": "ACb10ec96e07f94ce9eba5ff953e3f9fa4",
+        "twilio_account_sid": "",
         "twilio_auth_token": "",
         "twilio_phone_number": "+14024463256",
         "notification_center_enabled": true,
