@@ -1718,6 +1718,20 @@ export class DatabaseStorage implements IStorage {
       return user;
     } catch (error) {
       console.error("Error getting user by username:", error);
+      
+      // Fallback al JSON storage quando il database non è disponibile
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([id, u]: [number, any]) => u.username === username);
+        
+        if (userEntry) {
+          return userEntry[1];
+        }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
+      }
+      
       return undefined;
     }
   }
