@@ -202,6 +202,22 @@ export default function ClientArea() {
     };
 
     loadProfessionalIcon();
+    
+    // ✅ SOLUZIONE ICONE PWA: Inietta manifest dinamico con ownerId
+    // Quando Android installa la PWA, il manifest avrà l'ownerId corretto per servire le icone personalizzate
+    if (ownerId) {
+      const existingManifest = document.querySelector('link[rel="manifest"]');
+      if (existingManifest) {
+        existingManifest.remove();
+      }
+      
+      const newManifest = document.createElement('link');
+      newManifest.rel = 'manifest';
+      newManifest.href = `/manifest.json?ownerId=${ownerId}&v=${Date.now()}`;
+      document.head.appendChild(newManifest);
+      
+      console.log(`📱 [PWA MANIFEST] Manifest dinamico iniettato per owner ${ownerId}`);
+    }
   }, [ownerId]);
 
   const verifyQRToken = async (token: string, clientId: string) => {
