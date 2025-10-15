@@ -178,7 +178,10 @@ export function registerSimpleRoutes(app: Express): Server {
   initializeSchedulers();
   
   // Sincronizza icone utente dal JSON storage ai file PNG fisici (per PWA)
-  syncUserIconsFromJSON();
+  // Eseguito in background senza bloccare l'avvio del server
+  syncUserIconsFromJSON().catch(err => {
+    console.error('❌ Errore sincronizzazione icone:', err);
+  });
 
   // Connect WhatsApp and notification routes
   app.use('/api/notifications', notificationRoutes);
