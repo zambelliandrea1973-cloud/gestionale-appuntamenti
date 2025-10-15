@@ -55,9 +55,9 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
         const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
         if (!client) return false;
         
-        // Permetti accesso agli staff o al proprietario
-        const user = req.user as any;
-        if (user.type === 'staff' || client.ownerId === userId) {
+        // ✅ SICUREZZA: Permetti accesso SOLO se il cliente appartiene a questo utente
+        // Ogni staff vede SOLO i PROPRI clienti/appuntamenti
+        if (client.ownerId === userId) {
           return true;
         }
         
