@@ -8,6 +8,36 @@ Preferred communication style: Simple, everyday language.
 
 Development approach: When implementing new features, always evaluate 2-3 alternative solutions and compare them before choosing the simplest and most robust option. Never jump to the first solution that comes to mind - take time to analyze different approaches for probability of success and maintainability.
 
+## Recent Changes (October 2025)
+
+### PostgreSQL Migration & Multi-Tenant Security
+- **Date**: October 15, 2025
+- **Critical Security Fix**: Resolved multi-tenant data leak where staff could view other professionals' appointments
+  - Changed filter in `notificationRoutes.ts` from `user.type === 'staff'` blanket access to `client.ownerId === userId` strict isolation
+  - **Pattern**: Multi-tenant isolation MUST filter by `ownerId/userId`, NEVER by `user.type` alone (security vulnerability)
+- **Database Migration**: Successfully migrated all data from JSON storage to PostgreSQL
+  - 16 users, 38 clients, 39 appointments (Silvia Busnari) migrated
+  - ServiceId remapping: Fixed integer overflow issue (timestamps → sequential IDs)
+- **Notification System**: Converted from JSON to PostgreSQL with proper multi-tenant filtering
+  - Routes now use `db.select()` with JOINs instead of `loadStorageData()`
+  - Multi-tenant isolation: `eq(appointments.userId, userId)` in all queries
+- **Deployment**: Shared Neon PostgreSQL database configured on both Replit (dev) and Sliplane (prod) for real-time synchronization
+
+### Multi-Tenant Isolation Pattern
+**CRITICAL SECURITY PATTERN** - Always use in queries:
+```typescript
+// ✅ CORRECT - Filter by ownership
+.where(eq(appointments.userId, userId))
+.where(eq(clients.ownerId, userId))
+
+// ❌ WRONG - Never filter by user type alone
+.where(eq(users.type, 'staff')) // Security vulnerability!
+```
+
+Each professional sees ONLY their own data:
+- Staff: Only their clients and appointments
+- Admin: All clients, but only their own configurations
+
 ## System Architecture
 
 ### Frontend

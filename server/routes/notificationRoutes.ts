@@ -359,11 +359,19 @@ router.get('/whatsapp-history', async (req: Request, res: Response) => {
 
 /**
  * Marca un appuntamento come "messaggio WhatsApp inviato"
- * Salva timestamp per cancellazione automatica dopo 30 giorni
+ * 🔄 USA POSTGRESQL con multi-tenant isolation
  */
 router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => {
   try {
+    const userId = (req as any).user?.id;
     const { appointmentId } = req.params;
+    
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: 'Non autorizzato'
+      });
+    }
     
     if (!appointmentId) {
       return res.status(400).json({
@@ -372,21 +380,24 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
       });
     }
     
-    // Carica dati dal JSON
-    const storageData = loadStorageData();
-    const allAppointments = storageData.appointments || [];
+    // 🔄 USA POSTGRESQL: Trova appuntamento con multi-tenant isolation
+    const [appointment] = await db
+      .select()
+      .from(appointments)
+      .where(
+        and(
+          eq(appointments.id, parseInt(appointmentId)),
+          eq(appointments.userId, userId) // ✅ MULTI-TENANT ISOLATION
+        )
+      )
+      .limit(1);
     
-    // Trova l'appuntamento
-    const appointmentIndex = allAppointments.findIndex(([id, app]) => app.id === parseInt(appointmentId));
-    
-    if (appointmentIndex === -1) {
+    if (!appointment) {
       return res.status(404).json({
         success: false,
-        error: 'Appuntamento non trovato'
+        error: 'Appuntamento non trovato o non autorizzato'
       });
     }
-    
-    const [id, appointment] = allAppointments[appointmentIndex];
     
     // Aggiorna reminderStatus e aggiungi timestamp
     let reminderStatus = appointment.reminderStatus || '';
@@ -396,28 +407,31 @@ router.post('/mark-sent/:appointmentId', async (req: Request, res: Response) => 
         : 'whatsapp_generated';
     }
     
-    const updatedAppointment = {
-      ...appointment,
-      reminderStatus,
-      whatsappSentAt: new Date().toISOString() // Timestamp per cancellazione dopo 30 giorni
-    };
+    const whatsappSentAt = new Date().toISOString();
     
-    allAppointments[appointmentIndex] = [id, updatedAppointment];
-    storageData.appointments = allAppointments;
+    // 🔄 AGGIORNA IN POSTGRESQL
+    await db
+      .update(appointments)
+      .set({
+        reminderStatus,
+        reminderSent: whatsappSentAt // Usa campo esistente per timestamp
+      })
+      .where(
+        and(
+          eq(appointments.id, parseInt(appointmentId)),
+          eq(appointments.userId, userId) // ✅ MULTI-TENANT ISOLATION anche in update
+        )
+      );
     
-    // Salva nel JSON (stesso percorso di loadStorageData)
-    const storagePath = path.join(process.cwd(), 'storage_data.json');
-    fs.writeFileSync(storagePath, JSON.stringify(storageData, null, 2));
-    
-    console.log(`✅ Appuntamento ${appointmentId} marcato come "WhatsApp inviato" - timestamp: ${updatedAppointment.whatsappSentAt}`);
+    console.log(`✅ [PG] Appuntamento ${appointmentId} marcato come "WhatsApp inviato" - timestamp: ${whatsappSentAt}`);
     
     res.json({
       success: true,
       message: 'Appuntamento marcato come "WhatsApp inviato"',
-      whatsappSentAt: updatedAppointment.whatsappSentAt
+      whatsappSentAt
     });
   } catch (error: any) {
-    console.error('Errore nel marcare appuntamento come inviato:', error);
+    console.error('❌ [PG] Errore nel marcare appuntamento come inviato:', error);
     res.status(500).json({
       success: false,
       error: error.message
