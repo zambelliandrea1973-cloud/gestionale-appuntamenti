@@ -4,16 +4,18 @@ import { it } from 'date-fns/locale';
 import { storage } from '../storage';
 import fs from 'fs';
 import path from 'path';
-import { loadStorageData } from '../utils/jsonStorage';
 import { directNotificationService } from '../services/directNotificationService';
+import { db } from '../db';
+import { appointments, clients, services } from '../../shared/schema';
+import { eq, and, gte, lte } from 'drizzle-orm';
 
-// 📁 Usa funzioni JSON centralizzate da utils/jsonStorage.ts
+// 🔄 MIGRATO A POSTGRESQL per sincronizzazione Replit ↔ Sliplane
 
 const router = Router();
 
 /**
  * Ottiene tutti gli appuntamenti del mese corrente
- * 🔧 RIPRISTINO JSON: usa il JSON come tutti gli altri endpoint funzionanti
+ * 🔄 USA POSTGRESQL per sincronizzazione Replit ↔ Sliplane
  */
 router.get('/upcoming-appointments', async (req: Request, res: Response) => {
   try {
@@ -36,65 +38,84 @@ router.get('/upcoming-appointments', async (req: Request, res: Response) => {
     const startDate = format(tenDaysAgo, 'yyyy-MM-dd');
     const endDate = format(tomorrow, 'yyyy-MM-dd');
     
-    console.log(`🔍 [NOTIFICHE JSON] Cercando appuntamenti da ultimi 10gg a domani: ${startDate} - ${endDate}`);
+    console.log(`🔍 [NOTIFICHE PG] Cercando appuntamenti da ultimi 10gg a domani: ${startDate} - ${endDate}`);
     
-    // 📁 USA JSON come tutti gli altri endpoint che funzionano
-    const storageData = loadStorageData();
-    const allAppointments = storageData.appointments || [];
-    const allClients = storageData.clients || [];
-    const userServices = storageData.userServices?.[userId] || [];
+    // 🔄 USA POSTGRESQL: Query con JOIN per client e service
+    // ✅ MULTI-TENANT: Filtra per userId (ogni staff vede solo i suoi)
+    const appointmentsData = await db
+      .select({
+        id: appointments.id,
+        clientId: appointments.clientId,
+        serviceId: appointments.serviceId,
+        staffId: appointments.staffId,
+        roomId: appointments.roomId,
+        date: appointments.date,
+        startTime: appointments.startTime,
+        endTime: appointments.endTime,
+        notes: appointments.notes,
+        status: appointments.status,
+        reminderType: appointments.reminderType,
+        reminderStatus: appointments.reminderStatus,
+        reminderSent: appointments.reminderSent,
+        createdAt: appointments.createdAt,
+        // Client data
+        clientFirstName: clients.firstName,
+        clientLastName: clients.lastName,
+        clientPhone: clients.phone,
+        clientEmail: clients.email,
+        // Service data
+        serviceName: services.name,
+      })
+      .from(appointments)
+      .leftJoin(clients, eq(appointments.clientId, clients.id))
+      .leftJoin(services, eq(appointments.serviceId, services.id))
+      .where(
+        and(
+          eq(appointments.userId, userId), // ✅ MULTI-TENANT ISOLATION
+          gte(appointments.date, startDate),
+          lte(appointments.date, endDate)
+        )
+      );
     
-    // Filtra appuntamenti dal range (ultimi 10gg a domani) + utente owner
-    const appointmentsFromJson = allAppointments
-      .map(([id, appointment]) => appointment)
-      .filter((appointment: any) => {
-        // Filtra per range di date (ultimi 10 giorni fino a domani, NO futuro lontano)
-        if (appointment.date < startDate || appointment.date > endDate) return false;
-        
-        // Filtra per ownership usando clienti dell'utente
-        const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
-        if (!client) return false;
-        
-        // ✅ SICUREZZA: Permetti accesso SOLO se il cliente appartiene a questo utente
-        // Ogni staff vede SOLO i PROPRI clienti/appuntamenti
-        if (client.ownerId === userId) {
-          return true;
-        }
-        
-        return false;
-      });
+    console.log(`📅 [NOTIFICHE PG] Trovati ${appointmentsData.length} appuntamenti da ${startDate} a ${endDate}`);
     
-    console.log(`📅 [NOTIFICHE JSON] Trovati ${appointmentsFromJson.length} appuntamenti da ${startDate} a ${endDate}`);
+    // Mappa i risultati nel formato atteso dal frontend
+    const appointmentsList = appointmentsData.map((row) => ({
+      id: row.id,
+      clientId: row.clientId,
+      serviceId: row.serviceId,
+      staffId: row.staffId,
+      roomId: row.roomId,
+      date: row.date,
+      startTime: row.startTime,
+      endTime: row.endTime,
+      notes: row.notes,
+      status: row.status,
+      reminderType: row.reminderType,
+      reminderStatus: row.reminderStatus,
+      reminderSent: row.reminderSent,
+      createdAt: row.createdAt,
+      client: {
+        id: row.clientId,
+        firstName: row.clientFirstName,
+        lastName: row.clientLastName,
+        phone: row.clientPhone,
+        email: row.clientEmail,
+      },
+      service: row.serviceName ? {
+        id: row.serviceId,
+        name: row.serviceName,
+      } : null,
+    }));
     
-    // Mappa i risultati nel formato atteso dal frontend con tutti i dati
-    const appointments = appointmentsFromJson.map((appointment: any) => {
-      const client = allClients.find(([cId, c]) => c.id === appointment.clientId)?.[1];
-      const service = userServices.find(s => s.id === appointment.serviceId);
-      
-      return {
-        ...appointment,
-        client: client ? {
-          id: client.id,
-          firstName: client.firstName,
-          lastName: client.lastName,
-          phone: client.phone,
-          email: client.email
-        } : null,
-        service: service ? {
-          id: service.id,
-          name: service.name
-        } : null
-      };
-    });
-    
-    console.log(`✅ [NOTIFICHE JSON] Processati ${appointments.length} appuntamenti per notifiche WhatsApp`);
+    console.log(`✅ [NOTIFICHE PG] Processati ${appointmentsList.length} appuntamenti per notifiche WhatsApp`);
     
     res.json({
       success: true,
-      appointments
+      appointments: appointmentsList
     });
   } catch (error: any) {
-    console.error('❌ [NOTIFICHE JSON] Errore nel recupero appuntamenti imminenti:', error);
+    console.error('❌ [NOTIFICHE PG] Errore nel recupero appuntamenti imminenti:', error);
     res.status(500).json({
       success: false,
       error: error.message
@@ -129,17 +150,42 @@ router.post('/send-batch', async (req: Request, res: Response) => {
     
     const results = [];
     
+    // 🔄 USA POSTGRESQL: Carica tutti gli appointments in batch con JOIN
+    const appointmentsData = await db
+      .select({
+        id: appointments.id,
+        clientId: appointments.clientId,
+        serviceId: appointments.serviceId,
+        date: appointments.date,
+        startTime: appointments.startTime,
+        clientFirstName: clients.firstName,
+        clientLastName: clients.lastName,
+        clientPhone: clients.phone,
+        clientEmail: clients.email,
+        serviceName: services.name,
+      })
+      .from(appointments)
+      .leftJoin(clients, eq(appointments.clientId, clients.id))
+      .leftJoin(services, eq(appointments.serviceId, services.id))
+      .where(
+        and(
+          eq(appointments.userId, (req as any).user?.id), // ✅ MULTI-TENANT
+          // Filtra solo gli ID richiesti (usando OR)
+        )
+      );
+    
+    // Filtra solo gli appointments richiesti
+    const appointmentsMap = new Map(
+      appointmentsData
+        .filter(appt => appointmentIds.includes(appt.id))
+        .map(appt => [appt.id, appt])
+    );
+    
     for (const appointmentId of appointmentIds) {
       try {
-        // 📁 USA JSON COME TUTTI GLI ALTRI ENDPOINT
-        const storageData = loadStorageData();
-        const allAppointments = storageData.appointments || [];
-        const allClients = storageData.clients || [];
+        const appointmentData = appointmentsMap.get(appointmentId);
         
-        // Trova appuntamento dal JSON
-        const appointment = allAppointments.find(([id, app]) => app.id === appointmentId)?.[1];
-        
-        if (!appointment) {
+        if (!appointmentData) {
           results.push({
             id: appointmentId,
             success: false,
@@ -148,10 +194,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           continue;
         }
         
-        // 📁 Trova cliente dal JSON
-        const client = allClients.find(([id, c]) => c.id === appointment.clientId)?.[1];
-        
-        if (!client) {
+        if (!appointmentData.clientFirstName) {
           results.push({
             id: appointmentId,
             success: false,
@@ -160,11 +203,7 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           continue;
         }
         
-        // 📁 Trova servizio dal JSON
-        const userServices = storageData.userServices?.[client.ownerId] || [];
-        const service = userServices.find(s => s.id === appointment.serviceId);
-        
-        if (!service) {
+        if (!appointmentData.serviceName) {
           results.push({
             id: appointmentId,
             success: false,
@@ -172,6 +211,16 @@ router.post('/send-batch', async (req: Request, res: Response) => {
           });
           continue;
         }
+        
+        // Usa i dati da PostgreSQL
+        const appointment = { date: appointmentData.date, startTime: appointmentData.startTime };
+        const client = {
+          firstName: appointmentData.clientFirstName,
+          lastName: appointmentData.clientLastName,
+          phone: appointmentData.clientPhone,
+          email: appointmentData.clientEmail,
+        };
+        const service = { name: appointmentData.serviceName };
         
         // Dati per il messaggio
         const appointmentDate = format(parseISO(appointment.date), 'dd/MM/yyyy', { locale: it });
