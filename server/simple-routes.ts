@@ -7,10 +7,12 @@ import { fileURLToPath } from 'url';
 import { initializeSchedulers } from "./services/schedulerService";
 import { dataProtectionService } from "./services/dataProtectionService";
 import { iconConversionService } from "./services/iconConversionService";
+import { syncUserIconsFromJSON } from "./services/iconSyncService";
 import multer from 'multer';
 
 // Import route modules for WhatsApp and notifications
 import notificationRoutes from './routes/notificationRoutes';
+import notificationSettingsRoutes from './routes/notificationSettingsRoutes';
 import directPhoneRoutes from './routes/directPhoneRoutes';
 import contactSettingsRoutes from './routes/contactSettingsRoutes';
 import inventoryRoutes from './inventory-routes';
@@ -174,9 +176,13 @@ export function registerSimpleRoutes(app: Express): Server {
   
   // Inizializza gli scheduler per i promemoria automatici
   initializeSchedulers();
+  
+  // Sincronizza icone utente dal JSON storage ai file PNG fisici (per PWA)
+  syncUserIconsFromJSON();
 
   // Connect WhatsApp and notification routes
   app.use('/api/notifications', notificationRoutes);
+  app.use('/api/notification-settings', notificationSettingsRoutes);
   app.use('/api/direct-phone', directPhoneRoutes);
   app.use('/api/contact-settings', contactSettingsRoutes);
   app.use('/api/inventory', inventoryRoutes);
