@@ -1481,32 +1481,30 @@ export class DatabaseStorage implements IStorage {
   // Multi-tenant appointment operations - Sistema separazione per utente RISTRUTTURATO
   async getAppointmentsForUser(userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      // NEW multi-tenant system: user appointments retrieval - debug removed
-      
-      const result: AppointmentWithDetails[] = [];
-      
-      // NUOVA ARCHITETTURA: Filtro diretto per userId nella tabella appointments
-      const appointmentsList = await db
-        .select()
+      // ⚡ OTTIMIZZATO: Usa JOIN invece di query multiple
+      const result = await db
+        .select({
+          appointment: appointments,
+          client: clients,
+          service: services
+        })
         .from(appointments)
+        .leftJoin(clients, eq(appointments.clientId, clients.id))
+        .leftJoin(services, eq(appointments.serviceId, services.id))
         .where(eq(appointments.userId, userId))
         .orderBy(appointments.date, appointments.startTime);
 
-      for (const appointment of appointmentsList) {
-        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
-        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
-        
-        if (client && service) {
-          result.push({
-            ...appointment,
-            client,
-            service
-          });
-        }
-      }
+      // Trasforma il risultato nel formato atteso
+      const formattedResult = result
+        .filter(row => row.client && row.service) // Filtra solo appuntamenti con client e service validi
+        .map(row => ({
+          ...row.appointment,
+          client: row.client!,
+          service: row.service!
+        }));
 
-      console.log(`✅ NUOVO Sistema multi-tenant: ${result.length} appuntamenti per utente ${userId} - SEPARAZIONE COMPLETA`);
-      return result;
+      console.log(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per utente ${userId} - SEPARAZIONE COMPLETA`);
+      return formattedResult;
     } catch (error) {
       console.error("Error getting appointments for user:", error);
       
@@ -1551,35 +1549,33 @@ export class DatabaseStorage implements IStorage {
 
   async getAppointmentsByDateForUser(date: string, userId: number, userType: string): Promise<AppointmentWithDetails[]> {
     try {
-      // Multi-tenant system: date appointments retrieval - debug removed
-      
-      const result: AppointmentWithDetails[] = [];
-      
-      // NUOVA ARCHITETTURA: Filtro diretto per userId e data
-      const appointmentsList = await db
-        .select()
+      // ⚡ OTTIMIZZATO: Usa JOIN invece di query multiple
+      const result = await db
+        .select({
+          appointment: appointments,
+          client: clients,
+          service: services
+        })
         .from(appointments)
+        .leftJoin(clients, eq(appointments.clientId, clients.id))
+        .leftJoin(services, eq(appointments.serviceId, services.id))
         .where(and(
           eq(appointments.date, date),
           eq(appointments.userId, userId)
         ))
         .orderBy(appointments.startTime);
 
-      for (const appointment of appointmentsList) {
-        const [client] = await db.select().from(clients).where(eq(clients.id, appointment.clientId));
-        const [service] = await db.select().from(services).where(eq(services.id, appointment.serviceId));
-        
-        if (client && service) {
-          result.push({
-            ...appointment,
-            client,
-            service
-          });
-        }
-      }
+      // Trasforma il risultato nel formato atteso
+      const formattedResult = result
+        .filter(row => row.client && row.service)
+        .map(row => ({
+          ...row.appointment,
+          client: row.client!,
+          service: row.service!
+        }));
 
-      console.log(`✅ NUOVO Sistema multi-tenant: ${result.length} appuntamenti per data ${date} - utente ${userId} - SEPARAZIONE COMPLETA`);
-      return result;
+      console.log(`✅ NUOVO Sistema multi-tenant: ${formattedResult.length} appuntamenti per data ${date} - utente ${userId} - SEPARAZIONE COMPLETA`);
+      return formattedResult;
     } catch (error) {
       console.error("Error getting appointments by date for user:", error);
       
