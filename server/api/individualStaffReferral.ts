@@ -24,9 +24,9 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
     // Ottieni dati dettagliati per ogni commissione
     const commissionsWithDetails = await Promise.all(
       activeCommissions.map(async (commission) => {
-        const referredUser = await storage.getUserById(commission.referredId);
-        const subscription = await storage.getSubscriptionById(commission.subscriptionId);
-        const plan = subscription ? await storage.getSubscriptionPlanById(subscription.planId) : null;
+        const referredUser = await storage.getUser(commission.referredId);
+        const subscription = await storage.getSubscription(commission.subscriptionId);
+        const plan = subscription ? await storage.getSubscriptionPlan(subscription.planId) : null;
         
         return {
           id: commission.id,
@@ -60,7 +60,14 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         message: `Nuovo cliente: ${c.referredUserEmail} - ${c.planName}`,
         date: c.startDate,
         amount: c.monthlyAmount
-      }))
+      })),
+      bankData: {
+        bankName: staffUser.bankName || '',
+        accountHolder: staffUser.accountHolder || '',
+        iban: staffUser.iban || '',
+        swift: staffUser.bic || '',
+        isDefault: true
+      }
     };
 
     console.log(`✅ DATI REALI CARICATI per ${staffUser.email}: ${myReferralSystem.stats.totalReferrals} referral, €${totalEarned}/mese`);
