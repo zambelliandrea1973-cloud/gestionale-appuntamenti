@@ -369,6 +369,21 @@ export default function ReferralPage() {
                 <span className="text-muted-foreground">Mese precedente:</span>
                 <span className="font-medium">{formatAmount(stats.lastMonthAmount)}</span>
               </div>
+              
+              <div className="pt-3 border-t">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-muted-foreground">PayPal:</span>
+                  <span className="font-medium text-sm text-right break-all">
+                    {referralData?.userData?.paypalEmail || 'Non configurato'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Auto-payout:</span>
+                  <span className={`font-medium text-sm ${referralData?.userData?.autoPayoutEnabled ? 'text-green-600' : 'text-muted-foreground'}`}>
+                    {referralData?.userData?.autoPayoutEnabled ? '✓ Attivo' : '✗ Disattivo'}
+                  </span>
+                </div>
+              </div>
             </div>
           </CardContent>
           <CardFooter>
