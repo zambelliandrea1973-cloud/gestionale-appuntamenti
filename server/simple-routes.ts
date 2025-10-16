@@ -1531,13 +1531,15 @@ export function registerSimpleRoutes(app: Express): Server {
         startTime: apt.startTime,
         endTime: apt.endTime,
         clientId: apt.clientId,
-        client: apt.clientName,
-        service: apt.serviceName,
+        client: apt.client, // ✅ FIX: Usa l'oggetto client completo dallo storage
+        service: apt.service, // ✅ FIX: Usa l'oggetto service completo dallo storage
         serviceId: apt.serviceId,
         userId: apt.userId,
         notes: apt.notes,
         reminderSent: apt.reminderSent,
-        reminderConfirmed: apt.reminderConfirmed
+        reminderConfirmed: apt.reminderConfirmed,
+        staffId: apt.staffId, // ✅ FIX: Aggiungi staffId
+        roomId: apt.roomId // ✅ FIX: Aggiungi roomId
       }));
       
       res.json(formattedAppointments);
@@ -1570,13 +1572,15 @@ export function registerSimpleRoutes(app: Express): Server {
         startTime: apt.startTime,
         endTime: apt.endTime,
         clientId: apt.clientId,
-        client: { firstName: apt.clientName?.split(' ')[0] || 'Cliente', lastName: apt.clientName?.split(' ').slice(1).join(' ') || 'Sconosciuto', id: apt.clientId },
-        service: { name: apt.serviceName || 'Servizio Sconosciuto', id: apt.serviceId, color: apt.serviceColor || '#666666' },
+        client: apt.client, // ✅ FIX: Usa l'oggetto client completo dallo storage
+        service: apt.service, // ✅ FIX: Usa l'oggetto service completo dallo storage
         serviceId: apt.serviceId,
         userId: apt.userId,
         notes: apt.notes,
         reminderSent: apt.reminderSent,
-        reminderConfirmed: apt.reminderConfirmed
+        reminderConfirmed: apt.reminderConfirmed,
+        staffId: apt.staffId, // ✅ FIX: Aggiungi staffId
+        roomId: apt.roomId // ✅ FIX: Aggiungi roomId
       }));
       
       res.json(formattedAppointments);
