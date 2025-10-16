@@ -142,6 +142,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
   updateUserPassword(id: number, hashedPassword: string): Promise<boolean>;
+  updateStaffBanking(staffId: number, banking: { iban?: string; bic?: string; bankName?: string; accountHolder?: string }): Promise<boolean>;
   deleteUser(id: number): Promise<boolean>;
   
   // Client Account operations
@@ -2597,6 +2598,24 @@ export class DatabaseStorage implements IStorage {
       return true;
     } catch (error) {
       console.error("Error updating user password:", error);
+      return false;
+    }
+  }
+
+  async updateStaffBanking(staffId: number, banking: { iban?: string; bic?: string; bankName?: string; accountHolder?: string }): Promise<boolean> {
+    try {
+      await db
+        .update(users)
+        .set({
+          iban: banking.iban,
+          bic: banking.bic,
+          bankName: banking.bankName,
+          accountHolder: banking.accountHolder
+        })
+        .where(eq(users.id, staffId));
+      return true;
+    } catch (error) {
+      console.error("Error updating staff banking info:", error);
       return false;
     }
   }

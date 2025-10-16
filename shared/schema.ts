@@ -82,6 +82,10 @@ export const staff = pgTable("staff", {
   email: text("email"),
   phone: text("phone"),
   specialization: text("specialization"), // Specializzazione del collaboratore
+  iban: text("iban"), // IBAN per pagamenti commissioni
+  bic: text("bic"), // BIC/SWIFT code (opzionale)
+  bankName: text("bank_name"), // Nome banca (opzionale)
+  accountHolder: text("account_holder"), // Intestatario conto
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -191,6 +195,10 @@ export const users = pgTable("users", {
   type: text("type").default("staff").notNull(), // staff, client
   assignmentCode: text("assignment_code"), // Codice per assegnare clienti a questo account
   referralCode: text("referral_code"), // Codice referral per commissioni tra professionisti
+  iban: text("iban"), // IBAN per pagamenti commissioni staff
+  bic: text("bic"), // BIC/SWIFT code (opzionale)
+  bankName: text("bank_name"), // Nome banca (opzionale)
+  accountHolder: text("account_holder"), // Intestatario conto
   createdAt: timestamp("created_at").defaultNow(),
 });
 

@@ -45,6 +45,10 @@ interface StaffUser {
   role: string;
   createdAt?: string;
   referralCode?: string;
+  iban?: string;
+  bic?: string;
+  bankName?: string;
+  accountHolder?: string;
 }
 
 export default function StaffManagementPageFixed() {
@@ -73,6 +77,14 @@ export default function StaffManagementPageFixed() {
     password: "",
     email: "",
     role: "staff"
+  });
+
+  // Form state per dati bancari staff
+  const [bankingData, setBankingData] = useState({
+    iban: "",
+    bic: "",
+    bankName: "",
+    accountHolder: ""
   });
 
   const { data: staffUsers = [], isLoading, error } = useQuery({
@@ -152,6 +164,31 @@ export default function StaffManagementPageFixed() {
     }
   });
 
+  // Mutation per salvare dati bancari staff
+  const saveBankingMutation = useMutation({
+    mutationFn: async ({ userId, data }: { userId: number; data: typeof bankingData }) => {
+      const res = await apiRequest('PATCH', `/api/staff/${userId}/banking`, data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/staff/users'] });
+      toast({
+        title: "Dati bancari salvati",
+        description: "I dati bancari dello staff sono stati aggiornati con successo",
+      });
+      setIsBankingDialogOpen(false);
+      setSelectedStaff(null);
+      setBankingData({ iban: "", bic: "", bankName: "", accountHolder: "" });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Errore",
+        description: error.message || "Impossibile salvare i dati bancari",
+        variant: "destructive",
+      });
+    }
+  });
+
   // Filtra gli utenti in base alla ricerca
   const filteredUsers = (Array.isArray(staffUsers) ? staffUsers as StaffUser[] : []).filter((user: StaffUser) => 
     user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -190,6 +227,38 @@ export default function StaffManagementPageFixed() {
     setTimeout(() => {
       setIsDeleteDialogOpen(true);
     }, 100);
+  };
+
+  const handleOpenBankingDialog = (staff: StaffUser) => {
+    setSelectedStaff(staff);
+    setBankingData({
+      iban: staff.iban || "",
+      bic: staff.bic || "",
+      bankName: staff.bankName || "",
+      accountHolder: staff.accountHolder || ""
+    });
+    // Piccolo delay per permettere al dropdown di chiudersi prima di aprire il dialog
+    setTimeout(() => {
+      setIsBankingDialogOpen(true);
+    }, 100);
+  };
+
+  const handleSaveBanking = () => {
+    if (!selectedStaff) return;
+    
+    if (!bankingData.iban) {
+      toast({
+        title: "Campo obbligatorio",
+        description: "L'IBAN è obbligatorio",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    saveBankingMutation.mutate({ 
+      userId: selectedStaff.id, 
+      data: bankingData 
+    });
   };
 
   const handleEditStaff = () => {
@@ -442,10 +511,7 @@ export default function StaffManagementPageFixed() {
                     variant="outline"
                     size="sm"
                     className="w-full"
-                    onClick={() => {
-                      setSelectedStaff(user);
-                      setIsBankingDialogOpen(true);
-                    }}
+                    onClick={() => handleOpenBankingDialog(user)}
                     data-testid={`button-banking-staff-${user.id}`}
                   >
                     <CreditCard className="h-4 w-4 mr-2" />
@@ -631,6 +697,8 @@ export default function StaffManagementPageFixed() {
                 placeholder="IT60 X054 2811 1010 0000 0123 456"
                 className="font-mono"
                 data-testid="input-staff-iban"
+                value={bankingData.iban}
+                onChange={(e) => setBankingData({ ...bankingData, iban: e.target.value })}
               />
               <p className="text-xs text-muted-foreground">
                 Formato: IT + 2 cifre controllo + codice bancario
@@ -643,6 +711,8 @@ export default function StaffManagementPageFixed() {
                 id="staff-bank-name"
                 placeholder="es. Intesa Sanpaolo"
                 data-testid="input-staff-bank-name"
+                value={bankingData.bankName}
+                onChange={(e) => setBankingData({ ...bankingData, bankName: e.target.value })}
               />
             </div>
 
@@ -652,6 +722,8 @@ export default function StaffManagementPageFixed() {
                 id="staff-account-holder"
                 placeholder="Nome completo intestatario"
                 data-testid="input-staff-account-holder"
+                value={bankingData.accountHolder}
+                onChange={(e) => setBankingData({ ...bankingData, accountHolder: e.target.value })}
               />
             </div>
 
@@ -661,6 +733,8 @@ export default function StaffManagementPageFixed() {
                 id="staff-bic"
                 placeholder="es. BCITITMM"
                 data-testid="input-staff-bic"
+                value={bankingData.bic}
+                onChange={(e) => setBankingData({ ...bankingData, bic: e.target.value })}
               />
             </div>
           </div>
@@ -668,24 +742,19 @@ export default function StaffManagementPageFixed() {
             <Button
               variant="outline"
               onClick={() => setIsBankingDialogOpen(false)}
+              disabled={saveBankingMutation.isPending}
               data-testid="button-cancel-banking"
             >
               Annulla
             </Button>
             <Button
-              onClick={() => {
-                // TODO: Salvare i dati bancari dello staff
-                toast({
-                  title: "Dati bancari salvati",
-                  description: "I dati bancari dello staff sono stati aggiornati con successo",
-                });
-                setIsBankingDialogOpen(false);
-              }}
+              onClick={handleSaveBanking}
+              disabled={saveBankingMutation.isPending}
               className="bg-green-600 hover:bg-green-700"
               data-testid="button-save-banking"
             >
               <CreditCard className="mr-2 h-4 w-4" />
-              Salva Dati Bancari
+              {saveBankingMutation.isPending ? "Salvataggio..." : "Salva Dati Bancari"}
             </Button>
           </DialogFooter>
         </DialogContent>
