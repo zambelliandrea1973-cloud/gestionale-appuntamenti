@@ -1784,7 +1784,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  app.delete("/api/appointments/:id", (req, res) => {
+  app.delete("/api/appointments/:id", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const appointmentId = parseInt(req.params.id);
@@ -1795,54 +1795,21 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "ID appuntamento non valido" });
     }
     
-    // ELIMINA DAL STORAGE PERSISTENTE - USA LA STRUTTURA CORRETTA
-    const storageData = loadStorageData();
-    
-    // Gli appuntamenti sono memorizzati in storageData.appointments come array
-    if (!storageData.appointments) {
-      console.log(`❌ [DELETE] Nessun appuntamento trovato nel sistema`);
-      return res.status(404).json({ message: "Appuntamento non trovato" });
-    }
-    
-    // Trova l'appuntamento da eliminare
-    let appointmentIndex = -1;
-    let appointmentData = null;
-    
-    // Cerca nell'array di appuntamenti (formato [id, appointment] o oggetto diretto)
-    for (let i = 0; i < storageData.appointments.length; i++) {
-      const item = storageData.appointments[i];
-      let appointment = Array.isArray(item) ? item[1] : item;
+    try {
+      // 🔄 USA POSTGRESQL: Elimina appuntamento dal database condiviso
+      const deleted = await storage.deleteAppointment(appointmentId);
       
-      if (appointment && appointment.id === appointmentId) {
-        appointmentIndex = i;
-        appointmentData = appointment;
-        break;
+      if (!deleted) {
+        console.log(`❌ [DELETE] Appuntamento ${appointmentId} non trovato`);
+        return res.status(404).json({ message: "Appuntamento non trovato" });
       }
-    }
-    
-    if (appointmentIndex === -1) {
-      console.log(`❌ [DELETE] Appuntamento ${appointmentId} non trovato nel sistema`);
-      return res.status(404).json({ message: "Appuntamento non trovato" });
-    }
-    
-    // Verifica permessi: staff può eliminare solo i propri appuntamenti
-    if (user.type === 'staff') {
-      // Per staff, verifica che l'appuntamento sia associato a un cliente di sua proprietà
-      const allClients = storageData.clients || [];
-      const clientData = allClients.find(([id, client]) => client.id === appointmentData.clientId);
       
-      if (!clientData || clientData[1].ownerId !== user.id) {
-        console.log(`❌ [DELETE] Staff ${user.id} non autorizzato a eliminare appuntamento per cliente ${appointmentData.clientId}`);
-        return res.status(403).json({ message: "Non sei autorizzato a eliminare questo appuntamento" });
-      }
+      console.log(`✅ [DELETE] Appuntamento ${appointmentId} eliminato da PostgreSQL per utente ${user.id}`);
+      res.status(200).json({ message: "Appuntamento eliminato con successo" });
+    } catch (error) {
+      console.error(`❌ [DELETE] Errore eliminazione appuntamento:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    // Elimina l'appuntamento
-    storageData.appointments.splice(appointmentIndex, 1);
-    saveStorageData(storageData);
-    
-    console.log(`💾🗑️ [DELETE] Appuntamento ${appointmentId} eliminato con successo da utente ${user.id}`);
-    res.status(200).json({ message: "Appuntamento eliminato con successo" });
   });
 
   // Endpoint DELETE per eliminare clienti - Il proprietario può sempre eliminare i propri clienti
