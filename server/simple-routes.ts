@@ -20,6 +20,7 @@ import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import referralRoutes from './routes/referralRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import paymentMethodRoutes from './routes/paymentMethodRoutes';
+import setupStaffRoutes from './routes/staffRoutes';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -193,6 +194,9 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/referral', referralRoutes);
   app.use('/api/payments', paymentRoutes);
   app.use('/api/payments', paymentMethodRoutes);
+  
+  // Setup staff management routes (PostgreSQL-based)
+  setupStaffRoutes(app);
 
   // Sistema lineare semplice - Servizi dell'utente  
   app.get("/api/services", async (req, res) => {
@@ -2441,6 +2445,46 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Redirect diretto alla client area - RISOLVE problema "Token Mancante"
     res.redirect(clientAreaUrl);
+  });
+
+  // Endpoint Staff Management - Solo per admin (POSTGRESQL)
+  app.get("/api/staff/users", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può accedere alla gestione staff" });
+    }
+    
+    try {
+      console.log("🔵 [/api/staff/users] SIMPLE-ROUTES - Recupero staff da PostgreSQL");
+      
+      // Carica tutti gli utenti da PostgreSQL
+      const staffUsers = await storage.getAllStaffUsers();
+      console.log(`🔵 [/api/staff/users] Trovati ${staffUsers.length} utenti dal database`);
+      
+      // Rimuovi password e aggiungi codici referral
+      const safeUsers = staffUsers.map(staffUser => {
+        const { password, ...userWithoutPassword } = staffUser;
+        
+        // Genera codice referral
+        const referralCode = staffUser.id === 14 ? "BUS14" : 
+                           staffUser.id === 16 ? "FAV16" : 
+                           staffUser.id === 8 ? "ZAM08" : 
+                           `REF${staffUser.id}`;
+        
+        return {
+          ...userWithoutPassword,
+          referralCode: referralCode
+        };
+      });
+      
+      console.log(`✅ [/api/staff/users] Invio ${safeUsers.length} utenti staff`);
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("❌ [/api/staff/users] Errore:", error);
+      res.status(500).json({ message: "Errore nel caricamento staff" });
+    }
   });
 
   // Endpoint Referral System - Per admin e business
