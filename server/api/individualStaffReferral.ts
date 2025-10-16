@@ -40,6 +40,15 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
     );
 
     const myReferralSystem = {
+      userData: {
+        id: staffUser.id,
+        username: staffUser.username,
+        email: staffUser.email,
+        referralCode: myReferralCode,
+        referredBy: null,
+        paypalEmail: staffUser.paypalEmail || null,
+        autoPayoutEnabled: staffUser.autoPayoutEnabled || false
+      },
       stats: {
         myReferralCode: myReferralCode,
         totalReferrals: commissionsData.length,
@@ -47,6 +56,13 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         paidCommissions: 0, // TODO: contare da referral_payments
         pendingCommissions: activeCommissions.length,
         totalEarned: totalEarned
+      },
+      commissionsData: commissionsData,
+      statsData: {
+        totalActiveCommissions: activeCommissions.length,
+        currentMonthAmount: activeCommissions.reduce((sum, c) => sum + c.monthlyAmount, 0),
+        lastMonthAmount: 0,
+        hasBankAccount: !!(staffUser.iban || staffUser.paypalEmail)
       },
       recentCommissions: commissionsWithDetails,
       referralGuide: {
