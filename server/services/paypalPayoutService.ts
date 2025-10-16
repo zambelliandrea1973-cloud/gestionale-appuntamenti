@@ -61,7 +61,20 @@ export class PayPalPayoutService {
   }
   
   /**
+   * Valida un indirizzo email PayPal
+   */
+  static validatePayPalEmail(email: string | null | undefined): boolean {
+    if (!email) return false;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+  /**
    * Invia un payout PayPal a un singolo beneficiario
+   * 
+   * ⚠️ NOTA: Questo metodo restituisce success=true quando PayPal accetta il batch (201),
+   * ma il payout potrebbe ancora fallire. Per un sistema robusto, implementare polling
+   * di GET /payouts/{batch_id} per verificare lo stato finale.
    */
   static async sendPayout(
     recipientEmail: string,
@@ -70,6 +83,15 @@ export class PayPalPayoutService {
     staffName: string
   ): Promise<{ success: boolean; transactionId?: string; error?: string }> {
     try {
+      // Validazione email PayPal
+      if (!this.validatePayPalEmail(recipientEmail)) {
+        console.error(`❌ Email PayPal non valida: ${recipientEmail}`);
+        return {
+          success: false,
+          error: 'Email PayPal non valida o mancante'
+        };
+      }
+      
       const accessToken = await this.getAccessToken();
       
       // Determina base URL (sandbox o live)
@@ -179,8 +201,8 @@ export class PayPalPayoutService {
             continue;
           }
           
-          if (!staff.paypalEmail) {
-            console.log(`⚠️ Staff ${staff.username}: email PayPal mancante - segnato come 'manual'`);
+          if (!this.validatePayPalEmail(staff.paypalEmail)) {
+            console.log(`⚠️ Staff ${staff.username}: email PayPal mancante o non valida - segnato come 'manual'`);
             await storage.updateReferralCommission(commission.id, {
               payoutStatus: 'manual',
               payoutMethod: 'bank_transfer'
