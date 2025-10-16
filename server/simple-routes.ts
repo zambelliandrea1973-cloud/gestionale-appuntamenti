@@ -2483,6 +2483,41 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
+  // Endpoint per salvare dati bancari staff
+  app.patch("/api/staff/:userId/banking", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    const user = req.user as any;
+    
+    if (user.type !== 'admin') {
+      return res.status(403).json({ message: "Solo admin può modificare i dati bancari staff" });
+    }
+    
+    try {
+      const userId = parseInt(req.params.userId);
+      const { iban, bic, bankName, accountHolder } = req.body;
+      
+      console.log(`💳 [BANKING] Aggiornamento dati bancari per staff ${userId}:`, { iban, bic, bankName, accountHolder });
+      
+      // Aggiorna i dati bancari tramite storage
+      const updated = await storage.updateStaffBanking(userId, {
+        iban,
+        bic,
+        bankName,
+        accountHolder
+      });
+      
+      if (!updated) {
+        return res.status(404).json({ message: "Staff non trovato" });
+      }
+      
+      console.log(`✅ [BANKING] Dati bancari aggiornati per staff ${userId}`);
+      res.json({ success: true, message: "Dati bancari aggiornati con successo" });
+    } catch (error) {
+      console.error("❌ [BANKING] Errore:", error);
+      res.status(500).json({ message: "Errore nel salvataggio dati bancari" });
+    }
+  });
+
   // Endpoint Referral System - Per admin e business
   app.get("/api/referral/codes", (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
@@ -4805,65 +4840,42 @@ ${businessName}`;
     }
   });
 
-  // API per gestire le impostazioni email e calendario
-  app.get('/api/email-calendar-settings', requireAuth, (req, res) => {
+  // API per gestire le impostazioni email e calendario - MIGRATO A POSTGRESQL
+  app.get('/api/email-calendar-settings', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
-      console.log(`📧 [GET EMAIL SETTINGS] Richiesta impostazioni email da utente ${user.id}`);
+      console.log(`📧 [GET EMAIL SETTINGS PG] Richiesta impostazioni email da PostgreSQL per utente ${user.id}`);
       
-      // Carica le impostazioni email dal backup15
-      let emailSettings;
-      try {
-        const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
-        if (fs.existsSync(emailConfigPath)) {
-          const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
-          emailSettings = {
-            emailEnabled: emailConfig.emailEnabled || false,
-            emailAddress: emailConfig.emailAddress || '',
-            emailPassword: emailConfig.emailPassword ? '••••••••••' : '', // Mascherata per sicurezza
-            emailTemplate: emailConfig.emailTemplate || `Gentile {{nome}} {{cognome}},
+      // Template predefinito
+      const defaultTemplate = `Gentile {{nome}} {{cognome}},
 
 Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
 
 Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
 
 Cordiali saluti,
-Studio Professionale`,
-            emailSubject: emailConfig.emailSubject || "Promemoria appuntamento del {{data}}",
-            hasPasswordSaved: !!emailConfig.emailPassword,
-            calendarEnabled: emailConfig.calendarEnabled || false,
-            calendarId: emailConfig.calendarId || '',
-            googleAuthStatus: emailConfig.googleAuthStatus || { authorized: false }
-          };
-          console.log(`📧 [EMAIL SETTINGS] Caricate dal backup15 per utente ${user.id}`);
-        } else {
-          throw new Error('File email_settings.json non trovato');
-        }
-      } catch (error) {
-        console.log(`⚠️ [EMAIL SETTINGS] Uso impostazioni predefinite per utente ${user.id}:`, error);
-        emailSettings = {
-          emailEnabled: false,
-          emailAddress: '',
-          emailPassword: '',
-          emailTemplate: `Gentile {{nome}} {{cognome}},
+Studio Professionale`;
 
-Questo è un promemoria per il Suo appuntamento di {{servizio}} previsto per il giorno {{data}} alle ore {{ora}}.
-
-Per qualsiasi modifica o cancellazione, La preghiamo di contattarci.
-
-Cordiali saluti,
-Studio Professionale`,
-          emailSubject: "Promemoria appuntamento del {{data}}",
-          hasPasswordSaved: false,
-          calendarEnabled: false,
-          calendarId: '',
-          googleAuthStatus: { authorized: false }
-        };
-      }
+      // Recupera impostazioni da PostgreSQL
+      const settings = await storage.getUserSettings(user.id);
+      const emailSettings = settings?.preferences?.emailSettings || {};
       
-      res.json(emailSettings);
+      const response = {
+        emailEnabled: emailSettings.emailEnabled || false,
+        emailAddress: emailSettings.emailAddress || '',
+        emailPassword: emailSettings.emailPassword ? '••••••••••' : '', // Mascherata per sicurezza
+        emailTemplate: emailSettings.emailTemplate || defaultTemplate,
+        emailSubject: emailSettings.emailSubject || "Promemoria appuntamento del {{data}}",
+        hasPasswordSaved: !!emailSettings.emailPassword,
+        calendarEnabled: emailSettings.calendarEnabled || false,
+        calendarId: emailSettings.calendarId || '',
+        googleAuthStatus: emailSettings.googleAuthStatus || { authorized: false }
+      };
+      
+      console.log(`✅ [EMAIL SETTINGS PG] Caricate da PostgreSQL per utente ${user.id}`);
+      res.json(response);
     } catch (error) {
-      console.error('❌ [ERRORE EMAIL SETTINGS]:', error);
+      console.error('❌ [ERRORE EMAIL SETTINGS PG]:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Errore durante il caricamento delle impostazioni email' 
@@ -4871,64 +4883,51 @@ Studio Professionale`,
     }
   });
 
-  app.post('/api/email-calendar-settings', requireAuth, (req, res) => {
+  app.post('/api/email-calendar-settings', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
       const { emailEnabled, emailAddress, emailPassword, emailTemplate, emailSubject, calendarEnabled, calendarId } = req.body;
       
-      console.log(`📧 [POST EMAIL SETTINGS] Aggiornamento impostazioni email da utente ${user.id}`, {
+      console.log(`📧 [POST EMAIL SETTINGS PG] Aggiornamento impostazioni email PostgreSQL per utente ${user.id}`, {
         emailEnabled,
         emailAddress,
         hasPassword: !!emailPassword,
         passwordMasked: emailPassword === '••••••••••'
       });
       
-      // Carica le impostazioni esistenti
-      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
-      let currentSettings: any = {};
-      
-      try {
-        if (fs.existsSync(emailConfigPath)) {
-          currentSettings = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
-          console.log(`📧 [EMAIL SETTINGS] Settings esistenti caricati`);
-        }
-      } catch (error) {
-        console.log(`⚠️ [EMAIL SETTINGS] Errore caricamento settings esistenti:`, error);
-      }
+      // Carica impostazioni esistenti da PostgreSQL
+      const settings = await storage.getUserSettings(user.id);
+      const currentEmailSettings = settings?.preferences?.emailSettings || {};
       
       // Aggiorna solo i campi forniti
-      const updatedSettings: any = { ...currentSettings };
-      if (emailEnabled !== undefined) updatedSettings.emailEnabled = emailEnabled;
-      if (emailAddress !== undefined) updatedSettings.emailAddress = emailAddress;
+      const updatedEmailSettings: any = { ...currentEmailSettings };
+      if (emailEnabled !== undefined) updatedEmailSettings.emailEnabled = emailEnabled;
+      if (emailAddress !== undefined) updatedEmailSettings.emailAddress = emailAddress;
       if (emailPassword !== undefined && emailPassword !== '••••••••••') {
-        updatedSettings.emailPassword = emailPassword;
-        console.log(`📧 [EMAIL SETTINGS] Password aggiornata`);
+        updatedEmailSettings.emailPassword = emailPassword;
+        console.log(`📧 [EMAIL SETTINGS PG] Password aggiornata`);
       }
-      if (emailTemplate !== undefined) updatedSettings.emailTemplate = emailTemplate;
-      if (emailSubject !== undefined) updatedSettings.emailSubject = emailSubject;
-      if (calendarEnabled !== undefined) updatedSettings.calendarEnabled = calendarEnabled;
-      if (calendarId !== undefined) updatedSettings.calendarId = calendarId;
+      if (emailTemplate !== undefined) updatedEmailSettings.emailTemplate = emailTemplate;
+      if (emailSubject !== undefined) updatedEmailSettings.emailSubject = emailSubject;
+      if (calendarEnabled !== undefined) updatedEmailSettings.calendarEnabled = calendarEnabled;
+      if (calendarId !== undefined) updatedEmailSettings.calendarId = calendarId;
       
-      // Salva le impostazioni aggiornate
-      try {
-        fs.writeFileSync(emailConfigPath, JSON.stringify(updatedSettings, null, 2));
-        console.log(`✅ [EMAIL SETTINGS] Impostazioni salvate per utente ${user.id}`);
-      } catch (saveError) {
-        console.error(`❌ [EMAIL SETTINGS] Errore salvataggio:`, saveError);
-        return res.status(500).json({ 
-          success: false, 
-          error: 'Errore durante il salvataggio delle impostazioni' 
-        });
-      }
+      // Salva in PostgreSQL
+      const newPreferences = {
+        ...(settings?.preferences || {}),
+        emailSettings: updatedEmailSettings
+      };
       
-      console.log(`📧 [EMAIL SETTINGS] Invio risposta JSON di successo`);
+      await storage.updateUserSettings(user.id, { preferences: newPreferences });
+      console.log(`✅ [EMAIL SETTINGS PG] Impostazioni salvate in PostgreSQL per utente ${user.id}`);
+      
       res.setHeader('Content-Type', 'application/json');
       res.json({
         success: true,
         message: 'Impostazioni email aggiornate con successo'
       });
     } catch (error) {
-      console.error('❌ [ERRORE SAVE EMAIL SETTINGS]:', error);
+      console.error('❌ [ERRORE SAVE EMAIL SETTINGS PG]:', error);
       res.setHeader('Content-Type', 'application/json');
       res.status(500).json({ 
         success: false, 
@@ -4937,24 +4936,16 @@ Studio Professionale`,
     }
   });
 
-  // API per mostrare la password salvata
-  app.get('/api/email-calendar-settings/show-password', requireAuth, (req, res) => {
+  // API per mostrare la password salvata - MIGRATO A POSTGRESQL
+  app.get('/api/email-calendar-settings/show-password', requireAuth, async (req, res) => {
     try {
       const user = req.user!;
-      console.log(`📧 [SHOW PASSWORD] Richiesta password salvata da utente ${user.id}`);
+      console.log(`📧 [SHOW PASSWORD PG] Richiesta password da PostgreSQL per utente ${user.id}`);
       
-      // Carica la password reale dal backup15
-      const emailConfigPath = path.join(process.cwd(), 'email_settings.json');
-      let actualPassword = '';
-      
-      try {
-        if (fs.existsSync(emailConfigPath)) {
-          const emailConfig = JSON.parse(fs.readFileSync(emailConfigPath, 'utf8'));
-          actualPassword = emailConfig.emailPassword || '';
-        }
-      } catch (error) {
-        console.log(`⚠️ [SHOW PASSWORD] Errore caricamento password:`, error);
-      }
+      // Carica la password da PostgreSQL
+      const settings = await storage.getUserSettings(user.id);
+      const emailSettings = settings?.preferences?.emailSettings || {};
+      const actualPassword = emailSettings.emailPassword || '';
       
       res.json({
         success: true,
@@ -4962,7 +4953,7 @@ Studio Professionale`,
         hasSavedPassword: !!actualPassword
       });
     } catch (error) {
-      console.error('❌ [ERRORE SHOW PASSWORD]:', error);
+      console.error('❌ [ERRORE SHOW PASSWORD PG]:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Errore durante il recupero della password' 
