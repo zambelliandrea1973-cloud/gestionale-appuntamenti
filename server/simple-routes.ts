@@ -1297,7 +1297,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per ottenere le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
-  app.get("/api/company-name-settings", (req, res) => {
+  app.get("/api/company-name-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.json({ businessName: "Studio Medico", showBusinessName: true });
     }
@@ -1325,31 +1325,21 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per impostazioni aziendali mobile`);
     }
     
-    // Carica dati freschi dal storage_data.json
-    const currentStorageData = loadStorageData();
+    // 🔄 CORRETTO: Leggi da PostgreSQL invece che da JSON
+    const currentSettings = await storage.getUserSettings(userId);
+    const companyNameSettings = (currentSettings?.preferences as any)?.companyName || {};
     
-    // Inizializza userBusinessSettings se non esiste
-    if (!currentStorageData.userBusinessSettings) {
-      currentStorageData.userBusinessSettings = {};
-    }
-    
-    // Se l'utente non ha impostazioni, inizializza con configurazione completa come admin
-    if (!currentStorageData.userBusinessSettings[userId]) {
-      currentStorageData.userBusinessSettings[userId] = {
-        businessName: "Studio Medico",
-        showBusinessName: true,
-        name: req.user.username || "Utente",
-        fontSize: 24,
-        fontFamily: "Arial, sans-serif",
-        fontStyle: "normal",
-        color: "#000000",
-        enabled: true
-      };
-      saveStorageData(currentStorageData);
-      console.log(`🆕 [${deviceType}] Inizializzate impostazioni complete per utente ${userId} (${userType})`);
-    }
-    
-    const userSettings = currentStorageData.userBusinessSettings[userId];
+    // Valori di default se non esistono impostazioni
+    const userSettings = {
+      businessName: companyNameSettings.businessName || "Studio Medico",
+      showBusinessName: companyNameSettings.showBusinessName !== undefined ? companyNameSettings.showBusinessName : true,
+      name: companyNameSettings.name || req.user.username || "Utente",
+      fontSize: companyNameSettings.fontSize || 24,
+      fontFamily: companyNameSettings.fontFamily || "Arial, sans-serif",
+      fontStyle: companyNameSettings.fontStyle || "normal",
+      color: companyNameSettings.color || "#000000",
+      enabled: companyNameSettings.enabled !== undefined ? companyNameSettings.enabled : true
+    };
     
     console.log(`🏢 [/api/company-name-settings] [${deviceType}] Settings per utente ${userId} (${userType}):`, userSettings);
     res.json(userSettings);
