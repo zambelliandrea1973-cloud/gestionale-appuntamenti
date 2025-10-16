@@ -51,7 +51,7 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
       recentCommissions: commissionsWithDetails,
       referralGuide: {
         howItWorks: "Condividi il tuo codice con nuovi clienti durante la registrazione",
-        commission: "1€ per ogni abbonamento a partire dal 3° cliente",
+        commission: "10% del prezzo dell'abbonamento per ogni cliente referenziato",
         minimumPayout: 3,
         paymentMethod: "Bonifico bancario mensile"
       },
