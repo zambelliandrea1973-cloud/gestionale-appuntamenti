@@ -215,43 +215,15 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     try {
-      // 🔧 MIGRAZIONE AUTOMATICA: Sincronizza servizi esistenti con ID timestamp
-      const storageData = loadStorageData();
-      const userServices = storageData.userServices?.[user.id] || [];
+      // 🔄 USA POSTGRESQL: Carica servizi dal database condiviso
+      const userServices = await storage.getServicesByUserId(user.id);
       
-      // 🔧 RIPRISTINO ID ORIGINALI - Corregge la migrazione problematica
-      const idMapping = {
-        64: 1750225060109,  // bio bicom
-        65: 1750225071976,  // zapter  
-        66: 1750225104451,  // test diacom
-        67: 1750225141396   // detox
-      };
-      
-      // Ripristina gli ID originali se sono stati migrati
-      let needsFixing = false;
-      userServices.forEach(service => {
-        if (idMapping[service.id]) {
-          console.log(`🔄 Ripristino ID servizio "${service.name}": ${service.id} → ${idMapping[service.id]}`);
-          service.id = idMapping[service.id];
-          needsFixing = true;
-        }
-      });
-      
-      if (needsFixing) {
-        storageData.userServices[user.id] = userServices;
-        saveStorageData(storageData);
-        console.log(`✅ RIPRISTINO COMPLETATO: ID originali ripristinati per compatibilità appuntamenti`);
-      }
-      
-      console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi per utente ${user.id}`);
+      console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi da PostgreSQL per utente ${user.id}`);
       res.json(userServices);
       
     } catch (error) {
-      console.error("Errore durante il caricamento servizi:", error);
-      // Fallback al metodo originale
-      const storageData = loadStorageData();
-      const userServices = storageData.userServices?.[user.id] || [];
-      res.json(userServices);
+      console.error("❌ [/api/services] Errore caricamento servizi da PostgreSQL:", error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
   });
 
@@ -1524,7 +1496,7 @@ export function registerSimpleRoutes(app: Express): Server {
 
 
   // Sistema lineare semplice - Appuntamenti (COMPLETAMENTE UNIFICATO MOBILE/DESKTOP)
-  app.get("/api/appointments", (req, res) => {
+  app.get("/api/appointments", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const userAgent = req.headers['user-agent'] || '';
@@ -1546,65 +1518,36 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔄 [${deviceType}] Intestazioni anti-cache applicate per mobile`);
     }
     
-    // UNIFICA TUTTI I DATI - stesso identico accesso per mobile e desktop
-    const storageData = loadStorageData();
-    const allClients = storageData.clients || [];
-    const userServices = storageData.userServices?.[user.id] || [];
-    
-    // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
-    const allAppointments = (storageData.appointments || []).map(item => {
-      if (Array.isArray(item)) {
-        return item[1]; // Formato [id, appointment]
-      }
-      return item; // Formato diretto
-    });
-    
-    // Per admin: accesso completo identico desktop/mobile
-    // Per staff/customer: solo i propri dati
-    let availableClients;
-    let userAppointments;
-    
-    if (user.type === 'admin') {
-      // ADMIN: accesso identico desktop/mobile - tutti i dati
-      availableClients = allClients.map(([id, client]) => client);
-      userAppointments = allAppointments;
-      console.log(`👑 [/api/appointments] [${deviceType}] Admin - Accesso completo: ${allClients.length} clienti, ${userAppointments.length} appuntamenti`);
-    } else {
-      // STAFF/CUSTOMER: solo dati propri - identico desktop/mobile
-      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
-      const userClientIds = availableClients.map(c => c.id);
-      userAppointments = allAppointments.filter(apt => userClientIds.includes(apt.clientId));
-      console.log(`👤 [/api/appointments] [${deviceType}] User ${user.id} - Dati propri: ${availableClients.length} clienti, ${userAppointments.length} appuntamenti`);
+    try {
+      // 🔄 USA POSTGRESQL: Carica appuntamenti dal database condiviso
+      const userAppointments = await storage.getAppointmentsForUser(user.id, user.type);
+      
+      console.log(`📅 [${deviceType}] Caricati ${userAppointments.length} appuntamenti da PostgreSQL per utente ${user.id}`);
+      
+      // Converte formato PostgreSQL → JSON per compatibilità frontend
+      const formattedAppointments = userAppointments.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        startTime: apt.startTime,
+        endTime: apt.endTime,
+        clientId: apt.clientId,
+        client: apt.clientName,
+        service: apt.serviceName,
+        serviceId: apt.serviceId,
+        userId: apt.userId,
+        notes: apt.notes,
+        reminderSent: apt.reminderSent,
+        reminderConfirmed: apt.reminderConfirmed
+      }));
+      
+      res.json(formattedAppointments);
+    } catch (error) {
+      console.error(`❌ [/api/appointments] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    // Popola le relazioni con client e service usando dati persistenti
-    const appointmentsWithDetails = userAppointments.map(appointment => {
-      const client = availableClients.find(c => c.id === appointment.clientId);
-      const service = userServices.find(s => s.id === appointment.serviceId);
-      // Genera startTime e endTime se mancanti per compatibilità frontend
-      const startTime = appointment.startTime || appointment.time || "09:00";
-      const duration = appointment.duration || 60;
-      const endTime = appointment.endTime || (() => {
-        const [hours, minutes] = startTime.split(':').map(Number);
-        const endDate = new Date();
-        endDate.setHours(hours, minutes + duration, 0, 0);
-        return endDate.toTimeString().substring(0, 5);
-      })();
-
-      return { 
-        ...appointment, 
-        startTime,
-        endTime,
-        client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
-        service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666" }
-      };
-    });
-    
-    console.log(`📱💻 [${deviceType}] Sincronizzazione completa: restituiti ${appointmentsWithDetails.length} appuntamenti`);
-    res.json(appointmentsWithDetails);
   });
 
-  app.get("/api/appointments/date/:date", (req, res) => {
+  app.get("/api/appointments/date/:date", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const { date } = req.params;
@@ -1614,78 +1557,33 @@ export function registerSimpleRoutes(app: Express): Server {
     
     console.log(`📅 [/api/appointments/date] [${deviceType}] Utente ${user.id} cerca appuntamenti per data ${date}`);
     
-    // UNIFICA TUTTI I DATI - stesso identico accesso per mobile e desktop
-    const storageData = loadStorageData();
-    const allClients = storageData.clients || [];
-    const userServices = storageData.userServices?.[user.id] || [];
-    // CARICA APPUNTAMENTI DAL STORAGE PERSISTENTE
-    const allAppointments = (storageData.appointments || []).map(item => {
-      if (Array.isArray(item)) {
-        return item[1]; // Formato [id, appointment]
-      }
-      return item; // Formato diretto
-    });
-    
-    console.log(`📅 [${deviceType}] Appuntamenti totali nell'account: ${allAppointments.length}`);
-    
-    // Per admin: accesso completo identico desktop/mobile
-    // Per staff/customer: solo i propri dati
-    let availableClients;
-    let userAppointments;
-    
-    if (user.type === 'admin') {
-      // ADMIN: accesso identico desktop/mobile - tutti i dati
-      availableClients = allClients.map(([id, client]) => client);
-      userAppointments = allAppointments;
-      console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti`);
-    } else {
-      // STAFF/CUSTOMER: solo dati propri - identico desktop/mobile  
-      availableClients = allClients.map(([id, client]) => client).filter(client => client.ownerId === user.id);
-      const userClientIds = availableClients.map(c => c.id);
-      userAppointments = allAppointments.filter(apt => userClientIds.includes(apt.clientId));
-      console.log(`👤 [${deviceType}] User ${user.id} - Solo appuntamenti con clienti propri`);
+    try {
+      // 🔄 USA POSTGRESQL: Carica appuntamenti per data dal database condiviso
+      const dayAppointments = await storage.getAppointmentsByDateForUser(date, user.id, user.type);
+      
+      console.log(`📅 [${deviceType}] Caricati ${dayAppointments.length} appuntamenti da PostgreSQL per ${date}`);
+      
+      // Converte formato PostgreSQL → JSON per compatibilità frontend
+      const formattedAppointments = dayAppointments.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        startTime: apt.startTime,
+        endTime: apt.endTime,
+        clientId: apt.clientId,
+        client: { firstName: apt.clientName?.split(' ')[0] || 'Cliente', lastName: apt.clientName?.split(' ').slice(1).join(' ') || 'Sconosciuto', id: apt.clientId },
+        service: { name: apt.serviceName || 'Servizio Sconosciuto', id: apt.serviceId, color: apt.serviceColor || '#666666' },
+        serviceId: apt.serviceId,
+        userId: apt.userId,
+        notes: apt.notes,
+        reminderSent: apt.reminderSent,
+        reminderConfirmed: apt.reminderConfirmed
+      }));
+      
+      res.json(formattedAppointments);
+    } catch (error) {
+      console.error(`❌ [/api/appointments/date] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    // Filtra per data specifica
-    const userDayAppointments = userAppointments.filter(apt => apt.date === date);
-    console.log(`📱💻 [${deviceType}] Appuntamenti sincronizzati per ${date}: ${userDayAppointments.length}`)
-    
-    // Popola le relazioni con client e service usando dati persistenti
-    const dayAppointmentsWithDetails = userDayAppointments.map(appointment => {
-      const client = availableClients.find(c => c.id === appointment.clientId);
-      const service = userServices.find(s => s.id === appointment.serviceId);
-      
-      // Debug per identificare dati mancanti
-      console.log(`🔍 [${deviceType}] Processing appointment ${appointment.id}, clientId: ${appointment.clientId}, serviceId: ${appointment.serviceId}`);
-      if (!client) {
-        console.log(`⚠️ [${deviceType}] Client non trovato per appuntamento ${appointment.id}, clientId: ${appointment.clientId}`);
-        console.log(`⚠️ [${deviceType}] Clienti disponibili:`, availableClients.map(c => ({id: c.id, name: `${c.firstName} ${c.lastName}`})));
-      }
-      if (!service) {
-        console.log(`⚠️ [${deviceType}] Service non trovato per appuntamento ${appointment.id}, serviceId: ${appointment.serviceId}`);
-        console.log(`⚠️ [${deviceType}] Servizi disponibili:`, userServices.map(s => ({id: s.id, name: s.name})));
-      }
-      
-      // Genera startTime e endTime se mancanti per compatibilità frontend
-      const startTime = appointment.startTime || appointment.time || "09:00";
-      const duration = appointment.duration || 60;
-      const endTime = appointment.endTime || (() => {
-        const [hours, minutes] = startTime.split(':').map(Number);
-        const endDate = new Date();
-        endDate.setHours(hours, minutes + duration, 0, 0);
-        return endDate.toTimeString().substring(0, 5);
-      })();
-
-      return { 
-        ...appointment, 
-        startTime,
-        endTime,
-        client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
-        service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666" }
-      };
-    });
-    
-    res.json(dayAppointmentsWithDetails);
   });
 
   // Endpoint per range di appuntamenti (necessario per i report)
@@ -2316,34 +2214,48 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per caricare appuntamenti del cliente via token QR
-  app.get("/api/appointments/client/:clientId", (req, res) => {
+  app.get("/api/appointments/client/:clientId", async (req, res) => {
     const { clientId } = req.params;
+    const user = req.user as any; // Può essere undefined se non autenticato (PWA pubblico)
     
     if (!clientId) {
       return res.status(400).json({ message: "ClientId richiesto" });
     }
     
-    const storageData = loadStorageData();
-    const appointments = storageData.appointments || [];
-    
-    // Filtra appuntamenti per questo cliente
-    const clientAppointments = [];
-    for (const [id, appointment] of appointments) {
-      if (appointment.clientId && appointment.clientId.toString() === clientId.toString()) {
-        clientAppointments.push({
-          id: parseInt(id.toString(), 10),
-          date: appointment.date,
-          startTime: appointment.startTime,
-          endTime: appointment.endTime,
-          notes: appointment.notes || '',
-          reminderSent: appointment.reminderSent || false,
-          reminderConfirmed: appointment.reminderConfirmed || false,
-          clientId: appointment.clientId
-        });
+    try {
+      // 🔒 MULTI-TENANT SECURITY: Verifica ownership del cliente
+      const client = await storage.getClient(parseInt(clientId));
+      
+      if (!client) {
+        return res.status(404).json({ message: "Cliente non trovato" });
       }
+      
+      // Se autenticato, verifica che il cliente appartenga all'utente (eccetto admin)
+      if (user && user.type !== 'admin' && client.ownerId !== user.id) {
+        console.log(`🚫 [SECURITY] User ${user.id} tentato accesso a cliente ${clientId} di proprietà di ${client.ownerId}`);
+        return res.status(403).json({ message: "Accesso negato" });
+      }
+      
+      // 🔄 USA POSTGRESQL: Carica appuntamenti per cliente dal database condiviso
+      const clientAppointments = await storage.getAppointmentsByClient(parseInt(clientId));
+      
+      // Converte formato PostgreSQL → JSON per compatibilità frontend
+      const formattedAppointments = clientAppointments.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        startTime: apt.startTime,
+        endTime: apt.endTime,
+        notes: apt.notes || '',
+        reminderSent: apt.reminderSent || false,
+        reminderConfirmed: apt.reminderConfirmed || false,
+        clientId: apt.clientId
+      }));
+      
+      res.json(formattedAppointments);
+    } catch (error) {
+      console.error(`❌ [/api/appointments/client] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    res.json(clientAppointments);
   });
 
   // Endpoint di validazione token QR code per attivazione app PWA cliente
