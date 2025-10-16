@@ -11,8 +11,11 @@ export default function setupStaffRoutes(app: Express) {
   // Ottieni la lista di tutti gli utenti staff (solo per admin) - endpoint alternativo
   app.get("/api/staff/users", isAdmin, async (req: Request, res: Response) => {
     try {
+      console.log("🔵 [/api/staff/users] INIZIO - Recupero staff dal database PostgreSQL");
+      
       // Recupera tutti gli utenti staff dal database
       const staffUsers = await storage.getAllStaffUsers();
+      console.log(`🔵 [/api/staff/users] Trovati ${staffUsers.length} utenti staff dal database`);
       
       // Rimuovi le password e aggiungi i codici referral
       const safeUsers = staffUsers.map(user => {
@@ -31,9 +34,10 @@ export default function setupStaffRoutes(app: Express) {
       });
       
       console.log(`📋 STAFF USERS CON CODICI REFERRAL: ${safeUsers.length} account preparati`);
+      console.log(`🔵 [/api/staff/users] Invio risposta JSON con ${safeUsers.length} utenti`);
       res.json(safeUsers);
     } catch (error) {
-      console.error("Errore durante il recupero degli utenti staff:", error);
+      console.error("❌ [/api/staff/users] Errore durante il recupero degli utenti staff:", error);
       res.status(500).json({ message: "Si è verificato un errore durante il recupero degli utenti staff" });
     }
   });
