@@ -24079,6 +24079,21 @@
         "ownerId": 3,
         "createdAt": "2025-10-07T06:59:16.210Z"
       }
+    ],
+    [
+      1760628937680,
+      {
+        "id": 1760628937680,
+        "invoiceNumber": "009/2025",
+        "clientId": 14004,
+        "totalAmount": 70,
+        "date": "2025-10-16",
+        "dueDate": "2025-11-15",
+        "description": "bicom",
+        "status": "paid",
+        "ownerId": 14,
+        "createdAt": "2025-10-16T15:35:37.690Z"
+      }
     ]
   ],
   "adminNotifications": [
@@ -24570,6 +24585,24 @@
         "createdAt": "2025-10-07T06:58:46.822Z",
         "updatedAt": "2025-10-07T06:58:46.822Z"
       }
+    ],
+    [
+      4,
+      {
+        "categoryId": 1,
+        "name": "a",
+        "price": 2000,
+        "cost": 1000,
+        "currentStock": 10,
+        "minStock": 20,
+        "maxStock": 30,
+        "unit": "pz",
+        "userId": 14,
+        "id": 4,
+        "isActive": true,
+        "createdAt": "2025-10-16T15:35:12.865Z",
+        "updatedAt": "2025-10-16T15:35:12.865Z"
+      }
     ]
   ],
   "productSales": [],
@@ -24603,7 +24636,7 @@
     ]
   ],
   "categoryNextId": 11,
-  "productNextId": 4,
+  "productNextId": 5,
   "movementNextId": 3,
   "saleNextId": 1,
   "onboarding_9": {
