@@ -216,7 +216,7 @@ export function registerSimpleRoutes(app: Express): Server {
     
     try {
       // 🔄 USA POSTGRESQL: Carica servizi dal database condiviso
-      const userServices = await storage.getServicesByUserId(user.id);
+      const userServices = await storage.getServicesForUser(user.id);
       
       console.log(`🔧 [/api/services] [${deviceType}] Caricati ${userServices.length} servizi da PostgreSQL per utente ${user.id}`);
       res.json(userServices);
@@ -465,7 +465,7 @@ export function registerSimpleRoutes(app: Express): Server {
       });
       
       // Ricarica il cliente aggiornato
-      const finalClient = await storage.getClientById(newClient.id);
+      const finalClient = await storage.getClient(newClient.id);
       
       console.log(`✅ [POST /api/clients] Cliente creato in PostgreSQL: ${finalClient.firstName} ${finalClient.lastName} (ID: ${finalClient.id})`);
       
@@ -548,7 +548,7 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Dati ricevuti:`, req.body);
 
       // 🔄 USA POSTGRESQL: Trova il cliente esistente
-      const existingClient = await storage.getClientById(clientId);
+      const existingClient = await storage.getClient(clientId);
       
       if (!existingClient) {
         console.log(`❌ [PUT /api/clients/${clientId}] Cliente non trovato`);
@@ -565,7 +565,7 @@ export function registerSimpleRoutes(app: Express): Server {
       await storage.updateClient(clientId, req.body);
       
       // Ricarica il cliente aggiornato
-      const updatedClient = await storage.getClientById(clientId);
+      const updatedClient = await storage.getClient(clientId);
       
       console.log(`✅ [PUT /api/clients/${clientId}] Cliente aggiornato con successo in PostgreSQL`);
       res.json(updatedClient);
@@ -1910,7 +1910,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
     
     // 🔄 USA POSTGRESQL: Carica cliente dal database condiviso
-    const client = await storage.getClientById(clientId);
+    const client = await storage.getClient(clientId);
     
     if (!client) {
       console.log(`❌ [QR-INTERFACE] Cliente ${clientId} NON TROVATO nel sistema`);
@@ -2097,7 +2097,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const clientIdParam = req.params.clientId;
     
     // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
-    const client = await storage.getClientById(parseInt(clientIdParam, 10));
+    const client = await storage.getClient(parseInt(clientIdParam, 10));
     
     if (!client) {
       return res.status(404).json({ message: "Cliente non trovato nel sistema" });
@@ -2190,7 +2190,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
-    const clientFound = await storage.getClientById(parseInt(id, 10));
+    const clientFound = await storage.getClient(parseInt(id, 10));
 
     if (!clientFound) {
       return res.status(404).json({ message: "Cliente non trovato" });
