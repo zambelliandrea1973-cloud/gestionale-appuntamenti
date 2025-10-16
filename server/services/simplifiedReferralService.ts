@@ -59,13 +59,13 @@ export class SimplifiedReferralService {
     // Calcola l'importo del mese precedente (semplificato, usiamo lo stesso valore)
     const lastMonthAmount = currentMonthAmount;
     
-    // Verifica se l'utente ha un conto bancario
-    const [bankAccount] = await db
-      .select()
-      .from(bankAccounts)
-      .where(eq(bankAccounts.userId, userId));
+    // Verifica se l'utente ha un conto bancario (controlla campo iban nella tabella users)
+    const [user] = await db
+      .select({ iban: users.iban })
+      .from(users)
+      .where(eq(users.id, userId));
       
-    const hasBankAccount = !!bankAccount;
+    const hasBankAccount = !!(user?.iban);
     
     return {
       totalActiveCommissions,
@@ -100,11 +100,16 @@ export class SimplifiedReferralService {
         .from(referralCommissions)
         .where(eq(referralCommissions.referrerId, userId));
         
-      // Ottieni il conto bancario
+      // Ottieni il conto bancario dalla tabella users
       const [bankData] = await db
-        .select()
-        .from(bankAccounts)
-        .where(eq(bankAccounts.userId, userId));
+        .select({
+          bankName: users.bankName,
+          accountHolder: users.accountHolder,
+          iban: users.iban,
+          bic: users.bic
+        })
+        .from(users)
+        .where(eq(users.id, userId));
         
       // Ottieni le statistiche
       const statsData = await this.getReferralStats(userId);
@@ -137,49 +142,34 @@ export class SimplifiedReferralService {
    * Salva un conto bancario per un utente
    * @param userId - ID dell'utente
    * @param bankData - Dati del conto bancario
-   * @returns Il conto bancario aggiornato o creato
+   * @returns Il conto bancario aggiornato
    */
   async saveBankAccount(userId: number, bankData: any) {
     try {
-      // Verifica se esiste già un conto bancario per questo utente
-      const [existingAccount] = await db
-        .select()
-        .from(bankAccounts)
-        .where(eq(bankAccounts.userId, userId));
+      console.log(`💳 [REFERRAL] Salvataggio dati bancari per utente ${userId}:`, bankData);
+      
+      // Aggiorna i dati bancari direttamente nella tabella users
+      const [updatedUser] = await db
+        .update(users)
+        .set({
+          bankName: bankData.bankName,
+          accountHolder: bankData.accountHolder,
+          iban: bankData.iban,
+          bic: bankData.swift || null, // swift viene mappato a bic
+        })
+        .where(eq(users.id, userId))
+        .returning({
+          id: users.id,
+          bankName: users.bankName,
+          accountHolder: users.accountHolder,
+          iban: users.iban,
+          bic: users.bic
+        });
         
-      if (existingAccount) {
-        // Aggiorna il conto esistente
-        const [updatedAccount] = await db
-          .update(bankAccounts)
-          .set({
-            bankName: bankData.bankName,
-            accountHolder: bankData.accountHolder,
-            iban: bankData.iban,
-            swift: bankData.swift || null,
-            updatedAt: new Date()
-          })
-          .where(eq(bankAccounts.id, existingAccount.id))
-          .returning();
-          
-        return updatedAccount;
-      } else {
-        // Crea un nuovo conto
-        const [newAccount] = await db
-          .insert(bankAccounts)
-          .values({
-            userId,
-            bankName: bankData.bankName,
-            accountHolder: bankData.accountHolder,
-            iban: bankData.iban,
-            swift: bankData.swift || null,
-            isDefault: true
-          })
-          .returning();
-          
-        return newAccount;
-      }
+      console.log(`✅ [REFERRAL] Dati bancari aggiornati per utente ${userId}`);
+      return updatedUser;
     } catch (error) {
-      console.error('Errore nel salvataggio conto bancario:', error);
+      console.error('❌ [REFERRAL] Errore nel salvataggio conto bancario:', error);
       throw error;
     }
   }
