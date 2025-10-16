@@ -1092,7 +1092,9 @@ const WhatsAppCenterPage: React.FC = () => {
                     </div>
                     
                     <div className="p-4 space-y-6">
-                      {Object.entries(groupedAppointments).map(([date, apps]) => (
+                      {Object.entries(groupedAppointments)
+                        .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
+                        .map(([date, apps]) => (
                         <div key={date} className="space-y-3">
                           <div className="flex items-center space-x-2">
                             <div className="h-2 w-2 rounded-full bg-primary" />
