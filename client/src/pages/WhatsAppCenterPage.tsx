@@ -1096,7 +1096,7 @@ const WhatsAppCenterPage: React.FC = () => {
                         <div key={date} className="space-y-3">
                           <div className="flex items-center space-x-2">
                             <div className="h-2 w-2 rounded-full bg-primary" />
-                            <h4 className="font-medium">{date}</h4>
+                            <h4 className="font-medium">{format(parseISO(date), 'dd MMMM yyyy', { locale: it })}</h4>
                           </div>
                           
                           <div className="space-y-2 pl-4">
