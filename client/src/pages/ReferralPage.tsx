@@ -199,6 +199,13 @@ export default function ReferralPage() {
     }
   }, [referralData]);
 
+  // Forza il refetch quando si apre il dialog
+  useEffect(() => {
+    if (openBankDialog) {
+      queryClient.invalidateQueries({ queryKey: ['/api/referral/staff'] });
+    }
+  }, [openBankDialog]);
+
   // Gestisce il submit del form dei dati bancari
   const handleBankFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
