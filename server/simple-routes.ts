@@ -610,22 +610,41 @@ export function registerSimpleRoutes(app: Express): Server {
   // Impostazioni azienda - RIMOSSO DUPLICATO ERRATO (ora gestito da storage_data.json)
 
   // Informazioni di contatto
-  app.get("/api/contact-info", requireAuth, (req, res) => {
+  app.get("/api/contact-info", requireAuth, async (req, res) => {
     const user = req.user!;
-    const storageData = loadStorageData();
     const defaultInfo = {
       email: "info@studiomedico.it",
       phone: "+39 123 456 7890"
     };
     
-    // Cerca le informazioni di contatto specifiche per l'utente
-    const userContactInfo = storageData.userContactInfo?.[user.id];
-    
-    res.json(userContactInfo || defaultInfo);
+    try {
+      // 🔄 USA POSTGRESQL: Carica da userSettings
+      const settings = await storage.getUserSettings(user.id);
+      
+      if (!settings) {
+        return res.json(defaultInfo);
+      }
+      
+      // Converti formato PostgreSQL → JSON per compatibilità frontend
+      const userContactInfo = {
+        email: settings.contactEmail || defaultInfo.email,
+        phone: settings.contactPhone || defaultInfo.phone,
+        phone1: settings.contactPhone || '',
+        phone2: settings.contactPhone2 || '',
+        website: settings.website || '',
+        instagram: settings.instagramHandle || '',
+        facebook: settings.facebookPage || ''
+      };
+      
+      res.json(userContactInfo);
+    } catch (error) {
+      console.error('Errore caricamento contact-info:', error);
+      res.json(defaultInfo);
+    }
   });
 
   // Endpoint per caricare informazioni di contatto tramite ownerId (per clienti)
-  app.get("/api/contact-info/:ownerId", (req, res) => {
+  app.get("/api/contact-info/:ownerId", async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       console.log(`Caricamento informazioni di contatto per professionista ${ownerId} (richiesta client)`);
@@ -634,8 +653,19 @@ export function registerSimpleRoutes(app: Express): Server {
         return res.status(400).json({ error: "ID professionista non valido" });
       }
       
-      const storageData = loadStorageData();
-      const contactInfo = storageData.userContactInfo?.[ownerId] || {};
+      // 🔄 USA POSTGRESQL: Carica da userSettings
+      const settings = await storage.getUserSettings(ownerId);
+      
+      const contactInfo = {
+        email: settings?.contactEmail || '',
+        phone: settings?.contactPhone || '',
+        phone1: settings?.contactPhone || '',
+        phone2: settings?.contactPhone2 || '',
+        website: settings?.website || '',
+        instagram: settings?.instagramHandle || '',
+        facebook: settings?.facebookPage || ''
+      };
+      
       res.json(contactInfo);
     } catch (error) {
       console.error('Errore nel caricamento informazioni di contatto:', error);
@@ -644,15 +674,25 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // API per recuperare informazioni di contatto di un professionista specifico (per PWA clienti)
-  app.get('/api/owner-contact-info/:ownerId', (req, res) => {
+  app.get('/api/owner-contact-info/:ownerId', async (req, res) => {
     try {
       const ownerId = parseInt(req.params.ownerId);
       if (!ownerId) {
         return res.status(400).json({ error: 'ID proprietario non valido' });
       }
       
-      const storageData = loadStorageData();
-      const contactInfo = storageData.userContactInfo?.[ownerId] || {};
+      // 🔄 USA POSTGRESQL: Carica da userSettings
+      const settings = await storage.getUserSettings(ownerId);
+      
+      const contactInfo = {
+        email: settings?.contactEmail || '',
+        phone: settings?.contactPhone || '',
+        phone1: settings?.contactPhone || '',
+        phone2: settings?.contactPhone2 || '',
+        website: settings?.website || '',
+        instagram: settings?.instagramHandle || '',
+        facebook: settings?.facebookPage || ''
+      };
       
       console.log(`🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista ${ownerId}:`, contactInfo);
       res.json(contactInfo);
@@ -662,7 +702,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Endpoint POST per salvare le informazioni di contatto - Sistema dal backup15
+  // Endpoint POST per salvare le informazioni di contatto
   app.post("/api/contact-info", requireAuth, async (req, res) => {
     try {
       const user = req.user!;
@@ -677,36 +717,36 @@ export function registerSimpleRoutes(app: Express): Server {
         });
       }
       
-      // Carica i dati esistenti
-      const storageData = loadStorageData();
+      // 🔄 USA POSTGRESQL: Prepara dati per userSettings
+      const settingsUpdate: any = {};
+      if (contactInfo.email !== undefined) settingsUpdate.contactEmail = contactInfo.email;
+      if (contactInfo.phone !== undefined) settingsUpdate.contactPhone = contactInfo.phone;
+      if (contactInfo.phone1 !== undefined) settingsUpdate.contactPhone = contactInfo.phone1; // phone1 → contactPhone
+      if (contactInfo.phone2 !== undefined) settingsUpdate.contactPhone2 = contactInfo.phone2;
+      if (contactInfo.website !== undefined) settingsUpdate.website = contactInfo.website;
+      if (contactInfo.instagram !== undefined) settingsUpdate.instagramHandle = contactInfo.instagram;
+      if (contactInfo.facebook !== undefined) settingsUpdate.facebookPage = contactInfo.facebook;
       
-      // Inizializza la struttura per le informazioni di contatto per utente
-      if (!storageData.userContactInfo) {
-        storageData.userContactInfo = {};
-      }
-      if (!storageData.userContactInfo[user.id]) {
-        storageData.userContactInfo[user.id] = {};
-      }
+      // 🔄 USA POSTGRESQL: Aggiorna o crea userSettings
+      const updatedSettings = await storage.updateUserSettings(user.id, settingsUpdate);
       
-      // Aggiorna tutti i campi forniti per l'utente specifico
-      const userContactInfo = storageData.userContactInfo[user.id];
-      if (contactInfo.email !== undefined) userContactInfo.email = contactInfo.email;
-      if (contactInfo.phone !== undefined) userContactInfo.phone = contactInfo.phone;
-      if (contactInfo.phone1 !== undefined) userContactInfo.phone1 = contactInfo.phone1;
-      if (contactInfo.phone2 !== undefined) userContactInfo.phone2 = contactInfo.phone2;
-      if (contactInfo.website !== undefined) userContactInfo.website = contactInfo.website;
-      if (contactInfo.instagram !== undefined) userContactInfo.instagram = contactInfo.instagram;
-      if (contactInfo.facebook !== undefined) userContactInfo.facebook = contactInfo.facebook;
+      // Riconverti formato PostgreSQL → JSON per compatibilità frontend
+      const responseContactInfo = {
+        email: updatedSettings?.contactEmail || '',
+        phone: updatedSettings?.contactPhone || '',
+        phone1: updatedSettings?.contactPhone || '',
+        phone2: updatedSettings?.contactPhone2 || '',
+        website: updatedSettings?.website || '',
+        instagram: updatedSettings?.instagramHandle || '',
+        facebook: updatedSettings?.facebookPage || ''
+      };
       
-      // Salva i dati aggiornati
-      saveStorageData(storageData);
-      
-      console.log(`✅ [CONTACT INFO] Informazioni salvate per utente ${user.id}:`, userContactInfo);
+      console.log(`✅ [CONTACT INFO] Informazioni salvate in PostgreSQL per utente ${user.id}`);
       
       res.json({ 
         success: true, 
         message: 'Informazioni di contatto salvate con successo',
-        contactInfo: storageData.userContactInfo[user.id]
+        contactInfo: responseContactInfo
       });
       
     } catch (error) {
@@ -1387,7 +1427,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per salvare i dati aziendali completi del professionista
-  app.post("/api/company-business-data", (req, res) => {
+  app.post("/api/company-business-data", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ error: "Non autenticato" });
     }
@@ -1398,26 +1438,32 @@ export function registerSimpleRoutes(app: Express): Server {
       
       console.log(`🏢 [POST] Salvando dati aziendali completi per utente ${userId}:`, req.body);
       
-      const currentStorageData = loadStorageData();
-      if (!currentStorageData.userBusinessData) {
-        currentStorageData.userBusinessData = {};
-      }
+      // 🔄 USA POSTGRESQL: Aggiorna userSettings con dati aziendali
+      const currentSettings = await storage.getUserSettings(userId);
+      const currentPrefs = (currentSettings?.preferences as any) || {};
       
-      currentStorageData.userBusinessData[userId] = {
-        companyName: companyName || '',
-        address: address || '',
-        city: city || '',
-        postalCode: postalCode || '',
-        vatNumber: vatNumber || '',
-        fiscalCode: fiscalCode || '',
-        phone: phone || '',
-        email: email || '',
-        updatedAt: new Date().toISOString()
-      };
+      await storage.updateUserSettings(userId, {
+        businessName: companyName,
+        address: `${address || ''}, ${city || ''} ${postalCode || ''}`.trim(),
+        contactPhone: phone,
+        contactEmail: email,
+        preferences: {
+          ...currentPrefs,
+          businessData: {
+            companyName,
+            address,
+            city,
+            postalCode,
+            vatNumber,
+            fiscalCode,
+            phone,
+            email,
+            updatedAt: new Date().toISOString()
+          }
+        }
+      });
       
-      saveStorageData(currentStorageData);
-      
-      console.log(`✅ [POST] Dati aziendali salvati per utente ${userId}`);
+      console.log(`✅ [POST] Dati aziendali salvati in PostgreSQL per utente ${userId}`);
       res.json({ success: true, message: "Dati aziendali salvati con successo" });
     } catch (error) {
       console.error('❌ Errore salvataggio dati aziendali:', error);
@@ -1426,7 +1472,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per salvare le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
-  app.post("/api/company-name-settings", (req, res) => {
+  app.post("/api/company-name-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ error: "Non autenticato" });
     }
@@ -1438,46 +1484,36 @@ export function registerSimpleRoutes(app: Express): Server {
       
       console.log(`🏢 [POST] Salvando impostazioni complete per utente ${userId} (${userType}):`, req.body);
       
-      // CARICA DATI FRESCHI SEMPRE - stesso sistema del GET
-      const currentStorageData = loadStorageData();
+      // 🔄 USA POSTGRESQL: Carica impostazioni correnti
+      const currentSettings = await storage.getUserSettings(userId);
+      const currentPrefs = (currentSettings?.preferences as any) || {};
       
-      // Inizializza userBusinessSettings se non esiste
-      if (!currentStorageData.userBusinessSettings) {
-        currentStorageData.userBusinessSettings = {};
-      }
+      // Prepara preferenze nome azienda
+      const companyNameSettings = currentPrefs.companyName || {};
+      if (businessName !== undefined) companyNameSettings.businessName = businessName;
+      if (showBusinessName !== undefined) companyNameSettings.showBusinessName = showBusinessName;
+      if (name !== undefined) companyNameSettings.name = name;
+      if (fontSize !== undefined) companyNameSettings.fontSize = fontSize;
+      if (fontFamily !== undefined) companyNameSettings.fontFamily = fontFamily;
+      if (fontStyle !== undefined) companyNameSettings.fontStyle = fontStyle;
+      if (color !== undefined) companyNameSettings.color = color;
+      if (enabled !== undefined) companyNameSettings.enabled = enabled;
       
-      // Carica impostazioni correnti o inizializza con configurazione completa
-      const currentSettings = currentStorageData.userBusinessSettings[userId] || { 
-        businessName: "Studio Medico", 
-        showBusinessName: true,
-        name: req.user.username || "Utente",
-        fontSize: 24,
-        fontFamily: "Arial, sans-serif",
-        fontStyle: "normal",
-        color: "#000000",
-        enabled: true
-      };
+      // Aggiorna userSettings con preferences aggiornate
+      await storage.updateUserSettings(userId, {
+        businessName: businessName,
+        preferences: {
+          ...currentPrefs,
+          companyName: companyNameSettings
+        }
+      });
       
-      // Aggiorna TUTTI i campi forniti per funzionalità complete
-      if (businessName !== undefined) currentSettings.businessName = businessName;
-      if (showBusinessName !== undefined) currentSettings.showBusinessName = showBusinessName;
-      if (name !== undefined) currentSettings.name = name;
-      if (fontSize !== undefined) currentSettings.fontSize = fontSize;
-      if (fontFamily !== undefined) currentSettings.fontFamily = fontFamily;
-      if (fontStyle !== undefined) currentSettings.fontStyle = fontStyle;
-      if (color !== undefined) currentSettings.color = color;
-      if (enabled !== undefined) currentSettings.enabled = enabled;
-      
-      // Salva nel storage
-      currentStorageData.userBusinessSettings[userId] = currentSettings;
-      saveStorageData(currentStorageData);
-      
-      console.log(`🏢 [POST] Impostazioni complete salvate per utente ${userId} (${userType}):`, currentSettings);
+      console.log(`✅ [POST] Impostazioni salvate in PostgreSQL per utente ${userId}`);
       
       res.json({ 
         success: true, 
         message: "Impostazioni salvate con successo", 
-        ...currentSettings 
+        ...companyNameSettings 
       });
     } catch (error) {
       console.error(`❌ [POST] Errore salvataggio impostazioni per utente ${req.user?.id}:`, error);
