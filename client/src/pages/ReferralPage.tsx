@@ -8,6 +8,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Switch } from '@/components/ui/switch';
 import { format } from 'date-fns';
 import { Copy, AlertCircle, Euro, Clipboard, Building, Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -51,6 +52,8 @@ interface ReferralResponse {
     email: string;
     referralCode: string | null;
     referredBy: number | null;
+    paypalEmail: string | null;
+    autoPayoutEnabled: boolean;
   };
   commissionsData: Commission[];
   bankData: BankAccount | null;
@@ -88,6 +91,8 @@ export default function ReferralPage() {
   
   // Non usiamo useAuth ma prendiamo le informazioni dell'utente dalla risposta dell'API
   const [bankAccountForm, setBankAccountForm] = useState({
+    paypalEmail: '',
+    autoPayoutEnabled: false,
     bankName: '',
     accountHolder: '',
     iban: '',
@@ -130,17 +135,11 @@ export default function ReferralPage() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/referral/stats'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/referral/staff'] });
       setOpenBankDialog(false);
-      setBankAccountForm({
-        bankName: '',
-        accountHolder: '',
-        iban: '',
-        swift: ''
-      });
       toast({
-        title: "Dati bancari salvati",
-        description: "I tuoi dati bancari sono stati salvati con successo.",
+        title: "Configurazione salvata",
+        description: "Le tue preferenze di pagamento sono state salvate con successo.",
       });
     },
     onError: (error: any) => {
@@ -186,17 +185,19 @@ export default function ReferralPage() {
     }
   };
 
-  // Carica i dati bancari se presenti
+  // Carica i dati bancari e PayPal se presenti
   useEffect(() => {
-    if (referralData?.bankData) {
+    if (referralData) {
       setBankAccountForm({
-        bankName: referralData.bankData.bankName || '',
-        accountHolder: referralData.bankData.accountHolder || '',
-        iban: referralData.bankData.iban || '',
-        swift: referralData.bankData.swift || ''
+        paypalEmail: referralData.userData?.paypalEmail || '',
+        autoPayoutEnabled: referralData.userData?.autoPayoutEnabled || false,
+        bankName: referralData.bankData?.bankName || '',
+        accountHolder: referralData.bankData?.accountHolder || '',
+        iban: referralData.bankData?.iban || '',
+        swift: referralData.bankData?.swift || ''
       });
     }
-  }, [referralData?.bankData]);
+  }, [referralData]);
 
   // Gestisce il submit del form dei dati bancari
   const handleBankFormSubmit = (e: React.FormEvent) => {
@@ -402,12 +403,18 @@ export default function ReferralPage() {
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Come funziona il programma</AlertTitle>
         <AlertDescription>
-          <p>Invita nuovi professionisti a utilizzare Wife Scheduler e guadagna commissioni mensili. Ecco come funziona:</p>
-          <ol className="list-decimal pl-5 mt-2 space-y-1">
-            <li>Condividi il tuo codice referral con altri professionisti</li>
-            <li>Quando un nuovo utente si registra utilizzando il tuo codice, viene collegato al tuo account</li>
-            <li>Dopo aver invitato almeno 3 utenti, inizierai a ricevere €1 al mese per ogni utente con abbonamento attivo</li>
-            <li>I pagamenti vengono elaborati mensilmente tramite bonifico bancario</li>
+          <p className="mb-3">Invita nuovi professionisti a utilizzare Wife Scheduler e guadagna commissioni ricorrenti. Ecco come funziona:</p>
+          <ol className="list-decimal pl-5 space-y-2">
+            <li><strong>Condividi il tuo codice referral</strong> con altri professionisti</li>
+            <li><strong>Registrazione e abbonamento:</strong> Quando un nuovo utente si registra usando il tuo codice e attiva un abbonamento a pagamento, viene collegato al tuo account</li>
+            <li><strong>Commissione del 10%:</strong> Riceverai il 10% del prezzo dell'abbonamento per ogni cliente referenziato con abbonamento attivo</li>
+            <li><strong>Payout dopo 30 giorni:</strong> Le commissioni vengono elaborate automaticamente 30 giorni dopo la loro creazione</li>
+            <li><strong>Metodi di pagamento:</strong>
+              <ul className="list-disc pl-5 mt-1 space-y-1">
+                <li><strong>PayPal (Consigliato):</strong> Payout automatici se attivi l'opzione nella configurazione</li>
+                <li><strong>Bonifico bancario:</strong> Elaborazione manuale da parte dell'amministratore</li>
+              </ul>
+            </li>
           </ol>
         </AlertDescription>
       </Alert>
@@ -469,49 +476,85 @@ export default function ReferralPage() {
 
       {/* Dialog per i dati bancari */}
       <Dialog open={openBankDialog} onOpenChange={setOpenBankDialog}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Dati bancari per i pagamenti</DialogTitle>
+            <DialogTitle>Metodi di pagamento commissioni</DialogTitle>
             <DialogDescription>
-              Inserisci i dati del tuo conto bancario per ricevere i pagamenti delle commissioni.
+              Configura come vuoi ricevere i pagamenti delle tue commissioni referral.
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleBankFormSubmit}>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="bankName">Nome banca</Label>
-                <Input
-                  id="bankName"
-                  value={bankAccountForm.bankName}
-                  onChange={(e) => setBankAccountForm({ ...bankAccountForm, bankName: e.target.value })}
-                  required
-                />
+          <form onSubmit={handleBankFormSubmit} className="space-y-4">
+            <div className="border-b pb-4">
+              <h4 className="font-semibold mb-3">PayPal (Consigliato)</h4>
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <Label htmlFor="paypalEmail">Email PayPal</Label>
+                  <Input
+                    id="paypalEmail"
+                    type="email"
+                    placeholder="tuo-email@paypal.com"
+                    value={bankAccountForm.paypalEmail}
+                    onChange={(e) => setBankAccountForm({ ...bankAccountForm, paypalEmail: e.target.value })}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Inserisci l'email del tuo account PayPal per ricevere i pagamenti automatici.
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="autoPayoutEnabled">Payout automatico</Label>
+                    <p className="text-xs text-muted-foreground">
+                      Le commissioni vengono inviate automaticamente dopo 30 giorni via PayPal
+                    </p>
+                  </div>
+                  <Switch
+                    id="autoPayoutEnabled"
+                    checked={bankAccountForm.autoPayoutEnabled}
+                    onCheckedChange={(checked) => setBankAccountForm({ ...bankAccountForm, autoPayoutEnabled: checked })}
+                    disabled={!bankAccountForm.paypalEmail}
+                  />
+                </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="accountHolder">Intestatario conto</Label>
-                <Input
-                  id="accountHolder"
-                  value={bankAccountForm.accountHolder}
-                  onChange={(e) => setBankAccountForm({ ...bankAccountForm, accountHolder: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="iban">IBAN</Label>
-                <Input
-                  id="iban"
-                  value={bankAccountForm.iban}
-                  onChange={(e) => setBankAccountForm({ ...bankAccountForm, iban: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="swift">SWIFT/BIC (opzionale)</Label>
-                <Input
-                  id="swift"
-                  value={bankAccountForm.swift}
-                  onChange={(e) => setBankAccountForm({ ...bankAccountForm, swift: e.target.value })}
-                />
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-3">Bonifico bancario (Alternativo)</h4>
+              <p className="text-xs text-muted-foreground mb-3">
+                Se preferisci, puoi ricevere i pagamenti tramite bonifico bancario (elaborazione manuale).
+              </p>
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <Label htmlFor="bankName">Nome banca</Label>
+                  <Input
+                    id="bankName"
+                    value={bankAccountForm.bankName}
+                    onChange={(e) => setBankAccountForm({ ...bankAccountForm, bankName: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="accountHolder">Intestatario conto</Label>
+                  <Input
+                    id="accountHolder"
+                    value={bankAccountForm.accountHolder}
+                    onChange={(e) => setBankAccountForm({ ...bankAccountForm, accountHolder: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="iban">IBAN</Label>
+                  <Input
+                    id="iban"
+                    value={bankAccountForm.iban}
+                    onChange={(e) => setBankAccountForm({ ...bankAccountForm, iban: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="swift">SWIFT/BIC (opzionale)</Label>
+                  <Input
+                    id="swift"
+                    value={bankAccountForm.swift}
+                    onChange={(e) => setBankAccountForm({ ...bankAccountForm, swift: e.target.value })}
+                  />
+                </div>
               </div>
             </div>
             <DialogFooter>
