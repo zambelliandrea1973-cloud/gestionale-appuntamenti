@@ -283,7 +283,7 @@ export default function ReferralPage() {
             </CardTitle>
             <CardDescription>
               {isStaff 
-                ? 'Condividi questo codice per invitare nuovi professionisti. Riceverai €1/mese per ogni abbonamento attivo dal tuo 3° referral.'
+                ? 'Condividi questo codice per invitare nuovi professionisti. Riceverai il 10% del prezzo dell\'abbonamento per ogni cliente referenziato.'
                 : 'Gestione dei codici referral e commissioni per tutti gli staff.'
               }
             </CardDescription>
