@@ -199,6 +199,8 @@ export const users = pgTable("users", {
   bic: text("bic"), // BIC/SWIFT code (opzionale)
   bankName: text("bank_name"), // Nome banca (opzionale)
   accountHolder: text("account_holder"), // Intestatario conto
+  paypalEmail: text("paypal_email"), // Email PayPal per ricevere payout commissioni
+  autoPayoutEnabled: boolean("auto_payout_enabled").default(true), // Abilita payout automatico PayPal
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -1101,6 +1103,11 @@ export const referralCommissions = pgTable("referral_commissions", {
   startDate: timestamp("start_date").defaultNow(),
   endDate: timestamp("end_date"),
   lastPaidPeriod: timestamp("last_paid_period"),
+  payoutScheduledDate: timestamp("payout_scheduled_date"), // Data programmata payout (30gg dopo startDate)
+  payoutDate: timestamp("payout_date"), // Data effettiva payout
+  payoutTransactionId: text("payout_transaction_id"), // ID transazione PayPal/bancaria
+  payoutStatus: text("payout_status").default("pending"), // pending, scheduled, completed, failed, manual
+  payoutMethod: text("payout_method"), // paypal, bank_transfer, manual
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

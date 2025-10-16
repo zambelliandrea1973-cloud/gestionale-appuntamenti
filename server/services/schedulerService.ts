@@ -1,5 +1,6 @@
 import cron from 'node-cron';
 import { notificationService } from './notificationService';
+import { PayPalPayoutService } from './paypalPayoutService';
 
 /**
  * Servizio per la pianificazione di attività ricorrenti
@@ -40,6 +41,28 @@ export const schedulerService = {
   },
   
   /**
+   * Avvia il servizio di pianificazione dei payout PayPal
+   * Verifica ogni giorno alle 10:00 le commissioni pronte per il payout (30gg dopo creazione)
+   */
+  startPayoutScheduler(): void {
+    // Cron job che viene eseguito ogni giorno alle 10:00
+    // Formato cron: second(0-59) minute(0-59) hour(0-23) day-of-month(1-31) month(1-12) day-of-week(0-6, 0=Sunday)
+    cron.schedule('0 0 10 * * *', async () => {
+      const now = new Date();
+      console.log('💰 Esecuzione del job di payout commissioni referral:', now.toISOString());
+      
+      try {
+        const result = await PayPalPayoutService.processScheduledPayouts();
+        console.log(`💰 Job payout completato: ${result.processed} processati, ${result.failed} falliti`);
+      } catch (error) {
+        console.error('❌ Errore nell\'esecuzione del job di payout:', error);
+      }
+    });
+    
+    console.log('💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)');
+  },
+  
+  /**
    * Possibilità di aggiungere altre pianificazioni come:
    * - Report settimanali
    * - Pulizia dati vecchi
@@ -53,5 +76,6 @@ export const schedulerService = {
  */
 export function initializeSchedulers(): void {
   schedulerService.startReminderScheduler();
+  schedulerService.startPayoutScheduler();
   console.log('Tutti gli scheduler inizializzati');
 }

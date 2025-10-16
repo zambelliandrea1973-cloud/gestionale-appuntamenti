@@ -666,6 +666,10 @@ export class PaymentService {
         return;
       }
 
+      // Calcola data payout (30 giorni dopo startDate)
+      const payoutDate = new Date();
+      payoutDate.setDate(payoutDate.getDate() + 30);
+      
       // Crea la commissione automaticamente
       const commissionData = {
         referrerId: user.referredBy,
@@ -674,7 +678,9 @@ export class PaymentService {
         monthlyAmount: commissionAmount,
         status: 'active',
         startDate: new Date(),
-        endDate: null
+        endDate: null,
+        payoutScheduledDate: payoutDate,
+        payoutStatus: 'scheduled'
       };
 
       await storage.createReferralCommission(commissionData);
@@ -683,6 +689,7 @@ export class PaymentService {
       console.log(`   Sponsor: ${sponsor.username} (ID: ${sponsor.id})`);
       console.log(`   Cliente: ${user.username} (ID: ${user.id})`);
       console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)}/mese (10% di €${(planPrice/100).toFixed(2)})`);
+      console.log(`   📅 Payout programmato per: ${payoutDate.toLocaleDateString('it-IT')} (30gg)`);
     } catch (error) {
       console.error('Errore durante la creazione della commissione referral:', error);
       // Non blocchiamo il pagamento se c'è un errore nella commissione

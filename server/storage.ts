@@ -201,8 +201,10 @@ export interface IStorage {
   getReferralsByStaffId(staffId: number): Promise<any[]>;
   getBankingInfoForStaff(staffId: number): Promise<any>;
   createReferralCommission(commission: any): Promise<any>;
+  getReferralCommissions(): Promise<any[]>;
   getReferralCommissionsByReferrer(referrerId: number): Promise<any[]>;
   getReferralCommissionsByReferred(referredId: number): Promise<any>;
+  updateReferralCommission(id: number, data: any): Promise<any>;
   
   // License operations
   getLicense(id: number): Promise<License | undefined>;
@@ -2562,6 +2564,30 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting referral commission by referred:", error);
       return null;
+    }
+  }
+
+  async getReferralCommissions(): Promise<any[]> {
+    try {
+      const commissions = await db.select().from(referralCommissions);
+      return commissions;
+    } catch (error) {
+      console.error("Error getting all referral commissions:", error);
+      return [];
+    }
+  }
+
+  async updateReferralCommission(id: number, data: any): Promise<any> {
+    try {
+      const [updated] = await db
+        .update(referralCommissions)
+        .set(data)
+        .where(eq(referralCommissions.id, id))
+        .returning();
+      return updated;
+    } catch (error) {
+      console.error("Error updating referral commission:", error);
+      throw error;
     }
   }
 
