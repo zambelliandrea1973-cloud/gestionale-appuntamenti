@@ -14,7 +14,7 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
     const myReferralCode = `${emailPrefix}${idSuffix}`;
 
     // Ottieni commissioni reali dal database
-    const commissionsData = await storage.getReferralCommissions(staffUser.id);
+    const commissionsData = await storage.getReferralCommissionsByReferrer(staffUser.id);
     console.log(`📊 COMMISSIONI TROVATE per ${staffUser.email}:`, commissionsData);
 
     // Calcola statistiche reali
