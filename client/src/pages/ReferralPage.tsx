@@ -262,7 +262,7 @@ export default function ReferralPage() {
 
   const commissions: Commission[] = referralData?.commissionsData || referralData?.commissions || [];
   const bankAccount: BankAccount | null = referralData?.bankData || null;
-  const referralCode = referralData?.userData?.id?.toString();
+  const referralCode = referralData?.stats?.myReferralCode || userWithLicense?.id?.toString();
   
   // Determina se l'utente è staff o admin
   const isAdmin = userWithLicense?.type === 'admin';
@@ -314,8 +314,28 @@ export default function ReferralPage() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-4">
-                <p className="text-center text-muted-foreground">Il tuo codice referral è il tuo ID utente.</p>
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                <div className="bg-primary/10 text-primary text-xl font-mono p-4 rounded-md flex-grow text-center">
+                  {userWithLicense?.id || 'Caricamento...'}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={copyToClipboard}
+                    title="Copia negli appunti"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={shareReferralCode}
+                    title="Condividi"
+                  >
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             )}
           </CardContent>
