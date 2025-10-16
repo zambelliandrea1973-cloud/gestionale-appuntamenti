@@ -4178,15 +4178,33 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Banking Settings operations
+  // Banking Settings operations - Migrato a PostgreSQL
   async getBankingSettings(): Promise<any> {
-    // Per ora implementazione semplice, in futuro andrà nel database
     try {
-      const { readFile } = await import('fs/promises');
-      const data = await readFile('banking_settings.json', 'utf8');
-      return JSON.parse(data);
+      // Cerca impostazioni bancarie globali (salvate sotto userId 1 - primo admin)
+      const settings = await this.getUserSettings(1);
+      
+      if (settings?.preferences?.bankingSettings) {
+        console.log('💳 Impostazioni bancarie caricate da PostgreSQL');
+        return settings.preferences.bankingSettings;
+      }
+      
+      // Se non trovate, ritorna default
+      console.log('💳 Nessuna impostazione bancaria trovata, ritorno default');
+      return {
+        bankName: '',
+        accountHolder: '',
+        iban: '',
+        bic: '',
+        address: '',
+        autoPayEnabled: false,
+        paymentDelay: 30,
+        minimumAmount: 1.0,
+        description: 'Commissione referral sistema gestione appuntamenti',
+        isConfigured: false,
+      };
     } catch (error) {
-      // Se il file non esiste, ritorna le impostazioni di default
+      console.error('Errore nel recupero delle impostazioni bancarie:', error);
       return {
         bankName: '',
         accountHolder: '',
@@ -4204,9 +4222,28 @@ export class DatabaseStorage implements IStorage {
 
   async saveBankingSettings(settings: any): Promise<void> {
     try {
-      const { writeFile } = await import('fs/promises');
-      await writeFile('banking_settings.json', JSON.stringify(settings, null, 2));
-      console.log('💳 Impostazioni bancarie salvate con successo');
+      // Salva impostazioni bancarie globali sotto userId 1 (primo admin)
+      const existingSettings = await this.getUserSettings(1);
+      
+      if (existingSettings) {
+        // Aggiorna preferences esistenti
+        await this.updateUserSettings(1, {
+          preferences: {
+            ...existingSettings.preferences,
+            bankingSettings: settings
+          }
+        });
+      } else {
+        // Crea nuove impostazioni
+        await this.createUserSettings({
+          userId: 1,
+          preferences: {
+            bankingSettings: settings
+          }
+        });
+      }
+      
+      console.log('💳 Impostazioni bancarie salvate in PostgreSQL');
     } catch (error) {
       console.error('Errore nel salvataggio delle impostazioni bancarie:', error);
       throw error;
