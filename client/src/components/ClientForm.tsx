@@ -7,6 +7,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertClientSchema } from "../../../shared/schema";
 import { Loader2 } from "lucide-react";
+import { useUserWithLicense } from "@/hooks/use-user-with-license";
 import { useEffect, useState } from "react";
 import {
   DialogContent,
@@ -85,6 +86,7 @@ export default function ClientForm({
   onClientCreated
 }: ClientFormProps) {
   const { toast } = useToast();
+  const { user } = useUserWithLicense(); // Ottieni utente corrente
   const [prefix, setPrefix] = useState("+39"); // Default a prefisso italiano
   const [activeTab, setActiveTab] = useState("personal");
   
@@ -212,8 +214,19 @@ export default function ClientForm({
   });
   
   const onSubmit = (data: FormData) => {
+    console.log("🔘 Submit button clicked");
     console.log("🔄 Form submit - Dati inviati:", data);
     console.log("📝 Form errors:", form.formState.errors);
+    
+    // ✅ FIX: Aggiungi userId ai dati
+    if (!user?.id) {
+      toast({
+        title: "Errore",
+        description: "Utente non autenticato. Effettua il login.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     // Combina prefisso e numero di telefono se necessario
     if (data.phone && !data.phone.startsWith('+')) {
@@ -221,7 +234,15 @@ export default function ClientForm({
       console.log("📞 Telefono combinato:", data.phone);
     }
     
-    mutation.mutate(data);
+    // ✅ FIX: Aggiungi userId ai dati prima dell'invio
+    const dataWithUserId = {
+      ...data,
+      userId: user.id,
+      ownerId: user.id // Anche ownerId per multi-tenant
+    };
+    
+    console.log("📤 Dati finali con userId:", dataWithUserId);
+    mutation.mutate(dataWithUserId);
   };
   
   // Loading state
