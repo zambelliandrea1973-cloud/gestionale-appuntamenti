@@ -395,7 +395,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Sistema lineare semplice - Clienti
-  app.get("/api/clients", (req, res) => {
+  app.get("/api/clients", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const userAgent = req.headers['user-agent'] || '';
@@ -419,76 +419,9 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔄 [${deviceType}] Anti-cache AGGRESSIVO applicato per clienti mobile - timestamp: ${Date.now()}`);
     }
     
-    // Carica dati reali dal file storage_data.json
-    const allClients = loadStorageData().clients || [];
-    console.log(`📦 [/api/clients] [${deviceType}] Caricati ${allClients.length} clienti totali dal storage`);
-    
-    // FORZA DEBUG - verifica clienti con originalOwnerId
-    console.log(`🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...`);
-    allClients.forEach(([id, client]) => {
-      if (client.originalOwnerId !== undefined) {
-        console.log(`🎯 [DEBUG] Cliente ${client.firstName} ${client.lastName}: originalOwnerId=${client.originalOwnerId}`);
-      }
-    });
-    
-    // Per admin, mostra tutti i clienti, per altri utenti solo i propri
-    let userClients;
-    if (user.type === 'admin') {
-      // NORMALIZZAZIONE: aggiungi user_id per compatibilità frontend
-      userClients = allClients.map(([id, client]) => ({
-        ...client,
-        user_id: client.user_id ?? client.ownerId ?? null
-      }));
-      console.log(`👑 [/api/clients] [${deviceType}] Admin - Restituendo tutti i ${userClients.length} clienti (normalizzati con user_id)`);
-    
-    // FORZA DEBUG OWNERSHIP OGNI VOLTA
-    const ownershipStats = {};
-    userClients.forEach(client => {
-      const owner = client.ownerId || 'undefined';
-      ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
-    });
-    console.log(`👑 [ADMIN-DEBUG] FORCED - Distribuzione clienti per ownerId:`, ownershipStats);
-    console.log(`👑 [ADMIN-DEBUG] FORCED - Admin ID corrente: ${user.id}`);
-    
-    // Conta clienti propri vs altri
-    const ownClients = userClients.filter(c => c.ownerId === user.id).length;
-    const otherClients = userClients.filter(c => c.ownerId !== user.id).length;
-    console.log(`👑 [ADMIN-DEBUG] FORCED - Clienti propri (ownerId ${user.id}): ${ownClients}`);
-    console.log(`👑 [ADMIN-DEBUG] FORCED - Clienti altri account: ${otherClients}`);
-    
-    // SAMPLE LOG ALCUNI CLIENTI CON ORIGINALOWNERID
-    const sampleClients = userClients.slice(0, 5);
-    sampleClients.forEach(client => {
-      console.log(`📋 [SAMPLE] Cliente ${client.firstName} ${client.lastName}: ownerId=${client.ownerId}, originalOwnerId=${client.originalOwnerId}`);
-    });
-    } else {
-      userClients = allClients
-        .filter(([id, client]) => client.ownerId === user.id)
-        .map(([id, client]) => ({
-          ...client,
-          user_id: client.user_id ?? client.ownerId ?? null
-        }));
-      
-      // Se l'utente non ha clienti, genera clienti di default
-      if (userClients.length === 0) {
-        console.log(`🔄 [/api/clients] Generando clienti di default per utente ${user.id} (${user.type})`);
-        const defaultClients = generateDefaultClientsForUser(user.id, user.username);
-        
-        // Salva i nuovi clienti nel storage
-        const storageData = loadStorageData();
-        if (!storageData.clients) storageData.clients = [];
-        
-        defaultClients.forEach(client => {
-          storageData.clients.push([client.id, client]);
-        });
-        
-        saveStorageData(storageData);
-        userClients = defaultClients;
-        console.log(`✅ [/api/clients] Generati ${defaultClients.length} clienti di default per utente ${user.id}`);
-      }
-      
-      console.log(`👤 [/api/clients] [${deviceType}] User ${user.id} - Restituendo ${userClients.length} clienti propri`);
-    }
+    // 🔄 USA POSTGRESQL: Carica dati dal database condiviso (Replit ↔ Sliplane sync)
+    const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
+    console.log(`📦 [/api/clients] [${deviceType}] Caricati ${userClients.length} clienti da PostgreSQL (${user.type === 'admin' ? 'tutti' : 'solo propri'})`);
     
     // Log dettagliato dei primi 5 clienti per debugging completo
     const sampleClients = userClients.slice(0, 5).map(c => ({
