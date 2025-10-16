@@ -255,92 +255,77 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  app.post("/api/services", (req, res) => {
+  app.post("/api/services", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    // 🔧 RIPRISTINO MECCANISMO ORIGINALE - Usa timestamp ID per compatibilità
-    const storageData = loadStorageData();
-    if (!storageData.userServices) storageData.userServices = {};
-    if (!storageData.userServices[user.id]) storageData.userServices[user.id] = [];
-    
-    const newService = {
-      id: Date.now(),  // ← RIPRISTINO Date.now() per compatibilità appuntamenti
-      ownerId: user.id,
-      ...req.body
-    };
-    
-    storageData.userServices[user.id].push(newService);
-    saveStorageData(storageData);
-    
-    console.log(`🔧 [/api/services] Servizio "${newService.name}" aggiunto per utente ${user.id} con ID timestamp ${newService.id}`);
-    res.status(201).json(newService);
+    try {
+      // 🔄 USA POSTGRESQL: Crea servizio nel database condiviso
+      const serviceData = {
+        userId: user.id,
+        ...req.body
+      };
+      
+      const newService = await storage.createService(serviceData);
+      
+      console.log(`✅ [/api/services] Servizio "${newService.name}" creato in PostgreSQL per utente ${user.id} (ID: ${newService.id})`);
+      res.status(201).json(newService);
+    } catch (error) {
+      console.error(`❌ [/api/services] Errore creazione servizio:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
   });
 
-  app.put("/api/services/:id", (req, res) => {
+  app.put("/api/services/:id", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const serviceId = parseInt(req.params.id);
     
-    console.log(`🔧 [/api/services] PUT richiesta per servizio ID ${serviceId} da utente ${user.id}`);
+    console.log(`✏️ [/api/services] PUT richiesta per servizio ID ${serviceId} da utente ${user.id}`);
     
-    // Carica dati storage
-    const storageData = loadStorageData();
-    
-    if (!storageData.userServices || !storageData.userServices[user.id]) {
-      return res.status(404).json({ message: "Servizi non trovati" });
+    try {
+      // 🔄 USA POSTGRESQL: Aggiorna servizio nel database condiviso
+      const updatedService = await storage.updateService(serviceId, req.body);
+      
+      if (!updatedService) {
+        return res.status(404).json({ message: "Servizio non trovato" });
+      }
+      
+      // Verifica proprietà
+      if (updatedService.userId !== user.id) {
+        return res.status(403).json({ message: "Accesso negato" });
+      }
+      
+      console.log(`✅ [/api/services] Servizio ID ${serviceId} aggiornato in PostgreSQL per utente ${user.id}`);
+      res.json(updatedService);
+    } catch (error) {
+      console.error(`❌ [/api/services] Errore aggiornamento servizio:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    const serviceIndex = storageData.userServices[user.id].findIndex((s: Service) => s.id === serviceId);
-    if (serviceIndex === -1) {
-      return res.status(404).json({ message: "Servizio non trovato" });
-    }
-    
-    const updatedService = {
-      ...storageData.userServices[user.id][serviceIndex],
-      ...req.body,
-      id: serviceId,
-      ownerId: user.id
-    };
-    
-    storageData.userServices[user.id][serviceIndex] = updatedService;
-    saveStorageData(storageData);
-    
-    console.log(`🔧 [/api/services] Servizio ID ${serviceId} aggiornato per utente ${user.id}`);
-    res.json(updatedService);
   });
 
-  app.delete("/api/services/:id", (req, res) => {
+  app.delete("/api/services/:id", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const serviceId = parseInt(req.params.id);
     
     console.log(`🗑️ [DELETE] Tentativo eliminazione servizio ID ${serviceId} per utente ${user.id}`);
     
-    // Carica e aggiorna servizi nel file storage_data.json
-    const storageData = loadStorageData();
-    if (!storageData.userServices || !storageData.userServices[user.id]) {
-      console.log(`❌ [DELETE] Nessun servizio trovato per utente ${user.id}`);
-      return res.status(404).json({ message: "Servizio non trovato" });
+    try {
+      // 🔄 USA POSTGRESQL: Elimina servizio dal database condiviso
+      const deleted = await storage.deleteService(serviceId);
+      
+      if (!deleted) {
+        console.log(`❌ [DELETE] Servizio ID ${serviceId} non trovato`);
+        return res.status(404).json({ message: "Servizio non trovato" });
+      }
+      
+      console.log(`✅ [DELETE] Servizio ID ${serviceId} eliminato da PostgreSQL per utente ${user.id}`);
+      res.json({ success: true, message: "Servizio eliminato con successo" });
+    } catch (error) {
+      console.error(`❌ [DELETE] Errore eliminazione servizio:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    console.log(`🔍 [DELETE] Servizi disponibili per utente ${user.id}:`, 
-      storageData.userServices[user.id].map(s => ({ id: s.id, name: s.name })));
-    
-    // Cerca il servizio con l'ID ricevuto (ora gli ID coincidono)
-    const serviceIndex = storageData.userServices[user.id].findIndex((s: Service) => s.id === serviceId);
-    
-    if (serviceIndex === -1) {
-      console.log(`❌ [DELETE] Servizio con ID ${serviceId} non trovato tra i servizi dell'utente ${user.id}`);
-      return res.status(404).json({ message: "Servizio non trovato" });
-    }
-    
-    const deletedService = storageData.userServices[user.id][serviceIndex];
-    storageData.userServices[user.id].splice(serviceIndex, 1);
-    saveStorageData(storageData);
-    
-    console.log(`✅ [DELETE] Servizio ID ${deletedService.id} "${deletedService.name}" eliminato per utente ${user.id}`);
-    res.json({ success: true, message: "Servizio eliminato con successo" });
   });
 
   // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA
@@ -1759,74 +1744,44 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json(rangeAppointmentsWithDetails);
   });
 
-  app.post("/api/appointments", (req, res) => {
+  app.post("/api/appointments", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    // 🔧 RIPRISTINO SISTEMA ORIGINALE: Solo JSON, semplice ed efficace
     console.log(`📅 [/api/appointments] POST - Creazione appuntamento per utente ${user.id}`);
     console.log(`📝 Dati ricevuti:`, req.body);
     
-    // Carica dati dal JSON per validazione minima
-    const storageData = loadStorageData();
-    const userServices = storageData.userServices?.[user.id] || [];
-    const allClients = storageData.clients || [];
-    
-    // VALIDAZIONE CROSS-STORE: Verifica che client e service esistano
-    const availableClients = allClients.map(([id, client]) => client).filter(client => 
-      user.type === 'admin' || client.ownerId === user.id
-    );
-    const clientData = availableClients.find(c => c.id === req.body.clientId);
-    const serviceData = userServices.find(s => s.id === req.body.serviceId);
-    
-    // Validazione riferimenti obbligatori
-    if (!clientData) {
-      console.error(`❌ [VALIDAZIONE] Cliente ${req.body.clientId} non trovato per utente ${user.id}`);
-      return res.status(400).json({ 
-        message: "Cliente non valido",
-        error: "CLIENT_NOT_FOUND"
-      });
+    try {
+      // 🔄 USA POSTGRESQL: Crea appuntamento nel database condiviso
+      const appointmentData = {
+        userId: user.id,
+        clientId: req.body.clientId,
+        serviceId: req.body.serviceId,
+        staffId: req.body.staffId || null,
+        roomId: req.body.roomId || null,
+        date: req.body.date,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        notes: req.body.notes || "",
+        reminderType: req.body.reminderType || "whatsapp,email",
+        status: req.body.status || "scheduled"
+      };
+      
+      const newAppointment = await storage.createAppointment(appointmentData);
+      
+      console.log(`✅ [PostgreSQL] Appuntamento ${newAppointment.id} creato con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
+      
+      // 🔕 NOTIFICHE DISABILITATE ALLA CREAZIONE
+      // Le notifiche vengono inviate solo:
+      // 1. Manualmente dal WhatsApp Center (quando l'utente clicca "Invia")
+      // 2. Automaticamente dal job scheduler per appuntamenti di domani
+      console.log(`📝 [NOTIFICHE] Appuntamento creato senza invio automatico - verrà gestito manualmente o dal job scheduler`);
+      
+      res.status(201).json(newAppointment);
+    } catch (error) {
+      console.error(`❌ [/api/appointments] Errore creazione appuntamento:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    if (req.body.serviceId && !serviceData) {
-      console.error(`❌ [VALIDAZIONE] Servizio ${req.body.serviceId} non trovato per utente ${user.id}`);
-      return res.status(400).json({ 
-        message: "Servizio non valido", 
-        error: "SERVICE_NOT_FOUND"
-      });
-    }
-    
-    console.log(`✅ [VALIDAZIONE] Cliente e servizio verificati per appuntamento`);
-    
-    // Crea nuovo appuntamento con TUTTI i campi (originali + nuovi) nel JSON
-    const newAppointment = {
-      id: Date.now(),
-      clientId: req.body.clientId,
-      serviceId: req.body.serviceId,
-      staffId: req.body.staffId,     // ← NUOVO CAMPO nel JSON
-      roomId: req.body.roomId,       // ← NUOVO CAMPO nel JSON
-      date: req.body.date,
-      startTime: req.body.startTime,
-      endTime: req.body.endTime,
-      notes: req.body.notes || "",
-      reminderType: req.body.reminderType || "whatsapp,email", // ← Notifiche automatiche
-      createdAt: new Date().toISOString()
-    };
-    
-    // 📁 SALVA NEL JSON come il sistema originale
-    if (!storageData.appointments) storageData.appointments = [];
-    storageData.appointments.push([newAppointment.id, newAppointment]);
-    saveStorageData(storageData);
-    
-    console.log(`✅ [JSON] Appuntamento ${newAppointment.id} salvato nel JSON con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}`);
-    
-    // 🔕 NOTIFICHE DISABILITATE ALLA CREAZIONE
-    // Le notifiche vengono inviate solo:
-    // 1. Manualmente dal WhatsApp Center (quando l'utente clicca "Invia")
-    // 2. Automaticamente dal job scheduler per appuntamenti di domani
-    console.log(`📝 [NOTIFICHE] Appuntamento creato senza invio automatico - verrà gestito manualmente o dal job scheduler`);
-    
-    res.status(201).json(newAppointment);
   });
 
   app.delete("/api/appointments/:id", (req, res) => {
