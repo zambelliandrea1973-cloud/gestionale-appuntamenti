@@ -24483,6 +24483,30 @@
         "createdAt": "2025-10-07T07:54:59.312Z",
         "updatedAt": "2025-10-07T07:54:59.312Z"
       }
+    ],
+    [
+      11,
+      {
+        "name": "Consumabili",
+        "description": "Materiali e prodotti consumabili per trattamenti",
+        "color": "#3b82f6",
+        "userId": 12,
+        "id": 11,
+        "createdAt": "2025-10-16T18:34:06.342Z",
+        "updatedAt": "2025-10-16T18:34:06.342Z"
+      }
+    ],
+    [
+      12,
+      {
+        "name": "Prodotti per la vendita",
+        "description": "Prodotti destinati alla vendita diretta ai clienti",
+        "color": "#10b981",
+        "userId": 12,
+        "id": 12,
+        "createdAt": "2025-10-16T18:34:06.447Z",
+        "updatedAt": "2025-10-16T18:34:06.447Z"
+      }
     ]
   ],
   "userBusinessData": {
@@ -24507,6 +24531,16 @@
       "email": ""
     },
     "10": {
+      "companyName": "",
+      "address": "",
+      "city": "",
+      "postalCode": "",
+      "vatNumber": "",
+      "fiscalCode": "",
+      "phone": "",
+      "email": ""
+    },
+    "12": {
       "companyName": "",
       "address": "",
       "city": "",
@@ -24636,7 +24670,7 @@
       }
     ]
   ],
-  "categoryNextId": 11,
+  "categoryNextId": 13,
   "productNextId": 5,
   "movementNextId": 3,
   "saleNextId": 1,

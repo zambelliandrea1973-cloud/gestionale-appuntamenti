@@ -89,7 +89,9 @@ export class SimplifiedReferralService {
           username: users.username,
           email: users.email,
           referralCode: users.referralCode,
-          referredBy: users.referredBy
+          referredBy: users.referredBy,
+          paypalEmail: users.paypalEmail,
+          autoPayoutEnabled: users.autoPayoutEnabled
         })
         .from(users)
         .where(eq(users.id, userId));
@@ -115,7 +117,7 @@ export class SimplifiedReferralService {
       const statsData = await this.getReferralStats(userId);
       
       return {
-        userData: userData || { id: userId, username: '', email: '', referralCode: null, referredBy: null },
+        userData: userData || { id: userId, username: '', email: '', referralCode: null, referredBy: null, paypalEmail: null, autoPayoutEnabled: false },
         commissionsData: commissionsData || [],
         bankData: bankData || null,
         statsData
@@ -125,7 +127,7 @@ export class SimplifiedReferralService {
       
       // Restituisci un oggetto vuoto ma valido per evitare errori
       return {
-        userData: { id: userId, username: '', email: '', referralCode: null, referredBy: null },
+        userData: { id: userId, username: '', email: '', referralCode: null, referredBy: null, paypalEmail: null, autoPayoutEnabled: false },
         commissionsData: [],
         bankData: null,
         statsData: {
@@ -148,14 +150,16 @@ export class SimplifiedReferralService {
     try {
       console.log(`💳 [REFERRAL] Salvataggio dati bancari per utente ${userId}:`, bankData);
       
-      // Aggiorna i dati bancari direttamente nella tabella users
+      // Aggiorna i dati bancari e PayPal direttamente nella tabella users
       const [updatedUser] = await db
         .update(users)
         .set({
-          bankName: bankData.bankName,
-          accountHolder: bankData.accountHolder,
-          iban: bankData.iban,
+          bankName: bankData.bankName || null,
+          accountHolder: bankData.accountHolder || null,
+          iban: bankData.iban || null,
           bic: bankData.swift || null, // swift viene mappato a bic
+          paypalEmail: bankData.paypalEmail || null,
+          autoPayoutEnabled: bankData.autoPayoutEnabled || false,
         })
         .where(eq(users.id, userId))
         .returning({
@@ -163,7 +167,9 @@ export class SimplifiedReferralService {
           bankName: users.bankName,
           accountHolder: users.accountHolder,
           iban: users.iban,
-          bic: users.bic
+          bic: users.bic,
+          paypalEmail: users.paypalEmail,
+          autoPayoutEnabled: users.autoPayoutEnabled
         });
         
       console.log(`✅ [REFERRAL] Dati bancari aggiornati per utente ${userId}`);
