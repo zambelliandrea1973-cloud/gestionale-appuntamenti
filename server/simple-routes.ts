@@ -465,11 +465,8 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`📝 [POST /api/clients] Dati ricevuti:`, req.body);
     
     try {
-      // Verifica limiti basati sul piano di abbonamento
-      const storageData = loadStorageData();
-      const currentClients = (storageData.clients || []).filter(([id, client]) => 
-        user.type === 'admin' || client.ownerId === user.id || !client.ownerId
-      ).length;
+      // 🔄 USA POSTGRESQL: Verifica limiti basati sul piano
+      const currentClients = (await storage.getVisibleClientsForUser(user.id, user.type)).length;
       
       const limits = {
         admin: 'unlimited',
@@ -492,45 +489,30 @@ export function registerSimpleRoutes(app: Express): Server {
         });
       }
       
-      // Sistema di numerazione sequenziale coerente per tutti i clienti
-      const userIdBase = user.id * 1000; // Base per utente (es. 14000 per utente 14)
-      const existingUserClients = (storageData.clients || [])
-        .filter(([id, client]) => client.ownerId === user.id)
-        .length;
-      const clientId = userIdBase + existingUserClients + 1; // ID sequenziale coerente
-      
-      console.log(`🔢 [NUMERAZIONE] Nuovo ID cliente: ${clientId} (base ${userIdBase} + ${existingUserClients + 1})`);
-      
-      const hierarchicalCode = await generateClientCode(user.id, clientId);
-      const professionistCode = await getProfessionistCode(user.id);
-      
-      const newClient = {
-        id: clientId,
+      // 🔄 USA POSTGRESQL: Crea cliente (ID auto-generato da PostgreSQL)
+      const clientData = {
+        userId: user.id,
         ownerId: user.id,
-        uniqueCode: hierarchicalCode,
-        professionistCode: professionistCode,
-        createdAt: new Date().toISOString(),
+        professionistCode: await getProfessionistCode(user.id),
         ...req.body
       };
       
-      console.log(`✅ [POST /api/clients] Nuovo cliente creato:`, newClient);
+      const newClient = await storage.createClient(clientData);
       
-      // Aggiungi al storage persistente
-      if (!storageData.clients) storageData.clients = [];
-      storageData.clients.push([newClient.id, newClient]);
+      // Genera codice univoco usando l'ID assegnato da PostgreSQL
+      const hierarchicalCode = await generateClientCode(user.id, newClient.id);
       
-      // Salva con backup
-      try {
-        saveStorageData(storageData);
-        console.log(`💾 [POST /api/clients] Cliente salvato nel storage persistente`);
-      } catch (saveError) {
-        console.error(`❌ [POST /api/clients] Errore salvataggio storage:`, saveError);
-        return res.status(500).json({ message: "Errore durante il salvataggio" });
-      }
+      // Aggiorna con il codice univoco
+      await storage.updateClient(newClient.id, {
+        uniqueCode: hierarchicalCode
+      });
       
-      console.log(`👤 [POST /api/clients] Cliente creato da utente ${user.id} (${user.type}): ${newClient.firstName} ${newClient.lastName} - Limite: ${userLimit}, Correnti: ${currentClients + 1}`);
+      // Ricarica il cliente aggiornato
+      const finalClient = await storage.getClientById(newClient.id);
       
-      res.status(201).json(newClient);
+      console.log(`✅ [POST /api/clients] Cliente creato in PostgreSQL: ${finalClient.firstName} ${finalClient.lastName} (ID: ${finalClient.id})`);
+      
+      res.status(201).json(finalClient);
     } catch (error) {
       console.error(`❌ [POST /api/clients] Errore generale:`, error);
       res.status(500).json({ message: "Errore interno del server" });
@@ -592,7 +574,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // PUT /api/clients/:id - Aggiorna cliente esistente
-  app.put("/api/clients/:id", (req, res) => {
+  app.put("/api/clients/:id", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const clientId = parseInt(req.params.id);
@@ -608,21 +590,13 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Richiesta da utente ID:${user.id}, tipo:${user.type}, email:${user.email}`);
       console.log(`✏️ [PUT /api/clients/${clientId}] [${deviceType}] Dati ricevuti:`, req.body);
 
-      const storageData = loadStorageData();
+      // 🔄 USA POSTGRESQL: Trova il cliente esistente
+      const existingClient = await storage.getClientById(clientId);
       
-      // Il storage usa un Map convertito in array di tuple [id, data]
-      // Trova il cliente esistente
-      const existingClientIndex = storageData.clients.findIndex((entry: any) => {
-        return Array.isArray(entry) ? entry[0] === clientId : entry.id === clientId;
-      });
-      
-      if (existingClientIndex === -1) {
+      if (!existingClient) {
         console.log(`❌ [PUT /api/clients/${clientId}] Cliente non trovato`);
         return res.status(404).json({ message: "Cliente non trovato" });
       }
-
-      const existingClientEntry = storageData.clients[existingClientIndex];
-      const existingClient = Array.isArray(existingClientEntry) ? existingClientEntry[1] : existingClientEntry;
       
       // Verifica ownership per utenti non-staff
       if (user.type !== 'staff' && existingClient.ownerId !== user.id) {
@@ -630,26 +604,13 @@ export function registerSimpleRoutes(app: Express): Server {
         return res.status(403).json({ message: "Accesso negato" });
       }
 
-      // Aggiorna i dati del cliente mantenendo ID e ownerId
-      const updatedClient = {
-        ...existingClient,
-        ...req.body,
-        id: clientId, // Mantieni l'ID originale
-        ownerId: existingClient.ownerId, // Mantieni il proprietario originale
-        updatedAt: new Date().toISOString()
-      };
-
-      // Sostituisci il cliente nell'array (mantieni il formato tuple se necessario)
-      if (Array.isArray(existingClientEntry)) {
-        storageData.clients[existingClientIndex] = [clientId, updatedClient];
-      } else {
-        storageData.clients[existingClientIndex] = updatedClient;
-      }
+      // 🔄 USA POSTGRESQL: Aggiorna il cliente
+      await storage.updateClient(clientId, req.body);
       
-      // Salva nel file
-      saveStorageData(storageData);
+      // Ricarica il cliente aggiornato
+      const updatedClient = await storage.getClientById(clientId);
       
-      console.log(`✅ [PUT /api/clients/${clientId}] Cliente aggiornato con successo`);
+      console.log(`✅ [PUT /api/clients/${clientId}] Cliente aggiornato con successo in PostgreSQL`);
       res.json(updatedClient);
       
     } catch (error) {
@@ -2092,16 +2053,14 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "ID cliente non valido" });
     }
     
-    // Carica dati reali dal file storage_data.json
-    const allClients = loadStorageData().clients || [];
-    const clientData = allClients.find(([id, client]) => id === clientId);
+    // 🔄 USA POSTGRESQL: Carica cliente dal database condiviso
+    const client = await storage.getClientById(clientId);
     
-    if (!clientData) {
+    if (!client) {
       console.log(`❌ [QR-INTERFACE] Cliente ${clientId} NON TROVATO nel sistema`);
       return res.status(404).json({ message: "Cliente non trovato nel sistema" });
     }
     
-    const client = clientData[1];
     console.log(`🔍 [QR-INTERFACE] Cliente trovato: ${client.firstName} ${client.lastName} (ID: ${clientId}, Owner: ${client.ownerId})`);
     
     // Verifica proprietà - solo admin o proprietario del cliente
@@ -2119,16 +2078,14 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`🔧 [AUTO-FIX] Generazione codice gerarchico per cliente ${clientId}, proprietario ${ownerUserId}`);
       clientCode = await generateClientCode(ownerUserId, clientId);
       
-      // Aggiorna automaticamente il cliente con il nuovo codice (logica permanente)
-      const storageData = loadStorageData();
-      const clientIndex = storageData.clients.findIndex(([id]) => id === clientId);
-      if (clientIndex !== -1) {
-        storageData.clients[clientIndex][1].uniqueCode = clientCode;
-        storageData.clients[clientIndex][1].professionistCode = await getProfessionistCode(ownerUserId);
-        storageData.clients[clientIndex][1].ownerId = ownerUserId; // Assicura proprietario corretto
-        saveStorageData(storageData);
-        console.log(`✅ [AUTO-FIX] Cliente ${clientId} aggiornato con codice: ${clientCode}`);
-      }
+      // 🔄 USA POSTGRESQL: Aggiorna cliente nel database condiviso
+      const profCode = await getProfessionistCode(ownerUserId);
+      await storage.updateClient(clientId, {
+        uniqueCode: clientCode,
+        professionistCode: profCode,
+        ownerId: ownerUserId
+      });
+      console.log(`✅ [AUTO-FIX] Cliente ${clientId} aggiornato con codice: ${clientCode}`);
     }
     
     const crypto = await import('crypto');
@@ -2278,27 +2235,17 @@ export function registerSimpleRoutes(app: Express): Server {
     });
   });
 
-  app.get("/api/client-access/count/:clientId", (req, res) => {
+  app.get("/api/client-access/count/:clientId", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const clientIdParam = req.params.clientId;
     
-    // Carica dati reali dal file storage_data.json
-    const storageData = loadStorageData();
-    const allClients = storageData.clients || [];
+    // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
+    const client = await storage.getClientById(parseInt(clientIdParam, 10));
     
-    // Cerca il cliente confrontando sia come stringa che come numero
-    const clientData = allClients.find(([id, client]) => {
-      return id.toString() === clientIdParam || 
-             (typeof id === 'number' && id.toString() === clientIdParam) ||
-             (parseInt(clientIdParam).toString() === id.toString());
-    });
-    
-    if (!clientData) {
+    if (!client) {
       return res.status(404).json({ message: "Cliente non trovato nel sistema" });
     }
-    
-    const client = clientData[1];
     
     // Verifica proprietà - solo admin o proprietario del cliente
     if (user.type !== 'admin' && client.ownerId && client.ownerId !== user.id) {
@@ -2373,7 +2320,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   // Endpoint per recuperare dati di un singolo cliente (per admin/staff)
-  app.get("/api/clients/:id", (req, res) => {
+  app.get("/api/clients/:id", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ message: "Non autenticato" });
     }
@@ -2386,17 +2333,8 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(403).json({ message: "Accesso negato" });
     }
 
-    const storageData = loadStorageData();
-    const clients = storageData.clients || [];
-    
-    // Cerca il cliente
-    let clientFound = null;
-    for (const [clientId, clientData] of clients) {
-      if (parseInt(clientId.toString(), 10) === parseInt(id, 10)) {
-        clientFound = clientData;
-        break;
-      }
-    }
+    // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
+    const clientFound = await storage.getClientById(parseInt(id, 10));
 
     if (!clientFound) {
       return res.status(404).json({ message: "Cliente non trovato" });
@@ -2408,7 +2346,7 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     res.json({
-      id: parseInt(id, 10),
+      id: clientFound.id,
       firstName: clientFound.firstName || '',
       lastName: clientFound.lastName || '',
       phone: clientFound.phone || '',
