@@ -20,7 +20,6 @@ import adminLicenseRoutes from './routes/adminLicenseRoutes';
 import referralRoutes from './routes/referralRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import paymentMethodRoutes from './routes/paymentMethodRoutes';
-import setupStaffRoutes from './routes/staffRoutes';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -194,9 +193,6 @@ export function registerSimpleRoutes(app: Express): Server {
   app.use('/api/referral', referralRoutes);
   app.use('/api/payments', paymentRoutes);
   app.use('/api/payments', paymentMethodRoutes);
-  
-  // Setup staff management routes (PostgreSQL-based)
-  setupStaffRoutes(app);
 
   // Sistema lineare semplice - Servizi dell'utente  
   app.get("/api/services", async (req, res) => {
