@@ -195,6 +195,7 @@ export const users = pgTable("users", {
   type: text("type").default("staff").notNull(), // staff, client
   assignmentCode: text("assignment_code"), // Codice per assegnare clienti a questo account
   referralCode: text("referral_code"), // Codice referral per commissioni tra professionisti
+  referredBy: integer("referred_by"), // ID dell'utente sponsor che ha invitato questo utente
   iban: text("iban"), // IBAN per pagamenti commissioni staff
   bic: text("bic"), // BIC/SWIFT code (opzionale)
   bankName: text("bank_name"), // Nome banca (opzionale)
@@ -1131,6 +1132,30 @@ export const insertStaffCommissionSchema = createInsertSchema(staffCommissions).
 
 export type StaffCommission = typeof staffCommissions.$inferSelect;
 export type InsertStaffCommission = z.infer<typeof insertStaffCommissionSchema>;
+
+// Referral Payments table schema - Pagamenti commissioni referral
+export const referralPayments = pgTable("referral_payments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // ID dell'utente che riceve il pagamento
+  period: text("period").notNull(), // Periodo di riferimento (es. "2025-10")
+  amount: integer("amount").notNull(), // Importo in centesimi
+  status: text("status").default("pending").notNull(), // pending, processing, completed, failed
+  bankAccountId: integer("bank_account_id"), // ID del conto bancario
+  processingDate: timestamp("processing_date"), // Data elaborazione pagamento
+  processingNote: text("processing_note"), // Note sull'elaborazione
+  paymentReference: text("payment_reference"), // Riferimento transazione bancaria/PayPal
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertReferralPaymentSchema = createInsertSchema(referralPayments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type ReferralPayment = typeof referralPayments.$inferSelect;
+export type InsertReferralPayment = z.infer<typeof insertReferralPaymentSchema>;
 
 // Onboarding Progress table schema
 export const onboardingProgress = pgTable("onboarding_progress", {
