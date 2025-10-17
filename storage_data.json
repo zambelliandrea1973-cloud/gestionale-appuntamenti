@@ -15265,12 +15265,12 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 419,
-        "lastAccess": "2025-10-17T12:25:39.929Z",
+        "accessCount": 421,
+        "lastAccess": "2025-10-17T12:43:06.694Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_14004_340F",
         "professionistCode": "PROF_014_9C1F",
-        "lastPwaAccess": "2025-10-17T12:25:39.929Z",
-        "pwaAccessCount": 298,
+        "lastPwaAccess": "2025-10-17T12:43:06.694Z",
+        "pwaAccessCount": 300,
         "hasConsent": true,
         "updatedAt": "2025-10-16T11:21:17.153Z"
       }
