@@ -203,36 +203,10 @@ export default function ClientArea() {
 
     loadProfessionalIcon();
     
-    // ✅ SOLUZIONE ICONE PWA: Aggiorna manifest dinamico con ownerId e clientToken
-    // Quando Android installa la PWA, il manifest avrà l'ownerId corretto per servire le icone personalizzate del professionista
+    // Il manifest viene ora creato dinamicamente in index.html con i parametri corretti dall'inizio
+    // Questo log serve solo per debugging
     if (ownerId) {
-      const savedClientCode = localStorage.getItem('clientCode');
-      const manifestLink = document.querySelector('link[rel="manifest"]');
-      
-      // Costruisci URL del manifest con tutti i parametri disponibili per massima compatibilità
-      let manifestUrl = `/manifest.json?ownerId=${ownerId}&v=${Date.now()}`;
-      if (savedClientCode) {
-        manifestUrl += `&clientToken=${savedClientCode}`;
-      }
-      
-      if (manifestLink) {
-        // Aggiorna il link esistente
-        manifestLink.setAttribute('href', manifestUrl);
-        console.log(`📱 [PWA MANIFEST] Manifest aggiornato: ${manifestUrl}`);
-        
-        // Forza il refresh del manifest clonando e sostituendo il link (tecnica anti-cache)
-        const clonedLink = manifestLink.cloneNode(true) as HTMLLinkElement;
-        manifestLink.parentNode?.removeChild(manifestLink);
-        document.head.appendChild(clonedLink);
-        console.log(`📱 [PWA MANIFEST] Link manifest forzato al refresh per anti-cache`);
-      } else {
-        // Crea nuovo link se non esiste
-        const newManifest = document.createElement('link');
-        newManifest.rel = 'manifest';
-        newManifest.href = manifestUrl;
-        document.head.appendChild(newManifest);
-        console.log(`📱 [PWA MANIFEST] Nuovo link manifest creato: ${manifestUrl}`);
-      }
+      console.log(`📱 [PWA] Owner ID ${ownerId} - Manifest già configurato in index.html`);
     }
   }, [ownerId]);
 

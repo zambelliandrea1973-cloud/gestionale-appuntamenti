@@ -1,0 +1,216 @@
+17/10/2025, 15:20:21:
+tempo di esecuzione
+    "id": 14002,
+17/10/2025, 15:20:21:
+tempo di esecuzione
+    "nome": "Andrea",
+17/10/2025, 15:20:21:
+tempo di esecuzione
+    "cognome": "Zambelli",
+17/10/2025, 15:20:21:
+tempo di esecuzione
+    "codiceunivoco": "PROF_014_9C1F_CLIENT_14002_09A9",
+17/10/2025, 15:20:21:
+tempo di esecuzione
+    "ownerId": 14
+17/10/2025, 15:20:21:
+tempo di esecuzione
+  }
+17/10/2025, 15:20:21:
+tempo di esecuzione
+]
+17/10/2025, 15:20:21:
+tempo di esecuzione
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 7/7
+17/10/2025, 15:20:21:
+tempo di esecuzione
+13:20:21 [express] GET /api/clients 200 in 2343ms :: [{"id":75,"userId":14,"firstName":"ADV","last…
+17/10/2025, 15:20:22:
+tempo di esecuzione
+13:20:22 [express] GET /api/clients/77 304 in 3412ms :: {"id":77,"firstName":"qqqqqqqqq","lastName…
+17/10/2025, 15:20:22:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 15:20:22:
+tempo di esecuzione
+13:20:22 [express] GET /api/client-access/count/68 200 in 3413ms :: {"count":0}
+17/10/2025, 15:20:22:
+tempo di esecuzione
+13:20:22 [express] GET /api/clients/69 304 in 3421ms :: {"id":69,"firstName":"Bruna ","lastName":"…
+17/10/2025, 15:20:22:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:20:22:
+tempo di esecuzione
+13:20:22 [express] GET /api/client-access/count/70 200 in 3422ms :: {"count":0}
+17/10/2025, 15:20:22:
+tempo di esecuzione
+13:20:22 [express] GET /api/clients/70 304 in 3425ms :: {"id":70,"firstName":"Marco","lastName":"B…
+17/10/2025, 15:20:28:
+tempo di esecuzione
+13:20:28 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 15:20:31:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+tempo di esecuzione
+13:20:31 [express] GET /api/client-access/count/77 200 in 465ms :: {"count":0}
+17/10/2025, 15:20:31:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+tempo di esecuzione
+13:20:31 [express] GET /api/client-access/count/14002 200 in 457ms :: {"count":0}
+17/10/2025, 15:20:31:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+tempo di esecuzione
+13:20:31 [express] GET /api/client-access/count/75 200 in 462ms :: {"count":0}
+17/10/2025, 15:20:31:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+tempo di esecuzione
+13:20:31 [express] GET /api/client-access/count/69 200 in 460ms :: {"count":0}
+17/10/2025, 15:20:31:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 15:20:31:
+tempo di esecuzione
+13:20:31 [express] GET /api/client-access/count/76 200 in 462ms :: {"count":0}
+17/10/2025, 15:20:33:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 15:20:33:
+tempo di esecuzione
+13:20:33 [express] GET /api/client-access/count/68 200 in 460ms :: {"count":0}
+17/10/2025, 15:20:33:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:20:33:
+tempo di esecuzione
+13:20:33 [express] GET /api/client-access/count/70 200 in 461ms :: {"count":0}
+17/10/2025, 15:20:42:
+tempo di esecuzione
+[CONTEGGIO DEBUG] Cliente 14002 (Andrea Zambelli) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+tempo di esecuzione
+13:20:42 [express] GET /api/client-access/count/14002 200 in 459ms :: {"count":0}
+17/10/2025, 15:20:42:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 75 (ADV ADSVA) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+tempo di esecuzione
+13:20:42 [express] GET /api/client-access/count/75 200 in 461ms :: {"count":0}
+17/10/2025, 15:20:42:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 77 (qqqqqqqqq wwwwwwwwwwww) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+tempo di esecuzione
+13:20:42 [express] GET /api/client-access/count/77 200 in 464ms :: {"count":0}
+17/10/2025, 15:20:42:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 76 (zzzzzzzzzzzzzz xxxxxxxxxxxx) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+tempo di esecuzione
+13:20:42 [express] GET /api/client-access/count/76 200 in 460ms :: {"count":0}
+17/10/2025, 15:20:42:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 69 (Bruna Pizzolato) - accessCount: 0 → display: 0
+17/10/2025, 15:20:42:
+tempo di esecuzione
+13:20:42 [express] GET /api/client-access/count/69 200 in 463ms :: {"count":0}
+17/10/2025, 15:20:43:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 68 (Cliente di prova) - accessCount: 0 → display: 0
+17/10/2025, 15:20:43:
+tempo di esecuzione
+13:20:43 [express] GET /api/client-access/count/68 200 in 459ms :: {"count":0}
+17/10/2025, 15:20:43:
+tempo di esecuzione
+[DEBUG COUNT] Cliente 70 (Marco Berto) - accessCount: 0 → display: 0
+17/10/2025, 15:20:43:
+tempo di esecuzione
+13:20:43 [express] GET /api/client-access/count/70 200 in 458ms :: {"count":0}
+17/10/2025, 15:20:57:
+tempo di esecuzione
+13:20:57 [express] GET /api/timezone-settings 200 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 15:20:57:
+tempo di esecuzione
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 15:20:57:
+tempo di esecuzione
+✅ [PWA ACCESS] Cliente Bruna Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 428
+17/10/2025, 15:20:57:
+tempo di esecuzione
+13:20:57 [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 64ms :: {"successo…
+17/10/2025, 15:20:57:
+tempo di esecuzione
+13:20:57 [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+17/10/2025, 15:20:57:
+tempo di esecuzione
+13:20:57 [express] POST /api/timezone-settings 200 in 0ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 15:20:57:
+tempo di esecuzione
+🏠 [ACCESSO CLIENT] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:20:57:
+tempo di esecuzione
+🏠 [ACCESSO CLIENTE] Cliente autenticato: Bruna Pizzolato
+17/10/2025, 15:20:57:
+tempo di esecuzione
+13:20:57 [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 16 ms :: {"id":14…
+17/10/2025, 15:20:57:
+tempo di esecuzione
+📅 [APPUNTAMENTI CLIENTI] Caricamento per cliente: 14004 Titolare: 14
+17/10/2025, 15:20:57:
+tempo di esecuzione
+📅 [APPUNTAMENTI CON I CLIENTI] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 15:20:57:
+tempo di esecuzione
+13:20:57 [express] GET /api/client-appointments/14004 200 in 17 ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 15:20:57:
+tempo di esecuzione
+📱 ICONA PWA: TrovatoownerId 14 da token QR nel referer
+17/10/2025, 15:20:57:
+tempo di esecuzione
+🔍 ICONA PWA: Identificato proprietario 14 da token QR o fallback
+17/10/2025, 15:20:57:
+tempo di esecuzione
+📱 Servendo icona PWA personalizzata 192x192 per proprietario 14
+17/10/2025, 15:20:57:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+17/10/2025, 15:20:58:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:20:58:
+tempo di esecuzione
+🏥 [CONTATTI PWA] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  telefono: '+39 3471445767',
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  telefono1: '+39 3471445767',
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  telefono2: '',
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  sito web: '',
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  instagram: 'zambelli1105',
+17/10/2025, 15:20:58:
+tempo di esecuzione
+  Facebook: ''
+17/10/2025, 15:20:58:
+tempo di esecuzione
+}
+17/10/2025, 15:20:58:
+tempo di esecuzione
+13:20:58 [express] GET /api/owner-contact-info/14 200 in 233ms :: {"email":"silvia.busnari@libero.…
