@@ -15265,12 +15265,12 @@
         "isFrequent": false,
         "medicalNotes": "",
         "allergies": "",
-        "accessCount": 417,
-        "lastAccess": "2025-10-17T12:19:00.200Z",
+        "accessCount": 419,
+        "lastAccess": "2025-10-17T12:25:39.929Z",
         "uniqueCode": "PROF_014_9C1F_CLIENT_14004_340F",
         "professionistCode": "PROF_014_9C1F",
-        "lastPwaAccess": "2025-10-17T12:19:00.200Z",
-        "pwaAccessCount": 296,
+        "lastPwaAccess": "2025-10-17T12:25:39.929Z",
+        "pwaAccessCount": 298,
         "hasConsent": true,
         "updatedAt": "2025-10-16T11:21:17.153Z"
       }
@@ -22444,12 +22444,12 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 62,
-        "lastAccess": "2025-10-17T12:21:30.919Z",
+        "accessCount": 64,
+        "lastAccess": "2025-10-17T12:25:51.165Z",
         "hasConsent": true,
         "updatedAt": "2025-06-20T08:19:15.826Z",
-        "lastPwaAccess": "2025-10-17T12:21:30.919Z",
-        "pwaAccessCount": 42
+        "lastPwaAccess": "2025-10-17T12:25:51.165Z",
+        "pwaAccessCount": 44
       }
     ],
     [
