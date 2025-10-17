@@ -203,20 +203,36 @@ export default function ClientArea() {
 
     loadProfessionalIcon();
     
-    // ✅ SOLUZIONE ICONE PWA: Inietta manifest dinamico con ownerId
-    // Quando Android installa la PWA, il manifest avrà l'ownerId corretto per servire le icone personalizzate
+    // ✅ SOLUZIONE ICONE PWA: Aggiorna manifest dinamico con ownerId e clientToken
+    // Quando Android installa la PWA, il manifest avrà l'ownerId corretto per servire le icone personalizzate del professionista
     if (ownerId) {
-      const existingManifest = document.querySelector('link[rel="manifest"]');
-      if (existingManifest) {
-        existingManifest.remove();
+      const savedClientCode = localStorage.getItem('clientCode');
+      const manifestLink = document.querySelector('link[rel="manifest"]');
+      
+      // Costruisci URL del manifest con tutti i parametri disponibili per massima compatibilità
+      let manifestUrl = `/manifest.json?ownerId=${ownerId}&v=${Date.now()}`;
+      if (savedClientCode) {
+        manifestUrl += `&clientToken=${savedClientCode}`;
       }
       
-      const newManifest = document.createElement('link');
-      newManifest.rel = 'manifest';
-      newManifest.href = `/manifest.json?ownerId=${ownerId}&v=${Date.now()}`;
-      document.head.appendChild(newManifest);
-      
-      console.log(`📱 [PWA MANIFEST] Manifest dinamico iniettato per owner ${ownerId}`);
+      if (manifestLink) {
+        // Aggiorna il link esistente
+        manifestLink.setAttribute('href', manifestUrl);
+        console.log(`📱 [PWA MANIFEST] Manifest aggiornato: ${manifestUrl}`);
+        
+        // Forza il refresh del manifest clonando e sostituendo il link (tecnica anti-cache)
+        const clonedLink = manifestLink.cloneNode(true) as HTMLLinkElement;
+        manifestLink.parentNode?.removeChild(manifestLink);
+        document.head.appendChild(clonedLink);
+        console.log(`📱 [PWA MANIFEST] Link manifest forzato al refresh per anti-cache`);
+      } else {
+        // Crea nuovo link se non esiste
+        const newManifest = document.createElement('link');
+        newManifest.rel = 'manifest';
+        newManifest.href = manifestUrl;
+        document.head.appendChild(newManifest);
+        console.log(`📱 [PWA MANIFEST] Nuovo link manifest creato: ${manifestUrl}`);
+      }
     }
   }, [ownerId]);
 

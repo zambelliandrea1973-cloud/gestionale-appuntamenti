@@ -27,6 +27,16 @@ export function serveDynamicManifest(req: Request, res: Response) {
       console.log(`📱 PWA MANIFEST: Owner ID da query param: ${ownerUserId}`);
     }
     
+    // Metodo 1b: Estrai ownerId dal clientToken nei query params (PROF_XXX_...)
+    if (!ownerUserId && req.query.clientToken) {
+      const clientToken = req.query.clientToken as string;
+      const tokenMatch = clientToken.match(/^PROF_(\d{2,3})_/);
+      if (tokenMatch) {
+        ownerUserId = parseInt(tokenMatch[1]);
+        console.log(`📱 PWA MANIFEST: Owner ID estratto da clientToken: ${ownerUserId}`);
+      }
+    }
+    
     // Metodo 2: Analizza referer per token QR
     if (!ownerUserId) {
       const referer = req.get('referer') || '';
