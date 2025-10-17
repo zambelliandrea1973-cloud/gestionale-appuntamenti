@@ -1,0 +1,49 @@
+# ==========================================
+# COPIA QUESTE VARIABILI SU SLIPLANE
+# ==========================================
+
+ISTRUZIONI:
+1. Vai su Sliplane → Tuo Progetto → Settings → Environment Variables
+2. Copia TUTTE queste variabili con i loro valori REALI da Replit
+3. Aggiungi STRIPE_WEBHOOK_SECRET dopo aver configurato il webhook
+
+# ==========================================
+# VARIABILI ESISTENTI SU REPLIT DA COPIARE:
+# ==========================================
+
+DATABASE_URL=<copia valore da Replit>
+
+STRIPE_SECRET_KEY=<copia valore da Replit>
+STRIPE_SECRET_KEY_LIVE=<copia valore da Replit>
+VITE_STRIPE_PUBLIC_KEY=<copia valore da Replit>
+VITE_STRIPE_PUBLIC_KEY_LIVE=<copia valore da Replit>
+
+PAYPAL_CLIENT_ID=<copia valore da Replit>
+PAYPAL_CLIENT_SECRET=<copia valore da Replit>
+PAYPAL_CLIENT_ID_LIVE=<copia valore da Replit>
+PAYPAL_CLIENT_SECRET_LIVE=<copia valore da Replit>
+
+PAYMENT_MODE=<copia valore da Replit (probabilmente "live" o "test")>
+
+GEMINI_API_KEY=<copia valore da Replit>
+
+# ==========================================
+# VARIABILE DA AGGIUNGERE DOPO IL DEPLOY:
+# ==========================================
+
+STRIPE_WEBHOOK_SECRET=<da creare su Stripe Dashboard dopo deploy>
+
+# Come ottenere STRIPE_WEBHOOK_SECRET:
+# 1. Vai su https://dashboard.stripe.com/webhooks
+# 2. Click "Add endpoint"
+# 3. URL: https://TUO-DOMINIO-SLIPLANE.com/api/payments/stripe/webhook
+# 4. Eventi: checkout.session.completed
+# 5. Salva e copia il "Signing secret" (whsec_...)
+# 6. Aggiungi questa variabile su Sliplane
+
+# ==========================================
+# IMPORTANTE: DATABASE_URL
+# ==========================================
+# ⚠️ USA LO STESSO DATABASE_URL di Replit!
+# Questo garantisce sincronizzazione real-time tra Replit e Sliplane
+# Entrambi gli ambienti condividono lo stesso database PostgreSQL Neon
