@@ -1,7 +1,7 @@
 {
-  "name": "Gestionale Sanitario",
+  "name": "Gestionale Appuntamenti",
   "short_name": "Gestionale",
-  "description": "Sistema di gestione sanitaria",
+  "description": "Sistema di gestione appuntamenti",
   "start_url": "/gestionale-react-identico.html",
   "display": "standalone",
   "background_color": "#ffffff",
