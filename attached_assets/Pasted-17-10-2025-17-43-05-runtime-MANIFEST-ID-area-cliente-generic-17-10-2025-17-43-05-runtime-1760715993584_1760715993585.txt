@@ -1,0 +1,897 @@
+17/10/2025, 17:43:05:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+17/10/2025, 17:43:05:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+17/10/2025, 17:43:05:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+17/10/2025, 17:43:05:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+17/10/2025, 17:43:05:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+17/10/2025, 17:43:09:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+17/10/2025, 17:43:09:
+runtime
+Logout completato con successo
+17/10/2025, 17:43:09:
+runtime
+3:43:09 PM [express] POST /api/logout 200 in 5ms :: {"success":true,"message":"Logout completato con…
+17/10/2025, 17:43:09:
+runtime
+3:43:09 PM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+17/10/2025, 17:43:11:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+17/10/2025, 17:43:11:
+runtime
+Logout completato con successo
+17/10/2025, 17:43:11:
+runtime
+3:43:11 PM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+17/10/2025, 17:43:14:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+17/10/2025, 17:43:14:
+runtime
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+17/10/2025, 17:43:14:
+runtime
+3:43:14 PM [express] POST /api/staff/login 200 in 295ms :: {"id":14,"username":"busnari.silvia@liber…
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1760715794756
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1760715794756' }
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+17/10/2025, 17:43:15:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 17:43:15:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760715795365-default
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+17/10/2025, 17:43:15:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1760715794756' }
+17/10/2025, 17:43:15:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+17/10/2025, 17:43:15:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760715795366.839&android=1","/pwa-icon/192x192?owner=default&v=1760715795366.839&android=1","/pwa-icon/512x512?owner=default&v=1760715795366.839&android=1"]
+17/10/2025, 17:43:15:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+17/10/2025, 17:43:15:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] GET /api/timezone-settings 200 in 231ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 17:43:15:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+17/10/2025, 17:43:15:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+17/10/2025, 17:43:15:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 17:43:15:
+runtime
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 17:43:15:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 17:43:15:
+runtime
+  id: 14,
+17/10/2025, 17:43:15:
+runtime
+  username: 'busnari.silvia@libero.it',
+17/10/2025, 17:43:15:
+runtime
+  firstName: null,
+17/10/2025, 17:43:15:
+runtime
+  lastName: null,
+17/10/2025, 17:43:15:
+runtime
+  licenseType: 'staff_free_10years'
+17/10/2025, 17:43:15:
+runtime
+}
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] GET /api/user-with-license 200 in 273ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 17:43:15:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] GET /api/license/application-title 200 in 298ms :: {"title":"Gestionale Sanitar…
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] GET /api/license/has-pro-access 200 in 311ms :: true
+17/10/2025, 17:43:15:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+17/10/2025, 17:43:15:
+runtime
+✅ [desktop] Icone PWA per utente 14, icon length: 837291
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] GET /api/client-app-info 200 in 443ms :: {"appName":"Gestionale Sanitario","ico…
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] POST /api/timezone-settings 200 in 228ms :: {"success":true,"timezone":"Europe/…
+17/10/2025, 17:43:15:
+runtime
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+17/10/2025, 17:43:15:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 17:43:15:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 17:43:15:
+runtime
+3:43:15 PM [express] GET /api/tenant-context 200 in 231ms :: {"userId":14,"userType":"staff","tenant…
+17/10/2025, 17:43:16:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 17:43:16:
+runtime
+🏢 [/api/company-name-settings] [desktop] Settings per utente 14 (staff): {
+17/10/2025, 17:43:16:
+runtime
+  businessName: 'Studio Medico',
+17/10/2025, 17:43:16:
+runtime
+  showBusinessName: true,
+17/10/2025, 17:43:16:
+runtime
+  name: 'Silvia Busnari ',
+17/10/2025, 17:43:16:
+runtime
+  fontSize: 45,
+17/10/2025, 17:43:16:
+runtime
+  fontFamily: 'Lucida Sans Unicode',
+17/10/2025, 17:43:16:
+runtime
+  fontStyle: 'italic',
+17/10/2025, 17:43:16:
+runtime
+  color: '#FF0000',
+17/10/2025, 17:43:16:
+runtime
+  enabled: true
+17/10/2025, 17:43:16:
+runtime
+}
+17/10/2025, 17:43:16:
+runtime
+3:43:16 PM [express] GET /api/company-name-settings 200 in 494ms :: {"businessName":"Studio Medico",…
+17/10/2025, 17:43:16:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 17:43:16:
+runtime
+3:43:16 PM [express] GET /api/contact-info 200 in 461ms :: {"email":"silvia.busnari@libero.it","phon…
+17/10/2025, 17:43:16:
+runtime
+3:43:16 PM [express] GET /api/license/license-info 200 in 1213ms :: {"hasLicense":true,"type":"staff…
+17/10/2025, 17:43:16:
+runtime
+3:43:16 PM [express] GET /api/license/has-business-access 200 in 1213ms :: true
+17/10/2025, 17:43:22:
+runtime
+3:43:22 PM [express] GET /api/google-auth/status 304 in 230ms
+17/10/2025, 17:43:23:
+runtime
+📊 [/api/appointments/range] [desktop] Utente 14 cerca appuntamenti per range 2025-10-01-2025-10-31
+17/10/2025, 17:43:23:
+runtime
+🔍 [desktop] DEBUG Storage appointments raw: 48 [
+17/10/2025, 17:43:23:
+runtime
+  [
+17/10/2025, 17:43:23:
+runtime
+    1750059544768,
+17/10/2025, 17:43:23:
+runtime
+    {
+17/10/2025, 17:43:23:
+runtime
+      id: 1750059544768,
+17/10/2025, 17:43:23:
+runtime
+      clientId: 252,
+17/10/2025, 17:43:23:
+runtime
+      serviceId: 7,
+17/10/2025, 17:43:23:
+runtime
+      date: '2025-06-18',
+17/10/2025, 17:43:23:
+runtime
+      startTime: '18:00',
+17/10/2025, 17:43:23:
+runtime
+      endTime: '19:00:00',
+17/10/2025, 17:43:23:
+runtime
+      notes: '',
+17/10/2025, 17:43:23:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:43:23:
+runtime
+      createdAt: '2025-06-16T07:39:04.768Z',
+17/10/2025, 17:43:23:
+runtime
+      reminderType: 'email',
+17/10/2025, 17:43:23:
+runtime
+      ownerId: 16
+17/10/2025, 17:43:23:
+runtime
+    }
+17/10/2025, 17:43:23:
+runtime
+  ],
+17/10/2025, 17:43:23:
+runtime
+  [
+17/10/2025, 17:43:23:
+runtime
+    1750064999602,
+17/10/2025, 17:43:23:
+runtime
+    {
+17/10/2025, 17:43:23:
+runtime
+      id: 1750064999602,
+17/10/2025, 17:43:23:
+runtime
+      clientId: 251,
+17/10/2025, 17:43:23:
+runtime
+      serviceId: 7,
+17/10/2025, 17:43:23:
+runtime
+      date: '2025-06-19',
+17/10/2025, 17:43:23:
+runtime
+      startTime: '11:00',
+17/10/2025, 17:43:23:
+runtime
+      endTime: '12:00:00',
+17/10/2025, 17:43:23:
+runtime
+      notes: '',
+17/10/2025, 17:43:23:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:43:23:
+runtime
+      createdAt: '2025-06-16T09:09:59.602Z',
+17/10/2025, 17:43:23:
+runtime
+      ownerId: 16
+17/10/2025, 17:43:23:
+runtime
+    }
+17/10/2025, 17:43:23:
+runtime
+  ],
+17/10/2025, 17:43:23:
+runtime
+  [
+17/10/2025, 17:43:23:
+runtime
+    1750065026422,
+17/10/2025, 17:43:23:
+runtime
+    {
+17/10/2025, 17:43:23:
+runtime
+      id: 1750065026422,
+17/10/2025, 17:43:23:
+runtime
+      clientId: 1,
+17/10/2025, 17:43:23:
+runtime
+      serviceId: 4,
+17/10/2025, 17:43:23:
+runtime
+      date: '2025-06-19',
+17/10/2025, 17:43:23:
+runtime
+      startTime: '12:45:00',
+17/10/2025, 17:43:23:
+runtime
+      endTime: '13:45:00',
+17/10/2025, 17:43:23:
+runtime
+      notes: '',
+17/10/2025, 17:43:23:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:43:23:
+runtime
+      createdAt: '2025-06-16T09:10:26.422Z',
+17/10/2025, 17:43:23:
+runtime
+      ownerId: 3
+17/10/2025, 17:43:23:
+runtime
+    }
+17/10/2025, 17:43:23:
+runtime
+  ]
+17/10/2025, 17:43:23:
+runtime
+]
+17/10/2025, 17:43:23:
+runtime
+📊 [desktop] Appuntamenti totali processati: 48
+17/10/2025, 17:43:23:
+runtime
+🔍 [desktop] DEBUG primi 3 appuntamenti: [
+17/10/2025, 17:43:23:
+runtime
+  { id: 1750059544768, date: '2025-06-18', ownerId: 16, clientId: 252 },
+17/10/2025, 17:43:23:
+runtime
+  { id: 1750064999602, date: '2025-06-19', ownerId: 16, clientId: 251 },
+17/10/2025, 17:43:23:
+runtime
+  { id: 1750065026422, date: '2025-06-19', ownerId: 3, clientId: 1 }
+17/10/2025, 17:43:23:
+runtime
+]
+17/10/2025, 17:43:23:
+runtime
+👩‍⚕️ [desktop] Staff/Customer - Filtro per clienti propri
+17/10/2025, 17:43:23:
+runtime
+🔍 [desktop] IDs clienti dell'utente: 14001, 14002, 14004, 14003, 14005, 14006
+17/10/2025, 17:43:23:
+runtime
+📊💻 [desktop] Appuntamenti range 2025-10-01-2025-10-31: 10
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759900000003: Servizio bio bicom, Prezzo: 70 centesimi (0.7€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759900000004: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+⚠️ Appuntamento 1759743305548: Servizio non trovato per serviceId 7
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759758594237: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759758813716: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759759781580: Servizio bio bicom, Prezzo: 70 centesimi (0.7€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759759869514: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759760276092: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759760320108: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+💰 Appuntamento 1759760350482: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:43:23:
+runtime
+💰 [desktop] Report: calcolato ricavi per 10 appuntamenti
+17/10/2025, 17:43:23:
+runtime
+3:43:23 PM [express] GET /api/appointments/range/2025-10-01/2025-10-31 304 in 255ms :: [{"id":175990…
+17/10/2025, 17:43:23:
+runtime
+✅ NUOVO Sistema: 4 servizi per utente 14 - SEPARAZIONE COMPLETA
+17/10/2025, 17:43:23:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi da PostgreSQL per utente 14
+17/10/2025, 17:43:23:
+runtime
+3:43:23 PM [express] GET /api/services 304 in 478ms :: [{"id":64,"userId":14,"name":"bio bicom","dur…
+17/10/2025, 17:44:59:
+runtime
+📊 [/api/appointments/range] [desktop] Utente 14 cerca appuntamenti per range 2025-10-01-2025-10-31
+17/10/2025, 17:44:59:
+runtime
+🔍 [desktop] DEBUG Storage appointments raw: 48 [
+17/10/2025, 17:44:59:
+runtime
+  [
+17/10/2025, 17:44:59:
+runtime
+    1750059544768,
+17/10/2025, 17:44:59:
+runtime
+    {
+17/10/2025, 17:44:59:
+runtime
+      id: 1750059544768,
+17/10/2025, 17:44:59:
+runtime
+      clientId: 252,
+17/10/2025, 17:44:59:
+runtime
+      serviceId: 7,
+17/10/2025, 17:44:59:
+runtime
+      date: '2025-06-18',
+17/10/2025, 17:44:59:
+runtime
+      startTime: '18:00',
+17/10/2025, 17:44:59:
+runtime
+      endTime: '19:00:00',
+17/10/2025, 17:44:59:
+runtime
+      notes: '',
+17/10/2025, 17:44:59:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:44:59:
+runtime
+      createdAt: '2025-06-16T07:39:04.768Z',
+17/10/2025, 17:44:59:
+runtime
+      reminderType: 'email',
+17/10/2025, 17:44:59:
+runtime
+      ownerId: 16
+17/10/2025, 17:44:59:
+runtime
+    }
+17/10/2025, 17:44:59:
+runtime
+  ],
+17/10/2025, 17:44:59:
+runtime
+  [
+17/10/2025, 17:44:59:
+runtime
+    1750064999602,
+17/10/2025, 17:44:59:
+runtime
+    {
+17/10/2025, 17:44:59:
+runtime
+      id: 1750064999602,
+17/10/2025, 17:44:59:
+runtime
+      clientId: 251,
+17/10/2025, 17:44:59:
+runtime
+      serviceId: 7,
+17/10/2025, 17:44:59:
+runtime
+      date: '2025-06-19',
+17/10/2025, 17:44:59:
+runtime
+      startTime: '11:00',
+17/10/2025, 17:44:59:
+runtime
+      endTime: '12:00:00',
+17/10/2025, 17:44:59:
+runtime
+      notes: '',
+17/10/2025, 17:44:59:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:44:59:
+runtime
+      createdAt: '2025-06-16T09:09:59.602Z',
+17/10/2025, 17:44:59:
+runtime
+      ownerId: 16
+17/10/2025, 17:44:59:
+runtime
+    }
+17/10/2025, 17:44:59:
+runtime
+  ],
+17/10/2025, 17:44:59:
+runtime
+  [
+17/10/2025, 17:44:59:
+runtime
+    1750065026422,
+17/10/2025, 17:44:59:
+runtime
+    {
+17/10/2025, 17:44:59:
+runtime
+      id: 1750065026422,
+17/10/2025, 17:44:59:
+runtime
+      clientId: 1,
+17/10/2025, 17:44:59:
+runtime
+      serviceId: 4,
+17/10/2025, 17:44:59:
+runtime
+      date: '2025-06-19',
+17/10/2025, 17:44:59:
+runtime
+      startTime: '12:45:00',
+17/10/2025, 17:44:59:
+runtime
+      endTime: '13:45:00',
+17/10/2025, 17:44:59:
+runtime
+      notes: '',
+17/10/2025, 17:44:59:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:44:59:
+runtime
+      createdAt: '2025-06-16T09:10:26.422Z',
+17/10/2025, 17:44:59:
+runtime
+      ownerId: 3
+17/10/2025, 17:44:59:
+runtime
+    }
+17/10/2025, 17:44:59:
+runtime
+  ]
+17/10/2025, 17:44:59:
+runtime
+]
+17/10/2025, 17:44:59:
+runtime
+📊 [desktop] Appuntamenti totali processati: 48
+17/10/2025, 17:44:59:
+runtime
+🔍 [desktop] DEBUG primi 3 appuntamenti: [
+17/10/2025, 17:44:59:
+runtime
+  { id: 1750059544768, date: '2025-06-18', ownerId: 16, clientId: 252 },
+17/10/2025, 17:44:59:
+runtime
+  { id: 1750064999602, date: '2025-06-19', ownerId: 16, clientId: 251 },
+17/10/2025, 17:44:59:
+runtime
+  { id: 1750065026422, date: '2025-06-19', ownerId: 3, clientId: 1 }
+17/10/2025, 17:44:59:
+runtime
+]
+17/10/2025, 17:44:59:
+runtime
+👩‍⚕️ [desktop] Staff/Customer - Filtro per clienti propri
+17/10/2025, 17:44:59:
+runtime
+🔍 [desktop] IDs clienti dell'utente: 14001, 14002, 14004, 14003, 14005, 14006
+17/10/2025, 17:44:59:
+runtime
+📊💻 [desktop] Appuntamenti range 2025-10-01-2025-10-31: 10
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759900000003: Servizio bio bicom, Prezzo: 70 centesimi (0.7€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759900000004: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+⚠️ Appuntamento 1759743305548: Servizio non trovato per serviceId 7
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759758594237: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759758813716: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759759781580: Servizio bio bicom, Prezzo: 70 centesimi (0.7€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759759869514: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759760276092: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759760320108: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+💰 Appuntamento 1759760350482: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:44:59:
+runtime
+💰 [desktop] Report: calcolato ricavi per 10 appuntamenti
+17/10/2025, 17:44:59:
+runtime
+3:44:59 PM [express] GET /api/appointments/range/2025-10-01/2025-10-31 304 in 290ms :: [{"id":175990…
+17/10/2025, 17:44:59:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+17/10/2025, 17:44:59:
+runtime
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+17/10/2025, 17:44:59:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+17/10/2025, 17:44:59:
+runtime
+  id: 14,
+17/10/2025, 17:44:59:
+runtime
+  username: 'busnari.silvia@libero.it',
+17/10/2025, 17:44:59:
+runtime
+  firstName: null,
+17/10/2025, 17:44:59:
+runtime
+  lastName: null,
+17/10/2025, 17:44:59:
+runtime
+  licenseType: 'staff_free_10years'
+17/10/2025, 17:44:59:
+runtime
+}
+17/10/2025, 17:44:59:
+runtime
+3:44:59 PM [express] GET /api/user-with-license 200 in 360ms :: {"id":14,"username":"busnari.silvia@…
+17/10/2025, 17:45:00:
+runtime
+✅ NUOVO Sistema: 4 servizi per utente 14 - SEPARAZIONE COMPLETA
+17/10/2025, 17:45:00:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi da PostgreSQL per utente 14
+17/10/2025, 17:45:00:
+runtime
+3:45:00 PM [express] GET /api/services 304 in 589ms :: [{"id":64,"userId":14,"name":"bio bicom","dur…
+17/10/2025, 17:45:01:
+runtime
+3:45:01 PM [express] GET /api/google-auth/status 304 in 233ms
+17/10/2025, 17:45:02:
+runtime
+📊 [/api/appointments/range] [desktop] Utente 14 cerca appuntamenti per range 2025-10-01-2025-10-31
+17/10/2025, 17:45:02:
+runtime
+🔍 [desktop] DEBUG Storage appointments raw: 48 [
+17/10/2025, 17:45:02:
+runtime
+  [
+17/10/2025, 17:45:02:
+runtime
+    1750059544768,
+17/10/2025, 17:45:02:
+runtime
+    {
+17/10/2025, 17:45:02:
+runtime
+      id: 1750059544768,
+17/10/2025, 17:45:02:
+runtime
+      clientId: 252,
+17/10/2025, 17:45:02:
+runtime
+      serviceId: 7,
+17/10/2025, 17:45:02:
+runtime
+      date: '2025-06-18',
+17/10/2025, 17:45:02:
+runtime
+      startTime: '18:00',
+17/10/2025, 17:45:02:
+runtime
+      endTime: '19:00:00',
+17/10/2025, 17:45:02:
+runtime
+      notes: '',
+17/10/2025, 17:45:02:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:45:02:
+runtime
+      createdAt: '2025-06-16T07:39:04.768Z',
+17/10/2025, 17:45:02:
+runtime
+      reminderType: 'email',
+17/10/2025, 17:45:02:
+runtime
+      ownerId: 16
+17/10/2025, 17:45:02:
+runtime
+    }
+17/10/2025, 17:45:02:
+runtime
+  ],
+17/10/2025, 17:45:02:
+runtime
+  [
+17/10/2025, 17:45:02:
+runtime
+    1750064999602,
+17/10/2025, 17:45:02:
+runtime
+    {
+17/10/2025, 17:45:02:
+runtime
+      id: 1750064999602,
+17/10/2025, 17:45:02:
+runtime
+      clientId: 251,
+17/10/2025, 17:45:02:
+runtime
+      serviceId: 7,
+17/10/2025, 17:45:02:
+runtime
+      date: '2025-06-19',
+17/10/2025, 17:45:02:
+runtime
+      startTime: '11:00',
+17/10/2025, 17:45:02:
+runtime
+      endTime: '12:00:00',
+17/10/2025, 17:45:02:
+runtime
+      notes: '',
+17/10/2025, 17:45:02:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:45:02:
+runtime
+      createdAt: '2025-06-16T09:09:59.602Z',
+17/10/2025, 17:45:02:
+runtime
+      ownerId: 16
+17/10/2025, 17:45:02:
+runtime
+    }
+17/10/2025, 17:45:02:
+runtime
+  ],
+17/10/2025, 17:45:02:
+runtime
+  [
+17/10/2025, 17:45:02:
+runtime
+    1750065026422,
+17/10/2025, 17:45:02:
+runtime
+    {
+17/10/2025, 17:45:02:
+runtime
+      id: 1750065026422,
+17/10/2025, 17:45:02:
+runtime
+      clientId: 1,
+17/10/2025, 17:45:02:
+runtime
+      serviceId: 4,
+17/10/2025, 17:45:02:
+runtime
+      date: '2025-06-19',
+17/10/2025, 17:45:02:
+runtime
+      startTime: '12:45:00',
+17/10/2025, 17:45:02:
+runtime
+      endTime: '13:45:00',
+17/10/2025, 17:45:02:
+runtime
+      notes: '',
+17/10/2025, 17:45:02:
+runtime
+      status: 'scheduled',
+17/10/2025, 17:45:02:
+runtime
+      createdAt: '2025-06-16T09:10:26.422Z',
+17/10/2025, 17:45:02:
+runtime
+      ownerId: 3
+17/10/2025, 17:45:02:
+runtime
+    }
+17/10/2025, 17:45:02:
+runtime
+  ]
+17/10/2025, 17:45:02:
+runtime
+]
+17/10/2025, 17:45:02:
+runtime
+📊 [desktop] Appuntamenti totali processati: 48
+17/10/2025, 17:45:02:
+runtime
+🔍 [desktop] DEBUG primi 3 appuntamenti: [
+17/10/2025, 17:45:02:
+runtime
+  { id: 1750059544768, date: '2025-06-18', ownerId: 16, clientId: 252 },
+17/10/2025, 17:45:02:
+runtime
+  { id: 1750064999602, date: '2025-06-19', ownerId: 16, clientId: 251 },
+17/10/2025, 17:45:02:
+runtime
+  { id: 1750065026422, date: '2025-06-19', ownerId: 3, clientId: 1 }
+17/10/2025, 17:45:02:
+runtime
+]
+17/10/2025, 17:45:02:
+runtime
+👩‍⚕️ [desktop] Staff/Customer - Filtro per clienti propri
+17/10/2025, 17:45:02:
+runtime
+🔍 [desktop] IDs clienti dell'utente: 14001, 14002, 14004, 14003, 14005, 14006
+17/10/2025, 17:45:02:
+runtime
+📊💻 [desktop] Appuntamenti range 2025-10-01-2025-10-31: 10
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759900000003: Servizio bio bicom, Prezzo: 70 centesimi (0.7€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759900000004: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+⚠️ Appuntamento 1759743305548: Servizio non trovato per serviceId 7
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759758594237: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759758813716: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759759781580: Servizio bio bicom, Prezzo: 70 centesimi (0.7€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759759869514: Servizio zapter, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759760276092: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759760320108: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+💰 Appuntamento 1759760350482: Servizio detox, Prezzo: 40 centesimi (0.4€)
+17/10/2025, 17:45:02:
+runtime
+💰 [desktop] Report: calcolato ricavi per 10 appuntamenti
+17/10/2025, 17:45:02:
+runtime
+3:45:02 PM [express] GET /api/appointments/range/2025-10-01/2025-10-31 304 in 258ms :: [{"id":175990…
+17/10/2025, 17:45:02:
+runtime
+✅ NUOVO Sistema: 4 servizi per utente 14 - SEPARAZIONE COMPLETA
+17/10/2025, 17:45:02:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi da PostgreSQL per utente 14
+17/10/2025, 17:45:02:
+runtime
+3:45:02 PM [express] GET /api/services 304 in 499ms :: [{"id":64,"userId":14,"name":"bio bicom","dur…
