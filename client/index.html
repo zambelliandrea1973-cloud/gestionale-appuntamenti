@@ -18,9 +18,39 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="App Cliente">
     
-    <!-- Web App Manifest - supporto per entrambi i formati -->
-    <link rel="manifest" href="/manifest.json">
-    <link rel="manifest" href="/manifest.webmanifest">
+    <!-- Web App Manifest - DINAMICO per icone personalizzate PWA -->
+    <script>
+      // Estrai clientToken dall'URL SUBITO (prima che il browser richieda il manifest)
+      const urlParams = new URLSearchParams(window.location.search);
+      const pathMatch = window.location.pathname.match(/\/client\/(PROF_\d+_[A-F0-9]+_CLIENT_\d+_[A-F0-9]+)/);
+      const clientToken = pathMatch ? pathMatch[1] : null;
+      
+      // Estrai ownerId dal localStorage (se disponibile) o dal token
+      let ownerId = localStorage.getItem('ownerId');
+      if (!ownerId && clientToken) {
+        const ownerMatch = clientToken.match(/^PROF_(\d{2,3})_/);
+        if (ownerMatch) {
+          ownerId = ownerMatch[1];
+        }
+      }
+      
+      // Costruisci URL manifest con parametri corretti
+      let manifestUrl = '/manifest.json?v=' + Date.now();
+      if (ownerId) {
+        manifestUrl += '&ownerId=' + ownerId;
+      }
+      if (clientToken) {
+        manifestUrl += '&clientToken=' + clientToken;
+      }
+      
+      // Crea link manifest SUBITO
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = manifestUrl;
+      document.head.appendChild(manifestLink);
+      
+      console.log('📱 [MANIFEST IMMEDIATO] Creato con URL:', manifestUrl);
+    </script>
     
     <!-- FAVICON per browser che non supportano PWA -->
     <link rel="icon" type="image/png" href="/icons/icon-96x96.png">
