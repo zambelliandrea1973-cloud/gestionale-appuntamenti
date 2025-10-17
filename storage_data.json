@@ -22444,12 +22444,12 @@
         "allergies": "",
         "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
         "professionistCode": "PROF_014_9C1F",
-        "accessCount": 64,
-        "lastAccess": "2025-10-17T12:25:51.165Z",
+        "accessCount": 66,
+        "lastAccess": "2025-10-17T12:26:49.227Z",
         "hasConsent": true,
         "updatedAt": "2025-06-20T08:19:15.826Z",
-        "lastPwaAccess": "2025-10-17T12:25:51.165Z",
-        "pwaAccessCount": 44
+        "lastPwaAccess": "2025-10-17T12:26:49.227Z",
+        "pwaAccessCount": 46
       }
     ],
     [
