@@ -248,7 +248,7 @@ export default function ClientFooterContactIcons() {
               </a>
             </p>
             <p>Sviluppato da Zambelli Andrea</p>
-            <p>Versione 2.1.0 - Gestionale Sanitario PWA</p>
+            <p>Versione 2.1.0 - Gestionale Appuntamenti PWA</p>
           </div>
         </CardContent>
       </Card>

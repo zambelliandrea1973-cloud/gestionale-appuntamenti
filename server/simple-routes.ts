@@ -305,55 +305,48 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA
-  app.get("/api/mobile-sync", (req, res) => {
+  // ENDPOINT SINCRONIZZAZIONE MOBILE FORZATA - USA POSTGRESQL
+  app.get("/api/mobile-sync", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     
-    console.log(`📱 [MOBILE-SYNC] Sincronizzazione forzata per utente ID:${user.id}, tipo:${user.type}`);
+    console.log(`📱 [MOBILE-SYNC PG] Sincronizzazione forzata per utente ID:${user.id}, tipo:${user.type}`);
     
-    // FORZA RELOAD COMPLETO DEL STORAGE
-    const freshData = loadStorageData();
-    
-    // PREPARA DATI FILTRATI PER UTENTE SPECIFICO (stesso sistema di /api/clients)
-    const allClientsRaw = freshData.clients || [];
-    
-    // Gestisce sia formato [id, client] che client diretto + filtra per utente
-    const userClients = allClientsRaw
-      .map((item: any) => Array.isArray(item) ? item[1] : item)
-      .filter((client: Client) => {
-        if (user.type === 'admin') return true; // Admin vede tutti
-        return client.ownerId === user.id || !client.ownerId; // Altri vedono solo i propri
+    try {
+      // 🔄 USA POSTGRESQL: Carica dati dal database condiviso
+      const userClients = await storage.getVisibleClientsForUser(user.id, user.type);
+      const userSettings = await storage.getUserSettings(user.id);
+      const userServices = await storage.getServicesForUser(user.id);
+      
+      const syncData = {
+        clients: userClients,
+        clientsCount: userClients.length,
+        companySettings: userSettings || { businessName: "Studio Professionale", showBusinessName: true },
+        services: userServices,
+        userType: user.type,
+        timestamp: Date.now(),
+        syncedAt: new Date().toISOString()
+      };
+      
+      // INTESTAZIONI ANTI-CACHE MASSIME
+      res.set({
+        'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'ETag': `mobile-sync-${Date.now()}-${Math.random()}`,
+        'Last-Modified': new Date().toUTCString(),
+        'Vary': 'User-Agent, x-device-type, x-sync-request',
+        'X-Accel-Expires': '0',
+        'Surrogate-Control': 'no-store',
+        'X-Sync-Type': 'mobile-force'
       });
-    
-    const userSettings = freshData.userBusinessSettings?.[user.id] || { businessName: "Studio Medico", showBusinessName: true };
-    const userServices = freshData.userServices?.[user.id] || [];
-    
-    const syncData = {
-      clients: userClients,
-      clientsCount: userClients.length,
-      companySettings: userSettings,
-      services: userServices,
-      userType: user.type,
-      timestamp: Date.now(),
-      syncedAt: new Date().toISOString()
-    };
-    
-    // INTESTAZIONI ANTI-CACHE MASSIME
-    res.set({
-      'Cache-Control': 'no-cache, no-store, must-revalidate, private, max-age=0, s-maxage=0',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'ETag': `mobile-sync-${Date.now()}-${Math.random()}`,
-      'Last-Modified': new Date().toUTCString(),
-      'Vary': 'User-Agent, x-device-type, x-sync-request',
-      'X-Accel-Expires': '0',
-      'Surrogate-Control': 'no-store',
-      'X-Sync-Type': 'mobile-force'
-    });
-    
-    console.log(`📱 [MOBILE-SYNC] Dati sincronizzati per utente ${user.id} (${user.type}): ${userClients.length} clienti filtrati, settings: ${JSON.stringify(userSettings)}`);
-    res.json(syncData);
+      
+      console.log(`📱 [MOBILE-SYNC PG] Dati PostgreSQL sincronizzati per utente ${user.id}: ${userClients.length} clienti, ${userServices.length} servizi`);
+      res.json(syncData);
+    } catch (error) {
+      console.error(`❌ [MOBILE-SYNC PG] Errore sincronizzazione:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
+    }
   });
 
   // Sistema lineare semplice - Clienti
@@ -912,7 +905,7 @@ export function registerSimpleRoutes(app: Express): Server {
   });
 
   app.get("/api/license/application-title", (req, res) => {
-    res.json({ title: "Gestionale Sanitario" });
+    res.json({ title: "Gestionale Appuntamenti" });
   });
 
   // 📁 Sistema permanente icone PER UTENTE con persistenza (usa utils centralizzate)
@@ -1102,7 +1095,7 @@ export function registerSimpleRoutes(app: Express): Server {
   // Endpoint per ottenere sempre l'icona predefinita (per anteprima)
   app.get("/api/default-app-icon", (req, res) => {
     res.json({ 
-      appName: "Gestionale Sanitario", 
+      appName: "Gestionale Appuntamenti", 
       icon: defaultIconBase64,
       name: "Fleur de Vie multicolore"
     });
@@ -1139,7 +1132,7 @@ export function registerSimpleRoutes(app: Express): Server {
     // Se non riusciamo a determinare l'utente, usa l'icona predefinita
     if (!targetUserId) {
       return res.json({ 
-        appName: "Gestionale Sanitario", 
+        appName: "Gestionale Appuntamenti", 
         icon: defaultIconBase64 
       });
     }
@@ -1153,7 +1146,7 @@ export function registerSimpleRoutes(app: Express): Server {
     console.log(`✅ [${deviceType}] Icone PWA per utente ${targetUserId}, icon length: ${userIcon?.length || 0}`);
     
     res.json({ 
-      appName: "Gestionale Sanitario", 
+      appName: "Gestionale Appuntamenti", 
       icon: userIcon 
     });
   });
@@ -1179,7 +1172,7 @@ export function registerSimpleRoutes(app: Express): Server {
       console.log(`✅ Icone PWA aggiornate per professionista ${ownerId} con logo aziendale (richiesta client)`);
       
       res.json({ 
-        appName: "Gestionale Sanitario", 
+        appName: "Gestionale Appuntamenti", 
         icon: userIcon 
       });
     } catch (error) {
@@ -1211,7 +1204,7 @@ export function registerSimpleRoutes(app: Express): Server {
       res.json({ 
         success: true, 
         message: "Icona aggiornata con successo", 
-        appName: "Gestionale Sanitario", 
+        appName: "Gestionale Appuntamenti", 
         icon: iconData 
       });
     } catch (error) {
@@ -1238,7 +1231,7 @@ export function registerSimpleRoutes(app: Express): Server {
     res.json({ 
       success: true, 
       message: "Icona ripristinata al default", 
-      appName: "Gestionale Sanitario", 
+      appName: "Gestionale Appuntamenti", 
       icon: defaultIconBase64 
     });
   });
@@ -1588,8 +1581,8 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Endpoint per range di appuntamenti (necessario per i report)
-  app.get("/api/appointments/range/:startDate/:endDate", (req, res) => {
+  // Endpoint per range di appuntamenti (necessario per i report) - USA POSTGRESQL
+  app.get("/api/appointments/range/:startDate/:endDate", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     
     const { startDate, endDate } = req.params;
@@ -1598,7 +1591,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const isMobile = /Mobile|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     const deviceType = req.headers['x-device-type'] || (isMobile ? 'mobile' : 'desktop');
     
-    console.log(`📊 [/api/appointments/range] [${deviceType}] Utente ${user.id} cerca appuntamenti per range ${startDate}-${endDate}`);
+    console.log(`📊 [/api/appointments/range PG] [${deviceType}] Utente ${user.id} cerca appuntamenti per range ${startDate}-${endDate}`);
     
     // Validazione formato data
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -1606,78 +1599,44 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(400).json({ message: "Formato data non valido. Usa YYYY-MM-DD" });
     }
     
-    // Carica dati persistenti
-    const storageData = loadStorageData();
-    console.log(`🔍 [${deviceType}] DEBUG Storage appointments raw:`, storageData.appointments?.length || 0, storageData.appointments?.slice(0, 3));
-    
-    // Gestisce sia formato array che oggetto diretto
-    const allAppointments = (storageData.appointments || []).map(item => {
-      if (Array.isArray(item)) {
-        return item[1]; // Formato [id, appointment]
-      }
-      return item; // Formato diretto
-    });
-    const allClients = storageData.clients || [];
-    const userServices = storageData.userServices?.[user.id] || [];
-    
-    console.log(`📊 [${deviceType}] Appuntamenti totali processati: ${allAppointments.length}`);
-    console.log(`🔍 [${deviceType}] DEBUG primi 3 appuntamenti:`, allAppointments.slice(0, 3).map(a => ({id: a?.id, date: a?.date, ownerId: a?.ownerId, clientId: a?.clientId})));
-    
-    // Filtra appuntamenti per range di date usando STESSA LOGICA DEL CALENDARIO
-    let userRangeAppointments;
-    let availableClients;
-    
-    if (user.type === 'admin') {
-      console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti per report`);
-      availableClients = allClients.map(([id, clientData]) => ({ id, ...clientData }));
-      userRangeAppointments = allAppointments.filter(apt => 
-        apt.date >= startDate && apt.date <= endDate
-      );
-    } else {
-      // STAFF/CUSTOMER: filtra per clienti propri (stessa logica calendario che funziona!)
-      console.log(`👩‍⚕️ [${deviceType}] Staff/Customer - Filtro per clienti propri`);
+    try {
+      // 🔄 USA POSTGRESQL: Carica appuntamenti dal database condiviso
+      const allAppointments = await storage.getAppointmentsByDateRange(startDate, endDate);
       
-      if (user.type === 'staff') {
-        availableClients = allClients
-          .filter(([id, clientData]) => clientData.ownerId === user.id)
-          .map(([id, clientData]) => ({ id, ...clientData }));
+      // Filtra per utente (admin vede tutti, staff solo i propri)
+      let userRangeAppointments;
+      if (user.type === 'admin') {
+        console.log(`👑 [${deviceType}] Admin - Accesso completo a tutti gli appuntamenti per report`);
+        userRangeAppointments = allAppointments;
       } else {
-        availableClients = allClients
-          .filter(([id, clientData]) => id === user.clientId)
-          .map(([id, clientData]) => ({ id, ...clientData }));
+        console.log(`👩‍⚕️ [${deviceType}] Staff - Filtro per appuntamenti propri`);
+        userRangeAppointments = allAppointments.filter(apt => apt.userId === user.id);
       }
       
-      const userClientIds = availableClients.map(c => c.id);
-      console.log(`🔍 [${deviceType}] IDs clienti dell'utente: ${userClientIds.join(', ')}`);
+      console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length} da PostgreSQL`);
       
-      userRangeAppointments = allAppointments.filter(apt => 
-        apt.date >= startDate && apt.date <= endDate && userClientIds.includes(apt.clientId)
-      );
+      // Formatta appuntamenti con relazioni per il report
+      const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => {
+        // Log dettagliato per debug fatturato
+        if (appointment.service) {
+          console.log(`💰 Appuntamento ${appointment.id}: Servizio ${appointment.service.name}, Prezzo: ${appointment.service.price} centesimi (${(appointment.service.price || 0) / 100}€)`);
+        } else {
+          console.log(`⚠️ Appuntamento ${appointment.id}: Servizio non trovato per serviceId ${appointment.serviceId}`);
+        }
+        
+        return { 
+          ...appointment, 
+          client: appointment.client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
+          service: appointment.service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666", price: 0 }
+        };
+      });
+      
+      console.log(`💰 [${deviceType}] Report PostgreSQL: calcolato ricavi per ${rangeAppointmentsWithDetails.length} appuntamenti`);
+      res.json(rangeAppointmentsWithDetails);
+    } catch (error) {
+      console.error(`❌ [/api/appointments/range PG] Errore caricamento da PostgreSQL:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    console.log(`📊💻 [${deviceType}] Appuntamenti range ${startDate}-${endDate}: ${userRangeAppointments.length}`);
-    
-    // Popola le relazioni con client e service con i prezzi per i report
-    const rangeAppointmentsWithDetails = userRangeAppointments.map(appointment => {
-      const client = availableClients.find(c => c.id === appointment.clientId);
-      const service = userServices.find(s => s.id === appointment.serviceId);
-      
-      // Log dettagliato per debug fatturato
-      if (service) {
-        console.log(`💰 Appuntamento ${appointment.id}: Servizio ${service.name}, Prezzo: ${service.price} centesimi (${(service.price || 0) / 100}€)`);
-      } else {
-        console.log(`⚠️ Appuntamento ${appointment.id}: Servizio non trovato per serviceId ${appointment.serviceId}`);
-      }
-      
-      return { 
-        ...appointment, 
-        client: client || { firstName: "Cliente", lastName: "Sconosciuto", id: appointment.clientId },
-        service: service || { name: "Servizio Sconosciuto", id: appointment.serviceId, color: "#666666", price: 0 }
-      };
-    });
-    
-    console.log(`💰 [${deviceType}] Report: calcolato ricavi per ${rangeAppointmentsWithDetails.length} appuntamenti`);
-    res.json(rangeAppointmentsWithDetails);
   });
 
   app.post("/api/appointments", async (req, res) => {
@@ -1748,108 +1707,57 @@ export function registerSimpleRoutes(app: Express): Server {
     }
   });
 
-  // Endpoint DELETE per eliminare clienti - Il proprietario può sempre eliminare i propri clienti
-  app.delete("/api/clients/:id", (req, res) => {
+  // Endpoint DELETE per eliminare clienti - USA POSTGRESQL
+  app.delete("/api/clients/:id", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     const user = req.user as any;
     const clientId = parseInt(req.params.id);
     
-    console.log(`🗑️ [DELETE] Richiesta eliminazione cliente ID ${clientId} da utente ${user.id} (${user.email})`);
+    console.log(`🗑️ [DELETE PG] Richiesta eliminazione cliente ID ${clientId} da utente ${user.id} (${user.email})`);
     
     if (isNaN(clientId)) {
       return res.status(400).json({ message: "ID cliente non valido" });
     }
     
-    // Carica i dati dal storage
-    const storageData = loadStorageData();
-    if (!storageData.clients) {
-      return res.status(404).json({ message: "Nessun cliente trovato" });
-    }
-    
-    // Trova il cliente da eliminare
-    const clientIndex = storageData.clients.findIndex(([id]) => id === clientId);
-    
-    if (clientIndex === -1) {
-      console.log(`❌ [DELETE] Cliente con ID ${clientId} non trovato nel sistema`);
-      return res.status(404).json({ message: "Cliente non trovato" });
-    }
-    
-    const [id, clientData] = storageData.clients[clientIndex];
-    
-    // Verifica permessi: solo il proprietario o admin possono eliminare
-    if (user.type !== 'admin' && clientData.ownerId !== user.id) {
-      console.log(`❌ [DELETE] Accesso negato - utente ${user.id} non è proprietario del cliente ${clientId} (proprietario: ${clientData.ownerId})`);
-      return res.status(403).json({ message: "Non sei autorizzato a eliminare questo cliente" });
-    }
-    
-    // Il proprietario può sempre eliminare i propri clienti
-    console.log(`🗑️ [DELETE] Eliminazione autorizzata - utente ${user.id} è ${user.type === 'admin' ? 'admin' : 'proprietario'} del cliente ${clientId}`);
-    
-    // Elimina il cliente dall'array
-    storageData.clients.splice(clientIndex, 1);
-    
-    // Elimina anche eventuali appuntamenti associati al cliente per tutti gli utenti
-    let totalDeletedAppointments = 0;
-    if (storageData.userAppointments) {
-      Object.keys(storageData.userAppointments).forEach(userId => {
-        const initialCount = storageData.userAppointments[userId].length;
-        storageData.userAppointments[userId] = storageData.userAppointments[userId].filter(
-          app => app.client !== clientId
-        );
-        const deletedCount = initialCount - storageData.userAppointments[userId].length;
-        totalDeletedAppointments += deletedCount;
+    try {
+      // 🔄 USA POSTGRESQL: Trova il cliente nel database
+      const client = await storage.getClient(clientId);
+      
+      if (!client) {
+        console.log(`❌ [DELETE PG] Cliente con ID ${clientId} non trovato`);
+        return res.status(404).json({ message: "Cliente non trovato" });
+      }
+      
+      // Verifica permessi: solo il proprietario o admin possono eliminare
+      if (user.type !== 'admin' && client.ownerId !== user.id) {
+        console.log(`❌ [DELETE PG] Accesso negato - utente ${user.id} non è proprietario del cliente ${clientId} (proprietario: ${client.ownerId})`);
+        return res.status(403).json({ message: "Non sei autorizzato a eliminare questo cliente" });
+      }
+      
+      console.log(`🗑️ [DELETE PG] Eliminazione autorizzata - utente ${user.id} è ${user.type === 'admin' ? 'admin' : 'proprietario'} del cliente ${clientId}`);
+      
+      // 🔄 USA POSTGRESQL: Elimina cliente (PostgreSQL eliminerà automaticamente gli appuntamenti correlati se configurato con ON DELETE CASCADE)
+      const deleted = await storage.deleteClient(clientId);
+      
+      if (!deleted) {
+        console.log(`❌ [DELETE PG] Errore eliminazione cliente ${clientId}`);
+        return res.status(500).json({ message: "Errore durante l'eliminazione" });
+      }
+      
+      console.log(`✅ [DELETE PG] Cliente ID ${clientId} "${client.firstName} ${client.lastName}" eliminato da PostgreSQL`);
+      
+      res.status(200).json({ 
+        message: "Cliente eliminato con successo",
+        deletedClient: {
+          id: clientId,
+          firstName: client.firstName,
+          lastName: client.lastName
+        }
       });
-      
-      if (totalDeletedAppointments > 0) {
-        console.log(`🗑️ [DELETE] Eliminati ${totalDeletedAppointments} appuntamenti associati al cliente ${clientId}`);
-      }
+    } catch (error) {
+      console.error(`❌ [DELETE PG] Errore eliminazione cliente:`, error);
+      res.status(500).json({ message: "Errore interno del server" });
     }
-    
-    // Salva le modifiche
-    saveStorageData(storageData);
-    
-    // Salva notifica per gli admin
-    const isOwnerNotAdmin = user.type !== 'admin';
-    if (isOwnerNotAdmin) {
-      console.log(`📧 [ADMIN-NOTIFICATION] L'utente ${user.id} (${user.email}) ha eliminato il cliente ${clientId} "${clientData.firstName} ${clientData.lastName}" dal database`);
-      
-      // Salva la notifica nel storage per gli admin
-      if (!storageData.adminNotifications) {
-        storageData.adminNotifications = [];
-      }
-      
-      storageData.adminNotifications.push({
-        id: Date.now(),
-        type: 'client_deleted',
-        message: `L'utente ${user.email} ha eliminato il cliente "${clientData.firstName} ${clientData.lastName}" dal database`,
-        userId: user.id,
-        userEmail: user.email,
-        clientId: clientId,
-        clientName: `${clientData.firstName} ${clientData.lastName}`,
-        timestamp: new Date().toISOString(),
-        read: false
-      });
-      
-      // Mantieni solo le ultime 100 notifiche
-      if (storageData.adminNotifications.length > 100) {
-        storageData.adminNotifications = storageData.adminNotifications.slice(-100);
-      }
-      
-      // Salva nuovamente per includere le notifiche
-      saveStorageData(storageData);
-    }
-    
-    console.log(`✅ [DELETE] Cliente ID ${clientId} "${clientData.firstName} ${clientData.lastName}" eliminato definitivamente da utente ${user.id}`);
-    
-    res.status(200).json({ 
-      message: "Cliente eliminato con successo",
-      deletedClient: {
-        id: clientId,
-        firstName: clientData.firstName,
-        lastName: clientData.lastName
-      },
-      deletedAppointments: totalDeletedAppointments
-    });
   });
 
   // Endpoint per recuperare notifiche admin

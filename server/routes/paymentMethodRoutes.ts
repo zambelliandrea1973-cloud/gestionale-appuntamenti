@@ -53,7 +53,7 @@ router.get('/payment-admin/payment-methods', isPaymentAdmin, async (req, res) =>
               ? (process.env.STRIPE_SECRET_KEY_LIVE || '') 
               : (process.env.STRIPE_SECRET_KEY || ''),
             webhookSecret: '',
-            statementDescriptor: 'Gestionale Sanitario'
+            statementDescriptor: 'Gestionale Appuntamenti'
           }
         },
         {
