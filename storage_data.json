@@ -35,10 +35,10 @@
         "ownerId": 3,
         "uniqueCode": "PROF_003_4678_C00002",
         "professionistCode": "PROF_003_4678",
-        "accessCount": 40,
-        "lastAccess": "2025-10-14T17:35:42.122Z",
-        "lastPwaAccess": "2025-10-14T17:35:42.122Z",
-        "pwaAccessCount": 40
+        "accessCount": 48,
+        "lastAccess": "2025-10-17T10:52:13.398Z",
+        "lastPwaAccess": "2025-10-17T10:52:13.398Z",
+        "pwaAccessCount": 48
       }
     ],
     [
@@ -23865,6 +23865,7 @@
     "8": "PROF_008",
     "9": "PROF_009_9D95",
     "10": "PROF_010",
+    "11": "PROF_011",
     "12": "PROF_012",
     "14": "PROF_014_9C1F",
     "16": "PROF_016_B17E"
