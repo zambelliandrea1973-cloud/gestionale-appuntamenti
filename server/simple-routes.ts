@@ -1194,12 +1194,13 @@ export function registerSimpleRoutes(app: Express): Server {
       const userId = req.user.id;
       
       if (iconData !== undefined) {
+        // 🚀 SOLUZIONE SLIPLANE: Salva icona nel database PostgreSQL (persiste su container Docker)
+        await app.locals.storage.saveUserIcon(userId, iconData);
+        console.log(`✅ Icona salvata nel database PostgreSQL per utente ${userId} (${iconData.length} bytes)`);
+        
+        // Backward compatibility: salva anche in JSON per sistemi legacy
         storageData.userIcons[userId] = iconData;
         saveStorageData(storageData);
-        console.log(`🖼️ Icona personalizzata salvata persistentemente per utente ${userId} (${iconData.length} bytes)`);
-        
-        // Sincronizza automaticamente le icone PWA
-        await updatePWAIconsFromCompanyLogo(userId, iconData);
       }
       
       res.json({ 
@@ -1220,12 +1221,14 @@ export function registerSimpleRoutes(app: Express): Server {
     }
 
     const userId = req.user.id;
+    
+    // 🚀 SOLUZIONE SLIPLANE: Salva icona default nel database PostgreSQL
+    await app.locals.storage.saveUserIcon(userId, defaultIconBase64);
+    console.log(`✅ Reset icona a Fleur de Vie nel database PostgreSQL per utente ${userId}`);
+    
+    // Backward compatibility: salva anche in JSON
     storageData.userIcons[userId] = defaultIconBase64;
     saveStorageData(storageData);
-    console.log(`🔄 Reset icona a Fleur de Vie persistente per utente ${userId}`);
-    
-    // Aggiorna anche le icone PWA
-    await updatePWAIconsFromCompanyLogo(userId, defaultIconBase64);
     
     res.json({ 
       success: true, 

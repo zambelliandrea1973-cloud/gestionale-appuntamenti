@@ -34,6 +34,7 @@ import {
   stockMovements, type StockMovement, type InsertStockMovement,
   productSales, type ProductSale, type InsertProductSale,
   referralCommissions,
+  userIcons,
   type AppointmentWithDetails,
   type ClientWithAppointments,
   type InvoiceWithDetails,
@@ -364,6 +365,11 @@ export interface IStorage {
   getProductSales(userId: number, limit?: number): Promise<ProductSale[]>;
   createProductSale(sale: InsertProductSale & { userId: number }): Promise<ProductSale>;
   getProductSalesHistory(productId: number, userId: number): Promise<ProductSale[]>;
+  
+  // User Icon operations - Per PWA personalizzate (Sliplane-compatible)
+  getUserIcon(userId: number): Promise<string | undefined>;
+  saveUserIcon(userId: number, iconBase64: string): Promise<void>;
+  deleteUserIcon(userId: number): Promise<boolean>;
 }
 
 // In-memory implementation of the storage interface with file persistence
@@ -4700,6 +4706,72 @@ export class DatabaseStorage implements IStorage {
 
   async getProductSalesHistory(productId: number, userId: number): Promise<ProductSale[]> {
     return inventoryJsonStorage.getProductSalesHistory(productId, userId);
+  }
+
+  // User Icon operations - Persist icons in PostgreSQL for Sliplane compatibility
+  async getUserIcon(userId: number): Promise<string | undefined> {
+    try {
+      const [result] = await db
+        .select()
+        .from(userIcons)
+        .where(eq(userIcons.userId, userId));
+      
+      return result?.iconBase64;
+    } catch (error) {
+      console.error(`Error getting icon for user ${userId}:`, error);
+      return undefined;
+    }
+  }
+
+  async saveUserIcon(userId: number, iconBase64: string): Promise<void> {
+    try {
+      // Verifica se esiste già un'icona per questo utente
+      const existing = await this.getUserIcon(userId);
+      
+      if (existing) {
+        // Aggiorna icona esistente
+        await db
+          .update(userIcons)
+          .set({ 
+            iconBase64, 
+            updatedAt: new Date() 
+          })
+          .where(eq(userIcons.userId, userId));
+        
+        console.log(`✅ Icona aggiornata per user ${userId}`);
+      } else {
+        // Inserisci nuova icona
+        await db
+          .insert(userIcons)
+          .values({ 
+            userId, 
+            iconBase64 
+          });
+        
+        console.log(`✅ Icona creata per user ${userId}`);
+      }
+    } catch (error) {
+      console.error(`Error saving icon for user ${userId}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteUserIcon(userId: number): Promise<boolean> {
+    try {
+      const result = await db
+        .delete(userIcons)
+        .where(eq(userIcons.userId, userId));
+      
+      const success = result.rowCount > 0;
+      if (success) {
+        console.log(`✅ Icona eliminata per user ${userId}`);
+      }
+      
+      return success;
+    } catch (error) {
+      console.error(`Error deleting icon for user ${userId}:`, error);
+      return false;
+    }
   }
 }
 

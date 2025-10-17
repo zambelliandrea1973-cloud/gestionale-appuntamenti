@@ -111,6 +111,21 @@ export const insertTreatmentRoomSchema = createInsertSchema(treatmentRooms).omit
   createdAt: true,
 });
 
+// User icons table schema - Per PWA personalizzate su Sliplane
+export const userIcons = pgTable("user_icons", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(), // Un'icona per utente
+  iconBase64: text("icon_base64").notNull(), // Immagine in formato base64
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertUserIconSchema = createInsertSchema(userIcons).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Consent documents table schema - RISTRUTTURATO PER MULTI-TENANT
 export const consents = pgTable("consents", {
   id: serial("id").primaryKey(),
