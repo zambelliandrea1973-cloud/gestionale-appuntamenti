@@ -1,0 +1,240 @@
+17/10/2025, 15:51:05:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+17/10/2025, 15:51:22:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 15:51:22:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 434
+17/10/2025, 15:51:22:
+runtime
+1:51:22 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 57ms :: {"succes…
+17/10/2025, 15:51:22:
+runtime
+1:51:22 PM [express] GET /api/timezone-settings 200 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 15:51:22:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+17/10/2025, 15:51:22:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:22:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 15:51:22:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:51:22:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:22:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 14
+17/10/2025, 15:51:23:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760709083003-14
+17/10/2025, 15:51:23:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:23:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:51:23:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:23:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Silvia Busnari (owner 14)
+17/10/2025, 15:51:23:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1760709083003.263&android=1","/pwa-icon/192x192?owner=14&v=1760709083003.263&android=1","/pwa-icon/512x512?owner=14&v=1760709083003.263&android=1"]
+17/10/2025, 15:51:23:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-14
+17/10/2025, 15:51:23:
+runtime
+📱 MANIFEST NAME: Silvia Busnari - Area Cliente
+17/10/2025, 15:51:23:
+runtime
+1:51:23 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+17/10/2025, 15:51:23:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:23:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+17/10/2025, 15:51:23:
+runtime
+1:51:23 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 24ms :: {"id":14…
+17/10/2025, 15:51:23:
+runtime
+1:51:23 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 15:51:23:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner 14
+17/10/2025, 15:51:23:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+17/10/2025, 15:51:23:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 15:51:23:
+runtime
+1:51:23 PM [express] GET /api/client-appointments/14004 200 in 26ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 15:51:23:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 15:51:23:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:51:23:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 15:51:23:
+runtime
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 15:51:23:
+runtime
+  phone: '+39 3471445767',
+17/10/2025, 15:51:23:
+runtime
+  phone1: '+39 3471445767',
+17/10/2025, 15:51:23:
+runtime
+  phone2: '',
+17/10/2025, 15:51:23:
+runtime
+  website: '',
+17/10/2025, 15:51:23:
+runtime
+  instagram: 'zambelli1105',
+17/10/2025, 15:51:23:
+runtime
+  facebook: ''
+17/10/2025, 15:51:23:
+runtime
+}
+17/10/2025, 15:51:23:
+runtime
+1:51:23 PM [express] GET /api/owner-contact-info/14 304 in 233ms :: {"email":"silvia.busnari@libero.…
+17/10/2025, 15:51:23:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 14: SÌ
+17/10/2025, 15:51:23:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner 14, dimensione: 102381 bytes
+17/10/2025, 15:51:32:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+17/10/2025, 15:51:32:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+17/10/2025, 15:51:32:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:32:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:51:32:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:32:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 14
+17/10/2025, 15:51:32:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760709092280-14
+17/10/2025, 15:51:32:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:32:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_014_9C1F_CLIENT_14004_340F' }
+17/10/2025, 15:51:32:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:32:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Silvia Busnari (owner 14)
+17/10/2025, 15:51:32:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=14&v=1760709092280.5325&android=1","/pwa-icon/192x192?owner=14&v=1760709092280.5325&android=1","/pwa-icon/512x512?owner=14&v=1760709092280.5325&android=1"]
+17/10/2025, 15:51:32:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-14
+17/10/2025, 15:51:32:
+runtime
+📱 MANIFEST NAME: Silvia Busnari - Area Cliente
+17/10/2025, 15:51:32:
+runtime
+✅ [JSON STORAGE] Dati salvati correttamente
+17/10/2025, 15:51:32:
+runtime
+✅ [PWA ACCESS] Cliente Bruna  Pizzolato (PROF_014_9C1F_CLIENT_14004_340F) - Accesso registrato: 435
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] POST /api/client-access/PROF_014_9C1F_CLIENT_14004_340F 200 in 60ms :: {"succes…
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+17/10/2025, 15:51:32:
+runtime
+🏠 [CLIENT ACCESS] Accesso diretto per codice: PROF_014_9C1F_CLIENT_14004_340F
+17/10/2025, 15:51:32:
+runtime
+🏠 [CLIENT ACCESS] Cliente autenticato: Bruna  Pizzolato
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] GET /api/client-by-code/PROF_014_9C1F_CLIENT_14004_340F 200 in 14ms :: {"id":14…
+17/10/2025, 15:51:32:
+runtime
+📅 [CLIENT APPOINTMENTS] Caricamento per cliente: 14004 Owner: 14
+17/10/2025, 15:51:32:
+runtime
+📅 [CLIENT APPOINTMENTS] Trovati 8 appuntamenti per cliente 14004
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] GET /api/client-appointments/14004 200 in 16ms :: [{"id":1750226496608,"date":"…
+17/10/2025, 15:51:32:
+runtime
+Recupero impostazioni per utente 14
+17/10/2025, 15:51:32:
+runtime
+Impostazioni trovate per utente 14: SI
+17/10/2025, 15:51:32:
+runtime
+🏥 [PWA CONTACTS] Informazioni di contatto richieste per professionista 14: {
+17/10/2025, 15:51:32:
+runtime
+  email: 'silvia.busnari@libero.it',
+17/10/2025, 15:51:32:
+runtime
+  phone: '+39 3471445767',
+17/10/2025, 15:51:32:
+runtime
+  phone1: '+39 3471445767',
+17/10/2025, 15:51:32:
+runtime
+  phone2: '',
+17/10/2025, 15:51:32:
+runtime
+  website: '',
+17/10/2025, 15:51:32:
+runtime
+  instagram: 'zambelli1105',
+17/10/2025, 15:51:32:
+runtime
+  facebook: ''
+17/10/2025, 15:51:32:
+runtime
+}
+17/10/2025, 15:51:32:
+runtime
+1:51:32 PM [express] GET /api/owner-contact-info/14 304 in 244ms :: {"email":"silvia.busnari@libero.…

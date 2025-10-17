@@ -34,6 +34,11 @@ import { storage } from './storage';
 // Import centralizzato per JSON storage
 import { loadStorageData, saveStorageData } from './utils/jsonStorage';
 
+// Import PostgreSQL database e Drizzle ORM
+import { db } from './db';
+import { appointments, services } from '../shared/schema';
+import { eq, and, asc } from 'drizzle-orm';
+
 // TYPE INTERFACES - Define common data structures
 interface Client {
   id: number;
@@ -5782,48 +5787,53 @@ Studio Professionale`;
     }
   });
 
-  // Endpoint per appuntamenti di un singolo cliente - SOLO suoi dati
+  // Endpoint per appuntamenti di un singolo cliente - SOLO suoi dati (PostgreSQL)
   app.get("/api/client-appointments/:clientId", async (req, res) => {
     try {
       const { clientId } = req.params;
       const { ownerId } = req.query;
       
-      console.log('📅 [CLIENT APPOINTMENTS] Caricamento per cliente:', clientId, 'Owner:', ownerId);
+      console.log('📅 [CLIENT APPOINTMENTS PG] Caricamento per cliente:', clientId, 'Owner:', ownerId);
       
-      const storageData = loadStorageData();
-      const allAppointments = storageData.appointments || [];
-      const allServices = storageData.userServices || {};
+      // Carica da PostgreSQL
+      const clientIdNum = parseInt(clientId, 10);
+      const ownerIdNum = parseInt(ownerId as string, 10);
       
-      // Trova SOLO gli appuntamenti di questo cliente specifico
-      const clientAppointments = [];
+      // Query PostgreSQL con JOIN per ottenere il nome del servizio
+      const appointmentsWithServices = await db
+        .select({
+          id: appointments.id,
+          date: appointments.date,
+          startTime: appointments.startTime,
+          serviceName: services.name,
+          status: appointments.status,
+          notes: appointments.notes
+        })
+        .from(appointments)
+        .leftJoin(services, eq(appointments.serviceId, services.id))
+        .where(
+          and(
+            eq(appointments.clientId, clientIdNum),
+            eq(appointments.userId, ownerIdNum)
+          )
+        )
+        .orderBy(asc(appointments.date), asc(appointments.startTime));
       
-      for (const [id, appointment] of allAppointments) {
-        if (appointment.clientId && appointment.clientId.toString() === clientId.toString()) {
-          
-          // Trova il servizio corrispondente
-          let serviceName = 'Servizio';
-          const ownerServices = allServices[ownerId] || [];
-          const service = ownerServices.find(s => s.id === appointment.serviceId);
-          if (service) {
-            serviceName = service.name;
-          }
-          
-          clientAppointments.push({
-            id: appointment.id,
-            date: appointment.date,
-            time: appointment.startTime || appointment.time || '09:00',
-            service: serviceName,
-            status: appointment.status || 'scheduled',
-            notes: appointment.notes || ''
-          });
-        }
-      }
+      // Formatta la risposta per la PWA
+      const clientAppointments = appointmentsWithServices.map(apt => ({
+        id: apt.id,
+        date: apt.date,
+        time: apt.startTime || '09:00',
+        service: apt.serviceName || 'Servizio',
+        status: apt.status || 'scheduled',
+        notes: apt.notes || ''
+      }));
       
-      console.log(`📅 [CLIENT APPOINTMENTS] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
+      console.log(`📅 [CLIENT APPOINTMENTS PG] Trovati ${clientAppointments.length} appuntamenti per cliente ${clientId}`);
       res.json(clientAppointments);
       
     } catch (error) {
-      console.error('❌ [CLIENT APPOINTMENTS] Errore:', error);
+      console.error('❌ [CLIENT APPOINTMENTS PG] Errore:', error);
       res.status(500).json({ error: 'Errore del sistema' });
     }
   });
