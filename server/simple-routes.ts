@@ -5122,45 +5122,34 @@ Studio Professionale`;
     }
   });
 
-  // Endpoint per registrare accesso PWA tramite codice cliente (senza autenticazione)
-  app.post('/api/client-access/:clientCode', (req, res) => {
+  // Endpoint per registrare accesso PWA tramite codice cliente - senza autenticazione (PostgreSQL)
+  app.post('/api/client-access/:clientCode', async (req, res) => {
     try {
       const clientCode = req.params.clientCode;
-      const storageData = loadStorageData();
       
-      // Trova il cliente tramite il codice univoco
-      const clientData = storageData.clients?.find(([id, client]) => client.uniqueCode === clientCode);
-      if (!clientData) {
+      // 🔄 USA POSTGRESQL: Trova il cliente tramite il codice univoco
+      const [client] = await db
+        .select()
+        .from(clients)
+        .where(eq(clients.uniqueCode, clientCode))
+        .limit(1);
+      
+      if (!client) {
+        console.log('❌ [PWA ACCESS PG] Cliente non trovato per codice:', clientCode);
         return res.status(404).json({ message: "Cliente non trovato" });
       }
       
-      const [id, client] = clientData;
-      const clientIndex = storageData.clients.findIndex(([cId, c]) => cId === id);
-      
-      const now = new Date();
-      
-      // Incrementa il contatore degli accessi
-      storageData.clients[clientIndex][1].accessCount = (client.accessCount || 0) + 1;
-      storageData.clients[clientIndex][1].lastAccess = now.toISOString();
-      
-      // Aggiorna informazioni di accesso PWA
-      if (req.body.source === 'pwa') {
-        storageData.clients[clientIndex][1].lastPwaAccess = now.toISOString();
-        storageData.clients[clientIndex][1].pwaAccessCount = (client.pwaAccessCount || 0) + 1;
-      }
-      
-      // Salva i dati aggiornati
-      saveStorageData(storageData);
-      
-      console.log(`✅ [PWA ACCESS] Cliente ${client.firstName} ${client.lastName} (${clientCode}) - Accesso registrato: ${storageData.clients[clientIndex][1].accessCount}`);
+      // TODO: Aggiungere campi accessCount, lastAccess, pwaAccessCount allo schema PostgreSQL
+      // Per ora registriamo solo nei log
+      console.log(`✅ [PWA ACCESS PG] Cliente ${client.firstName} ${client.lastName} (ID: ${client.id}, Code: ${clientCode}) - Accesso registrato (source: ${req.body.source || 'unknown'})`);
       
       res.json({
         success: true,
-        accessCount: storageData.clients[clientIndex][1].accessCount,
-        clientId: id
+        clientId: client.id,
+        message: 'Accesso registrato con successo'
       });
     } catch (error) {
-      console.error('Errore nella registrazione accesso cliente:', error);
+      console.error('❌ [PWA ACCESS PG] Errore nella registrazione accesso cliente:', error);
       res.status(500).json({ message: "Errore interno" });
     }
   });
@@ -5647,34 +5636,25 @@ Studio Professionale`;
     }
   });
 
-  // Endpoint per accesso diretto cliente - SOLO dati cliente, NESSUN accesso al gestionale
+  // Endpoint per accesso diretto cliente - SOLO dati cliente, NESSUN accesso al gestionale (PostgreSQL)
   app.get("/api/client-by-code/:clientCode", async (req, res) => {
     try {
       const { clientCode } = req.params;
-      console.log('🏠 [CLIENT ACCESS] Accesso diretto per codice:', clientCode);
+      console.log('🏠 [CLIENT ACCESS PG] Accesso diretto per codice:', clientCode);
       
-      // Cerca il cliente nel database usando il codice univoco
-      const storageData = loadStorageData();
-      let foundClient = null;
-      let ownerId = null;
-      
-      // Cerca nei clienti usando la nuova struttura
-      if (storageData.clients) {
-        for (const [clientId, clientData] of storageData.clients) {
-          if (clientData.uniqueCode === clientCode) {
-            foundClient = clientData;
-            ownerId = clientData.ownerId;
-            break;
-          }
-        }
-      }
+      // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso usando il codice univoco
+      const [foundClient] = await db
+        .select()
+        .from(clients)
+        .where(eq(clients.uniqueCode, clientCode))
+        .limit(1);
       
       if (!foundClient) {
-        console.log('❌ [CLIENT ACCESS] Accesso negato');
+        console.log('❌ [CLIENT ACCESS PG] Cliente non trovato o accesso negato per codice:', clientCode);
         return res.status(404).json({ error: 'Accesso non autorizzato' });
       }
       
-      console.log('🏠 [CLIENT ACCESS] Cliente autenticato:', foundClient.firstName, foundClient.lastName);
+      console.log(`🏠 [CLIENT ACCESS PG] Cliente autenticato: ${foundClient.firstName} ${foundClient.lastName} (ID: ${foundClient.id}, Owner: ${foundClient.ownerId})`);
       
       // Ritorna SOLO i dati essenziali del cliente - NESSUN riferimento al gestionale
       const pureClientData = {
@@ -5684,13 +5664,13 @@ Studio Professionale`;
         phone: foundClient.phone,
         email: foundClient.email,
         uniqueCode: foundClient.uniqueCode,
-        ownerId: ownerId // Solo per identificare i suoi appuntamenti
+        ownerId: foundClient.ownerId // Solo per identificare i suoi appuntamenti
       };
       
       res.json(pureClientData);
       
     } catch (error) {
-      console.error('❌ [CLIENT ACCESS] Errore sistema:', error);
+      console.error('❌ [CLIENT ACCESS PG] Errore sistema:', error);
       res.status(500).json({ error: 'Errore del sistema' });
     }
   });
