@@ -10,19 +10,6 @@ Development approach: When implementing new features, always evaluate 2-3 altern
 
 ## Recent Changes (October 2025)
 
-### Referral Commission Update to 25%
-- **Date**: October 22, 2025
-- **Backup**: backup18-commissioni-25-percent-20251022
-- **Change**: Updated all referral commission calculations from 10% to 25%
-  - Modified `paymentService.ts`: Commission calculation 0.10 → 0.25
-  - Updated `simple-routes.ts`: Admin dashboard commissionRate: 10 → 25
-  - Changed `individualStaffReferral.ts`: Staff guide text "10%" → "25%"
-  - Updated `ReferralPage.tsx`: Frontend explanation "10%" → "25%"
-  - Documentation updated: replit.md, PUSH_SLIPLANE_CHECKLIST.md, SLIPLANE_SETUP.md
-- **Impact**: New referrals generate 25% commission automatically; existing commissions remain at 10%
-- **QR Code Access**: Working correctly (opens in browser as expected)
-- **System Status**: Ready for Sliplane deployment with updated commission rate
-
 ### PostgreSQL Migration & Multi-Tenant Security
 - **Date**: October 15, 2025
 - **Critical Security Fix**: Resolved multi-tenant data leak where staff could view other professionals' appointments

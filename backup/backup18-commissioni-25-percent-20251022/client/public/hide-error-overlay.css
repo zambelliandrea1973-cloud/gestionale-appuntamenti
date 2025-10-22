@@ -1,0 +1,16 @@
+/* Hide Vite error overlay completely */
+vite-error-overlay {
+  display: none !important;
+}
+
+/* Hide other potential error overlays */
+.error-overlay, 
+[data-vite-error-overlay],
+div[style*="position: fixed"][style*="z-index: 9999"] {
+  display: none !important;
+}
+
+/* Hide all elements that might be injected by the error handler */
+body > div:not(#root):last-child {
+  display: none !important;
+}
