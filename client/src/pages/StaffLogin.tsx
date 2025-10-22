@@ -65,37 +65,31 @@ export default function StaffLogin() {
   const handleClearCache = async () => {
     setIsClearing(true);
     try {
-      // 1. Pulisci sessione server (questo cancellerà anche il cookie)
-      await apiRequest('POST', '/api/logout');
-      console.log('🧹 PULIZIA MANUALE: Sessione server pulita');
-      
-      // 2. Pulisci localStorage (tranne credenziali se richiesto)
+      // 1. Pulisci sessionStorage e localStorage PRIMA di tutto
       const keysToKeep = rememberMe ? ['staffUsername'] : [];
       const allKeys = Object.keys(localStorage);
       allKeys.forEach(key => {
         if (!keysToKeep.includes(key)) {
           localStorage.removeItem(key);
-          console.log(`🧹 PULIZIA MANUALE: Rimosso localStorage ${key}`);
         }
       });
+      sessionStorage.clear();
       
-      // 3. Pulisci cache React Query
+      // 2. Pulisci cache React Query
       queryClient.clear();
-      console.log('🧹 PULIZIA MANUALE: Cache React Query pulita');
       
-      // 4. CRITICO: Forza reload completo della pagina per cancellare TUTTI i cookie e cache
-      // Questo garantisce che il browser ricarichi tutto da zero senza sessioni precedenti
-      console.log('🔄 PULIZIA MANUALE: Ricarico pagina per completare pulizia cookie');
-      window.location.reload();
+      // 3. Pulisci sessione server (questo cancellerà anche il cookie)
+      await apiRequest('POST', '/api/logout');
+      console.log('🧹 PULIZIA MANUALE: Logout completato');
+      
+      // 4. CRITICO: Redirect a pagina vuota e poi torna a login
+      // Questo forza il browser a fare una richiesta completamente nuova senza cookie cached
+      window.location.href = '/staff-login?cleared=1';
       
     } catch (error) {
       console.error('❌ Errore durante la pulizia:', error);
-      toast({
-        title: "Errore durante la pulizia",
-        description: "Si è verificato un errore. Riprova.",
-        variant: "destructive",
-      });
-      setIsClearing(false);
+      // Anche in caso di errore, forza il redirect per pulire
+      window.location.href = '/staff-login?cleared=1';
     }
   };
   
