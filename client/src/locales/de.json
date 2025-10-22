@@ -6,11 +6,11 @@
   },
   "navigation": {
     "home": "Startseite",
-    "notifications": "[NEEDS TRANSLATION] Notifiche",
-    "referral": "[NEEDS TRANSLATION] Referral",
-    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
-    "staff": "[NEEDS TRANSLATION] Staff",
-    "payments": "[NEEDS TRANSLATION] Pagamenti"
+    "notifications": "Benachrichtigungen",
+    "referral": "Weiterempfehlung",
+    "aiSetup": "KI-Einrichtung",
+    "staff": "Personal",
+    "payments": "Zahlungen"
   },
   "sidebar": {
     "clients": "Kunden",
@@ -194,27 +194,27 @@
       "save": "Speichern",
       "cancel": "Abbrechen"
     },
-    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
-    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
-    "showDetails": "[NEEDS TRANSLATION] Dettagli",
-    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
-    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
-    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
-    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
-    "generateQR": "[NEEDS TRANSLATION] Genera QR",
-    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "loading": "Lade Kunden...",
+    "loadingAccessStatus": "Überprüfe Kundenzugang...",
+    "showDetails": "Details",
+    "showAppointments": "Termine",
+    "clientAccess": "Kundenzugang",
+    "qrGenerated": "QR generiert",
+    "qrNotGenerated": "QR nicht generiert",
+    "generateQR": "QR generieren",
+    "manageClient": "Kunde verwalten",
     "accesses": {
       "loading": "Caricamento...",
       "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
-    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
-    "total": "[NEEDS TRANSLATION] clienti",
-    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
-    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
-    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
-    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+    "subtitle": "Verwalten Sie alle Ihre Kunden",
+    "total": "Kunden",
+    "searchPlaceholder": "Kunden nach Name, Telefon oder E-Mail suchen...",
+    "allClients": "Alle Kunden",
+    "frequentClients": "Stammkunden",
+    "noConsent": "Ohne Zustimmung"
   },
   "invoices": {
     "title": "Rechnungen",
@@ -465,8 +465,8 @@
     "confirmAndAssociateClient": "Bestätigen und Kunden zuordnen",
     "selected": "Ausgewählt",
     "selectSlots": "Zeitslots auswählen",
-    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
-    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+    "confirmDelete": "Sind Sie sicher, dass Sie diesen Termin löschen möchten?",
+    "confirmDeleteTitle": "Termin löschen"
   },
   "trial": {
     "days": "Tage",
