@@ -798,7 +798,7 @@ export default function PaymentAdmin() {
                         <CardContent className="space-y-4">
                           <div className="grid grid-cols-2 gap-4 text-center">
                             <div className="space-y-1">
-                              <div className="text-2xl font-bold text-green-600">10%</div>
+                              <div className="text-2xl font-bold text-green-600">25%</div>
                               <div className="text-sm text-muted-foreground">Per abbonamento</div>
                             </div>
                             <div className="space-y-1">

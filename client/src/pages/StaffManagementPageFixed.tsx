@@ -686,7 +686,7 @@ export default function StaffManagementPageFixed() {
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
               <p className="text-sm text-blue-800">
                 <strong>Nota:</strong> L'IBAN inserito verrà utilizzato per accreditare automaticamente 
-                le commissioni del 10% quando i clienti sponsorizzati attivano abbonamenti.
+                le commissioni del 25% quando i clienti sponsorizzati attivano abbonamenti.
               </p>
             </div>
             
