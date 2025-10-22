@@ -1,0 +1,672 @@
+22/10/2025, 09:42:51:
+build
+Enumerating objects: 20311, done.
+22/10/2025, 09:42:51:
+build
+Counting objects: 100% (432/432), done.
+22/10/2025, 09:42:52:
+build
+Compressing objects: 100% (28/28), done.
+22/10/2025, 09:43:14:
+build
+Total 20311 (delta 428), reused 404 (delta 404), pack-reused 19879 (from 3)
+22/10/2025, 09:43:43:
+build
+#1 [service_event_pgc6x00rj5fk internal] load build definition from Dockerfile
+22/10/2025, 09:43:43:
+build
+#1 transferring dockerfile: 618B done
+22/10/2025, 09:43:43:
+build
+#1 DONE 0.0s
+22/10/2025, 09:43:43:
+build
+22/10/2025, 09:43:43:
+build
+#2 [service_event_pgc6x00rj5fk internal] load metadata for docker.io/library/node:20-alpine
+22/10/2025, 09:43:44:
+build
+#2 DONE 1.3s
+22/10/2025, 09:43:44:
+build
+22/10/2025, 09:43:44:
+build
+#3 [service_event_pgc6x00rj5fk internal] load .dockerignore
+22/10/2025, 09:43:44:
+build
+#3 transferring context: 740B done
+22/10/2025, 09:43:44:
+build
+#3 DONE 0.0s
+22/10/2025, 09:43:44:
+build
+22/10/2025, 09:43:44:
+build
+#4 [service_event_pgc6x00rj5fk 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+22/10/2025, 09:43:44:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 done
+22/10/2025, 09:43:45:
+build
+#4 sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 0B / 444B 0.2s
+22/10/2025, 09:43:45:
+build
+#4 sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 0B / 1.26MB 0.2s
+22/10/2025, 09:43:45:
+build
+#4 sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 0B / 42.75MB 0.2s
+22/10/2025, 09:43:45:
+build
+#4 sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0B / 3.80MB 0.2s
+22/10/2025, 09:43:45:
+build
+#4 sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 444B / 444B 0.3s done
+22/10/2025, 09:43:45:
+build
+#4 sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 1.26MB / 1.26MB 0.5s done
+22/10/2025, 09:43:45:
+build
+#4 sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 8.39MB / 42.75MB 0.5s
+22/10/2025, 09:43:45:
+build
+#4 sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 25.21MB / 42.75MB 0.6s
+22/10/2025, 09:43:45:
+build
+#4 sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 40.29MB / 42.75MB 0.8s
+22/10/2025, 09:43:45:
+build
+#4 sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 42.75MB / 42.75MB 0.8s done
+22/10/2025, 09:43:45:
+build
+#4 sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 3.80MB / 3.80MB 0.9s done
+22/10/2025, 09:43:45:
+build
+#4 extracting sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0.1s done
+22/10/2025, 09:43:45:
+build
+#4 DONE 1.0s
+22/10/2025, 09:43:45:
+build
+22/10/2025, 09:43:45:
+build
+#5 [service_event_pgc6x00rj5fk internal] load build context
+22/10/2025, 09:43:47:
+build
+#5 ...
+22/10/2025, 09:43:47:
+build
+22/10/2025, 09:43:47:
+build
+#4 [service_event_pgc6x00rj5fk 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+22/10/2025, 09:43:47:
+build
+#4 extracting sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 1.2s done
+22/10/2025, 09:43:47:
+build
+#4 extracting sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 0.0s done
+22/10/2025, 09:43:47:
+build
+#4 extracting sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+22/10/2025, 09:43:47:
+build
+#4 DONE 2.2s
+22/10/2025, 09:43:47:
+build
+22/10/2025, 09:43:47:
+build
+#5 [service_event_pgc6x00rj5fk internal] load build context
+22/10/2025, 09:43:48:
+build
+#5 ...
+22/10/2025, 09:43:48:
+build
+22/10/2025, 09:43:48:
+build
+#6 [service_event_pgc6x00rj5fk 2/7] WORKDIR /app
+22/10/2025, 09:43:48:
+build
+#6 DONE 1.2s
+22/10/2025, 09:43:48:
+build
+22/10/2025, 09:43:48:
+build
+#5 [service_event_pgc6x00rj5fk internal] load build context
+22/10/2025, 09:43:49:
+build
+#5 transferring context: 1.23GB 4.1s done
+22/10/2025, 09:43:49:
+build
+#5 DONE 4.1s
+22/10/2025, 09:43:49:
+build
+22/10/2025, 09:43:49:
+build
+#7 [service_event_pgc6x00rj5fk 3/7] COPY package.json package-lock.json ./
+22/10/2025, 09:43:49:
+build
+#7 DONE 0.3s
+22/10/2025, 09:43:49:
+build
+22/10/2025, 09:43:49:
+build
+#8 [service_event_pgc6x00rj5fk 4/7] RUN npm ci
+22/10/2025, 09:43:52:
+build
+#8 3.731 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+22/10/2025, 09:43:53:
+build
+#8 4.540 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+22/10/2025, 09:43:54:
+build
+#8 5.155 npm warn deprecated fstream@1.0.12: This package is no longer supported.
+22/10/2025, 09:43:55:
+build
+#8 6.127 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+22/10/2025, 09:43:55:
+build
+#8 6.146 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+22/10/2025, 09:43:55:
+build
+#8 6.493 npm warn deprecated @paypal/checkout-server-sdk@1.0.3: Package no longer supported. The author suggests using the @paypal/paypal-server-sdk package instead: https://www.npmjs.com/package/@paypal/paypal-server-sdk. Contact Support at https://www.npmjs.com/support for more info.
+22/10/2025, 09:43:55:
+build
+#8 6.582 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+22/10/2025, 09:43:56:
+build
+#8 6.924 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+22/10/2025, 09:43:56:
+build
+#8 7.037 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+22/10/2025, 09:43:56:
+build
+#8 7.055 npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+22/10/2025, 09:43:56:
+build
+#8 7.150 npm warn deprecated puppeteer@18.2.1: < 24.9.0 is no longer supported
+22/10/2025, 09:44:11:
+build
+#8 22.12 
+22/10/2025, 09:44:11:
+build
+#8 22.12 added 939 packages, and audited 940 packages in 22s
+22/10/2025, 09:44:11:
+build
+#8 22.12 
+22/10/2025, 09:44:11:
+build
+#8 22.12 101 packages are looking for funding
+22/10/2025, 09:44:11:
+build
+#8 22.12   run `npm fund` for details
+22/10/2025, 09:44:11:
+build
+#8 22.17 
+22/10/2025, 09:44:11:
+build
+#8 22.17 18 vulnerabilities (3 low, 8 moderate, 6 high, 1 critical)
+22/10/2025, 09:44:11:
+build
+#8 22.17 
+22/10/2025, 09:44:11:
+build
+#8 22.17 To address issues that do not require attention, run:
+22/10/2025, 09:44:11:
+build
+#8 22.17   npm audit fix
+22/10/2025, 09:44:11:
+build
+#8 22.17 
+22/10/2025, 09:44:11:
+build
+#8 22.17 To address all issues (including breaking changes), run:
+22/10/2025, 09:44:11:
+build
+#8 22.17   npm audit fix --force
+22/10/2025, 09:44:11:
+build
+#8 22.17 
+22/10/2025, 09:44:11:
+build
+#8 22.17 Run `npm audit` for details.
+22/10/2025, 09:44:11:
+build
+#8 22.17 npm notice
+22/10/2025, 09:44:11:
+build
+#8 22.17 npm notice New major version of npm available! 10.8.2 -> 11.6.2
+22/10/2025, 09:44:11:
+build
+#8 22.17 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.6.2
+22/10/2025, 09:44:11:
+build
+#8 22.17 npm notice To update run: npm install -g npm@11.6.2
+22/10/2025, 09:44:11:
+build
+#8 22.17 npm notice
+22/10/2025, 09:44:12:
+build
+#8 DONE 23.7s
+22/10/2025, 09:44:12:
+build
+22/10/2025, 09:44:12:
+build
+#9 [service_event_pgc6x00rj5fk 5/7] COPY . .
+22/10/2025, 09:44:16:
+build
+#9 DONE 3.5s
+22/10/2025, 09:44:16:
+build
+22/10/2025, 09:44:16:
+build
+#10 [service_event_pgc6x00rj5fk 6/7] RUN npx vite build
+22/10/2025, 09:44:17:
+build
+#10 0.895 vite v5.4.14 building for production...
+22/10/2025, 09:44:17:
+build
+#10 1.008 
+22/10/2025, 09:44:17:
+build
+#10 1.015 
+22/10/2025, 09:44:17:
+build
+#10 1.015 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+22/10/2025, 09:44:17:
+build
+#10 1.019 transforming...
+22/10/2025, 09:44:17:
+build
+#10 1.303 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+22/10/2025, 09:44:17:
+build
+#10 1.303   npx update-browserslist-db@latest
+22/10/2025, 09:44:17:
+build
+#10 1.303   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+22/10/2025, 09:44:28:
+build
+#10 12.09 ✓ 3669 modules transformed.
+22/10/2025, 09:44:29:
+build
+#10 13.33 [plugin:vite:reporter] [plugin vite:reporter] 
+22/10/2025, 09:44:29:
+build
+#10 13.33 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+22/10/2025, 09:44:29:
+build
+#10 13.33 
+22/10/2025, 09:44:29:
+build
+#10 13.33 [plugin:vite:reporter] [plugin vite:reporter] 
+22/10/2025, 09:44:29:
+build
+#10 13.33 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+22/10/2025, 09:44:29:
+build
+#10 13.33 
+22/10/2025, 09:44:29:
+build
+#10 13.33 rendering chunks...
+22/10/2025, 09:44:29:
+build
+#10 13.38 computing gzip size...
+22/10/2025, 09:44:29:
+build
+#10 13.46 ../dist/public/index.html                    13.91 kB │ gzip:   3.99 kB
+22/10/2025, 09:44:29:
+build
+#10 13.46 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+22/10/2025, 09:44:30:
+build
+#10 13.46 ../dist/public/assets/index-CUMO2A2A.js   2,047.23 kB │ gzip: 550.14 kB
+22/10/2025, 09:44:30:
+build
+#10 13.46 
+22/10/2025, 09:44:30:
+build
+#10 13.46 (!) Some chunks are larger than 500 kB after minification. Consider:
+22/10/2025, 09:44:30:
+build
+#10 13.46 - Using dynamic import() to code-split the application
+22/10/2025, 09:44:30:
+build
+#10 13.46 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+22/10/2025, 09:44:30:
+build
+#10 13.46 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+22/10/2025, 09:44:30:
+build
+#10 13.46 ✓ built in 12.51s
+22/10/2025, 09:44:30:
+build
+#10 DONE 13.6s
+22/10/2025, 09:44:30:
+build
+22/10/2025, 09:44:30:
+build
+#11 [service_event_pgc6x00rj5fk 7/7] RUN cp -r dist/public server/public
+22/10/2025, 09:44:30:
+build
+#11 DONE 0.2s
+22/10/2025, 09:44:30:
+build
+22/10/2025, 09:44:30:
+build
+#12 [service_event_pgc6x00rj5fk] exporting to image
+22/10/2025, 09:44:30:
+build
+#12 exporting layers
+22/10/2025, 09:45:17:
+build
+#12 exporting layers 47.3s done
+22/10/2025, 09:45:17:
+build
+#12 exporting manifest sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53 done
+22/10/2025, 09:45:17:
+build
+#12 exporting config sha256:f5a18bc3bb2fe8ccd62fa62c3519fa771aa492266f96cfe4acb95c12420223ba done
+22/10/2025, 09:45:17:
+build
+#12 pushing layers
+22/10/2025, 09:45:34:
+build
+#12 pushing layers 17.0s done
+22/10/2025, 09:45:34:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_pgc6x00rj5fk@sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53
+22/10/2025, 09:45:34:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_pgc6x00rj5fk@sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53 0.0s done
+22/10/2025, 09:45:34:
+build
+#12 DONE 64.3s
+22/10/2025, 09:45:34:
+build
+22/10/2025, 09:45:34:
+build
+#13 [service_event_pgc6x00rj5fk] exporting cache to client directory
+22/10/2025, 09:45:34:
+build
+#13 preparing build cache for export
+22/10/2025, 09:45:34:
+build
+#13 writing layer sha256:1adc3c0c1600bca7b807a4b71b99588c3706ca4d23e6025597e975502b453349
+22/10/2025, 09:45:40:
+build
+#13 writing layer sha256:1adc3c0c1600bca7b807a4b71b99588c3706ca4d23e6025597e975502b453349 6.5s done
+22/10/2025, 09:45:40:
+build
+#13 writing layer sha256:1ece4c1e9ab4a18f61288601e6240b80789e9d0d2a211fc931e280c008f4789a
+22/10/2025, 09:45:41:
+build
+#13 writing layer sha256:1ece4c1e9ab4a18f61288601e6240b80789e9d0d2a211fc931e280c008f4789a done
+22/10/2025, 09:45:41:
+build
+#13 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0.0s done
+22/10/2025, 09:45:41:
+build
+#13 writing layer sha256:44985de0cc97719ded703c75dc227773879e8ffcaa864bcc91182d22c843c3e8 done
+22/10/2025, 09:45:41:
+build
+#13 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9 4.3s done
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 0.3s done
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:703ca2a1bd99b66f6b41e0c76bb4182cc3e783cc8a8625ab8d38a145fb4f2b5d
+22/10/2025, 09:45:45:
+build
+#13 preparing build cache for export 11.2s done
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:703ca2a1bd99b66f6b41e0c76bb4182cc3e783cc8a8625ab8d38a145fb4f2b5d done
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 0.0s done
+22/10/2025, 09:45:45:
+build
+#13 writing layer sha256:f689d7656b588a19e98f548eec95197b2580fd19659658da84f9b2dfae24c428 done
+22/10/2025, 09:45:45:
+build
+#13 writing config sha256:6185abf86bf10b0df54759dc7119b78cc6a57ed67925fdf3be047abb04433be9 done
+22/10/2025, 09:45:45:
+build
+#13 writing cache image manifest sha256:df54c1b50546457a8b069a24be66aa7606b2d758c8ef623e8ff4789b80717b42 done
+22/10/2025, 09:45:45:
+build
+#13 DONE 11.2s
+22/10/2025, 09:46:45:
+build
+service_event_pgc6x00rj5fk: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+22/10/2025, 09:46:45:
+build
+2d35ebdb57d9: Already exists
+22/10/2025, 09:46:45:
+build
+60e45a9660cf: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+e74e4ed823e9: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+da04d522c98f: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+703ca2a1bd99: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+f689d7656b58: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+4ab2d8ad865f: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+1adc3c0c1600: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+1ece4c1e9ab4: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+44985de0cc97: Pulling fs layer
+22/10/2025, 09:46:45:
+build
+f689d7656b58: Waiting
+22/10/2025, 09:46:45:
+build
+703ca2a1bd99: Waiting
+22/10/2025, 09:46:45:
+build
+4ab2d8ad865f: Waiting
+22/10/2025, 09:46:45:
+build
+1adc3c0c1600: Waiting
+22/10/2025, 09:46:45:
+build
+1ece4c1e9ab4: Waiting
+22/10/2025, 09:46:45:
+build
+44985de0cc97: Waiting
+22/10/2025, 09:46:45:
+build
+da04d522c98f: Download complete
+22/10/2025, 09:46:45:
+build
+703ca2a1bd99: Verifying Checksum
+22/10/2025, 09:46:45:
+build
+703ca2a1bd99: Download complete
+22/10/2025, 09:46:45:
+build
+e74e4ed823e9: Verifying Checksum
+22/10/2025, 09:46:45:
+build
+e74e4ed823e9: Download complete
+22/10/2025, 09:46:45:
+build
+f689d7656b58: Verifying Checksum
+22/10/2025, 09:46:45:
+build
+f689d7656b58: Download complete
+22/10/2025, 09:46:45:
+build
+60e45a9660cf: Verifying Checksum
+22/10/2025, 09:46:45:
+build
+60e45a9660cf: Download complete
+22/10/2025, 09:46:45:
+build
+1ece4c1e9ab4: Verifying Checksum
+22/10/2025, 09:46:45:
+build
+1ece4c1e9ab4: Download complete
+22/10/2025, 09:46:45:
+build
+44985de0cc97: Verifying Checksum
+22/10/2025, 09:46:45:
+build
+44985de0cc97: Download complete
+22/10/2025, 09:46:47:
+build
+60e45a9660cf: Pull complete
+22/10/2025, 09:46:47:
+build
+e74e4ed823e9: Pull complete
+22/10/2025, 09:46:47:
+build
+da04d522c98f: Pull complete
+22/10/2025, 09:46:47:
+build
+703ca2a1bd99: Pull complete
+22/10/2025, 09:46:47:
+build
+f689d7656b58: Pull complete
+22/10/2025, 09:46:50:
+build
+4ab2d8ad865f: Verifying Checksum
+22/10/2025, 09:46:50:
+build
+4ab2d8ad865f: Download complete
+22/10/2025, 09:46:52:
+build
+1adc3c0c1600: Verifying Checksum
+22/10/2025, 09:46:52:
+build
+1adc3c0c1600: Download complete
+22/10/2025, 09:47:14:
+build
+4ab2d8ad865f: Pull complete
+22/10/2025, 09:47:23:
+build
+1adc3c0c1600: Pull complete
+22/10/2025, 09:47:23:
+build
+1ece4c1e9ab4: Pull complete
+22/10/2025, 09:47:23:
+build
+44985de0cc97: Pull complete
+22/10/2025, 09:47:23:
+build
+Digest: sha256:16536316a97cc550e4b095acf12f8b53c802303451d8c060213adc44a2f05e53
+22/10/2025, 09:47:23:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_pgc6x00rj5fk
+22/10/2025, 09:47:28:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+22/10/2025, 09:47:28:
+runtime
+Servizio gestione telefono diretto inizializzato
+22/10/2025, 09:47:29:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+22/10/2025, 09:47:29:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+22/10/2025, 09:47:30:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+22/10/2025, 09:47:30:
+runtime
+Scheduler dei promemoria avviato con successo
+22/10/2025, 09:47:30:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+22/10/2025, 09:47:30:
+runtime
+Tutti gli scheduler inizializzati
+22/10/2025, 09:47:30:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+22/10/2025, 09:47:30:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+22/10/2025, 09:47:30:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+22/10/2025, 09:47:30:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+22/10/2025, 09:47:30:
+runtime
+🔍 Controllo integrità all'avvio:
+22/10/2025, 09:47:30:
+runtime
+   📅 Appuntamenti caricati: 48
+22/10/2025, 09:47:30:
+runtime
+   👥 Clienti caricati: 40
+22/10/2025, 09:47:30:
+runtime
+   🔍 Primi 3 appuntamenti: [
+22/10/2025, 09:47:30:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+22/10/2025, 09:47:30:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+22/10/2025, 09:47:30:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+22/10/2025, 09:47:30:
+runtime
+]
+22/10/2025, 09:47:30:
+runtime
+✅ Controllo integrità completato
+22/10/2025, 09:47:30:
+runtime
+7:47:30 AM [express] serving on port 5000
+22/10/2025, 09:47:30:
+runtime
+✅ PostgreSQL database is available
+22/10/2025, 09:47:31:
+runtime
+Telefono caricato dal database: +393472550110
+22/10/2025, 09:47:35:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+22/10/2025, 09:47:35:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+22/10/2025, 09:47:35:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Thu Oct 23 2025)
+22/10/2025, 09:47:35:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+22/10/2025, 09:47:35:
+runtime
+Inviati 0/0 promemoria
+22/10/2025, 09:47:35:
+runtime
+Job iniziale completato: inviati 0 promemoria
