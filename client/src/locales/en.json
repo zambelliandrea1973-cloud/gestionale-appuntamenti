@@ -9,8 +9,8 @@
     "confirmAndAssociateClient": "Confirm and associate client",
     "selected": "Selected",
     "selectSlots": "Select time slots",
-    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
-    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+    "confirmDelete": "Are you sure you want to delete this appointment?",
+    "confirmDeleteTitle": "Delete Appointment"
   },
   "navigation": {
     "home": "Home",
@@ -116,12 +116,12 @@
   },
   "clients": {
     "title": "Clients",
-    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
-    "total": "[NEEDS TRANSLATION] clienti",
-    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
-    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
-    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
-    "noConsent": "[NEEDS TRANSLATION] Senza consenso",
+    "subtitle": "Manage all your clients",
+    "total": "clients",
+    "searchPlaceholder": "Search clients by name, phone or email...",
+    "allClients": "All clients",
+    "frequentClients": "Frequent clients",
+    "noConsent": "Without consent",
     "description": "Manage client information",
     "subDescription": "Add, edit and view client data, including personal and medical information",
     "goTo": "Manage Clients",
