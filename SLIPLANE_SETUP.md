@@ -81,7 +81,7 @@ GEMINI_API_KEY=...  # Se usi Google Gemini AI
 - [ ] Prova creazione abbonamento
 - [ ] Verifica redirect a Stripe/PayPal
 - [ ] Controlla che webhook riceva eventi correttamente
-- [ ] Verifica creazione automatica commissioni referral (10%)
+- [ ] Verifica creazione automatica commissioni referral (25%)
 
 ### Passo 4: Verifica Multi-Tenant Security
 - [ ] Login come staff diversi
@@ -108,10 +108,10 @@ GEMINI_API_KEY=...  # Se usi Google Gemini AI
 
 ## 📊 Commissioni Referral Automatiche
 
-Il sistema è già configurato per creare automaticamente commissioni 10% quando:
+Il sistema è già configurato per creare automaticamente commissioni 25% quando:
 1. Utente con sponsor (`referred_by`) paga abbonamento
 2. Webhook riceve conferma pagamento
-3. Sistema calcola 10% del prezzo piano
+3. Sistema calcola 25% del prezzo piano
 4. Crea record in `referral_commissions` con payout programmato a +30 giorni
 
 **Nessuna configurazione manuale richiesta!** ✅

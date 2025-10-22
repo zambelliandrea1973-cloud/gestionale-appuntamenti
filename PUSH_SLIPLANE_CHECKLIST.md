@@ -3,7 +3,7 @@
 ## 📊 Stato Attuale Sistema
 - ✅ Database PostgreSQL: **17 utenti, 6 abbonamenti, 4 commissioni attive**
 - ✅ Sistema Referral: **8 utenti con sponsor**
-- ✅ Commissioni automatiche: **FUNZIONANTI** (10% su pagamenti)
+- ✅ Commissioni automatiche: **FUNZIONANTI** (25% su pagamenti)
 - ✅ Build configurata: **Dockerfile pronto**
 - ✅ Multi-tenant security: **VERIFICATO** (isolamento dati per utente)
 
@@ -102,7 +102,7 @@ Sliplane eseguirà automaticamente:
 1. Crea utente con sponsor
 2. Utente paga abbonamento via Stripe/PayPal
 3. Webhook riceve notifica
-4. Sistema crea automaticamente commissione 10%
+4. Sistema crea automaticamente commissione 25%
 5. Verifica in database tabella referral_commissions
 ```
 

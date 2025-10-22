@@ -429,7 +429,7 @@ export default function ReferralPage() {
           <ol className="list-decimal pl-5 space-y-2">
             <li><strong>Condividi il tuo codice referral</strong> con altri professionisti</li>
             <li><strong>Registrazione e abbonamento:</strong> Quando un nuovo utente si registra usando il tuo codice e attiva un abbonamento a pagamento, viene collegato al tuo account</li>
-            <li><strong>Commissione del 10%:</strong> Riceverai il 10% del prezzo dell'abbonamento per ogni cliente referenziato con abbonamento attivo</li>
+            <li><strong>Commissione del 25%:</strong> Riceverai il 25% del prezzo dell'abbonamento per ogni cliente referenziato con abbonamento attivo</li>
             <li><strong>Payout dopo 30 giorni:</strong> Le commissioni vengono elaborate automaticamente 30 giorni dopo la loro creazione</li>
             <li><strong>Metodi di pagamento:</strong>
               <ul className="list-disc pl-5 mt-1 space-y-1">

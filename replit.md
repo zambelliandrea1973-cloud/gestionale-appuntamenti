@@ -60,14 +60,14 @@ Each professional sees ONLY their own data:
 - **User Management**: Multi-tier authentication (admin, staff, customer) and role-based access control.
 - **Client Management**: Patient database, QR code generation for PWA access, access tracking.
 - **Appointment System**: Calendar scheduling, service management, email notifications, reminders.
-- **Billing & Payments**: Support for multiple payment methods (Stripe, PayPal, Bank Transfer, Wise), subscription plans, invoice generation, and a 10% referral commission system for staff.
+- **Billing & Payments**: Support for multiple payment methods (Stripe, PayPal, Bank Transfer, Wise), subscription plans, invoice generation, and a 25% referral commission system for staff.
 - **Multi-language Support**: Internationalization with 9 languages.
-- **Referral System**: Automatic tracking, unique staff referral codes, 10% commission on sponsored subscriptions, and commission payment infrastructure.
+- **Referral System**: Automatic tracking, unique staff referral codes, 25% commission on sponsored subscriptions, and commission payment infrastructure.
 
 ### Data Flow Highlights
 - **Client Access**: QR code/URL validation, PWA interface loading, access tracking.
 - **Authentication**: Session cleanup on login, credential validation, session creation with role-based permissions, cache invalidation, and route protection.
-- **Referral Commission**: Staff shares code, customer registers, `referred_by` linked, commission calculated (10%) upon paid subscription activation, and tracked for admin processing.
+- **Referral Commission**: Staff shares code, customer registers, `referred_by` linked, commission calculated (25%) upon paid subscription activation, and tracked for admin processing.
 
 ### Deployment Strategy
 - **Development**: Replit-based with hot reloading.
