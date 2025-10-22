@@ -6,11 +6,11 @@
   },
   "navigation": {
     "home": "Главная",
-    "notifications": "[NEEDS TRANSLATION] Notifiche",
-    "referral": "[NEEDS TRANSLATION] Referral",
-    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
-    "staff": "[NEEDS TRANSLATION] Staff",
-    "payments": "[NEEDS TRANSLATION] Pagamenti"
+    "notifications": "Уведомления",
+    "referral": "Рекомендации",
+    "aiSetup": "Настройка ИИ",
+    "staff": "Персонал",
+    "payments": "Платежи"
   },
   "sidebar": {
     "clients": "Клиенты",
@@ -194,27 +194,27 @@
       "save": "Сохранить",
       "cancel": "Отмена"
     },
-    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
-    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
-    "showDetails": "[NEEDS TRANSLATION] Dettagli",
-    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
-    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
-    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
-    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
-    "generateQR": "[NEEDS TRANSLATION] Genera QR",
-    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "loading": "Загрузка клиентов...",
+    "loadingAccessStatus": "Проверка доступа клиента...",
+    "showDetails": "Детали",
+    "showAppointments": "Записи",
+    "clientAccess": "Доступ клиента",
+    "qrGenerated": "QR создан",
+    "qrNotGenerated": "QR не создан",
+    "generateQR": "Создать QR",
+    "manageClient": "Управление клиентом",
     "accesses": {
       "loading": "Caricamento...",
       "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
-    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
-    "total": "[NEEDS TRANSLATION] clienti",
-    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
-    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
-    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
-    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+    "subtitle": "Управляйте всеми вашими клиентами",
+    "total": "клиентов",
+    "searchPlaceholder": "Поиск клиентов по имени, телефону или email...",
+    "allClients": "Все клиенты",
+    "frequentClients": "Постоянные клиенты",
+    "noConsent": "Без согласия"
   },
   "invoices": {
     "title": "Счета",
@@ -360,10 +360,10 @@
         "message": "Сообщение",
         "actions": "Действия",
         "reopen": "Повторно открыть",
-        "client": "[NEEDS TRANSLATION] Cliente",
-        "status": "[NEEDS TRANSLATION] Stato"
+        "client": "Клиент",
+        "status": "Статус"
       },
-      "noSmsNotifications": "[NEEDS TRANSLATION] Nessun SMS inviato finora",
+      "noSmsNotifications": "SMS еще не отправлялись",
       "status": {
         "delivered": "Consegnato",
         "sent": "Inviato",
@@ -465,8 +465,8 @@
     "confirmAndAssociateClient": "Подтвердить и связать с клиентом",
     "selected": "Выбрано",
     "selectSlots": "Выберите временные интервалы",
-    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
-    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+    "confirmDelete": "Вы уверены, что хотите удалить эту запись?",
+    "confirmDeleteTitle": "Удалить запись"
   },
   "trial": {
     "days": "дней",
