@@ -2523,7 +2523,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const response = {
         staffStats,
         totals,
-        commissionRate: 10, // 10% commissione standard
+        commissionRate: 25, // 25% commissione standard
         minSponsorshipForCommission: 3 // Dal terzo abbonamento sponsorizzato
       };
       

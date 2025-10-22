@@ -656,8 +656,8 @@ export class PaymentService {
         return;
       }
 
-      // Calcola commissione al 10% del prezzo del piano
-      const commissionAmount = Math.round(planPrice * 0.10);
+      // Calcola commissione al 25% del prezzo del piano
+      const commissionAmount = Math.round(planPrice * 0.25);
       
       // Ottieni info sponsor
       const sponsor = await storage.getUser(user.referredBy);
@@ -688,7 +688,7 @@ export class PaymentService {
       console.log(`🎉 COMMISSIONE AUTOMATICA CREATA!`);
       console.log(`   Sponsor: ${sponsor.username} (ID: ${sponsor.id})`);
       console.log(`   Cliente: ${user.username} (ID: ${user.id})`);
-      console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)}/mese (10% di €${(planPrice/100).toFixed(2)})`);
+      console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)}/mese (25% di €${(planPrice/100).toFixed(2)})`);
       console.log(`   📅 Payout programmato per: ${payoutDate.toLocaleDateString('it-IT')} (30gg)`);
     } catch (error) {
       console.error('Errore durante la creazione della commissione referral:', error);
