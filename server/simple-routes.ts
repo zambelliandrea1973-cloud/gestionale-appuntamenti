@@ -5647,34 +5647,26 @@ Studio Professionale`;
     }
   });
 
-  // Endpoint per accesso diretto cliente - SOLO dati cliente, NESSUN accesso al gestionale
+  // Endpoint per accesso diretto cliente - SOLO dati cliente, NESSUN accesso al gestionale (PostgreSQL)
   app.get("/api/client-by-code/:clientCode", async (req, res) => {
     try {
       const { clientCode } = req.params;
-      console.log('🏠 [CLIENT ACCESS] Accesso diretto per codice:', clientCode);
+      console.log('🏠 [CLIENT ACCESS PG] Accesso diretto per codice:', clientCode);
       
-      // Cerca il cliente nel database usando il codice univoco
-      const storageData = loadStorageData();
-      let foundClient = null;
-      let ownerId = null;
+      // Cerca il cliente nel database PostgreSQL usando il codice univoco
+      const foundClients = await db
+        .select()
+        .from(clients)
+        .where(eq(clients.uniqueCode, clientCode))
+        .limit(1);
       
-      // Cerca nei clienti usando la nuova struttura
-      if (storageData.clients) {
-        for (const [clientId, clientData] of storageData.clients) {
-          if (clientData.uniqueCode === clientCode) {
-            foundClient = clientData;
-            ownerId = clientData.ownerId;
-            break;
-          }
-        }
-      }
-      
-      if (!foundClient) {
-        console.log('❌ [CLIENT ACCESS] Accesso negato');
+      if (!foundClients || foundClients.length === 0) {
+        console.log('❌ [CLIENT ACCESS PG] Cliente non trovato per codice:', clientCode);
         return res.status(404).json({ error: 'Accesso non autorizzato' });
       }
       
-      console.log('🏠 [CLIENT ACCESS] Cliente autenticato:', foundClient.firstName, foundClient.lastName);
+      const foundClient = foundClients[0];
+      console.log('🏠 [CLIENT ACCESS PG] Cliente autenticato:', foundClient.firstName, foundClient.lastName);
       
       // Ritorna SOLO i dati essenziali del cliente - NESSUN riferimento al gestionale
       const pureClientData = {
@@ -5684,13 +5676,13 @@ Studio Professionale`;
         phone: foundClient.phone,
         email: foundClient.email,
         uniqueCode: foundClient.uniqueCode,
-        ownerId: ownerId // Solo per identificare i suoi appuntamenti
+        ownerId: foundClient.ownerId // Solo per identificare i suoi appuntamenti
       };
       
       res.json(pureClientData);
       
     } catch (error) {
-      console.error('❌ [CLIENT ACCESS] Errore sistema:', error);
+      console.error('❌ [CLIENT ACCESS PG] Errore sistema:', error);
       res.status(500).json({ error: 'Errore del sistema' });
     }
   });
