@@ -6,11 +6,11 @@
   },
   "navigation": {
     "home": "Inicio",
-    "notifications": "[NEEDS TRANSLATION] Notifiche",
-    "referral": "[NEEDS TRANSLATION] Referral",
-    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
-    "staff": "[NEEDS TRANSLATION] Staff",
-    "payments": "[NEEDS TRANSLATION] Pagamenti"
+    "notifications": "Notificaciones",
+    "referral": "Referidos",
+    "aiSetup": "Configuración IA",
+    "staff": "Personal",
+    "payments": "Pagos"
   },
   "sidebar": {
     "clients": "Clientes",
@@ -95,16 +95,16 @@
       "november": "Noviembre",
       "december": "Diciembre"
     },
-    "selectNewAppointment": "[NEEDS TRANSLATION] Seleziona nuovo appuntamento",
-    "selectTimeNewAppointment": "[NEEDS TRANSLATION] Seleziona orario nuovo appuntamento",
-    "confirmAndAssociateClient": "[NEEDS TRANSLATION] Conferma e associa cliente",
-    "hasAppointments": "[NEEDS TRANSLATION] Ha appuntamenti",
-    "slotOccupied": "[NEEDS TRANSLATION] Slot occupato da appuntamento precedente",
-    "customDuration": "[NEEDS TRANSLATION] Durata personalizzata",
-    "incrementBy15Min": "[NEEDS TRANSLATION] Incrementa di 15 min",
-    "decrementBy15Min": "[NEEDS TRANSLATION] Decrementa di 15 min",
-    "selected": "[NEEDS TRANSLATION] Selezionato",
-    "select": "[NEEDS TRANSLATION] Seleziona"
+    "selectNewAppointment": "Seleccionar nueva cita",
+    "selectTimeNewAppointment": "Seleccionar hora de la nueva cita",
+    "confirmAndAssociateClient": "Confirmar y asociar cliente",
+    "hasAppointments": "Tiene citas",
+    "slotOccupied": "Espacio ocupado por cita anterior",
+    "customDuration": "Duración personalizada",
+    "incrementBy15Min": "Incrementar 15 min",
+    "decrementBy15Min": "Decrementar 15 min",
+    "selected": "Seleccionado",
+    "select": "Seleccionar"
   },
   "clients": {
     "title": "Clientes",
@@ -194,27 +194,27 @@
       "save": "Guardar",
       "cancel": "Cancelar"
     },
-    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
-    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
-    "showDetails": "[NEEDS TRANSLATION] Dettagli",
-    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
-    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
-    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
-    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
-    "generateQR": "[NEEDS TRANSLATION] Genera QR",
-    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "loading": "Cargando clientes...",
+    "loadingAccessStatus": "Verificando acceso del cliente...",
+    "showDetails": "Detalles",
+    "showAppointments": "Citas",
+    "clientAccess": "Acceso del Cliente",
+    "qrGenerated": "QR generado",
+    "qrNotGenerated": "QR no generado",
+    "generateQR": "Generar QR",
+    "manageClient": "Administrar Cliente",
     "accesses": {
       "loading": "Caricamento...",
       "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
-    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
-    "total": "[NEEDS TRANSLATION] clienti",
-    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
-    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
-    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
-    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+    "subtitle": "Administre todos sus clientes",
+    "total": "clientes",
+    "searchPlaceholder": "Buscar clientes por nombre, teléfono o email...",
+    "allClients": "Todos los clientes",
+    "frequentClients": "Clientes frecuentes",
+    "noConsent": "Sin consentimiento"
   },
   "invoices": {
     "title": "Facturas",
@@ -259,14 +259,14 @@
     "save": "Guardar Ajustes",
     "googleCalendar": "Google calendario",
     "contacts": "Contactos",
-    "saving": "[NEEDS TRANSLATION] Salvataggio in corso...",
-    "contactsTitle": "[NEEDS TRANSLATION] Informazioni di Contatto",
-    "contactsDesc": "[NEEDS TRANSLATION] Gestisci le informazioni di contatto che verranno mostrate a piè di pagina nell'app cliente",
-    "appName": "[NEEDS TRANSLATION] Nome App",
-    "appIcon": "[NEEDS TRANSLATION] Icona App",
-    "integrations": "[NEEDS TRANSLATION] Integrazioni",
-    "appearanceTitle": "[NEEDS TRANSLATION] Identità Aziendale",
-    "appearanceDesc": "[NEEDS TRANSLATION] Personalizza il nome e l'icona dell'applicazione per riflettere l'identità della tua azienda. Queste impostazioni si applicheranno sia all'app principale che all'app cliente."
+    "saving": "Guardando...",
+    "contactsTitle": "Información de Contacto",
+    "contactsDesc": "Administre la información de contacto que se mostrará en el pie de página de la aplicación del cliente",
+    "appName": "Nombre de la App",
+    "appIcon": "Icono de la App",
+    "integrations": "Integraciones",
+    "appearanceTitle": "Identidad Corporativa",
+    "appearanceDesc": "Personalice el nombre y el icono de la aplicación para reflejar la identidad de su empresa. Estas configuraciones se aplicarán tanto a la aplicación principal como a la del cliente."
   },
   "common": {
     "save": "Guardar",
@@ -465,8 +465,8 @@
     "confirmAndAssociateClient": "Confirmar y asociar cliente",
     "selected": "Seleccionado",
     "selectSlots": "Seleccionar rangos horarios",
-    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
-    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+    "confirmDelete": "¿Está seguro de que desea eliminar esta cita?",
+    "confirmDeleteTitle": "Eliminar cita"
   },
   "trial": {
     "days": "días",
