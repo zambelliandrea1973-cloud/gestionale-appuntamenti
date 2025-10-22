@@ -36,7 +36,7 @@ import { loadStorageData, saveStorageData } from './utils/jsonStorage';
 
 // Import PostgreSQL database e Drizzle ORM
 import { db } from './db';
-import { appointments, services } from '../shared/schema';
+import { appointments, services, clients } from '../shared/schema';
 import { eq, and, asc } from 'drizzle-orm';
 
 // TYPE INTERFACES - Define common data structures
