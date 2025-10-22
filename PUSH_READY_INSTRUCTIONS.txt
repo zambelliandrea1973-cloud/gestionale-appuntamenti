@@ -1,0 +1,172 @@
+🚀 ISTRUZIONI PUSH SLIPLANE - PACCHETTO COMPLETO
+================================================
+
+VERSIONE: backup18-commissioni-25-percent-20251022
+DATA: 22 Ottobre 2025
+
+✅ COSA INCLUDE QUESTO PUSH:
+============================
+
+1. ✅ Commissioni Referral al 25% (aggiornate da 10%)
+2. ✅ Traduzioni Complete per 9 Lingue (246 stringhe tradotte)
+   - Italiano (IT) - lingua base
+   - English (EN) - 8 stringhe
+   - Deutsch (DE) - 22 stringhe
+   - Français (FR) - 22 stringhe
+   - Русский (RU) - 25 stringhe
+   - Español (ES) - 40 stringhe
+   - Nederlands (NL) - 43 stringhe
+   - Norsk (NO) - 43 stringhe
+   - Română (RO) - 43 stringhe
+3. ✅ Sistema Multi-tenant Sicuro
+4. ✅ PostgreSQL Database Condiviso (Neon)
+5. ✅ QR Code Access Funzionante
+6. ✅ Sistema Pagamenti (Stripe + PayPal)
+7. ✅ Scheduler Automatici (Promemoria + Payout)
+
+✅ STATO SISTEMA VERIFICATO:
+===========================
+
+Server Status:
+✅ Running su porta 5000
+✅ PostgreSQL database attivo
+✅ 48 appuntamenti caricati
+✅ 40 clienti caricati
+✅ Scheduler promemoria: ATTIVO
+✅ Scheduler payout PayPal: ATTIVO
+✅ Multi-tenant isolation: VERIFICATO
+
+Traduzioni:
+✅ 0 stringhe [NEEDS TRANSLATION] rimaste
+✅ Tutti i file locale allineati
+✅ Sistema multilingua completo
+
+Commissioni:
+✅ 25% su nuovi referral
+✅ PaymentService aggiornato
+✅ Dashboard admin aggiornato
+✅ Frontend aggiornato
+
+🚀 PASSI PER IL DEPLOY:
+======================
+
+STEP 1 - Commit delle Modifiche:
+--------------------------------
+Usa Git per committare e pushare le modifiche.
+Messaggio suggerito: "Sistema completo: commissioni 25% + traduzioni 9 lingue - Ready for Sliplane"
+
+STEP 2 - Sliplane Deploy:
+-------------------------
+1. Vai su Sliplane Dashboard
+2. Il deploy partirà automaticamente dopo il push Git
+3. Attendi il completamento (circa 2-3 minuti)
+
+STEP 3 - Verifica Deploy:
+-------------------------
+✓ Controlla logs: cerca "✅ PostgreSQL database is available"
+✓ Controlla logs: cerca "serving on port 5000"
+✓ Testa login con un utente esistente
+✓ Verifica che vedi i dati corretti (stesso database di Replit)
+✓ Cambia lingua e verifica traduzioni funzionanti
+
+📋 VARIABILI D'AMBIENTE SU SLIPLANE:
+===================================
+
+Assicurati che siano configurate su Sliplane:
+
+DATABASE_URL=<STESSO di Replit - database condiviso!>
+STRIPE_SECRET_KEY=<copia da Replit>
+STRIPE_SECRET_KEY_LIVE=<copia da Replit>
+VITE_STRIPE_PUBLIC_KEY=<copia da Replit>
+VITE_STRIPE_PUBLIC_KEY_LIVE=<copia da Replit>
+PAYPAL_CLIENT_ID=<copia da Replit>
+PAYPAL_CLIENT_SECRET=<copia da Replit>
+PAYPAL_CLIENT_ID_LIVE=<copia da Replit>
+PAYPAL_CLIENT_SECRET_LIVE=<copia da Replit>
+PAYMENT_MODE=<copia da Replit>
+GEMINI_API_KEY=<copia da Replit>
+
+⚠️ IMPORTANTE:
+==============
+DATABASE_URL deve essere IDENTICO tra Replit e Sliplane
+per garantire la sincronizzazione real-time dei dati!
+
+✅ TEST POST-DEPLOY:
+===================
+
+1. Login Multi-Tenant:
+   - Login come utente staff
+   - Verifica che vedi SOLO i tuoi clienti
+   - Verifica che NON vedi clienti di altri
+
+2. Test Traduzioni:
+   - Cambia lingua in English
+   - Cambia lingua in Deutsch
+   - Cambia lingua in Français
+   - Verifica che tutti i testi siano tradotti
+
+3. Test Commissioni:
+   - Verifica dashboard admin: tasso commissione 25%
+   - Crea un test di pagamento (modalità sandbox)
+   - Verifica che commissione 25% venga calcolata
+
+4. Test QR Code:
+   - Genera QR per un cliente
+   - Scansiona con smartphone
+   - Verifica apertura app PWA
+
+📊 METRICHE ATTESE:
+==================
+
+Database:
+- 17+ utenti
+- 48+ appuntamenti
+- 40+ clienti
+- 6+ abbonamenti attivi
+
+Performance:
+- Tempo risposta API: < 200ms
+- Caricamento pagina: < 2s
+- Database query: < 100ms
+
+🎉 IL SISTEMA È PRONTO!
+======================
+
+Tutti i test su Replit sono passati.
+Il codice è stabile e pronto per produzione.
+Le traduzioni sono complete al 100%.
+Le commissioni sono aggiornate al 25%.
+
+Puoi procedere con il push in sicurezza!
+
+📞 SUPPORTO:
+===========
+
+In caso di problemi, consulta:
+- PUSH_SLIPLANE_CHECKLIST.md (troubleshooting dettagliato)
+- SLIPLANE_SETUP.md (setup completo)
+- TRANSLATION_COMPLETION_SUMMARY.txt (dettaglio traduzioni)
+
+📦 FILE MODIFICATI IN QUESTO PUSH:
+==================================
+
+Traduzioni (8 file):
+- client/src/locales/en.json
+- client/src/locales/de.json
+- client/src/locales/fr.json
+- client/src/locales/ru.json
+- client/src/locales/es.json
+- client/src/locales/nl.json
+- client/src/locales/no.json
+- client/src/locales/ro.json
+
+Commissioni (4 file - già pushati precedentemente):
+- server/services/paymentService.ts
+- server/api/simple-routes.ts
+- server/api/individualStaffReferral.ts
+- client/src/pages/ReferralPage.tsx
+
+Documentazione (3 file):
+- replit.md
+- TRANSLATION_COMPLETION_SUMMARY.txt
+- PUSH_READY_INSTRUCTIONS.txt (questo file)

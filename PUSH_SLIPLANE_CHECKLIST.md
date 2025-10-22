@@ -1,11 +1,13 @@
 # ✅ Checklist Push Sliplane - Passo per Passo
 
 ## 📊 Stato Attuale Sistema
-- ✅ Database PostgreSQL: **17 utenti, 6 abbonamenti, 4 commissioni attive**
-- ✅ Sistema Referral: **8 utenti con sponsor**
-- ✅ Commissioni automatiche: **FUNZIONANTI** (25% su pagamenti)
+- ✅ Database PostgreSQL: **48 appuntamenti, 40 clienti caricati**
+- ✅ Sistema Referral: **Commissioni automatiche 25%**
+- ✅ Traduzioni: **9 lingue complete (246 stringhe tradotte)**
 - ✅ Build configurata: **Dockerfile pronto**
 - ✅ Multi-tenant security: **VERIFICATO** (isolamento dati per utente)
+- ✅ QR Code Access: **FUNZIONANTE**
+- ✅ Scheduler: **Promemoria + Payout attivi**
 
 ---
 
@@ -16,7 +18,7 @@
 git add .
 
 # 2. Commit con messaggio descrittivo
-git commit -m "Sistema commissioni referral automatico + PostgreSQL completo - Ready for Sliplane"
+git commit -m "Sistema completo: commissioni 25% + traduzioni 9 lingue - Ready for Sliplane"
 
 # 3. Push su repository
 git push origin main
