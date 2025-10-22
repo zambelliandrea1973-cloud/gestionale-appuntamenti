@@ -6,11 +6,11 @@
   },
   "navigation": {
     "home": "Accueil",
-    "notifications": "[NEEDS TRANSLATION] Notifiche",
-    "referral": "[NEEDS TRANSLATION] Referral",
-    "aiSetup": "[NEEDS TRANSLATION] Setup AI",
-    "staff": "[NEEDS TRANSLATION] Staff",
-    "payments": "[NEEDS TRANSLATION] Pagamenti"
+    "notifications": "Notifications",
+    "referral": "Parrainage",
+    "aiSetup": "Configuration IA",
+    "staff": "Personnel",
+    "payments": "Paiements"
   },
   "sidebar": {
     "clients": "Clients",
@@ -194,27 +194,27 @@
       "save": "Enregistrer",
       "cancel": "Annuler"
     },
-    "loading": "[NEEDS TRANSLATION] Caricamento clienti...",
-    "loadingAccessStatus": "[NEEDS TRANSLATION] Verifica accesso cliente...",
-    "showDetails": "[NEEDS TRANSLATION] Dettagli",
-    "showAppointments": "[NEEDS TRANSLATION] Appuntamenti",
-    "clientAccess": "[NEEDS TRANSLATION] Accesso Cliente",
-    "qrGenerated": "[NEEDS TRANSLATION] QR generato",
-    "qrNotGenerated": "[NEEDS TRANSLATION] QR non generato",
-    "generateQR": "[NEEDS TRANSLATION] Genera QR",
-    "manageClient": "[NEEDS TRANSLATION] Gestisci Cliente",
+    "loading": "Chargement des clients...",
+    "loadingAccessStatus": "Vérification de l'accès client...",
+    "showDetails": "Détails",
+    "showAppointments": "Rendez-vous",
+    "clientAccess": "Accès Client",
+    "qrGenerated": "QR généré",
+    "qrNotGenerated": "QR non généré",
+    "generateQR": "Générer QR",
+    "manageClient": "Gérer le client",
     "accesses": {
       "loading": "Caricamento...",
       "error": "N/D",
       "count": "Accessi all'app: {{count}}",
       "tooltip": "Numero di volte che il cliente ha aperto l'app: {{count}}"
     },
-    "subtitle": "[NEEDS TRANSLATION] Gestisci tutti i tuoi clienti",
-    "total": "[NEEDS TRANSLATION] clienti",
-    "searchPlaceholder": "[NEEDS TRANSLATION] Cerca clienti per nome, telefono o email...",
-    "allClients": "[NEEDS TRANSLATION] Tutti i clienti",
-    "frequentClients": "[NEEDS TRANSLATION] Clienti frequenti",
-    "noConsent": "[NEEDS TRANSLATION] Senza consenso"
+    "subtitle": "Gérez tous vos clients",
+    "total": "clients",
+    "searchPlaceholder": "Rechercher des clients par nom, téléphone ou email...",
+    "allClients": "Tous les clients",
+    "frequentClients": "Clients réguliers",
+    "noConsent": "Sans consentement"
   },
   "invoices": {
     "title": "Factures",
@@ -465,8 +465,8 @@
     "confirmAndAssociateClient": "Confirmer et associer le client",
     "selected": "Sélectionné",
     "selectSlots": "Sélectionner les créneaux horaires",
-    "confirmDelete": "[NEEDS TRANSLATION] Sei sicuro di voler eliminare questo appuntamento?",
-    "confirmDeleteTitle": "[NEEDS TRANSLATION] Elimina appuntamento"
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?",
+    "confirmDeleteTitle": "Supprimer le rendez-vous"
   },
   "trial": {
     "days": "jours",
