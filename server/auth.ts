@@ -539,8 +539,14 @@ export function setupAuth(app: Express) {
             return next(err);
           }
           
-          // Cancella il cookie di sessione sul client
-          res.clearCookie('session-id');
+          // Cancella il cookie di sessione sul client con le stesse opzioni del cookie originale
+          // Questo è CRITICO per garantire la cancellazione effettiva del cookie
+          res.clearCookie('session-id', {
+            path: '/',
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax'
+          });
           console.log(`Logout completato con successo`);
           res.status(200).json({ success: true, message: "Logout completato con successo" });
         });

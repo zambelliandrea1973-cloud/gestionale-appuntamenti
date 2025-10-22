@@ -65,7 +65,7 @@ export default function StaffLogin() {
   const handleClearCache = async () => {
     setIsClearing(true);
     try {
-      // 1. Pulisci sessione server
+      // 1. Pulisci sessione server (questo cancellerà anche il cookie)
       await apiRequest('POST', '/api/logout');
       console.log('🧹 PULIZIA MANUALE: Sessione server pulita');
       
@@ -83,17 +83,10 @@ export default function StaffLogin() {
       queryClient.clear();
       console.log('🧹 PULIZIA MANUALE: Cache React Query pulita');
       
-      // 4. Mostra messaggio di conferma
-      toast({
-        title: "✅ Cache pulita con successo",
-        description: "Tutti i dati temporanei sono stati rimossi. Puoi effettuare il login.",
-      });
-      
-      // 5. Reset form
-      if (!rememberMe) {
-        setUsername("");
-      }
-      setPassword("");
+      // 4. CRITICO: Forza reload completo della pagina per cancellare TUTTI i cookie e cache
+      // Questo garantisce che il browser ricarichi tutto da zero senza sessioni precedenti
+      console.log('🔄 PULIZIA MANUALE: Ricarico pagina per completare pulizia cookie');
+      window.location.reload();
       
     } catch (error) {
       console.error('❌ Errore durante la pulizia:', error);
@@ -102,7 +95,6 @@ export default function StaffLogin() {
         description: "Si è verificato un errore. Riprova.",
         variant: "destructive",
       });
-    } finally {
       setIsClearing(false);
     }
   };
