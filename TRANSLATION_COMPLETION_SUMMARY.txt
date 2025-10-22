@@ -1,8 +1,8 @@
 TRANSLATION COMPLETION - October 22, 2025
 ========================================
 
-BACKUP: backup18-commissioni-25-percent-20251022
-STATUS: Updated with complete translations
+BACKUP: backup19-traduzioni-complete-20251022
+STATUS: Commissioni 25% + Traduzioni Complete (9 lingue)
 
 COMPLETED TRANSLATIONS (246 strings total):
 -------------------------------------------
