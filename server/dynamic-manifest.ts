@@ -88,7 +88,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
     
     // Crea manifest dinamico con start_url che preserva il contesto del cliente
     const storageData = loadStorageData();
-    const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
+    const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Gestionale Appuntamenti';
     
     // Forza aggiornamento completo del manifest per Android PWA
     const manifestVersion = `${Date.now()}-${ownerUserId || 'default'}`;

@@ -118,7 +118,7 @@ const userData = {
       { id: 2, clientId: 2, serviceId: 2, date: "2025-01-16", startTime: "14:00", endTime: "14:15", status: "confermato" }
     ],
     settings: {
-      businessName: "Studio Medico",
+      businessName: "Gestionale Appuntamenti",
       showBusinessName: true
     }
   },
@@ -170,7 +170,7 @@ const userData = {
       { id: 8, clientId: 8, serviceId: 2, date: "2025-01-18", startTime: "13:15", endTime: "14:00", status: "confermato" }
     ],
     settings: {
-      businessName: "Studio Medico",
+      businessName: "Gestionale Appuntamenti",
       showBusinessName: true
     }
   }
@@ -1300,7 +1300,7 @@ export function registerSimpleRoutes(app: Express): Server {
   // Endpoint per ottenere le impostazioni nome aziendale - UNIFICATO PER TUTTI GLI UTENTI
   app.get("/api/company-name-settings", async (req, res) => {
     if (!req.isAuthenticated()) {
-      return res.json({ businessName: "Studio Medico", showBusinessName: true });
+      return res.json({ businessName: "Gestionale Appuntamenti", showBusinessName: true });
     }
 
     const userId = req.user.id;
@@ -1332,7 +1332,7 @@ export function registerSimpleRoutes(app: Express): Server {
     
     // Valori di default se non esistono impostazioni
     const userSettings = {
-      businessName: companyNameSettings.businessName || "Studio Medico",
+      businessName: companyNameSettings.businessName || "Gestionale Appuntamenti",
       showBusinessName: companyNameSettings.showBusinessName !== undefined ? companyNameSettings.showBusinessName : true,
       name: companyNameSettings.name || req.user.username || "Utente",
       fontSize: companyNameSettings.fontSize || 24,
@@ -2680,7 +2680,7 @@ export function registerSimpleRoutes(app: Express): Server {
     const [_, invoice] = invoiceEntry;
     
     // Carica dati aziendali completi (stesso codice della stampa)
-    let businessHeader = 'Studio Medico';
+    let businessHeader = 'Gestionale Appuntamenti';
     let businessData = {
       companyName: '', address: '', city: '', postalCode: '', 
       vatNumber: '', fiscalCode: '', phone: '', email: ''
@@ -3310,7 +3310,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const [_, invoice] = invoiceEntry;
       
       // Carica dati aziendali completi per intestazione fattura
-      let businessHeader = 'Studio Medico';
+      let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
         address: '',
@@ -3575,7 +3575,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const [_, invoice] = invoiceEntry;
       
       // Carica dati aziendali completi per intestazione fattura
-      let businessHeader = 'Studio Medico';
+      let businessHeader = 'Gestionale Appuntamenti';
       let businessData = {
         companyName: '',
         address: '',
@@ -3804,7 +3804,7 @@ export function registerSimpleRoutes(app: Express): Server {
       const [_, invoice] = invoiceEntry;
       
       // Carica le impostazioni nome aziendale dell'utente
-      let businessName = 'Studio Medico';
+      let businessName = 'Gestionale Appuntamenti';
       try {
         const currentStorageData = loadStorageData();
         const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];
@@ -4077,7 +4077,7 @@ ${businessName}`;
     const [_, invoice] = invoiceEntry;
     
     // Stessa logica dati aziendali dell'endpoint /pdf
-    let businessHeader = 'Studio Medico';
+    let businessHeader = 'Gestionale Appuntamenti';
     let businessData = {
       companyName: '', address: '', city: '', postalCode: '', 
       vatNumber: '', fiscalCode: '', phone: '', email: ''
@@ -4366,7 +4366,7 @@ ${businessName}`;
       const [_, invoice] = invoiceEntry;
       
       // Carica nome aziendale personalizzato per mittente
-      let businessName = 'Studio Medico';
+      let businessName = 'Gestionale Appuntamenti';
       try {
         const currentStorageData = loadStorageData();
         const userBusinessSettings = currentStorageData.userBusinessSettings?.[user.id];

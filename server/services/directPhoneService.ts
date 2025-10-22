@@ -235,7 +235,7 @@ class DirectPhoneService {
       
       const phoneNumber = this.activePhone.phoneNumber;
       
-      const messageText = `Studio Medico: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`;
+      const messageText = `Gestionale Appuntamenti: Gentile paziente, confermiamo il suo appuntamento di domani alle 10:00. Cordiali saluti.`;
       console.log(`Generazione link WhatsApp per ${phoneNumber}...`);
       
       // Creiamo un link WhatsApp

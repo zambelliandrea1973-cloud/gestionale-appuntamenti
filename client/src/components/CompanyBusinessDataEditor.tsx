@@ -136,7 +136,7 @@ export default function CompanyBusinessDataEditor() {
               id="companyName"
               value={businessData.companyName}
               onChange={(e) => handleChange('companyName', e.target.value)}
-              placeholder="es. Studio Medico Rossi"
+              placeholder="es. Gestionale Appuntamenti Rossi"
               className="font-medium"
             />
           </div>

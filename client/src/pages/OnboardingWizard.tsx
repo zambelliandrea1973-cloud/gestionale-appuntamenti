@@ -125,7 +125,7 @@ const BusinessInfoStep = ({ onNext, onPrevious, data, isFirst, isLast }: StepPro
             id="businessName"
             value={businessName}
             onChange={(e) => setBusinessName(e.target.value)}
-            placeholder="Es. Studio Medico Rossi"
+            placeholder="Es. Gestionale Appuntamenti Rossi"
           />
         </div>
         

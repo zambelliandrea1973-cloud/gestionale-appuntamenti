@@ -1,0 +1,692 @@
+22/10/2025, 10:45:49:
+build
+Enumerating objects: 20341, done.
+22/10/2025, 10:45:49:
+build
+Counting objects: 100% (462/462), done.
+22/10/2025, 10:45:49:
+build
+Compressing objects: 100% (41/41), done.
+22/10/2025, 10:46:14:
+build
+Total 20341 (delta 448), reused 426 (delta 421), pack-reused 19879 (from 3)
+22/10/2025, 10:46:47:
+build
+#1 [service_event_j1m8xte2n3gj internal] load build definition from Dockerfile
+22/10/2025, 10:46:47:
+build
+#1 transferring dockerfile: 618B done
+22/10/2025, 10:46:47:
+build
+#1 DONE 0.0s
+22/10/2025, 10:46:47:
+build
+22/10/2025, 10:46:47:
+build
+#2 [service_event_j1m8xte2n3gj internal] load metadata for docker.io/library/node:20-alpine
+22/10/2025, 10:46:48:
+build
+#2 DONE 0.8s
+22/10/2025, 10:46:48:
+build
+22/10/2025, 10:46:48:
+build
+#3 [service_event_j1m8xte2n3gj internal] load .dockerignore
+22/10/2025, 10:46:48:
+build
+#3 transferring context: 740B done
+22/10/2025, 10:46:48:
+build
+#3 DONE 0.0s
+22/10/2025, 10:46:48:
+build
+22/10/2025, 10:46:48:
+build
+#4 [service_event_j1m8xte2n3gj] importing cache manifest from local:3333447800284268840
+22/10/2025, 10:46:48:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+22/10/2025, 10:46:48:
+build
+#4 DONE 0.0s
+22/10/2025, 10:46:48:
+build
+22/10/2025, 10:46:48:
+build
+#5 [service_event_j1m8xte2n3gj 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+22/10/2025, 10:46:48:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 done
+22/10/2025, 10:46:48:
+build
+#5 DONE 0.0s
+22/10/2025, 10:46:48:
+build
+22/10/2025, 10:46:48:
+build
+#6 [service_event_j1m8xte2n3gj internal] load build context
+22/10/2025, 10:46:51:
+build
+#6 transferring context: 1.23GB 3.6s done
+22/10/2025, 10:46:51:
+build
+#6 DONE 3.6s
+22/10/2025, 10:46:51:
+build
+22/10/2025, 10:46:51:
+build
+#7 [service_event_j1m8xte2n3gj 2/7] WORKDIR /app
+22/10/2025, 10:46:51:
+build
+#7 CACHED
+22/10/2025, 10:46:51:
+build
+22/10/2025, 10:46:51:
+build
+#8 [service_event_j1m8xte2n3gj 3/7] COPY package.json package-lock.json ./
+22/10/2025, 10:46:51:
+build
+#8 CACHED
+22/10/2025, 10:46:51:
+build
+22/10/2025, 10:46:51:
+build
+#9 [service_event_j1m8xte2n3gj 4/7] RUN npm ci
+22/10/2025, 10:46:51:
+build
+#9 CACHED
+22/10/2025, 10:46:51:
+build
+22/10/2025, 10:46:51:
+build
+#10 [service_event_j1m8xte2n3gj 5/7] COPY . .
+22/10/2025, 10:46:55:
+build
+#10 DONE 3.7s
+22/10/2025, 10:46:55:
+build
+22/10/2025, 10:46:55:
+build
+#11 [service_event_j1m8xte2n3gj 6/7] RUN npx vite build
+22/10/2025, 10:46:56:
+build
+#11 1.217 vite v5.4.14 building for production...
+22/10/2025, 10:46:56:
+build
+#11 1.630 
+22/10/2025, 10:46:57:
+build
+#11 1.635 
+22/10/2025, 10:46:57:
+build
+#11 1.635 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+22/10/2025, 10:46:57:
+build
+#11 1.639 transforming...
+22/10/2025, 10:46:57:
+build
+#11 1.736 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+22/10/2025, 10:46:57:
+build
+#11 1.736   npx update-browserslist-db@latest
+22/10/2025, 10:46:57:
+build
+#11 1.736   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+22/10/2025, 10:47:08:
+build
+#11 13.27 ✓ 3669 modules transformed.
+22/10/2025, 10:47:09:
+build
+#11 14.51 [plugin:vite:reporter] [plugin vite:reporter] 
+22/10/2025, 10:47:09:
+build
+#11 14.51 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+22/10/2025, 10:47:09:
+build
+#11 14.51 
+22/10/2025, 10:47:09:
+build
+#11 14.51 [plugin:vite:reporter] [plugin vite:reporter] 
+22/10/2025, 10:47:09:
+build
+#11 14.51 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+22/10/2025, 10:47:10:
+build
+#11 14.51 
+22/10/2025, 10:47:10:
+build
+#11 14.51 rendering chunks...
+22/10/2025, 10:47:10:
+build
+#11 14.55 computing gzip size...
+22/10/2025, 10:47:10:
+build
+#11 14.63 ../dist/public/index.html                    13.91 kB │ gzip:   3.99 kB
+22/10/2025, 10:47:10:
+build
+#11 14.63 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+22/10/2025, 10:47:10:
+build
+#11 14.63 ../dist/public/assets/index-DnlqbUn4.js   2,046.95 kB │ gzip: 550.09 kB
+22/10/2025, 10:47:10:
+build
+#11 14.63 
+22/10/2025, 10:47:10:
+build
+#11 14.63 (!) Some chunks are larger than 500 kB after minification. Consider:
+22/10/2025, 10:47:10:
+build
+#11 14.63 - Using dynamic import() to code-split the application
+22/10/2025, 10:47:10:
+build
+#11 14.63 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+22/10/2025, 10:47:10:
+build
+#11 14.63 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+22/10/2025, 10:47:10:
+build
+#11 14.63 ✓ built in 13.06s
+22/10/2025, 10:47:10:
+build
+#11 DONE 14.7s
+22/10/2025, 10:47:10:
+build
+22/10/2025, 10:47:10:
+build
+#12 [service_event_j1m8xte2n3gj 7/7] RUN cp -r dist/public server/public
+22/10/2025, 10:47:10:
+build
+#12 DONE 0.1s
+22/10/2025, 10:47:10:
+build
+22/10/2025, 10:47:10:
+build
+#13 [service_event_j1m8xte2n3gj] exporting to image
+22/10/2025, 10:47:10:
+build
+#13 exporting layers
+22/10/2025, 10:47:34:
+build
+#13 exporting layers 24.7s done
+22/10/2025, 10:47:35:
+build
+#13 exporting manifest sha256:dae8311552771abdb758203099187bfded98767927c3a5fa838b66aa7c5fbb51 done
+22/10/2025, 10:47:35:
+build
+#13 exporting config sha256:dcffbffdd901846172ae5bc41090c153e9c4258c523b7711ad1017901e0dac56 done
+22/10/2025, 10:47:35:
+build
+#13 pushing layers
+22/10/2025, 10:47:45:
+build
+#13 pushing layers 10.4s done
+22/10/2025, 10:47:45:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_j1m8xte2n3gj@sha256:dae8311552771abdb758203099187bfded98767927c3a5fa838b66aa7c5fbb51
+22/10/2025, 10:47:45:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_j1m8xte2n3gj@sha256:dae8311552771abdb758203099187bfded98767927c3a5fa838b66aa7c5fbb51 0.1s done
+22/10/2025, 10:47:45:
+build
+#13 DONE 35.2s
+22/10/2025, 10:47:45:
+build
+22/10/2025, 10:47:45:
+build
+#14 [service_event_j1m8xte2n3gj] exporting cache to client directory
+22/10/2025, 10:47:45:
+build
+#14 preparing build cache for export
+22/10/2025, 10:47:45:
+build
+#14 writing layer sha256:145b3533ec06a4352c3a9a543351b29336f016452d311f843856a3929cfb9262 0.0s done
+22/10/2025, 10:47:45:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+22/10/2025, 10:47:45:
+build
+#14 writing layer sha256:336cd8f83b3e00ff51166fd28989eb7502735dc4a67e507f97229718c4059b67
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:336cd8f83b3e00ff51166fd28989eb7502735dc4a67e507f97229718c4059b67 6.5s done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9
+22/10/2025, 10:47:51:
+build
+#14 preparing build cache for export 6.5s done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9 done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:703ca2a1bd99b66f6b41e0c76bb4182cc3e783cc8a8625ab8d38a145fb4f2b5d done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:9862d12ead7a0d09a570a0b089910ba2d8d9137ed50a3b244185f166eec3a29c done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 done
+22/10/2025, 10:47:51:
+build
+#14 writing layer sha256:f689d7656b588a19e98f548eec95197b2580fd19659658da84f9b2dfae24c428 done
+22/10/2025, 10:47:51:
+build
+#14 writing config sha256:595bb20f6d12aab826f56654e7e9b3e2abd60399ac851082adbb2c121887c782 done
+22/10/2025, 10:47:51:
+build
+#14 writing cache image manifest sha256:dc9a8e1935d5653056cd89602d3c52a46cf36918ccb4e0a4b1649d0e45109aef done
+22/10/2025, 10:47:51:
+build
+#14 DONE 6.5s
+22/10/2025, 10:47:55:
+build
+service_event_j1m8xte2n3gj: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+22/10/2025, 10:47:55:
+build
+2d35ebdb57d9: Already exists
+22/10/2025, 10:47:55:
+build
+60e45a9660cf: Already exists
+22/10/2025, 10:47:55:
+build
+e74e4ed823e9: Already exists
+22/10/2025, 10:47:55:
+build
+da04d522c98f: Already exists
+22/10/2025, 10:47:55:
+build
+703ca2a1bd99: Already exists
+22/10/2025, 10:47:55:
+build
+f689d7656b58: Already exists
+22/10/2025, 10:47:55:
+build
+4ab2d8ad865f: Already exists
+22/10/2025, 10:47:55:
+build
+336cd8f83b3e: Pulling fs layer
+22/10/2025, 10:47:55:
+build
+145b3533ec06: Pulling fs layer
+22/10/2025, 10:47:55:
+build
+9862d12ead7a: Pulling fs layer
+22/10/2025, 10:47:55:
+build
+145b3533ec06: Verifying Checksum
+22/10/2025, 10:47:55:
+build
+145b3533ec06: Download complete
+22/10/2025, 10:47:55:
+build
+9862d12ead7a: Download complete
+22/10/2025, 10:48:01:
+build
+336cd8f83b3e: Verifying Checksum
+22/10/2025, 10:48:01:
+build
+336cd8f83b3e: Download complete
+22/10/2025, 10:48:10:
+build
+336cd8f83b3e: Pull complete
+22/10/2025, 10:48:10:
+build
+145b3533ec06: Pull complete
+22/10/2025, 10:48:10:
+build
+9862d12ead7a: Pull complete
+22/10/2025, 10:48:10:
+build
+Digest: sha256:dae8311552771abdb758203099187bfded98767927c3a5fa838b66aa7c5fbb51
+22/10/2025, 10:48:10:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_j1m8xte2n3gj
+22/10/2025, 10:48:15:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+22/10/2025, 10:48:15:
+runtime
+Servizio gestione telefono diretto inizializzato
+22/10/2025, 10:48:16:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+22/10/2025, 10:48:16:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+22/10/2025, 10:48:19:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+22/10/2025, 10:48:19:
+runtime
+Scheduler dei promemoria avviato con successo
+22/10/2025, 10:48:19:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+22/10/2025, 10:48:19:
+runtime
+Tutti gli scheduler inizializzati
+22/10/2025, 10:48:19:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+22/10/2025, 10:48:19:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+22/10/2025, 10:48:19:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+22/10/2025, 10:48:19:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+22/10/2025, 10:48:19:
+runtime
+🔍 Controllo integrità all'avvio:
+22/10/2025, 10:48:19:
+runtime
+   📅 Appuntamenti caricati: 48
+22/10/2025, 10:48:19:
+runtime
+   👥 Clienti caricati: 40
+22/10/2025, 10:48:19:
+runtime
+   🔍 Primi 3 appuntamenti: [
+22/10/2025, 10:48:19:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+22/10/2025, 10:48:19:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+22/10/2025, 10:48:19:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+22/10/2025, 10:48:19:
+runtime
+]
+22/10/2025, 10:48:19:
+runtime
+✅ Controllo integrità completato
+22/10/2025, 10:48:19:
+runtime
+8:48:19 AM [express] serving on port 5000
+22/10/2025, 10:48:19:
+runtime
+Telefono caricato dal database: +393472550110
+22/10/2025, 10:48:20:
+runtime
+✅ PostgreSQL database is available
+22/10/2025, 10:48:24:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+22/10/2025, 10:48:24:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+22/10/2025, 10:48:24:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Thu Oct 23 2025)
+22/10/2025, 10:48:24:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+22/10/2025, 10:48:24:
+runtime
+Inviati 0/0 promemoria
+22/10/2025, 10:48:24:
+runtime
+Job iniziale completato: inviati 0 promemoria
+22/10/2025, 10:48:39:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 10:48:39:
+runtime
+Logout completato con successo
+22/10/2025, 10:48:39:
+runtime
+8:48:39 AM [express] POST /api/logout 200 in 6ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 10:48:40:
+runtime
+8:48:40 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761122920703
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122920703' }
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 10:48:41:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 10:48:41:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761122921111-default
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 10:48:41:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122920703' }
+22/10/2025, 10:48:41:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+22/10/2025, 10:48:41:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1761122921111.5867&android=1","/pwa-icon/192x192?owner=default&v=1761122921111.5867&android=1","/pwa-icon/512x512?owner=default&v=1761122921111.5867&android=1"]
+22/10/2025, 10:48:41:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+22/10/2025, 10:48:41:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+22/10/2025, 10:48:41:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+22/10/2025, 10:48:41:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+22/10/2025, 10:48:41:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+22/10/2025, 10:48:47:
+runtime
+8:48:47 AM [express] GET /api/timezone-settings 304 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 10:48:47:
+runtime
+8:48:47 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761122925857
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122925857' }
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 10:48:47:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 10:48:47:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761122927381-default
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+22/10/2025, 10:48:47:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122925857' }
+22/10/2025, 10:48:47:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+22/10/2025, 10:48:47:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1761122927390.1711&android=1","/pwa-icon/192x192?owner=default&v=1761122927390.1711&android=1","/pwa-icon/512x512?owner=default&v=1761122927390.1711&android=1"]
+22/10/2025, 10:48:47:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+22/10/2025, 10:48:47:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+22/10/2025, 10:48:47:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+22/10/2025, 10:48:47:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+22/10/2025, 10:48:47:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+22/10/2025, 10:48:52:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 10:48:52:
+runtime
+Logout completato con successo
+22/10/2025, 10:48:52:
+runtime
+8:48:52 AM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 10:48:52:
+runtime
+8:48:52 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 10:48:54:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 10:48:54:
+runtime
+Logout completato con successo
+22/10/2025, 10:48:54:
+runtime
+8:48:54 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 10:48:55:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+22/10/2025, 10:48:55:
+runtime
+Logout completato con successo
+22/10/2025, 10:48:55:
+runtime
+8:48:55 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+22/10/2025, 10:48:55:
+runtime
+8:48:55 AM [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+22/10/2025, 10:48:55:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761122935012
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122935012' }
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+22/10/2025, 10:48:55:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761122935351-default
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+22/10/2025, 10:48:55:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122935012' }
+22/10/2025, 10:48:55:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+22/10/2025, 10:48:55:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1761122935352.0818&android=1","/pwa-icon/192x192?owner=default&v=1761122935352.0818&android=1","/pwa-icon/512x512?owner=default&v=1761122935352.0818&android=1"]
+22/10/2025, 10:48:55:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+22/10/2025, 10:48:55:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+22/10/2025, 10:48:55:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+22/10/2025, 10:48:55:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+22/10/2025, 10:48:55:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+22/10/2025, 10:48:57:
+runtime
+Login staff richiesto per: faverioelisa6@gmail.com
+22/10/2025, 10:48:57:
+runtime
+Login staff completato con successo per: faverioelisa6@gmail.com tipo: staff
+22/10/2025, 10:48:57:
+runtime
+8:48:57 AM [express] POST /api/staff/login 200 in 302ms :: {"id":16,"username":"faverioelisa6@gmail.…
+22/10/2025, 10:48:58:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761122937876
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122937876' }
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+22/10/2025, 10:48:58:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761122938243-default
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+22/10/2025, 10:48:58:
+runtime
+🔍 PWA MANIFEST: Query params: { v: '1761122937876' }
+22/10/2025, 10:48:58:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+22/10/2025, 10:48:58:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1761122938244.3027&android=1","/pwa-icon/192x192?owner=default&v=1761122938244.3027&android=1","/pwa-icon/512x512?owner=default&v=1761122938244.3027&android=1"]
+22/10/2025, 10:48:58:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+22/10/2025, 10:48:58:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+22/10/2025, 10:48:58:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per owner default
+22/10/2025, 10:48:58:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner default
+22/10/2025, 10:48:58:
+runtime
+✅ ICON PROXY DB: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
