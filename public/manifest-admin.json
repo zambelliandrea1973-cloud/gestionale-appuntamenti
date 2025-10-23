@@ -1,0 +1,74 @@
+{
+  "name": "Gestionale Appuntamenti - Dashboard Professionale",
+  "short_name": "Gestionale",
+  "description": "Dashboard completa per gestione clienti, appuntamenti e servizi medici",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#006400",
+  "orientation": "any",
+  "scope": "/",
+  "id": "gestionale-appuntamenti-admin-dashboard",
+  "lang": "it-IT",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "categories": ["business", "healthcare", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Calendario",
+      "url": "/calendario",
+      "description": "Visualizza appuntamenti nel calendario",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Clienti",
+      "url": "/clienti",
+      "description": "Gestisci i tuoi clienti",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Notifiche",
+      "url": "/notifiche",
+      "description": "Visualizza le notifiche",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
