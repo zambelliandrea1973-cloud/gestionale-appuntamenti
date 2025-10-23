@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useMutation } from "@tanstack/react-query";
 import PaymentMethodsConfig from '@/components/payment/PaymentMethodsConfig';
+import SubscriptionPlansAdmin from '@/components/SubscriptionPlansAdmin';
 import { 
   Euro, 
   Users, 
@@ -425,72 +426,17 @@ export default function PaymentAdmin() {
             </TabsContent>
             
             <TabsContent value="plans">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Piani di Abbonamento</CardTitle>
-                  <CardDescription>
-                    Dettaglio dei piani di abbonamento disponibili
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="rounded-md border overflow-hidden">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>ID</TableHead>
-                          <TableHead>Nome</TableHead>
-                          <TableHead>Prezzo</TableHead>
-                          <TableHead>Intervallo</TableHead>
-                          <TableHead>Stato</TableHead>
-                          <TableHead>Features</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {dashboardData?.plans?.length > 0 ? (
-                          dashboardData.plans.map((plan: any) => (
-                            <TableRow key={plan.id}>
-                              <TableCell className="font-medium">{plan.id}</TableCell>
-                              <TableCell>{plan.name}</TableCell>
-                              <TableCell>{formatCurrency(plan.price / 100)}</TableCell>
-                              <TableCell>{plan.interval === 'month' ? 'Mensile' : 'Annuale'}</TableCell>
-                              <TableCell>
-                                {plan.isActive ? (
-                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    <CheckCircle2 className="w-3 h-3 mr-1" /> Attivo
-                                  </span>
-                                ) : (
-                                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                    Inattivo
-                                  </span>
-                                )}
-                              </TableCell>
-                              <TableCell>
-                                {plan.features && typeof plan.features === 'string' ? (
-                                  <div className="flex flex-wrap gap-1">
-                                    {JSON.parse(plan.features).map((feature: string, index: number) => (
-                                      <span key={index} className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-blue-50 text-blue-800">
-                                        <Tag className="w-3 h-3 mr-1" /> {feature}
-                                      </span>
-                                    ))}
-                                  </div>
-                                ) : (
-                                  '-'
-                                )}
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell colSpan={6} className="text-center py-4">
-                              Nessun piano di abbonamento trovato
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Piani di Abbonamento</CardTitle>
+                    <CardDescription>
+                      Gestisci i piani di abbonamento: modifica prezzi, features e disponibilità
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+                <SubscriptionPlansAdmin />
+              </div>
             </TabsContent>
             
             <TabsContent value="licenses">
