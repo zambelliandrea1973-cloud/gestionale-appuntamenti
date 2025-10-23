@@ -5,25 +5,14 @@ import { createServer, type Server } from "http";
 
 import { serveDynamicManifest } from './dynamic-manifest'
 import { serveCustomIcon } from './icon-proxy'
+import { serveAdminManifest } from './admin-manifest'
 
 export function registerRoutes(app: Express): Server {
   // Route proxy per icone PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
-  // Route per il manifest ADMIN (gestionale professionista)
-  app.get('/manifest-admin.json', (req, res) => {
-    const path = require('path');
-    const manifestPath = path.join(process.cwd(), 'public', 'manifest-admin.json');
-    
-    res.set({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=3600',
-      'Access-Control-Allow-Origin': '*'
-    });
-    
-    console.log('📱 MANIFEST ADMIN: Servendo manifest gestionale da', manifestPath);
-    res.sendFile(manifestPath);
-  });
+  // Route per il manifest ADMIN (gestionale professionista) - DINAMICO con autenticazione
+  app.get('/manifest-admin.json', serveAdminManifest);
   
   // Route per il manifest dinamico PWA (clienti)
   app.get('/manifest.json', serveDynamicManifest);

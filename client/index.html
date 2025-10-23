@@ -50,8 +50,8 @@
         
         console.log('📱 [MANIFEST CLIENTE] URL:', manifestUrl);
       } else {
-        // GESTIONALE ADMIN: Usa manifest statico per dashboard professionista
-        manifestUrl = '/manifest-admin.json';
+        // GESTIONALE ADMIN: Usa manifest dinamico per dashboard professionista
+        manifestUrl = '/manifest-admin.json?ts=' + Date.now();
         console.log('📱 [MANIFEST ADMIN] URL:', manifestUrl);
       }
       
