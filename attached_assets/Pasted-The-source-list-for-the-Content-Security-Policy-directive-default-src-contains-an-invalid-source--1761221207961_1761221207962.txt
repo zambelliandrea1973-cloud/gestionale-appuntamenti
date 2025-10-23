@@ -1,0 +1,288 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.Comprendi l'errore
+14The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?Comprendi l'errore
+14The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.Comprendi l'errore
+WifeScheduler:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.Comprendi l'errore
+WifeScheduler:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?Comprendi l'errore
+WifeScheduler:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.Comprendi l'errore
+_app-5007879f1ee9a9d0.js:28 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+_app-5007879f1ee9a9d0.js:28 [LaunchDarkly] LaunchDarkly client initialized
+_app-5007879f1ee9a9d0.js:28 Adding extension: Javascript Commands Object
+_app-5007879f1ee9a9d0.js:28 Adding extension: API Request Tester Object
+_app-5007879f1ee9a9d0.js:28 Adding extension: AI Playground Object
+framework-6f15d48334768d79.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'errore
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'battery'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'errore
+_app-5007879f1ee9a9d0.js:28 Command: javascript-root-command has unrecognized contributions: commandbar. Valid contributions are commandbar,filetree-context-menu,sidebar-search,editor-context-menu Object
+(anonime) @ _app-5007879f1ee9a9d0.js:28Comprendi l'avviso
+framework-6f15d48334768d79.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-6f15d48334768d79.js:1Comprendi l'errore
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.Comprendi l'errore
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'ambient-light-sensor'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'battery'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'execution-while-not-rendered'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'layout-animations'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'legacy-image-formats'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'navigation-override'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'oversized-images'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'publickey-credentials'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'speaker-selection'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'unoptimized-images'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Unrecognized feature: 'unsized-media'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Allow attribute will take precedence over 'allowfullscreen'.Comprendi l'avviso
+workspace_iframe.html?initialPath=%2F&id=%3Arke%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.Comprendi l'avviso
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<'Comprendi l'errore
+VM7 injected.js:27 PWA check - standalone mode: false
+VM7 injected.js:27 PWA check - iOS fullscreen: undefined
+VM7 injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+VM7 injected.js:27 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+VM7 injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license?t=1761220945622:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)Comprendi l'errore
+VM7 injected.js:27 🔍 Risposta user-with-license: 401 false
+VM7 injected.js:27 🔍 Utente non autenticato, ritorno null
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Inizializzazione: [object Object]
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Dashboard senza login, manifest NON aggiunto
+VM7 injected.js:27 Stato autenticazione: [object Object]
+VM7 injected.js:27 Errore durante la registrazione del Service Worker: [object DOMException]
+(anonime) @ VM7 injected.js:27Comprendi l'errore
+VM7 injected.js:27 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM7 injected.js:27Comprendi l'errore
+VM7 injected.js:27 Navigator serviceWorker: [object ServiceWorkerContainer]
+VM7 injected.js:27 Location protocol: https:
+VM7 injected.js:27 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+2VM7 injected.js:27 Fuso orario diverso da quello salvato, aggiornamento...
+2VM7 injected.js:27 Fuso orario aggiornato con successo
+2VM7 injected.js:27 Nessuna informazione di contatto disponibile
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Inizializzazione: [object Object]
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Dashboard senza login, manifest NON aggiunto
+VM7 injected.js:27 Esecuzione richiesta POST a /api/logout 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta POST a /api/logout: [object Object]
+VM7 injected.js:27 Stato autenticazione: [object Object]
+VM7 injected.js:27 Esecuzione richiesta POST a /api/logout 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta POST a /api/logout: [object Object]
+VM7 injected.js:27 Risposta da /api/logout: 200 OK ok: true
+VM7 injected.js:27 🧹 Sessione server pulita all'arrivo su StaffLogin
+VM7 injected.js:27 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+VM7 injected.js:27 🧹 Query di autenticazione invalidate
+VM7 injected.js:27 Risposta da /api/logout: 200 OK ok: true
+VM7 injected.js:27 🧹 Sessione server pulita all'arrivo su StaffLogin
+VM7 injected.js:27 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+VM7 injected.js:27 🧹 Query di autenticazione invalidate
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license?t=1761220948405:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)Comprendi l'errore
+VM7 injected.js:27 🔍 Risposta user-with-license: 401 false
+VM7 injected.js:27 🔍 Utente non autenticato, ritorno null
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/api/user-with-license?t=1761220948451:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)Comprendi l'errore
+VM7 injected.js:27 🔍 Risposta user-with-license: 401 false
+VM7 injected.js:27 🔍 Utente non autenticato, ritorno null
+VM7 injected.js:27 Esecuzione richiesta POST a /api/staff/login {"username":"busnari.silvia@libero.it","password":"gironico"}
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta POST a /api/staff/login: [object Object]
+VM7 injected.js:27 Risposta da /api/staff/login: 200 OK ok: true
+VM7 injected.js:27 Login riuscito, dati utente: [object Object]
+VM7 injected.js:27 🧹 Rimosso localStorage: i18nextLng
+VM7 injected.js:27 🧹 Rimosso localStorage: healthcare_app_contact_info_user_14
+VM7 injected.js:27 🧹 Cache React Query completamente pulita al login
+VM7 injected.js:27 Utente standard, reindirizzamento alla dashboard
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<'Comprendi l'errore
+VM7 injected.js:27 PWA check - standalone mode: false
+VM7 injected.js:27 PWA check - iOS fullscreen: undefined
+2VM7 injected.js:27 Nessuna informazione di contatto disponibile
+VM7 injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+VM7 injected.js:27 🏠 HOME AppIcon: Inizio caricamento icona
+VM7 injected.js:27 Esecuzione richiesta GET a /api/client-app-info 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta GET a /api/client-app-info: Object
+VM7 injected.js:27 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+VM7 injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+VM7 injected.js:27 🏠 HOME AppIcon: Inizio caricamento icona
+VM7 injected.js:27 Esecuzione richiesta GET a /api/client-app-info 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta GET a /api/client-app-info: Object
+VM7 injected.js:27 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+VM7 injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+VM7 injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+VM7 injected.js:27 Fuso orario diverso da quello salvato, aggiornamento...
+VM7 injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+VM7 injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+2VM7 injected.js:27 Nessuna informazione di contatto disponibile
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Inizializzazione: Object
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 14
+VM7 injected.js:27 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?ts=1761220959120
+VM7 injected.js:27 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+VM7 injected.js:27 Esecuzione richiesta GET a /api/company-name-settings 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta GET a /api/company-name-settings: Object
+VM7 injected.js:27 Esecuzione richiesta GET a /api/contact-info 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta GET a /api/contact-info: Object
+VM7 injected.js:27 Stato autenticazione: Object
+VM7 injected.js:27 Esecuzione richiesta GET a /api/tenant-context 
+VM7 injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+VM7 injected.js:27 Header x-device-type aggiunto: desktop
+VM7 injected.js:27 Dettagli richiesta GET a /api/tenant-context: Object
+2VM7 injected.js:27 Nessuna informazione di contatto disponibile
+VM7 injected.js:27 Fuso orario diverso da quello salvato, aggiornamento...
+VM7 injected.js:27 Fuso orario aggiornato con successo
+VM7 injected.js:27 Risposta da /api/company-name-settings: 200 OK ok: true
+VM7 injected.js:27 🏢 FRONTEND CompanyName: Risposta API status: 200
+VM7 injected.js:27 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+VM7 injected.js:27 Risposta da /api/contact-info: 200 OK ok: true
+VM7 injected.js:27 ✅ Informazioni di contatto caricate da API per utente 14: Object
+VM7 injected.js:27 Risposta da /api/tenant-context: 200 OK ok: true
+VM7 injected.js:27 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+VM7 injected.js:27 Fuso orario aggiornato con successo
+VM7 injected.js:27 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM7 injected.js:27Comprendi l'errore
+VM7 injected.js:27 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM7 injected.js:27Comprendi l'errore
+VM7 injected.js:27 Navigator serviceWorker: ServiceWorkerContainer
+VM7 injected.js:27 Location protocol: https:
+VM7 injected.js:27 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+VM7 injected.js:27 Risposta da /api/client-app-info: 200 OK ok: true
+VM7 injected.js:27 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+VM7 injected.js:27 🏠 HOME AppIcon: Dati parsati: Object
+VM7 injected.js:27 ✅ HOME AppIcon: Icona impostata correttamente
+VM7 injected.js:27 Risposta da /api/client-app-info: 200 OK ok: true
+VM7 injected.js:27 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+VM7 injected.js:27 🏠 HOME AppIcon: Dati parsati: Object
+VM7 injected.js:27 ✅ HOME AppIcon: Icona impostata correttamente
+VM7 injected.js:27 🧹 [MANIFEST INJECTOR] Manifest rimosso
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Inizializzazione: Object
+VM7 injected.js:27 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 14
+VM7 injected.js:27 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=14&ts=1761220968255
+VM7 injected.js:27 [vite] server connection lost. Polling for restart...
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<' (at disable-vite-overlay.js:1:1)Comprendi l'errore
+injected.js:27 PWA check - standalone mode: false
+injected.js:27 PWA check - iOS fullscreen: undefined
+4WifeScheduler:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedComprendi l'errore
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+injected.js:27 🏠 HOME AppIcon: Inizio caricamento icona
+injected.js:27 Esecuzione richiesta GET a /api/client-app-info 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+injected.js:27 📱 MOBILE SYNC: Prima visita o lunga assenza, forzando refresh completo...
+injected.js:27 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+injected.js:27 🏠 HOME AppIcon: Inizio caricamento icona
+injected.js:27 Esecuzione richiesta GET a /api/client-app-info 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 📱 MOBILE SYNC: App tornata visibile, forzando refresh dati...
+injected.js:27 📱 MOBILE SYNC: Cache invalidata e refetch forzato
+injected.js:27 Fuso orario diverso da quello salvato, aggiornamento...
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 📱 [MANIFEST INJECTOR] Inizializzazione: {isClientArea: false, userLogged: true, location: '/dashboard'}
+injected.js:27 📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato: 14
+injected.js:27 ✅ [MANIFEST INJECTOR] Manifest aggiunto: /manifest-admin.json?userId=14&ts=1761221072822
+injected.js:27 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+injected.js:27 Esecuzione richiesta GET a /api/company-name-settings 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 Esecuzione richiesta GET a /api/contact-info 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+injected.js:27 Esecuzione richiesta GET a /api/tenant-context 
+injected.js:27 Header anti-cache aggiunti per garantire dati sempre freschi
+injected.js:27 Header x-device-type aggiunto: desktop
+injected.js:27 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Nessuna informazione di contatto disponibile
+injected.js:27 Fuso orario diverso da quello salvato, aggiornamento...
+injected.js:27 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ injected.js:27
+(anonime) @ dashboard:259
+Promise.catch
+(anonime) @ dashboard:258Comprendi l'errore
+injected.js:27 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ injected.js:27
+(anonime) @ dashboard:263
+Promise.catch
+(anonime) @ dashboard:258Comprendi l'errore
+injected.js:27 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+injected.js:27 Location protocol: https:
+injected.js:27 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+The script has an unsupported MIME type ('text/html').Comprendi l'errore
+injected.js:27 Fuso orario aggiornato con successo
+injected.js:27 Risposta da /api/contact-info: 200 OK ok: true
+injected.js:27 ✅ Informazioni di contatto caricate da API per utente 14: {email: 'silvia.busnari@libero.it', phone: '+39 3471445767', phone1: '+39 3471445767', phone2: '', website: 'biomedicinaintegrata.it', …}
+injected.js:27 Risposta da /api/company-name-settings: 200 OK ok: true
+injected.js:27 🏢 FRONTEND CompanyName: Risposta API status: 200
+injected.js:27 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true, name: 'Silvia Busnari ', fontSize: 45, fontFamily: 'Lucida Sans Unicode', …}
+injected.js:27 Risposta da /api/tenant-context: 200 OK ok: true
+injected.js:27 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+injected.js:27 Fuso orario aggiornato con successo
+injected.js:27 Risposta da /api/client-app-info: 200 OK ok: true
+injected.js:27 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+injected.js:27 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 837291, url: 'data:image/jpeg;base64,/9j//gAOTGF2YzUyLjIwLjAA/9s...'}
+injected.js:27 ✅ HOME AppIcon: Icona impostata correttamente
+injected.js:27 Risposta da /api/client-app-info: 200 OK ok: true
+injected.js:27 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+injected.js:27 🏠 HOME AppIcon: Dati parsati: {hasIcon: true, iconLength: 837291, url: 'data:image/jpeg;base64,/9j//gAOTGF2YzUyLjIwLjAA/9s...'}
+injected.js:27 ✅ HOME AppIcon: Icona impostata correttamente
