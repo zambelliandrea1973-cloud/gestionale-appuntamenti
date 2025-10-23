@@ -8,20 +8,32 @@ export async function serveAdminManifest(req: Request, res: Response) {
   try {
     console.log('🔍 ADMIN MANIFEST: Richiesta manifest area professionale');
     console.log('🔍 ADMIN MANIFEST: User loggato:', req.user ? `ID ${(req.user as any).id}` : 'NESSUNO');
+    console.log('🔍 ADMIN MANIFEST: Query params:', req.query);
     
-    // STRATEGIA: Serve manifest anche senza autenticazione
-    // Se loggato → icona personalizzata
-    // Se non loggato → icona default (l'utente dovrà reinstallare dopo login)
+    // STRATEGIA MULTI-LAYER per identificare l'utente:
+    // 1. Query param userId (priorità ALTA - usato durante installazione PWA senza cookie)
+    // 2. Sessione req.user (fallback se c'è sessione attiva)
+    // 3. Default (se nessuno dei precedenti)
     
     let userId: number | string = 'default';
     let userName = 'Gestionale Appuntamenti';
     
-    if (req.user) {
+    // Priorità 1: Query parameter userId
+    if (req.query.userId) {
+      userId = parseInt(req.query.userId as string);
+      // Carica nome utente dal database se necessario (opzionale per ora)
+      userName = 'Professionista';
+      console.log(`📱 ADMIN MANIFEST: UserId da query param: ${userId}`);
+    }
+    // Priorità 2: Sessione attiva
+    else if (req.user) {
       userId = (req.user as any).id;
       userName = (req.user as any).businessName || (req.user as any).name || 'Professionista';
       console.log(`📱 ADMIN MANIFEST: Generando manifest per ${userName} (ID: ${userId})`);
-    } else {
-      console.log(`📱 ADMIN MANIFEST: Utente non loggato, servendo manifest con icona default`);
+    } 
+    // Priorità 3: Default
+    else {
+      console.log(`📱 ADMIN MANIFEST: Nessun userId, servendo manifest con icona default`);
     }
     
     // Versione manifest basata su userId + timestamp per cache busting

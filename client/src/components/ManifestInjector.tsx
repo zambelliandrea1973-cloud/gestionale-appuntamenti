@@ -53,7 +53,9 @@ export function ManifestInjector() {
       
     } else if (user) {
       // GESTIONALE ADMIN: Solo se utente è loggato!
-      manifestUrl = `/manifest-admin.json?ts=${Date.now()}`;
+      // IMPORTANTE: Aggiungi userId come query param perché il browser potrebbe richiedere
+      // il manifest SENZA cookie durante l'installazione della PWA
+      manifestUrl = `/manifest-admin.json?userId=${user.id}&ts=${Date.now()}`;
       console.log('📱 [MANIFEST INJECTOR] Dashboard admin, utente loggato:', user.id);
     } else {
       // Utente NON loggato sulla dashboard → NON aggiungere manifest
