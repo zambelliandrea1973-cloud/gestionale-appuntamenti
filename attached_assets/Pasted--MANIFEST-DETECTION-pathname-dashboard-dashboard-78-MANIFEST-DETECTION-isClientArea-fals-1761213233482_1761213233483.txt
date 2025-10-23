@@ -1,0 +1,53 @@
+📱 [MANIFEST DETECTION] pathname: /dashboard
+dashboard:78 📱 [MANIFEST DETECTION] isClientArea: false
+dashboard:104 📱 [MANIFEST ADMIN] URL: /manifest-admin.json?ts=1761213169562
+dashboard:113 📱 [MANIFEST IMMEDIATO] Creato con URL: /manifest-admin.json?ts=1761213169562
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<'Comprendi l'errore
+dashboard:175 PWA check - standalone mode: false
+dashboard:176 PWA check - iOS fullscreen: undefined
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:971 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Inizio caricamento icona
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/client-app-info 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/client-app-info: Object
+index-DPqE_dPo.js:723 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+dashboard:256 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://gestionale-appuntamenti.sliplane.app/') with script ('https://gestionale-appuntamenti.sliplane.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ dashboard:256Comprendi l'errore
+dashboard:260 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://gestionale-appuntamenti.sliplane.app/') with script ('https://gestionale-appuntamenti.sliplane.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ dashboard:260Comprendi l'errore
+dashboard:264 Navigator serviceWorker: ServiceWorkerContainer
+dashboard:265 Location protocol: https:
+dashboard:266 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+index-DPqE_dPo.js:971 Fuso orario diverso da quello salvato, aggiornamento...
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 3
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/company-name-settings: Object
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/contact-info: Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Dati parsati: Object
+index-DPqE_dPo.js:723 ✅ HOME AppIcon: Icona impostata correttamente
+index-DPqE_dPo.js:971 Fuso orario aggiornato con successo
+index-DPqE_dPo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (admin)
+index-DPqE_dPo.js:48 Risposta da /api/contact-info: 200  ok: true
+index-DPqE_dPo.js:683 ✅ Informazioni di contatto caricate da API per utente 3: Object
+index-DPqE_dPo.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-DPqE_dPo.js:723 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
