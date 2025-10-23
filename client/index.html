@@ -26,7 +26,11 @@
       const clientToken = pathMatch ? pathMatch[1] : null;
       
       // Determina se siamo nell'area cliente o nel gestionale admin
+      // IMPORTANTE: Verifica path completo per distinguere cliente da admin
       const isClientArea = window.location.pathname.includes('/client/PROF_');
+      
+      console.log('📱 [MANIFEST DETECTION] pathname:', window.location.pathname);
+      console.log('📱 [MANIFEST DETECTION] isClientArea:', isClientArea);
       
       let manifestUrl;
       

@@ -1,0 +1,1675 @@
+3/10/2025, 10:21:13:
+costruire
+#8 21,99
+23/10/2025, 10:21:13:
+costruire
+#8 21.99 ha aggiunto 939 pacchetti e ne ha controllati 940 in 22 secondi
+23/10/2025, 10:21:13:
+costruire
+#8 21,99
+23/10/2025, 10:21:13:
+costruire
+#8 21.99 101 pacchetti sono in cerca di finanziamenti
+23/10/2025, 10:21:13:
+costruire
+#8 21,99 esegui `npm fund` per i dettagli
+23/10/2025, 10:21:13:
+costruire
+#8 22.04
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 18 vulnerabilità (3 basse, 8 moderate, 6 alte, 1 critica)
+23/10/2025, 10:21:13:
+costruire
+#8 22.04
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 Per risolvere problemi che non richiedono attenzione, eseguire:
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 correzione audit npm
+23/10/2025, 10:21:13:
+costruire
+#8 22.04
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 Per risolvere tutti i problemi (incluse le modifiche interrompenti), eseguire:
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 correzione audit npm --force
+23/10/2025, 10:21:13:
+costruire
+#8 22.04
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 Eseguire `npm audit` per i dettagli.
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 avviso npm
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 avviso npm Nuova versione principale di npm disponibile! 10.8.2 -> 11.6.2
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 Avviso npm Changelog: https://github.com/npm/cli/releases/tag/v11.6.2
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 avviso npm Per aggiornare eseguire: npm install -g npm@11.6.2
+23/10/2025, 10:21:13:
+costruire
+#8 22.04 avviso npm
+23/10/2025, 10:21:14:
+costruire
+#8 FATTO 23,8s
+23/10/2025, 10:21:15:
+costruire
+23/10/2025, 10:21:15:
+costruire
+#9 [service_event_3y5k9y0cyb0m 5/7] COPIA . .
+23/10/2025, 10:21:18:
+costruire
+#9 FATTO 3.3s
+23/10/2025, 10:21:18:
+costruire
+23/10/2025, 10:21:18:
+costruire
+#10 [service_event_3y5k9y0cyb0m 6/7] ESEGUI la build npx vite
+23/10/2025, 10:21:19:
+costruire
+#10 0.988 vite v5.4.14 in fase di compilazione per la produzione...
+23/10/2025, 10:21:19:
+costruire
+#10 1.092
+23/10/2025, 10:21:19:
+costruire
+#10 1.327
+23/10/2025, 10:21:19:
+costruire
+#10 1.327 /forced-style.css non esiste in fase di compilazione, rimarrà invariato per essere risolto in fase di esecuzione
+23/10/2025, 10:21:19:
+costruire
+#10 1.331 trasformando...
+23/10/2025, 10:21:19:
+costruire
+#10 1.363 Browserslist: i dati del browser (caniuse-lite) risalgono a 12 mesi fa. Eseguire:
+23/10/2025, 10:21:19:
+costruire
+#10 1.363 npx update-browserslist-db@latest
+23/10/2025, 10:21:19:
+costruire
+#10 1.363 Perché dovresti farlo regolarmente: https://github.com/browserslist/update-db#readme
+23/10/2025, 10:21:30:
+costruire
+#10 12.49 ✓ 3669 moduli trasformati.
+23/10/2025, 10:21:31:
+costruire
+#10 13.69 [plugin:vite:reporter] [plugin vite:reporter]
+23/10/2025, 10:21:31:
+costruire
+#10 13.69 (!) /app/client/src/lib/queryClient.ts viene importato dinamicamente da /app/client/src/lib/autoRefresh.ts ma anche importato staticamente da /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+23/10/2025, 10:21:31:
+costruire
+#10 13.69
+23/10/2025, 10:21:32:
+costruire
+#10 13.69 [plugin:vite:reporter] [plugin vite:reporter]
+23/10/2025, 10:21:32:
+costruire
+#10 13.69 (!) /app/client/src/lib/betaUtils.ts viene importato dinamicamente da /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx ma anche importato staticamente da /app/client/src/components/BetaStatusChecker.tsx, l'importazione dinamica non sposterà il modulo in un altro blocco.
+23/10/2025, 10:21:32:
+costruire
+#10 13.69
+23/10/2025, 10:21:32:
+costruire
+#10 13.69 rendering di blocchi...
+23/10/2025, 10:21:32:
+costruire
+#10 13.74 calcolo dimensione gzip...
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 ../dist/public/index.html 13.91 kB │ gzip: 3.99 kB
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 ../dist/public/assets/index-C_B_X5sh.css 111.14 kB │ gzip: 17.83 kB
+23/10/2025, 10:21:32:
+costruire
+#10 13.81
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 (!) Alcuni blocchi sono più grandi di 500 kB dopo la minimizzazione. Considera:
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 - Utilizzo di dynamic import() per suddividere il codice dell'applicazione
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 - Utilizzare build.rollupOptions.output.manualChunks per migliorare la suddivisione in blocchi: https://rollupjs.org/configuration-options/#output-manualchunks
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 - Regola il limite della dimensione del blocco per questo avviso tramite build.chunkSizeWarningLimit.
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 ../dist/public/assets/index-DPqE_dPo.js 2.041,84 kB │ gzip: 550,98 kB
+23/10/2025, 10:21:32:
+costruire
+#10 13.81 ✓ costruito in 12.79s
+23/10/2025, 10:21:32:
+costruire
+#10 FATTO 13.9s
+23/10/2025, 10:21:32:
+costruire
+23/10/2025, 10:21:32:
+costruire
+#11 [service_event_3y5k9y0cyb0m 7/7] ESEGUI cp -r dist/public server/public
+23/10/2025, 10:21:32:
+costruire
+#11 FATTO 0,3s
+23/10/2025, 10:21:32:
+costruire
+23/10/2025, 10:21:32:
+costruire
+#12 [service_event_3y5k9y0cyb0m] esportazione in immagine
+23/10/2025, 10:21:32:
+costruire
+#12 esportazione di livelli
+23/10/2025, 10:22:22:
+costruire
+#12 esportazione livelli 49.6s completata
+23/10/2025, 10:22:22:
+costruire
+#12 esportazione del manifesto sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645 eseguito
+23/10/2025, 10:22:22:
+costruire
+#12 esportazione configurazione sha256:917dcf39aeed246279e6dacae2b99f165577d68bd4436d5324941474a4ff37c9 fatto
+23/10/2025, 10:22:22:
+costruire
+#12 spingendo gli strati
+23/10/2025, 10:22:38:
+costruire
+#12 spinta dei livelli 16.3 completata
+23/10/2025, 10:22:38:
+costruire
+#12 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_3y5k9y0cyb0m@sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645
+23/10/2025, 10:22:38:
+costruire
+#12 invio del manifesto per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_3y5k9y0cyb0m@sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645 0,1 s completato
+23/10/2025, 10:22:38:
+costruire
+#12 FATTO 66.0s
+23/10/2025, 10:22:38:
+costruire
+23/10/2025, 10:22:38:
+costruire
+#13 [service_event_3y5k9y0cyb0m] esportazione della cache nella directory client
+23/10/2025, 10:22:38:
+costruire
+#13 preparazione della cache di compilazione per l'esportazione
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:0ee184ee6f21cca14e7260159c4ebb79a27d03d3bcb4bbb6b74d1c70dca11490 0,0s fatto
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b 0,1 s completato
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:5a5621c35f0c60bbe96f323e16af4c1efbacc3a5251ed1cf96d6c7422466d962
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:5a5621c35f0c60bbe96f323e16af4c1efbacc3a5251ed1cf96d6c7422466d962 fatto
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 0,4 ​​s completato
+23/10/2025, 10:22:38:
+costruire
+#13 livello di scrittura sha256:9ea024638a81a5d03d7b4e56bb9627550aebc7187af4feca2d865b439bec69cb
+23/10/2025, 10:22:39:
+costruire
+#13 livello di scrittura sha256:9ea024638a81a5d03d7b4e56bb9627550aebc7187af4feca2d865b439bec69cb fatto
+23/10/2025, 10:22:39:
+costruire
+#13 livello di scrittura sha256:a941444b2e19a4f9df6ef76c6e00cc0348feff5514deeb75f961f141a99c7e89
+23/10/2025, 10:22:45:
+costruire
+#13 livello di scrittura sha256:a941444b2e19a4f9df6ef76c6e00cc0348feff5514deeb75f961f141a99c7e89 6,2 s completato
+23/10/2025, 10:22:45:
+costruire
+#13 livello di scrittura sha256:b978ca04c87332e3768528ca940aa857a2fc654b02d627c1387ca9b4217aca1d
+23/10/2025, 10:22:45:
+costruire
+#13 livello di scrittura sha256:b978ca04c87332e3768528ca940aa857a2fc654b02d627c1387ca9b4217aca1d fatto
+23/10/2025, 10:22:45:
+costruire
+#13 livello di scrittura sha256:d96f947ae05e76607b985427def5778c3736695850c18897032a33679318d2d7
+23/10/2025, 10:22:49:
+costruire
+#13 livello di scrittura sha256:d96f947ae05e76607b985427def5778c3736695850c18897032a33679318d2d7 4.0s completato
+23/10/2025, 10:22:49:
+costruire
+#13 preparazione della cache di compilazione per l'esportazione 10.7s completata
+23/10/2025, 10:22:49:
+costruire
+#13 livello di scrittura sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 fatto
+23/10/2025, 10:22:49:
+costruire
+#13 livello di scrittura sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 fatto
+23/10/2025, 10:22:49:
+costruire
+#13 scrittura configurazione sha256:428af9b98d2b685ff1b59c13d42602f0051168e92c9875449c7e4511a7ef1d51 fatto
+23/10/2025, 10:22:49:
+costruire
+#13 scrittura cache immagine manifest sha256:2f08dc51a871d0aa125b86979b853f44e311d4d6077bd15cd5456dc33f8cfaa9 fatto
+23/10/2025, 10:22:49:
+costruire
+#13 FATTO 10.7s
+23/10/2025, 10:22:50:
+costruire
+60e45a9660cf: Esiste già
+23/10/2025, 10:22:50:
+costruire
+e74e4ed823e9: Esiste già
+23/10/2025, 10:22:50:
+costruire
+da04d522c98f: Esiste già
+23/10/2025, 10:22:50:
+costruire
+5a5621c35f0c: Estrazione del livello fs
+23/10/2025, 10:22:50:
+costruire
+b978ca04c873: Estrazione del livello fs
+23/10/2025, 10:22:50:
+costruire
+d96f947ae05e: Estrazione del livello fs
+23/10/2025, 10:22:50:
+costruire
+a941444b2e19: Estrazione del livello fs
+23/10/2025, 10:22:50:
+costruire
+0ee184ee6f21: Estrazione del livello fs
+23/10/2025, 10:22:50:
+costruire
+9ea024638a81: Estrazione del livello fs
+23/10/2025, 10:22:50:
+costruire
+a941444b2e19: In attesa
+23/10/2025, 10:22:50:
+costruire
+0ee184ee6f21: In attesa
+23/10/2025, 10:22:50:
+costruire
+9ea024638a81: In attesa
+23/10/2025, 10:22:50:
+costruire
+5a5621c35f0c: Verifica del checksum
+23/10/2025, 10:22:50:
+costruire
+5a5621c35f0c: Download completato
+23/10/2025, 10:22:50:
+costruire
+b978ca04c873: Verifica del checksum
+23/10/2025, 10:22:50:
+costruire
+b978ca04c873: Download completato
+23/10/2025, 10:22:50:
+costruire
+5a5621c35f0c: Estrazione completata
+23/10/2025, 10:22:50:
+costruire
+b978ca04c873: Estrazione completata
+23/10/2025, 10:22:50:
+costruire
+0ee184ee6f21: Verifica del checksum
+23/10/2025, 10:22:50:
+costruire
+0ee184ee6f21: Download completato
+23/10/2025, 10:22:50:
+costruire
+9ea024638a81: Verifica del checksum
+23/10/2025, 10:22:50:
+costruire
+9ea024638a81: Download completato
+23/10/2025, 10:22:54:
+costruire
+d96f947ae05e: Verifica del checksum
+23/10/2025, 10:22:54:
+costruire
+d96f947ae05e: Download completato
+23/10/2025, 10:22:55:
+costruire
+a941444b2e19: Verifica del checksum
+23/10/2025, 10:22:55:
+costruire
+a941444b2e19: Download completato
+23/10/2025, 10:23:17:
+costruire
+d96f947ae05e: Estrazione completata
+23/10/2025, 10:23:26:
+costruire
+a941444b2e19: Estrazione completata
+23/10/2025, 10:23:26:
+costruire
+0ee184ee6f21: Estrazione completata
+23/10/2025, 10:23:26:
+costruire
+9ea024638a81: Estrazione completata
+23/10/2025, 10:23:26:
+costruire
+Riepilogo: sha256:4a60f7af731de5401354132134eca0c4801f2b4088e248d1f57362aafc173645
+23/10/2025, 10:23:26:
+costruire
+Stato: scaricata l'immagine più recente per fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_3y5k9y0cyb0m
+23/10/2025, 10:23:30:
+tempo di esecuzione
+📝 Usando MemoryStore per le sessioni (modalità di archiviazione JSON)
+23/10/2025, 10:23:30:
+tempo di esecuzione
+Servizio gestione telefono diretto inizializzato
+23/10/2025, 10:23:31:
+tempo di esecuzione
+✅ Icona Fleur de Vie caricata: 611937 byte
+23/10/2025, 10:23:31:
+tempo di esecuzione
+✅ Archiviazione iniziata in app.locals: oggetto metodi disponibili: sessionStore
+23/10/2025, 10:23:34:
+tempo di esecuzione
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+23/10/2025, 10:23:34:
+tempo di esecuzione
+Scheduler del promemoria avviato con successo
+23/10/2025, 10:23:34:
+tempo di esecuzione
+💰 Scheduler dei pagamenti PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+23/10/2025, 10:23:34:
+tempo di esecuzione
+Tutti gli scheduler inizializzati
+23/10/2025, 10:23:34:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 3 già presenti
+23/10/2025, 10:23:34:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 14 già presenti
+23/10/2025, 10:23:34:
+tempo di esecuzione
+✅ [ICON SYNC] Icone per utente 16 già presenti
+23/10/2025, 10:23:34:
+tempo di esecuzione
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+23/10/2025, 10:23:34:
+tempo di esecuzione
+🔍 Controllo integrità all'avvio:
+23/10/2025, 10:23:34:
+tempo di esecuzione
+   📅 Appuntamenti caricati: 48
+23/10/2025, 10:23:34:
+tempo di esecuzione
+   👥 Clienti caricati: 40
+23/10/2025, 10:23:34:
+tempo di esecuzione
+   🔍 Primi 3 appuntamenti: [
+23/10/2025, 10:23:34:
+tempo di esecuzione
+  { id: 1750059544768, data: '2025-06-18', cliente: 252 },
+23/10/2025, 10:23:34:
+tempo di esecuzione
+  { id: 1750064999602, data: '2025-06-19', cliente: 251 },
+23/10/2025, 10:23:34:
+tempo di esecuzione
+  { id: 1750065026422, data: '2025-06-19', cliente: 1 }
+23/10/2025, 10:23:34:
+tempo di esecuzione
+]
+23/10/2025, 10:23:34:
+tempo di esecuzione
+✅ Controllo integrità completato
+23/10/2025, 10:23:35:
+tempo di esecuzione
+8:23:34 AM [express] in servizio sulla porta 5000
+23/10/2025, 10:23:35:
+tempo di esecuzione
+✅ Il database PostgreSQL è disponibile
+23/10/2025, 10:23:35:
+tempo di esecuzione
+Telefono caricato dal database: +393472550110
+23/10/2025, 10:23:39:
+tempo di esecuzione
+Esecuzione immediata del job di promemoria all'avvio del server
+23/10/2025, 10:23:39:
+tempo di esecuzione
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per gli appuntamenti di domani
+23/10/2025, 10:23:39:
+tempo di esecuzione
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (venerdì 24 ottobre 2025)
+23/10/2025, 10:23:39:
+tempo di esecuzione
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+23/10/2025, 10:23:39:
+tempo di esecuzione
+Inviati 0/0 promemoria
+23/10/2025, 10:23:39:
+tempo di esecuzione
+Lavoro iniziale completato: inviati 0 promemoria
+23/10/2025, 10:31:06:
+tempo di esecuzione
+8:31:06 AM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+23/10/2025, 10:31:07:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:31:07:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:31:07:
+tempo di esecuzione
+8:31:07 AM [express] POST /api/logout 200 in 4ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:31:07:
+tempo di esecuzione
+8:31:07 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:31:09:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:31:09:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:31:09:
+tempo di esecuzione
+8:31:09 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:31:09:
+tempo di esecuzione
+8:31:09 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:31:09:
+tempo di esecuzione
+8:31:09 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:31:09:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:31:09:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:31:09:
+tempo di esecuzione
+8:31:09 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:31:09:
+tempo di esecuzione
+8:31:09 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 10:31:09:
+tempo di esecuzione
+8:31:09 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208269321
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208269321' }
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:31:09:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208269843-default
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208269321' }
+23/10/2025, 10:31:09:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:31:09:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208269843.4802&android=1","/pwa-icon/192x192?owner=default& v=1761208269843.4802&android=1","/pwa-icon/512x512?owner=default&v=1761208269843.4802&android=1"]
+23/10/2025, 10:31:09:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:31:09:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:31:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:31:09:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:31:11:
+tempo di esecuzione
+Login staff richiesto per: busnari.silvia@libero.it
+23/10/2025, 10:31:13:
+tempo di esecuzione
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+23/10/2025, 10:31:13:
+tempo di esecuzione
+8:31:13 AM [express] POST /api/staff/login 200 in 1762ms :: {"id":14,"username":"busnari.silvia@libe…
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208274013
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208274013' }
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:31:15:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208275649-default
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208274013' }
+23/10/2025, 10:31:15:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:31:15:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208275650.0732&android=1","/pwa-icon/192x192?owner=default& v=1761208275650.0732&android=1","/pwa-icon/512x512?owner=default&v=1761208275650.0732&android=1"]
+23/10/2025, 10:31:15:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:31:15:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:31:15:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:31:15:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:31:15:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:31:15:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:31:15:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:31:15:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:31:15:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:31:15:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:31:15:
+tempo di esecuzione
+}
+23/10/2025, 10:31:15:
+tempo di esecuzione
+8:31:15 AM [express] GET /api/timezone-settings 200 in 339ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:31:15:
+tempo di esecuzione
+8:31:15 AM [express] GET /api/user-with-license 200 in 316ms :: {"id":14,"username":"busnari.silvia@…
+23/10/2025, 10:31:15:
+tempo di esecuzione
+8:31:15 AM [express] GET /api/license/has-business-access 200 in 330ms :: true
+23/10/2025, 10:31:16:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+23/10/2025, 10:31:16:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 14, lunghezza icona: 837291
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/client-app-info 200 in 515ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] POST /api/timezone-settings 200 in 231ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/tenant-context 200 in 231ms :: {"userId":14,"userType":"staff","tenant…
+23/10/2025, 10:31:16:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:31:16:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+23/10/2025, 10:31:16:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:31:16:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/contact-info 200 in 479ms :: {"email":"silvia.busnari@libero.it","phon…
+23/10/2025, 10:31:16:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:31:16:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 14 (staff): {
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  Nome dell'attività: 'Studio Medico',
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  nome: 'Silvia Busnari',
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  dimensione carattere: 45,
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  fontFamily: 'Lucida Sans Unicode',
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  colore: '#0000FF',
+23/10/2025, 10:31:16:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 10:31:16:
+tempo di esecuzione
+}
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/company-name-settings 200 in 482ms :: {"businessName":"Studio Medico",…
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/license/has-pro-access 200 in 1308ms :: true
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/license/application-title 200 in 1324ms :: {"title":"Gestionale Appunt…
+23/10/2025, 10:31:16:
+tempo di esecuzione
+8:31:16 AM [express] GET /api/license/license-info 200 in 1337ms :: {"hasLicense":true,"type":"staff…
+23/10/2025, 10:31:19:
+tempo di esecuzione
+✅ NUOVO Sistema: 4 servizi per utente 14 - SEPARAZIONE COMPLETA
+23/10/2025, 10:31:19:
+tempo di esecuzione
+🔧 [/api/services] [desktop] Caricati 4 servizi da PostgreSQL per utente 14
+23/10/2025, 10:31:19:
+tempo di esecuzione
+8:31:19 AM [express] GET /api/services 200 in 470ms :: [{"id":64,"userId":14,"name":"bio bicom","dur…
+23/10/2025, 10:31:20:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+23/10/2025, 10:31:20:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:31:20:
+tempo di esecuzione
+🏢 [/api/company-business-data] GET per utente 14
+23/10/2025, 10:31:20:
+tempo di esecuzione
+🏢 [/api/company-business-data] Dati per utente 14: {
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  companyName: 'busnari silvia',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  indirizzo: 'via largo caduti nassiria 17',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  città: 'olgiate comasco',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  codice postale: '22100',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  Partita IVA: 'it32445929',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  Codice fiscale: '',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  telefono: '3471445767',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  email: 'silvia.busnari@libero.it',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  aggiornato alle: '2025-09-01T17:52:35.286Z'
+23/10/2025, 10:31:20:
+tempo di esecuzione
+}
+23/10/2025, 10:31:20:
+tempo di esecuzione
+8:31:20 AM [express] GET /api/company-business-data 200 in 261ms :: {"companyName":"busnari silvia",…
+23/10/2025, 10:31:20:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+23/10/2025, 10:31:20:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 14, lunghezza icona: 837291
+23/10/2025, 10:31:20:
+tempo di esecuzione
+8:31:20 AM [express] GET /api/client-app-info 200 in 394ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 10:31:20:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:31:20:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 14 (staff): {
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  Nome dell'attività: 'Studio Medico',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  nome: 'Silvia Busnari',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  dimensione carattere: 45,
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  fontFamily: 'Lucida Sans Unicode',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  colore: '#0000FF',
+23/10/2025, 10:31:20:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 10:31:20:
+tempo di esecuzione
+}
+23/10/2025, 10:31:20:
+tempo di esecuzione
+8:31:20 AM [express] GET /api/company-name-settings 200 in 469ms :: {"businessName":"Studio Medico",…
+23/10/2025, 10:31:21:
+tempo di esecuzione
+8:31:21 [express] GET /api/default-app-icon 200 in 240ms :: {"appName":"Gestionale Appuntamenti",…
+23/10/2025, 10:31:49:
+tempo di esecuzione
+8:31:49 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:01:
+tempo di esecuzione
+8:33:01 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:04:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:04:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:04:
+tempo di esecuzione
+8:33:04 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:05:
+tempo di esecuzione
+8:33:05 [express] GET /api/client-app-info 200 in 6ms :: {"appName":"Gestionale Appuntamenti","ic…
+23/10/2025, 10:33:05:
+tempo di esecuzione
+8:33:05 [espresso] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:05:
+tempo di esecuzione
+8:33:05 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:05:
+tempo di esecuzione
+8:33:05 AM [express] GET /api/company-name-settings 200 in 1ms :: {"businessName":"Gestionale Apunt…
+23/10/2025, 10:33:06:
+tempo di esecuzione
+8:33:06 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208386357
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208386357' }
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:33:06:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208386509-default
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208386357' }
+23/10/2025, 10:33:06:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:33:06:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208386509.4558&android=1","/pwa-icon/192x192?owner=default& v=1761208386509.4558&android=1","/pwa-icon/512x512?owner=default&v=1761208386509.4558&android=1"]
+23/10/2025, 10:33:06:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:33:06:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:33:06:
+tempo di esecuzione
+8:33:06 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:06:
+tempo di esecuzione
+8:33:06 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:33:06:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:33:06:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:33:07:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:07:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:07:
+tempo di esecuzione
+8:33:07 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:07:
+tempo di esecuzione
+8:33:07 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:09:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:09:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:09:
+tempo di esecuzione
+8:33:09 AM [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:09:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:09:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:09:
+tempo di esecuzione
+8:33:09 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:09:
+tempo di esecuzione
+8:33:09 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:33:09:
+tempo di esecuzione
+8:33:09 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208389223
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208389223' }
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:33:09:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208389533-default
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208389223' }
+23/10/2025, 10:33:09:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:33:09:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208389534.131&android=1","/pwa-icon/192x192?owner=default &v=1761208389534.131&android=1","/pwa-icon/512x512?owner=default&v=1761208389534.131&android=1"]
+23/10/2025, 10:33:09:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:33:09:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:33:09:
+tempo di esecuzione
+8:33:09 AM [express] POST /api/timezone-settings 200 in 12ms :: {"success":true,"timezone":"Europe/Z…
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:33:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:33:09:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:33:12:
+tempo di esecuzione
+Login staff richiesto per: zambelli.andrea.1973@gmail.com
+23/10/2025, 10:33:13:
+tempo di esecuzione
+Login staff completato con successo per: zambelli.andrea.1973@gmail.com tipo: admin
+23/10/2025, 10:33:13:
+tempo di esecuzione
+8:33:13 [espresso] POST /api/staff/login 200 in 294ms :: {"id":3,"username":"zambelli.andrea.1973@…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208393565
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208393565' }
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:33:14:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208394090-default
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208393565' }
+23/10/2025, 10:33:14:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:33:14:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208394091.1323&android=1","/pwa-icon/192x192?owner=default& v=1761208394091.1323&android=1","/pwa-icon/512x512?owner=default&v=1761208394091.1323&android=1"]
+23/10/2025, 10:33:14:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:33:14:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:33:14:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/timezone-settings 200 in 235ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/license/has-business-access 200 in 230ms :: true
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 10:33:14:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 10:33:14:
+tempo di esecuzione
+}
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/license/has-pro-access 200 in 288ms :: true
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/user-with-license 200 in 290ms :: {"id":3,"username":"zambelli.andrea.…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/license/license-info 200 in 285ms :: {"hasLicense":true,"type":"passep…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/license/application-title 200 in 288ms :: {"title":"Gestionale Appunta…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+23/10/2025, 10:33:14:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/client-app-info 200 in 486ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] POST /api/timezone-settings 200 in 240ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/tenant-context 200 in 235ms :: {"userId":3,"userType":"admin","tenantI…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+23/10/2025, 10:33:14:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 10:33:14:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/contact-info 200 in 466ms :: {"email":"info@studiomedico.it","phone":"…
+23/10/2025, 10:33:14:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 10:33:14:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  dimensione carattere: 24,
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  fontStyle: 'normale',
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  colore: '#000000',
+23/10/2025, 10:33:14:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 10:33:14:
+tempo di esecuzione
+}
+23/10/2025, 10:33:14:
+tempo di esecuzione
+8:33:14 AM [express] GET /api/company-name-settings 200 in 545ms :: {"businessName":"Gestionale Appu…
+23/10/2025, 10:33:28:
+tempo di esecuzione
+Tentativo di logout per utente zambelli.andrea.1973@gmail.com, tipo: admin
+23/10/2025, 10:33:28:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:28:
+tempo di esecuzione
+8:33:28 AM [express] POST /api/logout 200 in 230ms :: {"success":true,"message":"Logout completato c…
+23/10/2025, 10:33:29:
+tempo di esecuzione
+8:33:29 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:29:
+tempo di esecuzione
+8:33:29 AM [express] GET /api/company-name-settings 200 in 1ms :: {"businessName":"Gestionale Apunt…
+23/10/2025, 10:33:29:
+tempo di esecuzione
+8:33:29 [espresso] GET /api/contact-info 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:29:
+tempo di esecuzione
+8:33:29 AM [express] GET /api/client-app-info 200 in 7ms :: {"appName":"Gestionale Appuntamenti","ic…
+23/10/2025, 10:33:30:
+tempo di esecuzione
+8:33:30 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208409895
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208409895' }
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:33:30:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208410113-default
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208409895' }
+23/10/2025, 10:33:30:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:33:30:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208410115.8186&android=1","/pwa-icon/192x192?owner=default& v=1761208410115.8186&android=1","/pwa-icon/512x512?owner=default&v=1761208410115.8186&android=1"]
+23/10/2025, 10:33:30:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:33:30:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:33:30:
+tempo di esecuzione
+8:33:30 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:30:
+tempo di esecuzione
+8:33:30 AM [express] POST /api/timezone-settings 200 in 8ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:33:30:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:33:30:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:33:31:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:31:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:31:
+tempo di esecuzione
+8:33:31 AM [express] POST /api/logout 200 in 3ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:31:
+tempo di esecuzione
+8:33:31 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:33:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:33:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:33:
+tempo di esecuzione
+8:33:33 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:33:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+23/10/2025, 10:33:33:
+tempo di esecuzione
+Logout completato con successo
+23/10/2025, 10:33:33:
+tempo di esecuzione
+8:33:33 AM [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+23/10/2025, 10:33:33:
+tempo di esecuzione
+8:33:33 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+23/10/2025, 10:33:33:
+tempo di esecuzione
+8:33:33 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208413442
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208413442' }
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:33:33:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208413694-default
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/staff-login?cleared=1
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208413442' }
+23/10/2025, 10:33:33:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:33:33:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208413697.2617&android=1","/pwa-icon/192x192?owner=default& v=1761208413697.2617&android=1","/pwa-icon/512x512?owner=default&v=1761208413697.2617&android=1"]
+23/10/2025, 10:33:33:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:33:33:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:33:33:
+tempo di esecuzione
+8:33:33 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:33:33:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:33:33:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:33:36:
+tempo di esecuzione
+Login staff richiesto per: busnari.silvia@libero.it
+23/10/2025, 10:33:36:
+tempo di esecuzione
+Login staff completato con successo per: busnari.silvia@libero.it tipo: staff
+23/10/2025, 10:33:36:
+tempo di esecuzione
+8:33:36 AM [express] POST /api/staff/login 200 in 282ms :: {"id":14,"username":"busnari.silvia@liber…
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208417039
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208417039' }
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:33:37:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208417545-default
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208417039' }
+23/10/2025, 10:33:37:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:33:37:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208417546.478&android=1","/pwa-icon/192x192?owner=default &v=1761208417546.478&android=1","/pwa-icon/512x512?owner=default&v=1761208417546.478&android=1"]
+23/10/2025, 10:33:37:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:33:37:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:33:37:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/timezone-settings 200 in 232ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/license/has-pro-access 304 in 229ms :: true
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/license/has-business-access 304 in 227ms :: true
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:33:37:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:33:37:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:33:37:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:33:37:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:33:37:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:33:37:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:33:37:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:33:37:
+tempo di esecuzione
+}
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/user-with-license 200 in 291ms :: {"id":14,"username":"busnari.silvia@…
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/license/application-title 304 in 289ms :: {"title":"Gestionale Appunta…
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/license/license-info 200 in 325ms :: {"hasLicense":true,"type":"staff_…
+23/10/2025, 10:33:37:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+23/10/2025, 10:33:37:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 14, lunghezza icona: 837291
+23/10/2025, 10:33:37:
+tempo di esecuzione
+8:33:37 AM [express] GET /api/client-app-info 200 in 455ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 10:33:38:
+tempo di esecuzione
+8:33:38 AM [express] POST /api/timezone-settings 200 in 238ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 10:33:38:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+23/10/2025, 10:33:38:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:33:38:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:33:38:
+tempo di esecuzione
+8:33:38 AM [express] GET /api/tenant-context 200 in 231ms :: {"userId":14,"userType":"staff","tenant…
+23/10/2025, 10:33:38:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:33:38:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 14 (staff): {
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  Nome dell'attività: 'Studio Medico',
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  nome: 'Silvia Busnari',
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  dimensione carattere: 45,
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  fontFamily: 'Lucida Sans Unicode',
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  colore: '#0000FF',
+23/10/2025, 10:33:38:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 10:33:38:
+tempo di esecuzione
+}
+23/10/2025, 10:33:38:
+tempo di esecuzione
+8:33:38 AM [express] GET /api/company-name-settings 200 in 458ms :: {"businessName":"Studio Medico",…
+23/10/2025, 10:33:38:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:33:38:
+tempo di esecuzione
+8:33:38 AM [express] GET /api/contact-info 200 in 462ms :: {"email":"silvia.busnari@libero.it","phon…
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json?v=1761208494806
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208494806' }
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1761208495356-default
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri query: { v: '1761208494806' }
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1761208495356.0693&android=1","/pwa-icon/192x192?owner=default& v=1761208495356.0693&android=1","/pwa-icon/512x512?owner=default&v=1761208495356.0693&android=1"]
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 10:34:55:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] GET /api/timezone-settings 200 in 230ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:34:55:
+tempo di esecuzione
+}
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] GET /api/user-with-license 200 in 263ms :: {"id":14,"username":"busnari.silvia@…
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] POST /api/timezone-settings 200 in 230ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] GET /api/tenant-context 200 in 228ms :: {"userId":14,"userType":"staff","tenant…
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] GET /api/license/has-pro-access 304 in 234ms :: true
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+23/10/2025, 10:34:55:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+23/10/2025, 10:34:55:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+23/10/2025, 10:34:55:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  ID: 14,
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 10:34:55:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+23/10/2025, 10:34:55:
+tempo di esecuzione
+}
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] GET /api/user-with-license 200 in 296ms :: {"id":14,"username":"busnari.silvia@…
+23/10/2025, 10:34:55:
+tempo di esecuzione
+8:34:55 AM [express] GET /api/license/application-title 304 in 294ms :: {"title":"Gestionale Appunta…
+23/10/2025, 10:34:55:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+23/10/2025, 10:34:56:
+tempo di esecuzione
+8:34:56 AM [express] GET /api/license/has-business-access 304 in 300ms :: true
+23/10/2025, 10:34:56:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+23/10/2025, 10:34:56:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 14, lunghezza icona: 837291
+23/10/2025, 10:34:56:
+tempo di esecuzione
+8:34:56 AM [express] GET /api/client-app-info 200 in 452ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 10:34:56:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:34:56:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 14 (staff): {
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  Nome dell'attività: 'Studio Medico',
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  nome: 'Silvia Busnari',
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  dimensione carattere: 45,
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  fontFamily: 'Lucida Sans Unicode',
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  colore: '#0000FF',
+23/10/2025, 10:34:56:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 10:34:56:
+tempo di esecuzione
+}
+23/10/2025, 10:34:56:
+tempo di esecuzione
+8:34:56 AM [express] GET /api/company-name-settings 200 in 513ms :: {"businessName":"Studio Medico",…
+23/10/2025, 10:34:56:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+23/10/2025, 10:34:56:
+tempo di esecuzione
+8:34:56 AM [express] GET /api/contact-info 200 in 536ms :: {"email":"silvia.busnari@libero.it","phon…
+23/10/2025, 10:34:57:
+tempo di esecuzione
+8:34:57 AM [express] GET /api/license/license-info 304 in 1342ms :: {"hasLicense":true,"type":"staff…

@@ -9,19 +9,20 @@ export async function serveAdminManifest(req: Request, res: Response) {
     console.log('🔍 ADMIN MANIFEST: Richiesta manifest area professionale');
     console.log('🔍 ADMIN MANIFEST: User loggato:', req.user ? `ID ${(req.user as any).id}` : 'NESSUNO');
     
-    // AUTENTICAZIONE OBBLIGATORIA
-    if (!req.user) {
-      console.log('❌ ADMIN MANIFEST: Utente non autenticato, rifiuto richiesta');
-      return res.status(401).json({ 
-        error: 'Autenticazione richiesta per accedere al manifest',
-        message: 'Effettua il login per installare la PWA professionale' 
-      });
+    // STRATEGIA: Serve manifest anche senza autenticazione
+    // Se loggato → icona personalizzata
+    // Se non loggato → icona default (l'utente dovrà reinstallare dopo login)
+    
+    let userId: number | string = 'default';
+    let userName = 'Gestionale Appuntamenti';
+    
+    if (req.user) {
+      userId = (req.user as any).id;
+      userName = (req.user as any).businessName || (req.user as any).name || 'Professionista';
+      console.log(`📱 ADMIN MANIFEST: Generando manifest per ${userName} (ID: ${userId})`);
+    } else {
+      console.log(`📱 ADMIN MANIFEST: Utente non loggato, servendo manifest con icona default`);
     }
-    
-    const userId = (req.user as any).id;
-    const userName = (req.user as any).businessName || (req.user as any).name || 'Professionista';
-    
-    console.log(`📱 ADMIN MANIFEST: Generando manifest per ${userName} (ID: ${userId})`);
     
     // Versione manifest basata su userId + timestamp per cache busting
     const manifestVersion = `${userId}-${Date.now()}`;
@@ -31,17 +32,24 @@ export async function serveAdminManifest(req: Request, res: Response) {
     const iconBaseUrl = `/pwa-icon`;
     const iconParams = `?owner=${userId}&v=${iconTimestamp}&admin=1`;
     
+    // ID dinamico solo se loggato, altrimenti generico
+    const manifestId = req.user 
+      ? `gestionale-appuntamenti-admin-${userId}`
+      : `gestionale-appuntamenti-admin-generic`;
+    
     const manifest = {
-      "name": "Gestionale Appuntamenti - Dashboard Professionale",
+      "name": req.user 
+        ? `${userName} - Dashboard Professionale` 
+        : "Gestionale Appuntamenti - Dashboard Professionale",
       "short_name": "Gestionale",
-      "description": `Dashboard completa per gestione clienti, appuntamenti e servizi medici - ${userName}`,
+      "description": `Dashboard completa per gestione clienti, appuntamenti e servizi medici${req.user ? ' - ' + userName : ''}`,
       "start_url": "/",
       "display": "standalone",
       "background_color": "#ffffff",
       "theme_color": "#006400",
       "orientation": "any",
       "scope": "/",
-      "id": `gestionale-appuntamenti-admin-v3-${userId}`,
+      "id": manifestId,
       "lang": "it-IT",
       "dir": "ltr",
       "prefer_related_applications": false,
