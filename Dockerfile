@@ -1,4 +1,5 @@
 # Single-stage build - use tsx like Replit does
+# Cache bust: 2025-10-23-10:51 - Force rebuild for manifest detection logs
 FROM node:20-alpine
 
 WORKDIR /app
