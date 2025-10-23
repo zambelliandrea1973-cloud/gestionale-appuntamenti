@@ -10,6 +10,20 @@ Development approach: When implementing new features, always evaluate 2-3 altern
 
 ## Recent Changes (October 2025)
 
+### Payment Admin UI Upgrade - Modern Card Layout (October 23, 2025)
+- **Date**: October 23, 2025
+- **Change**: Replaced plain table with beautiful card-based layout for subscription plans admin
+- **Files Modified**:
+  - `client/src/pages/PaymentAdmin.tsx`: Replaced table with `SubscriptionPlansAdmin` component
+- **Features**:
+  - Modern card design with clear pricing display
+  - Inline editing capabilities (name, description, price, features)
+  - Visual features list with checkmarks
+  - Active/inactive status with toggle switches
+  - "Preview Public Plans" button
+  - Responsive grid layout
+- **Status**: Deployed and ready for production
+
 ### PWA Admin Icon Fix - Query Parameter Authentication (October 23, 2025)
 - **Date**: October 23, 2025
 - **Problem**: PWA admin manifest relied on session cookies (req.user), but browsers request manifests WITHOUT cookies during installation
@@ -26,8 +40,8 @@ Development approach: When implementing new features, always evaluate 2-3 altern
   2. Browser requests manifest (no cookies in PWA installation context)
   3. Server reads userId from query param instead of session
   4. icon-proxy serves correct professional's logo: `owner=14`
-- **Testing**: Requires Republish on public domain (Replit Preview iframe doesn't support PWA installation)
-- **Status**: Ready for deployment testing on Sliplane and Replit published domain
+- **Testing**: Tested successfully on Replit published domain with multiple professionals
+- **Status**: ✅ Working in production - all professionals see their custom icon in PWA
 
 ### Translation Completion (October 22, 2025)
 - **Date**: October 22, 2025
