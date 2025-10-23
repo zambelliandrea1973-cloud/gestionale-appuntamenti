@@ -1,0 +1,43 @@
+
+> rest-express@1.0.0 dev
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+Servizio gestione telefono diretto inizializzato
+Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+✅ Icona Fleur de Vie caricata: 611937 bytes
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+Scheduler dei promemoria avviato con successo
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+Tutti gli scheduler inizializzati
+✅ [ICON SYNC] Icone per utente 3 già presenti
+✅ [ICON SYNC] Icone per utente 14 già presenti
+✅ [ICON SYNC] Icone per utente 16 già presenti
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+🔍 Controllo integrità all'avvio:
+   📅 Appuntamenti caricati: 48
+   👥 Clienti caricati: 40
+   🔍 Primi 3 appuntamenti: [
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+]
+✅ Controllo integrità completato
+✅ PostgreSQL database is available
+Telefono caricato dal database: +393472550110
+10:37:43 AM [express] serving on port 5000
+Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Esecuzione immediata del job di promemoria all'avvio del server
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Fri Oct 24 2025)
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+Inviati 0/0 promemoria
+Job iniziale completato: inviati 0 promemoria
+10:37:54 AM [express] GET /api/timezone-settings 200 in 3ms :: {"timezone":"Europe/Rome","offset":2}
+10:37:54 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+10:37:54 AM [express] GET /api/timezone-settings 304 in 0ms :: {"timezone":"Europe/Rome","offset":2}
+10:37:54 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+10:37:54 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+10:38:22 AM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+10:38:52 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}

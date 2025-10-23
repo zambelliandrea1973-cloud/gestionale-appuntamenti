@@ -1,0 +1,77 @@
+📱 [MANIFEST DETECTION] pathname: /
+ 📱 [MANIFEST DETECTION] isClientArea: false
+ 📱 [MANIFEST ADMIN] URL: /manifest-admin.json?ts=1761215382662
+ 📱 [MANIFEST IMMEDIATO] Creato con URL: /manifest-admin.json?ts=1761215382662
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<'Comprendi l'errore
+VM38:10 PWA check - standalone mode: false
+VM38:11 PWA check - iOS fullscreen: undefined
+index-DPqE_dPo.js:971 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+index-DPqE_dPo.js:643 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+index-DPqE_dPo.js:971 Fuso orario diverso da quello salvato, aggiornamento...
+index-DPqE_dPo.js:643 🔍 Risposta user-with-license: 200 true
+index-DPqE_dPo.js:643 🔍 Dati utente ricevuti FRESCHI: Object
+index-DPqE_dPo.js:966 ✅ Utente autenticato rilevato su WelcomePage, reindirizzamento a /dashboard
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Inizio caricamento icona
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/client-app-info 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/client-app-info: Object
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/company-name-settings: Object
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/contact-info: Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+VM38:91 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://wife-scheduler-zambelliandrea1.replit.app/') with script ('https://wife-scheduler-zambelliandrea1.replit.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM38:91Comprendi l'errore
+VM38:95 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://wife-scheduler-zambelliandrea1.replit.app/') with script ('https://wife-scheduler-zambelliandrea1.replit.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonime) @ VM38:95Comprendi l'errore
+VM38:99 Navigator serviceWorker: ServiceWorkerContainer
+VM38:100 Location protocol: https:
+VM38:101 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+VM38:22 Evento beforeinstallprompt catturato BeforeInstallPromptEvent
+VM38:37 Deferring PWA install prompt
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-DPqE_dPo.js:971 Fuso orario aggiornato con successo
+index-DPqE_dPo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+index-DPqE_dPo.js:683 Nessuna informazione di contatto disponibile
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-DPqE_dPo.js:723 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+index-DPqE_dPo.js:48 Risposta da /api/contact-info: 200  ok: true
+index-DPqE_dPo.js:683 ✅ Informazioni di contatto caricate da API per utente 14: Object
+index-DPqE_dPo.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-DPqE_dPo.js:723 🏠 HOME AppIcon: Dati parsati: Object
+index-DPqE_dPo.js:723 ✅ HOME AppIcon: Icona impostata correttamente
+index-DPqE_dPo.js:643 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+index-DPqE_dPo.js:643 🔍 Risposta user-with-license: 200 true
+index-DPqE_dPo.js:643 🔍 Dati utente ricevuti FRESCHI: Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:643 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+index-DPqE_dPo.js:643 🔍 Risposta user-with-license: 200 true
+index-DPqE_dPo.js:643 🔍 Dati utente ricevuti FRESCHI: Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
+index-DPqE_dPo.js:643 🔍 QUERY USER-WITH-LICENSE CHIAMATA - FORZA DATI FRESCHI
+index-DPqE_dPo.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-DPqE_dPo.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-DPqE_dPo.js:48 Header x-device-type aggiunto: desktop
+index-DPqE_dPo.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-DPqE_dPo.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-DPqE_dPo.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+index-DPqE_dPo.js:643 🔍 Risposta user-with-license: 200 true
+index-DPqE_dPo.js:643 🔍 Dati utente ricevuti FRESCHI: Object
+index-DPqE_dPo.js:971 Stato autenticazione: Object
