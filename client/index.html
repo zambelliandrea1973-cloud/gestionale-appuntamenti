@@ -25,22 +25,34 @@
       const pathMatch = window.location.pathname.match(/\/client\/(PROF_\d+_[A-F0-9]+_CLIENT_\d+_[A-F0-9]+)/);
       const clientToken = pathMatch ? pathMatch[1] : null;
       
-      // Estrai ownerId dal localStorage (se disponibile) o dal token
-      let ownerId = localStorage.getItem('ownerId');
-      if (!ownerId && clientToken) {
-        const ownerMatch = clientToken.match(/^PROF_(\d{2,3})_/);
-        if (ownerMatch) {
-          ownerId = ownerMatch[1];
-        }
-      }
+      // Determina se siamo nell'area cliente o nel gestionale admin
+      const isClientArea = window.location.pathname.includes('/client/PROF_');
       
-      // Costruisci URL manifest con parametri corretti
-      let manifestUrl = '/manifest.json?v=' + Date.now();
-      if (ownerId) {
-        manifestUrl += '&ownerId=' + ownerId;
-      }
-      if (clientToken) {
-        manifestUrl += '&clientToken=' + clientToken;
+      let manifestUrl;
+      
+      if (isClientArea) {
+        // AREA CLIENTE: Usa manifest dinamico con icona personalizzata
+        let ownerId = localStorage.getItem('ownerId');
+        if (!ownerId && clientToken) {
+          const ownerMatch = clientToken.match(/^PROF_(\d{2,3})_/);
+          if (ownerMatch) {
+            ownerId = ownerMatch[1];
+          }
+        }
+        
+        manifestUrl = '/manifest.json?v=' + Date.now();
+        if (ownerId) {
+          manifestUrl += '&ownerId=' + ownerId;
+        }
+        if (clientToken) {
+          manifestUrl += '&clientToken=' + clientToken;
+        }
+        
+        console.log('📱 [MANIFEST CLIENTE] URL:', manifestUrl);
+      } else {
+        // GESTIONALE ADMIN: Usa manifest statico per dashboard professionista
+        manifestUrl = '/manifest-admin.json';
+        console.log('📱 [MANIFEST ADMIN] URL:', manifestUrl);
       }
       
       // Crea link manifest SUBITO
