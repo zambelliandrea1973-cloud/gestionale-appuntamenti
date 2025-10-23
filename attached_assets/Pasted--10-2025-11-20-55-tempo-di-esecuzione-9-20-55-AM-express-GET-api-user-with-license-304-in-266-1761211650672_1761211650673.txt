@@ -1,0 +1,204 @@
+/10/2025, 11:20:55:
+tempo di esecuzione
+9:20:55 AM [express] GET /api/user-with-license 304 in 266ms :: {"id":3,"username":"zambelli.andrea.…
+23/10/2025, 11:24:41:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 11:24:41:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 11:24:41:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 11:24:41:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 11:24:41:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:24:41:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 11:24:41:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 11:24:41:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 11:24:41:
+tempo di esecuzione
+}
+23/10/2025, 11:24:41:
+tempo di esecuzione
+9:24:41 AM [express] GET /api/user-with-license 304 in 1407ms :: {"id":3,"username":"zambelli.andrea…
+23/10/2025, 11:25:42:
+tempo di esecuzione
+9:25:42 AM [express] GET /api/timezone-settings 200 in 233ms :: {"timezone":"Europe/Rome","offset":2}
+23/10/2025, 11:25:42:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 11:25:42:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 11:25:42:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 11:25:42:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 11:25:42:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:25:42:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 11:25:42:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 11:25:42:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 11:25:42:
+tempo di esecuzione
+}
+23/10/2025, 11:25:42:
+tempo di esecuzione
+9:25:42 AM [express] GET /api/user-with-license 200 in 265ms :: {"id":3,"username":"zambelli.andrea.…
+23/10/2025, 11:25:42:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+23/10/2025, 11:25:42:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+23/10/2025, 11:25:42:
+tempo di esecuzione
+📱 MANIFEST ADMIN: Utente non loggato, servendo manifest con icona default
+23/10/2025, 11:25:42:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Gestionale Appuntamenti (ID: predefinito)
+23/10/2025, 11:25:42:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+23/10/2025, 11:25:42:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=default&v=1761211542650.754&admin=1","/pwa-icon/192x192?owner=defaul t&v=1761211542650.754&admin=1","/pwa-icon/512x512?owner=default&v=1761211542650.754&admin=1"]
+23/10/2025, 11:25:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+23/10/2025, 11:25:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+23/10/2025, 11:25:42:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+23/10/2025, 11:25:43:
+tempo di esecuzione
+9:25:43 AM [express] GET /api/license/license-info 304 in 234ms :: {"hasLicense":true,"type":"passep…
+23/10/2025, 11:25:43:
+tempo di esecuzione
+9:25:43 AM [express] GET /api/license/has-pro-access 304 in 237ms :: true
+23/10/2025, 11:25:43:
+tempo di esecuzione
+9:25:43 AM [express] GET /api/tenant-context 200 in 235ms :: {"userId":3,"userType":"admin","tenantI…
+23/10/2025, 11:25:43:
+tempo di esecuzione
+9:25:43 AM [express] POST /api/timezone-settings 200 in 236ms :: {"success":true,"timezone":"Europe/…
+23/10/2025, 11:25:43:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 3 con logo aziendale
+23/10/2025, 11:25:43:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 3, lunghezza icona: 212927
+23/10/2025, 11:25:43:
+tempo di esecuzione
+9:25:43 AM [express] GET /api/client-app-info 200 in 546ms :: {"appName":"Gestionale Appuntamenti","…
+23/10/2025, 11:25:44:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 11:25:44:
+tempo di esecuzione
+9:25:44 AM [express] GET /api/license/has-business-access 304 in 1281ms :: true
+23/10/2025, 11:25:44:
+tempo di esecuzione
+9:25:44 AM [express] GET /api/license/application-title 304 in 1276ms :: {"title":"Gestionale Appunt…
+23/10/2025, 11:25:44:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+23/10/2025, 11:25:44:
+tempo di esecuzione
+Recupero impostazioni per utente 3
+23/10/2025, 11:25:44:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+23/10/2025, 11:25:44:
+tempo di esecuzione
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+23/10/2025, 11:25:44:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  ID: 3,
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  nome utente: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  Nome: null,
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  cognome: null,
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  licenseType: 'passepartout'
+23/10/2025, 11:25:44:
+tempo di esecuzione
+}
+23/10/2025, 11:25:44:
+tempo di esecuzione
+9:25:44 AM [express] GET /api/user-with-license 304 in 1351ms :: {"id":3,"username":"zambelli.andrea…
+23/10/2025, 11:25:44:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 11:25:44:
+tempo di esecuzione
+9:25:44 AM [express] GET /api/contact-info 200 in 1523ms :: {"email":"info@studiomedico.it","phone":…
+23/10/2025, 11:25:44:
+tempo di esecuzione
+Impostazioni trovate per utente 3: NO
+23/10/2025, 11:25:44:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 3 (admin): {
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  showBusinessName: vero,
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  nome: 'zambelli.andrea.1973@gmail.com',
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  dimensione carattere: 24,
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  fontStyle: 'normale',
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  colore: '#000000',
+23/10/2025, 11:25:44:
+tempo di esecuzione
+  abilitato: vero
+23/10/2025, 11:25:44:
+tempo di esecuzione
+}
+23/10/2025, 11:25:44:
+tempo di esecuzione
+9:25:44 AM [express] GET /api/company-name-settings 200 in 1581ms :: {"businessName":"Gestionale App…
+23/10/2025, 11:26:14:
+tempo di esecuzione
+9:26:14 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
