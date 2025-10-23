@@ -10,7 +10,22 @@ export function registerRoutes(app: Express): Server {
   // Route proxy per icone PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
-  // Route per il manifest dinamico PWA
+  // Route per il manifest ADMIN (gestionale professionista)
+  app.get('/manifest-admin.json', (req, res) => {
+    const path = require('path');
+    const manifestPath = path.join(process.cwd(), 'public', 'manifest-admin.json');
+    
+    res.set({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=3600',
+      'Access-Control-Allow-Origin': '*'
+    });
+    
+    console.log('📱 MANIFEST ADMIN: Servendo manifest gestionale da', manifestPath);
+    res.sendFile(manifestPath);
+  });
+  
+  // Route per il manifest dinamico PWA (clienti)
   app.get('/manifest.json', serveDynamicManifest);
   
   // LEGACY: Manifest handler inline (RIMOSSO - sostituito con dynamic-manifest.ts)
