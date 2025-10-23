@@ -45,7 +45,7 @@ export function setupAuth(app: Express) {
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 giorni
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === 'production' || process.env.REPL_ID !== undefined, // true su Replit/Sliplane (HTTPS)
       sameSite: 'lax'
     },
     name: 'session-id',
