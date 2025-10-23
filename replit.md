@@ -10,6 +10,25 @@ Development approach: When implementing new features, always evaluate 2-3 altern
 
 ## Recent Changes (October 2025)
 
+### PWA Admin Icon Fix - Query Parameter Authentication (October 23, 2025)
+- **Date**: October 23, 2025
+- **Problem**: PWA admin manifest relied on session cookies (req.user), but browsers request manifests WITHOUT cookies during installation
+- **Root Cause**: Browser PWA installation process doesn't include session cookies in manifest requests
+- **Solution**: Multi-layer authentication strategy with query parameter fallback
+  - **Priority 1**: `userId` from query parameter (works during PWA installation without cookies)
+  - **Priority 2**: `req.user` from session (fallback for normal browsing)
+  - **Priority 3**: Default icon (if neither available)
+- **Files Modified**:
+  - `client/src/components/ManifestInjector.tsx`: Added `userId` query param to manifest URL
+  - `server/admin-manifest.ts`: Implemented multi-layer userId detection (query → session → default)
+- **How it Works**:
+  1. ManifestInjector adds manifest link: `/manifest-admin.json?userId=14&ts=...`
+  2. Browser requests manifest (no cookies in PWA installation context)
+  3. Server reads userId from query param instead of session
+  4. icon-proxy serves correct professional's logo: `owner=14`
+- **Testing**: Requires Republish on public domain (Replit Preview iframe doesn't support PWA installation)
+- **Status**: Ready for deployment testing on Sliplane and Replit published domain
+
 ### Translation Completion (October 22, 2025)
 - **Date**: October 22, 2025
 - **Backup**: backup19-traduzioni-complete-20251022
