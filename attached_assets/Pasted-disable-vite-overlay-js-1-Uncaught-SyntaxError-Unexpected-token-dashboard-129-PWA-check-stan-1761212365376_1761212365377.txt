@@ -1,0 +1,433 @@
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<'
+dashboard:129 PWA check - standalone mode: false
+dashboard:130 PWA check - iOS fullscreen: undefined
+index-B5FmHyJW.js:683 Nessuna informazione di contatto disponibile
+index-B5FmHyJW.js:969 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+index-B5FmHyJW.js:723 🏠 HOME AppIcon: Inizio caricamento icona
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/client-app-info 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/client-app-info: Object
+index-B5FmHyJW.js:723 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+index-B5FmHyJW.js:723 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-B5FmHyJW.js:969 Fuso orario diverso da quello salvato, aggiornamento...
+index-B5FmHyJW.js:723 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+index-B5FmHyJW.js:683 Nessuna informazione di contatto disponibile
+index-B5FmHyJW.js:723 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/company-name-settings 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/company-name-settings: Object
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/contact-info 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/contact-info: Object
+index-B5FmHyJW.js:969 Stato autenticazione: Object
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-B5FmHyJW.js:683 Nessuna informazione di contatto disponibile
+dashboard:210 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://wife-scheduler-zambelliandrea1.replit.app/') with script ('https://wife-scheduler-zambelliandrea1.replit.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonymous) @ dashboard:210
+dashboard:214 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://wife-scheduler-zambelliandrea1.replit.app/') with script ('https://wife-scheduler-zambelliandrea1.replit.app/service-worker.js'): The script has an unsupported MIME type ('text/html').
+(anonymous) @ dashboard:214
+dashboard:218 Navigator serviceWorker: ServiceWorkerContainer
+dashboard:219 Location protocol: https:
+dashboard:220 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+dashboard:141 Evento beforeinstallprompt catturato BeforeInstallPromptEvent
+dashboard:156 Deferring PWA install prompt
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-B5FmHyJW.js:48 Risposta da /api/client-app-info: 200  ok: true
+index-B5FmHyJW.js:723 🏠 HOME AppIcon: Risposta ricevuta, status: 200
+index-B5FmHyJW.js:723 🏠 HOME AppIcon: Dati parsati: Object
+index-B5FmHyJW.js:723 ✅ HOME AppIcon: Icona impostata correttamente
+index-B5FmHyJW.js:969 Fuso orario aggiornato con successo
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-B5FmHyJW.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+index-B5FmHyJW.js:48 Risposta da /api/company-name-settings: 200  ok: true
+index-B5FmHyJW.js:723 🏢 FRONTEND CompanyName: Risposta API status: 200
+index-B5FmHyJW.js:723 ✅ FRONTEND CompanyName: Impostazioni caricate: Object
+index-B5FmHyJW.js:48 Risposta da /api/contact-info: 200  ok: true
+index-B5FmHyJW.js:683 ✅ Informazioni di contatto caricate da API per utente 14: Object
+dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+index-B5FmHyJW.js:969 Stato autenticazione: Object
+index-B5FmHyJW.js:969 Stato autenticazione: Object
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 200  ok: true
+index-B5FmHyJW.js:723 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+index-B5FmHyJW.js:969 Stato autenticazione: Object
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: Object
+user-with-license:1  Failed to load resource: the server responded with a status of 401 ()
+tenant-context:1  Failed to load resource: the server responded with a status of 401 ()
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+index-B5FmHyJW.js:683  GET https://wife-scheduler-zambelliandrea1.replit.app/api/user-with-license 401 (Unauthorized)
+queryFn @ index-B5FmHyJW.js:683
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48  GET https://wife-scheduler-zambelliandrea1.replit.app/api/tenant-context 401 (Unauthorized)
+pe @ index-B5FmHyJW.js:48
+queryFn @ index-B5FmHyJW.js:723
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+await in pe
+queryFn @ index-B5FmHyJW.js:723
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+await in pe
+queryFn @ index-B5FmHyJW.js:723
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+await in queryFn
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Esecuzione richiesta GET a /api/tenant-context 
+index-B5FmHyJW.js:48 Header anti-cache aggiunti per garantire dati sempre freschi
+index-B5FmHyJW.js:48 Header x-device-type aggiunto: desktop
+index-B5FmHyJW.js:48 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+index-B5FmHyJW.js:683  GET https://wife-scheduler-zambelliandrea1.replit.app/api/user-with-license 401 (Unauthorized)
+queryFn @ index-B5FmHyJW.js:683
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48  GET https://wife-scheduler-zambelliandrea1.replit.app/api/tenant-context 401 (Unauthorized)
+pe @ index-B5FmHyJW.js:48
+queryFn @ index-B5FmHyJW.js:723
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Risposta da /api/tenant-context: 401  ok: false
+index-B5FmHyJW.js:48 Errore API (401): {"message":"Non autenticato"}
+pe @ index-B5FmHyJW.js:48
+await in pe
+queryFn @ index-B5FmHyJW.js:723
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:48 Eccezione durante la richiesta a /api/tenant-context: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+pe @ index-B5FmHyJW.js:48
+await in pe
+queryFn @ index-B5FmHyJW.js:723
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
+index-B5FmHyJW.js:723 Errore caricamento contesto tenant: Error: Errore 401: {"message":"Non autenticato"}
+    at pe (index-B5FmHyJW.js:48:44592)
+    at async queryFn (index-B5FmHyJW.js:723:4348)
+queryFn @ index-B5FmHyJW.js:723
+await in queryFn
+s @ index-B5FmHyJW.js:48
+v @ index-B5FmHyJW.js:48
+start @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+xm @ index-B5FmHyJW.js:48
+fetch @ index-B5FmHyJW.js:48
+refetch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+batch @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+await in (anonymous)
+(anonymous) @ index-B5FmHyJW.js:48
+onFocus @ index-B5FmHyJW.js:48
+(anonymous) @ index-B5FmHyJW.js:48
+n @ index-B5FmHyJW.js:48
