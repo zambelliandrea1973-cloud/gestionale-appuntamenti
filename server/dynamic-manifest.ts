@@ -156,7 +156,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "lang": "it-IT",
       "dir": "ltr",
       "prefer_related_applications": false,
-      "scope": "/",
+      "scope": "/client/",
       "id": ownerUserId ? `silvia-busnari-cliente-${ownerUserId}` : `area-cliente-generic`,
       "version": manifestVersion
     };
