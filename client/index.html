@@ -18,55 +18,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="App Cliente">
     
-    <!-- Web App Manifest - DINAMICO per icone personalizzate PWA -->
-    <script>
-      // Estrai clientToken dall'URL SUBITO (prima che il browser richieda il manifest)
-      const urlParams = new URLSearchParams(window.location.search);
-      const pathMatch = window.location.pathname.match(/\/client\/(PROF_\d+_[A-F0-9]+_CLIENT_\d+_[A-F0-9]+)/);
-      const clientToken = pathMatch ? pathMatch[1] : null;
-      
-      // Determina se siamo nell'area cliente o nel gestionale admin
-      // IMPORTANTE: Verifica path completo per distinguere cliente da admin
-      const isClientArea = window.location.pathname.includes('/client/PROF_');
-      
-      console.log('📱 [MANIFEST DETECTION] pathname:', window.location.pathname);
-      console.log('📱 [MANIFEST DETECTION] isClientArea:', isClientArea);
-      
-      let manifestUrl;
-      
-      if (isClientArea) {
-        // AREA CLIENTE: Usa manifest dinamico con icona personalizzata
-        let ownerId = localStorage.getItem('ownerId');
-        if (!ownerId && clientToken) {
-          const ownerMatch = clientToken.match(/^PROF_(\d{2,3})_/);
-          if (ownerMatch) {
-            ownerId = ownerMatch[1];
-          }
-        }
-        
-        manifestUrl = '/manifest.json?v=' + Date.now();
-        if (ownerId) {
-          manifestUrl += '&ownerId=' + ownerId;
-        }
-        if (clientToken) {
-          manifestUrl += '&clientToken=' + clientToken;
-        }
-        
-        console.log('📱 [MANIFEST CLIENTE] URL:', manifestUrl);
-      } else {
-        // GESTIONALE ADMIN: Usa manifest dinamico per dashboard professionista
-        manifestUrl = '/manifest-admin.json?ts=' + Date.now();
-        console.log('📱 [MANIFEST ADMIN] URL:', manifestUrl);
-      }
-      
-      // Crea link manifest SUBITO
-      const manifestLink = document.createElement('link');
-      manifestLink.rel = 'manifest';
-      manifestLink.href = manifestUrl;
-      document.head.appendChild(manifestLink);
-      
-      console.log('📱 [MANIFEST IMMEDIATO] Creato con URL:', manifestUrl);
-    </script>
+    <!-- NOTA: Il manifest PWA viene aggiunto DINAMICAMENTE da React dopo il login 
+         per garantire che l'icona personalizzata del professionista sia caricata correttamente.
+         Per l'area cliente, il manifest viene gestito dal componente ManifestInjector. -->
     
     <!-- FAVICON per browser che non supportano PWA -->
     <link rel="icon" type="image/png" href="/icons/icon-96x96.png">

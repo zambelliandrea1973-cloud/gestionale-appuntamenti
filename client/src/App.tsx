@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import ClientLayout from "./components/ClientLayout";
 import PwaSessionManager from "./components/PwaSessionManager";
 import { BetaStatusChecker } from "./components/BetaStatusChecker";
+import { ManifestInjector } from "./components/ManifestInjector";
 import { UserLicenseProvider, useUserWithLicense } from "./hooks/use-user-with-license";
 import { TenantContextProvider } from "./hooks/use-tenant-context";
 import { useEffect } from "react";
@@ -526,6 +527,8 @@ function App() {
       <UserLicenseProvider>
         {/* TimezoneDetector DEVE essere dentro i provider React per evitare errori hooks */}
         <TimezoneDetector />
+        {/* ManifestInjector aggiunge dinamicamente il manifest PWA DOPO il login per caricare icona personalizzata */}
+        <ManifestInjector />
         {/* TenantContextProvider fornisce isolamento completo dei dati per ogni utente */}
         <TenantContextProvider>
           {/* BetaStatusChecker verifica se l'utente è un beta tester - DEVE essere dentro UserLicenseProvider */}
