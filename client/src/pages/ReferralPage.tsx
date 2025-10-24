@@ -445,46 +445,55 @@ export default function ReferralPage() {
       <div className="mb-8">
         <div className="mb-4">
           <h2 className="text-2xl font-bold">✅ Utenti con abbonamento attivo</h2>
-          <p className="text-muted-foreground">Questi utenti generano commissioni mensili ricorrenti</p>
+          <p className="text-muted-foreground">Questi utenti generano commissioni (una tantum per annuali, mensili per i piani mensili)</p>
         </div>
         {referralData?.referredUsers && referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).map((user: any) => (
-              <Card key={user.id} className="relative overflow-hidden border-green-200 dark:border-green-800">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-bl-full" />
-                <CardHeader className="relative pb-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <CardTitle className="text-base font-semibold line-clamp-1 pr-2">
-                        {user.username}
-                      </CardTitle>
-                      <CardDescription className="text-sm mt-1">
-                        {user.planName}
-                      </CardDescription>
+            {referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).map((user: any) => {
+              const isYearly = user.planInterval === 'year';
+              const commissionLabel = isYearly ? 'Commissione totale' : 'Commissione mensile';
+              const paymentNote = isYearly ? '(una tantum)' : '(ricorrente)';
+              
+              return (
+                <Card key={user.id} className="relative overflow-hidden border-green-200 dark:border-green-800">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-bl-full" />
+                  <CardHeader className="relative pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <CardTitle className="text-base font-semibold line-clamp-1 pr-2">
+                          {user.username}
+                        </CardTitle>
+                        <CardDescription className="text-sm mt-1">
+                          {user.planName}
+                        </CardDescription>
+                      </div>
+                      <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                        Attivo
+                      </span>
                     </div>
-                    <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                      Attivo
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="relative space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950/30 rounded-lg">
-                    <span className="text-sm text-muted-foreground">Commissione mensile</span>
-                    <span className="text-xl font-bold text-green-600 dark:text-green-400">
-                      {user.commissionAmount ? user.commissionAmount.toFixed(2) : '0.00'} €
-                    </span>
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Euro className="h-4 w-4 mr-2" />
-                    <span>Piano: {user.planPrice}€/{user.planInterval === 'year' ? 'anno' : 'mese'}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    <span>Iscritto: {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent className="relative space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950/30 rounded-lg">
+                      <div className="flex flex-col">
+                        <span className="text-sm text-muted-foreground">{commissionLabel}</span>
+                        <span className="text-xs text-muted-foreground/70 italic">{paymentNote}</span>
+                      </div>
+                      <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                        {user.commissionAmount ? user.commissionAmount.toFixed(2) : '0.00'} €
+                      </span>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Euro className="h-4 w-4 mr-2" />
+                      <span>Piano: {user.planPrice}€/{isYearly ? 'anno' : 'mese'}</span>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      <span>Iscritto: {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         ) : (
           <Card className="border-dashed">

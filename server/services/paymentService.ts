@@ -632,6 +632,14 @@ export class PaymentService {
 
   /**
    * Sistema automatico referral: Crea commissione quando un abbonamento diventa attivo
+   * 
+   * LOGICA COMMISSIONI (Opzione B - Una tantum vs Ricorrenti):
+   * - Piano ANNUALE: Commissione 25% pagata UNA SOLA VOLTA dopo 30 giorni
+   * - Piano MENSILE: Commissione 25% pagata OGNI MESE (ricorrente)
+   * 
+   * Il campo `monthlyAmount` contiene sempre il 25% del prezzo totale.
+   * Il tipo di pagamento dipende dall'interval del piano (year/month).
+   * 
    * @param userId ID dell'utente che ha fatto l'abbonamento
    * @param subscriptionId ID dell'abbonamento
    * @param planPrice Prezzo del piano in centesimi
@@ -656,8 +664,22 @@ export class PaymentService {
         return;
       }
 
+      // Ottieni info piano per determinare se è annuale o mensile
+      const subscription = await storage.getSubscription(subscriptionId);
+      if (!subscription) {
+        console.log(`⚠️ Sottoscrizione ${subscriptionId} non trovata - commissione non creata`);
+        return;
+      }
+      
+      const plan = await storage.getSubscriptionPlan(subscription.planId);
+      if (!plan) {
+        console.log(`⚠️ Piano ${subscription.planId} non trovato - commissione non creata`);
+        return;
+      }
+
       // Calcola commissione al 25% del prezzo del piano
       const commissionAmount = Math.round(planPrice * 0.25);
+      const isRecurring = plan.interval === 'month';
       
       // Ottieni info sponsor
       const sponsor = await storage.getUser(user.referredBy);
@@ -675,7 +697,7 @@ export class PaymentService {
         referrerId: user.referredBy,
         referredId: userId,
         subscriptionId: subscriptionId,
-        monthlyAmount: commissionAmount,
+        monthlyAmount: commissionAmount, // Contiene il 25% del prezzo totale
         status: 'active',
         startDate: new Date(),
         endDate: null,
@@ -685,10 +707,12 @@ export class PaymentService {
 
       await storage.createReferralCommission(commissionData);
       
+      const paymentType = isRecurring ? 'mensile ricorrente' : 'una tantum';
       console.log(`🎉 COMMISSIONE AUTOMATICA CREATA!`);
       console.log(`   Sponsor: ${sponsor.username} (ID: ${sponsor.id})`);
       console.log(`   Cliente: ${user.username} (ID: ${user.id})`);
-      console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)}/mese (25% di €${(planPrice/100).toFixed(2)})`);
+      console.log(`   Piano: ${plan.name} (${plan.interval === 'year' ? 'Annuale' : 'Mensile'})`);
+      console.log(`   Commissione: €${(commissionAmount/100).toFixed(2)} ${paymentType} (25% di €${(planPrice/100).toFixed(2)})`);
       console.log(`   📅 Payout programmato per: ${payoutDate.toLocaleDateString('it-IT')} (30gg)`);
     } catch (error) {
       console.error('Errore durante la creazione della commissione referral:', error);
