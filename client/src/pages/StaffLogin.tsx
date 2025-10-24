@@ -43,12 +43,19 @@ export default function StaffLogin() {
     clearSession();
   }, []);
   
-  // Controlla se dobbiamo mostrare la pagina di login per admin
+  // Controlla se dobbiamo mostrare la pagina di login per admin e pre-compila username se presente
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const roleParam = params.get('role');
+    const usernameParam = params.get('username');
+    
     if (roleParam === 'admin') {
       setIsAdminLogin(true);
+    }
+    
+    // Pre-compila username se arriva dalla registrazione
+    if (usernameParam) {
+      setUsername(decodeURIComponent(usernameParam));
     }
   }, []);
   

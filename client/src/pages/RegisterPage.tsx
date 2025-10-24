@@ -67,8 +67,8 @@ export default function RegisterPage() {
         throw new Error(data.message || "Errore durante la registrazione");
       }
       
-      // Registrazione riuscita, reindirizza alla pagina di login per i customer (professionisti paganti)
-      navigate("/staff-login"); // Utilizziamo ancora staff-login perché è l'accesso standard per i professionisti
+      // Registrazione riuscita, reindirizza alla pagina di login con username pre-compilato
+      navigate(`/staff-login?username=${encodeURIComponent(formData.username)}`);
     } catch (err: any) {
       setError(err.message || "Si è verificato un errore durante la registrazione");
     } finally {
