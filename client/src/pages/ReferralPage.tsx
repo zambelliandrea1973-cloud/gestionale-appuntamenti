@@ -452,17 +452,17 @@ export default function ReferralPage() {
             {referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).map((user: any) => (
               <Card key={user.id} className="relative overflow-hidden border-green-200 dark:border-green-800">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-bl-full" />
-                <CardHeader className="relative">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg font-semibold line-clamp-1">
+                <CardHeader className="relative pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-base font-semibold line-clamp-1 pr-2">
                         {user.username}
                       </CardTitle>
                       <CardDescription className="text-sm mt-1">
                         {user.planName}
                       </CardDescription>
                     </div>
-                    <span className="ml-2 px-2 py-1 rounded-full text-xs whitespace-nowrap bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                       Attivo
                     </span>
                   </div>
@@ -508,17 +508,17 @@ export default function ReferralPage() {
             {referralData.referredUsers.filter((u: any) => !u.hasActiveSubscription).map((user: any) => (
               <Card key={user.id} className="relative overflow-hidden border-orange-200 dark:border-orange-800">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/10 rounded-bl-full" />
-                <CardHeader className="relative">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg font-semibold line-clamp-1">
+                <CardHeader className="relative pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-base font-semibold line-clamp-1 pr-2">
                         {user.username}
                       </CardTitle>
-                      <CardDescription className="text-sm mt-1 text-orange-600 dark:text-orange-400">
+                      <CardDescription className="text-sm mt-1 text-orange-600 dark:text-orange-400 line-clamp-1">
                         {user.email}
                       </CardDescription>
                     </div>
-                    <span className="ml-2 px-2 py-1 rounded-full text-xs whitespace-nowrap bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                    <span className="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
                       Trial
                     </span>
                   </div>
