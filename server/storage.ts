@@ -2439,21 +2439,13 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByReferralCode(referralCode: string): Promise<User | undefined> {
     try {
-      // Converti il codice referral in ID numerico
-      const userId = parseInt(referralCode, 10);
-      
-      if (isNaN(userId)) {
-        console.log(`❌ Codice referral non valido (deve essere un numero): ${referralCode}`);
-        return undefined;
-      }
-      
-      console.log(`🔍 Cercando staff con ID: ${userId}`);
-      const [user] = await db.select().from(users).where(eq(users.id, userId));
+      console.log(`🔍 Cercando utente con codice referral: ${referralCode}`);
+      const [user] = await db.select().from(users).where(eq(users.referralCode, referralCode));
       
       if (user) {
-        console.log(`✅ Trovato staff ${user.username} con ID ${userId}`);
+        console.log(`✅ Trovato utente ${user.username} (ID: ${user.id}) con codice referral ${referralCode}`);
       } else {
-        console.log(`❌ Nessuno staff trovato per ID ${userId}`);
+        console.log(`❌ Nessun utente trovato per codice referral ${referralCode}`);
       }
       
       return user;
