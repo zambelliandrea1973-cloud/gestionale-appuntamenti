@@ -153,19 +153,19 @@ export default function ReferralPage() {
 
   // Gestisce la copia del codice di referral negli appunti
   const copyToClipboard = () => {
-    if (referralData?.userData?.id) {
-      navigator.clipboard.writeText(referralData.userData.id.toString());
+    if (referralData?.userData?.referralCode) {
+      navigator.clipboard.writeText(referralData.userData.referralCode);
       toast({
         title: "Codice copiato!",
-        description: "Il tuo ID è stato copiato negli appunti.",
+        description: "Il tuo codice referral è stato copiato negli appunti.",
       });
     }
   };
 
   // Gestisce la condivisione del codice referral
   const shareReferralCode = () => {
-    if (referralData?.userData?.id) {
-      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.userData.id}`;
+    if (referralData?.userData?.referralCode) {
+      const text = `Iscriviti a Wife Scheduler usando il mio codice referral: ${referralData.userData.referralCode}`;
       
       if (navigator.share) {
         navigator.share({
