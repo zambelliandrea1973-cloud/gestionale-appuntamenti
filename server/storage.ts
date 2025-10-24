@@ -139,6 +139,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined>;
   getUserByReferralCode(referralCode: string): Promise<User | undefined>;
+  getUsersByReferrer(referrerId: number): Promise<User[]>;
   getAllStaffUsers(): Promise<User[]>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<InsertUser>): Promise<User | undefined>;
@@ -2452,6 +2453,20 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting user by referral code:", error);
       return undefined;
+    }
+  }
+
+  async getUsersByReferrer(referrerId: number): Promise<User[]> {
+    try {
+      console.log(`🔍 Cercando utenti sponsorizzati da referrer ID: ${referrerId}`);
+      const referredUsers = await db.select().from(users).where(eq(users.referredBy, referrerId));
+      
+      console.log(`✅ Trovati ${referredUsers.length} utenti sponsorizzati da referrer ${referrerId}`);
+      
+      return referredUsers;
+    } catch (error) {
+      console.error("Error getting users by referrer:", error);
+      return [];
     }
   }
   

@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import { format } from 'date-fns';
-import { Copy, AlertCircle, Euro, Clipboard, Building, Share2 } from 'lucide-react';
+import { Copy, AlertCircle, Euro, Clipboard, Building, Share2, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLocation } from 'wouter';
 import { useUserWithLicense } from '@/hooks/use-user-with-license';
@@ -441,60 +441,114 @@ export default function ReferralPage() {
         </AlertDescription>
       </Alert>
 
-      {/* Tabella delle commissioni */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Le tue commissioni</CardTitle>
-          <CardDescription>
-            Elenco dettagliato delle commissioni attive sui tuoi referral
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {commissions.length > 0 ? (
-            <Table>
-              <TableCaption>Elenco delle tue commissioni attive</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Utente</TableHead>
-                  <TableHead>Data inizio</TableHead>
-                  <TableHead>Importo mensile</TableHead>
-                  <TableHead>Stato</TableHead>
-                  <TableHead>Ultimo pagamento</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {commissions.map((commission) => (
-                  <TableRow key={commission.id}>
-                    <TableCell className="font-medium">ID: {commission.referredId}</TableCell>
-                    <TableCell>{format(new Date(commission.startDate), 'dd/MM/yyyy')}</TableCell>
-                    <TableCell>{formatAmount(commission.monthlyAmount)}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        commission.status === 'active' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {commission.status === 'active' ? 'Attiva' : 'Inattiva'}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {commission.lastPaidPeriod 
-                        ? format(new Date(`${commission.lastPaidPeriod}-01`), 'MMMM yyyy')
-                        : 'Mai'}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              <Clipboard className="mx-auto h-12 w-12 mb-4 opacity-20" />
-              <p>Non hai ancora commissioni attive.</p>
-              <p className="text-sm">Condividi il tuo codice referral per iniziare a guadagnare!</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Utenti sponsorizzati con abbonamento attivo */}
+      <div className="mb-8">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold">✅ Utenti con abbonamento attivo</h2>
+          <p className="text-muted-foreground">Questi utenti generano commissioni mensili ricorrenti</p>
+        </div>
+        {referralData?.referredUsers && referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {referralData.referredUsers.filter((u: any) => u.hasActiveSubscription).map((user: any) => (
+              <Card key={user.id} className="relative overflow-hidden border-green-200 dark:border-green-800">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-bl-full" />
+                <CardHeader className="relative">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-lg font-semibold line-clamp-1">
+                        {user.username}
+                      </CardTitle>
+                      <CardDescription className="text-sm mt-1">
+                        {user.planName}
+                      </CardDescription>
+                    </div>
+                    <span className="ml-2 px-2 py-1 rounded-full text-xs whitespace-nowrap bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      Attivo
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="relative space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950/30 rounded-lg">
+                    <span className="text-sm text-muted-foreground">Commissione mensile</span>
+                    <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                      {user.commissionAmount ? user.commissionAmount.toFixed(2) : '0.00'} €
+                    </span>
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Euro className="h-4 w-4 mr-2" />
+                    <span>Piano: {user.planPrice}€/{user.planInterval === 'year' ? 'anno' : 'mese'}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    <span>Iscritto: {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <Card className="border-dashed">
+            <CardContent className="text-center py-12">
+              <Clipboard className="mx-auto h-16 w-16 mb-4 text-muted-foreground/20" />
+              <h3 className="text-lg font-semibold mb-2">Nessun abbonamento attivo</h3>
+              <p className="text-muted-foreground">Gli utenti devono attivare un abbonamento a pagamento per generare commissioni</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* Utenti sponsorizzati in prova */}
+      <div className="mb-8">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold">⏳ Utenti in prova (Trial)</h2>
+          <p className="text-muted-foreground">Questi utenti si sono registrati con il tuo codice ma non hanno ancora attivato un abbonamento</p>
+        </div>
+        {referralData?.referredUsers && referralData.referredUsers.filter((u: any) => !u.hasActiveSubscription).length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {referralData.referredUsers.filter((u: any) => !u.hasActiveSubscription).map((user: any) => (
+              <Card key={user.id} className="relative overflow-hidden border-orange-200 dark:border-orange-800">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/10 rounded-bl-full" />
+                <CardHeader className="relative">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-lg font-semibold line-clamp-1">
+                        {user.username}
+                      </CardTitle>
+                      <CardDescription className="text-sm mt-1 text-orange-600 dark:text-orange-400">
+                        {user.email}
+                      </CardDescription>
+                    </div>
+                    <span className="ml-2 px-2 py-1 rounded-full text-xs whitespace-nowrap bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                      Trial
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="relative space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-950/30 rounded-lg">
+                    <span className="text-sm text-muted-foreground">Commissione</span>
+                    <span className="text-xl font-bold text-orange-600 dark:text-orange-400">
+                      0.00 €
+                    </span>
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    <span>Registrato: {format(new Date(user.registeredAt), 'dd/MM/yyyy')}</span>
+                  </div>
+                  <div className="text-xs text-orange-600 dark:text-orange-400 italic">
+                    💡 Inizierai a guadagnare quando attiverà un abbonamento
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <Card className="border-dashed">
+            <CardContent className="text-center py-12">
+              <p className="text-muted-foreground">Tutti i tuoi utenti sponsorizzati hanno attivato un abbonamento! 🎉</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
 
       {/* Dialog per i dati bancari */}
       <Dialog open={openBankDialog} onOpenChange={setOpenBankDialog}>

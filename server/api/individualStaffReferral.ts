@@ -39,6 +39,34 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
       })
     );
 
+    // Ottieni TUTTI gli utenti sponsorizzati (non solo quelli con commissioni attive)
+    const allReferredUsers = await storage.getUsersByReferrer(staffUser.id);
+    console.log(`👥 UTENTI SPONSORIZZATI TOTALI per ${staffUser.email}:`, allReferredUsers.length);
+
+    // Per ogni utente sponsorizzato, verifica se ha un abbonamento attivo
+    const referredUsersWithStatus = await Promise.all(
+      allReferredUsers.map(async (user) => {
+        const subscription = await storage.getSubscriptionByUserId(user.id);
+        const plan = subscription ? await storage.getSubscriptionPlan(subscription.planId) : null;
+        const commission = commissionsData.find(c => c.referredId === user.id);
+        
+        return {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          registeredAt: user.createdAt,
+          hasActiveSubscription: !!(subscription && subscription.status === 'active'),
+          subscriptionStatus: subscription?.status || 'trial',
+          planName: plan?.name || null,
+          planPrice: plan ? plan.price / 100 : null,
+          planInterval: plan?.interval || null,
+          commissionAmount: commission ? commission.monthlyAmount / 100 : null,
+          subscriptionStart: subscription?.currentPeriodStart || null,
+          subscriptionEnd: subscription?.currentPeriodEnd || null
+        };
+      })
+    );
+
     const myReferralSystem = {
       userData: {
         id: staffUser.id,
@@ -51,11 +79,12 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
       },
       stats: {
         myReferralCode: myReferralCode,
-        totalReferrals: commissionsData.length,
+        totalReferrals: allReferredUsers.length, // TUTTI gli utenti sponsorizzati
         activeCommissions: activeCommissions.length,
         paidCommissions: 0, // TODO: contare da referral_payments
         pendingCommissions: activeCommissions.length,
-        totalEarned: totalEarned
+        totalEarned: totalEarned,
+        trialUsers: allReferredUsers.length - activeCommissions.length // Utenti in trial
       },
       commissionsData: commissionsData,
       statsData: {
@@ -65,6 +94,7 @@ export async function getIndividualStaffReferral(req: Request, res: Response) {
         hasBankAccount: !!(staffUser.iban || staffUser.paypalEmail)
       },
       recentCommissions: commissionsWithDetails,
+      referredUsers: referredUsersWithStatus, // TUTTI gli utenti sponsorizzati con stato
       referralGuide: {
         howItWorks: "Condividi il tuo codice con nuovi clienti durante la registrazione",
         commission: "25% del prezzo dell'abbonamento per ogni cliente referenziato",
