@@ -448,7 +448,7 @@ export default function SubscribePage() {
         </p>
         
         {/* Subscription Status */}
-        {subscriptionInfo && (
+        {subscriptionInfo && subscriptionInfo.status === 'active' && (
           <Alert className="max-w-3xl mx-auto mb-8 bg-green-50 border-green-200">
             <div className="flex items-center">
               <Check className="h-5 w-5 text-green-500 mr-2" />

@@ -10,6 +10,33 @@ Development approach: When implementing new features, always evaluate 2-3 altern
 
 ## Recent Changes (October 2025)
 
+### Subscription Status Badge Fix (October 24, 2025)
+- **Date**: October 24, 2025
+- **Bug**: Users in trial (status "pending") saw green "Abbonamento attivo" badge on /subscribe page
+- **Root Cause**: Badge displayed for any `subscriptionInfo` without checking status
+- **Solution**: Added status check - badge shows ONLY if `subscriptionInfo.status === 'active'`
+- **Files Modified**:
+  - `client/src/pages/SubscribePage.tsx`: Added `&& subscriptionInfo.status === 'active'` condition
+- **Result**: Trial users no longer see "Active Subscription" badge, only paid users with active status
+- **Status**: ✅ Fixed and tested on Replit
+
+### Referral Commission Option B Implementation (October 24, 2025)
+- **Date**: October 24, 2025
+- **Change**: Implemented one-time vs recurring commission logic (Option B)
+- **Commission Rules**:
+  - **Annual Plans**: 25% commission paid ONE-TIME after 30 days (e.g., 99€/year → 24.75€ once)
+  - **Monthly Plans**: 25% commission paid RECURRING every month (e.g., 9.99€/month → 2.50€/month)
+- **Files Modified**:
+  - `server/services/paymentService.ts`: Added interval-based commission logic with clear documentation
+  - `server/storage.ts`: Added `getUsersByReferrer` interface method
+  - `server/api/individualStaffReferral.ts`: Load all sponsored users from database
+  - `client/src/pages/ReferralPage.tsx`: Display dynamic labels "(una tantum)" vs "(ricorrente)"
+- **UI Improvements**:
+  - Active users card: Shows "Commissione totale (una tantum)" for annual plans
+  - Active users card: Shows "Commissione mensile (ricorrente)" for monthly plans
+  - Visual separation with green cards for active, orange for trial users
+- **Status**: Ready for Sliplane deployment
+
 ### Payment Admin UI Upgrade - Modern Card Layout (October 23, 2025)
 - **Date**: October 23, 2025
 - **Change**: Replaced plain table with beautiful card-based layout for subscription plans admin
