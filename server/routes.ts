@@ -1,7 +1,6 @@
 import { registerSimpleRoutes } from "./simple-routes";
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-// Removed JSON dependency - now using unified PostgreSQL storage
 
 import { serveDynamicManifest } from './dynamic-manifest'
 import { serveCustomIcon } from './icon-proxy'

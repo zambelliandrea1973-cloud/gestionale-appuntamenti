@@ -11,8 +11,11 @@ import { licenseService } from "../services/licenseService";
  * Configura le route di registrazione per i nuovi utenti
  */
 export default function setupRegistrationRoutes(app: Express) {
+  console.log('🔧 [SETUP] setupRegistrationRoutes chiamata - configurazione route /api/register');
+  
   // Endpoint per la registrazione di nuovi utenti cliente
   app.post("/api/register", async (req, res) => {
+    console.log('📝 [REGISTER] Richiesta di registrazione ricevuta:', req.body.username);
     try {
       const { name, email, username, password, referralCode } = req.body;
       
