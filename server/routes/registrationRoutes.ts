@@ -55,8 +55,8 @@ export default function setupRegistrationRoutes(app: Express) {
         username,
         email,
         password: hashedPassword,
-        role: 'staff', // I nuovi professionisti sono 'staff' di default
-        type: 'staff', // Tutti i nuovi professionisti sono 'staff' per poter accedere alla dashboard
+        role: 'user', // I nuovi professionisti paganti hanno il ruolo 'user' di default
+        type: 'customer', // Nuovi professionisti sono 'customer' (professionisti paganti), solo admin crea 'staff'
         referredBy: referrerStaff?.id || null // Assegna sponsor se presente
       });
       
