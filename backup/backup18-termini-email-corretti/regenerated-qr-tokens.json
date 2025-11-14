@@ -1,0 +1,374 @@
+{
+  "generatedAt": "2025-06-17T13:51:22.708Z",
+  "totalTokens": 46,
+  "tokens": [
+    {
+      "clientId": 1,
+      "clientName": "Mario Rossi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_001_36C1",
+      "newToken": "PROF_003_7402_CLIENT_001_36C1_931c8098",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_001_36C1_931c8098"
+    },
+    {
+      "clientId": 2,
+      "clientName": "Zambelli Andrea",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_002_EF6A",
+      "newToken": "PROF_003_7402_CLIENT_002_EF6A_99d9fd98",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_002_EF6A_99d9fd98"
+    },
+    {
+      "clientId": 266,
+      "clientName": "giovanni rizzo",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_266_4342",
+      "newToken": "PROF_003_7402_CLIENT_266_4342_79ac9aac",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_266_4342_79ac9aac"
+    },
+    {
+      "clientId": 267,
+      "clientName": "giovanni ribbio",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_267_AC7F",
+      "newToken": "PROF_003_7402_CLIENT_267_AC7F_d60ec861",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_267_AC7F_d60ec861"
+    },
+    {
+      "clientId": 1749667437314,
+      "clientName": "Silvia Bus",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_1749667437314_19F7",
+      "newToken": "PROF_003_7402_CLIENT_1749667437314_19F7_a90b3a48",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437314_19F7_a90b3a48"
+    },
+    {
+      "clientId": "1749667437315",
+      "clientName": "Mario Rossi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437315_F1F9",
+      "newToken": "PROF_003_6AA8_CLIENT_1749667437315_F1F9_dd5c15e7",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437315_F1F9_dd5c15e7"
+    },
+    {
+      "clientId": "1749667437316",
+      "clientName": "Giulia Verdi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437316_B01D",
+      "newToken": "PROF_003_6AA8_CLIENT_1749667437316_B01D_5e9a1d1a",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437316_B01D_5e9a1d1a"
+    },
+    {
+      "clientId": "1749667437317",
+      "clientName": "Franco Bianchi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437317_E6E3",
+      "newToken": "PROF_003_6AA8_CLIENT_1749667437317_E6E3_a5353cb6",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437317_E6E3_a5353cb6"
+    },
+    {
+      "clientId": "1749667437318",
+      "clientName": "Anna Neri",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_6AA8_CLIENT_1749667437318_0D26",
+      "newToken": "PROF_003_6AA8_CLIENT_1749667437318_0D26_295072c4",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437318_0D26_295072c4"
+    },
+    {
+      "clientId": 1749667437319,
+      "clientName": "Mario Rossi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_1749667437319_BD53",
+      "newToken": "PROF_003_7402_CLIENT_1749667437319_BD53_b13618bf",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437319_BD53_b13618bf"
+    },
+    {
+      "clientId": 1749667437320,
+      "clientName": "Giulia Verdi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_1749667437320_F607",
+      "newToken": "PROF_003_7402_CLIENT_1749667437320_F607_430cc7f7",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437320_F607_430cc7f7"
+    },
+    {
+      "clientId": 1749667437321,
+      "clientName": "Franco Bianchi",
+      "ownerId": 3,
+      "uniqueCode": "PROF_003_7402_CLIENT_1749667437321_6727",
+      "newToken": "PROF_003_7402_CLIENT_1749667437321_6727_a42b75d1",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437321_6727_a42b75d1"
+    },
+    {
+      "clientId": 25,
+      "clientName": "Cliente Trial",
+      "ownerId": 9,
+      "uniqueCode": "PROF_009_AE0F_CLIENT_025_26F1",
+      "newToken": "PROF_009_AE0F_CLIENT_025_26F1_3e3cb524",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_009_AE0F_CLIENT_025_26F1_3e3cb524"
+    },
+    {
+      "clientId": 316,
+      "clientName": "Trial Account",
+      "ownerId": 9,
+      "uniqueCode": "PROF_009_AE0F_CLIENT_316_BD29",
+      "newToken": "PROF_009_AE0F_CLIENT_316_BD29_b9ff7c8e",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_009_AE0F_CLIENT_316_BD29_b9ff7c8e"
+    },
+    {
+      "clientId": 1749666196976,
+      "clientName": "Andrea Zambelli",
+      "ownerId": 9,
+      "uniqueCode": "PROF_009_AE0F_CLIENT_1749666196976_7747",
+      "newToken": "PROF_009_AE0F_CLIENT_1749666196976_7747_90ca05da",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_009_AE0F_CLIENT_1749666196976_7747_90ca05da"
+    },
+    {
+      "clientId": 27,
+      "clientName": "Cliente Pro",
+      "ownerId": 11,
+      "uniqueCode": "PROF_011_C59C_CLIENT_027_7441",
+      "newToken": "PROF_011_C59C_CLIENT_027_7441_ef70f144",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_011_C59C_CLIENT_027_7441_ef70f144"
+    },
+    {
+      "clientId": 262,
+      "clientName": "Pro Account",
+      "ownerId": 11,
+      "uniqueCode": "PROF_011_C59C_CLIENT_262_3C3A",
+      "newToken": "PROF_011_C59C_CLIENT_262_3C3A_9656209c",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_011_C59C_CLIENT_262_3C3A_9656209c"
+    },
+    {
+      "clientId": 28,
+      "clientName": "Cliente Business",
+      "ownerId": 12,
+      "uniqueCode": "PROF_012_9859_CLIENT_028_07DF",
+      "newToken": "PROF_012_9859_CLIENT_028_07DF_276a2598",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_012_9859_CLIENT_028_07DF_276a2598"
+    },
+    {
+      "clientId": 264,
+      "clientName": "Business Account",
+      "ownerId": 12,
+      "uniqueCode": "PROF_012_9859_CLIENT_264_CEC1",
+      "newToken": "PROF_012_9859_CLIENT_264_CEC1_c95455e1",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_012_9859_CLIENT_264_CEC1_c95455e1"
+    },
+    {
+      "clientId": 14001,
+      "clientName": "Cliente Trial",
+      "ownerId": 14,
+      "uniqueCode": "PROF_014_D84F_CLIENT_14001_C43C",
+      "newToken": "PROF_014_D84F_CLIENT_14001_C43C_9939cb96",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_14001_C43C_9939cb96"
+    },
+    {
+      "clientId": 14002,
+      "clientName": "Trial Account",
+      "ownerId": 14,
+      "uniqueCode": "PROF_014_D84F_CLIENT_14002_7E89",
+      "newToken": "PROF_014_D84F_CLIENT_14002_7E89_396a9476",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_14002_7E89_396a9476"
+    },
+    {
+      "clientId": 1750153393298,
+      "clientName": "Marco Berto",
+      "ownerId": 14,
+      "uniqueCode": "PROF_014_D84F_CLIENT_1750153393298_7BCE",
+      "newToken": "PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03"
+    },
+    {
+      "clientId": 1750163505034,
+      "clientName": "Bruna  Pizzolato",
+      "ownerId": 14,
+      "uniqueCode": "PROF_014_D84F_CLIENT_1750163505034_3EFC",
+      "newToken": "PROF_014_D84F_CLIENT_1750163505034_3EFC_9d4d31c6",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_1750163505034_3EFC_9d4d31c6"
+    },
+    {
+      "clientId": 251,
+      "clientName": "Bruna Pizzolato",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_251_B19F",
+      "newToken": "PROF_016_0A55_CLIENT_251_B19F_f55d6b78",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_251_B19F_f55d6b78"
+    },
+    {
+      "clientId": 252,
+      "clientName": "Marco Berto",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_252_0B88",
+      "newToken": "PROF_016_0A55_CLIENT_252_0B88_1872f1fc",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_252_0B88_1872f1fc"
+    },
+    {
+      "clientId": 256,
+      "clientName": "pippo quattro",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_256_91D0",
+      "newToken": "PROF_016_0A55_CLIENT_256_91D0_d816cded",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_256_91D0_d816cded"
+    },
+    {
+      "clientId": 257,
+      "clientName": "Valentina Cotrino",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_257_DA65",
+      "newToken": "PROF_016_0A55_CLIENT_257_DA65_c85c12f7",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_257_DA65_c85c12f7"
+    },
+    {
+      "clientId": 258,
+      "clientName": "Cinzia Munaretto",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_258_A0AF",
+      "newToken": "PROF_016_0A55_CLIENT_258_A0AF_992e431c",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_258_A0AF_992e431c"
+    },
+    {
+      "clientId": 259,
+      "clientName": "Eleonora Tentori",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_259_ACE8",
+      "newToken": "PROF_016_0A55_CLIENT_259_ACE8_790d7f1b",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_259_ACE8_790d7f1b"
+    },
+    {
+      "clientId": 261,
+      "clientName": "Cristina Valetti",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_261_9E67",
+      "newToken": "PROF_016_0A55_CLIENT_261_9E67_eeb0cdf6",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_261_9E67_eeb0cdf6"
+    },
+    {
+      "clientId": 263,
+      "clientName": "Matteo Somaschini",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_263_C474",
+      "newToken": "PROF_016_0A55_CLIENT_263_C474_bb1b9fd8",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_263_C474_bb1b9fd8"
+    },
+    {
+      "clientId": 265,
+      "clientName": "Zambelli Andrea",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_265_F800",
+      "newToken": "PROF_016_0A55_CLIENT_265_F800_547f02d4",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_265_F800_547f02d4"
+    },
+    {
+      "clientId": 268,
+      "clientName": "Leila Baldovin",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_268_A94D",
+      "newToken": "PROF_016_0A55_CLIENT_268_A94D_f95e692c",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_268_A94D_f95e692c"
+    },
+    {
+      "clientId": 269,
+      "clientName": "Rosa Nappi",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_269_76DC",
+      "newToken": "PROF_016_0A55_CLIENT_269_76DC_be7ca3e0",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_269_76DC_be7ca3e0"
+    },
+    {
+      "clientId": 270,
+      "clientName": "Giovanna Spano",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_270_C507",
+      "newToken": "PROF_016_0A55_CLIENT_270_C507_415f22a5",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_270_C507_415f22a5"
+    },
+    {
+      "clientId": 271,
+      "clientName": "Alan Marconi",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_271_471A",
+      "newToken": "PROF_016_0A55_CLIENT_271_471A_754bd60f",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_271_471A_754bd60f"
+    },
+    {
+      "clientId": 272,
+      "clientName": "Dino Nappi",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_272_5C69",
+      "newToken": "PROF_016_0A55_CLIENT_272_5C69_12aa9717",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_272_5C69_12aa9717"
+    },
+    {
+      "clientId": 273,
+      "clientName": "Matteo Libera",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_273_D8DC",
+      "newToken": "PROF_016_0A55_CLIENT_273_D8DC_32c059cd",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_273_D8DC_32c059cd"
+    },
+    {
+      "clientId": 513,
+      "clientName": "provaci ancora due",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_513_7DE8",
+      "newToken": "PROF_016_0A55_CLIENT_513_7DE8_631465b5",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_513_7DE8_631465b5"
+    },
+    {
+      "clientId": 514,
+      "clientName": "maaa vaaa",
+      "ownerId": 16,
+      "uniqueCode": "PROF_016_0A55_CLIENT_514_C37D",
+      "newToken": "PROF_016_0A55_CLIENT_514_C37D_0668977a",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_514_C37D_0668977a"
+    },
+    {
+      "clientId": 1749666196977,
+      "clientName": "Marco Bianchi",
+      "ownerId": 101,
+      "uniqueCode": "PROF_101_8C12_CLIENT_1749666196977_0A62",
+      "newToken": "PROF_101_8C12_CLIENT_1749666196977_0A62_bfdf1a6f",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_101_8C12_CLIENT_1749666196977_0A62_bfdf1a6f"
+    },
+    {
+      "clientId": 1749666196978,
+      "clientName": "Sara Neri",
+      "ownerId": 101,
+      "uniqueCode": "PROF_101_8C12_CLIENT_1749666196978_66CD",
+      "newToken": "PROF_101_8C12_CLIENT_1749666196978_66CD_852be30c",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_101_8C12_CLIENT_1749666196978_66CD_852be30c"
+    },
+    {
+      "clientId": 1749666196979,
+      "clientName": "Luigi Verdi",
+      "ownerId": 102,
+      "uniqueCode": "PROF_102_307F_CLIENT_1749666196979_99F6",
+      "newToken": "PROF_102_307F_CLIENT_1749666196979_99F6_143ac130",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_102_307F_CLIENT_1749666196979_99F6_143ac130"
+    },
+    {
+      "clientId": 1749666196980,
+      "clientName": "Anna Blu",
+      "ownerId": 102,
+      "uniqueCode": "PROF_102_307F_CLIENT_1749666196980_F263",
+      "newToken": "PROF_102_307F_CLIENT_1749666196980_F263_b5d09797",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_102_307F_CLIENT_1749666196980_F263_b5d09797"
+    },
+    {
+      "clientId": 1749666196981,
+      "clientName": "Paolo Rosso",
+      "ownerId": 102,
+      "uniqueCode": "PROF_102_307F_CLIENT_1749666196981_EA1D",
+      "newToken": "PROF_102_307F_CLIENT_1749666196981_EA1D_b559608e",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_102_307F_CLIENT_1749666196981_EA1D_b559608e"
+    },
+    {
+      "clientId": 1749666196982,
+      "clientName": "Elena Giallo",
+      "ownerId": 103,
+      "uniqueCode": "PROF_103_EA73_CLIENT_1749666196982_2604",
+      "newToken": "PROF_103_EA73_CLIENT_1749666196982_2604_50e075e4",
+      "newUrl": "https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_103_EA73_CLIENT_1749666196982_2604_50e075e4"
+    }
+  ]
+}

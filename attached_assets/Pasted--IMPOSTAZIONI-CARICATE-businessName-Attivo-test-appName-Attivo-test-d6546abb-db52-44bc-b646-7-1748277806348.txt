@@ -1,0 +1,311 @@
+✅ IMPOSTAZIONI CARICATE: businessName="Attivo test", appName="Attivo test"
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277739457:1 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277739457 404 (Not Found)
+Image
+commitMount @ VM2473 chunk-C43VWYGG.js:8412
+commitLayoutEffectOnFiber @ VM2473 chunk-C43VWYGG.js:17070
+commitLayoutMountEffects_complete @ VM2473 chunk-C43VWYGG.js:17948
+commitLayoutEffects_begin @ VM2473 chunk-C43VWYGG.js:17937
+commitLayoutEffects @ VM2473 chunk-C43VWYGG.js:17888
+commitRootImpl @ VM2473 chunk-C43VWYGG.js:19321
+commitRoot @ VM2473 chunk-C43VWYGG.js:19245
+finishConcurrentRender @ VM2473 chunk-C43VWYGG.js:18773
+performConcurrentWorkOnRoot @ VM2473 chunk-C43VWYGG.js:18686
+workLoop @ VM2473 chunk-C43VWYGG.js:197
+flushWork @ VM2473 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM2473 chunk-C43VWYGG.js:384Comprendi l'errore
+app-icon.jpg:1 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277743373 404 (Not Found)
+Image
+setValueForProperty @ VM2473 chunk-C43VWYGG.js:1270
+updateDOMProperties @ VM2473 chunk-C43VWYGG.js:7477
+updateProperties @ VM2473 chunk-C43VWYGG.js:7759
+commitUpdate @ VM2473 chunk-C43VWYGG.js:8419
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17731
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17864
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17705
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17864
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17864
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17864
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17864
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17667
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17864
+recursivelyTraverseMutationEffects @ VM2473 chunk-C43VWYGG.js:17653
+commitMutationEffectsOnFiber @ VM2473 chunk-C43VWYGG.js:17762
+commitMutationEffects @ VM2473 chunk-C43VWYGG.js:17631
+commitRootImpl @ VM2473 chunk-C43VWYGG.js:19315
+commitRoot @ VM2473 chunk-C43VWYGG.js:19245
+finishConcurrentRender @ VM2473 chunk-C43VWYGG.js:18773
+performConcurrentWorkOnRoot @ VM2473 chunk-C43VWYGG.js:18686
+workLoop @ VM2473 chunk-C43VWYGG.js:197
+flushWork @ VM2473 chunk-C43VWYGG.js:176
+performWorkUntilDeadline @ VM2473 chunk-C43VWYGG.js:384Comprendi l'errore
+VM2445 eruda.js:2 ✅ NOME SALVATO SEPARATAMENTE: "Attivo test" per utente 12
+Console.js:61 PWA check - standalone mode: false
+Console.js:61 PWA check - iOS fullscreen: undefined
+cleanup-menu.js:1 Uncaught SyntaxError: Unexpected token '<' (at cleanup-menu.js:1:1)Comprendi l'errore
+Console.js:61 Script di correzione errori caricato e attivo
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ
+Console.js:61 🎯 FRONTEND: Usando /api/client-app-info che FUNZIONA GIÀ
+Console.js:61 Fuso orario già correttamente impostato
+Console.js:61 Stato autenticazione: {user: true, location: '/settings', isLoading: false}
+Console.js:61 Fuso orario già correttamente impostato
+Console.js:61 Service Worker registrato con successo: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/
+Console.js:61 Service Worker precedente rimosso
+The script has an unsupported MIME type ('text/html').Comprendi l'errore
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/sw.js?v=v3.0.0'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonime) @ registerServiceWorker.ts:47Comprendi l'errore
+Console.js:61 🎯 FRONTEND: Response status: 200
+Console.js:61 🔍 DATI COMPLETI RICEVUTI: {
+  "icon": {
+    "exists": true,
+    "isCustom": true,
+    "iconPath": "/user-icons/user-12/app-icon.jpg",
+    "mimeType": "image/jpeg",
+    "lastModified": "2025-05-26T12:56:23.924Z"
+  },
+  "appName": "Attivo test",
+  "appShortName": "Attivo test",
+  "businessName": "Attivo test",
+  "primaryColor": "#3f51b5",
+  "secondaryColor": "#ffffff",
+  "theme": "#3f51b5",
+  "appearance": "#ffffff",
+  "contactEmail": "zambelli.andrea.1973D@gmail.com",
+  "contactPhone": null,
+  "website": null
+}
+Console.js:61 ✅ IMPOSTAZIONI CARICATE: businessName="Attivo test", appName="Attivo test"
+Console.js:61 🎯 FRONTEND: Response status: 200
+Console.js:61 🔍 DATI COMPLETI RICEVUTI: {
+  "icon": {
+    "exists": true,
+    "isCustom": true,
+    "iconPath": "/user-icons/user-12/app-icon.jpg",
+    "mimeType": "image/jpeg",
+    "lastModified": "2025-05-26T12:56:23.924Z"
+  },
+  "appName": "Attivo test",
+  "appShortName": "Attivo test",
+  "businessName": "Attivo test",
+  "primaryColor": "#3f51b5",
+  "secondaryColor": "#ffffff",
+  "theme": "#3f51b5",
+  "appearance": "#ffffff",
+  "contactEmail": "zambelli.andrea.1973D@gmail.com",
+  "contactPhone": null,
+  "website": null
+}
+Console.js:61 ✅ IMPOSTAZIONI CARICATE: businessName="Attivo test", appName="Attivo test"
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277781004:1 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277781004 404 (Not Found)
+Image
+commitMount @ chunk-C43VWYGG.js?v=fb3585ee:8412
+commitLayoutEffectOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17070
+commitLayoutMountEffects_complete @ chunk-C43VWYGG.js?v=fb3585ee:17948
+commitLayoutEffects_begin @ chunk-C43VWYGG.js?v=fb3585ee:17937
+commitLayoutEffects @ chunk-C43VWYGG.js?v=fb3585ee:17888
+commitRootImpl @ chunk-C43VWYGG.js?v=fb3585ee:19321
+commitRoot @ chunk-C43VWYGG.js?v=fb3585ee:19245
+finishConcurrentRender @ chunk-C43VWYGG.js?v=fb3585ee:18773
+performConcurrentWorkOnRoot @ chunk-C43VWYGG.js?v=fb3585ee:18686
+workLoop @ chunk-C43VWYGG.js?v=fb3585ee:197
+flushWork @ chunk-C43VWYGG.js?v=fb3585ee:176
+performWorkUntilDeadline @ chunk-C43VWYGG.js?v=fb3585ee:384Comprendi l'errore
+d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277784910:1 
+            
+            
+           GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748277784910 404 (Not Found)
+Image
+setValueForProperty @ chunk-C43VWYGG.js?v=fb3585ee:1270
+updateDOMProperties @ chunk-C43VWYGG.js?v=fb3585ee:7477
+updateProperties @ chunk-C43VWYGG.js?v=fb3585ee:7759
+commitUpdate @ chunk-C43VWYGG.js?v=fb3585ee:8419
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17731
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17864
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17705
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17864
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17864
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17864
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17864
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17667
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17864
+recursivelyTraverseMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17653
+commitMutationEffectsOnFiber @ chunk-C43VWYGG.js?v=fb3585ee:17762
+commitMutationEffects @ chunk-C43VWYGG.js?v=fb3585ee:17631
+commitRootImpl @ chunk-C43VWYGG.js?v=fb3585ee:19315
+commitRoot @ chunk-C43VWYGG.js?v=fb3585ee:19245
+finishConcurrentRender @ chunk-C43VWYGG.js?v=fb3585ee:18773
+performConcurrentWorkOnRoot @ chunk-C43VWYGG.js?v=fb3585ee:18686
+workLoop @ chunk-C43VWYGG.js?v=fb3585ee:197
+flushWork @ chunk-C43VWYGG.js?v=fb3585ee:176
+performWorkUntilDeadline @ chunk-C43VWYGG.js?v=fb3585ee:384Comprendi l'errore

@@ -1,0 +1,16 @@
+{
+  "name": "Gestionale Appuntamenti",
+  "short_name": "Gestionale",
+  "description": "Sistema di gestione appuntamenti",
+  "start_url": "/gestionale-react-identico.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a90e2",
+  "icons": [
+    {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA...",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

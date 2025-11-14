@@ -1,0 +1,473 @@
+22/10/2025, 12:07:43:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 12:07:43:
+runtime
+10:07:43 AM [express] GET /api/client-access/count/80 200 in 2826ms :: {"count":0}
+22/10/2025, 12:09:02:
+runtime
+10:09:02 AM [express] GET /api/clients/80 304 in 118313ms :: {"id":80,"firstName":"uno","lastName":"u…
+22/10/2025, 12:10:49:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:8, tipo:staff, email:zambelli.andrea.19732@gmail.com
+22/10/2025, 12:10:49:
+runtime
+🔍 DatabaseStorage.getVisibleClientsForUser per userId: 8, role: staff
+22/10/2025, 12:10:49:
+runtime
+10:10:49 AM [express] GET /api/user 304 in 223ms
+22/10/2025, 12:10:49:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 12:10:49:
+runtime
+10:10:49 AM [express] GET /api/client-access/count/80 200 in 435ms :: {"count":0}
+22/10/2025, 12:10:49:
+runtime
+🔍 DatabaseStorage: Cerco clienti con prefisso ZAM per user 8
+22/10/2025, 12:10:49:
+runtime
+10:10:49 AM [express] GET /api/clients/80 304 in 462ms :: {"id":80,"firstName":"uno","lastName":"uno"…
+22/10/2025, 12:10:49:
+runtime
+✅ DatabaseStorage: User 8 (ZAM) vede 1 clienti
+22/10/2025, 12:10:49:
+runtime
+📦 [/api/clients] [desktop] Caricati 1 clienti da PostgreSQL (solo propri)
+22/10/2025, 12:10:49:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+22/10/2025, 12:10:49:
+runtime
+  {
+22/10/2025, 12:10:49:
+runtime
+    "id": 80,
+22/10/2025, 12:10:49:
+runtime
+    "firstName": "uno",
+22/10/2025, 12:10:49:
+runtime
+    "lastName": "uno",
+22/10/2025, 12:10:49:
+runtime
+    "uniqueCode": "PROF_008_C00080",
+22/10/2025, 12:10:49:
+runtime
+    "ownerId": 8
+22/10/2025, 12:10:49:
+runtime
+  }
+22/10/2025, 12:10:49:
+runtime
+]
+22/10/2025, 12:10:49:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 1/1
+22/10/2025, 12:10:49:
+runtime
+10:10:49 AM [express] GET /api/clients 200 in 683ms :: [{"id":80,"userId":8,"firstName":"uno","lastNa…
+22/10/2025, 12:10:57:
+runtime
+10:10:57 AM [express] POST /api/client-access/PROF_008_C00080 404 in 30ms :: {"message":"Cliente non …
+22/10/2025, 12:10:57:
+runtime
+10:10:57 AM [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+22/10/2025, 12:10:57:
+runtime
+10:10:57 AM [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+22/10/2025, 12:10:57:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+22/10/2025, 12:10:57:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json?clientToken=PROF_008_C00080
+22/10/2025, 12:10:57:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+22/10/2025, 12:10:57:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 12:10:57:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 12:10:57:
+runtime
+📱 PWA MANIFEST: Owner ID estratto da clientToken: 8
+22/10/2025, 12:10:57:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1761127857570-8
+22/10/2025, 12:10:57:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/client/PROF_008_C00080?token=PROF_008_C00080_2f0fabf2&autoLogin=true
+22/10/2025, 12:10:57:
+runtime
+🔍 PWA MANIFEST: Query params: { clientToken: 'PROF_008_C00080' }
+22/10/2025, 12:10:57:
+runtime
+📱 PWA MANIFEST: Start URL costruito da query token: /client/PROF_008_C00080
+22/10/2025, 12:10:57:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (owner 8)
+22/10/2025, 12:10:57:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=8&v=1761127857571.1226&android=1","/pwa-icon/192x192?owner=8&v=1761127857571.1226&android=1","/pwa-icon/512x512?owner=8&v=1761127857571.1226&android=1"]
+22/10/2025, 12:10:57:
+runtime
+📱 MANIFEST ID: silvia-busnari-cliente-8
+22/10/2025, 12:10:57:
+runtime
+📱 MANIFEST NAME: Gestionale Appuntamenti - Area Cliente
+22/10/2025, 12:10:57:
+runtime
+🏠 [CLIENT ACCESS PG] Accesso diretto per codice: PROF_008_C00080
+22/10/2025, 12:10:57:
+runtime
+❌ [CLIENT ACCESS PG] Errore sistema: ReferenceError: clients is not defined
+22/10/2025, 12:10:57:
+runtime
+    at  (/app/server/simple-routes.ts:5659:15)
+22/10/2025, 12:10:57:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 12:10:57:
+runtime
+    at next (/app/node_modules/express/lib/router/route.js:149:13)
+22/10/2025, 12:10:57:
+runtime
+    at Route.dispatch (/app/node_modules/express/lib/router/route.js:119:3)
+22/10/2025, 12:10:57:
+runtime
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+22/10/2025, 12:10:57:
+runtime
+    at /app/node_modules/express/lib/router/index.js:284:15
+22/10/2025, 12:10:57:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:365:14)
+22/10/2025, 12:10:57:
+runtime
+    at param (/app/node_modules/express/lib/router/index.js:376:14)
+22/10/2025, 12:10:57:
+runtime
+    at Function.process_params (/app/node_modules/express/lib/router/index.js:421:3)
+22/10/2025, 12:10:57:
+runtime
+    at next (/app/node_modules/express/lib/router/index.js:280:10)
+22/10/2025, 12:10:57:
+runtime
+10:10:57 AM [express] GET /api/client-by-code/PROF_008_C00080 500 in 2ms :: {"error":"Errore del sist…
+22/10/2025, 12:10:57:
+runtime
+10:10:57 AM [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+22/10/2025, 12:10:57:
+runtime
+🖼️ ICON PROXY DB: Richiesta icona 512x512 per owner 8
+22/10/2025, 12:10:57:
+runtime
+🖼️ ICON PROXY DB: Icona trovata per user 8: NO
+22/10/2025, 12:10:57:
+runtime
+🖼️ ICON PROXY DB: Usando icona default per owner 8
+22/10/2025, 12:10:57:
+runtime
+✅ ICON PROXY DB: Servendo icona 512x512 per owner 8, dimensione: 218956 bytes
+22/10/2025, 12:10:59:
+runtime
+[DEBUG COUNT] Cliente 80 (uno uno) - accessCount: 0 → display: 0
+22/10/2025, 12:10:59:
+runtime
+10:10:59 AM [express] GET /api/client-access/count/80 200 in 450ms :: {"count":0}
+22/10/2025, 12:11:26:
+build
+Enumerating objects: 20366, done.
+22/10/2025, 12:11:26:
+build
+Counting objects: 100% (486/486), done.
+22/10/2025, 12:11:27:
+build
+Compressing objects: 100% (58/58), done.
+22/10/2025, 12:11:51:
+build
+Total 20366 (delta 462), reused 443 (delta 428), pack-reused 19880 (from 4)
+22/10/2025, 12:12:20:
+build
+#1 [service_event_f9bhbqbpthvt internal] load build definition from Dockerfile
+22/10/2025, 12:12:20:
+build
+#1 transferring dockerfile: 618B done
+22/10/2025, 12:12:20:
+build
+#1 DONE 0.0s
+22/10/2025, 12:12:20:
+build
+22/10/2025, 12:12:20:
+build
+#2 [service_event_f9bhbqbpthvt internal] load metadata for docker.io/library/node:20-alpine
+22/10/2025, 12:12:21:
+build
+#2 DONE 0.8s
+22/10/2025, 12:12:21:
+build
+22/10/2025, 12:12:21:
+build
+#3 [service_event_f9bhbqbpthvt internal] load .dockerignore
+22/10/2025, 12:12:21:
+build
+#3 transferring context: 740B done
+22/10/2025, 12:12:21:
+build
+#3 DONE 0.0s
+22/10/2025, 12:12:21:
+build
+22/10/2025, 12:12:21:
+build
+#4 [service_event_f9bhbqbpthvt 1/7] FROM docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
+22/10/2025, 12:12:21:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 done
+22/10/2025, 12:12:21:
+build
+#4 DONE 0.0s
+22/10/2025, 12:12:21:
+build
+22/10/2025, 12:12:21:
+build
+#5 [service_event_f9bhbqbpthvt] importing cache manifest from local:2397809455390225919
+22/10/2025, 12:12:21:
+build
+#5 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+22/10/2025, 12:12:21:
+build
+#5 DONE 0.0s
+22/10/2025, 12:12:21:
+build
+22/10/2025, 12:12:21:
+build
+#6 [service_event_f9bhbqbpthvt internal] load build context
+22/10/2025, 12:12:24:
+build
+#6 transferring context: 1.23GB 3.7s done
+22/10/2025, 12:12:25:
+build
+#6 DONE 3.7s
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#7 [service_event_f9bhbqbpthvt 4/7] RUN npm ci
+22/10/2025, 12:12:25:
+build
+#7 CACHED
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#8 [service_event_f9bhbqbpthvt 5/7] COPY . .
+22/10/2025, 12:12:25:
+build
+#8 CACHED
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#9 [service_event_f9bhbqbpthvt 6/7] RUN npx vite build
+22/10/2025, 12:12:25:
+build
+#9 CACHED
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#10 [service_event_f9bhbqbpthvt 2/7] WORKDIR /app
+22/10/2025, 12:12:25:
+build
+#10 CACHED
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#11 [service_event_f9bhbqbpthvt 3/7] COPY package.json package-lock.json ./
+22/10/2025, 12:12:25:
+build
+#11 CACHED
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#12 [service_event_f9bhbqbpthvt 7/7] RUN cp -r dist/public server/public
+22/10/2025, 12:12:25:
+build
+#12 CACHED
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#13 [service_event_f9bhbqbpthvt] exporting to image
+22/10/2025, 12:12:25:
+build
+#13 exporting layers done
+22/10/2025, 12:12:25:
+build
+#13 exporting manifest sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114 done
+22/10/2025, 12:12:25:
+build
+#13 exporting config sha256:3222c5311943d2994e4eef3afd0db33fa8e8c02663810a379b578ede649949be done
+22/10/2025, 12:12:25:
+build
+#13 pushing layers 0.1s done
+22/10/2025, 12:12:25:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_f9bhbqbpthvt@sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114
+22/10/2025, 12:12:25:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_f9bhbqbpthvt@sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114 0.1s done
+22/10/2025, 12:12:25:
+build
+#13 DONE 0.2s
+22/10/2025, 12:12:25:
+build
+22/10/2025, 12:12:25:
+build
+#14 [service_event_f9bhbqbpthvt] exporting cache to client directory
+22/10/2025, 12:12:25:
+build
+#14 preparing build cache for export 0.0s done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:0be88d5fd037b1f17d20d0a9f080141b8f078b2300b06d2cbc1551e59e858087 done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:1cb5ac237e05179195807a30d45e88ef0703a3e7612995c466e5f8b480be2be0 done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:4ab2d8ad865ffb26c9eaca6409b8b57dfeedea6834650ca7e43535db63940bf9 done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:60e45a9660cfaebbbac9bba98180aa28b3966b7f2462d132c46f51a1f5b25a64 done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:703ca2a1bd99b66f6b41e0c76bb4182cc3e783cc8a8625ab8d38a145fb4f2b5d done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:a862f6adb39bbcae730eb54ba389282e8b126586838193a4e83c74a87eae962c done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:da04d522c98fe12816b2bcddf8413fca73645f8fa60f287c672f58bcc7f0fa38 done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:e74e4ed823e9560b3fe51c0cab47dbfdfc4b12453604319408ec58708fb9e720 done
+22/10/2025, 12:12:25:
+build
+#14 writing layer sha256:f689d7656b588a19e98f548eec95197b2580fd19659658da84f9b2dfae24c428 done
+22/10/2025, 12:12:25:
+build
+#14 writing config sha256:adf6f4f5f039677dae351136b6323f7de31ad0cecdca764f75db27e0d168ee10 done
+22/10/2025, 12:12:25:
+build
+#14 writing cache image manifest sha256:19587e3f6d66118c7a4abcc6de86caf983d9b9389f83db710cf64bed3e39d142 done
+22/10/2025, 12:12:25:
+build
+#14 DONE 0.0s
+22/10/2025, 12:12:50:
+build
+service_event_f9bhbqbpthvt: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+22/10/2025, 12:12:50:
+build
+Digest: sha256:db50b5e317e4d93fedfd4780745b6e0e2f7a0f8c0e0399761767c9882aac5114
+22/10/2025, 12:12:50:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_f9bhbqbpthvt
+22/10/2025, 12:12:55:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+22/10/2025, 12:12:55:
+runtime
+Servizio gestione telefono diretto inizializzato
+22/10/2025, 12:12:55:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+22/10/2025, 12:12:55:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+22/10/2025, 12:12:57:
+runtime
+Telefono caricato dal database: +393472550110
+22/10/2025, 12:12:58:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+22/10/2025, 12:12:58:
+runtime
+Scheduler dei promemoria avviato con successo
+22/10/2025, 12:12:58:
+runtime
+💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)
+22/10/2025, 12:12:58:
+runtime
+Tutti gli scheduler inizializzati
+22/10/2025, 12:12:58:
+runtime
+✅ [ICON SYNC] Icone per utente 3 già presenti
+22/10/2025, 12:12:58:
+runtime
+✅ [ICON SYNC] Icone per utente 14 già presenti
+22/10/2025, 12:12:58:
+runtime
+✅ [ICON SYNC] Icone per utente 16 già presenti
+22/10/2025, 12:12:58:
+runtime
+✅ [ICON SYNC] Tutte le icone già sincronizzate
+22/10/2025, 12:12:58:
+runtime
+🔍 Controllo integrità all'avvio:
+22/10/2025, 12:12:58:
+runtime
+   📅 Appuntamenti caricati: 48
+22/10/2025, 12:12:58:
+runtime
+   👥 Clienti caricati: 40
+22/10/2025, 12:12:58:
+runtime
+   🔍 Primi 3 appuntamenti: [
+22/10/2025, 12:12:58:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+22/10/2025, 12:12:58:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+22/10/2025, 12:12:58:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+22/10/2025, 12:12:58:
+runtime
+]
+22/10/2025, 12:12:58:
+runtime
+✅ Controllo integrità completato
+22/10/2025, 12:12:58:
+runtime
+10:12:58 AM [express] serving on port 5000
+22/10/2025, 12:12:58:
+runtime
+✅ PostgreSQL database is available
+22/10/2025, 12:13:03:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+22/10/2025, 12:13:03:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+22/10/2025, 12:13:03:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Thu Oct 23 2025)
+22/10/2025, 12:13:03:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+22/10/2025, 12:13:03:
+runtime
+Inviati 0/0 promemoria
+22/10/2025, 12:13:03:
+runtime
+Job iniziale completato: inviati 0 promemoria

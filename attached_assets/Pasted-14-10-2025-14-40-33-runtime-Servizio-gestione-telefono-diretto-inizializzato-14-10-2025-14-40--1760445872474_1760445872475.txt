@@ -1,0 +1,639 @@
+14/10/2025, 14:40:33:
+runtime
+Servizio gestione telefono diretto inizializzato
+14/10/2025, 14:40:34:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+14/10/2025, 14:40:34:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+14/10/2025, 14:40:34:
+runtime
+Errore nel caricamento del telefono dal database: AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:40:34:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 14:40:34:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 14:40:34:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 14:40:34:
+runtime
+  [errors]: [
+14/10/2025, 14:40:34:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 14:40:34:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:40:34:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:40:34:
+runtime
+      errno: -111,
+14/10/2025, 14:40:34:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:40:34:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:40:34:
+runtime
+      address: '::1',
+14/10/2025, 14:40:34:
+runtime
+      port: 5432
+14/10/2025, 14:40:34:
+runtime
+    },
+14/10/2025, 14:40:34:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 14:40:34:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:40:34:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:40:34:
+runtime
+      errno: -111,
+14/10/2025, 14:40:34:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:40:34:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:40:34:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 14:40:34:
+runtime
+      port: 5432
+14/10/2025, 14:40:34:
+runtime
+    }
+14/10/2025, 14:40:34:
+runtime
+  ]
+14/10/2025, 14:40:34:
+runtime
+}
+14/10/2025, 14:40:34:
+runtime
+Errore durante l'inizializzazione: AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:40:34:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 14:40:34:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 14:40:34:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 14:40:34:
+runtime
+  [errors]: [
+14/10/2025, 14:40:34:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 14:40:34:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:40:34:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:40:34:
+runtime
+      errno: -111,
+14/10/2025, 14:40:34:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:40:34:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:40:34:
+runtime
+      address: '::1',
+14/10/2025, 14:40:34:
+runtime
+      port: 5432
+14/10/2025, 14:40:34:
+runtime
+    },
+14/10/2025, 14:40:34:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 14:40:34:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:40:34:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:40:34:
+runtime
+      errno: -111,
+14/10/2025, 14:40:34:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:40:34:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:40:34:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 14:40:34:
+runtime
+      port: 5432
+14/10/2025, 14:40:34:
+runtime
+    }
+14/10/2025, 14:40:34:
+runtime
+  ]
+14/10/2025, 14:40:34:
+runtime
+}
+14/10/2025, 14:40:34:
+runtime
+Scheduler dei promemoria avviato con successo
+14/10/2025, 14:40:34:
+runtime
+Tutti gli scheduler inizializzati
+14/10/2025, 14:40:34:
+runtime
+🔍 Controllo integrità all'avvio:
+14/10/2025, 14:40:34:
+runtime
+   📅 Appuntamenti caricati: 0
+14/10/2025, 14:40:34:
+runtime
+   👥 Clienti caricati: 0
+14/10/2025, 14:40:34:
+runtime
+✅ Controllo integrità completato
+14/10/2025, 14:40:34:
+runtime
+12:40:34 PM [express] serving on port 5000
+14/10/2025, 14:40:39:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+14/10/2025, 14:40:39:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 14:40:39:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 14:40:39:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 14:40:39:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 14:40:39:
+runtime
+Job iniziale completato: inviati 0 promemoria
+14/10/2025, 14:42:31:
+runtime
+12:42:31 PM [express] GET /api/user-with-license 401 in 3ms :: {"message":"Non autenticato"}
+14/10/2025, 14:42:38:
+runtime
+12:42:38 PM [express] GET /api/timezone-settings 200 in 2ms :: {"timezone":"Europe/Rome","offset":2}
+14/10/2025, 14:42:38:
+runtime
+12:42:38 PM [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+14/10/2025, 14:42:38:
+runtime
+12:42:38 PM [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: Richiesta manifest dinamico
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: URL completo: /manifest.json
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 14:42:38:
+runtime
+📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: Headers referer: https://gestionale-appuntamenti.sliplane.app/
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: Referer: https://gestionale-appuntamenti.sliplane.app/
+14/10/2025, 14:42:38:
+runtime
+🔄 MANIFEST: Versione aggiornata: 1760445758518-default
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/
+14/10/2025, 14:42:38:
+runtime
+🔍 PWA MANIFEST: Query params: {}
+14/10/2025, 14:42:38:
+runtime
+📱 MANIFEST DINAMICO: Servendo manifest per Studio Medico (owner default)
+14/10/2025, 14:42:38:
+runtime
+📱 MANIFEST ICONE: ["/pwa-icon/96x96?owner=default&v=1760445758519.9446&android=1","/pwa-icon/192x192?owner=default&v=1760445758519.9446&android=1","/pwa-icon/512x512?owner=default&v=1760445758519.9446&android=1"]
+14/10/2025, 14:42:38:
+runtime
+📱 MANIFEST ID: area-cliente-generic
+14/10/2025, 14:42:38:
+runtime
+📱 MANIFEST NAME: Studio Medico - Area Cliente
+14/10/2025, 14:42:38:
+runtime
+🖼️ ICON PROXY: Richiesta icona 192x192 per owner default
+14/10/2025, 14:42:38:
+runtime
+✅ ICON PROXY: Servendo icona 192x192 per owner default, dimensione: 50811 bytes
+14/10/2025, 14:42:41:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 14:42:41:
+runtime
+Errore durante il logout: AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:42:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 14:42:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 14:42:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 14:42:41:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 14:42:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7) {
+14/10/2025, 14:42:41:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 14:42:41:
+runtime
+  [errors]: [
+14/10/2025, 14:42:41:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 14:42:41:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:42:41:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:42:41:
+runtime
+      errno: -111,
+14/10/2025, 14:42:41:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:42:41:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:42:41:
+runtime
+      address: '::1',
+14/10/2025, 14:42:41:
+runtime
+      port: 5432
+14/10/2025, 14:42:41:
+runtime
+    },
+14/10/2025, 14:42:41:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 14:42:41:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:42:41:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:42:41:
+runtime
+      errno: -111,
+14/10/2025, 14:42:41:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:42:41:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:42:41:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 14:42:41:
+runtime
+      port: 5432
+14/10/2025, 14:42:41:
+runtime
+    }
+14/10/2025, 14:42:41:
+runtime
+  ]
+14/10/2025, 14:42:41:
+runtime
+}
+14/10/2025, 14:42:41:
+runtime
+AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:42:41:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 14:42:41:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 14:42:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 14:42:41:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 14:42:41:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 14:42:41:
+runtime
+12:42:41 PM [express] POST /api/logout 500 in 7ms :: {"message":"Internal Server Error"}
+14/10/2025, 14:42:54:
+runtime
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+14/10/2025, 14:42:54:
+runtime
+Errore durante il logout: AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:42:54:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 14:42:54:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 14:42:54:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 14:42:54:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 14:42:54:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7) {
+14/10/2025, 14:42:54:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 14:42:54:
+runtime
+  [errors]: [
+14/10/2025, 14:42:54:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 14:42:54:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:42:54:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:42:54:
+runtime
+      errno: -111,
+14/10/2025, 14:42:54:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:42:54:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:42:54:
+runtime
+      address: '::1',
+14/10/2025, 14:42:54:
+runtime
+      port: 5432
+14/10/2025, 14:42:54:
+runtime
+    },
+14/10/2025, 14:42:54:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 14:42:54:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:42:54:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:42:54:
+runtime
+      errno: -111,
+14/10/2025, 14:42:54:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:42:54:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:42:54:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 14:42:54:
+runtime
+      port: 5432
+14/10/2025, 14:42:54:
+runtime
+    }
+14/10/2025, 14:42:54:
+runtime
+  ]
+14/10/2025, 14:42:54:
+runtime
+}
+14/10/2025, 14:42:54:
+runtime
+AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:42:54:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 14:42:54:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 14:42:54:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 14:42:54:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 14:42:54:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7)
+14/10/2025, 14:42:54:
+runtime
+12:42:54 PM [express] POST /api/logout 500 in 2ms :: {"message":"Internal Server Error"}
+14/10/2025, 14:43:32:
+runtime
+Login staff richiesto per: busnari.silvia@libero.it
+14/10/2025, 14:43:32:
+runtime
+Errore durante logout preventivo: AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:43:32:
+runtime
+    at /app/node_modules/pg-pool/index.js:45:11
+14/10/2025, 14:43:32:
+runtime
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+14/10/2025, 14:43:32:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:322:21)
+14/10/2025, 14:43:32:
+runtime
+    at async PGStore._rawEnsureSessionStoreTable (/app/node_modules/connect-pg-simple/index.js:177:19)
+14/10/2025, 14:43:32:
+runtime
+    at async PGStore._asyncQuery (/app/node_modules/connect-pg-simple/index.js:315:7) {
+14/10/2025, 14:43:32:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 14:43:32:
+runtime
+  [errors]: [
+14/10/2025, 14:43:32:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 14:43:32:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:43:32:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:43:32:
+runtime
+      errno: -111,
+14/10/2025, 14:43:32:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:43:32:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:43:32:
+runtime
+      address: '::1',
+14/10/2025, 14:43:32:
+runtime
+      port: 5432
+14/10/2025, 14:43:32:
+runtime
+    },
+14/10/2025, 14:43:32:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 14:43:32:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:43:32:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:43:32:
+runtime
+      errno: -111,
+14/10/2025, 14:43:32:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:43:32:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:43:32:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 14:43:32:
+runtime
+      port: 5432
+14/10/2025, 14:43:32:
+runtime
+    }
+14/10/2025, 14:43:32:
+runtime
+  ]
+14/10/2025, 14:43:32:
+runtime
+}
+14/10/2025, 14:43:32:
+runtime
+Error getting user by username: AggregateError [ECONNREFUSED]: 
+14/10/2025, 14:43:32:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 14:43:32:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 14:43:32:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 14:43:32:
+runtime
+  [errors]: [
+14/10/2025, 14:43:32:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 14:43:32:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:43:32:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:43:32:
+runtime
+      errno: -111,
+14/10/2025, 14:43:32:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:43:32:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:43:32:
+runtime
+      address: '::1',
+14/10/2025, 14:43:32:
+runtime
+      port: 5432
+14/10/2025, 14:43:32:
+runtime
+    },
+14/10/2025, 14:43:32:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 14:43:32:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 14:43:32:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 14:43:32:
+runtime
+      errno: -111,
+14/10/2025, 14:43:32:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 14:43:32:
+runtime
+      syscall: 'connect',
+14/10/2025, 14:43:32:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 14:43:32:
+runtime
+      port: 5432
+14/10/2025, 14:43:32:
+runtime
+    }
+14/10/2025, 14:43:32:
+runtime
+  ]
+14/10/2025, 14:43:32:
+runtime
+}
+14/10/2025, 14:43:32:
+runtime
+Login staff fallito per: busnari.silvia@libero.it
+14/10/2025, 14:43:32:
+runtime
+12:43:32 PM [express] POST /api/staff/login 401 in 6ms :: {"message":"Username o password non validi"}

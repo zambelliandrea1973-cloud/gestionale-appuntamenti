@@ -1,0 +1,238 @@
+13/10/2025, 20:37:23:
+build
+Enumerating objects: 16463, done.
+13/10/2025, 20:37:23:
+build
+Counting objects: 100% (183/183), done.
+13/10/2025, 20:37:23:
+build
+Compressing objects: 100% (89/89), done.
+13/10/2025, 20:37:49:
+build
+Total 16463 (delta 140), reused 136 (delta 94), pack-reused 16280 (from 1)
+13/10/2025, 20:38:16:
+build
+#1 [service_event_2ij9v1yfrtb3 internal] load build definition from Dockerfile
+13/10/2025, 20:38:16:
+build
+#1 transferring dockerfile: 567B done
+13/10/2025, 20:38:16:
+build
+#1 DONE 0.0s
+13/10/2025, 20:38:16:
+build
+13/10/2025, 20:38:16:
+build
+#2 [service_event_2ij9v1yfrtb3 internal] load metadata for docker.io/library/node:20-alpine
+13/10/2025, 20:38:17:
+build
+#2 DONE 0.8s
+13/10/2025, 20:38:17:
+build
+13/10/2025, 20:38:17:
+build
+#3 [service_event_2ij9v1yfrtb3 internal] load .dockerignore
+13/10/2025, 20:38:17:
+build
+#3 transferring context: 673B done
+13/10/2025, 20:38:17:
+build
+#3 DONE 0.0s
+13/10/2025, 20:38:17:
+build
+13/10/2025, 20:38:17:
+build
+#4 [service_event_2ij9v1yfrtb3] importing cache manifest from local:10887287254628797646
+13/10/2025, 20:38:17:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+13/10/2025, 20:38:17:
+build
+#4 DONE 0.0s
+13/10/2025, 20:38:17:
+build
+13/10/2025, 20:38:17:
+build
+#5 [service_event_2ij9v1yfrtb3 1/6] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+13/10/2025, 20:38:17:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+13/10/2025, 20:38:17:
+build
+#5 DONE 0.0s
+13/10/2025, 20:38:17:
+build
+13/10/2025, 20:38:17:
+build
+#6 [service_event_2ij9v1yfrtb3 internal] load build context
+13/10/2025, 20:38:20:
+build
+#6 transferring context: 1.21GB 3.5s done
+13/10/2025, 20:38:20:
+build
+#6 DONE 3.6s
+13/10/2025, 20:38:20:
+build
+13/10/2025, 20:38:20:
+build
+#7 [service_event_2ij9v1yfrtb3 2/6] WORKDIR /app
+13/10/2025, 20:38:20:
+build
+#7 CACHED
+13/10/2025, 20:38:20:
+build
+13/10/2025, 20:38:21:
+build
+#8 [service_event_2ij9v1yfrtb3 3/6] COPY package.json package-lock.json ./
+13/10/2025, 20:38:21:
+build
+#8 CACHED
+13/10/2025, 20:38:21:
+build
+13/10/2025, 20:38:21:
+build
+#9 [service_event_2ij9v1yfrtb3 4/6] RUN npm ci
+13/10/2025, 20:38:21:
+build
+#9 CACHED
+13/10/2025, 20:38:21:
+build
+13/10/2025, 20:38:21:
+build
+#10 [service_event_2ij9v1yfrtb3 5/6] COPY . .
+13/10/2025, 20:38:21:
+build
+#10 CACHED
+13/10/2025, 20:38:21:
+build
+13/10/2025, 20:38:21:
+build
+#11 [service_event_2ij9v1yfrtb3 6/6] RUN npx vite build
+13/10/2025, 20:38:21:
+build
+#11 CACHED
+13/10/2025, 20:38:21:
+build
+13/10/2025, 20:38:21:
+build
+#12 [service_event_2ij9v1yfrtb3] exporting to image
+13/10/2025, 20:38:21:
+build
+#12 exporting layers done
+13/10/2025, 20:38:21:
+build
+#12 exporting manifest sha256:255b4f9091415ba0d58778088d77816cdd4d973738047220114c484e11d14171 done
+13/10/2025, 20:38:21:
+build
+#12 exporting config sha256:696cd0e6cb15a2ce29df5539f819d6d4f713737dd599731a08658bbe6519eaec done
+13/10/2025, 20:38:21:
+build
+#12 pushing layers 0.1s done
+13/10/2025, 20:38:21:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_2ij9v1yfrtb3@sha256:255b4f9091415ba0d58778088d77816cdd4d973738047220114c484e11d14171
+13/10/2025, 20:38:21:
+build
+#12 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_2ij9v1yfrtb3@sha256:255b4f9091415ba0d58778088d77816cdd4d973738047220114c484e11d14171 0.0s done
+13/10/2025, 20:38:21:
+build
+#12 DONE 0.2s
+13/10/2025, 20:38:21:
+build
+13/10/2025, 20:38:21:
+build
+#13 [service_event_2ij9v1yfrtb3] exporting cache to client directory
+13/10/2025, 20:38:21:
+build
+#13 preparing build cache for export
+13/10/2025, 20:38:21:
+build
+#13 preparing build cache for export 0.0s done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:1dd8d124130e505b40d0194549b6a220a4e713d4330639daf7d0c0f09bf8c4e4 done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:a9c1174e79aa955311f391936c63e707aa9576312dc21360478919ba8accca5d done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:abc2a000ea1fcc62cf7e497b64621619d0a7b4e530ac0ca17db6423ed43a1fe2 done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:b448a30ce2272c0d20adaa59b3c9de1c5bd7b4f2117e7d8edde60c823bc7b886 done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:b79e28fb2346252a990b8a2f9e27b5e2d87050c24e0517ed0b093d07c346989c done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+13/10/2025, 20:38:21:
+build
+#13 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+13/10/2025, 20:38:21:
+build
+#13 writing config sha256:cb8ba20c280fdf9fcfd07daa7079f8387d03365ca711b092483a76ef01122b49 done
+13/10/2025, 20:38:21:
+build
+#13 writing cache image manifest sha256:a5c84bfafeb4d771490fc2adc82ccd715ad1f30c6dcfb2886eca413ed05769bc done
+13/10/2025, 20:38:21:
+build
+#13 DONE 0.0s
+13/10/2025, 20:38:23:
+build
+service_event_2ij9v1yfrtb3: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+13/10/2025, 20:38:23:
+build
+Digest: sha256:255b4f9091415ba0d58778088d77816cdd4d973738047220114c484e11d14171
+13/10/2025, 20:38:23:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_2ij9v1yfrtb3
+13/10/2025, 20:38:24:
+runtime
+Couldn't find tsconfig.json. tsconfig-paths will be skipped
+13/10/2025, 20:38:24:
+runtime
+13/10/2025, 20:38:24:
+runtime
+node:internal/modules/run_main:123
+13/10/2025, 20:38:24:
+runtime
+    triggerUncaughtException(
+13/10/2025, 20:38:24:
+runtime
+    ^
+13/10/2025, 20:38:24:
+runtime
+Error: tsx must be loaded with --import instead of --loader
+13/10/2025, 20:38:24:
+runtime
+The --loader flag was deprecated in Node v20.6.0 and v18.19.0
+13/10/2025, 20:38:24:
+runtime
+    at initialize (file:///app/node_modules/tsx/dist/esm/index.mjs:1:919)
+13/10/2025, 20:38:24:
+runtime
+    at Hooks.addCustomLoader (node:internal/modules/esm/hooks:206:24)
+13/10/2025, 20:38:24:
+runtime
+    at Hooks.register (node:internal/modules/esm/hooks:172:16)
+13/10/2025, 20:38:24:
+runtime
+    at async initializeHooks (node:internal/modules/esm/utils:324:5)
+13/10/2025, 20:38:24:
+runtime
+    at async customizedModuleWorker (node:internal/modules/esm/worker:104:24)
+13/10/2025, 20:38:24:
+runtime
+13/10/2025, 20:38:24:
+runtime
+Node.js v20.19.5
+13/10/2025, 20:39:24:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port

@@ -1,0 +1,242 @@
+14/10/2025, 14:33:48:
+build
+Enumerating objects: 16542, done.
+14/10/2025, 14:33:48:
+build
+Counting objects: 100% (262/262), done.
+14/10/2025, 14:33:48:
+build
+Compressing objects: 100% (154/154), done.
+14/10/2025, 14:34:12:
+build
+Total 16542 (delta 169), reused 161 (delta 107), pack-reused 16280 (from 1)
+14/10/2025, 14:34:40:
+build
+#1 [service_event_0eqzl5t1ylbv internal] load build definition from Dockerfile
+14/10/2025, 14:34:40:
+build
+#1 transferring dockerfile: 618B done
+14/10/2025, 14:34:40:
+build
+#1 DONE 0.0s
+14/10/2025, 14:34:40:
+build
+14/10/2025, 14:34:40:
+build
+#2 [service_event_0eqzl5t1ylbv internal] load metadata for docker.io/library/node:20-alpine
+14/10/2025, 14:34:41:
+build
+#2 DONE 0.8s
+14/10/2025, 14:34:41:
+build
+14/10/2025, 14:34:41:
+build
+#3 [service_event_0eqzl5t1ylbv internal] load .dockerignore
+14/10/2025, 14:34:41:
+build
+#3 transferring context: 673B done
+14/10/2025, 14:34:41:
+build
+#3 DONE 0.0s
+14/10/2025, 14:34:41:
+build
+14/10/2025, 14:34:41:
+build
+#4 [service_event_0eqzl5t1ylbv] importing cache manifest from local:2901964186712247765
+14/10/2025, 14:34:41:
+build
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+14/10/2025, 14:34:41:
+build
+#4 DONE 0.0s
+14/10/2025, 14:34:41:
+build
+14/10/2025, 14:34:41:
+build
+#5 [service_event_0eqzl5t1ylbv 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 14:34:41:
+build
+#5 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+14/10/2025, 14:34:41:
+build
+#5 DONE 0.0s
+14/10/2025, 14:34:41:
+build
+14/10/2025, 14:34:41:
+build
+#6 [service_event_0eqzl5t1ylbv internal] load build context
+14/10/2025, 14:34:44:
+build
+#6 transferring context: 1.21GB 3.5s done
+14/10/2025, 14:34:44:
+build
+#6 DONE 3.5s
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#7 [service_event_0eqzl5t1ylbv 6/7] RUN npx vite build
+14/10/2025, 14:34:44:
+build
+#7 CACHED
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#8 [service_event_0eqzl5t1ylbv 2/7] WORKDIR /app
+14/10/2025, 14:34:44:
+build
+#8 CACHED
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#9 [service_event_0eqzl5t1ylbv 3/7] COPY package.json package-lock.json ./
+14/10/2025, 14:34:44:
+build
+#9 CACHED
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#10 [service_event_0eqzl5t1ylbv 4/7] RUN npm ci
+14/10/2025, 14:34:44:
+build
+#10 CACHED
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#11 [service_event_0eqzl5t1ylbv 5/7] COPY . .
+14/10/2025, 14:34:44:
+build
+#11 CACHED
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#12 [service_event_0eqzl5t1ylbv 7/7] RUN cp -r dist/public server/public
+14/10/2025, 14:34:44:
+build
+#12 CACHED
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#13 [service_event_0eqzl5t1ylbv] exporting to image
+14/10/2025, 14:34:44:
+build
+#13 exporting layers done
+14/10/2025, 14:34:44:
+build
+#13 exporting manifest sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3 done
+14/10/2025, 14:34:44:
+build
+#13 exporting config sha256:813b7d4e38522f4da1cffb1bbca33507084a458d60268693509c18255e979776 done
+14/10/2025, 14:34:44:
+build
+#13 pushing layers
+14/10/2025, 14:34:44:
+build
+#13 pushing layers 0.2s done
+14/10/2025, 14:34:44:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_0eqzl5t1ylbv@sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3
+14/10/2025, 14:34:44:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_0eqzl5t1ylbv@sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3 0.0s done
+14/10/2025, 14:34:44:
+build
+#13 DONE 0.3s
+14/10/2025, 14:34:44:
+build
+14/10/2025, 14:34:44:
+build
+#14 [service_event_0eqzl5t1ylbv] exporting cache to client directory
+14/10/2025, 14:34:44:
+build
+#14 preparing build cache for export 0.0s done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:4b97f84edcd6957e5355b3ef05ec02c0abeab51acdeb06957e81a6e3d6fd8c70 done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:8fe1f268b2cbb49a8c91bd0250812da4781860bc394b7f7dbba757e2214bc1ed done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:a757d1e22b8bac9a66be69651d59372f0e3f2bc13c0b61bcbabac903ee3848d9 done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:bd1a859513b73c550a939cc78c16f22034436468f49917e852474ebf27064d07 done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:cf45290c561d8e4e16ee5d36b74df022fb27b33102aa0bc0975e0061eb98c39e done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+14/10/2025, 14:34:44:
+build
+#14 writing layer sha256:fa80a53dd378057a3118ae07f92d7228c00537051042289154607efa393fcc8f done
+14/10/2025, 14:34:44:
+build
+#14 writing config sha256:9a6006fd399c05bb2e481903379eae79fc5141af0d1127679929fe522b78bf4a done
+14/10/2025, 14:34:44:
+build
+#14 writing cache image manifest sha256:e0ec50f565ddf8a7c729056b08c2bd4f7ce5dfb3a462c0e1ef62eb77b5f8b259 done
+14/10/2025, 14:34:44:
+build
+#14 DONE 0.0s
+14/10/2025, 14:34:58:
+build
+service_event_0eqzl5t1ylbv: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+14/10/2025, 14:34:58:
+build
+Digest: sha256:feac259609e91a6026b0a87d8a42bb3fb77b94bec9a31d6edcdba9aa27187fc3
+14/10/2025, 14:34:58:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_0eqzl5t1ylbv
+14/10/2025, 14:35:02:
+runtime
+/app/server/db.ts:8
+14/10/2025, 14:35:02:
+runtime
+  throw new Error('DATABASE_URL environment variable is not defined');
+14/10/2025, 14:35:02:
+runtime
+        ^
+14/10/2025, 14:35:02:
+runtime
+14/10/2025, 14:35:02:
+runtime
+14/10/2025, 14:35:02:
+runtime
+Error: DATABASE_URL environment variable is not defined
+14/10/2025, 14:35:02:
+runtime
+    at  (/app/server/db.ts:8:9)
+14/10/2025, 14:35:02:
+runtime
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+14/10/2025, 14:35:02:
+runtime
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+14/10/2025, 14:35:02:
+runtime
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+14/10/2025, 14:35:02:
+runtime
+14/10/2025, 14:35:02:
+runtime
+Node.js v20.19.5
+14/10/2025, 14:35:58:
+runtime
+Sliplane: Service deployment failed with reason: healthchecks on route 'http://localhost:5000/' keep failing. Make sure your app is starting a HTTP server and listening on a port

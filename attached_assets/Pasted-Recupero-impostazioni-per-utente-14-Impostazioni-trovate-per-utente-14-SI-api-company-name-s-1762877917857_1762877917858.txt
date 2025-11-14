@@ -1,0 +1,41 @@
+Recupero impostazioni per utente 14
+Impostazioni trovate per utente 14: SI
+🏢 [/api/company-name-settings] [desktop] Settings per utente 14 (staff): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'Silvia Busnari ',
+  fontSize: 42,
+  fontFamily: 'Lucida Sans Unicode',
+  fontStyle: 'italic',
+  color: '#FF0000',
+  enabled: true
+}
+4:18:05 PM [express] GET /api/company-name-settings 200 in 164ms :: {"businessName":"Studio Medico",…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/tenant-context
+4:18:05 PM [express] GET /api/tenant-context 200 in 73ms :: {"userId":14,"userType":"staff","tenantI…
+Impostazioni trovate per utente 14: SI
+4:18:05 PM [express] GET /api/contact-info 200 in 178ms :: {"email":"silvia.busnari@libero.it","phon…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/timezone-settings
+4:18:05 PM [express] POST /api/timezone-settings 200 in 72ms :: {"success":true,"timezone":"Europe/Z…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/google-auth/status
+4:18:06 PM [express] GET /api/google-auth/status 200 in 88ms
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/google-auth/status
+4:18:07 PM [express] GET /api/google-auth/status 200 in 79ms
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/currency-settings
+💰 [GET] Recupero impostazioni valuta per utente 14
+💰 Recupero impostazioni valuta per utente 14
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices
+📄 [/api/invoices] Richiesta fatture per utente: 14
+📄 [/api/invoices] Restituisco 4 fatture per utente 14
+✅ Impostazioni valuta trovate per utente 14: { currency: 'EUR', symbol: '€' }
+4:18:07 PM [express] GET /api/invoices 304 in 150ms :: [{"id":4,"invoiceNumber":"004/2025","clientId…
+4:18:07 PM [express] GET /api/currency-settings 304 in 153ms :: {"currency":"EUR","symbol":"€"}
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices/4/status
+📄 [/api/invoices/4/status] Aggiornamento stato per utente 14: paid
+✅ [JSON STORAGE] Dati salvati correttamente
+✅ [/api/invoices/4/status] Stato aggiornato a: paid
+4:18:12 PM [express] PATCH /api/invoices/4/status 200 in 140ms :: {"success":true,"status":"paid","i…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/invoices
+📄 [/api/invoices] Richiesta fatture per utente: 14
+📄 [/api/invoices] Restituisco 4 fatture per utente 14
+4:18:12 PM [express] GET /api/invoices 304 in 147ms :: [{"id":4,"invoiceNumber":"004/2025","clientId…

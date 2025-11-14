@@ -1,0 +1,1061 @@
+
+[DEBUG COUNT] Cliente 514 (maaa vaaa) - accessCount: 0 → display: 0
+9:51:30 AM [express] GET /api/client-access/count/514 200 in 148ms :: {"count":0}
+[DEBUG COUNT] Cliente 261 (Cristina Valetti) - accessCount: 0 → display: 0
+[DEBUG COUNT] Cliente 3003 (Giulia Verdi) - accessCount: 0 → display: 0
+9:51:30 AM [express] GET /api/client-access/count/261 200 in 156ms :: {"count":0}
+9:51:30 AM [express] GET /api/client-access/count/3003 200 in 152ms :: {"count":0}
+[DEBUG COUNT] Cliente 3007 (Giulia Verdi) - accessCount: 0 → display: 0
+9:51:30 AM [express] GET /api/client-access/count/3007 200 in 150ms :: {"count":0}
+[DEBUG COUNT] Cliente 14002 (andrea zambelli) - accessCount: 15 → display: 7
+9:51:30 AM [express] GET /api/client-access/count/14002 200 in 145ms :: {"count":7}
+[DEBUG COUNT] Cliente 9001 (Andrea Zambelli) - accessCount: 0 → display: 0
+9:51:30 AM [express] GET /api/client-access/count/9001 200 in 149ms :: {"count":0}
+📅 [/api/appointments] [desktop] Richiesta da utente ID:3, tipo:admin, email:zambelli.andrea.1973@gmail.com
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+👑 [/api/appointments] [desktop] Admin - Accesso completo: 36 clienti, 41 appuntamenti
+📱💻 [desktop] Sincronizzazione completa: restituiti 41 appuntamenti
+9:51:34 AM [express] GET /api/timezone-settings 200 in 140ms :: {"timezone":"Europe/Rome","offset":2}
+9:51:34 AM [express] GET /api/appointments 304 in 158ms :: [{"id":1750059544768,"clientId":252,"serv…
+🔧 [/api/services] [desktop] Caricati 8 servizi per utente 3
+📅 [/api/appointments/date] [desktop] Utente 3 cerca appuntamenti per data 2025-10-06
+📅 [desktop] Appuntamenti totali nell'account: 41
+👑 [desktop] Admin - Accesso completo a tutti gli appuntamenti
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-06: 0
+🔍 [/api/clients] [desktop] Richiesta da utente ID:3, tipo:admin, email:zambelli.andrea.1973@gmail.com
+📦 [/api/clients] [desktop] Caricati 36 clienti totali dal storage
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+👑 [/api/clients] [desktop] Admin - Restituendo tutti i 36 clienti
+👑 [ADMIN-DEBUG] FORCED - Distribuzione clienti per ownerId: { '3': 12, '9': 3, '12': 2, '14': 4, '16': 15 }
+👑 [ADMIN-DEBUG] FORCED - Admin ID corrente: 3
+👑 [ADMIN-DEBUG] FORCED - Clienti propri (ownerId 3): 12
+👑 [ADMIN-DEBUG] FORCED - Clienti altri account: 24
+📋 [SAMPLE] Cliente Mario Rossi: ownerId=3, originalOwnerId=undefined
+📋 [SAMPLE] Cliente Zambelli Andrea: ownerId=3, originalOwnerId=undefined
+📋 [SAMPLE] Cliente Cliente Trial: ownerId=9, originalOwnerId=undefined
+📋 [SAMPLE] Cliente Cliente Business: ownerId=12, originalOwnerId=undefined
+📋 [SAMPLE] Cliente pippo quattro: ownerId=16, originalOwnerId=undefined
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+  {
+    "id": 1,
+    "firstName": "Mario",
+    "lastName": "Rossi",
+    "uniqueCode": "PROF_003_4678_C00001",
+    "ownerId": 3
+  },
+  {
+    "id": 2,
+    "firstName": "Zambelli",
+    "lastName": "Andrea",
+    "uniqueCode": "PROF_003_4678_C00002",
+    "ownerId": 3
+  },
+  {
+    "id": 25,
+    "firstName": "Cliente",
+    "lastName": "Trial",
+    "uniqueCode": "PROF_009_9D95_CLIENT_25_5EAF",
+    "ownerId": 9
+  },
+  {
+    "id": 28,
+    "firstName": "Cliente",
+    "lastName": "Business",
+    "uniqueCode": "PROF_012_1936_CLIENT_28_CE96",
+    "ownerId": 12
+  },
+  {
+    "id": 256,
+    "firstName": "pippo",
+    "lastName": "quattro",
+    "uniqueCode": "PROF_016_B17E_CLIENT_256_5BAC",
+    "ownerId": 16
+  }
+]
+👑 [ADMIN-DEBUG] Distribuzione clienti per ownerId: { '3': 12, '9': 3, '12': 2, '14': 4, '16': 15 }
+👑 [ADMIN-DEBUG] Admin ID corrente: 3
+👑 [ADMIN-DEBUG] Clienti propri (ownerId 3): 12
+👑 [ADMIN-DEBUG] Clienti altri account: 24
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 36/36
+9:51:34 AM [express] GET /api/services 304 in 391ms :: [{"id":1,"name":"Visita Generale","duration":…
+9:51:34 AM [express] GET /api/appointments/date/2025-10-06 304 in 390ms :: []
+9:51:34 AM [express] GET /api/clients 304 in 156ms :: [{"firstName":"Mario","lastName":"Rossi","phon…
+9:51:34 AM [express] GET /api/timezone-settings 304 in 147ms :: {"timezone":"Europe/Rome","offset":2}
+🔍 DEBUG API COLLABORATORS: {
+  userId: 3,
+  count: 1,
+  collaborators: [
+    {
+      id: 3,
+      firstName: 'sharon ',
+      lastName: 'stone',
+      isActive: true,
+      hasIsActiveField: true,
+      allFields: [Array]
+    }
+  ]
+}
+9:51:34 AM [express] GET /api/treatment-rooms 304 in 461ms :: [{"id":3,"userId":3,"name":"stanza 2",…
+9:51:34 AM [express] GET /api/collaborators 304 in 470ms :: [{"id":3,"userId":3,"firstName":"sharon …
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 264 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Business Account (ID: 264, Owner: 12)
+[DEBUG COUNT] Cliente 264 (Business Account) - accessCount: 0 → display: 0
+[DEBUG COUNT] Cliente 316 (Trial Account) - accessCount: 0 → display: 0
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 316 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Trial Account (ID: 316, Owner: 9)
+9:51:37 AM [express] GET /api/clients/264 304 in 190ms :: {"id":264,"firstName":"Business","lastName…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 264 con icona del proprietario 12
+9:51:37 AM [express] GET /api/client-access/count/264 200 in 256ms :: {"count":0}
+9:51:37 AM [express] GET /api/client-access/count/316 200 in 251ms :: {"count":0}
+9:51:37 AM [express] GET /api/clients/316 304 in 252ms :: {"id":316,"firstName":"Trial","lastName":"…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 316 con icona del proprietario 9
+✅ Icone PWA aggiornate per utente 12 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 12
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Business Account
+   - Token: PROF_012_B830_CLIENT_264_85C1_252a88da
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_012_B830_CLIENT_264_85C1?token=PROF_012_B830_CLIENT_264_85C1_252a88da&autoLogin=true
+9:51:37 AM [express] GET /api/clients/264/activation-token 200 in 410ms :: {"token":"PROF_012_B830_C…
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 9
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Trial Account
+   - Token: PROF_009_9D95_CLIENT_316_8EFE_f8529473
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_009_9D95_CLIENT_316_8EFE?token=PROF_009_9D95_CLIENT_316_8EFE_f8529473&autoLogin=true
+9:51:37 AM [express] GET /api/clients/316/activation-token 200 in 441ms :: {"token":"PROF_009_9D95_C…
+9:51:37 AM [express] GET /api/clients/2 304 in 149ms :: {"id":2,"firstName":"Zambelli","lastName":"A…
+[DEBUG COUNT] Cliente 2 (Zambelli Andrea) - accessCount: 34 → display: 17
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 2 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Zambelli Andrea (ID: 2, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 2 con icona del proprietario 3
+9:51:37 AM [express] GET /api/client-access/count/2 200 in 146ms :: {"count":17}
+9:51:37 AM [express] GET /api/clients/265 304 in 151ms :: {"id":265,"firstName":"Zambelli","lastName…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Zambelli Andrea
+   - Token: PROF_003_4678_C00002_ef1168f8
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00002?token=PROF_003_4678_C00002_ef1168f8&autoLogin=true
+9:51:37 AM [express] GET /api/clients/2/activation-token 200 in 246ms :: {"token":"PROF_003_4678_C00…
+[DEBUG COUNT] Cliente 265 (Zambelli Andrea) - accessCount: 2 → display: 1
+9:51:38 AM [express] GET /api/client-access/count/265 200 in 152ms :: {"count":1}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 265 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Zambelli Andrea (ID: 265, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 265 con icona del proprietario 16
+9:51:38 AM [express] GET /api/clients/268 304 in 154ms :: {"id":268,"firstName":"Leila","lastName":"…
+[DEBUG COUNT] Cliente 268 (Leila Baldovin) - accessCount: 0 → display: 0
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Zambelli Andrea
+   - Token: PROF_016_B17E_CLIENT_265_95C4_7e43fc28
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_265_95C4?token=PROF_016_B17E_CLIENT_265_95C4_7e43fc28&autoLogin=true
+9:51:38 AM [express] GET /api/client-access/count/268 200 in 180ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 268 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Leila Baldovin (ID: 268, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 268 con icona del proprietario 16
+9:51:38 AM [express] GET /api/clients/265/activation-token 200 in 288ms :: {"token":"PROF_016_B17E_C…
+[DEBUG COUNT] Cliente 14003 (Marco Berto) - accessCount: 58 → display: 29
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Leila Baldovin
+   - Token: PROF_016_B17E_CLIENT_268_9B35_77147ce0
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_268_9B35?token=PROF_016_B17E_CLIENT_268_9B35_77147ce0&autoLogin=true
+9:51:38 AM [express] GET /api/clients/14003 304 in 170ms :: {"id":14003,"firstName":"Marco","lastNam…
+9:51:38 AM [express] GET /api/client-access/count/14003 200 in 150ms :: {"count":29}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14003 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Marco Berto (ID: 14003, Owner: 14)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14003 con icona del proprietario 14
+9:51:38 AM [express] GET /api/clients/268/activation-token 200 in 323ms :: {"token":"PROF_016_B17E_C…
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Marco Berto
+   - Token: PROF_014_9C1F_CLIENT_14003_816C_af2d9001
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14003_816C?token=PROF_014_9C1F_CLIENT_14003_816C_af2d9001&autoLogin=true
+[DEBUG COUNT] Cliente 3004 (Franco Bianchi) - accessCount: 0 → display: 0
+9:51:38 AM [express] GET /api/clients/3004 304 in 158ms :: {"id":3004,"firstName":"Franco","lastName…
+9:51:38 AM [express] GET /api/clients/14003/activation-token 200 in 259ms :: {"token":"PROF_014_9C1F…
+9:51:38 AM [express] GET /api/client-access/count/3004 200 in 145ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3004 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Franco Bianchi (ID: 3004, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3004 con icona del proprietario 3
+9:51:38 AM [express] GET /api/clients/3008 304 in 166ms :: {"id":3008,"firstName":"Franco","lastName…
+[DEBUG COUNT] Cliente 3008 (Franco Bianchi) - accessCount: 0 → display: 0
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Franco Bianchi
+   - Token: PROF_003_4678_C03004_fe03a2f5
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03004?token=PROF_003_4678_C03004_fe03a2f5&autoLogin=true
+9:51:38 AM [express] GET /api/client-access/count/3008 200 in 165ms :: {"count":0}
+9:51:38 AM [express] GET /api/clients/3004/activation-token 200 in 282ms :: {"token":"PROF_003_4678_…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3008 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Franco Bianchi (ID: 3008, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3008 con icona del proprietario 3
+9:51:38 AM [express] GET /api/clients/3001 304 in 161ms :: {"id":3001,"firstName":"Silvia","lastName…
+[DEBUG COUNT] Cliente 3001 (Silvia Bus) - accessCount: 0 → display: 0
+9:51:38 AM [express] GET /api/client-access/count/3001 200 in 160ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3001 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Silvia Bus (ID: 3001, Owner: 3)
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Franco Bianchi
+   - Token: PROF_003_4678_C03008_d9f913b0
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03008?token=PROF_003_4678_C03008_d9f913b0&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3001 con icona del proprietario 3
+9:51:38 AM [express] GET /api/clients/3008/activation-token 200 in 316ms :: {"token":"PROF_003_4678_…
+[DEBUG COUNT] Cliente 28 (Cliente Business) - accessCount: 0 → display: 0
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Silvia Bus
+   - Token: PROF_003_4678_C03001_1f6be001
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03001?token=PROF_003_4678_C03001_1f6be001&autoLogin=true
+9:51:38 AM [express] GET /api/clients/28 304 in 163ms :: {"id":28,"firstName":"Cliente","lastName":"…
+9:51:38 AM [express] GET /api/client-access/count/28 200 in 147ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 28 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Business (ID: 28, Owner: 12)
+9:51:38 AM [express] GET /api/clients/3001/activation-token 200 in 272ms :: {"token":"PROF_003_4678_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 28 con icona del proprietario 12
+9:51:39 AM [express] GET /api/clients/257 304 in 166ms :: {"id":257,"firstName":"Valentina","lastNam…
+[DEBUG COUNT] Cliente 257 (Valentina Cotrino) - accessCount: 2 → display: 1
+✅ Icone PWA aggiornate per utente 12 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 12
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cliente Business
+   - Token: PROF_012_1936_CLIENT_28_CE96_2a9ebc2e
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_012_1936_CLIENT_28_CE96?token=PROF_012_1936_CLIENT_28_CE96_2a9ebc2e&autoLogin=true
+9:51:39 AM [express] GET /api/client-access/count/257 200 in 147ms :: {"count":1}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 257 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Valentina Cotrino (ID: 257, Owner: 16)
+9:51:39 AM [express] GET /api/clients/28/activation-token 200 in 314ms :: {"token":"PROF_012_1936_CL…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 257 con icona del proprietario 16
+[DEBUG COUNT] Cliente 513 (provaci ancora due) - accessCount: 0 → display: 0
+9:51:39 AM [express] GET /api/clients/513 304 in 155ms :: {"id":513,"firstName":"provaci ancora","la…
+9:51:39 AM [express] GET /api/client-access/count/513 200 in 151ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Valentina Cotrino
+   - Token: PROF_016_B17E_CLIENT_257_CFDB_2c3eaa19
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_257_CFDB?token=PROF_016_B17E_CLIENT_257_CFDB_2c3eaa19&autoLogin=true
+9:51:39 AM [express] GET /api/clients/257/activation-token 200 in 255ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 513 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: provaci ancora due (ID: 513, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 513 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: provaci ancora due
+   - Token: PROF_016_B17E_CLIENT_513_7E52_051e55bb
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_513_7E52?token=PROF_016_B17E_CLIENT_513_7E52_051e55bb&autoLogin=true
+[DEBUG COUNT] Cliente 273 (Matteo Libera) - accessCount: 0 → display: 0
+9:51:39 AM [express] GET /api/clients/273 304 in 151ms :: {"id":273,"firstName":"Matteo","lastName":…
+9:51:39 AM [express] GET /api/clients/513/activation-token 200 in 239ms :: {"token":"PROF_016_B17E_C…
+9:51:39 AM [express] GET /api/client-access/count/273 200 in 144ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 273 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Matteo Libera (ID: 273, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 273 con icona del proprietario 16
+9:51:39 AM [express] GET /api/clients/271 304 in 162ms :: {"id":271,"firstName":"Alan","lastName":"M…
+[DEBUG COUNT] Cliente 271 (Alan Marconi) - accessCount: 0 → display: 0
+9:51:39 AM [express] GET /api/client-access/count/271 200 in 152ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Matteo Libera
+   - Token: PROF_016_B17E_CLIENT_273_5EBF_7168a554
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_273_5EBF?token=PROF_016_B17E_CLIENT_273_5EBF_7168a554&autoLogin=true
+9:51:39 AM [express] GET /api/clients/273/activation-token 200 in 277ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 271 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Alan Marconi (ID: 271, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 271 con icona del proprietario 16
+9:51:39 AM [express] GET /api/clients/258 304 in 158ms :: {"id":258,"firstName":"Cinzia","lastName":…
+[DEBUG COUNT] Cliente 258 (Cinzia Munaretto) - accessCount: 0 → display: 0
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 258 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cinzia Munaretto (ID: 258, Owner: 16)
+9:51:39 AM [express] GET /api/client-access/count/258 200 in 152ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Alan Marconi
+   - Token: PROF_016_B17E_CLIENT_271_5A39_c2eb0b68
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_271_5A39?token=PROF_016_B17E_CLIENT_271_5A39_c2eb0b68&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 258 con icona del proprietario 16
+9:51:39 AM [express] GET /api/clients/271/activation-token 200 in 275ms :: {"token":"PROF_016_B17E_C…
+[DEBUG COUNT] Cliente 269 (Rosa Nappi) - accessCount: 0 → display: 0
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cinzia Munaretto
+   - Token: PROF_016_B17E_CLIENT_258_E536_cdcb8fb2
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_258_E536?token=PROF_016_B17E_CLIENT_258_E536_cdcb8fb2&autoLogin=true
+9:51:39 AM [express] GET /api/clients/269 304 in 156ms :: {"id":269,"firstName":"Rosa","lastName":"N…
+9:51:39 AM [express] GET /api/client-access/count/269 200 in 161ms :: {"count":0}
+9:51:39 AM [express] GET /api/clients/258/activation-token 200 in 267ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 269 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Rosa Nappi (ID: 269, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 269 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Rosa Nappi
+   - Token: PROF_016_B17E_CLIENT_269_2010_ab542d5f
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_269_2010?token=PROF_016_B17E_CLIENT_269_2010_ab542d5f&autoLogin=true
+[DEBUG COUNT] Cliente 272 (Dino Nappi) - accessCount: 0 → display: 0
+9:51:40 AM [express] GET /api/clients/269/activation-token 200 in 224ms :: {"token":"PROF_016_B17E_C…
+9:51:40 AM [express] GET /api/clients/272 304 in 151ms :: {"id":272,"firstName":"Dino","lastName":"N…
+9:51:40 AM [express] GET /api/client-access/count/272 200 in 148ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 272 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Dino Nappi (ID: 272, Owner: 16)
+[DEBUG COUNT] Cliente 3005 (Anna Neri) - accessCount: 0 → display: 0
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 272 con icona del proprietario 16
+9:51:40 AM [express] GET /api/clients/3005 304 in 151ms :: {"id":3005,"firstName":"Anna","lastName":…
+9:51:40 AM [express] GET /api/client-access/count/3005 200 in 155ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Dino Nappi
+   - Token: PROF_016_B17E_CLIENT_272_FC04_0efe6bd3
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_272_FC04?token=PROF_016_B17E_CLIENT_272_FC04_0efe6bd3&autoLogin=true
+9:51:40 AM [express] GET /api/clients/272/activation-token 200 in 236ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3005 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Anna Neri (ID: 3005, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3005 con icona del proprietario 3
+9:51:40 AM [express] GET /api/clients/14004 304 in 150ms :: {"id":14004,"firstName":"Bruna ","lastNa…
+[DEBUG COUNT] Cliente 14004 (Bruna  Pizzolato) - accessCount: 413 → display: 206
+9:51:40 AM [express] GET /api/client-access/count/14004 200 in 150ms :: {"count":206}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14004 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Bruna  Pizzolato (ID: 14004, Owner: 14)
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Anna Neri
+   - Token: PROF_003_4678_C03005_0c53e91e
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03005?token=PROF_003_4678_C03005_0c53e91e&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14004 con icona del proprietario 14
+9:51:40 AM [express] GET /api/clients/3005/activation-token 200 in 290ms :: {"token":"PROF_003_4678_…
+9:51:40 AM [express] GET /api/clients/256 304 in 152ms :: {"id":256,"firstName":"pippo","lastName":"…
+[DEBUG COUNT] Cliente 256 (pippo quattro) - accessCount: 0 → display: 0
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Bruna  Pizzolato
+   - Token: PROF_014_9C1F_CLIENT_14004_340F_91a30ec9
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+9:51:40 AM [express] GET /api/client-access/count/256 200 in 166ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 256 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: pippo quattro (ID: 256, Owner: 16)
+9:51:40 AM [express] GET /api/clients/14004/activation-token 200 in 340ms :: {"token":"PROF_014_9C1F…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 256 con icona del proprietario 16
+9:51:40 AM [express] GET /api/clients/267 304 in 161ms :: {"id":267,"firstName":"giovanni","lastName…
+[DEBUG COUNT] Cliente 267 (giovanni ribbio) - accessCount: 0 → display: 0
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 267 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: giovanni ribbio (ID: 267, Owner: 3)
+9:51:40 AM [express] GET /api/client-access/count/267 200 in 151ms :: {"count":0}
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 267 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: pippo quattro
+   - Token: PROF_016_B17E_CLIENT_256_5BAC_a7f880d9
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_256_5BAC?token=PROF_016_B17E_CLIENT_256_5BAC_a7f880d9&autoLogin=true
+9:51:40 AM [express] GET /api/clients/266 304 in 176ms :: {"id":266,"firstName":"giovanni","lastName…
+[DEBUG COUNT] Cliente 266 (giovanni rizzo) - accessCount: 0 → display: 0
+9:51:40 AM [express] GET /api/clients/256/activation-token 200 in 429ms :: {"token":"PROF_016_B17E_C…
+9:51:40 AM [express] GET /api/client-access/count/266 200 in 167ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 266 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: giovanni rizzo (ID: 266, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 266 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: giovanni ribbio
+   - Token: PROF_003_4678_C00267_a11f0dd6
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00267?token=PROF_003_4678_C00267_a11f0dd6&autoLogin=true
+9:51:41 AM [express] GET /api/clients/1 304 in 171ms :: {"id":1,"firstName":"Mario","lastName":"Ross…
+[DEBUG COUNT] Cliente 1 (Mario Rossi) - accessCount: 3 → display: 1
+9:51:41 AM [express] GET /api/clients/267/activation-token 200 in 514ms :: {"token":"PROF_003_4678_C…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: giovanni rizzo
+   - Token: PROF_003_4678_C00266_be7ab4cd
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00266?token=PROF_003_4678_C00266_be7ab4cd&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 1 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Mario Rossi (ID: 1, Owner: 3)
+9:51:41 AM [express] GET /api/client-access/count/1 200 in 161ms :: {"count":1}
+9:51:41 AM [express] GET /api/clients/266/activation-token 200 in 368ms :: {"token":"PROF_003_4678_C…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 1 con icona del proprietario 3
+9:51:41 AM [express] GET /api/clients/3002 304 in 152ms :: {"id":3002,"firstName":"Mario","lastName"…
+[DEBUG COUNT] Cliente 3002 (Mario Rossi) - accessCount: 0 → display: 0
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Mario Rossi
+   - Token: PROF_003_4678_C00001_c9d2c8c7
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00001?token=PROF_003_4678_C00001_c9d2c8c7&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3002 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Mario Rossi (ID: 3002, Owner: 3)
+9:51:41 AM [express] GET /api/client-access/count/3002 200 in 158ms :: {"count":0}
+9:51:41 AM [express] GET /api/clients/1/activation-token 200 in 339ms :: {"token":"PROF_003_4678_C00…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3002 con icona del proprietario 3
+9:51:41 AM [express] GET /api/clients/3006 304 in 152ms :: {"id":3006,"firstName":"Mario","lastName"…
+[DEBUG COUNT] Cliente 3006 (Mario Rossi) - accessCount: 0 → display: 0
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3006 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Mario Rossi (ID: 3006, Owner: 3)
+9:51:41 AM [express] GET /api/client-access/count/3006 200 in 153ms :: {"count":0}
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3006 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Mario Rossi
+   - Token: PROF_003_4678_C03002_f4f61858
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03002?token=PROF_003_4678_C03002_f4f61858&autoLogin=true
+9:51:41 AM [express] GET /api/clients/3002/activation-token 200 in 319ms :: {"token":"PROF_003_4678_…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Mario Rossi
+   - Token: PROF_003_4678_C03006_e79cbabb
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03006?token=PROF_003_4678_C03006_e79cbabb&autoLogin=true
+[DEBUG COUNT] Cliente 263 (Matteo Somaschini) - accessCount: 0 → display: 0
+9:51:41 AM [express] GET /api/clients/263 304 in 159ms :: {"id":263,"firstName":"Matteo","lastName":…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 263 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Matteo Somaschini (ID: 263, Owner: 16)
+9:51:41 AM [express] GET /api/clients/3006/activation-token 200 in 338ms :: {"token":"PROF_003_4678_…
+9:51:41 AM [express] GET /api/client-access/count/263 200 in 163ms :: {"count":0}
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 263 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Matteo Somaschini
+   - Token: PROF_016_B17E_CLIENT_263_C51C_dc442d14
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_263_C51C?token=PROF_016_B17E_CLIENT_263_C51C_dc442d14&autoLogin=true
+9:51:41 AM [express] GET /api/clients/263/activation-token 200 in 256ms :: {"token":"PROF_016_B17E_C…
+[DEBUG COUNT] Cliente 270 (Giovanna Spano) - accessCount: 0 → display: 0
+9:51:41 AM [express] GET /api/clients/270 304 in 161ms :: {"id":270,"firstName":"Giovanna","lastName…
+9:51:41 AM [express] GET /api/client-access/count/270 200 in 150ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 270 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Giovanna Spano (ID: 270, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 270 con icona del proprietario 16
+9:51:41 AM [express] GET /api/clients/259 304 in 149ms :: {"id":259,"firstName":"Eleonora","lastName…
+[DEBUG COUNT] Cliente 259 (Eleonora Tentori) - accessCount: 0 → display: 0
+9:51:41 AM [express] GET /api/client-access/count/259 200 in 153ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Giovanna Spano
+   - Token: PROF_016_B17E_CLIENT_270_B842_b6bd9a88
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_270_B842?token=PROF_016_B17E_CLIENT_270_B842_b6bd9a88&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 259 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Eleonora Tentori (ID: 259, Owner: 16)
+9:51:42 AM [express] GET /api/clients/270/activation-token 200 in 275ms :: {"token":"PROF_016_B17E_C…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 259 con icona del proprietario 16
+[DEBUG COUNT] Cliente 25 (Cliente Trial) - accessCount: 0 → display: 0
+9:51:42 AM [express] GET /api/clients/25 304 in 161ms :: {"id":25,"firstName":"Cliente","lastName":"…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Eleonora Tentori
+   - Token: PROF_016_B17E_CLIENT_259_9CE6_18817168
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_259_9CE6?token=PROF_016_B17E_CLIENT_259_9CE6_18817168&autoLogin=true
+9:51:42 AM [express] GET /api/client-access/count/25 200 in 161ms :: {"count":0}
+9:51:42 AM [express] GET /api/clients/259/activation-token 200 in 242ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 25 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Trial (ID: 25, Owner: 9)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 25 con icona del proprietario 9
+9:51:42 AM [express] GET /api/clients/14001 304 in 152ms :: {"id":14001,"firstName":"Cliente","lastN…
+[DEBUG COUNT] Cliente 14001 (Cliente Trial) - accessCount: 0 → display: 0
+9:51:42 AM [express] GET /api/client-access/count/14001 200 in 148ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 9
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cliente Trial
+   - Token: PROF_009_9D95_CLIENT_25_5EAF_7c9eb6b4
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_009_9D95_CLIENT_25_5EAF?token=PROF_009_9D95_CLIENT_25_5EAF_7c9eb6b4&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14001 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Trial (ID: 14001, Owner: 14)
+9:51:42 AM [express] GET /api/clients/25/activation-token 200 in 297ms :: {"token":"PROF_009_9D95_CL…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14001 con icona del proprietario 14
+[DEBUG COUNT] Cliente 514 (maaa vaaa) - accessCount: 0 → display: 0
+9:51:42 AM [express] GET /api/clients/514 304 in 162ms :: {"id":514,"firstName":"maaa","lastName":"v…
+9:51:42 AM [express] GET /api/client-access/count/514 200 in 168ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cliente Trial
+   - Token: PROF_014_9C1F_CLIENT_14001_A665_1d4f6417
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14001_A665?token=PROF_014_9C1F_CLIENT_14001_A665_1d4f6417&autoLogin=true
+9:51:42 AM [express] GET /api/clients/14001/activation-token 200 in 279ms :: {"token":"PROF_014_9C1F…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 514 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: maaa vaaa (ID: 514, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 514 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: maaa vaaa
+   - Token: PROF_016_B17E_CLIENT_514_44A1_08b27275
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_514_44A1?token=PROF_016_B17E_CLIENT_514_44A1_08b27275&autoLogin=true
+[DEBUG COUNT] Cliente 261 (Cristina Valetti) - accessCount: 0 → display: 0
+9:51:42 AM [express] GET /api/clients/514/activation-token 200 in 249ms :: {"token":"PROF_016_B17E_C…
+9:51:42 AM [express] GET /api/clients/261 304 in 166ms :: {"id":261,"firstName":"Cristina","lastName…
+9:51:42 AM [express] GET /api/client-access/count/261 200 in 158ms :: {"count":0}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 261 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cristina Valetti (ID: 261, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 261 con icona del proprietario 16
+[DEBUG COUNT] Cliente 3003 (Giulia Verdi) - accessCount: 0 → display: 0
+9:51:42 AM [express] GET /api/clients/3003 304 in 152ms :: {"id":3003,"firstName":"Giulia","lastName…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cristina Valetti
+   - Token: PROF_016_B17E_CLIENT_261_99B7_64dbddf4
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_261_99B7?token=PROF_016_B17E_CLIENT_261_99B7_64dbddf4&autoLogin=true
+9:51:42 AM [express] GET /api/client-access/count/3003 200 in 149ms :: {"count":0}
+9:51:42 AM [express] GET /api/clients/261/activation-token 200 in 270ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3003 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Giulia Verdi (ID: 3003, Owner: 3)
+[DEBUG COUNT] Cliente 3007 (Giulia Verdi) - accessCount: 0 → display: 0
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3003 con icona del proprietario 3
+9:51:42 AM [express] GET /api/clients/3007 304 in 146ms :: {"id":3007,"firstName":"Giulia","lastName…
+9:51:42 AM [express] GET /api/client-access/count/3007 200 in 151ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Giulia Verdi
+   - Token: PROF_003_4678_C03003_e3f52f13
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03003?token=PROF_003_4678_C03003_e3f52f13&autoLogin=true
+[DEBUG COUNT] Cliente 14002 (andrea zambelli) - accessCount: 15 → display: 7
+9:51:43 AM [express] GET /api/clients/14002 304 in 150ms :: {"id":14002,"firstName":"andrea","lastNa…
+9:51:43 AM [express] GET /api/client-access/count/14002 200 in 146ms :: {"count":7}
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3007 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Giulia Verdi (ID: 3007, Owner: 3)
+9:51:43 AM [express] GET /api/clients/3003/activation-token 200 in 349ms :: {"token":"PROF_003_4678_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3007 con icona del proprietario 3
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14002 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: andrea zambelli (ID: 14002, Owner: 14)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14002 con icona del proprietario 14
+9:51:43 AM [express] GET /api/clients/9001 304 in 152ms :: {"id":9001,"firstName":"Andrea","lastName…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Giulia Verdi
+   - Token: PROF_003_4678_C03007_5d9dce6c
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03007?token=PROF_003_4678_C03007_5d9dce6c&autoLogin=true
+[DEBUG COUNT] Cliente 9001 (Andrea Zambelli) - accessCount: 0 → display: 0
+9:51:43 AM [express] GET /api/clients/3007/activation-token 200 in 418ms :: {"token":"PROF_003_4678_…
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: andrea zambelli
+   - Token: PROF_014_9C1F_CLIENT_14002_09A9_27538b03
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14002_09A9?token=PROF_014_9C1F_CLIENT_14002_09A9_27538b03&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 9001 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Andrea Zambelli (ID: 9001, Owner: 9)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 9001 con icona del proprietario 9
+9:51:43 AM [express] GET /api/client-access/count/9001 200 in 163ms :: {"count":0}
+9:51:43 AM [express] GET /api/clients/14002/activation-token 200 in 299ms :: {"token":"PROF_014_9C1F…
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 9
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Andrea Zambelli
+   - Token: PROF_009_9D95_CLIENT_9001_011A_0cd360a1
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_009_9D95_CLIENT_9001_011A?token=PROF_009_9D95_CLIENT_9001_011A_0cd360a1&autoLogin=true
+🔍 [/api/clients] [desktop] Richiesta da utente ID:3, tipo:admin, email:zambelli.andrea.1973@gmail.com
+📦 [/api/clients] [desktop] Caricati 36 clienti totali dal storage
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+👑 [/api/clients] [desktop] Admin - Restituendo tutti i 36 clienti
+👑 [ADMIN-DEBUG] FORCED - Distribuzione clienti per ownerId: { '3': 12, '9': 3, '12': 2, '14': 4, '16': 15 }
+👑 [ADMIN-DEBUG] FORCED - Admin ID corrente: 3
+👑 [ADMIN-DEBUG] FORCED - Clienti propri (ownerId 3): 12
+👑 [ADMIN-DEBUG] FORCED - Clienti altri account: 24
+📋 [SAMPLE] Cliente Mario Rossi: ownerId=3, originalOwnerId=undefined
+📋 [SAMPLE] Cliente Zambelli Andrea: ownerId=3, originalOwnerId=undefined
+📋 [SAMPLE] Cliente Cliente Trial: ownerId=9, originalOwnerId=undefined
+📋 [SAMPLE] Cliente Cliente Business: ownerId=12, originalOwnerId=undefined
+📋 [SAMPLE] Cliente pippo quattro: ownerId=16, originalOwnerId=undefined
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+  {
+    "id": 1,
+    "firstName": "Mario",
+    "lastName": "Rossi",
+    "uniqueCode": "PROF_003_4678_C00001",
+    "ownerId": 3
+  },
+  {
+    "id": 2,
+    "firstName": "Zambelli",
+    "lastName": "Andrea",
+    "uniqueCode": "PROF_003_4678_C00002",
+    "ownerId": 3
+  },
+  {
+    "id": 25,
+    "firstName": "Cliente",
+    "lastName": "Trial",
+    "uniqueCode": "PROF_009_9D95_CLIENT_25_5EAF",
+    "ownerId": 9
+  },
+  {
+    "id": 28,
+    "firstName": "Cliente",
+    "lastName": "Business",
+    "uniqueCode": "PROF_012_1936_CLIENT_28_CE96",
+    "ownerId": 12
+  },
+  {
+    "id": 256,
+    "firstName": "pippo",
+    "lastName": "quattro",
+    "uniqueCode": "PROF_016_B17E_CLIENT_256_5BAC",
+    "ownerId": 16
+  }
+]
+👑 [ADMIN-DEBUG] Distribuzione clienti per ownerId: { '3': 12, '9': 3, '12': 2, '14': 4, '16': 15 }
+👑 [ADMIN-DEBUG] Admin ID corrente: 3
+👑 [ADMIN-DEBUG] Clienti propri (ownerId 3): 12
+👑 [ADMIN-DEBUG] Clienti altri account: 24
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 36/36
+9:51:43 AM [express] GET /api/user 200 in 304ms
+9:51:43 AM [express] GET /api/clients/9001/activation-token 200 in 341ms :: {"token":"PROF_009_9D95_…
+9:51:43 AM [express] GET /api/clients 200 in 180ms :: [{"firstName":"Mario","lastName":"Rossi","phon…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 264 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Business Account (ID: 264, Owner: 12)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 316 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Trial Account (ID: 316, Owner: 9)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 264 con icona del proprietario 12
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 2 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Zambelli Andrea (ID: 2, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 316 con icona del proprietario 9
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 2 con icona del proprietario 3
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 265 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Zambelli Andrea (ID: 265, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 265 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Zambelli Andrea
+   - Token: PROF_003_4678_C00002_ef1168f8
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00002?token=PROF_003_4678_C00002_ef1168f8&autoLogin=true
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 9
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Trial Account
+   - Token: PROF_009_9D95_CLIENT_316_8EFE_f8529473
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_009_9D95_CLIENT_316_8EFE?token=PROF_009_9D95_CLIENT_316_8EFE_f8529473&autoLogin=true
+✅ Icone PWA aggiornate per utente 12 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 12
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Business Account
+   - Token: PROF_012_B830_CLIENT_264_85C1_252a88da
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_012_B830_CLIENT_264_85C1?token=PROF_012_B830_CLIENT_264_85C1_252a88da&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 268 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Leila Baldovin (ID: 268, Owner: 16)
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Zambelli Andrea
+   - Token: PROF_016_B17E_CLIENT_265_95C4_7e43fc28
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_265_95C4?token=PROF_016_B17E_CLIENT_265_95C4_7e43fc28&autoLogin=true
+9:51:43 AM [express] GET /api/clients/2/activation-token 200 in 458ms :: {"token":"PROF_003_4678_C00…
+9:51:43 AM [express] GET /api/clients/316/activation-token 200 in 459ms :: {"token":"PROF_009_9D95_C…
+9:51:43 AM [express] GET /api/clients/264/activation-token 200 in 559ms :: {"token":"PROF_012_B830_C…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 268 con icona del proprietario 16
+9:51:43 AM [express] GET /api/clients/265/activation-token 200 in 356ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14003 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Marco Berto (ID: 14003, Owner: 14)
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Leila Baldovin
+   - Token: PROF_016_B17E_CLIENT_268_9B35_77147ce0
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_268_9B35?token=PROF_016_B17E_CLIENT_268_9B35_77147ce0&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14003 con icona del proprietario 14
+9:51:44 AM [express] GET /api/clients/268/activation-token 200 in 372ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3004 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Franco Bianchi (ID: 3004, Owner: 3)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3008 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Franco Bianchi (ID: 3008, Owner: 3)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3001 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Silvia Bus (ID: 3001, Owner: 3)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 28 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Business (ID: 28, Owner: 12)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3004 con icona del proprietario 3
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3008 con icona del proprietario 3
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3001 con icona del proprietario 3
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 28 con icona del proprietario 12
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Marco Berto
+   - Token: PROF_014_9C1F_CLIENT_14003_816C_af2d9001
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14003_816C?token=PROF_014_9C1F_CLIENT_14003_816C_af2d9001&autoLogin=true
+9:51:44 AM [express] GET /api/clients/14003/activation-token 200 in 476ms :: {"token":"PROF_014_9C1F…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 257 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Valentina Cotrino (ID: 257, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 257 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Franco Bianchi
+   - Token: PROF_003_4678_C03004_fe03a2f5
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03004?token=PROF_003_4678_C03004_fe03a2f5&autoLogin=true
+9:51:44 AM [express] GET /api/clients/3004/activation-token 200 in 533ms :: {"token":"PROF_003_4678_…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Silvia Bus
+   - Token: PROF_003_4678_C03001_1f6be001
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03001?token=PROF_003_4678_C03001_1f6be001&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 513 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: provaci ancora due (ID: 513, Owner: 16)
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Franco Bianchi
+   - Token: PROF_003_4678_C03008_d9f913b0
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03008?token=PROF_003_4678_C03008_d9f913b0&autoLogin=true
+✅ Icone PWA aggiornate per utente 12 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 12
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cliente Business
+   - Token: PROF_012_1936_CLIENT_28_CE96_2a9ebc2e
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_012_1936_CLIENT_28_CE96?token=PROF_012_1936_CLIENT_28_CE96_2a9ebc2e&autoLogin=true
+9:51:44 AM [express] GET /api/clients/3001/activation-token 200 in 587ms :: {"token":"PROF_003_4678_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 513 con icona del proprietario 16
+9:51:44 AM [express] GET /api/clients/3008/activation-token 200 in 630ms :: {"token":"PROF_003_4678_…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Valentina Cotrino
+   - Token: PROF_016_B17E_CLIENT_257_CFDB_2c3eaa19
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_257_CFDB?token=PROF_016_B17E_CLIENT_257_CFDB_2c3eaa19&autoLogin=true
+9:51:44 AM [express] GET /api/clients/28/activation-token 200 in 622ms :: {"token":"PROF_012_1936_CL…
+9:51:44 AM [express] GET /api/clients/257/activation-token 200 in 377ms :: {"token":"PROF_016_B17E_C…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: provaci ancora due
+   - Token: PROF_016_B17E_CLIENT_513_7E52_051e55bb
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_513_7E52?token=PROF_016_B17E_CLIENT_513_7E52_051e55bb&autoLogin=true
+9:51:44 AM [express] GET /api/clients/513/activation-token 200 in 261ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 273 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Matteo Libera (ID: 273, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 273 con icona del proprietario 16
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 271 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Alan Marconi (ID: 271, Owner: 16)
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Matteo Libera
+   - Token: PROF_016_B17E_CLIENT_273_5EBF_7168a554
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_273_5EBF?token=PROF_016_B17E_CLIENT_273_5EBF_7168a554&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 258 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cinzia Munaretto (ID: 258, Owner: 16)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 269 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Rosa Nappi (ID: 269, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 271 con icona del proprietario 16
+9:51:44 AM [express] GET /api/clients/273/activation-token 200 in 266ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 272 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Dino Nappi (ID: 272, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 258 con icona del proprietario 16
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 269 con icona del proprietario 16
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 272 con icona del proprietario 16
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3005 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Anna Neri (ID: 3005, Owner: 3)
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Alan Marconi
+   - Token: PROF_016_B17E_CLIENT_271_5A39_c2eb0b68
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_271_5A39?token=PROF_016_B17E_CLIENT_271_5A39_c2eb0b68&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3005 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cinzia Munaretto
+   - Token: PROF_016_B17E_CLIENT_258_E536_cdcb8fb2
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_258_E536?token=PROF_016_B17E_CLIENT_258_E536_cdcb8fb2&autoLogin=true
+9:51:45 AM [express] GET /api/clients/271/activation-token 200 in 1019ms :: {"token":"PROF_016_B17E_…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Rosa Nappi
+   - Token: PROF_016_B17E_CLIENT_269_2010_ab542d5f
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_269_2010?token=PROF_016_B17E_CLIENT_269_2010_ab542d5f&autoLogin=true
+9:51:45 AM [express] GET /api/clients/258/activation-token 200 in 1097ms :: {"token":"PROF_016_B17E_…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Dino Nappi
+   - Token: PROF_016_B17E_CLIENT_272_FC04_0efe6bd3
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_272_FC04?token=PROF_016_B17E_CLIENT_272_FC04_0efe6bd3&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14004 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Bruna  Pizzolato (ID: 14004, Owner: 14)
+9:51:45 AM [express] GET /api/clients/269/activation-token 200 in 1149ms :: {"token":"PROF_016_B17E_…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Anna Neri
+   - Token: PROF_003_4678_C03005_0c53e91e
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03005?token=PROF_003_4678_C03005_0c53e91e&autoLogin=true
+9:51:45 AM [express] GET /api/clients/272/activation-token 200 in 1129ms :: {"token":"PROF_016_B17E_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14004 con icona del proprietario 14
+9:51:46 AM [express] GET /api/clients/3005/activation-token 200 in 1098ms :: {"token":"PROF_003_4678…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 256 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: pippo quattro (ID: 256, Owner: 16)
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Bruna  Pizzolato
+   - Token: PROF_014_9C1F_CLIENT_14004_340F_91a30ec9
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 256 con icona del proprietario 16
+9:51:46 AM [express] GET /api/clients/14004/activation-token 200 in 1018ms :: {"token":"PROF_014_9C1…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 267 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: giovanni ribbio (ID: 267, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 267 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: pippo quattro
+   - Token: PROF_016_B17E_CLIENT_256_5BAC_a7f880d9
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_256_5BAC?token=PROF_016_B17E_CLIENT_256_5BAC_a7f880d9&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 1 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Mario Rossi (ID: 1, Owner: 3)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 266 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: giovanni rizzo (ID: 266, Owner: 3)
+9:51:49 AM [express] GET /api/clients/256/activation-token 200 in 3100ms :: {"token":"PROF_016_B17E_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 1 con icona del proprietario 3
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3006 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Mario Rossi (ID: 3006, Owner: 3)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3002 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Mario Rossi (ID: 3002, Owner: 3)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 266 con icona del proprietario 3
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3006 con icona del proprietario 3
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3002 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: giovanni ribbio
+   - Token: PROF_003_4678_C00267_a11f0dd6
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00267?token=PROF_003_4678_C00267_a11f0dd6&autoLogin=true
+9:51:49 AM [express] GET /api/clients/267/activation-token 200 in 3419ms :: {"token":"PROF_003_4678_…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 263 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Matteo Somaschini (ID: 263, Owner: 16)
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Mario Rossi
+   - Token: PROF_003_4678_C00001_c9d2c8c7
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00001?token=PROF_003_4678_C00001_c9d2c8c7&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 263 con icona del proprietario 16
+9:51:49 AM [express] GET /api/clients/1/activation-token 200 in 3551ms :: {"token":"PROF_003_4678_C0…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 270 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Giovanna Spano (ID: 270, Owner: 16)
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Mario Rossi
+   - Token: PROF_003_4678_C03002_f4f61858
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03002?token=PROF_003_4678_C03002_f4f61858&autoLogin=true
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: giovanni rizzo
+   - Token: PROF_003_4678_C00266_be7ab4cd
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C00266?token=PROF_003_4678_C00266_be7ab4cd&autoLogin=true
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Mario Rossi
+   - Token: PROF_003_4678_C03006_e79cbabb
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03006?token=PROF_003_4678_C03006_e79cbabb&autoLogin=true
+9:51:49 AM [express] GET /api/clients/3002/activation-token 200 in 3518ms :: {"token":"PROF_003_4678…
+9:51:49 AM [express] GET /api/clients/266/activation-token 200 in 3721ms :: {"token":"PROF_003_4678_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 270 con icona del proprietario 16
+9:51:49 AM [express] GET /api/clients/3006/activation-token 200 in 3527ms :: {"token":"PROF_003_4678…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Matteo Somaschini
+   - Token: PROF_016_B17E_CLIENT_263_C51C_dc442d14
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_263_C51C?token=PROF_016_B17E_CLIENT_263_C51C_dc442d14&autoLogin=true
+9:51:49 AM [express] GET /api/clients/263/activation-token 200 in 509ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 259 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Eleonora Tentori (ID: 259, Owner: 16)
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Giovanna Spano
+   - Token: PROF_016_B17E_CLIENT_270_B842_b6bd9a88
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_270_B842?token=PROF_016_B17E_CLIENT_270_B842_b6bd9a88&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 259 con icona del proprietario 16
+9:51:49 AM [express] GET /api/clients/270/activation-token 200 in 390ms :: {"token":"PROF_016_B17E_C…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 25 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Trial (ID: 25, Owner: 9)
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14001 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cliente Trial (ID: 14001, Owner: 14)
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Eleonora Tentori
+   - Token: PROF_016_B17E_CLIENT_259_9CE6_18817168
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_259_9CE6?token=PROF_016_B17E_CLIENT_259_9CE6_18817168&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 25 con icona del proprietario 9
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14001 con icona del proprietario 14
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 514 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: maaa vaaa (ID: 514, Owner: 16)
+9:51:50 AM [express] GET /api/clients/259/activation-token 200 in 349ms :: {"token":"PROF_016_B17E_C…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 514 con icona del proprietario 16
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 261 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Cristina Valetti (ID: 261, Owner: 16)
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 261 con icona del proprietario 16
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cliente Trial
+   - Token: PROF_014_9C1F_CLIENT_14001_A665_1d4f6417
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14001_A665?token=PROF_014_9C1F_CLIENT_14001_A665_1d4f6417&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3003 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Giulia Verdi (ID: 3003, Owner: 3)
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 9
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cliente Trial
+   - Token: PROF_009_9D95_CLIENT_25_5EAF_7c9eb6b4
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_009_9D95_CLIENT_25_5EAF?token=PROF_009_9D95_CLIENT_25_5EAF_7c9eb6b4&autoLogin=true
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: maaa vaaa
+   - Token: PROF_016_B17E_CLIENT_514_44A1_08b27275
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_514_44A1?token=PROF_016_B17E_CLIENT_514_44A1_08b27275&autoLogin=true
+9:51:50 AM [express] GET /api/clients/14001/activation-token 200 in 376ms :: {"token":"PROF_014_9C1F…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3003 con icona del proprietario 3
+9:51:50 AM [express] GET /api/clients/25/activation-token 200 in 408ms :: {"token":"PROF_009_9D95_CL…
+9:51:50 AM [express] GET /api/clients/514/activation-token 200 in 392ms :: {"token":"PROF_016_B17E_C…
+✅ Icone PWA aggiornate per utente 16 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 16
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Cristina Valetti
+   - Token: PROF_016_B17E_CLIENT_261_99B7_64dbddf4
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_016_B17E_CLIENT_261_99B7?token=PROF_016_B17E_CLIENT_261_99B7_64dbddf4&autoLogin=true
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 3007 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Giulia Verdi (ID: 3007, Owner: 3)
+9:51:50 AM [express] GET /api/clients/261/activation-token 200 in 417ms :: {"token":"PROF_016_B17E_C…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 3007 con icona del proprietario 3
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Giulia Verdi
+   - Token: PROF_003_4678_C03003_e3f52f13
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03003?token=PROF_003_4678_C03003_e3f52f13&autoLogin=true
+9:51:50 AM [express] GET /api/clients/3003/activation-token 200 in 389ms :: {"token":"PROF_003_4678_…
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 14002 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: andrea zambelli (ID: 14002, Owner: 14)
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 3
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Giulia Verdi
+   - Token: PROF_003_4678_C03007_5d9dce6c
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_003_4678_C03007?token=PROF_003_4678_C03007_5d9dce6c&autoLogin=true
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 14002 con icona del proprietario 14
+🔍 [QR-INTERFACE] Richiesta QR per cliente ID: 9001 da utente: 3 (zambelli.andrea.1973@gmail.com)
+🔍 [QR-INTERFACE] Cliente trovato: Andrea Zambelli (ID: 9001, Owner: 9)
+[DEBUG COUNT] Cliente 316 (Trial Account) - accessCount: 0 → display: 0
+9:51:50 AM [express] GET /api/clients/3007/activation-token 200 in 360ms :: {"token":"PROF_003_4678_…
+🔧 [QR-PWA-SYNC] Sincronizzazione icone PWA per cliente 9001 con icona del proprietario 9
+9:51:50 AM [express] GET /api/client-access/count/316 200 in 204ms :: {"count":0}
+[DEBUG COUNT] Cliente 264 (Business Account) - accessCount: 0 → display: 0
+9:51:50 AM [express] GET /api/client-access/count/264 200 in 184ms :: {"count":0}
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 14
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: andrea zambelli
+   - Token: PROF_014_9C1F_CLIENT_14002_09A9_27538b03
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_014_9C1F_CLIENT_14002_09A9?token=PROF_014_9C1F_CLIENT_14002_09A9_27538b03&autoLogin=true
+[DEBUG COUNT] Cliente 2 (Zambelli Andrea) - accessCount: 34 → display: 17
+[DEBUG COUNT] Cliente 265 (Zambelli Andrea) - accessCount: 2 → display: 1
+✅ Icone PWA aggiornate per utente 9 con logo aziendale
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per proprietario 9
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+   - Cliente: Andrea Zambelli
+   - Token: PROF_009_9D95_CLIENT_9001_011A_0cd360a1
+   - URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/client/PROF_009_9D95_CLIENT_9001_011A?token=PROF_009_9D95_CLIENT_9001_011A_0cd360a1&autoLogin=true
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null
+}
+9:52:05 AM [express] GET /api/timezone-settings 304 in 152ms :: {"timezone":"Europe/Rome","offset":2}
+9:52:05 AM [express] GET /api/user-with-license 200 in 160ms :: {"id":3,"username":"zambelli.andrea.…
+9:52:05 AM [express] GET /api/timezone-settings 304 in 145ms :: {"timezone":"Europe/Rome","offset":2}
+9:52:05 AM [express] POST /api/timezone-settings 200 in 143ms :: {"success":true,"timezone":"Europe/…
+🔐 [desktop] /api/user-with-license per utente 3 (zambelli.andrea.1973@gmail.com)
+🏷️ [desktop] Codice professionista per utente 3: PROF_003_4678
+📱💻 [desktop] Dati utente unificati: {
+  id: 3,
+  username: 'zambelli.andrea.1973@gmail.com',
+  firstName: null,
+  lastName: null
+}
+9:52:05 AM [express] GET /api/tenant-context 200 in 148ms :: {"userId":3,"userType":"admin","tenantI…
+9:52:05 AM [express] GET /api/user-with-license 304 in 158ms :: {"id":3,"username":"zambelli.andrea.…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+9:52:05 AM [express] GET /api/client-app-info 200 in 263ms :: {"appName":"Gestionale Sanitario","ico…
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'zambelli andrea',
+  fontSize: 41,
+  fontFamily: 'Trebuchet MS',
+  fontStyle: 'normal',
+  color: '#FF1493',
+  enabled: true
+}
+9:52:05 AM [express] GET /api/company-name-settings 200 in 151ms :: {"businessName":"Studio Medico",…
+9:52:05 AM [express] GET /api/contact-info 200 in 156ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+9:52:05 AM [express] GET /api/license/license-info 304 in 153ms :: {"hasLicense":true,"type":"passep…
+9:52:05 AM [express] GET /api/license/has-pro-access 304 in 154ms :: true
+9:52:05 AM [express] GET /api/license/application-title 304 in 146ms :: {"title":"Gestionale Sanitar…
+🏢 [/api/company-name-settings] [desktop] GET per utente 3 (admin)
+🏢 [/api/company-name-settings] [desktop] Settings per utente 3 (admin): {
+  businessName: 'Studio Medico',
+  showBusinessName: true,
+  name: 'zambelli andrea',
+  fontSize: 41,
+  fontFamily: 'Trebuchet MS',
+  fontStyle: 'normal',
+  color: '#FF1493',
+  enabled: true
+}
+9:52:05 AM [express] GET /api/license/has-business-access 304 in 154ms :: true
+9:52:05 AM [express] GET /api/company-name-settings 200 in 151ms :: {"businessName":"Studio Medico",…
+9:52:05 AM [express] GET /api/contact-info 200 in 148ms :: {"email":"zambelli.andrea.1973@gmail.com"…
+✅ Icone PWA aggiornate per utente 3 con logo aziendale
+✅ [desktop] Icone PWA per utente 3, icon length: 212927
+9:52:06 AM [express] GET /api/client-app-info 200 in 266ms :: {"appName":"Gestionale Sanitario","ico…
+9:52:06 AM [express] POST /api/timezone-settings 200 in 142ms :: {"success":true,"timezone":"Europe/…

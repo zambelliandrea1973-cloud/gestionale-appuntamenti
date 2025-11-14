@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="100" fill="#ffffff"/>
+  
+  <!-- Fiore centrale -->
+  <circle cx="256" cy="256" r="60" fill="#FF7EB9"/>
+  
+  <!-- Petali -->
+  <ellipse cx="256" cy="146" rx="40" ry="60" fill="#7EB8FF"/>
+  <ellipse cx="256" cy="366" rx="40" ry="60" fill="#7EFFBE"/>
+  <ellipse cx="146" cy="256" rx="60" ry="40" fill="#FFCE7E"/>
+  <ellipse cx="366" cy="256" rx="60" ry="40" fill="#D67EFF"/>
+  
+  <!-- Petali diagonali -->
+  <ellipse cx="182" cy="182" rx="45" ry="45" transform="rotate(-45 182 182)" fill="#FF9E7E"/>
+  <ellipse cx="330" cy="182" rx="45" ry="45" transform="rotate(45 330 182)" fill="#7EFFD4"/>
+  <ellipse cx="182" cy="330" rx="45" ry="45" transform="rotate(45 182 330)" fill="#BAFF7E"/>
+  <ellipse cx="330" cy="330" rx="45" ry="45" transform="rotate(-45 330 330)" fill="#A77EFF"/>
+  
+  <!-- Centro del fiore -->
+  <circle cx="256" cy="256" r="35" fill="#FFE67E"/>
+  <circle cx="256" cy="256" r="20" fill="#FF9E7E"/>
+</svg>

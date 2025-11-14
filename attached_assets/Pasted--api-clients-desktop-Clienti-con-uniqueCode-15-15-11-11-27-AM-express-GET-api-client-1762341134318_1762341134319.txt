@@ -1,0 +1,31 @@
+]
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 15/15
+11:11:27 AM [express] GET /api/clients 200 in 266ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/ai/generate-campaign
+❌ [CAMPAIGN API] Errore: TypeError: Cannot read properties of undefined (reading 'Symbol(drizzle:Columns)')
+    at getTableColumns (/home/runner/workspace/node_modules/src/utils.ts:188:9)
+    at PgSelectBuilder.from (/home/runner/workspace/node_modules/src/pg-core/query-builders/select.ts:135:13)
+    at <anonymous> (/home/runner/workspace/server/simple-routes.ts:6273:46)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at requireAuth (/home/runner/workspace/server/simple-routes.ts:77:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home/runner/workspace/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/home/runner/workspace/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at checkTrialExpired (/home/runner/workspace/server/middleware/trialBlockMiddleware.ts:38:14)
+    at Layer.handle [as handle_request] (/home/runner/workspace/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/runner/workspace/node_modules/express/lib/router/index.js:328:13)
+    at /home/runner/workspace/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/runner/workspace/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/runner/workspace/node_modules/express/lib/router/index.js:280:10)
+    at strategy.pass (/home/runner/workspace/node_modules/passport/lib/middleware/authenticate.js:355:9)
+    at /home/runner/workspace/node_modules/passport/lib/strategies/session.js:120:12
+    at pass (/home/runner/workspace/node_modules/passport/lib/authenticator.js:352:31)
+    at deserialized (/home/runner/workspace/node_modules/passport/lib/authenticator.js:364:7)
+    at <anonymous> (/home/runner/workspace/server/auth.ts:207:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+11:11:39 AM [express] POST /api/ai/generate-campaign 500 in 231ms :: {"message":"Errore nella generaz…

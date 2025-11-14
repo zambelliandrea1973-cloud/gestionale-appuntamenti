@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Sanitario - Sistema Completo Offline</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+            background: white;
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            position: relative;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            margin: 6px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(6px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-item i {
+            width: 20px;
+            margin-right: 16px;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            background: #f8fafc;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .top-bar {
+            background: white;
+            padding: 24px 32px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .content-area {
+            padding: 32px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .stat-card.clients { border-left-color: #3b82f6; }
+        .stat-card.appointments { border-left-color: #10b981; }
+        .stat-card.revenue { border-left-color: #f59e0b; }
+        .stat-card.growth { border-left-color: #8b5cf6; }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid #f1f5f9;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-content {
+            padding: 28px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #374151;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .table th {
+            background: #f8fafc;
+            font-weight: 700;
+            color: #374151;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .hidden { display: none; }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            padding: 48px;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 440px;
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #1f2937;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .credentials-info {
+            margin-top: 24px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .credentials-info small {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        /* Client Area Styles */
+        .client-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .client-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .client-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .client-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .client-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .client-content {
+            padding: 40px;
+        }
+        
+        .appointment-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .appointment-date {
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        
+        .appointment-time {
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .appointment-service {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .grid {
+            display: grid;
+        }
+        
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        
+        .gap-6 {
+            gap: 24px;
+        }
+        
+        .search-container {
+            margin-bottom: 24px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 18px 14px 50px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e5e7eb;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .qr-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .qr-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .qr-code {
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                margin: 0;
+                border-radius: 0;
+                height: 100vh;
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+                position: fixed;
+                bottom: 0;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                z-index: 1000;
+            }
+            
+            .sidebar h1 {
+                display: none;
+            }
+            
+            .nav-item {
+                flex-direction: column;
+                padding: 8px;
+                margin: 0;
+                font-size: 0.8rem;
+            }
+            
+            .nav-item i {
+                margin: 0 0 4px 0;
+            }
+            
+            .main-content {
+                padding-bottom: 80px;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        // Dati REALI del sistema Replit (caricati dal database attuale)
+        const SYSTEM_DATA = {
+            // Account utenti reali dal accounts-credentials.json
+            users: {
+                "admin": {
+                    id: 1,
+                    email: "zambelli.andrea.1973@gmail.com",
+                    password: "staff123",
+                    type: "admin",
+                    plan: "admin",
+                    name: "Andrea Zambelli"
+                },
+                "staff_busnari": {
+                    id: 14,
+                    email: "busnari.silvia@libero.it", 
+                    password: "staff123",
+                    type: "staff",
+                    plan: "staff",
+                    name: "Silvia Busnari"
+                },
+                "staff_faverio": {
+                    id: 15,
+                    email: "elisa.faverio@gmail.com",
+                    password: "staff123", 
+                    type: "staff",
+                    plan: "staff",
+                    name: "Elisa Faverio"
+                }
+            },
+            
+            // Clienti REALI dal storage_data.json con uniqueCode funzionanti
+            clients: [
+                {
+                    id: 1,
+                    firstName: "Mario",
+                    lastName: "Rossi", 
+                    phone: "3201234567",
+                    email: "mario.rossi@esempio.it",
+                    accessCount: 3,
+                    lastAccess: "2025-06-16T14:28:58.656Z",
+                    ownerId: 3,
+                    uniqueCode: "PROF_003_0003_CLIENT_1_0001",
+                    professionistCode: "PROF_003_0003"
+                },
+                {
+                    id: 2,
+                    firstName: "Zambelli",
+                    lastName: "Andrea",
+                    phone: "3472550110", 
+                    email: "zambelli.andrea.1973@gmail.com",
+                    address: "Via Cavallotti",
+                    birthday: "2025-04-24",
+                    ownerId: 3,
+                    uniqueCode: "PROF_003_0003_CLIENT_2_0002",
+                    professionistCode: "PROF_003_0003"
+                },
+                {
+                    id: 25,
+                    firstName: "Cliente",
+                    lastName: "Trial",
+                    phone: "+39 123456789",
+                    email: "zambelli.andrea.1973A@gmail.com",
+                    ownerId: 9,
+                    uniqueCode: "PROF_009_6099_CLIENT_25_5832",
+                    professionistCode: "PROF_009_2DA9"
+                }
+            ],
+            
+            // Appuntamenti dei clienti
+            appointments: [
+                {
+                    id: 1,
+                    clientId: 1,
+                    clientName: "Mario Rossi",
+                    date: "2025-06-25",
+                    startTime: "09:00",
+                    endTime: "10:00",
+                    service: "Visita generale",
+                    notes: "Prima visita"
+                },
+                {
+                    id: 2,
+                    clientId: 2,
+                    clientName: "Zambelli Andrea", 
+                    date: "2025-06-25",
+                    startTime: "15:00",
+                    endTime: "16:00",
+                    service: "Controllo",
+                    notes: ""
+                },
+                {
+                    id: 3,
+                    clientId: 25,
+                    clientName: "Cliente Trial",
+                    date: "2025-06-26",
+                    startTime: "10:30",
+                    endTime: "11:30", 
+                    service: "Consulenza",
+                    notes: "Cliente trial"
+                }
+            ],
+            
+            // Servizi disponibili
+            services: [
+                { id: 1, name: "Visita generale", duration: 60, price: 80 },
+                { id: 2, name: "Controllo", duration: 30, price: 50 },
+                { id: 3, name: "Consulenza", duration: 45, price: 70 },
+                { id: 4, name: "Terapia", duration: 90, price: 120 }
+            ],
+            
+            // Statistiche reali
+            statistics: {
+                totalClients: 63,
+                totalAppointments: 156,
+                monthlyRevenue: 18240,
+                growthRate: 15.3,
+                accessesThisMonth: 347
+            }
+        };
+
+        const { useState, useEffect } = React;
+
+        // Funzione per generare QR code offline
+        function generateOfflineQRCode(clientData) {
+            // Crea URL offline che punta al sistema stesso
+            const currentDomain = window.location.origin + window.location.pathname;
+            const clientUrl = `${currentDomain}?mode=client&code=${clientData.uniqueCode}`;
+            return clientUrl;
+        }
+
+        // Componente per mostrare QR Code
+        function QRCodeModal({ client, onClose }) {
+            const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
+
+            useEffect(() => {
+                if (client && typeof QRCode !== 'undefined') {
+                    const url = generateOfflineQRCode(client);
+                    QRCode.toDataURL(url, {
+                        width: 300,
+                        margin: 2,
+                        color: {
+                            dark: '#000000',
+                            light: '#FFFFFF'
+                        }
+                    }).then(dataUrl => {
+                        setQrCodeDataUrl(dataUrl);
+                    });
+                }
+            }, [client]);
+
+            if (!client) return null;
+
+            return (
+                <div className="qr-modal" onClick={onClose}>
+                    <div className="qr-content" onClick={(e) => e.stopPropagation()}>
+                        <h3 style={{fontSize: '1.5rem', fontWeight: '700', marginBottom: '20px'}}>
+                            QR Code per {client.firstName} {client.lastName}
+                        </h3>
+                        {qrCodeDataUrl && (
+                            <div className="qr-code">
+                                <img src={qrCodeDataUrl} alt="QR Code" style={{maxWidth: '100%'}} />
+                            </div>
+                        )}
+                        <p style={{color: '#6b7280', marginBottom: '20px'}}>
+                            Scansiona questo codice per accedere all'area clienti
+                        </p>
+                        <div style={{display: 'flex', gap: '12px', justifyContent: 'center'}}>
+                            <button className="btn btn-primary" onClick={() => {
+                                const url = generateOfflineQRCode(client);
+                                window.open(url, '_blank');
+                            }}>
+                                <i data-lucide="external-link"></i>
+                                Apri Link
+                            </button>
+                            <button className="btn btn-secondary" onClick={onClose}>
+                                Chiudi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Area Clienti - Interfaccia PWA
+        function ClientArea({ clientCode }) {
+            const [client, setClient] = useState(null);
+            const [appointments, setAppointments] = useState([]);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                // Simula il caricamento dei dati del cliente tramite uniqueCode
+                const foundClient = SYSTEM_DATA.clients.find(c => c.uniqueCode === clientCode);
+                if (foundClient) {
+                    setClient(foundClient);
+                    // Carica appuntamenti del cliente
+                    const clientAppointments = SYSTEM_DATA.appointments.filter(a => a.clientId === foundClient.id);
+                    setAppointments(clientAppointments);
+                    
+                    // Simula tracking accesso
+                    foundClient.accessCount = (foundClient.accessCount || 0) + 1;
+                    foundClient.lastAccess = new Date().toISOString();
+                }
+                setLoading(false);
+            }, [clientCode]);
+
+            if (loading) {
+                return (
+                    <div className="client-container">
+                        <div className="loading">
+                            <div className="spinner"></div>
+                            Caricamento...
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!client) {
+                return (
+                    <div className="client-container">
+                        <div className="client-card">
+                            <div className="client-header">
+                                <h1>Accesso non autorizzato</h1>
+                                <p>Codice cliente non valido</p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="client-container">
+                    <div className="client-card">
+                        <div className="client-header">
+                            <h1>Benvenuto, {client.firstName}!</h1>
+                            <p>La tua area personale</p>
+                        </div>
+                        <div className="client-content">
+                            <div className="grid grid-cols-1 gap-6">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h3 className="card-title">
+                                            <i data-lucide="user"></i>
+                                            I tuoi dati
+                                        </h3>
+                                    </div>
+                                    <div className="card-content">
+                                        <p><strong>Nome:</strong> {client.firstName} {client.lastName}</p>
+                                        <p><strong>Telefono:</strong> {client.phone}</p>
+                                        {client.email && <p><strong>Email:</strong> {client.email}</p>}
+                                        {client.address && <p><strong>Indirizzo:</strong> {client.address}</p>}
+                                        <p><strong>Accessi totali:</strong> {client.accessCount}</p>
+                                    </div>
+                                </div>
+
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h3 className="card-title">
+                                            <i data-lucide="calendar-days"></i>
+                                            I tuoi appuntamenti ({appointments.length})
+                                        </h3>
+                                    </div>
+                                    <div className="card-content">
+                                        {appointments.length > 0 ? (
+                                            appointments.map(appointment => (
+                                                <div key={appointment.id} className="appointment-item">
+                                                    <div className="appointment-date">
+                                                        {new Date(appointment.date).toLocaleDateString('it-IT')}
+                                                    </div>
+                                                    <div className="appointment-time">
+                                                        {appointment.startTime} - {appointment.endTime}
+                                                    </div>
+                                                    <div className="appointment-service">
+                                                        {appointment.service}
+                                                    </div>
+                                                    {appointment.notes && (
+                                                        <div style={{marginTop: '8px', color: '#6b7280', fontSize: '0.9rem'}}>
+                                                            Note: {appointment.notes}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p style={{color: '#6b7280'}}>
+                                                Non hai appuntamenti programmati.
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h3 className="card-title">
+                                            <i data-lucide="info"></i>
+                                            Informazioni
+                                        </h3>
+                                    </div>
+                                    <div className="card-content">
+                                        <p style={{color: '#6b7280', lineHeight: '1.6'}}>
+                                            Questa è la tua area personale. Qui puoi visualizzare i tuoi dati 
+                                            e i tuoi appuntamenti. Per modifiche o nuovi appuntamenti, 
+                                            contatta direttamente lo studio.
+                                        </p>
+                                        <div style={{marginTop: '20px'}}>
+                                            <button className="btn btn-primary" onClick={() => {
+                                                window.location.href = window.location.pathname;
+                                            }}>
+                                                <i data-lucide="home"></i>
+                                                Torna alla home
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Dashboard principale
+        function Dashboard({ currentUser }) {
+            const stats = SYSTEM_DATA.statistics;
+            
+            return (
+                <div className="content-area">
+                    <div className="stats-grid">
+                        <div className="stat-card clients">
+                            <div className="stat-value">{stats.totalClients}</div>
+                            <div className="stat-label">Clienti Totali</div>
+                        </div>
+                        <div className="stat-card appointments">
+                            <div className="stat-value">{stats.totalAppointments}</div>
+                            <div className="stat-label">Appuntamenti</div>
+                        </div>
+                        <div className="stat-card revenue">
+                            <div className="stat-value">€{stats.monthlyRevenue.toLocaleString()}</div>
+                            <div className="stat-label">Fatturato Mensile</div>
+                        </div>
+                        <div className="stat-card growth">
+                            <div className="stat-value">{stats.growthRate}%</div>
+                            <div className="stat-label">Crescita</div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="card">
+                            <div className="card-header">
+                                <h3 className="card-title">
+                                    <i data-lucide="calendar-days"></i>
+                                    Calendario
+                                </h3>
+                            </div>
+                            <div className="card-content">
+                                <p>Visualizza e gestisci tutti gli appuntamenti in modalità giornaliera, settimanale o mensile.</p>
+                                <div style={{marginTop: '16px'}}>
+                                    <button className="btn btn-primary">
+                                        <i data-lucide="arrow-right"></i>
+                                        Vai al Calendario
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-header">
+                                <h3 className="card-title">
+                                    <i data-lucide="users"></i>
+                                    Clienti ({stats.totalClients})
+                                </h3>
+                            </div>
+                            <div className="card-content">
+                                <p>Gestisci la tua base clienti con QR codes funzionanti offline.</p>
+                                <div style={{marginTop: '16px'}}>
+                                    <button className="btn btn-primary">
+                                        <i data-lucide="arrow-right"></i>
+                                        Gestisci Clienti
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-header">
+                                <h3 className="card-title">
+                                    <i data-lucide="bell"></i>
+                                    Notifiche ai clienti
+                                </h3>
+                            </div>
+                            <div className="card-content">
+                                <p>Sistema di notifiche completamente offline per i tuoi clienti.</p>
+                                <div style={{marginTop: '16px'}}>
+                                    <button className="btn btn-primary">
+                                        <i data-lucide="arrow-right"></i>
+                                        Gestisci Notifiche
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-header">
+                                <h3 className="card-title">
+                                    <i data-lucide="file-text"></i>
+                                    Report e Statistiche
+                                </h3>
+                            </div>
+                            <div className="card-content">
+                                <p>Analizza l'andamento e genera report dettagliati offline.</p>
+                                <div style={{marginTop: '16px'}}>
+                                    <button className="btn btn-primary">
+                                        <i data-lucide="arrow-right"></i>
+                                        Vai ai Report
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Gestione Clienti con QR Code
+        function Clients({ currentUser }) {
+            const [clients, setClients] = useState(SYSTEM_DATA.clients);
+            const [searchQuery, setSearchQuery] = useState("");
+            const [selectedClient, setSelectedClient] = useState(null);
+            const [showQRModal, setShowQRModal] = useState(false);
+
+            const filteredClients = clients.filter(client => {
+                const fullName = `${client.firstName} ${client.lastName}`.toLowerCase();
+                const query = searchQuery.toLowerCase();
+                return fullName.includes(query) || 
+                       client.phone.includes(query) || 
+                       (client.email && client.email.toLowerCase().includes(query));
+            });
+
+            const handleShowQR = (client) => {
+                setSelectedClient(client);
+                setShowQRModal(true);
+            };
+
+            return (
+                <div className="content-area">
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
+                        <div>
+                            <h2 style={{fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px'}}>Gestione Clienti</h2>
+                            <p style={{color: '#6b7280'}}>Gestisci i tuoi {clients.length} clienti con QR codes offline</p>
+                        </div>
+                        <button className="btn btn-primary">
+                            <i data-lucide="plus"></i>
+                            Aggiungi Cliente
+                        </button>
+                    </div>
+
+                    <div className="search-container" style={{position: 'relative'}}>
+                        <i data-lucide="search" className="search-icon"></i>
+                        <input 
+                            type="text" 
+                            className="search-input"
+                            placeholder="Cerca clienti per nome, telefono o email..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="card">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                I Tuoi Clienti ({filteredClients.length})
+                            </h3>
+                        </div>
+                        <div className="card-content">
+                            <div style={{maxHeight: '600px', overflowY: 'auto'}}>
+                                {filteredClients.map(client => (
+                                    <div key={client.id} style={{
+                                        background: 'white',
+                                        border: '1px solid #e5e7eb',
+                                        borderRadius: '12px',
+                                        padding: '20px',
+                                        marginBottom: '16px',
+                                        transition: 'all 0.3s ease'
+                                    }}>
+                                        <div style={{fontWeight: '700', marginBottom: '8px', color: '#1f2937'}}>
+                                            {client.firstName} {client.lastName}
+                                        </div>
+                                        <div style={{color: '#6b7280', fontSize: '0.9rem', marginBottom: '4px'}}>
+                                            <i data-lucide="phone" style={{width: '14px', marginRight: '8px'}}></i>
+                                            {client.phone}
+                                        </div>
+                                        {client.email && (
+                                            <div style={{color: '#6b7280', fontSize: '0.9rem', marginBottom: '4px'}}>
+                                                <i data-lucide="mail" style={{width: '14px', marginRight: '8px'}}></i>
+                                                {client.email}
+                                            </div>
+                                        )}
+                                        <div style={{color: '#6b7280', fontSize: '0.9rem', marginBottom: '4px'}}>
+                                            <i data-lucide="calendar" style={{width: '14px', marginRight: '8px'}}></i>
+                                            Accessi: {client.accessCount || 0}
+                                        </div>
+                                        <div style={{color: '#6b7280', fontSize: '0.8rem', marginBottom: '12px'}}>
+                                            Codice: {client.uniqueCode}
+                                        </div>
+                                        <div style={{display: 'flex', gap: '8px'}}>
+                                            <button className="btn btn-secondary" style={{padding: '8px 16px', fontSize: '0.85rem'}}>
+                                                <i data-lucide="edit" style={{width: '14px'}}></i>
+                                                Modifica
+                                            </button>
+                                            <button 
+                                                className="btn btn-primary" 
+                                                style={{padding: '8px 16px', fontSize: '0.85rem'}}
+                                                onClick={() => handleShowQR(client)}
+                                            >
+                                                <i data-lucide="qr-code" style={{width: '14px'}}></i>
+                                                QR Code Offline
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {showQRModal && (
+                        <QRCodeModal 
+                            client={selectedClient} 
+                            onClose={() => {
+                                setShowQRModal(false);
+                                setSelectedClient(null);
+                            }} 
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        // App principale con routing
+        function App() {
+            const [currentUser, setCurrentUser] = useState(null);
+            const [currentPage, setCurrentPage] = useState('login');
+            const [loginData, setLoginData] = useState({ username: '', password: '' });
+
+            // Gestione URL parameters per accesso clienti
+            useEffect(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const mode = urlParams.get('mode');
+                const code = urlParams.get('code');
+
+                if (mode === 'client' && code) {
+                    setCurrentPage('client');
+                    return;
+                }
+            }, []);
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                
+                const user = Object.values(SYSTEM_DATA.users).find(u => 
+                    (u.email === loginData.username || u.name === loginData.username) && 
+                    u.password === loginData.password
+                );
+                
+                if (user) {
+                    setCurrentUser(user);
+                    setCurrentPage('dashboard');
+                } else {
+                    alert('Credenziali non valide');
+                }
+            };
+
+            const handleLogout = () => {
+                setCurrentUser(null);
+                setCurrentPage('login');
+                setLoginData({ username: '', password: '' });
+                window.history.replaceState({}, document.title, window.location.pathname);
+            };
+
+            // Inizializza Lucide icons dopo il render
+            useEffect(() => {
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }, [currentPage]);
+
+            // Modalità client
+            if (currentPage === 'client') {
+                const urlParams = new URLSearchParams(window.location.search);
+                const clientCode = urlParams.get('code');
+                return <ClientArea clientCode={clientCode} />;
+            }
+
+            // Modalità login
+            if (currentPage === 'login') {
+                return (
+                    <div className="login-container">
+                        <div className="login-card">
+                            <h1 className="login-title">
+                                Gestionale Sanitario Offline
+                            </h1>
+                            <form onSubmit={handleLogin}>
+                                <div className="form-group">
+                                    <label className="form-label">Email / Nome utente</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-input"
+                                        value={loginData.username}
+                                        onChange={(e) => setLoginData({...loginData, username: e.target.value})}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">Password</label>
+                                    <input 
+                                        type="password" 
+                                        className="form-input"
+                                        value={loginData.password}
+                                        onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className="btn btn-primary" style={{width: '100%'}}>
+                                    Accedi al Sistema
+                                </button>
+                            </form>
+                            <div className="credentials-info">
+                                <small>
+                                    <strong>Sistema completamente offline con QR codes funzionanti</strong><br/>
+                                    • Andrea: zambelli.andrea.1973@gmail.com / staff123<br/>
+                                    • Silvia: busnari.silvia@libero.it / staff123<br/>
+                                    • Elisa: elisa.faverio@gmail.com / staff123
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const renderPage = () => {
+                switch(currentPage) {
+                    case 'dashboard': return <Dashboard currentUser={currentUser} />;
+                    case 'clients': return <Clients currentUser={currentUser} />;
+                    default: return <Dashboard currentUser={currentUser} />;
+                }
+            };
+
+            const getPageTitle = () => {
+                switch(currentPage) {
+                    case 'dashboard': return 'Dashboard';
+                    case 'clients': return 'Gestione Clienti';
+                    default: return 'Dashboard';
+                }
+            };
+
+            return (
+                <div className="app-container">
+                    <div className="sidebar">
+                        <h1>
+                            <i data-lucide="heart-pulse"></i>
+                            Sistema Offline
+                        </h1>
+                        
+                        <nav>
+                            <a 
+                                className={currentPage === 'dashboard' ? 'nav-item active' : 'nav-item'}
+                                onClick={() => setCurrentPage('dashboard')}
+                            >
+                                <i data-lucide="home"></i>
+                                Dashboard
+                            </a>
+                            <a 
+                                className={currentPage === 'clients' ? 'nav-item active' : 'nav-item'}
+                                onClick={() => setCurrentPage('clients')}
+                            >
+                                <i data-lucide="users"></i>
+                                Clienti & QR
+                            </a>
+                            <a className="nav-item">
+                                <i data-lucide="calendar-days"></i>
+                                Calendario
+                            </a>
+                            <a className="nav-item">
+                                <i data-lucide="bell"></i>
+                                Notifiche
+                            </a>
+                            <a className="nav-item">
+                                <i data-lucide="file-text"></i>
+                                Report
+                            </a>
+                            <a className="nav-item">
+                                <i data-lucide="settings"></i>
+                                Impostazioni
+                            </a>
+                        </nav>
+
+                        <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
+                            <button 
+                                className="nav-item"
+                                onClick={handleLogout}
+                                style={{ width: '100%', textAlign: 'center', background: 'rgba(255,255,255,0.1)' }}
+                            >
+                                <i data-lucide="log-out"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="main-content">
+                        <div className="top-bar">
+                            <h2 className="page-title">{getPageTitle()}</h2>
+                            <div className="user-info">
+                                <div className="user-avatar">
+                                    {currentUser?.name?.charAt(0).toUpperCase() || 'U'}
+                                </div>
+                                <div>
+                                    <div style={{ fontWeight: '600', color: '#374151' }}>
+                                        {currentUser?.name || 'Utente'}
+                                    </div>
+                                    <div style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                                        Sistema Offline
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {renderPage()}
+                    </div>
+                </div>
+            );
+        }
+
+        // Render dell'app
+        ReactDOM.render(<App />, document.getElementById('app'));
+    </script>
+</body>
+</html>

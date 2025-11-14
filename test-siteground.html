@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Connessione SiteGround</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .status {
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        .success {
+            background: rgba(0,255,0,0.2);
+            border: 2px solid #00ff00;
+        }
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Connessione Riuscita!</h1>
+        
+        <div class="status success">
+            <strong>✅ SUCCESSO!</strong><br>
+            Il file è stato caricato correttamente su SiteGround
+        </div>
+        
+        <div class="status">
+            <strong>Timestamp:</strong> <span id="timestamp"></span><br>
+            <strong>Dominio:</strong> <span id="domain"></span><br>
+            <strong>Test ID:</strong> TST_24062025_001
+        </div>
+        
+        <p>Se vedi questo messaggio, il caricamento su SiteGround funziona perfettamente!</p>
+        
+        <a href="#" class="btn" onclick="proceedToGestionale()">
+            🚀 Procedi al Gestionale Completo
+        </a>
+        
+        <a href="gestionale-completo-con-database.html" class="btn">
+            📋 Vai al Sistema Completo
+        </a>
+    </div>
+
+    <script>
+        // Mostra timestamp corrente
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('it-IT');
+        document.getElementById('domain').textContent = window.location.hostname;
+        
+        function proceedToGestionale() {
+            alert('Test completato! Ora puoi aggiornare il pulsante Elementor con questo URL.');
+            window.location.href = 'gestionale-completo-con-database.html';
+        }
+        
+        // Test di funzionalità JavaScript
+        console.log('✅ Test SiteGround: JavaScript funziona correttamente');
+        console.log('🌐 Dominio:', window.location.hostname);
+        console.log('📍 URL completo:', window.location.href);
+    </script>
+</body>
+</html>

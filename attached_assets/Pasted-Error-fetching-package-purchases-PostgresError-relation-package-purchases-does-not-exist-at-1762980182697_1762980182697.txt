@@ -1,0 +1,84 @@
+Error fetching package purchases: PostgresError: relation "package_purchases" does not exist
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '588',
+  file: 'parse_relation.c',
+  line: '1449',
+  routine: 'parserOpenTable'
+}
+8:41:51 PM [express] GET /api/packages/purchases 500 in 116ms :: {"message":"Error fetching package …
+🔍 DatabaseStorage: Staff 14 cerca clienti con prefisso BUS
+✅ Impostazioni valuta trovate per utente 14: { currency: 'EUR', symbol: '€' }
+8:41:51 PM [express] GET /api/currency-settings 304 in 157ms :: {"currency":"EUR","symbol":"€"}
+✅ NUOVO Sistema: 6 servizi per utente 14 - SEPARAZIONE COMPLETA
+🔧 [/api/services] [desktop] Caricati 6 servizi da PostgreSQL per utente 14
+8:41:51 PM [express] GET /api/services 200 in 156ms :: [{"id":91,"userId":14,"name":"Controllo","dur…
+✅ DatabaseStorage: Staff 14 (BUS) vede 14 clienti
+📦 [/api/clients] [desktop] Caricati 14 clienti da PostgreSQL (solo propri)
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+  {
+    "id": 75,
+    "firstName": "ADV",
+    "lastName": "ADSVA",
+    "uniqueCode": "PROF_014_9C1F_C14005",
+    "ownerId": 14
+  },
+  {
+    "id": 70,
+    "firstName": "Marco",
+    "lastName": "Berto",
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+    "ownerId": 14
+  },
+  {
+    "id": 95,
+    "firstName": "Luisa ",
+    "lastName": "Brendolini",
+    "uniqueCode": "PROF_014_9C1F_C00095",
+    "ownerId": 14
+  },
+  {
+    "id": 86,
+    "firstName": "Ffff",
+    "lastName": "Dddd",
+    "uniqueCode": "PROF_014_9C1F_C00086",
+    "ownerId": 14
+  },
+  {
+    "id": 82,
+    "firstName": "Erika ",
+    "lastName": "Dipietro",
+    "uniqueCode": "PROF_014_9C1F_C00082",
+    "ownerId": 14
+  }
+]
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 14/14
+8:41:51 PM [express] GET /api/clients 200 in 235ms :: [{"id":75,"userId":14,"firstName":"ADV","lastN…
+🔒 [TRIAL CHECK] User 14 (staff/staff) accessing /api/packages/templates
+❌ Error creating package template: PostgresError: relation "package_templates" does not exist
+    at ErrorResponse (file:///home/runner/workspace/node_modules/postgres/src/connection.js:788:26)
+    at handle (file:///home/runner/workspace/node_modules/postgres/src/connection.js:474:6)
+    at TLSSocket.data (file:///home/runner/workspace/node_modules/postgres/src/connection.js:315:9)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '13',
+  file: 'parse_relation.c',
+  line: '1449',
+  routine: 'parserOpenTable'
+}
+8:42:11 PM [express] POST /api/packages/templates 500 in 184ms :: {"message":"Error creating package…

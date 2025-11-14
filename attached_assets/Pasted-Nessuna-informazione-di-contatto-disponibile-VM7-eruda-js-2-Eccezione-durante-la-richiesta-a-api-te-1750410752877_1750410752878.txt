@@ -1,0 +1,355 @@
+Nessuna informazione di contatto disponibile
+VM7 eruda.js:2 Eccezione durante la richiesta a /api/tenant-context: TypeError: Failed to fetch
+    at window.fetch (VM7 eruda.js:2:218642)
+    at apiRequest (VM62 queryClient.ts:72:23)
+    at queryFn (VM68 use-tenant-context.tsx:34:32)
+    at Object.fetchFn [as fn] (VM61 @tanstack_react-query.js:840:14)
+    at run (VM61 @tanstack_react-query.js:494:49)
+    at Object.start (VM61 @tanstack_react-query.js:536:9)
+    at _a4.fetch (VM61 @tanstack_react-query.js:926:41)
+    at _a9.executeFetch_fn (VM61 @tanstack_react-query.js:2211:51)
+    at _a9.setOptions (VM61 @tanstack_react-query.js:1955:72)
+    at VM61 @tanstack_react-query.js:3032:14
+Mt.forEach.n.<computed> @ VM7 eruda.js:2
+apiRequest @ VM62 queryClient.ts:89
+await in apiRequest
+queryFn @ VM68 use-tenant-context.tsx:34
+fetchFn @ VM61 @tanstack_react-query.js:840
+run @ VM61 @tanstack_react-query.js:494
+start @ VM61 @tanstack_react-query.js:536
+fetch @ VM61 @tanstack_react-query.js:926
+executeFetch_fn @ VM61 @tanstack_react-query.js:2211
+setOptions @ VM61 @tanstack_react-query.js:1955
+(anonymous) @ VM61 @tanstack_react-query.js:3032
+commitHookEffectListMount @ VM43 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM43 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM43 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM43 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM43 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM43 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM43 chunk-C43VWYGG.js:19415
+commitRootImpl @ VM43 chunk-C43VWYGG.js:19384
+commitRoot @ VM43 chunk-C43VWYGG.js:19245
+performSyncWorkOnRoot @ VM43 chunk-C43VWYGG.js:18863
+flushSyncCallbacks @ VM43 chunk-C43VWYGG.js:9119
+(anonymous) @ VM43 chunk-C43VWYGG.js:18595
+setTimeout
+scheduleFn @ VM61 @tanstack_react-query.js:555
+flush @ VM61 @tanstack_react-query.js:569
+batch @ VM61 @tanstack_react-query.js:587
+dispatch_fn @ VM61 @tanstack_react-query.js:996
+setData @ VM61 @tanstack_react-query.js:696
+onSuccess @ VM61 @tanstack_react-query.js:897
+resolve @ VM61 @tanstack_react-query.js:456
+Promise.then
+run @ VM61 @tanstack_react-query.js:498
+start @ VM61 @tanstack_react-query.js:536
+fetch @ VM61 @tanstack_react-query.js:926
+(anonymous) @ VM61 @tanstack_react-query.js:1726
+(anonymous) @ VM61 @tanstack_react-query.js:1725
+batch @ VM61 @tanstack_react-query.js:583
+refetchQueries @ VM61 @tanstack_react-query.js:1724
+(anonymous) @ VM61 @tanstack_react-query.js:1716
+batch @ VM61 @tanstack_react-query.js:583
+invalidateQueries @ VM61 @tanstack_react-query.js:1705
+onSuccess @ VM91 StaffLogin.tsx:65
+execute @ VM61 @tanstack_react-query.js:1233
+await in execute
+mutate @ VM61 @tanstack_react-query.js:2630
+(anonymous) @ VM61 @tanstack_react-query.js:3295
+handleSubmit @ VM91 StaffLogin.tsx:98
+callCallback2 @ VM43 chunk-C43VWYGG.js:3674
+invokeGuardedCallbackDev @ VM43 chunk-C43VWYGG.js:3699
+invokeGuardedCallback @ VM43 chunk-C43VWYGG.js:3733
+invokeGuardedCallbackAndCatchFirstError @ VM43 chunk-C43VWYGG.js:3736
+executeDispatch @ VM43 chunk-C43VWYGG.js:7014
+processDispatchQueueItemsInOrder @ VM43 chunk-C43VWYGG.js:7034
+processDispatchQueue @ VM43 chunk-C43VWYGG.js:7043
+dispatchEventsForPlugins @ VM43 chunk-C43VWYGG.js:7051
+(anonymous) @ VM43 chunk-C43VWYGG.js:7174
+batchedUpdates$1 @ VM43 chunk-C43VWYGG.js:18881
+batchedUpdates @ VM43 chunk-C43VWYGG.js:3579
+dispatchEventForPluginEventSystem @ VM43 chunk-C43VWYGG.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ VM43 chunk-C43VWYGG.js:5478
+dispatchEvent @ VM43 chunk-C43VWYGG.js:5472
+dispatchDiscreteEvent @ VM43 chunk-C43VWYGG.js:5449Understand this error
+VM7 eruda.js:2 Eccezione durante la richiesta a /api/contact-info: TypeError: Failed to fetch
+    at window.fetch (VM7 eruda.js:2:218642)
+    at apiRequest (VM62 queryClient.ts:72:23)
+    at loadContactInfoFromAPI (VM180 contactInfo.ts:10:28)
+    at loadContactData (VM109 FooterContactIcons.tsx:37:29)
+    at VM109 FooterContactIcons.tsx:47:7
+    at commitHookEffectListMount (VM43 chunk-C43VWYGG.js:16883:34)
+    at commitPassiveMountOnFiber (VM43 chunk-C43VWYGG.js:18124:19)
+    at commitPassiveMountEffects_complete (VM43 chunk-C43VWYGG.js:18097:17)
+    at commitPassiveMountEffects_begin (VM43 chunk-C43VWYGG.js:18087:15)
+    at commitPassiveMountEffects (VM43 chunk-C43VWYGG.js:18077:11)
+Mt.forEach.n.<computed> @ VM7 eruda.js:2
+apiRequest @ VM62 queryClient.ts:89
+await in apiRequest
+loadContactInfoFromAPI @ VM180 contactInfo.ts:10
+loadContactData @ VM109 FooterContactIcons.tsx:37
+(anonymous) @ VM109 FooterContactIcons.tsx:47
+commitHookEffectListMount @ VM43 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM43 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM43 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM43 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM43 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM43 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM43 chunk-C43VWYGG.js:19415
+commitRootImpl @ VM43 chunk-C43VWYGG.js:19384
+commitRoot @ VM43 chunk-C43VWYGG.js:19245
+performSyncWorkOnRoot @ VM43 chunk-C43VWYGG.js:18863
+flushSyncCallbacks @ VM43 chunk-C43VWYGG.js:9119
+(anonymous) @ VM43 chunk-C43VWYGG.js:18595
+setTimeout
+scheduleFn @ VM61 @tanstack_react-query.js:555
+flush @ VM61 @tanstack_react-query.js:569
+batch @ VM61 @tanstack_react-query.js:587
+dispatch_fn @ VM61 @tanstack_react-query.js:996
+setData @ VM61 @tanstack_react-query.js:696
+onSuccess @ VM61 @tanstack_react-query.js:897
+resolve @ VM61 @tanstack_react-query.js:456
+Promise.then
+run @ VM61 @tanstack_react-query.js:498
+start @ VM61 @tanstack_react-query.js:536
+fetch @ VM61 @tanstack_react-query.js:926
+(anonymous) @ VM61 @tanstack_react-query.js:1726
+(anonymous) @ VM61 @tanstack_react-query.js:1725
+batch @ VM61 @tanstack_react-query.js:583
+refetchQueries @ VM61 @tanstack_react-query.js:1724
+(anonymous) @ VM61 @tanstack_react-query.js:1716
+batch @ VM61 @tanstack_react-query.js:583
+invalidateQueries @ VM61 @tanstack_react-query.js:1705
+onSuccess @ VM91 StaffLogin.tsx:65
+execute @ VM61 @tanstack_react-query.js:1233
+await in execute
+mutate @ VM61 @tanstack_react-query.js:2630
+(anonymous) @ VM61 @tanstack_react-query.js:3295
+handleSubmit @ VM91 StaffLogin.tsx:98
+callCallback2 @ VM43 chunk-C43VWYGG.js:3674
+invokeGuardedCallbackDev @ VM43 chunk-C43VWYGG.js:3699
+invokeGuardedCallback @ VM43 chunk-C43VWYGG.js:3733
+invokeGuardedCallbackAndCatchFirstError @ VM43 chunk-C43VWYGG.js:3736
+executeDispatch @ VM43 chunk-C43VWYGG.js:7014
+processDispatchQueueItemsInOrder @ VM43 chunk-C43VWYGG.js:7034
+processDispatchQueue @ VM43 chunk-C43VWYGG.js:7043
+dispatchEventsForPlugins @ VM43 chunk-C43VWYGG.js:7051
+(anonymous) @ VM43 chunk-C43VWYGG.js:7174
+batchedUpdates$1 @ VM43 chunk-C43VWYGG.js:18881
+batchedUpdates @ VM43 chunk-C43VWYGG.js:3579
+dispatchEventForPluginEventSystem @ VM43 chunk-C43VWYGG.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ VM43 chunk-C43VWYGG.js:5478
+dispatchEvent @ VM43 chunk-C43VWYGG.js:5472
+dispatchDiscreteEvent @ VM43 chunk-C43VWYGG.js:5449Understand this error
+VM7 eruda.js:2 Errore caricamento contesto tenant: TypeError: Failed to fetch
+    at window.fetch (VM7 eruda.js:2:218642)
+    at apiRequest (VM62 queryClient.ts:72:23)
+    at queryFn (VM68 use-tenant-context.tsx:34:32)
+    at Object.fetchFn [as fn] (VM61 @tanstack_react-query.js:840:14)
+    at run (VM61 @tanstack_react-query.js:494:49)
+    at Object.start (VM61 @tanstack_react-query.js:536:9)
+    at _a4.fetch (VM61 @tanstack_react-query.js:926:41)
+    at _a9.executeFetch_fn (VM61 @tanstack_react-query.js:2211:51)
+    at _a9.setOptions (VM61 @tanstack_react-query.js:1955:72)
+    at VM61 @tanstack_react-query.js:3032:14
+Mt.forEach.n.<computed> @ VM7 eruda.js:2
+queryFn @ VM68 use-tenant-context.tsx:48
+await in queryFn
+fetchFn @ VM61 @tanstack_react-query.js:840
+run @ VM61 @tanstack_react-query.js:494
+start @ VM61 @tanstack_react-query.js:536
+fetch @ VM61 @tanstack_react-query.js:926
+executeFetch_fn @ VM61 @tanstack_react-query.js:2211
+setOptions @ VM61 @tanstack_react-query.js:1955
+(anonymous) @ VM61 @tanstack_react-query.js:3032
+commitHookEffectListMount @ VM43 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM43 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM43 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM43 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM43 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM43 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM43 chunk-C43VWYGG.js:19415
+commitRootImpl @ VM43 chunk-C43VWYGG.js:19384
+commitRoot @ VM43 chunk-C43VWYGG.js:19245
+performSyncWorkOnRoot @ VM43 chunk-C43VWYGG.js:18863
+flushSyncCallbacks @ VM43 chunk-C43VWYGG.js:9119
+(anonymous) @ VM43 chunk-C43VWYGG.js:18595
+setTimeout
+scheduleFn @ VM61 @tanstack_react-query.js:555
+flush @ VM61 @tanstack_react-query.js:569
+batch @ VM61 @tanstack_react-query.js:587
+dispatch_fn @ VM61 @tanstack_react-query.js:996
+setData @ VM61 @tanstack_react-query.js:696
+onSuccess @ VM61 @tanstack_react-query.js:897
+resolve @ VM61 @tanstack_react-query.js:456
+Promise.then
+run @ VM61 @tanstack_react-query.js:498
+start @ VM61 @tanstack_react-query.js:536
+fetch @ VM61 @tanstack_react-query.js:926
+(anonymous) @ VM61 @tanstack_react-query.js:1726
+(anonymous) @ VM61 @tanstack_react-query.js:1725
+batch @ VM61 @tanstack_react-query.js:583
+refetchQueries @ VM61 @tanstack_react-query.js:1724
+(anonymous) @ VM61 @tanstack_react-query.js:1716
+batch @ VM61 @tanstack_react-query.js:583
+invalidateQueries @ VM61 @tanstack_react-query.js:1705
+onSuccess @ VM91 StaffLogin.tsx:65
+execute @ VM61 @tanstack_react-query.js:1233
+await in execute
+mutate @ VM61 @tanstack_react-query.js:2630
+(anonymous) @ VM61 @tanstack_react-query.js:3295
+handleSubmit @ VM91 StaffLogin.tsx:98
+callCallback2 @ VM43 chunk-C43VWYGG.js:3674
+invokeGuardedCallbackDev @ VM43 chunk-C43VWYGG.js:3699
+invokeGuardedCallback @ VM43 chunk-C43VWYGG.js:3733
+invokeGuardedCallbackAndCatchFirstError @ VM43 chunk-C43VWYGG.js:3736
+executeDispatch @ VM43 chunk-C43VWYGG.js:7014
+processDispatchQueueItemsInOrder @ VM43 chunk-C43VWYGG.js:7034
+processDispatchQueue @ VM43 chunk-C43VWYGG.js:7043
+dispatchEventsForPlugins @ VM43 chunk-C43VWYGG.js:7051
+(anonymous) @ VM43 chunk-C43VWYGG.js:7174
+batchedUpdates$1 @ VM43 chunk-C43VWYGG.js:18881
+batchedUpdates @ VM43 chunk-C43VWYGG.js:3579
+dispatchEventForPluginEventSystem @ VM43 chunk-C43VWYGG.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ VM43 chunk-C43VWYGG.js:5478
+dispatchEvent @ VM43 chunk-C43VWYGG.js:5472
+dispatchDiscreteEvent @ VM43 chunk-C43VWYGG.js:5449Understand this error
+VM7 eruda.js:2 Errore durante il recupero delle informazioni di contatto dall'API: TypeError: Failed to fetch
+    at window.fetch (VM7 eruda.js:2:218642)
+    at apiRequest (VM62 queryClient.ts:72:23)
+    at loadContactInfoFromAPI (VM180 contactInfo.ts:10:28)
+    at loadContactData (VM109 FooterContactIcons.tsx:37:29)
+    at VM109 FooterContactIcons.tsx:47:7
+    at commitHookEffectListMount (VM43 chunk-C43VWYGG.js:16883:34)
+    at commitPassiveMountOnFiber (VM43 chunk-C43VWYGG.js:18124:19)
+    at commitPassiveMountEffects_complete (VM43 chunk-C43VWYGG.js:18097:17)
+    at commitPassiveMountEffects_begin (VM43 chunk-C43VWYGG.js:18087:15)
+    at commitPassiveMountEffects (VM43 chunk-C43VWYGG.js:18077:11)
+Mt.forEach.n.<computed> @ VM7 eruda.js:2
+loadContactInfoFromAPI @ VM180 contactInfo.ts:27
+await in loadContactInfoFromAPI
+loadContactData @ VM109 FooterContactIcons.tsx:37
+(anonymous) @ VM109 FooterContactIcons.tsx:47
+commitHookEffectListMount @ VM43 chunk-C43VWYGG.js:16883
+commitPassiveMountOnFiber @ VM43 chunk-C43VWYGG.js:18124
+commitPassiveMountEffects_complete @ VM43 chunk-C43VWYGG.js:18097
+commitPassiveMountEffects_begin @ VM43 chunk-C43VWYGG.js:18087
+commitPassiveMountEffects @ VM43 chunk-C43VWYGG.js:18077
+flushPassiveEffectsImpl @ VM43 chunk-C43VWYGG.js:19458
+flushPassiveEffects @ VM43 chunk-C43VWYGG.js:19415
+commitRootImpl @ VM43 chunk-C43VWYGG.js:19384
+commitRoot @ VM43 chunk-C43VWYGG.js:19245
+performSyncWorkOnRoot @ VM43 chunk-C43VWYGG.js:18863
+flushSyncCallbacks @ VM43 chunk-C43VWYGG.js:9119
+(anonymous) @ VM43 chunk-C43VWYGG.js:18595
+setTimeout
+scheduleFn @ VM61 @tanstack_react-query.js:555
+flush @ VM61 @tanstack_react-query.js:569
+batch @ VM61 @tanstack_react-query.js:587
+dispatch_fn @ VM61 @tanstack_react-query.js:996
+setData @ VM61 @tanstack_react-query.js:696
+onSuccess @ VM61 @tanstack_react-query.js:897
+resolve @ VM61 @tanstack_react-query.js:456
+Promise.then
+run @ VM61 @tanstack_react-query.js:498
+start @ VM61 @tanstack_react-query.js:536
+fetch @ VM61 @tanstack_react-query.js:926
+(anonymous) @ VM61 @tanstack_react-query.js:1726
+(anonymous) @ VM61 @tanstack_react-query.js:1725
+batch @ VM61 @tanstack_react-query.js:583
+refetchQueries @ VM61 @tanstack_react-query.js:1724
+(anonymous) @ VM61 @tanstack_react-query.js:1716
+batch @ VM61 @tanstack_react-query.js:583
+invalidateQueries @ VM61 @tanstack_react-query.js:1705
+onSuccess @ VM91 StaffLogin.tsx:65
+execute @ VM61 @tanstack_react-query.js:1233
+await in execute
+mutate @ VM61 @tanstack_react-query.js:2630
+(anonymous) @ VM61 @tanstack_react-query.js:3295
+handleSubmit @ VM91 StaffLogin.tsx:98
+callCallback2 @ VM43 chunk-C43VWYGG.js:3674
+invokeGuardedCallbackDev @ VM43 chunk-C43VWYGG.js:3699
+invokeGuardedCallback @ VM43 chunk-C43VWYGG.js:3733
+invokeGuardedCallbackAndCatchFirstError @ VM43 chunk-C43VWYGG.js:3736
+executeDispatch @ VM43 chunk-C43VWYGG.js:7014
+processDispatchQueueItemsInOrder @ VM43 chunk-C43VWYGG.js:7034
+processDispatchQueue @ VM43 chunk-C43VWYGG.js:7043
+dispatchEventsForPlugins @ VM43 chunk-C43VWYGG.js:7051
+(anonymous) @ VM43 chunk-C43VWYGG.js:7174
+batchedUpdates$1 @ VM43 chunk-C43VWYGG.js:18881
+batchedUpdates @ VM43 chunk-C43VWYGG.js:3579
+dispatchEventForPluginEventSystem @ VM43 chunk-C43VWYGG.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ VM43 chunk-C43VWYGG.js:5478
+dispatchEvent @ VM43 chunk-C43VWYGG.js:5472
+dispatchDiscreteEvent @ VM43 chunk-C43VWYGG.js:5449Understand this error
+VM7 eruda.js:2 Informazioni di contatto caricate da API per utente 14: {}
+disable-vite-overlay.js:1 Uncaught SyntaxError: Unexpected token '<' (at disable-vite-overlay.js:1:1)Understand this error
+Console.js:61 PWA check - standalone mode: false
+Console.js:61 PWA check - iOS fullscreen: undefined
+Console.js:61 Nessuna informazione di contatto disponibile
+Console.js:61 Nessuna informazione di contatto disponibile
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+Console.js:61 Fuso orario rilevato: Europe/Zurich (Ora legale dell’Europa centrale), Offset: UTC+2
+Console.js:61 Esecuzione richiesta GET a /api/client-app-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/client-app-info: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 ⏭️ FRONTEND CompanyName: Utente non disponibile, skip caricamento
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 🏠 HOME: Icona ricevuta dal server: {url: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAlgCWAAD...', length: 11967}
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+Console.js:61 🏢 FRONTEND CompanyName: Non mostro nome - settings: null
+Console.js:61 Nessuna informazione di contatto disponibile
+Console.js:61 Nessuna informazione di contatto disponibile
+Console.js:61 🏢 FRONTEND CompanyName: Caricamento impostazioni per utente 14
+Console.js:61 Esecuzione richiesta GET a /api/company-name-settings 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/company-name-settings: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 Esecuzione richiesta GET a /api/contact-info 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/contact-info: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+Console.js:61 Esecuzione richiesta GET a /api/tenant-context 
+Console.js:61 Header x-device-type aggiunto: desktop
+Console.js:61 Header anti-cache aggiunti per garantire dati sempre freschi
+Console.js:61 Dettagli richiesta GET a /api/tenant-context: {method: 'GET', headers: {…}, body: undefined}
+Console.js:61 Nessuna informazione di contatto disponibile
+Console.js:61 Nessuna informazione di contatto disponibile
+Console.js:61 Fuso orario diverso da quello salvato, aggiornamento...
+Console.js:61 Risposta da /api/client-app-info: 200 OK ok: true
+Console.js:61 Fuso orario aggiornato con successo
+Console.js:61 🏠 HOME: Icona ricevuta dal server: {url: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAlgCWAAD...', length: 11967}
+Console.js:61 Risposta da /api/company-name-settings: 200 OK ok: true
+Console.js:61 🏢 FRONTEND CompanyName: Risposta API status: 200
+Console.js:61 ✅ FRONTEND CompanyName: Impostazioni caricate: {businessName: 'Studio Medico', showBusinessName: true, name: 'Silvia Busnari', fontSize: 45, fontFamily: 'Lucida Sans Unicode', …}
+Console.js:61 Risposta da /api/contact-info: 200 OK ok: true
+Console.js:61 Risposta da /api/tenant-context: 200 OK ok: true
+Console.js:61 Informazioni di contatto caricate da API per utente 14: {email: 'busnari.silvia@libero.it', phone: '+39 123 456 7890', phone1: '+39 3471445767', website: 'biomedicinaintegrata.it', instagram: 'Biomedicinaintegrata'}
+Console.js:61 🏢 FRONTEND: Contesto tenant caricato per undefined (staff)
+The script has an unsupported MIME type ('text/html').Understand this error
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ dashboard:259
+Promise.catch
+(anonymous) @ dashboard:258Understand this error
+Console.js:61 Dettagli errore Service Worker: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/service-worker.js'): The script has an unsupported MIME type ('text/html').
+Mt.forEach.n.<computed> @ Console.js:61
+(anonymous) @ dashboard:263
+Promise.catch
+(anonymous) @ dashboard:258Understand this error
+Console.js:61 Navigator serviceWorker: ServiceWorkerContainer {controller: null, ready: Promise, oncontrollerchange: null, onmessage: null, onmessageerror: null}
+Console.js:61 Location protocol: https:
+Console.js:61 User agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Console.js:61 Fuso orario aggiornato con successo
+2Console.js:61 Verifica periodica delle informazioni di contatto...

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <circle cx="50" cy="50" r="48" fill="#f5f5dc" stroke="#556b2f" stroke-width="2" />
+  
+  <!-- Fiore della Vita semplificato -->
+  <circle cx="50" cy="25" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  <circle cx="67.5" cy="37.5" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  <circle cx="67.5" cy="62.5" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  <circle cx="50" cy="75" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  <circle cx="32.5" cy="62.5" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  <circle cx="32.5" cy="37.5" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  <circle cx="50" cy="50" r="15" fill="none" stroke="#556b2f" stroke-width="1.5" />
+  
+  <!-- Effetto colorato -->
+  <circle cx="50" cy="25" r="12" fill="rgba(255,0,0,0.2)" />
+  <circle cx="67.5" cy="37.5" r="12" fill="rgba(255,165,0,0.2)" />
+  <circle cx="67.5" cy="62.5" r="12" fill="rgba(255,255,0,0.2)" />
+  <circle cx="50" cy="75" r="12" fill="rgba(0,128,0,0.2)" />
+  <circle cx="32.5" cy="62.5" r="12" fill="rgba(0,0,255,0.2)" />
+  <circle cx="32.5" cy="37.5" r="12" fill="rgba(75,0,130,0.2)" />
+  <circle cx="50" cy="50" r="12" fill="rgba(238,130,238,0.2)" />
+</svg>

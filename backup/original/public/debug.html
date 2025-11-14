@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnostica</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    h1, h2, h3 {
+      color: #4f46e5;
+    }
+    
+    .success {
+      color: #059669;
+      font-weight: bold;
+    }
+    
+    .info {
+      color: #075985;
+    }
+    
+    .warning {
+      color: #d97706;
+    }
+    
+    .error {
+      color: #dc2626;
+    }
+    
+    hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .fleur-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    
+    .fleur-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      transition: transform 0.5s ease;
+      border: 3px solid rgba(79, 70, 229, 0.2);
+    }
+    
+    .fleur-image:hover {
+      transform: rotate(30deg);
+    }
+    
+    .timestamp {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sistema di Gestione Appuntamenti</h1>
+  <h2>Diagnostica Base</h2>
+  <p class="success">✓ HTML, CSS e JavaScript di base funzionanti</p>
+  
+  <p>Pagina di diagnostica per risolvere problemi con React e altre librerie.</p>
+  
+  <hr>
+  
+  <h3>Fleur de Vie</h3>
+  <div class="fleur-container">
+    <img src="/attached_assets/Fleur de Vie multicolore.jpg" alt="Fleur de Vie" class="fleur-image">
+  </div>
+  <h4>Test Icona</h4>
+  <p>Passando il mouse sull'icona "Fleur de Vie", si dovrebbe vedere una rotazione di 30 gradi.</p>
+  
+  <hr>
+  
+  <h3>Prossimi Passi</h3>
+  <ol>
+    <li>Verificare se l'icona ruota al passaggio del mouse</li>
+    <li>Confermare il funzionamento di questa pagina HTML statica</li>
+    <li>Procedere con il ripristino graduale dell'applicazione React</li>
+  </ol>
+  
+  <hr>
+  
+  <h3>Test JavaScript</h3>
+  <p id="js-test">Verifica JavaScript in corso...</p>
+  
+  <div class="timestamp" id="timestamp"></div>
+  
+  <script>
+    // Test JavaScript
+    document.getElementById('js-test').textContent = '✓ JavaScript funzionante';
+    
+    // Imposta timestamp
+    const now = new Date();
+    document.getElementById('timestamp').textContent = 'Timestamp: ' + now.toLocaleTimeString();
+    
+    // Verifica che l'immagine esista
+    function checkImage(url) {
+      const img = new Image();
+      img.src = url;
+      img.onerror = function() {
+        console.error('Errore caricamento immagine:', url);
+        // Sostituisci con un'immagine di fallback
+        document.querySelectorAll('img[src="' + url + '"]').forEach(img => {
+          img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+        });
+      };
+    }
+    
+    // Controlla l'immagine all'avvio
+    checkImage('/attached_assets/Fleur de Vie multicolore.jpg');
+  </script>
+</body>
+</html>

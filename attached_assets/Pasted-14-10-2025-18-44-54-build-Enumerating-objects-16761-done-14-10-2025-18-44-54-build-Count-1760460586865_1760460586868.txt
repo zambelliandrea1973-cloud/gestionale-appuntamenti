@@ -1,0 +1,1649 @@
+14/10/2025, 18:44:54:
+build
+Enumerating objects: 16761, done.
+14/10/2025, 18:44:54:
+build
+Counting objects: 100% (481/481), done.
+14/10/2025, 18:44:55:
+build
+Compressing objects: 100% (249/249), done.
+14/10/2025, 18:45:20:
+build
+Total 16761 (delta 352), reused 321 (delta 231), pack-reused 16280 (from 1)
+14/10/2025, 18:45:52:
+build
+#1 [service_event_vtgn4ky4soz1 internal] load build definition from Dockerfile
+14/10/2025, 18:45:52:
+build
+#1 transferring dockerfile: 618B done
+14/10/2025, 18:45:52:
+build
+#1 DONE 0.0s
+14/10/2025, 18:45:52:
+build
+14/10/2025, 18:45:52:
+build
+#2 [service_event_vtgn4ky4soz1 internal] load metadata for docker.io/library/node:20-alpine
+14/10/2025, 18:45:53:
+build
+#2 DONE 0.8s
+14/10/2025, 18:45:53:
+build
+14/10/2025, 18:45:53:
+build
+#3 [service_event_vtgn4ky4soz1 internal] load .dockerignore
+14/10/2025, 18:45:53:
+build
+#3 transferring context: 740B done
+14/10/2025, 18:45:53:
+build
+#3 DONE 0.0s
+14/10/2025, 18:45:53:
+build
+14/10/2025, 18:45:53:
+build
+#4 [service_event_vtgn4ky4soz1 1/7] FROM docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48
+14/10/2025, 18:45:53:
+build
+#4 resolve docker.io/library/node:20-alpine@sha256:1ab6fc5a31d515dc7b6b25f6acfda2001821f2c2400252b6cb61044bd9f9ad48 done
+14/10/2025, 18:45:53:
+build
+#4 DONE 0.0s
+14/10/2025, 18:45:53:
+build
+14/10/2025, 18:45:53:
+build
+#5 [service_event_vtgn4ky4soz1] importing cache manifest from local:16107076905622459132
+14/10/2025, 18:45:53:
+build
+#5 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+14/10/2025, 18:45:53:
+build
+#5 DONE 0.0s
+14/10/2025, 18:45:53:
+build
+14/10/2025, 18:45:53:
+build
+#6 [service_event_vtgn4ky4soz1 internal] load build context
+14/10/2025, 18:45:57:
+build
+#6 transferring context: 1.22GB 3.5s done
+14/10/2025, 18:45:57:
+build
+#6 DONE 3.5s
+14/10/2025, 18:45:57:
+build
+14/10/2025, 18:45:57:
+build
+#7 [service_event_vtgn4ky4soz1 2/7] WORKDIR /app
+14/10/2025, 18:45:57:
+build
+#7 CACHED
+14/10/2025, 18:45:57:
+build
+14/10/2025, 18:45:57:
+build
+#8 [service_event_vtgn4ky4soz1 3/7] COPY package.json package-lock.json ./
+14/10/2025, 18:45:57:
+build
+#8 CACHED
+14/10/2025, 18:45:57:
+build
+14/10/2025, 18:45:57:
+build
+#9 [service_event_vtgn4ky4soz1 4/7] RUN npm ci
+14/10/2025, 18:45:57:
+build
+#9 CACHED
+14/10/2025, 18:45:57:
+build
+14/10/2025, 18:45:57:
+build
+#10 [service_event_vtgn4ky4soz1 5/7] COPY . .
+14/10/2025, 18:46:01:
+build
+#10 DONE 4.1s
+14/10/2025, 18:46:01:
+build
+14/10/2025, 18:46:01:
+build
+#11 [service_event_vtgn4ky4soz1 6/7] RUN npx vite build
+14/10/2025, 18:46:02:
+build
+#11 1.228 vite v5.4.14 building for production...
+14/10/2025, 18:46:02:
+build
+#11 1.634 
+14/10/2025, 18:46:03:
+build
+#11 1.646 
+14/10/2025, 18:46:03:
+build
+#11 1.646 /forced-style.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+14/10/2025, 18:46:03:
+build
+#11 1.650 transforming...
+14/10/2025, 18:46:03:
+build
+#11 1.693 Browserslist: browsers data (caniuse-lite) is 12 months old. Please run:
+14/10/2025, 18:46:03:
+build
+#11 1.693   npx update-browserslist-db@latest
+14/10/2025, 18:46:03:
+build
+#11 1.693   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+14/10/2025, 18:46:14:
+build
+#11 13.46 ✓ 3669 modules transformed.
+14/10/2025, 18:46:15:
+build
+#11 14.69 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 18:46:15:
+build
+#11 14.69 (!) /app/client/src/lib/queryClient.ts is dynamically imported by /app/client/src/lib/autoRefresh.ts but also statically imported by /app/client/src/App.tsx, /app/client/src/components/AdminNotifications.tsx, /app/client/src/components/AppIconUploader.tsx, /app/client/src/components/AppointmentCardSmall.tsx, /app/client/src/components/AppointmentForm.tsx, /app/client/src/components/AppointmentFormModal.tsx, /app/client/src/components/AppointmentModal.tsx, /app/client/src/components/BetaStatusChecker.tsx, /app/client/src/components/ClientCard.tsx, /app/client/src/components/ClientForm.tsx, /app/client/src/components/ClientLegacyNotes.tsx, /app/client/src/components/ClientStackedNotes.tsx, /app/client/src/components/CompanyNameEditor.tsx, /app/client/src/components/ConsentForm.tsx, /app/client/src/components/ContactInfoEditor.tsx, /app/client/src/components/DayViewWithTimeSlots.tsx, /app/client/src/components/LogoutButton.tsx, /app/client/src/components/PrivacyConsentForm.tsx, /app/client/src/components/PwaSessionManager.tsx, /app/client/src/components/QRCodeModal.tsx, /app/client/src/components/RestartAppButton.tsx, /app/client/src/components/SaveDirectButton.tsx, /app/client/src/components/SimpleServiceManager.tsx, /app/client/src/components/SubscriptionPlansAdmin.tsx, /app/client/src/components/TokenExpiryAlert.tsx, /app/client/src/components/payment/PaymentMethodsConfig.tsx, /app/client/src/hooks/use-license.tsx, /app/client/src/hooks/use-mobile-force-sync.tsx, /app/client/src/hooks/use-tenant-context.tsx, /app/client/src/lib/contactInfo.ts, /app/client/src/pages/AIChat.tsx, /app/client/src/pages/AutoLogin.tsx, /app/client/src/pages/BankingSettingsPage.tsx, /app/client/src/pages/BetaAdmin.tsx, /app/client/src/pages/BetaPage.tsx, /app/client/src/pages/ClientArea.tsx, /app/client/src/pages/ConsentPage.tsx, /app/client/src/pages/CustomerLogin.tsx, /app/client/src/pages/Home.tsx, /app/client/src/pages/Inventory.tsx, /app/client/src/pages/OnboardingWizard.tsx, /app/client/src/pages/PaymentAdmin.tsx, /app/client/src/pages/PaymentSuccess.tsx, /app/client/src/pages/ReferralCommissionsPage.tsx, /app/client/src/pages/ReferralPage.tsx, /app/client/src/pages/RegisterPage.tsx, /app/client/src/pages/StaffCollaboratorsPage.tsx, /app/client/src/pages/StaffLogin.tsx, /app/client/src/pages/StaffManagementPageFixed.tsx, /app/client/src/pages/SubscribePage.tsx, /app/client/src/pages/TreatmentRoomsPage.tsx, /app/client/src/pages/WhatsAppCenterPage.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 18:46:15:
+build
+#11 14.69 
+14/10/2025, 18:46:16:
+build
+#11 14.69 [plugin:vite:reporter] [plugin vite:reporter] 
+14/10/2025, 18:46:16:
+build
+#11 14.69 (!) /app/client/src/lib/betaUtils.ts is dynamically imported by /app/client/src/pages/Home.tsx, /app/client/src/pages/Home.tsx but also statically imported by /app/client/src/components/BetaStatusChecker.tsx, dynamic import will not move module into another chunk.
+14/10/2025, 18:46:16:
+build
+#11 14.69 
+14/10/2025, 18:46:16:
+build
+#11 14.69 rendering chunks...
+14/10/2025, 18:46:16:
+build
+#11 14.74 computing gzip size...
+14/10/2025, 18:46:16:
+build
+#11 14.81 ../dist/public/index.html                    12.75 kB │ gzip:   3.54 kB
+14/10/2025, 18:46:16:
+build
+#11 14.81 ../dist/public/assets/index-C_B_X5sh.css    111.14 kB │ gzip:  17.83 kB
+14/10/2025, 18:46:16:
+build
+#11 14.81 ../dist/public/assets/index-CNFr1nLm.js   2,039.07 kB │ gzip: 547.99 kB
+14/10/2025, 18:46:16:
+build
+#11 14.81 
+14/10/2025, 18:46:16:
+build
+#11 14.81 (!) Some chunks are larger than 500 kB after minification. Consider:
+14/10/2025, 18:46:16:
+build
+#11 14.81 - Using dynamic import() to code-split the application
+14/10/2025, 18:46:16:
+build
+#11 14.81 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+14/10/2025, 18:46:16:
+build
+#11 14.81 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+14/10/2025, 18:46:16:
+build
+#11 14.81 ✓ built in 13.24s
+14/10/2025, 18:46:16:
+build
+#11 DONE 14.9s
+14/10/2025, 18:46:16:
+build
+14/10/2025, 18:46:16:
+build
+#12 [service_event_vtgn4ky4soz1 7/7] RUN cp -r dist/public server/public
+14/10/2025, 18:46:16:
+build
+#12 DONE 0.1s
+14/10/2025, 18:46:16:
+build
+14/10/2025, 18:46:16:
+build
+#13 [service_event_vtgn4ky4soz1] exporting to image
+14/10/2025, 18:46:16:
+build
+#13 exporting layers
+14/10/2025, 18:46:40:
+build
+#13 exporting layers 24.4s done
+14/10/2025, 18:46:40:
+build
+#13 exporting manifest sha256:3f0cf7b34861bcc8509012240d33cb3f48f538fa6ece3dd52f8adbe5b1de78f2 done
+14/10/2025, 18:46:40:
+build
+#13 exporting config sha256:79b034c130e15f3c1313961bee7b3eecbf9f985a4b4977bfe9f678e9247e7de2 done
+14/10/2025, 18:46:40:
+build
+#13 pushing layers
+14/10/2025, 18:46:51:
+build
+#13 pushing layers 10.8s done
+14/10/2025, 18:46:51:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_vtgn4ky4soz1@sha256:3f0cf7b34861bcc8509012240d33cb3f48f538fa6ece3dd52f8adbe5b1de78f2
+14/10/2025, 18:46:51:
+build
+#13 pushing manifest for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_vtgn4ky4soz1@sha256:3f0cf7b34861bcc8509012240d33cb3f48f538fa6ece3dd52f8adbe5b1de78f2 0.1s done
+14/10/2025, 18:46:51:
+build
+#13 DONE 35.2s
+14/10/2025, 18:46:51:
+build
+14/10/2025, 18:46:51:
+build
+#14 [service_event_vtgn4ky4soz1] exporting cache to client directory
+14/10/2025, 18:46:51:
+build
+#14 preparing build cache for export
+14/10/2025, 18:46:51:
+build
+#14 writing layer sha256:1c35e57f857c151c0e602cb7c4b41bd703ca152b373e0d120e22f9b7997d2f31 0.0s done
+14/10/2025, 18:46:51:
+build
+#14 writing layer sha256:298dedc054f6cea6c04d9212533cbd167b6c652275b9e7a97f921765fc366e2a done
+14/10/2025, 18:46:51:
+build
+#14 writing layer sha256:2d35ebdb57d9971fea0cac1582aa78935adf8058b2cc32db163c98822e5dfa1b done
+14/10/2025, 18:46:51:
+build
+#14 writing layer sha256:41920351fbc4ebb31e243a06390e80fe361e58a0694dabf72810a6c91b886600 done
+14/10/2025, 18:46:51:
+build
+#14 writing layer sha256:5c166baff8b1ca98eb4209591d93bbcdb5b942a0f3a6cc224097861edc05af20
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:5c166baff8b1ca98eb4209591d93bbcdb5b942a0f3a6cc224097861edc05af20 6.2s done
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:82f3641afd664ed52e20ea3647e0514eb0611e3f6722ba6c1655784d5d2ba110
+14/10/2025, 18:46:57:
+build
+#14 preparing build cache for export 6.3s done
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:82f3641afd664ed52e20ea3647e0514eb0611e3f6722ba6c1655784d5d2ba110 done
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:bd05596d81ff8cc1d1a8720acb30ae26e8eb1bb9ed61b729a04867d328cf5c7a done
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:c087321cece4f408fdac87711c4c5c51945101848dffd8848840912c1fceb02c done
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:c74c90aa7c8726728fa9d2e330254ef29381efbd566aaee9933c3113c26f20ce done
+14/10/2025, 18:46:57:
+build
+#14 writing layer sha256:f2fbe8556258562779088bb23277d1d0b7e43fc6ddd52623166a2ac6d92bc73a done
+14/10/2025, 18:46:57:
+build
+#14 writing config sha256:f72b75d42c464cf799b1bf4be0ade5941d60f1faa8009c45c9bbdcf0e7dad552 done
+14/10/2025, 18:46:57:
+build
+#14 writing cache image manifest sha256:f202b474cf4e8bf62b1ca6f66cf6c8396e14c1a8fd42647245e3f587d03611e6 done
+14/10/2025, 18:46:57:
+build
+#14 DONE 6.3s
+14/10/2025, 18:46:59:
+build
+service_event_vtgn4ky4soz1: Pulling from org_ft3fgctptd0y/service_c0fmjewuw2c8
+14/10/2025, 18:46:59:
+build
+2d35ebdb57d9: Already exists
+14/10/2025, 18:46:59:
+build
+c087321cece4: Already exists
+14/10/2025, 18:46:59:
+build
+f2fbe8556258: Already exists
+14/10/2025, 18:46:59:
+build
+c74c90aa7c87: Already exists
+14/10/2025, 18:46:59:
+build
+82f3641afd66: Already exists
+14/10/2025, 18:46:59:
+build
+298dedc054f6: Already exists
+14/10/2025, 18:46:59:
+build
+bd05596d81ff: Already exists
+14/10/2025, 18:46:59:
+build
+5c166baff8b1: Pulling fs layer
+14/10/2025, 18:46:59:
+build
+1c35e57f857c: Pulling fs layer
+14/10/2025, 18:46:59:
+build
+41920351fbc4: Pulling fs layer
+14/10/2025, 18:46:59:
+build
+41920351fbc4: Download complete
+14/10/2025, 18:46:59:
+build
+1c35e57f857c: Verifying Checksum
+14/10/2025, 18:46:59:
+build
+1c35e57f857c: Download complete
+14/10/2025, 18:47:05:
+build
+5c166baff8b1: Verifying Checksum
+14/10/2025, 18:47:05:
+build
+5c166baff8b1: Download complete
+14/10/2025, 18:47:06:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:06:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:06:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:06:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+  [errors]: [
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '::1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    },
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    }
+14/10/2025, 18:47:06:
+runtime
+  ]
+14/10/2025, 18:47:06:
+runtime
+}
+14/10/2025, 18:47:06:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:06:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:06:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:06:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+  [errors]: [
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '::1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    },
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    }
+14/10/2025, 18:47:06:
+runtime
+  ]
+14/10/2025, 18:47:06:
+runtime
+}
+14/10/2025, 18:47:06:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:06:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:06:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:06:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+  [errors]: [
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '::1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    },
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    }
+14/10/2025, 18:47:06:
+runtime
+  ]
+14/10/2025, 18:47:06:
+runtime
+}
+14/10/2025, 18:47:06:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:06:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:06:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:06:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+  [errors]: [
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '::1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    },
+14/10/2025, 18:47:06:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:06:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:06:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:06:
+runtime
+      errno: -111,
+14/10/2025, 18:47:06:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:06:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:06:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:06:
+runtime
+      port: 5432
+14/10/2025, 18:47:06:
+runtime
+    }
+14/10/2025, 18:47:06:
+runtime
+  ]
+14/10/2025, 18:47:06:
+runtime
+}
+14/10/2025, 18:47:06:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+14/10/2025, 18:47:07:
+runtime
+🏷️ [desktop] Codice professionista per utente 14: PROF_014_9C1F
+14/10/2025, 18:47:07:
+runtime
+📱💻 [desktop] Dati utente unificati: {
+14/10/2025, 18:47:07:
+runtime
+  id: 14,
+14/10/2025, 18:47:07:
+runtime
+  username: 'busnari.silvia@libero.it',
+14/10/2025, 18:47:07:
+runtime
+  firstName: null,
+14/10/2025, 18:47:07:
+runtime
+  lastName: null,
+14/10/2025, 18:47:07:
+runtime
+  licenseType: 'staff_free_10years'
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/tenant-context 200 in 123ms :: {"userId":14,"userType":"staff","tenant…
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/user-with-license 200 in 124ms :: {"id":14,"username":"busnari.silvia@…
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/user 304 in 139ms
+14/10/2025, 18:47:07:
+runtime
+Error getting treatment rooms for user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:07:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:07:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:07:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+  [errors]: [
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '::1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    },
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    }
+14/10/2025, 18:47:07:
+runtime
+  ]
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/treatment-rooms 304 in 146ms :: []
+14/10/2025, 18:47:07:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:07:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:07:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:07:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+  [errors]: [
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '::1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    },
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    }
+14/10/2025, 18:47:07:
+runtime
+  ]
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+📅 [/api/appointments] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+14/10/2025, 18:47:07:
+runtime
+📱 [/api/appointments] [desktop] Mobile: false, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+14/10/2025, 18:47:07:
+runtime
+👤 [/api/appointments] [desktop] User 14 - Dati propri: 4 clienti, 35 appuntamenti
+14/10/2025, 18:47:07:
+runtime
+📱💻 [desktop] Sincronizzazione completa: restituiti 35 appuntamenti
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/appointments 304 in 43ms :: [{"id":1750226496608,"clientId":14004,"ser…
+14/10/2025, 18:47:07:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:07:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:07:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:07:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+  [errors]: [
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '::1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    },
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    }
+14/10/2025, 18:47:07:
+runtime
+  ]
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:07:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:07:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:07:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+  [errors]: [
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '::1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    },
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    }
+14/10/2025, 18:47:07:
+runtime
+  ]
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+📅 [/api/appointments/date] [desktop] Utente 14 cerca appuntamenti per data 2025-10-16
+14/10/2025, 18:47:07:
+runtime
+📅 [desktop] Appuntamenti totali nell'account: 49
+14/10/2025, 18:47:07:
+runtime
+👤 [desktop] User 14 - Solo appuntamenti con clienti propri
+14/10/2025, 18:47:07:
+runtime
+📱💻 [desktop] Appuntamenti sincronizzati per 2025-10-16: 0
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/appointments/date/2025-10-16 304 in 62ms :: []
+14/10/2025, 18:47:07:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:07:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:07:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:07:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+  [errors]: [
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '::1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    },
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    }
+14/10/2025, 18:47:07:
+runtime
+  ]
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+🔍 [/api/clients] [desktop] Richiesta da utente ID:14, tipo:staff, email:busnari.silvia@libero.it
+14/10/2025, 18:47:07:
+runtime
+📦 [/api/clients] [desktop] Caricati 40 clienti totali dal storage
+14/10/2025, 18:47:07:
+runtime
+🔥 [DEBUG FORCED] Cercando clienti con originalOwnerId...
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Anna Neri: originalOwnerId=null
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Mario Rossi: originalOwnerId=1
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Giulia Verdi: originalOwnerId=2
+14/10/2025, 18:47:07:
+runtime
+🎯 [DEBUG] Cliente Franco Bianchi: originalOwnerId=4
+14/10/2025, 18:47:07:
+runtime
+👤 [/api/clients] [desktop] User 14 - Restituendo 4 clienti propri
+14/10/2025, 18:47:07:
+runtime
+🔍 [/api/clients] [desktop] Sample primi 5 clienti: [
+14/10/2025, 18:47:07:
+runtime
+  {
+14/10/2025, 18:47:07:
+runtime
+    "id": 14001,
+14/10/2025, 18:47:07:
+runtime
+    "firstName": "Cliente",
+14/10/2025, 18:47:07:
+runtime
+    "lastName": "Trial",
+14/10/2025, 18:47:07:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14001_A665",
+14/10/2025, 18:47:07:
+runtime
+    "ownerId": 14
+14/10/2025, 18:47:07:
+runtime
+  },
+14/10/2025, 18:47:07:
+runtime
+  {
+14/10/2025, 18:47:07:
+runtime
+    "id": 14002,
+14/10/2025, 18:47:07:
+runtime
+    "firstName": "andrea",
+14/10/2025, 18:47:07:
+runtime
+    "lastName": "zambelli",
+14/10/2025, 18:47:07:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14002_09A9",
+14/10/2025, 18:47:07:
+runtime
+    "ownerId": 14
+14/10/2025, 18:47:07:
+runtime
+  },
+14/10/2025, 18:47:07:
+runtime
+  {
+14/10/2025, 18:47:07:
+runtime
+    "id": 14004,
+14/10/2025, 18:47:07:
+runtime
+    "firstName": "Bruna ",
+14/10/2025, 18:47:07:
+runtime
+    "lastName": "Pizzolato",
+14/10/2025, 18:47:07:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14004_340F",
+14/10/2025, 18:47:07:
+runtime
+    "ownerId": 14
+14/10/2025, 18:47:07:
+runtime
+  },
+14/10/2025, 18:47:07:
+runtime
+  {
+14/10/2025, 18:47:07:
+runtime
+    "id": 14003,
+14/10/2025, 18:47:07:
+runtime
+    "firstName": "Marco",
+14/10/2025, 18:47:07:
+runtime
+    "lastName": "Berto",
+14/10/2025, 18:47:07:
+runtime
+    "uniqueCode": "PROF_014_9C1F_CLIENT_14003_816C",
+14/10/2025, 18:47:07:
+runtime
+    "ownerId": 14
+14/10/2025, 18:47:07:
+runtime
+  }
+14/10/2025, 18:47:07:
+runtime
+]
+14/10/2025, 18:47:07:
+runtime
+🏷️ [/api/clients] [desktop] Clienti con uniqueCode: 4/4
+14/10/2025, 18:47:07:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:07:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:07:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:07:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+  [errors]: [
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '::1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    },
+14/10/2025, 18:47:07:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:07:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:07:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:07:
+runtime
+      errno: -111,
+14/10/2025, 18:47:07:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:07:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:07:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:07:
+runtime
+      port: 5432
+14/10/2025, 18:47:07:
+runtime
+    }
+14/10/2025, 18:47:07:
+runtime
+  ]
+14/10/2025, 18:47:07:
+runtime
+}
+14/10/2025, 18:47:07:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:07:
+runtime
+🔧 [/api/services] [desktop] Caricati 4 servizi per utente 14
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/clients 304 in 82ms :: [{"id":14001,"firstName":"Cliente","lastName":"…
+14/10/2025, 18:47:07:
+runtime
+4:47:07 PM [express] GET /api/services 304 in 80ms :: [{"id":1750225060109,"ownerId":14,"name":"bio …
+14/10/2025, 18:47:14:
+build
+5c166baff8b1: Pull complete
+14/10/2025, 18:47:14:
+build
+1c35e57f857c: Pull complete
+14/10/2025, 18:47:14:
+build
+41920351fbc4: Pull complete
+14/10/2025, 18:47:14:
+build
+Digest: sha256:3f0cf7b34861bcc8509012240d33cb3f48f538fa6ece3dd52f8adbe5b1de78f2
+14/10/2025, 18:47:14:
+build
+Status: Downloaded newer image for fsn1-registry.sliplane.io/org_ft3fgctptd0y/service_c0fmjewuw2c8:service_event_vtgn4ky4soz1
+14/10/2025, 18:47:18:
+runtime
+📝 Usando MemoryStore per le sessioni (JSON storage mode)
+14/10/2025, 18:47:18:
+runtime
+Servizio gestione telefono diretto inizializzato
+14/10/2025, 18:47:18:
+runtime
+✅ Icona Fleur de Vie caricata: 611937 bytes
+14/10/2025, 18:47:18:
+runtime
+✅ Storage inizializzato in app.locals: object metodi disponibili: sessionStore
+14/10/2025, 18:47:18:
+runtime
+Database non disponibile, controllo utenti da JSON storage
+14/10/2025, 18:47:18:
+runtime
+Errore nel caricamento del telefono dal database: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:18:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:18:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:18:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:18:
+runtime
+  [errors]: [
+14/10/2025, 18:47:18:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:19:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:19:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:19:
+runtime
+      errno: -111,
+14/10/2025, 18:47:19:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:19:
+runtime
+      address: '::1',
+14/10/2025, 18:47:19:
+runtime
+      port: 5432
+14/10/2025, 18:47:19:
+runtime
+    },
+14/10/2025, 18:47:19:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:19:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:19:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:19:
+runtime
+      errno: -111,
+14/10/2025, 18:47:19:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:19:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:19:
+runtime
+      port: 5432
+14/10/2025, 18:47:19:
+runtime
+    }
+14/10/2025, 18:47:19:
+runtime
+  ]
+14/10/2025, 18:47:19:
+runtime
+}
+14/10/2025, 18:47:19:
+runtime
+Trovati 16 utenti nel JSON storage
+14/10/2025, 18:47:19:
+runtime
+Utenti già presenti nel sistema. Nessun account predefinito creato.
+14/10/2025, 18:47:19:
+runtime
+Scheduler dei promemoria avviato con successo
+14/10/2025, 18:47:19:
+runtime
+Tutti gli scheduler inizializzati
+14/10/2025, 18:47:19:
+runtime
+🔍 Controllo integrità all'avvio:
+14/10/2025, 18:47:19:
+runtime
+   📅 Appuntamenti caricati: 48
+14/10/2025, 18:47:19:
+runtime
+   👥 Clienti caricati: 40
+14/10/2025, 18:47:19:
+runtime
+   🔍 Primi 3 appuntamenti: [
+14/10/2025, 18:47:19:
+runtime
+  { id: 1750059544768, date: '2025-06-18', client: 252 },
+14/10/2025, 18:47:19:
+runtime
+  { id: 1750064999602, date: '2025-06-19', client: 251 },
+14/10/2025, 18:47:19:
+runtime
+  { id: 1750065026422, date: '2025-06-19', client: 1 }
+14/10/2025, 18:47:19:
+runtime
+]
+14/10/2025, 18:47:19:
+runtime
+✅ Controllo integrità completato
+14/10/2025, 18:47:19:
+runtime
+4:47:19 PM [express] serving on port 5000
+14/10/2025, 18:47:19:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:19:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:19:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:19:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+  [errors]: [
+14/10/2025, 18:47:19:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:19:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:19:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:19:
+runtime
+      errno: -111,
+14/10/2025, 18:47:19:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:19:
+runtime
+      address: '::1',
+14/10/2025, 18:47:19:
+runtime
+      port: 5432
+14/10/2025, 18:47:19:
+runtime
+    },
+14/10/2025, 18:47:19:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:19:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:19:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:19:
+runtime
+      errno: -111,
+14/10/2025, 18:47:19:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:19:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:19:
+runtime
+      port: 5432
+14/10/2025, 18:47:19:
+runtime
+    }
+14/10/2025, 18:47:19:
+runtime
+  ]
+14/10/2025, 18:47:19:
+runtime
+}
+14/10/2025, 18:47:19:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:19:
+runtime
+4:47:19 PM [express] GET /api/contact-info 200 in 1666ms :: {"email":"busnari.silvia@libero.it","pho…
+14/10/2025, 18:47:19:
+runtime
+Error getting user: AggregateError [ECONNREFUSED]: 
+14/10/2025, 18:47:19:
+runtime
+    at internalConnectMultiple (node:net:1122:18)
+14/10/2025, 18:47:19:
+runtime
+    at afterConnectMultiple (node:net:1689:7) {
+14/10/2025, 18:47:19:
+runtime
+  code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+  [errors]: [
+14/10/2025, 18:47:19:
+runtime
+    Error: connect ECONNREFUSED ::1:5432
+14/10/2025, 18:47:19:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:19:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:19:
+runtime
+      errno: -111,
+14/10/2025, 18:47:19:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:19:
+runtime
+      address: '::1',
+14/10/2025, 18:47:19:
+runtime
+      port: 5432
+14/10/2025, 18:47:19:
+runtime
+    },
+14/10/2025, 18:47:19:
+runtime
+    Error: connect ECONNREFUSED 127.0.0.1:5432
+14/10/2025, 18:47:19:
+runtime
+        at createConnectionError (node:net:1652:14)
+14/10/2025, 18:47:19:
+runtime
+        at afterConnectMultiple (node:net:1682:16) {
+14/10/2025, 18:47:19:
+runtime
+      errno: -111,
+14/10/2025, 18:47:19:
+runtime
+      code: 'ECONNREFUSED',
+14/10/2025, 18:47:19:
+runtime
+      syscall: 'connect',
+14/10/2025, 18:47:19:
+runtime
+      address: '127.0.0.1',
+14/10/2025, 18:47:19:
+runtime
+      port: 5432
+14/10/2025, 18:47:19:
+runtime
+    }
+14/10/2025, 18:47:19:
+runtime
+  ]
+14/10/2025, 18:47:19:
+runtime
+}
+14/10/2025, 18:47:19:
+runtime
+✅ User 14 found in JSON storage (after DB error)
+14/10/2025, 18:47:19:
+runtime
+✅ Icone PWA aggiornate per utente 14 con logo aziendale
+14/10/2025, 18:47:19:
+runtime
+✅ [desktop] Icone PWA per utente 14, icon length: 11967
+14/10/2025, 18:47:19:
+runtime
+4:47:19 PM [express] GET /api/client-app-info 200 in 1868ms :: {"appName":"Gestionale Sanitario","ic…
+14/10/2025, 18:47:24:
+runtime
+Esecuzione immediata del job di promemoria all'avvio del server
+14/10/2025, 18:47:24:
+runtime
+🗓️ [NOTIFICHE JSON] Utilizzo filtro condiviso per appuntamenti di domani
+14/10/2025, 18:47:24:
+runtime
+🗓️ [JSON STORAGE] Trovati 0 appuntamenti per domani (Wed Oct 15 2025)
+14/10/2025, 18:47:24:
+runtime
+Trovati 0 appuntamenti di domani che necessitano di promemoria automatici
+14/10/2025, 18:47:24:
+runtime
+Inviati 0/0 promemoria
+14/10/2025, 18:47:24:
+runtime
+Job iniziale completato: inviati 0 promemoria

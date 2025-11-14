@@ -1,0 +1,84 @@
+Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+Layout.tsx:59 Layout Debug: {userType: undefined, isStaff: false, isAdmin: false, userLoading: true}
+use-user-with-license.tsx:55 🔍 Risposta user-with-license: 200 true
+use-user-with-license.tsx:60 🔍 Dati utente ricevuti FRESCHI: {id: 3, username: 'zambelli.andrea.1973@gmail.com', email: 'zambelli.andrea.1973@gmail.com', type: 'admin', firstName: null, …}
+Layout.tsx:59 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+App.tsx:94 Stato autenticazione: {user: true, location: '/dashboard', isLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+Layout.tsx:59 Layout Debug: {userType: 'admin', isStaff: false, isAdmin: true, userLoading: false}
+App.tsx:94 Stato autenticazione: {user: true, location: '/clients', isLoading: false}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/3/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/3/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/5/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/5/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/3/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/3/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:18 Esecuzione richiesta GET a /api/clients/5/activation-token 
+queryClient.ts:91 Header x-device-type aggiunto: desktop
+queryClient.ts:100 Header anti-cache aggiunti per garantire dati sempre freschi
+queryClient.ts:102 Dettagli richiesta GET a /api/clients/5/activation-token: {method: 'GET', headers: {…}, body: undefined}
+queryClient.ts:115 Risposta da /api/clients/3/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/5/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/3/activation-token: 200 OK ok: true
+queryClient.ts:115 Risposta da /api/clients/5/activation-token: 200 OK ok: true
+chunk-C43VWYGG.js?v=a298f9ce:521 Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `SlotClone`.
+    at Badge (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=a298f9ce:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:52:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-A5I3GPEE.js?v=a298f9ce:33:11
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GI7MKS47.js?v=a298f9ce:41:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1987:13
+    at https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:416:13
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1922:15)
+    at Popper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-XBGPFR6M.js?v=a298f9ce:1979:11)
+    at Tooltip (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:334:5)
+    at Provider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QAJHFHOT.js?v=a298f9ce:38:15)
+    at TooltipProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a298f9ce:290:5)
+    at ClientAccessCounter (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientAccessCounter.tsx:24:47)
+    at div
+    at div
+    at div
+    at div
+    at _c9 (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at ClientCard (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/ClientCard.tsx:46:38)
+    at div
+    at div
+    at Clients (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/pages/Clients.tsx:40:23)
+    at main
+    at div
+    at Layout (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/components/Layout.tsx:41:34)
+    at StaffPageWrapper (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=MVlVXDTL9n98QTxBGuws1:78:29)
+    at Route (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:323:16)
+    at Switch (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:379:17)
+    at AppRoutes (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=MVlVXDTL9n98QTxBGuws1:88:31)
+    at Router (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a298f9ce:291:17)
+    at UserLicenseProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/hooks/use-user-with-license.tsx:22:39)
+    at QueryClientProvider (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a298f9ce:2805:3)
+    at App (https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/src/App.tsx?v=MVlVXDTL9n98QTxBGuws1:646:3)
+printWarning @ chunk-C43VWYGG.js?v=a298f9ce:521
+error @ chunk-C43VWYGG.js?v=a298f9ce:505
+validateFunctionComponentInDev @ chunk-C43VWYGG.js?v=a298f9ce:14988
+mountIndeterminateComponent @ chunk-C43VWYGG.js?v=a298f9ce:14963
+beginWork @ chunk-C43VWYGG.js?v=a298f9ce:15882
+beginWork$1 @ chunk-C43VWYGG.js?v=a298f9ce:19721
+performUnitOfWork @ chunk-C43VWYGG.js?v=a298f9ce:19166
+workLoopSync @ chunk-C43VWYGG.js?v=a298f9ce:19105
+renderRootSync @ chunk-C43VWYGG.js?v=a298f9ce:19084
+performConcurrentWorkOnRoot @ chunk-C43VWYGG.js?v=a298f9ce:18646
+workLoop @ chunk-C43VWYGG.js?v=a298f9ce:197
+flushWork @ chunk-C43VWYGG.js?v=a298f9ce:176
+performWorkUntilDeadline @ chunk-C43VWYGG.js?v=a298f9ce:384Understand this error

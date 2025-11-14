@@ -1,0 +1,223 @@
+🔄 NUOVI TOKEN QR RIGENERATI
+Generati il: 6/17/2025, 1:51:22 PM
+
+👤 UTENTE 3:
+
+  Cliente: Mario Rossi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_001_36C1_931c8098
+  Token: PROF_003_7402_CLIENT_001_36C1_931c8098
+
+  Cliente: Zambelli Andrea
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_002_EF6A_99d9fd98
+  Token: PROF_003_7402_CLIENT_002_EF6A_99d9fd98
+
+  Cliente: giovanni rizzo
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_266_4342_79ac9aac
+  Token: PROF_003_7402_CLIENT_266_4342_79ac9aac
+
+  Cliente: giovanni ribbio
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_267_AC7F_d60ec861
+  Token: PROF_003_7402_CLIENT_267_AC7F_d60ec861
+
+  Cliente: Silvia Bus
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437314_19F7_a90b3a48
+  Token: PROF_003_7402_CLIENT_1749667437314_19F7_a90b3a48
+
+  Cliente: Mario Rossi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437315_F1F9_dd5c15e7
+  Token: PROF_003_6AA8_CLIENT_1749667437315_F1F9_dd5c15e7
+
+  Cliente: Giulia Verdi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437316_B01D_5e9a1d1a
+  Token: PROF_003_6AA8_CLIENT_1749667437316_B01D_5e9a1d1a
+
+  Cliente: Franco Bianchi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437317_E6E3_a5353cb6
+  Token: PROF_003_6AA8_CLIENT_1749667437317_E6E3_a5353cb6
+
+  Cliente: Anna Neri
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_6AA8_CLIENT_1749667437318_0D26_295072c4
+  Token: PROF_003_6AA8_CLIENT_1749667437318_0D26_295072c4
+
+  Cliente: Mario Rossi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437319_BD53_b13618bf
+  Token: PROF_003_7402_CLIENT_1749667437319_BD53_b13618bf
+
+  Cliente: Giulia Verdi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437320_F607_430cc7f7
+  Token: PROF_003_7402_CLIENT_1749667437320_F607_430cc7f7
+
+  Cliente: Franco Bianchi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_003_7402_CLIENT_1749667437321_6727_a42b75d1
+  Token: PROF_003_7402_CLIENT_1749667437321_6727_a42b75d1
+
+================================================================================
+
+👤 UTENTE 9:
+
+  Cliente: Cliente Trial
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_009_AE0F_CLIENT_025_26F1_3e3cb524
+  Token: PROF_009_AE0F_CLIENT_025_26F1_3e3cb524
+
+  Cliente: Trial Account
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_009_AE0F_CLIENT_316_BD29_b9ff7c8e
+  Token: PROF_009_AE0F_CLIENT_316_BD29_b9ff7c8e
+
+  Cliente: Andrea Zambelli
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_009_AE0F_CLIENT_1749666196976_7747_90ca05da
+  Token: PROF_009_AE0F_CLIENT_1749666196976_7747_90ca05da
+
+================================================================================
+
+👤 UTENTE 11:
+
+  Cliente: Cliente Pro
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_011_C59C_CLIENT_027_7441_ef70f144
+  Token: PROF_011_C59C_CLIENT_027_7441_ef70f144
+
+  Cliente: Pro Account
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_011_C59C_CLIENT_262_3C3A_9656209c
+  Token: PROF_011_C59C_CLIENT_262_3C3A_9656209c
+
+================================================================================
+
+👤 UTENTE 12:
+
+  Cliente: Cliente Business
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_012_9859_CLIENT_028_07DF_276a2598
+  Token: PROF_012_9859_CLIENT_028_07DF_276a2598
+
+  Cliente: Business Account
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_012_9859_CLIENT_264_CEC1_c95455e1
+  Token: PROF_012_9859_CLIENT_264_CEC1_c95455e1
+
+================================================================================
+
+👤 UTENTE 14:
+
+  Cliente: Cliente Trial
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_14001_C43C_9939cb96
+  Token: PROF_014_D84F_CLIENT_14001_C43C_9939cb96
+
+  Cliente: Trial Account
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_14002_7E89_396a9476
+  Token: PROF_014_D84F_CLIENT_14002_7E89_396a9476
+
+  Cliente: Marco Berto
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03
+  Token: PROF_014_D84F_CLIENT_1750153393298_7BCE_e8246d03
+
+  Cliente: Bruna  Pizzolato
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_014_D84F_CLIENT_1750163505034_3EFC_9d4d31c6
+  Token: PROF_014_D84F_CLIENT_1750163505034_3EFC_9d4d31c6
+
+================================================================================
+
+👤 UTENTE 16:
+
+  Cliente: Bruna Pizzolato
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_251_B19F_f55d6b78
+  Token: PROF_016_0A55_CLIENT_251_B19F_f55d6b78
+
+  Cliente: Marco Berto
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_252_0B88_1872f1fc
+  Token: PROF_016_0A55_CLIENT_252_0B88_1872f1fc
+
+  Cliente: pippo quattro
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_256_91D0_d816cded
+  Token: PROF_016_0A55_CLIENT_256_91D0_d816cded
+
+  Cliente: Valentina Cotrino
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_257_DA65_c85c12f7
+  Token: PROF_016_0A55_CLIENT_257_DA65_c85c12f7
+
+  Cliente: Cinzia Munaretto
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_258_A0AF_992e431c
+  Token: PROF_016_0A55_CLIENT_258_A0AF_992e431c
+
+  Cliente: Eleonora Tentori
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_259_ACE8_790d7f1b
+  Token: PROF_016_0A55_CLIENT_259_ACE8_790d7f1b
+
+  Cliente: Cristina Valetti
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_261_9E67_eeb0cdf6
+  Token: PROF_016_0A55_CLIENT_261_9E67_eeb0cdf6
+
+  Cliente: Matteo Somaschini
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_263_C474_bb1b9fd8
+  Token: PROF_016_0A55_CLIENT_263_C474_bb1b9fd8
+
+  Cliente: Zambelli Andrea
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_265_F800_547f02d4
+  Token: PROF_016_0A55_CLIENT_265_F800_547f02d4
+
+  Cliente: Leila Baldovin
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_268_A94D_f95e692c
+  Token: PROF_016_0A55_CLIENT_268_A94D_f95e692c
+
+  Cliente: Rosa Nappi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_269_76DC_be7ca3e0
+  Token: PROF_016_0A55_CLIENT_269_76DC_be7ca3e0
+
+  Cliente: Giovanna Spano
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_270_C507_415f22a5
+  Token: PROF_016_0A55_CLIENT_270_C507_415f22a5
+
+  Cliente: Alan Marconi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_271_471A_754bd60f
+  Token: PROF_016_0A55_CLIENT_271_471A_754bd60f
+
+  Cliente: Dino Nappi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_272_5C69_12aa9717
+  Token: PROF_016_0A55_CLIENT_272_5C69_12aa9717
+
+  Cliente: Matteo Libera
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_273_D8DC_32c059cd
+  Token: PROF_016_0A55_CLIENT_273_D8DC_32c059cd
+
+  Cliente: provaci ancora due
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_513_7DE8_631465b5
+  Token: PROF_016_0A55_CLIENT_513_7DE8_631465b5
+
+  Cliente: maaa vaaa
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_016_0A55_CLIENT_514_C37D_0668977a
+  Token: PROF_016_0A55_CLIENT_514_C37D_0668977a
+
+================================================================================
+
+👤 UTENTE 101:
+
+  Cliente: Marco Bianchi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_101_8C12_CLIENT_1749666196977_0A62_bfdf1a6f
+  Token: PROF_101_8C12_CLIENT_1749666196977_0A62_bfdf1a6f
+
+  Cliente: Sara Neri
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_101_8C12_CLIENT_1749666196978_66CD_852be30c
+  Token: PROF_101_8C12_CLIENT_1749666196978_66CD_852be30c
+
+================================================================================
+
+👤 UTENTE 102:
+
+  Cliente: Luigi Verdi
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_102_307F_CLIENT_1749666196979_99F6_143ac130
+  Token: PROF_102_307F_CLIENT_1749666196979_99F6_143ac130
+
+  Cliente: Anna Blu
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_102_307F_CLIENT_1749666196980_F263_b5d09797
+  Token: PROF_102_307F_CLIENT_1749666196980_F263_b5d09797
+
+  Cliente: Paolo Rosso
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_102_307F_CLIENT_1749666196981_EA1D_b559608e
+  Token: PROF_102_307F_CLIENT_1749666196981_EA1D_b559608e
+
+================================================================================
+
+👤 UTENTE 103:
+
+  Cliente: Elena Giallo
+  URL: https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/activate?token=PROF_103_EA73_CLIENT_1749666196982_2604_50e075e4
+  Token: PROF_103_EA73_CLIENT_1749666196982_2604_50e075e4
+
+================================================================================
+

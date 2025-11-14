@@ -1,0 +1,48 @@
+Console.js:61 Errore durante la registrazione del Service Worker: SecurityError: Failed to register a ServiceWorker for scope ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/') with script ('https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/sw.js?v=v3.0.0'): The script has an unsupported MIME type ('text/html').
+The script has an unsupported MIME type ('text/html').
+Console.js:61 🎯 FRONTEND: Response status: 200
+Console.js:61 🔍 DATI COMPLETI RICEVUTI: {
+  "icon": {
+    "exists": true,
+    "isCustom": true,
+    "iconPath": "/user-icons/user-12/app-icon.jpg",
+    "mimeType": "image/jpeg",
+    "lastModified": "2025-05-26T12:56:23.924Z"
+  },
+  "appName": "Attivo test",
+  "appShortName": "Attivo test",
+  "businessName": "Attivo test",
+  "primaryColor": "#3f51b5",
+  "secondaryColor": "#ffffff",
+  "theme": "#3f51b5",
+  "appearance": "#ffffff",
+  "contactEmail": "zambelli.andrea.1973D@gmail.com",
+  "contactPhone": null,
+  "website": null
+}
+Console.js:61 ✅ IMPOSTAZIONI CARICATE: businessName="Attivo test", appName="Attivo test"
+Console.js:61 🎯 FRONTEND: Response status: 200
+Console.js:61 🔍 DATI COMPLETI RICEVUTI: {
+  "icon": {
+    "exists": true,
+    "isCustom": true,
+    "iconPath": "/user-icons/user-12/app-icon.jpg",
+    "mimeType": "image/jpeg",
+    "lastModified": "2025-05-26T12:56:23.924Z"
+  },
+  "appName": "Attivo test",
+  "appShortName": "Attivo test",
+  "businessName": "Attivo test",
+  "primaryColor": "#3f51b5",
+  "secondaryColor": "#ffffff",
+  "theme": "#3f51b5",
+  "appearance": "#ffffff",
+  "contactEmail": "zambelli.andrea.1973D@gmail.com",
+  "contactPhone": null,
+  "website": null
+}
+Console.js:61 ✅ IMPOSTAZIONI CARICATE: businessName="Attivo test", appName="Attivo test"
+d6546abb-db52-44bc-b…g?t=1748273121530:1 
+ GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748273121530 404 (Not Found)
+app-icon.jpg:1 
+ GET https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/user-icons/user-12/app-icon.jpg?t=1748273125449 404 (Not Found)

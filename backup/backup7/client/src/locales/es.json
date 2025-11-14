@@ -1,0 +1,311 @@
+{
+  "app": {
+    "title": "Gestión de Citas",
+    "welcome": "Bienvenido a la Gestión de Citas",
+    "description": "Gestione fácilmente citas, clientes y facturas"
+  },
+  "navigation": {
+    "home": "Inicio"
+  },
+  "sidebar": {
+    "clients": "Clientes",
+    "calendar": "Calendario",
+    "invoices": "Facturas",
+    "reports": "Informes",
+    "settings": "Ajustes"
+  },
+  "language": {
+    "it": "Italiano",
+    "en": "Inglés",
+    "de": "Alemán",
+    "fr": "Francés",
+    "es": "Español",
+    "ru": "Ruso",
+    "nl": "Holandés",
+    "no": "Noruego",
+    "ro": "Rumano",
+    "select": "Seleccionar idioma"
+  },
+  "home": {
+    "calendar": {
+      "title": "Calendario",
+      "description": "Ver y gestionar todas las citas",
+      "content": "Vea las citas en modo diario, semanal o mensual, y cree fácilmente nuevas citas.",
+      "button": "Ir al Calendario"
+    },
+    "clients": {
+      "title": "Clientes",
+      "description": "Gestionar información de clientes",
+      "content": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica.",
+      "button": "Gestionar Clientes"
+    },
+    "invoices": {
+      "title": "Facturas",
+      "description": "Gestionar facturas y pagos",
+      "content": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real.",
+      "button": "Gestionar Facturas"
+    },
+    "reports": {
+      "title": "Informes",
+      "description": "Analizar el rendimiento del negocio",
+      "content": "Visualice informes diarios, semanales y mensuales para analizar el rendimiento del negocio.",
+      "button": "Ver Informes"
+    }
+  },
+  "calendar": {
+    "title": "Calendario",
+    "description": "Ver y gestionar todas las citas",
+    "subDescription": "Vea las citas en modo diario, semanal o mensual, y cree fácilmente nuevas citas",
+    "goTo": "Ir al Calendario",
+    "daily": "Diario",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "weekView": "Vista semanal",
+    "monthView": "Vista mensual",
+    "addAppointment": "Nueva Cita",
+    "today": "Hoy",
+    "searchResults": "Resultados de búsqueda",
+    "noAppointmentsFound": "No se encontraron citas para",
+    "goToDay": "Ir al día",
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    }
+  },
+  "clients": {
+    "title": "Clientes",
+    "description": "Gestionar información de clientes",
+    "subDescription": "Añada, edite y visualice datos de clientes, incluyendo información personal y médica",
+    "goTo": "Gestionar Clientes",
+    "addClient": "Nuevo Cliente",
+    "newClient": "Nuevo Cliente",
+    "addFirstClient": "Añadir primer cliente",
+    "search": {
+      "placeholder": "Buscar clientes por nombre, teléfono o email...",
+      "minLength": "Introduzca al menos 2 caracteres para buscar"
+    },
+    "filter": {
+      "all": "Todos",
+      "frequent": "Frecuentes",
+      "noConsent": "Sin Consentimiento"
+    },
+    "noClientsFound": "No se encontraron clientes",
+    "noClientsInSystem": "No hay clientes registrados en el sistema",
+    "noResultsMatch": "Ningún cliente coincide con los criterios de búsqueda \"{{query}}\"",
+    "refreshSuccess": "Los datos de clientes se han actualizado",
+    "lastUpdate": "Última actualización",
+    "autoUpdate": "Actualización automática cada hora y a las 23:59",
+    "stats": {
+      "total": "Total de clientes",
+      "frequent": "Clientes frecuentes",
+      "noConsent": "Sin consentimiento"
+    },
+    "table": {
+      "name": "Nombre",
+      "surname": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "actions": "Acciones"
+    },
+    "details": {
+      "title": "Detalles del Cliente",
+      "personalInfo": "Información Personal",
+      "medicalInfo": "Información Médica",
+      "appointments": "Citas",
+      "notes": "Notas",
+      "consents": "Consentimientos",
+      "clientFile": "Carpeta del Cliente",
+      "medicalFile": "Carpeta Médica",
+      "showDetails": "Mostrar detalles",
+      "activateAccess": "Activar acceso cliente",
+      "accessActivated": "QR Code de acceso cliente",
+      "generateLink": "Generar enlace para el acceso",
+      "generateQRCode": "Generar código QR",
+      "viewMedicalFile": "Ver carpeta médica",
+      "viewClientFile": "Ver carpeta del cliente",
+      "appointmentHistory": "Historial de citas",
+      "invoiceHistory": "Historial de facturas",
+      "addAppointment": "Añadir cita",
+      "viewConsents": "Ver consentimientos",
+      "manageConsents": "Gestionar consentimientos",
+      "clientNotes": "Notas del cliente",
+      "medicalNotes": "Notas médicas",
+      "clientSince": "Cliente desde",
+      "deleteClient": "Eliminar cliente",
+      "deleteClientConfirmation": "¿Está seguro de que desea eliminar este cliente? Todas sus citas también serán eliminadas. Esta acción no se puede deshacer.",
+      "notFound": "Cliente no encontrado",
+      "notSpecified": "No especificado",
+      "frequentClient": "Cliente frecuente",
+      "dataConsent": "Consentimiento de tratamiento de datos",
+      "obtained": "Obtenido",
+      "notObtained": "No obtenido",
+      "viewAllAppointments": "Ver todas las citas",
+      "backToClients": "Volver a la lista de clientes",
+      "structuredNotes": "Notas estructuradas",
+      "legacyMedicalData": "Datos médicos antiguos",
+      "otherInfo": "Otra información",
+      "viewMode": "Modo de visualización de notas",
+      "stackedView": "Vista de tarjetas apiladas",
+      "classicView": "Vista clásica",
+      "stackedViewDescription": "Las notas se muestran como tarjetas apiladas. Haga clic en las tarjetas o use los botones de navegación para explorarlas.",
+      "classicViewDescription": "Las notas se muestran en secuencia vertical.",
+      "generalNotes": "Notas generales",
+      "allergiesInfo": "Alergias e información de salud",
+      "medicalNotesLegacy": "Notas médicas (antiguas)",
+      "allergiesInfoLegacy": "Alergias e información de salud (antiguas)",
+      "generalNotesLegacy": "Notas generales (antiguas)",
+      "noMedicalNotes": "No hay notas médicas registradas",
+      "noAllergiesInfo": "No hay alergias o información de salud registrada",
+      "noGeneralNotes": "No hay notas generales registradas"
+    },
+    "form": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Email",
+      "phone": "Teléfono",
+      "birthDate": "Fecha de Nacimiento",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "zipCode": "Código Postal",
+      "notes": "Notas",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    }
+  },
+  "invoices": {
+    "title": "Facturas",
+    "description": "Gestionar facturas y pagos",
+    "subDescription": "Cree y gestione facturas, registre pagos y monitorice el estado de las facturas en tiempo real",
+    "goTo": "Gestionar Facturas",
+    "addInvoice": "Nueva Factura",
+    "newInvoice": "Nueva Factura",
+    "table": {
+      "number": "Número",
+      "date": "Fecha",
+      "client": "Cliente",
+      "amount": "Importe",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "paid": "Pagada",
+      "unpaid": "No Pagada",
+      "partial": "Pago Parcial"
+    }
+  },
+  "reports": {
+    "title": "Informes",
+    "description": "Analizar el rendimiento del negocio",
+    "subDescription": "Visualice informes diarios, semanales y mensuales para analizar el rendimiento del negocio",
+    "goTo": "Ver Informes",
+    "daily": "Informe Diario",
+    "weekly": "Informe Semanal",
+    "monthly": "Informe Mensual",
+    "appointments": "Citas",
+    "clients": "Clientes",
+    "revenue": "Ingresos",
+    "period": "Período",
+    "summary": "Resumen",
+    "details": "Detalles",
+    "generateReport": "Generar Informe"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "general": "General",
+    "profile": "Perfil",
+    "appearance": "Apariencia",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "theme": "Tema",
+    "save": "Guardar Ajustes"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "search": "Buscar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "actions": "Acciones",
+    "name": "Nombre",
+    "email": "Email",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "date": "Fecha",
+    "time": "Hora",
+    "description": "Descripción",
+    "support": "Soporte",
+    "terms": "Términos de Servicio",
+    "refresh": "Actualizar",
+    "error": "Error",
+    "birthday": "Fecha de nacimiento",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "notifications": {
+    "success": "Operación completada con éxito",
+    "error": "Se ha producido un error",
+    "warning": "Advertencia",
+    "info": "Información",
+    "clientDeleted": "Cliente eliminado",
+    "clientDeletedSuccess": "El cliente ha sido eliminado correctamente"
+  },
+  "errors": {
+    "genericError": "Se ha producido un error: {{error}}",
+    "qrCodeFetchError": "Error al recuperar el código QR existente:"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidó la contraseña?",
+    "loginButton": "Iniciar sesión"
+  },
+  "clientArea": {
+    "title": "Área de Cliente",
+    "welcome": "Bienvenido a su Área Personal",
+    "appointments": "Sus Citas",
+    "personalInfo": "Información Personal",
+    "consents": "Gestión de Consentimientos",
+    "messages": "Mensajes",
+    "upcomingAppointments": "Próximas citas",
+    "noUpcomingAppointments": "No tiene citas programadas",
+    "viewAppointments": "Ver todas las citas",
+    "consentStatus": "Estado de los consentimientos",
+    "consentMissing": "Consentimiento requerido",
+    "viewConsents": "Ver consentimientos"
+  },
+  "contacts": {
+    "accessOurContacts": "Accede a nuestros contactos",
+    "manageConsents": "Gestionar consentimientos",
+    "personalData": "Datos personales",
+    "medicalData": "Datos médicos",
+    "saveChanges": "Guardar cambios",
+    "dataUpdated": "Sus datos han sido actualizados",
+    "goBack": "Volver al dashboard"
+  }
+}

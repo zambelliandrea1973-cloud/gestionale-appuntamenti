@@ -1,0 +1,175 @@
+9:08:14 AM [express] POST /api/payments/stripe/create-checkout-session 200 in 1366ms :: {"success":t…
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: ag4KUCDqHwHRwr7LREp4EL_bynC0qc79
+🔐 Cookies: session-id=s%3Aag4KUCDqHwHRwr7LREp4EL_bynC0qc79.3y03GfPjPRbr0xKpw9YVhZVZQOG%2B%2BlsVEix3nF3x1CM
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+9:11:12 AM [express] GET /api/timezone-settings 200 in 3216ms :: {"timezone":"Europe/Rome","offset":…
+9:11:12 AM [express] GET /api/payments/plans 200 in 3253ms :: [{"id":5,"name":"Base Mensile","descri…
+9:11:13 AM [express] GET /api/tenant-context 200 in 3255ms :: {"userId":9,"userType":"customer","ten…
+9:11:13 AM [express] GET /api/payments/subscription 200 in 3450ms :: {"id":12,"userId":9,"planId":7,…
+9:11:13 AM [express] POST /api/timezone-settings 200 in 144ms :: {"success":true,"timezone":"Europe/…
+9:11:13 AM [express] POST /api/timezone-settings 200 in 156ms :: {"success":true,"timezone":"Europe/…
+🔐 MIDDLEWARE isAuthenticated chiamato per POST /paypal/subscribe
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: ag4KUCDqHwHRwr7LREp4EL_bynC0qc79
+🔐 Cookies: session-id=s%3Aag4KUCDqHwHRwr7LREp4EL_bynC0qc79.3y03GfPjPRbr0xKpw9YVhZVZQOG%2B%2BlsVEix3nF3x1CM
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+createPayPalSubscription iniziato con: {
+  userId: 9,
+  planId: 7,
+  returnUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment/success',
+  cancelUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment/cancel'
+}
+Piano trovato: {
+  id: 7,
+  name: 'Pro Mensile',
+  description: 'Piano professionale - fatturazione mensile',
+  price: 999,
+  interval: 'month',
+  features: [
+    {
+      name: 'calendario appuntamenti, gestione clienti, notifiche clienti, emissione fatture, sincronizzazione google calendar, report, app clienti qr',
+      included: true
+    }
+  ],
+  clientLimit: 500,
+  isActive: true,
+  sortOrder: 3,
+  createdAt: 2025-10-01T13:00:51.783Z,
+  updatedAt: 2025-10-01T13:00:51.783Z
+}
+PayPal Config: {
+  clientIdPresent: true,
+  clientSecretPresent: true,
+  environment: 'development',
+  price: '9.99',
+  planName: 'Pro Mensile'
+}
+Invio richiesta a PayPal...
+Recupero metodi di pagamento configurati
+Recuperati 4 metodi di pagamento configurati
+🔐 PayPal: usando credenziali dal DATABASE (LIVE)
+PayPal: ambiente PRODUZIONE (LIVE) 💰
+Risposta PayPal: { statusCode: 201, resultId: '1DL01515YJ1537511', linksCount: 4 }
+URL approvazione trovato: https://www.paypal.com/checkoutnow?token=1DL01515YJ1537511
+Recupero sottoscrizione per l'utente con ID 9
+Abbonamento esistente trovato (ID: 12), lo aggiorno invece di crearne uno nuovo
+Aggiornamento abbonamento ID: 12 con dati: {
+  planId: 7,
+  status: 'pending',
+  currentPeriodStart: 2025-10-08T09:11:17.977Z,
+  currentPeriodEnd: 2026-10-08T09:11:17.977Z,
+  cancelAtPeriodEnd: false,
+  paypalSubscriptionId: '1DL01515YJ1537511',
+  paymentMethod: 'paypal'
+}
+Abbonamento aggiornato: {
+  id: 12,
+  userId: 9,
+  planId: 7,
+  status: 'pending',
+  currentPeriodStart: 2025-10-08T09:11:17.977Z,
+  currentPeriodEnd: 2026-10-08T09:11:17.977Z,
+  cancelAtPeriodEnd: false,
+  paypalSubscriptionId: '1DL01515YJ1537511',
+  wiseSubscriptionId: null,
+  stripeCustomerId: null,
+  stripeSubscriptionId: null,
+  stripeSessionId: 'cs_test_a1r91Ff2AumNBu0NF8Cruor8IkPv80kYaYcIIBLDuyt9j8S0rtICoIB9nG',
+  paymentMethod: 'paypal',
+  metadata: null,
+  createdAt: 2025-10-07T13:17:02.314Z,
+  updatedAt: 2025-10-07T13:17:02.314Z
+}
+9:11:18 AM [express] POST /api/payments/paypal/subscribe 200 in 955ms :: {"success":true,"url":"http…
+9:18:17 AM [express] GET /api/timezone-settings 200 in 688ms :: {"timezone":"Europe/Rome","offset":2}
+🔐 MIDDLEWARE isAuthenticated chiamato per GET /subscription
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: ag4KUCDqHwHRwr7LREp4EL_bynC0qc79
+🔐 Cookies: session-id=s%3Aag4KUCDqHwHRwr7LREp4EL_bynC0qc79.3y03GfPjPRbr0xKpw9YVhZVZQOG%2B%2BlsVEix3nF3x1CM
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+Recupero sottoscrizione per l'utente con ID 9
+9:18:17 AM [express] GET /api/tenant-context 200 in 649ms :: {"userId":9,"userType":"customer","tena…
+9:18:17 AM [express] GET /api/payments/plans 200 in 736ms :: [{"id":5,"name":"Base Mensile","descrip…
+9:18:17 AM [express] POST /api/timezone-settings 200 in 148ms :: {"success":true,"timezone":"Europe/…
+9:18:18 AM [express] POST /api/timezone-settings 200 in 143ms :: {"success":true,"timezone":"Europe/…
+9:18:18 AM [express] GET /api/payments/subscription 200 in 968ms :: {"id":12,"userId":9,"planId":7,"…
+🔐 MIDDLEWARE isAuthenticated chiamato per POST /paypal/subscribe
+🔐 req.isAuthenticated(): true
+🔐 req.user: zambelli.andrea.1973A@gmail.com (ID: 9)
+🔐 Session ID: ag4KUCDqHwHRwr7LREp4EL_bynC0qc79
+🔐 Cookies: session-id=s%3Aag4KUCDqHwHRwr7LREp4EL_bynC0qc79.3y03GfPjPRbr0xKpw9YVhZVZQOG%2B%2BlsVEix3nF3x1CM
+✅ Utente autenticato con successo in isAuthenticated middleware: zambelli.andrea.1973A@gmail.com tipo: customer
+createPayPalSubscription iniziato con: {
+  userId: 9,
+  planId: 7,
+  returnUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment/success',
+  cancelUrl: 'https://d6546abb-db52-44bc-b646-7127baec287e-00-yym34ng3ao7z.worf.replit.dev/payment/cancel'
+}
+Piano trovato: {
+  id: 7,
+  name: 'Pro Mensile',
+  description: 'Piano professionale - fatturazione mensile',
+  price: 999,
+  interval: 'month',
+  features: [
+    {
+      name: 'calendario appuntamenti, gestione clienti, notifiche clienti, emissione fatture, sincronizzazione google calendar, report, app clienti qr',
+      included: true
+    }
+  ],
+  clientLimit: 500,
+  isActive: true,
+  sortOrder: 3,
+  createdAt: 2025-10-01T13:00:51.783Z,
+  updatedAt: 2025-10-01T13:00:51.783Z
+}
+PayPal Config: {
+  clientIdPresent: true,
+  clientSecretPresent: true,
+  environment: 'development',
+  price: '9.99',
+  planName: 'Pro Mensile'
+}
+Invio richiesta a PayPal...
+Recupero metodi di pagamento configurati
+Recuperati 4 metodi di pagamento configurati
+🔐 PayPal: usando credenziali dal DATABASE (LIVE)
+PayPal: ambiente PRODUZIONE (LIVE) 💰
+Risposta PayPal: { statusCode: 201, resultId: '56T41137GK4860715', linksCount: 4 }
+URL approvazione trovato: https://www.paypal.com/checkoutnow?token=56T41137GK4860715
+Recupero sottoscrizione per l'utente con ID 9
+Abbonamento esistente trovato (ID: 12), lo aggiorno invece di crearne uno nuovo
+Aggiornamento abbonamento ID: 12 con dati: {
+  planId: 7,
+  status: 'pending',
+  currentPeriodStart: 2025-10-08T09:18:26.289Z,
+  currentPeriodEnd: 2026-10-08T09:18:26.289Z,
+  cancelAtPeriodEnd: false,
+  paypalSubscriptionId: '56T41137GK4860715',
+  paymentMethod: 'paypal'
+}
+Abbonamento aggiornato: {
+  id: 12,
+  userId: 9,
+  planId: 7,
+  status: 'pending',
+  currentPeriodStart: 2025-10-08T09:18:26.289Z,
+  currentPeriodEnd: 2026-10-08T09:18:26.289Z,
+  cancelAtPeriodEnd: false,
+  paypalSubscriptionId: '56T41137GK4860715',
+  wiseSubscriptionId: null,
+  stripeCustomerId: null,
+  stripeSubscriptionId: null,
+  stripeSessionId: 'cs_test_a1r91Ff2AumNBu0NF8Cruor8IkPv80kYaYcIIBLDuyt9j8S0rtICoIB9nG',
+  paymentMethod: 'paypal',
+  metadata: null,
+  createdAt: 2025-10-07T13:17:02.314Z,
+  updatedAt: 2025-10-07T13:17:02.314Z
+}
+9:18:26 AM [express] POST /api/payments/paypal/subscribe 200 in 892ms :: {"success":true,"url":"http…
