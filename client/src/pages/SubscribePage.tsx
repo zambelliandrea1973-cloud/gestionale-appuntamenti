@@ -53,6 +53,26 @@ interface Plan {
   buttonVariant?: 'default' | 'outline' | 'secondary';
 }
 
+// Helper per tradurre le feature dal database
+const translateFeatureName = (featureName: string, t: any): string => {
+  const featureMap: Record<string, string> = {
+    'Calendario appuntamenti': t('planFeatures.calendar'),
+    'Gestione clienti': t('planFeatures.clients'),
+    'App QR/PWA per clienti': t('planFeatures.qrPwa'),
+    'Richiesta appuntamenti cliente': t('planFeatures.appointmentRequests'),
+    'Notifiche clienti': t('planFeatures.notifications'),
+    'Emissione fatture': t('planFeatures.invoices'),
+    'Sincronizzazione Google Calendar': t('planFeatures.googleCalendar'),
+    'Report e statistiche': t('planFeatures.reports'),
+    'Pacchetti promozionali': t('planFeatures.packages'),
+    'Gestione più dipendenti': t('planFeatures.multiStaff'),
+    'Magazzino prodotti': t('planFeatures.inventory'),
+    'Campagne Marketing AI': t('planFeatures.marketingAI'),
+  };
+  
+  return featureMap[featureName] || featureName;
+};
+
 export default function SubscribePage() {
   const { t } = useTranslation();
   const { licenseInfo, activateLicense } = useLicense();
@@ -290,16 +310,16 @@ export default function SubscribePage() {
       priceLabel: t('plans.trial.price', 'Gratis'),
       buttonVariant: 'outline',
       features: [
-        { name: 'Calendario appuntamenti', included: true },
-        { name: 'Gestione clienti', included: true },
-        { name: 'App QR/PWA per clienti', included: true },
-        { name: 'Richiesta appuntamenti cliente', included: true },
-        { name: 'Notifiche clienti', included: true },
-        { name: 'Emissione fatture', included: true },
-        { name: 'Report e statistiche', included: false },
-        { name: 'Sincronizzazione Google Calendar', included: false },
-        { name: 'Pacchetti promozionali', included: false },
-        { name: 'Campagne Marketing AI', included: false },
+        { name: t('planFeatures.calendar'), included: true },
+        { name: t('planFeatures.clients'), included: true },
+        { name: t('planFeatures.qrPwa'), included: true },
+        { name: t('planFeatures.appointmentRequests'), included: true },
+        { name: t('planFeatures.notifications'), included: true },
+        { name: t('planFeatures.invoices'), included: true },
+        { name: t('planFeatures.reports'), included: false },
+        { name: t('planFeatures.googleCalendar'), included: false },
+        { name: t('planFeatures.packages'), included: false },
+        { name: t('planFeatures.marketingAI'), included: false },
       ],
     },
     {
@@ -311,16 +331,16 @@ export default function SubscribePage() {
       priceLabel: '€ 5,99 / mese',
       buttonVariant: 'outline',
       features: [
-        { name: 'Calendario appuntamenti', included: true },
-        { name: 'Gestione clienti', included: true },
-        { name: 'App QR/PWA per clienti', included: true },
-        { name: 'Richiesta appuntamenti cliente', included: true },
-        { name: 'Notifiche clienti', included: true },
-        { name: 'Emissione fatture', included: true },
-        { name: 'Report e statistiche', included: false },
-        { name: 'Sincronizzazione Google Calendar', included: false },
-        { name: 'Pacchetti promozionali', included: false },
-        { name: 'Campagne Marketing AI', included: false },
+        { name: t('planFeatures.calendar'), included: true },
+        { name: t('planFeatures.clients'), included: true },
+        { name: t('planFeatures.qrPwa'), included: true },
+        { name: t('planFeatures.appointmentRequests'), included: true },
+        { name: t('planFeatures.notifications'), included: true },
+        { name: t('planFeatures.invoices'), included: true },
+        { name: t('planFeatures.reports'), included: false },
+        { name: t('planFeatures.googleCalendar'), included: false },
+        { name: t('planFeatures.packages'), included: false },
+        { name: t('planFeatures.marketingAI'), included: false },
       ],
     },
     {
@@ -333,18 +353,18 @@ export default function SubscribePage() {
       popular: true,
       buttonVariant: 'default',
       features: [
-        { name: 'Calendario appuntamenti', included: true },
-        { name: 'Gestione clienti', included: true },
-        { name: 'App QR/PWA per clienti', included: true },
-        { name: 'Richiesta appuntamenti cliente', included: true },
-        { name: 'Notifiche clienti', included: true },
-        { name: 'Emissione fatture', included: true },
-        { name: 'Sincronizzazione Google Calendar', included: true },
-        { name: 'Report e statistiche', included: true },
-        { name: 'Pacchetti promozionali', included: true },
-        { name: 'Gestione più dipendenti', included: false },
-        { name: 'Magazzino prodotti', included: false },
-        { name: 'Campagne Marketing AI', included: false },
+        { name: t('planFeatures.calendar'), included: true },
+        { name: t('planFeatures.clients'), included: true },
+        { name: t('planFeatures.qrPwa'), included: true },
+        { name: t('planFeatures.appointmentRequests'), included: true },
+        { name: t('planFeatures.notifications'), included: true },
+        { name: t('planFeatures.invoices'), included: true },
+        { name: t('planFeatures.googleCalendar'), included: true },
+        { name: t('planFeatures.reports'), included: true },
+        { name: t('planFeatures.packages'), included: true },
+        { name: t('planFeatures.multiStaff'), included: false },
+        { name: t('planFeatures.inventory'), included: false },
+        { name: t('planFeatures.marketingAI'), included: false },
       ],
     },
     {
@@ -356,18 +376,18 @@ export default function SubscribePage() {
       priceLabel: '€ 19,99 / mese',
       buttonVariant: 'outline',
       features: [
-        { name: 'Calendario appuntamenti', included: true },
-        { name: 'Gestione clienti', included: true },
-        { name: 'App QR/PWA per clienti', included: true },
-        { name: 'Richiesta appuntamenti cliente', included: true },
-        { name: 'Notifiche clienti', included: true },
-        { name: 'Emissione fatture', included: true },
-        { name: 'Sincronizzazione Google Calendar', included: true },
-        { name: 'Report e statistiche', included: true },
-        { name: 'Pacchetti promozionali', included: true },
-        { name: 'Gestione più dipendenti', included: true },
-        { name: 'Magazzino prodotti', included: true },
-        { name: 'Campagne Marketing AI', included: true },
+        { name: t('planFeatures.calendar'), included: true },
+        { name: t('planFeatures.clients'), included: true },
+        { name: t('planFeatures.qrPwa'), included: true },
+        { name: t('planFeatures.appointmentRequests'), included: true },
+        { name: t('planFeatures.notifications'), included: true },
+        { name: t('planFeatures.invoices'), included: true },
+        { name: t('planFeatures.googleCalendar'), included: true },
+        { name: t('planFeatures.reports'), included: true },
+        { name: t('planFeatures.packages'), included: true },
+        { name: t('planFeatures.multiStaff'), included: true },
+        { name: t('planFeatures.inventory'), included: true },
+        { name: t('planFeatures.marketingAI'), included: true },
       ],
     },
   ];
@@ -642,8 +662,10 @@ export default function SubscribePage() {
                       </div>
                       <ul className="space-y-2 mb-6">
                         {plan.features.flatMap((feature: PlanFeature, featureIndex: number) => {
+                          // Traduci la feature prima di splitarla
+                          const translatedFeatureName = translateFeatureName(feature.name, t);
                           // Separa la feature per virgola, punto o trattino
-                          const items = feature.name
+                          const items = translatedFeatureName
                             .split(/[,;.\-]/)
                             .map(item => item.trim())
                             .filter(item => item.length > 0);

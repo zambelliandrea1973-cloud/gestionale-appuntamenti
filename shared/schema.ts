@@ -834,9 +834,6 @@ export const insertUserSettingsSchema = createInsertSchema(userSettings).omit({
 });
 
 // Define types
-export type Client = typeof clients.$inferSelect;
-export type InsertClient = z.infer<typeof insertClientSchema>;
-
 export type Service = typeof services.$inferSelect;
 export type InsertService = z.infer<typeof insertServiceSchema>;
 

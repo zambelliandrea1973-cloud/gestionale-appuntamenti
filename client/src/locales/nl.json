@@ -796,5 +796,19 @@
         "retention": "De gepersonaliseerde PWA-app creëert een sterkere band met klanten, verhoogt de retentie en vermindert no-shows dankzij automatische herinneringen en de premium gebruikerservaring."
       }
     }
+  },
+  "planFeatures": {
+    "calendar": "Afsprakenkalender",
+    "clients": "Klantenbeheer",
+    "qrPwa": "QR/PWA-app voor klanten",
+    "appointmentRequests": "Afspraakaanvragen van klanten",
+    "notifications": "Klantmeldingen",
+    "invoices": "Factuurgeneratie",
+    "googleCalendar": "Google Calendar-synchronisatie",
+    "reports": "Rapporten en statistieken",
+    "packages": "Promotiepakketten",
+    "multiStaff": "Beheer van meerdere medewerkers",
+    "inventory": "Productinventaris",
+    "marketingAI": "AI-marketingcampagnes"
   }
 }

@@ -796,5 +796,19 @@
         "retention": "Den personlig tilpassede PWA-appen skaper en sterkere binding med kundene, øker lojaliteten og reduserer uteblivelser takket være automatiske påminnelser og premium brukeropplevelse."
       }
     }
+  },
+  "planFeatures": {
+    "calendar": "Avtalekalender",
+    "clients": "Kundebehandling",
+    "qrPwa": "QR/PWA-app for kunder",
+    "appointmentRequests": "Kundeforespørsler om avtaler",
+    "notifications": "Kundemeldinger",
+    "invoices": "Fakturagenerering",
+    "googleCalendar": "Google Calendar-synkronisering",
+    "reports": "Rapporter og statistikk",
+    "packages": "Kampanjepakker",
+    "multiStaff": "Administrasjon av flere ansatte",
+    "inventory": "Produktlager",
+    "marketingAI": "AI-markedsføringskampanjer"
   }
 }

@@ -798,5 +798,19 @@
         "retention": "L'app PWA personalizzata crea un legame più forte con i clienti, aumentando la retention e riducendo i no-show grazie ai promemoria automatici e all'esperienza utente premium."
       }
     }
+  },
+  "planFeatures": {
+    "calendar": "Calendario appuntamenti",
+    "clients": "Gestione clienti",
+    "qrPwa": "App QR/PWA per clienti",
+    "appointmentRequests": "Richiesta appuntamenti cliente",
+    "notifications": "Notifiche clienti",
+    "invoices": "Emissione fatture",
+    "googleCalendar": "Sincronizzazione Google Calendar",
+    "reports": "Report e statistiche",
+    "packages": "Pacchetti promozionali",
+    "multiStaff": "Gestione più dipendenti",
+    "inventory": "Magazzino prodotti",
+    "marketingAI": "Campagne Marketing AI"
   }
 }

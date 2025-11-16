@@ -796,5 +796,19 @@
         "retention": "Aplicația PWA personalizată creează o legătură mai strânsă cu clienții, crescând loialitatea și reducând absențele neconfirmate datorită mementourilor automate și experienței premium pentru utilizatori."
       }
     }
+  },
+  "planFeatures": {
+    "calendar": "Calendar programări",
+    "clients": "Gestionare clienți",
+    "qrPwa": "Aplicație QR/PWA pentru clienți",
+    "appointmentRequests": "Cereri de programări de la clienți",
+    "notifications": "Notificări clienți",
+    "invoices": "Generare facturi",
+    "googleCalendar": "Sincronizare Google Calendar",
+    "reports": "Rapoarte și statistici",
+    "packages": "Pachete promoționale",
+    "multiStaff": "Gestionare angajați multipli",
+    "inventory": "Inventar produse",
+    "marketingAI": "Campanii Marketing AI"
   }
 }

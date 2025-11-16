@@ -796,5 +796,19 @@
         "retention": "The personalized PWA app creates a stronger bond with clients, increasing retention and reducing no-shows thanks to automatic reminders and the premium user experience."
       }
     }
+  },
+  "planFeatures": {
+    "calendar": "Appointment calendar",
+    "clients": "Client management",
+    "qrPwa": "QR/PWA app for clients",
+    "appointmentRequests": "Client appointment requests",
+    "notifications": "Client notifications",
+    "invoices": "Invoice generation",
+    "googleCalendar": "Google Calendar sync",
+    "reports": "Reports and statistics",
+    "packages": "Promotional packages",
+    "multiStaff": "Multi-staff management",
+    "inventory": "Product inventory",
+    "marketingAI": "AI Marketing campaigns"
   }
 }
