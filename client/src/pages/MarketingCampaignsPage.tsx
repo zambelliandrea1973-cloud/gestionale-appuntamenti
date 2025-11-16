@@ -23,7 +23,9 @@ import {
   Image as ImageIcon,
   Video,
   ArrowLeft,
-  Trash2
+  Trash2,
+  Edit,
+  RefreshCw
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { apiRequest, queryClient } from '@/lib/queryClient';
@@ -348,6 +350,41 @@ export default function MarketingCampaignsPage() {
     if (window.confirm(`Vuoi davvero eliminare la campagna "${campaignTitle}"?`)) {
       deleteCampaignMutation.mutate(campaignId);
     }
+  };
+
+  const handleEditCampaign = (campaign: Campaign) => {
+    // Carica la campagna nell'editor per permettere modifiche
+    setGeneratedCampaign({
+      title: campaign.title,
+      message: campaign.message
+    });
+    setEditableTitle(campaign.title);
+    setEditableMessage(campaign.message);
+    
+    // Scroll verso l'alto per mostrare l'editor
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    toast({
+      title: 'Campagna caricata',
+      description: 'Puoi modificare il messaggio e inviarlo di nuovo',
+    });
+  };
+
+  const handleResendCampaign = async (campaign: Campaign) => {
+    if (!window.confirm(`Vuoi reinviare la campagna "${campaign.title}" a tutti i clienti?`)) {
+      return;
+    }
+    
+    // Carica la campagna nell'editor e avvia l'invio
+    setGeneratedCampaign({
+      title: campaign.title,
+      message: campaign.message
+    });
+    setEditableTitle(campaign.title);
+    setEditableMessage(campaign.message);
+    
+    // Avvia immediatamente l'invio (default: WhatsApp)
+    await handleSendCampaign('whatsapp');
   };
 
   const handleSendCampaign = async (channel: 'whatsapp' | 'email' | 'both') => {
@@ -767,27 +804,50 @@ export default function MarketingCampaignsPage() {
                         key={campaign.id}
                         className="border rounded-lg p-3 space-y-2 relative group"
                       >
-                        <div className="flex items-start justify-between">
-                          <h4 className="font-semibold text-sm pr-8">{campaign.title}</h4>
-                          <div className="flex items-center gap-1">
-                            <Badge variant="outline" className="text-xs">
-                              {campaign.sentTo || 0} clienti
-                            </Badge>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10"
-                              onClick={() => handleDeleteCampaign(campaign.id, campaign.title)}
-                              disabled={deleteCampaignMutation.isPending}
-                              data-testid={`button-delete-campaign-${campaign.id}`}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
-                          </div>
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="font-semibold text-sm flex-1">{campaign.title}</h4>
+                          <Badge variant="outline" className="text-xs shrink-0">
+                            {campaign.sentTo || 0} clienti
+                          </Badge>
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
                           {campaign.message}
                         </p>
+                        
+                        {/* Pulsanti azione */}
+                        <div className="flex items-center gap-1 pt-1">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-7 text-xs flex-1"
+                            onClick={() => handleEditCampaign(campaign)}
+                            data-testid={`button-edit-campaign-${campaign.id}`}
+                          >
+                            <Edit className="h-3 w-3 mr-1" />
+                            Modifica
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-7 text-xs flex-1"
+                            onClick={() => handleResendCampaign(campaign)}
+                            disabled={isSending}
+                            data-testid={`button-resend-campaign-${campaign.id}`}
+                          >
+                            <RefreshCw className="h-3 w-3 mr-1" />
+                            Riinvia
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            onClick={() => handleDeleteCampaign(campaign.id, campaign.title)}
+                            disabled={deleteCampaignMutation.isPending}
+                            data-testid={`button-delete-campaign-${campaign.id}`}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           {campaign.attachmentPaths && campaign.attachmentPaths.length > 0 && (
                             <Badge variant="secondary" className="text-xs">
