@@ -346,6 +346,24 @@ export default function MarketingCampaignsPage() {
     }
   };
 
+  const handleClearDraft = () => {
+    if (window.confirm('Vuoi eliminare questa bozza senza inviarla?')) {
+      setGeneratedCampaign(null);
+      setEditableTitle('');
+      setEditableMessage('');
+      setUploadedFiles([]);
+      setFilePreviews([]);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      toast({
+        title: 'Bozza eliminata',
+        description: 'La campagna è stata cancellata',
+      });
+    }
+  };
+
   const handleDeleteCampaign = (campaignId: number, campaignTitle: string) => {
     if (window.confirm(`Vuoi davvero eliminare la campagna "${campaignTitle}"?`)) {
       deleteCampaignMutation.mutate(campaignId);
@@ -709,15 +727,27 @@ export default function MarketingCampaignsPage() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleCopyMessage}
-                    data-testid="button-copy-message"
-                  >
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copia
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCopyMessage}
+                      data-testid="button-copy-message"
+                    >
+                      <Copy className="h-4 w-4 mr-2" />
+                      Copia
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleClearDraft}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                      data-testid="button-delete-draft"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Elimina
+                    </Button>
+                  </div>
 
                   <div className="flex gap-2">
                     <Button
