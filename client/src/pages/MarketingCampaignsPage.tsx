@@ -464,9 +464,9 @@ export default function MarketingCampaignsPage() {
         credentials: 'include'
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        
         // Ricarica campagne dal database
         queryClient.invalidateQueries({ queryKey: ['/api/campaigns'] });
 
@@ -506,7 +506,11 @@ export default function MarketingCampaignsPage() {
         setEditableMessage('');
         handleRemoveFile();
       } else {
-        throw new Error('Errore invio');
+        // Gestisci errore specifico per campagna già inviata
+        if (data.alreadySent) {
+          throw new Error(data.message || 'Questa campagna è già stata inviata');
+        }
+        throw new Error(data.message || 'Errore durante l\'invio della campagna');
       }
     } catch (error) {
       // Mostra messaggio specifico se disponibile, altrimenti generico

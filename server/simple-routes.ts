@@ -8549,11 +8549,13 @@ Studio Professionale`;
       
       console.log('📤 [CAMPAIGN NEW] Richiesta invio campagna:', title, '- Canale:', channel);
       
-      // 🔐 STEP 1: GENERA CHIAVE IDEMPOTENZA PERMANENTE (userId + titolo + messaggio)
-      const idempotencyData = `${user.id}-${title}-${message}`;
+      // 🔐 STEP 1: GENERA CHIAVE IDEMPOTENZA CON DATA (userId + titolo + messaggio + data)
+      // Include la data corrente (YYYY-MM-DD) così la stessa campagna può essere inviata in giorni diversi
+      const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      const idempotencyData = `${user.id}-${title}-${message}-${currentDate}`;
       const idempotencyKey = crypto.createHash('sha256').update(idempotencyData).digest('hex');
       
-      // 🔒 STEP 2: BLOCCO PERMANENTE - Una campagna con stesso contenuto NON può essere reinviata
+      // 🔒 STEP 2: BLOCCO GIORNALIERO - Una campagna con stesso contenuto può essere inviata UNA SOLA VOLTA al giorno
       const existingCampaign = await db
         .select()
         .from(marketingCampaigns)
@@ -8562,11 +8564,11 @@ Studio Professionale`;
         .limit(1);
       
       if (existingCampaign.length > 0) {
-        console.log('🚫 [CAMPAIGN BLOCKED] Campagna già inviata (blocco permanente):', title);
+        console.log('🚫 [CAMPAIGN BLOCKED] Campagna già inviata oggi:', title);
         return res.status(400).json({ 
           success: false,
           alreadySent: true,
-          message: `⚠️ Questa campagna è già stata inviata il ${new Date(existingCampaign[0].createdAt!).toLocaleString('it-IT')}. Non è possibile reinviarla.`,
+          message: `⚠️ Questa campagna è già stata inviata oggi alle ${new Date(existingCampaign[0].createdAt!).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}. Potrai inviarla di nuovo domani.`,
           sentDate: existingCampaign[0].createdAt,
           sentTo: existingCampaign[0].sentTo
         });
