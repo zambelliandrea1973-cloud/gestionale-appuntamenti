@@ -8465,6 +8465,46 @@ Studio Professionale`;
     }
   });
 
+  // DELETE /api/campaigns/:id - Elimina una campagna dal database
+  app.delete('/api/campaigns/:id', requireAuth, async (req, res) => {
+    try {
+      const user = req.user as any;
+      const campaignId = parseInt(req.params.id);
+      
+      if (isNaN(campaignId)) {
+        return res.status(400).json({ message: 'ID campagna non valido' });
+      }
+      
+      // Verifica che la campagna appartenga all'utente
+      const campaign = await db
+        .select()
+        .from(marketingCampaigns)
+        .where(eq(marketingCampaigns.id, campaignId))
+        .limit(1);
+      
+      if (campaign.length === 0) {
+        return res.status(404).json({ message: 'Campagna non trovata' });
+      }
+      
+      if (campaign[0].userId !== user.id) {
+        return res.status(403).json({ message: 'Non autorizzato' });
+      }
+      
+      // Elimina la campagna
+      await db
+        .delete(marketingCampaigns)
+        .where(eq(marketingCampaigns.id, campaignId));
+      
+      res.json({ success: true, message: 'Campagna eliminata con successo' });
+    } catch (error) {
+      console.error('❌ [CAMPAIGNS] Errore eliminazione campagna:', error);
+      res.status(500).json({ 
+        message: 'Errore nell\'eliminazione della campagna',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // POST /api/campaigns/send-batch - Invia campagna a tutti i clienti
   const uploadCampaign = multer({ 
     storage: multer.memoryStorage(),
