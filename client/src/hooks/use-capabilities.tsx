@@ -9,10 +9,12 @@ export type Capability =
   | 'reports'               // Report (solo Pro/Business)
   | 'google_calendar'       // Integrazione Google Calendar
   | 'client_pwa_qr'         // App clienti con QR code
+  | 'appointment_requests'  // Richiesta appuntamenti da parte dei clienti
+  | 'promotional_packages'  // Pacchetti promozionali (Pro+)
   | 'staff_rooms'           // Staff e Stanze (gestione dipendenti)
   | 'warehouse'             // Magazzino/Inventario
   | 'unlimited_clients'     // Clienti illimitati
-  | 'marketing_ai';         // Campagne Marketing AI con media
+  | 'marketing_ai';         // Campagne Marketing AI con media (Business+)
 
 // Mappa delle capabilities per tipo di licenza
 const CAPABILITY_MAP: Record<string, Capability[]> = {
@@ -22,6 +24,7 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'email_notifications',
     'whatsapp_notifications',
     'invoices',
+    'appointment_requests',
   ],
   
   // Base - STESSI accessi di Trial (€5.99/mese o €59/anno)
@@ -30,9 +33,10 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'email_notifications',
     'whatsapp_notifications',
     'invoices',
+    'appointment_requests',
   ],
   
-  // Pro - Base + Report + Google Calendar + App clienti + Marketing AI
+  // Pro - Base + Report + Google Calendar + App clienti + Pacchetti (NO Marketing AI)
   'pro': [
     'calendar',
     'email_notifications',
@@ -41,10 +45,11 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'reports',
     'google_calendar',
     'client_pwa_qr',
-    'marketing_ai',
+    'appointment_requests',
+    'promotional_packages',
   ],
   
-  // Business - Pro + Staff/Stanze + Magazzino + Illimitati
+  // Business - Pro + Marketing AI + Staff/Stanze + Magazzino + Illimitati
   'business': [
     'calendar',
     'email_notifications',
@@ -53,6 +58,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'reports',
     'google_calendar',
     'client_pwa_qr',
+    'appointment_requests',
+    'promotional_packages',
     'marketing_ai',
     'staff_rooms',
     'warehouse',
@@ -68,6 +75,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'reports',
     'google_calendar',
     'client_pwa_qr',
+    'appointment_requests',
+    'promotional_packages',
     'marketing_ai',
     'staff_rooms',
     'warehouse',
@@ -83,6 +92,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'reports',
     'google_calendar',
     'client_pwa_qr',
+    'appointment_requests',
+    'promotional_packages',
     'marketing_ai',
     'staff_rooms',
     'warehouse',
@@ -98,6 +109,8 @@ const CAPABILITY_MAP: Record<string, Capability[]> = {
     'reports',
     'google_calendar',
     'client_pwa_qr',
+    'appointment_requests',
+    'promotional_packages',
     'marketing_ai',
     'staff_rooms',
     'warehouse',
@@ -161,10 +174,20 @@ export const UPGRADE_MESSAGES: Record<Capability, {
     description: 'Passa al piano Business per avere clienti illimitati.',
     requiredPlan: 'Business',
   },
+  appointment_requests: {
+    title: 'Richiesta appuntamenti non disponibile',
+    description: 'La funzione di richiesta appuntamenti da parte dei clienti è disponibile in tutti i piani.',
+    requiredPlan: 'Base',
+  },
+  promotional_packages: {
+    title: 'Pacchetti promozionali non disponibili',
+    description: 'I pacchetti promozionali sono disponibili dal piano Pro in su.',
+    requiredPlan: 'Pro',
+  },
   marketing_ai: {
     title: 'Campagne Marketing AI non disponibili',
-    description: 'Le campagne marketing con AI e upload media sono disponibili dal piano Pro in su.',
-    requiredPlan: 'Pro',
+    description: 'Le campagne marketing con AI e upload media sono disponibili dal piano Business in su.',
+    requiredPlan: 'Business',
   },
 };
 

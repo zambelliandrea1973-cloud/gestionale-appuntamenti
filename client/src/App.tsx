@@ -322,7 +322,11 @@ function AppRoutes() {
       </Route>
       <Route path="/packages">
         <StaffPageWrapper>
-          <ProFeatureGuard featureName="packages">
+          <ProFeatureGuard 
+            featureName="Pacchetti Promozionali"
+            description="Crea e gestisci pacchetti di trattamenti con sconti e scadenze."
+            requiredCapability="promotional_packages"
+          >
             <PackagesPage />
           </ProFeatureGuard>
         </StaffPageWrapper>
