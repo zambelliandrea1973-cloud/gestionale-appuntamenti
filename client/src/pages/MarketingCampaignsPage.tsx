@@ -22,7 +22,8 @@ import {
   X,
   Image as ImageIcon,
   Video,
-  ArrowLeft
+  ArrowLeft,
+  Trash2
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { apiRequest, queryClient } from '@/lib/queryClient';
@@ -64,10 +65,36 @@ export default function MarketingCampaignsPage() {
   const [totalClients, setTotalClients] = useState(0);
   
   // Carica campagne dal database
-  const { data: campaigns = [], isLoading: isLoadingCampaigns } = useQuery({
+  const { data: campaigns = [], isLoading: isLoadingCampaigns } = useQuery<Campaign[]>({
     queryKey: ['/api/campaigns'],
     staleTime: 60000, // 1 minuto
   });
+  
+  // Mutation per eliminare una campagna
+  const deleteCampaignMutation = useMutation({
+    mutationFn: async (campaignId: number) => {
+      const response = await apiRequest('DELETE', `/api/campaigns/${campaignId}`);
+      if (!response.ok) {
+        throw new Error('Impossibile eliminare la campagna');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/campaigns'] });
+      toast({
+        title: 'Campagna eliminata',
+        description: 'La campagna è stata eliminata con successo',
+      });
+    },
+    onError: () => {
+      toast({
+        title: 'Errore',
+        description: 'Impossibile eliminare la campagna. Riprova.',
+        variant: 'destructive',
+      });
+    }
+  });
+  
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -314,6 +341,12 @@ export default function MarketingCampaignsPage() {
         title: 'Copiato!',
         description: 'Messaggio copiato negli appunti',
       });
+    }
+  };
+
+  const handleDeleteCampaign = (campaignId: number, campaignTitle: string) => {
+    if (window.confirm(`Vuoi davvero eliminare la campagna "${campaignTitle}"?`)) {
+      deleteCampaignMutation.mutate(campaignId);
     }
   };
 
@@ -732,13 +765,25 @@ export default function MarketingCampaignsPage() {
                     {campaigns.map((campaign) => (
                       <div
                         key={campaign.id}
-                        className="border rounded-lg p-3 space-y-2"
+                        className="border rounded-lg p-3 space-y-2 relative group"
                       >
                         <div className="flex items-start justify-between">
-                          <h4 className="font-semibold text-sm">{campaign.title}</h4>
-                          <Badge variant="outline" className="text-xs">
-                            {campaign.sentTo || 0} clienti
-                          </Badge>
+                          <h4 className="font-semibold text-sm pr-8">{campaign.title}</h4>
+                          <div className="flex items-center gap-1">
+                            <Badge variant="outline" className="text-xs">
+                              {campaign.sentTo || 0} clienti
+                            </Badge>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10"
+                              onClick={() => handleDeleteCampaign(campaign.id, campaign.title)}
+                              disabled={deleteCampaignMutation.isPending}
+                              data-testid={`button-delete-campaign-${campaign.id}`}
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
                         </div>
                         <p className="text-xs text-muted-foreground line-clamp-2">
                           {campaign.message}
