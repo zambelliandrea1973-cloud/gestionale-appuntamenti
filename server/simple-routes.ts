@@ -561,10 +561,13 @@ export function registerSimpleRoutes(app: Express): Server {
       }
       
       // 🔄 USA POSTGRESQL: Crea cliente (ID auto-generato da PostgreSQL)
+      // 🔒 MULTI-TENANT SECURITY: usa la stessa logica di tenant resolution del GET
+      const tenantId = user.ownerId ?? user.tenantId ?? user.id;
+      
       const clientData = {
-        userId: user.id,
-        ownerId: user.id,
-        professionistCode: await getProfessionistCode(user.id),
+        userId: tenantId,  // ✅ Usa tenantId invece di user.id per staff compatibility
+        ownerId: tenantId,
+        professionistCode: await getProfessionistCode(tenantId),
         ...req.body
       };
       
@@ -572,7 +575,7 @@ export function registerSimpleRoutes(app: Express): Server {
       
       let newUniqueCode = null;
       try {
-        newUniqueCode = await generateNewClientCode(user.id);
+        newUniqueCode = await generateNewClientCode(tenantId);
       } catch (error: any) {
         if (error.message && error.message.includes('Codice professionista non trovato')) {
           console.log(`⚠️ [POST /api/clients] Professionista senza assignmentCode, skip newUniqueCode generation`);
@@ -581,7 +584,7 @@ export function registerSimpleRoutes(app: Express): Server {
         }
       }
       
-      const legacyUniqueCode = await generateClientCode(user.id, newClient.id);
+      const legacyUniqueCode = await generateClientCode(tenantId, newClient.id);
       
       const updateData: any = { uniqueCode: legacyUniqueCode };
       if (newUniqueCode) {
