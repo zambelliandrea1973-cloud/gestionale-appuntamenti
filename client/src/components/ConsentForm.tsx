@@ -106,9 +106,13 @@ export default function ConsentForm({ clientId, embedded = false }: ConsentFormP
         description: "Il consenso al trattamento dei dati è stato registrato con successo.",
       });
       
-      // Refresh only consent data - the server handles the client update
+      // Refresh consent data AND specific client data for immediate UI update
       queryClient.invalidateQueries({ queryKey: ["/api/consents/client"] });
       queryClient.invalidateQueries({ queryKey: ["/api/clients"] });
+      queryClient.invalidateQueries({ queryKey: [`/api/clients/${clientId}`] });
+      queryClient.invalidateQueries({ queryKey: ["/api/clients", clientId] });
+      // Invalida anche mobile-sync per aggiornare la lista clienti
+      queryClient.invalidateQueries({ queryKey: ["/api/mobile-sync"] });
     },
     onError: (error: any) => {
       toast({
