@@ -344,22 +344,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
           <div className="flex items-center gap-2">
             {!isOtherAccount ? (
               <>
-                <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="gap-2">
-                      <Pencil className="h-4 w-4" />
-                      Dati cliente/consenso
-                    </Button>
-                  </DialogTrigger>
-                  <ClientForm 
-                    clientId={client.id}
-                    onClose={() => {
-                      setIsClientFormOpen(false);
-                      if (onUpdate) onUpdate();
-                    }}
-                  />
-                </Dialog>
-                
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-500">
@@ -429,6 +413,24 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
       </CardContent>
       
       <CardFooter className="px-6 pb-6 pt-4 border-t flex flex-col gap-3">
+        {!isOtherAccount && (
+          <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className="w-full gap-2">
+                <Pencil className="h-4 w-4" />
+                Dati cliente/consenso
+              </Button>
+            </DialogTrigger>
+            <ClientForm 
+              clientId={client.id}
+              onClose={() => {
+                setIsClientFormOpen(false);
+                if (onUpdate) onUpdate();
+              }}
+            />
+          </Dialog>
+        )}
+        
         <Button 
           variant="secondary" 
           size="sm" 
