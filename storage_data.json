@@ -23861,6 +23861,14 @@
       "signature": "bruna pizzolato - Consenso digitale accettato il 16/10/2025, 13:21:14",
       "createdAt": "2025-10-16T11:21:14.626Z",
       "isActive": true
+    },
+    {
+      "id": 1763351727390,
+      "clientId": 107,
+      "consentText": "Informativa sulla Privacy e Consenso al Trattamento dei Dati Personali\n\nAi sensi del Regolamento UE 2016/679 (GDPR), la informiamo che i Suoi dati personali saranno trattati per le seguenti finalità:\n\n1. Gestione della pratica sanitaria e amministrativa\n2. Adempimenti di legge e normativi\n3. Comunicazioni relative ai servizi erogati\n\nI Suoi dati saranno trattati con modalità cartacee e informatiche, con logiche strettamente correlate alle finalità sopra indicate e, comunque, in modo da garantire la sicurezza e la riservatezza dei dati stessi.\n\nIl conferimento dei dati è obbligatorio per l'erogazione dei servizi richiesti. Il mancato conferimento comporta l'impossibilità di erogare i servizi.\n\nI Suoi dati non saranno comunicati a terzi, salvo nei casi previsti dalla legge.\n\nLei ha diritto di ottenere la conferma dell'esistenza o meno dei Suoi dati personali, di conoscerne il contenuto e l'origine, di verificarne l'esattezza o chiederne l'integrazione o l'aggiornamento, oppure la rettificazione. Ha inoltre il diritto di chiedere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonché di opporsi in ogni caso, per motivi legittimi, al loro trattamento.",
+      "signature": "Iii kkkgg - Consenso digitale accettato il 17/11/2025, 04:55:26",
+      "createdAt": "2025-11-17T03:55:27.390Z",
+      "isActive": true
     }
   ],
   "clientCodes": {},
