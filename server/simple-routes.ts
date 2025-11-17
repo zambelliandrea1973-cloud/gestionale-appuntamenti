@@ -2975,8 +2975,9 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(404).json({ message: "Cliente non trovato" });
     }
 
-    // Verifica proprietà - solo admin o proprietario del cliente
-    if (user.type !== 'admin' && clientFound.ownerId && clientFound.ownerId !== user.id) {
+    // Verifica proprietà - admin, owner del cliente, o staff dello stesso tenant
+    const effectiveOwnerId = user.ownerId || user.id; // Staff usa ownerId, owner usa id
+    if (user.type !== 'admin' && clientFound.ownerId && clientFound.ownerId !== effectiveOwnerId) {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
 
