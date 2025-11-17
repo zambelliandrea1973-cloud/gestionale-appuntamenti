@@ -1,7 +1,7 @@
 // Service Worker per l'applicazione di gestione appuntamenti
 // Versione cache per gestire gli aggiornamenti
-// IMPORTANTE: Incrementato a v2 per forzare update dopo fix bug caching API
-const CACHE_NAME = 'appointment-manager-v2';
+// IMPORTANTE: Incrementato a v3 per forzare update dopo spostamento pulsante Dati cliente/consenso
+const CACHE_NAME = 'appointment-manager-v3';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
@@ -11,30 +11,30 @@ const urlsToCache = [
 
 // Installazione del Service Worker
 self.addEventListener('install', function(event) {
-  console.log('Service Worker v2: Installazione in corso...');
+  console.log('Service Worker v3: Installazione in corso...');
   // CRITICO: skipWaiting() per attivare immediatamente la nuova versione
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
-        console.log('Service Worker v2: Cache aperta');
+        console.log('Service Worker v3: Cache aperta');
         return cache.addAll(urlsToCache);
       })
       .catch(function(error) {
-        console.log('Service Worker v2: Errore durante il caching:', error);
+        console.log('Service Worker v3: Errore durante il caching:', error);
       })
   );
 });
 
 // Attivazione del Service Worker
 self.addEventListener('activate', function(event) {
-  console.log('Service Worker v2: Attivazione in corso...');
+  console.log('Service Worker v3: Attivazione in corso...');
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.map(function(cacheName) {
           if (cacheName !== CACHE_NAME) {
-            console.log('Service Worker v2: Eliminazione cache obsoleta:', cacheName);
+            console.log('Service Worker v3: Eliminazione cache obsoleta:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -54,7 +54,7 @@ self.addEventListener('fetch', function(event) {
   // Questo risolve il bug dove /api/user-with-license veniva cachata
   // causando cross-contamination tra utenti admin e staff
   if (requestUrl.pathname.startsWith('/api/')) {
-    console.log('Service Worker v2: BYPASS cache per API:', requestUrl.pathname);
+    console.log('Service Worker v3: BYPASS cache per API:', requestUrl.pathname);
     // Network-only per tutte le API
     event.respondWith(fetch(event.request));
     return;
@@ -67,7 +67,7 @@ self.addEventListener('fetch', function(event) {
         .then(function(response) {
           // Restituisce la risorsa dalla cache se disponibile
           if (response) {
-            console.log('Service Worker v2: Serving from cache:', requestUrl.pathname);
+            console.log('Service Worker v3: Serving from cache:', requestUrl.pathname);
             return response;
           }
           
