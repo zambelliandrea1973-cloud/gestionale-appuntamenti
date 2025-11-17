@@ -2988,7 +2988,13 @@ export function registerSimpleRoutes(app: Express): Server {
       email: clientFound.email || '',
       address: clientFound.address || '',
       birthday: clientFound.birthday || '',
-      hasConsent: clientFound.hasConsent || false
+      hasConsent: clientFound.hasConsent || false,
+      isFrequent: clientFound.isFrequent || false,
+      notes: clientFound.notes || '',
+      medicalNotes: clientFound.medicalNotes || '',
+      allergies: clientFound.allergies || '',
+      taxCode: clientFound.taxCode || '',
+      vatNumber: clientFound.vatNumber || ''
     });
   });
 
