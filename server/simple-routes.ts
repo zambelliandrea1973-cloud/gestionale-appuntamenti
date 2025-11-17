@@ -2975,11 +2975,9 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(404).json({ message: "Cliente non trovato" });
     }
 
-    // Verifica proprietà multi-tenant
-    // - Owner: può modificare clienti dove client.userId === owner.id
-    // - Staff: può modificare clienti dove client.userId === staff.ownerId (clienti del suo boss)
-    const requestorTenantId = user.ownerId ?? user.id;
-    if (clientFound.userId && clientFound.userId !== requestorTenantId) {
+    // Verifica proprietà - ogni utente (incluso admin) può modificare SOLO i clienti che ha creato lui stesso
+    // client.ownerId contiene l'ID dell'utente che ha creato fisicamente il record
+    if (clientFound.ownerId && clientFound.ownerId !== user.id) {
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
 
