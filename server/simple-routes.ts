@@ -8816,6 +8816,100 @@ Studio Professionale`;
     }
   });
 
+  // ========== CLIENT NOTES MANAGEMENT ==========
+  
+  // GET - Ottieni tutte le note di un cliente
+  app.get("/api/client-notes/:clientId", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    
+    try {
+      const clientId = parseInt(req.params.clientId);
+      const notes = await storage.getClientNotes(clientId);
+      res.json(notes);
+    } catch (error) {
+      console.error('Errore nel caricamento note cliente:', error);
+      res.status(500).json({ message: "Errore nel caricamento delle note" });
+    }
+  });
+
+  // POST - Crea nuova nota
+  app.post("/api/client-notes", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    
+    try {
+      const { clientId, title, content, category, customDate } = req.body;
+      
+      const noteData: any = {
+        clientId: parseInt(clientId),
+        title,
+        content,
+        category
+      };
+      
+      // Se customDate è fornito, usa quella data, altrimenti il DB userà la data corrente
+      if (customDate) {
+        noteData.createdAt = new Date(customDate).toISOString();
+      }
+      
+      const note = await storage.createClientNote(noteData);
+      res.status(201).json(note);
+    } catch (error) {
+      console.error('Errore durante la creazione della nota del cliente:', error);
+      res.status(500).json({ error: 'Errore durante la creazione della nota del cliente' });
+    }
+  });
+
+  // PUT - Aggiorna nota esistente
+  app.put("/api/client-notes/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    
+    try {
+      const { id } = req.params;
+      const { title, content, category, customDate } = req.body;
+      
+      const updateData: any = {
+        title,
+        content,
+        category
+      };
+      
+      // Se customDate è fornito, aggiorna anche la data
+      if (customDate) {
+        updateData.createdAt = new Date(customDate).toISOString();
+      }
+      
+      const note = await storage.updateClientNote(parseInt(id), updateData);
+      
+      if (!note) {
+        return res.status(404).json({ error: 'Nota non trovata' });
+      }
+      
+      res.json(note);
+    } catch (error) {
+      console.error('Errore durante l\'aggiornamento della nota del cliente:', error);
+      res.status(500).json({ error: 'Errore durante l\'aggiornamento della nota del cliente' });
+    }
+  });
+
+  // DELETE - Elimina nota
+  app.delete("/api/client-notes/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
+    
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteClientNote(parseInt(id));
+      
+      if (!success) {
+        return res.status(404).json({ error: 'Nota non trovata' });
+      }
+      
+      res.json({ success: true, message: 'Nota eliminata con successo' });
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione della nota del cliente:', error);
+      res.status(500).json({ error: 'Errore durante l\'eliminazione della nota del cliente' });
+    }
+  });
+
   // ========== SUBSCRIPTION PLANS MANAGEMENT (ADMIN ONLY) ==========
   
   // GET - Ottieni tutti i piani abbonamento attivi
