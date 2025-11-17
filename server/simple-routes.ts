@@ -2964,9 +2964,12 @@ export function registerSimpleRoutes(app: Express): Server {
     const user = req.user;
     
     // Solo admin e staff possono accedere
-    if (user.type !== 'admin' && user.type !== 'staff') {
+    if (user.type !== 'admin' && user.type !== 'staff' && user.type !== 'customer') {
       return res.status(403).json({ message: "Accesso negato" });
     }
+
+    // 🔄 MULTI-TENANT: Risolvi tenant ID corretto (staff condivide con business owner)
+    const tenantId = user.ownerId ?? user.tenantId ?? user.id;
 
     // 🔄 USA POSTGRESQL: Cerca il cliente nel database condiviso
     const clientFound = await storage.getClient(parseInt(id, 10));
@@ -2975,9 +2978,10 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(404).json({ message: "Cliente non trovato" });
     }
 
-    // Verifica proprietà - ogni utente (incluso admin) può modificare SOLO i clienti che ha creato lui stesso
-    // client.ownerId contiene l'ID dell'utente che ha creato fisicamente il record
-    if (clientFound.ownerId && clientFound.ownerId !== user.id) {
+    // 🔒 MULTI-TENANT SECURITY: Verifica che il cliente appartenga al tenant dell'utente
+    // Staff utenti (user.ownerId != null) condividono i dati con il business owner
+    if (clientFound.userId !== tenantId) {
+      console.log(`🚫 [GET /api/clients/:id] User ${user.id} (tenant ${tenantId}) tentato accesso a cliente ${id} di tenant ${clientFound.userId}`);
       return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
     }
 
