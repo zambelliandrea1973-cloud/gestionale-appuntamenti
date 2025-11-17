@@ -346,8 +346,9 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount:
               <>
                 <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
                   <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Button variant="outline" size="sm" className="gap-2">
                       <Pencil className="h-4 w-4" />
+                      Dati cliente/consenso
                     </Button>
                   </DialogTrigger>
                   <ClientForm 
