@@ -67,7 +67,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       return res.json();
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       setOpen(false);
       resetForm();
       toast({ 
@@ -90,7 +92,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       return res.json();
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       setOpen(false);
       resetForm();
       toast({ 
@@ -112,7 +116,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       await apiRequest('DELETE', `/api/client-notes/${id}`);
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       toast({ 
         title: 'Nota eliminata', 
         description: 'La nota è stata eliminata con successo' 
@@ -139,7 +145,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       return res.json();
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       toast({ 
         title: 'Nota duplicata', 
         description: 'La nota è stata duplicata con successo' 
