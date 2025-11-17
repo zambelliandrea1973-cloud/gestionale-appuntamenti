@@ -153,8 +153,11 @@ export default function StaffLogin() {
       // Questo garantisce che TUTTE le cache browser/React siano pulite
       console.log(`✅ Login completato per ${userData.username} (ID: ${userData.id}), redirect con reload completo...`);
       
-      // Usa replace per evitare di salvare nella history e forza reload
-      window.location.replace("/dashboard");
+      // IMPORTANTE: Aggiungi un piccolo delay per garantire che la cache sia pulita
+      // poi usa window.location.href (non replace) per forzare full page reload
+      setTimeout(() => {
+        window.location.href = "/dashboard";
+      }, 100);
     },
     onError: (error: Error) => {
       setError(error.message || "Si è verificato un errore durante l'accesso");
