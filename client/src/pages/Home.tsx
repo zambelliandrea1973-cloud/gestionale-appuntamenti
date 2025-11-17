@@ -190,7 +190,7 @@ function BetaBadge() {
 export default function Home() {
   const [_, navigate] = useLocation();
   const { t } = useTranslation();
-  const { userWithLicense } = useUserWithLicense();
+  const { user } = useUserWithLicense();
 
   return (
     <div className="space-y-6 relative">
