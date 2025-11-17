@@ -8832,26 +8832,21 @@ Studio Professionale`;
     }
   });
 
-  // POST - Crea nuova nota
+  // POST - Crea nuova nota (data automatica dal DB)
   app.post("/api/client-notes", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     
     try {
-      const { clientId, title, content, category, customDate } = req.body;
+      const { clientId, title, content, category } = req.body;
       
-      const noteData: any = {
+      // Il database assegnerà automaticamente createdAt con la data corrente
+      const note = await storage.createClientNote({
         clientId: parseInt(clientId),
         title,
         content,
         category
-      };
+      });
       
-      // Se customDate è fornito, usa quella data, altrimenti il DB userà la data corrente
-      if (customDate) {
-        noteData.createdAt = new Date(customDate).toISOString();
-      }
-      
-      const note = await storage.createClientNote(noteData);
       res.status(201).json(note);
     } catch (error) {
       console.error('Errore durante la creazione della nota del cliente:', error);
@@ -8859,26 +8854,20 @@ Studio Professionale`;
     }
   });
 
-  // PUT - Aggiorna nota esistente
+  // PUT - Aggiorna nota esistente (la data originale rimane invariata)
   app.put("/api/client-notes/:id", async (req, res) => {
     if (!req.isAuthenticated()) return res.status(401).json({ message: "Non autenticato" });
     
     try {
       const { id } = req.params;
-      const { title, content, category, customDate } = req.body;
+      const { title, content, category } = req.body;
       
-      const updateData: any = {
+      // Aggiorna solo titolo, contenuto e categoria - la data originale rimane invariata
+      const note = await storage.updateClientNote(parseInt(id), {
         title,
         content,
         category
-      };
-      
-      // Se customDate è fornito, aggiorna anche la data
-      if (customDate) {
-        updateData.createdAt = new Date(customDate).toISOString();
-      }
-      
-      const note = await storage.updateClientNote(parseInt(id), updateData);
+      });
       
       if (!note) {
         return res.status(404).json({ error: 'Nota non trovata' });

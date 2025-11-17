@@ -41,7 +41,6 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   const [editingNote, setEditingNote] = useState<ClientNote | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [customDate, setCustomDate] = useState('');
   
   // Stato per l'animazione e navigazione delle note
   const [activeNoteIndex, setActiveNoteIndex] = useState(0);
@@ -63,7 +62,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   
   // Mutations per le operazioni CRUD
   const createNoteMutation = useMutation({
-    mutationFn: async (note: { clientId: number; title: string; content: string; category: string; customDate?: string }) => {
+    mutationFn: async (note: { clientId: number; title: string; content: string; category: string }) => {
       const res = await apiRequest('POST', '/api/client-notes', note);
       return res.json();
     },
@@ -88,7 +87,7 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   });
   
   const updateNoteMutation = useMutation({
-    mutationFn: async ({ id, ...note }: { id: number; title: string; content: string; category: string; customDate?: string }) => {
+    mutationFn: async ({ id, ...note }: { id: number; title: string; content: string; category: string }) => {
       const res = await apiRequest('PUT', `/api/client-notes/${id}`, note);
       return res.json();
     },
@@ -167,7 +166,6 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   const resetForm = () => {
     setTitle('');
     setContent('');
-    setCustomDate('');
     setEditingNote(null);
   };
   
@@ -180,7 +178,6 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
     setEditingNote(note);
     setTitle(note.title);
     setContent(note.content);
-    setCustomDate(note.createdAt ? note.createdAt.split('T')[0] : ''); // Formato YYYY-MM-DD
     setOpen(true);
   };
   
@@ -201,16 +198,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
         id: editingNote.id, 
         title, 
         content, 
-        category,
-        customDate: customDate || undefined
+        category
       });
     } else {
       createNoteMutation.mutate({ 
         clientId, 
         title, 
         content, 
-        category,
-        customDate: customDate || undefined
+        category
       });
     }
   };
@@ -347,19 +342,6 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-3">
-              <div>
-                <label htmlFor="customDate" className="text-sm font-medium">
-                  Data nota
-                </label>
-                <Input
-                  id="customDate"
-                  type="date"
-                  value={customDate}
-                  onChange={(e) => setCustomDate(e.target.value)}
-                  placeholder="Data della nota"
-                />
-              </div>
-              
               <div>
                 <label htmlFor="title" className="text-sm font-medium">
                   Titolo
