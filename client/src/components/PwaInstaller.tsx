@@ -17,6 +17,8 @@ export function PwaInstaller() {
   
   // Gestisce la registrazione del service worker
   useEffect(() => {
+    // TEMPORANEAMENTE DISABILITATO per risolvere problema cache contaminata tra utenti
+    /*
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
@@ -28,6 +30,7 @@ export function PwaInstaller() {
           });
       });
     }
+    */
     
     // Cattura l'evento beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {

@@ -25,6 +25,8 @@ export function ClientPwaInstaller() {
     setIsIos(isIosDevice);
     
     // Registra il service worker immediatamente
+    // TEMPORANEAMENTE DISABILITATO per risolvere problema cache contaminata tra utenti
+    /*
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then(registration => {
@@ -34,6 +36,7 @@ export function ClientPwaInstaller() {
           console.error('Errore durante la registrazione del Service Worker:', error);
         });
     }
+    */
     
     // Verifica se l'app è già installata
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 

@@ -12,6 +12,8 @@ export default function InstallAppPrompt() {
 
   useEffect(() => {
     // Registra il service worker immediatamente, non aspettare l'evento load
+    // TEMPORANEAMENTE DISABILITATO per risolvere problema cache contaminata tra utenti
+    /*
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then(registration => {
@@ -21,6 +23,7 @@ export default function InstallAppPrompt() {
           console.error('Errore durante la registrazione del Service Worker:', error);
         });
     }
+    */
 
     // Check if it's iOS
     const ua = window.navigator.userAgent;
