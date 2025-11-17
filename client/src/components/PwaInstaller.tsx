@@ -17,20 +17,23 @@ export function PwaInstaller() {
   
   // Gestisce la registrazione del service worker
   useEffect(() => {
-    // TEMPORANEAMENTE DISABILITATO per risolvere problema cache contaminata tra utenti
-    /*
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => {
-            console.log('Service Worker registrato con successo:', registration);
-          })
-          .catch(error => {
-            console.error('Errore durante la registrazione del Service Worker:', error);
+      window.addEventListener('load', async () => {
+        try {
+          // FORZA update a Service Worker v2 (corretto, non cacha API)
+          const registration = await navigator.serviceWorker.register('/service-worker.js', {
+            updateViaCache: 'none' // NON usare cache HTTP per il SW stesso
           });
+          
+          // Forza controllo immediato per aggiornamenti
+          await registration.update();
+          
+          console.log('Service Worker v2 registrato:', registration);
+        } catch (error) {
+          console.error('Errore registrazione Service Worker:', error);
+        }
       });
     }
-    */
     
     // Cattura l'evento beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {

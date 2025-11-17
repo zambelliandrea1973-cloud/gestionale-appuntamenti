@@ -12,18 +12,19 @@ export default function InstallAppPrompt() {
 
   useEffect(() => {
     // Registra il service worker immediatamente, non aspettare l'evento load
-    // TEMPORANEAMENTE DISABILITATO per risolvere problema cache contaminata tra utenti
-    /*
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registrato con successo:', registration);
+      navigator.serviceWorker.register('/service-worker.js', {
+        updateViaCache: 'none' // FORZA reload del SW, non usa cache HTTP
+      })
+        .then(async registration => {
+          // Forza update immediato a v2 (corretto)
+          await registration.update();
+          console.log('Service Worker v2 registrato:', registration);
         })
         .catch(error => {
           console.error('Errore durante la registrazione del Service Worker:', error);
         });
     }
-    */
 
     // Check if it's iOS
     const ua = window.navigator.userAgent;
