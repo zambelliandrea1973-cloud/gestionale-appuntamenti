@@ -1,6 +1,7 @@
 // Service Worker per l'applicazione di gestione appuntamenti
 // Versione cache per gestire gli aggiornamenti
 // IMPORTANTE: Incrementato a v3 per forzare update dopo spostamento pulsante Dati cliente/consenso
+// Build: 2025-11-17 - Fix ClientCard button position on production
 const CACHE_NAME = 'appointment-manager-v3';
 const urlsToCache = [
   '/',
