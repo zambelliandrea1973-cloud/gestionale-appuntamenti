@@ -524,7 +524,10 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       {/* Container delle note impilate */}
       <div 
         ref={containerRef}
-        className={`relative h-[350px] overflow-hidden`}
+        className={`relative h-[350px] ${sortedNotes && sortedNotes.length > 3 ? 'overflow-y-auto' : 'overflow-hidden'}`}
+        style={{
+          maxHeight: sortedNotes && sortedNotes.length > 3 ? '600px' : '350px'
+        }}
       >
         {isLoading ? (
           <div className="flex justify-center items-center h-full">

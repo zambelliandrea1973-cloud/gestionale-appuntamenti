@@ -442,7 +442,7 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
           <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className={`space-y-4 ${sortedNotes && sortedNotes.length > 3 ? 'max-h-[600px] overflow-y-auto pr-2' : ''}`}>
           {sortedNotes && sortedNotes.length > 0 ? (
             sortedNotes.map((note) => (
               <div key={note.id} className="border p-4 rounded-md bg-background relative group">
