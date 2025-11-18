@@ -53,6 +53,10 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
   // Query per ottenere TUTTE le note del cliente (condivisa tra tutte le sezioni)
   const { data: allNotes, isLoading } = useQuery<ClientNote[]>({
     queryKey: ['/api/client-notes', clientId],
+    queryFn: async () => {
+      const res = await apiRequest('GET', `/api/client-notes/${clientId}`);
+      return res.json();
+    },
     staleTime: 5 * 60 * 1000, // 5 minuti - evita refetch inutili
   });
   
