@@ -473,14 +473,6 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => handleDuplicateNote(note)}
-                    className="h-7 w-7"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
                   {/* Input file nascosto */}
                   <Input
                     type="file"
