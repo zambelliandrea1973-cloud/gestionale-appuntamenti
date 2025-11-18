@@ -4,7 +4,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Pencil, Trash2, Plus, Clock } from 'lucide-react';
+import { Pencil, Trash2, Plus, Clock, ImageIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
@@ -24,6 +24,7 @@ type ClientNote = {
   category: string;
   createdAt: string;
   updatedAt?: string;
+  imagePaths?: string[];
 };
 
 type ClientLegacyNotesProps = {
@@ -41,15 +42,26 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   
-  const { data: notes, isLoading } = useQuery<ClientNote[]>({
-    queryKey: ['/api/client-notes', clientId, category],
+  // Stato per il titolo della sezione personalizzato
+  const [customLabel, setCustomLabel] = useState<string>(() => {
+    const saved = localStorage.getItem(`section-label-${category}-${clientId}`);
+    return saved || label;
+  });
+  const [editingLabel, setEditingLabel] = useState(false);
+  const [tempLabel, setTempLabel] = useState(customLabel);
+  
+  // Query per ottenere TUTTE le note del cliente (condivisa tra tutte le sezioni)
+  const { data: allNotes, isLoading } = useQuery<ClientNote[]>({
+    queryKey: ['/api/client-notes', clientId],
     queryFn: async () => {
       const res = await apiRequest('GET', `/api/client-notes/${clientId}`);
-      const allNotes = await res.json();
-      // Filtra le note per categoria
-      return allNotes.filter((note: ClientNote) => note.category === category);
+      return res.json();
     },
+    staleTime: 5 * 60 * 1000, // 5 minuti - evita refetch inutili
   });
+  
+  // Filtra le note per categoria (client-side)
+  const notes = allNotes?.filter((note: ClientNote) => note.category === category);
   
   const createNoteMutation = useMutation({
     mutationFn: async (note: { clientId: number; title: string; content: string; category: string }) => {
@@ -143,6 +155,60 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
       });
     }
   });
+
+  const uploadImageMutation = useMutation({
+    mutationFn: async ({ noteId, file }: { noteId: number; file: File }) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const res = await fetch(`/api/client-notes/${noteId}/upload-image`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Errore durante il caricamento');
+      }
+      
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      toast({ 
+        title: 'Foto caricata', 
+        description: 'La foto è stata aggiunta con successo' 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: 'Errore', 
+        description: `Impossibile caricare la foto: ${error.message}`,
+        variant: 'destructive'
+      });
+    }
+  });
+
+  const deleteImageMutation = useMutation({
+    mutationFn: async ({ noteId, imageIndex }: { noteId: number; imageIndex: number }) => {
+      const res = await apiRequest('DELETE', `/api/client-notes/${noteId}/delete-image/${imageIndex}`);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      toast({ 
+        title: 'Foto eliminata', 
+        description: 'La foto è stata rimossa con successo' 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: 'Errore', 
+        description: `Impossibile eliminare la foto: ${error.message}`,
+        variant: 'destructive'
+      });
+    }
+  });
   
   const resetForm = () => {
     setTitle('');
@@ -215,15 +281,96 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
+  const handleSaveLabel = () => {
+    if (tempLabel.trim()) {
+      setCustomLabel(tempLabel.trim());
+      localStorage.setItem(`section-label-${category}-${clientId}`, tempLabel.trim());
+      setEditingLabel(false);
+      toast({
+        title: 'Titolo aggiornato',
+        description: 'Il titolo della sezione è stato modificato con successo'
+      });
+    }
+  };
+
+  const handleResetLabel = () => {
+    setCustomLabel(label);
+    setTempLabel(label);
+    localStorage.removeItem(`section-label-${category}-${clientId}`);
+    setEditingLabel(false);
+    toast({
+      title: 'Titolo ripristinato',
+      description: 'Il titolo della sezione è stato ripristinato al valore originale'
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold">{label}</h3>
+        {editingLabel ? (
+          <div className="flex items-center gap-2 flex-1">
+            <Input
+              value={tempLabel}
+              onChange={(e) => setTempLabel(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSaveLabel();
+                if (e.key === 'Escape') {
+                  setTempLabel(customLabel);
+                  setEditingLabel(false);
+                }
+              }}
+              className="max-w-xs"
+              autoFocus
+            />
+            <Button size="sm" onClick={handleSaveLabel}>
+              Salva
+            </Button>
+            <Button size="sm" variant="outline" onClick={() => {
+              setTempLabel(customLabel);
+              setEditingLabel(false);
+            }}>
+              Annulla
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold">{customLabel}</h3>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => {
+                setTempLabel(customLabel);
+                setEditingLabel(true);
+              }}
+              title="Modifica titolo"
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            {customLabel !== label && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-7 w-7 text-destructive"
+                onClick={handleResetLabel}
+                title="Ripristina titolo originale"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        )}
         <Button 
-          onClick={handleOpenDialog} 
+          onClick={() => {
+            if (sortedNotes && sortedNotes.length > 0) {
+              handleDuplicateNote(sortedNotes[0]);
+            }
+          }}
           variant="outline" 
           size="sm"
           className="gap-1"
+          disabled={!sortedNotes || sortedNotes.length === 0}
+          title={sortedNotes && sortedNotes.length > 0 ? "Duplica ultima nota" : "Nessuna nota da duplicare"}
         >
           <Plus className="h-4 w-4" />
           Aggiungi
@@ -295,11 +442,21 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
           <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className={`space-y-4 ${sortedNotes && sortedNotes.length > 3 ? 'max-h-[600px] overflow-y-auto pr-2' : ''}`}>
           {sortedNotes && sortedNotes.length > 0 ? (
             sortedNotes.map((note) => (
               <div key={note.id} className="border p-4 rounded-md bg-background relative group">
-                <div className="absolute right-2 top-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute right-2 top-2 flex space-x-1">
+                  {/* Pulsante Foto */}
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => document.getElementById(`upload-legacy-${note.id}`)?.click()}
+                    className="h-7 w-7 text-blue-600"
+                    title="Aggiungi foto"
+                  >
+                    <ImageIcon className="h-4 w-4" />
+                  </Button>
                   <Button 
                     variant="ghost" 
                     size="icon" 
@@ -316,14 +473,20 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => handleDuplicateNote(note)}
-                    className="h-7 w-7"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                  {/* Input file nascosto */}
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    id={`upload-legacy-${note.id}`}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        uploadImageMutation.mutate({ noteId: note.id, file });
+                        e.target.value = '';
+                      }
+                    }}
+                  />
                 </div>
                 
                 <div className="mb-1 flex items-center text-xs text-muted-foreground">
@@ -336,11 +499,61 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
                 )}
                 
                 <p className="whitespace-pre-wrap text-sm">{note.content}</p>
+
+                {/* Foto allegate */}
+                {note.imagePaths && note.imagePaths.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    {note.imagePaths.map((imagePath, idx) => (
+                      <div key={idx} className="relative group/img">
+                        <img 
+                          src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
+                          alt={`Foto ${idx + 1}`}
+                          className="w-full h-32 object-contain rounded border bg-gray-50"
+                        />
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          className="absolute top-1 right-1 h-6 w-6"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (confirm('Eliminare questa foto?')) {
+                              deleteImageMutation.mutate({ noteId: note.id, imageIndex: idx });
+                            }
+                          }}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))
           ) : (
-            <div className="border p-4 rounded-md bg-background min-h-24 text-center text-muted-foreground">
-              Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+            <div className="border p-4 rounded-md bg-background min-h-24 relative">
+              <div className="absolute right-2 top-2 flex space-x-1">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={handleOpenDialog}
+                  className="h-7 w-7"
+                  title="Crea nuova nota"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-7 w-7 text-destructive opacity-50 cursor-not-allowed"
+                  disabled
+                  title="Nessuna nota da eliminare"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="flex items-center justify-center text-center text-muted-foreground">
+                Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+              </div>
             </div>
           )}
         </div>

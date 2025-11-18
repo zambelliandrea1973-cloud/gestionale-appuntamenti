@@ -34,9 +34,9 @@ export default function Clients() {
   
   // Query per ottenere l'ID dell'utente corrente
   const { data: currentUser } = useQuery({
-    queryKey: ['/api/user'],
+    queryKey: ['/api/user-with-license'],
     queryFn: async () => {
-      const response = await fetch('/api/user', { credentials: 'include' });
+      const response = await fetch('/api/user-with-license', { credentials: 'include' });
       if (!response.ok) throw new Error('Failed to fetch user');
       return response.json();
     }
@@ -97,6 +97,25 @@ export default function Clients() {
     console.log(`📱 [CLIENTS] Mobile usando dati sincronizzati: ${effectiveClients.length} clienti`);
   }
   
+  // Imposta tab "by-staff" come default per admin al primo caricamento
+  const hasInitializedTab = useRef(false);
+  useEffect(() => {
+    console.log("🔍 [CLIENTS-TAB] useEffect triggered", { 
+      currentUser: currentUser ? { id: currentUser.id, type: currentUser.type } : null,
+      hasInitialized: hasInitializedTab.current
+    });
+    if (currentUser && !hasInitializedTab.current) {
+      hasInitializedTab.current = true;
+      console.log("🔍 [CLIENTS-TAB] Checking user type:", currentUser.type);
+      if (currentUser.type === 'admin') {
+        setActiveTab("by-staff");
+        console.log("✅ [CLIENTS-TAB] Admin rilevato, tab impostato a 'by-staff'");
+      } else {
+        console.log("⚠️ [CLIENTS-TAB] User is not admin, type:", currentUser.type);
+      }
+    }
+  }, [currentUser]);
+  
   const forceRefreshFromServer = async () => {
     console.log("Refresh con nuovo sistema multi-tenant");
     try {
@@ -153,6 +172,12 @@ export default function Clients() {
     await refetchClients();
   };
 
+  // Fetch client owners metadata for grouping (admin-only)
+  const { data: clientOwners = [] } = useQuery<Array<{ id: number; assignmentCode: string | null; username: string }>>({
+    queryKey: ['/api/client-owners'],
+    enabled: currentUser?.type === 'admin' && activeTab === "by-staff"
+  });
+
   // Filter clients based on search query and active tab, then sort by lastName
   const filteredClients = clients
     .filter((client: any) => {
@@ -162,11 +187,13 @@ export default function Clients() {
         client.phone?.includes(searchQuery) || 
         (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase()));
       
-      // Apply tab filter
+      // Apply tab filter - usa user_id per identificare proprietà
+      const clientUserId = client.user_id || client.ownerId;
       const matchesTab = 
         activeTab === "all" || 
-        (activeTab === "my-clients" && currentUser && (!client.originalOwnerId || client.originalOwnerId === currentUser.id)) ||
-        (activeTab === "other-clients" && currentUser && client.originalOwnerId && client.originalOwnerId !== currentUser.id) ||
+        activeTab === "by-staff" ||
+        (activeTab === "my-clients" && currentUser && (!clientUserId || clientUserId === currentUser.id)) ||
+        (activeTab === "other-clients" && currentUser && clientUserId && clientUserId !== currentUser.id) ||
         (activeTab === "frequent" && client.isFrequent === true) ||
         (activeTab === "no-consent" && client.hasConsent !== true);
       
@@ -174,27 +201,41 @@ export default function Clients() {
     })
     .sort((a, b) => a.lastName.localeCompare(b.lastName, 'it-IT'));
 
+  // Group clients by staff member (ownerId) - solo per admin
+  const clientsByStaff = {};
+  if (currentUser?.type === 'admin' && activeTab === "by-staff") {
+    filteredClients.forEach((client: any) => {
+      const ownerId = client.ownerId || client.user_id || currentUser.id;
+      if (!clientsByStaff[ownerId]) {
+        clientsByStaff[ownerId] = [];
+      }
+      clientsByStaff[ownerId].push(client);
+    });
+  }
+
   console.log(`CONTEGGIO CLIENTI: Ricevuti: ${clients.length}, Filtrati: ${filteredClients.length}, Tab attivo: ${activeTab}`);
   
-  // Debug ownership per admin - FORZATO
+  // Debug ownership per admin - usa user_id
   if (currentUser?.type === 'admin' && clients.length > 0) {
-    const ownershipStats = {};
-    const originalOwnershipStats = {};
+    const userStats = {};
     
     clients.forEach(client => {
-      const owner = client.ownerId || 'undefined';
-      const originalOwner = client.originalOwnerId || 'undefined';
-      ownershipStats[owner] = (ownershipStats[owner] || 0) + 1;
-      originalOwnershipStats[originalOwner] = (originalOwnershipStats[originalOwner] || 0) + 1;
+      const userId = client.user_id || client.ownerId || 'NULL';
+      userStats[userId] = (userStats[userId] || 0) + 1;
     });
     
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per ownerId:`, ownershipStats);
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Distribuzione frontend clienti per originalOwnerId:`, originalOwnershipStats);
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Admin ID corrente: ${currentUser.id}`);
+    console.log(`👑 OWNERSHIP - Distribuzione per user_id:`, userStats);
+    console.log(`👑 ADMIN ID: ${currentUser.id}`);
     
-    const ownClients = clients.filter(c => !c.originalOwnerId || c.originalOwnerId === currentUser.id).length;
-    const otherClients = clients.filter(c => c.originalOwnerId && c.originalOwnerId !== currentUser.id).length;
-    console.log(`👑 [CLIENT-DEBUG] FORCED - Frontend - Clienti propri: ${ownClients}, Altri: ${otherClients}`);
+    const ownClients = clients.filter(c => {
+      const userId = c.user_id || c.ownerId;
+      return !userId || userId === currentUser.id;
+    }).length;
+    const otherClients = clients.filter(c => {
+      const userId = c.user_id || c.ownerId;
+      return userId && userId !== currentUser.id;
+    }).length;
+    console.log(`👑 CLIENTI: Miei: ${ownClients}, Altri account: ${otherClients}`);
   }
 
   // Loading state
@@ -285,7 +326,9 @@ export default function Clients() {
               <DialogHeader>
                 <DialogTitle>{t("clients.addNewClient")}</DialogTitle>
               </DialogHeader>
-              <ClientForm onSuccess={handleClientCreated} />
+              <ClientForm 
+                onClose={() => setIsClientDialogOpen(false)} 
+              />
             </DialogContent>
           </Dialog>
         </div>
@@ -304,13 +347,17 @@ export default function Clients() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className={`grid w-full ${currentUser?.type === 'admin' ? 'grid-cols-5' : 'grid-cols-3'}`}>
+          <TabsList className={`grid w-full ${currentUser?.type === 'admin' ? 'grid-cols-6' : 'grid-cols-3'}`}>
             <TabsTrigger value="all" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               {t("clients.allClients")} ({clients.filter(() => true).length})
             </TabsTrigger>
             {currentUser?.type === 'admin' && (
               <>
+                <TabsTrigger value="by-staff" className="flex items-center gap-2 bg-blue-50 border-blue-200 text-blue-700 data-[state=active]:bg-blue-100">
+                  <Users className="h-4 w-4" />
+                  Per Professionista
+                </TabsTrigger>
                 <TabsTrigger value="my-clients" className="flex items-center gap-2 bg-green-50 border-green-200 text-green-700 data-[state=active]:bg-green-100">
                   <Users className="h-4 w-4" />
                   Miei Clienti ({clients.filter((c: any) => c.ownerId === currentUser.id).length})
@@ -353,17 +400,88 @@ export default function Clients() {
                   )}
                 </CardContent>
               </Card>
+            ) : activeTab === "by-staff" && currentUser?.type === 'admin' ? (
+              // Vista raggruppata per professionista (solo admin)
+              <div className="space-y-6">
+                {Object.entries(clientsByStaff).map(([ownerId, staffClients]: [string, any]) => {
+                  // Trova owner metadata
+                  const owner = clientOwners.find((o) => o.id === parseInt(ownerId));
+                  const isAdminClients = parseInt(ownerId) === currentUser.id;
+                  
+                  // Costruisci intestazione con formato: "BUS1422 - busnari.silvia@libero.it"
+                  const ownerName = isAdminClients 
+                    ? `👑 ${owner?.assignmentCode || 'ADMIN'} - Clienti Personali` 
+                    : owner && owner.assignmentCode
+                      ? `${owner.assignmentCode} - ${owner.username}` 
+                      : owner
+                        ? owner.username
+                        : `Professionista ID ${ownerId}`;
+                  
+                  return (
+                    <Card key={ownerId} className="border-2">
+                      <CardHeader className={`${isAdminClients ? 'bg-green-50' : 'bg-blue-50'}`}>
+                        <CardTitle className="flex items-center justify-between">
+                          <span className="flex items-center gap-2">
+                            <Users className="h-5 w-5" />
+                            {ownerName}
+                          </span>
+                          <Badge variant="secondary" className="text-sm">
+                            {staffClients.length} {staffClients.length === 1 ? 'cliente' : 'clienti'}
+                          </Badge>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="pt-6">
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                          {staffClients.map((client: any) => {
+                            const clientUserId = client.user_id || client.ownerId;
+                            const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
+                            
+                            return (
+                              <ClientCard
+                                key={client.id}
+                                client={client}
+                                onUpdate={handleClientUpdated}
+                                onDelete={handleClientDeleted}
+                                isOtherAccount={isOtherAccount}
+                              />
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             ) : (
+              // Vista normale (griglia semplice)
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredClients.map((client: any) => (
-                  <ClientCard
-                    key={client.id}
-                    client={client}
-                    onUpdate={handleClientUpdated}
-                    onDelete={handleClientDeleted}
-                    isOtherAccount={currentUser?.type === 'admin' && client.originalOwnerId && client.originalOwnerId !== currentUser.id}
-                  />
-                ))}
+                {filteredClients.map((client: any, index: number) => {
+                  // SOLUZIONE SEMPLICE: usa user_id (il vero campo di ownership)
+                  const clientUserId = client.user_id || client.ownerId;
+                  const isOtherAccount = currentUser?.type === 'admin' && clientUserId && clientUserId !== currentUser.id;
+                  
+                  // Debug per Marco Berto e Bruna Pizzolato
+                  if (client.id === 14003 || client.id === 14004) {
+                    console.log(`🟢 BADGE [${client.firstName} ${client.lastName}]`, {
+                      id: client.id,
+                      user_id: client.user_id,
+                      ownerId: client.ownerId,
+                      myAdminId: currentUser?.id,
+                      isOtherAccount,
+                      BADGE: isOtherAccount ? '🟠 ARANCIONE' : '❌ nessuno'
+                    });
+                  }
+                  
+                  return (
+                    <ClientCard
+                      key={client.id}
+                      client={client}
+                      onUpdate={handleClientUpdated}
+                      onDelete={handleClientDeleted}
+                      isOtherAccount={isOtherAccount}
+                    />
+                  );
+                })}
               </div>
             )}
           </TabsContent>

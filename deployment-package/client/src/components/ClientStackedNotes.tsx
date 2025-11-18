@@ -4,7 +4,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Pencil, Trash2, Plus, Clock, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
+import { Pencil, Trash2, Plus, Clock, ChevronLeft, ChevronRight, CalendarDays, Image as ImageIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
@@ -22,6 +22,7 @@ type ClientNote = {
   title: string;
   content: string;
   category: string;
+  imagePaths?: string[];
   createdAt: string;
   updatedAt?: string;
 };
@@ -42,6 +43,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   
+  // Stato per il titolo della sezione personalizzato
+  const [customLabel, setCustomLabel] = useState<string>(() => {
+    const saved = localStorage.getItem(`section-label-${category}-${clientId}`);
+    return saved || label;
+  });
+  const [editingLabel, setEditingLabel] = useState(false);
+  const [tempLabel, setTempLabel] = useState(customLabel);
+  
   // Stato per l'animazione e navigazione delle note
   const [activeNoteIndex, setActiveNoteIndex] = useState(0);
   const [animatingToNext, setAnimatingToNext] = useState(false);
@@ -49,16 +58,18 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Query per ottenere le note
-  const { data: notes, isLoading } = useQuery<ClientNote[]>({
-    queryKey: ['/api/client-notes', clientId, category],
+  // Query per ottenere TUTTE le note del cliente (condivisa tra tutte le sezioni)
+  const { data: allNotes, isLoading } = useQuery<ClientNote[]>({
+    queryKey: ['/api/client-notes', clientId],
     queryFn: async () => {
       const res = await apiRequest('GET', `/api/client-notes/${clientId}`);
-      const allNotes = await res.json();
-      // Filtra le note per categoria
-      return allNotes.filter((note: ClientNote) => note.category === category);
+      return res.json();
     },
+    staleTime: 5 * 60 * 1000, // 5 minuti - evita refetch inutili
   });
+  
+  // Filtra le note per categoria (client-side)
+  const notes = allNotes?.filter((note: ClientNote) => note.category === category);
   
   // Mutations per le operazioni CRUD
   const createNoteMutation = useMutation({
@@ -67,7 +78,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       return res.json();
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       setOpen(false);
       resetForm();
       toast({ 
@@ -90,7 +103,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       return res.json();
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       setOpen(false);
       resetForm();
       toast({ 
@@ -112,7 +127,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       await apiRequest('DELETE', `/api/client-notes/${id}`);
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       toast({ 
         title: 'Nota eliminata', 
         description: 'La nota è stata eliminata con successo' 
@@ -139,7 +156,9 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       return res.json();
     },
     onSuccess: () => {
+      // Invalida tutte le query delle note per questo cliente (tutte le categorie)
       queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
       toast({ 
         title: 'Nota duplicata', 
         description: 'La nota è stata duplicata con successo' 
@@ -151,6 +170,43 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
         description: `Impossibile duplicare la nota: ${error.message}`,
         variant: 'destructive'
       });
+    }
+  });
+  
+  // Mutations per immagini
+  const uploadImageMutation = useMutation({
+    mutationFn: async ({ noteId, file }: { noteId: number; file: File }) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      const res = await fetch(`/api/client-notes/${noteId}/upload-image`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error('Upload fallito');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
+      toast({ title: 'Foto caricata con successo' });
+    },
+    onError: () => {
+      toast({ title: 'Errore upload foto', variant: 'destructive' });
+    }
+  });
+  
+  const deleteImageMutation = useMutation({
+    mutationFn: async ({ noteId, imageIndex }: { noteId: number; imageIndex: number }) => {
+      await apiRequest('DELETE', `/api/client-notes/${noteId}/delete-image/${imageIndex}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
+      toast({ title: 'Foto eliminata' });
+    },
+    onError: () => {
+      toast({ title: 'Errore eliminazione foto', variant: 'destructive' });
     }
   });
   
@@ -190,14 +246,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
         id: editingNote.id, 
         title, 
         content, 
-        category 
+        category
       });
     } else {
       createNoteMutation.mutate({ 
         clientId, 
         title, 
         content, 
-        category 
+        category
       });
     }
   };
@@ -279,10 +335,85 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   // Ottieni la nota attiva
   const activeNote = hasNotes && activeNoteIndex < sortedNotes.length ? sortedNotes[activeNoteIndex] : null;
 
+  const handleSaveLabel = () => {
+    if (tempLabel.trim()) {
+      setCustomLabel(tempLabel.trim());
+      localStorage.setItem(`section-label-${category}-${clientId}`, tempLabel.trim());
+      setEditingLabel(false);
+      toast({
+        title: 'Titolo aggiornato',
+        description: 'Il titolo della sezione è stato modificato con successo'
+      });
+    }
+  };
+
+  const handleResetLabel = () => {
+    setCustomLabel(label);
+    setTempLabel(label);
+    localStorage.removeItem(`section-label-${category}-${clientId}`);
+    setEditingLabel(false);
+    toast({
+      title: 'Titolo ripristinato',
+      description: 'Il titolo della sezione è stato ripristinato al valore originale'
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold">{label}</h3>
+        {editingLabel ? (
+          <div className="flex items-center gap-2 flex-1">
+            <Input
+              value={tempLabel}
+              onChange={(e) => setTempLabel(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSaveLabel();
+                if (e.key === 'Escape') {
+                  setTempLabel(customLabel);
+                  setEditingLabel(false);
+                }
+              }}
+              className="max-w-xs"
+              autoFocus
+            />
+            <Button size="sm" onClick={handleSaveLabel}>
+              Salva
+            </Button>
+            <Button size="sm" variant="outline" onClick={() => {
+              setTempLabel(customLabel);
+              setEditingLabel(false);
+            }}>
+              Annulla
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold">{customLabel}</h3>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => {
+                setTempLabel(customLabel);
+                setEditingLabel(true);
+              }}
+              title="Modifica titolo"
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            {customLabel !== label && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-7 w-7 text-destructive"
+                onClick={handleResetLabel}
+                title="Ripristina titolo originale"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        )}
         <div className="flex space-x-2">
           {/* Navigazione tra le note */}
           {hasNotes && sortedNotes.length > 1 && (
@@ -312,10 +443,16 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
           )}
           
           <Button 
-            onClick={handleOpenDialog} 
+            onClick={() => {
+              if (sortedNotes && sortedNotes.length > 0) {
+                handleDuplicateNote(sortedNotes[0]);
+              }
+            }}
             variant="outline" 
             size="sm"
             className="gap-1"
+            disabled={!hasNotes}
+            title={hasNotes ? "Duplica ultima nota" : "Nessuna nota da duplicare"}
           >
             <Plus className="h-4 w-4" />
             Aggiungi
@@ -387,15 +524,40 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
       {/* Container delle note impilate */}
       <div 
         ref={containerRef}
-        className={`relative h-[350px] overflow-hidden`}
+        className={`relative h-[350px] ${sortedNotes && sortedNotes.length > 3 ? 'overflow-y-auto' : 'overflow-hidden'}`}
+        style={{
+          maxHeight: sortedNotes && sortedNotes.length > 3 ? '600px' : '350px'
+        }}
       >
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
           </div>
         ) : !hasNotes ? (
-          <div className="border rounded-md bg-background h-full flex items-center justify-center text-center text-muted-foreground p-4">
-            Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+          <div className="border rounded-md bg-background h-full p-4 relative">
+            <div className="absolute right-2 top-2 flex space-x-1">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleOpenDialog}
+                className="h-7 w-7"
+                title="Crea nuova nota"
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-7 w-7 text-destructive opacity-50 cursor-not-allowed"
+                disabled
+                title="Nessuna nota da eliminare"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex items-center justify-center h-full text-center text-muted-foreground">
+              Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+            </div>
           </div>
         ) : (
           /* Note impilate */
@@ -460,43 +622,58 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                       {formatDate(note.createdAt)}
                     </div>
                     
-                    {isActive && (
-                      <div className="flex space-x-1">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditNote(note);
-                          }}
-                          className="h-7 w-7"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteNote(note.id);
-                          }}
-                          className="h-7 w-7 text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDuplicateNote(note);
-                          }}
-                          className="h-7 w-7"
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    )}
+                    <div className="flex space-x-1">
+                      {/* Pulsante Foto */}
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          document.getElementById(`upload-${note.id}`)?.click();
+                        }}
+                        className="h-7 w-7 text-blue-600"
+                        title="Aggiungi foto"
+                      >
+                        <ImageIcon className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditNote(note);
+                        }}
+                        className="h-7 w-7"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteNote(note.id);
+                        }}
+                        className="h-7 w-7 text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                      {/* Input file nascosto */}
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        id={`upload-${note.id}`}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            uploadImageMutation.mutate({ noteId: note.id, file });
+                            e.target.value = '';
+                          }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
                   </div>
                   
                   {/* Titolo */}
@@ -507,6 +684,36 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                   {/* Contenuto */}
                   <div className="overflow-auto max-h-[250px]">
                     <p className="whitespace-pre-wrap text-sm">{note.content}</p>
+                    
+                    {/* Foto allegate */}
+                    {note.imagePaths && note.imagePaths.length > 0 && (
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        {note.imagePaths.map((imagePath, idx) => (
+                          <div key={idx} className="relative group">
+                            <img 
+                              src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
+                              alt={`Foto ${idx + 1}`}
+                              className="w-full h-32 object-contain rounded border bg-gray-50"
+                            />
+                            {isActive && (
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                className="absolute top-1 right-1 h-6 w-6"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (confirm('Eliminare questa foto?')) {
+                                    deleteImageMutation.mutate({ noteId: note.id, imageIndex: idx });
+                                  }
+                                }}
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   
                   {/* Indicazione di scorrimento */}

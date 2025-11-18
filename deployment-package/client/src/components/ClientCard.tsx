@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { Client } from "@shared/schema";
+import { Client } from "../../../shared/schema";
 import { useTranslation } from "react-i18next";
 import { Pencil, Trash2, Star, Info, Phone, Mail, Calendar, FileText, QrCode, ExternalLink, AlertTriangle, Unlock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,7 +35,7 @@ interface ClientCardProps {
   isOtherAccount?: boolean;
 }
 
-export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount }: ClientCardProps) {
+export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount: isOtherAccountProp }: ClientCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [_, setLocation] = useLocation();
@@ -46,6 +46,33 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
   const [clientQrCode, setClientQrCode] = useState<string | null>(null);
   const [clientToken, setClientToken] = useState<string | null>(null);
   const [isAccessesDialogOpen, setIsAccessesDialogOpen] = useState(false);
+  
+  // Calcola isOtherAccount direttamente se non passato dal parent
+  // Usa useQuery per ottenere l'utente corrente se necessario
+  const {data: currentUser} = useQuery({
+    queryKey: ['/api/user'],
+    enabled: isOtherAccountProp === undefined
+  });
+  
+  // Calcolo fallback se il prop non è passato
+  const clientOwnerId = client.ownerId || (client as any).originalOwnerId;
+  const isOtherAccount = isOtherAccountProp !== undefined 
+    ? isOtherAccountProp 
+    : (currentUser?.type === 'admin' && clientOwnerId && clientOwnerId !== currentUser.id);
+  
+  // Debug temporaneo
+  useEffect(() => {
+    if (client.id === 14003 || client.id === 14004) {
+      console.log(`🟠 CLIENT CARD [${client.firstName} ${client.lastName}]:`, {
+        id: client.id,
+        ownerId: client.ownerId,
+        originalOwnerId: (client as any).originalOwnerId,
+        currentUserId: currentUser?.id,
+        isOtherAccountProp,
+        isOtherAccountCalculated: isOtherAccount
+      });
+    }
+  }, [client.id, client.ownerId, currentUser?.id, isOtherAccountProp, isOtherAccount]);
   
   // Verifica se esiste già un token per questo cliente
   useEffect(() => {
@@ -293,10 +320,10 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
               </div>
             )}
             
-            {client.uniqueCode && typeof client.uniqueCode === 'string' && (
+            {(client.newUniqueCode || client.uniqueCode) && typeof (client.newUniqueCode || client.uniqueCode) === 'string' && (
               <div className="flex items-center text-xs text-blue-600 mt-1 font-mono">
                 <span className="bg-blue-50 px-2 py-1 rounded border">
-                  {client.uniqueCode}
+                  {client.newUniqueCode || client.uniqueCode}
                 </span>
               </div>
             )}
@@ -317,21 +344,6 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
           <div className="flex items-center gap-2">
             {!isOtherAccount ? (
               <>
-                <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </DialogTrigger>
-                  <ClientForm 
-                    clientId={client.id}
-                    onClose={() => {
-                      setIsClientFormOpen(false);
-                      if (onUpdate) onUpdate();
-                    }}
-                  />
-                </Dialog>
-                
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-500">
@@ -401,6 +413,24 @@ export default function ClientCard({ client, onUpdate, onDelete, isOtherAccount 
       </CardContent>
       
       <CardFooter className="px-6 pb-6 pt-4 border-t flex flex-col gap-3">
+        {!isOtherAccount && (
+          <Dialog open={isClientFormOpen} onOpenChange={setIsClientFormOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className="w-full gap-2">
+                <Pencil className="h-4 w-4" />
+                Dati cliente/consenso
+              </Button>
+            </DialogTrigger>
+            <ClientForm 
+              clientId={client.id}
+              onClose={() => {
+                setIsClientFormOpen(false);
+                if (onUpdate) onUpdate();
+              }}
+            />
+          </Dialog>
+        )}
+        
         <Button 
           variant="secondary" 
           size="sm" 
