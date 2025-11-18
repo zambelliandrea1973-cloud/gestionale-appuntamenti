@@ -4,7 +4,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Pencil, Trash2, Plus, Clock, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
+import { Pencil, Trash2, Plus, Clock, ChevronLeft, ChevronRight, CalendarDays, Image as ImageIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
@@ -22,6 +22,7 @@ type ClientNote = {
   title: string;
   content: string;
   category: string;
+  imagePaths?: string[];
   createdAt: string;
   updatedAt?: string;
 };
@@ -159,6 +160,43 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
         description: `Impossibile duplicare la nota: ${error.message}`,
         variant: 'destructive'
       });
+    }
+  });
+  
+  // Mutations per immagini
+  const uploadImageMutation = useMutation({
+    mutationFn: async ({ noteId, file }: { noteId: number; file: File }) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      const res = await fetch(`/api/client-notes/${noteId}/upload-image`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error('Upload fallito');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
+      toast({ title: 'Foto caricata con successo' });
+    },
+    onError: () => {
+      toast({ title: 'Errore upload foto', variant: 'destructive' });
+    }
+  });
+  
+  const deleteImageMutation = useMutation({
+    mutationFn: async ({ noteId, imageIndex }: { noteId: number; imageIndex: number }) => {
+      await apiRequest('DELETE', `/api/client-notes/${noteId}/delete-image/${imageIndex}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes'] });
+      toast({ title: 'Foto eliminata' });
+    },
+    onError: () => {
+      toast({ title: 'Errore eliminazione foto', variant: 'destructive' });
     }
   });
   
@@ -515,6 +553,68 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                   {/* Contenuto */}
                   <div className="overflow-auto max-h-[250px]">
                     <p className="whitespace-pre-wrap text-sm">{note.content}</p>
+                    
+                    {/* Foto allegate */}
+                    {note.imagePaths && note.imagePaths.length > 0 && (
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        {note.imagePaths.map((imagePath, idx) => (
+                          <div key={idx} className="relative group">
+                            <img 
+                              src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
+                              alt={`Foto ${idx + 1}`}
+                              className="w-full h-24 object-cover rounded border"
+                            />
+                            {isActive && (
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (confirm('Eliminare questa foto?')) {
+                                    deleteImageMutation.mutate({ noteId: note.id, imageIndex: idx });
+                                  }
+                                }}
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Upload foto (solo per nota attiva) */}
+                    {isActive && (
+                      <div className="mt-2">
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          id={`upload-${note.id}`}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              uploadImageMutation.mutate({ noteId: note.id, file });
+                              e.target.value = '';
+                            }
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full mt-1"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            document.getElementById(`upload-${note.id}`)?.click();
+                          }}
+                        >
+                          <ImageIcon className="h-4 w-4 mr-2" />
+                          Aggiungi foto
+                        </Button>
+                      </div>
+                    )}
                   </div>
                   
                   {/* Indicazione di scorrimento */}

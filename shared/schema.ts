@@ -477,6 +477,7 @@ export const clientNotes = pgTable("client_notes", {
   title: text("title").notNull(),
   content: text("content").notNull(),
   category: text("category").default("general"), // general, medical, allergies
+  imagePaths: json("image_paths").$type<string[]>(), // Array di percorsi foto (es. progressi trattamenti)
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
