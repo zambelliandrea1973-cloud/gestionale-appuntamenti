@@ -42,6 +42,14 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   
+  // Stato per il titolo della sezione personalizzato
+  const [customLabel, setCustomLabel] = useState<string>(() => {
+    const saved = localStorage.getItem(`section-label-${category}-${clientId}`);
+    return saved || label;
+  });
+  const [editingLabel, setEditingLabel] = useState(false);
+  const [tempLabel, setTempLabel] = useState(customLabel);
+  
   const { data: notes, isLoading } = useQuery<ClientNote[]>({
     queryKey: ['/api/client-notes', clientId, category],
     queryFn: async () => {
@@ -270,10 +278,85 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
+  const handleSaveLabel = () => {
+    if (tempLabel.trim()) {
+      setCustomLabel(tempLabel.trim());
+      localStorage.setItem(`section-label-${category}-${clientId}`, tempLabel.trim());
+      setEditingLabel(false);
+      toast({
+        title: 'Titolo aggiornato',
+        description: 'Il titolo della sezione è stato modificato con successo'
+      });
+    }
+  };
+
+  const handleResetLabel = () => {
+    setCustomLabel(label);
+    setTempLabel(label);
+    localStorage.removeItem(`section-label-${category}-${clientId}`);
+    setEditingLabel(false);
+    toast({
+      title: 'Titolo ripristinato',
+      description: 'Il titolo della sezione è stato ripristinato al valore originale'
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-lg font-semibold">{label}</h3>
+        {editingLabel ? (
+          <div className="flex items-center gap-2 flex-1">
+            <Input
+              value={tempLabel}
+              onChange={(e) => setTempLabel(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSaveLabel();
+                if (e.key === 'Escape') {
+                  setTempLabel(customLabel);
+                  setEditingLabel(false);
+                }
+              }}
+              className="max-w-xs"
+              autoFocus
+            />
+            <Button size="sm" onClick={handleSaveLabel}>
+              Salva
+            </Button>
+            <Button size="sm" variant="outline" onClick={() => {
+              setTempLabel(customLabel);
+              setEditingLabel(false);
+            }}>
+              Annulla
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold">{customLabel}</h3>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => {
+                setTempLabel(customLabel);
+                setEditingLabel(true);
+              }}
+              title="Modifica titolo"
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            {customLabel !== label && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-7 w-7 text-destructive"
+                onClick={handleResetLabel}
+                title="Ripristina titolo originale"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        )}
         <Button 
           onClick={handleOpenDialog} 
           variant="outline" 
