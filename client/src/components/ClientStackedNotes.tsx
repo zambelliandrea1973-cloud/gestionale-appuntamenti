@@ -590,13 +590,13 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                             <img 
                               src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
                               alt={`Foto ${idx + 1}`}
-                              className="w-full h-24 object-cover rounded border"
+                              className="w-full h-32 object-contain rounded border bg-gray-50"
                             />
                             {isActive && (
                               <Button
                                 variant="destructive"
                                 size="icon"
-                                className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                                className="absolute top-1 right-1 h-6 w-6"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   if (confirm('Eliminare questa foto?')) {

@@ -354,7 +354,7 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
           {sortedNotes && sortedNotes.length > 0 ? (
             sortedNotes.map((note) => (
               <div key={note.id} className="border p-4 rounded-md bg-background relative group">
-                <div className="absolute right-2 top-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute right-2 top-2 flex space-x-1">
                   {/* Pulsante Foto */}
                   <Button 
                     variant="ghost" 
@@ -424,12 +424,12 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
                         <img 
                           src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
                           alt={`Foto ${idx + 1}`}
-                          className="w-full h-24 object-cover rounded border"
+                          className="w-full h-32 object-contain rounded border bg-gray-50"
                         />
                         <Button
                           variant="destructive"
                           size="icon"
-                          className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover/img:opacity-100 transition-opacity"
+                          className="absolute top-1 right-1 h-6 w-6"
                           onClick={(e) => {
                             e.stopPropagation();
                             if (confirm('Eliminare questa foto?')) {
