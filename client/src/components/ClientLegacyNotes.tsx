@@ -4,7 +4,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Pencil, Trash2, Plus, Clock } from 'lucide-react';
+import { Pencil, Trash2, Plus, Clock, ImageIcon, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useToast } from '@/hooks/use-toast';
@@ -24,6 +24,7 @@ type ClientNote = {
   category: string;
   createdAt: string;
   updatedAt?: string;
+  imagePaths?: string[];
 };
 
 type ClientLegacyNotesProps = {
@@ -139,6 +140,60 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
       toast({ 
         title: 'Errore', 
         description: `Impossibile duplicare la nota: ${error.message}`,
+        variant: 'destructive'
+      });
+    }
+  });
+
+  const uploadImageMutation = useMutation({
+    mutationFn: async ({ noteId, file }: { noteId: number; file: File }) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const res = await fetch(`/api/client-notes/${noteId}/upload-image`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Errore durante il caricamento');
+      }
+      
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      toast({ 
+        title: 'Foto caricata', 
+        description: 'La foto è stata aggiunta con successo' 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: 'Errore', 
+        description: `Impossibile caricare la foto: ${error.message}`,
+        variant: 'destructive'
+      });
+    }
+  });
+
+  const deleteImageMutation = useMutation({
+    mutationFn: async ({ noteId, imageIndex }: { noteId: number; imageIndex: number }) => {
+      const res = await apiRequest('DELETE', `/api/client-notes/${noteId}/delete-image/${imageIndex}`);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/client-notes', clientId] });
+      toast({ 
+        title: 'Foto eliminata', 
+        description: 'La foto è stata rimossa con successo' 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: 'Errore', 
+        description: `Impossibile eliminare la foto: ${error.message}`,
         variant: 'destructive'
       });
     }
@@ -300,6 +355,16 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
             sortedNotes.map((note) => (
               <div key={note.id} className="border p-4 rounded-md bg-background relative group">
                 <div className="absolute right-2 top-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {/* Pulsante Foto */}
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => document.getElementById(`upload-legacy-${note.id}`)?.click()}
+                    className="h-7 w-7 text-blue-600"
+                    title="Aggiungi foto"
+                  >
+                    <ImageIcon className="h-4 w-4" />
+                  </Button>
                   <Button 
                     variant="ghost" 
                     size="icon" 
@@ -324,6 +389,20 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
+                  {/* Input file nascosto */}
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    id={`upload-legacy-${note.id}`}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        uploadImageMutation.mutate({ noteId: note.id, file });
+                        e.target.value = '';
+                      }
+                    }}
+                  />
                 </div>
                 
                 <div className="mb-1 flex items-center text-xs text-muted-foreground">
@@ -336,6 +415,34 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
                 )}
                 
                 <p className="whitespace-pre-wrap text-sm">{note.content}</p>
+
+                {/* Foto allegate */}
+                {note.imagePaths && note.imagePaths.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    {note.imagePaths.map((imagePath, idx) => (
+                      <div key={idx} className="relative group/img">
+                        <img 
+                          src={imagePath.startsWith('/') ? imagePath : `/${imagePath}`}
+                          alt={`Foto ${idx + 1}`}
+                          className="w-full h-24 object-cover rounded border"
+                        />
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover/img:opacity-100 transition-opacity"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (confirm('Eliminare questa foto?')) {
+                              deleteImageMutation.mutate({ noteId: note.id, imageIndex: idx });
+                            }
+                          }}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))
           ) : (
