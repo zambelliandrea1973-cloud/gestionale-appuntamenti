@@ -58,16 +58,14 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Query per ottenere le note
-  const { data: notes, isLoading } = useQuery<ClientNote[]>({
-    queryKey: ['/api/client-notes', clientId, category],
-    queryFn: async () => {
-      const res = await apiRequest('GET', `/api/client-notes/${clientId}`);
-      const allNotes = await res.json();
-      // Filtra le note per categoria
-      return allNotes.filter((note: ClientNote) => note.category === category);
-    },
+  // Query per ottenere TUTTE le note del cliente (condivisa tra tutte le sezioni)
+  const { data: allNotes, isLoading } = useQuery<ClientNote[]>({
+    queryKey: ['/api/client-notes', clientId],
+    staleTime: 5 * 60 * 1000, // 5 minuti - evita refetch inutili
   });
+  
+  // Filtra le note per categoria (client-side)
+  const notes = allNotes?.filter((note: ClientNote) => note.category === category);
   
   // Mutations per le operazioni CRUD
   const createNoteMutation = useMutation({
@@ -523,18 +521,29 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
             <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
           </div>
         ) : !hasNotes ? (
-          <div className="border rounded-md bg-background h-full flex flex-col items-center justify-center text-center text-muted-foreground p-4 gap-4">
-            <p>Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.</p>
-            <div className="flex space-x-2">
+          <div className="border rounded-md bg-background h-full p-4 relative">
+            <div className="absolute right-2 top-2 flex space-x-1">
               <Button 
-                variant="outline" 
+                variant="ghost" 
                 size="icon" 
                 onClick={handleOpenDialog}
-                className="h-9 w-9"
+                className="h-7 w-7"
                 title="Crea nuova nota"
               >
                 <Pencil className="h-4 w-4" />
               </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-7 w-7 text-destructive opacity-50 cursor-not-allowed"
+                disabled
+                title="Nessuna nota da eliminare"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex items-center justify-center h-full text-center text-muted-foreground">
+              Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
             </div>
           </div>
         ) : (
