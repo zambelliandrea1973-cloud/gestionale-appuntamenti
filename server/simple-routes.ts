@@ -2981,11 +2981,13 @@ export function registerSimpleRoutes(app: Express): Server {
       return res.status(404).json({ message: "Cliente non trovato" });
     }
 
-    // 🔒 MULTI-TENANT SECURITY: Verifica che il cliente appartenga al tenant dell'utente
-    // Staff utenti (user.ownerId != null) condividono i dati con il business owner
-    if (clientFound.userId !== tenantId) {
-      console.log(`🚫 [GET /api/clients/:id] User ${user.id} (tenant ${tenantId}) tentato accesso a cliente ${id} di tenant ${clientFound.userId}`);
-      return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+    // 🔒 MULTI-TENANT SECURITY: Admin bypass - gli admin vedono tutti i clienti
+    if (user.type !== 'admin') {
+      // Staff utenti (user.ownerId != null) condividono i dati con il business owner
+      if (clientFound.userId !== tenantId) {
+        console.log(`🚫 [GET /api/clients/:id] User ${user.id} (tenant ${tenantId}) tentato accesso a cliente ${id} di tenant ${clientFound.userId}`);
+        return res.status(403).json({ message: "Non autorizzato ad accedere a questo cliente" });
+      }
     }
 
     res.json({
