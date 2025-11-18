@@ -523,8 +523,19 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
             <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
           </div>
         ) : !hasNotes ? (
-          <div className="border rounded-md bg-background h-full flex items-center justify-center text-center text-muted-foreground p-4">
-            Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+          <div className="border rounded-md bg-background h-full flex flex-col items-center justify-center text-center text-muted-foreground p-4 gap-4">
+            <p>Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.</p>
+            <div className="flex space-x-2">
+              <Button 
+                variant="outline" 
+                size="icon" 
+                onClick={handleOpenDialog}
+                className="h-9 w-9"
+                title="Crea nuova nota"
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         ) : (
           /* Note impilate */
@@ -589,71 +600,69 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                       {formatDate(note.createdAt)}
                     </div>
                     
-                    {isActive && (
-                      <div className="flex space-x-1">
-                        {/* Pulsante Foto */}
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            document.getElementById(`upload-${note.id}`)?.click();
-                          }}
-                          className="h-7 w-7 text-blue-600"
-                          title="Aggiungi foto"
-                        >
-                          <ImageIcon className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditNote(note);
-                          }}
-                          className="h-7 w-7"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteNote(note.id);
-                          }}
-                          className="h-7 w-7 text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDuplicateNote(note);
-                          }}
-                          className="h-7 w-7"
-                        >
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                        {/* Input file nascosto */}
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          id={`upload-${note.id}`}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              uploadImageMutation.mutate({ noteId: note.id, file });
-                              e.target.value = '';
-                            }
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </div>
-                    )}
+                    <div className="flex space-x-1">
+                      {/* Pulsante Foto */}
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          document.getElementById(`upload-${note.id}`)?.click();
+                        }}
+                        className="h-7 w-7 text-blue-600"
+                        title="Aggiungi foto"
+                      >
+                        <ImageIcon className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditNote(note);
+                        }}
+                        className="h-7 w-7"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteNote(note.id);
+                        }}
+                        className="h-7 w-7 text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDuplicateNote(note);
+                        }}
+                        className="h-7 w-7"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                      {/* Input file nascosto */}
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        id={`upload-${note.id}`}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            uploadImageMutation.mutate({ noteId: note.id, file });
+                            e.target.value = '';
+                          }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
                   </div>
                   
                   {/* Titolo */}

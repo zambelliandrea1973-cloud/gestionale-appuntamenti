@@ -530,7 +530,18 @@ export default function ClientLegacyNotes({ clientId, category, label }: ClientL
             ))
           ) : (
             <div className="border p-4 rounded-md bg-background min-h-24 text-center text-muted-foreground">
-              Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.
+              <p className="mb-4">Nessuna nota disponibile. Clicca su "Aggiungi" per crearne una.</p>
+              <div className="flex justify-center space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={handleOpenDialog}
+                  className="h-9 w-9"
+                  title="Crea nuova nota"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           )}
         </div>
