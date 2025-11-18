@@ -277,7 +277,7 @@ export default function Clients() {
             {t("clients.subtitle")} ({filteredClients.length} {t("clients.total")})
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
           {isMobile && (
             <Button
               onClick={async () => {
@@ -298,9 +298,11 @@ export default function Clients() {
             onClick={forceRefreshFromServer}
             variant="outline"
             size="sm"
+            className="flex-shrink-0"
           >
-            <Server className="h-4 w-4 mr-2" />
-            Test Server
+            <Server className="h-4 w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Test Server</span>
+            <span className="sm:hidden">Test</span>
           </Button>
           <Button
             onClick={async () => {
@@ -311,15 +313,18 @@ export default function Clients() {
             }}
             variant="destructive"
             size="sm"
+            className="flex-shrink-0"
           >
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Debug Cache
+            <RefreshCw className="h-4 w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Debug Cache</span>
+            <span className="sm:hidden">Debug</span>
           </Button>
           <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                {t("clients.addClient")}
+              <Button className="flex-shrink-0">
+                <Plus className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">{t("clients.addClient")}</span>
+                <span className="sm:hidden">Nuovo</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -347,34 +352,45 @@ export default function Clients() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className={`grid w-full ${currentUser?.type === 'admin' ? 'grid-cols-6' : 'grid-cols-3'}`}>
-            <TabsTrigger value="all" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              {t("clients.allClients")} ({clients.filter(() => true).length})
+          <TabsList className={`grid w-full gap-1 ${currentUser?.type === 'admin' ? 'grid-cols-3 sm:grid-cols-6' : 'grid-cols-2 sm:grid-cols-3'}`}>
+            <TabsTrigger value="all" className="flex items-center gap-1 text-xs sm:text-sm px-2">
+              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">{t("clients.allClients")}</span>
+              <span className="sm:hidden">Tutti</span>
+              <span className="ml-0.5">({clients.filter(() => true).length})</span>
             </TabsTrigger>
             {currentUser?.type === 'admin' && (
               <>
-                <TabsTrigger value="by-staff" className="flex items-center gap-2 bg-blue-50 border-blue-200 text-blue-700 data-[state=active]:bg-blue-100">
-                  <Users className="h-4 w-4" />
-                  Per Professionista
+                <TabsTrigger value="by-staff" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-blue-50 border-blue-200 text-blue-700 data-[state=active]:bg-blue-100">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Per Professionista</span>
+                  <span className="sm:hidden">Staff</span>
                 </TabsTrigger>
-                <TabsTrigger value="my-clients" className="flex items-center gap-2 bg-green-50 border-green-200 text-green-700 data-[state=active]:bg-green-100">
-                  <Users className="h-4 w-4" />
-                  Miei Clienti ({clients.filter((c: any) => c.ownerId === currentUser.id).length})
+                <TabsTrigger value="my-clients" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-green-50 border-green-200 text-green-700 data-[state=active]:bg-green-100">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Miei Clienti</span>
+                  <span className="sm:hidden">Miei</span>
+                  <span className="ml-0.5">({clients.filter((c: any) => c.ownerId === currentUser.id).length})</span>
                 </TabsTrigger>
-                <TabsTrigger value="other-clients" className="flex items-center gap-2 bg-orange-50 border-orange-200 text-orange-700 data-[state=active]:bg-orange-100">
-                  <Users className="h-4 w-4" />
-                  Altri Account ({clients.filter((c: any) => c.ownerId !== currentUser.id).length})
+                <TabsTrigger value="other-clients" className="flex items-center gap-1 text-xs sm:text-sm px-2 bg-orange-50 border-orange-200 text-orange-700 data-[state=active]:bg-orange-100">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Altri Account</span>
+                  <span className="sm:hidden">Altri</span>
+                  <span className="ml-0.5">({clients.filter((c: any) => c.ownerId !== currentUser.id).length})</span>
                 </TabsTrigger>
               </>
             )}
-            <TabsTrigger value="frequent" className="flex items-center gap-2">
-              <UserCheck className="h-4 w-4" />
-              {t("clients.frequentClients")} ({clients.filter((c: any) => c.isFrequent === true).length})
+            <TabsTrigger value="frequent" className="flex items-center gap-1 text-xs sm:text-sm px-2">
+              <UserCheck className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">{t("clients.frequentClients")}</span>
+              <span className="sm:hidden">Frequenti</span>
+              <span className="ml-0.5">({clients.filter((c: any) => c.isFrequent === true).length})</span>
             </TabsTrigger>
-            <TabsTrigger value="no-consent" className="flex items-center gap-2">
-              <UserX className="h-4 w-4" />
-              {t("clients.noConsent")} ({clients.filter((c: any) => c.hasConsent !== true).length})
+            <TabsTrigger value="no-consent" className="flex items-center gap-1 text-xs sm:text-sm px-2">
+              <UserX className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">{t("clients.noConsent")}</span>
+              <span className="sm:hidden">No consenso</span>
+              <span className="ml-0.5">({clients.filter((c: any) => c.hasConsent !== true).length})</span>
             </TabsTrigger>
           </TabsList>
 
