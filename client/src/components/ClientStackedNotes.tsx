@@ -443,10 +443,16 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
           )}
           
           <Button 
-            onClick={handleOpenDialog} 
+            onClick={() => {
+              if (sortedNotes && sortedNotes.length > 0) {
+                handleDuplicateNote(sortedNotes[0]);
+              }
+            }}
             variant="outline" 
             size="sm"
             className="gap-1"
+            disabled={!hasNotes}
+            title={hasNotes ? "Duplica ultima nota" : "Nessuna nota da duplicare"}
           >
             <Plus className="h-4 w-4" />
             Aggiungi
