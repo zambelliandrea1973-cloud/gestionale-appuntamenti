@@ -508,6 +508,19 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                     
                     {isActive && (
                       <div className="flex space-x-1">
+                        {/* Pulsante Foto */}
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            document.getElementById(`upload-${note.id}`)?.click();
+                          }}
+                          className="h-7 w-7 text-blue-600"
+                          title="Aggiungi foto"
+                        >
+                          <ImageIcon className="h-4 w-4" />
+                        </Button>
                         <Button 
                           variant="ghost" 
                           size="icon" 
@@ -541,6 +554,21 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
+                        {/* Input file nascosto */}
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          id={`upload-${note.id}`}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              uploadImageMutation.mutate({ noteId: note.id, file });
+                              e.target.value = '';
+                            }
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        />
                       </div>
                     )}
                   </div>
@@ -581,38 +609,6 @@ export default function ClientStackedNotes({ clientId, category, label }: Client
                             )}
                           </div>
                         ))}
-                      </div>
-                    )}
-                    
-                    {/* Upload foto (solo per nota attiva) */}
-                    {isActive && (
-                      <div className="mt-2">
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          id={`upload-${note.id}`}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              uploadImageMutation.mutate({ noteId: note.id, file });
-                              e.target.value = '';
-                            }
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full mt-1"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            document.getElementById(`upload-${note.id}`)?.click();
-                          }}
-                        >
-                          <ImageIcon className="h-4 w-4 mr-2" />
-                          Aggiungi foto
-                        </Button>
                       </div>
                     )}
                   </div>
