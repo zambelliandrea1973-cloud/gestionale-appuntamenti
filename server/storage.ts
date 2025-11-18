@@ -226,6 +226,7 @@ export interface IStorage {
   updateActivationToken(token: string, data: Partial<InsertActivationToken>): Promise<ActivationToken | undefined>;
   
   // Client Notes operations
+  getClientNote(id: number): Promise<ClientNote | undefined>;
   getClientNotes(clientId: number): Promise<ClientNote[]>;
   createClientNote(note: InsertClientNote): Promise<ClientNote>;
   updateClientNote(id: number, note: Partial<InsertClientNote>): Promise<ClientNote | undefined>;
@@ -3056,6 +3057,20 @@ export class DatabaseStorage implements IStorage {
   }
   
   // Client Notes operations
+  async getClientNote(id: number): Promise<ClientNote | undefined> {
+    try {
+      const [note] = await db
+        .select()
+        .from(clientNotes)
+        .where(eq(clientNotes.id, id));
+      
+      return note;
+    } catch (error) {
+      console.error("Errore durante il recupero della nota:", error);
+      return undefined;
+    }
+  }
+
   async getClientNotes(clientId: number): Promise<ClientNote[]> {
     try {
       const notes = await db
