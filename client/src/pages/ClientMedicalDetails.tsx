@@ -150,19 +150,19 @@ export default function ClientMedicalDetails() {
           
           <div className="mt-8">
             <Tabs defaultValue="notes" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="notes">{t('clients.details.structuredNotes')}</TabsTrigger>
-                <TabsTrigger value="medical">{t('clients.details.legacyMedicalData')}</TabsTrigger>
-                <TabsTrigger value="other">{t('clients.details.otherInfo')}</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3 gap-1">
+                <TabsTrigger value="notes" className="text-xs sm:text-sm px-2">{t('clients.details.structuredNotes')}</TabsTrigger>
+                <TabsTrigger value="medical" className="text-xs sm:text-sm px-2">{t('clients.details.legacyMedicalData')}</TabsTrigger>
+                <TabsTrigger value="other" className="text-xs sm:text-sm px-2">{t('clients.details.otherInfo')}</TabsTrigger>
               </TabsList>
               
               <TabsContent value="notes" className="mt-4">
                 <Card>
                   <CardContent className="pt-6 space-y-6">
                     {/* Controllo per alternare tra vista classica e vista a schede impilate */}
-                    <div className="flex flex-col space-y-2 border-b pb-4 mb-4">
+                    <div className="flex flex-col space-y-3 border-b pb-4 mb-4">
                       <h4 className="text-sm font-medium">{t('clients.details.viewMode')}</h4>
-                      <div className="flex flex-wrap items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                         <div className="flex items-center space-x-2">
                           <LayoutGrid className={`h-5 w-5 ${!useStackedView ? 'text-primary' : 'text-muted-foreground'}`} />
                           <Switch
@@ -171,18 +171,16 @@ export default function ClientMedicalDetails() {
                             id="view-mode"
                           />
                           <Layers className={`h-5 w-5 ${useStackedView ? 'text-primary' : 'text-muted-foreground'}`} />
-                        </div>
-                        <div className="flex items-center">
-                          <Label htmlFor="view-mode" className="text-sm font-medium">
+                          <Label htmlFor="view-mode" className="text-sm font-medium ml-2">
                             {useStackedView 
                               ? t('clients.details.stackedView') 
                               : t('clients.details.classicView')}
                           </Label>
-                          <div className="ml-2 text-xs text-muted-foreground max-w-[280px]">
-                            {useStackedView 
-                              ? t('clients.details.stackedViewDescription') 
-                              : t('clients.details.classicViewDescription')}
-                          </div>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {useStackedView 
+                            ? t('clients.details.stackedViewDescription') 
+                            : t('clients.details.classicViewDescription')}
                         </div>
                       </div>
                     </div>
