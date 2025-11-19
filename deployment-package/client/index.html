@@ -18,9 +18,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="App Cliente">
     
-    <!-- Web App Manifest - supporto per entrambi i formati -->
+    <!-- Manifest PWA - il link statico permette a PWABuilder di trovarlo immediatamente
+         Il manifest dinamico viene servito dal server in base all'User-Agent:
+         - PWABuilder/Lighthouse ricevono manifest-playstore.json (generico per Play Store)
+         - Client normali ricevono manifest personalizzato (icona del professionista) -->
     <link rel="manifest" href="/manifest.json">
-    <link rel="manifest" href="/manifest.webmanifest">
     
     <!-- FAVICON per browser che non supportano PWA -->
     <link rel="icon" type="image/png" href="/icons/icon-96x96.png">
