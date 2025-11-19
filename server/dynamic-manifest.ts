@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { loadStorageData } from './utils/jsonStorage';
+import { servePlayStoreManifest } from './manifest-playstore';
 
 // 📁 Usa funzione centralizzata da utils/jsonStorage.ts
 
@@ -14,6 +15,15 @@ export function serveDynamicManifest(req: Request, res: Response) {
     console.log('🔍 PWA MANIFEST: URL completo:', req.url);
     console.log('🔍 PWA MANIFEST: Query params:', req.query);
     console.log('🔍 PWA MANIFEST: Headers referer:', req.get('referer'));
+    
+    // Rileva PWABuilder e altri tool di analisi PWA - servi manifest statico
+    const userAgent = req.get('user-agent') || '';
+    if (userAgent.toLowerCase().includes('pwabuilder') || 
+        userAgent.toLowerCase().includes('lighthouse') ||
+        req.query.playstore === '1') {
+      console.log('📱 PWA MANIFEST: Rilevato tool PWA (PWABuilder/Lighthouse) - servendo manifest statico');
+      return servePlayStoreManifest(req, res);
+    }
     
     // FORZA DEBUG PER IDENTIFICARE IL PROBLEMA
     console.error('📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA');

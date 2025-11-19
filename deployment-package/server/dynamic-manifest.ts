@@ -4,15 +4,10 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
+import { loadStorageData } from './utils/jsonStorage';
+import { servePlayStoreManifest } from './manifest-playstore';
 
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  if (fs.existsSync(storageFile)) {
-    const data = fs.readFileSync(storageFile, 'utf8');
-    return JSON.parse(data);
-  }
-  return {};
-}
+// 📁 Usa funzione centralizzata da utils/jsonStorage.ts
 
 export function serveDynamicManifest(req: Request, res: Response) {
   try {
@@ -20,6 +15,15 @@ export function serveDynamicManifest(req: Request, res: Response) {
     console.log('🔍 PWA MANIFEST: URL completo:', req.url);
     console.log('🔍 PWA MANIFEST: Query params:', req.query);
     console.log('🔍 PWA MANIFEST: Headers referer:', req.get('referer'));
+    
+    // Rileva PWABuilder e altri tool di analisi PWA - servi manifest statico
+    const userAgent = req.get('user-agent') || '';
+    if (userAgent.toLowerCase().includes('pwabuilder') || 
+        userAgent.toLowerCase().includes('lighthouse') ||
+        req.query.playstore === '1') {
+      console.log('📱 PWA MANIFEST: Rilevato tool PWA (PWABuilder/Lighthouse) - servendo manifest statico');
+      return servePlayStoreManifest(req, res);
+    }
     
     // FORZA DEBUG PER IDENTIFICARE IL PROBLEMA
     console.error('📱 DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA');
@@ -31,6 +35,16 @@ export function serveDynamicManifest(req: Request, res: Response) {
     if (ownerIdQuery) {
       ownerUserId = parseInt(ownerIdQuery as string);
       console.log(`📱 PWA MANIFEST: Owner ID da query param: ${ownerUserId}`);
+    }
+    
+    // Metodo 1b: Estrai ownerId dal clientToken nei query params (PROF_XXX_...)
+    if (!ownerUserId && req.query.clientToken) {
+      const clientToken = req.query.clientToken as string;
+      const tokenMatch = clientToken.match(/^PROF_(\d{2,3})_/);
+      if (tokenMatch) {
+        ownerUserId = parseInt(tokenMatch[1]);
+        console.log(`📱 PWA MANIFEST: Owner ID estratto da clientToken: ${ownerUserId}`);
+      }
     }
     
     // Metodo 2: Analizza referer per token QR
@@ -84,7 +98,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
     
     // Crea manifest dinamico con start_url che preserva il contesto del cliente
     const storageData = loadStorageData();
-    const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Studio Medico';
+    const ownerName = ownerUserId && storageData.userContactInfo?.[ownerUserId]?.businessName || 'Gestionale Appuntamenti';
     
     // Forza aggiornamento completo del manifest per Android PWA
     const manifestVersion = `${Date.now()}-${ownerUserId || 'default'}`;
@@ -152,7 +166,7 @@ export function serveDynamicManifest(req: Request, res: Response) {
       "lang": "it-IT",
       "dir": "ltr",
       "prefer_related_applications": false,
-      "scope": "/",
+      "scope": "/client/",
       "id": ownerUserId ? `silvia-busnari-cliente-${ownerUserId}` : `area-cliente-generic`,
       "version": manifestVersion
     };
