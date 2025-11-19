@@ -1,31 +1,23 @@
 import { registerSimpleRoutes } from "./simple-routes";
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import fs from 'fs';
-import path from 'path';
-
-// Caricamento dati storage per validazione QR code
-function loadStorageData() {
-  const storageFile = path.join(process.cwd(), 'storage_data.json');
-  try {
-    if (fs.existsSync(storageFile)) {
-      const data = JSON.parse(fs.readFileSync(storageFile, 'utf8'));
-      return data;
-    }
-  } catch (error) {
-    console.error('Errore caricamento storage per QR:', error);
-  }
-  return { clients: [] };
-}
 
 import { serveDynamicManifest } from './dynamic-manifest'
 import { serveCustomIcon } from './icon-proxy'
+import { serveAdminManifest } from './admin-manifest'
+import { servePlayStoreManifest } from './manifest-playstore'
 
 export function registerRoutes(app: Express): Server {
   // Route proxy per icone PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
   
-  // Route per il manifest dinamico PWA
+  // Route per manifest STATICO Google Play Store (per PWABuilder/TWA)
+  app.get('/manifest-playstore.json', servePlayStoreManifest);
+  
+  // Route per il manifest ADMIN (gestionale professionista) - DINAMICO con autenticazione
+  app.get('/manifest-admin.json', serveAdminManifest);
+  
+  // Route per il manifest dinamico PWA (clienti)
   app.get('/manifest.json', serveDynamicManifest);
   
   // LEGACY: Manifest handler inline (RIMOSSO - sostituito con dynamic-manifest.ts)

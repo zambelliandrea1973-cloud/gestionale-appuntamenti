@@ -5,10 +5,14 @@ import { createServer, type Server } from "http";
 import { serveDynamicManifest } from './dynamic-manifest'
 import { serveCustomIcon } from './icon-proxy'
 import { serveAdminManifest } from './admin-manifest'
+import { servePlayStoreManifest } from './manifest-playstore'
 
 export function registerRoutes(app: Express): Server {
   // Route proxy per icone PWA ottimizzate per Android
   app.get('/pwa-icon/:size', serveCustomIcon);
+  
+  // Route per manifest STATICO Google Play Store (per PWABuilder/TWA)
+  app.get('/manifest-playstore.json', servePlayStoreManifest);
   
   // Route per il manifest ADMIN (gestionale professionista) - DINAMICO con autenticazione
   app.get('/manifest-admin.json', serveAdminManifest);
