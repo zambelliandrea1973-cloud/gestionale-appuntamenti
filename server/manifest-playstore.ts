@@ -24,25 +24,25 @@ export function servePlayStoreManifest(req: Request, res: Response) {
     "id": "com.gestionale.appuntamenti.client",
     "icons": [
       {
-        "src": "/pwa-icon/192x192?owner=default&playstore=1",
+        "src": "/icons/icon-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/pwa-icon/192x192?owner=default&playstore=1",
+        "src": "/icons/icon-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "maskable"
       },
       {
-        "src": "/pwa-icon/512x512?owner=default&playstore=1",
+        "src": "/icons/icon-512x512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any"
       },
       {
-        "src": "/pwa-icon/512x512?owner=default&playstore=1",
+        "src": "/icons/icon-512x512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"
@@ -50,7 +50,7 @@ export function servePlayStoreManifest(req: Request, res: Response) {
     ],
     "screenshots": [
       {
-        "src": "/pwa-icon/512x512?owner=default&playstore=1",
+        "src": "/icons/icon-512x512.png",
         "sizes": "512x512",
         "type": "image/png",
         "form_factor": "narrow",
