@@ -19,29 +19,31 @@ export const schedulerService = {
     // Formato cron: second(0-59) minute(0-59) hour(0-23) day-of-month(1-31) month(1-12) day-of-week(0-6, 0=Sunday)
     cron.schedule('0 */15 * * * *', async () => {
       const now = new Date();
-      console.log('⏰ Esecuzione del job di promemoria appuntamenti:', now.toISOString());
+      const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+      if (isVerbose) console.log('⏰ Esecuzione del job di promemoria appuntamenti:', now.toISOString());
       
       try {
         // Elabora i promemoria per gli appuntamenti delle prossime 30 ore
         const sentCount = await notificationService.processReminders();
-        console.log(`✅ Job completato: inviati ${sentCount} promemoria`);
+        if (isVerbose || sentCount > 0) console.log(`✅ Job completato: inviati ${sentCount} promemoria`);
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione del job di promemoria:', error);
       }
     });
     
     // Eseguiamo il job immediatamente all'avvio per verificare eventuali promemoria pendenti
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
     setTimeout(async () => {
       try {
-        console.log('🚀 Esecuzione immediata del job di promemoria all\'avvio del server');
+        if (isVerbose) console.log('🚀 Esecuzione immediata del job di promemoria all\'avvio del server');
         const sentCount = await notificationService.processReminders();
-        console.log(`✅ Job iniziale completato: inviati ${sentCount} promemoria`);
+        if (isVerbose || sentCount > 0) console.log(`✅ Job iniziale completato: inviati ${sentCount} promemoria`);
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione iniziale del job di promemoria:', error);
       }
     }, 5000); // Esegui dopo 5 secondi dall'avvio per permettere alle connessioni di stabilizzarsi
     
-    console.log('⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)');
+    if (isVerbose) console.log('⏰ Scheduler dei promemoria avviato con successo (esecuzione ogni 15 minuti)');
   },
   
   /**
@@ -51,19 +53,22 @@ export const schedulerService = {
   startPayoutScheduler(): void {
     // Cron job che viene eseguito ogni giorno alle 10:00
     // Formato cron: second(0-59) minute(0-59) hour(0-23) day-of-month(1-31) month(1-12) day-of-week(0-6, 0=Sunday)
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
     cron.schedule('0 0 10 * * *', async () => {
       const now = new Date();
-      console.log('💰 Esecuzione del job di payout commissioni referral:', now.toISOString());
+      if (isVerbose) console.log('💰 Esecuzione del job di payout commissioni referral:', now.toISOString());
       
       try {
         const result = await PayPalPayoutService.processScheduledPayouts();
-        console.log(`💰 Job payout completato: ${result.processed} processati, ${result.failed} falliti`);
+        if (isVerbose || result.processed > 0 || result.failed > 0) {
+          console.log(`💰 Job payout completato: ${result.processed} processati, ${result.failed} falliti`);
+        }
       } catch (error) {
         console.error('❌ Errore nell\'esecuzione del job di payout:', error);
       }
     });
     
-    console.log('💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)');
+    if (isVerbose) console.log('💰 Scheduler dei payout PayPal avviato con successo (esecuzione giornaliera alle 10:00)');
   },
   
   /**
@@ -72,9 +77,10 @@ export const schedulerService = {
    */
   startCampaignCleanupScheduler(): void {
     // Cron job che viene eseguito ogni giorno alle 03:00
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
     cron.schedule('0 0 3 * * *', async () => {
       const now = new Date();
-      console.log('🗑️ Esecuzione del job di pulizia campagne marketing:', now.toISOString());
+      if (isVerbose) console.log('🗑️ Esecuzione del job di pulizia campagne marketing:', now.toISOString());
       
       try {
         // Calcola la data limite (12 mesi fa)
@@ -87,7 +93,9 @@ export const schedulerService = {
           .where(lt(marketingCampaigns.createdAt, twelveMonthsAgo))
           .returning();
         
-        console.log(`🗑️ Pulizia campagne completata: ${deletedCampaigns.length} campagne eliminate (più vecchie di 12 mesi)`);
+        if (isVerbose || deletedCampaigns.length > 0) {
+          console.log(`🗑️ Pulizia campagne completata: ${deletedCampaigns.length} campagne eliminate (più vecchie di 12 mesi)`);
+        }
         
         if (deletedCampaigns.length > 0) {
           console.log(`📋 Campagne eliminate: ${deletedCampaigns.map(c => c.title).join(', ')}`);
@@ -97,7 +105,7 @@ export const schedulerService = {
       }
     });
     
-    console.log('🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)');
+    if (isVerbose) console.log('🗑️ Scheduler di pulizia campagne avviato con successo (esecuzione giornaliera alle 03:00)');
   },
   
   /**
@@ -115,5 +123,5 @@ export function initializeSchedulers(): void {
   schedulerService.startReminderScheduler();
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
-  console.log('Tutti gli scheduler inizializzati');
+  if (process.env.LOG_SCHEDULER !== 'false') console.log('Tutti gli scheduler inizializzati');
 }
