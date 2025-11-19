@@ -34,12 +34,15 @@ RUN chown -R nodejs:nodejs /app
 # Cambio utente
 USER nodejs
 
+# Variabile ambiente per ridurre logging in produzione
+ENV LOG_SCHEDULER=false
+
 # Esposizione porta
-EXPOSE 3000
+EXPOSE 5000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
+  CMD curl -f http://localhost:5000/api/health || exit 1
 
 # Comando di avvio
 CMD ["npm", "start"]
