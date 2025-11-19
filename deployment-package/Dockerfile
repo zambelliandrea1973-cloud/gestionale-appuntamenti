@@ -34,6 +34,7 @@ RUN chown -R nodejs:nodejs /app
 # Cambio utente
 USER nodejs
 
+# Force rebuild: 2025-11-19T07:10:00Z - Fix scheduler logging
 # Variabile ambiente per ridurre logging in produzione
 ENV LOG_SCHEDULER=false
 
