@@ -582,7 +582,8 @@ export const notificationService = {
       const next30Hours = new Date(now.getTime() + 30 * 60 * 60 * 1000); // +30 ore
       const past1Hour = new Date(now.getTime() - 1 * 60 * 60 * 1000); // -1 ora (per non perdere quelli appena passati)
       
-      console.log(`⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra ${past1Hour.toISOString()} e ${next30Hours.toISOString()}`);
+      const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+      if (isVerbose) console.log(`⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra ${past1Hour.toISOString()} e ${next30Hours.toISOString()}`);
       
       // Query PostgreSQL: appuntamenti con reminder_time nelle prossime 30 ore
       const appointments = await db
@@ -613,13 +614,13 @@ export const notificationService = {
           )
         );
       
-      console.log(`📧 [EMAIL SCHEDULER] Trovati ${appointments.length} appuntamenti con email da inviare`);
+      if (isVerbose) console.log(`📧 [EMAIL SCHEDULER] Trovati ${appointments.length} appuntamenti con email da inviare`);
       
       let remindersSent = 0;
       
       // Invia i promemoria EMAIL
       for (const appointment of appointments) {
-        console.log(`📧 [EMAIL] Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime} - reminder_time: ${appointment.reminderTime?.toISOString()}`);
+        if (isVerbose) console.log(`📧 [EMAIL] Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime} - reminder_time: ${appointment.reminderTime?.toISOString()}`);
         
         const success = await this.sendAppointmentReminder(appointment as any);
         
@@ -628,7 +629,7 @@ export const notificationService = {
         }
       }
       
-      console.log(`✅ [EMAIL SCHEDULER] Inviati ${remindersSent}/${appointments.length} promemoria EMAIL`);
+      if (isVerbose || remindersSent > 0) console.log(`✅ [EMAIL SCHEDULER] Inviati ${remindersSent}/${appointments.length} promemoria EMAIL`);
       
       return remindersSent;
     } catch (error) {

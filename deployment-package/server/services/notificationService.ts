@@ -1,7 +1,14 @@
 import { format, addDays, isBefore } from 'date-fns';
-import { Appointment } from '@shared/schema';
-import { storage } from '../storage';
+import { Appointment } from '../../shared/schema';
 import { directNotificationService } from './directNotificationService';
+import fs from 'fs';
+import path from 'path';
+import { loadStorageData, saveStorageData, getTomorrowAppointments } from '../utils/jsonStorage';
+import { db } from '../db';
+import { clients, services, staff, treatmentRooms } from '../../shared/schema';
+import { eq } from 'drizzle-orm';
+
+// 📁 FUNZIONI JSON CENTRALIZZATE IN utils/jsonStorage.ts
 
 const messagesPendingDelivery = new Map<string, boolean>();
 
@@ -32,14 +39,171 @@ export const notificationService = {
   },
 
   /**
+   * Classifica un errore SMTP come permanente o temporaneo
+   * LOGICA: Tutti i 5xx sono PERMANENTI, 4xx e timeout sono TEMPORANEI
+   * @param error Errore da Nodemailer
+   * @returns Tipo di errore e dettagli
+   */
+  classifySMTPError(error: any): { type: 'permanent' | 'temporary'; code: string; reason: string } {
+    const errorMessage = error.message?.toLowerCase() || '';
+    const responseCode = error.responseCode || error.code || '';
+    const numericCode = parseInt(responseCode);
+    
+    // TEMPORANEI: 4xx codes (richiesta client valida ma problema temporaneo)
+    if (
+      (numericCode >= 400 && numericCode < 500) ||
+      responseCode === 421 || // Service not available
+      responseCode === 450 || // Mailbox unavailable
+      responseCode === 451 || // Local error
+      responseCode === 452 || // Insufficient storage
+      errorMessage.includes('mailbox full') ||
+      errorMessage.includes('quota exceeded') ||
+      errorMessage.includes('try again later') ||
+      error.code === 'ECONNECTION' ||
+      error.code === 'ETIMEDOUT' ||
+      error.code === 'ESOCKET'
+    ) {
+      return {
+        type: 'temporary',
+        code: responseCode.toString(),
+        reason: errorMessage.includes('mailbox full') ? 'mailbox_full' : 
+                errorMessage.includes('quota') ? 'quota_exceeded' : 'temporary_error'
+      };
+    }
+    
+    // PERMANENTI: Tutti i 5xx codes (errore definitivo del server/destinatario)
+    if (
+      (numericCode >= 500 && numericCode < 600) ||
+      responseCode === 550 || // User unknown, mailbox not found
+      responseCode === 551 || // User not local
+      responseCode === 552 || // Exceeded storage allocation
+      responseCode === 553 || // Mailbox name not allowed
+      responseCode === 554 || // Transaction failed
+      errorMessage.includes('user unknown') ||
+      errorMessage.includes('address rejected') ||
+      errorMessage.includes('recipient not found') ||
+      errorMessage.includes('mailbox not found') ||
+      errorMessage.includes('invalid recipient') ||
+      errorMessage.includes('does not exist') ||
+      error.code === 'ENOTFOUND' // Dominio non esiste (DNS failure)
+    ) {
+      return {
+        type: 'permanent',
+        code: responseCode.toString(),
+        reason: errorMessage.includes('user unknown') ? 'user_unknown' : 
+                errorMessage.includes('invalid') ? 'invalid_address' : 
+                errorMessage.includes('not found') ? 'mailbox_not_found' :
+                error.code === 'ENOTFOUND' ? 'domain_not_found' : 'permanent_error'
+      };
+    }
+    
+    // Default: errori sconosciuti trattati come PERMANENTI per sicurezza
+    // (meglio bloccare un indirizzo sospetto che continuare a inviare inutilmente)
+    return { type: 'permanent', code: responseCode.toString(), reason: 'unknown_error' };
+  },
+
+  /**
+   * Registra un bounce e aggiorna lo stato del cliente
+   * LOGICA: Traccia bounce consecutivi PERMANENTI (reset su success/temporary)
+   * @param email Email che ha generato bounce
+   * @param clientId ID cliente (opzionale)
+   * @param ownerId ID proprietario account
+   * @param error Errore SMTP
+   */
+  async registerBounce(email: string, clientId: number | null, ownerId: number, error: any): Promise<void> {
+    try {
+      const { emailBounces, clients: clientsTable } = await import('../../shared/schema');
+      const { eq, and } = await import('drizzle-orm');
+      
+      const errorInfo = this.classifySMTPError(error);
+      
+      // Verifica se esiste già un record bounce per questa email
+      const existingBounces = await db
+        .select()
+        .from(emailBounces)
+        .where(and(
+          eq(emailBounces.email, email),
+          eq(emailBounces.ownerId, ownerId)
+        ))
+        .limit(1);
+      
+      if (existingBounces.length > 0) {
+        // Aggiorna bounce esistente
+        const currentBounce = existingBounces[0];
+        const newBounceCount = currentBounce.bounceCount + 1; // Sempre incrementato (storico)
+        
+        // Gestione bounce CONSECUTIVI permanenti
+        let newConsecutivePermanent = currentBounce.consecutivePermanentBounces || 0;
+        if (errorInfo.type === 'permanent') {
+          // Errore PERMANENTE: incrementa streak
+          newConsecutivePermanent++;
+        } else {
+          // Errore TEMPORANEO: reset streak (interruzione consecutività)
+          newConsecutivePermanent = 0;
+        }
+        
+        // Blocco SOLO se abbiamo 3+ bounce PERMANENTI CONSECUTIVI
+        const shouldBlock = newConsecutivePermanent >= 3;
+        
+        await db.update(emailBounces)
+          .set({
+            bounceCount: newBounceCount,
+            consecutivePermanentBounces: newConsecutivePermanent,
+            lastBounceAt: new Date(),
+            errorCode: errorInfo.code,
+            errorMessage: error.message,
+            errorType: errorInfo.type,
+            isBlocked: shouldBlock,
+          })
+          .where(eq(emailBounces.id, currentBounce.id));
+        
+        console.log(`📧 Bounce #${newBounceCount} registrato per ${email} (tipo: ${errorInfo.type}, consecutivi permanenti: ${newConsecutivePermanent})`);
+        
+        // Se abbiamo raggiunto 3 bounce PERMANENTI CONSECUTIVI, blocca l'email sul cliente
+        if (shouldBlock && clientId) {
+          await db.update(clientsTable)
+            .set({
+              emailBlocked: true,
+              emailBlockedReason: errorInfo.reason,
+            })
+            .where(eq(clientsTable.id, clientId));
+          
+          console.warn(`⛔ Email ${email} BLOCCATA dopo ${newConsecutivePermanent} bounce permanenti CONSECUTIVI (cliente ID ${clientId})`);
+        }
+      } else {
+        // Crea nuovo record bounce
+        const initialConsecutive = errorInfo.type === 'permanent' ? 1 : 0;
+        
+        await db.insert(emailBounces).values({
+          ownerId,
+          clientId: clientId || null,
+          email,
+          errorCode: errorInfo.code,
+          errorMessage: error.message,
+          errorType: errorInfo.type,
+          bounceCount: 1,
+          consecutivePermanentBounces: initialConsecutive,
+          isBlocked: false,
+        });
+        
+        console.log(`📧 Primo bounce registrato per ${email} (tipo: ${errorInfo.type})`);
+      }
+    } catch (err) {
+      console.error('❌ Errore registrazione bounce:', err);
+    }
+  },
+
+  /**
    * Invia un'email utilizzando direttamente la configurazione dal file
    * @param to Indirizzo email del destinatario
    * @param subject Oggetto dell'email
    * @param message Testo dell'email
    * @param emailConfig Configurazione email dal file
+   * @param clientId ID cliente (opzionale, per tracciamento bounce)
+   * @param ownerId ID proprietario (opzionale, per tracciamento bounce)
    * @returns Una Promise che risolve a true se l'invio è riuscito
    */
-  async sendEmailDirect(to: string, subject: string, message: string, emailConfig: any): Promise<boolean> {
+  async sendEmailDirect(to: string, subject: string, message: string, emailConfig: any, clientId?: number, ownerId?: number): Promise<boolean> {
     try {
       const nodemailer = await import('nodemailer');
       
@@ -69,10 +233,95 @@ export const notificationService = {
       console.log(`Invio email promemoria a ${to} con oggetto: ${finalSubject}`);
       
       const info = await transporter.sendMail(mailOptions);
-      console.log(`Email promemoria inviata con successo: ${info.messageId}`);
+      console.log(`✅ Email promemoria inviata con successo: ${info.messageId}`);
+      
+      // Reset bounce streak e sblocco email in caso di successo
+      // IMPORTANTE: manteniamo bounceCount per storico, resettiamo SOLO consecutivePermanentBounces
+      if (clientId && ownerId) {
+        const { emailBounces, clients: clientsTable } = await import('../../shared/schema');
+        const { eq, and } = await import('drizzle-orm');
+        
+        // Reset SOLO streak permanenti (mantiene bounceCount per storico)
+        await db.update(emailBounces)
+          .set({ 
+            consecutivePermanentBounces: 0, // Reset streak permanenti
+            isBlocked: false 
+          })
+          .where(and(
+            eq(emailBounces.email, to),
+            eq(emailBounces.ownerId, ownerId)
+          ));
+        
+        // Sblocca cliente se era bloccato
+        await db.update(clientsTable)
+          .set({
+            emailBlocked: false,
+            emailBlockedReason: null,
+          })
+          .where(eq(clientsTable.id, clientId));
+        
+        console.log(`🔓 Email ${to} sbloccata dopo invio con successo (cliente ID ${clientId}, streak reset)`);
+      }
+      
       return true;
     } catch (error: any) {
-      console.error('Errore nell\'invio dell\'email promemoria:', error);
+      console.error(`❌ Errore invio email a ${to}:`, error.message);
+      
+      // Registra bounce se abbiamo i dati del cliente
+      if (clientId && ownerId) {
+        await this.registerBounce(to, clientId, ownerId, error);
+      }
+      
+      return false;
+    }
+  },
+
+  /**
+   * Invia un'email per fattura con allegato PDF
+   * @param to Indirizzo email del destinatario
+   * @param subject Oggetto dell'email
+   * @param message Testo dell'email
+   * @param emailConfig Configurazione email dal file
+   * @param pdfBuffer Buffer del PDF da allegare
+   * @param filename Nome del file PDF
+   * @returns Una Promise che risolve a true se l'invio è riuscito
+   */
+  async sendInvoiceEmail(to: string, subject: string, message: string, emailConfig: any, pdfBuffer?: Buffer, filename?: string): Promise<boolean> {
+    try {
+      const nodemailer = await import('nodemailer');
+      
+      // Crea trasportatore SMTP per Gmail
+      const transporter = nodemailer.default.createTransport({
+        service: 'gmail',
+        auth: {
+          user: emailConfig.emailAddress,
+          pass: emailConfig.emailPassword,
+        }
+      });
+      
+      const mailOptions: any = {
+        from: emailConfig.emailAddress,
+        to,
+        subject, // Usa l'oggetto esatto passato, senza template dei promemoria
+        text: message,
+        html: message.replace(/\n/g, '<br>'),
+      };
+
+      // Aggiungi allegato PDF se presente
+      if (pdfBuffer && filename) {
+        mailOptions.attachments = [{
+          filename: filename,
+          content: pdfBuffer
+        }];
+      }
+      
+      console.log(`Invio email fattura a ${to} con oggetto: ${subject}`);
+      
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Email fattura inviata con successo: ${info.messageId}`);
+      return true;
+    } catch (error: any) {
+      console.error('Errore nell\'invio dell\'email fattura:', error);
       return false;
     }
   },
@@ -136,6 +385,7 @@ export const notificationService = {
   
   /**
    * Invia un promemoria per un appuntamento
+   * 🗄️ SISTEMA POSTGRESQL - Carica dati dal database
    * @param appointment L'appuntamento per cui inviare il promemoria
    * @returns true se il promemoria è stato inviato con successo, false altrimenti
    */
@@ -143,56 +393,58 @@ export const notificationService = {
     try {
       // Verifica che l'appuntamento abbia un tipo di promemoria specificato e un clientId
       if (!appointment.reminderType || !appointment.clientId) {
-        console.error(`Impossibile inviare promemoria: dati mancanti nell'appuntamento`, appointment);
+        console.error(`❌ [NOTIFICHE PG] Impossibile inviare promemoria: dati mancanti nell'appuntamento`, appointment);
         return false;
       }
       
-      // Recupera i dati del cliente
-      const client = await storage.getClient(appointment.clientId);
+      // 🗄️ RECUPERA CLIENTE DA POSTGRESQL
+      const clientResult = await db.select().from(clients).where(eq(clients.id, appointment.clientId)).limit(1);
+      const client = clientResult[0];
+      
       if (!client) {
-        console.error(`Cliente non trovato per l'appuntamento ${appointment.id}`);
+        console.error(`❌ [NOTIFICHE PG] Cliente non trovato per l'appuntamento ${appointment.id}`);
         return false;
       }
       
-      // Verifica che il cliente abbia un numero di telefono
-      if (!client.phone) {
-        console.error(`Il cliente ${client.id} (${client.firstName} ${client.lastName}) non ha un numero di telefono`);
+      // Verifica che il cliente abbia un numero di telefono o email
+      if (!client.phone && !client.email) {
+        console.error(`❌ [NOTIFICHE PG] Il cliente ${client.id} (${client.firstName} ${client.lastName}) non ha né telefono né email`);
         return false;
       }
 
-      // Recupera i dati del servizio
-      const service = appointment.serviceId ? await storage.getService(appointment.serviceId) : null;
+      // 🗄️ RECUPERA SERVIZIO DA POSTGRESQL (se presente)
+      let service = null;
+      if (appointment.serviceId) {
+        const serviceResult = await db.select().from(services).where(eq(services.id, appointment.serviceId)).limit(1);
+        service = serviceResult[0] || null;
+      }
+      
+      // 🗄️ RECUPERA COLLABORATORE DA POSTGRESQL (se presente)
+      let staffMember = null;
+      if (appointment.staffId) {
+        const staffResult = await db.select().from(staff).where(eq(staff.id, appointment.staffId)).limit(1);
+        staffMember = staffResult[0] || null;
+      }
+      
+      // 🗄️ RECUPERA STANZA DA POSTGRESQL (se presente)
+      let room = null;
+      if (appointment.roomId) {
+        const roomResult = await db.select().from(treatmentRooms).where(eq(treatmentRooms.id, appointment.roomId)).limit(1);
+        room = roomResult[0] || null;
+      }
       
       // Formatta la data e l'ora dell'appuntamento
       const appointmentDate = format(new Date(appointment.date), 'dd/MM/yyyy');
       const startTime = appointment.startTime.substring(0, 5); // Estrae solo HH:MM
       
-      // Prova a recuperare un template personalizzato
-      let reminderTemplate = null;
-      if (appointment.serviceId) {
-        // Prima cerca un template specifico per questo servizio
-        reminderTemplate = await storage.getReminderTemplateByService(appointment.serviceId);
-      }
+      // 🗄️ TEMPLATE CON DATI DA POSTGRESQL
+      // Messaggio predefinito con tutti i dettagli disponibili
+      let appointmentDetails = '';
+      if (service) appointmentDetails += `di ${service.name}`;
+      if (staffMember) appointmentDetails += ` con ${staffMember.firstName} ${staffMember.lastName}`;
+      if (room) appointmentDetails += ` nella ${room.name}`;
       
-      // Se non trova un template specifico, usa quello predefinito
-      if (!reminderTemplate) {
-        reminderTemplate = await storage.getDefaultReminderTemplate();
-      }
-      
-      // Prepara il messaggio - se esiste un template lo usa, altrimenti usa un messaggio predefinito
-      let message = '';
-      if (reminderTemplate) {
-        // Sostituisci i placeholder nel template con i dati reali
-        message = reminderTemplate.template
-          .replace('{{nome}}', client.firstName)
-          .replace('{{cognome}}', client.lastName)
-          .replace('{{servizio}}', service ? service.name : 'appuntamento')
-          .replace('{{data}}', appointmentDate)
-          .replace('{{ora}}', startTime);
-      } else {
-        // Messaggio predefinito con data e ora incluse
-        message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento ${service ? `di ${service.name}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
-      }
+      const message = `Gentile ${client.firstName}, questo è un promemoria per il suo appuntamento${appointmentDetails ? ` ${appointmentDetails}` : ''} del ${appointmentDate} alle ore ${startTime}. Per modifiche o cancellazioni, la preghiamo di contattarci.`;
       
       // Genera un ID univoco per questo messaggio
       const messageId = `${appointment.id}-${appointment.date}-${appointment.startTime}`;
@@ -225,30 +477,47 @@ export const notificationService = {
               console.log(`WhatsApp inviato con successo per l'appuntamento ${appointment.id}`, result.sid);
               successCount++;
             } else if (trimmedType === 'email' && client.email) {
-              // Carica la configurazione email dal file separato
-              const fs = await import('fs');
-              const path = await import('path');
-              const emailConfigPath = 'email_settings.json';
+              // ⛔ VERIFICA BLOCCO EMAIL: Salta invio se email bloccata dopo bounce ripetuti
+              if (client.emailBlocked) {
+                console.warn(`⛔ Email ${client.email} bloccata per bounce ripetuti (cliente ${client.id}). Motivo: ${client.emailBlockedReason || 'sconosciuto'}. Invio saltato.`);
+                errorCount++;
+                continue;
+              }
               
               try {
-                const emailConfigData = fs.readFileSync(emailConfigPath, 'utf8');
-                const emailConfig = JSON.parse(emailConfigData);
+                const { getEmailConfig } = await import('../utils/emailConfig');
+                const { db } = await import('../db');
+                const { clients: clientsTable } = await import('../../shared/schema');
+                const { eq } = await import('drizzle-orm');
                 
-                if (emailConfig.emailEnabled && emailConfig.emailAddress && emailConfig.emailPassword) {
-                  const success = await this.sendEmailDirect(client.email, reminderTemplate?.subject || `Promemoria appuntamento del ${appointmentDate}`, message, emailConfig);
+                const [clientData] = await db.select().from(clientsTable).where(eq(clientsTable.id, client.id)).limit(1);
+                const ownerId = clientData?.ownerId || client.id;
+                
+                const emailConfig = await getEmailConfig(ownerId);
+                
+                if (emailConfig && emailConfig.emailEnabled && emailConfig.emailAddress && emailConfig.emailPassword) {
+                  // Passa clientId e ownerId per tracciamento bounce
+                  const success = await this.sendEmailDirect(
+                    client.email, 
+                    `Promemoria appuntamento del ${appointmentDate}`, 
+                    message, 
+                    emailConfig,
+                    client.id,
+                    ownerId
+                  );
                   if (success) {
-                    console.log(`Email inviata con successo per l'appuntamento ${appointment.id} a ${client.email}`);
+                    console.log(`✅ Email inviata per appuntamento ${appointment.id} a ${client.email}`);
                     successCount++;
                   } else {
-                    console.error(`Errore nell'invio email per l'appuntamento ${appointment.id}`);
+                    console.error(`❌ Errore invio email per appuntamento ${appointment.id}`);
                     errorCount++;
                   }
                 } else {
-                  console.log(`Configurazione email non completa - Email abilitata: ${emailConfig.emailEnabled}, Indirizzo configurato: ${!!emailConfig.emailAddress}, Password configurata: ${!!emailConfig.emailPassword}`);
+                  console.log(`⚠️ Configurazione email non disponibile per utente ${ownerId}`);
                   errorCount++;
                 }
               } catch (error) {
-                console.error(`Errore nel caricamento della configurazione email:`, error);
+                console.error(`❌ Errore nel caricamento configurazione email:`, error);
                 errorCount++;
               }
             } else if (trimmedType !== 'email') {
@@ -261,13 +530,29 @@ export const notificationService = {
           }
         }
         
-        // Aggiorna lo stato del promemoria
+        // 🔄 AGGIORNA STATO IN POSTGRESQL (non JSON)
         if (successCount > 0) {
-          await storage.updateAppointment(appointment.id, { reminderStatus: 'sent' });
-          console.log(`Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
+          // Aggiorna l'appuntamento in PostgreSQL
+          const { db } = await import('../db');
+          const { appointments: appointmentsTable } = await import('../../shared/schema');
+          const { eq } = await import('drizzle-orm');
+          
+          await db.update(appointmentsTable)
+            .set({ reminderStatus: 'sent' })
+            .where(eq(appointmentsTable.id, appointment.id));
+            
+          console.log(`✅ [NOTIFICHE POSTGRESQL] Promemoria inviato con successo per l'appuntamento ${appointment.id}. Canali riusciti: ${successCount}, falliti: ${errorCount}`);
         } else {
-          await storage.updateAppointment(appointment.id, { reminderStatus: 'failed' });
-          console.error(`Tutti i tentativi di invio promemoria per l'appuntamento ${appointment.id} sono falliti`);
+          // Aggiorna l'appuntamento in PostgreSQL
+          const { db } = await import('../db');
+          const { appointments: appointmentsTable } = await import('../../shared/schema');
+          const { eq } = await import('drizzle-orm');
+          
+          await db.update(appointmentsTable)
+            .set({ reminderStatus: 'failed' })
+            .where(eq(appointmentsTable.id, appointment.id));
+            
+          console.error(`❌ [NOTIFICHE POSTGRESQL] Tutti i tentativi di invio promemoria per l'appuntamento ${appointment.id} sono falliti`);
         }
       } finally {
         // Rimuovi il flag anche in caso di errore
@@ -282,104 +567,139 @@ export const notificationService = {
   },
   
   /**
-   * Verifica gli appuntamenti per cui è necessario inviare un promemoria
-   * @returns Il numero di promemoria inviati con successo
+   * Verifica gli appuntamenti per cui è necessario inviare un promemoria EMAIL
+   * 🗄️ SISTEMA POSTGRESQL - Carica dati dal database
+   * 🔄 TIMING: Ogni 15 minuti controlla appuntamenti con reminder_time nelle prossime 30 ore
+   * 📧 SOLO EMAIL: WhatsApp rimane manuale dal centro notifiche
+   * @returns Il numero di promemoria EMAIL inviati con successo
    */
   async processReminders(): Promise<number> {
     try {
-      // Tenta di ottenere il fuso orario dalle impostazioni dell'app
-      let TIMEZONE_OFFSET_HOURS = 2; // Valore predefinito per l'Italia (CEST, UTC+2)
-      let timezoneName = "Europe/Rome";
+      const { appointments: appointmentsTable } = await import('../../shared/schema');
+      const { and, gte, lte, not, like } = await import('drizzle-orm');
       
-      try {
-        // Ottieni le impostazioni del fuso orario dalla configurazione dell'app
-        const timezoneSetting = await storage.getSetting('timezone');
-        if (timezoneSetting) {
-          const timezoneData = JSON.parse(timezoneSetting.value);
-          TIMEZONE_OFFSET_HOURS = timezoneData.offset || 2;
-          timezoneName = timezoneData.timezone || "Europe/Rome";
-          console.log(`Utilizzando fuso orario da configurazione: ${timezoneName} (UTC${TIMEZONE_OFFSET_HOURS >= 0 ? '+' : ''}${TIMEZONE_OFFSET_HOURS})`);
-        } else {
-          console.log(`Nessuna configurazione di fuso orario trovata, utilizzo predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
-        }
-      } catch (error) {
-        console.error('Errore nel recupero delle impostazioni del fuso orario:', error);
-        console.log(`Utilizzo fuso orario predefinito: ${timezoneName} (UTC+${TIMEZONE_OFFSET_HOURS})`);
-      }
-      
-      // Otteniamo la data attuale
       const now = new Date();
+      const next30Hours = new Date(now.getTime() + 30 * 60 * 60 * 1000); // +30 ore
+      const past1Hour = new Date(now.getTime() - 1 * 60 * 60 * 1000); // -1 ora (per non perdere quelli appena passati)
       
-      // Creazione delle date per il controllo dei promemoria
-      const nowPlus24Hours = addDays(now, 1);
-      const nowPlus25Hours = new Date(nowPlus24Hours.getTime() + 60 * 60 * 1000); // +1 ora
+      const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+      if (isVerbose) console.log(`⏰ [EMAIL SCHEDULER] Controllo appuntamenti con reminder_time tra ${past1Hour.toISOString()} e ${next30Hours.toISOString()}`);
       
-      // Ottieni le date nel formato yyyy-MM-dd per oggi e domani
-      const todayStr = format(now, 'yyyy-MM-dd');
-      const tomorrowStr = format(nowPlus24Hours, 'yyyy-MM-dd');
+      // Query PostgreSQL: appuntamenti con reminder_time nelle prossime 30 ore
+      const appointments = await db
+        .select({
+          id: appointmentsTable.id,
+          userId: appointmentsTable.userId,
+          clientId: appointmentsTable.clientId,
+          serviceId: appointmentsTable.serviceId,
+          staffId: appointmentsTable.staffId,
+          roomId: appointmentsTable.roomId,
+          date: appointmentsTable.date,
+          startTime: appointmentsTable.startTime,
+          endTime: appointmentsTable.endTime,
+          notes: appointmentsTable.notes,
+          status: appointmentsTable.status,
+          reminderType: appointmentsTable.reminderType,
+          reminderStatus: appointmentsTable.reminderStatus,
+          reminderTime: appointmentsTable.reminderTime,
+          reminderSent: appointmentsTable.reminderSent,
+        })
+        .from(appointmentsTable)
+        .where(
+          and(
+            gte(appointmentsTable.reminderTime, past1Hour),
+            lte(appointmentsTable.reminderTime, next30Hours),
+            not(like(appointmentsTable.reminderStatus, '%sent%')), // Escludi già inviati
+            like(appointmentsTable.reminderType, '%email%') // Solo quelli con email abilitata
+          )
+        );
       
-      console.log(`Elaborazione promemoria per appuntamenti tra ${now.toISOString()} e ${nowPlus25Hours.toISOString()}`);
-      console.log(`Orario server: ${now.toLocaleTimeString('it-IT')}, utilizzo orario diretto senza applicazione dell'offset`);
-      
-      // Recupera tutti gli appuntamenti di oggi e domani
-      let appointments = [];
-      
-      // Recupera appuntamenti di oggi
-      const todayAppointments = await storage.getAppointmentsByDate(todayStr);
-      // Recupera appuntamenti di domani
-      const tomorrowAppointments = await storage.getAppointmentsByDate(tomorrowStr);
-      
-      // Combina gli appuntamenti
-      appointments = [...todayAppointments, ...tomorrowAppointments];
-      
-      console.log(`Trovati ${appointments.length} appuntamenti potenziali (${todayAppointments.length} oggi, ${tomorrowAppointments.length} domani)`);
+      if (isVerbose) console.log(`📧 [EMAIL SCHEDULER] Trovati ${appointments.length} appuntamenti con email da inviare`);
       
       let remindersSent = 0;
-      const apptsToRemind = [];
       
-      // Filtra gli appuntamenti per trovare quelli nelle prossime 24-25 ore
+      // Invia i promemoria EMAIL
       for (const appointment of appointments) {
-        // Salta gli appuntamenti senza tipo di promemoria o con promemoria già inviato
-        if (!appointment.reminderType || appointment.reminderStatus === 'sent') {
-          continue;
-        }
+        if (isVerbose) console.log(`📧 [EMAIL] Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime} - reminder_time: ${appointment.reminderTime?.toISOString()}`);
         
-        // Crea un oggetto Date per l'appuntamento
-        const apptDate = new Date(appointment.date + 'T' + appointment.startTime);
-        
-        // Calcoliamo semplicemente la differenza oraria in ore senza complicare con offset
-        // Utilizziamo direttamente il timestamp come riferimento assoluto
-        const hoursDiff = (apptDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-        
-        // Logghiamo informazioni utili per il debug
-        console.log(`Appuntamento ID ${appointment.id} del ${appointment.date} alle ${appointment.startTime}: ` +
-                    `Ore di differenza: ${hoursDiff.toFixed(1)} (usando timestamp diretto senza offset)`);
-        
-        // Verifica se l'appuntamento è tra 23 e 25 ore nel futuro
-        // Usiamo 23 invece di 24 per dare un po' di margine e non perderci promemoria
-        if (hoursDiff >= 23 && hoursDiff <= 25) {
-          console.log(`Appuntamento ID ${appointment.id} è tra ${hoursDiff.toFixed(1)} ore, invio promemoria...`);
-          apptsToRemind.push(appointment);
-        }
-      }
-      
-      console.log(`Trovati ${apptsToRemind.length} appuntamenti che necessitano di promemoria nelle prossime 24-25 ore`);
-      
-      // Invia i promemoria
-      for (const appointment of apptsToRemind) {
-        const success = await this.sendAppointmentReminder(appointment);
+        const success = await this.sendAppointmentReminder(appointment as any);
         
         if (success) {
           remindersSent++;
         }
       }
       
-      console.log(`Inviati ${remindersSent}/${apptsToRemind.length} promemoria`);
+      if (isVerbose || remindersSent > 0) console.log(`✅ [EMAIL SCHEDULER] Inviati ${remindersSent}/${appointments.length} promemoria EMAIL`);
       
       return remindersSent;
     } catch (error) {
-      console.error("Errore nell'elaborazione dei promemoria:", error);
+      console.error("❌ [EMAIL SCHEDULER] Errore nell'elaborazione dei promemoria:", error);
       throw error;
+    }
+  },
+
+  /**
+   * Invia un'email per campagna marketing con supporto allegati
+   * @param options Opzioni per l'invio dell'email marketing
+   * @returns Una Promise che risolve a true se l'invio è riuscito
+   */
+  async sendMarketingEmail(options: {
+    to: string;
+    subject: string;
+    message: string;
+    clientName: string;
+    attachment?: {
+      filename: string;
+      content: Buffer;
+      contentType: string;
+    };
+  }): Promise<boolean> {
+    try {
+      const nodemailer = await import('nodemailer');
+      
+      // Carica configurazione email dal storage
+      const storageData = loadStorageData();
+      const emailSettings = storageData.emailSettings;
+      
+      if (!emailSettings?.emailAddress || !emailSettings?.emailPassword) {
+        console.error('❌ Configurazione email non trovata');
+        return false;
+      }
+      
+      // Crea trasportatore SMTP per Gmail
+      const transporter = nodemailer.default.createTransport({
+        service: 'gmail',
+        auth: {
+          user: emailSettings.emailAddress,
+          pass: emailSettings.emailPassword,
+        }
+      });
+      
+      const mailOptions: any = {
+        from: emailSettings.emailAddress,
+        to: options.to,
+        subject: options.subject,
+        text: options.message,
+        html: options.message.replace(/\n/g, '<br>'),
+      };
+
+      // Aggiungi allegato se presente
+      if (options.attachment) {
+        mailOptions.attachments = [{
+          filename: options.attachment.filename,
+          content: options.attachment.content,
+          contentType: options.attachment.contentType
+        }];
+      }
+      
+      console.log(`📧 Invio email marketing a ${options.to} - Oggetto: ${options.subject}`);
+      
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`✅ Email marketing inviata con successo: ${info.messageId}`);
+      return true;
+    } catch (error: any) {
+      console.error('❌ Errore invio email marketing:', error);
+      return false;
     }
   }
 };
