@@ -1,0 +1,189 @@
+9/11/2025, 06:58:09:
+tempo di esecuzione
+   - Cliente: Cliente Trial
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_CLIENT_14001_A665_1d4f6417
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14001_A665?token=PROF_014_9C1F_CLIENT_14001_A665_1d4f6417&autoLogin=true
+19/11/2025, 06:58:09:
+tempo di esecuzione
+05:57:56 [express] GET /api/clients/68/activation-token 200 in 12731ms :: {"token":"PROF_014_9C1F_…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Cliente: Bruna Pizzolato
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_CLIENT_14004_340F_91a30ec9
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_CLIENT_14004_340F?token=PROF_014_9C1F_CLIENT_14004_340F_91a30ec9&autoLogin=true
+19/11/2025, 06:58:09:
+tempo di esecuzione
+05:57:56 [express] GET /api/clients/14004/activation-token 200 in 12772ms :: {"token":"PROF_014_9C…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 12 con logo aziendale
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 12
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Cliente: Marco Verdi
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Token: PROF_012_B98F_CLIENT_34_0367_3ea67d28
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_012_B98F_CLIENT_34_0367?token=PROF_012_B98F_CLIENT_34_0367_3ea67d28&autoLogin=true
+19/11/2025, 06:58:09:
+tempo di esecuzione
+05:57:56 [express] GET /api/clients/34/activation-token 200 in 12788ms :: {"token":"PROF_012_B98F_…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Cliente: ADV1 ADSVA
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_C14005_a1bd0b4f
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C14005?token=PROF_014_9C1F_C14005_a1bd0b4f&autoLogin=true
+19/11/2025, 06:58:09:
+tempo di esecuzione
+05:57:56 [express] GET /api/clients/75/activation-token 200 in 12802ms :: {"token":"PROF_014_9C1F_…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Cliente: Ppppp Qqqq
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_C00084_d172b1df
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C00084?token=PROF_014_9C1F_C00084_d172b1df&autoLogin=true
+19/11/2025, 06:58:09:
+tempo di esecuzione
+05:57:56 [express] GET /api/clients/84/activation-token 200 in 12856ms :: {"token":"PROF_014_9C1F_…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-PWA-SYNC] Icone PWA sincronizzate con successo per il proprietario 14
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ [QR-INTERFACE] Risposta inviata al frontend:
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Cliente: Ciccio Lippo
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - Token: PROF_014_9C1F_C00081_65d1cbcb
+19/11/2025, 06:58:09:
+tempo di esecuzione
+   - URL: https://gestionale-appuntamenti.sliplane.app/client/PROF_014_9C1F_C00081?token=PROF_014_9C1F_C00081_65d1cbcb&autoLogin=true
+19/11/2025, 06:58:09:
+tempo di esecuzione
+05:57:56 [express] GET /api/clients/81/activation-token 200 in 12891ms :: {"token":"PROF_014_9C1F_…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+5:57:56 AM [express] GET /api/clients/39 304 in 465ms :: {"id":39,"firstName":"Zambelli 1","lastName…
+19/11/2025, 06:58:09:
+tempo di esecuzione
+5:57:56 AM [express] GET /api/client-notes/39 200 in 474ms :: [{"id":22,"clientId":39,"title":"dthh …
+19/11/2025, 06:58:09:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 3 (admin/admin) accede a /icons/icon-96x96.png
+19/11/2025, 06:58:09:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 3: SÌ
+19/11/2025, 06:58:09:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 3, dimensione: 59090 byte
+19/11/2025, 06:58:09:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 3 (admin/admin) accede a /api/clients/39
+19/11/2025, 06:58:09:
+tempo di esecuzione
+5:58:05 AM [express] GET /api/clients/39 304 in 438ms :: {"id":39,"firstName":"Zambelli 1","lastName…
+19/11/2025, 06:58:13:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 3 (admin/admin) accede a /api/clients/39
+19/11/2025, 06:58:13:
+tempo di esecuzione
+5:58:13 AM [express] GET /api/clients/39 304 in 443ms :: {"id":39,"firstName":"Zambelli 1","lastName…
+19/11/2025, 07:00:00:
+tempo di esecuzione
+⏰ Esecuzione del lavoro di promemoria appuntamenti: 2025-11-19T06:00:00.480Z
+19/11/2025, 07:00:00:
+tempo di esecuzione
+⏰ [EMAIL SCHEDULER] Controllo appuntamenti con promemoria_time tra 2025-11-19T05:00:00.482Z e 2025-11-20T12:00:00.482Z
+19/11/2025, 07:00:04:
+tempo di esecuzione
+📧 [EMAIL SCHEDULER] Trovati 0 appuntamenti con email da inviare
+19/11/2025, 07:00:04:
+tempo di esecuzione
+✅ [PIANIFICAZIONE EMAIL] Inviati 0/0 promemoria EMAIL
+19/11/2025, 07:00:04:
+tempo di esecuzione
+✅ Lavoro completato: inviati 0 promemoria
+19/11/2025, 07:15:00:
+tempo di esecuzione
+⏰ Esecuzione del lavoro di promemoria appuntamenti: 2025-11-19T06:15:00.457Z
+19/11/2025, 07:15:00:
+tempo di esecuzione
+⏰ [EMAIL SCHEDULER] Controllo appuntamenti con promemoria_time tra 2025-11-19T05:15:00.459Z e 2025-11-20T12:15:00.459Z
+19/11/2025, 07:15:02:
+tempo di esecuzione
+📧 [EMAIL SCHEDULER] Trovati 0 appuntamenti con email da inviare
+19/11/2025, 07:15:02:
+tempo di esecuzione
+✅ [PIANIFICAZIONE EMAIL] Inviati 0/0 promemoria EMAIL
+19/11/2025, 07:15:02:
+tempo di esecuzione
+✅ Lavoro completato: inviati 0 promemoria
+19/11/2025, 07:30:00:
+tempo di esecuzione
+⏰ Esecuzione del lavoro di promemoria appuntamenti: 2025-11-19T06:30:00.411Z
+19/11/2025, 07:30:00:
+tempo di esecuzione
+⏰ [EMAIL SCHEDULER] Controllo appuntamenti con promemoria_time tra 2025-11-19T05:30:00.414Z e 2025-11-20T12:30:00.414Z
+19/11/2025, 07:30:01:
+tempo di esecuzione
+📧 [EMAIL SCHEDULER] Trovati 0 appuntamenti con email da inviare
+19/11/2025, 07:30:01:
+tempo di esecuzione
+✅ [PIANIFICAZIONE EMAIL] Inviati 0/0 promemoria EMAIL
+19/11/2025, 07:30:01:
+tempo di esecuzione
+✅ Lavoro completato: inviati 0 promemoria
