@@ -127,7 +127,7 @@ export const trialNotificationService = {
         <li class="disabled">Campagne Marketing AI</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
-        <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
+        <a href="https://${process.env.REPLIT_DOMAINS}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
           Acquista Piano BASE
         </a>
       </div>
@@ -151,7 +151,7 @@ export const trialNotificationService = {
         <li class="disabled">Campagne Marketing AI</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
-        <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
+        <a href="https://${process.env.REPLIT_DOMAINS}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
           Acquista Piano PRO
         </a>
       </div>
@@ -172,7 +172,7 @@ export const trialNotificationService = {
         <li>Campagne Marketing AI</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
-        <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
+        <a href="https://${process.env.REPLIT_DOMAINS}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
           Acquista Piano BUSINESS
         </a>
       </div>
