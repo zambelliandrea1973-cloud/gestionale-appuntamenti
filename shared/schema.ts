@@ -1379,6 +1379,8 @@ export const licenses = pgTable("licenses", {
   expiresAt: timestamp("expires_at"),
   userId: integer("user_id"), // Collegamento con l'utente proprietario della licenza
   sponsoredBy: integer("sponsored_by"), // ID dello staff che ha sponsorizzato questa licenza
+  trialNotificationSent: boolean("trial_notification_sent").default(false), // Flag per notifica 10gg prima scadenza
+  trialNotificationSentAt: timestamp("trial_notification_sent_at"), // Data invio notifica trial
 });
 
 export const insertLicenseSchema = createInsertSchema(licenses).omit({
