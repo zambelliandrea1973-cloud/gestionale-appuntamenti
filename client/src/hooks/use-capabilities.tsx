@@ -18,13 +18,21 @@ export type Capability =
 
 // Mappa delle capabilities per tipo di licenza
 const CAPABILITY_MAP: Record<string, Capability[]> = {
-  // Trial - STESSI accessi di Base, solo durata diversa (40gg gratis)
+  // Trial - ACCESSO COMPLETO A TUTTE LE FUNZIONI BUSINESS (40gg gratis)
   'trial': [
     'calendar',
     'email_notifications',
     'whatsapp_notifications',
     'invoices',
+    'reports',
+    'google_calendar',
+    'client_pwa_qr',
     'appointment_requests',
+    'promotional_packages',
+    'marketing_ai',
+    'staff_rooms',
+    'warehouse',
+    'unlimited_clients',
   ],
   
   // Base - STESSI accessi di Trial (€5.99/mese o €59/anno)

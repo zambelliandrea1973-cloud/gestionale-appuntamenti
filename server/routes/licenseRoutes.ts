@@ -71,13 +71,14 @@ router.get('/has-pro-access', async (req, res) => {
         return res.json(true);
       }
       
-      // Customer con licenza Pro o Business hanno accesso PRO
+      // Customer con licenza Pro, Business, Passepartout o TRIAL ATTIVO hanno accesso PRO
       if (user.type === 'customer' && user.id) {
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         if (licenseInfo.isActive && (
             licenseInfo.type === LicenseType.PRO || 
             licenseInfo.type === LicenseType.BUSINESS || 
-            licenseInfo.type === LicenseType.PASSEPARTOUT
+            licenseInfo.type === LicenseType.PASSEPARTOUT ||
+            licenseInfo.type === LicenseType.TRIAL  // TRIAL COMPLETO: accesso PRO per 40 giorni
         )) {
           return res.json(true);
         }
@@ -104,12 +105,13 @@ router.get('/has-business-access', async (req, res) => {
         return res.json(true);
       }
       
-      // Customer con licenza Business o Passepartout hanno accesso Business
+      // Customer con licenza Business, Passepartout o TRIAL ATTIVO hanno accesso Business
       if (user.type === 'customer' && user.id) {
         const licenseInfo = await licenseService.getCurrentLicenseInfo(user.id);
         if (licenseInfo.isActive && (
             licenseInfo.type === LicenseType.BUSINESS || 
-            licenseInfo.type === LicenseType.PASSEPARTOUT
+            licenseInfo.type === LicenseType.PASSEPARTOUT ||
+            licenseInfo.type === LicenseType.TRIAL  // TRIAL COMPLETO: accesso Business per 40 giorni
         )) {
           return res.json(true);
         }
