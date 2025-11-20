@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import { notificationService } from './notificationService';
 import { PayPalPayoutService } from './paypalPayoutService';
+import { trialNotificationService } from './trialNotificationService';
 import { db } from '../db';
 import { marketingCampaigns } from '../../shared/schema';
 import { lt } from 'drizzle-orm';
@@ -109,11 +110,28 @@ export const schedulerService = {
   },
   
   /**
-   * Possibilità di aggiungere altre pianificazioni come:
-   * - Report settimanali
-   * - Backup automatici
-   * ecc.
+   * Avvia il servizio di notifiche trial in scadenza
+   * Controlla ogni giorno alle 09:00 gli utenti trial che scadono tra 10 giorni
    */
+  startTrialNotificationScheduler(): void {
+    // Cron job che viene eseguito ogni giorno alle 09:00
+    const isVerbose = process.env.LOG_SCHEDULER !== 'false';
+    cron.schedule('0 0 9 * * *', async () => {
+      const now = new Date();
+      if (isVerbose) console.log('📧 Esecuzione del job di notifiche trial in scadenza:', now.toISOString());
+      
+      try {
+        const result = await trialNotificationService.processTrialNotifications();
+        if (isVerbose || result.sent > 0 || result.failed > 0) {
+          console.log(`📧 Job notifiche trial completato: ${result.sent} inviate, ${result.failed} fallite`);
+        }
+      } catch (error) {
+        console.error('❌ Errore nell\'esecuzione del job di notifiche trial:', error);
+      }
+    });
+    
+    if (isVerbose) console.log('📧 Scheduler notifiche trial avviato con successo (esecuzione giornaliera alle 09:00)');
+  },
 };
 
 /**
@@ -123,5 +141,6 @@ export function initializeSchedulers(): void {
   schedulerService.startReminderScheduler();
   schedulerService.startPayoutScheduler();
   schedulerService.startCampaignCleanupScheduler();
+  schedulerService.startTrialNotificationScheduler();
   if (process.env.LOG_SCHEDULER !== 'false') console.log('Tutti gli scheduler inizializzati');
 }
