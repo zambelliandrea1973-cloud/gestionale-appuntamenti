@@ -102,7 +102,7 @@ export const trialNotificationService = {
       Dopo questa data, l'accesso sarà sospeso fino alla scelta di un piano di abbonamento.
     </div>
     
-    <p>Per continuare a utilizzare il nostro sistema di gestione dello studio medico, scegli il piano più adatto alle tue esigenze:</p>
+    <p>Per continuare a utilizzare il nostro sistema di gestione, scegli il piano più adatto alle tue esigenze:</p>
 
     <!-- Piano BASE -->
     <div class="plan-card">
@@ -126,6 +126,11 @@ export const trialNotificationService = {
         <li class="disabled">Magazzino prodotti</li>
         <li class="disabled">Campagne Marketing AI</li>
       </ul>
+      <div style="text-align:center; margin-top:20px;">
+        <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
+          Acquista Piano BASE
+        </a>
+      </div>
     </div>
 
     <!-- Piano PRO -->
@@ -145,6 +150,11 @@ export const trialNotificationService = {
         <li class="disabled">Magazzino prodotti</li>
         <li class="disabled">Campagne Marketing AI</li>
       </ul>
+      <div style="text-align:center; margin-top:20px;">
+        <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
+          Acquista Piano PRO
+        </a>
+      </div>
     </div>
 
     <!-- Piano BUSINESS -->
@@ -161,13 +171,11 @@ export const trialNotificationService = {
         <li>Magazzino prodotti</li>
         <li>Campagne Marketing AI</li>
       </ul>
-    </div>
-
-    <div style="text-align:center; margin:30px 0;">
-      <p style="font-size:18px; color:#333;">Scegli il piano più adatto a te:</p>
-      <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe" class="cta-button">
-        Scegli il tuo piano
-      </a>
+      <div style="text-align:center; margin-top:20px;">
+        <a href="${process.env.VITE_APP_URL || 'https://your-domain.replit.app'}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
+          Acquista Piano BUSINESS
+        </a>
+      </div>
     </div>
 
     <p style="margin-top:30px; color:#666;">
