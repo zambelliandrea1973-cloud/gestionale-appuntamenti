@@ -5,6 +5,25 @@ import { getEmailConfig } from '../utils/emailConfig';
 import nodemailer from 'nodemailer';
 
 /**
+ * Determina l'URL base dell'applicazione
+ * Usa APP_URL se impostato (produzione), altrimenti usa REPLIT_DOMAINS (sviluppo)
+ */
+function getAppBaseUrl(): string {
+  // Priorità 1: Variabile d'ambiente APP_URL (produzione Sliplane)
+  if (process.env.APP_URL) {
+    return process.env.APP_URL.replace(/\/$/, ''); // Rimuovi trailing slash
+  }
+  
+  // Priorità 2: REPLIT_DOMAINS (sviluppo su Replit)
+  if (process.env.REPLIT_DOMAINS) {
+    return `https://${process.env.REPLIT_DOMAINS}`;
+  }
+  
+  // Fallback: dominio produzione hardcoded
+  return 'https://gestionale-appuntamenti.sliplane.app';
+}
+
+/**
  * Servizio per l'invio di notifiche trial in scadenza
  * Invia email 10 giorni prima della scadenza (giorno 30 del trial di 40 giorni)
  */
@@ -63,6 +82,8 @@ export const trialNotificationService = {
       month: 'long',
       year: 'numeric'
     });
+    
+    const appBaseUrl = getAppBaseUrl();
 
     return `
 <!DOCTYPE html>
@@ -127,7 +148,7 @@ export const trialNotificationService = {
         <li class="disabled">Campagne Marketing AI</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
-        <a href="https://${process.env.REPLIT_DOMAINS}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
+        <a href="${appBaseUrl}/subscribe?plan=base" class="cta-button" style="display:inline-block;">
           Acquista Piano BASE
         </a>
       </div>
@@ -151,7 +172,7 @@ export const trialNotificationService = {
         <li class="disabled">Campagne Marketing AI</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
-        <a href="https://${process.env.REPLIT_DOMAINS}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
+        <a href="${appBaseUrl}/subscribe?plan=pro" class="cta-button" style="display:inline-block;">
           Acquista Piano PRO
         </a>
       </div>
@@ -172,7 +193,7 @@ export const trialNotificationService = {
         <li>Campagne Marketing AI</li>
       </ul>
       <div style="text-align:center; margin-top:20px;">
-        <a href="https://${process.env.REPLIT_DOMAINS}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
+        <a href="${appBaseUrl}/subscribe?plan=business" class="cta-button" style="display:inline-block;">
           Acquista Piano BUSINESS
         </a>
       </div>
