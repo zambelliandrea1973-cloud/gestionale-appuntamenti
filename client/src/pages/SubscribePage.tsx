@@ -93,12 +93,16 @@ export default function SubscribePage() {
   // Reindirizza alla pagina di login se l'utente non è autenticato
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
+      // Salva l'URL corrente (incluso query params) per il redirect post-login
+      const currentUrl = window.location.pathname + window.location.search;
+      sessionStorage.setItem('redirectAfterLogin', currentUrl);
+      
       toast({
         title: 'Accesso richiesto',
         description: 'Devi effettuare l\'accesso per sottoscrivere un abbonamento',
         variant: 'destructive',
       });
-      setLocation('/login');
+      setLocation('/');
     }
   }, [isAuthenticated, isLoading, setLocation, toast]);
   

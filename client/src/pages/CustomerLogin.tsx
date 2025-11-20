@@ -53,10 +53,17 @@ export default function CustomerLogin() {
         localStorage.removeItem("customerUsername");
       }
       
-      // Reindirizza alla dashboard
+      // Controlla se c'è un redirect salvato (es. da email trial)
+      const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+      if (redirectUrl) {
+        console.log(`🔗 Redirect salvato trovato: ${redirectUrl}`);
+        sessionStorage.removeItem('redirectAfterLogin');
+      }
+      
+      // Reindirizza alla dashboard o all'URL salvato
       setTimeout(() => {
-        console.log("Reindirizzamento alla dashboard per customer");
-        window.location.href = "/dashboard";
+        console.log(`Reindirizzamento per customer a: ${redirectUrl || "/dashboard"}`);
+        window.location.href = redirectUrl || "/dashboard";
       }, 100);
     },
     onError: (error: Error) => {

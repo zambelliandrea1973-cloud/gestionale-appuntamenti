@@ -153,10 +153,17 @@ export default function StaffLogin() {
       // Questo garantisce che TUTTE le cache browser/React siano pulite
       console.log(`✅ Login completato per ${userData.username} (ID: ${userData.id}), redirect con reload completo...`);
       
+      // Controlla se c'è un redirect salvato (es. da email trial)
+      const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+      if (redirectUrl) {
+        console.log(`🔗 Redirect salvato trovato: ${redirectUrl}`);
+        sessionStorage.removeItem('redirectAfterLogin');
+      }
+      
       // IMPORTANTE: Aggiungi un piccolo delay per garantire che la cache sia pulita
       // poi usa window.location.href (non replace) per forzare full page reload
       setTimeout(() => {
-        window.location.href = "/dashboard";
+        window.location.href = redirectUrl || "/dashboard";
       }, 100);
     },
     onError: (error: Error) => {
