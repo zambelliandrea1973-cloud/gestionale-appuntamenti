@@ -8,9 +8,9 @@ export function servePlayStoreManifest(req: Request, res: Response) {
   console.log('📱 PLAY STORE MANIFEST: Richiesta ricevuta da PWABuilder');
   
   const manifest = {
-    "name": "Gestionale Medico - Area Cliente",
+    "name": "Gestionale Appuntamenti",
     "short_name": "Area Cliente",
-    "description": "Accedi alla tua area personale del gestionale medico. Prenota appuntamenti, visualizza documenti e rimani in contatto con il tuo professionista di fiducia.",
+    "description": "Accedi alla tua area personale. Prenota appuntamenti, visualizza documenti e rimani in contatto con il tuo professionista di fiducia.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
