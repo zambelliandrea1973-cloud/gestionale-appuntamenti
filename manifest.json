@@ -1,11 +1,19 @@
 {
   "name": "Gestionale Appuntamenti",
-  "short_name": "Gestionale",
-  "description": "Sistema di gestione appuntamenti",
-  "start_url": "/gestionale-react-identico.html",
+  "short_name": "Area Cliente",
+  "description": "Accedi alla tua area personale del gestionale medico. Prenota appuntamenti, visualizza documenti e rimani in contatto con il tuo professionista di fiducia.",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#4a90e2",
+  "theme_color": "#006400",
+  "orientation": "portrait",
+  "categories": [
+    "healthcare"
+  ],
+  "lang": "it-IT",
+  "dir": "ltr",
+  "scope": "/",
+  "id": "com.gestionale.appuntamenti",
   "icons": [
     {
       "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA...",
