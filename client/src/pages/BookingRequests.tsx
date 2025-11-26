@@ -347,16 +347,17 @@ export default function BookingRequests() {
                         )}
                         
                         {(canApprove || canReject) && (
-                          <div className="flex gap-2 pt-3 border-t">
+                          <div className="flex flex-wrap gap-2 pt-3 border-t">
                             {canApprove && (
                               <Button 
                                 onClick={() => handleApproveClick(request.id)}
                                 disabled={approveMutation.isPending}
-                                className="flex-1"
+                                className="flex-1 min-w-[150px]"
                                 data-testid={`button-approve-${request.id}`}
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
-                                Approva e Crea Appuntamento
+                                <span className="hidden sm:inline">Approva e Crea Appuntamento</span>
+                                <span className="sm:hidden">Approva</span>
                               </Button>
                             )}
                             {canReject && (
@@ -364,7 +365,7 @@ export default function BookingRequests() {
                                 onClick={() => rejectMutation.mutate(request.id)}
                                 disabled={rejectMutation.isPending}
                                 variant="destructive"
-                                className={canApprove ? '' : 'flex-1'}
+                                className={canApprove ? 'flex-1 min-w-[100px]' : 'flex-1 min-w-[100px]'}
                                 data-testid={`button-reject-${request.id}`}
                               >
                                 <XCircle className="h-4 w-4 mr-2" />

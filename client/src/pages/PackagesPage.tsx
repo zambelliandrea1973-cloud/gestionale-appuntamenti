@@ -191,18 +191,19 @@ export default function PackagesPage() {
   
   return (
     <div className="container py-6 max-w-7xl">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <Crown className="h-6 w-6 mr-2 text-amber-500" />
-          <h1 className="text-3xl font-bold tracking-tight">Pacchetti Promozionali</h1>
-          <Badge variant="outline" className="ml-3">PRO</Badge>
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+        <div className="flex items-center flex-wrap gap-2">
+          <Crown className="h-6 w-6 text-amber-500" />
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Pacchetti Promozionali</h1>
+          <Badge variant="outline">PRO</Badge>
         </div>
         
         <Dialog open={templateDialogOpen} onOpenChange={setTemplateDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
+            <Button className="w-full md:w-auto">
               <PackagePlus className="mr-2 h-4 w-4" />
-              Nuovo Pacchetto
+              <span className="hidden sm:inline">Nuovo Pacchetto</span>
+              <span className="sm:hidden">Nuovo</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">

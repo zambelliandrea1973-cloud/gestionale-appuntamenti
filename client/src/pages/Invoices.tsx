@@ -662,111 +662,91 @@ export default function Invoices() {
                     </div>
                   </div>
                   
-                  {/* Pulsanti azione rapidi - 6 pulsanti: Preview, Stampa, 3 toggle canali, Invia */}
-                  <div className="flex items-center gap-2">
+                  {/* Pulsanti azione rapidi - responsive */}
+                  <div className="flex flex-wrap items-center gap-1 md:gap-2">
                     {/* 1. Preview */}
                     <Button
                       variant="outline"
-                      size="default"
+                      size="sm"
                       onClick={() => handlePreviewInvoice(invoice)}
                       disabled={previewMutation.isPending}
-                      className="h-10 w-10 p-0 border-blue-300 hover:bg-blue-50 text-blue-600"
+                      className="h-9 w-9 p-0 border-blue-300 hover:bg-blue-50 text-blue-600 flex-shrink-0"
                       title="Anteprima fattura"
                       data-testid={`button-preview-invoice-${invoice.id}`}
                     >
-                      <Eye className="h-5 w-5" />
+                      <Eye className="h-4 w-4" />
                     </Button>
                     
                     {/* 2. Stampa */}
                     <Button
                       variant="outline"
-                      size="default"
+                      size="sm"
                       onClick={() => handlePrintInvoice(invoice)}
                       disabled={printMutation.isPending}
-                      className="h-10 w-10 p-0 border-gray-300 hover:bg-gray-50"
+                      className="h-9 w-9 p-0 border-gray-300 hover:bg-gray-50 flex-shrink-0"
                       title="Stampa fattura"
                       data-testid={`button-print-invoice-${invoice.id}`}
                     >
-                      <Printer className="h-5 w-5" />
+                      <Printer className="h-4 w-4" />
                     </Button>
                     
                     {/* 3. PWA - toggle */}
                     <Button
-                      size="default"
+                      size="sm"
                       onClick={() => updateChannel(invoice.id, 'pwa')}
-                      className={`h-10 w-10 p-0 relative border ${
+                      className={`h-9 w-9 p-0 relative border flex-shrink-0 ${
                         invoice.publishedToPwa 
-                          ? 'bg-gray-400 hover:bg-gray-500 text-white border-gray-400'  // Grigio se già inviato
+                          ? 'bg-gray-400 hover:bg-gray-500 text-white border-gray-400'
                           : sendPreferences[invoice.id]?.pwa === true 
-                            ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600'  // Blu se selezionato
-                            : 'border-blue-300 text-blue-600 hover:bg-blue-50 bg-white'  // Outline default
+                            ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600'
+                            : 'border-blue-300 text-blue-600 hover:bg-blue-50 bg-white'
                       }`}
-                      title={`PWA - Area Clienti${invoice.publishedToPwa ? ` (Già inviata ${invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString('it-IT') : ''} - Clicca per re-inviare)` : ''}`}
+                      title={`PWA${invoice.publishedToPwa ? ` (Inviata - re-invia)` : ''}`}
                       data-testid={`button-toggle-pwa-${invoice.id}`}
                     >
-                      <Smartphone className="h-5 w-5" />
-                      {sendPreferences[invoice.id]?.pwa === true && (
-                        <Check className="h-3 w-3 absolute top-0 right-0 bg-green-500 text-white rounded-full p-0.5" />
-                      )}
-                      {invoice.publishedToPwa && (
-                        <div className="h-2 w-2 absolute bottom-0 left-0 bg-yellow-400 rounded-full" title="Già inviata" />
-                      )}
+                      <Smartphone className="h-4 w-4" />
                     </Button>
                     
                     {/* 4. Email - toggle */}
                     <Button
-                      size="default"
+                      size="sm"
                       onClick={() => updateChannel(invoice.id, 'email')}
-                      className={`h-10 w-10 p-0 relative border ${
+                      className={`h-9 w-9 p-0 relative border flex-shrink-0 ${
                         invoice.sentViaEmail 
-                          ? 'bg-gray-400 hover:bg-gray-500 text-white border-gray-400'  // Grigio se già inviato
+                          ? 'bg-gray-400 hover:bg-gray-500 text-white border-gray-400'
                           : sendPreferences[invoice.id]?.email === true 
-                            ? 'bg-orange-600 hover:bg-orange-700 text-white border-orange-600'  // Arancione se selezionato
-                            : 'border-orange-300 text-orange-600 hover:bg-orange-50 bg-white'  // Outline default
+                            ? 'bg-orange-600 hover:bg-orange-700 text-white border-orange-600'
+                            : 'border-orange-300 text-orange-600 hover:bg-orange-50 bg-white'
                       }`}
-                      title={`Email${invoice.sentViaEmail ? ` (Già inviata ${invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString('it-IT') : ''} - Clicca per re-inviare)` : ''}`}
+                      title={`Email${invoice.sentViaEmail ? ` (Inviata - re-invia)` : ''}`}
                       data-testid={`button-toggle-email-${invoice.id}`}
                     >
-                      <Mail className="h-5 w-5" />
-                      {sendPreferences[invoice.id]?.email === true && (
-                        <Check className="h-3 w-3 absolute top-0 right-0 bg-green-500 text-white rounded-full p-0.5" />
-                      )}
-                      {invoice.sentViaEmail && (
-                        <div className="h-2 w-2 absolute bottom-0 left-0 bg-yellow-400 rounded-full" title="Già inviata" />
-                      )}
+                      <Mail className="h-4 w-4" />
                     </Button>
                     
                     {/* 5. WhatsApp - toggle */}
                     <Button
-                      size="default"
+                      size="sm"
                       onClick={() => updateChannel(invoice.id, 'whatsapp')}
-                      className={`h-10 w-10 p-0 relative border ${
+                      className={`h-9 w-9 p-0 relative border flex-shrink-0 ${
                         invoice.sentViaWhatsapp 
-                          ? 'bg-gray-400 hover:bg-gray-500 text-white border-gray-400'  // Grigio se già inviato
+                          ? 'bg-gray-400 hover:bg-gray-500 text-white border-gray-400'
                           : sendPreferences[invoice.id]?.whatsapp === true 
-                            ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'  // Verde se selezionato
-                            : 'border-green-300 text-green-600 hover:bg-green-50 bg-white'  // Outline default
+                            ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
+                            : 'border-green-300 text-green-600 hover:bg-green-50 bg-white'
                       }`}
-                      title={`WhatsApp${invoice.sentViaWhatsapp ? ` (Già inviata ${invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString('it-IT') : ''} - Clicca per re-inviare)` : ''}`}
+                      title={`WhatsApp${invoice.sentViaWhatsapp ? ` (Inviata - re-invia)` : ''}`}
                       data-testid={`button-toggle-whatsapp-${invoice.id}`}
                     >
-                      <MessageCircle className="h-5 w-5" />
-                      {sendPreferences[invoice.id]?.whatsapp === true && (
-                        <Check className="h-3 w-3 absolute top-0 right-0 bg-green-500 text-white rounded-full p-0.5" />
-                      )}
-                      {invoice.sentViaWhatsapp && (
-                        <div className="h-2 w-2 absolute bottom-0 left-0 bg-yellow-400 rounded-full" title="Già inviata" />
-                      )}
+                      <MessageCircle className="h-4 w-4" />
                     </Button>
                     
                     {/* 6. INVIA - pulsante finale */}
                     <Button
                       variant="default"
-                      size="default"
+                      size="sm"
                       onClick={() => {
                         const channels = sendPreferences[invoice.id] || { pwa: true, email: false, whatsapp: false };
-                        
-                        // Validazione: almeno un canale selezionato
                         if (!channels.pwa && !channels.email && !channels.whatsapp) {
                           toast({
                             title: "⚠️ Nessun canale selezionato",
@@ -775,41 +755,27 @@ export default function Invoices() {
                           });
                           return;
                         }
-                        
-                        // Controllo re-invio: quali canali selezionati sono già stati usati?
                         const resends: Array<{ channel: string; date: string }> = [];
                         if (channels.pwa && invoice.publishedToPwa) {
-                          resends.push({ 
-                            channel: "PWA - Area Clienti", 
-                            date: invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'
-                          });
+                          resends.push({ channel: "PWA - Area Clienti", date: invoice.pwaPublishedAt ? new Date(invoice.pwaPublishedAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'});
                         }
                         if (channels.email && invoice.sentViaEmail) {
-                          resends.push({ 
-                            channel: "Email", 
-                            date: invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'
-                          });
+                          resends.push({ channel: "Email", date: invoice.emailSentAt ? new Date(invoice.emailSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'});
                         }
                         if (channels.whatsapp && invoice.sentViaWhatsapp) {
-                          resends.push({ 
-                            channel: "WhatsApp", 
-                            date: invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'
-                          });
+                          resends.push({ channel: "WhatsApp", date: invoice.whatsappSentAt ? new Date(invoice.whatsappSentAt).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Data sconosciuta'});
                         }
-                        
-                        // Se ci sono canali da re-inviare, mostra conferma
                         if (resends.length > 0) {
                           setPendingInvoiceId(invoice.id);
                           setPendingChannels(channels);
                           setChannelsNeedingConfirm(resends);
                           setIsResendConfirmOpen(true);
                         } else {
-                          // Nessun re-invio, procedi direttamente
                           sendInvoiceMutation.mutate({ invoiceId: invoice.id, channels });
                         }
                       }}
                       disabled={sendInvoiceMutation.isPending}
-                      className={`h-10 px-6 font-medium ${
+                      className={`font-medium flex-shrink-0 ${
                         (invoice.publishedToPwa || invoice.sentViaEmail || invoice.sentViaWhatsapp)
                           ? 'bg-gray-400 hover:bg-gray-500 text-white'
                           : 'bg-green-600 hover:bg-green-700 text-white'
@@ -817,8 +783,8 @@ export default function Invoices() {
                       title="Invia ai canali selezionati"
                       data-testid={`button-send-invoice-${invoice.id}`}
                     >
-                      <Send className="h-4 w-4 mr-2" />
-                      INVIO
+                      <Send className="h-3 w-3 mr-1" />
+                      <span className="hidden sm:inline">INVIO</span>
                     </Button>
                   </div>
 
