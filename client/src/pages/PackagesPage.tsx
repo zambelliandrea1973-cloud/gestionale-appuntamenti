@@ -201,9 +201,9 @@ export default function PackagesPage() {
         <Dialog open={templateDialogOpen} onOpenChange={setTemplateDialogOpen}>
           <DialogTrigger asChild>
             <Button className="w-full md:w-auto">
-              <PackagePlus className="mr-2 h-4 w-4" />
+              <PackagePlus className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Nuovo Pacchetto</span>
-              <span className="sm:hidden">Nuovo</span>
+              <span className="sm:hidden text-xs">Nuovo</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">

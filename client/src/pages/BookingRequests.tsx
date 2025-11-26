@@ -347,12 +347,12 @@ export default function BookingRequests() {
                         )}
                         
                         {(canApprove || canReject) && (
-                          <div className="flex flex-wrap gap-2 pt-3 border-t">
+                          <div className="space-y-2 pt-3 border-t">
                             {canApprove && (
                               <Button 
                                 onClick={() => handleApproveClick(request.id)}
                                 disabled={approveMutation.isPending}
-                                className="flex-1 min-w-[150px]"
+                                className="w-full"
                                 data-testid={`button-approve-${request.id}`}
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
@@ -365,11 +365,12 @@ export default function BookingRequests() {
                                 onClick={() => rejectMutation.mutate(request.id)}
                                 disabled={rejectMutation.isPending}
                                 variant="destructive"
-                                className={canApprove ? 'flex-1 min-w-[100px]' : 'flex-1 min-w-[100px]'}
+                                className="w-full"
                                 data-testid={`button-reject-${request.id}`}
                               >
                                 <XCircle className="h-4 w-4 mr-2" />
-                                Rifiuta
+                                <span className="hidden sm:inline">Rifiuta</span>
+                                <span className="sm:hidden">No</span>
                               </Button>
                             )}
                           </div>

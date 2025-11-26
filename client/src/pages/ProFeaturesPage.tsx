@@ -36,49 +36,49 @@ export default function ProFeaturesPage() {
         </h1>
       </div>
       
-      <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-0 mb-8">
-        <Link to="/pro-features">
+      <div className="flex overflow-x-auto sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-0 mb-8 -mx-6 sm:mx-0 px-6 sm:px-0">
+        <Link to="/pro-features" className="flex-shrink-0 sm:flex-shrink">
           <div 
-            className="flex flex-col sm:flex-row items-center justify-center py-2 sm:py-3 px-2 sm:px-3 border-b-2 border-primary font-medium text-primary text-xs sm:text-sm text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-4 sm:px-3 border-b-2 border-primary font-medium text-primary text-xs whitespace-nowrap sm:whitespace-normal text-center"
           >
-            <CalendarPlus className="h-4 w-4 mr-0 sm:mr-2 mb-1 sm:mb-0" />
-            <span className="line-clamp-2">{t('pro.googleCalendar', 'Google Calendar')}</span>
+            <CalendarPlus className="h-4 w-4 mb-1" />
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.googleCalendar', 'Google Calendar')}</span>
           </div>
         </Link>
         
-        <Link to="/invoices">
+        <Link to="/invoices" className="flex-shrink-0 sm:flex-shrink">
           <div 
-            className="flex flex-col sm:flex-row items-center justify-center py-2 sm:py-3 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs sm:text-sm text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-4 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs whitespace-nowrap sm:whitespace-normal text-center"
           >
-            <Receipt className="h-4 w-4 mr-0 sm:mr-2 mb-1 sm:mb-0" />
-            <span className="line-clamp-2">{t('pro.invoices', 'Fatture')}</span>
+            <Receipt className="h-4 w-4 mb-1" />
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.invoices', 'Fatture')}</span>
           </div>
         </Link>
         
-        <Link to="/packages">
+        <Link to="/packages" className="flex-shrink-0 sm:flex-shrink">
           <div 
-            className="flex flex-col sm:flex-row items-center justify-center py-2 sm:py-3 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs sm:text-sm text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-4 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs whitespace-nowrap sm:whitespace-normal text-center"
           >
-            <Package className="h-4 w-4 mr-0 sm:mr-2 mb-1 sm:mb-0" />
-            <span className="line-clamp-2">{t('pro.packages', 'Pacchetti')}</span>
+            <Package className="h-4 w-4 mb-1" />
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.packages', 'Pacchetti')}</span>
           </div>
         </Link>
         
-        <Link to="/inventory">
+        <Link to="/inventory" className="flex-shrink-0 sm:flex-shrink hidden sm:flex sm:flex-col">
           <div 
-            className="flex flex-col sm:flex-row items-center justify-center py-2 sm:py-3 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs sm:text-sm text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
           >
-            <Package className="h-4 w-4 mr-0 sm:mr-2 mb-1 sm:mb-0" />
-            <span className="line-clamp-2">{t('pro.inventory', 'Magazzino')}</span>
+            <Package className="h-4 w-4 mb-1" />
+            <span className="line-clamp-2 text-xs">{t('pro.inventory', 'Magazzino')}</span>
           </div>
         </Link>
         
-        <Link to="/reports">
+        <Link to="/reports" className="flex-shrink-0 sm:flex-shrink hidden lg:flex lg:flex-col">
           <div 
-            className="flex flex-col sm:flex-row items-center justify-center py-2 sm:py-3 px-2 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs sm:text-sm text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
           >
-            <FileSpreadsheet className="h-4 w-4 mr-0 sm:mr-2 mb-1 sm:mb-0" />
-            <span className="line-clamp-2">{t('pro.reports', 'Report')}</span>
+            <FileSpreadsheet className="h-4 w-4 mb-1" />
+            <span className="line-clamp-2 text-xs">{t('pro.reports', 'Report')}</span>
           </div>
         </Link>
       </div>
