@@ -75,6 +75,10 @@ Development approach: When implementing new features, always evaluate 2-3 altern
 ### Deployment Strategy
 - **Development**: Replit.
 - **Production**: Replit, SiteGround, and Docker-compatible VPS/cloud hosting.
+- **Sliplane Deployment**: 
+  - **IMPORTANT**: Always run `npm run build` before pushing to regenerate `dist/` folder
+  - **Push command**: `git push -f origin main` (force push required)
+  - Sliplane does NOT run build automatically - it uses pre-built files from `dist/`
 - **Backup**: Automated data backups.
 
 ## External Dependencies
