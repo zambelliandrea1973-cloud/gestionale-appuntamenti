@@ -64,21 +64,21 @@ export default function ProFeaturesPage() {
           </div>
         </Link>
         
-        <Link to="/inventory" className="flex-shrink-0 sm:flex-shrink hidden sm:flex sm:flex-col">
+        <Link to="/inventory" className="flex-shrink-0 sm:flex-shrink">
           <div 
-            className="flex flex-col items-center justify-center py-2 sm:py-3 px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-4 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs whitespace-nowrap sm:whitespace-normal text-center"
           >
             <Package className="h-4 w-4 mb-1" />
-            <span className="line-clamp-2 text-xs">{t('pro.inventory', 'Magazzino')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.inventory', 'Magazzino')}</span>
           </div>
         </Link>
         
-        <Link to="/reports" className="flex-shrink-0 sm:flex-shrink hidden lg:flex lg:flex-col">
+        <Link to="/reports" className="flex-shrink-0 sm:flex-shrink">
           <div 
-            className="flex flex-col items-center justify-center py-2 sm:py-3 px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs text-center"
+            className="flex flex-col items-center justify-center py-2 sm:py-3 px-4 sm:px-3 border-b border-input bg-background hover:text-primary hover:bg-accent text-muted-foreground text-xs whitespace-nowrap sm:whitespace-normal text-center"
           >
             <FileSpreadsheet className="h-4 w-4 mb-1" />
-            <span className="line-clamp-2 text-xs">{t('pro.reports', 'Report')}</span>
+            <span className="line-clamp-1 sm:line-clamp-2 text-xs">{t('pro.reports', 'Report')}</span>
           </div>
         </Link>
       </div>
