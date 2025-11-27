@@ -9,6 +9,7 @@ import {
 } from "@/lib/utils/date";
 import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
+import { FloatingActionButton } from "./FloatingActionButton";
 
 interface MonthViewProps {
   selectedDate: Date;
@@ -201,6 +202,15 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
           defaultTime="09:00"
         />
       </Dialog>
+      
+      {/* Floating Action Button for creating appointments */}
+      <FloatingActionButton 
+        onClick={() => {
+          setSelectedDayForAppointment(selectedDate);
+          setIsAppointmentFormOpen(true);
+        }}
+        label="Seleziona orario noappuntamento"
+      />
     </div>
   );
 }

@@ -10,11 +10,12 @@ import {
   getWeekStart, 
   getWeekEnd 
 } from "@/lib/utils/date";
-import { ChevronDown, ChevronRight, MoreHorizontal, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
+import { FloatingActionButton } from "./FloatingActionButton";
 
 interface WeekViewProps {
   selectedDate: Date;
@@ -188,6 +189,16 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
           </div>
         </div>
       )}
+      
+      {/* Floating Action Button for creating appointments */}
+      <FloatingActionButton 
+        onClick={() => {
+          setSelectedDayForAppointment(selectedDate);
+          setSelectedTimeForAppointment("09:00");
+          setIsAppointmentFormOpen(true);
+        }}
+        label="Seleziona orario noappuntamento"
+      />
     </div>
   );
 }
