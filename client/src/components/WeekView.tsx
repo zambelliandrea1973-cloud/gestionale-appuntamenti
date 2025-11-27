@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
   getWeekDays, 
   formatDate, 
@@ -11,7 +10,7 @@ import {
   getWeekStart, 
   getWeekEnd 
 } from "@/lib/utils/date";
-import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
+import { ChevronDown, ChevronRight, MoreHorizontal, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentCardSmall from "./AppointmentCardSmall";
@@ -19,14 +18,28 @@ import AppointmentForm from "./AppointmentForm";
 
 interface WeekViewProps {
   selectedDate: Date;
+  services?: any[];
+  collaborators?: any[];
+  treatmentRooms?: any[];
   onRefresh?: () => void;
+  onDateSelect?: (date: Date) => void;
 }
 
-export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
+// Generiamo gli slot orari dalle 08:00 alle 20:00
+const generateTimeSlots = () => {
+  const slots = [];
+  for (let i = 8; i < 20; i++) {
+    slots.push(`${String(i).padStart(2, '0')}:00`);
+  }
+  return slots;
+};
+
+export default function WeekView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], onRefresh, onDateSelect }: WeekViewProps) {
   const [weekDays] = useState(() => getWeekDays(selectedDate));
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
-  const [expandedDays, setExpandedDays] = useState<Record<string, boolean>>({});
+  const [selectedTimeForAppointment, setSelectedTimeForAppointment] = useState<string>("09:00");
+  const timeSlots = generateTimeSlots();
   
   // Utilizziamo un metodo alternativo per formattare le date, per evitare problemi di fuso orario
   const weekStart = getWeekStart(selectedDate);
@@ -53,34 +66,23 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
     }
   };
   
-  // Handle day click to open new appointment form
-  const handleDayClick = (day: Date) => {
+  // Handle time slot click to open new appointment form
+  const handleTimeSlotClick = (day: Date, time: string) => {
     setSelectedDayForAppointment(day);
+    setSelectedTimeForAppointment(time);
     setIsAppointmentFormOpen(true);
   };
   
-  // Get appointments for a specific day
-  const getAppointmentsForDay = (day: Date) => {
-    // Utilizziamo un metodo alternativo per formattare la data, per evitare problemi di fuso orario
+  // Get appointments for a specific day and time slot
+  const getAppointmentsForTimeSlot = (day: Date, timeSlot: string) => {
     const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-    return appointments.filter(appointment => appointment.date === dateStr);
-  };
-
-  // Toggle day expansion
-  const toggleDayExpansion = (dayStr: string) => {
-    setExpandedDays(prev => ({
-      ...prev,
-      [dayStr]: !prev[dayStr]
-    }));
-  };
-
-  // Get limited appointments for collapsed view
-  const getLimitedAppointments = (dayAppointments: any[], dayStr: string, maxVisible = 2) => {
-    const isExpanded = expandedDays[dayStr];
-    if (isExpanded || dayAppointments.length <= maxVisible) {
-      return dayAppointments;
-    }
-    return dayAppointments.slice(0, maxVisible);
+    const slotHour = parseInt(timeSlot.split(':')[0]);
+    
+    return appointments.filter(appointment => {
+      if (appointment.date !== dateStr) return false;
+      const appointmentHour = parseInt(appointment.startTime.split(':')[0]);
+      return appointmentHour === slotHour;
+    });
   };
   
   return (
@@ -92,11 +94,15 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
         </h3>
       </div>
       
-      {/* Week grid */}
-      <div className="grid grid-cols-7 divide-x border-b">
+      {/* Day headers */}
+      <div className="grid" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
+        {/* Empty corner for time column */}
+        <div className="bg-gray-50 border-r border-b p-2"></div>
+        
+        {/* Day headers */}
         {weekDays.map((day, index) => (
-          <div key={index} className="text-center py-2 font-medium text-sm">
-            <div className={`${isToday(day) ? 'text-primary' : 'text-gray-700'}`}>
+          <div key={index} className="text-center py-3 font-medium text-sm border-r border-b bg-gray-50">
+            <div className={`${isToday(day) ? 'text-primary font-bold' : 'text-gray-700'}`}>
               {new Intl.DateTimeFormat('it-IT', { weekday: 'short' }).format(day)}
             </div>
             <div className={`
@@ -109,107 +115,65 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
         ))}
       </div>
       
-      {/* Appointments grid */}
-      <div className="grid grid-cols-7 divide-x h-[calc(100vh-350px)] min-h-[400px] overflow-y-auto">
-        {weekDays.map((day, index) => {
-          const dayAppointments = getAppointmentsForDay(day);
-          const dayStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-          const isExpanded = expandedDays[dayStr];
-          const limitedAppointments = getLimitedAppointments(dayAppointments, dayStr);
-          const hasMoreAppointments = dayAppointments.length > 2;
-          
-          return (
-            <div 
-              key={index} 
-              className="p-2 overflow-y-auto"
-              onClick={() => handleDayClick(day)}
-            >
-              {isLoading ? (
-                // Loading skeleton
-                <div className="space-y-2">
-                  <Skeleton className="h-16 w-full" />
-                  <Skeleton className="h-16 w-full" />
-                </div>
-              ) : dayAppointments.length > 0 ? (
-                // Show appointments for this day with collapsible functionality
-                <div>
-                  {limitedAppointments.map((appointment) => (
-                    <div className="text-xs mb-2" key={appointment.id}>
-                      <div className="text-gray-500 mb-1">
-                        {appointment.startTime.substring(0, 5)}
-                      </div>
-                      <AppointmentCardSmall 
-                        appointment={appointment}
-                        onUpdate={handleAppointmentUpdated}
-                        view="week"
-                      />
+      {/* Time slots grid */}
+      <div className="grid overflow-y-auto max-h-[calc(100vh-350px)] min-h-[400px]" style={{ gridTemplateColumns: '70px repeat(7, 1fr)' }}>
+        {timeSlots.map((timeSlot, timeIndex) => (
+          <div key={timeIndex} className="contents">
+            {/* Time label */}
+            <div className="text-xs font-medium text-gray-500 bg-gray-50 border-r border-b p-2 sticky left-0 z-10">
+              {timeSlot}
+            </div>
+            
+            {/* Day cells for this time slot */}
+            {weekDays.map((day, dayIndex) => {
+              const slotAppointments = getAppointmentsForTimeSlot(day, timeSlot);
+              const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+              
+              return (
+                <div 
+                  key={`${timeIndex}-${dayIndex}`}
+                  className="border-r border-b p-1 min-h-[60px] cursor-pointer hover:bg-blue-50 transition-colors relative group"
+                  onClick={() => handleTimeSlotClick(day, timeSlot)}
+                >
+                  {isLoading ? (
+                    <Skeleton className="h-12 w-full" />
+                  ) : slotAppointments.length > 0 ? (
+                    // Show appointments for this slot
+                    <div className="space-y-1">
+                      {slotAppointments.map((appointment) => (
+                        <div key={appointment.id} className="text-xs">
+                          <AppointmentCardSmall 
+                            appointment={appointment}
+                            onUpdate={handleAppointmentUpdated}
+                            view="week"
+                          />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                  
-                  {hasMoreAppointments && (
-                    <Collapsible open={isExpanded} onOpenChange={() => toggleDayExpansion(dayStr)}>
-                      <CollapsibleTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="w-full h-6 text-xs text-gray-500 hover:text-primary p-1"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {isExpanded ? (
-                            <>
-                              <ChevronDown className="h-3 w-3 mr-1" />
-                              Mostra meno
-                            </>
-                          ) : (
-                            <>
-                              <MoreHorizontal className="h-3 w-3 mr-1" />
-                              +{dayAppointments.length - 2} altri
-                            </>
-                          )}
-                        </Button>
-                      </CollapsibleTrigger>
-                      
-                      <CollapsibleContent>
-                        {dayAppointments.slice(2).map((appointment) => (
-                          <div className="text-xs mb-2" key={appointment.id}>
-                            <div className="text-gray-500 mb-1">
-                              {appointment.startTime.substring(0, 5)}
-                            </div>
-                            <AppointmentCardSmall 
-                              appointment={appointment}
-                              onUpdate={handleAppointmentUpdated}
-                              view="week"
-                            />
-                          </div>
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
+                  ) : (
+                    // Empty slot - show add button on hover
+                    <div className="flex items-center justify-center h-full opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-gray-400 hover:text-primary h-auto p-1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTimeSlotClick(day, timeSlot);
+                        }}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
                   )}
                 </div>
-              ) : (
-                // Empty day - add appointment button
-                <div className="flex h-full items-center justify-center">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-gray-400 hover:text-primary"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDayClick(day);
-                    }}
-                  >
-                    <span className="sr-only">Aggiungi appuntamento</span>
-                    +
-                  </Button>
-                </div>
-              )}
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        ))}
       </div>
       
       {/* Form dialog for new appointment */}
-      {/* Form dialog for new appointment - Custom modal implementation */}
       {isAppointmentFormOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setIsAppointmentFormOpen(false)}>
           <div className="relative" onClick={(e) => e.stopPropagation()}>
@@ -219,7 +183,7 @@ export default function WeekView({ selectedDate, onRefresh }: WeekViewProps) {
                 handleAppointmentUpdated();
               }}
               defaultDate={selectedDayForAppointment || selectedDate}
-              defaultTime="09:00"
+              defaultTime={selectedTimeForAppointment}
             />
           </div>
         </div>
