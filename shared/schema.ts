@@ -441,6 +441,8 @@ export const users = pgTable("users", {
   accountHolder: text("account_holder"), // Intestatario conto
   paypalEmail: text("paypal_email"), // Email PayPal per ricevere payout commissioni
   autoPayoutEnabled: boolean("auto_payout_enabled").default(true), // Abilita payout automatico PayPal
+  resetToken: text("reset_token"), // Token per recupero password
+  resetTokenExpiry: timestamp("reset_token_expiry"), // Scadenza token reset
   createdAt: timestamp("created_at").defaultNow(),
 });
 
