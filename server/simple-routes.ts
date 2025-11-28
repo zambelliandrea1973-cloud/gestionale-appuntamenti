@@ -9148,32 +9148,30 @@ Studio Professionale`;
         resetTokenExpiry: tokenExpiry.toISOString()
       });
 
-      // Invia email con link di reset
+      // Invia email con link di reset usando il sistema centralizzato di notifiche
       const resetLink = `${process.env.APP_URL || 'https://gestionale-appuntamenti.sliplane.app'}/reset-password?token=${resetToken}`;
       
-      try {
-        const transporter = nodemailer.createTransport({
-          host: 'localhost',
-          port: 1025,
-        });
+      const emailHtml = `
+        <h2>Recupero Password</h2>
+        <p>Hai richiesto di resettare la tua password. Clicca il link sotto:</p>
+        <a href="${resetLink}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+          Reimposta Password
+        </a>
+        <p>Il link scadrà tra 1 ora.</p>
+        <p>Se non hai richiesto questo reset, ignora questa email.</p>
+      `;
 
-        await transporter.sendMail({
-          from: 'noreply@gestionale-appuntamenti.com',
-          to: email,
-          subject: 'Recupero Password - Gestionale Appuntamenti',
-          html: `
-            <h2>Recupero Password</h2>
-            <p>Hai richiesto di resettare la tua password. Clicca il link sotto:</p>
-            <a href="${resetLink}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              Reimposta Password
-            </a>
-            <p>Il link scadrà tra 1 ora.</p>
-            <p>Se non hai richiesto questo reset, ignora questa email.</p>
-          `
-        });
-        console.log(`✅ Email di reset password inviata a ${email}`);
-      } catch (emailError) {
-        console.warn(`⚠️ Email di reset non inviata (sviluppo): ${emailError}`);
+      // Usa lo stesso servizio di notifiche che funziona per i promemoria degli appuntamenti
+      const emailSent = await notificationService.sendEmail(
+        email,
+        'Recupero Password - Gestionale Appuntamenti',
+        emailHtml
+      );
+
+      if (emailSent) {
+        console.log(`✅ Email di reset password inviata a ${email} usando notificationService`);
+      } else {
+        console.warn(`⚠️ Email di reset non inviata a ${email}`);
       }
 
       res.status(200).json({ message: "Email di reset inviata (se l'email esiste nel sistema)" });
