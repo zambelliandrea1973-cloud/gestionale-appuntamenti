@@ -9281,23 +9281,31 @@ Studio Professionale`;
       const { hashPassword } = await import('./auth');
       const hashedPassword = await hashPassword(newPassword);
 
+      console.log(`🔄 [DEBUG] Reset password - Token: ${token.substring(0, 10)}...`);
+
       // Cerca nella tabella users (professionisti/admin)
       const foundUsers = await db.select()
         .from(users)
         .where(
           and(
             eq(users.resetToken, token),
-            gt(sql`${users.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+            gt(users.resetTokenExpiry, now)
           )
         );
 
       if (foundUsers.length > 0) {
         const user = foundUsers[0];
-        await storage.updateUser(user.id, {
-          password: hashedPassword,
-          resetToken: null,
-          resetTokenExpiry: null
-        });
+        console.log(`📝 [DEBUG] Updating password for user ${user.id} (${user.email})`);
+        
+        // Usa direttamente db.update come per staff per consistenza
+        await db.update(users)
+          .set({
+            password: hashedPassword,
+            resetToken: null,
+            resetTokenExpiry: null
+          })
+          .where(eq(users.id, user.id));
+        
         console.log(`✅ Password resettata per utente ${user.email}`);
         return res.status(200).json({ message: "Password resettata con successo" });
       }
@@ -9308,12 +9316,14 @@ Studio Professionale`;
         .where(
           and(
             eq(staff.resetToken, token),
-            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+            gt(staff.resetTokenExpiry, now)
           )
         );
 
       if (foundStaff.length > 0) {
         const staffMember = foundStaff[0];
+        console.log(`📝 [DEBUG] Updating password for staff ${staffMember.id} (${staffMember.email})`);
+        
         await db.update(staff)
           .set({
             password: hashedPassword,
@@ -9321,10 +9331,12 @@ Studio Professionale`;
             resetTokenExpiry: null
           })
           .where(eq(staff.id, staffMember.id));
+        
         console.log(`✅ Password resettata per staff ${staffMember.email}`);
         return res.status(200).json({ message: "Password resettata con successo" });
       }
 
+      console.log(`❌ [DEBUG] Token not found or expired`);
       res.status(400).send("Token scaduto o non valido");
     } catch (error) {
       console.error('❌ Errore reset-password:', error);
