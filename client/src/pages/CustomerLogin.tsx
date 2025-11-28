@@ -162,12 +162,13 @@ export default function CustomerLogin() {
             
             {/* Link Forgot Password */}
             <div className="mt-4 text-center">
-              <a 
-                href="/forgot-password" 
+              <button 
+                type="button"
+                onClick={() => navigate("/forgot-password")}
                 className="text-sm text-primary hover:underline"
               >
                 Ho dimenticato la password
-              </a>
+              </button>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">

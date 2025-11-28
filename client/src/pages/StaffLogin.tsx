@@ -268,12 +268,13 @@ export default function StaffLogin() {
             
             {/* Link Forgot Password */}
             <div className="mt-4 text-center">
-              <a 
-                href="/forgot-password" 
+              <button 
+                type="button"
+                onClick={() => navigate("/forgot-password")}
                 className="text-sm text-primary hover:underline"
               >
                 Ho dimenticato la password
-              </a>
+              </button>
             </div>
             
             {/* Pulsante per pulire cache manualmente (utile per app WebView) */}
