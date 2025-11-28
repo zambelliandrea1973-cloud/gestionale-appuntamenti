@@ -2410,29 +2410,33 @@ export class DatabaseStorage implements IStorage {
     }
     
     try {
-      // Cerca per email
+      // Cerca per email nella tabella users (professionisti/admin)
       const [user] = await db.select().from(users).where(eq(users.email, email));
+      if (user) return user;
       
-      // Se l'utente non viene trovato nel database, prova con JSON
-      if (!user) {
-        console.log(`User not found in DB by email, trying JSON storage for: ${email}`);
-        try {
-          const { loadStorageData } = await import('./utils/jsonStorage.js');
-          const storageData = loadStorageData();
-          const userEntry = storageData.users?.find(([id, u]: [number, any]) => 
-            u.email === email
-          );
-          
-          if (userEntry) {
-            console.log(`✅ User found in JSON storage by email: ${email}`);
-            return userEntry[1];
-          }
-        } catch (jsonError) {
-          console.error("Error loading user from JSON:", jsonError);
+      // Se non trovato in users, cerca nella tabella staff (collaboratori)
+      const { staff: staffTable } = await import('../shared/schema');
+      const [staffMember] = await db.select().from(staffTable).where(eq(staffTable.email, email));
+      if (staffMember) return staffMember as any;
+      
+      // Se non trovato nel database, prova con JSON
+      console.log(`User not found in DB by email, trying JSON storage for: ${email}`);
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([id, u]: [number, any]) => 
+          u.email === email
+        );
+        
+        if (userEntry) {
+          console.log(`✅ User found in JSON storage by email: ${email}`);
+          return userEntry[1];
         }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
       }
       
-      return user;
+      return undefined;
     } catch (error) {
       console.error("Error getting user by email:", error);
       

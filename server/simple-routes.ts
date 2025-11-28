@@ -9210,7 +9210,7 @@ Studio Professionale`;
     }
   });
 
-  // 2. POST /api/verify-reset-token - Verifica che il token sia valido
+  // 2. POST /api/verify-reset-token - Verifica che il token sia valido (sia users che staff)
   app.post("/api/verify-reset-token", async (req, res) => {
     try {
       const { token } = req.body;
@@ -9218,8 +9218,9 @@ Studio Professionale`;
         return res.status(400).send("Token richiesto");
       }
 
-      // Cerca utente con questo token valido (non scaduto) - CORRETTO: usa users table
       const now = new Date();
+      
+      // Cerca nella tabella users (professionisti/admin)
       const foundUsers = await db.select()
         .from(users)
         .where(
@@ -9229,18 +9230,32 @@ Studio Professionale`;
           )
         );
 
-      if (foundUsers.length === 0) {
-        return res.status(400).send("Token scaduto o non valido");
+      if (foundUsers.length > 0) {
+        return res.status(200).json({ valid: true });
       }
 
-      res.status(200).json({ valid: true });
+      // Se non trovato in users, cerca nella tabella staff (collaboratori)
+      const foundStaff = await db.select()
+        .from(staff)
+        .where(
+          and(
+            eq(staff.resetToken, token),
+            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+          )
+        );
+
+      if (foundStaff.length > 0) {
+        return res.status(200).json({ valid: true });
+      }
+
+      res.status(400).send("Token scaduto o non valido");
     } catch (error) {
       console.error('❌ Errore verify-reset-token:', error);
       res.status(500).send("Errore server");
     }
   });
 
-  // 3. POST /api/reset-password - Resetta la password con il token valido
+  // 3. POST /api/reset-password - Resetta la password con il token valido (sia users che staff)
   app.post("/api/reset-password", async (req, res) => {
     try {
       const { token, newPassword } = req.body;
@@ -9252,8 +9267,11 @@ Studio Professionale`;
         return res.status(400).send("Password deve contenere almeno 6 caratteri");
       }
 
-      // Cerca utente con questo token valido - CORRETTO: usa users table
       const now = new Date();
+      const { hashPassword } = await import('./auth');
+      const hashedPassword = await hashPassword(newPassword);
+
+      // Cerca nella tabella users (professionisti/admin)
       const foundUsers = await db.select()
         .from(users)
         .where(
@@ -9263,23 +9281,41 @@ Studio Professionale`;
           )
         );
 
-      if (foundUsers.length === 0) {
-        return res.status(400).send("Token scaduto o non valido");
+      if (foundUsers.length > 0) {
+        const user = foundUsers[0];
+        await storage.updateUser(user.id, {
+          password: hashedPassword,
+          resetToken: null,
+          resetTokenExpiry: null
+        });
+        console.log(`✅ Password resettata per utente ${user.email}`);
+        return res.status(200).json({ message: "Password resettata con successo" });
       }
 
-      const user = foundUsers[0];
-      const { hashPassword } = await import('./auth');
-      const hashedPassword = await hashPassword(newPassword);
+      // Se non trovato in users, cerca nella tabella staff (collaboratori)
+      const foundStaff = await db.select()
+        .from(staff)
+        .where(
+          and(
+            eq(staff.resetToken, token),
+            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+          )
+        );
 
-      // Aggiorna password e cancella token
-      await storage.updateUser(user.id, {
-        password: hashedPassword,
-        resetToken: null,
-        resetTokenExpiry: null
-      });
+      if (foundStaff.length > 0) {
+        const staffMember = foundStaff[0];
+        await db.update(staff)
+          .set({
+            password: hashedPassword,
+            resetToken: null,
+            resetTokenExpiry: null
+          })
+          .where(eq(staff.id, staffMember.id));
+        console.log(`✅ Password resettata per staff ${staffMember.email}`);
+        return res.status(200).json({ message: "Password resettata con successo" });
+      }
 
-      console.log(`✅ Password resettata per utente ${user.email}`);
-      res.status(200).json({ message: "Password resettata con successo" });
+      res.status(400).send("Token scaduto o non valido");
     } catch (error) {
       console.error('❌ Errore reset-password:', error);
       res.status(500).send("Errore server");
