@@ -430,7 +430,7 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: varchar("username", { length: 100 }).notNull().unique(),
   password: text("password").notNull(),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
   role: text("role").default("staff").notNull(), // admin, staff, client
   clientId: integer("client_id"), // Solo per utenti di tipo client
   type: text("type").default("staff").notNull(), // staff, client
