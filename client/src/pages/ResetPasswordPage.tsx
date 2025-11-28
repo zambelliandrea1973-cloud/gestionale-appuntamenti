@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
           title: "Password resetata",
           description: "La tua password è stata resetata con successo. Accedi con la nuova password.",
         });
-        setTimeout(() => navigate("/staff-login"), 2000);
+        setTimeout(() => navigate("/login"), 2000);
       } else {
         const error = await response.text();
         setError(error);
