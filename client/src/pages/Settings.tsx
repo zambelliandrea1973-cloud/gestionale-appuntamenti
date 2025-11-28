@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useUserWithLicense } from "@/hooks/use-user-with-license";
-import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Image, Brush, Contact, Type, Lock, Shield, Eye, EyeOff, RefreshCw, Mail, Calendar, Users, Building, BookOpen, KeyRound } from "lucide-react";
 import AppIconUploader from '@/components/AppIconUploader';
 import ContactInfoEditor from '@/components/ContactInfoEditor';
 import CompanyNameEditor from '@/components/CompanyNameEditor';
@@ -111,6 +111,10 @@ export default function Settings() {
           <TabsTrigger value="appearance" className="flex items-center whitespace-nowrap">
             <Brush className="mr-2 h-4 w-4" />
             <span>{t('settings.appearance', 'Aspetto')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="security" className="flex items-center whitespace-nowrap">
+            <KeyRound className="mr-2 h-4 w-4" />
+            <span>Sicurezza</span>
           </TabsTrigger>
           {isAdmin && (
             <TabsTrigger value="admin" className="flex items-center whitespace-nowrap">
@@ -324,6 +328,38 @@ export default function Settings() {
 
               <div className="pt-4 border-t">
                 <CompanyBusinessDataEditor />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="security">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <KeyRound className="mr-2 h-5 w-5" />
+                Sicurezza Account
+              </CardTitle>
+              <CardDescription>
+                Gestisci la sicurezza del tuo account e le impostazioni di accesso
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-center mb-3">
+                  <Lock className="mr-2 h-5 w-5 text-blue-600" />
+                  <h3 className="font-semibold text-blue-900">Cambia Password</h3>
+                </div>
+                <p className="text-sm text-blue-800 mb-4">
+                  Aggiorna la tua password per mantenere sicuro il tuo account. Ti verrà chiesto di inserire la password attuale per confermare l'identità.
+                </p>
+                <Button 
+                  onClick={() => setLocation("/password-change")}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <KeyRound className="mr-2 h-4 w-4" />
+                  Vai al Cambio Password
+                </Button>
               </div>
             </CardContent>
           </Card>

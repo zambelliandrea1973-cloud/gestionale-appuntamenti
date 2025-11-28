@@ -63,6 +63,7 @@ import PromotionPage from "./pages/PromotionPage";
 import ProFeatureGuard from "./components/ProFeatureGuard";
 import ManualePage from "./pages/ManualePage";
 import ManualAdminPage from "./pages/ManualAdminPage";
+import PasswordChangePage from "./pages/PasswordChangeePage";
 
 import NotFound from "./pages/not-found";
 import { TimezoneDetector } from "./components/TimezoneDetector";
@@ -298,6 +299,11 @@ function AppRoutes() {
       <Route path="/settings">
         <StaffPageWrapper>
           <Settings />
+        </StaffPageWrapper>
+      </Route>
+      <Route path="/password-change">
+        <StaffPageWrapper>
+          <PasswordChangePage />
         </StaffPageWrapper>
       </Route>
       <Route path="/manuale">
