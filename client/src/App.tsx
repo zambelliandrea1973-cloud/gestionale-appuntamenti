@@ -108,7 +108,7 @@ function AppRoutes() {
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', 
       '/staff-login', '/customer-login', '/register', '/client-area', 
-      '/consent', '/'
+      '/consent', '/forgot-password', '/reset-password', '/'
     ];
     
     // Percorsi dedicati ai clienti finali (pazienti) - NON devono essere gestiti dal sistema staff
