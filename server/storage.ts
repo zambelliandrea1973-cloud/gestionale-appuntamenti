@@ -140,6 +140,7 @@ export interface IStorage {
   // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   getUserByAssignmentCode(assignmentCode: string): Promise<User | undefined>;
   getUserByReferralCode(referralCode: string): Promise<User | undefined>;
   getUsersByReferrer(referrerId: number): Promise<User[]>;
@@ -2379,6 +2380,72 @@ export class DatabaseStorage implements IStorage {
         
         if (userEntry) {
           console.log(`✅ User found in JSON storage (after DB error): ${username}`);
+          return userEntry[1];
+        }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
+      }
+      
+      return undefined;
+    }
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    // Skip database if not available - direct to JSON (no timeout delay)
+    if (!isDatabaseAvailable) {
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([id, u]: [number, any]) => 
+          u.email === email
+        );
+        
+        if (userEntry) {
+          return userEntry[1];
+        }
+      } catch (jsonError) {
+        console.error("Error loading user from JSON:", jsonError);
+      }
+      return undefined;
+    }
+    
+    try {
+      // Cerca per email
+      const [user] = await db.select().from(users).where(eq(users.email, email));
+      
+      // Se l'utente non viene trovato nel database, prova con JSON
+      if (!user) {
+        console.log(`User not found in DB by email, trying JSON storage for: ${email}`);
+        try {
+          const { loadStorageData } = await import('./utils/jsonStorage.js');
+          const storageData = loadStorageData();
+          const userEntry = storageData.users?.find(([id, u]: [number, any]) => 
+            u.email === email
+          );
+          
+          if (userEntry) {
+            console.log(`✅ User found in JSON storage by email: ${email}`);
+            return userEntry[1];
+          }
+        } catch (jsonError) {
+          console.error("Error loading user from JSON:", jsonError);
+        }
+      }
+      
+      return user;
+    } catch (error) {
+      console.error("Error getting user by email:", error);
+      
+      // Fallback al JSON storage quando il database non è disponibile
+      try {
+        const { loadStorageData } = await import('./utils/jsonStorage.js');
+        const storageData = loadStorageData();
+        const userEntry = storageData.users?.find(([id, u]: [number, any]) => 
+          u.email === email
+        );
+        
+        if (userEntry) {
+          console.log(`✅ User found in JSON storage by email (after DB error): ${email}`);
           return userEntry[1];
         }
       } catch (jsonError) {
