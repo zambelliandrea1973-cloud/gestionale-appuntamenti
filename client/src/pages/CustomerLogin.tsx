@@ -159,6 +159,16 @@ export default function CustomerLogin() {
                 )}
               </Button>
             </form>
+            
+            {/* Link Forgot Password */}
+            <div className="mt-4 text-center">
+              <a 
+                href="/forgot-password" 
+                className="text-sm text-primary hover:underline"
+              >
+                Ho dimenticato la password
+              </a>
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
             <div className="text-sm text-gray-600 text-center">
