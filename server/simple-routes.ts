@@ -9120,6 +9120,145 @@ Studio Professionale`;
     }
   });
 
+  // ================= PASSWORD RECOVERY ENDPOINTS =================
+
+  // 1. POST /api/forgot-password - Genera token e invia email di reset
+  app.post("/api/forgot-password", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).send("Email richiesta");
+      }
+
+      // Verifica se l'utente esiste
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        // Non rivelare se email esiste per sicurezza
+        return res.status(200).json({ message: "Se l'email esiste, riceverai un link di reset" });
+      }
+
+      // Genera token temporaneo (valido per 1 ora)
+      const crypto = await import('crypto');
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const tokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 ora
+
+      // Salva il token nel database (aggiorna utente con resetToken e resetTokenExpiry)
+      await storage.updateUser(user.id, {
+        resetToken,
+        resetTokenExpiry: tokenExpiry.toISOString()
+      });
+
+      // Invia email con link di reset
+      const resetLink = `${process.env.APP_URL || 'https://gestionale-appuntamenti.sliplane.app'}/reset-password?token=${resetToken}`;
+      
+      try {
+        const transporter = nodemailer.createTransport({
+          host: 'localhost',
+          port: 1025,
+        });
+
+        await transporter.sendMail({
+          from: 'noreply@gestionale-appuntamenti.com',
+          to: email,
+          subject: 'Recupero Password - Gestionale Appuntamenti',
+          html: `
+            <h2>Recupero Password</h2>
+            <p>Hai richiesto di resettare la tua password. Clicca il link sotto:</p>
+            <a href="${resetLink}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+              Reimposta Password
+            </a>
+            <p>Il link scadrà tra 1 ora.</p>
+            <p>Se non hai richiesto questo reset, ignora questa email.</p>
+          `
+        });
+        console.log(`✅ Email di reset password inviata a ${email}`);
+      } catch (emailError) {
+        console.warn(`⚠️ Email di reset non inviata (sviluppo): ${emailError}`);
+      }
+
+      res.status(200).json({ message: "Email di reset inviata (se l'email esiste nel sistema)" });
+    } catch (error) {
+      console.error('❌ Errore forgot-password:', error);
+      res.status(500).send("Errore server");
+    }
+  });
+
+  // 2. POST /api/verify-reset-token - Verifica che il token sia valido
+  app.post("/api/verify-reset-token", async (req, res) => {
+    try {
+      const { token } = req.body;
+      if (!token) {
+        return res.status(400).send("Token richiesto");
+      }
+
+      // Cerca utente con questo token valido (non scaduto)
+      const now = new Date();
+      const users = await db.select()
+        .from(staff)
+        .where(
+          and(
+            eq(staff.resetToken, token),
+            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+          )
+        );
+
+      if (users.length === 0) {
+        return res.status(400).send("Token scaduto o non valido");
+      }
+
+      res.status(200).json({ valid: true });
+    } catch (error) {
+      console.error('❌ Errore verify-reset-token:', error);
+      res.status(500).send("Errore server");
+    }
+  });
+
+  // 3. POST /api/reset-password - Resetta la password con il token valido
+  app.post("/api/reset-password", async (req, res) => {
+    try {
+      const { token, newPassword } = req.body;
+      if (!token || !newPassword) {
+        return res.status(400).send("Token e nuova password richiesti");
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).send("Password deve contenere almeno 6 caratteri");
+      }
+
+      // Cerca utente con questo token valido
+      const now = new Date();
+      const users = await db.select()
+        .from(staff)
+        .where(
+          and(
+            eq(staff.resetToken, token),
+            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+          )
+        );
+
+      if (users.length === 0) {
+        return res.status(400).send("Token scaduto o non valido");
+      }
+
+      const user = users[0];
+      const { hashPassword } = await import('./auth');
+      const hashedPassword = await hashPassword(newPassword);
+
+      // Aggiorna password e cancella token
+      await storage.updateUser(user.id, {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null
+      });
+
+      console.log(`✅ Password resettata per utente ${user.email}`);
+      res.status(200).json({ message: "Password resettata con successo" });
+    } catch (error) {
+      console.error('❌ Errore reset-password:', error);
+      res.status(500).send("Errore server");
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
