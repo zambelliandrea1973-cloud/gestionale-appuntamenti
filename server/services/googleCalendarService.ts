@@ -75,10 +75,14 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
         return null;
       }
       
+      const redirectUri = process.env.PRODUCTION_DOMAIN 
+        ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+        : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
+      
       const auth = new google.auth.OAuth2({
         clientId: process.env.GOOGLE_CLIENT_ID || config.clientId,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET || config.clientSecret,
-        redirectUri: `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+        redirectUri
       });
       
       // Se abbiamo un token salvato in config, lo impostiamo
@@ -95,10 +99,14 @@ async function getCalendarClient(): Promise<calendar_v3.Calendar | null> {
     
     // Usa i token di authInfo
     console.log('Utilizzo token da authInfo per Google Calendar');
+    const redirectUri = process.env.PRODUCTION_DOMAIN 
+      ? `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`
+      : `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
+    
     const auth = new google.auth.OAuth2({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      redirectUri: `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`
+      redirectUri
     });
     
     auth.setCredentials(authInfo.tokens);

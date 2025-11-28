@@ -20,8 +20,16 @@ const router = Router();
 const forceLocalDevelopment = process.env.GOOGLE_LOCAL_DEVELOPMENT === 'true';
 
 // Imposta un URL di produzione come predefinito, questo è l'URL che deve essere configurato nella console Google
-// AGGIORNATO: Ora usiamo il dominio corretto dell'applicazione con trattino
-const redirectUri = `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
+// AGGIORNATO: Ora usiamo il dominio da env var PRODUCTION_DOMAIN (per Sliplane) o fallback a Replit
+function getRedirectUri(): string {
+  if (process.env.PRODUCTION_DOMAIN) {
+    return `https://${process.env.PRODUCTION_DOMAIN}/api/google-auth/callback`;
+  }
+  // Fallback: dominio Replit
+  return `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback`;
+}
+
+const redirectUri = getRedirectUri();
 
 // Stampa informazioni di debug aggiuntive
 console.log('Debug OAuth URL:', {
