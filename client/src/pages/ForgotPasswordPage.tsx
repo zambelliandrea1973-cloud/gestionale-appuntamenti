@@ -31,7 +31,8 @@ export default function ForgotPasswordPage() {
     try {
       const response = await apiRequest("POST", "/api/forgot-password", { email });
       if (response.ok) {
-        setSuccessMessage("Email di recupero inviata! Controlla la tua casella di posta.");
+        const data = await response.json();
+        setSuccessMessage(data.message || "Email di recupero inviata! Controlla la tua casella di posta.");
         toast({
           title: "Email inviata",
           description: "Controlla il tuo email per il link di reset password",
@@ -41,8 +42,13 @@ export default function ForgotPasswordPage() {
         // Redirect after 3 seconds
         setTimeout(() => navigate("/staff-login"), 3000);
       } else {
-        const error = await response.text();
-        setError(error);
+        try {
+          const errorData = await response.json();
+          setError(errorData.error || "Errore durante l'invio dell'email.");
+        } catch {
+          const errorText = await response.text();
+          setError(errorText || "Errore durante l'invio dell'email. Riprova più tardi.");
+        }
       }
     } catch (err) {
       setError("Errore durante l'invio dell'email. Riprova più tardi.");

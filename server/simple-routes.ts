@@ -9127,7 +9127,7 @@ Studio Professionale`;
     try {
       const { email } = req.body;
       if (!email) {
-        return res.status(400).send("Email richiesta");
+        return res.status(400).json({ error: "Email richiesta" });
       }
 
       // Verifica se l'utente esiste
@@ -9143,10 +9143,15 @@ Studio Professionale`;
       const tokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 ora
 
       // Salva il token nel database (aggiorna utente con resetToken e resetTokenExpiry)
-      await storage.updateUser(user.id, {
-        resetToken,
-        resetTokenExpiry: tokenExpiry.toISOString()
-      });
+      try {
+        await storage.updateUser(user.id, {
+          resetToken,
+          resetTokenExpiry: tokenExpiry.toISOString()
+        });
+      } catch (updateError) {
+        console.error('Errore nel salvataggio del token:', updateError);
+        return res.status(500).json({ error: "Errore nel salvataggio della richiesta di reset" });
+      }
 
       // Invia email con link di reset usando il sistema centralizzato di notifiche
       const resetLink = `${process.env.APP_URL || 'https://gestionale-appuntamenti.sliplane.app'}/reset-password?token=${resetToken}`;
@@ -9162,22 +9167,27 @@ Studio Professionale`;
       `;
 
       // Usa lo stesso servizio di notifiche che funziona per i promemoria degli appuntamenti
-      const emailSent = await notificationService.sendEmail(
-        email,
-        'Recupero Password - Gestionale Appuntamenti',
-        emailHtml
-      );
+      try {
+        const emailSent = await notificationService.sendEmail(
+          email,
+          'Recupero Password - Gestionale Appuntamenti',
+          emailHtml
+        );
 
-      if (emailSent) {
-        console.log(`✅ Email di reset password inviata a ${email} usando notificationService`);
-      } else {
-        console.warn(`⚠️ Email di reset non inviata a ${email}`);
+        if (emailSent) {
+          console.log(`✅ Email di reset password inviata a ${email} usando notificationService`);
+          return res.status(200).json({ message: "Email di reset inviata (se l'email esiste nel sistema)" });
+        } else {
+          console.warn(`⚠️ Email di reset non inviata a ${email}`);
+          return res.status(500).json({ error: "Impossibile inviare l'email. Verifica che le impostazioni email siano configurate correttamente nelle impostazioni dell'account." });
+        }
+      } catch (emailError) {
+        console.error('❌ Errore nell\'invio email reset-password:', emailError);
+        return res.status(500).json({ error: "Errore nell'invio dell'email. Verifica le impostazioni SMTP dell'account." });
       }
-
-      res.status(200).json({ message: "Email di reset inviata (se l'email esiste nel sistema)" });
     } catch (error) {
       console.error('❌ Errore forgot-password:', error);
-      res.status(500).send("Errore server");
+      res.status(500).json({ error: "Errore server" });
     }
   });
 
