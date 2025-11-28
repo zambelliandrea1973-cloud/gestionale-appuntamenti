@@ -1,0 +1,1500 @@
+28/11/2025, 18:49:12:
+tempo di esecuzione
+17:49:12 [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+28/11/2025, 18:49:14:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/11/2025, 18:49:14:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:49:14:
+tempo di esecuzione
+17:49:14 [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+28/11/2025, 18:49:14:
+tempo di esecuzione
+17:49:14 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:16:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/11/2025, 18:49:16:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:49:16:
+tempo di esecuzione
+17:49:16 [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+28/11/2025, 18:49:16:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/11/2025, 18:49:16:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:49:16:
+tempo di esecuzione
+17:49:16 [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+28/11/2025, 18:49:16:
+tempo di esecuzione
+17:49:16 [express] GET /api/user-with-license 401 in 2ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:16:
+tempo di esecuzione
+17:49:16 [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+28/11/2025, 18:49:20:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+28/11/2025, 18:49:20:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/142.0.0.0 Sa
+28/11/2025, 18:49:20:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+28/11/2025, 18:49:20:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: prova (ID: 25, tipo: staff)
+28/11/2025, 18:49:20:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: rkwVpGC-U3d64nMIxGeUebH5-t2zEIaT
+28/11/2025, 18:49:20:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+28/11/2025, 18:49:20:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per prova
+28/11/2025, 18:49:20:
+tempo di esecuzione
+17:49:20 [express] POST /api/staff/login 200 in 291ms :: {"id":25,"username":"prova","password":"0…
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /dashboard
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /forced-style.css
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /assets/index-CVEVJeiz.js
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /disable-vite-overlay.js
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /assets/index-D_nXF_yd.css
+28/11/2025, 18:49:21:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352161858-default
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:21:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:49:21:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352161859.9087&android=1","/pwa-icon/192x192?owner=default& v=1764352161859.9087&android=1","/pwa-icon/512x512?owner=default&v=1764352161859.9087&android=1"]
+28/11/2025, 18:49:21:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:49:21:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:49:21:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:49:21:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:49:21:
+tempo di esecuzione
+17:49:21 [express] GET /api/timezone-settings 200 in 230ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/client-app-info
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/license/license-info
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/license/license-info 304 in 231ms :: {"hasLicense":true,"type":"staff_…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/license/application-title
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/license/application-title 304 in 228ms :: {"title":"Gestionale Appunta…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) che accede a /api/license/has-business-access
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/user-with-license
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 25 (prova)
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/license/has-pro-access
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/license/has-business-access 304 in 264ms :: true
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/license/has-pro-access 304 in 263ms :: true
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /service-worker.js
+28/11/2025, 18:49:22:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 25 con logo aziendale
+28/11/2025, 18:49:22:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 25, lunghezza icona: 815939
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/client-app-info 200 in 406ms :: {"appName":"Gestionale Appuntamenti","…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352162300-default
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352162301.169&android=1","/pwa-icon/192x192?owner=default &v=1764352162301.169&android=1","/pwa-icon/512x512?owner=default&v=1764352162301.169&android=1"]
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 25: PROF_025
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  ID: 25,
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  nome utente: 'prova',
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  Nome: null,
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  cognome: null,
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+28/11/2025, 18:49:22:
+tempo di esecuzione
+}
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/user-with-license 200 in 552ms :: {"id":25,"username":"prova","email":…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] POST /api/timezone-settings 200 in 234ms :: {"success":true,"timezone":"Europe/…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '25', ts: '1764352162245' }
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 25
+28/11/2025, 18:49:22:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 25)
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+28/11/2025, 18:49:22:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=25&v=1764352162387.6384&admin=1","/pwa-icon/192x192?owner=25&v =1764352162387.6384&admin=1","/pwa-icon/512x512?owner=25&v=1764352162387.6384&admin=1"]
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 25
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) che accede /
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /index.html
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/company-name-settings
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 25 (staff)
+28/11/2025, 18:49:22:
+tempo di esecuzione
+Recupero impostazioni per utente 25
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/tenant-context
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/contact-info
+28/11/2025, 18:49:22:
+tempo di esecuzione
+Recupero impostazioni per utente 25
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/tenant-context 200 in 235 ms :: {"userId":25,"userType":"staff","tenant…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 25: NO
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner 25
+28/11/2025, 18:49:22:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 25, dimensione: 50811 byte
+28/11/2025, 18:49:22:
+tempo di esecuzione
+Impostazioni trovate per utente 25: NO
+28/11/2025, 18:49:22:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 25 (staff): {
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  showBusinessName: vero,
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  nome: 'prova',
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  dimensione carattere: 24,
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  fontStyle: 'normale',
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  colore: '#000000',
+28/11/2025, 18:49:22:
+tempo di esecuzione
+  abilitato: vero
+28/11/2025, 18:49:22:
+tempo di esecuzione
+}
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/company-name-settings 200 in 458ms :: {"businessName":"Gestionale Appu…
+28/11/2025, 18:49:22:
+tempo di esecuzione
+Impostazioni trovate per utente 25: NO
+28/11/2025, 18:49:22:
+tempo di esecuzione
+17:49:22 [express] GET /api/contact-info 200 in 462ms :: {"email":"info@studiomedico.it","phone":"…
+28/11/2025, 18:49:26:
+tempo di esecuzione
+Tentativo di logout per utente prova, tipo: staff
+28/11/2025, 18:49:26:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:49:26:
+tempo di esecuzione
+17:49:26 [express] POST /api/logout 200 in 228ms :: {"success":true,"message":"Logout completato c…
+28/11/2025, 18:49:28:
+tempo di esecuzione
+17:49:28 [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:49:28:
+tempo di esecuzione
+17:49:28 [express] GET /api/user-with-license 401 in 0ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:28:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:49:28:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:49:28:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:49:28:
+tempo di esecuzione
+17:49:28 [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+28/11/2025, 18:49:46:
+tempo di esecuzione
+17:49:46 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:47:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/11/2025, 18:49:49:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:49:49:
+tempo di esecuzione
+17:49:47 [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+28/11/2025, 18:49:49:
+tempo di esecuzione
+17:49:47 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:49:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+28/11/2025, 18:49:49:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/142.0.0.0 Sa
+28/11/2025, 18:49:49:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+28/11/2025, 18:49:49:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: prova (ID: 25, tipo: staff)
+28/11/2025, 18:49:49:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: ZenzN6t0FQnN3cqptfidIVvo1JtDRfdh
+28/11/2025, 18:49:49:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+28/11/2025, 18:49:49:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per prova
+28/11/2025, 18:49:49:
+tempo di esecuzione
+17:49:49 [express] POST /api/staff/login 200 in 280ms :: {"id":25,"username":"prova","password":"0…
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /dashboard
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /forced-style.css
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /assets/index-CVEVJeiz.js
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /disable-vite-overlay.js
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /assets/index-D_nXF_yd.css
+28/11/2025, 18:49:50:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352190776-default
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:50:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:49:50:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352190777.167&android=1","/pwa-icon/192x192?owner=default &v=1764352190777.167&android=1","/pwa-icon/512x512?owner=default&v=1764352190777.167&android=1"]
+28/11/2025, 18:49:50:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:49:50:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:49:50:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:49:50:
+tempo di esecuzione
+17:49:50 [express] GET /api/timezone-settings 200 in 229ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/user-with-license
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 25 (prova)
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/client-app-info
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/license/license-info
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/license/application-title
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) che accede a /api/license/has-business-access
+28/11/2025, 18:49:50:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/license/has-pro-access
+28/11/2025, 18:49:50:
+tempo di esecuzione
+17:49:50 [express] GET /api/license/license-info 200 in 262ms :: {"hasLicense":true,"type":"staff_…
+28/11/2025, 18:49:50:
+tempo di esecuzione
+17:49:50 [express] GET /api/license/application-title 200 in 260ms :: {"title":"Gestionale Appunta…
+28/11/2025, 18:49:50:
+tempo di esecuzione
+17:49:50 [express] GET /api/license/has-business-access 200 in 261ms :: true
+28/11/2025, 18:49:50:
+tempo di esecuzione
+17:49:50 [express] GET /api/license/has-pro-access 200 in 261ms :: true
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /service-worker.js
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352191166-default
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352191168.165&android=1","/pwa-icon/192x192?owner=default &v=1764352191168.165&android=1","/pwa-icon/512x512?owner=default&v=1764352191168.165&android=1"]
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:49:51:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 25 con logo aziendale
+28/11/2025, 18:49:51:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 25, lunghezza icona: 815939
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 25: PROF_025
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  ID: 25,
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  nome utente: 'prova',
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  Nome: null,
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  cognome: null,
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+28/11/2025, 18:49:51:
+tempo di esecuzione
+}
+28/11/2025, 18:49:51:
+tempo di esecuzione
+17:49:51 [express] GET /api/client-app-info 200 in 503ms :: {"appName":"Gestionale Appuntamenti","…
+28/11/2025, 18:49:51:
+tempo di esecuzione
+17:49:51 [express] GET /api/user-with-license 200 in 512ms :: {"id":25,"username":"prova","email":…
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:49:51:
+tempo di esecuzione
+17:49:51 [express] POST /api/timezone-settings 200 in 230ms :: {"success":true,"timezone":"Europe/…
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '25', ts: '1764352191217' }
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 25
+28/11/2025, 18:49:51:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 25)
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+28/11/2025, 18:49:51:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=25&v=1764352191359.0354&admin=1","/pwa-icon/192x192?owner=25&v =1764352191359.0354&admin=1","/pwa-icon/512x512?owner=25&v=1764352191359.0354&admin=1"]
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 25
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) che accede /
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /index.html
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/company-name-settings
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 25 (staff)
+28/11/2025, 18:49:51:
+tempo di esecuzione
+Recupero impostazioni per utente 25
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/tenant-context
+28/11/2025, 18:49:51:
+tempo di esecuzione
+17:49:51 [express] GET /api/tenant-context 200 in 231 ms :: {"userId":25,"userType":"staff","tenant…
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/contact-info
+28/11/2025, 18:49:51:
+tempo di esecuzione
+Recupero impostazioni per utente 25
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 25: NO
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner 25
+28/11/2025, 18:49:51:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 25, dimensione: 50811 byte
+28/11/2025, 18:49:51:
+tempo di esecuzione
+Impostazioni trovate per utente 25: NO
+28/11/2025, 18:49:51:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 25 (staff): {
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  showBusinessName: vero,
+28/11/2025, 18:49:51:
+tempo di esecuzione
+  nome: 'prova',
+28/11/2025, 18:49:52:
+tempo di esecuzione
+  dimensione carattere: 24,
+28/11/2025, 18:49:52:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+28/11/2025, 18:49:52:
+tempo di esecuzione
+  fontStyle: 'normale',
+28/11/2025, 18:49:52:
+tempo di esecuzione
+  colore: '#000000',
+28/11/2025, 18:49:52:
+tempo di esecuzione
+  abilitato: vero
+28/11/2025, 18:49:52:
+tempo di esecuzione
+}
+28/11/2025, 18:49:52:
+tempo di esecuzione
+17:49:51 [express] GET /api/company-name-settings 200 in 460ms :: {"businessName":"Gestionale Appu…
+28/11/2025, 18:49:52:
+tempo di esecuzione
+Impostazioni trovate per utente 25: NO
+28/11/2025, 18:49:52:
+tempo di esecuzione
+17:49:51 [express] GET /api/contact-info 200 in 458ms :: {"email":"info@studiomedico.it","phone":"…
+28/11/2025, 18:49:57:
+tempo di esecuzione
+Tentativo di logout per utente prova, tipo: staff
+28/11/2025, 18:49:57:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:49:57:
+tempo di esecuzione
+17:49:57 [express] POST /api/logout 200 in 227ms :: {"success":true,"message":"Logout completato c…
+28/11/2025, 18:49:59:
+tempo di esecuzione
+17:49:59 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:59:
+tempo di esecuzione
+17:49:59 [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:49:59:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:49:59:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:49:59:
+tempo di esecuzione
+17:49:59 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:49:59:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:49:59:
+tempo di esecuzione
+17:49:59 [express] POST /api/timezone-settings 200 in 2ms :: {"success":true,"timezone":"Europe/Zu…
+28/11/2025, 18:50:04:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/11/2025, 18:50:04:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:50:04:
+tempo di esecuzione
+17:50:04 [express] POST /api/logout 200 in 2ms :: {"success":true,"message":"Logout completato con…
+28/11/2025, 18:50:04:
+tempo di esecuzione
+17:50:04 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:50:09:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: busnari.silvia@libero.it
+28/11/2025, 18:50:09:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/142.0.0.0 Sa
+28/11/2025, 18:50:09:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+28/11/2025, 18:50:10:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: busnari.silvia@libero.it (ID: 14, tipo: staff)
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: c8qxuVJRXSb61p2yv0T_eru2xeILXD1G
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+28/11/2025, 18:50:10:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per busnari.silvia@libero.it
+28/11/2025, 18:50:10:
+tempo di esecuzione
+17:50:10 [express] POST /api/staff/login 200 in 298ms :: {"id":14,"username":"busnari.silvia@liber…
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /dashboard
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /forced-style.css
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /assets/index-D_nXF_yd.css
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /disable-vite-overlay.js
+28/11/2025, 18:50:10:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /assets/index-CVEVJeiz.js
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352211169-default
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352211169.6245&android=1","/pwa-icon/192x192?owner=default& v=1764352211169.6245&android=1","/pwa-icon/512x512?owner=default&v=1764352211169.6245&android=1"]
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:50:11:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/timezone-settings 200 in 229ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/license/license-info
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/license/license-info 304 in 228ms :: {"hasLicense":true,"type":"staff_…
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/user-with-license
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 14 (busnari.silvia@libero.it)
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/client-app-info
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/license/has-pro-access
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) che accede a /api/license/has-business-access
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (personale/staff) accede a /api/license/application-title
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/license/has-pro-access 304 in 259ms :: true
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/license/has-business-access 304 in 260ms :: true
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/license/application-title 304 in 260ms :: {"title":"Gestionale Appunta…
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /service-worker.js
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352211530-default
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352211530.0361&android=1","/pwa-icon/192x192?owner=default& v=1764352211530.0361&android=1","/pwa-icon/512x512?owner=default&v=1764352211530.0361&android=1"]
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🏷️ [desktop] Codice assegnazione per utente 14: BUS1422
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 14: PROF_014_9C1F
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+28/11/2025, 18:50:11:
+tempo di esecuzione
+  ID: 14,
+28/11/2025, 18:50:11:
+tempo di esecuzione
+  nome utente: 'busnari.silvia@libero.it',
+28/11/2025, 18:50:11:
+tempo di esecuzione
+  Nome: null,
+28/11/2025, 18:50:11:
+tempo di esecuzione
+  cognome: null,
+28/11/2025, 18:50:11:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+28/11/2025, 18:50:11:
+tempo di esecuzione
+}
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/user-with-license 200 in 535ms :: {"id":14,"username":"busnari.silvia@…
+28/11/2025, 18:50:11:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 14 con logo aziendale
+28/11/2025, 18:50:11:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 14, lunghezza icona: 837291
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/client-app-info 200 in 554ms :: {"appName":"Gestionale Appuntamenti","…
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] POST /api/timezone-settings 200 in 282ms :: {"success":true,"timezone":"Europe/…
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '14', ts: '1764352211527' }
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 14
+28/11/2025, 18:50:11:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 14)
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+28/11/2025, 18:50:11:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=14&v=1764352211663.2434&admin=1","/pwa-icon/192x192?owner=14&v =1764352211663.2434&admin=1","/pwa-icon/512x512?owner=14&v=1764352211663.2434&admin=1"]
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 14
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (personale/personale) accede a /index.html
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (personale/personale) che accede /
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (personale/staff) accede a /api/company-name-settings
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 14 (staff)
+28/11/2025, 18:50:11:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/contact-info
+28/11/2025, 18:50:11:
+tempo di esecuzione
+Recupero impostazioni per utente 14
+28/11/2025, 18:50:11:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 14 (staff/staff) accede a /api/tenant-context
+28/11/2025, 18:50:11:
+tempo di esecuzione
+17:50:11 [express] GET /api/tenant-context 200 in 238 ms :: {"userId":14,"userType":"staff","tenant…
+28/11/2025, 18:50:12:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+28/11/2025, 18:50:12:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 14 (staff): {
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  Nome dell'attività: 'Studio Medico',
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  showBusinessName: vero,
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  nome: 'Silvia Busnari',
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  dimensione carattere: 42,
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  fontFamily: 'Lucida Sans Unicode',
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  fontStyle: 'corsivo',
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  colore: '#FF0000',
+28/11/2025, 18:50:12:
+tempo di esecuzione
+  abilitato: vero
+28/11/2025, 18:50:12:
+tempo di esecuzione
+}
+28/11/2025, 18:50:12:
+tempo di esecuzione
+17:50:12 [express] GET /api/company-name-settings 200 in 464ms :: {"businessName":"Studio Medico",…
+28/11/2025, 18:50:12:
+tempo di esecuzione
+Impostazioni trovate per utente 14: SI
+28/11/2025, 18:50:12:
+tempo di esecuzione
+17:50:12 [express] GET /api/contact-info 200 in 460ms :: {"email":"silvia.busnari@libero.it","phon…
+28/11/2025, 18:50:12:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 14: SÌ
+28/11/2025, 18:50:12:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 14, dimensione: 102381 byte
+28/11/2025, 18:50:20:
+tempo di esecuzione
+Tentativo di logout per utente busnari.silvia@libero.it, tipo: staff
+28/11/2025, 18:50:20:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:50:20:
+tempo di esecuzione
+17:50:20 [express] POST /api/logout 200 in 227ms :: {"success":true,"message":"Logout completato c…
+28/11/2025, 18:50:21:
+tempo di esecuzione
+17:50:21 [express] GET /api/timezone-settings 200 in 1ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:50:22:
+tempo di esecuzione
+17:50:22 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:50:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:50:22:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:50:22:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:50:22:
+tempo di esecuzione
+17:50:22 [express] POST /api/timezone-settings 200 in 1ms :: {"success":true,"timezone":"Europe/Zu…
+28/11/2025, 18:50:34:
+tempo di esecuzione
+Tentativo di logout per utente sconosciuto, tipo: non specificato
+28/11/2025, 18:50:34:
+tempo di esecuzione
+Logout completato con successo
+28/11/2025, 18:50:34:
+tempo di esecuzione
+17:50:34 [express] POST /api/logout 200 in 1ms :: {"success":true,"message":"Logout completato con…
+28/11/2025, 18:50:34:
+tempo di esecuzione
+17:50:34 [express] GET /api/user-with-license 401 in 1ms :: {"message":"Non autenticato"}
+28/11/2025, 18:50:40:
+tempo di esecuzione
+🔐 [LOGIN] Richiesta login staff: zambelli.andrea.1973@gmail.com
+28/11/2025, 18:50:40:
+tempo di esecuzione
+🔐 [LOGIN] IP: 31.44.38.17, UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, come Gecko) Chrome/142.0.0.0 Sa
+28/11/2025, 18:50:40:
+tempo di esecuzione
+🔐 [LOGIN] Intestazioni: secure=true, protocol=https
+28/11/2025, 18:50:41:
+tempo di esecuzione
+✅ [LOGIN] Login completato per: prova (ID: 25, tipo: staff)
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔐 [LOGIN] ID sessione: l3dsdWv5biTKE9BWkiqVkiwgnF1UfUKg
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔐 [LOGIN] Sessione salvata: sì
+28/11/2025, 18:50:41:
+tempo di esecuzione
+✅ [LOGIN] Sessione salvata con successo per prova
+28/11/2025, 18:50:41:
+tempo di esecuzione
+17:50:41 [express] POST /api/staff/login 200 in 279ms :: {"id":25,"username":"prova","password":"0…
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /dashboard
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /forced-style.css
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /assets/index-D_nXF_yd.css
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /disable-vite-overlay.js
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /assets/index-CVEVJeiz.js
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:50:41:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:50:41:
+tempo di esecuzione
+🔍 MANIFEST PWA: Referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352242053-default
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/dashboard
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352242053.323&android=1","/pwa-icon/192x192?owner=default &v=1764352242053.323&android=1","/pwa-icon/512x512?owner=default&v=1764352242053.323&android=1"]
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario predefinito
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner default
+28/11/2025, 18:50:42:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario predefinito, dimensione: 50811 byte
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/timezone-settings 200 in 227ms :: {"timezone":"Europe/Rome","offset":2}
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/client-app-info
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/user-with-license
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 25 (prova)
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) che accede a /api/license/has-business-access
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/license/has-business-access 304 in 254ms :: true
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/license/application-title
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/license/license-info
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/license/has-pro-access
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/license/application-title 304 in 257ms :: {"title":"Gestionale Appunta…
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/license/license-info 304 in 264ms :: {"hasLicense":true,"type":"staff_…
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/license/has-pro-access 304 in 257ms :: true
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /service-worker.js
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:50:42:
+tempo di esecuzione
+✅ Icone PWA aggiornati per utente 25 con logo aziendale
+28/11/2025, 18:50:42:
+tempo di esecuzione
+✅ [desktop] Icone PWA per utente 25, lunghezza icona: 815939
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/client-app-info 200 in 422ms :: {"appName":"Gestionale Appuntamenti","…
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFEST PWA: Richiesta manifesto dinamico
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 PWA MANIFEST: URL completo: /manifest.json
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referente intestazioni: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱DEBUG MANIFEST FORZATO: CHIAMATA RICEVUTA
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔄 MANIFEST: Versione aggiornata: 1764352242477-default
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFEST PWA: Analizzando referer: https://gestionale-appuntamenti.sliplane.app/service-worker.js
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFESTO PWA: Parametri di query: {}
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 MANIFEST DINAMICO: Servendo manifest per Gestionale Appuntamenti (default proprietario)
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱ICONA MANIFESTA: ["/pwa-icon/96x96?owner=default&v=1764352242477.166&android=1","/pwa-icon/192x192?owner=default &v=1764352242477.166&android=1","/pwa-icon/512x512?owner=default&v=1764352242477.166&android=1"]
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 ID MANIFESTO: area-cliente-generic
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 NOME MANIFESTO: Gestionale Appuntamenti - Area Cliente
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 25: PROF_025
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+28/11/2025, 18:50:42:
+tempo di esecuzione
+  ID: 25,
+28/11/2025, 18:50:42:
+tempo di esecuzione
+  nome utente: 'prova',
+28/11/2025, 18:50:42:
+tempo di esecuzione
+  Nome: null,
+28/11/2025, 18:50:42:
+tempo di esecuzione
+  cognome: null,
+28/11/2025, 18:50:42:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+28/11/2025, 18:50:42:
+tempo di esecuzione
+}
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/timezone-settings
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/user-with-license 200 in 533ms :: {"id":25,"username":"prova","email":…
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] POST /api/timezone-settings 200 in 255ms :: {"success":true,"timezone":"Europe/…
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '25', ts: '1764352242422' }
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 25
+28/11/2025, 18:50:42:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 25)
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+28/11/2025, 18:50:42:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=25&v=1764352242562.903&admin=1","/pwa-icon/192x192?owner=25&v =1764352242562.903&admin=1","/pwa-icon/512x512?owner=25&v=1764352242562.903&admin=1"]
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /icons/icon-96x96.png
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 25
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) che accede /
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /index.html
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (personale/personale) accede a /api/company-name-settings
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] GET per utente 25 (staff)
+28/11/2025, 18:50:42:
+tempo di esecuzione
+Recupero impostazioni per utente 25
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/contact-info
+28/11/2025, 18:50:42:
+tempo di esecuzione
+Recupero impostazioni per utente 25
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 25: NO
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner 25
+28/11/2025, 18:50:42:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/tenant-context
+28/11/2025, 18:50:42:
+tempo di esecuzione
+17:50:42 [express] GET /api/tenant-context 200 in 236 ms :: {"userId":25,"userType":"staff","tenant…
+28/11/2025, 18:50:42:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 25, dimensione: 50811 byte
+28/11/2025, 18:50:43:
+tempo di esecuzione
+Impostazioni trovate per utente 25: NO
+28/11/2025, 18:50:43:
+tempo di esecuzione
+🏢 [/api/company-name-settings] [desktop] Impostazioni per utente 25 (staff): {
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  businessName: 'Gestionale Appuntamenti',
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  showBusinessName: vero,
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  nome: 'prova',
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  dimensione carattere: 24,
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  fontFamily: 'Arial, sans-serif',
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  fontStyle: 'normale',
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  colore: '#000000',
+28/11/2025, 18:50:43:
+tempo di esecuzione
+  abilitato: vero
+28/11/2025, 18:50:43:
+tempo di esecuzione
+}
+28/11/2025, 18:50:43:
+tempo di esecuzione
+17:50:43 [express] GET /api/company-name-settings 200 in 464ms :: {"businessName":"Gestionale Appu…
+28/11/2025, 18:50:43:
+tempo di esecuzione
+Impostazioni trovate per utente 25: NO
+28/11/2025, 18:50:43:
+tempo di esecuzione
+17:50:43 [express] GET /api/contact-info 200 in 459ms :: {"email":"info@studiomedico.it","phone":"…
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🔒 [CONTROLLO DI PROVA] Utente 25 (staff/staff) accede a /api/user-with-license
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🔐 [desktop] /api/user-with-license per utente 25 (prova)
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🏷️ [desktop] Codice legacy per utente 25: PROF_025
+28/11/2025, 18:50:59:
+tempo di esecuzione
+📱💻 [desktop] Dati utente unificati: {
+28/11/2025, 18:50:59:
+tempo di esecuzione
+  ID: 25,
+28/11/2025, 18:50:59:
+tempo di esecuzione
+  nome utente: 'prova',
+28/11/2025, 18:50:59:
+tempo di esecuzione
+  Nome: null,
+28/11/2025, 18:50:59:
+tempo di esecuzione
+  cognome: null,
+28/11/2025, 18:50:59:
+tempo di esecuzione
+  licenseType: 'staff_free_10years'
+28/11/2025, 18:50:59:
+tempo di esecuzione
+}
+28/11/2025, 18:50:59:
+tempo di esecuzione
+17:50:59 [express] GET /api/user-with-license 200 in 508ms :: {"id":25,"username":"prova","email":…
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Richiesta manifest area professionale
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🔍 MANIFEST AMMINISTRATIVO: Utente loggato: NESSUNO
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🔍 MANIFESTO AMMINISTRATORE: Parametri query: { userId: '25', ts: '1764352259608' }
+28/11/2025, 18:50:59:
+tempo di esecuzione
+📱 MANIFESTO AMMINISTRATORE: UserId da parametro query: 25
+28/11/2025, 18:50:59:
+tempo di esecuzione
+✅ MANIFEST AMMINISTRATIVO: Servendo manifest per Professionista (ID: 25)
+28/11/2025, 18:50:59:
+tempo di esecuzione
+📱ID MANIFESTO AMMINISTRATORE: gestionale-appuntamenti-admin-generic
+28/11/2025, 18:50:59:
+tempo di esecuzione
+📱 ICONA MANIFESTAZIONE AMMINISTRATIVA: ["/pwa-icon/96x96?owner=25&v=1764352259850.8481&admin=1","/pwa-icon/192x192?owner=25&v =1764352259850.8481&admin=1","/pwa-icon/512x512?owner=25&v=1764352259850.8481&admin=1"]
+28/11/2025, 18:50:59:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Richiesta icona 192x192 per proprietario 25
+28/11/2025, 18:51:00:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Icona trovata per utente 25: NO
+28/11/2025, 18:51:00:
+tempo di esecuzione
+🖼️ ICON PROXY DB: Usando icona default per owner 25
+28/11/2025, 18:51:00:
+tempo di esecuzione
+✅ ICON PROXY DB: Servendo icona 192x192 per proprietario 25, dimensione: 50811 byte
