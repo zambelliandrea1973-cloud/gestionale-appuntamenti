@@ -197,7 +197,7 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
           setSelectedTimeForAppointment("09:00");
           setIsAppointmentFormOpen(true);
         }}
-        text="Seleziona orario appuntamento"
+        text="Seleziona nuovo appuntamento"
       />
     </div>
   );
