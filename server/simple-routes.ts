@@ -9144,12 +9144,14 @@ Studio Professionale`;
 
       // Salva il token nel database (aggiorna utente con resetToken e resetTokenExpiry)
       try {
+        console.log(`📝 [DEBUG] Saving reset token for user ${user.id}: token=${resetToken}, expiry=${tokenExpiry}`);
         await storage.updateUser(user.id, {
           resetToken,
-          resetTokenExpiry: tokenExpiry.toISOString()
+          resetTokenExpiry: tokenExpiry
         });
+        console.log(`✅ [DEBUG] Token saved successfully`);
       } catch (updateError) {
-        console.error('Errore nel salvataggio del token:', updateError);
+        console.error('❌ Errore nel salvataggio del token:', updateError);
         return res.status(500).json({ error: "Errore nel salvataggio della richiesta di reset" });
       }
 
@@ -9220,6 +9222,7 @@ Studio Professionale`;
         return res.status(400).send("Token richiesto");
       }
 
+      console.log(`🔍 [DEBUG] Verifying reset token: ${token.substring(0, 10)}...`);
       const now = new Date();
       
       // Cerca nella tabella users (professionisti/admin)
@@ -9228,11 +9231,13 @@ Studio Professionale`;
         .where(
           and(
             eq(users.resetToken, token),
-            gt(sql`${users.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+            gt(users.resetTokenExpiry, now)
           )
         );
 
+      console.log(`📊 [DEBUG] Found ${foundUsers.length} users with valid token`);
       if (foundUsers.length > 0) {
+        console.log(`✅ [DEBUG] Token valid for user ${foundUsers[0].email}`);
         return res.status(200).json({ valid: true });
       }
 
@@ -9242,14 +9247,17 @@ Studio Professionale`;
         .where(
           and(
             eq(staff.resetToken, token),
-            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+            gt(staff.resetTokenExpiry, now)
           )
         );
 
+      console.log(`📊 [DEBUG] Found ${foundStaff.length} staff with valid token`);
       if (foundStaff.length > 0) {
+        console.log(`✅ [DEBUG] Token valid for staff ${foundStaff[0].email}`);
         return res.status(200).json({ valid: true });
       }
 
+      console.log(`❌ [DEBUG] Token not found or expired`);
       res.status(400).send("Token scaduto o non valido");
     } catch (error) {
       console.error('❌ Errore verify-reset-token:', error);
