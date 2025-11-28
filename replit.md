@@ -29,7 +29,24 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 - Google Play Store account created ("gestionale appuntamenti zambelli andrea")
 - Google verification in progress (1-3 days expected)
 
-### ⏭️ Next Steps for Tomorrow:
+### ⏭️ CRITICAL - Google OAuth Setup (Before Google Calendar Sync):
+**MUST be done in Google Cloud Console:**
+1. Go to https://console.cloud.google.com/ → Select project "Gestionale Appuntamenti"
+2. APIs & Services → Credentials → OAuth 2.0 Client ID (Web application)
+3. Add to "Authorized redirect URIs":
+   - `https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback` (production)
+   - `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback` (dev)
+4. Set environment variable on Sliplane: `PRODUCTION_DOMAIN = gestionale-appuntamenti.sliplane.app`
+
+### ⏭️ Next Priority - Google Calendar Synchronization:
+**Feature**: Sync Google Calendar events bidirectionally with our appointment system
+- Import Google Calendar events into appointment system
+- Export appointments to user's Google Calendar
+- Handle multi-professional + multi-room scenarios
+- Conflict detection and resolution strategy
+- Status: Needs implementation
+
+### ⏭️ Other Next Steps:
 1. Verify app restart with new ENCRYPTION_KEY configured
 2. Test trial notification email end-to-end
 3. Test payment flow with Stripe live keys
