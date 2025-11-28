@@ -159,19 +159,17 @@ export default function CustomerLogin() {
                 )}
               </Button>
             </form>
-            
-            {/* Link Forgot Password */}
-            <div className="mt-4 text-center">
-              <button 
-                type="button"
-                onClick={() => navigate("/forgot-password")}
-                className="text-sm text-primary hover:underline"
-              >
-                Ho dimenticato la password
-              </button>
-            </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
+          <CardFooter className="flex flex-col space-y-3 border-t pt-4">
+            {/* Link Forgot Password */}
+            <button 
+              type="button"
+              onClick={() => navigate("/forgot-password")}
+              className="text-sm text-primary hover:underline w-full text-center"
+            >
+              Ho dimenticato la password
+            </button>
+            
             <div className="text-sm text-gray-600 text-center">
               Sei uno staff member o amministratore?{" "}
               <button

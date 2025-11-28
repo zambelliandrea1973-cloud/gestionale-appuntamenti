@@ -265,47 +265,45 @@ export default function StaffLogin() {
                 {loginMutation.isPending ? "Accesso in corso..." : "Accedi"}
               </Button>
             </form>
-            
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-3 border-t pt-4">
             {/* Link Forgot Password */}
-            <div className="mt-4 text-center">
-              <button 
-                type="button"
-                onClick={() => navigate("/forgot-password")}
-                className="text-sm text-primary hover:underline"
-              >
-                Ho dimenticato la password
-              </button>
-            </div>
+            <button 
+              type="button"
+              onClick={() => navigate("/forgot-password")}
+              className="text-sm text-primary hover:underline w-full text-center"
+            >
+              Ho dimenticato la password
+            </button>
             
             {/* Pulsante per pulire cache manualmente (utile per app WebView) */}
-            <div className="mt-4 pt-4 border-t">
-              <Button 
-                type="button"
-                variant="outline"
-                className="w-full" 
-                disabled={isClearing}
-                onClick={handleClearCache}
-              >
-                {isClearing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RotateCcw className="mr-2 h-4 w-4" />}
-                {isClearing ? "Pulizia in corso..." : "🧹 Pulisci Cache App"}
-              </Button>
-              <p className="text-xs text-muted-foreground text-center mt-2">
-                Usa questo pulsante se vedi dati di altri utenti
-              </p>
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-2 text-center text-sm">
-            <div>Non hai un account? <a href="/register" className="text-primary hover:underline">Registrati</a></div>
-            <div className="pt-2 border-t">
-              <span className="text-muted-foreground">
-                Sei un professionista? {" "}
-                <button
-                  onClick={() => navigate("/customer-login")}
-                  className="text-primary hover:underline"
-                >
-                  Accedi come Professionista
-                </button>
-              </span>
+            <Button 
+              type="button"
+              variant="outline"
+              className="w-full" 
+              disabled={isClearing}
+              onClick={handleClearCache}
+            >
+              {isClearing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RotateCcw className="mr-2 h-4 w-4" />}
+              {isClearing ? "Pulizia in corso..." : "🧹 Pulisci Cache App"}
+            </Button>
+            <p className="text-xs text-muted-foreground text-center">
+              Usa questo pulsante se vedi dati di altri utenti
+            </p>
+            
+            <div className="text-sm text-gray-600 text-center pt-2 border-t">
+              <div>Non hai un account? <a href="/register" className="text-primary hover:underline">Registrati</a></div>
+              <div className="pt-2">
+                <span className="text-muted-foreground">
+                  Sei un professionista? {" "}
+                  <button
+                    onClick={() => navigate("/customer-login")}
+                    className="text-primary hover:underline"
+                  >
+                    Accedi come Professionista
+                  </button>
+                </span>
+              </div>
             </div>
           </CardFooter>
         </Card>
