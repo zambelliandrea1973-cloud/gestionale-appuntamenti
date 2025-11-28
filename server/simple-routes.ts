@@ -9153,7 +9153,7 @@ Studio Professionale`;
         return res.status(500).json({ error: "Errore nel salvataggio della richiesta di reset" });
       }
 
-      // Invia email con link di reset usando il sistema centralizzato di notifiche
+      // Invia email con link di reset usando le stesse credenziali SMTP del test email
       const resetLink = `${process.env.APP_URL || 'https://gestionale-appuntamenti.sliplane.app'}/reset-password?token=${resetToken}`;
       
       const emailHtml = `
@@ -9166,24 +9166,43 @@ Studio Professionale`;
         <p>Se non hai richiesto questo reset, ignora questa email.</p>
       `;
 
-      // Usa lo stesso servizio di notifiche che funziona per i promemoria degli appuntamenti
       try {
-        const emailSent = await notificationService.sendEmail(
-          email,
-          'Recupero Password - Gestionale Appuntamenti',
-          emailHtml
-        );
-
-        if (emailSent) {
-          console.log(`✅ Email di reset password inviata a ${email} usando notificationService`);
-          return res.status(200).json({ message: "Email di reset inviata (se l'email esiste nel sistema)" });
-        } else {
-          console.warn(`⚠️ Email di reset non inviata a ${email}`);
-          return res.status(500).json({ error: "Impossibile inviare l'email. Verifica che le impostazioni email siano configurate correttamente nelle impostazioni dell'account." });
+        // COPIATO DAL TEST EMAIL (line 7035-7055) - Usa le stesse credenziali SMTP
+        const { getEmailConfig } = await import('./utils/emailConfig');
+        const emailConfig = await getEmailConfig(user.id);
+        
+        if (!emailConfig || !emailConfig.emailAddress || !emailConfig.emailPassword) {
+          console.warn(`⚠️ Email di reset non inviata a ${email}: credenziali non configurate`);
+          return res.status(500).json({ error: "Configurazione email non trovata nell'account. Configura prima le credenziali SMTP." });
         }
-      } catch (emailError) {
+        
+        console.log(`📧 [RESET PASSWORD] Usando: ${emailConfig.emailAddress}`);
+        
+        // Crea transporter ESATTAMENTE come nel test email
+        const transporter = nodemailer.createTransport({
+          host: emailConfig.smtpServer || 'smtp.gmail.com',
+          port: emailConfig.smtpPort || 587,
+          secure: false,
+          auth: {
+            user: emailConfig.emailAddress,
+            pass: emailConfig.emailPassword
+          }
+        });
+        
+        // Invia l'email
+        await transporter.sendMail({
+          from: emailConfig.emailAddress,
+          to: email,
+          subject: 'Recupero Password - Gestionale Appuntamenti',
+          html: emailHtml
+        });
+        
+        console.log(`✅ Email di reset password inviata a ${email}`);
+        return res.status(200).json({ message: "Email di reset inviata. Controlla la tua casella di posta." });
+        
+      } catch (emailError: any) {
         console.error('❌ Errore nell\'invio email reset-password:', emailError);
-        return res.status(500).json({ error: "Errore nell'invio dell'email. Verifica le impostazioni SMTP dell'account." });
+        return res.status(500).json({ error: `Errore nell'invio dell'email: ${emailError.message}` });
       }
     } catch (error) {
       console.error('❌ Errore forgot-password:', error);
