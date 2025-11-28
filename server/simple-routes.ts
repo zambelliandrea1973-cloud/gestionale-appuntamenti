@@ -9154,7 +9154,9 @@ Studio Professionale`;
       }
 
       // Invia email con link di reset usando le stesse credenziali SMTP del test email
-      const resetLink = `${process.env.APP_URL || 'https://gestionale-appuntamenti.sliplane.app'}/reset-password?token=${resetToken}`;
+      // Usa il dominio dinamico dalla richiesta (Replit, Sliplane, localhost, ecc.)
+      const baseUrl = req.get('origin') || process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+      const resetLink = `${baseUrl}/reset-password?token=${resetToken}`;
       
       const emailHtml = `
         <h2>Recupero Password</h2>
