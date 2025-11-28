@@ -184,6 +184,8 @@ export const staff = pgTable("staff", {
   bankName: text("bank_name"), // Nome banca (opzionale)
   accountHolder: text("account_holder"), // Intestatario conto
   isActive: boolean("is_active").default(true),
+  resetToken: text("reset_token"), // Token per recupero password
+  resetTokenExpiry: timestamp("reset_token_expiry"), // Scadenza token reset
   createdAt: timestamp("created_at").defaultNow(),
 });
 
