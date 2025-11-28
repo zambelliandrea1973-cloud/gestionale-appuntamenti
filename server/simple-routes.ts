@@ -9218,18 +9218,18 @@ Studio Professionale`;
         return res.status(400).send("Token richiesto");
       }
 
-      // Cerca utente con questo token valido (non scaduto)
+      // Cerca utente con questo token valido (non scaduto) - CORRETTO: usa users table
       const now = new Date();
-      const users = await db.select()
-        .from(staff)
+      const foundUsers = await db.select()
+        .from(users)
         .where(
           and(
-            eq(staff.resetToken, token),
-            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+            eq(users.resetToken, token),
+            gt(sql`${users.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
           )
         );
 
-      if (users.length === 0) {
+      if (foundUsers.length === 0) {
         return res.status(400).send("Token scaduto o non valido");
       }
 
@@ -9252,22 +9252,22 @@ Studio Professionale`;
         return res.status(400).send("Password deve contenere almeno 6 caratteri");
       }
 
-      // Cerca utente con questo token valido
+      // Cerca utente con questo token valido - CORRETTO: usa users table
       const now = new Date();
-      const users = await db.select()
-        .from(staff)
+      const foundUsers = await db.select()
+        .from(users)
         .where(
           and(
-            eq(staff.resetToken, token),
-            gt(sql`${staff.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
+            eq(users.resetToken, token),
+            gt(sql`${users.resetTokenExpiry}::timestamp`, sql`${now.toISOString()}::timestamp`)
           )
         );
 
-      if (users.length === 0) {
+      if (foundUsers.length === 0) {
         return res.status(400).send("Token scaduto o non valido");
       }
 
-      const user = users[0];
+      const user = foundUsers[0];
       const { hashPassword } = await import('./auth');
       const hashedPassword = await hashPassword(newPassword);
 
