@@ -210,7 +210,7 @@ export default function MonthView({ selectedDate, onRefresh, onDateSelect }: Mon
           setSelectedDayForAppointment(selectedDate);
           setIsAppointmentFormOpen(true);
         }}
-        text="Seleziona orario noappuntamento"
+        text="Seleziona orario appuntamento"
       />
     </div>
   );
