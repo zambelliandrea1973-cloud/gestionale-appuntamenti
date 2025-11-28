@@ -64,6 +64,8 @@ import ProFeatureGuard from "./components/ProFeatureGuard";
 import ManualePage from "./pages/ManualePage";
 import ManualAdminPage from "./pages/ManualAdminPage";
 import PasswordChangePage from "./pages/PasswordChangeePage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import NotFound from "./pages/not-found";
 import { TimezoneDetector } from "./components/TimezoneDetector";
@@ -197,6 +199,20 @@ function AppRoutes() {
       <Route path="/staff-login">
         <ClientPageWrapper>
           <StaffLogin />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina forgot password */}
+      <Route path="/forgot-password">
+        <ClientPageWrapper>
+          <ForgotPasswordPage />
+        </ClientPageWrapper>
+      </Route>
+      
+      {/* Pagina reset password */}
+      <Route path="/reset-password">
+        <ClientPageWrapper>
+          <ResetPasswordPage />
         </ClientPageWrapper>
       </Route>
       
