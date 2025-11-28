@@ -16,6 +16,7 @@ import AppointmentCard from "./AppointmentCard";
 import AppointmentCardSmall from "./AppointmentCardSmall";
 import AppointmentForm from "./AppointmentForm";
 import { FloatingActionButton } from "./FloatingActionButton";
+import { addDays, getISOWeek } from "date-fns";
 
 interface WeekViewProps {
   selectedDate: Date;
@@ -36,11 +37,14 @@ const generateTimeSlots = () => {
 };
 
 export default function WeekView({ selectedDate, services = [], collaborators = [], treatmentRooms = [], onRefresh, onDateSelect }: WeekViewProps) {
-  const [weekDays] = useState(() => getWeekDays(selectedDate));
+  const [viewDate, setViewDate] = useState(selectedDate);
   const [isAppointmentFormOpen, setIsAppointmentFormOpen] = useState(false);
   const [selectedDayForAppointment, setSelectedDayForAppointment] = useState<Date | null>(null);
   const [selectedTimeForAppointment, setSelectedTimeForAppointment] = useState<string>("09:00");
   const timeSlots = generateTimeSlots();
+  
+  // Calcola i giorni della settimana basato su viewDate
+  const weekDays = getWeekDays(viewDate);
   
   // Utilizziamo un metodo alternativo per formattare le date, per evitare problemi di fuso orario
   const weekStart = getWeekStart(selectedDate);
@@ -57,7 +61,24 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
   // Refresh data when date changes
   useEffect(() => {
     refetch();
-  }, [selectedDate, refetch]);
+  }, [viewDate, refetch]);
+  
+  // Aggiorna viewDate quando selectedDate cambia (se cliccato da altri componenti)
+  useEffect(() => {
+    setViewDate(selectedDate);
+  }, [selectedDate]);
+  
+  // Funzioni per navigare tra le settimane
+  const handlePreviousWeek = () => {
+    setViewDate(prev => addDays(prev, -7));
+  };
+  
+  const handleNextWeek = () => {
+    setViewDate(prev => addDays(prev, 7));
+  };
+  
+  // Calcola il numero della settimana ISO
+  const weekNumber = getISOWeek(viewDate);
   
   // Handle appointment update
   const handleAppointmentUpdated = () => {
@@ -90,9 +111,36 @@ export default function WeekView({ selectedDate, services = [], collaborators = 
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
       {/* Week header */}
       <div className="bg-gray-100 px-4 py-3 border-b">
-        <h3 className="text-lg font-medium">
-          Settimana {formatDate(weekDays[0])} - {formatDate(weekDays[6])}
-        </h3>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-medium">
+              Settimana {weekNumber} - {formatDate(weekDays[0])} to {formatDate(weekDays[6])}
+            </h3>
+            <span className="inline-flex items-center justify-center bg-primary/10 text-primary font-semibold rounded-full h-6 w-12 text-xs">
+              #{weekNumber}
+            </span>
+          </div>
+          <div className="flex gap-1">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={handlePreviousWeek}
+              className="h-8 w-8 p-0"
+              data-testid="button-previous-week"
+            >
+              <ChevronRight className="h-4 w-4 rotate-180" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={handleNextWeek}
+              className="h-8 w-8 p-0"
+              data-testid="button-next-week"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
       
       {/* Day headers */}
