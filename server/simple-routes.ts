@@ -26,6 +26,7 @@ import setupBankingRoutes from './routes/bankingRoutes';
 import promotionRoutes from './routes/promotionRoutes';
 import manualRoutes from './routes/manualRoutes';
 import emailBounceRoutes from './routes/emailBounceRoutes';
+import googleCalendarApi from './routes/googleCalendarApi';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -9344,8 +9345,9 @@ Studio Professionale`;
     }
   });
 
+  // Registra le route Google Calendar API
+  app.use('/api/google-calendar', googleCalendarApi);
+
   const httpServer = createServer(app);
   return httpServer;
 }
-// Import Google Calendar API routes
-import googleCalendarApi from './routes/googleCalendarApi';
