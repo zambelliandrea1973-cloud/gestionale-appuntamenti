@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package } from "lucide-react";
+import { Lock, Crown, CalendarPlus, FileSpreadsheet, Receipt, Package, ArrowRight } from "lucide-react";
 import GoogleCalendarSimpleSetup from '@/components/GoogleCalendarSimpleSetup';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
