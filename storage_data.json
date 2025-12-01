@@ -23835,6 +23835,50 @@
         "reminderStatus": "sent",
         "whatsappSentAt": "2025-10-07T07:02:57.855Z"
       }
+    ],
+    [
+      1764586197342,
+      {
+        "id": 1764586197342,
+        "userId": 3,
+        "clientId": 72,
+        "serviceId": 75,
+        "staffId": 4,
+        "roomId": null,
+        "packagePurchaseId": null,
+        "date": "2025-12-06",
+        "startTime": "08:00:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "reminderType": "whatsapp,email",
+        "reminderTime": "2025-12-05T08:00:00.000Z",
+        "reminderStatus": "pending",
+        "status": "scheduled",
+        "createdAt": "2025-12-01T10:49:57.342Z",
+        "updatedAt": "2025-12-01T10:49:57.342Z"
+      }
+    ],
+    [
+      1764586245666,
+      {
+        "id": 1764586245666,
+        "userId": 3,
+        "clientId": 32,
+        "serviceId": 71,
+        "staffId": 4,
+        "roomId": null,
+        "packagePurchaseId": null,
+        "date": "2025-12-06",
+        "startTime": "08:00:00",
+        "endTime": "09:00:00",
+        "notes": "",
+        "reminderType": "whatsapp",
+        "reminderTime": "2025-12-05T08:00:00.000Z",
+        "reminderStatus": "pending",
+        "status": "scheduled",
+        "createdAt": "2025-12-01T10:50:45.666Z",
+        "updatedAt": "2025-12-01T10:50:45.666Z"
+      }
     ]
   ],
   "consents": [
