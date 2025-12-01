@@ -48,18 +48,11 @@ export default function GoogleCalendarSimpleSetup() {
         if (response.ok) {
           const data = await response.json();
           setIsGoogleAuthorized(!!data.authorized);
-          
-          // Se è già autorizzato, recupera anche le impostazioni di sincronizzazione
-          if (data.authorized) {
-            const settingsResponse = await fetch('/api/email-calendar-settings');
-            if (settingsResponse.ok) {
-              const settingsData = await settingsResponse.json();
-              setIsSyncEnabled(settingsData.calendarEnabled || false);
-            }
-          }
+          setIsSyncEnabled(!!data.authorized); // Se autorizzato, sync è abilitato
         }
       } catch (error) {
-        console.error('Errore nel controllo dello stato di autorizzazione:', error);
+        console.error('Errore nel controllo dello stato:', error);
+        // Continua senza autorizzazione se c'è errore
       }
     };
 
@@ -151,47 +144,18 @@ export default function GoogleCalendarSimpleSetup() {
     }
   };
 
-  // Funzione per salvare le impostazioni di sincronizzazione del calendario
+  // Quando sync viene abilitato, aggiorna lo stato
   const saveCalendarSettings = async (enabled: boolean) => {
-    setIsSaving(true);
-    
-    try {
-      const response = await fetch('/api/email-calendar-settings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          calendarEnabled: enabled,
-          calendarId: '', // Usa il calendario principale di Google
-          // Lasciamo le impostazioni email invariate
-          emailEnabled: undefined,
-          emailAddress: undefined,
-          emailPassword: undefined,
-        }),
-      });
-      
-      if (response.ok) {
-        setIsSyncEnabled(enabled);
-        toast({
-          title: t('settings.saved', 'Impostazioni salvate'),
-          description: enabled 
-            ? t('google.syncEnabled', 'Sincronizzazione con Google Calendar abilitata')
-            : t('google.syncDisabled', 'Sincronizzazione con Google Calendar disabilitata'),
-        });
-      } else {
-        throw new Error(t('settings.saveError', 'Si è verificato un errore durante il salvataggio delle impostazioni'));
-      }
-    } catch (error) {
-      console.error('Errore nel salvataggio delle impostazioni:', error);
+    setIsSyncEnabled(enabled);
+    if (enabled) {
       toast({
-        title: t('common.error', 'Errore'),
-        description: error instanceof Error ? error.message : 
-          t('settings.unknownError', 'Si è verificato un errore durante il salvataggio'),
-        variant: "destructive",
+        title: t('google.syncEnabled', 'Sincronizzazione attiva'),
+        description: t('google.syncExplanation', 'I nuovi appuntamenti saranno automaticamente aggiunti a Google Calendar'),
       });
-    } finally {
-      setIsSaving(false);
+    } else {
+      toast({
+        title: t('google.syncDisabled', 'Sincronizzazione disabilitata'),
+      });
     }
   };
 
