@@ -36,6 +36,9 @@ import { processChatMessage, generateMarketingCampaign } from './ai-chat';
 // Import notification service for automatic appointment notifications
 import { notificationService } from './services/notificationService';
 
+// Import Google Calendar service for sync
+import { addAppointmentToGoogleCalendar } from './services/googleCalendarService';
+
 // Import storage for new collaborators and rooms functionality
 import { storage } from './storage';
 
@@ -1961,6 +1964,19 @@ export function registerSimpleRoutes(app: Express): Server {
       const newAppointment = await storage.createAppointment(appointmentData);
       
       console.log(`✅ [PostgreSQL] Appuntamento ${newAppointment.id} creato con staffId: ${newAppointment.staffId}, roomId: ${newAppointment.roomId}, packagePurchaseId: ${newAppointment.packagePurchaseId}, reminderTime: ${reminderTime?.toISOString() || 'null'}`);
+      
+      // 🔄 GOOGLE CALENDAR SYNC: Esporta automaticamente a Google se abilitato
+      try {
+        const user = await db.select().from(users).where(eq(users.id, userId));
+        if (user.length && user[0].googleCalendarEnabled && user[0].googleAuthToken) {
+          console.log(`🔄 [GOOGLE SYNC] Sincronizzazione appuntamento ${newAppointment.id} a Google Calendar...`);
+          await addAppointmentToGoogleCalendar(userId, newAppointment);
+          console.log(`✅ [GOOGLE SYNC] Appuntamento ${newAppointment.id} sincronizzato a Google Calendar`);
+        }
+      } catch (syncError) {
+        console.error(`⚠️ [GOOGLE SYNC] Errore sincronizzazione Google per appuntamento ${newAppointment.id}:`, syncError);
+        // Non bloccare la creazione dell'appuntamento se la sincronizzazione fallisce
+      }
       
       // 📦 PACCHETTI: Scala automaticamente sessioni se appuntamento usa un pacchetto
       if (req.body.packagePurchaseId) {
