@@ -40,24 +40,8 @@ export default function GoogleCalendarSimpleSetup() {
   const [showAdvancedHelp, setShowAdvancedHelp] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // Al caricamento del componente, verifica se l'utente ha già autorizzato Google
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch('/api/google-auth/status');
-        if (response.ok) {
-          const data = await response.json();
-          setIsGoogleAuthorized(!!data.authorized);
-          setIsSyncEnabled(!!data.authorized); // Se autorizzato, sync è abilitato
-        }
-      } catch (error) {
-        console.error('Errore nel controllo dello stato:', error);
-        // Continua senza autorizzazione se c'è errore
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
+  // Per ora, l'autorizzazione viene gestita dal flusso OAuth
+  // Inizialmente l'utente non è autorizzato
 
   // Funzione per avviare l'autorizzazione Google
   const startGoogleAuth = async () => {
