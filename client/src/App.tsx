@@ -67,6 +67,7 @@ import ManualAdminPage from "./pages/ManualAdminPage";
 import PasswordChangePage from "./pages/PasswordChangeePage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import NotFound from "./pages/not-found";
 import { TimezoneDetector } from "./components/TimezoneDetector";
@@ -528,7 +529,12 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
 
-
+      {/* Pagina Privacy Policy */}
+      <Route path="/privacy">
+        <StaffPageWrapper>
+          <PrivacyPolicy />
+        </StaffPageWrapper>
+      </Route>
       
       {/* Fallback route */}
       <Route>
