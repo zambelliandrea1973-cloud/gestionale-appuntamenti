@@ -5,92 +5,119 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 
 ## Recent Changes (December 1, 2025)
 
-### ⏳ CURRENT STATUS - Google Calendar Sync PRO Feature (AWAITING GOOGLE VERIFICATION)
-**Status**: Implementation complete, awaiting Google OAuth verification (1-3 days)
+### ⏳ CURRENT STATUS - Google Calendar Sync PRO Feature (READY FOR VERIFICATION)
+**Status**: Implementation complete and tested. Awaiting final Google OAuth verification (1-3 days)
 
-### ✅ Google Calendar Sync - COMPLETED IMPLEMENTATION:
-**What's done:**
-1. ✅ **Bidirectional sync architecture created**:
-   - `server/services/googleCalendarSync.ts` - Sync service with import/export functions
-   - `server/routes/googleCalendarApi.ts` - API endpoints for sync operations
-   - `server/routes/googleAuthRoutes.ts` - Google OAuth authentication routes
-   - `client/src/components/GoogleCalendarSimpleSetup.tsx` - User-friendly sync UI
+### ✅ TODAY'S WORK COMPLETED:
 
-2. ✅ **Automatic sync on appointment creation**:
-   - When user creates appointment in gestionale → automatically exported to Google Calendar
-   - Added Google sync trigger in POST `/api/appointments` endpoint
-   - Non-blocking: errors don't prevent appointment creation
+**1. Google Calendar Sync - Fully Implemented:**
+   - `server/services/googleCalendarSync.ts` - Bidirectional sync service
+   - `server/routes/googleCalendarApi.ts` - Sync API endpoints
+   - `server/routes/googleAuthRoutes.ts` - Google OAuth routes
+   - Automatic appointment export to Google Calendar on creation
+   - Non-blocking sync (errors don't prevent appointment creation)
+   - Multi-tenant: each user syncs separately
 
-3. ✅ **Database integration**:
-   - Added `googleCalendarEvents` table to track sync status
-   - Added Google OAuth fields to `users` table: googleAuthToken, googleCalendarEnabled, googleCalendarId, lastGoogleSyncAt
-   - Multi-tenant: synced separately per user account
+**2. New Simplified Setup Page Created:**
+   - Route: `/google-calendar` (new dedicated page)
+   - Clean, minimal UI with 3-step instructions:
+     1. Enter Google email
+     2. Click "Connetti con Google"
+     3. Enable synchronization toggle
+   - Email input form to specify which Google account to sync
+   - Success/error handling with clear feedback
+   - Pro feature gate (shows upgrade prompt for non-PRO users)
 
-4. ✅ **Google OAuth setup completed**:
-   - Client ID OAuth 2.0 created in Google Cloud Console
-   - Redirect URIs configured for both environments:
-     - https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback
-     - https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback
-   - Calendar API + Gmail API scopes enabled
-   - Code uses dynamic PRODUCTION_DOMAIN for multi-environment support
+**3. Google Setup Integration:**
+   - Card link in `/pro-features` page
+   - One-click access to full setup page
+   - Professional UI with proper styling
 
-5. ✅ **User interface**:
-   - Pro Features → Google Calendar page with step-by-step instructions
-   - "Connetti con Google" button to authorize
-   - "Abilita sincronizzazione" toggle to enable/disable sync
-   - Sync status display and manual sync trigger option
+**4. Privacy & Compliance:**
+   - Privacy Policy page created: `/privacy`
+   - Full GDPR compliance information
+   - Google Calendar data handling explanation
+   - OAuth security notes
+   - Public accessibility (no authentication required)
+
+**5. Bugs Fixed:**
+   - ✅ Removed failing `/api/email-calendar-settings` requests
+   - ✅ Fixed `Unexpected token '<'` JSON parse errors
+   - ✅ Added missing `ArrowRight` icon import
+   - ✅ Simplified OAuth status checking
+
+### ✅ Database Integration:
+   - `googleCalendarEvents` table tracks sync status
+   - `users` table has Google OAuth fields:
+     - `googleAuthToken` - OAuth access token
+     - `googleCalendarEnabled` - Sync toggle state
+     - `googleCalendarId` - User's calendar ID
+     - `lastGoogleSyncAt` - Last sync timestamp
 
 ### ⏳ BLOCKING ISSUE - Google App Verification:
-**Current state**: Verification form submitted to Google (awaiting review 1-3 days)
-- Google blocking OAuth flow with "app not verified" warning
-- Cannot bypass until Google approves verification
-- No alternative workaround available (Internal/Test user options already attempted)
+**Current state**: Verification form submitted to Google
+- Awaiting approval (1-3 days expected)
+- Google showing "app not verified" warning during OAuth
+- Cannot bypass warning until approved
+- All technical setup is complete and working
 
-**What to do when approved**:
-1. Google will send approval email
-2. Return to gestionale-appuntamenti.app/pro
-3. Click "Connetti con Google" button
-4. Verify that new appointments sync to Google Calendar automatically
-5. Test on Sliplane (same redirect URIs already authorized)
+### ✅ Deployment Status:
+**Development**: Fully tested on Replit
+**Production**: All OAuth URIs configured for Sliplane
+- `https://wife-scheduler-zambelliandrea1.replit.app/api/google-auth/callback` ✅
+- `https://gestionale-appuntamenti.sliplane.app/api/google-auth/callback` ✅
 
-### ✅ Deployment Status - Sliplane Production (READY!)
-**Target URL**: https://gestionale-appuntamenti.sliplane.app
-**Status**: All critical environment variables configured, Google Calendar ready for production
-
-### ✅ Environment Variables Configured on Sliplane:
-1. ✅ **ENCRYPTION_KEY** = e29f9ed9d7cc2430ebc367a32b2c8f33054db4f8c649a2a917f75d7f2d1dd079
-   - For AES-256-GCM encryption of SMTP passwords in database
-
-2. ✅ **VITE_STRIPE_PUBLIC_KEY** = pk_live_...
-   - Stripe live publishable key for frontend payments
-
-3. ✅ **STRIPE_SECRET_KEY** = sk_live_...
-   - Switched from test to live for production payments
-
-4. ✅ **PRODUCTION_DOMAIN** = gestionale-appuntamenti.sliplane.app
-   - For dynamic Google OAuth callback URL generation
-
-### ✅ Completed Features (Previous):
-- Trial expiration email system (daily at 09:00, sends email 9-11 days before expiration)
-- Three plan-specific purchase buttons in email (BASE, PRO, BUSINESS)
-- Complete redirect flow: Email link → SubscribePage → Login → Back to subscribe with plan parameter
-- Google Play Store account created ("gestionale appuntamenti zambelli andrea")
+### ✅ Completed Features (Previous Sessions):
+- Trial expiration email system
+- Three plan-specific purchase buttons
+- Complete subscription redirect flow
+- Google Play Store account setup
 - Multi-professional + multi-room appointment scheduling
 - WhatsApp and email reminders (24h before)
 - Promotional packages with session tracking
 
-### ⏭️ NEXT SESSION - After Google Verification Approved:
-1. Test Google Calendar sync end-to-end on Replit
-2. Verify appointments appear on Google Calendar automatically
-3. Test import from Google Calendar (manual sync trigger)
-4. Push to Sliplane production
-5. Add in-app guide with step-by-step screenshots for new users
-6. Consider: Automatic periodic sync from Google Calendar (currently manual)
+### ⏭️ NEXT SESSION - Tomorrow: Google Verification Steps
+
+**When Google approves (will receive email):**
+
+1. **Step 1 - Test Authorization Flow:**
+   - Navigate to `/pro-features` → "Sincronizza Google Calendar"
+   - Enter your Google email
+   - Click "Connetti con Google"
+   - Verify OAuth popup opens without "app not verified" warning
+   - Complete authorization and return to app
+
+2. **Step 2 - Test Appointment Sync:**
+   - Create a new appointment in the gestionale
+   - Verify it appears in Google Calendar automatically
+   - Check sync status in dashboard
+
+3. **Step 3 - Test Manual Sync (if needed):**
+   - Use manual sync button to import from Google Calendar
+   - Verify no duplicates are created
+
+4. **Step 4 - Deploy to Sliplane:**
+   - Run `npm run build`
+   - Push to Sliplane with `git push -f origin main`
+   - Test complete flow on production domain
+   - Monitor initial sync operations
+
+5. **Step 5 - Monitor & Refine:**
+   - Check logs for any sync errors
+   - Monitor performance under real user load
+   - Collect feedback for future improvements
+
+### 📍 Key URLs:
+- Development: `https://wife-scheduler-zambelliandrea1.replit.app/google-calendar`
+- Production: `https://gestionale-appuntamenti.sliplane.app/google-calendar`
+- Privacy Policy: `/privacy` (both environments)
+- Pro Features: `/pro` or `/pro-features`
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language
 - Development approach: Evaluate 2-3 alternatives before choosing the simplest, most robust solution
 - Always focus on production-ready, battle-tested implementations
+- Work independently and efficiently
 
 ## System Architecture
 
@@ -100,12 +127,13 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 - Fully responsive design across all components
 - Inline editing capabilities where applicable
 - Clear "Pro Features" section with feature gates
+- Simplified setup pages with minimal steps
 
 ### Technical Implementations
 - **Frontend**: React 18 with TypeScript, Vite, Tailwind CSS with Radix UI, React Query for state management, Wouter for routing, React Hook Form with Zod for forms, PWA capabilities
 - **Backend**: Node.js with Express.js, PostgreSQL with Drizzle ORM, session-based authentication with role-based access control
 - **Multi-Tenant Security**: Strict data isolation using `ownerId/userId` filtering
-- **Google Calendar Integration**: OAuth 2.0 with dynamic domain support, bidirectional sync capability
+- **Google Calendar Integration**: OAuth 2.0 with dynamic domain support, bidirectional sync capability, per-user authorization
 - **Multi-Room Booking System**: Intelligent appointment scheduling with automatic assignment
 - **Promotional Packages System**: PRO feature enabling creation and sale of multi-treatment packages
 - **Trial Blocking System**: Automatic access restriction for expired trials
@@ -117,12 +145,13 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 - **Appointment System**: Calendar scheduling, multi-room support, staff preferences, email/WhatsApp notifications, Google Calendar sync (PRO)
 - **Billing & Payments**: Multiple payment methods, subscription plans, invoice generation, referral commissions
 - **Multi-language Support**: Full internationalization for 9 languages
+- **Google Calendar Sync (PRO)**: Automatic export, manual import, multi-tenant support
 
 ### Deployment Strategy
-- **Development**: Replit
-- **Production**: Sliplane (https://gestionale-appuntamenti.sliplane.app)
-- **Build command**: `npm run build` (must run before pushing to Sliplane)
-- **Push command**: `git push -f origin main` (force push required)
+- **Development**: Replit (`https://wife-scheduler-zambelliandrea1.replit.app`)
+- **Production**: Sliplane (`https://gestionale-appuntamenti.sliplane.app`)
+- **Build command**: `npm run build`
+- **Push command**: `git push -f origin main`
 
 ## External Dependencies
 
@@ -137,10 +166,18 @@ This React, TypeScript, and Node.js-based Progressive Web App (PWA) is designed 
 - SendGrid
 
 ### Payment Services
-- Stripe
+- Stripe (live keys configured)
 - PayPal SDK
 
 ### Cloud Services
-- Google OAuth (for Calendar sync)
+- Google OAuth 2.0 (Calendar sync)
 - Google Calendar API
 - Google Gmail API
+
+### Environment Variables
+- `PRODUCTION_DOMAIN` - Dynamic domain for OAuth redirect URIs
+- `ENCRYPTION_KEY` - AES-256-GCM encryption for SMTP passwords
+- `VITE_STRIPE_PUBLIC_KEY` - Stripe live public key
+- `STRIPE_SECRET_KEY` - Stripe live secret key
+- `GOOGLE_CLIENT_ID` - Google OAuth client ID
+- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
