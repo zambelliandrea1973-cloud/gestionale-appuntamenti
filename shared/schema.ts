@@ -125,6 +125,9 @@ export const appointments = pgTable("appointments", {
   reminderSent: boolean("reminder_sent").default(false), // Flag to track if reminder was sent
   reminderConfirmed: boolean("reminder_confirmed").default(false), // Flag to track if the client confirmed the reminder
   reminderConfirmedAt: timestamp("reminder_confirmed_at"), // When the client confirmed the reminder
+  synced: boolean("synced").default(false), // Se esportato a Google Calendar
+  importedFromGoogle: boolean("imported_from_google").default(false), // Se importato da Google Calendar
+  googleEventId: text("google_event_id"), // ID evento Google Calendar
   createdAt: timestamp("created_at").defaultNow(),
 });
 
