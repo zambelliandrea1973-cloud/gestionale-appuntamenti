@@ -85,7 +85,29 @@ export default function ProFeaturesPage() {
       
       {hasPROAccess ? (
         <div className="space-y-4">
-          <GoogleCalendarSimpleSetup />
+          <Link to="/google-calendar">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer border-primary/20">
+              <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5 border-b">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <CalendarPlus className="h-5 w-5 text-primary" />
+                      Sincronizza Google Calendar
+                    </CardTitle>
+                    <CardDescription className="mt-1">
+                      Gestisci la sincronizzazione dei tuoi appuntamenti con Google Calendar
+                    </CardDescription>
+                  </div>
+                  <ArrowRight className="h-5 w-5 text-primary" />
+                </div>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <p className="text-sm text-muted-foreground">
+                  Clicca per configurare e gestire la sincronizzazione con Google Calendar
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       ) : (
         <Card className="max-w-md w-full mx-auto">

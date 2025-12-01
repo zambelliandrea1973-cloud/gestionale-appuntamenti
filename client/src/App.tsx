@@ -45,6 +45,7 @@ import SimplePhoneSetup from "./pages/SimplePhoneSetup";
 import WhatsAppCenterPage from "./pages/WhatsAppCenterPage";
 import GoogleSetupInstructionsPage from "./pages/GoogleSetupInstructionsPage";
 import GoogleTroubleshootingPage from "./pages/GoogleTroubleshootingPage";
+import GoogleCalendarSetupPage from "./pages/GoogleCalendarSetupPage";
 import ProFeaturesPage from "./pages/ProFeaturesPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
@@ -492,6 +493,13 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
       
+      {/* Pagina di configurazione Google Calendar */}
+      <Route path="/google-calendar">
+        <StaffPageWrapper>
+          <GoogleCalendarSetupPage />
+        </StaffPageWrapper>
+      </Route>
+
       {/* Pagina delle funzionalità PRO */}
       <Route path="/pro">
         <StaffPageWrapper>
