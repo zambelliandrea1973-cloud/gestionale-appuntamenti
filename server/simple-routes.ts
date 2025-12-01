@@ -27,6 +27,7 @@ import promotionRoutes from './routes/promotionRoutes';
 import manualRoutes from './routes/manualRoutes';
 import emailBounceRoutes from './routes/emailBounceRoutes';
 import googleCalendarApi from './routes/googleCalendarApi';
+import googleAuthRoutes from './routes/googleAuthRoutes';
 
 // Import AI onboarding module
 import { analyzeBusinessNeeds } from './onboarding-ai';
@@ -9347,6 +9348,9 @@ Studio Professionale`;
 
   // Registra le route Google Calendar API
   app.use('/api/google-calendar', googleCalendarApi);
+  
+  // Registra le route Google Auth
+  app.use('/api/google-auth', googleAuthRoutes);
 
   const httpServer = createServer(app);
   return httpServer;
