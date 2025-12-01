@@ -38,6 +38,7 @@ export default function GoogleCalendarSimpleSetup() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showAdvancedHelp, setShowAdvancedHelp] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   // Al caricamento del componente, verifica se l'utente ha già autorizzato Google
   useEffect(() => {
@@ -237,6 +238,35 @@ export default function GoogleCalendarSimpleSetup() {
     } else if (enabled) {
       // Se non è autorizzato e si tenta di abilitare, avvia l'autorizzazione
       startGoogleAuth();
+    }
+  };
+
+  // Funzione per triggerare la sincronizzazione bidirezionale
+  const triggerSync = async () => {
+    setIsSyncing(true);
+    try {
+      const response = await fetch('/api/google-calendar/sync', {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        toast({
+          title: t('google.syncComplete', 'Sincronizzazione completata'),
+          description: result.message || `Importati ${result.details?.imported || 0} eventi, esportati ${result.details?.exported || 0} appuntamenti`,
+        });
+      } else {
+        throw new Error(t('google.syncError', 'Errore durante la sincronizzazione'));
+      }
+    } catch (error) {
+      console.error('Errore sincronizzazione:', error);
+      toast({
+        title: t('common.error', 'Errore'),
+        description: error instanceof Error ? error.message : t('google.syncFailedError', 'Errore durante la sincronizzazione'),
+        variant: "destructive",
+      });
+    } finally {
+      setIsSyncing(false);
     }
   };
 
