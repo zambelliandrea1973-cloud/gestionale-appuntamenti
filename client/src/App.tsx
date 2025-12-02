@@ -110,7 +110,7 @@ function AppRoutes() {
     const publicPaths = [
       '/activate', '/pwa', '/auto-login', 
       '/staff-login', '/customer-login', '/register', '/client-area', 
-      '/consent', '/forgot-password', '/reset-password', '/'
+      '/consent', '/forgot-password', '/reset-password', '/privacy', '/terms', '/'
     ];
     
     // Percorsi dedicati ai clienti finali (pazienti) - NON devono essere gestiti dal sistema staff
@@ -529,11 +529,9 @@ function AppRoutes() {
         </StaffPageWrapper>
       </Route>
 
-      {/* Pagina Privacy Policy */}
+      {/* Pagina Privacy Policy - Pubblica, accessibile senza autenticazione */}
       <Route path="/privacy">
-        <StaffPageWrapper>
-          <PrivacyPolicy />
-        </StaffPageWrapper>
+        <PrivacyPolicy />
       </Route>
       
       {/* Fallback route */}
