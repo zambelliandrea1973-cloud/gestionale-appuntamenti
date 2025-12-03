@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { db } from '../db';
-import { notificationSettings } from '@shared/schema';
+import { notificationSettings } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 
 const router = Router();

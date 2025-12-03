@@ -1,7 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+import { db } from '../db';
+import { contactInfo } from '../../shared/schema';
+import { eq } from 'drizzle-orm';
 
-// Definizione del tipo per i dati di contatto
+// Tipo per le informazioni di contatto
 export interface ContactInfo {
   email?: string;
   phone1?: string;
@@ -11,62 +12,72 @@ export interface ContactInfo {
   instagram?: string;
 }
 
-// Percorso del file di contatto
-const CONTACT_FILE_PATH = path.join(process.cwd(), 'public', 'data', 'contacts.json');
-
 /**
- * Classe di servizio per la gestione delle informazioni di contatto
+ * Servizio per la gestione delle informazioni di contatto su PostgreSQL
  */
 class ContactService {
   /**
-   * Carica le informazioni di contatto
+   * Carica le informazioni di contatto dall'utente (per multi-tenant)
    */
-  getContactInfo(): ContactInfo {
+  async getContactInfo(userId?: number): Promise<ContactInfo> {
     try {
-      // Verifica che il file esista
-      if (!fs.existsSync(CONTACT_FILE_PATH)) {
+      if (!userId) {
         return {};
       }
-      
-      // Legge il file JSON
-      const contactData = fs.readFileSync(CONTACT_FILE_PATH, 'utf8');
-      
-      // Verifica che contenga dati validi
-      if (!contactData) {
+
+      const contact = await db.query.contactInfo.findFirst({
+        where: eq(contactInfo.userId, userId),
+      });
+
+      if (!contact) {
         return {};
       }
-      
-      // Converte da JSON a oggetto
-      const contactInfo = JSON.parse(contactData) as ContactInfo;
-      return contactInfo;
+
+      return {
+        email: contact.email || undefined,
+        phone1: contact.phone1 || undefined,
+        phone2: contact.phone2 || undefined,
+        website: contact.website || undefined,
+        facebook: contact.facebook || undefined,
+        instagram: contact.instagram || undefined,
+      };
     } catch (error) {
-      console.error('Errore durante il recupero delle informazioni di contatto:', error);
+      console.error('Errore recupero informazioni contatto:', error);
       return {};
     }
   }
-  
+
   /**
-   * Salva le informazioni di contatto
+   * Salva le informazioni di contatto nel database
    */
-  saveContactInfo(contactInfo: ContactInfo): boolean {
+  async saveContactInfo(userId: number, contactInfoData: ContactInfo): Promise<boolean> {
     try {
-      // Crea la directory se non esiste
-      const dirPath = path.dirname(CONTACT_FILE_PATH);
-      if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true });
+      if (!userId) {
+        console.error('userId mancante per saveContactInfo');
+        return false;
       }
-      
-      // Converte l'oggetto in JSON e lo salva
-      fs.writeFileSync(CONTACT_FILE_PATH, JSON.stringify(contactInfo, null, 2));
-      console.log('Informazioni di contatto salvate con successo:', contactInfo);
-      
+
+      const existing = await db.query.contactInfo.findFirst({
+        where: eq(contactInfo.userId, userId),
+      });
+
+      if (existing) {
+        await db.update(contactInfo)
+          .set({ ...contactInfoData, updatedAt: new Date() })
+          .where(eq(contactInfo.userId, userId));
+      } else {
+        await db.insert(contactInfo)
+          .values({ userId, ...contactInfoData });
+      }
+
+      console.log('Informazioni di contatto salvate con successo per utente', userId, contactInfoData);
       return true;
     } catch (error) {
-      console.error('Errore durante il salvataggio delle informazioni di contatto:', error);
+      console.error('Errore salvataggio informazioni contatto:', error);
       return false;
     }
   }
 }
 
-// Esporta un'istanza singleton del servizio
+// Esporta istanza singleton
 export const contactService = new ContactService();

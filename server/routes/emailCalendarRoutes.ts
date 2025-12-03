@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../auth';
 import { db } from '../db';
-import { emailCalendarSettings } from '@shared/schema';
+import { emailCalendarSettings } from '../../shared/schema';
 import { eq } from 'drizzle-orm';
 
 const router = Router();
