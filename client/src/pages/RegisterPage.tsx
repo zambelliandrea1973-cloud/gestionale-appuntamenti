@@ -8,6 +8,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { apiRequest } from "@/lib/queryClient";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -16,7 +17,8 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    referralCode: ""
+    referralCode: "",
+    termsAccepted: false
   });
   
   const [loading, setLoading] = useState(false);
@@ -24,8 +26,11 @@ export default function RegisterPage() {
   const [, navigate] = useLocation();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === "checkbox" ? checked : value 
+    }));
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,6 +52,12 @@ export default function RegisterPage() {
     // Verifica che la password sia abbastanza complessa
     if (formData.password.length < 8) {
       setError("La password deve essere lunga almeno 8 caratteri");
+      return;
+    }
+    
+    // Verifica che i Termini di Servizio siano accettati
+    if (!formData.termsAccepted) {
+      setError("Devi accettare i Termini di Servizio per procedere");
       return;
     }
     
@@ -166,6 +177,22 @@ export default function RegisterPage() {
                 <p className="text-sm text-muted-foreground">
                   Se hai ricevuto un codice referral da uno staff, inseriscilo qui per collegare il tuo account
                 </p>
+              </div>
+              
+              <div className="flex items-start space-x-2 border-t pt-4">
+                <Checkbox
+                  id="termsAccepted"
+                  name="termsAccepted"
+                  checked={formData.termsAccepted}
+                  onChange={handleChange}
+                  data-testid="checkbox-terms-accepted"
+                />
+                <Label htmlFor="termsAccepted" className="text-sm font-normal cursor-pointer">
+                  Ho letto e accetto i{" "}
+                  <a href="/terms" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+                    Termini di Servizio
+                  </a>
+                </Label>
               </div>
               
               <Button type="submit" className="w-full" disabled={loading}>

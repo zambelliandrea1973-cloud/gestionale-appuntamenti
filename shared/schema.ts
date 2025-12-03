@@ -449,6 +449,7 @@ export const users = pgTable("users", {
   googleCalendarEnabled: boolean("google_calendar_enabled").default(false), // Sincronizzazione Google Calendar abilitata
   googleCalendarId: text("google_calendar_id"), // ID del calendario Google (default "primary")
   lastGoogleSyncAt: timestamp("last_google_sync_at"), // Ultima sincronizzazione con Google Calendar
+  termsAcceptedAt: timestamp("terms_accepted_at"), // Data e ora accettazione Termini di Servizio
   createdAt: timestamp("created_at").defaultNow(),
 });
 
